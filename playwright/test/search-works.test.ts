@@ -5,15 +5,15 @@ import {
   newWorksSearch,
   workWithDigitalLocationAndLocationNote,
 } from './contexts';
-import safeWaitForNavigation from './helpers/safeWaitForNavigation';
 import {
-  expectSearchParam,
   navigateToNextPage,
   navigateToResult,
   openDropdown,
   searchFor,
   selectFilter,
+  worksSearchForm,
 } from './helpers/search';
+import { formatFilterMobileButton } from './selectors/search';
 
 test.describe.configure({ mode: 'parallel' });
 
@@ -22,13 +22,50 @@ test('(1.1) | The user is looking for an archive; it should be browsable from th
   context,
 }) => {
   await newWorksSearch(context, page);
-  await searchFor('Persian', page);
-  await selectFilter('workType', 'h', page); // Formats > Archives and manuscripts
-  await navigateToNextPage(page);
 
-  expectSearchParam('workType', 'h', page);
+  // searchFor
+  await page.fill(worksSearchForm, 'Persian');
+  await page.press(worksSearchForm, 'Enter');
 
-  await navigateToResult(3, page);
+  // selectFilter
+  if (isMobile(page)) {
+    await page.click(formatFilterMobileButton);
+  } else {
+    await page.click('button[aria-controls="workType"]');
+  }
+
+  const filterCheckbox = page.locator(
+    'input[form="search-page-form"][type="checkbox"][name="workType"][value="h"]'
+  ); // Formats > Archives and manuscripts
+
+  await filterCheckbox.click();
+  await expect(filterCheckbox).toBeChecked();
+
+  if (isMobile(page)) {
+    await page.click(`"Show results"`);
+  }
+
+  // navigateToNextPage
+  const nextButton = page
+    .locator('[data-testid="pagination"]')
+    .getByRole('link', { name: 'Next' });
+
+  await nextButton.click();
+
+  // confirm navigateToNextPage
+  await expect(page).toHaveURL(/workType=h/);
+  await expect(
+    page.getByTestId('pagination').locator('input[name="page"]')
+  ).toHaveValue('2');
+
+  // navigateToResult
+  const result = `main ul li:nth-of-type(3) a`;
+  const searchResultTitle = await page.textContent(`${result} h3`);
+  await page.click(result);
+
+  const title = await page.locator('h1');
+  await expect(title).toHaveId('work-info');
+  await expect(title).toContainText(String(searchResultTitle));
 });
 
 test('(1.2) | The user is looking for an archive; they can get back to their original search results', async ({
@@ -42,6 +79,10 @@ test('(1.2) | The user is looking for an archive; they can get back to their ori
   await selectFilter('workType', 'h', page); // Formats > Archives and manuscripts
   await navigateToNextPage(page);
 
+  await expect(
+    page.getByTestId('pagination').locator('input[name="page"]')
+  ).toHaveValue('2');
+
   // Save the URL of the current search page, which will be something like
   // https://www-stage.wellcomecollection.org/search/works?query=Persian&workType=h&page=2
   const originalSearchUrl = new URL(page.url());
@@ -49,10 +90,10 @@ test('(1.2) | The user is looking for an archive; they can get back to their ori
   // Now go to the third result on the page, and look for "Back to search results".
   await navigateToResult(3, page);
 
-  const backToSearchResults = await page.$(
+  const backToSearchResults = page.locator(
     'a:has-text("Back to search results")'
   );
-  expect(backToSearchResults).toBeTruthy();
+  await expect(backToSearchResults).toBeVisible();
 
   // Note: we expect the URLs on the "Back to search results" link to be relative,
   // but the URL class only takes absolute URLs.
@@ -92,7 +133,8 @@ test('(2) | The user is searching for a work on open shelves; it should be brows
   await selectFilter('availabilities', 'open-shelves', page); // Locations > Open shelves
   await navigateToNextPage(page);
 
-  expectSearchParam('availabilities', 'open-shelves', page);
+  const searchParams = new URLSearchParams(new URL(page.url()).search);
+  expect(searchParams.get('availabilities')).toEqual('open-shelves');
 
   await navigateToResult(6, page);
 });
@@ -106,7 +148,8 @@ test('(3) | The user is searching for a work that is available online; it should
   await selectFilter('availabilities', 'online', page); // Locations > Online
   await navigateToNextPage(page);
 
-  expectSearchParam('availabilities', 'online', page);
+  const searchParams = new URLSearchParams(new URL(page.url()).search);
+  expect(searchParams.get('availabilities')).toEqual('online');
 
   await navigateToResult(8, page);
 });
@@ -120,7 +163,8 @@ test('(4) | The user is searching for a work from Wellcome Images; it should be 
   await selectFilter('workType', 'q', page); // Formats > Digital images
   await navigateToNextPage(page);
 
-  expectSearchParam('workType', 'q', page);
+  const searchParams = new URLSearchParams(new URL(page.url()).search);
+  expect(searchParams.get('workType')).toEqual('q');
 
   await navigateToResult(1, page);
 });
@@ -134,7 +178,8 @@ test('(5) | The user is searching for a work in closed stores; it should be brow
   await selectFilter('availabilities', 'closed-stores', page); // Locations > Closed stores
   await navigateToNextPage(page);
 
-  expectSearchParam('availabilities', 'closed-stores', page);
+  const searchParams = new URLSearchParams(new URL(page.url()).search);
+  expect(searchParams.get('availabilities')).toEqual('closed-stores');
 
   await navigateToResult(6, page);
 });
@@ -147,75 +192,57 @@ test('(6) | The user is searching for works from a particular year; it should be
   await searchFor('brain', page);
   await openDropdown('production.dates', page);
 
-  // Note: if you put both `page.locator(…).fill(…)` commands in a
-  // single Promise.all(), they can interfere in such a way that only
-  // one of them ends up in the final URL. :-/
+  const datesFrom = page.locator(
+    'input[form="search-page-form"][name="production.dates.from"]'
+  );
+  await datesFrom.fill('1939');
 
-  await Promise.all([
-    safeWaitForNavigation(page),
-    page
-      .locator('input[form="search-page-form"][name="production.dates.from"]')
-      .fill('1939'),
-  ]);
-
-  await Promise.all([
-    safeWaitForNavigation(page),
-    page
-      .locator('input[form="search-page-form"][name="production.dates.to"]')
-      .fill('2001'),
-  ]);
+  const datesTo = page.locator(
+    'input[form="search-page-form"][name="production.dates.to"]'
+  );
+  await datesTo.fill('2001');
 
   if (isMobile(page)) {
     await page.click(`"Show results"`);
+  } else {
+    await expect(
+      page.getByRole('link', { name: 'remove From 1939' })
+    ).toBeVisible();
+    await expect(
+      page.getByRole('link', { name: 'remove To 2001' })
+    ).toBeVisible();
   }
-
-  expectSearchParam('production.dates.from', '1939', page);
-  expectSearchParam('production.dates.to', '2001', page);
 
   // This is a check that we have actually loaded some results from
   // the API, and the API hasn't just errored out.
   await navigateToResult(6, page);
 });
 
-test.only('(7) | The user is sorting by production dates in search; sort updates URL query and goes back to the first page', async ({
+test('(7) | The user is sorting by production dates in search; sort updates URL query and goes back to the first page', async ({
   context,
   page,
 }) => {
   await newWorksSearch(context, page);
 
   const select = page.locator('select[name="sortOrder"]');
-  await select.waitFor();
+  await select.selectOption({ index: 2 });
 
-  await Promise.all([
-    select.selectOption({ index: 2 }),
-    page.waitForURL(
-      url =>
-        url.search.indexOf('sortOrder=desc') > 0 &&
-        url.search.indexOf('sort=production.dates') > 0
-    ),
-  ]);
+  await expect(page).toHaveURL(/sortOrder=desc/);
+  await expect(page).toHaveURL(/sort=production\.dates/);
 
   await navigateToNextPage(page);
 
-  expectSearchParam('sortOrder', 'desc', page);
-  expectSearchParam('sort', 'production.dates', page);
-  expectSearchParam('page', '2', page);
+  await expect(
+    page.getByTestId('pagination').locator('input[name="page"]')
+  ).toHaveValue('2');
 
-  await Promise.all([
-    select.selectOption({ index: 1 }),
-    page.waitForURL(
-      url => {
-        return (
-          url.search.indexOf('sortOrder=asc') > 0 &&
-          url.search.indexOf('sort=production.dates') > 0 &&
-          url.search.indexOf('page') === -1
-        );
-      },
-      {
-        waitUntil: 'domcontentloaded',
-      }
-    ),
-  ]);
+  await select.selectOption({ index: 1 });
+
+  await expect(page).toHaveURL(/sortOrder=asc/);
+  await expect(page).toHaveURL(/sort=production\.dates/);
+  await expect(
+    page.getByTestId('pagination').locator('input[name="page"]')
+  ).toHaveValue('1');
 });
 
 test('(8) | The user is coming from a prefiltered series search; they should be able to add more filters', async ({
@@ -225,12 +252,14 @@ test('(8) | The user is coming from a prefiltered series search; they should be 
   await workWithDigitalLocationAndLocationNote(context, page);
 
   await page.click('a >> text="Medical Heritage LIbrary"'); // Medical Heritage LIbrary
-  await safeWaitForNavigation(page);
+  await expect(page.locator('form[role="search"]')).toHaveId(
+    'search-page-form'
+  );
 
-  expectSearchParam('partOf.title', 'Medical Heritage LIbrary', page);
+  await expect(page).toHaveURL(/partOf\.title=Medical\+Heritage\+LIbrary/);
 
   await selectFilter('workType', 'a', page); // Formats > Books
 
-  expectSearchParam('partOf.title', 'Medical Heritage LIbrary', page);
-  expectSearchParam('workType', 'a', page);
+  await expect(page).toHaveURL(/partOf\.title=Medical\+Heritage\+LIbrary/);
+  await expect(page).toHaveURL(/workType=a/);
 });
