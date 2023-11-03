@@ -133,6 +133,10 @@ test('(2) | The user is searching for a work on open shelves; it should be brows
   await selectFilter('availabilities', 'open-shelves', page); // Locations > Open shelves
   await navigateToNextPage(page);
 
+  await expect(
+    page.getByTestId('pagination').locator('input[name="page"]')
+  ).toHaveValue('2');
+
   const searchParams = new URLSearchParams(new URL(page.url()).search);
   expect(searchParams.get('availabilities')).toEqual('open-shelves');
 
@@ -147,6 +151,10 @@ test('(3) | The user is searching for a work that is available online; it should
   await searchFor('skin', page);
   await selectFilter('availabilities', 'online', page); // Locations > Online
   await navigateToNextPage(page);
+
+  await expect(
+    page.getByTestId('pagination').locator('input[name="page"]')
+  ).toHaveValue('2');
 
   const searchParams = new URLSearchParams(new URL(page.url()).search);
   expect(searchParams.get('availabilities')).toEqual('online');
@@ -163,6 +171,10 @@ test('(4) | The user is searching for a work from Wellcome Images; it should be 
   await selectFilter('workType', 'q', page); // Formats > Digital images
   await navigateToNextPage(page);
 
+  await expect(
+    page.getByTestId('pagination').locator('input[name="page"]')
+  ).toHaveValue('2');
+
   const searchParams = new URLSearchParams(new URL(page.url()).search);
   expect(searchParams.get('workType')).toEqual('q');
 
@@ -177,6 +189,10 @@ test('(5) | The user is searching for a work in closed stores; it should be brow
   await searchFor('brain', page);
   await selectFilter('availabilities', 'closed-stores', page); // Locations > Closed stores
   await navigateToNextPage(page);
+
+  await expect(
+    page.getByTestId('pagination').locator('input[name="page"]')
+  ).toHaveValue('2');
 
   const searchParams = new URLSearchParams(new URL(page.url()).search);
   expect(searchParams.get('availabilities')).toEqual('closed-stores');
