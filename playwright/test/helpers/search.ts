@@ -5,12 +5,15 @@ import { formatFilterMobileButton } from '../selectors/search';
 
 export const worksSearchForm = '#search-searchbar';
 
-export const searchFor = async (query: string, page: Page): Promise<void> => {
+export const searchQueryAndSubmit = async (
+  query: string,
+  page: Page
+): Promise<void> => {
   await page.fill(worksSearchForm, query);
   await page.press(worksSearchForm, 'Enter');
 };
 
-export const openDropdown = async (id: string, page: Page) => {
+export const openFilterDropdown = async (id: string, page: Page) => {
   if (isMobile(page)) {
     await page.click(formatFilterMobileButton);
   } else {
@@ -18,12 +21,12 @@ export const openDropdown = async (id: string, page: Page) => {
   }
 };
 
-export const selectFilter = async (
+export const selectFilterAndWaitForApplied = async (
   filterId: string,
   checkboxId: string,
   page: Page
 ) => {
-  await openDropdown(filterId, page);
+  await openFilterDropdown(filterId, page);
 
   const checkbox = page.locator(
     `input[form="search-page-form"][name="${filterId}"][value="${checkboxId}"]`
@@ -38,15 +41,25 @@ export const selectFilter = async (
   }
 };
 
-export const navigateToNextPage = async (page: Page) => {
+export const navigateToNextPageAndConfirmNavigation = async (page: Page) => {
+  const currentPage = await page
+    .getByTestId('pagination')
+    .locator('input[name="page"]')
+    .inputValue();
   const nextButton = page
     .locator('[data-testid="pagination"]')
     .getByRole('link', { name: 'Next' });
 
   await nextButton.click();
+  await expect(
+    page.getByTestId('pagination').locator('input[name="page"]')
+  ).toHaveValue(String(Number(currentPage) + 1));
 };
 
-export const navigateToResult = async (n = 1, page: Page) => {
+export const navigateToResultAndConfirmTitleMatches = async (
+  n = 1,
+  page: Page
+) => {
   const result = `main ul li:nth-of-type(${n}) a`;
   const searchResultTitle = await page.textContent(`${result} h3`);
   await page.click(result);
