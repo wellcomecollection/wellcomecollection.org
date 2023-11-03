@@ -68,3 +68,13 @@ export const navigateToResultAndConfirmTitleMatches = async (
   await expect(title).toHaveId('work-info');
   await expect(title).toContainText(String(searchResultTitle)); // searchResultTitle could also be null but I expect it would fail accordingly
 };
+
+// TODO
+// This could probably be better - should we have a different way of spotting if a filter is applied
+// For mobile? Otherwise they are hidden in the modal.
+// Plus "books" could be found multiple times without being the one you want.
+export const testIfFilterIsApplied = async (label: string, page: Page) => {
+  await expect(page.getByRole('status')).toHaveText(
+    new RegExp(`.*${label}.*`, 'i')
+  );
+};
