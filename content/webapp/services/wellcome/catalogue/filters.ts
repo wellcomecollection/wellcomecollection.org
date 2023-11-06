@@ -87,24 +87,47 @@ function filterOptionsWithNonAggregates({
 }): FilterOption[] {
   const aggregationValues: string[] = options.map(option => option.value);
   const selectedOptionValues: string[] = selectedValues.map(value =>
-    isString(value) ? value : value.label
+    isString(value) ? value : value.value
   );
-  const optionsByValue = mergeOptionCounts(options);
-  const allOptions = [
+  const aggregationOptionsByValue = mergeOptionCounts(options);
+  const selectedOptionsByValue = new Map<string, FilterOption>(
+    selectedValues.map(value => [
+      isString(value) ? value : value.value,
+      selectedValueToFilterOption(value),
+    ])
+  );
+
+  const allOptions: FilterOption[] = [
     ...new Set(aggregationValues.concat(selectedOptionValues)),
-  ].map(
-    value =>
-      optionsByValue.get(value) || {
+  ]
+    .map(
+      value =>
+        aggregationOptionsByValue.get(value) ||
+        selectedOptionsByValue.get(value)
+    )
+    .filter(option => isNotUndefined(option)) as FilterOption[];
+
+  return allOptions
+    .filter(option => showEmptyBuckets || option.count || option.selected)
+    .sort(optionOrder);
+}
+
+function selectedValueToFilterOption(
+  value: string | SelectedValue
+): FilterOption {
+  return isString(value)
+    ? {
         id: value,
         value,
         label: value,
         selected: true,
       }
-  );
-
-  return allOptions
-    .filter(option => showEmptyBuckets || option.count || option.selected)
-    .sort(optionOrder);
+    : {
+        id: value.value,
+        value: value.value,
+        label: value.label,
+        selected: true,
+      };
 }
 /**
  * Sorting definition for FilterOptions.
@@ -125,7 +148,7 @@ function optionOrder(lhs: FilterOption, rhs: FilterOption): number {
 }
 
 /**
- * Creates a map of labels to filter options.
+ * Creates a map of values to filter options.
  *
  * Options received from the API may contain multiple entries with identical
  * labels.
