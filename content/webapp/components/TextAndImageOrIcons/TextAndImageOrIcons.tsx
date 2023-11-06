@@ -41,13 +41,14 @@ const DividingLine = styled.div`
 `;
 
 const ImageOrIcons = styled(Space).attrs({
-  $h: { size: 'm', properties: ['column-gap'] },
-  $v: { size: 'm', properties: ['row-gap'] },
+  $h: { size: 'l', properties: ['column-gap'] },
+  $v: { size: 'l', properties: ['row-gap'] },
 })<{ $isIcons?: boolean; $isPortrait?: boolean }>`
   position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
   flex: ${props =>
     props.$isIcons || props.$isPortrait ? '0 0 max(60%, 300px)' : '0 0 100%'};
 
@@ -57,7 +58,7 @@ const ImageOrIcons = styled(Space).attrs({
   `)}
 
   > * {
-    flex: ${props => (props.$isIcons ? '0 0 30%' : undefined)};
+    flex: ${props => (props.$isIcons ? '0 0 min(30%, 110px)' : undefined)};
     flex: ${props => (props.$isPortrait ? '0 0 85%' : undefined)};
   }
 `;
