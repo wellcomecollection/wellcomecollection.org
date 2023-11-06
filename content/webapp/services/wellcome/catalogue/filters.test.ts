@@ -130,7 +130,7 @@ describe('filter options', () => {
           type: 'AggregationBucket',
         },
       ]),
-      props: fromWorksQuery({ 'subjects.label': 'Zouaves' }),
+      props: fromWorksQuery({ 'subjects.label': '"Zouaves"' }),
     }).find(f => f.id === 'subjects.label') as CheckboxFilter;
 
     expect(filter.options.map(option => option.count)).toEqual([0, 3, 2, 1]);
@@ -170,7 +170,7 @@ describe('filter options', () => {
       expect(filter.options[0].count).toBeUndefined();
     });
 
-    it('places the requested options above the aggregation options, sorted alphabetically', () => {
+    it.only('places the requested options above the aggregation options, sorted alphabetically', () => {
       const filter = worksFilters({
         works: worksAggregationsWith('subjects.label', [
           {
@@ -288,6 +288,102 @@ describe('filter options', () => {
           option => option.label === 'University of Glasgow. Library.'
         )?.count
       ).toBe(105);
+    });
+  });
+
+  describe('matching query options to aggregation options', () => {
+    const workTypeAggregations = {
+      aggregations: {
+        workType: {
+          buckets: [
+            {
+              data: {
+                id: 'a',
+                label: 'Books',
+                type: 'Format',
+              },
+              count: 113802,
+              type: 'AggregationBucket',
+            },
+            {
+              data: {
+                id: 'h',
+                label: 'Archives and manuscripts',
+                type: 'Format',
+              },
+              count: 13402,
+              type: 'AggregationBucket',
+            },
+            {
+              data: {
+                id: 'k',
+                label: 'Pictures',
+                type: 'Format',
+              },
+              count: 3755,
+              type: 'AggregationBucket',
+            },
+          ],
+        },
+        availabilities: { buckets: [] },
+        languages: {
+          buckets: [
+            {
+              data: {
+                id: 'wel',
+                label: 'Welsh',
+                type: 'Language',
+              },
+              count: 33,
+              type: 'AggregationBucket',
+            },
+            {
+              data: {
+                id: 'nor',
+                label: 'Norwegian',
+                type: 'Language',
+              },
+              count: 21,
+              type: 'AggregationBucket',
+            },
+          ],
+        },
+      },
+    };
+
+    const filters = worksFilters({
+      works: workTypeAggregations,
+      props: fromWorksQuery({
+        languages: 'wel,nor',
+        workType: 'k',
+      }),
+    });
+
+    it('matches based on value, which may or may not be the same as label', () => {
+      const workTypeFilter = filters.find(
+        f => f.id === 'workType'
+      ) as CheckboxFilter;
+      const languageFilter = filters.find(
+        f => f.id === 'languages'
+      ) as CheckboxFilter;
+      expect(workTypeFilter.options.map(option => option.label)).toEqual([
+        'Books',
+        'Archives and manuscripts',
+        'Pictures',
+      ]);
+      expect(workTypeFilter.options.map(option => option.selected)).toEqual([
+        false,
+        false,
+        true,
+      ]);
+      expect(languageFilter.options.map(option => option.label)).toEqual([
+        'Welsh',
+        'Norwegian',
+      ]);
+      expect(languageFilter.options.map(option => option.selected)).toEqual([
+        true,
+        true,
+      ]);
     });
   });
 

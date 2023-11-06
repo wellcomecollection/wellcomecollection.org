@@ -85,16 +85,16 @@ function filterOptionsWithNonAggregates({
   selectedValues: (string | SelectedValue)[];
   showEmptyBuckets?: boolean;
 }): FilterOption[] {
-  const aggregationLabels: string[] = options.map(option => option.label);
-  const selectedLabels: string[] = selectedValues.map(value =>
+  const aggregationValues: string[] = options.map(option => option.value);
+  const selectedOptionValues: string[] = selectedValues.map(value =>
     isString(value) ? value : value.label
   );
-
-  const optionsByLabel = mergeOptionCounts(options);
-
-  const allOptions = [...new Set(aggregationLabels.concat(selectedLabels))].map(
+  const optionsByValue = mergeOptionCounts(options);
+  const allOptions = [
+    ...new Set(aggregationValues.concat(selectedOptionValues)),
+  ].map(
     value =>
-      optionsByLabel.get(value) || {
+      optionsByValue.get(value) || {
         id: value,
         value,
         label: value,
@@ -138,10 +138,10 @@ function optionOrder(lhs: FilterOption, rhs: FilterOption): number {
  */
 function mergeOptionCounts(options: FilterOption[]): Map<string, FilterOption> {
   return options.reduce((acc, option) => {
-    const matchingOption = acc.get(option.label);
+    const matchingOption = acc.get(option.value);
     if (matchingOption && matchingOption.count) {
       matchingOption.count += option.count || 0;
-    } else acc.set(option.label, option);
+    } else acc.set(option.value, option);
     return acc;
   }, new Map<string, FilterOption>());
 }
