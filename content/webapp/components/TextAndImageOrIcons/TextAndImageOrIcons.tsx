@@ -58,7 +58,7 @@ const ImageOrIcons = styled(Space).attrs({
   `)}
 
   > * {
-    flex: ${props => (props.$isIcons ? '0 0 min(30%, 110px)' : undefined)};
+    flex: ${props => (props.$isIcons ? '0 0 25%' : undefined)};
     flex: ${props => (props.$isPortrait ? '0 0 85%' : undefined)};
   }
 `;
