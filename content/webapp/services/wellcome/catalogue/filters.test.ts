@@ -170,7 +170,7 @@ describe('filter options', () => {
       expect(filter.options[0].count).toBeUndefined();
     });
 
-    it.only('places the requested options above the aggregation options, sorted alphabetically', () => {
+    it('places the requested options above the aggregation options, sorted alphabetically', () => {
       const filter = worksFilters({
         works: worksAggregationsWith('subjects.label', [
           {
