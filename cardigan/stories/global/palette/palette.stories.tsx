@@ -104,6 +104,11 @@ let paletteColors: PaletteColors = {
     description:
       'These colours should be used solely for validation purposes. We encourage the use of different shades if for other purposes.',
   },
+  focus: {
+    label: 'Focus',
+    description:
+      'Chosen to make sure the currently focused element is clearly distinguishable, regardless of the background.',
+  },
 };
 
 Object.entries(themeValues.colors)
