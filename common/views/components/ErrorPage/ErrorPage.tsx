@@ -1,20 +1,16 @@
 import { Fragment, FunctionComponent, useState, useEffect } from 'react';
-
-// Helpers/Utils
-import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { getCookies } from 'cookies-next';
 import styled from 'styled-components';
 
-// Hard-coded values
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   DefaultErrorText,
+  GoneErrorText,
   NotFoundErrorText,
   errorMessages,
 } from '@weco/common/data/errors';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { underConstruction } from '@weco/common/icons';
-
-// Components
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import PageHeader, { headerSpaceSize } from '../PageHeader/PageHeader';
@@ -93,6 +89,17 @@ const TogglesMessage: FunctionComponent = () => {
   ) : null;
 };
 
+const getErrorMessage = (statusCode: number) => {
+  switch (statusCode) {
+    case 404:
+      return <NotFoundErrorText />;
+    case 410:
+      return <GoneErrorText />;
+    default:
+      return <DefaultErrorText />;
+  }
+};
+
 type Props = {
   statusCode?: number;
   title?: string;
@@ -107,8 +114,8 @@ const ErrorPage: FunctionComponent<Props> = ({ statusCode = 500, title }) => {
 
   return (
     <PageLayout
-      title={`${statusCode}`}
-      description={`${statusCode}`}
+      title={String(statusCode)}
+      description={String(statusCode)}
       url={{ pathname: '/' }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
@@ -124,7 +131,7 @@ const ErrorPage: FunctionComponent<Props> = ({ statusCode = 500, title }) => {
         />
         <SpacingSection>
           <SpacingComponent>
-            {statusCode === 404 ? <NotFoundErrorText /> : <DefaultErrorText />}
+            {getErrorMessage(statusCode)}
             <TogglesMessage />
           </SpacingComponent>
         </SpacingSection>

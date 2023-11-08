@@ -381,7 +381,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
               $isActive={gridVisible}
               $isDesktopSidebarActive={isDesktopSidebarActive}
             >
-              {<GridViewer />}
+              <GridViewer />
             </ThumbnailsWrapper>
           </>
         )}
