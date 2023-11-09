@@ -5,11 +5,11 @@ import { classNames, font } from '@weco/common/utils/classnames';
 export const Wrapper = styled.div`
   ${props =>
     `
-      margin: 0 -${props.theme.containerPadding.small}px; 
+      margin: 0 -${props.theme.containerPadding.small}px;
       transition: margin ${props => props.theme.transitionProperties};
 
     ${props.theme.media('medium')(`
-        margin: 0 calc(-${props.theme.containerPadding.medium}px + 1rem); 
+        margin: 0 calc(-${props.theme.containerPadding.medium}px + 1rem);
     `)}
 
     ${props.theme.media('large')(`
@@ -17,7 +17,7 @@ export const Wrapper = styled.div`
     `)}
 
     ${props.theme.media('xlarge')(`
-        margin-right: 0; 
+        margin-right: 0;
     `)}
   `}
 `;
@@ -41,27 +41,24 @@ export const TabsContainer = styled.div`
   `}
 `;
 
-export const Tab = styled.button.attrs({
-  className: font('intb', 5),
-})`
+type NavItemProps = {
+  selected: boolean;
+};
+
+export const Tab = styled.div<NavItemProps>`
+  padding: 0;
   margin: 0;
-  padding: 0 1.5rem 0 0;
   flex-shrink: 0;
-  transition: padding ${props => props.theme.transitionProperties};
-
-  &:first-child span {
-    padding-left: 0;
-  }
-
-  ${props =>
-    props.theme.media('medium')(`
-      padding-right: 2rem;
-  `)}
-  ${props =>
-    props.theme.media('large')(`
-      padding-right: 3rem;
-  `)}
+  display: table-cell;
+  border-bottom: ${props =>
+    props.selected
+      ? `3px solid ${props.theme.color('yellow')}`
+      : `1px solid ${props.theme.color('neutral.400')}`};
 `;
+
+export const TabButton = styled.div.attrs({
+  className: font('intb', 5),
+})<NavItemProps>``;
 
 type NavItemInnerProps = {
   selected: boolean;
@@ -71,12 +68,13 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
   return {
     as: 'span',
     className: classNames({ selected: props.selected }),
+    h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+    v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   };
 })<NavItemInnerProps>`
   display: block;
   position: relative;
   z-index: 1;
-  padding: 1.5rem 0.25rem;
   cursor: pointer;
   color: ${props =>
     props.theme.color(
@@ -93,25 +91,10 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
   &::after {
     content: '';
     position: absolute;
-    bottom: 0;
+    top: 100%;
     height: 3px;
     left: 0;
     width: 0;
-    background-color: ${props =>
-      props.theme.color(
-        props.selected
-          ? props.variant === 'white'
-            ? 'white'
-            : props.variant === 'yellow'
-            ? 'yellow'
-            : 'black'
-          : props.variant === 'white'
-          ? 'warmNeutral.400'
-          : props.variant === 'yellow'
-          ? 'lightYellow'
-          : 'neutral.600'
-      )};
-    z-index: -1;
     transition: width 200ms ease;
   }
 
@@ -119,6 +102,20 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
   &:focus {
     &::after {
       width: 100%;
+      background-color: ${props =>
+        props.theme.color(
+          props.selected
+            ? props.variant === 'white'
+              ? 'white'
+              : props.variant === 'yellow'
+              ? 'yellow'
+              : 'black'
+            : props.variant === 'white'
+            ? 'warmNeutral.400'
+            : props.variant === 'yellow'
+            ? 'lightYellow'
+            : 'neutral.600'
+        )};
 
       /* Prevent iOS double-tap link issue
        https://css-tricks.com/annoying-mobile-double-tap-link-issue/ */
@@ -130,5 +127,6 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
 
   &.selected::after {
     width: 100%;
+    background-color: transparent;
   }
 `;

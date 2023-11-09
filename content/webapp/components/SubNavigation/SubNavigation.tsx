@@ -46,7 +46,7 @@ const SubNavigation: FunctionComponent<Props> = ({
           {items.map(item => {
             const isSelected = currentSection === item.id;
             return (
-              <Tab data-test-id={item.id} key={item.id}>
+              <Tab data-test-id={item.id} key={item.id} selected={isSelected}>
                 <Link
                   scroll={false}
                   passHref

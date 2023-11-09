@@ -7,7 +7,13 @@ import {
   KeyboardEvent,
 } from 'react';
 import { trackGaEvent } from '@weco/common/utils/ga';
-import { Wrapper, TabsContainer, Tab, NavItemInner } from './TabNav.styles';
+import {
+  Wrapper,
+  TabsContainer,
+  Tab,
+  TabButton,
+  NavItemInner,
+} from './TabNav.styles';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 
@@ -117,10 +123,7 @@ const TabNav: FunctionComponent<Props> = ({
           <Tab
             key={item.id}
             id={`tab-${item.id}`}
-            role="tab"
-            aria-controls={`tabpanel-${item.id}`}
-            tabIndex={item.id === selectedTab ? 0 : -1}
-            aria-selected={item.id === selectedTab}
+            selected={item.id === selectedTab}
             onClick={e => {
               if (!(item.id === selectedTab)) {
                 (e.target as HTMLButtonElement).scrollIntoView({
@@ -136,9 +139,19 @@ const TabNav: FunctionComponent<Props> = ({
             }}
             onKeyDown={handleKeyDown}
           >
-            <NavItemInner selected={item.id === selectedTab} variant={variant}>
-              {item.text}
-            </NavItemInner>
+            <TabButton
+              role="tab"
+              aria-controls={`tabpanel-${item.id}`}
+              tabIndex={item.id === selectedTab ? 0 : -1}
+              aria-selected={item.id === selectedTab}
+            >
+              <NavItemInner
+                selected={item.id === selectedTab}
+                variant={variant}
+              >
+                {item.text}
+              </NavItemInner>
+            </TabButton>
           </Tab>
         ))}
       </TabsContainer>

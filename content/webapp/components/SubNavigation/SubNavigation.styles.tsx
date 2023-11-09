@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
 
 export const Wrapper = styled.div`
   ${props =>
@@ -56,30 +57,34 @@ export const TabsContainer = styled.div`
   `}
 `;
 
+type NavItemProps = {
+  selected: boolean;
+};
+
 export const Tab = styled.div.attrs({
   className: font('intb', 5),
-})`
-  padding: 24px 8px 0 0;
+})<NavItemProps>`
   flex-shrink: 0;
-  transition: padding ${props => props.theme.transitionProperties};
 
-  ${props =>
-    props.theme.media('medium')(`
-      padding-right: 28px;
-  `)}
+  border-bottom: ${props =>
+    props.selected
+      ? `3px solid ${props.theme.color('yellow')}`
+      : `1px solid ${props.theme.color('neutral.400')}`};
 `;
 
 type NavItemInnerProps = {
   selected: boolean;
 };
-export const NavItemInner = styled.a.attrs<NavItemInnerProps>(props => {
+export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
   return {
+    as: 'a',
     className: classNames({ selected: props.selected }),
+    h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+    v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   };
 })<NavItemInnerProps>`
   display: block;
   position: relative;
-  padding: 0 10px 24px; /* Deliberately offset from the left-hand side to make the buttons bigger for a11y */
   cursor: pointer;
   color: ${props =>
     props.theme.color(props.selected ? 'black' : 'neutral.600')};
@@ -89,13 +94,10 @@ export const NavItemInner = styled.a.attrs<NavItemInnerProps>(props => {
   &::after {
     content: '';
     position: absolute;
-    bottom: 0;
+    top: 100%;
     height: 3px;
     left: 0;
     width: 0;
-    background-color: ${props =>
-      props.theme.color(props.selected ? 'yellow' : 'lightYellow')};
-    z-index: -1;
     transition: width 200ms ease;
   }
 
@@ -103,6 +105,7 @@ export const NavItemInner = styled.a.attrs<NavItemInnerProps>(props => {
   &:focus {
     &::after {
       width: 100%;
+      background-color: ${props => props.theme.color('lightYellow')};
 
       /* Prevent iOS double-tap link issue
       https://css-tricks.com/annoying-mobile-double-tap-link-issue/ */
@@ -114,5 +117,6 @@ export const NavItemInner = styled.a.attrs<NavItemInnerProps>(props => {
 
   &.selected::after {
     width: 100%;
+    background-color: transparent;
   }
 `;
