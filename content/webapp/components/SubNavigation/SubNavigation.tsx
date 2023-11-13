@@ -5,7 +5,7 @@ import {
   TabsContainer,
   Tab,
   NavItemInner,
-} from './SubNavigation.styles';
+} from '../TabNav/TabNav.styles';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { IconSvg } from '@weco/common/icons';
@@ -42,13 +42,12 @@ const SubNavigation: FunctionComponent<Props> = ({
           {items.map(item => {
             const isSelected = currentSection === item.id;
             return (
-              <Tab data-test-id={item.id} key={item.id} selected={isSelected}>
+              <Tab data-test-id={item.id} key={item.id} $selected={isSelected}>
                 <Link
                   scroll={false}
                   passHref
                   href={typeof item.url === 'string' ? item.url : item.url.href}
                   as={typeof item.url === 'string' ? undefined : item.url.as}
-                  legacyBehavior
                 >
                   <NavItemInner
                     $selected={isSelected}

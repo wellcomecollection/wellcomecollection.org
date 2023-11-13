@@ -42,18 +42,23 @@ export const TabsContainer = styled.div`
 `;
 
 type NavItemProps = {
-  selected: boolean;
+  $selected: boolean;
 };
 
-export const Tab = styled.div<NavItemProps>`
+export const Tab = styled.div.attrs({
+  className: font('intb', 5),
+})<NavItemProps>`
   padding: 0;
   margin: 0;
   flex-shrink: 0;
-  display: table-cell;
   border-bottom: ${props =>
-    props.selected
+    props.$selected
       ? `3px solid ${props.theme.color('yellow')}`
       : `1px solid ${props.theme.color('neutral.400')}`};
+
+  a {
+    text-decoration: none;
+  }
 `;
 
 export const TabButton = styled.div.attrs({
@@ -104,7 +109,7 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
       width: 100%;
       background-color: ${props =>
         props.theme.color(
-          props.selected
+          props.$selected
             ? props.$variant === 'white'
               ? 'white'
               : props.$variant === 'yellow'

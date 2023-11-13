@@ -1,4 +1,5 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useState, useContext } from 'react';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 // Helpers/Utils
 import { cssGrid, classNames } from '@weco/common/utils/classnames';
@@ -22,6 +23,7 @@ type Props = {
 };
 
 const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
+  const { isEnhanced } = useContext(AppContext);
   // Group the events into the per-month tabs that we render on the
   // What's On page, e.g. a group for May, June, July, ...
   const monthsWithEvents = groupEventsByMonth(events).map(
@@ -62,31 +64,35 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
         </CssGridContainer>
       </Space>
 
-      {monthsWithEvents.map(({ id, month, events }) => (
-        <div
-          key={id}
-          className={classNames({
-            [cssGrid(gridSize12)]: true,
-            'is-hidden': Boolean(activeId) && activeId !== id,
-          })}
-        >
-          <Container
-            as="h2"
+      {monthsWithEvents
+        .filter(i =>
+          isEnhanced ? i.id === (activeId || monthsWithEvents[0].id) : true
+        )
+        .map(({ id, month, events }) => (
+          <div
+            key={id}
             className={classNames({
-              'is-hidden': Boolean(activeId),
+              [cssGrid(gridSize12)]: true,
+              'is-hidden': Boolean(activeId) && activeId !== id,
             })}
-            id={id}
           >
-            {month.month}
-          </Container>
-          <CardGrid
-            items={events}
-            itemsPerRow={3}
-            links={links}
-            fromDate={startOf(month)}
-          />
-        </div>
-      ))}
+            <Container
+              as="h2"
+              className={classNames({
+                'is-hidden': Boolean(activeId),
+              })}
+              id={id}
+            >
+              {month.month}
+            </Container>
+            <CardGrid
+              items={events}
+              itemsPerRow={3}
+              links={links}
+              fromDate={startOf(month)}
+            />
+          </div>
+        ))}
     </div>
   );
 };

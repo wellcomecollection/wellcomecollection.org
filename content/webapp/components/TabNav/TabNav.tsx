@@ -1,11 +1,14 @@
 import {
   FunctionComponent,
   useRef,
+  useContext,
   Dispatch,
   SetStateAction,
   ReactNode,
   KeyboardEvent,
 } from 'react';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+
 import {
   Wrapper,
   TabsContainer,
@@ -14,6 +17,7 @@ import {
   NavItemInner,
 } from './TabNav.styles';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 
 type SendEventProps = {
   id: string;
@@ -54,6 +58,7 @@ const TabNav: FunctionComponent<Props> = ({
   variant,
   trackWithSegment = false,
 }: Props) => {
+  const { isEnhanced } = useContext(AppContext);
   const tabListRef = useRef<HTMLDivElement>(null);
 
   function focusTabAtIndex(index: number): void {
@@ -114,7 +119,7 @@ const TabNav: FunctionComponent<Props> = ({
           <Tab
             key={item.id}
             id={`tab-${item.id}`}
-            selected={item.id === selectedTab}
+            $selected={isEnhanced && item.id === selectedTab}
             onClick={e => {
               if (!(item.id === selectedTab)) {
                 (e.target as HTMLButtonElement).scrollIntoView({
@@ -137,10 +142,15 @@ const TabNav: FunctionComponent<Props> = ({
               aria-selected={item.id === selectedTab}
             >
               <NavItemInner
-                selected={item.id === selectedTab}
+                $selected={isEnhanced && item.id === selectedTab}
                 $variant={variant}
               >
-                {item.text}
+                <ConditionalWrapper
+                  condition={item.url && !isEnhanced}
+                  wrapper={children => <a href={item.url}>{children}</a>}
+                >
+                  {item.text}
+                </ConditionalWrapper>
               </NavItemInner>
             </TabButton>
           </Tab>
