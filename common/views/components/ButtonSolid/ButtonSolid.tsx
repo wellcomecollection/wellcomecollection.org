@@ -8,7 +8,6 @@ import {
 import styled from 'styled-components';
 
 import { classNames, font } from '@weco/common/utils/classnames';
-import { trackGaEvent, GaEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { IconSvg } from '@weco/common/icons';
@@ -38,16 +37,6 @@ export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
   white-space: nowrap;
   cursor: pointer;
 
-  &:focus-visible,
-  &:focus {
-    box-shadow: ${props => props.theme.focusBoxShadow};
-    outline: ${props => props.theme.highContrastOutlineFix};
-  }
-
-  :focus:not(:focus-visible) {
-    box-shadow: none;
-  }
-
   &.disabled {
     pointer-events: none;
   }
@@ -66,15 +55,15 @@ export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
 `;
 
 type BaseButtonInnerProps = {
-  isInline?: boolean;
-  isPill?: boolean;
+  $isInline?: boolean;
+  $isPill?: boolean;
 };
 
 const BaseButtonInnerSpan = styled.span<BaseButtonInnerProps>``;
 export const BaseButtonInner = styled(
   BaseButtonInnerSpan
 ).attrs<BaseButtonInnerProps>(props => ({
-  className: font(props.isInline ? 'intr' : 'intb', props.isPill ? 6 : 5),
+  className: font(props.$isInline ? 'intr' : 'intb', props.$isPill ? 6 : 5),
 }))`
   display: flex;
   align-items: center;
@@ -82,17 +71,16 @@ export const BaseButtonInner = styled(
 `;
 
 type ButtonIconWrapperAttrsProps = {
-  isTextHidden?: boolean;
-  iconAfter?: boolean;
-  isPill?: boolean;
+  $isTextHidden?: boolean;
+  $iconAfter?: boolean;
 };
 export const ButtonIconWrapper = styled(Space).attrs({
   as: 'span',
 })<ButtonIconWrapperAttrsProps>`
   display: inline-flex;
   ${props =>
-    !props.isTextHidden &&
-    (props.iconAfter ? 'margin-left: 4px;' : 'margin-right: 4px;')}
+    !props.$isTextHidden &&
+    (props.$iconAfter ? 'margin-left: 4px;' : 'margin-right: 4px;')}
 
   /* Prevent icon within .spaced-text parent having top margin */
   margin-top: 0;
@@ -111,7 +99,6 @@ export type ButtonSolidBaseProps = {
   icon?: IconSvg;
   type?: ButtonTypes;
   isTextHidden?: boolean;
-  trackingEvent?: GaEvent;
   ariaControls?: string;
   ariaExpanded?: boolean;
   dataGtmTrigger?: string;
@@ -119,7 +106,6 @@ export type ButtonSolidBaseProps = {
   colors?: ButtonColors;
   isIconAfter?: boolean;
   size?: ButtonSize;
-  hoverUnderline?: boolean;
   form?: string;
   isPill?: boolean;
 };
@@ -130,15 +116,14 @@ type ButtonSolidProps = ButtonSolidBaseProps & {
   isPill?: boolean;
 };
 
-type SolidButtonProps = {
+type SolidButtonStyledProps = {
   href?: string;
-  ariaLabel?: string;
-  colors?: ButtonColors;
-  size?: ButtonSize;
-  hoverUnderline?: boolean;
-  isPill?: boolean;
-  hasIcon?: boolean;
-  isIconAfter?: boolean;
+  $ariaLabel?: string;
+  $size?: ButtonSize;
+  $colors?: ButtonColors;
+  $isPill?: boolean;
+  $hasIcon?: boolean;
+  $isIconAfter?: boolean;
 };
 
 // Default to medium button
@@ -151,34 +136,35 @@ const getPadding = (size: ButtonSize = 'medium') => {
   }
 };
 
-export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
+export const SolidButton = styled(BaseButton).attrs<SolidButtonStyledProps>(
   props => ({
-    'aria-label': props.ariaLabel,
+    'aria-label': props.$ariaLabel,
     className: classNames({
       'link-reset': !!props.href,
     }),
   })
-)<SolidButtonProps>`
-  padding: ${props => getPadding(props.size)};
+)<SolidButtonStyledProps>`
+  padding: ${props => getPadding(props.$size)};
   ${props => `
     background:
       ${props.theme.color(
-        props?.colors?.background || props.theme.buttonColors.default.background
+        props?.$colors?.background ||
+          props.theme.buttonColors.default.background
       )};
     color: ${props.theme.color(
-      props?.colors?.text || props.theme.buttonColors.default.text
+      props?.$colors?.text || props.theme.buttonColors.default.text
     )};
   `}
 
   ${props =>
-    props.isPill
+    props.$isPill
       ? `
         border-radius: 20px;
         border: 1px solid ${props.theme.color('black')};
         padding: ${
-          props.hasIcon
-            ? `8px ${props.isIconAfter ? '8px' : '16px'} 8px ${
-                props.isIconAfter ? '16px' : '8px'
+          props.$hasIcon
+            ? `8px ${props.$isIconAfter ? '8px' : '16px'} 8px ${
+                props.$isIconAfter ? '16px' : '8px'
               }`
             : '8px 16px'
         };
@@ -186,20 +172,20 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
         &:not([disabled]):hover {
           box-shadow: ${props.theme.focusBoxShadow};
         }
-
-        &:focus {
-          outline: ${props => props.theme.highContrastOutlineFix};
-        }
       `
       : `
 
         border: 2px solid
         ${props.theme.color(
-          props?.colors?.border || props.theme.buttonColors.default.border
+          props?.$colors?.border || props.theme.buttonColors.default.border
         )};
 
         &:not([disabled]):hover {
           text-decoration: underline;
+        }
+
+        &:focus-visible {
+          border: 2px solid ${props.theme.color('black')};
         }
       `};
 `;
@@ -210,7 +196,6 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
     text,
     type,
     isTextHidden,
-    trackingEvent,
     clickHandler,
     ariaControls,
     ariaExpanded,
@@ -220,7 +205,6 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
     size,
     colors,
     isIconAfter,
-    hoverUnderline,
     form,
     isPill,
   }: ButtonSolidProps,
@@ -228,28 +212,26 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
 ) => {
   function handleClick(event: SyntheticEvent<HTMLButtonElement>) {
     clickHandler && clickHandler(event);
-    trackingEvent && trackGaEvent(trackingEvent);
   }
 
   return (
     <SolidButton
+      ref={ref}
       type={type}
       aria-controls={ariaControls}
       aria-expanded={ariaExpanded}
-      data-gtm-trigger={dataGtmTrigger}
       aria-live={ariaLive}
+      data-gtm-trigger={dataGtmTrigger}
       onClick={handleClick}
       disabled={disabled}
-      size={size}
-      colors={colors}
-      hoverUnderline={hoverUnderline}
-      ref={ref}
       form={form}
-      isPill={isPill}
-      hasIcon={!!icon}
-      isIconAfter={isIconAfter}
+      $size={size}
+      $colors={colors}
+      $isPill={isPill}
+      $hasIcon={!!icon}
+      $isIconAfter={isIconAfter}
     >
-      <BaseButtonInner isInline={size === 'small'} isPill={isPill}>
+      <BaseButtonInner $isInline={size === 'small'} $isPill={isPill}>
         {isIconAfter && (
           <span
             className={classNames({
@@ -261,9 +243,8 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
         )}
         {icon && (
           <ButtonIconWrapper
-            iconAfter={isIconAfter}
-            isTextHidden={isTextHidden}
-            isPill={isPill}
+            $iconAfter={isIconAfter}
+            $isTextHidden={isTextHidden}
           >
             <Icon icon={icon} />
           </ButtonIconWrapper>

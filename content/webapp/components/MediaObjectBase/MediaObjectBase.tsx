@@ -51,22 +51,22 @@ const BaseTitleWrapper = styled.h3.attrs({
 `;
 
 export type HasImageProps = {
-  hasImage: boolean;
+  $hasImage: boolean;
 };
 
 // Ability to add custom prop types in TS and styled components
 const BaseTextWrapper = styled.div.attrs<HasImageProps>(props => ({
-  className: props.hasImage
+  className: props.$hasImage
     ? grid({ s: 9, m: 9, l: 9, xl: 9 })
     : grid(gridSize12),
 }))<HasImageProps>``;
 
 type LinkOrDivSpaceAttrs = {
-  url?: string;
+  $url?: string;
 };
 const LinkOrDivSpace = styled(Space).attrs<LinkOrDivSpaceAttrs>(props => ({
-  as: props.url ? 'a' : 'div',
-  href: props.url || undefined,
+  as: props.$url ? 'a' : 'div',
+  href: props.$url,
 }))<LinkOrDivSpaceAttrs>`
   text-decoration: none;
 
@@ -110,27 +110,25 @@ const MediaObjectBase: FunctionComponent<Props> = ({
 
   return (
     <LinkOrDivSpace
-      v={{
-        size: 'l',
-        properties:
-          x === y ? ['padding-top'] : ['padding-top', 'padding-bottom'],
-      }}
-      url={urlProp}
       className={classNames({
         grid: true,
         [extraClasses || '']: Boolean(extraClasses),
       })}
+      $v={{
+        size: 'l',
+        properties:
+          x === y ? ['padding-top'] : ['padding-top', 'padding-bottom'],
+      }}
+      $url={urlProp}
       onClick={() => {
-        if (onClick) {
-          onClick();
-        }
+        if (onClick) onClick();
       }}
     >
-      <ImageWrapper hasImage={Boolean(Image)}>{Image}</ImageWrapper>
-      <TextWrapper hasImage={Boolean(Image)}>
+      <ImageWrapper $hasImage={Boolean(Image)}>{Image}</ImageWrapper>
+      <TextWrapper $hasImage={Boolean(Image)}>
         {primaryLabels.length > 0 && (
           <Space
-            v={{ size: 's', properties: ['margin-bottom'] }}
+            $v={{ size: 's', properties: ['margin-bottom'] }}
             style={{ display: 'flex' }}
           >
             <LabelsList labels={primaryLabels} />
@@ -156,7 +154,7 @@ const MediaObjectBase: FunctionComponent<Props> = ({
         )}
         {secondaryLabels.length > 0 && (
           <Space
-            v={{ size: 's', properties: ['margin-top'] }}
+            $v={{ size: 's', properties: ['margin-top'] }}
             style={{ display: 'flex' }}
           >
             <LabelsList labels={secondaryLabels} defaultLabelColor="black" />

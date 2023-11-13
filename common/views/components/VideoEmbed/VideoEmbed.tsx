@@ -31,13 +31,13 @@ const VideoEmbedWrapper = styled.figure`
   margin: 0;
 `;
 
-const VideoTrigger = styled.button<{ hasFullSizePoster?: boolean }>`
+const VideoTrigger = styled.button<{ $hasFullSizePoster?: boolean }>`
   position: absolute;
   padding-bottom: 56.25%; /* 16:9 */
   width: 100%;
 
   img {
-    top: ${props => (props.hasFullSizePoster ? 0 : '-16.84%')};
+    top: ${props => (props.$hasFullSizePoster ? 0 : '-16.84%')};
     left: 0;
     position: absolute;
   }
@@ -97,7 +97,7 @@ const VideoEmbed: FunctionComponent<Props> = ({
           ) : (
             <VideoTrigger
               onClick={() => setIsActive(true)}
-              hasFullSizePoster={hasFullSizePoster}
+              $hasFullSizePoster={hasFullSizePoster}
             >
               <span className="visually-hidden">Play video</span>
               <YouTubePlay />

@@ -6,10 +6,5 @@ basic.args = {
   href: '/',
   linkText: 'Download file',
   format: 'PDF',
-  trackingEvent: {
-    category: 'Button',
-    action: 'click',
-    label: 'abc',
-  },
 };
 basic.storyName = 'DownloadLink';

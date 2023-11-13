@@ -6,7 +6,6 @@ import {
   ReactNode,
   KeyboardEvent,
 } from 'react';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import {
   Wrapper,
   TabsContainer,
@@ -14,7 +13,6 @@ import {
   TabButton,
   NavItemInner,
 } from './TabNav.styles';
-import Divider from '@weco/common/views/components/Divider/Divider';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 
 type SendEventProps = {
@@ -23,11 +21,6 @@ type SendEventProps = {
 };
 
 function sendEvent({ id, trackWithSegment }: SendEventProps) {
-  trackGaEvent({
-    category: 'TabNav',
-    action: 'Tab clicked',
-    label: id,
-  });
   if (trackWithSegment) {
     trackSegmentEvent({
       name: 'Click tab nav',
@@ -50,7 +43,6 @@ type Props = {
   selectedTab: string;
   setSelectedTab: Dispatch<SetStateAction<string>>;
   variant?: 'yellow' | 'white';
-  hasDivider?: boolean;
   trackWithSegment?: boolean;
 };
 
@@ -60,7 +52,6 @@ const TabNav: FunctionComponent<Props> = ({
   selectedTab,
   setSelectedTab,
   variant,
-  hasDivider,
   trackWithSegment = false,
 }: Props) => {
   const tabListRef = useRef<HTMLDivElement>(null);
@@ -147,7 +138,7 @@ const TabNav: FunctionComponent<Props> = ({
             >
               <NavItemInner
                 selected={item.id === selectedTab}
-                variant={variant}
+                $variant={variant}
               >
                 {item.text}
               </NavItemInner>
@@ -155,8 +146,6 @@ const TabNav: FunctionComponent<Props> = ({
           </Tab>
         ))}
       </TabsContainer>
-
-      {hasDivider && <Divider lineColor="neutral.300" />}
     </Wrapper>
   );
 };

@@ -73,21 +73,21 @@ export const Tab = styled.div.attrs({
 `;
 
 type NavItemInnerProps = {
-  selected: boolean;
+  $selected: boolean;
 };
 export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
   return {
     as: 'a',
-    className: classNames({ selected: props.selected }),
-    h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-    v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+    className: classNames({ selected: props.$selected }),
+    $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+    $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   };
 })<NavItemInnerProps>`
   display: block;
   position: relative;
   cursor: pointer;
   color: ${props =>
-    props.theme.color(props.selected ? 'black' : 'neutral.600')};
+    props.theme.color(props.$selected ? 'black' : 'neutral.600')};
   text-decoration: none;
   transition: all ${props => props.theme.transitionProperties};
 
@@ -98,6 +98,10 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
     height: 3px;
     left: 0;
     width: 0;
+
+    background-color: ${props =>
+      props.theme.color(props.$selected ? 'yellow' : 'lightYellow')};
+    z-index: -1;
     transition: width 200ms ease;
   }
 

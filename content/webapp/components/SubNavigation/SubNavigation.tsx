@@ -5,9 +5,7 @@ import {
   TabsContainer,
   Tab,
   NavItemInner,
-  DividerWrapper,
 } from './SubNavigation.styles';
-import Divider from '@weco/common/views/components/Divider/Divider';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { IconSvg } from '@weco/common/icons';
@@ -30,14 +28,12 @@ type Props = {
   label: string;
   items: SelectableTextLink[];
   currentSection: string;
-  hasDivider?: boolean;
 };
 
 const SubNavigation: FunctionComponent<Props> = ({
   label,
   items,
   currentSection,
-  hasDivider,
 }: Props) => {
   return (
     <>
@@ -55,7 +51,7 @@ const SubNavigation: FunctionComponent<Props> = ({
                   legacyBehavior
                 >
                   <NavItemInner
-                    selected={isSelected}
+                    $selected={isSelected}
                     aria-current={isSelected ? 'page' : 'false'}
                     onClick={e => {
                       if (!isSelected) {
@@ -70,7 +66,7 @@ const SubNavigation: FunctionComponent<Props> = ({
                     {item.icon && (
                       <Space
                         as="span"
-                        h={{ size: 's', properties: ['margin-right'] }}
+                        $h={{ size: 's', properties: ['margin-right'] }}
                       >
                         <IconWrapper>
                           <Icon icon={item.icon} />
@@ -85,11 +81,6 @@ const SubNavigation: FunctionComponent<Props> = ({
           })}
         </TabsContainer>
       </Wrapper>
-      {hasDivider && (
-        <DividerWrapper>
-          <Divider lineColor="neutral.300" />
-        </DividerWrapper>
-      )}
     </>
   );
 };

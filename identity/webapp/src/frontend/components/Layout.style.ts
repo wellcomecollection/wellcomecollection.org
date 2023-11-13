@@ -3,7 +3,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { grid, font } from '@weco/common/utils/classnames';
 
 export const Container = styled(Space).attrs({
-  v: { size: 'xl', properties: ['margin-bottom'] },
+  $v: { size: 'xl', properties: ['margin-bottom'] },
 })`
   background-color: white;
   border: 1px solid ${props => props.theme.color('warmNeutral.400')};
@@ -11,18 +11,18 @@ export const Container = styled(Space).attrs({
 `;
 
 type WrapperProps = {
-  removeBottomPadding?: boolean;
+  $removeBottomPadding?: boolean;
 };
 
 export const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
-  v: {
+  className: font('intr', 5),
+  $v: {
     size: 'l',
-    properties: props.removeBottomPadding
+    properties: props.$removeBottomPadding
       ? ['padding-top']
       : ['padding-top', 'padding-bottom'],
   },
-  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  className: font('intr', 5),
+  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
 }))<WrapperProps>`
   position: relative;
 `;
@@ -35,17 +35,17 @@ export const Title = styled.h1.attrs({ className: font('wb', 0) })``;
 
 type SectionHeadingProps = {
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  addBottomPadding?: boolean;
+  $addBottomPadding?: boolean;
 };
 
 export const SectionHeading = styled(Space).attrs<SectionHeadingProps>(
   props => ({
     as: props.as || 'h2',
-    v: {
-      size: 'm',
-      properties: props.addBottomPadding ? ['padding-bottom'] : [],
-    },
     className: font('wb', 3),
+    $v: {
+      size: 'm',
+      properties: props.$addBottomPadding ? ['padding-bottom'] : [],
+    },
   })
 )<SectionHeadingProps>`
   font-weight: bold;

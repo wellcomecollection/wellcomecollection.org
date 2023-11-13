@@ -6,7 +6,6 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import { play, pause } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { useAVTracking } from '@weco/content/hooks/useAVTracking';
 import Volume from './AudioPlayer.Volume';
 import PlayRate from './AudioPlayer.PlayRate';
@@ -19,14 +18,16 @@ const AudioPlayerWrapper = styled.figure`
   margin: 0;
 `;
 
-type PlayPauseButtonProps = { isPlaying: boolean };
-const PlayPauseButton = styled.button.attrs<PlayPauseButtonProps>(props => ({
-  ariaPressed: props.isPlaying,
+type PlayPauseButtonProps = { $isPlaying: boolean };
+const PlayPauseButton = styled.button.attrs<
+  PlayPauseButtonProps & { ariaPressed?: boolean }
+>(props => ({
+  ariaPressed: props.$isPlaying,
 }))<PlayPauseButtonProps>`
   padding: 0;
 
   svg {
-    transform: translateX(${props => (!props.isPlaying ? '2px' : '0')});
+    transform: translateX(${props => (!props.$isPlaying ? '2px' : '0')});
   }
 `;
 
@@ -41,10 +42,14 @@ const PlayPauseInner = styled.div`
 `;
 
 const AudioPlayerGrid = styled(Space).attrs({
-  h: { size: 's', properties: ['row-gap'], overrides: { medium: 2, large: 2 } },
-  v: {
+  $h: {
     size: 's',
     properties: ['column-gap'],
+    overrides: { medium: 2, large: 2 },
+  },
+  $v: {
+    size: 's',
+    properties: ['row-gap'],
     overrides: { medium: 2, large: 2 },
   },
 })`
@@ -124,18 +129,8 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
     setIsPlaying(!prevValue);
 
     if (prevValue) {
-      trackGaEvent({
-        category: 'Audio',
-        action: 'pause audio',
-        label: id,
-      });
       audioPlayerRef.current.pause();
     } else {
-      trackGaEvent({
-        category: 'Audio',
-        action: 'play audio',
-        label: id,
-      });
       audioPlayerRef.current.play();
     }
   };
@@ -171,14 +166,14 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   return (
     <>
       <AudioPlayerWrapper>
-        <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+        <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
           <figcaption className={font('intb', 5)} {...titleProps}>
             {title}
           </figcaption>
         </Space>
 
         <AudioPlayerGrid>
-          <PlayPauseButton onClick={onTogglePlay} isPlaying={isPlaying}>
+          <PlayPauseButton onClick={onTogglePlay} $isPlaying={isPlaying}>
             <PlayPauseInner>
               <span className="visually-hidden">
                 {`${title} ${isPlaying ? 'Pause' : 'Play'}`}
@@ -267,7 +262,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
       </AudioPlayerWrapper>
 
       {!!(transcript?.length && transcript.length > 0) && (
-        <Space v={{ size: 'm', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'm', properties: ['margin-top'] }}>
           <CollapsibleContent
             id={`audioPlayerTranscript-${title}`}
             controlText={{

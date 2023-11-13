@@ -1,12 +1,11 @@
 import { FunctionComponent, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 const PlayRateWrapper = styled(Space).attrs({
-  h: {
+  $h: {
     size: 'xs',
     properties: ['column-gap'],
     overrides: { medium: 1, large: 1 },
@@ -27,13 +26,13 @@ const PlayRateRadio = styled.input.attrs({
   appearance: none;
 `;
 
-const PlayRateLabel = styled.label<{ isActive: boolean }>`
+const PlayRateLabel = styled.label<{ $isActive: boolean }>`
   position: relative;
   padding: 0 4px;
   border-radius: 5px;
   text-align: center;
   background: ${props =>
-    props.isActive ? props.theme.color('yellow') : undefined};
+    props.$isActive ? props.theme.color('yellow') : undefined};
 `;
 
 type PlayRateProps = {
@@ -50,12 +49,6 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({ audioPlayer, id }) => {
   }, [audioPlaybackRate]);
 
   function updatePlaybackRate(speed: number) {
-    trackGaEvent({
-      category: 'Audio',
-      action: `set speed to ${speed}x`,
-      label: id,
-    });
-
     setAudioPlaybackRate(speed);
     audioPlayer.playbackRate = speed;
   }
@@ -83,7 +76,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({ audioPlayer, id }) => {
           <PlayRateLabel
             key={speed}
             htmlFor={`playrate-${speed}-${id}`}
-            isActive={audioPlaybackRate === speed}
+            $isActive={audioPlaybackRate === speed}
           >
             <PlayRateRadio
               id={`playrate-${speed}-${id}`}

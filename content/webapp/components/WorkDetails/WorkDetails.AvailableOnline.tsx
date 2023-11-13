@@ -8,7 +8,6 @@ import AudioList from '@weco/content/components/AudioList/AudioList';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Download from '@weco/content/components/Download/Download';
 import WorkDetailsLicence from './WorkDetails.Licence';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { eye } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { LinkProps } from '@weco/common/model/link-props';
@@ -57,7 +56,6 @@ const WorkDetailsAvailableOnline = ({
             <IIIFClickthrough
               clickThroughService={clickThroughService}
               tokenService={tokenService}
-              trackingId={work.id}
             >
               {children}
             </IIIFClickthrough>
@@ -65,7 +63,7 @@ const WorkDetailsAvailableOnline = ({
         }
       >
         {video && (
-          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
             <VideoPlayer
               video={video}
               // Note: because we can't prevent people from downloading videos if
@@ -92,21 +90,17 @@ const WorkDetailsAvailableOnline = ({
         {shouldShowItemLink && (
           <>
             {work.thumbnail && (
-              <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+              <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
                 <ConditionalWrapper
                   condition={Boolean(itemUrl)}
                   wrapper={children =>
                     itemUrl && (
                       <NextLink
+                        style={{
+                          display: 'inline-block',
+                        }}
                         href={itemUrl.href}
                         as={itemUrl.as}
-                        onClick={() =>
-                          trackGaEvent({
-                            category: 'WorkDetails',
-                            action: 'follow image link',
-                            label: work.id,
-                          })
-                        }
                       >
                         {children}
                       </NextLink>
@@ -117,6 +111,7 @@ const WorkDetailsAvailableOnline = ({
                     style={{
                       width: 'auto',
                       height: 'auto',
+                      display: 'block',
                     }}
                     alt={`view ${work.title}`}
                     src={work.thumbnail.url}
@@ -129,16 +124,11 @@ const WorkDetailsAvailableOnline = ({
               {itemUrl && (
                 <Space
                   as="span"
-                  h={{ size: 'm', properties: ['margin-right'] }}
+                  $h={{ size: 'm', properties: ['margin-right'] }}
                 >
                   <ButtonSolidLink
                     icon={eye}
                     text="View"
-                    trackingEvent={{
-                      category: 'WorkDetails',
-                      action: 'follow view link',
-                      label: itemUrl?.href?.query?.workId?.toString(),
-                    }}
                     link={{ ...itemUrl }}
                   />
                 </Space>
@@ -147,14 +137,13 @@ const WorkDetailsAvailableOnline = ({
               {showDownloadOptions && (
                 <Download
                   ariaControlsId="itemDownloads"
-                  workId={work.id}
                   downloadOptions={downloadOptions}
                 />
               )}
             </div>
             {((collectionManifestsCount && collectionManifestsCount > 0) ||
               (canvasCount && canvasCount > 0)) && (
-              <Space v={{ size: 'm', properties: ['margin-top'] }}>
+              <Space $v={{ size: 'm', properties: ['margin-top'] }}>
                 <p className={`${font('lr', 6)}`} style={{ marginBottom: 0 }}>
                   Contains:{' '}
                   {collectionManifestsCount && collectionManifestsCount > 0

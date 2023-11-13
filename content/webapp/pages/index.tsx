@@ -52,8 +52,8 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 const CreamBox = styled(Space).attrs({
-  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
   background: ${props => props.theme.color('warmNeutral.300')};
 `;
@@ -199,10 +199,10 @@ const Homepage: FunctionComponent<Props> = ({
         <Layout10 isCentered={false}>
           <SpacingSection>
             <Space
-              v={{ size: 'l', properties: ['margin-top'] }}
+              $v={{ size: 'l', properties: ['margin-top'] }}
               className={font('wb', 1)}
             >
-              <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+              <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
                 <h1>{homepageHeading}</h1>
               </Space>
             </Space>
@@ -232,7 +232,7 @@ const Homepage: FunctionComponent<Props> = ({
           </SpacingSection>
         )}
 
-        {nextSevenDaysEvents.length + exhibitions.length > 2 && (
+        {nextSevenDaysEvents.length + exhibitions.length > 0 && (
           <SpacingSection>
             <SpacingComponent>
               <SectionHeader title="This week" />

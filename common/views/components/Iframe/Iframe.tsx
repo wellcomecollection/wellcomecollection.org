@@ -1,13 +1,14 @@
 import { Component, createRef, ReactElement } from 'react';
 import styled from 'styled-components';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { cross } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
 
-export const IframeContainer = styled.div.attrs({
+export const IframeContainer = styled.div.attrs<{
+  'data-chromatic'?: 'ignore';
+}>({
   'data-chromatic': 'ignore',
 })`
   padding-bottom: 56.25%; /* 16:9 */
@@ -39,8 +40,7 @@ export const IframeContainer = styled.div.attrs({
     width: 100%;
     height: 100%;
 
-    &:hover,
-    &:focus {
+    &:hover {
       .overlay {
         background: transparent;
       }
@@ -103,13 +103,6 @@ class Iframe extends Component<Props, State> {
   iframeRef: { current: HTMLIFrameElement | null } = createRef();
 
   toggleIframeDisplay = (): void => {
-    if (!this.state.iframeShowing) {
-      trackGaEvent({
-        category: 'Iframe',
-        action: 'launch iframe',
-        label: this.props.src,
-      });
-    }
     this.setState(prevState => ({
       iframeShowing: !prevState.iframeShowing,
     }));

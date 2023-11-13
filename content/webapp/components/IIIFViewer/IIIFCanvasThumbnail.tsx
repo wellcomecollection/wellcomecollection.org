@@ -22,10 +22,6 @@ const IIIFViewerThumb = styled.span`
   [aria-current='true'] & {
     background: ${props => props.theme.color('neutral.700')};
   }
-
-  &:focus {
-    outline: ${props => `1px solid ${props.theme.color('yellow')}`};
-  }
 `;
 
 const IIIFViewerThumbInner = styled.span`
@@ -83,7 +79,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
       <IIIFViewerThumbInner>
         <ImageContainer>
           {!thumbnailLoaded && !isRestricted && (
-            <LL small={true} lighten={true} />
+            <LL $small={true} $lighten={true} />
           )}
           {isRestricted ? (
             <>
@@ -108,7 +104,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
         </ImageContainer>
         <div>
           <>
-            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+            <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
               <IIIFViewerThumbNumber>
                 {canvas.label?.trim() !== '-' && 'page'} {canvas.label}
               </IIIFViewerThumbNumber>

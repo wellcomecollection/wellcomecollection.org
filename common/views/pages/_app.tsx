@@ -1,8 +1,7 @@
 import { AppProps } from 'next/app';
 import React, { useEffect, FunctionComponent, ReactElement } from 'react';
-import { ThemeProvider } from 'styled-components';
+import { StyleSheetManager, ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '@weco/common/views/themes/default';
-import OutboundLinkTracker from '@weco/common/views/components/OutboundLinkTracker/OutboundLinkTracker';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator/LoadingIndicator';
 import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
@@ -22,12 +21,7 @@ import { ApmContextProvider } from '@weco/common/views/components/ApmContext/Apm
 import { AppErrorProps } from '@weco/common/services/app';
 import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
 import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
-import {
-  GaDimensions,
-  useGoogleAnalyticsUA,
-} from '@weco/common/services/app/google-analytics';
-import { useOnPageLoad } from '@weco/common/services/app/useOnPageLoad';
-import ReactGA from 'react-ga';
+import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import { NextPage } from 'next';
 import { deserialiseProps } from '@weco/common/utils/json';
 import { SearchContextProvider } from '@weco/common/views/components/SearchContext/SearchContext';
@@ -94,13 +88,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     document.documentElement.classList.add('enhanced');
   }, []);
 
-  useGoogleAnalyticsUA({
-    toggles: serverData.toggles,
-    gaDimensions: pageProps.gaDimensions,
-  });
-
-  useOnPageLoad(url => ReactGA.pageview(url));
-
   useEffect(() => {
     if (pageProps.pageview) {
       trackPageview({
@@ -126,12 +113,12 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
           <UserProvider>
             <AppContextProvider>
               <SearchContextProvider>
-                <ThemeProvider theme={theme}>
-                  <GlobalStyle
-                    toggles={serverData.toggles}
-                    isFontsLoaded={useIsFontsLoaded()}
-                  />
-                  <OutboundLinkTracker>
+                <StyleSheetManager enableVendorPrefixes>
+                  <ThemeProvider theme={theme}>
+                    <GlobalStyle
+                      toggles={serverData.toggles}
+                      isFontsLoaded={useIsFontsLoaded()}
+                    />
                     <LoadingIndicator />
                     {!pageProps.err &&
                       getLayout(<Component {...deserialiseProps(pageProps)} />)}
@@ -141,8 +128,8 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                         title={pageProps.err.message}
                       />
                     )}
-                  </OutboundLinkTracker>
-                </ThemeProvider>
+                  </ThemeProvider>
+                </StyleSheetManager>
               </SearchContextProvider>
             </AppContextProvider>
           </UserProvider>

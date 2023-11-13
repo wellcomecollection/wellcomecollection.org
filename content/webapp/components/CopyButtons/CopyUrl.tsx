@@ -5,7 +5,6 @@ import {
   ReactElement,
   FunctionComponent,
 } from 'react';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
@@ -14,12 +13,10 @@ import { check } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
 
 type Props = {
-  id: string;
   url: string;
 };
 
 const CopyUrl: FunctionComponent<Props> = ({
-  id,
   url,
 }: Props): ReactElement<Props> => {
   const { isEnhanced } = useContext(AppContext);
@@ -55,12 +52,6 @@ const CopyUrl: FunctionComponent<Props> = ({
 
     buttonRef.current && buttonRef.current.focus();
     textarea.remove();
-
-    trackGaEvent({
-      category: 'CopyUrl',
-      action: 'copy url to clipboard',
-      label: id,
-    });
   }
 
   return (
@@ -77,7 +68,7 @@ const CopyUrl: FunctionComponent<Props> = ({
 
       {isEnhanced && (
         <Space
-          v={{
+          $v={{
             size: 'm',
             properties: ['margin-top'],
           }}

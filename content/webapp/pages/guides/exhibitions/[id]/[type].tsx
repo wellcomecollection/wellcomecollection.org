@@ -37,19 +37,19 @@ import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { font } from '@weco/common/utils/classnames';
 
 const ButtonWrapper = styled(Space).attrs({
-  v: { size: 's', properties: ['margin-bottom'] },
-  h: { size: 's', properties: ['margin-right'] },
+  $v: { size: 's', properties: ['margin-bottom'] },
+  $h: { size: 's', properties: ['margin-right'] },
 })`
   display: inline-block;
 `;
 
 const Header = styled(Space).attrs({
-  v: {
+  $v: {
     size: 'xl',
     properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
   },
-})<{ backgroundColor: PaletteColor }>`
-  background: ${props => props.theme.color(props.backgroundColor)};
+})<{ $backgroundColor: PaletteColor }>`
+  background: ${props => props.theme.color(props.$backgroundColor)};
 `;
 
 type Props = {
@@ -207,7 +207,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
       apiToolbarLinks={[createPrismicLink(exhibitionGuide.id)]}
       skipToContentLinks={skipToContentLinks}
     >
-      <Header backgroundColor={typeColor}>
+      <Header $backgroundColor={typeColor}>
         <Layout8 shift={false}>
           <>
             <h1 className={font('wb', 1)}>
@@ -241,7 +241,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
         </Layout8>
       </Header>
 
-      <Space v={{ size: 'l', properties: ['margin-top'] }}>
+      <Space $v={{ size: 'l', properties: ['margin-top'] }}>
         <Layout10 isCentered={false}>
           {userPreferenceSet ? (
             <p>

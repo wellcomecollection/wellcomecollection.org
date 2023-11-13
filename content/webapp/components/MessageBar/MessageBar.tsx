@@ -24,7 +24,7 @@ type Props = PropsWithChildren<{
 
 const MessageBar: FunctionComponent<Props> = ({ tagText, children }) => (
   <Space
-    v={{
+    $v={{
       size: 'm',
       properties: ['padding-top', 'padding-bottom'],
     }}

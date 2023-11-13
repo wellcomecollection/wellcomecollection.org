@@ -12,7 +12,6 @@ import { ImageType } from '@weco/common/model/image';
 import LL from '@weco/common/views/components/styled/LL';
 import Image from 'next/image';
 import { createPrismicLoader } from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { trackGaEvent } from '@weco/common/utils/ga';
 
 const ZoomButton = styled.button`
   position: absolute;
@@ -35,7 +34,7 @@ const ZoomButton = styled.button`
   }
 `;
 
-const StyledDialog = styled.dialog<{ isLoaded: boolean }>`
+const StyledDialog = styled.dialog<{ $isLoaded: boolean }>`
   position: fixed;
   top: 0;
   bottom: 0;
@@ -64,8 +63,8 @@ const StyledDialog = styled.dialog<{ isLoaded: boolean }>`
   img {
     max-width: 100vw;
     max-height: 100vh;
-    opacity: ${props => (props.isLoaded ? 1 : 0)};
-    transform: scale(${props => (props.isLoaded ? 1 : 0.6)});
+    opacity: ${props => (props.$isLoaded ? 1 : 0)};
+    transform: scale(${props => (props.$isLoaded ? 1 : 0.6)});
     transition: all ${props => props.theme.transitionProperties};
 
     @media (prefers-reduced-motion) {
@@ -92,11 +91,6 @@ const ZoomedPrismicImage: FunctionComponent<ZoomedPrismicImageProps> = ({
     const viewportWidth = document.documentElement.clientWidth;
     setImageWidth(viewportWidth);
     setIsZoom(true);
-    trackGaEvent({
-      category: 'ZoomedPrismicImage',
-      action: 'Zoom in clicked',
-      label: image.contentUrl,
-    });
   }
 
   useEffect(() => {
@@ -132,7 +126,7 @@ const ZoomedPrismicImage: FunctionComponent<ZoomedPrismicImageProps> = ({
         <span className="visually-hidden">Zoom image</span>
         <Icon icon={expand} iconColor="white" />
       </ZoomButton>
-      <StyledDialog ref={zoomRef} isLoaded={isLoaded}>
+      <StyledDialog ref={zoomRef} $isLoaded={isLoaded}>
         {!isLoaded && <LL />}
         {isZoom && (
           <>

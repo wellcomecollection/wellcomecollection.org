@@ -16,7 +16,7 @@ const WorkDetailsTags: FunctionComponent<Props> = ({
         condition={Boolean(title)}
         wrapper={children => (
           <Space
-            v={{
+            $v={{
               size: 's',
               properties: ['margin-top'],
               overrides: { small: 3, medium: 3, large: 3 },

@@ -102,7 +102,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
       {!isConfirmed && !isSuccess && !isError && (
         <Space
           className="body-text"
-          v={{ size: 'm', properties: ['margin-bottom'] }}
+          $v={{ size: 'm', properties: ['margin-bottom'] }}
         >
           <p className={font('intb', 3)} style={{ marginBottom: '1rem' }}>
             Want to hear more from us?
@@ -143,7 +143,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             value={newsletterAddressBook.id}
           />
 
-          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
             <TextInput
               id="email"
               label="Your email address"
@@ -153,13 +153,16 @@ const NewsletterSignup: FunctionComponent<Props> = ({
               big={true}
               value={emailValue}
               setValue={setEmailValue}
-              errorMessage="Enter a valid email address."
+              errorMessage="Enter an email address in the correct format, like name@example.com"
               {...emailValidation}
             />
           </Space>
 
-          <Space v={{ size: 's', properties: ['margin-bottom'] }} as="fieldset">
-            <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <Space
+            as="fieldset"
+            $v={{ size: 's', properties: ['margin-bottom'] }}
+          >
+            <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
               <legend className={font('intb', 4)}>
                 You might also be interested in receiving updates on:
               </legend>
@@ -168,8 +171,8 @@ const NewsletterSignup: FunctionComponent<Props> = ({
               {secondaryAddressBooks.map(addressBook => (
                 <Space
                   as="li"
-                  v={{ size: 'm', properties: ['margin-bottom'] }}
                   key={addressBook.slug}
+                  $v={{ size: 'm', properties: ['margin-bottom'] }}
                 >
                   <CheckboxRadio
                     id={addressBook.slug}
@@ -187,7 +190,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
               ))}
             </PlainList>
 
-            <Space v={{ size: 'l', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'l', properties: ['margin-top'] }}>
               <CheckboxRadio
                 id="MARKETINGPERMISSIONS"
                 name="cd_MARKETINGPERMISSIONS"
@@ -207,7 +210,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             </Space>
           </Space>
 
-          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
             <ButtonSolid
               text="Subscribe"
               dataGtmTrigger="newsletter_signup_subscribe"

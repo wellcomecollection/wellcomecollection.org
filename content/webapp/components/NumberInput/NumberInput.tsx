@@ -14,11 +14,6 @@ const StyledInput = styled.input`
   &::-webkit-outer-spin-button {
     margin: 0;
   }
-
-  &:focus {
-    border: 2px solid ${props => props.theme.color('black')};
-    padding: 11px;
-  }
 `;
 
 type Props = {
@@ -30,7 +25,7 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
   ref: ForwardedRef<HTMLInputElement>
 ) => (
   <label>
-    <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+    <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
       {label}
     </Space>
     {/* @types/react has some issues currently with react refs */}

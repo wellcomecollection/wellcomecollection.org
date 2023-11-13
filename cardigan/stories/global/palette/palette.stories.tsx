@@ -48,10 +48,10 @@ const PaletteBlock = styled.div`
 `;
 
 const PaletteName = styled.h3.attrs({
-  classname: font('lr', 6),
+  className: font('lr', 6),
 })``;
 
-const PaletteColor = styled.div<{ hasBorder: boolean }>`
+const PaletteColor = styled.div<{ $hasBorder: boolean }>`
   position: relative;
   min-width: 200px;
   margin-right: 15px;
@@ -59,7 +59,7 @@ const PaletteColor = styled.div<{ hasBorder: boolean }>`
   /* stylelint-disable value-keyword-case */
   border: ${props =>
     `1px solid ${
-      props.hasBorder ? props.theme.color('neutral.500') : 'transparent'
+      props.$hasBorder ? props.theme.color('neutral.500') : 'transparent'
     }`};
   /* stylelint-enable value-keyword-case */
 
@@ -103,6 +103,11 @@ let paletteColors: PaletteColors = {
     label: 'Validation',
     description:
       'These colours should be used solely for validation purposes. We encourage the use of different shades if for other purposes.',
+  },
+  focus: {
+    label: 'Focus',
+    description:
+      'Chosen to make sure the currently focused element is clearly distinguishable, regardless of the background.',
   },
 };
 

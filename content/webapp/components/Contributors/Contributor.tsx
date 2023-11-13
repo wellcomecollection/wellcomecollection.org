@@ -9,7 +9,7 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import { getCrop } from '@weco/common/model/image';
 
 const ContributorImageWrapper = styled(Space).attrs({
-  h: { size: 'm', properties: ['margin-right'] },
+  $h: { size: 'm', properties: ['margin-right'] },
 })`
   min-width: 78px;
 `;
@@ -52,8 +52,8 @@ const Name = styled.h3.attrs({ className: font('intb', 4) })`
 `;
 
 const Pronouns = styled(ContributorInfoWrapper).attrs({
-  h: { size: 's', properties: ['margin-left'] },
   className: font('intr', 5),
+  $h: { size: 's', properties: ['margin-left'] },
 })``;
 
 const Role = styled(ContributorInfoWrapper).attrs({
@@ -61,11 +61,8 @@ const Role = styled(ContributorInfoWrapper).attrs({
 })``;
 
 const Description = styled(Space).attrs({
-  v: {
-    size: 's',
-    properties: ['margin-top'],
-  },
   className: `${font('intr', 5)} spaced-text`,
+  $v: { size: 's', properties: ['margin-top'] },
 })``;
 
 const Contributor: FunctionComponent<ContributorType> = ({

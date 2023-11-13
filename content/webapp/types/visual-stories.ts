@@ -11,7 +11,7 @@ export type VisualStory = GenericContentFields & {
   relatedDocument?: {
     title?: string;
     id: string;
-    type: 'exhibitions'; // TODO add 'events' as an option when doing https://github.com/wellcomecollection/wellcomecollection.org/issues/10308
+    type: 'exhibitions' | 'events';
   };
   siteSection?: SiteSection;
   showOnThisPage: boolean;

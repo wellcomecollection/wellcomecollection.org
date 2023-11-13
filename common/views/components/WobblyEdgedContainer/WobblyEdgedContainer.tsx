@@ -21,7 +21,7 @@ const WobblyEdgedContainer: FunctionComponent<PropsWithChildren> = ({
       <WobblyEdgeContainer>
         <WobblyEdge isRotated={true} backgroundColor="white" />
       </WobblyEdgeContainer>
-      <Space v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
+      <Space $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
         <Layout8>{children}</Layout8>
       </Space>
       <WobblyEdgeContainer>

@@ -42,7 +42,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
               <h2 className={font('intb', 5)}>Today’s opening times</h2>
               <OpeningTimes venues={venues} />
               <Space
-                v={{
+                $v={{
                   size: 's',
                   properties: ['margin-top'],
                 }}

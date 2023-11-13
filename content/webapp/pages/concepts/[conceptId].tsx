@@ -66,7 +66,7 @@ const linkSources = new Map([
 ]);
 
 const ConceptHero = styled(Space).attrs({
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('lightYellow')};
 `;
@@ -82,7 +82,7 @@ const TypeLabel = styled.span.attrs({ className: font('intb', 6) })`
 `;
 
 const ConceptImages = styled(Space).attrs({
-  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('black')};
 
@@ -92,13 +92,13 @@ const ConceptImages = styled(Space).attrs({
 `;
 
 type ConceptWorksHeaderProps = {
-  hasWorksTabs: boolean;
+  $hasWorksTabs: boolean;
 };
 const ConceptWorksHeader = styled(Space).attrs({
-  v: { size: 'xl', properties: ['padding-top'] },
+  $v: { size: 'xl', properties: ['padding-top'] },
 })<ConceptWorksHeaderProps>`
-  background-color: ${({ hasWorksTabs, theme }) =>
-    theme.color(hasWorksTabs ? 'warmNeutral.300' : 'white')};
+  background-color: ${({ $hasWorksTabs, theme }) =>
+    theme.color($hasWorksTabs ? 'warmNeutral.300' : 'white')};
 `;
 
 // tabDefinitions is an ordered list of the image or works tabs in a page.
@@ -134,7 +134,6 @@ const SeeMoreButton = ({ text, link, totalResults }: SeeMoreButtonType) => (
     })})`}
     url={link}
     colors={theme.buttonColors.yellowYellowBlack}
-    hoverUnderline
   />
 );
 
@@ -162,7 +161,7 @@ const ImagesTabPanel: FunctionComponent<ImagesTabPanelProps> = ({
   return (
     <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
       <ImageEndpointSearchResults images={results.pageResults} />
-      <Space v={{ size: 'm', properties: ['margin-top'] }}>
+      <Space $v={{ size: 'm', properties: ['margin-top'] }}>
         <SeeMoreButton
           text="All images"
           totalResults={results.totalResults}
@@ -187,7 +186,7 @@ const WorksTabPanel: FunctionComponent<WorksTabPanelProps> = ({
     <Container>
       <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
         <WorksSearchResults works={results.pageResults} />
-        <Space v={{ size: 'l', properties: ['padding-top'] }}>
+        <Space $v={{ size: 'l', properties: ['padding-top'] }}>
           <SeeMoreButton
             text="All works"
             totalResults={results.totalResults}
@@ -330,7 +329,9 @@ export const ConceptPage: NextPage<Props> = ({
       <ConceptHero>
         <Container>
           <TypeLabel>{conceptTypeDisplayName(conceptResponse)}</TypeLabel>
-          <Space v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}>
+          <Space
+            $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
+          >
             <HeroTitle>{conceptResponse.label}</HeroTitle>
           </Space>
         </Container>
@@ -351,7 +352,7 @@ export const ConceptPage: NextPage<Props> = ({
                 trackWithSegment={true}
               />
             )}
-            <Space v={{ size: 'l', properties: ['margin-top'] }}>
+            <Space $v={{ size: 'l', properties: ['margin-top'] }}>
               <ImagesTabPanel
                 {...currentTabPanel(selectedImagesTab, imagesTabs)}
               />
@@ -363,7 +364,7 @@ export const ConceptPage: NextPage<Props> = ({
       {/* Works */}
       {hasWorks && (
         <>
-          <ConceptWorksHeader hasWorksTabs={hasWorksTabs}>
+          <ConceptWorksHeader $hasWorksTabs={hasWorksTabs}>
             <Container>
               <h2 className={font('wb', 3)}>Catalogue</h2>
 
@@ -381,7 +382,7 @@ export const ConceptPage: NextPage<Props> = ({
 
           <Space
             as="section"
-            v={{
+            $v={{
               size: 'xl',
               properties: ['margin-top', 'margin-bottom'],
             }}

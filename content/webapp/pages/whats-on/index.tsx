@@ -132,7 +132,7 @@ export function getRangeForPeriod(period: Period): { start: Date; end?: Date } {
 // const ClosedMessage = () => (
 //   <>
 //     <Space
-//       v={{
+//       $v={{
 //         size: 'm',
 //         properties: ['margin-bottom'],
 //       }}
@@ -143,7 +143,7 @@ export function getRangeForPeriod(period: Period): { start: Date; end?: Date } {
 //       and <a href={shopPromo.url}>shop</a> are open for your visit.
 //     </Space>
 //     <Space
-//       v={{
+//       $v={{
 //         size: 'l',
 //         properties: ['margin-top', 'margin-bottom'],
 //       }}
@@ -160,7 +160,7 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
   const { start, end } = dateRange;
   return (
     <Space
-      v={{
+      $v={{
         size: 's',
         properties: ['margin-bottom'],
       }}
@@ -216,18 +216,12 @@ const Header: FunctionComponent<HeaderProps> = ({
   featuredText,
 }) => {
   return (
-    <Space
-      v={{
-        size: 'l',
-        properties: ['padding-top'],
-      }}
-      className="row"
-    >
+    <Space $v={{ size: 'l', properties: ['padding-top'] }}>
       <Container>
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
             <OpeningTimesWrapper>
-              <SectionPageHeader sectionLevelPage={true}>
+              <SectionPageHeader $sectionLevelPage={true}>
                 What’s on
               </SectionPageHeader>
               <OpeningTimes>
@@ -235,7 +229,7 @@ const Header: FunctionComponent<HeaderProps> = ({
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Space
                       as="span"
-                      h={{ size: 'm', properties: ['margin-right'] }}
+                      $h={{ size: 'm', properties: ['margin-right'] }}
                       className={font('intb', 5)}
                     >
                       Galleries
@@ -247,13 +241,13 @@ const Header: FunctionComponent<HeaderProps> = ({
                         <Space
                           style={{ display: 'flex' }}
                           as="span"
-                          h={{ size: 's', properties: ['margin-right'] }}
+                          $h={{ size: 's', properties: ['margin-right'] }}
                         >
                           <Icon icon={clock} />
                         </Space>
                         <Space
                           as="span"
-                          h={{ size: 'm', properties: ['margin-right'] }}
+                          $h={{ size: 'm', properties: ['margin-right'] }}
                           className={font('intr', 5)}
                         >
                           <>
@@ -278,11 +272,8 @@ const Header: FunctionComponent<HeaderProps> = ({
           </div>
           {featuredText && featuredText.value && (
             <Space
-              v={{
-                size: 's',
-                properties: ['margin-top', 'margin-bottom'],
-              }}
               className={grid({ s: 12, m: 10, l: 8, xl: 8 })}
+              $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
             >
               <FeaturedText
                 html={featuredText.value}
@@ -291,11 +282,8 @@ const Header: FunctionComponent<HeaderProps> = ({
             </Space>
           )}
           <Space
-            v={{
-              size: 'm',
-              properties: ['margin-top', 'margin-bottom'],
-            }}
             className={grid({ s: 12, m: 10, l: 7, xl: 7 })}
+            $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
           >
             <SubNavigation
               currentSection={activeId}
@@ -458,16 +446,16 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
             <ClosedMessage />
           )} */}
         </Layout12>
-        <Space v={{ size: 'l', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
           {period === 'current-and-coming-up' && (
             <>
-              <Space v={{ size: 'l', properties: ['padding-top'] }}>
+              <Space $v={{ size: 'l', properties: ['padding-top'] }}>
                 <SpacingSection>
                   <SpacingComponent>
                     <SectionHeader title="Exhibitions" />
                   </SpacingComponent>
                   <SpacingComponent>
-                    <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
+                    <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
                       {firstExhibition ? (
                         <Layout12>
                           <FeaturedCardExhibition
@@ -544,10 +532,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
           {period !== 'current-and-coming-up' && (
             <SpacingSection>
               <Space
-                v={{
-                  size: 'm',
-                  properties: ['padding-top', 'margin-bottom'],
-                }}
+                $v={{ size: 'm', properties: ['padding-top', 'margin-bottom'] }}
               >
                 <Layout12>
                   <div

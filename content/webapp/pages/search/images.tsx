@@ -4,7 +4,9 @@ import styled from 'styled-components';
 import Head from 'next/head';
 
 import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
-import Space from '@weco/common/views/components/styled/Space';
+import Space, {
+  VerticalSpaceProperty,
+} from '@weco/common/views/components/styled/Space';
 import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import Pagination from '@weco/content/components/Pagination/Pagination';
@@ -12,7 +14,6 @@ import SearchFilters from '@weco/content/components/SearchFilters';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Sort from '@weco/content/components/Sort/Sort';
 import { Container } from '@weco/common/views/components/styled/Container';
-
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -27,13 +28,11 @@ import { getServerData } from '@weco/common/server-data';
 import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
 import { imagesFilters } from '@weco/content/services/wellcome/catalogue/filters';
 import { emptyResultList } from '@weco/content/services/wellcome';
-import { linkResolver } from '@weco/common/utils/search';
+import { linkResolver, SEARCH_PAGES_FORM_ID } from '@weco/common/utils/search';
 import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
 import { pluralize } from '@weco/common/utils/grammar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
-
-// Types
 import {
   CatalogueResultsList,
   Image,
@@ -54,7 +53,12 @@ type WrapperProps = {
   hasNoResults: boolean;
 };
 const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
-  v: { size: 'xl', properties: [props.hasNoResults ? '' : 'margin-bottom'] },
+  $v: {
+    size: 'xl',
+    properties: [props.hasNoResults ? '' : 'margin-bottom'].filter(
+      Boolean
+    ) as VerticalSpaceProperty[],
+  },
 }))<WrapperProps>`
   ${props =>
     props.hasNoResults
@@ -139,16 +143,16 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
       {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
         <Container>
           <Space
-            v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+            $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
             <SearchFilters
               query={queryString}
               linkResolver={params =>
                 linkResolver({ params, pathname: '/search/images' })
               }
-              searchFormId="search-page-form"
+              searchFormId={SEARCH_PAGES_FORM_ID}
               changeHandler={() => {
-                const form = document.getElementById('search-page-form');
+                const form = document.getElementById(SEARCH_PAGES_FORM_ID);
                 form &&
                   form.dispatchEvent(
                     new window.Event('submit', {
@@ -165,7 +169,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
       )}
 
       <Wrapper hasNoResults={hasNoResults}>
-        <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
+        <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
           <Container>
             {hasNoResults ? (
               <SearchNoResults
@@ -174,7 +178,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
               />
             ) : (
               <>
-                <PaginationWrapper verticalSpacing="l">
+                <PaginationWrapper $verticalSpacing="l">
                   <span role="status">
                     {pluralize(images.totalResults, 'result')}
                     {activeFiltersLabels.length > 0 && (
@@ -187,7 +191,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
 
                   <SortPaginationWrapper>
                     <Sort
-                      formId="search-page-form"
+                      formId={SEARCH_PAGES_FORM_ID}
                       options={sortOptions}
                       jsLessOptions={{
                         sort: [
@@ -213,6 +217,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                     />
 
                     <Pagination
+                      formId={SEARCH_PAGES_FORM_ID}
                       totalPages={images.totalPages}
                       ariaLabel="Image search pagination"
                       hasDarkBg
@@ -225,8 +230,9 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                   <ImageEndpointSearchResults images={images.results} />
                 </main>
 
-                <PaginationWrapper verticalSpacing="l" alignRight>
+                <PaginationWrapper $verticalSpacing="l" $alignRight>
                   <Pagination
+                    formId={SEARCH_PAGES_FORM_ID}
                     totalPages={images.totalPages}
                     ariaLabel="Image search pagination"
                     hasDarkBg

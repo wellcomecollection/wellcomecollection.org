@@ -124,13 +124,10 @@ const DownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
         <SpacingSection>
           <SpacingComponent>
             <Space
-              v={{
-                size: 'l',
-                properties: ['margin-top'],
-              }}
               as="h1"
               id="work-info"
               className={font('intb', 1)}
+              $v={{ size: 'l', properties: ['margin-top'] }}
             >
               {displayTitle}
             </Space>
@@ -139,7 +136,6 @@ const DownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
             {downloadEnabled && allDownloadOptions.length !== 0 ? (
               <Download
                 ariaControlsId="itemDownloads"
-                workId={work.id}
                 downloadOptions={allDownloadOptions}
               />
             ) : (

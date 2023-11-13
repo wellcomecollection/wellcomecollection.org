@@ -5,7 +5,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
 
 export const FieldMargin = styled(Space).attrs({
-  v: { size: 'm', properties: ['margin-bottom'] },
+  $v: { size: 'm', properties: ['margin-bottom'] },
 })``;
 
 export const Label = styled.label.attrs({ className: font('intr', 4) })`
@@ -13,14 +13,14 @@ export const Label = styled.label.attrs({ className: font('intr', 4) })`
   font-weight: bold;
 `;
 
-export const TextInput = styled.input<{ invalid?: FieldError }>`
+export const TextInput = styled.input<{ $invalid?: FieldError }>`
   width: 100%;
   height: 55px;
   margin: 0.333em 0;
   padding: 0.7em;
   border: solid
     ${props =>
-      props.invalid
+      props.$invalid
         ? `2px ${props.theme.color('validation.red')}`
         : `1px ${props.theme.color('neutral.500')}`};
   border-radius: 6px;

@@ -31,6 +31,7 @@ import {
   IconSvg,
   speechToText,
   ticket,
+  arrow,
 } from '@weco/common/icons';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -59,11 +60,20 @@ import EventDateList from '@weco/content/components/EventDateList';
 import EventStatus from '@weco/content/components/EventStatus';
 
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { a11y } from '@weco/common/data/microcopy';
+import { a11y, visualStoryLinkText } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { AppErrorProps } from '@weco/common/services/app';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { Link } from '@weco/content/types/link';
+import {
+  ResourcesList,
+  ResourcesItem,
+  ResourceLink,
+  ResourceLinkIconWrapper,
+} from '@weco/content/components/styled/AccessResources';
+import Icon from '@weco/common/views/components/Icon/Icon';
 
 const DateWrapper = styled.div.attrs({
   className: 'body-text',
@@ -79,8 +89,8 @@ const ThirdParty = styled.span.attrs({
 `;
 
 const EmailTeamCopy = styled(Space).attrs({
-  v: { size: 's', properties: ['margin-top'] },
   className: font('intb', 5),
+  $v: { size: 's', properties: ['margin-top'] },
 })`
   display: block;
   color: ${props => props.theme.color('neutral.700')};
@@ -88,6 +98,7 @@ const EmailTeamCopy = styled(Space).attrs({
 
 type EventProps = {
   event: Event;
+  accessResourceLinks: (Link & { type: string })[];
   jsonLd: JsonLdObj[];
   gaDimensions: GaDimensions;
   pageview: Pageview;
@@ -126,7 +137,11 @@ const eventInterpretationIcons: Record<string, IconSvg> = {
  * but instead are rewritten to the index file. Please observe
  * this setup in the next.config file for this app
  */
-const EventPage: NextPage<EventProps> = ({ event, jsonLd }) => {
+const EventPage: NextPage<EventProps> = ({
+  event,
+  accessResourceLinks,
+  jsonLd,
+}) => {
   const [scheduledIn, setScheduledIn] = useState<EventBasic>();
 
   // This is used to populate the 'Part of' in the breadcrumb trail.
@@ -214,10 +229,7 @@ const EventPage: NextPage<EventProps> = ({ event, jsonLd }) => {
       ContentTypeInfo={
         <>
           <Space
-            v={{
-              size: 's',
-              properties: ['margin-bottom'],
-            }}
+            $v={{ size: 's', properties: ['margin-bottom'] }}
             style={{ display: 'flex', flexWrap: 'wrap' }}
           >
             <div style={{ display: 'inline' }}>
@@ -227,10 +239,8 @@ const EventPage: NextPage<EventProps> = ({ event, jsonLd }) => {
               This 'All dates' link takes the user to the complete list of dates
               further down the page, but if there's only one date we can skip it.
              */}
-            <Space h={{ size: 's', properties: ['margin-left'] }}>
-              {!event.isPast && event.times.length > 1 && (
-                <EventDatesLink id={event.id} />
-              )}
+            <Space $h={{ size: 's', properties: ['margin-left'] }}>
+              {!event.isPast && event.times.length > 1 && <EventDatesLink />}
             </Space>
           </Space>
           {event.isPast && <EventStatus text="Past" color="neutral.500" />}
@@ -283,6 +293,7 @@ const EventPage: NextPage<EventProps> = ({ event, jsonLd }) => {
               />
             </>
           )}
+
         {!event.isPast && !showTicketSalesStart(event.ticketSalesStart) && (
           <>
             <EventbriteButtons event={event} />
@@ -296,17 +307,12 @@ const EventPage: NextPage<EventProps> = ({ event, jsonLd }) => {
                   <>
                     <ButtonSolidLink
                       link={event.thirdPartyBooking.url}
-                      trackingEvent={{
-                        category: 'component',
-                        action: 'booking-tickets:click',
-                        label: 'event-page',
-                      }}
                       icon={ticket}
                       text="Check for tickets"
                       dataGtmTrigger="click_to_book"
                     />
                     {event.thirdPartyBooking.name && (
-                      <Space v={{ size: 's', properties: ['margin-top'] }}>
+                      <Space $v={{ size: 's', properties: ['margin-top'] }}>
                         <ThirdParty>
                           with {event.thirdPartyBooking.name}
                         </ThirdParty>
@@ -323,11 +329,6 @@ const EventPage: NextPage<EventProps> = ({ event, jsonLd }) => {
                 ) : (
                   <ButtonSolidLink
                     link={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
-                    trackingEvent={{
-                      category: 'component',
-                      action: 'booking-tickets:click',
-                      label: 'event-page (email to book)',
-                    }}
                     icon={email}
                     text="Email to book"
                     dataGtmTrigger="click_to_book"
@@ -351,12 +352,12 @@ const EventPage: NextPage<EventProps> = ({ event, jsonLd }) => {
               !(event.schedule && event.schedule.length > 1) && (
                 <>
                   {!event.hasEarlyRegistration && !event.cost && (
-                    <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                    <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
                       <Message text="Just turn up" />
                     </Space>
                   )}
                   {event.hasEarlyRegistration && (
-                    <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                    <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
                       <Message text="Arrive early to register" />
                     </Space>
                   )}
@@ -364,6 +365,38 @@ const EventPage: NextPage<EventProps> = ({ event, jsonLd }) => {
               )}
           </>
         )}
+
+        {accessResourceLinks.length > 0 && (
+          <>
+            <h2 className={font('wb', 3)}>Event access content</h2>
+            {accessResourceLinks.length > 0 && (
+              <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
+                <ResourcesList>
+                  {accessResourceLinks.map((link, i) => {
+                    return (
+                      <ResourcesItem key={link.url}>
+                        <ResourceLink
+                          key={i}
+                          href={link.url}
+                          $borderColor="accent.turquoise"
+                        >
+                          {link.type === 'visual-story' && (
+                            <h3 className={font('intb', 4)}>Visual story</h3>
+                          )}
+                          <span className={font('intr', 6)}>{link.text}</span>
+                          <ResourceLinkIconWrapper>
+                            <Icon icon={arrow} />
+                          </ResourceLinkIconWrapper>
+                        </ResourceLink>
+                      </ResourcesItem>
+                    );
+                  })}
+                </ResourcesList>
+              </Space>
+            )}
+          </>
+        )}
+
         <InfoBox
           title="Need to know"
           items={
@@ -449,34 +482,44 @@ export const getServerSideProps: GetServerSideProps<
   const { eventId } = context.query;
 
   const client = createClient(context);
-  const eventDocument = await fetchEvent(client, eventId as string);
+  const { event, visualStories } = await fetchEvent(client, eventId as string);
 
-  if (!eventDocument) {
+  if (!event) {
     return {
       notFound: true,
     };
   }
 
-  const scheduleIds = getScheduleIds(eventDocument);
+  const scheduleIds = getScheduleIds(event);
 
   const scheduleQuery =
     scheduleIds.length > 0
       ? await fetchEventScheduleItems(client, scheduleIds)
       : undefined;
 
-  const event = transformEvent(eventDocument, scheduleQuery);
+  const eventDoc = transformEvent(event, scheduleQuery);
 
-  const jsonLd = eventLd(event);
+  const jsonLd = eventLd(eventDoc);
+
+  const visualStoriesLinks = visualStories.results.map(visualStory => {
+    const url = linkResolver(visualStory);
+    return {
+      text: visualStoryLinkText,
+      url,
+      type: 'visual-story',
+    };
+  });
 
   return {
     props: serialiseProps({
-      event,
+      event: eventDoc,
+      accessResourceLinks: visualStoriesLinks,
       jsonLd,
       serverData,
       gaDimensions: {
-        partOf: event.seasons
+        partOf: eventDoc.seasons
           .map(season => season.id)
-          .concat(event.series.map(series => series.id)),
+          .concat(eventDoc.series.map(series => series.id)),
       },
       pageview: {
         name: 'event',

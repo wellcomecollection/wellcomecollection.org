@@ -18,24 +18,24 @@ type ResetActiveFilters = {
   linkResolver: (params: ParsedUrlQuery) => LinkProps;
 };
 
-const ColorSwatch = styled.span<{ hexColor: string }>`
+const ColorSwatch = styled.span<{ $hexColor: string }>`
   display: inline-block;
   width: 12px;
   height: 12px;
-  background-color: ${props => props.hexColor};
+  background-color: ${props => props.$hexColor};
   margin-left: 6px;
   padding-top: 2px;
 `;
 
 const Wrapper = styled(Space).attrs({
-  v: { size: 's', properties: ['padding-top'] },
   className: 'tokens',
+  $v: { size: 's', properties: ['padding-top'] },
 })`
   background-color: ${props => props.theme.color('white')};
 `;
 
 const IconWrapper = styled(Space).attrs({
-  h: { size: 'xs', properties: ['margin-right'] },
+  $h: { size: 'xs', properties: ['margin-right'] },
 })`
   vertical-align: middle;
 `;
@@ -50,7 +50,7 @@ const CancelFilter: FunctionComponent<CancelFilterProps> = ({
   children,
 }: CancelFilterProps) => {
   return (
-    <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+    <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
       <IconWrapper as="span">
         <Icon icon={cross} matchText={true} iconColor="neutral.500" />
       </IconWrapper>
@@ -102,7 +102,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
       <div className={font('intb', 5)}>
         <div>
           <h2 style={{ display: 'inline' }}>
-            <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+            <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
               Active filters:
             </Space>
           </h2>
@@ -184,7 +184,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                   >
                     <CancelFilter>
                       {f.label}
-                      <ColorSwatch hexColor={`#${f.color}`}>
+                      <ColorSwatch $hexColor={`#${f.color}`}>
                         <span className="visually-hidden">
                           {getColorDisplayName(f.color)}
                         </span>

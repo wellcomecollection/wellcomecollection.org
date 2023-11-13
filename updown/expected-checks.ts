@@ -64,10 +64,6 @@ const worksChecks = [
     url: '/search/images?query=skeletons',
     alias: 'Experience: Works: Images search',
   },
-  {
-    url: '/search/works/pbxd2mgd/images?id=q6h754ua',
-    alias: 'Experience: Works: Image',
-  },
 ].flatMap(withOriginPrefix('works'));
 
 const apiChecks = [
@@ -87,7 +83,7 @@ const apiChecks = [
     period: 60 as CheckInterval,
   },
   {
-    url: 'https://api.wellcomecollection.org/catalogue/v2/works/sgmzn6pu',
+    url: 'https://api.wellcomecollection.org/catalogue/v2/works/tp3rer3n',
     alias: 'API: Works: Work',
     period: 60 as CheckInterval,
   },

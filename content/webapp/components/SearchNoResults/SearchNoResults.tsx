@@ -17,7 +17,7 @@ const SearchNoResults: FunctionComponent<Props> = ({
   hasFilters,
 }: Props) => {
   return (
-    <Space v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
+    <Space $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
       <div className="grid">
         <div className={grid({ s: 12, m: 10, l: 10, xl: 10 })}>
           <p data-test-id="search-no-results" className={font('intr', 2)}>

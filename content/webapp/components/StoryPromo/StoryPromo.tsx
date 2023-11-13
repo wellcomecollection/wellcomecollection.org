@@ -1,7 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import {
   CardOuter,
@@ -35,14 +34,12 @@ const PartOf = styled.div.attrs({
 
 type Props = {
   article: ArticleBasic;
-  position: number;
   hidePromoText?: boolean;
   sizesQueries?: string;
 };
 
 const StoryPromo: FunctionComponent<Props> = ({
   article,
-  position,
   hidePromoText = false,
 }) => {
   const image = article.promo?.image;
@@ -59,16 +56,7 @@ const StoryPromo: FunctionComponent<Props> = ({
     .map(text => ({ text }));
 
   return (
-    <CardOuter
-      onClick={() => {
-        trackGaEvent({
-          category: 'StoryPromo',
-          action: 'follow link',
-          label: `${article.id} | position: ${position}`,
-        });
-      }}
-      href={url}
-    >
+    <CardOuter href={url}>
       <CardImageWrapper>
         {isNotUndefined(image) && (
           <PrismicImage

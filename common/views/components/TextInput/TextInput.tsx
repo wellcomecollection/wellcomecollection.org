@@ -11,39 +11,34 @@ import { check } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 
 type TextInputWrapProps = {
-  hasErrorBorder: boolean;
-  big?: boolean;
-  darkBg?: boolean;
+  $big?: boolean;
+  $hasErrorBorder: boolean;
+  $darkBg?: boolean;
 };
 export const TextInputWrap = styled.div.attrs<TextInputWrapProps>(props => ({
-  className: props.big ? font('intr', 4) : font('intr', 5),
+  className: props.$big ? font('intr', 4) : font('intr', 5),
 }))<TextInputWrapProps>`
   display: flex;
   position: relative;
   border: 2px solid
-    ${props => props.theme.color(props.darkBg ? 'white' : 'neutral.600')};
+    ${props => props.theme.color(props.$darkBg ? 'white' : 'neutral.600')};
 
   &:focus-within {
     box-shadow: ${props => props.theme.focusBoxShadow};
-
-    label {
-      font-size: 14px;
-      transform: translateY(0%);
-      top: 4px;
-    }
   }
+
   overflow: hidden;
 
   ${props =>
-    props.hasErrorBorder &&
+    props.$hasErrorBorder &&
     `
     box-shadow: 0 0 0 1px ${props.theme.color('validation.red')};
   `}
 `;
 
 type TextInputLabelProps = {
-  isEnhanced: boolean;
-  hasValue: boolean;
+  $isEnhanced: boolean;
+  $hasValue: boolean;
 };
 export const TextInputLabel = styled.label<TextInputLabelProps>`
   position: absolute;
@@ -56,7 +51,7 @@ export const TextInputLabel = styled.label<TextInputLabelProps>`
 
   /* IE doesn't support :focus-within, but you can't test for :focus-within
   using @supports. Fortunately, IE doesn't support @supports, so this only
-  targets browsers that support @suports (> IE11) */
+  targets browsers that support @supports (> IE11) */
   @supports (display: block) {
     font-size: inherit;
     transform: translateY(-50%);
@@ -72,7 +67,7 @@ export const TextInputLabel = styled.label<TextInputLabelProps>`
   pointer-events: none;
 
   ${props =>
-    (!props.isEnhanced || props.hasValue) &&
+    (!props.$isEnhanced || props.$hasValue) &&
     `
     @supports (display: block) {
       top: 4px;
@@ -83,10 +78,10 @@ export const TextInputLabel = styled.label<TextInputLabelProps>`
 `;
 
 type TextInputInputProps = {
-  hasErrorBorder: boolean;
+  $hasErrorBorder: boolean;
 };
-export const TextInputInput = styled.input.attrs(props => ({
-  type: props.type || 'text',
+export const TextInputInput = styled.input.attrs<{ $type?: string }>(props => ({
+  type: props.$type || 'text',
 }))<TextInputInputProps>`
   padding: 17px 35px 17px 15px;
   appearance: none;
@@ -95,26 +90,23 @@ export const TextInputInput = styled.input.attrs(props => ({
   font-size: inherit;
   width: 100%;
 
-  &:focus {
-    outline: ${props => props.theme.highContrastOutlineFix};
-    border-color: ${props => props.theme.color('accent.turquoise')};
-  }
-
   &::-ms-clear {
     display: none;
   }
 
   ${props =>
-    props.hasErrorBorder &&
+    props.$hasErrorBorder &&
     `
       &,
       &:focus {
-        border-color: ${props.theme.color('validation.red')};
+        border: 3px solid ${props.theme.color('validation.red')};
       }
     `}
 `;
 
-const TextInputCheckmark = styled.span.attrs({
+const TextInputCheckmark = styled.span.attrs<{
+  'data-testid'?: 'TextInputCheckmark';
+}>({
   'data-testid': 'TextInputCheckmark',
 })`
   position: absolute;
@@ -208,9 +200,9 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
   return (
     <div>
       <TextInputWrap
-        hasErrorBorder={!!(!isValid && showValidity)}
-        darkBg={darkBg}
-        big={!!big}
+        $hasErrorBorder={!!(!isValid && showValidity)}
+        $big={!!big}
+        $darkBg={darkBg}
       >
         <label className="visually-hidden" htmlFor={id}>
           {label}
@@ -224,10 +216,10 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
           pattern={pattern}
           onChange={onChange}
           onBlur={onBlur}
-          hasErrorBorder={!!(!isValid && showValidity)}
-          type={type}
           placeholder={placeholder || label}
           autoFocus={autoFocus}
+          $type={type}
+          $hasErrorBorder={!!(!isValid && showValidity)}
           aria-label={ariaLabel}
           aria-describedby={ariaDescribedBy}
           aria-invalid={!!(!isValid && showValidity)}

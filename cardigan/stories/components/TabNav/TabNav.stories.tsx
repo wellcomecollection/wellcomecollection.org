@@ -6,13 +6,13 @@ import Readme from '@weco/content/components/TabNav/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { Container } from '@weco/common/views/components/styled/Container';
 
-type WrapperProps = { backgroundColor: 'white' | 'black' };
+type WrapperProps = { $backgroundColor: 'white' | 'black' };
 const Wrapper = styled(Space).attrs({
-  v: { size: 'l', properties: ['margin-bottom'] },
+  $v: { size: 'l', properties: ['margin-bottom'] },
 })<WrapperProps>`
   ${props =>
-    props.backgroundColor &&
-    `background-color: ${props.theme.color(props.backgroundColor)}`};
+    props.$backgroundColor &&
+    `background-color: ${props.theme.color(props.$backgroundColor)}`};
 `;
 
 const Template = ({ items, variant, ...rest }) => {
@@ -25,7 +25,7 @@ const Template = ({ items, variant, ...rest }) => {
 
   return (
     <Container>
-      <Wrapper backgroundColor={variant === 'white' ? 'black' : 'white'}>
+      <Wrapper $backgroundColor={variant === 'white' ? 'black' : 'white'}>
         <ReadmeDecorator
           WrappedComponent={TabNav}
           args={{
@@ -71,7 +71,6 @@ const Template = ({ items, variant, ...rest }) => {
 
 export const basic = Template.bind({});
 basic.args = {
-  hasDivider: true,
   items: [
     {
       id: 'all',

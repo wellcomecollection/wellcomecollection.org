@@ -18,8 +18,8 @@ export const verticalGuidePosition =
   controlDimensions.circleBorder;
 
 export type TreeItemProps = {
-  isEnhanced?: boolean;
-  showGuideline?: boolean;
+  $isEnhanced?: boolean;
+  $showGuideline?: boolean;
 };
 
 export type ListProps = {

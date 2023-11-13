@@ -8,9 +8,9 @@ import { ticket } from '@weco/common/icons';
 import styled from 'styled-components';
 
 const Location = styled(Space).attrs({
-  v: { size: 's', properties: ['margin-bottom'] },
   as: 'p',
   className: font('intb', 5),
+  $v: { size: 's', properties: ['margin-bottom'] },
 })``;
 
 const Copy = styled.p.attrs({
@@ -39,7 +39,7 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
                 <Location>{event.locations[0]?.title}</Location>
               )}
               <Space
-                v={{
+                $v={{
                   size: isHybridEvent ? 'm' : 's',
                   properties: ['margin-bottom'],
                 }}
@@ -49,11 +49,6 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
                 ) : (
                   <ButtonSolidLink
                     link={`https://www.eventbrite.com/e/${event.eventbriteId}`}
-                    trackingEvent={{
-                      category: 'component',
-                      action: 'booking-tickets:click',
-                      label: 'event-page',
-                    }}
                     icon={ticket}
                     dataGtmTrigger="click_to_book"
                     text={
@@ -67,17 +62,12 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
           {event.onlineEventbriteId && (
             <>
               {isHybridEvent && <Location>Livestream event</Location>}
-              <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+              <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
                 {event.onlineSoldOut ? (
                   <ButtonSolid disabled={true} text="Fully booked" />
                 ) : (
                   <ButtonSolidLink
                     link={`https://www.eventbrite.com/e/${event.onlineEventbriteId}`}
-                    trackingEvent={{
-                      category: 'component',
-                      action: 'booking-tickets:click',
-                      label: 'event-page',
-                    }}
                     icon={ticket}
                     dataGtmTrigger="click_to_book"
                     text={

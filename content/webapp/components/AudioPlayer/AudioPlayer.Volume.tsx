@@ -1,13 +1,12 @@
 import { FunctionComponent, SyntheticEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { volumeMuted, volume as volumeIcon } from '@weco/common/icons';
 import { formatVolume } from './AudioPlayer.formatters';
 import Space from '@weco/common/views/components/styled/Space';
 
 const VolumeWrapper = styled(Space).attrs({
-  h: {
+  $h: {
     size: 'xs',
     properties: ['column-gap'],
     overrides: { medium: 1, large: 1 },
@@ -21,10 +20,10 @@ const VolumeWrapper = styled(Space).attrs({
   }
 `;
 
-type MuteUnmuteButtonProps = { isMuted: boolean };
+type MuteUnmuteButtonProps = { $isMuted: boolean; ariaPressed?: boolean };
 const MuteUnmuteButton = styled.button.attrs<MuteUnmuteButtonProps>(
-  ({ isMuted }) => ({
-    ariaPressed: isMuted,
+  ({ $isMuted }) => ({
+    ariaPressed: $isMuted,
   })
 )`
   padding: 0;
@@ -76,16 +75,11 @@ const Volume: FunctionComponent<VolumeProps> = ({ audioPlayer, id, title }) => {
   };
 
   const onVolumeButtonClick = () => {
-    trackGaEvent({
-      category: 'Audio',
-      action: `${isMuted ? 'unmute' : 'mute'} audio`,
-      label: id,
-    });
     setIsMuted(!isMuted);
   };
   return (
     <VolumeWrapper>
-      <MuteUnmuteButton onClick={onVolumeButtonClick}>
+      <MuteUnmuteButton $isMuted={isMuted} onClick={onVolumeButtonClick}>
         <span className="visually-hidden">
           {`${title} ${isMuted ? 'Unmute player' : 'Mute player'}`}
         </span>

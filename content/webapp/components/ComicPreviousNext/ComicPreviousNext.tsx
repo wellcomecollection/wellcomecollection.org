@@ -21,25 +21,26 @@ const Root = styled.div`
   `}
 `;
 
-const Link = styled.a.attrs({
+type LinkProps = { 'data-gtm-trigger'?: 'comic_prev_next_link' };
+const Link = styled.a.attrs<LinkProps>({
   'data-gtm-trigger': 'comic_prev_next_link',
-})<{ isNext: boolean }>`
+})<{ $isNext: boolean }>`
   position: absolute;
   color: ${props => props.theme.color('neutral.700')};
-  left: ${props => (props.isNext ? undefined : 0)};
-  right: ${props => (props.isNext ? 0 : undefined)};
+  left: ${props => (props.$isNext ? undefined : 0)};
+  right: ${props => (props.$isNext ? 0 : undefined)};
   height: 80px;
   width: 360px;
   background: ${props => props.theme.color('warmNeutral.300')};
   overflow: hidden;
-  border-radius: ${props => (props.isNext ? '6px 0 0 6px' : '0 6px 6px 0')};
+  border-radius: ${props => (props.$isNext ? '6px 0 0 6px' : '0 6px 6px 0')};
   transition: transform ${props => props.theme.transitionProperties};
-  transform: translateX(${props => (props.isNext ? '340px' : '-340px')});
+  transform: translateX(${props => (props.$isNext ? '340px' : '-340px')});
   pointer-events: all;
 
   ${props =>
     props.theme.media('medium')(`
-      transform: translateX(${props.isNext ? '320px' : '-320px'});
+      transform: translateX(${props.$isNext ? '320px' : '-320px'});
       height: 160px;
 
       &:hover,
@@ -50,28 +51,28 @@ const Link = styled.a.attrs({
 `;
 
 const Inner = styled(Space).attrs({
-  h: { size: 'xs', properties: ['padding-left', 'padding-right'] },
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-})<{ isNext: boolean }>`
+  $h: { size: 'xs', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+})<{ $isNext: boolean }>`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  flex-direction: ${props => (props.isNext ? 'row-reverse' : 'row')};
+  flex-direction: ${props => (props.$isNext ? 'row-reverse' : 'row')};
   position: absolute;
   left: 0;
   right: 0;
   height: 100%;
 `;
 
-const TextWrap = styled.div<{ isNext: boolean }>`
+const TextWrap = styled.div<{ $isNext: boolean }>`
   width: 300px;
-  padding-left: ${props => (props.isNext ? '10px' : undefined)};
-  padding-right: ${props => (props.isNext ? undefined : '10px')};
+  padding-left: ${props => (props.$isNext ? '10px' : undefined)};
+  padding-right: ${props => (props.$isNext ? undefined : '10px')};
 `;
 
 const InSeries = styled(Space).attrs({
-  v: { size: 's', properties: ['margin-bottom'] },
   className: font('intr', 4),
+  $v: { size: 's', properties: ['margin-bottom'] },
 })``;
 
 const Title = styled.div.attrs({
@@ -83,19 +84,19 @@ const Title = styled.div.attrs({
 `;
 
 const Chevron = styled(Space).attrs({
-  v: { size: 'm', properties: ['padding-top'] },
   className: font('intr', 1),
-})<{ isNext: boolean }>`
-  transform: translateX(${props => (props.isNext ? '-6px' : '6px')});
+  $v: { size: 'm', properties: ['padding-top'] },
+})<{ $isNext: boolean }>`
+  transform: translateX(${props => (props.$isNext ? '-6px' : '6px')});
 
   ${props =>
     props.theme.media('medium')(`
-      transform: translateX(${props.isNext ? '2px' : '-2px'});
+      transform: translateX(${props.$isNext ? '2px' : '-2px'});
     `)}
 
   ${props =>
     props.theme.media('large')(`
-      transform: translateX(${props.isNext ? '-2px' : '2px'});
+      transform: translateX(${props.$isNext ? '-2px' : '2px'});
     `)}
 `;
 
@@ -108,26 +109,26 @@ const ComicPreviousNext: FunctionComponent<Props> = ({ previous, next }) => {
   return (
     <Root>
       {previous && (
-        <Link href={`/articles/${previous.id}`} isNext={false}>
-          <Inner isNext={false}>
-            <TextWrap isNext={false}>
+        <Link href={`/articles/${previous.id}`} $isNext={false}>
+          <Inner $isNext={false}>
+            <TextWrap $isNext={false}>
               <InSeries>Previous in this series</InSeries>
               <Title>{previous.title}</Title>
             </TextWrap>
-            <Chevron isNext={false}>
+            <Chevron $isNext={false}>
               <Icon icon={chevron} rotate={90} matchText={true} />
             </Chevron>
           </Inner>
         </Link>
       )}
       {next && (
-        <Link href={`/articles/${next.id}`} isNext={true}>
-          <Inner isNext={true}>
-            <TextWrap isNext={true}>
+        <Link href={`/articles/${next.id}`} $isNext={true}>
+          <Inner $isNext={true}>
+            <TextWrap $isNext={true}>
               <InSeries>Next in this series</InSeries>
               <Title>{next.title}</Title>
             </TextWrap>
-            <Chevron isNext={true}>
+            <Chevron $isNext={true}>
               <Icon icon={chevron} rotate={270} matchText={true} />
             </Chevron>
           </Inner>

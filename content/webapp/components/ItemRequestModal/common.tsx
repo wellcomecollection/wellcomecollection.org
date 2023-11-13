@@ -3,11 +3,11 @@ import Space from '@weco/common/views/components/styled/Space';
 import { FunctionComponent } from 'react';
 
 export const CTAs = styled(Space).attrs({
-  v: { size: 'l', properties: ['margin-top'] },
+  $v: { size: 'l', properties: ['margin-top'] },
 })``;
 
 const CurrentRequestCount = styled(Space).attrs({
-  h: { size: 's', properties: ['padding-left', 'margin-left'] },
+  $h: { size: 's', properties: ['padding-left', 'margin-left'] },
 })`
   border-left: 5px solid ${props => props.theme.color('yellow')};
 `;
@@ -27,7 +27,7 @@ export const CurrentRequests: FunctionComponent<{
   ) : null;
 
 export const Header = styled(Space).attrs({
-  v: { size: 'm', properties: ['margin-bottom'] },
+  $v: { size: 'm', properties: ['margin-bottom'] },
 })`
   display: flex;
   justify-content: space-between;

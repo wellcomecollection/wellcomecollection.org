@@ -11,7 +11,7 @@ type Props = {
 
 const defaultBackgroundTexture = landingHeaderBackgroundLs;
 
-const Background = styled.div<{ texture: string | null }>`
+const Background = styled.div<{ $texture: string | null }>`
   position: absolute;
   top: 0;
   bottom: 100px;
@@ -21,8 +21,8 @@ const Background = styled.div<{ texture: string | null }>`
 
   background-color: ${props => props.theme.color('warmNeutral.300')};
   ${props =>
-    props.texture &&
-    `background-image: url(${props.texture});
+    props.$texture &&
+    `background-image: url(${props.$texture});
       background-size: cover;`};
 `;
 
@@ -42,7 +42,7 @@ const HeaderBackground: FunctionComponent<Props> = ({
     (useDefaultBackgroundTexture ? defaultBackgroundTexture : null);
 
   return (
-    <Background texture={texture}>
+    <Background $texture={texture}>
       {hasWobblyEdge && (
         <WobblyEdgeContainer>
           <WobblyEdge isValley={true} intensity={100} backgroundColor="white" />

@@ -8,8 +8,8 @@ import styled from 'styled-components';
 // space top and bottom via margins:
 
 // <Space
-//   h={size: 's', properties: ['padding-left'],
-//   v={size: 'l', properties: ['margin-top', 'margin-bottom']}}
+//   $h={{ size: 's', properties: ['padding-left'] }},
+//   $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
 // />
 
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
@@ -53,26 +53,26 @@ type HorizontalSpaceProps = {
 };
 
 export type SpaceComponentProps = {
-  v?: VerticalSpaceProps;
-  h?: HorizontalSpaceProps;
+  $v?: VerticalSpaceProps;
+  $h?: HorizontalSpaceProps;
 };
 
 const Space = styled.div<SpaceComponentProps>`
   ${props =>
-    props.v &&
+    props.$v &&
     props.theme.makeSpacePropertyValues(
-      props.v.size,
-      props.v.properties,
-      props.v.negative,
-      props.v.overrides
+      props.$v.size,
+      props.$v.properties,
+      props.$v.negative,
+      props.$v.overrides
     )}
   ${props =>
-    props.h &&
+    props.$h &&
     props.theme.makeSpacePropertyValues(
-      props.h.size,
-      props.h.properties,
-      props.h.negative,
-      props.h.overrides
+      props.$h.size,
+      props.$h.properties,
+      props.$h.negative,
+      props.$h.overrides
     )}
 `;
 

@@ -16,7 +16,6 @@ import { grid, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { Page } from '@weco/content/types/pages';
 import { EventSeries } from '@weco/content/types/event-series';
@@ -28,7 +27,6 @@ import { PaletteColor } from '@weco/common/views/themes/config';
 import DateRange from '@weco/content/components/DateRange/DateRange';
 
 type PartialFeaturedCard = {
-  id: string;
   image?: ImageType;
   labels: Label[];
   link: Link;
@@ -44,7 +42,6 @@ export function convertCardToFeaturedCardProps(
   item: Card
 ): PartialFeaturedCard {
   return {
-    id: item.title || 'card',
     // We intentionally omit the alt text on promos, so screen reader
     // users don't have to listen to the alt text before hearing the
     // title of the item in the list.
@@ -71,7 +68,6 @@ export function convertItemToFeaturedCardProps(
     | Guide
 ): PartialFeaturedCard {
   return {
-    id: item.id,
     image: item.promo?.image && {
       ...item.promo.image,
       // We intentionally omit the alt text on promos, so screen reader
@@ -118,7 +114,7 @@ const FeaturedCardArticleBody: FunctionComponent<
         <p className={font('intr', 5)}>{article.promo?.caption}</p>
       )}
       {article.series.length > 0 && (
-        <Space v={{ size: 'l', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
           {article.series.map(series => (
             <p
               key={series.title}
@@ -141,8 +137,8 @@ type FeaturedCardExhibitionProps = {
 };
 
 const DateWrapper = styled(Space).attrs({
-  v: { size: 'm', properties: ['margin-bottom'] },
   className: font('intr', 4),
+  $v: { size: 'm', properties: ['margin-bottom'] },
 })`
   margin: 0;
   padding: 0;
@@ -182,13 +178,13 @@ const FeaturedCardWrap = styled.div`
   `}
 `;
 
-type HasIsReversed = { isReversed: boolean };
+type HasIsReversed = { $isReversed: boolean };
 const FeaturedCardLink = styled.a.attrs({
   className: 'grid',
   'data-gtm-trigger': 'featured_card_link',
 })<HasIsReversed>`
   justify-content: flex-end;
-  flex-direction: ${props => (props.isReversed ? 'row-reverse' : 'row')};
+  flex-direction: ${props => (props.$isReversed ? 'row-reverse' : 'row')};
 
   &,
   &:link,
@@ -205,9 +201,10 @@ const FeaturedCardLeft = styled.div.attrs({
 const FeaturedCardRight = styled.div<HasIsReversed>`
   display: flex;
   flex-direction: column;
-  padding-left: ${props => (props.isReversed ? 0 : props.theme.gutter.small)}px;
+  padding-left: ${props =>
+    props.$isReversed ? 0 : props.theme.gutter.small}px;
   padding-right: ${props =>
-    props.isReversed ? props.theme.gutter.small : 0}px;
+    props.$isReversed ? props.theme.gutter.small : 0}px;
   transform: translateY(-28px); /* Height of a label (font size + padding) */
   width: 100%;
   height: 100%;
@@ -220,18 +217,18 @@ const FeaturedCardRight = styled.div<HasIsReversed>`
 
   ${props =>
     props.theme.media('large')(`
-      margin-left: ${props.isReversed ? 0 : -props.theme.gutter.large + 'px'};
+      margin-left: ${props.$isReversed ? 0 : -props.theme.gutter.large + 'px'};
       transform: translateY(0);
     `)}
 `;
 
 const FeaturedCardCopy = styled(Space).attrs({
-  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-})<{ textColor: PaletteColor; background: PaletteColor }>`
+  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+})<{ $textColor: PaletteColor; $background: PaletteColor }>`
   flex: 1;
-  color: ${props => props.theme.color(props.textColor)};
-  background-color: ${props => props.theme.color(props.background)};
+  color: ${props => props.theme.color(props.$textColor)};
+  background-color: ${props => props.theme.color(props.$background)};
 
   ${props =>
     props.theme.media('large')(`
@@ -239,21 +236,20 @@ const FeaturedCardCopy = styled(Space).attrs({
     `)}
 `;
 
-const FeaturedCardShim = styled.div.attrs<{ background: PaletteColor }>({
+const FeaturedCardShim = styled.div.attrs<{ $background: PaletteColor }>({
   className: `is-hidden-s is-hidden-m ${grid({ s: 12, m: 11, l: 5, xl: 5 })}`,
-})<HasIsReversed & { background: PaletteColor }>`
+})<HasIsReversed & { $background: PaletteColor }>`
   position: relative;
-  background-color: ${props => props.theme.color(props.background)};
+  background-color: ${props => props.theme.color(props.$background)};
   height: 21px;
 
   /* Prevent a white line appearing above the shim because of browser rounding errors */
   top: -1px;
   margin-left: ${props =>
-    props.isReversed ? props.theme.gutter.large + 'px' : null};
+    props.$isReversed ? props.theme.gutter.large + 'px' : null};
 `;
 
 const FeaturedCard: FunctionComponent<PropsWithChildren<Props>> = ({
-  id,
   image,
   labels,
   children,
@@ -264,17 +260,7 @@ const FeaturedCard: FunctionComponent<PropsWithChildren<Props>> = ({
 }) => {
   return (
     <FeaturedCardWrap>
-      <FeaturedCardLink
-        href={link.url}
-        isReversed={isReversed}
-        onClick={() => {
-          trackGaEvent({
-            category: 'FeaturedCard',
-            action: 'follow link',
-            label: `${id}`,
-          });
-        }}
-      >
+      <FeaturedCardLink href={link.url} $isReversed={isReversed}>
         <FeaturedCardLeft>
           {image && (
             <PrismicImage
@@ -293,19 +279,19 @@ const FeaturedCard: FunctionComponent<PropsWithChildren<Props>> = ({
           className={grid({ s: 12, m: 11, l: 5, xl: 5 })}
           style={{ display: 'flex' }}
         >
-          <FeaturedCardRight isReversed={isReversed}>
+          <FeaturedCardRight $isReversed={isReversed}>
             {labels && labels.length > 0 ? (
               <LabelsList labels={labels} />
             ) : (
               <div style={{ marginBottom: '26px' }} />
             )}
-            <FeaturedCardCopy background={background} textColor={textColor}>
+            <FeaturedCardCopy $background={background} $textColor={textColor}>
               {children}
             </FeaturedCardCopy>
           </FeaturedCardRight>
         </div>
         <div className={grid({ s: 12, m: 12, l: 7, xl: 7 })}></div>
-        <FeaturedCardShim background={background} isReversed={isReversed} />
+        <FeaturedCardShim $background={background} $isReversed={isReversed} />
       </FeaturedCardLink>
     </FeaturedCardWrap>
   );

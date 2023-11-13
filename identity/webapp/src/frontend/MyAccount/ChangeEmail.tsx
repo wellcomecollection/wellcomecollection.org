@@ -90,7 +90,7 @@ export const ChangeEmail: React.FunctionComponent<
       {submissionErrorMessage && (
         <StatusAlert type="failure">{submissionErrorMessage}</StatusAlert>
       )}
-      <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
         <h3 className={font('intb', 5)} style={{ marginBottom: 0 }}>
           Email
         </h3>
@@ -108,7 +108,8 @@ export const ChangeEmail: React.FunctionComponent<
               required: 'Enter an email address',
               pattern: {
                 value: validEmailPattern,
-                message: 'Enter a valid email address',
+                message:
+                  'Enter an email address in the correct format, like name@example.com',
               },
               validate: {
                 hasChanged: newValue => {
@@ -153,7 +154,7 @@ export const ChangeEmail: React.FunctionComponent<
             )}
           />
         </FieldMargin>
-        <Space v={{ size: 'l', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
           <ButtonSolid type={ButtonTypes.submit} text="Update email" />
         </Space>
       </form>

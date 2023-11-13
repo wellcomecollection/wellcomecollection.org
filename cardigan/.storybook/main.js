@@ -41,8 +41,8 @@ module.exports = {
           presets: ['@babel/preset-flow', '@babel/preset-react'],
           plugins: [
             'babel-plugin-react-require',
-            '@babel/plugin-proposal-class-properties',
-            '@babel/plugin-proposal-optional-chaining',
+            '@babel/plugin-transform-class-properties',
+            '@babel/plugin-transform-optional-chaining',
             '@babel/plugin-syntax-dynamic-import',
           ],
         },

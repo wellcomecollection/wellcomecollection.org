@@ -12,7 +12,7 @@ const ImageWrapper = styled.div`
 
 const Type = styled(Space).attrs({
   as: 'li',
-  v: { size: 'm', properties: ['margin-bottom'] },
+  $v: { size: 'm', properties: ['margin-bottom'] },
 })`
   text-decoration: none;
 `;
@@ -88,7 +88,7 @@ const ExhibitionGuideLinksPromo: FunctionComponent<Props> = ({
         )}
 
         <Space
-          v={{
+          $v={{
             size: 'm',
             properties: ['margin-top', 'margin-bottom'],
           }}
@@ -98,7 +98,7 @@ const ExhibitionGuideLinksPromo: FunctionComponent<Props> = ({
           {exhibitionGuide.title}
         </Space>
       </ExhibitionTitleLink>
-      <Space v={{ size: 's', properties: ['margin-top'] }}>
+      <Space $v={{ size: 's', properties: ['margin-top'] }}>
         <PlainList className={font('intr', 5)}>
           {links.map((link, i) => (
             <TypeListItem key={i} url={link.url} text={link.text} />

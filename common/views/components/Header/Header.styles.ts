@@ -13,7 +13,7 @@ export const NavLoginWrapper = styled.div`
 `;
 
 type WrapperProps = {
-  isBurgerOpen: boolean;
+  $isBurgerOpen: boolean;
 };
 export const Wrapper = styled.div.attrs({
   className: 'grid',
@@ -26,7 +26,7 @@ export const Wrapper = styled.div.attrs({
   height: ${props => props.theme.navHeight}px;
 
   ${props =>
-    props.isBurgerOpen &&
+    props.$isBurgerOpen &&
     `${props.theme.mediaBetween(
       'small',
       'headerMedium'
@@ -46,7 +46,7 @@ export const Burger = styled.div`
   display: none;
 `}
 `;
-export const BurgerTrigger = styled.a<{ burgerMenuisActive: boolean }>`
+export const BurgerTrigger = styled.a<{ $burgerMenuisActive: boolean }>`
   position: relative;
   width: 1.2rem;
   height: 0.9rem;
@@ -72,7 +72,7 @@ export const BurgerTrigger = styled.a<{ burgerMenuisActive: boolean }>`
     }
 
     ${props =>
-      props.burgerMenuisActive &&
+      props.$burgerMenuisActive &&
       `
       &:first-child {
         top: 0.5rem;
@@ -92,12 +92,12 @@ export const BurgerTrigger = styled.a<{ burgerMenuisActive: boolean }>`
   }
 `;
 
-export const HeaderBrand = styled.div<{ isMinimalHeader: boolean }>`
+export const HeaderBrand = styled.div<{ $isMinimalHeader: boolean }>`
   display: flex;
   flex: 1;
 
   ${props =>
-    props.isMinimalHeader
+    props.$isMinimalHeader
       ? `
         // This is to account for the burger as we want it to be dead centre.
         margin-left: -20px;
@@ -122,8 +122,8 @@ export const HeaderBrand = styled.div<{ isMinimalHeader: boolean }>`
     margin: 0 auto;
   }
 `;
-export const HeaderNav = styled.nav<{ burgerMenuisActive: boolean }>`
-  display: ${props => (props.burgerMenuisActive ? 'block' : 'none')};
+export const HeaderNav = styled.nav<{ $burgerMenuisActive: boolean }>`
+  display: ${props => (props.$burgerMenuisActive ? 'block' : 'none')};
   background: ${props => props.theme.color('white')};
   position: absolute;
   top: calc(100% + 17px); /* Accounts for the set size of the header */
@@ -194,9 +194,13 @@ export const HeaderItem = styled.li`
 `}
 `;
 
-export const HeaderLink = styled.a.attrs({
+type HeaderLinkProps = {
+  $burgerMenuisActive: boolean;
+  'data-gtm-trigger'?: 'header_nav_link';
+};
+export const HeaderLink = styled.a.attrs<HeaderLinkProps>({
   'data-gtm-trigger': 'header_nav_link',
-})<{ burgerMenuisActive: boolean }>`
+})`
   padding: 1.4rem 0.3rem;
   display: inline-block;
   text-decoration: none;
@@ -225,8 +229,7 @@ export const HeaderLink = styled.a.attrs({
   `}
   }
 
-  &:hover,
-  &:focus {
+  &:hover {
     &::after {
       width: 100%;
 
@@ -239,7 +242,7 @@ export const HeaderLink = styled.a.attrs({
   }
 
   ${props =>
-    props.burgerMenuisActive &&
+    props.$burgerMenuisActive &&
     `
       &::after {
         width: 100%;

@@ -12,8 +12,8 @@ const Anchor = styled.a.attrs({
 `;
 
 const Root = styled(Space).attrs({
-  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
   background: ${props => props.theme.color('warmNeutral.300')};
 `;

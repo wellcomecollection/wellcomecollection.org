@@ -15,7 +15,8 @@ const Template = () => {
         type: 'email',
         name: 'email',
         label: 'Your email address',
-        errorMessage: 'Enter a valid email address.',
+        errorMessage:
+          'Enter an email address in the correct format, like name@example.com',
         value,
         setValue,
         ...useValidation(),

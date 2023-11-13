@@ -4,7 +4,6 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import TextInput from '../TextInput/TextInput';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import useValidation from '@weco/common/hooks/useValidation';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { newsletterAddressBook } from '@weco/common/data/dotdigital';
@@ -87,7 +86,6 @@ const NewsletterPromo: FunctionComponent = () => {
     switch (result) {
       case 'ok':
         setIsSuccess(true);
-        trackGaEvent({ category: 'NewsletterPromo', action: 'submit email' });
         break;
       case 'error':
         setIsSubmitError(true);
@@ -101,7 +99,7 @@ const NewsletterPromo: FunctionComponent = () => {
     <Space
       className="is-hidden-print"
       style={{ backgroundColor: theme.color('lightYellow') }}
-      v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+      $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
     >
       <Container>
         <Layout8>
@@ -130,7 +128,7 @@ const NewsletterPromo: FunctionComponent = () => {
                   errorMessage={
                     isSubmitError
                       ? 'There was a problem. Please try again.'
-                      : 'Enter a valid email address.'
+                      : 'Enter an email address in the correct format, like name@example.com'
                   }
                   value={value}
                   setValue={setValue}
@@ -144,7 +142,7 @@ const NewsletterPromo: FunctionComponent = () => {
                   <a href="/newsletter">All our newsletters</a>
                 </p>
 
-                <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                <Space $v={{ size: 'l', properties: ['margin-top'] }}>
                   <CheckboxRadio
                     id="MARKETINGPERMISSIONS"
                     name="cd_MARKETINGPERMISSIONS"

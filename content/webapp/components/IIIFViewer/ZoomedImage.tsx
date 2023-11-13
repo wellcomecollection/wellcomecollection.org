@@ -7,7 +7,6 @@ import {
   FunctionComponent,
 } from 'react';
 import styled from 'styled-components';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Space from '@weco/common/views/components/styled/Space';
@@ -66,6 +65,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
   const firstControl = useRef<HTMLButtonElement>(null);
   const lastControl = useRef<HTMLButtonElement>(null);
   const zoomedImage = useRef<HTMLDivElement>(null);
+
   function setupViewer(imageInfoSrc: string, viewerId: string) {
     fetch(imageInfoSrc)
       .then(response => response.json())
@@ -93,6 +93,14 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
         });
         osdViewer.addOnceHandler('tile-loaded', () => {
           doZoomIn(osdViewer);
+        });
+        osdViewer.addHandler('tile-loaded', () => {
+          // Prevent NVDA arrow key events escaping the viewer (https://stackoverflow.com/a/41523306)
+          osdViewer.container.setAttribute('role', 'toolbar');
+          osdViewer.container.setAttribute(
+            'aria-description',
+            'use arrow keys to pan the image'
+          );
         });
         setViewer(osdViewer);
       })
@@ -132,11 +140,6 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
     if (viewer.isOpen()) {
       doZoomIn(viewer);
     }
-    trackGaEvent({
-      category: 'Control',
-      action: 'zoom in ImageViewer',
-      label: 'zoomedImage',
-    });
   }
 
   function handleZoomOut(viewer) {
@@ -144,21 +147,11 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
     if (viewer.isOpen()) {
       doZoomOut(viewer);
     }
-    trackGaEvent({
-      category: 'Control',
-      action: 'zoom out ImageViewer',
-      label: 'zoomedImage',
-    });
   }
 
   function handleRotate(viewer) {
     if (!viewer) return;
     viewer.viewport.setRotation(viewer.viewport.getRotation() + 90);
-    trackGaEvent({
-      category: 'Control',
-      action: 'rotate ImageViewer',
-      label: 'zoomedImage',
-    });
   }
 
   function handleTrapStartKeyDown(event) {
@@ -192,18 +185,18 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
     <ZoomedImageContainer ref={zoomedImage} onKeyDown={handleKeyDown}>
       <Controls>
         <Space
-          v={{
+          $v={{
             size: 'l',
             properties: ['margin-top', 'margin-bottom'],
           }}
-          h={{
+          $h={{
             size: 'l',
             properties: ['margin-left', 'margin-right'],
           }}
         >
           <Space
             as="span"
-            h={{
+            $h={{
               size: 'm',
               properties: ['margin-left'],
             }}
@@ -220,7 +213,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
           </Space>
           <Space
             as="span"
-            h={{
+            $h={{
               size: 'm',
               properties: ['margin-left'],
             }}
@@ -236,7 +229,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
           </Space>
           <Space
             as="span"
-            h={{
+            $h={{
               size: 'm',
               properties: ['margin-left'],
             }}
@@ -252,7 +245,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
           </Space>
           <Space
             as="span"
-            h={{
+            $h={{
               size: 'm',
               properties: ['margin-left'],
             }}

@@ -3,7 +3,6 @@ import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import styled from 'styled-components';
 
-// Components
 import Space from '@weco/common/views/components/styled/Space';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
@@ -21,8 +20,6 @@ import {
   WorksProps as WorksRouteProps,
 } from '@weco/content/components/WorksLink';
 import { Container } from '@weco/common/views/components/styled/Container';
-
-// Utils & Helpers
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
@@ -34,14 +31,12 @@ import {
   WellcomeResultList,
 } from '@weco/content/services/wellcome';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import { linkResolver } from '@weco/common/utils/search';
+import { linkResolver, SEARCH_PAGES_FORM_ID } from '@weco/common/utils/search';
 import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
 import { AppErrorProps, appError } from '@weco/common/services/app';
 import { pluralize } from '@weco/common/utils/grammar';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
-
-// Types
 import {
   toWorkBasic,
   WorkAggregations,
@@ -49,7 +44,6 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { Query } from '@weco/content/types/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 type Props = {
   works: WellcomeResultList<WorkBasic, WorkAggregations>;
@@ -64,6 +58,7 @@ const SortPaginationWrapper = styled.div`
   align-items: center;
   flex-wrap: wrap;
 `;
+
 export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
   works,
   worksRouteProps,
@@ -119,21 +114,24 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
         )}
       </Head>
 
-      <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
+      <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
         <Container>
           {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
             <>
               <Space
-                v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+                $v={{
+                  size: 'l',
+                  properties: ['padding-top', 'padding-bottom'],
+                }}
               >
                 <SearchFilters
                   query={queryString}
                   linkResolver={params =>
                     linkResolver({ params, pathname: '/search/works' })
                   }
-                  searchFormId="search-page-form"
+                  searchFormId={SEARCH_PAGES_FORM_ID}
                   changeHandler={() => {
-                    const form = document.getElementById('search-page-form');
+                    const form = document.getElementById(SEARCH_PAGES_FORM_ID);
                     form &&
                       form.dispatchEvent(
                         new window.Event('submit', {
@@ -160,7 +158,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
             />
           ) : (
             <>
-              <PaginationWrapper verticalSpacing="l">
+              <PaginationWrapper $verticalSpacing="l">
                 <span role="status">
                   {pluralize(works.totalResults, 'result')}
                   {activeFiltersLabels.length > 0 && (
@@ -173,7 +171,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
 
                 <SortPaginationWrapper>
                   <Sort
-                    formId="search-page-form"
+                    formId={SEARCH_PAGES_FORM_ID}
                     options={[
                       // Default value to be left empty so it's not added to the URL query
                       { value: '', text: 'Relevance' },
@@ -206,6 +204,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                   />
 
                   <Pagination
+                    formId={SEARCH_PAGES_FORM_ID}
                     totalPages={works.totalPages}
                     ariaLabel="Catalogue search pagination"
                     isHiddenMobile
@@ -217,8 +216,9 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                 <WorksSearchResults works={works.results} />
               </main>
 
-              <PaginationWrapper verticalSpacing="l" alignRight>
+              <PaginationWrapper $verticalSpacing="l" $alignRight>
                 <Pagination
+                  formId={SEARCH_PAGES_FORM_ID}
                   totalPages={works.totalPages}
                   ariaLabel="Catalogue search pagination"
                 />
@@ -274,25 +274,13 @@ export const getServerSideProps: GetServerSideProps<
 
   const aggregations = serverData.toggles.aggregationsInSearch?.value
     ? [
-        serverData.toggles.aggregationsInSearchWorkType?.value
-          ? 'workType'
-          : undefined,
-        serverData.toggles.aggregationsInSearchAvailabilities?.value
-          ? 'availabilities'
-          : undefined,
-        serverData.toggles.aggregationsInSearchGenres?.value
-          ? 'genres.label'
-          : undefined,
-        serverData.toggles.aggregationsInSearchLanguages?.value
-          ? 'languages'
-          : undefined,
-        serverData.toggles.aggregationsInSearchSubjects?.value
-          ? 'subjects.label'
-          : undefined,
-        serverData.toggles.aggregationsInSearchContributors?.value
-          ? 'contributors.agent.label'
-          : undefined,
-      ].filter(isNotUndefined)
+        'workType',
+        'availabilities',
+        'genres.label',
+        'languages',
+        'subjects.label',
+        'contributors.agent.label',
+      ]
     : [];
 
   const worksApiProps = {

@@ -1,21 +1,20 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
-import { trackGaEvent } from '@weco/common/utils/ga';
 import { BookBasic } from '@weco/content/types/books';
 import Space from '@weco/common/views/components/styled/Space';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import BookImage from '@weco/content/components/BookImage/BookImage';
 
 type LinkSpaceAttrs = {
-  url: string;
+  $url: string;
 };
 
 const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
   as: 'a',
-  href: props.url,
-  v: { size: 'xl', properties: ['padding-top'] },
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  href: props.$url,
+  $v: { size: 'xl', properties: ['padding-top'] },
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 }))<LinkSpaceAttrs>`
   display: block;
 
@@ -40,8 +39,8 @@ const Title = styled.h3.attrs({
 `;
 
 const Subtitle = styled(Space).attrs({
-  v: { size: 's', properties: ['margin-top'] },
   className: font('intb', 5),
+  $v: { size: 's', properties: ['margin-top'] },
 })`
   margin: 0;
 `;
@@ -59,17 +58,8 @@ type Props = {
 const BookPromo: FunctionComponent<Props> = ({ book }) => {
   const { id, title, subtitle, promo, cover } = book;
   return (
-    <LinkSpace
-      url={`/books/${id}`}
-      onClick={() => {
-        trackGaEvent({
-          category: 'BookPromo',
-          action: 'follow link',
-          label: title,
-        });
-      }}
-    >
-      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+    <LinkSpace $url={`/books/${id}`}>
+      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
         <BookImage
           image={{
             contentUrl: cover?.contentUrl || '',
@@ -90,13 +80,15 @@ const BookPromo: FunctionComponent<Props> = ({ book }) => {
           }}
           quality="low"
         />
-        <Space h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}>
+        <Space
+          $h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
+        >
           <Space
-            v={{ size: 's', properties: ['margin-bottom'] }}
+            $v={{ size: 's', properties: ['margin-bottom'] }}
             style={{ position: 'relative' }}
           >
             <Space
-              v={{
+              $v={{
                 size: 'm',
                 properties: ['margin-top'],
                 negative: true,
@@ -110,7 +102,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }) => {
           {subtitle && <Subtitle as="h4">{subtitle}</Subtitle>}
 
           {promo?.caption && (
-            <Space v={{ size: 's', properties: ['margin-top'] }}>
+            <Space $v={{ size: 's', properties: ['margin-top'] }}>
               <Caption>{promo.caption}</Caption>
             </Space>
           )}
