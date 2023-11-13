@@ -54,7 +54,6 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
               <TabNav
                 id="monthControls"
                 selectedTab={activeId || monthsWithEvents[0].id}
-                variant="yellow"
                 items={monthsWithEvents}
                 setSelectedTab={setActiveId}
                 trackWithSegment={true}

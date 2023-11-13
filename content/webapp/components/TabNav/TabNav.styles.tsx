@@ -43,6 +43,7 @@ export const TabsContainer = styled.div`
 
 type NavItemProps = {
   $selected: boolean;
+  $isWhite: boolean;
 };
 
 export const Tab = styled.div.attrs({
@@ -54,7 +55,9 @@ export const Tab = styled.div.attrs({
   border-bottom: ${props =>
     props.$selected
       ? `3px solid ${props.theme.color('yellow')}`
-      : `1px solid ${props.theme.color('neutral.400')}`};
+      : `1px solid ${props.theme.color(
+          props.$isWhite ? 'neutral.600' : 'neutral.400'
+        )}`};
 
   a {
     text-decoration: none;
@@ -67,7 +70,7 @@ export const TabButton = styled.div.attrs({
 
 type NavItemInnerProps = {
   $selected: boolean;
-  $variant?: 'yellow' | 'white';
+  $isWhite?: boolean;
 };
 export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
   return {
@@ -83,7 +86,7 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
   cursor: pointer;
   color: ${props =>
     props.theme.color(
-      props.$variant === 'white'
+      props.$isWhite
         ? props.$selected
           ? 'white'
           : 'warmNeutral.400'
@@ -108,19 +111,7 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
     &::after {
       width: 100%;
       background-color: ${props =>
-        props.theme.color(
-          props.$selected
-            ? props.$variant === 'white'
-              ? 'white'
-              : props.$variant === 'yellow'
-              ? 'yellow'
-              : 'black'
-            : props.$variant === 'white'
-            ? 'warmNeutral.400'
-            : props.$variant === 'yellow'
-            ? 'lightYellow'
-            : 'neutral.600'
-        )};
+        props.theme.color(props.$selected ? 'yellow' : 'lightYellow')};
 
       /* Prevent iOS double-tap link issue
        https://css-tricks.com/annoying-mobile-double-tap-link-issue/ */

@@ -346,7 +346,7 @@ export const ConceptPage: NextPage<Props> = ({
               <TabNav
                 id="images"
                 selectedTab={selectedImagesTab}
-                variant="white"
+                isWhite={true}
                 items={imagesTabs.map(t => t.tab)}
                 setSelectedTab={setSelectedImagesTab}
                 trackWithSegment={true}

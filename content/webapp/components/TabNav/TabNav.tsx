@@ -46,7 +46,7 @@ type Props = {
   items: SelectableTextLink[];
   selectedTab: string;
   setSelectedTab: Dispatch<SetStateAction<string>>;
-  variant?: 'yellow' | 'white';
+  isWhite?: boolean;
   trackWithSegment?: boolean;
 };
 
@@ -55,7 +55,7 @@ const TabNav: FunctionComponent<Props> = ({
   items,
   selectedTab,
   setSelectedTab,
-  variant,
+  isWhite,
   trackWithSegment = false,
 }: Props) => {
   const { isEnhanced } = useContext(AppContext);
@@ -120,6 +120,7 @@ const TabNav: FunctionComponent<Props> = ({
             key={item.id}
             id={`tab-${item.id}`}
             $selected={isEnhanced && item.id === selectedTab}
+            $isWhite={isWhite}
             onClick={e => {
               if (!(item.id === selectedTab)) {
                 (e.target as HTMLButtonElement).scrollIntoView({
@@ -143,7 +144,7 @@ const TabNav: FunctionComponent<Props> = ({
             >
               <NavItemInner
                 $selected={isEnhanced && item.id === selectedTab}
-                $variant={variant}
+                $isWhite={isWhite}
               >
                 <ConditionalWrapper
                   condition={item.url && !isEnhanced}
