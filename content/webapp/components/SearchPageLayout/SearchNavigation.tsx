@@ -149,7 +149,6 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
           },
         ]}
         currentSection={currentSearchCategory}
-        hasDivider
       />
     </>
   );
