@@ -39,6 +39,7 @@ function sendEvent({ id, trackWithSegment }: SendEventProps) {
 type SelectableTextLink = {
   id: string;
   text: ReactNode;
+  url: string;
 };
 
 export type Props = {
@@ -72,7 +73,7 @@ const Tabs: FunctionComponent<Props> = ({
     element?.focus();
   }
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     const LEFT = [37, 'ArrowLeft'];
     const RIGHT = [39, 'ArrowRight'];
     const HOME = [36, 'Home'];
@@ -145,13 +146,14 @@ const Tabs: FunctionComponent<Props> = ({
               aria-controls={`tabpanel-${item.id}`}
               tabIndex={item.id === selectedTab ? 0 : -1}
               aria-selected={item.id === selectedTab}
+              $selected={item.id === selectedTab}
             >
               <NavItemInner
                 $selected={isEnhanced && item.id === selectedTab}
                 $isWhite={isWhite}
               >
                 <ConditionalWrapper
-                  condition={item.url && !isEnhanced}
+                  condition={Boolean(item.url && !isEnhanced)}
                   wrapper={children => <a href={item.url}>{children}</a>}
                 >
                   {item.text}

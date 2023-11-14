@@ -43,7 +43,7 @@ export const TabsContainer = styled.div`
 
 type NavItemProps = {
   $selected: boolean;
-  $isWhite: boolean;
+  $isWhite?: boolean;
   $hideBorder?: boolean;
 };
 
