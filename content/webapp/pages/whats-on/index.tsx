@@ -82,7 +82,7 @@ import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Tabs from '@weco/content/components/Tabs';
 
-const segmentedControlItems = [
+const tabItems = [
   {
     id: 'current-and-coming-up',
     url: '/whats-on',
@@ -286,7 +286,7 @@ const Header: FunctionComponent<HeaderProps> = ({
             <Tabs
               isLinks={true}
               currentSection={activeId}
-              items={segmentedControlItems}
+              items={tabItems}
               label="date filter"
             />
           </Space>
@@ -404,9 +404,9 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
 
   const firstExhibition = exhibitions[0];
 
-  const extraTitleText = segmentedControlItems.find(item => item.id === period);
+  const extraTitleText = tabItems.find(item => item.id === period);
   const pageTitle = extraTitleText
-    ? `What’s on${` - ${extraTitleText.name}`}`
+    ? `What’s on${` - ${extraTitleText.text}`}`
     : `What’s on`;
 
   const { collectionVenues } = usePrismicData();
