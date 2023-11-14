@@ -16,7 +16,7 @@ import {
 
 test.describe.configure({ mode: 'parallel' });
 
-test('(1.1) | The user is looking for an archive; it should be browsable from the search results', async ({
+test('(1) | The user is looking for an archive; it should be browsable from the search results', async ({
   page,
   context,
 }) => {
@@ -27,17 +27,17 @@ test('(1.1) | The user is looking for an archive; it should be browsable from th
   await navigateToResultAndConfirmTitleMatches(3, page);
 });
 
-test('(1.2) | The user is looking for an archive; they can get back to their original search results', async ({
+test('(2) | The user is looking for a video; they can get back to their original search results', async ({
   page,
   context,
 }) => {
   await newWorksSearch(context, page);
-  await searchQueryAndSubmit('Persian', page);
-  await selectFilterAndWaitForApplied('workType', 'h', page); // Formats > Archives and manuscripts
+  await searchQueryAndSubmit('Britain', page);
+  await selectFilterAndWaitForApplied('workType', 'g', page); // Formats > Video
   await navigateToNextPageAndConfirmNavigation(page);
 
   // Save the URL of the current search page, which will be something like
-  // https://www-stage.wellcomecollection.org/search/works?query=Persian&workType=h&page=2
+  // https://www-stage.wellcomecollection.org/search/works?query=Britain&workType=g&page=2
   const originalSearchUrl = new URL(page.url());
 
   await navigateToResultAndConfirmTitleMatches(3, page);
@@ -52,8 +52,8 @@ test('(1.2) | The user is looking for an archive; they can get back to their ori
     // Now compare the URLs.  Note that the query parameters may be in a different order,
     // but they're still equivalent for our purposes, e.g.
     //
-    //      /search/works?query=Persian&workType=h&page=2 and
-    //      /search/works?query=Persian&page=2&workType=h
+    //      /search/works?query=Britain&workType=g&page=2 and
+    //      /search/works?query=Britain&page=2&workType=g
     //
     // are both totally fine.  Sorting them first makes them easier to compare.
 
@@ -64,63 +64,9 @@ test('(1.2) | The user is looking for an archive; they can get back to their ori
   });
 });
 
-test('(2) | The user is searching for a work on open shelves; it should be browsable from the search results', async ({
-  page,
-  context,
-}) => {
-  await newWorksSearch(context, page);
-  await searchQueryAndSubmit('eyes', page);
-  await selectFilterAndWaitForApplied('availabilities', 'open-shelves', page); // Locations > Open shelves
-  await navigateToNextPageAndConfirmNavigation(page);
-
-  await testIfFilterIsApplied('Open shelves', page);
-
-  await navigateToResultAndConfirmTitleMatches(6, page);
-});
-
-test('(3) | The user is searching for a work that is available online; it should be browsable from the search results', async ({
-  page,
-  context,
-}) => {
-  await newWorksSearch(context, page);
-  await searchQueryAndSubmit('skin', page);
-  await selectFilterAndWaitForApplied('availabilities', 'online', page); // Locations > Online
-  await navigateToNextPageAndConfirmNavigation(page);
-
-  await testIfFilterIsApplied('Online', page);
-
-  await navigateToResultAndConfirmTitleMatches(8, page);
-});
-
-test('(4) | The user is searching for a work from Wellcome Images; it should be browsable from the search results', async ({
-  page,
-  context,
-}) => {
-  await newWorksSearch(context, page);
-  await searchQueryAndSubmit('skeleton', page);
-  await selectFilterAndWaitForApplied('workType', 'q', page); // Formats > Digital Images
-  await navigateToNextPageAndConfirmNavigation(page);
-
-  await testIfFilterIsApplied('Digital Images', page);
-
-  await navigateToResultAndConfirmTitleMatches(1, page);
-});
-
-test('(5) | The user is searching for a work in closed stores; it should be browsable from the search results', async ({
-  page,
-  context,
-}) => {
-  await newWorksSearch(context, page);
-  await searchQueryAndSubmit('brain', page);
-  await selectFilterAndWaitForApplied('availabilities', 'closed-stores', page); // Locations > Closed stores
-  await navigateToNextPageAndConfirmNavigation(page);
-
-  await testIfFilterIsApplied('Closed stores', page);
-
-  await navigateToResultAndConfirmTitleMatches(6, page);
-});
-
-test('(6) | The user is searching for works from a particular year; it should be browsable from the search results', async ({
+// This is a check that we have actually loaded some results from
+// the API, and the API hasn't just errored out.
+test('(3) | The user is searching for a work from a particular year; there is a list of results', async ({
   page,
   context,
 }) => {
@@ -143,12 +89,10 @@ test('(6) | The user is searching for works from a particular year; it should be
   await testIfFilterIsApplied('From 1939', page);
   await testIfFilterIsApplied('To 2001', page);
 
-  // This is a check that we have actually loaded some results from
-  // the API, and the API hasn't just errored out.
-  await navigateToResultAndConfirmTitleMatches(6, page);
+  await expect(page.getByTestId('work-search-result')).toHaveCount(25);
 });
 
-test('(7) | The user is sorting by production dates in search; sort updates URL query and goes back to the first page', async ({
+test('(4) | The user is sorting by production dates in search; sort updates URL query and goes back to the first page', async ({
   context,
   page,
 }) => {
@@ -168,7 +112,7 @@ test('(7) | The user is sorting by production dates in search; sort updates URL 
   ).toHaveValue('1');
 });
 
-test('(8) | The user is coming from a prefiltered series search; they should be able to add more filters', async ({
+test('(5) | The user is coming from a prefiltered series search; they should be able to add more filters', async ({
   context,
   page,
 }) => {

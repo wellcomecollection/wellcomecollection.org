@@ -33,9 +33,9 @@ const SearchResultListItem = styled.li`
 
 const WorksSearchResults: FunctionComponent<Props> = ({ works }) => {
   return (
-    <SearchResultUnorderedList data-test-id="works-search-results-container">
+    <SearchResultUnorderedList>
       {works.map((result, i) => (
-        <SearchResultListItem data-test-id="work-search-result" key={result.id}>
+        <SearchResultListItem data-testId="work-search-result" key={result.id}>
           <WorksSearchResult work={result} resultPosition={i} />
         </SearchResultListItem>
       ))}
