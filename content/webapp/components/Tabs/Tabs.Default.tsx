@@ -42,7 +42,7 @@ type SelectableTextLink = {
 };
 
 export type Props = {
-  isLinks: false; // not passed in to the component, but used to discriminate the union in ./index.tsx
+  isLinks?: false; // not passed in to the component, but used to discriminate the union in ./index.tsx
   hideBorder?: boolean;
   id: string;
   items: SelectableTextLink[];
