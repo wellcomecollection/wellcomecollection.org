@@ -15,86 +15,54 @@ const Wrapper = styled(Space).attrs({
     `background-color: ${props.theme.color(props.$backgroundColor)}`};
 `;
 
-const Template = ({ items, variant, ...rest }) => {
+const Template = ({ items, isWhite, ...rest }) => {
   const [selectedTab, setSelectedTab] = useState(items[0].id); //eslint-disable-line
-
-  const itemsSelector = items.map(item => ({
-    ...item,
-    selected: selectedTab === item.id,
-  }));
 
   return (
     <Container>
-      <Wrapper $backgroundColor={variant === 'white' ? 'black' : 'white'}>
-        <ReadmeDecorator
-          WrappedComponent={Tabs}
-          args={{
-            id: 'story-tabs',
-            items: itemsSelector,
-            selectedTab: 'all',
-            variant,
-            setSelectedTab,
-            ...rest,
-          }}
-          Readme={Readme}
-          order="readmeFirst"
+      <Wrapper $backgroundColor={isWhite ? 'black' : 'white'}>
+        <Tabs
+          id="bla"
+          items={items}
+          isWhite={isWhite}
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+          {...rest}
         />
       </Wrapper>
-      <>
-        {selectedTab === 'all' && (
-          <div role="tabpanel" id="tabpanel-all" aria-labelledby="tab-all">
-            All content
-          </div>
-        )}
-        {selectedTab === 'slightly-longer' && (
-          <div
-            role="tabpanel"
-            id="tabpanel-slightly-longer"
-            aria-labelledby="tab-slightly-longer"
-          >
-            Slightly longer content
-          </div>
-        )}
-        {selectedTab === 'pictures' && (
-          <div
-            role="tabpanel"
-            id="tabpanel-pictures"
-            aria-labelledby="tab-pictures"
-          >
-            Pictures content
-          </div>
-        )}
-      </>
     </Container>
   );
 };
 
 export const basic = Template.bind({});
 basic.args = {
+  isWhite: false,
   items: [
     {
       id: 'all',
       text: 'All',
+      url: {
+        href: '#one',
+        as: '#one',
+      },
     },
     {
       id: 'slightly-longer',
       text: 'Slightly longer title to test with',
+      url: {
+        href: '#two',
+        as: '#two',
+      },
     },
     {
       id: 'pictures',
       text: 'Pictures',
+      url: {
+        href: '#three',
+        as: '#three',
+      },
     },
   ],
-};
-
-basic.argTypes = {
-  setSelectedTab: {
-    table: { disable: true },
-  },
-  variant: {
-    control: { type: 'inline-radio' },
-    options: ['default', 'yellow', 'white'],
-  },
 };
 
 basic.storyName = 'Tabs';

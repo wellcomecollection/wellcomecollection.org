@@ -28,13 +28,13 @@ const WorkTabbedNav: FunctionComponent<Props> = ({ work, selected }) => {
               pathname: `/works/${work.id}`,
             },
           },
-          name: 'Catalogue details',
+          text: 'Catalogue details',
           icon: listView,
         },
         {
           id: 'imageViewer',
           url: itemUrl,
-          name: 'Image viewer',
+          text: 'Image viewer',
           icon: eye,
         },
       ]}

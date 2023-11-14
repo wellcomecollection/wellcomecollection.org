@@ -86,17 +86,17 @@ const segmentedControlItems = [
   {
     id: 'current-and-coming-up',
     url: '/whats-on',
-    name: 'Everything',
+    text: 'Everything',
   },
   {
     id: 'today',
     url: '/whats-on/today',
-    name: 'Today',
+    text: 'Today',
   },
   {
     id: 'this-weekend',
     url: '/whats-on/this-weekend',
-    name: 'This weekend',
+    text: 'This weekend',
   },
 ];
 

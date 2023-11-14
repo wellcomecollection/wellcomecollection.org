@@ -13,7 +13,7 @@ const IconWrapper = styled.span`
 `;
 
 export type SelectableTextLink = {
-  name: string;
+  text: string;
   id: string;
   url: string | LinkProps;
   icon?: IconSvg;
@@ -75,7 +75,7 @@ const TabsLinks: FunctionComponent<Props> = ({
                         </IconWrapper>
                       </Space>
                     )}
-                    {item.name}
+                    {item.text}
                   </NavItemInner>
                 </Link>
               </Tab>
