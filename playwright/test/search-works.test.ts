@@ -10,7 +10,7 @@ import {
   navigateToResultAndConfirmTitleMatches,
   openFilterDropdown,
   searchQueryAndSubmit,
-  selectFilterAndWaitForApplied,
+  selectAndWaitForFilter,
   testIfFilterIsApplied,
 } from './helpers/search';
 
@@ -22,7 +22,7 @@ test('(1) | The user is looking for an archive; it should be browsable from the 
 }) => {
   await newWorksSearch(context, page);
   await searchQueryAndSubmit('Persian', page);
-  await selectFilterAndWaitForApplied('workType', 'h', page); // Formats > Archives and manuscripts
+  await selectAndWaitForFilter('Formats', 'h', page); // Archives and manuscripts
   await navigateToNextPageAndConfirmNavigation(page);
   await navigateToResultAndConfirmTitleMatches(3, page);
 });
@@ -33,7 +33,7 @@ test('(2) | The user is looking for a video; they can get back to their original
 }) => {
   await newWorksSearch(context, page);
   await searchQueryAndSubmit('Britain', page);
-  await selectFilterAndWaitForApplied('workType', 'g', page); // Formats > Video
+  await selectAndWaitForFilter('Formats', 'g', page); // Video
   await navigateToNextPageAndConfirmNavigation(page);
 
   // Save the URL of the current search page, which will be something like
@@ -72,18 +72,16 @@ test('(3) | The user is searching for a work from a particular year; there is a 
 }) => {
   await newWorksSearch(context, page);
   await searchQueryAndSubmit('brain', page);
-  await openFilterDropdown('production.dates', page);
+  await openFilterDropdown('Dates', page);
 
   await page
-    .locator('input[form="search-page-form"][name="production.dates.from"]')
+    .getByRole('spinbutton', { name: 'From', exact: true })
     .fill('1939');
 
-  await page
-    .locator('input[form="search-page-form"][name="production.dates.to"]')
-    .fill('2001');
+  await page.getByRole('spinbutton', { name: 'to', exact: true }).fill('2001');
 
   if (isMobile(page)) {
-    await page.click(`"Show results"`);
+    await page.getByRole('button', { name: 'Show results' }).click();
   }
 
   await testIfFilterIsApplied('From 1939', page);
@@ -125,7 +123,7 @@ test('(5) | The user is coming from a prefiltered series search; they should be 
 
   await testIfFilterIsApplied('Medical Heritage LIbrary', page);
 
-  await selectFilterAndWaitForApplied('workType', 'a', page); // Formats > Books
+  await selectAndWaitForFilter('Formats', 'a', page); // Books
 
   await testIfFilterIsApplied('Medical Heritage LIbrary', page);
   await testIfFilterIsApplied('Books', page);

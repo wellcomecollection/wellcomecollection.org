@@ -1,35 +1,34 @@
 import { Page } from 'playwright';
 import { expect } from '@playwright/test';
 import { isMobile } from '../contexts';
-import { formatFilterMobileButton } from '../selectors/search';
-
-export const worksSearchForm = '#search-searchbar';
 
 export const searchQueryAndSubmit = async (
   query: string,
   page: Page
 ): Promise<void> => {
-  await page.fill(worksSearchForm, query);
-  await page.press(worksSearchForm, 'Enter');
+  const searchBar = page.getByLabel('Search the catalogue');
+
+  await searchBar.fill(query);
+  await searchBar.press('Enter');
 };
 
-export const openFilterDropdown = async (id: string, page: Page) => {
+export const openFilterDropdown = async (name: string, page: Page) => {
   if (isMobile(page)) {
-    await page.click(formatFilterMobileButton);
+    await page.getByRole('button', { name: 'Filters' }).click();
   } else {
-    await page.click(`button[aria-controls="${id}"]`);
+    await page.getByRole('button', { name }).click();
   }
 };
 
-export const selectFilterAndWaitForApplied = async (
-  filterId: string,
+export const selectAndWaitForFilter = async (
+  filterName: string,
   checkboxId: string,
   page: Page
 ) => {
-  await openFilterDropdown(filterId, page);
+  await openFilterDropdown(filterName, page);
 
   const checkbox = page.locator(
-    `input[form="search-page-form"][name="${filterId}"][value="${checkboxId}"]`
+    `input[form="search-page-form"][value="${checkboxId}"]`
   );
 
   await checkbox.click();
@@ -37,23 +36,21 @@ export const selectFilterAndWaitForApplied = async (
   await expect(checkbox).toBeChecked();
 
   if (isMobile(page)) {
-    await page.click(`"Show results"`);
+    await page.getByRole('button', { name: 'Show results' }).click();
   }
 };
 
 export const navigateToNextPageAndConfirmNavigation = async (page: Page) => {
-  const currentPage = await page
-    .getByTestId('pagination')
-    .locator('input[name="page"]')
-    .inputValue();
+  const paginationInput = page.getByTestId('pagination').getByRole('textbox');
+
+  const currentPage = await paginationInput.inputValue();
   const nextButton = page
-    .locator('[data-testid="pagination"]')
+    .getByTestId('pagination')
     .getByRole('link', { name: 'Next' });
 
   await nextButton.click();
-  await expect(
-    page.getByTestId('pagination').locator('input[name="page"]')
-  ).toHaveValue(String(Number(currentPage) + 1));
+
+  await expect(paginationInput).toHaveValue(String(Number(currentPage) + 1));
 };
 
 export const navigateToResultAndConfirmTitleMatches = async (

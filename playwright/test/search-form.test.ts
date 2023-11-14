@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { newWorksSearch } from './contexts';
-import { searchQueryAndSubmit, worksSearchForm } from './helpers/search';
+import { searchQueryAndSubmit } from './helpers/search';
+
+const worksSearchForm = '#search-searchbar';
 
 test('stays focussed on the query input when submitted', async ({
   context,
