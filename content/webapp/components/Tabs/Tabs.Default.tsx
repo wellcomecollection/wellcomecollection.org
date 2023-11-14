@@ -39,7 +39,7 @@ function sendEvent({ id, trackWithSegment }: SendEventProps) {
 type SelectableTextLink = {
   id: string;
   text: ReactNode;
-  url: string;
+  url?: string;
 };
 
 export type Props = {
