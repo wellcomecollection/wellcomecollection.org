@@ -43,6 +43,7 @@ type SelectableTextLink = {
 
 export type Props = {
   isLinks: false; // not passed in to the component, but used to discriminate the union in ./index.tsx
+  hideBorder?: boolean;
   id: string;
   items: SelectableTextLink[];
   selectedTab: string;
@@ -54,6 +55,7 @@ export type Props = {
 const Tabs: FunctionComponent<Props> = ({
   id,
   items,
+  hideBorder,
   selectedTab,
   setSelectedTab,
   isWhite,
@@ -122,6 +124,7 @@ const Tabs: FunctionComponent<Props> = ({
             id={`tab-${item.id}`}
             $selected={isEnhanced && item.id === selectedTab}
             $isWhite={isWhite}
+            $hideBorder={hideBorder}
             onClick={e => {
               if (!(item.id === selectedTab)) {
                 (e.target as HTMLButtonElement).scrollIntoView({

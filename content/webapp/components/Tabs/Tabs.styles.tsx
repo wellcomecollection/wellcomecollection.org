@@ -44,6 +44,7 @@ export const TabsContainer = styled.div`
 type NavItemProps = {
   $selected: boolean;
   $isWhite: boolean;
+  $hideBorder?: boolean;
 };
 
 export const Tab = styled.div.attrs({
@@ -56,7 +57,11 @@ export const Tab = styled.div.attrs({
     props.$selected
       ? `3px solid ${props.theme.color('yellow')}`
       : `1px solid ${props.theme.color(
-          props.$isWhite ? 'neutral.600' : 'neutral.400'
+          props.$hideBorder
+            ? 'transparent'
+            : props.$isWhite
+            ? 'neutral.600' // TODO: check these values
+            : 'neutral.400' // TODO: check these values
         )}`};
 
   a {
@@ -105,6 +110,8 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
     width: 0;
     transition: width 200ms ease;
   }
+
+  /* TODO: check if we still want hover transition behaviour */
 
   &:hover,
   &:focus {

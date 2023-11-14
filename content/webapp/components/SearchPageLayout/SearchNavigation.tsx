@@ -126,6 +126,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
       </form>
       <Tabs
         isLinks={true}
+        hideBorder={currentSearchCategory === 'overview'}
         label="Search Categories"
         items={[
           {

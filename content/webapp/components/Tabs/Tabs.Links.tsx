@@ -21,12 +21,14 @@ export type SelectableTextLink = {
 
 export type Props = {
   isLinks: true; // not passed in to the component, but used to discriminate the union in ./index.tsx
+  hideBorder?: boolean;
   label: string;
   items: SelectableTextLink[];
   currentSection: string;
 };
 
 const TabsLinks: FunctionComponent<Props> = ({
+  hideBorder,
   label,
   items,
   currentSection,
@@ -38,7 +40,12 @@ const TabsLinks: FunctionComponent<Props> = ({
           {items.map(item => {
             const isSelected = currentSection === item.id;
             return (
-              <Tab data-test-id={item.id} key={item.id} $selected={isSelected}>
+              <Tab
+                data-test-id={item.id}
+                key={item.id}
+                $selected={isSelected}
+                $hideBorder={hideBorder}
+              >
                 <Link
                   scroll={false}
                   passHref
