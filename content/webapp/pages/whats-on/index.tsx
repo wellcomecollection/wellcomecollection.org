@@ -80,11 +80,9 @@ import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { Container } from '@weco/common/views/components/styled/Container';
-import SubNavigation, {
-  SelectableTextLink,
-} from 'components/SubNavigation/SubNavigation';
+import Tabs from '@weco/content/components/Tabs';
 
-const segmentedControlItems: SelectableTextLink[] = [
+const segmentedControlItems = [
   {
     id: 'current-and-coming-up',
     url: '/whats-on',
@@ -285,7 +283,8 @@ const Header: FunctionComponent<HeaderProps> = ({
             className={grid({ s: 12, m: 10, l: 7, xl: 7 })}
             $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
           >
-            <SubNavigation
+            <Tabs
+              isLinks={true}
               currentSection={activeId}
               items={segmentedControlItems}
               label="date filter"

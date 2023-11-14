@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import SearchBar from '@weco/common/views/components/SearchBar/SearchBar';
 import Space from '@weco/common/views/components/styled/Space';
-import SubNavigation from '@weco/content/components/SubNavigation/SubNavigation';
+import Tabs from '@weco/content/components/Tabs';
 
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
@@ -124,7 +124,8 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
           />
         </SearchBarContainer>
       </form>
-      <SubNavigation
+      <Tabs
+        isLinks={true}
         label="Search Categories"
         items={[
           {

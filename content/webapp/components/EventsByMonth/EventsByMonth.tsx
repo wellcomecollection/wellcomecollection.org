@@ -15,7 +15,7 @@ import { Container } from '@weco/common/views/components/styled/Container';
 // Types
 import { EventBasic } from '@weco/content/types/events';
 import { Link } from '@weco/content/types/link';
-import TabNav from 'components/TabNav/TabNav';
+import Tabs from '@weco/content/components/Tabs';
 
 type Props = {
   events: EventBasic[];
@@ -51,7 +51,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
         <CssGridContainer>
           <div className="css-grid">
             <div className={cssGrid(gridSize12)}>
-              <TabNav
+              <Tabs
                 id="monthControls"
                 selectedTab={activeId || monthsWithEvents[0].id}
                 items={monthsWithEvents}

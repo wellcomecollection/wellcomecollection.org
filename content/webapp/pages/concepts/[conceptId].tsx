@@ -36,7 +36,7 @@ import {
 
 // Styles
 import Space from '@weco/common/views/components/styled/Space';
-import TabNav from '@weco/content/components/TabNav/TabNav';
+import Tabs from '@weco/content/components/Tabs';
 import { font } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Pageview } from '@weco/common/services/conversion/track';
@@ -343,7 +343,7 @@ export const ConceptPage: NextPage<Props> = ({
           <Container>
             <h2 className={`${font('wb', 3)} sectionTitle`}>Images</h2>
             {hasImagesTabs && (
-              <TabNav
+              <Tabs
                 id="images"
                 selectedTab={selectedImagesTab}
                 isWhite={true}
@@ -369,7 +369,7 @@ export const ConceptPage: NextPage<Props> = ({
               <h2 className={font('wb', 3)}>Catalogue</h2>
 
               {hasWorksTabs && (
-                <TabNav
+                <Tabs
                   id="works"
                   selectedTab={selectedWorksTab}
                   items={worksTabs.map(t => t.tab)}

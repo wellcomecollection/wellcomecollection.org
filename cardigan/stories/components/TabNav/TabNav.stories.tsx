@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import TabNav from '@weco/content/components/TabNav/TabNav';
+import Tabs from '@weco/content/components/Tabs/Tabs';
 import Space from '@weco/common/views/components/styled/Space';
-import Readme from '@weco/content/components/TabNav/README.md';
+import Readme from '@weco/content/components/Tabs/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { Container } from '@weco/common/views/components/styled/Container';
 
@@ -27,7 +27,7 @@ const Template = ({ items, variant, ...rest }) => {
     <Container>
       <Wrapper $backgroundColor={variant === 'white' ? 'black' : 'white'}>
         <ReadmeDecorator
-          WrappedComponent={TabNav}
+          WrappedComponent={Tabs}
           args={{
             id: 'story-tabs',
             items: itemsSelector,
@@ -97,4 +97,4 @@ basic.argTypes = {
   },
 };
 
-basic.storyName = 'TabNav';
+basic.storyName = 'Tabs';

@@ -15,7 +15,7 @@ import {
   Tab,
   TabButton,
   NavItemInner,
-} from './TabNav.styles';
+} from './Tabs.styles';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 
@@ -41,7 +41,8 @@ type SelectableTextLink = {
   text: ReactNode;
 };
 
-type Props = {
+export type Props = {
+  isLinks: false; // not passed in to the component, but used to discriminate the union in ./index.tsx
   id: string;
   items: SelectableTextLink[];
   selectedTab: string;
@@ -50,7 +51,7 @@ type Props = {
   trackWithSegment?: boolean;
 };
 
-const TabNav: FunctionComponent<Props> = ({
+const Tabs: FunctionComponent<Props> = ({
   id,
   items,
   selectedTab,
@@ -161,4 +162,4 @@ const TabNav: FunctionComponent<Props> = ({
   );
 };
 
-export default TabNav;
+export default Tabs;
