@@ -78,7 +78,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
             <Container
               as="h2"
               className={classNames({
-                'is-hidden': Boolean(activeId),
+                'is-hidden': Boolean(isEnhanced),
               })}
               id={id}
             >
