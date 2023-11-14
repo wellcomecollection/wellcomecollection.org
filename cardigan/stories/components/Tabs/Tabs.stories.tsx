@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import Tabs from '@weco/content/components/Tabs/Tabs';
+import Tabs from '@weco/content/components/Tabs';
 import Space from '@weco/common/views/components/styled/Space';
 import Readme from '@weco/content/components/Tabs/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
