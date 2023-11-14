@@ -343,7 +343,12 @@ export const getServerSideProps: GetServerSideProps<
       worksResults.type === 'Error' &&
       storiesResults.type === 'Error'
     ) {
-      return appError(context, 500, 'Search results error');
+      // Use the error from the works API as it is the most mature of the 3
+      return appError(
+        context,
+        worksResults.httpStatus,
+        worksResults.description || worksResults.label
+      );
     }
 
     return {

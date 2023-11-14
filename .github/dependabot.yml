@@ -11,25 +11,25 @@ updates:
       interval: "monthly" # Check for updates every month
     ignore:
       - dependency-name: "*"
-        update-types: ["version-update:semver-patch"] # Ignore all patch updates for version updates only
+        update-types: ["version-update:semver-patch", "version-update:semver-minor"] # Ignore all patch updates for version updates only
   - package-ecosystem: "npm"
     directory: "/content/webapp"
     schedule:
       interval: "monthly"
     ignore:
       - dependency-name: "*"
-        update-types: ["version-update:semver-patch"]
+        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
   - package-ecosystem: "npm"
     directory: "/identity/webapp"
     schedule:
       interval: "monthly"
     ignore:
       - dependency-name: "*"
-        update-types: ["version-update:semver-patch"]
+        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
   - package-ecosystem: "npm"
     directory: "/common"
     schedule:
       interval: "monthly"
     ignore:
       - dependency-name: "*"
-        update-types: ["version-update:semver-patch"]
+        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
