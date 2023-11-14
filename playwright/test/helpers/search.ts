@@ -67,9 +67,11 @@ export const navigateToResultAndConfirmTitleMatches = async (
 };
 
 // TODO
-// This could probably be better - should we have a different way of spotting if a filter is applied
-// For mobile? Otherwise they are hidden in the modal.
-// Plus "books" could be found multiple times without being the one you want.
+// This could probably be better - We should have a different way of spotting if a filter is applied
+// Especially for mobile where they are hidden in the modal.
+// This isn't solid for multiple reasons such as the fact that "books" could be found multiple times without being the one you want.
+//
+// As we are considering a redesign of filters, this should be considered as part of it
 export const testIfFilterIsApplied = async (label: string, page: Page) => {
   await expect(page.getByRole('status')).toHaveText(
     new RegExp(`.*${label}.*`, 'i')
