@@ -80,7 +80,7 @@ const Map: FunctionComponent<Props> = ({
     };
   }, []);
 
-  return <MapContainer data-test-id="map-container" ref={mapContainer} />;
+  return <MapContainer ref={mapContainer} />;
 };
 
 export default Map;

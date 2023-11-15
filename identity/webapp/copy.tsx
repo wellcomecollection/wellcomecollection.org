@@ -26,7 +26,7 @@ export const ValidatedSuccessText: FunctionComponent<
     <SectionHeading as="h1">Email verified</SectionHeading>
     <p>Thank you for verifying your email address.</p>
     {isNewSignUp && (
-      <div data-test-id="new-sign-up">
+      <div data-testid="new-sign-up">
         <p>
           You can now request up to 15 items from our closed stores in the
           library.
