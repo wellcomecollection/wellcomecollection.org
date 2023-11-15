@@ -57,11 +57,11 @@ export const getServerSideProps: GetServerSideProps<
   const serverData = await getServerData(context);
   const auth0State = isString(context.query.state)
     ? context.query.state
-    : context.query.state.join('');
+    : context.query.state?.join('');
 
   const sessionToken = isString(context.query.session_token)
     ? context.query.session_token
-    : context.query.session_token.join('');
+    : context.query.session_token?.join('');
 
   let token: string | JwtPayload = '';
   let email = '';

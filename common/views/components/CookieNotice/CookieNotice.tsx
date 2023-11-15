@@ -73,7 +73,7 @@ const CookieNotice: FunctionComponent<Props> = () => {
   }, []);
 
   return shouldRender ? (
-    <CookieNoticeStyle data-test-id="cookie-notice">
+    <CookieNoticeStyle>
       <Layout12>
         <CookieNoticeWrapper>
           <CookieMessage>

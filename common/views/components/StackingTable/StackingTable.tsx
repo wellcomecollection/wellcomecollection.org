@@ -39,13 +39,9 @@ const StyledTable = styled.table.attrs({
   }
 `;
 
-type TrProps = {
-  plain?: boolean;
-};
-
 const StyledTr = styled(Space).attrs({
   as: 'tr',
-})<TrProps>`
+})`
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
 
   &:last-of-type {
@@ -153,7 +149,7 @@ const StackingTable: FunctionComponent<Props> = ({
       </thead>
       <tbody>
         {bodyRows.map((row, index) => (
-          <StyledTr plain={plain} key={index}>
+          <StyledTr key={index}>
             {row.map((data, index) => {
               return (
                 <StyledTd

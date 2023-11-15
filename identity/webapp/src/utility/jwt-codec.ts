@@ -15,8 +15,8 @@ export type RegistrationInputs = {
 // we first need to decode the session token we receive on redirecting from the post-login flow action
 // this token will come from request query when this handler is used in the context of the registration form i.e. req.query.session_token
 export const decodeToken = (
-  token: string,
-  secret: string
+  token?: string,
+  secret?: string
 ): JwtPayload | string => {
   try {
     const decoded = verify(token, secret);

@@ -9,7 +9,9 @@ import { Page } from 'playwright';
 const getWhereToFindItAndEncoreLink = async (page: Page) => {
   const whereToFindIt = await page.$('h2:has-text("Where to find it")');
   const encoreLink = await page.$('a:has-text("Request item")');
-  const unavailableBanner = await page.$("[data-test-id='requestingDisabled']");
+  const unavailableBanner = await page.$(
+    "[data-test-id='requesting-disabled']"
+  );
 
   return {
     whereToFindIt,

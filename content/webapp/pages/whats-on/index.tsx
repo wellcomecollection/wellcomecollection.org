@@ -465,9 +465,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                         </Layout12>
                       ) : (
                         <Layout12>
-                          <p data-test-id="no-exhibitions">
-                            There are no current exhibitions
-                          </p>
+                          <p>There are no current exhibitions</p>
                         </Layout12>
                       )}
                     </Space>
