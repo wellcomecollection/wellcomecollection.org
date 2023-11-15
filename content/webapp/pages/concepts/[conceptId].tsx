@@ -344,7 +344,7 @@ export const ConceptPage: NextPage<Props> = ({
             <h2 className={`${font('wb', 3)} sectionTitle`}>Images</h2>
             {hasImagesTabs && (
               <Tabs
-                id="images"
+                label="Images tabs"
                 behaviourVariant="tab"
                 items={imagesTabs.map(t => t.tab)}
                 selectedTab={selectedImagesTab}
@@ -371,7 +371,7 @@ export const ConceptPage: NextPage<Props> = ({
 
               {hasWorksTabs && (
                 <Tabs
-                  id="works"
+                  label="Works tabs"
                   behaviourVariant="tab"
                   selectedTab={selectedWorksTab}
                   items={worksTabs.map(t => t.tab)}

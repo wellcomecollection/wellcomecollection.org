@@ -44,7 +44,7 @@ type SelectableTextLink = {
 
 export type Props = {
   hideBorder?: boolean;
-  id: string;
+  label: string;
   items: SelectableTextLink[];
   selectedTab: string;
   setSelectedTab: Dispatch<SetStateAction<string>>;
@@ -53,7 +53,7 @@ export type Props = {
 };
 
 const TabbableTabs: FunctionComponent<Props> = ({
-  id,
+  label,
   items,
   hideBorder,
   selectedTab,
@@ -117,7 +117,7 @@ const TabbableTabs: FunctionComponent<Props> = ({
 
   return (
     <Wrapper>
-      <TabsContainer role="tablist" ref={tabListRef} aria-label={id}>
+      <TabsContainer role="tablist" ref={tabListRef} aria-label={label}>
         {items.map(item => (
           <Tab
             key={item.id}

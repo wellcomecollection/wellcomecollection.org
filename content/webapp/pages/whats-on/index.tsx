@@ -285,9 +285,9 @@ const Header: FunctionComponent<HeaderProps> = ({
           >
             <Tabs
               behaviourVariant="anchor"
+              label="date filter"
               currentSection={activeId}
               items={tabItems}
-              label="date filter"
             />
           </Space>
         </div>

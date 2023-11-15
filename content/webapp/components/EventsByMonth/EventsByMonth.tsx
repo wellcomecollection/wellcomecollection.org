@@ -53,7 +53,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
             <div className={cssGrid(gridSize12)}>
               <Tabs
                 behaviourVariant="tab"
-                id="monthControls"
+                label="Month control"
                 selectedTab={activeId || monthsWithEvents[0].id}
                 items={monthsWithEvents}
                 setSelectedTab={setActiveId}
