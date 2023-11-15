@@ -1,13 +1,15 @@
 import { test, expect } from '@playwright/test';
 import { newWorksSearch } from './contexts';
-import { searchFor, worksSearchForm } from './search-works.test';
+import { searchQueryAndSubmit } from './helpers/search';
+
+const worksSearchForm = '#search-searchbar';
 
 test('stays focussed on the query input when submitted', async ({
   context,
   page,
 }) => {
   await newWorksSearch(context, page);
-  await searchFor('worms', page);
+  await searchQueryAndSubmit('worms', page);
   await expect(page.locator(worksSearchForm)).toBeFocused();
 });
 
