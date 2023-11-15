@@ -281,7 +281,7 @@ const Header: FunctionComponent<HeaderProps> = ({
           )}
           <Space
             className={grid({ s: 12, m: 10, l: 7, xl: 7 })}
-            $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
+            $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
           >
             <Tabs
               behaviourVariant="anchor"

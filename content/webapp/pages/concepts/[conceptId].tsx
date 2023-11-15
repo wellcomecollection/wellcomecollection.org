@@ -376,8 +376,8 @@ export const ConceptPage: NextPage<Props> = ({
                   selectedTab={selectedWorksTab}
                   items={worksTabs.map(t => t.tab)}
                   setSelectedTab={setSelectedWorksTab}
-                  trackWithSegment={true}
-                  hideBorder={true}
+                  trackWithSegment
+                  hideBorder
                 />
               )}
             </Container>

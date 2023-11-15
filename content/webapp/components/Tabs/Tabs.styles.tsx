@@ -66,12 +66,31 @@ export const Tab = styled.div.attrs({
 
   a {
     text-decoration: none;
+
+    /* For Tab.Anchor */
+    &:focus-visible,
+    &:focus {
+      display: block;
+      box-shadow:
+        0 0 0 3px ${props => props.theme.color('focus.yellow')} inset,
+        0 0 0 6px ${props => props.theme.color('black')} inset;
+      outline: 0;
+    }
   }
 `;
 
 export const TabButton = styled.div.attrs({
   className: font('intb', 5),
-})<NavItemProps>``;
+})<NavItemProps>`
+  /* For Tab.Tab */
+  &:focus-visible,
+  &:focus {
+    box-shadow:
+      0 0 0 3px ${props => props.theme.color('focus.yellow')} inset,
+      0 0 0 6px ${props => props.theme.color('black')} inset;
+    outline: 0;
+  }
+`;
 
 export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
   props => {
