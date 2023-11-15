@@ -1,11 +1,19 @@
-import TabsDefault, { Props as TabsDefaultProps } from './Tabs.Default';
-import TabsLinks, { Props as TabsLinksProps } from './Tabs.Links';
 import { FunctionComponent } from 'react';
+import TabbableTabs, { Props as TabbableTabsProps } from './Tabs.Tab';
+import AnchorTabs, { Props as AnchorTabsProps } from './Tabs.Anchor';
 
-type Props = TabsDefaultProps | TabsLinksProps;
+type Props =
+  | (TabbableTabsProps & { behaviourVariant: 'tab' })
+  | (AnchorTabsProps & { behaviourVariant: 'anchor' });
 
 const Tabs: FunctionComponent<Props> = props => {
-  return props.isLinks ? <TabsLinks {...props} /> : <TabsDefault {...props} />;
+  const { behaviourVariant } = props;
+
+  return behaviourVariant === 'anchor' ? (
+    <AnchorTabs {...props} />
+  ) : (
+    <TabbableTabs {...props} />
+  );
 };
 
 export default Tabs;

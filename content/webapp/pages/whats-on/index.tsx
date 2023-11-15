@@ -284,7 +284,7 @@ const Header: FunctionComponent<HeaderProps> = ({
             $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
           >
             <Tabs
-              isLinks={true}
+              behaviourVariant="anchor"
               currentSection={activeId}
               items={tabItems}
               label="date filter"

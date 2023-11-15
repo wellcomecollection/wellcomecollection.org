@@ -2,11 +2,8 @@ import { test as base, expect } from '@playwright/test';
 import { concept } from './contexts';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
-import {
-  imagesAboutThisPerson,
-  worksAboutThisPerson,
-} from './selectors/concepts';
 import { ConceptPage } from './pages/concept';
+
 const domain = new URL(baseUrl).host;
 
 const test = base.extend<{
@@ -72,7 +69,7 @@ test.describe('concepts @conceptPage', () => {
     // I've deliberately picked a complicated ID with commas here, to make sure
     // we're quoting the link to a filtered search.
     await concept(conceptIds['Great Britain. Army'], context, page);
-    await page.click(worksAboutThisPerson);
+    await page.locator('[role="tab"][id="tab-worksAbout"]').click();
 
     // Note: the `link-reset` class is added by ButtonSolid, and is a way to
     // make sure we find the "All Works" link, and not a link to an individual work.
@@ -132,7 +129,7 @@ test.describe('concepts @conceptPage', () => {
       page
     );
 
-    await page.click(imagesAboutThisPerson);
+    await page.locator('[role="tab"][id="tab-imagesAbout"]').click();
     // Note: the `link-reset` class is added by ButtonSolid, and is a way to
     // make sure we find the "All Works" link, and not a link to an individual work.
     const aboutThisPerson = await page.waitForSelector(

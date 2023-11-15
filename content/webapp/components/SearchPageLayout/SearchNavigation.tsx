@@ -125,7 +125,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
         </SearchBarContainer>
       </form>
       <Tabs
-        isLinks={true}
+        behaviourVariant="anchor"
         hideBorder={currentSearchCategory === 'overview'}
         label="Search Categories"
         items={[

@@ -345,11 +345,12 @@ export const ConceptPage: NextPage<Props> = ({
             {hasImagesTabs && (
               <Tabs
                 id="images"
-                selectedTab={selectedImagesTab}
-                isWhite={true}
+                behaviourVariant="tab"
                 items={imagesTabs.map(t => t.tab)}
+                selectedTab={selectedImagesTab}
                 setSelectedTab={setSelectedImagesTab}
-                trackWithSegment={true}
+                isWhite
+                trackWithSegment
               />
             )}
             <Space $v={{ size: 'l', properties: ['margin-top'] }}>
@@ -371,6 +372,7 @@ export const ConceptPage: NextPage<Props> = ({
               {hasWorksTabs && (
                 <Tabs
                   id="works"
+                  behaviourVariant="tab"
                   selectedTab={selectedWorksTab}
                   items={worksTabs.map(t => t.tab)}
                   setSelectedTab={setSelectedWorksTab}

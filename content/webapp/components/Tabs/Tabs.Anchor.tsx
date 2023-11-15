@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import Link, { LinkProps } from 'next/link';
-import { Wrapper, TabsContainer, Tab, NavItemInner } from '../Tabs/Tabs.styles';
+import { Wrapper, TabsContainer, Tab, NavItemInner } from './Tabs.styles';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { IconSvg } from '@weco/common/icons';
@@ -20,14 +20,13 @@ export type SelectableTextLink = {
 };
 
 export type Props = {
-  isLinks: true; // not passed in to the component, but used to discriminate the union in ./index.tsx
   hideBorder?: boolean;
   label: string;
   items: SelectableTextLink[];
   currentSection: string;
 };
 
-const TabsLinks: FunctionComponent<Props> = ({
+const AnchorTabs: FunctionComponent<Props> = ({
   hideBorder,
   label,
   items,
@@ -87,4 +86,4 @@ const TabsLinks: FunctionComponent<Props> = ({
   );
 };
 
-export default TabsLinks;
+export default AnchorTabs;
