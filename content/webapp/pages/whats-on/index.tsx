@@ -445,10 +445,10 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
             <ClosedMessage />
           )} */}
         </Layout12>
-        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'm', properties: ['margin-top'] }}>
           {period === 'current-and-coming-up' && (
             <>
-              <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+              <Space $v={{ size: 'm', properties: ['padding-top'] }}>
                 <SpacingSection>
                   <SpacingComponent>
                     <SectionHeader title="Exhibitions" />
