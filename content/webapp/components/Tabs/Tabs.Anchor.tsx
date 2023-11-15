@@ -24,6 +24,7 @@ export type Props = {
   label: string;
   items: SelectableTextLink[];
   currentSection: string;
+  isWhite?: boolean;
 };
 
 const AnchorTabs: FunctionComponent<Props> = ({
@@ -31,6 +32,7 @@ const AnchorTabs: FunctionComponent<Props> = ({
   label,
   items,
   currentSection,
+  isWhite,
 }: Props) => {
   return (
     <>
@@ -54,6 +56,7 @@ const AnchorTabs: FunctionComponent<Props> = ({
                   <NavItemInner
                     $selected={isSelected}
                     aria-current={isSelected ? 'page' : 'false'}
+                    $isWhite={isWhite}
                     onClick={e => {
                       if (!isSelected) {
                         (e.target as HTMLDivElement).scrollIntoView({
