@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { newWorksSearch } from './contexts';
+import { newWorksSearch } from './helpers/contexts';
 import { searchQueryAndSubmit } from './helpers/search';
 
 const worksSearchForm = '#search-searchbar';

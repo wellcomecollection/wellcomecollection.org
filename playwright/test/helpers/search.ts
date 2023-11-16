@@ -1,6 +1,6 @@
 import { Page } from 'playwright';
 import { expect } from '@playwright/test';
-import { isMobile } from '../contexts';
+import { isMobile } from './contexts';
 
 export const searchQueryAndSubmit = async (
   query: string,
