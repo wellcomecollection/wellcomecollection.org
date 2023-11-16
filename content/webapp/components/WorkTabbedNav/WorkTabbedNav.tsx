@@ -12,7 +12,7 @@ const WorkTabbedNav: FunctionComponent<Props> = ({ work, selected }) => {
   const itemUrl = itemLink({ workId: work.id, source: 'work', props: {} });
   return (
     <Tabs
-      isLinks={true}
+      tabBehaviour="navigate"
       label="Search Categories"
       items={[
         {

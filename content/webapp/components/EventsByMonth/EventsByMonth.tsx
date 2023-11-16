@@ -52,11 +52,12 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
           <div className="css-grid">
             <div className={cssGrid(gridSize12)}>
               <Tabs
-                id="monthControls"
+                tabBehaviour="switch"
+                label="Month control"
                 selectedTab={activeId || monthsWithEvents[0].id}
                 items={monthsWithEvents}
                 setSelectedTab={setActiveId}
-                trackWithSegment={true}
+                trackWithSegment
               />
             </div>
           </div>

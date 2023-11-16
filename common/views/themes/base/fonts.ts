@@ -5,7 +5,7 @@ export const fonts = css<GlobalStyleProps>`
   @font-face {
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     src:
       url('https://i.wellcomecollection.org/assets/fonts/Inter-Regular.woff2')
         format('woff2'),

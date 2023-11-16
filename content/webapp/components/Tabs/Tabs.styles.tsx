@@ -60,45 +60,53 @@ export const Tab = styled.div.attrs({
           props.$hideBorder
             ? 'transparent'
             : props.$isWhite
-            ? 'neutral.600' // TODO: check these values
-            : 'neutral.400' // TODO: check these values
+            ? 'neutral.600'
+            : 'neutral.300'
         )}`};
 
   a {
     text-decoration: none;
+
+    /* For Tab.Anchor */
+    &:focus-visible,
+    &:focus {
+      display: block;
+      box-shadow:
+        0 0 0 3px ${props => props.theme.color('focus.yellow')} inset,
+        0 0 0 6px ${props => props.theme.color('black')} inset;
+      outline: 0;
+    }
   }
 `;
 
 export const TabButton = styled.div.attrs({
   className: font('intb', 5),
-})<NavItemProps>``;
+})<NavItemProps>`
+  /* For Tab.Tab */
+  &:focus-visible,
+  &:focus {
+    box-shadow:
+      0 0 0 3px ${props => props.theme.color('focus.yellow')} inset,
+      0 0 0 6px ${props => props.theme.color('black')} inset;
+    outline: 0;
+  }
+`;
 
-type NavItemInnerProps = {
-  $selected: boolean;
-  $isWhite?: boolean;
-};
-export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
-  return {
-    as: 'span',
-    className: classNames({ selected: props.$selected }),
-    $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-    $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  };
-})<NavItemInnerProps>`
+export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
+  props => {
+    return {
+      as: 'span',
+      className: classNames({ selected: props.$selected }),
+      $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+      $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+    };
+  }
+)<{ $isWhite?: boolean }>`
   display: block;
   position: relative;
   z-index: 1;
   cursor: pointer;
-  color: ${props =>
-    props.theme.color(
-      props.$isWhite
-        ? props.$selected
-          ? 'white'
-          : 'warmNeutral.400'
-        : props.$selected
-        ? 'black'
-        : 'neutral.600'
-    )};
+  color: ${props => props.theme.color(props.$isWhite ? 'white' : 'black')};
   transition: all ${props => props.theme.transitionProperties};
 
   &::after {

@@ -43,9 +43,8 @@ type SelectableTextLink = {
 };
 
 export type Props = {
-  isLinks?: false; // not passed in to the component, but used to discriminate the union in ./index.tsx
   hideBorder?: boolean;
-  id: string;
+  label: string;
   items: SelectableTextLink[];
   selectedTab: string;
   setSelectedTab: Dispatch<SetStateAction<string>>;
@@ -53,8 +52,8 @@ export type Props = {
   trackWithSegment?: boolean;
 };
 
-const Tabs: FunctionComponent<Props> = ({
-  id,
+const TabsSwitch: FunctionComponent<Props> = ({
+  label,
   items,
   hideBorder,
   selectedTab,
@@ -118,11 +117,10 @@ const Tabs: FunctionComponent<Props> = ({
 
   return (
     <Wrapper>
-      <TabsContainer role="tablist" ref={tabListRef} aria-label={id}>
+      <TabsContainer role="tablist" ref={tabListRef} aria-label={label}>
         {items.map(item => (
           <Tab
             key={item.id}
-            id={`tab-${item.id}`}
             $selected={isEnhanced && item.id === selectedTab}
             $isWhite={isWhite}
             $hideBorder={hideBorder}
@@ -143,6 +141,7 @@ const Tabs: FunctionComponent<Props> = ({
           >
             <TabButton
               role="tab"
+              id={`tab-${item.id}`}
               aria-controls={`tabpanel-${item.id}`}
               tabIndex={item.id === selectedTab ? 0 : -1}
               aria-selected={item.id === selectedTab}
@@ -167,4 +166,4 @@ const Tabs: FunctionComponent<Props> = ({
   );
 };
 
-export default Tabs;
+export default TabsSwitch;
