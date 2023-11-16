@@ -27,7 +27,7 @@ export type Props = {
   isWhite?: boolean;
 };
 
-const AnchorTabs: FunctionComponent<Props> = ({
+const TabsNavigate: FunctionComponent<Props> = ({
   hideBorder,
   label,
   items,
@@ -89,4 +89,4 @@ const AnchorTabs: FunctionComponent<Props> = ({
   );
 };
 
-export default AnchorTabs;
+export default TabsNavigate;

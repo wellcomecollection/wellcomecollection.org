@@ -345,7 +345,7 @@ export const ConceptPage: NextPage<Props> = ({
             {hasImagesTabs && (
               <Tabs
                 label="Images tabs"
-                behaviourVariant="tab"
+                tabBehaviour="switch"
                 items={imagesTabs.map(t => t.tab)}
                 selectedTab={selectedImagesTab}
                 setSelectedTab={setSelectedImagesTab}
@@ -372,7 +372,7 @@ export const ConceptPage: NextPage<Props> = ({
               {hasWorksTabs && (
                 <Tabs
                   label="Works tabs"
-                  behaviourVariant="tab"
+                  tabBehaviour="switch"
                   selectedTab={selectedWorksTab}
                   items={worksTabs.map(t => t.tab)}
                   setSelectedTab={setSelectedWorksTab}

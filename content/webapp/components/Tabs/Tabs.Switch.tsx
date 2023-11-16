@@ -52,7 +52,7 @@ export type Props = {
   trackWithSegment?: boolean;
 };
 
-const TabbableTabs: FunctionComponent<Props> = ({
+const TabsSwitch: FunctionComponent<Props> = ({
   label,
   items,
   hideBorder,
@@ -166,4 +166,4 @@ const TabbableTabs: FunctionComponent<Props> = ({
   );
 };
 
-export default TabbableTabs;
+export default TabsSwitch;

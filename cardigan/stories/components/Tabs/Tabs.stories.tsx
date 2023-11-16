@@ -15,15 +15,15 @@ const Wrapper = styled(Space).attrs({
     `background-color: ${props.theme.color(props.$backgroundColor)}`};
 `;
 
-const TabsContainer = ({ items, isWhite, behaviourVariant, ...rest }) => {
+const TabsContainer = ({ items, isWhite, tabBehaviour, ...rest }) => {
   const [selectedTab, setSelectedTab] = useState(items[0].id);
 
   return (
     <Container>
       <Wrapper $backgroundColor={isWhite ? 'black' : 'white'}>
-        {behaviourVariant === 'anchor' ? (
+        {tabBehaviour === 'navigate' ? (
           <Tabs
-            behaviourVariant={behaviourVariant}
+            tabBehaviour={tabBehaviour}
             label="bla"
             items={items}
             isWhite={isWhite}
@@ -32,7 +32,7 @@ const TabsContainer = ({ items, isWhite, behaviourVariant, ...rest }) => {
           />
         ) : (
           <Tabs
-            behaviourVariant={behaviourVariant}
+            tabBehaviour={tabBehaviour}
             label="bla"
             items={items}
             isWhite={isWhite}
@@ -58,7 +58,7 @@ export const basic = Template.bind({});
 basic.args = {
   isWhite: false,
   hideBorder: false,
-  behaviourVariant: 'tab',
+  tabBehaviour: 'switch',
   items: [
     {
       id: 'all',
