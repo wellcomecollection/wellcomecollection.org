@@ -1,18 +1,12 @@
 import { FunctionComponent, useState, useContext } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-
-// Helpers/Utils
 import { cssGrid, classNames } from '@weco/common/utils/classnames';
 import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';
 import { groupEventsByMonth, startOf } from './group-event-utils';
-
-// Components
 import CardGrid from '../CardGrid/CardGrid';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import Space from '@weco/common/views/components/styled/Space';
 import { Container } from '@weco/common/views/components/styled/Container';
-
-// Types
 import { EventBasic } from '@weco/content/types/events';
 import { Link } from '@weco/content/types/link';
 import Tabs from '@weco/content/components/Tabs';
@@ -46,7 +40,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
   const [activeId, setActiveId] = useState<string | undefined>();
 
   return (
-    <div>
+    <>
       <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
         <CssGridContainer>
           <div className="css-grid">
@@ -93,7 +87,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
             />
           </div>
         ))}
-    </div>
+    </>
   );
 };
 

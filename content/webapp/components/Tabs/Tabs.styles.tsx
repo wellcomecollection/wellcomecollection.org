@@ -68,8 +68,7 @@ export const Tab = styled.div.attrs({
     text-decoration: none;
 
     /* For Tab.Anchor */
-    &:focus-visible,
-    &:focus {
+    &:focus-visible {
       display: block;
       box-shadow:
         0 0 0 3px ${props => props.theme.color('focus.yellow')} inset,
@@ -83,8 +82,7 @@ export const TabButton = styled.div.attrs({
   className: font('intb', 5),
 })<NavItemProps>`
   /* For Tab.Tab */
-  &:focus-visible,
-  &:focus {
+  &:focus-visible {
     box-shadow:
       0 0 0 3px ${props => props.theme.color('focus.yellow')} inset,
       0 0 0 6px ${props => props.theme.color('black')} inset;
