@@ -126,7 +126,7 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
     &::after {
       width: 100%;
       background-color: ${props =>
-        props.theme.color(props.$selected ? 'yellow' : 'lightYellow')};
+        props.theme.color(props.$selected ? 'yellow' : 'neutral.300')};
 
       /* Prevent iOS double-tap link issue
        https://css-tricks.com/annoying-mobile-double-tap-link-issue/ */
