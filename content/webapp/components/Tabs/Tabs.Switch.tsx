@@ -145,7 +145,6 @@ const TabsSwitch: FunctionComponent<Props> = ({
               aria-controls={`tabpanel-${item.id}`}
               tabIndex={item.id === selectedTab ? 0 : -1}
               aria-selected={item.id === selectedTab}
-              $selected={item.id === selectedTab}
             >
               <NavItemInner
                 $selected={isEnhanced && item.id === selectedTab}
