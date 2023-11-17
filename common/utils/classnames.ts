@@ -22,7 +22,7 @@ export function cssGrid(sizes: SizeMap): string {
   return [base].concat(modifierClasses).join(' ');
 }
 
-// int(r|b) = Inter(regular|bold); wb = Wellcome Bold; lr = Lettera Regular
+// int(r|m|sb|b) = Inter(regular|medium|semi-bold|bold); wb = Wellcome Bold; lr = Lettera Regular
 type FontFamily = 'intr' | 'intm' | 'intsb' | 'intb' | 'wb' | 'lr';
 type FontSize = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 type FontSizeAll = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;

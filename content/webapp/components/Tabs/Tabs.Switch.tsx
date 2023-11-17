@@ -10,14 +10,17 @@ import {
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 import {
-  Wrapper,
   TabsContainer,
   Tab,
   TabButton,
   NavItemInner,
+  IconWrapper,
 } from './Tabs.styles';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import Space from '@weco/common/views/components/styled/Space';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { IconSvg } from '@weco/common/icons';
 
 type SendEventProps = {
   id: string;
@@ -40,6 +43,7 @@ type SelectableTextLink = {
   id: string;
   text: ReactNode;
   url?: string;
+  icon?: IconSvg;
 };
 
 export type Props = {
@@ -49,6 +53,8 @@ export type Props = {
   selectedTab: string;
   setSelectedTab: Dispatch<SetStateAction<string>>;
   isWhite?: boolean;
+  // TODO: Is this still useful? I think it was meant to be measured for X length of time for Concepts and that's it?
+  // Check with Tacey
   trackWithSegment?: boolean;
 };
 
@@ -116,12 +122,13 @@ const TabsSwitch: FunctionComponent<Props> = ({
   };
 
   return (
-    <Wrapper>
-      <TabsContainer role="tablist" ref={tabListRef} aria-label={label}>
-        {items.map(item => (
+    <TabsContainer role="tablist" ref={tabListRef} aria-label={label}>
+      {items.map(item => {
+        const isSelected = isEnhanced && selectedTab === item.id;
+        return (
           <Tab
             key={item.id}
-            $selected={isEnhanced && item.id === selectedTab}
+            $selected={isSelected}
             $isWhite={isWhite}
             $hideBorder={hideBorder}
             onClick={e => {
@@ -142,26 +149,33 @@ const TabsSwitch: FunctionComponent<Props> = ({
             <TabButton
               role="tab"
               id={`tab-${item.id}`}
-              aria-controls={`tabpanel-${item.id}`}
               tabIndex={item.id === selectedTab ? 0 : -1}
+              aria-controls={`tabpanel-${item.id}`}
               aria-selected={item.id === selectedTab}
             >
-              <NavItemInner
-                $selected={isEnhanced && item.id === selectedTab}
-                $isWhite={isWhite}
-              >
+              <NavItemInner $selected={isSelected} $isWhite={isWhite}>
                 <ConditionalWrapper
                   condition={Boolean(item.url && !isEnhanced)}
                   wrapper={children => <a href={item.url}>{children}</a>}
                 >
+                  {item.icon && (
+                    <Space
+                      as="span"
+                      $h={{ size: 's', properties: ['margin-right'] }}
+                    >
+                      <IconWrapper>
+                        <Icon icon={item.icon} />
+                      </IconWrapper>
+                    </Space>
+                  )}
                   {item.text}
                 </ConditionalWrapper>
               </NavItemInner>
             </TabButton>
           </Tab>
-        ))}
-      </TabsContainer>
-    </Wrapper>
+        );
+      })}
+    </TabsContainer>
   );
 };
 

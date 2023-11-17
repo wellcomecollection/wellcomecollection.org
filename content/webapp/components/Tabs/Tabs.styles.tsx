@@ -137,3 +137,9 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
     background-color: transparent;
   }
 `;
+
+export const IconWrapper = styled.span`
+  span {
+    top: 6px;
+  }
+`;

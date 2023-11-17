@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react';
 import TabsSwitch, { Props as TabsSwitchProps } from './Tabs.Switch';
 import TabsNavigate, { Props as TabsNavigateProps } from './Tabs.Navigate';
+import { Wrapper } from './Tabs.styles';
 
 type Props =
   | (TabsSwitchProps & { tabBehaviour: 'switch' })
@@ -9,10 +10,14 @@ type Props =
 const Tabs: FunctionComponent<Props> = props => {
   const { tabBehaviour } = props;
 
-  return tabBehaviour === 'navigate' ? (
-    <TabsNavigate {...props} />
-  ) : (
-    <TabsSwitch {...props} />
+  return (
+    <Wrapper>
+      {tabBehaviour === 'navigate' ? (
+        <TabsNavigate {...props} />
+      ) : (
+        <TabsSwitch {...props} />
+      )}
+    </Wrapper>
   );
 };
 
