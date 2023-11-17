@@ -12,13 +12,12 @@ import {
   BreakpointSizes,
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
 
-// Not typed as PaletteColor as we want the averageColor of each image
 const StyledImage = styled(Image)`
-  background-color: transparent;
   color: ${props => props.theme.color('neutral.700')};
 `;
 
 const StyledImageContainer = styled.div<{
+  // Not typed as PaletteColor as we want the averageColor of each image
   $background: string;
 }>`
   height: 100%;
