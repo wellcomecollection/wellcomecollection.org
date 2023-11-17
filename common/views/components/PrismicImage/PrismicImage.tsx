@@ -1,12 +1,15 @@
 import { FunctionComponent } from 'react';
 import Image, { ImageLoaderProps } from 'next/image';
 import styled from 'styled-components';
-import { Breakpoint, sizes as breakpointSizes } from '../../themes/config';
+import {
+  Breakpoint,
+  sizes as breakpointSizes,
+} from '@weco/common/views/themes/config';
 import { ImageType } from '@weco/common/model/image';
+import { whiteBackgroundHalfOpacity } from '@weco/common/utils/backgrounds';
 
 const StyledImage = styled(Image)<{ $desaturate: boolean }>`
   color: ${props => props.theme.color('white')};
-  background-color: ${props => props.theme.color('neutral.700')};
   filter: ${props => (props.$desaturate ? 'saturate(0%)' : undefined)};
   width: 100%;
   height: auto;
@@ -120,7 +123,8 @@ const PrismicImage: FunctionComponent<Props> = ({
       $desaturate={desaturate}
       loader={createPrismicLoader(maxLoaderWidth, quality)}
       sizes={imgSizes || sizesString}
-      style={{}}
+      placeholder="blur"
+      blurDataURL={whiteBackgroundHalfOpacity}
     />
   );
 };
