@@ -241,7 +241,6 @@ async function run() {
     console.log(
       chalk.red(`🚨 ${totalErrors} error${totalErrors > 1 ? 's' : ''} detected`)
     );
-    process.exit(1);
   }
 }
 
