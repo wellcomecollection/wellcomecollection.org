@@ -47,9 +47,9 @@ type NavItemProps = {
   $hideBorder?: boolean;
 };
 
-export const Tab = styled.div.attrs<{ $selected: boolean }>(props => ({
-  className: font(props.$selected ? 'intsb' : 'intm', 5),
-}))<NavItemProps>`
+export const Tab = styled.div.attrs({
+  className: font('intsb', 5),
+})<NavItemProps>`
   padding: 0;
   margin: 0;
   flex-shrink: 0;
