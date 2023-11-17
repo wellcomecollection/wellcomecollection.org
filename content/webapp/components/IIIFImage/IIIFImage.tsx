@@ -20,6 +20,7 @@ const StyledImageContainer = styled.div<{
   // Not typed as PaletteColor as we want the averageColor of each image
   $background: string;
 }>`
+  position: relative;
   height: 100%;
   display: flex;
   align-items: center;
@@ -34,6 +35,10 @@ const StyledImageContainer = styled.div<{
     height: 100%;
     background-color: ${props => props.$background};
     filter: saturate(50%);
+  }
+
+  img {
+    z-index: 0;
   }
 `;
 
