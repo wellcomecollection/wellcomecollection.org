@@ -15,10 +15,8 @@ export const hasFilters = ({
   queryParams,
 }: {
   filters: string[];
-  queryParams: string[];
-}): boolean => {
-  return !!filters.filter(element => queryParams.includes(element)).length;
-};
+  queryParams: Record<string, string>;
+}): boolean => filters.some(filter => filter in queryParams);
 
 /**
  * Gets the active filters' labels as they are needed for aria-live readings

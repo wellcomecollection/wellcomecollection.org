@@ -82,7 +82,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
       'production.dates.from',
       'production.dates.to',
     ],
-    queryParams: Object.keys(query),
+    queryParams: query,
   });
 
   const activeFiltersLabels = getActiveFiltersLabel({ filters });

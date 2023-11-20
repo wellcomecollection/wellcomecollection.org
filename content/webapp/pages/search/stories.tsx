@@ -73,7 +73,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   const hasNoResults = storyResponseList.totalResults === 0;
   const hasActiveFilters = hasFilters({
     filters: filters.map(f => f.id),
-    queryParams: Object.keys(query),
+    queryParams: query,
   });
 
   const activeFiltersLabels = getActiveFiltersLabel({ filters });
