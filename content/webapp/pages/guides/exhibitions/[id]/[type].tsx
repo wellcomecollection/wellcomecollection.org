@@ -35,6 +35,7 @@ import useHotjar from '@weco/content/hooks/useHotjar';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { font } from '@weco/common/utils/classnames';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 const ButtonWrapper = styled(Space).attrs({
   $v: { size: 's', properties: ['margin-bottom'] },
@@ -77,13 +78,12 @@ export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
   setCacheControl(context.res);
-  const serverData = await getServerData(context);
   const { id, type, usingQRCode, userPreferenceSet, stopId } = context.query;
-  const { res, req } = context;
 
   if (!looksLikePrismicId(id) || !isValidType(type)) {
     return { notFound: true };
   }
+  const { res, req } = context;
 
   const client = createClient(context);
   const exhibitionGuideQuery = await fetchExhibitionGuide(client, id);
@@ -142,7 +142,8 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  if (exhibitionGuideQuery) {
+  if (isNotUndefined(exhibitionGuideQuery)) {
+    const serverData = await getServerData(context);
     const exhibitionGuide = transformExhibitionGuide(exhibitionGuideQuery);
     const filteredExhibitionGuide = filterExhibitionGuideComponents(
       exhibitionGuide,
@@ -161,9 +162,9 @@ export const getServerSideProps: GetServerSideProps<
         stopId: stopId as string | undefined,
       }),
     };
-  } else {
-    return { notFound: true };
   }
+
+  return { notFound: true };
 };
 
 const ExhibitionGuidePage: FunctionComponent<Props> = props => {

@@ -1,6 +1,6 @@
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { FunctionComponent } from 'react';
-import SubNavigation from '@weco/content/components/SubNavigation/SubNavigation';
+import Tabs from '@weco/content/components/Tabs';
 import { listView, eye } from '@weco/common/icons';
 import { toLink as itemLink } from '../ItemLink';
 
@@ -11,7 +11,8 @@ type Props = {
 const WorkTabbedNav: FunctionComponent<Props> = ({ work, selected }) => {
   const itemUrl = itemLink({ workId: work.id, source: 'work', props: {} });
   return (
-    <SubNavigation
+    <Tabs
+      tabBehaviour="navigate"
       label="Search Categories"
       items={[
         {
@@ -27,18 +28,17 @@ const WorkTabbedNav: FunctionComponent<Props> = ({ work, selected }) => {
               pathname: `/works/${work.id}`,
             },
           },
-          name: 'Catalogue details',
+          text: 'Catalogue details',
           icon: listView,
         },
         {
           id: 'imageViewer',
           url: itemUrl,
-          name: 'Image viewer',
+          text: 'Image viewer',
           icon: eye,
         },
       ]}
       currentSection={selected}
-      hasDivider
     />
   );
 };

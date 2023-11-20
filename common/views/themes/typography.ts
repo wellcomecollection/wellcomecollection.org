@@ -54,6 +54,14 @@ const fontFamilies = {
     base: `Inter, sans-serif;`,
     full: `Inter, sans-serif;`,
   },
+  intm: {
+    base: `Inter, sans-serif;`,
+    full: `Inter, sans-serif;`,
+  },
+  intsb: {
+    base: `Inter, sans-serif;`,
+    full: `Inter, sans-serif;`,
+  },
   intb: {
     base: `Inter, sans-serif;`,
     full: `Inter, sans-serif;`,
@@ -89,16 +97,32 @@ export const fontFamilyMixin = (
 
 export const typography = css<GlobalStyleProps>`
   .font-intb {
-    font-weight: bold;
+    font-weight: 700;
+  }
+
+  .font-intsb {
+    font-weight: 600;
+  }
+
+  .font-intm {
+    font-weight: 500;
   }
 
   .font-intr {
-    font-weight: normal;
+    font-weight: 400;
   }
 
   ${props => `
     .font-intb {
       ${fontFamilyMixin('intb', !!props.isFontsLoaded)};
+    }
+
+    .font-intsb {
+      ${fontFamilyMixin('intsb', !!props.isFontsLoaded)};
+    }
+
+    .font-intm {
+      ${fontFamilyMixin('intm', !!props.isFontsLoaded)};
     }
 
     .font-intr {

@@ -1,14 +1,26 @@
 import {
   FunctionComponent,
   useRef,
+  useContext,
   Dispatch,
   SetStateAction,
   ReactNode,
   KeyboardEvent,
 } from 'react';
-import { Wrapper, TabsContainer, Tab, NavItemInner } from './TabNav.styles';
-import Divider from '@weco/common/views/components/Divider/Divider';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+
+import {
+  TabsContainer,
+  Tab,
+  TabButton,
+  NavItemInner,
+  IconWrapper,
+} from './Tabs.styles';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import Space from '@weco/common/views/components/styled/Space';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { IconSvg } from '@weco/common/icons';
 
 type SendEventProps = {
   id: string;
@@ -30,28 +42,32 @@ function sendEvent({ id, trackWithSegment }: SendEventProps) {
 type SelectableTextLink = {
   id: string;
   text: ReactNode;
-  selected: boolean;
+  url?: string;
+  icon?: IconSvg;
 };
 
-type Props = {
-  id: string;
+export type Props = {
+  hideBorder?: boolean;
+  label: string;
   items: SelectableTextLink[];
   selectedTab: string;
   setSelectedTab: Dispatch<SetStateAction<string>>;
-  variant?: 'yellow' | 'white';
-  hasDivider?: boolean;
+  isWhite?: boolean;
+  // TODO: Is this still useful? I think it was meant to be measured for X length of time for Concepts and that's it?
+  // Check with Tacey
   trackWithSegment?: boolean;
 };
 
-const TabNav: FunctionComponent<Props> = ({
-  id,
+const TabsSwitch: FunctionComponent<Props> = ({
+  label,
   items,
+  hideBorder,
   selectedTab,
   setSelectedTab,
-  variant,
-  hasDivider,
+  isWhite,
   trackWithSegment = false,
 }: Props) => {
+  const { isEnhanced } = useContext(AppContext);
   const tabListRef = useRef<HTMLDivElement>(null);
 
   function focusTabAtIndex(index: number): void {
@@ -62,7 +78,7 @@ const TabNav: FunctionComponent<Props> = ({
     element?.focus();
   }
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     const LEFT = [37, 'ArrowLeft'];
     const RIGHT = [39, 'ArrowRight'];
     const HOME = [36, 'Home'];
@@ -106,18 +122,17 @@ const TabNav: FunctionComponent<Props> = ({
   };
 
   return (
-    <Wrapper>
-      <TabsContainer role="tablist" ref={tabListRef} aria-label={id}>
-        {items.map(item => (
+    <TabsContainer role="tablist" ref={tabListRef} aria-label={label}>
+      {items.map(item => {
+        const isSelected = isEnhanced && selectedTab === item.id;
+        return (
           <Tab
             key={item.id}
-            id={`tab-${item.id}`}
-            role="tab"
-            aria-controls={`tabpanel-${item.id}`}
-            tabIndex={item.selected ? 0 : -1}
-            aria-selected={item.selected}
+            $selected={isSelected}
+            $isWhite={isWhite}
+            $hideBorder={hideBorder}
             onClick={e => {
-              if (!item.selected) {
+              if (!(item.id === selectedTab)) {
                 (e.target as HTMLButtonElement).scrollIntoView({
                   behavior: 'smooth',
                   inline: 'start',
@@ -131,16 +146,37 @@ const TabNav: FunctionComponent<Props> = ({
             }}
             onKeyDown={handleKeyDown}
           >
-            <NavItemInner $selected={item.selected} $variant={variant}>
-              {item.text}
-            </NavItemInner>
+            <TabButton
+              role="tab"
+              id={`tab-${item.id}`}
+              tabIndex={item.id === selectedTab ? 0 : -1}
+              aria-controls={`tabpanel-${item.id}`}
+              aria-selected={item.id === selectedTab}
+            >
+              <NavItemInner $selected={isSelected} $isWhite={isWhite}>
+                <ConditionalWrapper
+                  condition={Boolean(item.url && !isEnhanced)}
+                  wrapper={children => <a href={item.url}>{children}</a>}
+                >
+                  {item.icon && (
+                    <Space
+                      as="span"
+                      $h={{ size: 's', properties: ['margin-right'] }}
+                    >
+                      <IconWrapper>
+                        <Icon icon={item.icon} />
+                      </IconWrapper>
+                    </Space>
+                  )}
+                  {item.text}
+                </ConditionalWrapper>
+              </NavItemInner>
+            </TabButton>
           </Tab>
-        ))}
-      </TabsContainer>
-
-      {hasDivider && <Divider lineColor="neutral.300" />}
-    </Wrapper>
+        );
+      })}
+    </TabsContainer>
   );
 };
 
-export default TabNav;
+export default TabsSwitch;

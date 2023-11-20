@@ -119,14 +119,13 @@ export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
   setCacheControl(context.res);
-  const serverData = await getServerData(context);
   const { pageId } = context.query;
-
-  const client = createClient(context);
 
   if (!looksLikePrismicId(pageId)) {
     return { notFound: true };
   }
+
+  const client = createClient(context);
 
   const vanityUrl = isVanityUrl(pageId, context.resolvedUrl)
     ? context.resolvedUrl
@@ -135,7 +134,8 @@ export const getServerSideProps: GetServerSideProps<
   const pageLookup = await fetchPage(client, pageId);
   const page = pageLookup && transformPage(pageLookup);
 
-  if (page) {
+  if (isNotUndefined(page)) {
+    const serverData = await getServerData(context);
     const siblings: SiblingsGroup<PageType>[] = (
       await fetchSiblings(client, page)
     ).map(group => {
@@ -180,9 +180,9 @@ export const getServerSideProps: GetServerSideProps<
         },
       }),
     };
-  } else {
-    return { notFound: true };
   }
+
+  return { notFound: true };
 };
 
 export const Page: FunctionComponent<Props> = ({
