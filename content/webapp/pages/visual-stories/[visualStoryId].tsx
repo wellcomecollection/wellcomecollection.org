@@ -33,7 +33,7 @@ export const returnVisualStoryProps = ({
   visualStoryDocument?: VisualStoryDocument;
   serverData: SimplifiedServerData;
 }) => {
-  if (visualStoryDocument) {
+  if (isNotUndefined(visualStoryDocument)) {
     const visualStory = transformVisualStory(visualStoryDocument);
     const jsonLd = visualStoryLd(visualStory);
 
@@ -48,9 +48,9 @@ export const returnVisualStoryProps = ({
         },
       }),
     };
-  } else {
-    return { notFound: true };
   }
+
+  return { notFound: true };
 };
 
 export const getServerSideProps = async context => {
@@ -61,15 +61,11 @@ export const getServerSideProps = async context => {
     return { notFound: true };
   }
 
+  const serverData = await getServerData(context);
   const client = createClient(context);
   const visualStoryDocument = await fetchVisualStory(client, visualStoryId);
 
-  if (isNotUndefined(visualStoryDocument)) {
-    const serverData = await getServerData(context);
-    return returnVisualStoryProps({ visualStoryDocument, serverData });
-  }
-
-  return { notFound: true };
+  return returnVisualStoryProps({ visualStoryDocument, serverData });
 };
 
 const VisualStory: FunctionComponent<Props> = ({ visualStory, jsonLd }) => {
