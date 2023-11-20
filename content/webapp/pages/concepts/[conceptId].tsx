@@ -433,12 +433,13 @@ export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
   setCacheControl(context.res, cacheTTL.search);
-  const serverData = await getServerData(context);
   const { conceptId } = context.query;
 
   if (!looksLikeCanonicalId(conceptId)) {
     return { notFound: true };
   }
+
+  const serverData = await getServerData(context);
 
   const conceptResponse = await getConcept({
     id: conceptId,

@@ -30,6 +30,7 @@ import { isFuture } from '@weco/common/utils/dates';
 import Pagination from '@weco/content/components/Pagination/Pagination';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { Container } from '@weco/common/views/components/styled/Container';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 export type ExhibitionsProps = {
   exhibitions: PaginatedResults<ExhibitionBasic>;
@@ -42,14 +43,14 @@ export const getServerSideProps: GetServerSideProps<
   ExhibitionsProps | AppErrorProps
 > = async context => {
   setCacheControl(context.res, cacheTTL.events);
-  const serverData = await getServerData(context);
-  const client = createClient(context);
 
   const page = getPage(context.query);
+
   if (typeof page !== 'number') {
     return appError(context, 400, page.message);
   }
 
+  const client = createClient(context);
   const { period } = context.query;
 
   const exhibitionsQuery = await fetchExhibitions(client, {
@@ -58,9 +59,11 @@ export const getServerSideProps: GetServerSideProps<
   });
   const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
 
-  if (exhibitions && exhibitions.results.length > 0) {
+  if (isNotUndefined(exhibitions) && exhibitions.results.length > 0) {
+    const serverData = await getServerData(context);
     const title = (period === 'past' ? 'Past e' : 'E') + 'xhibitions';
     const jsonLd = exhibitions.results.map(exhibitionLd);
+
     return {
       props: serialiseProps({
         exhibitions,
@@ -70,9 +73,9 @@ export const getServerSideProps: GetServerSideProps<
         serverData,
       }),
     };
-  } else {
-    return { notFound: true };
   }
+
+  return { notFound: true };
 };
 
 const ExhibitionsPage: FunctionComponent<ExhibitionsProps> = props => {

@@ -40,6 +40,7 @@ import styled from 'styled-components';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 const ContentTypeWrapper = styled.div`
   display: flex;
@@ -64,15 +65,16 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   setCacheControl(context.res);
   const { articleId } = context.query;
+
   if (!looksLikePrismicId(articleId)) {
     return { notFound: true };
   }
 
   const client = createClient(context);
   const articleDocument = await fetchArticle(client, articleId);
-  const serverData = await getServerData(context);
 
-  if (articleDocument) {
+  if (isNotUndefined(articleDocument)) {
+    const serverData = await getServerData(context);
     const article = transformArticle(articleDocument);
     const jsonLd = articleLd(article);
     return {
@@ -91,9 +93,9 @@ export const getServerSideProps: GetServerSideProps<
         },
       }),
     };
-  } else {
-    return { notFound: true };
   }
+
+  return { notFound: true };
 };
 
 type ArticleSeriesList = {
