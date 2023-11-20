@@ -20,7 +20,7 @@ const SearchNoResults: FunctionComponent<Props> = ({
     <Space $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
       <div className="grid">
         <div className={grid({ s: 12, m: 10, l: 10, xl: 10 })}>
-          <p data-test-id="search-no-results" className={font('intr', 2)}>
+          <p data-testid="search-no-results" className={font('intr', 2)}>
             We couldn&rsquo;t find anything that matched{' '}
             {query ? <QuerySpan>{query}</QuerySpan> : 'your search'}
             {hasFilters ? ' with the filters you have selected.' : '.'}
