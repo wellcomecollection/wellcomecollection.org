@@ -23,6 +23,7 @@ import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
@@ -87,13 +88,14 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   setCacheControl(context.res);
   const { bookId } = context.query;
+
   if (!looksLikePrismicId(bookId)) {
     return { notFound: true };
   }
   const client = createClient(context);
   const bookDocument = await fetchBook(client, bookId);
 
-  if (bookDocument) {
+  if (isNotUndefined(bookDocument)) {
     const serverData = await getServerData(context);
     const book = transformBook(bookDocument);
 
