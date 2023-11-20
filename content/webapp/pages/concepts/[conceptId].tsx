@@ -36,7 +36,7 @@ import {
 
 // Styles
 import Space from '@weco/common/views/components/styled/Space';
-import TabNav from '@weco/content/components/TabNav/TabNav';
+import Tabs from '@weco/content/components/Tabs';
 import { font } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Pageview } from '@weco/common/services/conversion/track';
@@ -100,11 +100,6 @@ const ConceptWorksHeader = styled(Space).attrs({
   background-color: ${({ $hasWorksTabs, theme }) =>
     theme.color($hasWorksTabs ? 'warmNeutral.300' : 'white')};
 `;
-
-const withSelectedStatus = (selectedTab: string, tabDefinition) => {
-  tabDefinition.selected = selectedTab === tabDefinition.id;
-  return tabDefinition;
-};
 
 // tabDefinitions is an ordered list of the image or works tabs in a page.
 // (hence not just having an object and doing a [selectedTab] lookup)
@@ -348,15 +343,14 @@ export const ConceptPage: NextPage<Props> = ({
           <Container>
             <h2 className={`${font('wb', 3)} sectionTitle`}>Images</h2>
             {hasImagesTabs && (
-              <TabNav
-                id="images"
+              <Tabs
+                label="Images tabs"
+                tabBehaviour="switch"
+                items={imagesTabs.map(t => t.tab)}
                 selectedTab={selectedImagesTab}
-                variant="white"
-                items={imagesTabs.map(tabData =>
-                  withSelectedStatus(selectedImagesTab, tabData.tab)
-                )}
                 setSelectedTab={setSelectedImagesTab}
-                trackWithSegment={true}
+                isWhite
+                trackWithSegment
               />
             )}
             <Space $v={{ size: 'l', properties: ['margin-top'] }}>
@@ -376,14 +370,14 @@ export const ConceptPage: NextPage<Props> = ({
               <h2 className={font('wb', 3)}>Catalogue</h2>
 
               {hasWorksTabs && (
-                <TabNav
-                  id="works"
+                <Tabs
+                  label="Works tabs"
+                  tabBehaviour="switch"
                   selectedTab={selectedWorksTab}
-                  items={worksTabs.map(tabData =>
-                    withSelectedStatus(selectedWorksTab, tabData.tab)
-                  )}
+                  items={worksTabs.map(t => t.tab)}
                   setSelectedTab={setSelectedWorksTab}
-                  trackWithSegment={true}
+                  trackWithSegment
+                  hideBorder
                 />
               )}
             </Container>

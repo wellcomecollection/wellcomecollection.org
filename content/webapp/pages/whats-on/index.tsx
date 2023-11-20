@@ -22,10 +22,6 @@ import {
 } from '@weco/common/services/prismic/opening-times';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import SegmentedControl, {
-  Item,
-  ItemID,
-} from '@weco/content/components/SegmentedControl/SegmentedControl';
 import EventsByMonth from '@weco/content/components/EventsByMonth/EventsByMonth';
 import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
@@ -84,8 +80,9 @@ import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { Container } from '@weco/common/views/components/styled/Container';
+import Tabs from '@weco/content/components/Tabs';
 
-const segmentedControlItems: Item[] = [
+const tabItems = [
   {
     id: 'current-and-coming-up',
     url: '/whats-on',
@@ -206,7 +203,7 @@ const OpeningTimes = styled.div`
 `;
 
 type HeaderProps = {
-  activeId: ItemID;
+  activeId: string;
   todaysOpeningHours: ExceptionalOpeningHoursDay | OpeningHoursDay | undefined;
   featuredText?: FeaturedTextType;
 };
@@ -284,13 +281,13 @@ const Header: FunctionComponent<HeaderProps> = ({
           )}
           <Space
             className={grid({ s: 12, m: 10, l: 7, xl: 7 })}
-            $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
+            $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
           >
-            <SegmentedControl
-              ariaCurrentText="page"
-              id="whatsOnFilter"
-              activeId={activeId}
-              items={segmentedControlItems}
+            <Tabs
+              tabBehaviour="navigate"
+              label="date filter"
+              currentSection={activeId}
+              items={tabItems}
             />
           </Space>
         </div>
@@ -407,7 +404,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
 
   const firstExhibition = exhibitions[0];
 
-  const extraTitleText = segmentedControlItems.find(item => item.id === period);
+  const extraTitleText = tabItems.find(item => item.id === period);
   const pageTitle = extraTitleText
     ? `What’s on${` - ${extraTitleText.text}`}`
     : `What’s on`;
@@ -448,10 +445,10 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
             <ClosedMessage />
           )} */}
         </Layout12>
-        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+        <Space $v={{ size: 'm', properties: ['margin-top'] }}>
           {period === 'current-and-coming-up' && (
             <>
-              <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+              <Space $v={{ size: 'm', properties: ['padding-top'] }}>
                 <SpacingSection>
                   <SpacingComponent>
                     <SectionHeader title="Exhibitions" />

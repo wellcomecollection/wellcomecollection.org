@@ -11,8 +11,6 @@ import Pagination from '@weco/content/components/Pagination/Pagination';
 import Sort from '@weco/content/components/Sort/Sort';
 import SearchFilters from '@weco/content/components/SearchFilters';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
-import Divider from '@weco/common/views/components/Divider/Divider';
-import { DividerWrapper } from '@weco/content/components/SubNavigation/SubNavigation.styles';
 import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
 import {
   fromQuery,
@@ -144,10 +142,6 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                   hasNoResults={hasNoResults}
                 />
               </Space>
-
-              <DividerWrapper>
-                <Divider lineColor="neutral.300" />
-              </DividerWrapper>
             </>
           )}
 
