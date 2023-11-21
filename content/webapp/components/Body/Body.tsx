@@ -35,7 +35,7 @@ import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
 import InfoBlock from '@weco/content/components/InfoBlock/InfoBlock';
 import TitledTextList from '../TitledTextList/TitledTextList';
 import TagsGroup from '@weco/content/components/TagsGroup/TagsGroup';
-import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
+import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import GridFactory, { sectionLevelPageGrid } from './GridFactory';
 import Card from '../Card/Card';
 import { convertItemToCardProps } from '../../types/card';

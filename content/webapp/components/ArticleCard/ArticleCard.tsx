@@ -1,7 +1,7 @@
 import CompactCard from '../CompactCard/CompactCard';
 import { FunctionComponent } from 'react';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
-import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import Space from '@weco/common/views/components/styled/Space';
 import WatchLabel from '@weco/content/components/WatchLabel/WatchLabel';
 import { isNotUndefined, isUndefined } from '@weco/common/utils/type-guards';

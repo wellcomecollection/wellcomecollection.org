@@ -1,108 +1,75 @@
-import { Page, test, expect } from '@playwright/test';
-import { gotoWithoutCache, isMobile } from './contexts';
+import { test, expect } from '@playwright/test';
+import { newSearch } from './helpers/contexts';
 
-import { elementIsVisible, fillInputAction } from './actions/common';
-import { expectItemsIsVisible, expectItemIsVisible } from './asserts/common';
-import safeWaitForNavigation from './helpers/safeWaitForNavigation';
+import { expectItemIsVisible } from './asserts/common';
 import {
-  formatFilterMobileButton,
-  mobileModal,
-  mobileModalCloseButton,
-} from './selectors/search';
+  searchQuerySubmitAndWait,
+  selectAndWaitForColourFilter,
+  selectAndWaitForFilter,
+  testIfFilterIsApplied,
+} from './helpers/search';
+import { searchResultsContainer } from './selectors/search';
+
+test.describe.configure({ mode: 'parallel' });
 
 const baseUrl = process.env.PLAYWRIGHT_BASE_URL
   ? process.env.PLAYWRIGHT_BASE_URL
   : 'http://localhost:3000';
 
-const overviewUrl = `${baseUrl}/search`;
-const imagesUrl = `${baseUrl}/search/images`;
+test('(1) | The users changes tabs; the query (but not the filters) should be maintained', async ({
+  page,
+  context,
+}) => {
+  await newSearch(context, page, 'images');
+  await searchQuerySubmitAndWait('art of science', page);
+  await selectAndWaitForColourFilter(page);
+  await expectItemIsVisible(searchResultsContainer, page);
+  await page.getByRole('link', { name: 'Catalogue' }).click();
+  await expect(page).toHaveURL(
+    `${baseUrl}/search/works?query=art%20of%20science`
+  );
+});
 
-const searchBarInput = `#search-searchbar`;
-const colourSelectorFilterDropDown = `button[aria-controls="images.color"]`;
-const colourSelector = `button[data-test-id="swatch-red"]`;
+test('(2) | The user clicks on "All Stories" on the Overview page; they should be taken to the stories search page', async ({
+  page,
+  context,
+}) => {
+  await newSearch(context, page);
+  await searchQuerySubmitAndWait('art of science', page);
+  await page.getByRole('link', { name: 'All stories' }).click();
+  await expect(page).toHaveURL(
+    `${baseUrl}/search/stories?query=art+of+science`
+  );
+});
 
-const fillActionSearchInput = async (
-  value: string,
-  page: Page
-): Promise<void> => {
-  const selector = `${searchBarInput}`;
-  await fillInputAction(selector, value, page);
-};
+test("(3) | The user does a search with filters that doesn't have results; they should be informed with the relevant no results component", async ({
+  page,
+  context,
+}) => {
+  const queryString = 'gsdhg;djs';
+  await newSearch(context, page, 'images');
+  await selectAndWaitForFilter('Licences', 'pdm', page); // Public Domain Mark
+  await testIfFilterIsApplied('Public Domain Mark', page);
+  await searchQuerySubmitAndWait(queryString, page);
 
-const selectColourInPicker = async (page: Page): Promise<void> => {
-  await Promise.all([safeWaitForNavigation(page), page.click(colourSelector)]);
-};
+  await expect(await page.getByTestId('search-no-results')).toHaveText(
+    `We couldn’t find anything that matched ${queryString} with the filters you have selected.`
+  );
+});
 
-async function gotoSearchResultPage(
-  { url, query }: { url: string; query: string },
-  page: Page
-): Promise<void> {
-  await gotoWithoutCache(url, page);
-  await fillActionSearchInput(query, page);
-  await Promise.all([
-    safeWaitForNavigation(page),
-    page.press(searchBarInput, 'Enter'),
-  ]);
-}
+test('(4) | The search input stays focussed when submitted', async ({
+  context,
+  page,
+}) => {
+  await newSearch(context, page, 'works');
+  await searchQuerySubmitAndWait('worms', page);
+  await expect(page.getByRole('searchbox')).toBeFocused();
+});
 
-const imageSearchResultsContainer =
-  '[data-test-id="image-search-results-container"]';
-const imagesResultsListItem = `${imageSearchResultsContainer} li`;
-
-const subNavigationContainer = 'div[data-test-id="sub-nav-tab-container"]';
-const catalogueSectionSelector = `${subNavigationContainer} div[data-test-id="works"]`;
-const searchNoResults = 'p[data-test-id="search-no-results"]';
-
-test.describe('Search page interactions', () => {
-  test('the query (but not the filters) are maintained when switching through tabs', async ({
-    page,
-  }) => {
-    const query = 'art of science';
-    await gotoSearchResultPage({ url: imagesUrl, query }, page);
-    await expectItemIsVisible(imageSearchResultsContainer, page);
-    await expectItemsIsVisible(imagesResultsListItem, 1, page);
-
-    if (isMobile(page)) {
-      await page.click(formatFilterMobileButton);
-      await elementIsVisible(mobileModal, page);
-      await selectColourInPicker(page);
-      await page.click(mobileModalCloseButton);
-    } else {
-      await page.click(colourSelectorFilterDropDown);
-      await selectColourInPicker(page);
-      await page.click(colourSelectorFilterDropDown);
-    }
-
-    await expectItemIsVisible(imageSearchResultsContainer, page);
-    await page.click(catalogueSectionSelector);
-    await safeWaitForNavigation(page);
-
-    // check the url to ensure that no weird filters are added
-    expect(page.url()).toBe(`${baseUrl}/search/works?query=art%20of%20science`);
-  });
-  test('clicking on "All Stories" on the Overview page takes us to the correct page on click', async ({
-    page,
-  }) => {
-    const query = 'art of science';
-    await gotoSearchResultPage({ url: overviewUrl, query }, page);
-    await page.click('text=All stories');
-    await safeWaitForNavigation(page);
-    expect(page.url()).toBe(`${baseUrl}/search/stories?query=art+of+science`);
-  });
-  test('clicking on "All Images" on the Overview page takes us to the correct page on click', async ({
-    page,
-  }) => {
-    const query = 'art of science';
-    await gotoSearchResultPage({ url: overviewUrl, query }, page);
-    await page.click('text=All images');
-    await safeWaitForNavigation(page);
-    expect(page.url()).toBe(`${baseUrl}/search/images?query=art+of+science`);
-  });
-  test('the no results message shows if needed', async ({ page }) => {
-    const query = 'gisjdabasdf;o';
-    await gotoSearchResultPage({ url: imagesUrl, query }, page);
-    expect(await page.innerText(searchNoResults)).toBe(
-      `We couldn’t find anything that matched ${query}.`
-    );
-  });
+test('(5) | The search input does not have focus on initial load', async ({
+  context,
+  page,
+}) => {
+  await newSearch(context, page, 'works');
+  await expect(page.getByRole('searchbox')).not.toBeFocused();
 });

@@ -15,7 +15,7 @@ import Layout, {
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
-import WobblyBottom from '@weco/common/views/components/WobblyBottom/WobblyBottom';
+import { WobblyBottom } from '@weco/common/views/components/WobblyEdge';
 
 // Types
 import { Season } from '@weco/content/types/seasons';

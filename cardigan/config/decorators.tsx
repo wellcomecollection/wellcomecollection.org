@@ -19,7 +19,7 @@ export const ContextDecorator: FunctionComponent<PropsWithChildren> = ({
   );
 };
 
-const ReadMeInfo = ({ Readme }: { Readme: ComponentType }) => {
+export const ReadMeInfo = ({ Readme }: { Readme: ComponentType }) => {
   return (
     <Space
       $v={{

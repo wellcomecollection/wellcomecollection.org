@@ -1,5 +1,5 @@
 import { BrowserContext, Page, errors as playwrightErrors } from 'playwright';
-import { baseUrl, useStageApis } from './helpers/urls';
+import { baseUrl, useStageApis } from './urls';
 import { devices } from '@playwright/test';
 
 export const gotoWithoutCache = async (
@@ -176,12 +176,17 @@ const itemWithReferenceNumber = async (
   await gotoWithoutCache(`${baseUrl}/works/qqra7v28/items`, page);
 };
 
-const newWorksSearch = async (
+const newSearch = async (
   context: BrowserContext,
-  page: Page
+  page: Page,
+  searchType: 'overview' | 'stories' | 'images' | 'works' = 'overview'
 ): Promise<void> => {
   await context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/search/works`, page);
+
+  const searchUrl = `search${
+    searchType === 'overview' ? `` : `/${searchType}`
+  }`;
+  await gotoWithoutCache(`${baseUrl}/${searchUrl}`, page);
 };
 
 const article = async (
@@ -242,7 +247,7 @@ export {
   multiVolumeItem,
   multiVolumeItem2,
   itemWithAltText,
-  newWorksSearch,
+  newSearch,
   itemWithSearchAndStructures,
   itemWithReferenceNumber,
   workWithPhysicalLocationOnly,

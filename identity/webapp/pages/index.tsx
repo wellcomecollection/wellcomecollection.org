@@ -35,17 +35,17 @@ import { ChangeEmail } from '../src/frontend/MyAccount/ChangeEmail';
 import { ChangePassword } from '../src/frontend/MyAccount/ChangePassword';
 import { DeleteAccount } from '../src/frontend/MyAccount/DeleteAccount';
 import { useRequestedItems } from '../src/frontend/hooks/useRequestedItems';
-import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import Layout, {
   gridSize10,
   gridSize12,
 } from '@weco/common/views/components/Layout';
+import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
 import { allowedRequests } from '@weco/common/values/requests';
 import { info2 } from '@weco/common/icons';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
-import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';

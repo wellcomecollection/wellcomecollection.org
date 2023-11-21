@@ -1,5 +1,5 @@
 import { test as base, expect } from '@playwright/test';
-import { concept } from './contexts';
+import { concept } from './helpers/contexts';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
 import { ConceptPage } from './pages/concept';

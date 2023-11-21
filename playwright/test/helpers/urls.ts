@@ -15,4 +15,4 @@ export const storiesUrl = `${baseUrl}/stories`;
 export const collectionsUrl = `${baseUrl}/collections`;
 export const getInvolvedUrl = `${baseUrl}/get-involved`;
 export const aboutUsUrl = `${baseUrl}/about-us`;
-export const mediaOfficeUrl = `${baseUrl}/press`;
+export const mediaOfficeUrl = `${baseUrl}/pages/WuxrKCIAAP9h3hmw`; // alias is /press but it doesn't work locally

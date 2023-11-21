@@ -3,7 +3,7 @@ import { FunctionComponent, ReactElement } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import { font, grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import BookImage from '@weco/content/components/BookImage/BookImage';

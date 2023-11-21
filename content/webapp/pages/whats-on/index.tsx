@@ -71,7 +71,7 @@ import {
   getNextWeekendDateRange,
   startOfDay,
 } from '@weco/common/utils/dates';
-import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import {
   enrichTryTheseTooPromos,
   getTryTheseTooPromos,

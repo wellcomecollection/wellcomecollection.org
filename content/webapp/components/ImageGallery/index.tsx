@@ -9,7 +9,7 @@ import { font } from '@weco/common/utils/classnames';
 import { CaptionedImage as CaptionedImageProps } from '@weco/common/model/captioned-image';
 import { repeatingLsBlack } from '@weco/common/utils/backgrounds';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
-import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
+import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Icon from '@weco/common/views/components/Icon/Icon';
