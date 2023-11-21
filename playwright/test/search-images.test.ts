@@ -1,5 +1,5 @@
 import { Page, test } from '@playwright/test';
-import { gotoWithoutCache, isMobile } from './contexts';
+import { gotoWithoutCache, isMobile } from './helpers/contexts';
 import { clickActionClickSearchResultItem } from './actions/search';
 
 import { clickActionClickViewExpandedImage } from './actions/images';

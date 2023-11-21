@@ -1,5 +1,5 @@
 import { test as base, expect } from '@playwright/test';
-import { article, articleWithMockSiblings } from './contexts';
+import { article, articleWithMockSiblings } from './helpers/contexts';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
 import { oneScheduleItem } from './mocks/one-schedule-item';

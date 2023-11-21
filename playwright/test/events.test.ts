@@ -1,5 +1,5 @@
 import { test as base } from '@playwright/test';
-import { event } from './contexts';
+import { event } from './helpers/contexts';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
 

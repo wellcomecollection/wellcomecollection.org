@@ -3,7 +3,7 @@ import {
   workWithPhysicalLocationOnly,
   workWithDigitalLocationOnly,
   workWithDigitalLocationAndLocationNote,
-} from './contexts';
+} from './helpers/contexts';
 import { Page } from 'playwright';
 
 const getWhereToFindItAndEncoreLink = async (page: Page) => {

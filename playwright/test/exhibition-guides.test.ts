@@ -1,7 +1,7 @@
 import { test as base, expect } from '@playwright/test';
 import { makeDefaultToggleCookies } from './helpers/utils';
 import { baseUrl } from './helpers/urls';
-import { gotoWithoutCache } from './contexts';
+import { gotoWithoutCache } from './helpers/contexts';
 import { expectItemIsVisible } from './asserts/common';
 
 const domain = new URL(baseUrl).host;

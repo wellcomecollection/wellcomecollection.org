@@ -1,5 +1,5 @@
 import { BrowserContext, Page, errors as playwrightErrors } from 'playwright';
-import { baseUrl, useStageApis } from './helpers/urls';
+import { baseUrl, useStageApis } from './urls';
 import { devices } from '@playwright/test';
 
 export const gotoWithoutCache = async (

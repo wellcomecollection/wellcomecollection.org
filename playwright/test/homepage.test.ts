@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { homepageUrl } from './helpers/urls';
-import { gotoWithoutCache } from './contexts';
+import { gotoWithoutCache } from './helpers/contexts';
 
 // See the comment in content/webapp/pages/index.tsx about why this is important
 test('(1) Website includes the Meta domain verification tag', async ({

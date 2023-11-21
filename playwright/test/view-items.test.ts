@@ -11,7 +11,7 @@ import {
   itemWithRestrictedAndNonRestrictedAccess,
   itemWithNonRestrictedAndOpenAccess,
   isMobile,
-} from './contexts';
+} from './helpers/contexts';
 import {
   zoomInButton,
   rotateButton,

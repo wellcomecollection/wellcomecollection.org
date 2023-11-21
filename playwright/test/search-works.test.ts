@@ -4,7 +4,7 @@ import {
   isMobile,
   newWorksSearch,
   workWithDigitalLocationAndLocationNote,
-} from './contexts';
+} from './helpers/contexts';
 import {
   navigateToNextPageAndConfirmNavigation,
   navigateToResultAndConfirmTitleMatches,
