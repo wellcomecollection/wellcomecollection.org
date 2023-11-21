@@ -9,7 +9,7 @@ import { Series } from '@weco/content/types/series';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import {

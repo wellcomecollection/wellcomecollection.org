@@ -2,7 +2,7 @@ import { FunctionComponent, ReactElement } from 'react';
 import PageLayout, {
   SiteSection,
 } from '@weco/common/views/components/PageLayout/PageLayout';
-import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
