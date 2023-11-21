@@ -10,7 +10,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import { isEventPast } from '../../services/prismic/events';
 import { isPast } from '@weco/common/utils/dates';
-import HTMLTime from '@weco/common/views/components/HTMLTime/HTMLTime';
+import { HTMLTime } from '@weco/common/views/components/HTMLDateAndTime';
 import { Place } from '@weco/content/types/places';
 
 type Props = {
