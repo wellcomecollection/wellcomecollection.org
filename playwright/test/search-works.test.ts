@@ -2,14 +2,14 @@ import { URL } from 'url';
 import { test, expect } from '@playwright/test';
 import {
   isMobile,
-  newWorksSearch,
+  newSearch,
   workWithDigitalLocationAndLocationNote,
 } from './helpers/contexts';
 import {
   navigateToNextPageAndConfirmNavigation,
   navigateToResultAndConfirmTitleMatches,
   openFilterDropdown,
-  searchQueryAndSubmit,
+  searchQuerySubmitAndWait,
   selectAndWaitForFilter,
   testIfFilterIsApplied,
 } from './helpers/search';
@@ -20,8 +20,8 @@ test('(1) | The user is looking for an archive; it should be browsable from the 
   page,
   context,
 }) => {
-  await newWorksSearch(context, page);
-  await searchQueryAndSubmit('Persian', page);
+  await newSearch(context, page, 'works');
+  await searchQuerySubmitAndWait('Persian', page);
   await selectAndWaitForFilter('Formats', 'h', page); // Archives and manuscripts
   await navigateToNextPageAndConfirmNavigation(page);
   await navigateToResultAndConfirmTitleMatches(3, page);
@@ -31,8 +31,8 @@ test('(2) | The user is looking for a video; they can get back to their original
   page,
   context,
 }) => {
-  await newWorksSearch(context, page);
-  await searchQueryAndSubmit('Britain', page);
+  await newSearch(context, page, 'works');
+  await searchQuerySubmitAndWait('Britain', page);
   await selectAndWaitForFilter('Formats', 'g', page); // Video
   await navigateToNextPageAndConfirmNavigation(page);
 
@@ -70,8 +70,8 @@ test('(3) | The user is searching for a work from a particular year; there is a 
   page,
   context,
 }) => {
-  await newWorksSearch(context, page);
-  await searchQueryAndSubmit('brain', page);
+  await newSearch(context, page, 'works');
+  await searchQuerySubmitAndWait('brain', page);
   await openFilterDropdown('Dates', page);
 
   await page
@@ -94,7 +94,7 @@ test('(4) | The user is sorting by production dates in search; sort updates URL 
   context,
   page,
 }) => {
-  await newWorksSearch(context, page);
+  await newSearch(context, page, 'works');
 
   const select = page.locator('select[name="sortOrder"]');
 

@@ -2,19 +2,24 @@ import { Page } from 'playwright';
 import { expect } from '@playwright/test';
 import { isMobile } from './contexts';
 
-export const searchQueryAndSubmit = async (
+export const searchQuerySubmitAndWait = async (
   query: string,
   page: Page
 ): Promise<void> => {
-  const searchBar = page.getByLabel('Search the catalogue');
+  const searchBar = page.getByRole('searchbox');
 
   await searchBar.fill(query);
   await searchBar.press('Enter');
+  await expect(page).toHaveTitle(new RegExp(`.*${query}.*`, 'i'));
 };
 
 export const openFilterDropdown = async (name: string, page: Page) => {
   if (isMobile(page)) {
-    await page.getByRole('button', { name: 'Filters' }).click();
+    await page.locator('button[aria-controls=mobile-filters-modal]').click();
+
+    await expect(
+      page.getByRole('heading', { name: 'Filters', exact: true })
+    ).toBeVisible();
   } else {
     await page.getByRole('button', { name }).click();
   }
@@ -33,10 +38,10 @@ export const selectAndWaitForFilter = async (
 
   await checkbox.click();
 
-  await expect(checkbox).toBeChecked();
-
   if (isMobile(page)) {
     await page.getByRole('button', { name: 'Show results' }).click();
+  } else {
+    await expect(checkbox).toBeChecked();
   }
 };
 
@@ -73,7 +78,18 @@ export const navigateToResultAndConfirmTitleMatches = async (
 //
 // As we are considering a redesign of filters, this should be considered as part of it
 export const testIfFilterIsApplied = async (label: string, page: Page) => {
-  await expect(page.getByRole('status')).toHaveText(
-    new RegExp(`.*${label}.*`, 'i')
-  );
+  await expect(
+    page.getByRole('status').filter({ hasText: 'filtered with' })
+  ).toHaveText(new RegExp(`.*${label}.*`, 'i'));
+};
+
+// Images specific
+export const selectAndWaitForColourFilter = async (page: Page) => {
+  await openFilterDropdown('Colour', page);
+  await page.getByRole('button', { name: 'Red' }).click();
+  await testIfFilterIsApplied('red', page);
+
+  if (isMobile(page)) {
+    await page.getByRole('button', { name: 'Show results' }).click();
+  }
 };
