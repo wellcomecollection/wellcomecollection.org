@@ -1,20 +1,25 @@
 import {
   FunctionComponent,
+  PropsWithChildren,
   ReactElement,
   useState,
   useEffect,
   useContext,
 } from 'react';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import debounce from 'lodash.debounce';
-import { prefixedPropertyStyleObject } from '@weco/common/utils/prefixed-property-style-object';
 import styled from 'styled-components';
+import debounce from 'lodash.debounce';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { prefixedPropertyStyleObject } from '@weco/common/utils/prefixed-property-style-object';
 import { PaletteColor } from '@weco/common/views/themes/config';
+
+export const WobblyEdgeWrapper = styled.div`
+  position: relative;
+`;
 
 // This edge is deliberately random. We don't want Chromatic shout when
 // there's inevitably a visual difference between builds.
 // https://www.chromatic.com/docs/ignoring-elements#ignore-dom-elements
-const Edge = styled.div.attrs<{ 'data-chromatic'?: 'ignore' }>({
+export const Edge = styled.div.attrs<{ 'data-chromatic'?: 'ignore' }>({
   'data-chromatic': 'ignore',
 })<{
   $backgroundColor: PaletteColor;
@@ -68,7 +73,7 @@ function randomIntFromInterval(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-type Props = {
+type WobblyEdgeProps = {
   backgroundColor: PaletteColor;
   isRotated?: boolean;
   intensity?: number;
@@ -77,14 +82,14 @@ type Props = {
   isStatic?: boolean;
 };
 
-const WobblyEdge: FunctionComponent<Props> = ({
+export const WobblyEdge: FunctionComponent<WobblyEdgeProps> = ({
   backgroundColor,
   isRotated,
   intensity = 50,
   points = 5,
   isValley,
   isStatic,
-}: Props): ReactElement => {
+}: WobblyEdgeProps): ReactElement => {
   const [isActive, setIsActive] = useState(false);
   const [styleObject, setStyleObject] = useState(
     prefixedPropertyStyleObject('clipPath', makePolygonPoints(0, 0))
@@ -160,4 +165,13 @@ const WobblyEdge: FunctionComponent<Props> = ({
   );
 };
 
-export default WobblyEdge;
+export const WobblyBottom: FunctionComponent<
+  PropsWithChildren<{
+    backgroundColor: 'warmNeutral.300' | 'white';
+  }>
+> = ({ backgroundColor, children }) => (
+  <WobblyEdgeWrapper>
+    {children}
+    <WobblyEdge backgroundColor={backgroundColor} />
+  </WobblyEdgeWrapper>
+);
