@@ -19,7 +19,7 @@ import WorkDetailsHoldings from './WorkDetails.Holdings';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import { toLink as itemLink } from '../ItemLink';
 import { toLink as conceptLink } from '../ConceptLink';
-import Layout10 from '@weco/common/views/components/Layout10/Layout10';
+import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import {
   Work,
@@ -454,7 +454,7 @@ const WorkDetails: FunctionComponent<Props> = ({
       {renderContent()}
     </Space>
   ) : (
-    <Layout10>{renderContent()}</Layout10>
+    <Layout gridSizes={gridSize10()}>{renderContent()}</Layout>
   );
 };
 

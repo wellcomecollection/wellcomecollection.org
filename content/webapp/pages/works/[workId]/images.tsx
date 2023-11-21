@@ -8,7 +8,7 @@ import {
   toWorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import BetaMessage from '@weco/content/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';
 import IIIFViewer from '@weco/content/components/IIIFViewer';
@@ -83,13 +83,13 @@ const ImagePage: FunctionComponent<Props> = ({
           setSearchResults={() => null}
         />
       ) : (
-        <Layout12>
+        <Layout gridSizes={gridSize12()}>
           <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
             <div style={{ marginTop: '98px' }}>
               <BetaMessage message={unavailableImageMessage} />
             </div>
           </Space>
-        </Layout12>
+        </Layout>
       )}
     </CataloguePageLayout>
   );

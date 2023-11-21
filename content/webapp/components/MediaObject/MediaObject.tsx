@@ -8,7 +8,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import styled from 'styled-components';
 import { grid, font } from '@weco/common/utils/classnames';
 import * as prismic from '@prismicio/client';
-import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';
+import { gridSize12 } from '@weco/common/views/components/Layout';
 
 export type Props = {
   title: string;
@@ -23,13 +23,13 @@ type ImageWrapperProp = {
 const ImageWrapper = styled.div.attrs<ImageWrapperProp>(props => ({
   className: props.$hasImage
     ? grid({ s: 2, m: 2, l: 2, xl: 2 })
-    : grid(gridSize12),
+    : grid(gridSize12()),
 }))<ImageWrapperProp>``;
 
 const TextWrapper = styled.div.attrs<HasImageProps>(props => ({
   className: props.$hasImage
     ? grid({ s: 10, m: 10, l: 10, xl: 10 })
-    : grid(gridSize12),
+    : grid(gridSize12()),
 }))<HasImageProps>``;
 
 const TitleWrapper = styled.div.attrs({

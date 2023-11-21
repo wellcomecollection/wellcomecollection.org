@@ -5,7 +5,7 @@ import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResu
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
 import { GetServerSideProps } from 'next';
@@ -112,11 +112,11 @@ const EventsPage: FunctionComponent<Props> = props => {
           paginatedResults={convertedPaginatedResults}
         />
         {period === 'current-and-coming-up' && (
-          <Layout12>
+          <Layout gridSizes={gridSize12()}>
             <Space $v={{ size: 'm', properties: ['margin-top'] }}>
               <MoreLink url={'/events/past'} name="View past events" />
             </Space>
-          </Layout12>
+          </Layout>
         )}
       </SpacingSection>
     </PageLayout>

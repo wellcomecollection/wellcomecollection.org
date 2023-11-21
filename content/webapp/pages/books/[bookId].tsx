@@ -19,7 +19,7 @@ import { createClient } from '@weco/content/services/prismic/fetch';
 import { transformBook } from '@weco/content/services/prismic/transformers/books';
 import { Book } from '@weco/content/types/books';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
-import Layout8 from '@weco/common/views/components/Layout8/Layout8';
+import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
@@ -123,13 +123,13 @@ const BookPage: FunctionComponent<Props> = props => {
   const { book } = props;
   const FeaturedMedia = book.cover && (
     <Space $v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
-      <Layout8>
+      <Layout gridSizes={gridSize8()}>
         <BookImage
           image={{ ...book.cover }}
           sizes={{ xlarge: 1 / 3, large: 1 / 3, medium: 1 / 3, small: 1 }}
           quality="low"
         />
-      </Layout8>
+      </Layout>
     </Space>
   );
   const breadcrumbs = {
