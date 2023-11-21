@@ -35,7 +35,7 @@ import { ChangeEmail } from '../src/frontend/MyAccount/ChangeEmail';
 import { ChangePassword } from '../src/frontend/MyAccount/ChangePassword';
 import { DeleteAccount } from '../src/frontend/MyAccount/DeleteAccount';
 import { useRequestedItems } from '../src/frontend/hooks/useRequestedItems';
-import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
+import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';

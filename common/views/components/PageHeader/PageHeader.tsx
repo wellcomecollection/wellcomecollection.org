@@ -16,8 +16,10 @@ import HighlightedHeading from './HighlightedHeading';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Layout from '@weco/common/views/components/Layout/Layout';
 import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';
-import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
-import WobblyBottom from '@weco/common/views/components/WobblyBottom/WobblyBottom';
+import {
+  WobblyEdge,
+  WobblyBottom,
+} from '@weco/common/views/components/WobblyEdge';
 import Space from '@weco/common/views/components/styled/Space';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
