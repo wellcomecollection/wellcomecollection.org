@@ -4,7 +4,7 @@ import FindUs from '@weco/common/views/components/FindUs/FindUs';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
@@ -13,7 +13,7 @@ import styled from 'styled-components';
 const Container: FunctionComponent<PropsWithChildren> = ({ children }) => (
   <SpacingSection>
     <SpacingComponent>
-      <Layout12>{children}</Layout12>
+      <Layout gridSizes={gridSize12()}>{children}</Layout>
     </SpacingComponent>
   </SpacingSection>
 );

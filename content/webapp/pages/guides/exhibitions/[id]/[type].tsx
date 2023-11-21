@@ -18,8 +18,10 @@ import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/j
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
-import Layout8 from '@weco/common/views/components/Layout8/Layout8';
-import Layout10 from '@weco/common/views/components/Layout10/Layout10';
+import Layout, {
+  gridSize10,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/services/app';
@@ -209,7 +211,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
       skipToContentLinks={skipToContentLinks}
     >
       <Header $backgroundColor={typeColor}>
-        <Layout8 shift={false}>
+        <Layout gridSizes={gridSize8(false)}>
           <>
             <h1 className={font('wb', 1)}>
               {exhibitionGuide.title}{' '}
@@ -239,11 +241,11 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               link="/guides/exhibitions"
             />
           </>
-        </Layout8>
+        </Layout>
       </Header>
 
       <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-        <Layout10 isCentered={false}>
+        <Layout gridSizes={gridSize10(false)}>
           {userPreferenceSet ? (
             <p>
               {type !== 'captions-and-transcripts' && (
@@ -267,7 +269,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               )}
             </>
           )}
-        </Layout10>
+        </Layout>
       </Space>
 
       <ExhibitionGuideStops type={type} stops={exhibitionGuide.components} />

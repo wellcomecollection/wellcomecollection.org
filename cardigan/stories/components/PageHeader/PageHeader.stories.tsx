@@ -16,7 +16,7 @@ import { LicenseType } from '@weco/common/model/license';
 import Body from '@weco/content/components/Body/Body';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import { videoEmbed } from '@weco/cardigan/stories/content';
-import Layout8 from '@weco/common/views/components/Layout8/Layout8';
+import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 
 const Date = styled.span.attrs({ className: font('intr', 6) })`
   color: ${props => props.theme.color('neutral.600')};
@@ -320,13 +320,13 @@ book.args = {
   breadcrumbs: { items: [{ text: 'Books', url: '#' }] },
   FeaturedMedia: (
     <Space $v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
-      <Layout8>
+      <Layout gridSizes={gridSize8()}>
         <BookImage
           image={bookImage}
           sizes={{ xlarge: 1 / 3, large: 1 / 3, medium: 1 / 3, small: 1 }}
           quality="low"
         />
-      </Layout8>
+      </Layout>
     </Space>
   ),
 };

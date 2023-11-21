@@ -4,14 +4,14 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import { PageWrapper } from '../components/PageWrapper';
 import { SuccessMessage } from './Registration.style';
 import { Container, Wrapper, SectionHeading } from '../components/Layout.style';
-import Layout10 from '@weco/common/views/components/Layout10/Layout10';
+import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { info2 } from '@weco/common/icons';
 
 export const AccountCreated: React.FunctionComponent = () => {
   return (
     <PageWrapper title="Account created">
-      <Layout10>
+      <Layout gridSizes={gridSize10()}>
         <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
@@ -57,7 +57,7 @@ export const AccountCreated: React.FunctionComponent = () => {
             </Wrapper>
           </Container>
         </Space>
-      </Layout10>
+      </Layout>
     </PageWrapper>
   );
 };

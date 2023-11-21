@@ -8,8 +8,10 @@ import { getCrop } from '@weco/common/model/image';
 // Components
 import DateRange from '@weco/content/components/DateRange/DateRange';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import Layout8 from '@weco/common/views/components/Layout10/Layout10';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout, {
+  gridSize12,
+  gridSize10,
+} from '@weco/common/views/components/Layout';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -36,7 +38,7 @@ const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
   const superWidescreenImage = getCrop(season.image, '32:15');
 
   return (
-    <Layout12>
+    <Layout gridSizes={gridSize12()}>
       <HeaderWrapper>
         <WobblyBottom backgroundColor="white">
           {superWidescreenImage && (
@@ -51,7 +53,7 @@ const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
           <Space
             $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
-            <Layout8>
+            <Layout gridSizes={gridSize10()}>
               <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
                 <TextWrapper>
                   <Space $h={{ size: 'm', properties: ['padding-left'] }}>
@@ -80,11 +82,11 @@ const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
                   </Space>
                 </TextWrapper>
               </Space>
-            </Layout8>
+            </Layout>
           </Space>
         </WobblyBottom>
       </HeaderWrapper>
-    </Layout12>
+    </Layout>
   );
 };
 

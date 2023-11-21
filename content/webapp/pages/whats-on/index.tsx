@@ -26,7 +26,7 @@ import EventsByMonth from '@weco/content/components/EventsByMonth/EventsByMonth'
 import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import FacilityPromo from '@weco/content/components/FacilityPromo/FacilityPromo';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
@@ -438,13 +438,13 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
           todaysOpeningHours={todaysOpeningHours}
           featuredText={featuredText}
         />
-        <Layout12>
+        <Layout gridSizes={gridSize12()}>
           <DateRange dateRange={dateRange} period={period} />
           {/* TODO put back when building, shop and cafe are open normally */}
           {/* {period === 'today' && todaysOpeningHours?.isClosed && (
             <ClosedMessage />
           )} */}
-        </Layout12>
+        </Layout>
         <Space $v={{ size: 'm', properties: ['margin-top'] }}>
           {period === 'current-and-coming-up' && (
             <>
@@ -456,17 +456,17 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                   <SpacingComponent>
                     <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
                       {firstExhibition ? (
-                        <Layout12>
+                        <Layout gridSizes={gridSize12()}>
                           <FeaturedCardExhibition
                             exhibition={firstExhibition}
                             background="warmNeutral.300"
                             textColor="black"
                           />
-                        </Layout12>
+                        </Layout>
                       ) : (
-                        <Layout12>
+                        <Layout gridSizes={gridSize12()}>
                           <p>There are no current exhibitions</p>
-                        </Layout12>
+                        </Layout>
                       )}
                     </Space>
                   </SpacingComponent>
@@ -493,9 +493,9 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                         links={[{ text: 'View all events', url: '/events' }]}
                       />
                     ) : (
-                      <Layout12>
+                      <Layout gridSizes={gridSize12()}>
                         <p>There are no upcoming events</p>
-                      </Layout12>
+                      </Layout>
                     )}
                   </SpacingComponent>
                 </SpacingSection>
@@ -517,9 +517,9 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                         ]}
                       />
                     ) : (
-                      <Layout12>
+                      <Layout gridSizes={gridSize12()}>
                         <p>There are no upcoming catch up events</p>
-                      </Layout12>
+                      </Layout>
                     )}
                   </SpacingComponent>
                 </SpacingSection>
@@ -531,7 +531,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
               <Space
                 $v={{ size: 'm', properties: ['padding-top', 'margin-bottom'] }}
               >
-                <Layout12>
+                <Layout gridSizes={gridSize12()}>
                   <div
                     style={{
                       display: 'flex',
@@ -542,7 +542,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                     <h2 className={font('wb', 2)}>Exhibitions and Events</h2>
                     <span className={font('intb', 4)}>Free admission</span>
                   </div>
-                </Layout12>
+                </Layout>
               </Space>
               <ExhibitionsAndEvents
                 exhibitions={exhibitions}

@@ -1,11 +1,11 @@
 import { FunctionComponent } from 'react';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import { Series } from '../../types/series';
 import { ArticleBasic } from '../../types/articles';
 import Space from '@weco/common/views/components/styled/Space';
 import SearchResults from '../SearchResults/SearchResults';
+import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 
 type Props = {
   series: Series;
@@ -24,7 +24,7 @@ const SeriesNavigation: FunctionComponent<Props> = ({
     : `Read more from ${series.title}`;
   return items.length > 0 ? (
     <SpacingComponent>
-      <Layout8>
+      <Layout gridSizes={gridSize8()}>
         <SearchResults
           key={series.id}
           title={title}
@@ -43,7 +43,7 @@ const SeriesNavigation: FunctionComponent<Props> = ({
             }}
           />
         </Space>
-      </Layout8>
+      </Layout>
     </SpacingComponent>
   ) : null;
 };

@@ -6,7 +6,7 @@ import {
   Container,
   Wrapper,
 } from '@weco/identity/src/frontend/components/Layout.style';
-import Layout10 from '@weco/common/views/components/Layout10/Layout10';
+import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
@@ -17,7 +17,7 @@ import { themeValues } from '@weco/common/views/themes/config';
 const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
   return (
     <PageWrapper title="Error">
-      <Layout10>
+      <Layout gridSizes={gridSize10()}>
         <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
@@ -37,7 +37,7 @@ const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
             </Wrapper>
           </Container>
         </Space>
-      </Layout10>
+      </Layout>
     </PageWrapper>
   );
 };

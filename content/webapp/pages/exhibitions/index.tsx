@@ -18,7 +18,7 @@ import { transformExhibitionsQuery } from '@weco/content/services/prismic/transf
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
@@ -150,11 +150,11 @@ const ExhibitionsPage: FunctionComponent<ExhibitionsProps> = props => {
           {!period && (
             <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
               <SectionHeader title="Past Exhibitions" />
-              <Layout12>
+              <Layout gridSizes={gridSize12()}>
                 <Space $v={{ size: 'm', properties: ['margin-top'] }}>
                   <p style={{ marginBottom: 0 }}>{pastExhibitionsStrapline}</p>
                 </Space>
-              </Layout12>
+              </Layout>
             </Space>
           )}
           <SpacingSection>

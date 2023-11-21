@@ -16,7 +16,7 @@ import {
 import { TransformedManifest } from '@weco/content/types/manifest';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import Layout8 from '@weco/common/views/components/Layout8/Layout8';
+import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import Download from '@weco/content/components/Download/Download';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
@@ -120,7 +120,7 @@ const DownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
       siteSection="collections"
       hideNewsletterPromo={true}
     >
-      <Layout8>
+      <Layout gridSizes={gridSize8()}>
         <SpacingSection>
           <SpacingComponent>
             <Space
@@ -168,7 +168,7 @@ const DownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
             </SpacingComponent>
           )}
         </SpacingSection>
-      </Layout8>
+      </Layout>
     </PageLayout>
   );
 };

@@ -1,7 +1,7 @@
 import { FunctionComponent, useState, useContext } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { cssGrid, classNames } from '@weco/common/utils/classnames';
-import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';
+import { gridSize12 } from '@weco/common/views/components/Layout';
 import { groupEventsByMonth, startOf } from './group-event-utils';
 import CardGrid from '../CardGrid/CardGrid';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
@@ -44,7 +44,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
       <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
         <CssGridContainer>
           <div className="css-grid">
-            <div className={cssGrid(gridSize12)}>
+            <div className={cssGrid(gridSize12())}>
               <Tabs
                 tabBehaviour="switch"
                 label="Month control"
@@ -66,7 +66,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
           <div
             key={id}
             className={classNames({
-              [cssGrid(gridSize12)]: true,
+              [cssGrid(gridSize12())]: true,
               'is-hidden': Boolean(activeId) && activeId !== id,
             })}
           >
