@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper';
-import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import { StyledButton } from '@weco/common/views/components/Buttons';
 import CustomError from '@weco/identity/src/frontend/components/CustomError';
 import {
   Container,
@@ -22,7 +22,7 @@ const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
           <Container>
             <Wrapper>
               <CustomError errorDescription={errorDescription}>
-                <SolidButton
+                <StyledButton
                   $colors={themeValues.buttonColors.greenTransparentGreen}
                 >
                   <a
@@ -32,7 +32,7 @@ const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
                   >
                     Contact us
                   </a>
-                </SolidButton>
+                </StyledButton>
               </CustomError>
             </Wrapper>
           </Container>

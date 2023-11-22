@@ -18,7 +18,7 @@ import { transformManifest } from '@weco/content/services/iiif/transformers/mani
 
 import { eye } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import Button from '@weco/common/views/components/Buttons';
 import VisuallySimilarImagesFromApi from '@weco/content/components/VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
 import IIIFImage from '@weco/content/components/IIIFImage/IIIFImage';
 import LL from '@weco/common/views/components/styled/LL';
@@ -343,7 +343,8 @@ const ExpandedImage: FunctionComponent<Props> = ({
           {expandedImageLink && (
             <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
               <ViewImageButtonWrapper>
-                <ButtonSolidLink
+                <Button
+                  variant="ButtonSolidLink"
                   text="View image"
                   icon={eye}
                   link={expandedImageLink}

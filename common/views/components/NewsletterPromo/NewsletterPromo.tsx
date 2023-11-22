@@ -5,7 +5,7 @@ import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import TextInput from '../TextInput/TextInput';
 import useValidation from '@weco/common/hooks/useValidation';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button from '@weco/common/views/components/Buttons';
 import { newsletterAddressBook } from '@weco/common/data/dotdigital';
 import { Container } from '@weco/common/views/components/styled/Container';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
@@ -163,7 +163,8 @@ const NewsletterPromo: FunctionComponent = () => {
 
                 <PrivacyNotice />
 
-                <ButtonSolid
+                <Button
+                  variant="ButtonSolid"
                   dataGtmTrigger="newsletter_promo_subscribe"
                   text={isSubmitting ? 'Sending…' : 'Subscribe'}
                   disabled={isSubmitting}

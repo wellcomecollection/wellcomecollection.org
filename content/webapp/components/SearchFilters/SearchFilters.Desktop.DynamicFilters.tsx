@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import ButtonSolid, {
-  ButtonTypes,
-} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import { themeValues } from '@weco/common/views/themes/config';
 import { Filter } from '@weco/content/services/wellcome/catalogue/filters';
 import Space from '@weco/common/views/components/styled/Space';
@@ -181,7 +179,8 @@ const DynamicFilterArray = ({
     <>
       {filters.map(renderDynamicFilter)}
       <Space $h={{ size: 'm', properties: ['margin-right'] }}>
-        <ButtonSolid
+        <Button
+          variant="ButtonSolid"
           colors={themeValues.buttonColors.marbleWhiteCharcoal}
           icon={filter}
           isIconAfter

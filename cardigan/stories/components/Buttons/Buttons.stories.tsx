@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button from '@weco/common/views/components/Buttons';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
 import { chevron, digitalImage, eye, gridView } from '@weco/common/icons';
@@ -9,7 +9,8 @@ import Download from '@weco/content/components/Download/Download';
 import SearchFilters from '@weco/content/components/SearchFilters';
 import { linkResolver } from '@weco/common/utils/search';
 
-const ButtonSolidTemplate = args => <ButtonSolid {...args} />;
+// TODO tweak story to reflect new structure
+const ButtonSolidTemplate = args => <Button variant="ButtonSolid" {...args} />;
 export const buttonSolid = ButtonSolidTemplate.bind({});
 buttonSolid.args = {
   disabled: false,

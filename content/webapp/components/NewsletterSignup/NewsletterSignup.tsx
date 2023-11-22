@@ -5,7 +5,7 @@ import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxR
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import useValidation from '@weco/common/hooks/useValidation';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button from '@weco/common/views/components/Buttons';
 import {
   newsletterAddressBook,
   secondaryAddressBooks,
@@ -211,7 +211,8 @@ const NewsletterSignup: FunctionComponent<Props> = ({
           </Space>
 
           <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <ButtonSolid
+            <Button
+              variant="ButtonSolid"
               text="Subscribe"
               dataGtmTrigger="newsletter_signup_subscribe"
             />

@@ -2,7 +2,7 @@ import { Component, createRef, ReactElement } from 'react';
 import styled from 'styled-components';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button from '@weco/common/views/components/Buttons';
 import { cross } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
 
@@ -124,7 +124,11 @@ class Iframe extends Component<Props, State> {
               <ButtonWrapper onClick={this.toggleIframeDisplay}>
                 <span className="overlay" />
                 <span className="launch">
-                  <ButtonSolid text="Launch" ariaLive="polite" />
+                  <Button
+                    variant="ButtonSolid"
+                    text="Launch"
+                    ariaLive="polite"
+                  />
                 </span>
               </ButtonWrapper>
             )}

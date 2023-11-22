@@ -10,7 +10,7 @@ import { CaptionedImage as CaptionedImageProps } from '@weco/common/model/captio
 import { repeatingLsBlack } from '@weco/common/utils/backgrounds';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button from '@weco/common/views/components/Buttons';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout, {
@@ -251,7 +251,8 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
 
             {!isStandalone && !isFrames && (
               <ButtonContainer $isHidden={isActive}>
-                <ButtonSolid
+                <Button
+                  variant="ButtonSolid"
                   ref={openButtonRef}
                   ariaControls={`image-gallery-${id}`}
                   ariaExpanded={isActive}

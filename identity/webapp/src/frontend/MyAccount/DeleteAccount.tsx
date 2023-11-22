@@ -4,10 +4,7 @@ import { font } from '@weco/common/utils/classnames';
 import { ErrorMessage } from '@hookform/error-message';
 import { FieldMargin } from '../components/Form.style';
 import { TextInputErrorMessage } from '@weco/common/views/components/TextInput/TextInput';
-import ButtonSolid, {
-  ButtonTypes,
-} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import {
   ModalContainer,
   ModalTitle,
@@ -116,12 +113,14 @@ export const DeleteAccount: React.FunctionComponent<
             />
           </FieldMargin>
           <ButtonAlign>
-            <ButtonSolid
+            <Button
+              variant="ButtonSolid"
               colors={themeValues.buttonColors.danger}
               type={ButtonTypes.submit}
               text="Yes, delete my account"
             />
-            <ButtonSolidLink
+            <Button
+              variant="ButtonSolidLink"
               colors={themeValues.buttonColors.greenTransparentGreen}
               link="/account"
               clickHandler={onCancel}

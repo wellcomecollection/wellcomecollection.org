@@ -16,7 +16,7 @@ import WorkDetailsList from './WorkDetails.List';
 import WorkDetailsTags from './WorkDetails.Tags';
 import WhereToFindIt from './WorkDetails.WhereToFind';
 import WorkDetailsHoldings from './WorkDetails.Holdings';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import Button from '@weco/common/views/components/Buttons';
 import { toLink as itemLink } from '../ItemLink';
 import { toLink as conceptLink } from '../ConceptLink';
 import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
@@ -170,7 +170,8 @@ const WorkDetails: FunctionComponent<Props> = ({
 
       {work.images && work.images.length > 0 && (
         <WorkDetailsSection headingText="Selected images from this work">
-          <ButtonSolidLink
+          <Button
+            variant="ButtonSolidLink"
             dataGtmTrigger="view_selected_images"
             colors={themeValues.buttonColors.greenTransparentGreen}
             text={

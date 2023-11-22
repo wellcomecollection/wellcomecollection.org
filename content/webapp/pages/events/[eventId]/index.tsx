@@ -3,8 +3,7 @@ import { useEffect, useState } from 'react';
 import * as prismic from '@prismicio/client';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import Button from '@weco/common/views/components/Buttons';
 import EventbriteButtons from '@weco/content/components/EventbriteButtons/EventbriteButtons';
 import Message from '@weco/content/components/Message/Message';
 import InfoBox from '@weco/content/components/InfoBox/InfoBox';
@@ -302,11 +301,16 @@ const EventPage: NextPage<EventProps> = ({
               <>
                 {event.isCompletelySoldOut ? ( // TODO online sold out / versus normal sold out
                   <>
-                    <ButtonSolid disabled={true} text="Fully booked" />
+                    <Button
+                      variant="ButtonSolid"
+                      disabled={true}
+                      text="Fully booked"
+                    />
                   </>
                 ) : (
                   <>
-                    <ButtonSolidLink
+                    <Button
+                      variant="ButtonSolidLink"
                       link={event.thirdPartyBooking.url}
                       icon={ticket}
                       text="Check for tickets"
@@ -328,7 +332,8 @@ const EventPage: NextPage<EventProps> = ({
                 {event.isCompletelySoldOut ? (
                   <Message text="Fully booked" />
                 ) : (
-                  <ButtonSolidLink
+                  <Button
+                    variant="ButtonSolidLink"
                     link={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                     icon={email}
                     text="Email to book"

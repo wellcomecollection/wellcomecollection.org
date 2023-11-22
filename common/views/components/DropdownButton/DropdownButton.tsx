@@ -12,9 +12,7 @@ import { usePopper } from 'react-popper';
 import styled from 'styled-components';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import Space from '@weco/common/views/components/styled/Space';
-import ButtonSolid, {
-  ButtonTypes,
-} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import { BorderlessButton } from '../BorderlessClickable/BorderlessClickable';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { chevron, IconSvg } from '@weco/common/icons';
@@ -181,7 +179,8 @@ const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
     >
       <DropdownWrapper ref={dropdownWrapperRef}>
         {buttonType === 'inline' && (
-          <ButtonSolid
+          <Button
+            variant="ButtonSolid"
             {...buttonProps}
             size="small"
             colors={
@@ -192,7 +191,8 @@ const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
           />
         )}
         {buttonType === 'outlined' && (
-          <ButtonSolid
+          <Button
+            variant="ButtonSolid"
             {...buttonProps}
             colors={
               isOnDark

@@ -23,7 +23,7 @@ import BetaMessage from '@weco/content/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import Modal from '@weco/common/views/components/Modal/Modal';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button from '@weco/common/views/components/Buttons';
 import { font } from '@weco/common/utils/classnames';
 import { serialiseProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
@@ -308,7 +308,8 @@ const ItemPage: NextPage<Props> = ({
               $h={{ size: 'm', properties: ['margin-right'] }}
               $v={{ size: 'm', properties: ['margin-top'] }}
             >
-              <ButtonSolid
+              <Button
+                variant="ButtonSolid"
                 dataGtmTrigger="show_the_content"
                 text="Show the content"
                 clickHandler={() => {

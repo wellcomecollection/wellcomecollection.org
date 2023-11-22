@@ -1,6 +1,6 @@
 import { Event } from '../../types/events';
 import { FunctionComponent } from 'react';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import Button from '@weco/common/views/components/Buttons';
 import Message from '@weco/content/components/Message/Message';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -19,7 +19,8 @@ const BookingButtonLink: FunctionComponent<Props> = ({ event }) => {
   } else {
     return (
       <div data-eventbrite-ticket-id={event.eventbriteId}>
-        <ButtonSolidLink
+        <Button
+          variant="ButtonSolidLink"
           link={`https://www.eventbrite.com/e/${event.eventbriteId}`}
           icon={ticketAvailable}
           text="Book free tickets"
@@ -36,7 +37,8 @@ const BookingEnquiryLink: FunctionComponent<Props> = ({ event }) => {
     return <Message text="Fully booked" />;
   } else {
     return (
-      <ButtonSolidLink
+      <Button
+        variant="ButtonSolidLink"
         link={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
         icon={email}
         text="Email to book"
