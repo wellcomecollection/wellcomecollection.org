@@ -16,7 +16,7 @@ import {
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import Rotator from '@weco/common/views/components/styled/Rotator';
-import Control from '@weco/common/views/components/Buttons/Control/Control';
+import Control from '@weco/content/components/Control';
 import { arrow } from '@weco/common/icons';
 
 const ControlsWrap = styled.div`

@@ -8,7 +8,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import Control from '@weco/common/views/components/Buttons/Control/Control';
+import Control from '@weco/content/components/Control';
 import Space from '@weco/common/views/components/styled/Space';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { cross, minus, plus, rotateRight } from '@weco/common/icons';

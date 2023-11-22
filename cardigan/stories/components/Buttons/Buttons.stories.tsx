@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import Button from '@weco/common/views/components/Buttons';
-import Control from '@weco/common/views/components/Buttons/Control/Control';
+import Control from '@weco/content/components/Control';
+import ControlReadme from '@weco/content/components/Control/README.md';
 import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
 import { chevron, digitalImage, eye, gridView } from '@weco/common/icons';
-import ControlReadme from '@weco/common/views/components/Buttons/Control/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import Download from '@weco/content/components/Download/Download';
 import SearchFilters from '@weco/content/components/SearchFilters';
