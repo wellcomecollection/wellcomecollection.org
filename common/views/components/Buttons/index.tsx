@@ -1,10 +1,12 @@
-import { ForwardedRef, FunctionComponent } from 'react';
-import ButtonSolid, { ButtonSolidProps } from './Buttons.ButtonSolid';
-import ButtonSolidLink, {
-  ButtonSolidLinkProps,
-} from './Buttons.ButtonSolidLink';
+import { ForwardedRef, FunctionComponent, PropsWithChildren } from 'react';
+import ButtonSolid, { ButtonSolidProps } from './Buttons.Solid';
+import ButtonSolidLink, { ButtonSolidLinkProps } from './Buttons.SolidLink';
+import DropdownButton, { DropdownButtonProps } from './Buttons.Dropdown';
 
 type ButtonProps =
+  | (PropsWithChildren<DropdownButtonProps> & {
+      variant: 'DropdownButton';
+    })
   | (ButtonSolidProps & {
       variant: 'ButtonSolid';
       ref?: ForwardedRef<HTMLButtonElement>;
@@ -17,6 +19,8 @@ const Button: FunctionComponent<ButtonProps> = (props: ButtonProps) => {
   const { variant } = props;
 
   switch (variant) {
+    case 'DropdownButton':
+      return <DropdownButton {...props} />;
     case 'ButtonSolidLink':
       return <ButtonSolidLink {...props} />;
     case 'ButtonSolid':

@@ -1,10 +1,10 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
-import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
-import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
-import Space from '@weco/common/views/components/styled/Space';
 import { BorderlessLink } from '@weco/common/views/components/BorderlessClickable/BorderlessClickable';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import Button from '@weco/common/views/components/Buttons';
+import Space from '@weco/common/views/components/styled/Space';
 import { user as userIcon } from '@weco/common/icons';
 
 type AccountAProps = {
@@ -46,7 +46,8 @@ const DesktopSignIn: FunctionComponent = () => {
     <>
       {state === 'signedout' && (
         <SignedOutWrapper>
-          <DropdownButton
+          <Button
+            variant="DropdownButton"
             label=""
             ariaLabel="library account sign in"
             iconLeft={userIcon}
@@ -59,12 +60,13 @@ const DesktopSignIn: FunctionComponent = () => {
             >
               Sign in to your library account
             </a>
-          </DropdownButton>
+          </Button>
         </SignedOutWrapper>
       )}
       {state === 'signedin' && user && (
         <span className="display-none headerMedium-display-block">
-          <DropdownButton
+          <Button
+            variant="DropdownButton"
             label={
               <span className={font('intr', 6)}>
                 {user.firstName.charAt(0).toLocaleUpperCase()}
@@ -83,7 +85,7 @@ const DesktopSignIn: FunctionComponent = () => {
                 Sign out
               </AccountA>
             </span>
-          </DropdownButton>
+          </Button>
         </span>
       )}
     </>

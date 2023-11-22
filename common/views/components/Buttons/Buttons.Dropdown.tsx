@@ -10,6 +10,7 @@ import {
 } from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
+import FocusTrap from 'focus-trap-react';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import Space from '@weco/common/views/components/styled/Space';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
@@ -17,21 +18,19 @@ import { BorderlessButton } from '../BorderlessClickable/BorderlessClickable';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { chevron, IconSvg } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
-import FocusTrap from 'focus-trap-react';
 
 const DropdownWrapper = styled.div`
   display: inline-flex;
   position: relative;
 `;
 
-type DropdownProps = {
-  $isActive: boolean;
-  $isEnhanced: boolean;
-};
 const Dropdown = styled(Space).attrs({
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-})<DropdownProps>`
+})<{
+  $isActive: boolean;
+  $isEnhanced: boolean;
+}>`
   background-color: ${props => props.theme.color('white')};
   margin-top: -2px;
   z-index: ${props => (props.$isActive ? 2 : 1)};
@@ -83,7 +82,7 @@ const Popper = styled.div<{ $isVisible: boolean }>`
   `}
 `;
 
-type Props = {
+export type DropdownButtonProps = {
   id: string;
   label: ReactNode;
   ariaLabel?: string;
@@ -94,7 +93,9 @@ type Props = {
   hasNoOptions?: boolean;
 };
 
-const DropdownButton: FunctionComponent<PropsWithChildren<Props>> = ({
+const DropdownButton: FunctionComponent<
+  PropsWithChildren<DropdownButtonProps>
+> = ({
   label,
   ariaLabel,
   children,

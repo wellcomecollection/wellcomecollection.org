@@ -1,4 +1,4 @@
-import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
+import Button from '@weco/common/views/components/Buttons';
 import PaletteColorPicker, {
   PaletteColorPickerProps,
 } from '@weco/content/components/PaletteColorPicker';
@@ -14,7 +14,8 @@ const DesktopColorFilter = ({
   hasNoOptions,
 }: DesktopColorFilterProps) => {
   return (
-    <DropdownButton
+    <Button
+      variant="DropdownButton"
       isPill
       label="Colours"
       buttonType="inline"
@@ -27,7 +28,7 @@ const DesktopColorFilter = ({
         onChangeColor={onChangeColor}
         form={form}
       />
-    </DropdownButton>
+    </Button>
   );
 };
 
