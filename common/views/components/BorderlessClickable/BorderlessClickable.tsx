@@ -7,10 +7,10 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import {
-  BasicButton,
   BaseButtonInner,
+  BasicButton,
   ButtonIconWrapper,
-} from '@weco/common/views/components/Buttons';
+} from '@weco/common/views/components/Buttons/Buttons.styles';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { IconSvg } from '@weco/common/icons';
