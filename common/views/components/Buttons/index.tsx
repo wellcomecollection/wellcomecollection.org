@@ -1,4 +1,9 @@
-import { ForwardedRef, FunctionComponent, PropsWithChildren } from 'react';
+import {
+  ForwardRefRenderFunction,
+  ForwardedRef,
+  PropsWithChildren,
+  forwardRef,
+} from 'react';
 import ButtonSolid, { ButtonSolidProps } from './Buttons.Solid';
 import ButtonSolidLink, { ButtonSolidLinkProps } from './Buttons.SolidLink';
 import DropdownButton, { DropdownButtonProps } from './Buttons.Dropdown';
@@ -21,13 +26,15 @@ type ButtonProps =
     })
   | (ButtonSolidProps & {
       variant: 'ButtonSolid';
-      ref?: ForwardedRef<HTMLButtonElement>;
     })
   | (ButtonSolidLinkProps & {
       variant: 'ButtonSolidLink';
     });
 
-const Button: FunctionComponent<ButtonProps> = (props: ButtonProps) => {
+const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonProps> = (
+  props: ButtonProps,
+  ref?: ForwardedRef<HTMLButtonElement>
+) => {
   const { variant } = props;
 
   switch (variant) {
@@ -41,10 +48,10 @@ const Button: FunctionComponent<ButtonProps> = (props: ButtonProps) => {
       return <ButtonSolidLink {...props} />;
     case 'ButtonSolid':
     default:
-      return <ButtonSolid {...props} />;
+      return <ButtonSolid ref={ref} {...props} />;
   }
 };
 
-export default Button;
+export default forwardRef<HTMLButtonElement, ButtonProps>(Button);
 export * from './Buttons.styles';
 export * from './Buttons.types';
