@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Button from '@weco/common/views/components/Buttons';
-import Control from '@weco/content/components/Control';
-import ControlReadme from '@weco/content/components/Control/README.md';
+import Control from '@weco/common/views/components/Control';
+import ControlReadme from '@weco/common/views/components/Control/README.md';
 import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
 import { chevron, digitalImage, eye, gridView } from '@weco/common/icons';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';

@@ -11,7 +11,7 @@ import { repeatingLsBlack } from '@weco/common/utils/backgrounds';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import Button from '@weco/common/views/components/Buttons';
-import Control from '@weco/content/components/Control';
+import Control from '@weco/common/views/components/Control';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout, {
   gridSize10,
