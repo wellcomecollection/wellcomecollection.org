@@ -1,4 +1,4 @@
-import Select from '@weco/content/components/Select/Select';
+import Select from '@weco/content/components/Select';
 
 const Template = args => <Select {...args} />;
 export const basic = Template.bind({});
