@@ -191,6 +191,8 @@ const Header: FunctionComponent<Props> = ({
                         </NextLink>
                       ) : (
                         <SearchButton
+                          variant="BorderlessClickable"
+                          as="button"
                           text={
                             <Icon
                               icon={searchDropdownIsActive ? cross : search}

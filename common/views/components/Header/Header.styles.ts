@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BorderlessButton } from '@weco/common/views/components/BorderlessClickable/BorderlessClickable';
+import Button from '../Buttons';
 import { Container } from '@weco/common/views/components/styled/Container';
 
 export const NavLoginWrapper = styled.div`
@@ -254,7 +254,7 @@ export const HeaderActions = styled.div`
   display: flex;
 `;
 
-export const SearchButton = styled(BorderlessButton)`
+export const SearchButton = styled(Button)`
   margin-right: 0;
 
   ${props =>

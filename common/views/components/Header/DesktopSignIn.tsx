@@ -1,7 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
-import { BorderlessLink } from '@weco/common/views/components/BorderlessClickable/BorderlessClickable';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
@@ -35,7 +34,9 @@ const DesktopSignIn: FunctionComponent = () => {
 
   return state === 'initial' || state === 'loading' ? (
     <span className="display-none headerMedium-display-block">
-      <BorderlessLink
+      <Button
+        variant="BorderlessClickable"
+        as="a"
         iconLeft={userIcon}
         text="Library account"
         isTextHidden={true}

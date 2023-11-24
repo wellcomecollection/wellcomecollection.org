@@ -14,7 +14,6 @@ import FocusTrap from 'focus-trap-react';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import Space from '@weco/common/views/components/styled/Space';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
-import { BorderlessButton } from '@weco/common/views/components/BorderlessClickable/BorderlessClickable';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { chevron, IconSvg } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
@@ -203,14 +202,15 @@ const DropdownButton: FunctionComponent<
           />
         )}
         {buttonType === 'borderless' && (
-          <BorderlessButton
+          <Button
+            variant="BorderlessClickable"
+            as="button"
             aria-controls={id}
             aria-expanded={isActive}
             isActive={isActive}
             clickHandler={() => setIsActive(!isActive)}
             icon={chevron}
             iconLeft={iconLeft}
-            type="button"
             text={label}
             aria-label={ariaLabel}
           />
