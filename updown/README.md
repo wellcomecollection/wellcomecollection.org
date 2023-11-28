@@ -16,7 +16,7 @@ Our checks are configured in `expected-checks.ts`.
 Update this file, then run:
 
 ```console
-$ AWS_PROFILE=platform-dev yarn checks
+$ AWS_PROFILE=platform-dev AWS_SDK_LOAD_CONFIG=1 yarn checks
 ```
 
 This will deploy your new checks to Updown.
