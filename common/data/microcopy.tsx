@@ -138,7 +138,7 @@ export const inOurBuilding = 'In our building';
 export const requestingDisabled = (
   <>
     {
-      'Requesting is temporarily unavailable until around 9am (London) on the 29th November, while we perform maintenance work.'
+      'Requesting is temporarily unavailable until around 9am GMT on the 29th November, while we perform maintenance work.'
     }
     <br />
     {
