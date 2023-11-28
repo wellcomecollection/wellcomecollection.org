@@ -62,6 +62,7 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
 
   const hasNoResults = eventResponseList.totalResults === 0;
 
+  // TODO
   const sortOptions = [
     // Default value to be left empty as to not be reflected in URL query
     {
@@ -161,6 +162,13 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   setCacheControl(context.res, cacheTTL.search);
   const serverData = await getServerData(context);
+
+  const { eventsSearch } = serverData?.toggles;
+
+  if (!eventsSearch) {
+    return { notFound: true };
+  }
+
   const query = context.query;
   const params = fromQuery(query);
   const defaultProps = serialiseProps({

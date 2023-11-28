@@ -5,7 +5,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { IconSvg } from '@weco/common/icons';
 
-type SelectableTextLink = {
+export type NavigateSelectableTextLink = {
   id: string;
   text: string;
   url: string | LinkProps;
@@ -15,7 +15,7 @@ type SelectableTextLink = {
 export type Props = {
   hideBorder?: boolean;
   label: string;
-  items: SelectableTextLink[];
+  items: NavigateSelectableTextLink[];
   currentSection: string;
   isWhite?: boolean;
 };

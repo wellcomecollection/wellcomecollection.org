@@ -49,6 +49,7 @@ import { WellcomeApiError } from '@weco/content/services/wellcome';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
+import { useToggles } from '@weco/common/server-data/Context';
 
 // Creating this version of fromQuery for the overview page only
 // No filters or pagination required.
@@ -142,6 +143,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 }) => {
   const { query: queryString } = query;
   const { setLink } = useContext(SearchContext);
+  const { eventsSearch } = useToggles();
 
   useEffect(() => {
     const pathname = '/search';
@@ -250,7 +252,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
               </BasicSection>
             )}
 
-            {events && (
+            {eventsSearch && events && (
               <EventsSection>
                 <Container>
                   <SectionTitle sectionName="Events" />
@@ -327,24 +329,6 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   try {
-    // Events
-    const eventsResults = await getEvents({
-      params: {
-        ...query,
-        sort: getQueryPropertyValue(query.sort),
-        sortOrder: getQueryPropertyValue(query.sortOrder),
-      },
-      pageSize: 4,
-      toggles: serverData.toggles,
-    });
-
-    const events = getQueryResults({
-      categoryName: 'events',
-      queryResults: eventsResults as
-        | ContentResultsList<EventDocument>
-        | WellcomeApiError,
-    });
-
     // Stories
     // We want the default order to be "descending publication date" with the Content API
 
@@ -391,8 +375,8 @@ export const getServerSideProps: GetServerSideProps<
     if (
       imagesResults.type === 'Error' &&
       worksResults.type === 'Error' &&
-      storiesResults.type === 'Error' &&
-      eventsResults.type === 'Error'
+      storiesResults.type === 'Error'
+      //  && eventsResults.type === 'Error' // TODO uncomment when removing eventsSearch toggle
     ) {
       // Use the error from the works API as it is the most mature of the 3
       return appError(
@@ -402,12 +386,50 @@ export const getServerSideProps: GetServerSideProps<
       );
     }
 
+    // TODO reorganise when removing eventsSearch toggle
+    // Events
+    const { eventsSearch } = serverData?.toggles;
+
+    if (eventsSearch) {
+      const eventsResults = await getEvents({
+        params: {
+          ...query,
+          sort: getQueryPropertyValue(query.sort),
+          sortOrder: getQueryPropertyValue(query.sortOrder),
+        },
+        pageSize: 4,
+        toggles: serverData.toggles,
+      });
+
+      const events = getQueryResults({
+        categoryName: 'events',
+        queryResults: eventsResults as
+          | ContentResultsList<EventDocument>
+          | WellcomeApiError,
+      });
+
+      return {
+        props: serialiseProps({
+          ...defaultProps,
+          ...(stories && stories.pageResults?.length && { stories }),
+          ...(images?.pageResults.length && { images }),
+          ...(events?.pageResults.length && { events }),
+          works:
+            works && works.pageResults.length
+              ? {
+                  ...works,
+                  pageResults: works.pageResults.map(toWorkBasic),
+                }
+              : undefined,
+        }),
+      };
+    }
+
     return {
       props: serialiseProps({
         ...defaultProps,
         ...(stories && stories.pageResults?.length && { stories }),
         ...(images?.pageResults.length && { images }),
-        ...(events?.pageResults.length && { events }),
         works:
           works && works.pageResults.length
             ? {

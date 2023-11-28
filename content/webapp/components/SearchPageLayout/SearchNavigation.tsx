@@ -16,6 +16,8 @@ import {
 } from '@weco/common/utils/search';
 import { capitalize } from '@weco/common/utils/grammar';
 import { searchPlaceholderText } from '@weco/common/data/microcopy';
+import { useToggles } from '@weco/common/server-data/Context';
+import { NavigateSelectableTextLink } from 'components/Tabs/Tabs.Navigate';
 
 const SearchBarContainer = styled(Space)`
   ${props => props.theme.media('medium', 'max-width')`
@@ -43,6 +45,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
   currentQueryValue: queryValue,
 }) => {
   const router = useRouter();
+  const { eventsSearch } = useToggles();
 
   // Variable naming note:
   //
@@ -128,33 +131,37 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
         tabBehaviour="navigate"
         hideBorder={currentSearchCategory === 'overview'}
         label="Search Categories"
-        items={[
-          {
-            id: 'overview',
-            url: getURL('/search'),
-            text: 'All',
-          },
-          {
-            id: 'stories',
-            url: getURL('/search/stories'),
-            text: 'Stories',
-          },
-          {
-            id: 'images',
-            url: getURL('/search/images'),
-            text: 'Images',
-          },
-          {
-            id: 'works',
-            url: getURL('/search/works'),
-            text: 'Catalogue',
-          },
-          {
-            id: 'events',
-            url: getURL('/search/events'),
-            text: 'Events',
-          },
-        ]}
+        items={
+          [
+            {
+              id: 'overview',
+              url: getURL('/search'),
+              text: 'All',
+            },
+            {
+              id: 'stories',
+              url: getURL('/search/stories'),
+              text: 'Stories',
+            },
+            {
+              id: 'images',
+              url: getURL('/search/images'),
+              text: 'Images',
+            },
+            {
+              id: 'works',
+              url: getURL('/search/works'),
+              text: 'Catalogue',
+            },
+            eventsSearch
+              ? {
+                  id: 'events',
+                  url: getURL('/search/events'),
+                  text: 'Events',
+                }
+              : {},
+          ].filter(i => i.id) as NavigateSelectableTextLink[] // TODO remove filter when removing eventsSearch toggle
+        }
         currentSection={currentSearchCategory}
       />
     </>
