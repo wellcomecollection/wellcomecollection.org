@@ -149,6 +149,11 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
             url: getURL('/search/works'),
             text: 'Catalogue',
           },
+          {
+            id: 'events',
+            url: getURL('/search/events'),
+            text: 'Events',
+          },
         ]}
         currentSection={currentSearchCategory}
       />

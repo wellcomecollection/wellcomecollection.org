@@ -68,6 +68,14 @@ const toggles = {
         'Adds tabbed navigation to the works page, for switching between work, item and related content',
       type: 'experimental',
     },
+    {
+      id: 'eventsSearch',
+      title: 'Add Events to Search pages',
+      initialValue: false,
+      description:
+        'Adds an Events section to the Search hub and a new Events tab for more specific searches',
+      type: 'experimental',
+    },
   ] as const,
   tests: [] as ABTest[],
 };

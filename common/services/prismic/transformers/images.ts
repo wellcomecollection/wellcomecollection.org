@@ -2,20 +2,23 @@ import * as prismic from '@prismicio/client';
 import { ImageType } from '@weco/common/model/image';
 import { isUndefined } from '@weco/common/utils/type-guards';
 import { transformTaslFromString } from '.';
+import { ContentApiImage } from '@weco/content/services/wellcome/content/types';
+
+type PossibleImageTypes =
+  | prismic.EmptyImageFieldImage
+  | prismic.FilledImageFieldImage
+  | ContentApiImage;
 
 // when images have crops, event if the image isn't attached, we get e.g.
 // { '32:15': {}, '16:9': {}, square: {} }
 function isImageLink(
-  maybeImage: prismic.EmptyImageFieldImage | prismic.FilledImageFieldImage
-): maybeImage is prismic.FilledImageFieldImage {
+  maybeImage: PossibleImageTypes
+): maybeImage is prismic.FilledImageFieldImage | ContentApiImage {
   return Boolean(maybeImage && maybeImage.dimensions);
 }
 
 export function transformImage(
-  maybeImage:
-    | prismic.EmptyImageFieldImage
-    | prismic.FilledImageFieldImage
-    | undefined
+  maybeImage?: PossibleImageTypes
 ): ImageType | undefined {
   return maybeImage && isImageLink(maybeImage)
     ? transformFilledImage(maybeImage)
@@ -30,7 +33,9 @@ function startsWith(s: string, prefix: string): boolean {
 }
 
 // We don't export this, as we probably always want to check ^ first
-function transformFilledImage(image: prismic.FilledImageFieldImage): ImageType {
+function transformFilledImage(
+  image: prismic.FilledImageFieldImage | ContentApiImage
+): ImageType {
   const tasl = transformTaslFromString(image.copyright);
   const crops = Object.keys(image)
     .filter(key => prismicImageProps.indexOf(key) === -1)
