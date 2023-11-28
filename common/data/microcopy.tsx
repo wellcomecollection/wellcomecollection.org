@@ -136,7 +136,7 @@ export const sierraAccessMethodtoNewLabel = {
 export const inOurBuilding = 'In our building';
 
 export const requestingDisabled =
-  'Requesting is temporarily unavailable while we perform maintenance work. In the meantime, email library@wellcomecollection.org the details of your request and when you would like to consult it and we can retrieve the items for you.';
+  'Requesting is temporarily unavailable while we perform maintenance work. We expect it to be available again from around 9am (London) on the 29th November. In the meantime, email library@wellcomecollection.org the details of your request and when you would like to consult it and we can retrieve the items for you.';
 
 export const pastExhibitionsStrapline =
   'Take a look at our past exhibitions and installations.';
