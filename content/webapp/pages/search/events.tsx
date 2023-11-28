@@ -27,7 +27,10 @@ import {
 } from '@weco/content/services/wellcome/content/types/api';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import { fromQuery, EventsProps } from '@weco/content/components/EventsLink';
+import {
+  fromQuery,
+  EventsProps,
+} from '@weco/content/components/SearchPagesLink/Events';
 import { getEvents } from 'services/wellcome/content/events';
 import EventsSearchResults from 'components/EventsSearchResults';
 
