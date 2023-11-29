@@ -135,17 +135,8 @@ export const sierraAccessMethodtoNewLabel = {
 
 export const inOurBuilding = 'In our building';
 
-export const requestingDisabled = (
-  <>
-    {
-      'Requesting is temporarily unavailable until around 9am GMT on the 29th November, while we perform maintenance work.'
-    }
-    <br />
-    {
-      'In the meantime, email library@wellcomecollection.org the details of your request and when you would like to consult it and we can retrieve the items for you.'
-    }
-  </>
-);
+export const requestingDisabled =
+  'Requesting in temporarily unavailable while we perform maintenance work.';
 
 export const pastExhibitionsStrapline =
   'Take a look at our past exhibitions and installations.';
