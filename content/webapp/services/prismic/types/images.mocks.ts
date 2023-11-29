@@ -1,7 +1,3 @@
-// TODO review ID and EDIT fields.
-// These are new properties that are expected but not yet being returned?
-// https://github.com/prismicio/prismic-client/pull/326
-// Can't find them in documentation yet
 export const imageWithCrops = {
   dimensions: { width: 4000, height: 3232 },
   alt: 'Photograph of an exhibition gallery wall, square on. The wall is a light pink colour and contains a central panel which is set forward from the way, upon which a large colourful old painting is hung. The painting depicts a family portrait with a mother figure a father figure and a young child. At the base of the wall, under the painting is a low white barrier to prevent visitors from getting too close. In front of the painting, standing with their backs to the camera are 3 young people looking at the painting. One stands alone on the left hand side and the other 2 stand together on the right. Either side of the main painting, further small pen and ink artworks can be seen, framed in brown wooden frames.',
