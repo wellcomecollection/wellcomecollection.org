@@ -136,7 +136,7 @@ export const sierraAccessMethodtoNewLabel = {
 export const inOurBuilding = 'In our building';
 
 export const requestingDisabled =
-  'Requesting in temporarily unavailable while we perform maintenance work.';
+  'Requesting is temporarily unavailable while we perform maintenance work.';
 
 export const pastExhibitionsStrapline =
   'Take a look at our past exhibitions and installations.';
