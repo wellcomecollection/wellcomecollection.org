@@ -31,6 +31,13 @@ export type PaginatedResults<T> = {
   totalPages: number;
 };
 
+// https://github.com/prismicio/prismic-client/pull/326
+// These are new properties that are expected but not documented for yet or returned
+export type CustomPrismicFilledImage = Omit<
+  prismic.FilledImageFieldImage,
+  'id' | 'edit'
+>;
+
 // Guards
 export function isFilledLinkToDocument<T, L, D extends DataInterface>(
   field: prismic.ContentRelationshipField<T, L, D> | undefined

@@ -1,6 +1,6 @@
 // This is copy for the identity web app that's hard-coded, rather than fetched from Prismic.
 //
-// It's longer than microcopy so it doesn't live in the microcopy file (microcopy.ts), but
+// It's longer than microcopy so it doesn't live in the microcopy file (microcopy.tsx), but
 // we keep it in one place for similar reasons:
 //
 //    - All this text can be reviewed for consistency

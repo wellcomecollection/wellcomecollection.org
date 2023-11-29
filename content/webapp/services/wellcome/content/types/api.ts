@@ -1,7 +1,10 @@
 import { ArticleFormatId } from '@weco/content/data/content-format-ids';
 import * as prismic from '@prismicio/client';
-import { WellcomeAggregation, WellcomeResultList } from '../../index';
-import { ContentApiImage } from '.';
+import {
+  WellcomeAggregation,
+  WellcomeResultList,
+} from '@weco/content/services/wellcome';
+import { CustomPrismicFilledImage } from '@weco/common/services/prismic/types';
 
 export type ContentApiProps = {
   query?: string;
@@ -25,7 +28,7 @@ export type Article = {
   publicationDate: string;
   contributors: Contributor[];
   format: ArticleFormat;
-  image?: prismic.EmptyImageFieldImage | prismic.FilledImageFieldImage; // TODO change to ContentApiImage
+  image?: prismic.EmptyImageFieldImage | CustomPrismicFilledImage;
   caption?: string;
 };
 
@@ -52,7 +55,7 @@ export type EventDocument = {
   type: 'Event';
   id: string;
   title: string;
-  image?: ContentApiImage;
+  image?: prismic.EmptyImageFieldImage | CustomPrismicFilledImage;
   times: { startDateTime?: Date; endDateTime?: Date }[];
   format: EventDocumentFormat;
   locations: EventDocumentLocation[];
