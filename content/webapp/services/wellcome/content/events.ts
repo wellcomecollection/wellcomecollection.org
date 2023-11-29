@@ -5,6 +5,7 @@ import {
 } from '@weco/content/services/wellcome/content/types/api';
 // import { contentQuery } from '.';
 import { QueryProps, WellcomeApiError } from '..';
+import { CustomPrismicFilledImage } from '@weco/common/services/prismic/types';
 
 export async function getEvents(
   props: QueryProps<ContentApiProps>
@@ -29,6 +30,15 @@ export async function getEvents(
         },
         id: 'ZFt0WhQAAHnPEH7P',
         image: {
+          type: 'PrismicImage',
+          alt: 'Photograph of a farmer getting ready to harvest his organic crop of native Ragi in Kariyappanadoddi, India. Behind him are hills and a small single storey building. Interwoven into the scene is a graphic element made up of thin red drawn circular lines, which create a larger organic pattern behind the farmer.',
+          copyright:
+            'Farmer Basavaraj in Kariyappanadoddi inspects his ragi crop before harvesting near Bannerghatta, India | | | | | Quicksand |',
+          dimensions: {
+            height: 2250,
+            width: 4000,
+          },
+          url: 'https://images.prismic.io/wellcomecollection/0793d963-8807-4525-a3d7-e77fa4435baa_LBE+Key+Image+04.jpg?auto=compress,format',
           '16:9': {
             alt: 'Photograph of a farmer getting ready to harvest his organic crop of native Ragi in Kariyappanadoddi, India. Behind him are hills and a small single storey building. Interwoven into the scene is a graphic element made up of thin red drawn circular lines, which create a larger organic pattern behind the farmer.',
             copyright:
@@ -49,13 +59,6 @@ export async function getEvents(
             },
             url: 'https://images.prismic.io/wellcomecollection/0793d963-8807-4525-a3d7-e77fa4435baa_LBE+Key+Image+04.jpg?auto=compress,format&rect=0,232,4000,1875&w=3200&h=1500',
           },
-          alt: 'Photograph of a farmer getting ready to harvest his organic crop of native Ragi in Kariyappanadoddi, India. Behind him are hills and a small single storey building. Interwoven into the scene is a graphic element made up of thin red drawn circular lines, which create a larger organic pattern behind the farmer.',
-          copyright:
-            'Farmer Basavaraj in Kariyappanadoddi inspects his ragi crop before harvesting near Bannerghatta, India | | | | | Quicksand |',
-          dimensions: {
-            height: 2250,
-            width: 4000,
-          },
           square: {
             alt: 'Photograph of a farmer getting ready to harvest his organic crop of native Ragi in Kariyappanadoddi, India. Behind him are hills and a small single storey building. Interwoven into the scene is a graphic element made up of thin red drawn circular lines, which create a larger organic pattern behind the farmer.',
             copyright:
@@ -66,9 +69,7 @@ export async function getEvents(
             },
             url: 'https://images.prismic.io/wellcomecollection/0793d963-8807-4525-a3d7-e77fa4435baa_LBE+Key+Image+04.jpg?auto=compress,format&rect=1202,0,2250,2250&w=3200&h=3200',
           },
-          type: 'PrismicImage',
-          url: 'https://images.prismic.io/wellcomecollection/0793d963-8807-4525-a3d7-e77fa4435baa_LBE+Key+Image+04.jpg?auto=compress,format',
-        },
+        } as CustomPrismicFilledImage,
         interpretations: [],
         locations: [
           {
@@ -99,6 +100,15 @@ export async function getEvents(
         },
         id: 'ZJLZoRAAACIARz42',
         image: {
+          type: 'PrismicImage',
+          url: 'https://images.prismic.io/wellcomecollection/3e1ef5ca-cf7f-40e5-b1dc-0730a5e11225_EP_002225_007-full.jpg?auto=compress,format',
+          alt: "Photograph of an art installation in gallery space. It's a dark space with black glossy floors and walls. A large parachute suspended from the ceiling which is lit with vibrant pink and orange light. Two visitors are looking at the instillation.",
+          copyright:
+            'From the Collection: For What It’s Worth, 2023. Jess Dobkin |  Gallery photo: Steven Pocock | | | CC-BY-NC | |',
+          dimensions: {
+            height: 2250,
+            width: 4000,
+          },
           '16:9': {
             alt: "Photograph of an art installation in gallery space. It's a dark space with black glossy floors and walls. A large parachute suspended from the ceiling which is lit with vibrant pink and orange light. Two visitors are looking at the instillation.",
             copyright:
@@ -119,13 +129,6 @@ export async function getEvents(
             },
             url: 'https://images.prismic.io/wellcomecollection/3e1ef5ca-cf7f-40e5-b1dc-0730a5e11225_EP_002225_007-full.jpg?auto=compress,format&rect=0,188,4000,1875&w=3200&h=1500',
           },
-          alt: "Photograph of an art installation in gallery space. It's a dark space with black glossy floors and walls. A large parachute suspended from the ceiling which is lit with vibrant pink and orange light. Two visitors are looking at the instillation.",
-          copyright:
-            'From the Collection: For What It’s Worth, 2023. Jess Dobkin |  Gallery photo: Steven Pocock | | | CC-BY-NC | |',
-          dimensions: {
-            height: 2250,
-            width: 4000,
-          },
           square: {
             alt: "Photograph of an art installation in gallery space. It's a dark space with black glossy floors and walls. A large parachute suspended from the ceiling which is lit with vibrant pink and orange light. Two visitors are looking at the instillation.",
             copyright:
@@ -136,9 +139,7 @@ export async function getEvents(
             },
             url: 'https://images.prismic.io/wellcomecollection/3e1ef5ca-cf7f-40e5-b1dc-0730a5e11225_EP_002225_007-full.jpg?auto=compress,format&rect=1361,0,2250,2250&w=3200&h=3200',
           },
-          type: 'PrismicImage',
-          url: 'https://images.prismic.io/wellcomecollection/3e1ef5ca-cf7f-40e5-b1dc-0730a5e11225_EP_002225_007-full.jpg?auto=compress,format',
-        },
+        } as CustomPrismicFilledImage,
         interpretations: [
           {
             id: 'XkFGqxEAACIAIhNH',
