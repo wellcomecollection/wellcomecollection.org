@@ -17,6 +17,11 @@ import {
   ImageWrapper,
   MobileLabel,
 } from './EventsSearchResults.styles';
+import Space from '@weco/common/views/components/styled/Space';
+import WatchLabel from '@weco/content/components/WatchLabel/WatchLabel';
+import EventDateRange from '@weco/content/components/EventDateRange';
+import { transformEventTimes } from '@weco/content/services/prismic/transformers/events';
+import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
 
 type Props = {
   events: EventDocument[];
@@ -29,11 +34,17 @@ const EventsSearchResults: FunctionComponent<Props> = ({
   dynamicImageSizes,
   isDetailed,
 }: Props) => {
+  // Past events that are available online don't have a status indicator
+  // as they display online availability information.
   return (
     <EventsContainer $isDetailed={isDetailed}>
       {events.map(event => {
         const image = transformImage(event.image);
         const croppedImage = getCrop(image, isDetailed ? '16:9' : '32:15');
+
+        const isPast = true; // TODO
+
+        const times = transformEventTimes(event.id, event.times);
 
         return (
           <EventWrapper
@@ -70,31 +81,32 @@ const EventsSearchResults: FunctionComponent<Props> = ({
               )}
 
               <h3 className={font('wb', 4)}>{event.title}</h3>
+              {isPast && !event.isAvailableOnline && (
+                <StatusIndicator
+                  start={times[0].range.startDateTime}
+                  end={times[times.length - 1].range.endDateTime}
+                />
+              )}
+              {event.locations.map(location => (
+                <p key={location.id}>{location.label}</p>
+              ))}
 
-              {/* {isDetailed &&
-                (event.publicationDate || !!event.contributors.length) && (
-                  <EventInformation>
-                    {event.publicationDate && (
-                      <EventInformationItem className="searchable-selector">
-                        <HTMLDate date={new Date(event.publicationDate)} />
-                      </EventInformationItem>
-                    )}
-                    {!!event.contributors.length && (
-                      <>
-                        <EventInformationItemSeparator>
-                          {' | '}
-                        </EventInformationItemSeparator>
-                        <EventInformationItem>
-                          {event.contributors.map(contributor => (
-                            <span key={contributor.contributor?.id}>
-                              {contributor.contributor?.label}
-                            </span>
-                          ))}
-                        </EventInformationItem>
-                      </>
-                    )}
-                  </EventInformation>
-                )} */}
+              <EventDateRange eventTimes={times} />
+
+              {isPast && event.isAvailableOnline ? (
+                <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+                  <Space $v={{ size: 's', properties: ['margin-top'] }}>
+                    <WatchLabel text="Available to watch" />
+                  </Space>
+                </Space>
+              ) : (
+                !isPast &&
+                times.length > 1 && (
+                  <p className={font('intb', 4)} style={{ marginBottom: 0 }}>
+                    See all dates/times
+                  </p>
+                )
+              )}
             </Details>
           </EventWrapper>
         );

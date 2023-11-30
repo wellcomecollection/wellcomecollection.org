@@ -1,4 +1,4 @@
-import EventDateRange from '@weco/content/components/EventDateRange/EventDateRange';
+import EventDateRange from '@weco/content/components/EventDateRange';
 import Readme from '@weco/content/components/EventDateRange/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
@@ -47,6 +47,6 @@ const Template = args => (
 );
 export const basic = Template.bind({});
 basic.args = {
-  event: { times },
+  eventTimes: { times },
 };
 basic.storyName = 'EventDateRange';

@@ -85,11 +85,12 @@ export async function getEvents(
         ],
         times: [
           {
-            endDateTime: new Date(),
-            startDateTime: new Date(),
+            endDateTime: new Date('2023-06-23T17:00:00.000Z'),
+            startDateTime: new Date('2023-06-23T09:00:00.000Z'),
           },
         ],
         title: 'Land Body Ecologies Festival Day Two',
+        isAvailableOnline: true,
       },
       {
         type: 'Event',
@@ -156,11 +157,12 @@ export async function getEvents(
         ],
         times: [
           {
-            endDateTime: new Date(),
-            startDateTime: new Date(),
+            endDateTime: new Date('2023-08-24T17:30:00.000Z'),
+            startDateTime: new Date('2023-08-24T16:30:00.000Z'),
           },
         ],
         title: 'Perspective Tour With Jess Dobkin',
+        isAvailableOnline: false,
       },
     ],
     pageSize: 6,
