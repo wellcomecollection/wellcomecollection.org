@@ -17,7 +17,7 @@ thirdDate.setHours(now.getHours() + 24);
 fourthDate.setHours(secondDate.getHours() + 24);
 fifthDate.setHours(thirdDate.getHours() + 24);
 
-const times = [
+const eventTimes = [
   {
     range: {
       startDateTime: firstDate,
@@ -47,6 +47,6 @@ const Template = args => (
 );
 export const basic = Template.bind({});
 basic.args = {
-  eventTimes: { times },
+  eventTimes,
 };
 basic.storyName = 'EventDateRange';
