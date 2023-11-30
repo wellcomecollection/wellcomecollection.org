@@ -6,6 +6,11 @@ import {
 } from '@weco/content/services/wellcome';
 import { CustomPrismicFilledImage } from '@weco/common/services/prismic/types';
 
+export type ContentApiTimeField = {
+  startDateTime?: Date;
+  endDateTime?: Date;
+};
+
 export type ContentApiProps = {
   query?: string;
   page?: number;
@@ -56,10 +61,11 @@ export type EventDocument = {
   id: string;
   title: string;
   image?: prismic.EmptyImageFieldImage | CustomPrismicFilledImage;
-  times: { startDateTime?: Date; endDateTime?: Date }[];
+  times: ContentApiTimeField[];
   format: EventDocumentFormat;
   locations: EventDocumentLocation[];
   interpretations: EventDocumentInterpretation[];
+  isAvailableOnline: boolean;
 };
 
 // Contributors (e.g. author, photographer)
