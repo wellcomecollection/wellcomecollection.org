@@ -87,4 +87,4 @@ export type WorksLinkSource =
   | 'unknown';
 
 export type StoriesLinkSource = 'unknown';
-export type EventsLinkSource = 'unknown'; // TODO?
+export type EventsLinkSource = 'unknown';

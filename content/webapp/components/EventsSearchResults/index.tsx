@@ -45,8 +45,6 @@ const EventsSearchResults: FunctionComponent<Props> = ({
   dynamicImageSizes,
   isDetailed,
 }: Props) => {
-  // Past events that are available online don't have a status indicator
-  // as they display online availability information.
   return (
     <EventsContainer $isDetailed={isDetailed}>
       {events.map(event => {
@@ -105,6 +103,8 @@ const EventsSearchResults: FunctionComponent<Props> = ({
               <h3 className={font('wb', 4)}>{event.title}</h3>
 
               <EventInformation>
+                {/* Past events that are available online don't have a status indicator
+                as they display online availability information. */}
                 {isPast && !event.isAvailableOnline && (
                   <StatusIndicator
                     start={times[0].range.startDateTime}

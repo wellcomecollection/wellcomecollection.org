@@ -8,14 +8,13 @@ import { QueryProps, WellcomeApiError } from '..';
 import { CustomPrismicFilledImage } from '@weco/common/services/prismic/types';
 
 export async function getEvents(
-  props: QueryProps<ContentApiProps>
+  props: QueryProps<ContentApiProps> // eslint-disable-line 
 ): Promise<ContentResultsList<EventDocument> | WellcomeApiError> {
   // const getEventsResult = await contentQuery<ContentApiProps, EventDocument>(
   //   'events',
   //   props
   // );
   // return getEventsResult;
-  console.log({ props });
   return {
     type: 'ResultList',
     totalResults: 200,
