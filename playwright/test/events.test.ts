@@ -1,4 +1,4 @@
-import { test as base } from '@playwright/test';
+import { expect, test as base } from '@playwright/test';
 import { event } from './helpers/contexts';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
@@ -22,8 +22,14 @@ test.describe('events', () => {
     context,
   }) => {
     await event('XagmOxAAACIAo0v8', context, page);
-    await page.waitForSelector('h2 >> text="Past events"');
-    await page.waitForSelector('h3 >> text="Saturday 30 November 2019"');
-    await page.waitForSelector('h5 >> text="Heart n Soul Radio"');
+    const pastEventsLocator = page.locator('h2 >> text="Past events"');
+    const dateLocator = page.locator('h3 >> text="Saturday 30 November 2019"');
+    // Heart n Soul Radio occured twice, once in November, once in December
+    const eventNameLocator = page
+      .locator('h5 >> text="Heart n Soul Radio"')
+      .first();
+    await expect(pastEventsLocator).toBeVisible();
+    await expect(dateLocator).toBeVisible();
+    await expect(eventNameLocator).toBeVisible();
   });
 });
