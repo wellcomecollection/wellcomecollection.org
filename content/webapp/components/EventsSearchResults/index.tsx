@@ -12,16 +12,27 @@ import { transformImage } from '@weco/common/services/prismic/transformers/image
 import {
   DesktopLabel,
   Details,
+  EventInformation,
   EventWrapper,
   EventsContainer,
   ImageWrapper,
+  LocationWrapper,
   MobileLabel,
 } from './EventsSearchResults.styles';
 import Space from '@weco/common/views/components/styled/Space';
 import WatchLabel from '@weco/content/components/WatchLabel/WatchLabel';
 import EventDateRange from '@weco/content/components/EventDateRange';
-import { transformEventTimes } from '@weco/content/services/prismic/transformers/events';
+import {
+  getLastEndTime,
+  transformEventTimes,
+} from '@weco/content/services/prismic/transformers/events';
 import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
+import { isPast as checkIfIsPast } from '@weco/common/utils/dates';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { getLocationText } from 'components/EventPromo/EventPromo';
+import { location } from '@weco/common/icons';
+import { PlaceBasic } from '@weco/content/types/places';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 type Props = {
   events: EventDocument[];
@@ -42,9 +53,20 @@ const EventsSearchResults: FunctionComponent<Props> = ({
         const image = transformImage(event.image);
         const croppedImage = getCrop(image, isDetailed ? '16:9' : '32:15');
 
-        const isPast = true; // TODO
-
         const times = transformEventTimes(event.id, event.times);
+
+        const lastEndTime = getLastEndTime(times);
+        const isPast = lastEndTime ? checkIfIsPast(lastEndTime) : true;
+
+        const isOnline = Boolean(
+          event.locations.find(l => l.label === 'Online')
+        );
+
+        const locations: PlaceBasic[] = event.locations
+          .map(l => {
+            return l.label ? { title: l.label } : undefined;
+          })
+          .filter(t => isNotUndefined(t)) as PlaceBasic[];
 
         return (
           <EventWrapper
@@ -81,32 +103,41 @@ const EventsSearchResults: FunctionComponent<Props> = ({
               )}
 
               <h3 className={font('wb', 4)}>{event.title}</h3>
-              {isPast && !event.isAvailableOnline && (
-                <StatusIndicator
-                  start={times[0].range.startDateTime}
-                  end={times[times.length - 1].range.endDateTime}
-                />
-              )}
-              {event.locations.map(location => (
-                <p key={location.id}>{location.label}</p>
-              ))}
 
-              <EventDateRange eventTimes={times} />
+              <EventInformation>
+                {isPast && !event.isAvailableOnline && (
+                  <StatusIndicator
+                    start={times[0].range.startDateTime}
+                    end={times[times.length - 1].range.endDateTime}
+                  />
+                )}
 
-              {isPast && event.isAvailableOnline ? (
-                <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-                  <Space $v={{ size: 's', properties: ['margin-top'] }}>
-                    <WatchLabel text="Available to watch" />
+                {(isOnline || event.locations.length > 0) && (
+                  <LocationWrapper>
+                    <Icon icon={location} matchText />
+                    <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
+                      {getLocationText(isOnline, locations)}
+                    </Space>
+                  </LocationWrapper>
+                )}
+
+                <EventDateRange eventTimes={times} />
+
+                {isPast && event.isAvailableOnline ? (
+                  <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+                    <Space $v={{ size: 's', properties: ['margin-top'] }}>
+                      <WatchLabel text="Available to watch" />
+                    </Space>
                   </Space>
-                </Space>
-              ) : (
-                !isPast &&
-                times.length > 1 && (
-                  <p className={font('intb', 4)} style={{ marginBottom: 0 }}>
-                    See all dates/times
-                  </p>
-                )
-              )}
+                ) : (
+                  !isPast &&
+                  times.length > 1 && (
+                    <p className={font('intb', 4)} style={{ marginBottom: 0 }}>
+                      See all dates/times
+                    </p>
+                  )
+                )}
+              </EventInformation>
             </Details>
           </EventWrapper>
         );

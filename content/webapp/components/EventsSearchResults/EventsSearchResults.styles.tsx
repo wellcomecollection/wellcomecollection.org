@@ -1,4 +1,4 @@
-import { grid } from '@weco/common/utils/classnames';
+import { font, grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 
@@ -66,4 +66,17 @@ export const MobileLabel = styled.div<{ $isDetailed?: boolean }>`
         `}
     `
       : ``}
+`;
+
+export const EventInformation = styled(Space).attrs({
+  className: font('intr', 5),
+  $v: { size: 'xs', properties: ['margin-bottom'] },
+})``;
+
+export const LocationWrapper = styled(Space).attrs({
+  className: font('intr', 5),
+  $v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
+})`
+  display: flex;
+  align-items: center;
 `;
