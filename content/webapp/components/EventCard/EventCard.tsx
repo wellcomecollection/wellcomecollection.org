@@ -3,7 +3,7 @@ import { EventBasic } from '../../types/events';
 import CompactCard from '../CompactCard/CompactCard';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
-import EventDateRange from '../EventDateRange';
+import EventDateRange from '../EventDateRange/EventDateRange';
 import { font } from '@weco/common/utils/classnames';
 import { getCrop } from '@weco/common/model/image';
 import Space from '@weco/common/views/components/styled/Space';
@@ -16,7 +16,7 @@ type Props = {
 
 const EventCard: FunctionComponent<Props> = ({ event, xOfY }) => {
   const DateRangeComponent = event.isPast ? undefined : (
-    <EventDateRange eventTimes={event.times} />
+    <EventDateRange event={event} />
   );
 
   const squareImage = getCrop(event.image, 'square');

@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import TextWithDot from '@weco/content/components/TextWithDot';
-import EventDateRange from '../EventDateRange';
+import EventDateRange from '../EventDateRange/EventDateRange';
 import { EventBasic } from '@weco/content/types/events';
 import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
 import Space from '@weco/common/views/components/styled/Space';
@@ -136,7 +136,7 @@ const EventPromo: FunctionComponent<Props> = ({
             <>
               <DateInfo>
                 <EventDateRange
-                  eventTimes={event.times}
+                  event={event}
                   splitTime={true}
                   fromDate={fromDate}
                 />
