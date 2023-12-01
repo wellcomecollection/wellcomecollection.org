@@ -1,6 +1,6 @@
 import { AppProps } from 'next/app';
 import React, { useEffect, FunctionComponent, ReactElement } from 'react';
-import { StyleSheetManager, ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '@weco/common/views/themes/default';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator/LoadingIndicator';
 import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
@@ -113,23 +113,21 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
           <UserProvider>
             <AppContextProvider>
               <SearchContextProvider>
-                <StyleSheetManager enableVendorPrefixes>
-                  <ThemeProvider theme={theme}>
-                    <GlobalStyle
-                      toggles={serverData.toggles}
-                      isFontsLoaded={useIsFontsLoaded()}
+                <ThemeProvider theme={theme}>
+                  <GlobalStyle
+                    toggles={serverData.toggles}
+                    isFontsLoaded={useIsFontsLoaded()}
+                  />
+                  <LoadingIndicator />
+                  {!pageProps.err &&
+                    getLayout(<Component {...deserialiseProps(pageProps)} />)}
+                  {pageProps.err && (
+                    <ErrorPage
+                      statusCode={pageProps.err.statusCode}
+                      title={pageProps.err.message}
                     />
-                    <LoadingIndicator />
-                    {!pageProps.err &&
-                      getLayout(<Component {...deserialiseProps(pageProps)} />)}
-                    {pageProps.err && (
-                      <ErrorPage
-                        statusCode={pageProps.err.statusCode}
-                        title={pageProps.err.message}
-                      />
-                    )}
-                  </ThemeProvider>
-                </StyleSheetManager>
+                  )}
+                </ThemeProvider>
               </SearchContextProvider>
             </AppContextProvider>
           </UserProvider>
