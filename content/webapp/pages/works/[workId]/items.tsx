@@ -259,7 +259,7 @@ const ItemPage: NextPage<Props> = ({
           </Space>
         </Layout>
       )}
-      {/* TODO remove this or update unavailable message to something more appropriate */}
+
       {!(isNotUndefined(audio) && audio?.sounds.length > 0) &&
         !video &&
         !pdf &&
