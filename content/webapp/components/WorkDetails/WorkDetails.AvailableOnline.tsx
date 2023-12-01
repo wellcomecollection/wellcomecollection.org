@@ -119,7 +119,6 @@ const WorkDetailsAvailableOnline = ({
                 </ConditionalWrapper>
               </Space>
             )}
-
             <div style={{ display: 'flex' }}>
               {itemUrl && (
                 <Space
@@ -133,7 +132,6 @@ const WorkDetailsAvailableOnline = ({
                   />
                 </Space>
               )}
-
               {showDownloadOptions && (
                 <Download
                   ariaControlsId="itemDownloads"
@@ -141,8 +139,10 @@ const WorkDetailsAvailableOnline = ({
                 />
               )}
             </div>
-            {((collectionManifestsCount && collectionManifestsCount > 0) ||
-              (canvasCount && canvasCount > 0)) && (
+            {(Boolean(
+              collectionManifestsCount && collectionManifestsCount > 0
+            ) ||
+              Boolean(canvasCount && canvasCount > 0)) && (
               <Space $v={{ size: 'm', properties: ['margin-top'] }}>
                 <p className={`${font('lr', 6)}`} style={{ marginBottom: 0 }}>
                   Contains:{' '}
