@@ -4,7 +4,7 @@ import { formatDate } from '@weco/common/utils/format-date';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia, getHeroPicture } from '../../utils/page-header';
 import DateRange from '@weco/content/components/DateRange/DateRange';
-import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';

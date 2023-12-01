@@ -3,8 +3,10 @@ import { Children, createContext, ReactNode, ReactElement } from 'react';
 import { sectionLevelPages } from '@weco/common/data/hardcoded-ids';
 import { Season } from '@weco/content/types/seasons';
 import { ElementFromComponent } from '@weco/common/utils/utility-types';
-import Layout8 from '@weco/common/views/components/Layout8/Layout8';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout, {
+  gridSize12,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import PageHeader, {
   headerSpaceSize,
 } from '@weco/common/views/components/PageHeader/PageHeader';
@@ -88,7 +90,7 @@ const ContentPage = ({
                 <>
                   {child && (
                     <SpacingComponent>
-                      <Layout8>{child}</Layout8>
+                      <Layout gridSizes={gridSize8()}>{child}</Layout>
                     </SpacingComponent>
                   )}
                 </>
@@ -97,12 +99,12 @@ const ContentPage = ({
           )}
           {!hideContributors && contributors && contributors.length > 0 && (
             <SpacingSection>
-              <Layout8>
+              <Layout gridSizes={gridSize8()}>
                 <Contributors
                   contributors={contributors}
                   titleOverride={contributorTitle}
                 />
-              </Layout8>
+              </Layout>
             </SpacingSection>
           )}
         </Wrapper>
@@ -115,13 +117,15 @@ const ContentPage = ({
             ))}
           </SpacingSection>
         )}
-        {postOutroContent && <Layout8>{postOutroContent}</Layout8>}
+        {postOutroContent && (
+          <Layout gridSizes={gridSize8()}>{postOutroContent}</Layout>
+        )}
         {seasons.length > 0 &&
           seasons.map(season => (
             <SpacingSection key={season.id}>
-              <Layout12>
+              <Layout gridSizes={gridSize12()}>
                 <BannerCard item={season} />
-              </Layout12>
+              </Layout>
             </SpacingSection>
           ))}
       </Wrapper>

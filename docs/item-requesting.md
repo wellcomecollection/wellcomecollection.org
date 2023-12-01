@@ -24,11 +24,11 @@ Material in closed stores fall into one of three category:
 
 1.  Anybody can request it – items which are open or restricted. For these items, logged-in users see a “Request item” button on the works page.
 
-    <img src="./Screenshot 2023-03-07 at 13.43.09.png">
+    <img src="./screenshots/item-requesting/request-item.png">
 
     If a user clicks this button, they’re shown a modal window where they can (1) choose when they’d like to view the item and (2) confirm this is the item they want to request:
 
-    <img src="./Screenshot 2023-03-07 at 13.56.52.png">
+    <img src="./screenshots/item-requesting/request-item-modal.png">
 
     A user can then see a list of all the items they’ve requested in their account page on wellcomecollection.org. This will show them what they’ve already requested, and when the item is actually available to view in the Rare Materials Room.
 
@@ -36,13 +36,13 @@ Material in closed stores fall into one of three category:
 
 2.  Anybody can request it, but talk to us first – for example, items which are fragile or bulky. For these items, users have to email Wellcome to arrange access.
 
-    <img src="./Screenshot 2023-03-07 at 13.47.50.png">
+    <img src="./screenshots/item-requesting/email-library.png">
 
     All of this is managed entirely by email.
 
 3.  You can’t request it – for example, items which are closed for Data Protection reasons. For these items, we display an explanatory message but users can’t take any action.
 
-    <img src="./Screenshot 2023-03-07 at 13.43.26.png">
+    <img src="./screenshots/item-requesting/access-policy.png">
 
 From a Digital Platform perspective, the most complicated category is (1). We have to render the correct metadata on the page for (2) and (3), but we don’t do any more after that.
 

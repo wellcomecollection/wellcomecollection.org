@@ -58,8 +58,6 @@ export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
   setCacheControl(context.res);
-  const serverData = await getServerData(context);
-
   const page = getPage(context.query);
 
   if (typeof page !== 'number') {
@@ -68,40 +66,41 @@ export const getServerSideProps: GetServerSideProps<
 
   const { contentType } = context.query;
 
-  if (!isContentType(contentType)) {
-    return { notFound: true };
+  if (isContentType(contentType)) {
+    const serverData = await getServerData(context);
+    const contentTypeInfo = getContentTypeId(contentType);
+
+    const client = createClient(context);
+    const seriesQuery = await fetchSeries(client, {
+      filters: prismic.filter.at('my.series.format', contentTypeInfo.id),
+      page,
+      orderings: [
+        {
+          field: 'document.first_publication_date',
+          direction: 'desc',
+        },
+      ],
+    });
+    const series = transformQuery(seriesQuery, transformSeries);
+    const basicSeries = {
+      ...series,
+      results: series.results.map(transformSeriesToSeriesBasic),
+    };
+
+    const jsonLd = series.results.map(articleSeriesLd);
+
+    return {
+      props: serialiseProps({
+        title: contentTypeInfo.title,
+        contentType,
+        series: basicSeries,
+        jsonLd,
+        serverData,
+      }),
+    };
   }
 
-  const contentTypeInfo = getContentTypeId(contentType);
-
-  const client = createClient(context);
-  const seriesQuery = await fetchSeries(client, {
-    filters: prismic.filter.at('my.series.format', contentTypeInfo.id),
-    page,
-    orderings: [
-      {
-        field: 'document.first_publication_date',
-        direction: 'desc',
-      },
-    ],
-  });
-  const series = transformQuery(seriesQuery, transformSeries);
-  const basicSeries = {
-    ...series,
-    results: series.results.map(transformSeriesToSeriesBasic),
-  };
-
-  const jsonLd = series.results.map(articleSeriesLd);
-
-  return {
-    props: serialiseProps({
-      title: contentTypeInfo.title,
-      contentType,
-      series: basicSeries,
-      jsonLd,
-      serverData,
-    }),
-  };
+  return { notFound: true };
 };
 
 const ArticleSeriesManyPage: FunctionComponent<Props> = ({

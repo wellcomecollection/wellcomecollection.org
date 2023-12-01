@@ -2,7 +2,7 @@ import { FunctionComponent, ReactElement } from 'react';
 import PageLayout, {
   SiteSection,
 } from '@weco/common/views/components/PageLayout/PageLayout';
-import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
@@ -119,14 +119,13 @@ export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
   setCacheControl(context.res);
-  const serverData = await getServerData(context);
   const { pageId } = context.query;
-
-  const client = createClient(context);
 
   if (!looksLikePrismicId(pageId)) {
     return { notFound: true };
   }
+
+  const client = createClient(context);
 
   const vanityUrl = isVanityUrl(pageId, context.resolvedUrl)
     ? context.resolvedUrl
@@ -135,7 +134,8 @@ export const getServerSideProps: GetServerSideProps<
   const pageLookup = await fetchPage(client, pageId);
   const page = pageLookup && transformPage(pageLookup);
 
-  if (page) {
+  if (isNotUndefined(page)) {
+    const serverData = await getServerData(context);
     const siblings: SiblingsGroup<PageType>[] = (
       await fetchSiblings(client, page)
     ).map(group => {
@@ -180,9 +180,9 @@ export const getServerSideProps: GetServerSideProps<
         },
       }),
     };
-  } else {
-    return { notFound: true };
   }
+
+  return { notFound: true };
 };
 
 export const Page: FunctionComponent<Props> = ({

@@ -11,7 +11,6 @@ import { setCacheControl } from '@weco/content/utils/setCacheControl';
 export const getServerSideProps = async context => {
   setCacheControl(context.res);
   const client = createClient(context);
-  const serverData = await getServerData(context);
 
   const visualStoriesQuery = await fetchVisualStories(client, {
     filters: [
@@ -31,6 +30,8 @@ export const getServerSideProps = async context => {
   if (!looksLikePrismicId(visualStoriesQuery.results[0].id)) {
     return { notFound: true };
   }
+
+  const serverData = await getServerData(context);
 
   return returnVisualStoryProps({
     visualStoryDocument: visualStoriesQuery.results[0],

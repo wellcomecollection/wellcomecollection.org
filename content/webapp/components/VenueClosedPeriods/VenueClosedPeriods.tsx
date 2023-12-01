@@ -5,7 +5,7 @@ import {
   getNameFromCollectionVenue,
 } from '@weco/common/data/hardcoded-ids';
 import { Venue } from '@weco/common/model/opening-hours';
-import HTMLDayDate from '@weco/common/views/components/HTMLDayDate/HTMLDayDate';
+import { HTMLDayDate } from '@weco/common/views/components/HTMLDateAndTime';
 
 type Props = {
   venue: Venue;

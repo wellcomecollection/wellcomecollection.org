@@ -1,5 +1,7 @@
 export const transparentGif =
   'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+export const whiteBackgroundHalfOpacity =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgDTD2qgAAAAASUVORK5CYII=';
 export const repeatingLs =
   'https://images.prismic.io/wellcomecollection%2F805ad61b-fba6-4dc1-b2d3-55dbcda0c9f1_ls_svg.svg';
 export const repeatingLsBlack =

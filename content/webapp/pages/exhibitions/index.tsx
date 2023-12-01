@@ -18,7 +18,7 @@ import { transformExhibitionsQuery } from '@weco/content/services/prismic/transf
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
@@ -30,6 +30,7 @@ import { isFuture } from '@weco/common/utils/dates';
 import Pagination from '@weco/content/components/Pagination/Pagination';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { Container } from '@weco/common/views/components/styled/Container';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 export type ExhibitionsProps = {
   exhibitions: PaginatedResults<ExhibitionBasic>;
@@ -42,14 +43,14 @@ export const getServerSideProps: GetServerSideProps<
   ExhibitionsProps | AppErrorProps
 > = async context => {
   setCacheControl(context.res, cacheTTL.events);
-  const serverData = await getServerData(context);
-  const client = createClient(context);
 
   const page = getPage(context.query);
+
   if (typeof page !== 'number') {
     return appError(context, 400, page.message);
   }
 
+  const client = createClient(context);
   const { period } = context.query;
 
   const exhibitionsQuery = await fetchExhibitions(client, {
@@ -58,9 +59,11 @@ export const getServerSideProps: GetServerSideProps<
   });
   const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
 
-  if (exhibitions && exhibitions.results.length > 0) {
+  if (isNotUndefined(exhibitions) && exhibitions.results.length > 0) {
+    const serverData = await getServerData(context);
     const title = (period === 'past' ? 'Past e' : 'E') + 'xhibitions';
     const jsonLd = exhibitions.results.map(exhibitionLd);
+
     return {
       props: serialiseProps({
         exhibitions,
@@ -70,9 +73,9 @@ export const getServerSideProps: GetServerSideProps<
         serverData,
       }),
     };
-  } else {
-    return { notFound: true };
   }
+
+  return { notFound: true };
 };
 
 const ExhibitionsPage: FunctionComponent<ExhibitionsProps> = props => {
@@ -147,11 +150,11 @@ const ExhibitionsPage: FunctionComponent<ExhibitionsProps> = props => {
           {!period && (
             <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
               <SectionHeader title="Past Exhibitions" />
-              <Layout12>
+              <Layout gridSizes={gridSize12()}>
                 <Space $v={{ size: 'm', properties: ['margin-top'] }}>
                   <p style={{ marginBottom: 0 }}>{pastExhibitionsStrapline}</p>
                 </Space>
-              </Layout12>
+              </Layout>
             </Space>
           )}
           <SpacingSection>

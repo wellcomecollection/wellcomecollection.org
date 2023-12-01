@@ -26,6 +26,7 @@ import {
   visualStoryLinkText,
   exhibitionGuideLinkText,
 } from '@weco/common/data/microcopy';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 type ExhibitionProps = {
   exhibition: ExhibitionType;
@@ -75,7 +76,6 @@ export const getServerSideProps: GetServerSideProps<
   ExhibitionProps | AppErrorProps
 > = async context => {
   setCacheControl(context.res, cacheTTL.events);
-  const serverData = await getServerData(context);
   const { exhibitionId } = context.query;
 
   if (!looksLikePrismicId(exhibitionId)) {
@@ -86,7 +86,8 @@ export const getServerSideProps: GetServerSideProps<
   const { exhibition, pages, visualStories, exhibitionGuides } =
     await fetchExhibition(client, exhibitionId);
 
-  if (exhibition) {
+  if (isNotUndefined(exhibition)) {
+    const serverData = await getServerData(context);
     const exhibitionDoc = transformExhibition(exhibition);
     const relatedPages = transformQuery(pages, transformPage);
     const visualStoriesLinks = visualStories.results.map(visualStory => {
@@ -126,9 +127,9 @@ export const getServerSideProps: GetServerSideProps<
         },
       }),
     };
-  } else {
-    return { notFound: true };
   }
+
+  return { notFound: true };
 };
 
 export default ExhibitionPage;

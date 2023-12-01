@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import SearchBar from '@weco/common/views/components/SearchBar/SearchBar';
 import Space from '@weco/common/views/components/styled/Space';
-import SubNavigation from '@weco/content/components/SubNavigation/SubNavigation';
+import Tabs from '@weco/content/components/Tabs';
 
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
@@ -124,32 +124,33 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
           />
         </SearchBarContainer>
       </form>
-      <SubNavigation
+      <Tabs
+        tabBehaviour="navigate"
+        hideBorder={currentSearchCategory === 'overview'}
         label="Search Categories"
         items={[
           {
             id: 'overview',
             url: getURL('/search'),
-            name: 'All',
+            text: 'All',
           },
           {
             id: 'stories',
             url: getURL('/search/stories'),
-            name: 'Stories',
+            text: 'Stories',
           },
           {
             id: 'images',
             url: getURL('/search/images'),
-            name: 'Images',
+            text: 'Images',
           },
           {
             id: 'works',
             url: getURL('/search/works'),
-            name: 'Catalogue',
+            text: 'Catalogue',
           },
         ]}
         currentSection={currentSearchCategory}
-        hasDivider
       />
     </>
   );

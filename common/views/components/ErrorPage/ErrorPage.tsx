@@ -12,13 +12,13 @@ import {
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { underConstruction } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import PageHeader, { headerSpaceSize } from '../PageHeader/PageHeader';
 import PageLayout from '../PageLayout/PageLayout';
 import SpacingSection from '../styled/SpacingSection';
 import SpacingComponent from '../styled/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import { dangerouslyGetEnabledToggles } from '@weco/common/utils/cookies';
+import Layout, { gridSize8 } from '../Layout';
 
 const ToggleMessageBar = styled(Space).attrs({
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -68,7 +68,7 @@ const TogglesMessage: FunctionComponent = () => {
   }, []);
 
   return toggles.length > 0 ? (
-    <Layout8>
+    <Layout gridSizes={gridSize8()}>
       <ToggleMessageBar>
         <Space $h={{ size: 's', properties: ['margin-right'] }}>
           <Icon icon={underConstruction} />
@@ -85,7 +85,7 @@ const TogglesMessage: FunctionComponent = () => {
           ))}
         </Space>
       </ToggleMessageBar>
-    </Layout8>
+    </Layout>
   ) : null;
 };
 

@@ -48,6 +48,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import * as prismic from '@prismicio/client';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 type Props = {
   season: Season;
@@ -116,6 +117,7 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   setCacheControl(context.res);
   const { seasonId } = context.query;
+
   if (!looksLikePrismicId(seasonId)) {
     return { notFound: true };
   }
@@ -182,9 +184,10 @@ export const getServerSideProps: GetServerSideProps<
   const series = transformQuery(seriesQuery, transformSeries);
   const season = seasonDoc && transformSeason(seasonDoc);
 
-  if (season) {
-    const jsonLd = contentLd(season);
+  if (isNotUndefined(season)) {
     const serverData = await getServerData(context);
+    const jsonLd = contentLd(season);
+
     return {
       props: serialiseProps({
         season,
@@ -199,9 +202,9 @@ export const getServerSideProps: GetServerSideProps<
         serverData,
       }),
     };
-  } else {
-    return { notFound: true };
   }
+
+  return { notFound: true };
 };
 
 export default SeasonPage;

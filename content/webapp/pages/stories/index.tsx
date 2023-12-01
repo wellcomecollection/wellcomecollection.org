@@ -3,7 +3,10 @@ import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
 import * as prismic from '@prismicio/client';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout, {
+  gridSize12,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
 import { ArticleBasic } from '@weco/content/types/articles';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
@@ -12,7 +15,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import FeaturedText from '@weco/content/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import { AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
@@ -182,7 +184,7 @@ const StoriesPage: FunctionComponent<Props> = ({
         sectionLevelPage={true}
       />
       {introText && (
-        <Layout8 shift={false}>
+        <Layout gridSizes={gridSize8(false)}>
           <div className="body-text spaced-text">
             <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
               <FeaturedText
@@ -191,19 +193,19 @@ const StoriesPage: FunctionComponent<Props> = ({
               />
             </Space>
           </div>
-        </Layout8>
+        </Layout>
       )}
 
       <SpacingSection>
         <ArticlesContainer className="row--has-wobbly-background">
           <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
-            <Layout12>
+            <Layout gridSizes={gridSize12()}>
               <FeaturedCardArticle
                 article={firstArticle}
                 background="neutral.700"
                 textColor="white"
               />
-            </Layout12>
+            </Layout>
           </Space>
           <div className="row__wobbly-background" />
           <StoryPromoContainer>
@@ -232,9 +234,9 @@ const StoriesPage: FunctionComponent<Props> = ({
         )}
         {storiesLanding.storiesDescription && (
           <SpacingComponent>
-            <Layout12>
+            <Layout gridSizes={gridSize12()}>
               <PrismicHtmlBlock html={storiesLanding.storiesDescription} />
-            </Layout12>
+            </Layout>
           </SpacingComponent>
         )}
         <SpacingComponent>
@@ -252,9 +254,9 @@ const StoriesPage: FunctionComponent<Props> = ({
         </SpacingComponent>
 
         <SpacingComponent>
-          <Layout12>
+          <Layout gridSizes={gridSize12()}>
             <p>{pageDescriptions.comic}</p>
-          </Layout12>
+          </Layout>
         </SpacingComponent>
 
         <SpacingComponent>
@@ -275,9 +277,9 @@ const StoriesPage: FunctionComponent<Props> = ({
         )}
         {storiesLanding.booksDescription && (
           <SpacingComponent>
-            <Layout12>
+            <Layout gridSizes={gridSize12()}>
               <PrismicHtmlBlock html={storiesLanding.booksDescription} />
-            </Layout12>
+            </Layout>
           </SpacingComponent>
         )}
         <SpacingComponent>

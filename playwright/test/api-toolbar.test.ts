@@ -1,5 +1,5 @@
 import { test as base, expect } from '@playwright/test';
-import { gotoWithoutCache } from './contexts';
+import { gotoWithoutCache } from './helpers/contexts';
 import { baseUrl } from './helpers/urls';
 
 const domain = new URL(baseUrl).host;

@@ -385,7 +385,7 @@ function isInterestingError(hit) {
   // tests.  Any errors here are either opportunistic bots we don't care
   // about, or a failure which will be surfaced elsewhere by the end-to-end
   // test results.  We don't need to hear about them in Slack.
-  if (hit.host.includes('.www-e2e.')) {
+  if (hit.host.includes('www-e2e.')) {
     return false;
   }
 

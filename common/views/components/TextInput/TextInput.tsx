@@ -20,20 +20,18 @@ export const TextInputWrap = styled.div.attrs<TextInputWrapProps>(props => ({
 }))<TextInputWrapProps>`
   display: flex;
   position: relative;
-  border: 2px solid
-    ${props => props.theme.color(props.$darkBg ? 'white' : 'neutral.600')};
+  border: ${props =>
+    props.$hasErrorBorder
+      ? `3px solid ${props.theme.color('validation.red')}`
+      : `2px solid ${props.theme.color(
+          props.$darkBg ? 'white' : 'neutral.600'
+        )}`};
 
   &:focus-within {
     box-shadow: ${props => props.theme.focusBoxShadow};
   }
 
   overflow: hidden;
-
-  ${props =>
-    props.$hasErrorBorder &&
-    `
-    box-shadow: 0 0 0 1px ${props.theme.color('validation.red')};
-  `}
 `;
 
 type TextInputLabelProps = {
@@ -93,15 +91,6 @@ export const TextInputInput = styled.input.attrs<{ $type?: string }>(props => ({
   &::-ms-clear {
     display: none;
   }
-
-  ${props =>
-    props.$hasErrorBorder &&
-    `
-      &,
-      &:focus {
-        border: 3px solid ${props.theme.color('validation.red')};
-      }
-    `}
 `;
 
 const TextInputCheckmark = styled.span.attrs<{

@@ -25,16 +25,17 @@ import GifVideo from '../GifVideo/GifVideo';
 import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
 import Contact from '@weco/content/components/Contact/Contact';
 import Iframe from '@weco/common/views/components/Iframe/Iframe';
-import Layout from '@weco/common/views/components/Layout/Layout';
-import Layout8 from '@weco/common/views/components/Layout8/Layout8';
-import Layout10 from '@weco/common/views/components/Layout10/Layout10';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout, {
+  gridSize12,
+  gridSize10,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import OnThisPageAnchors from '../OnThisPageAnchors/OnThisPageAnchors';
 import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
 import InfoBlock from '@weco/content/components/InfoBlock/InfoBlock';
 import TitledTextList from '../TitledTextList/TitledTextList';
 import TagsGroup from '@weco/content/components/TagsGroup/TagsGroup';
-import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
+import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import GridFactory, { sectionLevelPageGrid } from './GridFactory';
 import Card from '../Card/Card';
 import { convertItemToCardProps } from '../../types/card';
@@ -46,7 +47,7 @@ import FeaturedCard, {
   convertItemToFeaturedCardProps,
   convertCardToFeaturedCardProps,
 } from '../FeaturedCard/FeaturedCard';
-import ImageGallery from '../ImageGallery/ImageGallery';
+import ImageGallery from '@weco/content/components/ImageGallery';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import SoundCloudEmbed from '../SoundCloudEmbed/SoundCloudEmbed';
 import * as prismic from '@prismicio/client';
@@ -80,11 +81,11 @@ const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
 }): ReactElement | null => {
   switch (true) {
     case width === 12:
-      return <Layout12>{children}</Layout12>;
+      return <Layout gridSizes={gridSize12()}>{children}</Layout>;
     case width === 10:
-      return <Layout10>{children}</Layout10>;
+      return <Layout gridSizes={gridSize10()}>{children}</Layout>;
     case width === 8:
-      return <Layout8>{children}</Layout8>;
+      return <Layout gridSizes={gridSize8()}>{children}</Layout>;
     default:
       return null;
   }
@@ -276,7 +277,7 @@ const Body: FunctionComponent<Props> = ({
                     )}
                     {featuredItem && (
                       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-                        <Layout12>{featuredItem}</Layout12>
+                        <Layout gridSizes={gridSize12()}>{featuredItem}</Layout>
                       </Space>
                     )}
                     {cards.length > 0 && (
@@ -319,7 +320,7 @@ const Body: FunctionComponent<Props> = ({
         <Fragment key={i}>
           {/* If the first slice is featured text we display it any static content, i.e. <AdditionalContent /> */}
           {i === 0 && slice.type === 'text' && slice.weight === 'featured' && (
-            <Layout8 shift={!sectionLevelPage}>
+            <Layout gridSizes={gridSize8(!sectionLevelPage)}>
               <div className="body-text spaced-text">
                 <Space
                   $v={{
@@ -333,7 +334,7 @@ const Body: FunctionComponent<Props> = ({
                   />
                 </Space>
               </div>
-            </Layout8>
+            </Layout>
           )}
           <AdditionalContent
             index={i}
@@ -390,17 +391,17 @@ const Body: FunctionComponent<Props> = ({
 
               {slice.type === 'textAndImage' && (
                 <SpacingComponent $sliceType={slice.type}>
-                  <Layout8>
+                  <Layout gridSizes={gridSize8()}>
                     <TextAndImageOrIcons item={slice.value} />
-                  </Layout8>
+                  </Layout>
                 </SpacingComponent>
               )}
 
               {slice.type === 'textAndIcons' && (
                 <SpacingComponent $sliceType={slice.type}>
-                  <Layout8>
+                  <Layout gridSizes={gridSize8()}>
                     <TextAndImageOrIcons item={slice.value} />
-                  </Layout8>
+                  </Layout>
                 </SpacingComponent>
               )}
 
@@ -415,9 +416,9 @@ const Body: FunctionComponent<Props> = ({
               )}
               {slice.type === 'picture' && slice.weight === 'standalone' && (
                 <SpacingComponent $sliceType={slice.type}>
-                  <Layout12>
+                  <Layout gridSizes={gridSize12()}>
                     <CaptionedImage {...slice.value} />
-                  </Layout12>
+                  </Layout>
                 </SpacingComponent>
               )}
               {slice.type === 'picture' && slice.weight === 'supporting' && (
@@ -506,16 +507,16 @@ const Body: FunctionComponent<Props> = ({
               )}
               {slice.type === 'gifVideo' && (
                 <SpacingComponent $sliceType={slice.type}>
-                  <Layout10>
+                  <Layout gridSizes={gridSize10()}>
                     <GifVideo {...slice.value} />
-                  </Layout10>
+                  </Layout>
                 </SpacingComponent>
               )}
               {slice.type === 'iframe' && (
                 <SpacingComponent $sliceType={slice.type}>
-                  <Layout10>
+                  <Layout gridSizes={gridSize10()}>
                     <Iframe {...slice.value} />
-                  </Layout10>
+                  </Layout>
                 </SpacingComponent>
               )}
               {slice.type === 'contact' && (

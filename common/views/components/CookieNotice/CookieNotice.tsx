@@ -5,7 +5,7 @@ import { font } from '@weco/common/utils/classnames';
 import { useState, useEffect, FunctionComponent } from 'react';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import { clear, cookies as cookiesIcon } from '@weco/common/icons';
 import { addDays, today } from '@weco/common/utils/dates';
 
@@ -73,8 +73,8 @@ const CookieNotice: FunctionComponent<Props> = () => {
   }, []);
 
   return shouldRender ? (
-    <CookieNoticeStyle data-test-id="cookie-notice">
-      <Layout12>
+    <CookieNoticeStyle>
+      <Layout gridSizes={gridSize12()}>
         <CookieNoticeWrapper>
           <CookieMessage>
             <Icon icon={cookiesIcon} iconColor="white" />
@@ -90,7 +90,7 @@ const CookieNotice: FunctionComponent<Props> = () => {
             <span className="visually-hidden">Close cookie notification</span>
           </CloseCookieNotice>
         </CookieNoticeWrapper>
-      </Layout12>
+      </Layout>
     </CookieNoticeStyle>
   ) : null;
 };

@@ -14,7 +14,7 @@ import { getDigitalLocationOfType } from '@weco/content/utils/works';
 import { removeIdiomaticTextTags } from '@weco/content/utils/string';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import IIIFViewer, {
   queryParamToArrayIndex,
 } from '@weco/content/components/IIIFViewer';
@@ -230,18 +230,18 @@ const ItemPage: NextPage<Props> = ({
 
       {isNotUndefined(audio) && audio?.sounds?.length > 0 && (
         <Space $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-          <Layout12>
+          <Layout gridSizes={gridSize12()}>
             <AudioList
               items={audio.sounds || []}
               thumbnail={audio.thumbnail}
               transcript={audio.transcript}
               workTitle={work.title}
             />
-          </Layout12>
+          </Layout>
         </Space>
       )}
       {video && (
-        <Layout12>
+        <Layout gridSizes={gridSize12()}>
           <Space
             $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
           >
@@ -257,7 +257,7 @@ const ItemPage: NextPage<Props> = ({
               showDownloadOptions={true}
             />
           </Space>
-        </Layout12>
+        </Layout>
       )}
       {/* TODO remove this or update unavailable message to something more appropriate */}
       {!(isNotUndefined(audio) && audio?.sounds.length > 0) &&
@@ -265,13 +265,13 @@ const ItemPage: NextPage<Props> = ({
         !pdf &&
         !mainImageService &&
         !iiifImageLocation && (
-          <Layout12>
+          <Layout gridSizes={gridSize12()}>
             <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
               <div style={{ marginTop: '98px' }}>
                 <BetaMessage message={unavailableImageMessage} />
               </div>
             </Space>
-          </Layout12>
+          </Layout>
         )}
       {pdf && !mainImageService && (
         <IframePdfViewer
