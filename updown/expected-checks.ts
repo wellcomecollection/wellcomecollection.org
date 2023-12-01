@@ -30,6 +30,10 @@ const contentChecks = [
     alias: 'Content: Exhibition',
   },
   {
+    url: '/visual-stories/ZU4FRhIAACYAUvi8',
+    alias: 'Content: Visual Story',
+  },
+  {
     url: '/collections',
     alias: 'Content: Collections search',
   },
