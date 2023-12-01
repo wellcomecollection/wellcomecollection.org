@@ -96,8 +96,8 @@ export const a11y = {
 export const wellcomeImagesRedirectBanner =
   'Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we’re working to improve data quality, search relevance and tools to help you use these images more easily.';
 
-export const unavailableImageMessage =
-  'We are working to make this image available online.';
+export const unavailableContentMessage =
+  'We are working to make this content available online.';
 
 // Messages used in a user's list of item requests
 // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7660

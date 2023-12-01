@@ -33,7 +33,7 @@ import WorkLink from '@weco/content/components/WorkLink';
 import { getServerData } from '@weco/common/server-data';
 import AudioList from '@weco/content/components/AudioList/AudioList';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { unavailableImageMessage } from '@weco/common/data/microcopy';
+import { unavailableContentMessage } from '@weco/common/data/microcopy';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
@@ -268,7 +268,7 @@ const ItemPage: NextPage<Props> = ({
           <Layout gridSizes={gridSize12()}>
             <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
               <div style={{ marginTop: '98px' }}>
-                <BetaMessage message={unavailableImageMessage} />
+                <BetaMessage message={unavailableContentMessage} />
               </div>
             </Space>
           </Layout>
