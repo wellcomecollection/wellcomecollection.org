@@ -2,6 +2,10 @@ FROM public.ecr.aws/docker/library/node:16-slim
 
 VOLUME /dist
 
+# Consider removing this when upgrading to the next version of Pa11y
+# Pa11y 6 runs a very old version of puppeteer
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+
 RUN apt-get update && apt-get install -yq --no-install-recommends \
   libasound2 libatk-bridge2.0-0 libatk1.0-0 libatspi2.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
   libdrm2 libexpat1 libgbm1 libgcc1 libglib2.0-0 libnspr4 libnss3 libpango-1.0-0 libpangocairo-1.0-0  \
