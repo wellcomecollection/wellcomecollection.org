@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "mkdirp-promise": "^5.0.1",
-    "pa11y": "^6.2.3",
+    "pa11y": "^5.1.0",
     "aws-sdk": "^2.751.0"
   }
 }
