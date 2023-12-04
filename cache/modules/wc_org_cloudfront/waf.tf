@@ -11,6 +11,31 @@ locals {
   // A more restrictive limit for expensive URLs (eg /works)
   restrictive_rate_limit  = 1000
   restricted_path_regexes = ["^\\/works$", "^\\/images$", "^\\/concepts$", "^\\/search$"]
+
+  // These come from the information security team
+  // Qualys is an "enterprise vulnerability management tool"
+  // They get the list from the Qualys Cloud Portal
+  qualys_scanner_ips = [
+    "151.104.35.212",
+    "151.104.35.215",
+    "151.104.32.131",
+    "151.104.32.115",
+    "151.104.34.237",
+    "151.104.34.255",
+    "151.104.35.70",
+    "151.104.33.138",
+    "151.104.33.133",
+    "151.104.35.241",
+    "151.104.35.184",
+    "151.104.33.225",
+    "151.104.33.135",
+    "151.104.34.102",
+    "151.104.34.22",
+    "151.104.34.6",
+    "151.104.32.9",
+  ]
+
+  ip_allowlist = concat(var.waf_ip_allowlist, local.qualys_scanner_ips)
 }
 
 resource "aws_wafv2_web_acl" "wc_org" {
@@ -152,5 +177,5 @@ resource "aws_wafv2_ip_set" "allowlist" {
   ip_address_version = "IPV4"
 
   # These need to be CIDR blocks rather than plain addresses
-  addresses = [for ip in var.waf_ip_allowlist : "${ip}/32"]
+  addresses = [for ip in local.ip_allowlist : "${ip}/32"]
 }
