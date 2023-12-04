@@ -16,7 +16,7 @@ import { serialiseProps } from '@weco/common/utils/json';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import { getServerData } from '@weco/common/server-data';
-import { unavailableImageMessage } from '@weco/common/data/microcopy';
+import { unavailableContentMessage } from '@weco/common/data/microcopy';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import {
@@ -86,7 +86,7 @@ const ImagePage: FunctionComponent<Props> = ({
         <Layout gridSizes={gridSize12()}>
           <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
             <div style={{ marginTop: '98px' }}>
-              <BetaMessage message={unavailableImageMessage} />
+              <BetaMessage message={unavailableContentMessage} />
             </div>
           </Space>
         </Layout>
