@@ -61,14 +61,6 @@ const toggles = {
       type: 'permanent',
     },
     {
-      id: 'worksTabbedNav',
-      title: 'Works page: Tabbed navigation',
-      initialValue: false,
-      description:
-        'Adds tabbed navigation to the works page, for switching between work, item and related content',
-      type: 'experimental',
-    },
-    {
       id: 'eventsSearch',
       title: 'Add Events to Search pages',
       initialValue: false,
