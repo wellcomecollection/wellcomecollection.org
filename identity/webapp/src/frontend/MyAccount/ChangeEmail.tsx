@@ -4,7 +4,7 @@ import { ErrorMessage } from '@hookform/error-message';
 import { FieldMargin } from '../components/Form.style';
 import TextInput, {
   TextInputErrorMessage,
-} from '@weco/common/views/components/TextInput/TextInput';
+} from '@weco/common/views/components/TextInput';
 import { PasswordInput } from '../components/PasswordInput';
 import { validEmailPattern } from '../components/ValidationPatterns';
 import { Loading } from './Loading';

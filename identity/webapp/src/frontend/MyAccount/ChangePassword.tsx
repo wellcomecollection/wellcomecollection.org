@@ -6,7 +6,7 @@ import { FieldMargin } from '../components/Form.style';
 import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import { TextInputErrorMessage } from '@weco/common/views/components/TextInput/TextInput';
+import { TextInputErrorMessage } from '@weco/common/views/components/TextInput';
 import { useForm, useWatch } from 'react-hook-form';
 import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';

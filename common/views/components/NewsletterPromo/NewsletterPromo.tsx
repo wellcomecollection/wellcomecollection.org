@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import TextInput from '../TextInput/TextInput';
+import TextInput from '../TextInput';
 import useValidation from '@weco/common/hooks/useValidation';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { newsletterAddressBook } from '@weco/common/data/dotdigital';

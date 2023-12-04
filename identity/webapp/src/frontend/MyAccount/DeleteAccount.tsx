@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { font } from '@weco/common/utils/classnames';
 import { ErrorMessage } from '@hookform/error-message';
 import { FieldMargin } from '../components/Form.style';
-import { TextInputErrorMessage } from '@weco/common/views/components/TextInput/TextInput';
+import { TextInputErrorMessage } from '@weco/common/views/components/TextInput';
 import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';

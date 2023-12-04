@@ -14,9 +14,9 @@ import {
   Container,
   Wrapper,
 } from '@weco/identity/src/frontend/components/Layout.style';
-import WellcomeTextInput, {
+import TextInput, {
   TextInputErrorMessage,
-} from '@weco/common/views/components/TextInput/TextInput';
+} from '@weco/common/views/components/TextInput';
 import { usePageTitle } from '@weco/identity/src/frontend/hooks/usePageTitle';
 import Layout, {
   gridSize10,
@@ -148,7 +148,7 @@ const RegistrationPage: NextPage<Props> = ({
                           fieldState: { invalid },
                           formState,
                         }) => (
-                          <WellcomeTextInput
+                          <TextInput
                             required
                             id={name}
                             name={name}
@@ -174,7 +174,7 @@ const RegistrationPage: NextPage<Props> = ({
                           fieldState: { invalid },
                           formState,
                         }) => (
-                          <WellcomeTextInput
+                          <TextInput
                             required
                             id={name}
                             name={name}

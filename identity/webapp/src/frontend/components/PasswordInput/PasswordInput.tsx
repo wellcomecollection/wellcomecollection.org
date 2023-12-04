@@ -5,7 +5,7 @@ import {
   TextInputWrap,
   TextInputLabel,
   TextInputInput,
-} from '@weco/common/views/components/TextInput/TextInput';
+} from '@weco/common/views/components/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { a11YVisual, eye } from '@weco/common/icons';
 

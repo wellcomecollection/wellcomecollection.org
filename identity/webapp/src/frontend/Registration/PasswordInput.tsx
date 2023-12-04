@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import WellcomeTextInput from '@weco/common/views/components/TextInput/TextInput';
+import TextInput from '@weco/common/views/components/TextInput';
 import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { a11YVisual, eye } from '@weco/common/icons';
@@ -21,7 +21,7 @@ const VisibilityButton = styled(SolidButton).attrs(props => ({
   height: 55px;
 `;
 
-type PasswordInputProps = React.ComponentPropsWithRef<typeof WellcomeTextInput>;
+type PasswordInputProps = React.ComponentPropsWithRef<typeof TextInput>;
 
 export const PasswordInput: React.FunctionComponent<
   PasswordInputProps
@@ -32,7 +32,7 @@ export const PasswordInput: React.FunctionComponent<
 
   return (
     <PasswordInputContainer>
-      <WellcomeTextInput {...props} type={isVisible ? 'text' : 'password'} />
+      <TextInput {...props} type={isVisible ? 'text' : 'password'} />
       <VisibilityButton onClick={toggleIsVisible}>
         <Icon icon={isVisible ? a11YVisual : eye} />
       </VisibilityButton>

@@ -7,8 +7,8 @@ import {
   FunctionComponent,
   useRef,
 } from 'react';
-import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import styled from 'styled-components';
+import TextInput from '@weco/common/views/components/TextInput';
 import { font } from '@weco/common/utils/classnames';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ItemViewerContext, {

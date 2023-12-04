@@ -7,13 +7,11 @@ import {
   useRef,
 } from 'react';
 import styled from 'styled-components';
-
-import TextInput from '@weco/common/views/components/TextInput/TextInput';
+import TextInput from 'views/components/TextInput';
 import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { themeValues } from '@weco/common/views/themes/config';
-
 import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 

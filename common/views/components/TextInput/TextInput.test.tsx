@@ -1,7 +1,7 @@
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 import { useState } from 'react';
-import TextInput from './TextInput';
-import useValidation from '../../../hooks/useValidation';
+import TextInput from '.';
+import useValidation from '@weco/common/hooks/useValidation';
 import userEvent from '@testing-library/user-event';
 import { fireEvent } from '@testing-library/dom';
 import { act } from '@testing-library/react';
