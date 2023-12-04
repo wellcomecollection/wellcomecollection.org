@@ -40,11 +40,6 @@ import { transformManifest } from '@weco/content/services/iiif/transformers/mani
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
 import { TransformedManifest } from '@weco/content/types/manifest';
-import WorkHeader from '@weco/content/components/WorkHeader/WorkHeader';
-import WorkTabbedNav from '@weco/content/components/WorkTabbedNav/WorkTabbedNav';
-import { Container } from '@weco/common/views/components/styled/Container';
-import { Grid } from '@weco/content/components/Work/Work';
-import { useToggles } from '@weco/common/server-data/Context';
 import {
   ApiToolbarLink,
   setTzitzitParams,
@@ -128,7 +123,6 @@ const ItemPage: NextPage<Props> = ({
   const [origin, setOrigin] = useState<string>();
   const [showModal, setShowModal] = useState(false);
   const [showViewer, setShowViewer] = useState(true);
-  const { worksTabbedNav } = useToggles();
   const {
     title,
     video,
@@ -212,20 +206,6 @@ const ItemPage: NextPage<Props> = ({
           id={iframeId}
           src={`${tokenService['@id']}?messageId=1&origin=${origin}`}
         />
-      )}
-
-      {worksTabbedNav && (
-        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-          <Container>
-            <Grid>
-              <WorkHeader
-                work={work}
-                collectionManifestsCount={collectionManifestsCount}
-              />
-            </Grid>
-            <WorkTabbedNav work={work} selected="imageViewer" />
-          </Container>
-        </Space>
       )}
 
       {isNotUndefined(audio) && audio?.sounds?.length > 0 && (
