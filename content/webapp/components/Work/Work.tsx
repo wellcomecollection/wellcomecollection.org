@@ -26,7 +26,6 @@ import ArchiveTree from '../ArchiveTree';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
-import WorkTabbedNav from '../WorkTabbedNav/WorkTabbedNav';
 import useTransformedManifest from '@weco/content/hooks/useTransformedManifest';
 import { Audio, Video } from '@weco/content/services/iiif/types/manifest/v3';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';

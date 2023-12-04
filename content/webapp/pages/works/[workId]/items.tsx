@@ -40,10 +40,6 @@ import { transformManifest } from '@weco/content/services/iiif/transformers/mani
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
 import { TransformedManifest } from '@weco/content/types/manifest';
-import WorkHeader from '@weco/content/components/WorkHeader/WorkHeader';
-import WorkTabbedNav from '@weco/content/components/WorkTabbedNav/WorkTabbedNav';
-import { Container } from '@weco/common/views/components/styled/Container';
-import { Grid } from '@weco/content/components/Work/Work';
 import {
   ApiToolbarLink,
   setTzitzitParams,
