@@ -7,7 +7,7 @@ import {
   useRef,
 } from 'react';
 import styled from 'styled-components';
-import TextInput from 'views/components/TextInput';
+import TextInput from '@weco/common/views/components/TextInput';
 import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
