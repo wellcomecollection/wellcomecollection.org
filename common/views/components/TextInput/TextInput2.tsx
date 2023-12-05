@@ -7,81 +7,58 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { check } from '@weco/common/icons';
+import { exclamation, tickCircle } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
+import Space from '../styled/Space';
 
 type TextInputWrapProps = {
+  $status?: 'error' | 'success';
   $big?: boolean;
-  $hasErrorBorder: boolean;
-  $darkBg?: boolean;
+  $isDisabled?: boolean;
 };
-export const TextInputWrap = styled.div.attrs<TextInputWrapProps>(props => ({
+export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
   className: props.$big ? font('intr', 4) : font('intr', 5),
+  $v: { size: 's', properties: ['margin-top'] },
 }))<TextInputWrapProps>`
   display: flex;
   position: relative;
-  border: ${props =>
-    props.$hasErrorBorder
-      ? `3px solid ${props.theme.color('validation.red')}`
-      : `2px solid ${props.theme.color(
-          props.$darkBg ? 'white' : 'neutral.600'
-        )}`};
+  border-width: 1px;
+  border-style: solid;
+  border-color: ${props =>
+    props.$status
+      ? props.$status === 'error'
+        ? props.theme.color('validation.red')
+        : props.theme.color('validation.green')
+      : props.theme.color('neutral.600')};
 
   &:focus-within {
-    box-shadow: ${props => props.theme.focusBoxShadow};
+    box-shadow: 0 0 0 6px ${props => props.theme.color('focus.yellow')};
+    outline: 3px solid ${props => props.theme.color('black')};
   }
 
   overflow: hidden;
-`;
 
-type TextInputLabelProps = {
-  $isEnhanced: boolean;
-  $hasValue: boolean;
-};
-export const TextInputLabel = styled.label<TextInputLabelProps>`
-  position: absolute;
-  left: 15px;
-
-  /* Styles for browsers that don't support :focus-within (<=IE11) */
-  font-size: 14px;
-  transform: translateY(0%);
-  top: 4px;
-
-  /* IE doesn't support :focus-within, but you can't test for :focus-within
-  using @supports. Fortunately, IE doesn't support @supports, so this only
-  targets browsers that support @supports (> IE11) */
-  @supports (display: block) {
-    font-size: inherit;
-    transform: translateY(-50%);
-    top: 50%;
+  &:hover {
+    border-color: ${props => props.theme.color('black')};
   }
 
-  color: ${props => props.theme.color('neutral.600')};
-  white-space: nowrap;
-  transition:
-    top ${props => props.theme.transitionProperties},
-    font-size ${props => props.theme.transitionProperties},
-    transform ${props => props.theme.transitionProperties};
-  pointer-events: none;
-
   ${props =>
-    (!props.$isEnhanced || props.$hasValue) &&
-    `
-    @supports (display: block) {
-      top: 4px;
-      transform: translateY(0);
-      font-size: 14px;
-    }
-  `}
+    props.$isDisabled
+      ? `border-color:  ${props.theme.color('neutral.500')}`
+      : ``}
 `;
 
-type TextInputInputProps = {
-  $hasErrorBorder: boolean;
-};
+const HintCopy = styled.span.attrs({
+  className: font('intr', 5),
+})`
+  display: block;
+  color: ${props => props.theme.color('neutral.700')};
+`;
+
 export const TextInputInput = styled.input.attrs<{ $type?: string }>(props => ({
   type: props.$type || 'text',
-}))<TextInputInputProps>`
-  padding: 17px 35px 17px 15px;
+}))`
+  padding: 10px 36px 10px 16px;
   appearance: none;
   border: 0;
   height: 100%;
@@ -91,30 +68,24 @@ export const TextInputInput = styled.input.attrs<{ $type?: string }>(props => ({
   &::-ms-clear {
     display: none;
   }
+
+  &:disabled {
+    background-color: ${props => props.theme.color('neutral.300')};
+  }
 `;
 
-const TextInputCheckmark = styled.span.attrs<{
-  'data-testid'?: 'TextInputCheckmark';
-}>({
-  'data-testid': 'TextInputCheckmark',
+const StatusMessage = styled(Space).attrs({
+  className: font('intr', 6),
+  $v: { size: 's', properties: ['margin-top'] },
 })`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 10px;
-  line-height: 0;
-`;
+  display: flex;
+  align-items: center;
 
-export const TextInputErrorMessage = styled.span.attrs({
-  role: 'alert',
-  'data-testid': 'TextInputErrorMessage',
-  className: 'font-intb',
-})`
-  display: block;
-  font-size: 14px;
-  margin-top: 10px;
-  padding-left: 15px;
-  color: ${props => props.theme.color('validation.red')};
+  p {
+    display: inline-block;
+    ${props => props.theme.makeSpacePropertyValues('s', ['margin-left'])};
+    margin-bottom: 0;
+  }
 `;
 
 type Props = {
@@ -126,8 +97,11 @@ type Props = {
   type?: string;
   pattern?: string;
   required?: boolean;
+  disabled?: boolean;
   placeholder?: string;
+  hintCopy?: string;
   errorMessage?: string;
+  successMessage?: string;
   isValid?: boolean;
   setIsValid?: (value: boolean) => void;
   showValidity?: boolean;
@@ -137,7 +111,6 @@ type Props = {
   ariaLabel?: string;
   ariaDescribedBy?: string;
   form?: string;
-  darkBg?: boolean;
 };
 
 const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
@@ -150,8 +123,11 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
     name,
     pattern,
     required,
+    disabled,
     placeholder,
+    hintCopy,
     errorMessage,
+    successMessage,
     isValid,
     setIsValid,
     showValidity,
@@ -161,7 +137,6 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
     ariaDescribedBy,
     form,
     big,
-    darkBg,
   }: Props,
   ref: RefObject<HTMLInputElement>
 ) => {
@@ -188,43 +163,70 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
 
   return (
     <div>
-      <TextInputWrap
-        $hasErrorBorder={!!(!isValid && showValidity)}
-        $big={!!big}
-        $darkBg={darkBg}
+      <label
+        htmlFor={id}
+        className={font('intb', 5)}
+        style={{ display: 'block', lineHeight: 1.2 }}
       >
-        <label className="visually-hidden" htmlFor={id}>
-          {label}
-        </label>
+        {label}
+      </label>
+
+      {hintCopy && (
+        <Space $v={{ size: 's', properties: ['margin-top'] }}>
+          <HintCopy>{hintCopy}</HintCopy>
+        </Space>
+      )}
+
+      <TextInputWrap
+        $big={!!big}
+        $isDisabled={disabled}
+        $status={
+          !isValid && showValidity
+            ? 'error'
+            : isValid && showValidity
+            ? 'success'
+            : undefined
+        }
+      >
         <TextInputInput
           ref={ref}
           id={id}
           name={name}
           required={required}
+          disabled={disabled}
           value={value}
           pattern={pattern}
           onChange={onChange}
           onBlur={onBlur}
-          placeholder={placeholder || label}
+          placeholder={placeholder}
           autoFocus={autoFocus}
           $type={type}
-          $hasErrorBorder={!!(!isValid && showValidity)}
           aria-label={ariaLabel}
           aria-describedby={ariaDescribedBy}
           aria-invalid={!!(!isValid && showValidity)}
           aria-errormessage={errorMessage && `${id}-errormessage`}
           form={form}
         />
-        {isValid && showValidity && (
-          <TextInputCheckmark>
-            <Icon icon={check} iconColor="validation.green" />
-          </TextInputCheckmark>
-        )}
       </TextInputWrap>
+      {successMessage && isValid && showValidity && (
+        <StatusMessage>
+          <Icon
+            data-testid="TextInputCheckmark"
+            icon={tickCircle}
+            iconColor="validation.green"
+          />
+          <p>{successMessage}</p>
+        </StatusMessage>
+      )}
       {errorMessage && !isValid && showValidity && (
-        <TextInputErrorMessage id={`${id}-errormessage`} role="alert">
-          {errorMessage}
-        </TextInputErrorMessage>
+        <StatusMessage id={`${id}-errormessage`} role="alert">
+          <Icon
+            data-testid="TextInputErrorMessage"
+            icon={exclamation}
+            iconColor="validation.red"
+          />
+          <p>{errorMessage}</p>
+        </StatusMessage>
       )}
     </div>
   );
