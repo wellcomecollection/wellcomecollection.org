@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { font } from '@weco/common/utils/classnames';
 import { ErrorMessage } from '@hookform/error-message';
 import { FieldMargin } from '../components/Form.style';
-import { TextInputErrorMessage } from '@weco/common/views/components/TextInput';
+import { InputErrorMessage } from '@weco/common/views/components/TextInput';
 import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
@@ -111,7 +111,7 @@ export const DeleteAccount: React.FunctionComponent<
               errors={formState.errors}
               name="password"
               render={({ message }) => (
-                <TextInputErrorMessage>{message}</TextInputErrorMessage>
+                <InputErrorMessage errorMessage={message} />
               )}
             />
           </FieldMargin>

@@ -125,6 +125,7 @@ const NewsletterPromo: FunctionComponent = () => {
                   type="email"
                   name="email"
                   label="Your email address"
+                  hintCopy="For example name@example.com"
                   errorMessage={
                     isSubmitError
                       ? 'There was a problem. Please try again.'

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useController, UseControllerProps } from 'react-hook-form';
+import styled from 'styled-components';
 import { ShowPasswordButton } from './PasswordInput.style';
 import {
   TextInputWrap,
@@ -8,6 +9,14 @@ import {
 } from '@weco/common/views/components/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { a11YVisual, eye } from '@weco/common/icons';
+
+const TextInputPassword = styled(TextInputInput)`
+  padding-right: 0;
+
+  &:focus-visible {
+    box-shadow: none;
+  }
+`;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type PasswordInputProps = UseControllerProps<any> & {
@@ -33,19 +42,12 @@ export const PasswordInput: React.FunctionComponent<
 
   return (
     <>
-      <TextInputWrap $hasErrorBorder={fieldState.invalid}>
-        <TextInputLabel
-          htmlFor={props.id}
-          $isEnhanced={true}
-          $hasValue={!!field.value}
-        >
-          {props.label}
-        </TextInputLabel>
-        <TextInputInput
+      <TextInputLabel htmlFor={props.id}>{props.label}</TextInputLabel>
+      <TextInputWrap $status={fieldState.invalid ? 'error' : undefined}>
+        <TextInputPassword
           id={props.id || props.name}
-          {...field}
-          $hasErrorBorder={fieldState.invalid}
           $type={isVisible ? 'text' : 'password'}
+          {...field}
         />
         <ShowPasswordButton
           onClick={toggleVisibility}

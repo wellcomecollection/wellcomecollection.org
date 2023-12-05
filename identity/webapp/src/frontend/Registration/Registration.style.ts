@@ -1,4 +1,3 @@
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import styled, { css } from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -40,8 +39,6 @@ export const HighlightMessage = styled(Space).attrs({
 })`
   border-left: 13px solid ${props => props.theme.color('yellow')};
 `;
-
-export const Checkbox = styled(CheckboxRadio).attrs({ type: 'checkbox' })``;
 
 export const CheckboxLabel = styled.div`
   margin-left: 0.333em;
