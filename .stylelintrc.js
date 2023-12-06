@@ -4,21 +4,22 @@ module.exports = {
   ],
   "customSyntax": "postcss-styled-syntax",
   "rules": {
-    "no-empty-source": null,
-    "declaration-empty-line-before": null,
     "alpha-value-notation": "number",
-    "selector-class-pattern": null,
+    "color-function-notation": "legacy",
     "declaration-block-no-redundant-longhand-properties": [
       true, 
       { "ignoreShorthands": ["inset"]}
     ],
-    "color-function-notation": "legacy",
+    "declaration-empty-line-before": null,
+    "declaration-property-value-no-unknown": true,
+    "font-family-name-quotes": "always-unless-keyword",
     "media-feature-range-notation": "prefix",
+    "no-empty-source": null,
+    "property-no-vendor-prefix": null,
+    "selector-class-pattern": null,
     "value-keyword-case": [
       "lower",
       { "camelCaseSvgKeywords": true }
-    ],
-    "font-family-name-quotes": "always-unless-keyword",
-    "declaration-property-value-no-unknown": true
+    ]
   }
 }

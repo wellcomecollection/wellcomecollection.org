@@ -23,7 +23,6 @@ Digital Production (digitisation):
 
 Digital Editorial Content:
  Lalita Kaplish
- Alice White
  Helen Babbs
  Vanesha Singh
  Kate Quarry
@@ -49,6 +48,7 @@ Digital Platform:
  Georgia E Whitney
  Agnès Garoux
  Jason Jaworski
+ Lauren Baily
 
 Access:
  Selene Burn
@@ -57,6 +57,7 @@ Access:
 
 /* ALUMNI - WE MISS YOU ALL ! */
 
+ Alice White
  Danny Birchall
  Jonathan Tweed
  Jenn Phillips-Bacher
