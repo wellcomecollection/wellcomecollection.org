@@ -1,5 +1,7 @@
 - label: ':docker: build common'
   key: 'build_common'
+  agents:
+    queue: test-upgrade
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
@@ -11,6 +13,8 @@
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
 - label: ':docker: build catalogue'
+  agents:
+    queue: test-upgrade
   key: 'build_catalogue'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
@@ -23,6 +27,8 @@
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
 - label: ':docker: build content'
+  agents:
+    queue: test-upgrade
   key: 'build_content'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
@@ -85,6 +91,8 @@
 
 - label: 'test common'
   depends_on: 'build_common'
+  agents:
+    queue: test-upgrade
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
@@ -96,6 +104,8 @@
 
 - label: 'test catalogue'
   depends_on: 'build_catalogue'
+  agents:
+    queue: test-upgrade
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
@@ -106,6 +116,8 @@
         command: ['yarn', 'test']
 
 - label: 'test content'
+  agents:
+    queue: test-upgrade
   depends_on: 'build_content'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:

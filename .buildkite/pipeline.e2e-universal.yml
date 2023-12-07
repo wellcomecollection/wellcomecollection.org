@@ -1,5 +1,7 @@
 steps:
   - label: "build e2e test image"
+    agents:
+      queue: test-upgrade
     command: ./playwright/get_playwright_image.sh
     plugins:
       - wellcomecollection/aws-assume-role#v0.2.2:
@@ -37,7 +39,7 @@ steps:
             - USE_STAGE_APIS=$USE_STAGE_APIS
           command: ["yarn", "test"]
     agents:
-      queue: scala # High parallelism for expensive tests
+      queue: test-upgrade # High parallelism for expensive tests
 
   - label: "e2e test:mobile [$DEPLOYMENT_ENVIRONMENT]"
     plugins:
