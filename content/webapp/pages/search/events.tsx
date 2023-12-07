@@ -168,7 +168,7 @@ export const getServerSideProps: GetServerSideProps<
 
   const { eventsSearch } = serverData?.toggles;
 
-  if (!eventsSearch) {
+  if (!eventsSearch.value) {
     return { notFound: true };
   }
 
