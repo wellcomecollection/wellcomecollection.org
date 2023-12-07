@@ -54,3 +54,24 @@ test('(2) | TextInput; will hide errors at the point it becomes valid', async ()
   });
   expect(() => getByTestId('TextInputErrorMessage')).toThrow();
 });
+
+test('(3) | TextInput; a valid input will hide its valid state at the point invalid input is added and focus is out', async () => {
+  const { getByLabelText, getByTestId } = renderWithTheme(<ExampleTextInput />);
+
+  const inputEl = getByLabelText('test input');
+  await act(async () => {
+    inputEl.focus();
+    await userEvent.type(inputEl, 'valid@email.com');
+    fireEvent.focusOut(inputEl);
+  });
+  await expect(getByTestId('TextInputSuccessMessage')).toBeVisible();
+  await act(async () => {
+    await userEvent.clear(inputEl);
+    await userEvent.type(inputEl, 'invalidemail@');
+  });
+  expect(() => getByTestId('TextInputSuccessMessage')).toThrow();
+  await act(async () => {
+    fireEvent.focusOut(inputEl);
+  });
+  await expect(getByTestId('TextInputErrorMessage')).toBeVisible();
+});

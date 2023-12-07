@@ -91,6 +91,10 @@ const StatusMessage = styled(Space).attrs({
   display: flex;
   align-items: center;
 
+  .icon {
+    flex: 0 0 24px;
+  }
+
   p {
     display: inline-block;
     ${props => props.theme.makeSpacePropertyValues('s', ['margin-left'])};
@@ -239,7 +243,7 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
         )}
       </TextInputWrap>
       {successMessage && isValid && showValidity && (
-        <StatusMessage data-testid="TextInputCheckmark">
+        <StatusMessage data-testid="TextInputSuccessMessage">
           <Icon icon={tickCircle} iconColor="validation.green" />
           <p>{successMessage}</p>
         </StatusMessage>
