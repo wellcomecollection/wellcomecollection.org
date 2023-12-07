@@ -149,11 +149,10 @@ const NewsletterSignup: FunctionComponent<Props> = ({
               label="Your email address"
               name="Email"
               type="email"
-              required={true}
-              big={true}
               value={emailValue}
               setValue={setEmailValue}
               errorMessage="Enter an email address in the correct format, like name@example.com"
+              required
               {...emailValidation}
             />
           </Space>

@@ -67,7 +67,6 @@ const SearchBar: FunctionComponent<Props> = ({
           setValue={setInputValue}
           ref={inputRef || defaultInputRef}
           form={form}
-          big
           hasClearButton
         />
       </SearchInputWrapper>

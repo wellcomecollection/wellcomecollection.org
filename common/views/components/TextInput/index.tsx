@@ -23,13 +23,12 @@ export const TextInputLabel = styled.label.attrs({
 
 type TextInputWrapProps = {
   $status?: 'error' | 'success';
-  $big?: boolean;
   $isDisabled?: boolean;
 };
-export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
-  className: props.$big ? font('intr', 4) : font('intr', 5),
+export const TextInputWrap = styled(Space).attrs({
+  className: font('intr', 4),
   $v: { size: 's', properties: ['margin-top'] },
-}))<TextInputWrapProps>`
+})<TextInputWrapProps>`
   display: flex;
   position: relative;
   border-width: 1px;
@@ -68,7 +67,8 @@ const HintCopy = styled.span.attrs({
 export const TextInputInput = styled.input.attrs<{ $type?: string }>(props => ({
   type: props.$type || 'text',
 }))`
-  padding: 10px 36px 10px 16px;
+  /* Should be 10px but this ensures it matches buttons' height as they have 2px border and inputs have 1px */
+  padding: 11px 36px 11px 16px;
   appearance: none;
   border: 0;
   height: 100%;
@@ -132,7 +132,6 @@ type Props = {
   showValidity?: boolean;
   setShowValidity?: (value: boolean) => void;
   autoFocus?: boolean;
-  big?: boolean;
   ariaLabel?: string;
   ariaDescribedBy?: string;
   form?: string;
@@ -163,7 +162,6 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
     ariaLabel,
     ariaDescribedBy,
     form,
-    big,
     hasClearButton,
     clearHandler,
   }: Props,
@@ -203,7 +201,6 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
       )}
 
       <TextInputWrap
-        $big={!!big}
         $isDisabled={disabled}
         $status={
           !isValid && showValidity
@@ -242,12 +239,8 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
         )}
       </TextInputWrap>
       {successMessage && isValid && showValidity && (
-        <StatusMessage>
-          <Icon
-            data-testid="TextInputCheckmark"
-            icon={tickCircle}
-            iconColor="validation.green"
-          />
+        <StatusMessage data-testid="TextInputCheckmark">
+          <Icon icon={tickCircle} iconColor="validation.green" />
           <p>{successMessage}</p>
         </StatusMessage>
       )}
