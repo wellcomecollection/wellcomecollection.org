@@ -16,7 +16,7 @@ import {
   fromQuery,
   toLink,
   WorksProps as WorksRouteProps,
-} from '@weco/content/components/WorksLink';
+} from '@weco/content/components/SearchPagesLink/Works';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';

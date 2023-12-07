@@ -1,7 +1,7 @@
 import { FunctionComponent, useContext } from 'react';
 import { font } from '@weco/common/utils/classnames';
-import { toLink as worksLink } from '../WorksLink';
-import { toLink as imagesLink } from '../ImagesLink';
+import { toLink as worksLink } from '../SearchPagesLink/Works';
+import { toLink as imagesLink } from '../SearchPagesLink/Images';
 import {
   getDigitalLocationInfo,
   getDigitalLocationOfType,

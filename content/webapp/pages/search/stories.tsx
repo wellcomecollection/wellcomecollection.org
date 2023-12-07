@@ -32,7 +32,10 @@ import {
 } from '@weco/content/services/wellcome/content/types/api';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import { fromQuery, StoriesProps } from '@weco/content/components/StoriesLink';
+import {
+  fromQuery,
+  StoriesProps,
+} from '@weco/content/components/SearchPagesLink/Stories';
 import { storiesFilters } from '@weco/content/services/wellcome/catalogue/filters';
 
 type Props = {
