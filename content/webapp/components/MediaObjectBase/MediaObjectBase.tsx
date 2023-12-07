@@ -5,7 +5,7 @@ import {
   ReactNode,
 } from 'react';
 import { grid, font, classNames } from '@weco/common/utils/classnames';
-import EventDateRange from '../EventDateRange/EventDateRange';
+import EventDateRange from '../EventDateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';

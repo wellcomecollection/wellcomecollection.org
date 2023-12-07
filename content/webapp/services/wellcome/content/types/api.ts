@@ -6,6 +6,11 @@ import {
 } from '@weco/content/services/wellcome';
 import { CustomPrismicFilledImage } from '@weco/common/services/prismic/types';
 
+export type ContentApiTimeField = {
+  startDateTime?: Date;
+  endDateTime?: Date;
+};
+
 export type ContentApiProps = {
   query?: string;
   page?: number;
@@ -14,6 +19,7 @@ export type ContentApiProps = {
   aggregations?: string[];
 };
 
+// Articles
 export type ArticleFormat = {
   type: 'ArticleFormat';
   id: ArticleFormatId;
@@ -21,6 +27,7 @@ export type ArticleFormat = {
 };
 
 export type Article = {
+  type: 'Article';
   id: string;
   title: string;
   publicationDate: string;
@@ -28,7 +35,37 @@ export type Article = {
   format: ArticleFormat;
   image?: prismic.EmptyImageFieldImage | CustomPrismicFilledImage;
   caption?: string;
-  type: 'Article';
+};
+
+// Event Documents
+export type EventDocumentFormat = {
+  type: 'EventFormat';
+  id: string;
+  label: string;
+};
+
+export type EventDocumentLocation = {
+  type: 'EventLocation';
+  id: string;
+  label?: string;
+};
+
+export type EventDocumentInterpretation = {
+  type: 'EventInterpretation';
+  id: string;
+  label?: string;
+};
+
+export type EventDocument = {
+  type: 'Event';
+  id: string;
+  title: string;
+  image?: prismic.EmptyImageFieldImage | CustomPrismicFilledImage;
+  times: ContentApiTimeField[];
+  format: EventDocumentFormat;
+  locations: EventDocumentLocation[];
+  interpretations: EventDocumentInterpretation[];
+  isAvailableOnline: boolean;
 };
 
 // Contributors (e.g. author, photographer)
@@ -47,13 +84,16 @@ type Contributor = {
   };
 };
 
-export type ArticleAggregations = {
+type BasicAggregations = {
   format: WellcomeAggregation;
-  'contributors.contributor': WellcomeAggregation;
   type: 'Aggregations';
 };
 
-export type ResultType = Article;
+export type ArticleAggregations = BasicAggregations & {
+  'contributors.contributor': WellcomeAggregation;
+};
+
+export type ResultType = Article | EventDocument;
 
 export type ContentResultsList<Result extends ResultType> = WellcomeResultList<
   Result,

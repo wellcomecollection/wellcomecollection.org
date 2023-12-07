@@ -1,4 +1,4 @@
-import { fromQuery, WorksProps } from '.';
+import { fromQuery, WorksProps } from './Works';
 
 describe('WorksLink', () => {
   describe('fromQuery', () => {

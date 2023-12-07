@@ -1,4 +1,3 @@
-import { DigitalLocation, Contributor } from '@weco/common/model/catalogue';
 import { ArticleAggregations } from './api';
 
 export type { ArticleAggregations };
@@ -10,18 +9,4 @@ export type ContentApiError = {
   label: string;
   description: string;
   type: 'Error';
-};
-
-export type Image = {
-  type: 'Image';
-  id: string;
-  locations: DigitalLocation[];
-  source: {
-    id: string;
-    title: string;
-    contributors?: Contributor[];
-    type: string;
-  };
-  withSimilarFeatures?: Image[];
-  aspectRatio?: number;
 };

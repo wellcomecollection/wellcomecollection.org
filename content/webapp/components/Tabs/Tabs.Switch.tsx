@@ -39,7 +39,7 @@ function sendEvent({ id, trackWithSegment }: SendEventProps) {
   }
 }
 
-type SelectableTextLink = {
+type SwitchSelectableTextLink = {
   id: string;
   text: ReactNode;
   url?: string;
@@ -49,7 +49,7 @@ type SelectableTextLink = {
 export type Props = {
   hideBorder?: boolean;
   label: string;
-  items: SelectableTextLink[];
+  items: SwitchSelectableTextLink[];
   selectedTab: string;
   setSelectedTab: Dispatch<SetStateAction<string>>;
   isWhite?: boolean;

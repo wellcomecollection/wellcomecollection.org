@@ -11,8 +11,8 @@ import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue'
 import { getConcept } from '@weco/content/services/wellcome/catalogue/concepts';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
-import { toLink as toImagesLink } from '@weco/content/components/ImagesLink';
-import { toLink as toWorksLink } from '@weco/content/components/WorksLink';
+import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink/Images';
+import { toLink as toWorksLink } from '@weco/content/components/SearchPagesLink/Works';
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 import { capitalize, formatNumber } from '@weco/common/utils/grammar';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';

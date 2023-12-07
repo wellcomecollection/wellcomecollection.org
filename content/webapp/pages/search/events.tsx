@@ -6,9 +6,7 @@ import Pagination from '@weco/content/components/Pagination/Pagination';
 import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
 import Sort from '@weco/content/components/Sort/Sort';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
-import StoriesGrid from '@weco/content/components/StoriesGrid';
 import Space from '@weco/common/views/components/styled/Space';
-import SearchFilters from '@weco/content/components/SearchFilters';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -18,32 +16,30 @@ import { Pageview } from '@weco/common/services/conversion/track';
 import { pluralize } from '@weco/common/utils/grammar';
 import {
   getQueryPropertyValue,
-  linkResolver,
   SEARCH_PAGES_FORM_ID,
 } from '@weco/common/utils/search';
-import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
-import { getArticles } from '@weco/content/services/wellcome/content/articles';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 import { Query } from '@weco/content/types/search';
 import {
-  Article,
   ContentResultsList,
+  EventDocument,
 } from '@weco/content/services/wellcome/content/types/api';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import {
   fromQuery,
-  StoriesProps,
-} from '@weco/content/components/SearchPagesLink/Stories';
-import { storiesFilters } from '@weco/content/services/wellcome/catalogue/filters';
+  EventsProps,
+} from '@weco/content/components/SearchPagesLink/Events';
+import { getEvents } from 'services/wellcome/content/events';
+import EventsSearchResults from 'components/EventsSearchResults';
 
 type Props = {
-  storyResponseList: ContentResultsList<Article>;
+  eventResponseList: ContentResultsList<EventDocument>;
   query: Query;
   pageview: Pageview;
   apiToolbarLinks: ApiToolbarLink[];
-  storiesRouteProps: StoriesProps;
+  eventsRouteProps: EventsProps;
 };
 
 const Wrapper = styled(Space)`
@@ -61,26 +57,15 @@ const SortPaginationWrapper = styled.div`
   `}
 `;
 
-export const StoriesSearchPage: NextPageWithLayout<Props> = ({
-  storyResponseList,
+export const EventsSearchPage: NextPageWithLayout<Props> = ({
+  eventResponseList,
   query,
-  storiesRouteProps,
 }) => {
   const { query: queryString } = query;
 
-  const filters = storiesFilters({
-    stories: storyResponseList,
-    props: storiesRouteProps,
-  });
+  const hasNoResults = eventResponseList.totalResults === 0;
 
-  const hasNoResults = storyResponseList.totalResults === 0;
-  const hasActiveFilters = hasFilters({
-    filters: filters.map(f => f.id),
-    queryParams: Object.keys(query),
-  });
-
-  const activeFiltersLabels = getActiveFiltersLabel({ filters });
-
+  // TODO
   const sortOptions = [
     // Default value to be left empty as to not be reflected in URL query
     {
@@ -99,55 +84,17 @@ export const StoriesSearchPage: NextPageWithLayout<Props> = ({
 
   return (
     <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
-      {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
-        <>
-          <Container>
-            <Space
-              $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
-            >
-              <SearchFilters
-                query={queryString}
-                linkResolver={params =>
-                  linkResolver({ params, pathname: '/search/stories' })
-                }
-                searchFormId={SEARCH_PAGES_FORM_ID}
-                changeHandler={() => {
-                  const form = document.getElementById(SEARCH_PAGES_FORM_ID);
-                  form &&
-                    form.dispatchEvent(
-                      new window.Event('submit', {
-                        cancelable: true,
-                        bubbles: true,
-                      })
-                    );
-                }}
-                filters={filters}
-                hasNoResults={hasNoResults}
-              />
-            </Space>
-          </Container>
-        </>
-      )}
-      {storyResponseList && (
+      {eventResponseList && (
         <Wrapper>
           {hasNoResults ? (
             <Container>
-              <SearchNoResults
-                query={queryString}
-                hasFilters={hasActiveFilters}
-              />
+              <SearchNoResults query={queryString} />
             </Container>
           ) : (
             <Container>
               <PaginationWrapper $verticalSpacing="l">
                 <span role="status">
-                  {pluralize(storyResponseList.totalResults, 'result')}
-                  {activeFiltersLabels.length > 0 && (
-                    <span className="visually-hidden">
-                      {' '}
-                      filtered with: {activeFiltersLabels.join(', ')}
-                    </span>
-                  )}
+                  {pluralize(eventResponseList.totalResults, 'result')}
                 </span>
 
                 <SortPaginationWrapper>
@@ -177,22 +124,21 @@ export const StoriesSearchPage: NextPageWithLayout<Props> = ({
                   />
                   <Pagination
                     formId={SEARCH_PAGES_FORM_ID}
-                    totalPages={storyResponseList.totalPages}
-                    ariaLabel="Stories search pagination"
+                    totalPages={eventResponseList.totalPages}
+                    ariaLabel="Events search pagination"
                     isHiddenMobile
                   />
                 </SortPaginationWrapper>
               </PaginationWrapper>
 
               <main>
-                <StoriesGrid
-                  isDetailed
-                  articles={storyResponseList.results}
+                <EventsSearchResults
+                  events={eventResponseList.results}
                   dynamicImageSizes={{
                     xlarge: 1 / 5,
                     large: 1 / 5,
-                    medium: 1 / 5,
-                    small: 1,
+                    medium: 1 / 2,
+                    small: 1 / 2,
                   }}
                 />
               </main>
@@ -200,8 +146,8 @@ export const StoriesSearchPage: NextPageWithLayout<Props> = ({
               <PaginationWrapper $verticalSpacing="l" $alignRight>
                 <Pagination
                   formId={SEARCH_PAGES_FORM_ID}
-                  totalPages={storyResponseList.totalPages}
-                  ariaLabel="Stories search pagination"
+                  totalPages={eventResponseList.totalPages}
+                  ariaLabel="Events search pagination"
                 />
               </PaginationWrapper>
             </Container>
@@ -212,17 +158,24 @@ export const StoriesSearchPage: NextPageWithLayout<Props> = ({
   );
 };
 
-StoriesSearchPage.getLayout = getSearchLayout;
+EventsSearchPage.getLayout = getSearchLayout;
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
   setCacheControl(context.res, cacheTTL.search);
   const serverData = await getServerData(context);
+
+  const { eventsSearch } = serverData?.toggles;
+
+  if (!eventsSearch) {
+    return { notFound: true };
+  }
+
   const query = context.query;
   const params = fromQuery(query);
   const defaultProps = serialiseProps({
-    storiesRouteProps: params,
+    eventsRouteProps: params,
     serverData,
     query,
   });
@@ -240,9 +193,9 @@ export const getServerSideProps: GetServerSideProps<
     return {
       props: serialiseProps({
         ...defaultProps,
-        storyResponseList: emptyResultList(),
+        eventResponseList: emptyResultList(),
         pageview: {
-          name: 'stories',
+          name: 'events',
           properties: {
             looksLikeSpam: 'true',
           },
@@ -257,41 +210,40 @@ export const getServerSideProps: GetServerSideProps<
   const { page, ...restOfQuery } = query;
   const pageNumber = page !== '1' && getQueryPropertyValue(page);
 
-  const storyResponseList = await getArticles({
+  const eventResponseList = await getEvents({
     params: {
       ...restOfQuery,
-      sort: getQueryPropertyValue(query.sort),
-      sortOrder: getQueryPropertyValue(query.sortOrder),
+      // sort: getQueryPropertyValue(query.sort),
+      // sortOrder: getQueryPropertyValue(query.sortOrder),
       ...(pageNumber && { page: Number(pageNumber) }),
-      aggregations: ['format', 'contributors.contributor'],
     },
     pageSize: 25,
     toggles: serverData.toggles,
   });
 
-  if (storyResponseList?.type === 'Error') {
-    return appError(context, storyResponseList.httpStatus, 'Content API error');
+  if (eventResponseList?.type === 'Error') {
+    return appError(context, eventResponseList.httpStatus, 'Content API error');
   }
 
   return {
     props: serialiseProps({
       ...defaultProps,
-      storyResponseList,
+      eventResponseList,
       pageview: {
-        name: 'stories',
+        name: 'events',
         properties: {
-          totalResults: storyResponseList?.totalResults ?? 0,
+          totalResults: eventResponseList?.totalResults ?? 0,
         },
       },
       apiToolbarLinks: [
         {
           id: 'content-api',
           label: 'Content API query',
-          link: storyResponseList._requestUrl,
+          link: eventResponseList._requestUrl,
         },
       ],
     }),
   };
 };
 
-export default StoriesSearchPage;
+export default EventsSearchPage;
