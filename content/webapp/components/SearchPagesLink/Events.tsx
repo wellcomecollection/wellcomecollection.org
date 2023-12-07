@@ -1,5 +1,3 @@
-// TODO couldn't this be made more general for this and Stories?
-
 import { ParsedUrlQuery } from 'querystring';
 import NextLink from 'next/link';
 import { LinkProps } from '@weco/common/model/link-props';
