@@ -1,5 +1,7 @@
 - label: ':docker: build common'
   key: 'build_common'
+  agents:
+    queue: test-upgrade
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
@@ -12,6 +14,8 @@
 
 - label: ':docker: build catalogue'
   key: 'build_catalogue'
+  agents:
+    queue: test-upgrade
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
@@ -24,6 +28,8 @@
 
 - label: ':docker: build content'
   key: 'build_content'
+  agents:
+    queue: test-upgrade
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
@@ -84,6 +90,8 @@
         command: ['yarn', 'diffCustomTypes']
 
 - label: 'test common'
+  agents:
+    queue: test-upgrade
   depends_on: 'build_common'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
@@ -95,6 +103,8 @@
         command: ['yarn', 'test']
 
 - label: 'test catalogue'
+  agents:
+    queue: test-upgrade
   depends_on: 'build_catalogue'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
@@ -106,6 +116,8 @@
         command: ['yarn', 'test']
 
 - label: 'test content'
+  agents:
+    queue: test-upgrade
   depends_on: 'build_content'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
