@@ -218,7 +218,7 @@
           - AWS_SESSION_TOKEN
 
 - label: 'deploy updown'
-  branches: 'main'
+  branches: 'refresh-updown'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
@@ -226,7 +226,7 @@
         login: true
     - docker-compose#v3.5.0:
         run: updown
-        command: ['yarn', 'checks']
+        command: ['yarn', 'apply']
         env:
           - AWS_ACCESS_KEY_ID
           - AWS_SECRET_ACCESS_KEY
