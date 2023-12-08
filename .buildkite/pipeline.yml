@@ -218,7 +218,7 @@
           - AWS_SESSION_TOKEN
 
 - label: 'deploy updown'
-  branches: 'refresh-updown'
+  branches: 'main'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
