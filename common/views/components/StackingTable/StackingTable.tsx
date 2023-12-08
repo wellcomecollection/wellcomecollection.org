@@ -52,6 +52,7 @@ const StyledTr = styled(Space).attrs({
 type ThProps = {
   $plain?: boolean;
   $maxWidth?: number;
+  width?: number;
 };
 
 const StyledTh = styled(Space).attrs<ThProps>(props => ({
@@ -141,7 +142,12 @@ const StackingTable: FunctionComponent<Props> = ({
       <thead>
         <tr>
           {headerRow.map((data, index) => (
-            <StyledTh key={index} $maxWidth={maxWidth}>
+            <StyledTh
+              key={index}
+              width={columnWidths[index]}
+              $plain={plain}
+              $maxWidth={maxWidth}
+            >
               {data}
             </StyledTh>
           ))}

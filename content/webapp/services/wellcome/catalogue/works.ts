@@ -12,7 +12,7 @@ import {
   emptyWorksProps,
   toQuery,
   WorksProps,
-} from '@weco/content/components/WorksLink';
+} from '@weco/content/components/SearchPagesLink/Works';
 import {
   QueryProps,
   globalApiOptions,

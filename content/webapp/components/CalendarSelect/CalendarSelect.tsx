@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import Select, { SelectOption } from '@weco/content/components/Select/Select';
+import Select, { SelectOption } from '@weco/content/components/Select';
 import { isRequestableDate } from '../../utils/dates';
 import { getDatesBetween } from '@weco/common/utils/dates';
 import { dateAsValue } from '../ItemRequestModal/format-date';

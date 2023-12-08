@@ -26,8 +26,6 @@ import ArchiveTree from '../ArchiveTree';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
-import WorkTabbedNav from '../WorkTabbedNav/WorkTabbedNav';
-import { useToggles } from '@weco/common/server-data/Context';
 import useTransformedManifest from '@weco/content/hooks/useTransformedManifest';
 import { Audio, Video } from '@weco/content/services/iiif/types/manifest/v3';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
@@ -112,7 +110,6 @@ type Props = {
 };
 
 const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
-  const { worksTabbedNav } = useToggles();
   const transformedIIIFManifest = useTransformedManifest(work);
 
   const isArchive = !!(
@@ -139,11 +136,7 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
     audio,
     video,
   });
-  const showTabbedNav =
-    worksTabbedNav &&
-    (shouldShowItemLink || (audio?.sounds || []).length > 0 || video);
-  // we want to experiment with showing the tabs for audio and video content
-  // so we can't rely on shouldShowItemLink if we have that content
+
   const imageUrl =
     iiifImageLocation && iiifImageLocation.url
       ? iiifImageTemplate(iiifImageLocation.url)({ size: `800,` })
@@ -217,12 +210,6 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
                   collectionManifestsCount={collectionManifestsCount}
                 />
               </Grid>
-              {showTabbedNav && (
-                <WorkTabbedNav
-                  work={toWorkBasic(work)}
-                  selected="catalogueDetails"
-                />
-              )}
             </Container>
 
             <Container>
@@ -247,12 +234,6 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
                   collectionManifestsCount={collectionManifestsCount}
                 />
               </Grid>
-              {showTabbedNav && (
-                <WorkTabbedNav
-                  work={toWorkBasic(work)}
-                  selected="catalogueDetails"
-                />
-              )}
             </Container>
             <WorkDetails work={work} shouldShowItemLink={shouldShowItemLink} />
           </>

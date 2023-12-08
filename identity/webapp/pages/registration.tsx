@@ -5,7 +5,6 @@ import { ErrorMessage } from '@hookform/error-message';
 import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper';
 import { font } from '@weco/common/utils/classnames';
 import {
-  Checkbox,
   CheckboxLabel,
   FullWidthButton,
   FlexStartCheckbox,
@@ -14,9 +13,9 @@ import {
   Container,
   Wrapper,
 } from '@weco/identity/src/frontend/components/Layout.style';
-import WellcomeTextInput, {
-  TextInputErrorMessage,
-} from '@weco/common/views/components/TextInput/TextInput';
+import TextInput, {
+  InputErrorMessage,
+} from '@weco/common/views/components/TextInput';
 import { usePageTitle } from '@weco/identity/src/frontend/hooks/usePageTitle';
 import Layout, {
   gridSize10,
@@ -43,6 +42,7 @@ import {
 } from '@weco/identity/copy';
 import { JwtPayload } from 'jsonwebtoken';
 import { isString } from '@weco/common/utils/type-guards';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 
 const { serverRuntimeConfig: config } = getConfig();
 
@@ -148,7 +148,7 @@ const RegistrationPage: NextPage<Props> = ({
                           fieldState: { invalid },
                           formState,
                         }) => (
-                          <WellcomeTextInput
+                          <TextInput
                             required
                             id={name}
                             name={name}
@@ -174,7 +174,7 @@ const RegistrationPage: NextPage<Props> = ({
                           fieldState: { invalid },
                           formState,
                         }) => (
-                          <WellcomeTextInput
+                          <TextInput
                             required
                             id={name}
                             name={name}
@@ -201,13 +201,16 @@ const RegistrationPage: NextPage<Props> = ({
                         rules={{ required: 'Accept the terms to continue.' }}
                         render={({ field: { value, onChange } }) => (
                           <FlexStartCheckbox>
-                            <Checkbox
+                            <CheckboxRadio
                               name="termsAndConditions"
                               id="termsAndConditions"
                               type="checkbox"
                               value={String(value)}
                               onChange={(e: FormEvent<HTMLInputElement>) =>
                                 onChange(e.currentTarget.checked)
+                              }
+                              hasErrorBorder={
+                                !!formState.errors.termsAndConditions
                               }
                               checked={value}
                               text={
@@ -224,9 +227,7 @@ const RegistrationPage: NextPage<Props> = ({
                           errors={formState.errors}
                           name="termsAndConditions"
                           render={({ message }) => (
-                            <TextInputErrorMessage>
-                              {message}
-                            </TextInputErrorMessage>
+                            <InputErrorMessage errorMessage={message} />
                           )}
                         />
                       </Space>

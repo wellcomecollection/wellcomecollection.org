@@ -6,9 +6,9 @@ import {
 import { ArticleAggregations } from '@weco/content/services/wellcome/content/types';
 import { quoteVal } from '@weco/common/utils/csv';
 import { toHtmlId } from '@weco/content/utils/string';
-import { ImagesProps } from '@weco/content/components/ImagesLink';
-import { WorksProps } from '@weco/content/components/WorksLink';
-import { StoriesProps } from '@weco/content/components/StoriesLink';
+import { ImagesProps } from '@weco/content/components/SearchPagesLink/Images';
+import { WorksProps } from '@weco/content/components/SearchPagesLink/Works';
+import { StoriesProps } from '@weco/content/components/SearchPagesLink/Stories';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import { formatNumber } from '@weco/common/utils/grammar';
 

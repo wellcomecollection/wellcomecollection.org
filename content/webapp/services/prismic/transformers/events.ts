@@ -7,7 +7,7 @@ import {
   Interpretation,
   Team,
   ThirdPartyBooking,
-} from '../../../types/events';
+} from '@weco/content/types/events';
 import {
   Team as PrismicTeam,
   EventPrismicDocument,
@@ -50,6 +50,7 @@ import { transformContributors } from './contributors';
 import * as prismic from '@prismicio/client';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { noAltTextBecausePromo } from './images';
+import { ContentApiTimeField } from 'services/wellcome/content/types/api';
 
 function transformEventBookingType(
   eventDoc: EventPrismicDocument
@@ -136,9 +137,9 @@ function transformThirdPartyBooking(
     : undefined;
 }
 
-function transformEventTimes(
+export function transformEventTimes(
   id: string,
-  times: prismic.GroupField<EventTimePrismicDocument>
+  times: prismic.GroupField<EventTimePrismicDocument> | ContentApiTimeField[] // TODO review this, should we want the missing fields?
 ): EventTime[] {
   return times
     .map(

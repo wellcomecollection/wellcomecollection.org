@@ -1,5 +1,5 @@
 import { ComponentType, FunctionComponent, PropsWithChildren } from 'react';
-import { ThemeProvider, StyleSheetManager } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '@weco/common/views/themes/default';
 import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
 import Space from '@weco/common/views/components/styled/Space';
@@ -8,14 +8,12 @@ export const ContextDecorator: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
   return (
-    <StyleSheetManager enableVendorPrefixes>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle isFontsLoaded={true} />
-        <AppContextProvider>
-          <div className="enhanced">{children}</div>
-        </AppContextProvider>
-      </ThemeProvider>
-    </StyleSheetManager>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle isFontsLoaded={true} />
+      <AppContextProvider>
+        <div className="enhanced">{children}</div>
+      </AppContextProvider>
+    </ThemeProvider>
   );
 };
 

@@ -20,6 +20,7 @@ import { Prefix } from '@weco/common/utils/utility-types';
 export type PageviewName =
   | 'concept'
   | 'event'
+  | 'events'
   | 'exhibition'
   | 'image'
   | 'images'
@@ -86,3 +87,4 @@ export type WorksLinkSource =
   | 'unknown';
 
 export type StoriesLinkSource = 'unknown';
+export type EventsLinkSource = 'unknown';
