@@ -1,20 +1,30 @@
-// TODO Rewrite as part of https://github.com/wellcomecollection/wellcomecollection.org/issues/10338
-// We found out that using test content for this was not realistic so we need real static content.
+import { test, expect } from '@playwright/test';
+import { visualStory } from './helpers/contexts';
 
-// import { test as base, expect } from '@playwright/test';
-// import { visualStory } from './contexts';
-// import { baseUrl } from './helpers/urls';
-// import { makeDefaultToggleCookies } from './helpers/utils';
+test('A visual story with a related document provides navigation between them both', async ({
+  page,
+  context,
+}) => {
+  // Go on visual story
+  await visualStory('ZLe87hAAACIAwzqH', context, page);
 
-// const domain = new URL(baseUrl).host;
+  // Confirm breadcrumb structure is correct, second link being a relevant landing page
+  const breadcrumbs = page.getByTestId('breadcrumbs');
+  await expect(breadcrumbs.getByRole('link').locator('nth=1')).toHaveText(
+    'Exhibitions'
+  );
 
-// const test = base.extend({
-//   context: async ({ context }, use) => {
-//     const defaultToggleCookies = await makeDefaultToggleCookies(domain);
-//     await context.addCookies([
-//       { name: 'WC_cookiesAccepted', value: 'true', domain, path: '/' },
-//       ...defaultToggleCookies,
-//     ]);
-//     await use(context);
-//   },
-// });
+  // Use third breadcrumb link to go to related exhibition/event
+  await breadcrumbs.getByRole('link').locator('nth=2').click();
+
+  // Find "Visual Story" block and confirm the URL structure is correct
+  const visualStoryBlock = page.getByRole('link', {
+    name: 'Visual story Explore information to help you plan and prepare for your visit',
+    exact: true,
+  });
+  await expect(visualStoryBlock).toBeVisible();
+  await expect(visualStoryBlock).toHaveAttribute(
+    'href',
+    '/exhibitions/Wt4AACAAAFCxRfQM/visual-stories'
+  );
+});
