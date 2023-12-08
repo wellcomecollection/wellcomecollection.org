@@ -53,7 +53,7 @@ import SoundCloudEmbed from '../SoundCloudEmbed/SoundCloudEmbed';
 import * as prismic from '@prismicio/client';
 import { Props as ComicPreviousNextProps } from '../ComicPreviousNext/ComicPreviousNext';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import TextAndImageOrIcons from '../TextAndImageOrIcons/TextAndImageOrIcons';
+import TextAndImageOrIcons from '../TextAndImageOrIcons';
 
 const BodyWrapper = styled.div<{ $splitBackground: boolean }>`
   ${props =>

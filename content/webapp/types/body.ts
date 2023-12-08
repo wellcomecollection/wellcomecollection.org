@@ -12,7 +12,7 @@ import { Props as EmbedProps } from '@weco/common/views/components/VideoEmbed/Vi
 import {
   TextAndIconsItem,
   TextAndImageItem,
-} from '../components/TextAndImageOrIcons/TextAndImageOrIcons';
+} from '../components/TextAndImageOrIcons';
 import { AudioPlayerProps } from '@weco/content/components/AudioPlayer/AudioPlayer';
 import * as prismic from '@prismicio/client';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
