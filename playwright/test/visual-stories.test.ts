@@ -6,7 +6,7 @@ test('A visual story with a related document provides navigation between them bo
   context,
 }) => {
   // Go on visual story
-  await visualStory('ZLe87hAAACIAwzqH', context, page); // TODO modify ID, we need a non-delisted visual story
+  await visualStory('ZU4FRhIAACYAUvi8', context, page); // Genetic Automata
 
   // Confirm breadcrumb structure is correct, second link being a relevant landing page
   const breadcrumbs = page.getByTestId('breadcrumbs');
@@ -26,6 +26,6 @@ test('A visual story with a related document provides navigation between them bo
   // TODO modify ID, we need a non-delisted visual story
   await expect(visualStoryBlock).toHaveAttribute(
     'href',
-    '/exhibitions/Wt4AACAAAFCxRfQM/visual-stories'
+    '/exhibitions/ZAW0PxQAACcG-pX8/visual-stories'
   );
 });
