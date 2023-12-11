@@ -27,8 +27,6 @@
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
 - label: ':docker: build content'
-  agents:
-    queue: test-upgrade
   key: 'build_content'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
@@ -116,8 +114,6 @@
         command: ['yarn', 'test']
 
 - label: 'test content'
-  agents:
-    queue: test-upgrade
   depends_on: 'build_content'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
