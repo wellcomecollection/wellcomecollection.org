@@ -3,8 +3,8 @@ import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { FieldMargin } from '../components/Form.style';
 import TextInput, {
-  TextInputErrorMessage,
-} from '@weco/common/views/components/TextInput/TextInput';
+  InputErrorMessage,
+} from '@weco/common/views/components/TextInput';
 import { PasswordInput } from '../components/PasswordInput';
 import { validEmailPattern } from '../components/ValidationPatterns';
 import { Loading } from './Loading';
@@ -148,7 +148,7 @@ export const ChangeEmail: React.FunctionComponent<
             errors={formState.errors}
             name="password"
             render={({ message }) => (
-              <TextInputErrorMessage>{message}</TextInputErrorMessage>
+              <InputErrorMessage errorMessage={message} />
             )}
           />
         </FieldMargin>

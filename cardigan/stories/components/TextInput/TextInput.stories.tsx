@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import TextInput from '@weco/common/views/components/TextInput/TextInput';
+import TextInput from '@weco/common/views/components/TextInput';
 import useValidation from '@weco/common/hooks/useValidation';
 import Readme from '@weco/common/views/components/TextInput/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';

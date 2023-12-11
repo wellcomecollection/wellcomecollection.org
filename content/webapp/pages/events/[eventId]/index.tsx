@@ -1,6 +1,8 @@
+import { GetServerSideProps, NextPage } from 'next';
 import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
 import * as prismic from '@prismicio/client';
+import styled from 'styled-components';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule';
 import Button from '@weco/common/views/components/Buttons';
@@ -10,7 +12,7 @@ import InfoBox from '@weco/content/components/InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
 import { camelize } from '@weco/common/utils/grammar';
 import { formatDayDate, formatTime } from '@weco/common/utils/format-date';
-import EventDateRange from '@weco/content/components/EventDateRange/EventDateRange';
+import EventDateRange from '@weco/content/components/EventDateRange';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia } from '@weco/content/utils/page-header';
@@ -19,8 +21,6 @@ import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events'
 import EventDatesLink from '@weco/content/components/EventDatesLink/EventDatesLink';
 import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/content/model/label-field';
-import { GetServerSideProps, NextPage } from 'next';
-import styled from 'styled-components';
 import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import {
   audioDescribed,
@@ -233,7 +233,7 @@ const EventPage: NextPage<EventProps> = ({
             style={{ display: 'flex', flexWrap: 'wrap' }}
           >
             <div style={{ display: 'inline' }}>
-              <EventDateRange event={event} />
+              <EventDateRange eventTimes={event.times} />
             </div>
             {/*
               This 'All dates' link takes the user to the complete list of dates

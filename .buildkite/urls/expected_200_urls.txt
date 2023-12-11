@@ -61,6 +61,7 @@
 /projects/YEIYwhAAACIANd6T
 /seasons/YEY3ZBAAACEASBjA
 /series/X8YMWBIAACUAhwAx
+/visual-stories/ZU4FRhIAACYAUvi8
 
 # We should test the root exhibition guide page
 /guides/exhibitions

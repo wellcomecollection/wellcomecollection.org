@@ -10,7 +10,9 @@ import { SeasonPrismicDocument } from './seasons';
 import {
   isFilledLinkToDocumentWithData,
   InferDataInterface,
+  CustomPrismicFilledImage,
 } from '@weco/common/services/prismic/types';
+import { ImageDimensions } from '@weco/common/model/image';
 export type InferCustomType<T> = T extends prismic.PrismicDocument<
   /* eslint-disable @typescript-eslint/no-explicit-any */
   any,
@@ -44,15 +46,10 @@ export type FetchLinks<T extends prismic.PrismicDocument> = {
     : never;
 }[keyof InferDataInterface<T>][];
 
-type Dimension = {
-  width: number;
-  height: number;
-};
-
 // Currently the Prismic types only allow you to specify 1 image
-type ThumbnailedImageField<Thumbnails extends Record<string, Dimension>> =
-  prismic.FilledImageFieldImage & {
-    [Property in keyof Thumbnails]?: prismic.FilledImageFieldImage;
+type ThumbnailedImageField<Thumbnails extends Record<string, ImageDimensions>> =
+  CustomPrismicFilledImage & {
+    [Property in keyof Thumbnails]?: CustomPrismicFilledImage;
   };
 
 export type Image = ThumbnailedImageField<{

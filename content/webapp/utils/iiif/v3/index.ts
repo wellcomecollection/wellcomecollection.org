@@ -65,30 +65,38 @@ export function transformLabel(
   return getEnFromInternationalString(label);
 }
 
-export function getAudio(manifest: Manifest): Audio {
-  const canvases = manifest.items.filter(item => item.type === 'Canvas');
-  const firstEnCanvas = canvases.find(c => c?.label?.en);
+// It appears that iiif-manifests for born digital items can exist without the items property
+// e.g. https://iiif.wellcomecollection.org/presentation/collections/archives/SA/SRH/B/41/2
+// I'm not sure this should be the case, but am doing this temporarily so works/items pages won't error/break
+export type BornDigitalManifest = Omit<Manifest, 'items'> & {
+  items?: Canvas[];
+};
+
+export function getAudio(manifest: Manifest | BornDigitalManifest): Audio {
+  const canvases = manifest.items?.filter(item => item.type === 'Canvas');
+  const firstEnCanvas = canvases?.find(c => c?.label?.en);
   const title = firstEnCanvas?.label
     ? getEnFromInternationalString(firstEnCanvas.label)
     : '';
   const audioTypes = ['Audio', 'Sound'];
-  const sounds = canvases
-    .map(c => {
-      const title = c?.label && getEnFromInternationalString(c.label);
-      const annotationPage = c?.items?.find(i => i.type === 'AnnotationPage');
-      const annotation = annotationPage?.items?.find(
-        i => i.type === 'Annotation'
-      );
-      const sound =
-        audioTypes.includes(
-          (annotation?.body as ContentResource)?.type || ''
-        ) && annotation?.body;
-      return { sound, title };
-    })
-    .filter(s => Boolean(s.sound) && isNotUndefined(s.sound)) as {
-    title?: string;
-    sound: IIIFExternalWebResource;
-  }[];
+  const sounds =
+    (canvases
+      ?.map(c => {
+        const title = c?.label && getEnFromInternationalString(c.label);
+        const annotationPage = c?.items?.find(i => i.type === 'AnnotationPage');
+        const annotation = annotationPage?.items?.find(
+          i => i.type === 'Annotation'
+        );
+        const sound =
+          audioTypes.includes(
+            (annotation?.body as ContentResource)?.type || ''
+          ) && annotation?.body;
+        return { sound, title };
+      })
+      .filter(s => Boolean(s.sound) && isNotUndefined(s.sound)) as {
+      title?: string;
+      sound: IIIFExternalWebResource;
+    }[]) || [];
 
   const placeholderCanvasItems = manifest.placeholderCanvas?.items?.find(
     i => i.type === 'AnnotationPage'
@@ -136,7 +144,9 @@ export function getDownloadOptionsFromManifest(
     });
 }
 
-export function getPdf(iiifManifest: Manifest): DownloadOption | undefined {
+export function getPdf(
+  iiifManifest: Manifest | BornDigitalManifest
+): DownloadOption | undefined {
   // There are two different ways to find PDFs in a manifest:
   //
   //    - Before the DLCS image server upgrades in May 2023, the manifests has
@@ -147,12 +157,12 @@ export function getPdf(iiifManifest: Manifest): DownloadOption | undefined {
   // See discussion here: https://wellcome.slack.com/archives/CBT40CMKQ/p1683121718005049
   //
   const renderingFromItem = iiifManifest.items
-    .flatMap(item => item.rendering)
+    ?.flatMap(item => item.rendering)
     .filter(isNotUndefined)
     .find(r => r.type === 'Text' && r.format === 'application/pdf');
 
   const renderingFromAnnotations = iiifManifest.items
-    .flatMap(item => item.annotations)
+    ?.flatMap(item => item.annotations)
     .flatMap(annotation => annotation?.items)
     .filter(isNotUndefined)
     .map(
@@ -190,7 +200,7 @@ export function getTransformedCanvases(
     canvas => canvas.type === 'Canvas'
   );
 
-  return canvases.map(transformCanvas);
+  return canvases?.map(transformCanvas) || [];
 }
 
 function getLabelString(

@@ -3,21 +3,17 @@ import {
   FunctionComponent,
   RefObject,
   SetStateAction,
-  useContext,
   useRef,
 } from 'react';
 import styled from 'styled-components';
 
-import TextInput from '@weco/common/views/components/TextInput/TextInput';
+import TextInput from '@weco/common/views/components/TextInput';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import { themeValues } from '@weco/common/views/themes/config';
 
-import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-
 const Container = styled.div`
   display: flex;
-  align-items: stretch;
+  align-items: flex-end;
 `;
 const SearchInputWrapper = styled.div`
   flex: 1 1 auto;
@@ -56,7 +52,6 @@ const SearchBar: FunctionComponent<Props> = ({
   inputRef,
   location,
 }) => {
-  const { isEnhanced } = useContext(AppContext);
   const defaultInputRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -71,15 +66,8 @@ const SearchBar: FunctionComponent<Props> = ({
           setValue={setInputValue}
           ref={inputRef || defaultInputRef}
           form={form}
-          big={true}
+          hasClearButton
         />
-        {inputValue && isEnhanced && (
-          <ClearSearch
-            inputRef={inputRef || defaultInputRef}
-            setValue={setInputValue}
-            right={16}
-          />
-        )}
       </SearchInputWrapper>
       <SearchButtonWrapper>
         <Button

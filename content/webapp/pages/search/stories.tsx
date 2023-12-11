@@ -32,7 +32,10 @@ import {
 } from '@weco/content/services/wellcome/content/types/api';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import { fromQuery, StoriesProps } from '@weco/content/components/StoriesLink';
+import {
+  fromQuery,
+  StoriesProps,
+} from '@weco/content/components/SearchPagesLink/Stories';
 import { storiesFilters } from '@weco/content/services/wellcome/catalogue/filters';
 
 type Props = {
@@ -58,7 +61,7 @@ const SortPaginationWrapper = styled.div`
   `}
 `;
 
-export const SearchPage: NextPageWithLayout<Props> = ({
+export const StoriesSearchPage: NextPageWithLayout<Props> = ({
   storyResponseList,
   query,
   storiesRouteProps,
@@ -127,7 +130,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
       )}
       {storyResponseList && (
         <Wrapper>
-          {storyResponseList.totalResults === 0 ? (
+          {hasNoResults ? (
             <Container>
               <SearchNoResults
                 query={queryString}
@@ -209,7 +212,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   );
 };
 
-SearchPage.getLayout = getSearchLayout;
+StoriesSearchPage.getLayout = getSearchLayout;
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
@@ -291,4 +294,4 @@ export const getServerSideProps: GetServerSideProps<
   };
 };
 
-export default SearchPage;
+export default StoriesSearchPage;

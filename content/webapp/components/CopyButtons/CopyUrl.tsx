@@ -5,7 +5,7 @@ import {
   ReactElement,
   FunctionComponent,
 } from 'react';
-import TextInput from '@weco/common/views/components/TextInput/TextInput';
+import TextInput from '@weco/common/views/components/TextInput';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Button from '@weco/common/views/components/Buttons';

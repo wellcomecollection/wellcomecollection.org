@@ -9,7 +9,10 @@ import { QueryProps, WellcomeApiError } from '..';
 export async function getArticles(
   props: QueryProps<ContentApiProps>
 ): Promise<ContentResultsList<Article> | WellcomeApiError> {
-  const getArticlesResult = await contentQuery('articles', props);
+  const getArticlesResult = await contentQuery<ContentApiProps, Article>(
+    'articles',
+    props
+  );
 
   return getArticlesResult;
 }
