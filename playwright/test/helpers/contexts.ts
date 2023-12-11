@@ -144,6 +144,14 @@ const itemWithSearchAndStructures = async (
   await gotoWithoutCache(`${baseUrl}/works/re9cyhkt/items`, page);
 };
 
+const itemWithReferenceNumber = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/qqra7v28/items`, page);
+};
+
 const workWithPhysicalLocationOnly = async (
   context: BrowserContext,
   page: Page
@@ -168,14 +176,6 @@ const workWithDigitalLocationAndLocationNote = async (
   await gotoWithoutCache(`${baseUrl}/works/a235xn8e`, page);
 };
 
-const itemWithReferenceNumber = async (
-  context: BrowserContext,
-  page: Page
-): Promise<void> => {
-  await context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/qqra7v28/items`, page);
-};
-
 const newSearch = async (
   context: BrowserContext,
   page: Page,
@@ -198,15 +198,6 @@ const article = async (
   await gotoWithoutCache(`${baseUrl}/articles/${id}`, page);
 };
 
-const concept = async (
-  id: string,
-  context: BrowserContext,
-  page: Page
-): Promise<void> => {
-  await context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/concepts/${id}`, page);
-};
-
 const articleWithMockSiblings = async (
   id: string,
   response: Record<string, unknown>,
@@ -222,7 +213,16 @@ const articleWithMockSiblings = async (
   await gotoWithoutCache(`${baseUrl}/articles/${id}`, page);
 };
 
-export const event = async (
+const concept = async (
+  id: string,
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/concepts/${id}`, page);
+};
+
+const event = async (
   id: string,
   context: BrowserContext,
   page: Page
@@ -231,7 +231,7 @@ export const event = async (
   await gotoWithoutCache(`${baseUrl}/events/${id}`, page);
 };
 
-export const visualStory = async (
+const visualStory = async (
   id: string,
   context: BrowserContext,
   page: Page
@@ -262,4 +262,6 @@ export {
   articleWithMockSiblings,
   concept,
   isMobile,
+  event,
+  visualStory,
 };
