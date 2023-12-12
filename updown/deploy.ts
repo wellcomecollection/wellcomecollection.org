@@ -23,6 +23,7 @@ const deploy = async (options: Options) => {
         await client.put(`/checks/${updownCheck.token}`, {
           ...updownCheck,
           alias: desiredCheck.name,
+          apdex_t: desiredCheck.apdexThreshold,
           recipients: alertRecipients(desiredCheck, updownCheck),
         });
       }
@@ -43,6 +44,7 @@ const deploy = async (options: Options) => {
       await client.post(`/checks`, {
         url,
         alias: check.name,
+        apdex_t: check.apdexThreshold,
         recipients: alertRecipients(check),
       });
     }
