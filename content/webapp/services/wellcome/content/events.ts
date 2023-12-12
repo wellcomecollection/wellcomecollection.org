@@ -5,7 +5,6 @@ import {
 } from '@weco/content/services/wellcome/content/types/api';
 // import { contentQuery } from '.';
 import { QueryProps, WellcomeApiError } from '..';
-import { CustomPrismicFilledImage } from '@weco/common/services/prismic/types';
 
 export async function getEvents(
   props: QueryProps<ContentApiProps> // eslint-disable-line 
@@ -22,6 +21,7 @@ export async function getEvents(
     results: [
       {
         type: 'Event',
+        title: 'Land Body Ecologies Festival Day Two',
         format: {
           id: 'W5fV5iYAACQAMxHb',
           label: 'Festival',
@@ -38,6 +38,13 @@ export async function getEvents(
             width: 4000,
           },
           url: 'https://images.prismic.io/wellcomecollection/0793d963-8807-4525-a3d7-e77fa4435baa_LBE+Key+Image+04.jpg?auto=compress,format',
+          edit: {
+            background: '#fff',
+            x: 0,
+            y: 0,
+            zoom: 1,
+          },
+          id: 'ZGYrjxQAADxsO9nG',
           '16:9': {
             alt: 'Photograph of a farmer getting ready to harvest his organic crop of native Ragi in Kariyappanadoddi, India. Behind him are hills and a small single storey building. Interwoven into the scene is a graphic element made up of thin red drawn circular lines, which create a larger organic pattern behind the farmer.',
             copyright:
@@ -46,6 +53,13 @@ export async function getEvents(
               height: 1800,
               width: 3200,
             },
+            edit: {
+              background: '#fff',
+              x: 0,
+              y: 0,
+              zoom: 0.8,
+            },
+            id: 'ZGYrjxQAADxsO9nG',
             url: 'https://images.prismic.io/wellcomecollection/0793d963-8807-4525-a3d7-e77fa4435baa_LBE+Key+Image+04.jpg?auto=compress,format&rect=0,0,4000,2250&w=3200&h=1800',
           },
           '32:15': {
@@ -56,6 +70,13 @@ export async function getEvents(
               height: 1500,
               width: 3200,
             },
+            edit: {
+              background: '#fff',
+              x: 0,
+              y: -185,
+              zoom: 0.8,
+            },
+            id: 'ZGYrjxQAADxsO9nG',
             url: 'https://images.prismic.io/wellcomecollection/0793d963-8807-4525-a3d7-e77fa4435baa_LBE+Key+Image+04.jpg?auto=compress,format&rect=0,232,4000,1875&w=3200&h=1500',
           },
           square: {
@@ -66,9 +87,16 @@ export async function getEvents(
               height: 3200,
               width: 3200,
             },
+            edit: {
+              background: '#fff',
+              x: -1709,
+              y: 0,
+              zoom: 1.4222222222222223,
+            },
+            id: 'ZGYrjxQAADxsO9nG',
             url: 'https://images.prismic.io/wellcomecollection/0793d963-8807-4525-a3d7-e77fa4435baa_LBE+Key+Image+04.jpg?auto=compress,format&rect=1202,0,2250,2250&w=3200&h=3200',
           },
-        } as CustomPrismicFilledImage,
+        },
         interpretations: [],
         locations: [
           {
@@ -88,11 +116,11 @@ export async function getEvents(
             startDateTime: new Date('2023-06-23T09:00:00.000Z'),
           },
         ],
-        title: 'Land Body Ecologies Festival Day Two',
         isAvailableOnline: true,
       },
       {
         type: 'Event',
+        title: 'Perspective Tour With Jess Dobkin',
         format: {
           id: 'WmYRpCQAACUAn-Ap',
           label: 'Gallery tour',
@@ -109,6 +137,13 @@ export async function getEvents(
             height: 2250,
             width: 4000,
           },
+          edit: {
+            background: '#fff',
+            x: 0,
+            y: 0,
+            zoom: 1,
+          },
+          id: 'ZKgZeBAAACEAfpCr',
           '16:9': {
             alt: "Photograph of an art installation in gallery space. It's a dark space with black glossy floors and walls. A large parachute suspended from the ceiling which is lit with vibrant pink and orange light. Two visitors are looking at the instillation.",
             copyright:
@@ -117,6 +152,13 @@ export async function getEvents(
               height: 1800,
               width: 3200,
             },
+            edit: {
+              background: '#fff',
+              x: 0,
+              y: 0,
+              zoom: 0.8,
+            },
+            id: 'ZKgZeBAAACEAfpCr',
             url: 'https://images.prismic.io/wellcomecollection/3e1ef5ca-cf7f-40e5-b1dc-0730a5e11225_EP_002225_007-full.jpg?auto=compress,format&rect=0,0,4000,2250&w=3200&h=1800',
           },
           '32:15': {
@@ -127,6 +169,13 @@ export async function getEvents(
               height: 1500,
               width: 3200,
             },
+            edit: {
+              background: '#fff',
+              x: 0,
+              y: -150,
+              zoom: 0.8,
+            },
+            id: 'ZKgZeBAAACEAfpCr',
             url: 'https://images.prismic.io/wellcomecollection/3e1ef5ca-cf7f-40e5-b1dc-0730a5e11225_EP_002225_007-full.jpg?auto=compress,format&rect=0,188,4000,1875&w=3200&h=1500',
           },
           square: {
@@ -137,9 +186,16 @@ export async function getEvents(
               height: 3200,
               width: 3200,
             },
+            edit: {
+              background: '#fff',
+              x: -1935,
+              y: 0,
+              zoom: 1.4222222222222223,
+            },
+            id: 'ZKgZeBAAACEAfpCr',
             url: 'https://images.prismic.io/wellcomecollection/3e1ef5ca-cf7f-40e5-b1dc-0730a5e11225_EP_002225_007-full.jpg?auto=compress,format&rect=1361,0,2250,2250&w=3200&h=3200',
           },
-        } as CustomPrismicFilledImage,
+        },
         interpretations: [
           {
             id: 'XkFGqxEAACIAIhNH',
@@ -160,7 +216,6 @@ export async function getEvents(
             startDateTime: new Date('2023-08-24T16:30:00.000Z'),
           },
         ],
-        title: 'Perspective Tour With Jess Dobkin',
         isAvailableOnline: false,
       },
     ],
