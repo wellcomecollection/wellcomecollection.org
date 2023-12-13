@@ -42,7 +42,7 @@ const toggles = {
       id: 'stagingApi',
       title: 'Staging API',
       initialValue: false,
-      description: 'Use the staging catalogue API',
+      description: 'Use the staging Wellcome APIs',
       type: 'permanent',
     },
     {
