@@ -27,13 +27,13 @@ import {
   HeaderActions,
   HeaderNav,
   NavLoginWrapper,
+  SearchButton,
 } from './Header.styles';
 import DesktopSignIn from './DesktopSignIn';
 import MobileSignIn from './MobileSignIn';
 import HeaderSearch from './HeaderSearch';
 import { searchPlaceholderText } from '@weco/common/data/microcopy';
 import { SiteSection } from '../PageLayout/PageLayout';
-import { BorderlessButton } from '../BorderlessClickable';
 
 const NoJSIconWrapper = styled.div`
   padding: 5px 8px 0;
@@ -190,7 +190,7 @@ const Header: FunctionComponent<Props> = ({
                           </NoJSIconWrapper>
                         </NextLink>
                       ) : (
-                        <BorderlessButton
+                        <SearchButton
                           text={
                             <Icon
                               icon={searchDropdownIsActive ? cross : search}
