@@ -1,5 +1,10 @@
-import { ReactNode, SyntheticEvent } from 'react';
-import { LinkProps } from 'next/link';
+import {
+  ComponentProps,
+  ReactNode,
+  SyntheticEvent,
+  forwardRef,
+  ForwardRefRenderFunction,
+} from 'react';
 import styled from 'styled-components';
 import {
   BasicButton,
@@ -10,9 +15,13 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { IconSvg } from '@weco/common/icons';
 
-const BorderlessClickableStyle = styled(BasicButton)<{
+type ClickableElement = 'a' | 'button';
+
+type StyleProps = {
   $isActive?: boolean;
-}>`
+};
+
+const BorderlessClickableStyle = styled(BasicButton)<StyleProps>`
   background: transparent;
   color: ${props => props.theme.color('neutral.700')};
   padding: 10px 8px;
@@ -34,31 +43,29 @@ type Props = {
   text: ReactNode;
   isTextHidden?: boolean;
   isActive?: boolean;
-  clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void;
 };
 
-export type BorderlessClickableProps = Props &
-  (
-    | (LinkProps & { as: 'a' })
-    | (React.ButtonHTMLAttributes<HTMLButtonElement> & { as: 'button' })
-  );
-const BorderlessClickable = ({
-  as,
-  icon,
-  iconLeft,
-  text,
-  isTextHidden,
-  isActive,
-  clickHandler,
-  ...elementProps
-}: BorderlessClickableProps) => {
+type BorderlessClickableProps = Props & { as: ClickableElement };
+const Button: ForwardRefRenderFunction<
+  HTMLButtonElement,
+  BorderlessClickableProps
+> = (
+  {
+    as,
+    icon,
+    iconLeft,
+    text,
+    isTextHidden,
+    isActive,
+    ...elementProps
+  }: BorderlessClickableProps,
+  ref
+) => {
   return (
     <BorderlessClickableStyle
       as={as}
       $isActive={isActive}
-      {...(clickHandler && {
-        onClick: event => clickHandler && clickHandler(event),
-      })}
+      ref={ref}
       {...elementProps}
     >
       <BaseButtonInner $isInline={true}>
@@ -75,7 +82,11 @@ const BorderlessClickable = ({
               </span>
             </ButtonIconWrapper>
           )}
-          <span className={classNames({ 'visually-hidden': !!isTextHidden })}>
+          <span
+            className={classNames({
+              'visually-hidden': !!isTextHidden,
+            })}
+          >
             {text}
           </span>
           {icon && (
@@ -89,4 +100,42 @@ const BorderlessClickable = ({
   );
 };
 
-export default BorderlessClickable;
+const BorderlessClickable = forwardRef<
+  HTMLButtonElement,
+  BorderlessClickableProps
+>(Button);
+
+type BorderlessLinkProps = Props & ComponentProps<'a'>;
+const Link = (props, ref) => {
+  return <BorderlessClickable as="a" ref={ref} {...props} />;
+};
+
+const BorderlessLink = forwardRef<HTMLButtonElement, BorderlessLinkProps>(Link);
+
+type BorderlessButtonProps = Props &
+  ComponentProps<'button'> & {
+    clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void;
+  };
+const ButtonOuter = (
+  { clickHandler, ...elementProps }: BorderlessButtonProps,
+  ref
+) => {
+  function onClick(event: SyntheticEvent<HTMLButtonElement>) {
+    clickHandler && clickHandler(event);
+  }
+
+  return (
+    <BorderlessClickable
+      as="button"
+      onClick={onClick}
+      ref={ref}
+      {...elementProps}
+    />
+  );
+};
+
+const BorderlessButton = forwardRef<HTMLButtonElement, BorderlessButtonProps>(
+  ButtonOuter
+);
+
+export { BorderlessLink, BorderlessButton };

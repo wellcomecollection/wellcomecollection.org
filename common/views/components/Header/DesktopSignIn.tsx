@@ -5,6 +5,7 @@ import { useUser } from '@weco/common/views/components/UserProvider/UserProvider
 import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { user as userIcon } from '@weco/common/icons';
+import { BorderlessLink } from '../BorderlessClickable';
 
 type AccountAProps = {
   $last?: true;
@@ -34,9 +35,7 @@ const DesktopSignIn: FunctionComponent = () => {
 
   return state === 'initial' || state === 'loading' ? (
     <span className="display-none headerMedium-display-block">
-      <Button
-        variant="BorderlessClickable"
-        as="a"
+      <BorderlessLink
         iconLeft={userIcon}
         text="Library account"
         isTextHidden={true}

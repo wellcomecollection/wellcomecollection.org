@@ -17,6 +17,7 @@ import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { chevron, IconSvg } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
+import { BorderlessButton } from '../BorderlessClickable';
 
 const DropdownWrapper = styled.div`
   display: inline-flex;
@@ -202,9 +203,7 @@ const DropdownButton: FunctionComponent<
           />
         )}
         {buttonType === 'borderless' && (
-          <Button
-            variant="BorderlessClickable"
-            as="button"
+          <BorderlessButton
             aria-controls={id}
             aria-expanded={isActive}
             isActive={isActive}

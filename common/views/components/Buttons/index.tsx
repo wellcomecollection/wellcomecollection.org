@@ -7,14 +7,8 @@ import {
 import ButtonSolid, { ButtonSolidProps } from './Buttons.Solid';
 import ButtonSolidLink, { ButtonSolidLinkProps } from './Buttons.SolidLink';
 import DropdownButton, { DropdownButtonProps } from './Buttons.Dropdown';
-import BorderlessClickable, {
-  BorderlessClickableProps,
-} from './Buttons.Borderless';
 
 type ButtonProps =
-  | (BorderlessClickableProps & {
-      variant: 'BorderlessClickable';
-    })
   | (PropsWithChildren<DropdownButtonProps> & {
       variant: 'DropdownButton';
     })
@@ -32,8 +26,6 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonProps> = (
   const { variant } = props;
 
   switch (variant) {
-    case 'BorderlessClickable':
-      return <BorderlessClickable {...props} />;
     case 'DropdownButton':
       return <DropdownButton {...props} />;
     case 'ButtonSolidLink':
