@@ -15,7 +15,7 @@ locals {
   // These come from the information security team
   // Qualys is an "enterprise vulnerability management tool"
   // They get the list from the Qualys Cloud Portal
-  qualys_scanner_ips = [
+  qualys_scanner_ips = toset([
     "151.104.35.212",
     "151.104.35.215",
     "151.104.32.131",
@@ -33,9 +33,9 @@ locals {
     "151.104.34.22",
     "151.104.34.6",
     "151.104.32.9",
-  ]
+  ])
 
-  ip_allowlist = concat(var.waf_ip_allowlist, local.qualys_scanner_ips)
+  ip_allowlist = setunion(var.waf_ip_allowlist, local.qualys_scanner_ips)
 }
 
 resource "aws_wafv2_web_acl" "wc_org" {
