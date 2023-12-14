@@ -89,7 +89,7 @@ test.describe('Image search', () => {
 
   test.describe('the expanded image modal', () => {
     test('images without contributors still show a title', async ({ page }) => {
-      await gotoSearchResultPage({ url: imagesUrl, query: 'm2u74c63' }, page);
+      await gotoSearchResultPage({ url: imagesUrl, query: 'kd9h6gr3' }, page);
 
       await clickActionClickSearchResultItem(1, page);
       await expectItemIsVisible(
