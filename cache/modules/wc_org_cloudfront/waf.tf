@@ -155,8 +155,8 @@ resource "aws_wafv2_web_acl" "wc_org" {
     name     = "core-rule-group"
     priority = 4
 
-    action {
-      block {}
+    override_action {
+      none {}
     }
 
     statement {
@@ -178,8 +178,8 @@ resource "aws_wafv2_web_acl" "wc_org" {
     name     = "sql-rule-group"
     priority = 5
 
-    action {
-      block {}
+    override_action {
+      none {}
     }
 
     statement {
