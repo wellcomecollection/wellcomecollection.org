@@ -156,7 +156,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     priority = 4
 
     override_action {
-      none {}
+      count {}
     }
 
     statement {
@@ -175,11 +175,11 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
   rule {
-    name     = "sql-rule-group"
+    name     = "sqli-rule-group"
     priority = 5
 
     override_action {
-      none {}
+      count {}
     }
 
     statement {
@@ -192,7 +192,30 @@ resource "aws_wafv2_web_acl" "wc_org" {
     visibility_config {
       cloudwatch_metrics_enabled = true
       sampled_requests_enabled   = true
-      metric_name                = "weco-cloudfront-acl-sql-${var.namespace}"
+      metric_name                = "weco-cloudfront-acl-sqli-${var.namespace}"
+    }
+  }
+
+  // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
+  rule {
+    name     = "known-bad-inputs-rule-group"
+    priority = 6
+
+    override_action {
+      count {}
+    }
+
+    statement {
+      managed_rule_group_statement {
+        name        = "AWSManagedRulesKnownBadInputsRuleSet"
+        vendor_name = "AWS"
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "weco-cloudfront-acl-known-bad-inputs-${var.namespace}"
     }
   }
 
