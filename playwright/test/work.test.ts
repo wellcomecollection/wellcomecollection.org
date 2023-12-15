@@ -9,9 +9,7 @@ import { Page } from 'playwright';
 const getWhereToFindItAndEncoreLink = async (page: Page) => {
   const whereToFindIt = await page.$('h2:has-text("Where to find it")');
   const encoreLink = await page.$('a:has-text("Request item")');
-  const unavailableBanner = await page.$(
-    "[data-test-id='requesting-disabled']"
-  );
+  const unavailableBanner = await page.getByTestId('requesting-disabled');
 
   return {
     whereToFindIt,
@@ -33,6 +31,7 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
     await workWithPhysicalLocationOnly(context, page);
     const { whereToFindIt, encoreLink, unavailableBanner } =
       await getWhereToFindItAndEncoreLink(page);
+
     expect(whereToFindIt).toBeTruthy();
     expect(encoreLink || unavailableBanner).toBeTruthy();
   });
