@@ -33,6 +33,7 @@ const urls = [
   '/event-series/WlYT_SQAACcAWccj',
   '/concepts/n4fvtc49',
   '/guides/YL9OAxIAAB8AHsyv',
+  '/visual-stories/ZU4FRhIAACYAUvi8',
 
   // This is a comic using the new (as of November 2022) approach to
   // comic frames and navigation between issues.

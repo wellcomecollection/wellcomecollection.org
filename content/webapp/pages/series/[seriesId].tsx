@@ -61,14 +61,13 @@ export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
   setCacheControl(context.res);
-  const serverData = await getServerData(context);
-
   const { seriesId } = context.query;
 
   if (!looksLikePrismicId(seriesId)) {
     return { notFound: true };
   }
 
+  const serverData = await getServerData(context);
   const page = getPage(context.query);
 
   if (typeof page !== 'number') {

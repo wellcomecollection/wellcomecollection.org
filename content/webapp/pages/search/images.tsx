@@ -23,7 +23,7 @@ import {
   fromQuery,
   ImagesProps,
   toLink,
-} from '@weco/content/components/ImagesLink';
+} from '@weco/content/components/SearchPagesLink/Images';
 import { getServerData } from '@weco/common/server-data';
 import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
 import { imagesFilters } from '@weco/content/services/wellcome/catalogue/filters';

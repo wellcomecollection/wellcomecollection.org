@@ -1,5 +1,5 @@
 import { ComponentProps, FunctionComponent, ReactElement } from 'react';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
@@ -68,7 +68,7 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
     {children}
 
     {paginatedResults.totalPages > 1 && (
-      <Layout12>
+      <Layout gridSizes={gridSize12()}>
         <PaginationWrapper $verticalSpacing="l">
           <span>{pluralize(paginatedResults.totalResults, 'result')}</span>
 
@@ -82,28 +82,28 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
         <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
           <Divider />
         </Space>
-      </Layout12>
+      </Layout>
     )}
 
     <Space $v={{ size: 'l', properties: ['margin-top'] }}>
       {paginatedResults.results.length > 0 ? (
         <CardGrid items={paginatedResults.results} itemsPerRow={3} />
       ) : (
-        <Layout12>
+        <Layout gridSizes={gridSize12()}>
           <p>There are no results.</p>
-        </Layout12>
+        </Layout>
       )}
     </Space>
 
     {paginatedResults.totalPages > 1 && (
-      <Layout12>
+      <Layout gridSizes={gridSize12()}>
         <PaginationWrapper $verticalSpacing="l" $alignRight>
           <Pagination
             totalPages={paginatedResults.totalPages}
             ariaLabel="Results pagination"
           />
         </PaginationWrapper>
-      </Layout12>
+      </Layout>
     )}
   </>
 );

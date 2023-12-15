@@ -12,11 +12,11 @@ That allows any developer to configure our Updown checks, even if they don't hav
 
 ## To deploy new checks
 
-Our checks are configured in `expected-checks.ts`.
-Update this file, then run:
+Our checks are configured in `updown-checks.ts`.
+Update this file, then either merge a PR or deploy manually with:
 
 ```console
-$ AWS_PROFILE=platform-dev yarn checks
+$ AWS_PROFILE=platform-dev yarn apply
 ```
 
 This will deploy your new checks to Updown.

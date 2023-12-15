@@ -1,6 +1,6 @@
 // This is copy for the identity web app that's hard-coded, rather than fetched from Prismic.
 //
-// It's longer than microcopy so it doesn't live in the microcopy file (microcopy.ts), but
+// It's longer than microcopy so it doesn't live in the microcopy file (microcopy.tsx), but
 // we keep it in one place for similar reasons:
 //
 //    - All this text can be reviewed for consistency
@@ -26,7 +26,7 @@ export const ValidatedSuccessText: FunctionComponent<
     <SectionHeading as="h1">Email verified</SectionHeading>
     <p>Thank you for verifying your email address.</p>
     {isNewSignUp && (
-      <div data-test-id="new-sign-up">
+      <div data-testid="new-sign-up">
         <p>
           You can now request up to 15 items from our closed stores in the
           library.

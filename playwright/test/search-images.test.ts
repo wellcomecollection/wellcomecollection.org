@@ -1,5 +1,5 @@
 import { Page, test } from '@playwright/test';
-import { gotoWithoutCache, isMobile } from './contexts';
+import { gotoWithoutCache, isMobile } from './helpers/contexts';
 import { clickActionClickSearchResultItem } from './actions/search';
 
 import { clickActionClickViewExpandedImage } from './actions/images';
@@ -89,7 +89,7 @@ test.describe('Image search', () => {
 
   test.describe('the expanded image modal', () => {
     test('images without contributors still show a title', async ({ page }) => {
-      await gotoSearchResultPage({ url: imagesUrl, query: 'm2u74c63' }, page);
+      await gotoSearchResultPage({ url: imagesUrl, query: 'kd9h6gr3' }, page);
 
       await clickActionClickSearchResultItem(1, page);
       await expectItemIsVisible(

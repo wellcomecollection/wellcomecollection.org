@@ -17,6 +17,30 @@ export const fonts = css<GlobalStyleProps>`
   @font-face {
     font-family: 'Inter';
     font-style: normal;
+    font-weight: 500;
+    src:
+      url('https://i.wellcomecollection.org/assets/fonts/Inter-Medium.woff2')
+        format('woff2'),
+      url('https://i.wellcomecollection.org/assets/fonts/Inter-Medium.woff')
+        format('woff');
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    src:
+      url('https://i.wellcomecollection.org/assets/fonts/Inter-SemiBold.woff2')
+        format('woff2'),
+      url('https://i.wellcomecollection.org/assets/fonts/Inter-SemiBold.woff')
+        format('woff');
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
     font-weight: 700;
     src:
       url('https://i.wellcomecollection.org/assets/fonts/Inter-Bold.woff2')

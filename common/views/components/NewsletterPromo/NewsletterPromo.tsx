@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import TextInput from '../TextInput/TextInput';
+import TextInput from '../TextInput';
 import useValidation from '@weco/common/hooks/useValidation';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { newsletterAddressBook } from '@weco/common/data/dotdigital';
 import { Container } from '@weco/common/views/components/styled/Container';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import theme from '@weco/common/views/themes/default';
-import Layout8 from '@weco/common/views/components/Layout8/Layout8';
+import Layout, { gridSize8 } from '../Layout';
 
 const NewsletterForm = styled.form.attrs({
   name: 'newsletter-signup',
@@ -102,7 +102,7 @@ const NewsletterPromo: FunctionComponent = () => {
       $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
     >
       <Container>
-        <Layout8>
+        <Layout gridSizes={gridSize8()}>
           <h2 className={font('wb', 3)} style={{ textAlign: 'center' }}>
             {isSuccess ? 'Thank you for signing up!' : 'Stay in the know'}
           </h2>
@@ -125,6 +125,7 @@ const NewsletterPromo: FunctionComponent = () => {
                   type="email"
                   name="email"
                   label="Your email address"
+                  hintCopy="For example name@example.com"
                   errorMessage={
                     isSubmitError
                       ? 'There was a problem. Please try again.'
@@ -187,7 +188,7 @@ const NewsletterPromo: FunctionComponent = () => {
               <PrivacyNotice />
             </div>
           )}
-        </Layout8>
+        </Layout>
       </Container>
     </Space>
   );

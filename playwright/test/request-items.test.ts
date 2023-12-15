@@ -1,5 +1,5 @@
 import { test as base, expect } from '@playwright/test';
-import { workWithPhysicalLocationOnly } from './contexts';
+import { workWithPhysicalLocationOnly } from './helpers/contexts';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
 

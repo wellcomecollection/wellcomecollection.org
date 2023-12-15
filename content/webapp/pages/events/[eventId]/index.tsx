@@ -1,6 +1,8 @@
+import { GetServerSideProps, NextPage } from 'next';
 import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
 import * as prismic from '@prismicio/client';
+import styled from 'styled-components';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
@@ -11,7 +13,7 @@ import InfoBox from '@weco/content/components/InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
 import { camelize } from '@weco/common/utils/grammar';
 import { formatDayDate, formatTime } from '@weco/common/utils/format-date';
-import EventDateRange from '@weco/content/components/EventDateRange/EventDateRange';
+import EventDateRange from '@weco/content/components/EventDateRange';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia } from '@weco/content/utils/page-header';
@@ -20,8 +22,6 @@ import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events'
 import EventDatesLink from '@weco/content/components/EventDatesLink/EventDatesLink';
 import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/content/model/label-field';
-import { GetServerSideProps, NextPage } from 'next';
-import styled from 'styled-components';
 import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import {
   audioDescribed,
@@ -74,6 +74,7 @@ import {
   ResourceLinkIconWrapper,
 } from '@weco/content/components/styled/AccessResources';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
 
 const DateWrapper = styled.div.attrs({
   className: 'body-text',
@@ -233,7 +234,7 @@ const EventPage: NextPage<EventProps> = ({
             style={{ display: 'flex', flexWrap: 'wrap' }}
           >
             <div style={{ display: 'inline' }}>
-              <EventDateRange event={event} />
+              <EventDateRange eventTimes={event.times} />
             </div>
             {/*
               This 'All dates' link takes the user to the complete list of dates
@@ -369,31 +370,29 @@ const EventPage: NextPage<EventProps> = ({
         {accessResourceLinks.length > 0 && (
           <>
             <h2 className={font('wb', 3)}>Event access content</h2>
-            {accessResourceLinks.length > 0 && (
-              <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
-                <ResourcesList>
-                  {accessResourceLinks.map((link, i) => {
-                    return (
-                      <ResourcesItem key={link.url}>
-                        <ResourceLink
-                          key={i}
-                          href={link.url}
-                          $borderColor="accent.turquoise"
-                        >
-                          {link.type === 'visual-story' && (
-                            <h3 className={font('intb', 4)}>Visual story</h3>
-                          )}
-                          <span className={font('intr', 6)}>{link.text}</span>
-                          <ResourceLinkIconWrapper>
-                            <Icon icon={arrow} />
-                          </ResourceLinkIconWrapper>
-                        </ResourceLink>
-                      </ResourcesItem>
-                    );
-                  })}
-                </ResourcesList>
-              </Space>
-            )}
+            <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
+              <ResourcesList>
+                {accessResourceLinks.map((link, i) => {
+                  return (
+                    <ResourcesItem key={link.url}>
+                      <ResourceLink
+                        key={i}
+                        href={link.url}
+                        $borderColor="accent.turquoise"
+                      >
+                        {link.type === 'visual-story' && (
+                          <h3 className={font('intb', 4)}>Visual story</h3>
+                        )}
+                        <span className={font('intr', 6)}>{link.text}</span>
+                        <ResourceLinkIconWrapper>
+                          <Icon icon={arrow} />
+                        </ResourceLinkIconWrapper>
+                      </ResourceLink>
+                    </ResourcesItem>
+                  );
+                })}
+              </ResourcesList>
+            </Space>
           </>
         )}
 
@@ -478,55 +477,57 @@ export const getServerSideProps: GetServerSideProps<
   EventProps | AppErrorProps
 > = async context => {
   setCacheControl(context.res, cacheTTL.events);
-  const serverData = await getServerData(context);
   const { eventId } = context.query;
+
+  if (!looksLikePrismicId(eventId)) {
+    return { notFound: true };
+  }
 
   const client = createClient(context);
   const { event, visualStories } = await fetchEvent(client, eventId as string);
 
-  if (!event) {
+  if (isNotUndefined(event)) {
+    const serverData = await getServerData(context);
+    const scheduleIds = getScheduleIds(event);
+
+    const scheduleQuery =
+      scheduleIds.length > 0
+        ? await fetchEventScheduleItems(client, scheduleIds)
+        : undefined;
+
+    const eventDoc = transformEvent(event, scheduleQuery);
+
+    const jsonLd = eventLd(eventDoc);
+
+    const visualStoriesLinks = visualStories.results.map(visualStory => {
+      const url = linkResolver(visualStory);
+      return {
+        text: visualStoryLinkText,
+        url,
+        type: 'visual-story',
+      };
+    });
+
     return {
-      notFound: true,
+      props: serialiseProps({
+        event: eventDoc,
+        accessResourceLinks: visualStoriesLinks,
+        jsonLd,
+        serverData,
+        gaDimensions: {
+          partOf: eventDoc.seasons
+            .map(season => season.id)
+            .concat(eventDoc.series.map(series => series.id)),
+        },
+        pageview: {
+          name: 'event',
+          properties: {},
+        },
+      }),
     };
   }
 
-  const scheduleIds = getScheduleIds(event);
-
-  const scheduleQuery =
-    scheduleIds.length > 0
-      ? await fetchEventScheduleItems(client, scheduleIds)
-      : undefined;
-
-  const eventDoc = transformEvent(event, scheduleQuery);
-
-  const jsonLd = eventLd(eventDoc);
-
-  const visualStoriesLinks = visualStories.results.map(visualStory => {
-    const url = linkResolver(visualStory);
-    return {
-      text: visualStoryLinkText,
-      url,
-      type: 'visual-story',
-    };
-  });
-
-  return {
-    props: serialiseProps({
-      event: eventDoc,
-      accessResourceLinks: visualStoriesLinks,
-      jsonLd,
-      serverData,
-      gaDimensions: {
-        partOf: eventDoc.seasons
-          .map(season => season.id)
-          .concat(eventDoc.series.map(series => series.id)),
-      },
-      pageview: {
-        name: 'event',
-        properties: {},
-      },
-    }),
-  };
+  return { notFound: true };
 };
 
 export default EventPage;

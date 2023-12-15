@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import { prismicPageIds } from './hardcoded-ids';
-import Layout8 from '../views/components/Layout8/Layout8';
 import Space from '../views/components/styled/Space';
+import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 
 export const errorMessages = {
   404: 'Not the Wellcome you were expecting?',
@@ -9,7 +9,7 @@ export const errorMessages = {
 };
 
 export const DefaultErrorText: FunctionComponent = () => (
-  <Layout8>
+  <Layout gridSizes={gridSize8()}>
     <Space
       className="body-text"
       $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
@@ -31,11 +31,11 @@ export const DefaultErrorText: FunctionComponent = () => (
         <li>Try again a bit later</li>
       </ul>
     </Space>
-  </Layout8>
+  </Layout>
 );
 
 export const NotFoundErrorText: FunctionComponent = () => (
-  <Layout8>
+  <Layout gridSizes={gridSize8()}>
     <Space
       className="body-text"
       $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
@@ -76,11 +76,11 @@ export const NotFoundErrorText: FunctionComponent = () => (
         .
       </p>
     </Space>
-  </Layout8>
+  </Layout>
 );
 
 export const GoneErrorText: FunctionComponent = () => (
-  <Layout8>
+  <Layout gridSizes={gridSize8()}>
     <Space
       className="body-text"
       $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
@@ -95,5 +95,5 @@ export const GoneErrorText: FunctionComponent = () => (
         .
       </p>
     </Space>
-  </Layout8>
+  </Layout>
 );

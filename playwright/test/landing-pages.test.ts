@@ -9,7 +9,7 @@ import {
   worksUrl,
   imagesUrl,
 } from './helpers/urls';
-import { gotoWithoutCache } from './contexts';
+import { gotoWithoutCache } from './helpers/contexts';
 
 test.describe('With JavaScript disabled', () => {
   test.use({ javaScriptEnabled: false }); // Turn off JS for tests in this block

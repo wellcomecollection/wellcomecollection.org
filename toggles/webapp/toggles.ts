@@ -42,7 +42,7 @@ const toggles = {
       id: 'stagingApi',
       title: 'Staging API',
       initialValue: false,
-      description: 'Use the staging catalogue API',
+      description: 'Use the staging Wellcome APIs',
       type: 'permanent',
     },
     {
@@ -61,11 +61,11 @@ const toggles = {
       type: 'permanent',
     },
     {
-      id: 'worksTabbedNav',
-      title: 'Works page: Tabbed navigation',
+      id: 'eventsSearch',
+      title: 'Add Events to Search pages',
       initialValue: false,
       description:
-        'Adds tabbed navigation to the works page, for switching between work, item and related content',
+        'Adds an Events section to the Search hub and a new Events tab for more specific searches',
       type: 'experimental',
     },
   ] as const,

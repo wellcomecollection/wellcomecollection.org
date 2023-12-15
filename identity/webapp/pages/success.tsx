@@ -5,8 +5,10 @@ import {
   Wrapper,
 } from '@weco/identity/src/frontend/components/Layout.style';
 import { usePageTitle } from '@weco/identity/src/frontend/hooks/usePageTitle';
-import Layout8 from '@weco/common/views/components/Layout8/Layout8';
-import Layout10 from '@weco/common/views/components/Layout10/Layout10';
+import Layout, {
+  gridSize10,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
@@ -39,19 +41,19 @@ const SuccessPage: NextPage<Props> = ({ email }) => {
 
   return (
     <PageWrapper title="Registration">
-      <Layout10>
+      <Layout gridSizes={gridSize10()}>
         <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
-              <Layout8>
+              <Layout gridSizes={gridSize8()}>
                 <Space $v={{ size: 'xl', properties: ['padding-top'] }}>
                   <ApplicationReceived email={email} />
                 </Space>
-              </Layout8>
+              </Layout>
             </Wrapper>
           </Container>
         </Space>
-      </Layout10>
+      </Layout>
     </PageWrapper>
   );
 };

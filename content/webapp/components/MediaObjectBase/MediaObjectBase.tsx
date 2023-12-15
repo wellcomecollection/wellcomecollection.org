@@ -5,7 +5,7 @@ import {
   ReactNode,
 } from 'react';
 import { grid, font, classNames } from '@weco/common/utils/classnames';
-import EventDateRange from '../EventDateRange/EventDateRange';
+import EventDateRange from '../EventDateRange';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
@@ -15,7 +15,7 @@ import { ColorSelection } from '../../types/color-selections';
 import Space from '@weco/common/views/components/styled/Space';
 import { Label } from '@weco/common/model/labels';
 import styled from 'styled-components';
-import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';
+import { gridSize12 } from '@weco/common/views/components/Layout';
 
 export type Props = {
   url?: string;
@@ -58,7 +58,7 @@ export type HasImageProps = {
 const BaseTextWrapper = styled.div.attrs<HasImageProps>(props => ({
   className: props.$hasImage
     ? grid({ s: 9, m: 9, l: 9, xl: 9 })
-    : grid(gridSize12),
+    : grid(gridSize12()),
 }))<HasImageProps>``;
 
 type LinkOrDivSpaceAttrs = {

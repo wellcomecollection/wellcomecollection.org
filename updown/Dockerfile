@@ -1,9 +1,10 @@
 FROM public.ecr.aws/docker/library/node:16-slim
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-ADD ./ /usr/src/app
+ADD package.json yarn.lock ./
+RUN yarn install --frozen-lockfile && yarn cache clean
 
-RUN yarn && yarn cache clean
+ADD . ./
 
 CMD ["true"]

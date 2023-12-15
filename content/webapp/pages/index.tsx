@@ -9,7 +9,7 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { ArticleBasic } from '@weco/content/types/articles';
 import Space from '@weco/common/views/components/styled/Space';
-import Layout10 from '@weco/common/views/components/Layout10/Layout10';
+import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
 import SimpleCardGrid from '@weco/content/components/SimpleCardGrid/SimpleCardGrid';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import {
@@ -196,7 +196,7 @@ const Homepage: FunctionComponent<Props> = ({
         image={pageImage}
         apiToolbarLinks={[createPrismicLink(homepageId)]}
       >
-        <Layout10 isCentered={false}>
+        <Layout gridSizes={gridSize10(false)}>
           <SpacingSection>
             <Space
               $v={{ size: 'l', properties: ['margin-top'] }}
@@ -212,7 +212,7 @@ const Homepage: FunctionComponent<Props> = ({
               </CreamBox>
             )}
           </SpacingSection>
-        </Layout10>
+        </Layout>
         {headerList && (
           <SpacingSection>
             {headerList.value.title && (

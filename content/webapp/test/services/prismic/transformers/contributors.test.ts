@@ -19,6 +19,8 @@ describe('transformContributorAgent', () => {
           alt: null,
           copyright: null,
           url: 'https://images.prismic.io/wellcomecollection/941b71506cf51a7ee74dc46b8cd760e9de3d7ee7_bf2018-logo-web.jpg?auto=compress,format',
+          id: '',
+          edit: { x: 0, y: 0, zoom: 0, background: '' },
         },
         description: [],
         sameAs: [],

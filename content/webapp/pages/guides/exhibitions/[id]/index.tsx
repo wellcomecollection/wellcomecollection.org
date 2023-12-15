@@ -22,7 +22,7 @@ import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/j
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
-import Layout10 from '@weco/common/views/components/Layout10/Layout10';
+import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import { AppErrorProps } from '@weco/common/services/app';
@@ -31,6 +31,7 @@ import OtherExhibitionGuides from '@weco/content/components/OtherExhibitionGuide
 import ExhibitionGuideLinks from '@weco/content/components/ExhibitionGuideLinks/ExhibitionGuideLinks';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 type Props = {
   exhibitionGuide: ExhibitionGuide;
@@ -42,7 +43,6 @@ export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
   setCacheControl(context.res);
-  const serverData = await getServerData(context);
   const { id } = context.query;
 
   if (!looksLikePrismicId(id)) {
@@ -60,41 +60,43 @@ export const getServerSideProps: GetServerSideProps<
     exhibitionGuidesQueryPromise,
   ]);
 
-  if (!exhibitionGuideQuery) {
-    return { notFound: true };
+  if (isNotUndefined(exhibitionGuideQuery)) {
+    const serverData = await getServerData(context);
+
+    const exhibitionGuides = transformQuery(
+      exhibitionGuidesQuery,
+      transformExhibitionGuide
+    );
+
+    const basicExhibitionGuides = {
+      ...exhibitionGuides,
+      results: exhibitionGuides.results.map(
+        transformExhibitionGuideToExhibitionGuideBasic
+      ),
+    };
+
+    // We don't need to send data about individual components to the page, so
+    // remove it here.
+    const exhibitionGuide = {
+      ...transformExhibitionGuide(exhibitionGuideQuery),
+      components: [],
+    };
+
+    const jsonLd = exhibitionGuideLd(exhibitionGuide);
+
+    return {
+      props: serialiseProps({
+        exhibitionGuide,
+        jsonLd,
+        serverData,
+        otherExhibitionGuides: basicExhibitionGuides.results.filter(
+          result => result.id !== id
+        ),
+      }),
+    };
   }
 
-  const exhibitionGuides = transformQuery(
-    exhibitionGuidesQuery,
-    transformExhibitionGuide
-  );
-
-  const basicExhibitionGuides = {
-    ...exhibitionGuides,
-    results: exhibitionGuides.results.map(
-      transformExhibitionGuideToExhibitionGuideBasic
-    ),
-  };
-
-  // We don't need to send data about individual components to the page, so
-  // remove it here.
-  const exhibitionGuide = {
-    ...transformExhibitionGuide(exhibitionGuideQuery),
-    components: [],
-  };
-
-  const jsonLd = exhibitionGuideLd(exhibitionGuide);
-
-  return {
-    props: serialiseProps({
-      exhibitionGuide,
-      jsonLd,
-      serverData,
-      otherExhibitionGuides: basicExhibitionGuides.results.filter(
-        result => result.id !== id
-      ),
-    }),
-  };
+  return { notFound: true };
 };
 
 const ExhibitionGuidePage: FunctionComponent<Props> = ({
@@ -120,7 +122,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
       hideNewsletterPromo={true}
       hideFooter={true}
     >
-      <Layout10 isCentered={false}>
+      <Layout gridSizes={gridSize10(false)}>
         <SpacingSection>
           <Space
             $v={{ size: 'l', properties: ['margin-top'] }}
@@ -139,7 +141,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
             />
           </Space>
         </SpacingSection>
-      </Layout10>
+      </Layout>
       {otherExhibitionGuides.length > 0 && (
         <OtherExhibitionGuides otherExhibitionGuides={otherExhibitionGuides} />
       )}
