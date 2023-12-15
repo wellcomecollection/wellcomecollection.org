@@ -54,9 +54,9 @@ You're all set up :)
 
 To run a project, from the root directory:
 
-# yarn {appName = content|catalogue|identity}
+# yarn {appName = content|identity}
 # e.g.
-> yarn catalogue
+> yarn content
 
 # you may also run all of them concurrently.
 # this may add a prefix to the URL such as `/catalogue/`

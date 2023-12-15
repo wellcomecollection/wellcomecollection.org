@@ -52,9 +52,9 @@ We then use [Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) to m
 To run a project, from the root directory:
 ```bash
 yarn install
-# yarn {appName = content|catalogue|identity}
+# yarn {appName = content|identity}
 # e.g.
-yarn catalogue
+yarn content
 # you may also run all of them concurrently.
 # this may add a prefix to the URL such as `/catalogue/`
 # and is only for local cross projects development
