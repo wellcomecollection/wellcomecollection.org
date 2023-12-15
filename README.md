@@ -43,6 +43,8 @@ To get a login, ask a friendly experience team member near you.
 
 ## Local development
 
+You can run `./scripts/setup.sh` from the root of this project to install what you need to get started.
+
 We use [Yarn](https://yarnpkg.com/lang/en/) to manage our external dependencies.
 
 We then use [Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) to manage our [local, common dependencies](https://github.com/wellcomecollection/wellcomecollection.org/tree/main/common).
