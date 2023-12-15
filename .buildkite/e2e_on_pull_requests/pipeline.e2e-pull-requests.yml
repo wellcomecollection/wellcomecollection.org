@@ -10,7 +10,6 @@
   # Note: we can't run until all three "build image" tasks
   # are done, because we don't have access to the images until this point.
   depends_on:
-    - 'build_catalogue'
     - 'build_content'
     - 'build_identity'
 
