@@ -25,7 +25,10 @@ ECR_REPO_PREFIX="130871440101.dkr.ecr.eu-west-1.amazonaws.com"
 LAST_PLAYWRIGHT_COMMIT=$(git log -n 1 --pretty=format:%H -- "$ROOT/playwright")
 
 # Log in to ECR
-eval $(aws ecr get-login --no-include-email)
+aws ecr get-login-password \
+| docker login \
+    --username AWS \
+    --password-stdin 760097843905.dkr.ecr.eu-west-1.amazonaws.com
 
 # This looks in the "weco/playwright" repo for an image tagged "latest",
 # and then it looks for an image tag "ref.abc…" and extracts the commit.
