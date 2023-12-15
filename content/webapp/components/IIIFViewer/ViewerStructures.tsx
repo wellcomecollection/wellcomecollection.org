@@ -61,6 +61,9 @@ type Props = {
   work: WorkBasic & Pick<Work, 'description'>;
 };
 
+// If a range doesn't have any nested ranges then we display the range label
+// with a link to the first canvas in the range's items.
+// If the range does have nested ranges then we just display it's label
 const Structures: FunctionComponent<Props> = ({
   ranges,
   canvases,
