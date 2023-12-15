@@ -52,11 +52,11 @@ const ViewerStructures: FunctionComponent = () => {
   return groupedStructures.length > 0 ? (
     <List>
       {groupedStructures.map((structure, i) => {
-        const maybeFirstCanvasInRange = structure?.items?.[0];
-        const firstCanvasInRange =
-          typeof maybeFirstCanvasInRange !== 'string'
-            ? maybeFirstCanvasInRange
-            : undefined;
+        const isCanvas = (rangeItem: RangeItems): rangeItem is Canvas => {
+          return typeof rangeItem === 'object' && rangeItem.type === 'Canvas';
+        };
+        const canvases = range?.items?.filter(isCanvas) || [];
+        const firstCanvasInRange = canvases[0];
         const canvasIndex =
           canvases?.findIndex(canvas => canvas.id === firstCanvasInRange?.id) ||
           0;
