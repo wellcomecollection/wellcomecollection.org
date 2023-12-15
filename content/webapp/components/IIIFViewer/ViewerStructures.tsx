@@ -76,9 +76,9 @@ const Structures: FunctionComponent<Props> = ({
         const isCanvas = (rangeItem: RangeItems): rangeItem is Canvas => {
           return typeof rangeItem === 'object' && rangeItem.type === 'Canvas';
         };
-        const canvases =
+        const rangeCanvases =
           range?.items?.filter(isCanvas).map(transformCanvas) || [];
-        const firstCanvasInRange = canvases[0];
+        const firstCanvasInRange = rangeCanvases[0];
         const canvasIndex =
           canvases?.findIndex(canvas => canvas.id === firstCanvasInRange?.id) ||
           0;
