@@ -474,7 +474,7 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
 // This means we would display repetitive links to the essentially the same thing.
 // This function groups ranges that have the same label and consecutive pages into a single structure,
 // So we can display one link to the first item in the range.
-export function groupStructures(
+export function groupRanges(
   items: TransformedCanvas[],
   ranges: Range[]
 ): Range[] {
