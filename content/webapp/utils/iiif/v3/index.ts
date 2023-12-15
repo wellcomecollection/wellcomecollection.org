@@ -449,7 +449,7 @@ export function checkIsTotallyRestricted(
   return Boolean(restrictedAuthService && !isAnyImageOpen);
 }
 
-function transformCanvas(canvas: Canvas): TransformedCanvas {
+export function transformCanvas(canvas: Canvas): TransformedCanvas {
   const imageService = getImageService(canvas);
   const imageServiceId = getImageServiceId(imageService);
   const hasRestrictedImage = isImageRestricted(canvas);
