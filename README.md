@@ -35,7 +35,7 @@ To get a login, ask a friendly experience team member near you.
 ### [Catalogue](https://wellcomecollection.org/works)
 
 - Tools to allow people to browse and dig deeper into our catalogue.
-  [`code`](./catalogue).
+  [`code`](./content).
 
 ### [Cardigan](https://cardigan.wellcomecollection.org)
 
@@ -61,6 +61,7 @@ yarn content
 yarn run-concurrently
 ```
 ### Port
+
 By default webapps will run on port `3000`.
 
 You can specify a port by setting the `PORT` in your `.env.development`.
