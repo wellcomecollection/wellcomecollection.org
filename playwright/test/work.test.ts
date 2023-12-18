@@ -25,7 +25,9 @@ const getWhereToFindItAndEncoreLink = async (page: Page) => {
 };
 
 const getAvailableOnline = async (page: Page) => {
-  const availableOnline = await page.$('h2:has-text("Available online")');
+  const availableOnline = await page.getByRole('heading', {
+    name: 'Available online',
+  });
   return availableOnline;
 };
 
@@ -52,7 +54,8 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
   }) => {
     await workWithPhysicalLocationOnly(context, page);
     const availableOnline = await getAvailableOnline(page);
-    expect(availableOnline).toBeNull();
+
+    await expect(availableOnline).toHaveCount(0);
   });
 
   test(`works with a digital item display an 'Available online' section`, async ({
@@ -61,7 +64,7 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
   }) => {
     await workWithDigitalLocationAndLocationNote(context, page);
     const availableOnline = await getAvailableOnline(page);
-    expect(availableOnline).toBeTruthy();
+    await expect(availableOnline).toBeVisible();
   });
 
   test(`works with only a digital location don't display a 'Where to find it' section`, async ({
