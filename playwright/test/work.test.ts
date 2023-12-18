@@ -7,7 +7,11 @@ import {
 import { Page } from 'playwright';
 
 const getWhereToFindItAndEncoreLink = async (page: Page) => {
-  const whereToFindIt = await page.$('h2:has-text("Where to find it")');
+  // const whereToFindIt = await page.$('h2:has-text("Where to find it")');
+  const whereToFindIt = await page.getByRole('heading', {
+    name: 'Where to find it',
+  });
+
   const encoreLink = await page.$('a:has-text("Request item")');
   const unavailableBanner = await page.getByTestId('requesting-disabled');
 
@@ -32,7 +36,8 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
     const { whereToFindIt, encoreLink, unavailableBanner } =
       await getWhereToFindItAndEncoreLink(page);
 
-    expect(whereToFindIt).toBeTruthy();
+    await expect(whereToFindIt).toBeVisible();
+
     expect(encoreLink || unavailableBanner).toBeTruthy();
   });
 
@@ -60,7 +65,7 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
   }) => {
     await workWithDigitalLocationOnly(context, page);
     const { whereToFindIt } = await getWhereToFindItAndEncoreLink(page);
-    expect(whereToFindIt).toBeNull();
+    await expect(whereToFindIt).toHaveCount(0);
   });
 
   test(`works that have a note with a noteType.id of 'location-of-original', display a 'Where to find it' section`, async ({
@@ -69,6 +74,6 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
   }) => {
     await workWithDigitalLocationAndLocationNote(context, page);
     const { whereToFindIt } = await getWhereToFindItAndEncoreLink(page);
-    expect(whereToFindIt).toBeTruthy();
+    await expect(whereToFindIt).toBeVisible();
   });
 });
