@@ -71,8 +71,8 @@ const IIIFViewerImage = (
           setTryLoadingSmallerImg(false); // prevent looping if image fails to load again
           const isPortrait = Boolean(height && height > width);
           const newSrc = isPortrait
-            ? convertIiifImageUri(src, 1000, true)
-            : convertIiifImageUri(src, 1000);
+            ? convertIiifImageUri(currentTarget.src, 1000, true)
+            : convertIiifImageUri(currentTarget.src, 1000);
           currentTarget.src = newSrc;
           currentTarget.removeAttribute('srcset');
           currentTarget.removeAttribute('sizes');
