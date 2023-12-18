@@ -110,7 +110,7 @@ export function convertIiifImageUri(
 
     const size = sizeByHeight ? `,${requiredSize}` : `${requiredSize},`;
     const params = {
-      size: requiredSize === 'full' ? 'full' : `${size},`,
+      size: requiredSize === 'full' ? 'full' : `${size}`,
       format: determineFinalFormat(originalUri),
     };
     return iiifImageTemplate(`${iiifImageUri}${imageIdentifier}`)(params);
