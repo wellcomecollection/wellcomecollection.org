@@ -11,7 +11,10 @@ const getWhereToFindItAndEncoreLink = async (page: Page) => {
     name: 'Where to find it',
   });
 
-  const encoreLink = await page.$('a:has-text("Request item")');
+  const encoreLink = await page.getByRole('link', {
+    name: 'Request item',
+  });
+
   const unavailableBanner = await page.getByTestId('requesting-disabled');
 
   return {
@@ -37,7 +40,10 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
 
     await expect(whereToFindIt).toBeVisible();
 
-    expect(encoreLink || unavailableBanner).toBeTruthy();
+    const encoreLinkIsVisible = await encoreLink.isVisible();
+    const unavailableBannerIsVisible = await unavailableBanner.isVisible();
+
+    expect(encoreLinkIsVisible || unavailableBannerIsVisible).toBe(true);
   });
 
   test(`works with only a physical location don't display an 'Available online' section`, async ({
