@@ -271,7 +271,10 @@ const Modal: FunctionComponent<Props> = ({
                 <Icon icon={cross} />
               </CloseButton>
             )}
-            {children}
+            {/* The Modal element needs to be pre-rendered even if inactive for its CSSTransition effect
+            But there's a bit of rerending that's possible within its children that could affect the pages
+            even when the modal is not active, so hiding if not. */}
+            {isActive && children}
           </ModalWindow>
         </CSSTransition>
       </div>

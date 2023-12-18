@@ -229,45 +229,43 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
         </button>
       </noscript>
 
-      <Modal
-        id={id}
-        isActive={isActive}
-        setIsActive={setIsActive}
-        openButtonRef={openMoreFiltersButtonRef}
-        modalStyle="filters"
-      >
-        <FiltersHeader>
-          <h3 className={font('wb', 4)}>All filters</h3>
-        </FiltersHeader>
+      {isEnhanced && (
+        <Modal
+          id={id}
+          isActive={isActive}
+          setIsActive={setIsActive}
+          openButtonRef={openMoreFiltersButtonRef}
+          modalStyle="filters"
+        >
+          <FiltersHeader>
+            <h3 className={font('wb', 4)}>All filters</h3>
+          </FiltersHeader>
 
-        <ModalInner>
-          {/* The Modal element needs to be pre-rendered even if inactive for its CSSTransition effect
-          But there's a bit of rerending that's possible within MoreFilters that isn't necessary unless the 
-          modal isActive, so hiding if not. */}
-          {isEnhanced && isActive && (
+          <ModalInner>
             <MoreFilters
               changeHandler={changeHandler}
               filters={filters}
               form={form}
               hasNoResults={hasNoResults}
             />
-          )}
-        </ModalInner>
-        <FiltersFooter>
-          <NextLink passHref {...resetFilters}>
-            Reset filters
-          </NextLink>
+          </ModalInner>
 
-          <ButtonSolid
-            ref={undefined}
-            type={ButtonTypes.button}
-            clickHandler={() => {
-              setIsActive(false);
-            }}
-            text="Show results"
-          />
-        </FiltersFooter>
-      </Modal>
+          <FiltersFooter>
+            <NextLink passHref {...resetFilters}>
+              Reset filters
+            </NextLink>
+
+            <ButtonSolid
+              ref={undefined}
+              type={ButtonTypes.button}
+              clickHandler={() => {
+                setIsActive(false);
+              }}
+              text="Show results"
+            />
+          </FiltersFooter>
+        </Modal>
+      )}
     </>
   );
 };
