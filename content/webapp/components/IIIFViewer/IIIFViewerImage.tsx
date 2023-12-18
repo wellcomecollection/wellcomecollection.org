@@ -1,5 +1,6 @@
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 import styled from 'styled-components';
+import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 
 const Image = styled.img<{ $highlightImage?: boolean; $zoomOnClick?: boolean }>`
   ${props =>
@@ -43,6 +44,7 @@ const IIIFViewerImage = (
   }: Props,
   ref
 ) => {
+  const [tryLoadingSmallerImg, setTryLoadingSmallerImg] = useState(true);
   return (
     <Image
       ref={ref}
@@ -60,8 +62,24 @@ const IIIFViewerImage = (
           clickHandler && clickHandler();
         }
       }}
-      onError={() => {
-        errorHandler && errorHandler();
+      onError={({ currentTarget }) => {
+        // Hack/workaround
+        // If the image fails to load it may be because of a size limit,
+        // see: https://wellcome.slack.com/archives/CBT40CMKQ/p1691050149722109,
+        // so first off we try a smaller image
+        if (tryLoadingSmallerImg) {
+          setTryLoadingSmallerImg(false); // prevent looping if image fails to load again
+          const isPortrait = Boolean(height > width);
+          const newSrc = isPortrait
+            ? convertIiifImageUri(src, 1000, true)
+            : convertIiifImageUri(src, 1000);
+          currentTarget.src = newSrc;
+          currentTarget.srcset = '';
+          currentTarget.sizes = '';
+        } else {
+          // If the image still fails to load, we check to see if it's because the authorisation cookie is missing/no longer valid
+          errorHandler && errorHandler();
+        }
       }}
       src={src}
       srcSet={srcSet}
