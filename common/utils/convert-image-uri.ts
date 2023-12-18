@@ -100,15 +100,17 @@ function prismicTemplateParts( // gets the params from the original Prismic imag
 
 export function convertIiifImageUri(
   originalUri: string,
-  requiredSize: number | 'full'
+  requiredSize: number | 'full',
+  sizeByHeight?: boolean
 ): string {
   if (determineIfGif(originalUri) || !originalUri.startsWith(iiifImageUri)) {
     return originalUri;
   } else {
     const imageIdentifier = originalUri.split(iiifImageUri)[1].split('/', 2)[0];
 
+    const size = sizeByHeight ? `,${requiredSize}` : `${requiredSize},`;
     const params = {
-      size: requiredSize === 'full' ? 'full' : `${requiredSize},`,
+      size: requiredSize === 'full' ? 'full' : `${size},`,
       format: determineFinalFormat(originalUri),
     };
     return iiifImageTemplate(`${iiifImageUri}${imageIdentifier}`)(params);
