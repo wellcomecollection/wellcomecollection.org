@@ -50,18 +50,18 @@ type Props = {
 };
 
 type WrapperProps = {
-  hasNoResults: boolean;
+  $hasNoResults: boolean;
 };
 const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
   $v: {
     size: 'xl',
-    properties: [props.hasNoResults ? '' : 'margin-bottom'].filter(
+    properties: [props.$hasNoResults ? '' : 'margin-bottom'].filter(
       Boolean
     ) as VerticalSpaceProperty[],
   },
 }))<WrapperProps>`
   ${props =>
-    props.hasNoResults
+    props.$hasNoResults
       ? ``
       : `
         background-color: ${props.theme.color('black')};
@@ -94,27 +94,12 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
   const hasActiveFilters = hasFilters({
     filters: [
       ...filters.map(f => f.id),
-      // as in /works.tsx, source.production.dates is one dropdown but two properties, so we're specifying them in their individual format
+      // as in /works.tsx, production.dates is one dropdown but two properties, so we're specifying them in their individual format
       'source.production.dates.from',
       'source.production.dates.to',
     ],
     queryParams: query,
   });
-
-  const sortOptions = [
-    {
-      value: '',
-      text: 'Relevance',
-    },
-    {
-      value: 'source.production.dates.asc',
-      text: 'Oldest to newest',
-    },
-    {
-      value: 'source.production.dates.desc',
-      text: 'Newest to oldest',
-    },
-  ];
 
   const activeFiltersLabels = getActiveFiltersLabel({ filters });
 
@@ -173,7 +158,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
         </Container>
       )}
 
-      <Wrapper hasNoResults={hasNoResults}>
+      <Wrapper $hasNoResults={hasNoResults}>
         <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
           <Container>
             {hasNoResults ? (
@@ -197,7 +182,20 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                   <SortPaginationWrapper>
                     <Sort
                       formId={SEARCH_PAGES_FORM_ID}
-                      options={sortOptions}
+                      options={[
+                        {
+                          value: '',
+                          text: 'Relevance',
+                        },
+                        {
+                          value: 'source.production.dates.asc',
+                          text: 'Oldest to newest',
+                        },
+                        {
+                          value: 'source.production.dates.desc',
+                          text: 'Newest to oldest',
+                        },
+                      ]}
                       jsLessOptions={{
                         sort: [
                           {
@@ -312,6 +310,7 @@ export const getServerSideProps: GetServerSideProps<
     ...params,
     aggregations,
   };
+
   const images = await getImages({
     params: apiProps,
     toggles: serverData.toggles,
