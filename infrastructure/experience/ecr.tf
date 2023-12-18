@@ -37,19 +37,6 @@ resource "aws_ecr_lifecycle_policy" "content_webapp" {
   policy     = local.ecr_policy_only_keep_the_last_100_images
 }
 
-resource "aws_ecr_repository" "catalogue_webapp" {
-  name = "uk.ac.wellcome/catalogue_webapp"
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
-resource "aws_ecr_lifecycle_policy" "catalogue_webapp" {
-  repository = aws_ecr_repository.catalogue_webapp.name
-  policy     = local.ecr_policy_only_keep_the_last_100_images
-}
-
 resource "aws_ecr_repository" "identity_webapp" {
   name = "uk.ac.wellcome/identity_webapp"
 

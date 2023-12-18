@@ -1,4 +1,4 @@
-import TextAndImageOrIcons from '@weco/content/components/TextAndImageOrIcons/TextAndImageOrIcons';
+import TextAndImageOrIcons from '@weco/content/components/TextAndImageOrIcons';
 import Readme from '@weco/content/components/TextAndImageOrIcons/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { mockImage } from '@weco/common/test/fixtures/components/compact-card';

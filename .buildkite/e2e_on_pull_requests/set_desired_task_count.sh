@@ -9,7 +9,7 @@ set -o nounset
 
 DESIRED_COUNT="$1"
 
-for service in content-17092020-e2e catalogue-17092020-e2e identity-18012021-e2e
+for service in content-17092020-e2e identity-18012021-e2e
 do
   aws ecs update-service \
     --cluster experience-frontend-e2e \

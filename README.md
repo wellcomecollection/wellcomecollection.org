@@ -35,13 +35,15 @@ To get a login, ask a friendly experience team member near you.
 ### [Catalogue](https://wellcomecollection.org/works)
 
 - Tools to allow people to browse and dig deeper into our catalogue.
-  [`code`](./catalogue).
+  [`code`](./content).
 
 ### [Cardigan](https://cardigan.wellcomecollection.org)
 
 - Wellcome Collection's design system. [`code`](./cardigan).
 
 ## Local development
+
+You can run `./scripts/setup.sh` from the root of this project to install what you need to get started.
 
 We use [Yarn](https://yarnpkg.com/lang/en/) to manage our external dependencies.
 
@@ -50,15 +52,16 @@ We then use [Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) to m
 To run a project, from the root directory:
 ```bash
 yarn install
-# yarn {appName = content|catalogue|identity}
+# yarn {appName = content|identity}
 # e.g.
-yarn catalogue
+yarn content
 # you may also run all of them concurrently.
 # this may add a prefix to the URL such as `/catalogue/`
 # and is only for local cross projects development
 yarn run-concurrently
 ```
 ### Port
+
 By default webapps will run on port `3000`.
 
 You can specify a port by setting the `PORT` in your `.env.development`.
