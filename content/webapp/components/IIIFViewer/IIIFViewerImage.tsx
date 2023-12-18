@@ -69,7 +69,7 @@ const IIIFViewerImage = (
         // so first off we try a smaller image
         if (tryLoadingSmallerImg) {
           setTryLoadingSmallerImg(false); // prevent looping if image fails to load again
-          const isPortrait = Boolean(height > width);
+          const isPortrait = Boolean(height && height > width);
           const newSrc = isPortrait
             ? convertIiifImageUri(src, 1000, true)
             : convertIiifImageUri(src, 1000);
