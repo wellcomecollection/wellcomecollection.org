@@ -74,8 +74,8 @@ const IIIFViewerImage = (
             ? convertIiifImageUri(src, 1000, true)
             : convertIiifImageUri(src, 1000);
           currentTarget.src = newSrc;
-          currentTarget.srcset = '';
-          currentTarget.sizes = '';
+          currentTarget.removeAttribute('srcset');
+          currentTarget.removeAttribute('sizes');
         } else {
           // If the image still fails to load, we check to see if it's because the authorisation cookie is missing/no longer valid
           errorHandler && errorHandler();
