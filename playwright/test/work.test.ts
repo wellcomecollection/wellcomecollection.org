@@ -7,7 +7,6 @@ import {
 import { Page } from 'playwright';
 
 const getWhereToFindItAndEncoreLink = async (page: Page) => {
-  // const whereToFindIt = await page.$('h2:has-text("Where to find it")');
   const whereToFindIt = await page.getByRole('heading', {
     name: 'Where to find it',
   });
