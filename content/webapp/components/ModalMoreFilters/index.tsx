@@ -241,7 +241,10 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
         </FiltersHeader>
 
         <ModalInner>
-          {isEnhanced && (
+          {/* The Modal element needs to be pre-rendered even if inactive for its CSSTransition effect
+          But there's a bit of rerending that's possible within MoreFilters that isn't necessary unless the 
+          modal isActive, so hiding if not. */}
+          {isEnhanced && isActive && (
             <MoreFilters
               changeHandler={changeHandler}
               filters={filters}
