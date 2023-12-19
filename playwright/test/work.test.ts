@@ -11,7 +11,7 @@ const getWhereToFindItAndEncoreLink = async (page: Page) => {
     name: 'Where to find it',
   });
 
-  const encoreLink = await page.getByRole('link', {
+  const loginLink = await page.getByRole('link', {
     name: 'Request item',
   });
 
@@ -19,7 +19,7 @@ const getWhereToFindItAndEncoreLink = async (page: Page) => {
 
   return {
     whereToFindIt,
-    encoreLink,
+    loginLink,
     unavailableBanner,
   };
 };
@@ -37,15 +37,15 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
     context,
   }) => {
     await workWithPhysicalLocationOnly(context, page);
-    const { whereToFindIt, encoreLink, unavailableBanner } =
+    const { whereToFindIt, loginLink, unavailableBanner } =
       await getWhereToFindItAndEncoreLink(page);
 
     await expect(whereToFindIt).toBeVisible();
 
-    const encoreLinkIsVisible = await encoreLink.isVisible();
+    const loginLinkIsVisible = await loginLink.isVisible();
     const unavailableBannerIsVisible = await unavailableBanner.isVisible();
 
-    expect(encoreLinkIsVisible || unavailableBannerIsVisible).toBe(true);
+    expect(loginLinkIsVisible || unavailableBannerIsVisible).toBe(true);
   });
 
   test(`works with only a physical location don't display an 'Available online' section`, async ({
