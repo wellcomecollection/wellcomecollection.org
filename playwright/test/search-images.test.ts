@@ -1,73 +1,55 @@
 import { Page, test } from '@playwright/test';
-import { gotoWithoutCache, isMobile } from './helpers/contexts';
-import { clickActionClickSearchResultItem } from './actions/search';
+import { isMobile, newSearch } from './helpers/contexts';
 
-import { clickActionClickViewExpandedImage } from './actions/images';
-
-import { elementIsVisible, fillInputAction } from './actions/common';
+import { elementIsVisible } from './actions/common';
 import {
   expectItemsIsVisible,
   expectItemIsVisible,
   expectUrlToMatch,
 } from './asserts/common';
-import { modalexpandedImageViewMoreButton } from './selectors/images';
 
 import { regexImageGalleryUrl } from './helpers/regex';
 import safeWaitForNavigation from './helpers/safeWaitForNavigation';
-import { baseUrl } from './helpers/urls';
 import {
   formatFilterMobileButton,
   mobileModal,
   mobileModalCloseButton,
 } from './selectors/search';
+import { searchQuerySubmitAndWait } from './helpers/search';
 
-const imagesUrl = `${baseUrl}/search/images`;
-const searchBarInput = `#search-searchbar`;
 const colourSelectorFilterDropDown = `button[aria-controls="images.color"]`;
-const colourSelector = `button[data-test-id="swatch-red"]`;
 const imageSearchResultsContainer =
   '[data-test-id="image-search-results-container"]';
-const imagesResultsListItem = `${imageSearchResultsContainer} li`;
+const imagesResultsListItem = `[data-test-id="image-search-results-container"] li`;
+const modalexpandedImaged = 'div[id="expanded-image-dialog"]';
+const modalexpandedImageViewMoreButton = 'a[aria-label="View expanded image"]';
 
-const fillActionSearchInput = async (
-  value: string,
+const clickActionClickSearchResultItem = async (
+  nthChild: number,
   page: Page
 ): Promise<void> => {
-  const selector = `${searchBarInput}`;
-  await fillInputAction(selector, value, page);
-};
+  const selector = `[data-test-id="image-search-results-container"] li:nth-child(${nthChild}) a`;
 
-const selectColourInPicker = async (page: Page): Promise<void> => {
-  await Promise.all([safeWaitForNavigation(page), page.click(colourSelector)]);
+  await page.locator(selector).click();
 };
-
-async function gotoSearchResultPage(
-  { url, query }: { url: string; query: string },
-  page: Page
-): Promise<void> {
-  await gotoWithoutCache(url, page);
-  await fillActionSearchInput(query, page);
-  await Promise.all([
-    safeWaitForNavigation(page),
-    page.press(searchBarInput, 'Enter'),
-  ]);
-}
 
 test.describe('Image search', () => {
   test('Search by term, filter by colour, check results, view image details, view expanded image', async ({
     page,
+    context,
   }) => {
     const query = 'art of science';
-    await gotoSearchResultPage({ url: imagesUrl, query }, page);
+    await newSearch(context, page, 'images');
+    await searchQuerySubmitAndWait(query, page);
 
     if (isMobile(page)) {
       await page.click(formatFilterMobileButton);
       await elementIsVisible(mobileModal, page);
-      await selectColourInPicker(page);
+      await page.getByTestId('swatch-red').click();
       await page.click(mobileModalCloseButton);
     } else {
       await page.click(colourSelectorFilterDropDown);
-      await selectColourInPicker(page);
+      await page.getByTestId('swatch-red').click();
       await page.click(colourSelectorFilterDropDown);
     }
     await expectItemIsVisible(imageSearchResultsContainer, page);
@@ -82,14 +64,18 @@ test.describe('Image search', () => {
 
     await Promise.all([
       safeWaitForNavigation(page),
-      clickActionClickViewExpandedImage(page),
+      page.click(`${modalexpandedImaged} ${modalexpandedImageViewMoreButton}`),
     ]);
     expectUrlToMatch(regexImageGalleryUrl, page);
   });
 
   test.describe('the expanded image modal', () => {
-    test('images without contributors still show a title', async ({ page }) => {
-      await gotoSearchResultPage({ url: imagesUrl, query: 'kd9h6gr3' }, page);
+    test('images without contributors still show a title', async ({
+      page,
+      context,
+    }) => {
+      await newSearch(context, page, 'images');
+      await searchQuerySubmitAndWait('kd9h6gr3', page);
 
       await clickActionClickSearchResultItem(1, page);
       await expectItemIsVisible(
@@ -100,9 +86,10 @@ test.describe('Image search', () => {
 
     test('images with contributors show both title and contributor', async ({
       page,
+      context,
     }) => {
-      await gotoSearchResultPage({ url: imagesUrl, query: 'fcmwqd5u' }, page);
-
+      await newSearch(context, page, 'images');
+      await searchQuerySubmitAndWait('fcmwqd5u', page);
       await clickActionClickSearchResultItem(1, page);
       await expectItemIsVisible('h2 >> text="Dr. Darwin."', page);
 
