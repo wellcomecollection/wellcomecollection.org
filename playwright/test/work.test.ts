@@ -42,10 +42,7 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
 
     await expect(whereToFindIt).toBeVisible();
 
-    const loginLinkIsVisible = await loginLink.isVisible();
-    const unavailableBannerIsVisible = await unavailableBanner.isVisible();
-
-    expect(loginLinkIsVisible || unavailableBannerIsVisible).toBe(true);
+    await expect(loginLink.or(unavailableBanner)).toBeVisible();
   });
 
   test(`works with only a physical location don't display an 'Available online' section`, async ({
