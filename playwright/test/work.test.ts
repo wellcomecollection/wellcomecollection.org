@@ -6,7 +6,7 @@ import {
 } from './helpers/contexts';
 import { Page } from 'playwright';
 
-const getWhereToFindItAndEncoreLink = async (page: Page) => {
+const getAllStates = async (page: Page) => {
   const whereToFindIt = page.getByRole('heading', {
     name: 'Where to find it',
   });
@@ -37,8 +37,9 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
     context,
   }) => {
     await workWithPhysicalLocationOnly(context, page);
-    const { whereToFindIt, loginLink, unavailableBanner } =
-      await getWhereToFindItAndEncoreLink(page);
+    const { whereToFindIt, loginLink, unavailableBanner } = await getAllStates(
+      page
+    );
 
     await expect(whereToFindIt).toBeVisible();
 
@@ -69,7 +70,7 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
     context,
   }) => {
     await workWithDigitalLocationOnly(context, page);
-    const { whereToFindIt } = await getWhereToFindItAndEncoreLink(page);
+    const { whereToFindIt } = await getAllStates(page);
     await expect(whereToFindIt).toHaveCount(0);
   });
 
@@ -78,7 +79,7 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
     context,
   }) => {
     await workWithDigitalLocationAndLocationNote(context, page);
-    const { whereToFindIt } = await getWhereToFindItAndEncoreLink(page);
+    const { whereToFindIt } = await getAllStates(page);
     await expect(whereToFindIt).toBeVisible();
   });
 });
