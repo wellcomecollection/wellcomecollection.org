@@ -242,12 +242,17 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
           </FiltersHeader>
 
           <ModalInner>
-            <MoreFilters
-              changeHandler={changeHandler}
-              filters={filters}
-              form={form}
-              hasNoResults={hasNoResults}
-            />
+            {/* The Modal element needs to be pre-rendered even if inactive for its CSSTransition effect
+            But there's a bit of rerending withing MoreFilters that is causing issues with the Desktop behaviour,
+            so hiding if not active. https://github.com/wellcomecollection/wellcomecollection.org/issues/10287#issuecomment-1857622262 */}
+            {isActive && (
+              <MoreFilters
+                changeHandler={changeHandler}
+                filters={filters}
+                form={form}
+                hasNoResults={hasNoResults}
+              />
+            )}
           </ModalInner>
 
           <FiltersFooter>
