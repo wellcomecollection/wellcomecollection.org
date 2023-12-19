@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/node:16-slim
+FROM public.ecr.aws/docker/library/node:18-bookworm-slim
 
 RUN apt-get update && apt-get install -yq --no-install-recommends git zip
 
