@@ -12,7 +12,7 @@ const getWhereToFindItAndEncoreLink = async (page: Page) => {
   });
 
   const loginLink = await page.getByRole('link', {
-    name: 'Request item',
+    name: 'sign in to your library account to request items',
   });
 
   const unavailableBanner = await page.getByTestId('requesting-disabled');
