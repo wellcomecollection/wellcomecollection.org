@@ -7,15 +7,15 @@ import {
 import { Page } from 'playwright';
 
 const getWhereToFindItAndEncoreLink = async (page: Page) => {
-  const whereToFindIt = await page.getByRole('heading', {
+  const whereToFindIt = page.getByRole('heading', {
     name: 'Where to find it',
   });
 
-  const loginLink = await page.getByRole('link', {
+  const loginLink = page.getByRole('link', {
     name: 'sign in to your library account to request items',
   });
 
-  const unavailableBanner = await page.getByTestId('requesting-disabled');
+  const unavailableBanner = page.getByTestId('requesting-disabled');
 
   return {
     whereToFindIt,
