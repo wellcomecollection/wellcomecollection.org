@@ -1,18 +1,17 @@
-export function convertIiifUriToInfoUri(originalUriPath: string): string {
-  // Note: this regex assumes that our image identifiers have a three-letter
-  // file extension.  This won't always be the case, e.g. Miro images have
-  // identifiers like "B0009730".
-  //
-  // Is this going to be an issue?  Would we be better off counting slashes
-  // in the URL?
+// https://iiif.io/api/image/3.0/#21-image-request-uri-syntax
+// Image Request URI Syntax
+// {scheme}://{server}{/prefix}/{identifier}/{region}/{size}/{rotation}/{quality}.{format}
+// Image Information Request URI Syntax
+// {scheme}://{server}{/prefix}/{identifier}/info.json
+export function convertRequestUriToInfoUri(requestUri: string): string {
   const match =
-    originalUriPath &&
-    originalUriPath.match(
-      /^https:\/\/iiif\.wellcomecollection\.org\/image\/(.+?\.[a-z]{3})/
+    requestUri &&
+    requestUri.match(
+      /^https:\/\/iiif\.wellcomecollection\.org\/image\/([^/]+)/
     );
   if (match && match[0]) {
     return `${match[0]}/info.json`;
   } else {
-    return `${originalUriPath}/info.json`;
+    return `${requestUri}/info.json`;
   }
 }
