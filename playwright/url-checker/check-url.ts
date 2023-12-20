@@ -153,9 +153,16 @@ export const urlChecker =
       };
 
       inFlight.add(request);
-      checkRequest().then(() => {
-        inFlight.delete(request);
-      });
+      checkRequest()
+        .then(() => {
+          inFlight.delete(request);
+        })
+        .catch(e => {
+          console.error(`Something went wrong checking ${url}`);
+          console.error(`Request was ${request.method()} ${request.url()}`);
+          console.error(e);
+          throw e;
+        });
     });
 
     try {
