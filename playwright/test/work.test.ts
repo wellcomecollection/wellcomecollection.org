@@ -6,22 +6,28 @@ import {
 } from './helpers/contexts';
 import { Page } from 'playwright';
 
-const getWhereToFindItAndEncoreLink = async (page: Page) => {
-  const whereToFindIt = await page.$('h2:has-text("Where to find it")');
-  const encoreLink = await page.$('a:has-text("Request item")');
-  const unavailableBanner = await page.$(
-    "[data-test-id='requesting-disabled']"
-  );
+const getAllStates = async (page: Page) => {
+  const whereToFindIt = page.getByRole('heading', {
+    name: 'Where to find it',
+  });
+
+  const loginLink = page.getByRole('link', {
+    name: 'sign in to your library account to request items',
+  });
+
+  const unavailableBanner = page.getByTestId('requesting-disabled');
 
   return {
     whereToFindIt,
-    encoreLink,
+    loginLink,
     unavailableBanner,
   };
 };
 
 const getAvailableOnline = async (page: Page) => {
-  const availableOnline = await page.$('h2:has-text("Available online")');
+  const availableOnline = await page.getByRole('heading', {
+    name: 'Available online',
+  });
   return availableOnline;
 };
 
@@ -31,10 +37,13 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
     context,
   }) => {
     await workWithPhysicalLocationOnly(context, page);
-    const { whereToFindIt, encoreLink, unavailableBanner } =
-      await getWhereToFindItAndEncoreLink(page);
-    expect(whereToFindIt).toBeTruthy();
-    expect(encoreLink || unavailableBanner).toBeTruthy();
+    const { whereToFindIt, loginLink, unavailableBanner } = await getAllStates(
+      page
+    );
+
+    await expect(whereToFindIt).toBeVisible();
+
+    await expect(loginLink.or(unavailableBanner)).toBeVisible();
   });
 
   test(`works with only a physical location don't display an 'Available online' section`, async ({
@@ -43,7 +52,8 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
   }) => {
     await workWithPhysicalLocationOnly(context, page);
     const availableOnline = await getAvailableOnline(page);
-    expect(availableOnline).toBeNull();
+
+    await expect(availableOnline).toHaveCount(0);
   });
 
   test(`works with a digital item display an 'Available online' section`, async ({
@@ -52,7 +62,7 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
   }) => {
     await workWithDigitalLocationAndLocationNote(context, page);
     const availableOnline = await getAvailableOnline(page);
-    expect(availableOnline).toBeTruthy();
+    await expect(availableOnline).toBeVisible();
   });
 
   test(`works with only a digital location don't display a 'Where to find it' section`, async ({
@@ -60,8 +70,8 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
     context,
   }) => {
     await workWithDigitalLocationOnly(context, page);
-    const { whereToFindIt } = await getWhereToFindItAndEncoreLink(page);
-    expect(whereToFindIt).toBeNull();
+    const { whereToFindIt } = await getAllStates(page);
+    await expect(whereToFindIt).toHaveCount(0);
   });
 
   test(`works that have a note with a noteType.id of 'location-of-original', display a 'Where to find it' section`, async ({
@@ -69,7 +79,7 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
     context,
   }) => {
     await workWithDigitalLocationAndLocationNote(context, page);
-    const { whereToFindIt } = await getWhereToFindItAndEncoreLink(page);
-    expect(whereToFindIt).toBeTruthy();
+    const { whereToFindIt } = await getAllStates(page);
+    await expect(whereToFindIt).toBeVisible();
   });
 });
