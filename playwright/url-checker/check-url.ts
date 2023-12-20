@@ -1,4 +1,4 @@
-import { Browser, Request, Page } from 'playwright';
+import { Browser, Request, BrowserContext, Page } from 'playwright';
 import {
   ignoreErrorLog,
   ignoreMimeTypeMismatch,
@@ -56,13 +56,14 @@ const cachebustUrl = (url: string): string => {
 };
 
 const safePageCloser =
-  <T>(inFlight: Set<T>, page: Page) =>
+  <T>(inFlight: Set<T>, page: Page, context: BrowserContext) =>
   async (result: Result): Promise<Result> => {
     // Wait for the number of in-flight checks (see above) to drop to zero before
     // closing the page. If there are any, check again in the next iteration of the
     // event loop.
     await waitUntilEmpty(inFlight);
     await page.close({ runBeforeUnload: true });
+    await context.close();
 
     return result;
   };
@@ -76,7 +77,7 @@ export const urlChecker =
 
     // Keep track of requests that are being processed in order to prevent the page being closed prematurely
     const inFlight = new Set<Request>();
-    const safeClose = safePageCloser(inFlight, page);
+    const safeClose = safePageCloser(inFlight, page, context);
 
     page.on('console', message => {
       if (message.type() === 'error' && !ignoreErrorLog(message.text())) {
