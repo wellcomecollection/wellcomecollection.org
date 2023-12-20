@@ -73,7 +73,7 @@ test('(2) | Image Modal | images without contributors still show a title', async
   await searchQuerySubmitAndWait('kd9h6gr3', page);
 
   await clickActionClickSearchResultItem(1, page);
-  await expectItemIsVisible('h2 >> text="Fish. Watercolour drawing."', page);
+  await expect(page.getByText('Fish. Watercolour drawing.')).toBeVisible();
 });
 
 test('(3) | Image Modal | images with contributors show both title and contributor', async ({
