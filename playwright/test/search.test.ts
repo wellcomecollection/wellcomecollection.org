@@ -1,14 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { newSearch } from './helpers/contexts';
-
-import { expectItemIsVisible } from './asserts/common';
 import {
   searchQuerySubmitAndWait,
   selectAndWaitForColourFilter,
   selectAndWaitForFilter,
   testIfFilterIsApplied,
 } from './helpers/search';
-import { searchResultsContainer } from './selectors/search';
 
 test.describe.configure({ mode: 'parallel' });
 
@@ -23,7 +20,9 @@ test('(1) | The users changes tabs; the query (but not the filters) should be ma
   await newSearch(context, page, 'images');
   await searchQuerySubmitAndWait('art of science', page);
   await selectAndWaitForColourFilter(page);
-  await expectItemIsVisible(searchResultsContainer, page);
+  await expect(
+    await page.getByTestId('image-search-results-container')
+  ).toBeVisible();
   await page.getByRole('link', { name: 'Catalogue' }).click();
   await expect(page).toHaveURL(
     `${baseUrl}/search/works?query=art%20of%20science`
