@@ -108,50 +108,53 @@ export const urlChecker =
       });
     });
 
-    page.on('requestfinished', async request => {
-      inFlight.add(request);
-      // https://playwright.dev/docs/api/class-request#request-resource-type
-      const resourceType = request.resourceType();
-      if (resourceType === 'document') {
-        // This is the page itself, and is handled below
-        inFlight.delete(request);
-        return;
-      }
+    page.on('requestfinished', request => {
+      const checkRequest = async () => {
+        // https://playwright.dev/docs/api/class-request#request-resource-type
+        const resourceType = request.resourceType();
+        if (resourceType === 'document') {
+          // This is the page itself, and is handled below
+          return;
+        }
 
-      const response = await request.response();
-      if (response === null) {
-        // This will be handled by the requestfailed listener
-        inFlight.delete(request);
-        return;
-      }
-      const responseStatus = response.status();
+        const response = await request.response();
+        if (response === null) {
+          // This will be handled by the requestfailed listener
+          return;
+        }
+        const responseStatus = response.status();
 
-      if (
-        (responseStatus < 200 || responseStatus >= 400) &&
-        !ignoreRequestError(request)
-      ) {
-        failures.push({
-          failureType: 'page-request-error',
-          description: `Request made by page returned an error: ${request.method()} ${request.url()} -> ${responseStatus}`,
-        });
-      }
-
-      // Some google resources make requests to URLs that return 204s (I believe for cookieless tracking)
-      // filter them out here as we're looking for images with src URLs that have content which isn't an image
-      if (resourceType === 'image' && responseStatus !== 204) {
-        const responseMimeType = await response.headerValue('Content-Type');
         if (
-          responseMimeType !== null &&
-          !responseMimeType?.startsWith('image') &&
-          !ignoreMimeTypeMismatch(request)
+          (responseStatus < 200 || responseStatus >= 400) &&
+          !ignoreRequestError(request)
         ) {
           failures.push({
-            failureType: 'mime-type-mismatch',
-            description: `Request for an image resource at ${request.url()} returned an unexpected mime type ${responseMimeType}`,
+            failureType: 'page-request-error',
+            description: `Request made by page returned an error: ${request.method()} ${request.url()} -> ${responseStatus}`,
           });
         }
-      }
-      inFlight.delete(request);
+
+        // Some google resources make requests to URLs that return 204s (I believe for cookieless tracking)
+        // filter them out here as we're looking for images with src URLs that have content which isn't an image
+        if (resourceType === 'image' && responseStatus !== 204) {
+          const responseMimeType = await response.headerValue('Content-Type');
+          if (
+            responseMimeType !== null &&
+            !responseMimeType?.startsWith('image') &&
+            !ignoreMimeTypeMismatch(request)
+          ) {
+            failures.push({
+              failureType: 'mime-type-mismatch',
+              description: `Request for an image resource at ${request.url()} returned an unexpected mime type ${responseMimeType}`,
+            });
+          }
+        }
+      };
+
+      inFlight.add(request);
+      checkRequest().then(() => {
+        inFlight.delete(request);
+      });
     });
 
     try {
