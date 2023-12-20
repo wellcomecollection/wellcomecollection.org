@@ -1,4 +1,4 @@
-import { Browser, Request, BrowserContext, Page } from 'playwright';
+import { Browser, Response, BrowserContext, Page } from 'playwright';
 import {
   ignoreErrorLog,
   ignoreMimeTypeMismatch,
@@ -76,7 +76,7 @@ export const urlChecker =
     const failures: Failure[] = [];
 
     // Keep track of requests that are being processed in order to prevent the page being closed prematurely
-    const inFlight = new Set<Request>();
+    const inFlight = new Set<Response>();
     const safeClose = safePageCloser(inFlight, page, context);
 
     page.on('console', message => {
@@ -109,22 +109,17 @@ export const urlChecker =
       });
     });
 
-    page.on('requestfinished', request => {
-      const checkRequest = async () => {
+    page.on('response', response => {
+      const checkResponse = async () => {
+        const request = response.request();
         // https://playwright.dev/docs/api/class-request#request-resource-type
         const resourceType = request.resourceType();
         if (resourceType === 'document') {
-          // This is the page itself, and is handled below
+          // This is the page itself, and is handled separately outside the event listener
           return;
         }
 
-        const response = await request.response();
-        if (response === null) {
-          // This will be handled by the requestfailed listener
-          return;
-        }
         const responseStatus = response.status();
-
         if (
           (responseStatus < 200 || responseStatus >= 400) &&
           !ignoreRequestError(request)
@@ -152,15 +147,16 @@ export const urlChecker =
         }
       };
 
-      inFlight.add(request);
-      checkRequest()
+      inFlight.add(response);
+      checkResponse()
         .then(() => {
-          inFlight.delete(request);
+          inFlight.delete(response);
         })
         .catch(e => {
           console.error(`Something went wrong checking ${url}`);
-          console.error(`Request was ${request.method()} ${request.url()}`);
-          console.error(e);
+          console.error(
+            `Request was ${response.request().method()} ${response.url()}`
+          );
           throw e;
         });
     });
@@ -201,7 +197,7 @@ export const urlChecker =
     }
 
     try {
-      await page.waitForLoadState('networkidle');
+      await page.waitForLoadState('load');
       await new Promise(resolve => setTimeout(resolve, 1000));
     } catch (e) {
       return safeClose({
