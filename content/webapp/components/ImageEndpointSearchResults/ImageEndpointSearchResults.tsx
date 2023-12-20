@@ -191,7 +191,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   return (
     <>
       {isFullSupportBrowser && !isSmallGallery && (
-        <GalleryContainer data-test-id="image-search-results-container">
+        <GalleryContainer data-testid="image-search-results-container">
           <PhotoAlbum
             photos={imagesWithDimensions}
             renderPhoto={imageRenderer}
@@ -204,35 +204,37 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
         </GalleryContainer>
       )}
       {(!isFullSupportBrowser || isSmallGallery) && (
-        <ImageCardList data-test-id="image-search-results-container">
-          {imagesWithDimensions.map((result: GalleryImageProps) => (
-            <li key={result.id}>
-              <Space
-                $h={{ size: 'l', properties: ['margin-right'] }}
-                $v={{ size: 'l', properties: ['margin-bottom'] }}
-              >
-                <ImageCard
-                  id={result.id}
-                  workId={result.source.id}
-                  image={{
-                    contentUrl: result.src,
-                    width: result.width * 1.57,
-                    height: result.height * 1.57,
-                    alt: result.source.title,
-                  }}
-                  onClick={event => {
-                    if (isSmallGallery) {
-                      event.preventDefault();
-                      setExpandedImage(result);
-                      setIsActive(true);
-                    }
-                  }}
-                  layout="fixed"
-                />
-              </Space>
-            </li>
-          ))}
-        </ImageCardList>
+        <div data-testid="image-search-results-container">
+          <ImageCardList>
+            {imagesWithDimensions.map((result: GalleryImageProps) => (
+              <li key={result.id}>
+                <Space
+                  $h={{ size: 'l', properties: ['margin-right'] }}
+                  $v={{ size: 'l', properties: ['margin-bottom'] }}
+                >
+                  <ImageCard
+                    id={result.id}
+                    workId={result.source.id}
+                    image={{
+                      contentUrl: result.src,
+                      width: result.width * 1.57,
+                      height: result.height * 1.57,
+                      alt: result.source.title,
+                    }}
+                    onClick={event => {
+                      if (isSmallGallery) {
+                        event.preventDefault();
+                        setExpandedImage(result);
+                        setIsActive(true);
+                      }
+                    }}
+                    layout="fixed"
+                  />
+                </Space>
+              </li>
+            ))}
+          </ImageCardList>
+        </div>
       )}
       <Modal
         id="expanded-image-dialog"
