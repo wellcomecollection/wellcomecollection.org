@@ -1,4 +1,4 @@
-import { Browser, Request } from 'playwright';
+import { Browser, Request, Page } from 'playwright';
 import {
   ignoreErrorLog,
   ignoreMimeTypeMismatch,
@@ -55,12 +55,28 @@ const cachebustUrl = (url: string): string => {
   return parsedUrl.toString();
 };
 
+const safePageCloser =
+  <T>(inFlight: Set<T>, page: Page) =>
+  async (result: Result): Promise<Result> => {
+    // Wait for the number of in-flight checks (see above) to drop to zero before
+    // closing the page. If there are any, check again in the next iteration of the
+    // event loop.
+    await waitUntilEmpty(inFlight);
+    await page.close({ runBeforeUnload: true });
+
+    return result;
+  };
+
 export const urlChecker =
   (browser: Browser) =>
   async (url: string, expectedStatus: number): Promise<Result> => {
     const context = await browser.newContext();
     const page = await context.newPage();
     const failures: Failure[] = [];
+
+    // Keep track of requests that are being processed in order to prevent the page being closed prematurely
+    const inFlight = new Set<Request>();
+    const safeClose = safePageCloser(inFlight, page);
 
     page.on('console', message => {
       if (message.type() === 'error' && !ignoreErrorLog(message.text())) {
@@ -92,9 +108,6 @@ export const urlChecker =
       });
     });
 
-    // Keep track of requests that are being processed in order to prevent the page being closed while this async
-    // function is running - don't believe it's needed for the other (sync) event handlers.
-    const inFlight = new Set<Request>();
     page.on('requestfinished', async request => {
       inFlight.add(request);
       // https://playwright.dev/docs/api/class-request#request-resource-type
@@ -145,7 +158,7 @@ export const urlChecker =
       const response = await page.goto(cachebustUrl(url));
       const status = response?.status();
       if (status !== expectedStatus) {
-        return {
+        return safeClose({
           success: false,
           failures: [
             {
@@ -153,7 +166,7 @@ export const urlChecker =
               description: `Page returned unexpected status: expected ${expectedStatus}, got ${status}`,
             },
           ],
-        };
+        });
       }
     } catch (pageGotoError) {
       /*
@@ -165,7 +178,7 @@ export const urlChecker =
        * - the remote server does not respond or is unreachable.
        * - the main resource failed to load.
        */
-      return {
+      return safeClose({
         success: false,
         failures: [
           {
@@ -173,7 +186,7 @@ export const urlChecker =
             description: `Could not load URL: failed with error ${pageGotoError}`,
           },
         ],
-      };
+      });
     }
 
     try {
@@ -181,7 +194,7 @@ export const urlChecker =
       await page.waitForLoadState('load');
       await new Promise(resolve => setTimeout(resolve, 1000));
     } catch (e) {
-      return {
+      return safeClose({
         success: false,
         failures: [
           {
@@ -189,18 +202,12 @@ export const urlChecker =
             description: 'Timeout while waiting for page load',
           },
         ],
-      };
+      });
     }
 
-    // Wait for the number of in-flight checks (see above) to drop to zero before
-    // closing the page. If there are any, check again in the next iteration of the
-    // event loop.
-    await waitUntilEmpty(inFlight);
-    await page.close({ runBeforeUnload: true });
-
     if (failures.length !== 0) {
-      return { success: false, failures };
+      return safeClose({ success: false, failures });
     } else {
-      return { success: true };
+      return safeClose({ success: true });
     }
   };
