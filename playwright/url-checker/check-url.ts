@@ -194,8 +194,7 @@ export const urlChecker =
     }
 
     try {
-      // Can't use networkidle here as pages with YouTube embeds keep sending analytics data :(
-      await page.waitForLoadState('load');
+      await page.waitForLoadState('networkidle');
       await new Promise(resolve => setTimeout(resolve, 1000));
     } catch (e) {
       return safeClose({
