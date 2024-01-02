@@ -219,6 +219,34 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  rule {
+    name     = "bot-control-rule-group"
+    priority = 7
+
+    override_action {
+      count {}
+    }
+
+    statement {
+      managed_rule_group_statement {
+        name        = "AWSManagedRulesBotControlRuleSet"
+        vendor_name = "AWS"
+
+        managed_rule_group_configs {
+          aws_managed_rules_bot_control_rule_set {
+            inspection_level = "COMMON"
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "weco-cloudfront-acl-bot-control-${var.namespace}"
+    }
+  }
+
   visibility_config {
     cloudwatch_metrics_enabled = true
     sampled_requests_enabled   = true
