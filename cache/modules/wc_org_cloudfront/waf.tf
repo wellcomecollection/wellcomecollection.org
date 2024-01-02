@@ -36,6 +36,10 @@ locals {
   ])
 
   ip_allowlist = setunion(var.waf_ip_allowlist, local.qualys_scanner_ips)
+
+  // See https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html
+  // and comment below for the bot control rule
+  bot_control_rule_allowlist = ["CategorySeo"]
 }
 
 resource "aws_wafv2_web_acl" "wc_org" {
@@ -223,6 +227,13 @@ resource "aws_wafv2_web_acl" "wc_org" {
     name     = "bot-control-rule-group"
     priority = 7
 
+    // Because the Bot Control rules are quite aggressive, they block some useful bots
+    // such as Updown. While we could add overrides for these, we don't want to have to
+    // keep coming back here as we use different monitoring services, scripts, etc.
+    // Instead, we're starting by defaulting to disabling rule actions and we only enable them
+    // for a specified allowlist of rules.
+    // Rules can be found here:
+    // https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html
     override_action {
       count {}
     }
@@ -235,6 +246,16 @@ resource "aws_wafv2_web_acl" "wc_org" {
         managed_rule_group_configs {
           aws_managed_rules_bot_control_rule_set {
             inspection_level = "COMMON"
+          }
+        }
+
+        dynamic "rule_action_override" {
+          for_each = local.bot_control_rule_allowlist
+          content {
+            name = rule_action_override.value
+            action_to_use {
+              count {}
+            }
           }
         }
       }
