@@ -2,6 +2,10 @@ import { Page } from 'playwright';
 import { expect } from '@playwright/test';
 import { isMobile } from './contexts';
 
+// Search pages tend to be slower to load and will benefit from a longer timeout
+// Default is currently 5000 https://playwright.dev/docs/test-timeouts
+const slowExpect = expect.configure({ timeout: 10000 });
+
 export const searchQuerySubmitAndWait = async (
   query: string,
   page: Page
@@ -10,14 +14,14 @@ export const searchQuerySubmitAndWait = async (
 
   await searchBar.fill(query);
   await searchBar.press('Enter');
-  await expect(page).toHaveTitle(new RegExp(`.*${query}.*`, 'i'));
+  await slowExpect(page).toHaveTitle(new RegExp(`.*${query}.*`, 'i'));
 };
 
 export const openFilterDropdown = async (name: string, page: Page) => {
   if (isMobile(page)) {
     await page.locator('button[aria-controls=mobile-filters-modal]').click();
 
-    await expect(
+    await slowExpect(
       page.getByRole('heading', { name: 'Filters', exact: true })
     ).toBeVisible();
   } else {
@@ -41,7 +45,7 @@ export const selectAndWaitForFilter = async (
   if (isMobile(page)) {
     await page.getByRole('button', { name: 'Show results' }).click();
   } else {
-    await expect(checkbox).toBeChecked();
+    await slowExpect(checkbox).toBeChecked();
   }
 };
 
@@ -55,7 +59,9 @@ export const navigateToNextPageAndConfirmNavigation = async (page: Page) => {
 
   await nextButton.click();
 
-  await expect(paginationInput).toHaveValue(String(Number(currentPage) + 1));
+  await slowExpect(paginationInput).toHaveValue(
+    String(Number(currentPage) + 1)
+  );
 };
 
 export const navigateToResultAndConfirmTitleMatches = async (
@@ -67,8 +73,8 @@ export const navigateToResultAndConfirmTitleMatches = async (
   await page.click(result);
 
   const title = await page.locator('h1');
-  await expect(title).toHaveId('work-info');
-  await expect(title).toContainText(String(searchResultTitle)); // searchResultTitle could also be null but I expect it would fail accordingly
+  await slowExpect(title).toHaveId('work-info');
+  await slowExpect(title).toContainText(String(searchResultTitle)); // searchResultTitle could also be null but I expect it would fail accordingly
 };
 
 // TODO
@@ -78,7 +84,7 @@ export const navigateToResultAndConfirmTitleMatches = async (
 //
 // As we are considering a redesign of filters, this should be considered as part of it
 export const testIfFilterIsApplied = async (label: string, page: Page) => {
-  await expect(
+  await slowExpect(
     page.getByRole('status').filter({ hasText: 'filtered with' })
   ).toHaveText(new RegExp(`.*${label}.*`, 'i'));
 };
