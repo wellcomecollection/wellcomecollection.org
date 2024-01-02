@@ -57,7 +57,7 @@ const SortPaginationWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
+const CatalogueSearchPage: NextPageWithLayout<Props> = ({
   works,
   worksRouteProps,
   query,
