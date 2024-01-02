@@ -1,4 +1,4 @@
-import { Browser, Request, Page } from 'playwright';
+import { Browser, Response, BrowserContext, Page } from 'playwright';
 import {
   ignoreErrorLog,
   ignoreMimeTypeMismatch,
@@ -56,13 +56,14 @@ const cachebustUrl = (url: string): string => {
 };
 
 const safePageCloser =
-  <T>(inFlight: Set<T>, page: Page) =>
+  <T>(inFlight: Set<T>, page: Page, context: BrowserContext) =>
   async (result: Result): Promise<Result> => {
     // Wait for the number of in-flight checks (see above) to drop to zero before
     // closing the page. If there are any, check again in the next iteration of the
     // event loop.
     await waitUntilEmpty(inFlight);
     await page.close({ runBeforeUnload: true });
+    await context.close();
 
     return result;
   };
@@ -75,8 +76,8 @@ export const urlChecker =
     const failures: Failure[] = [];
 
     // Keep track of requests that are being processed in order to prevent the page being closed prematurely
-    const inFlight = new Set<Request>();
-    const safeClose = safePageCloser(inFlight, page);
+    const inFlight = new Set<Response>();
+    const safeClose = safePageCloser(inFlight, page, context);
 
     page.on('console', message => {
       if (message.type() === 'error' && !ignoreErrorLog(message.text())) {
@@ -108,50 +109,56 @@ export const urlChecker =
       });
     });
 
-    page.on('requestfinished', async request => {
-      inFlight.add(request);
-      // https://playwright.dev/docs/api/class-request#request-resource-type
-      const resourceType = request.resourceType();
-      if (resourceType === 'document') {
-        // This is the page itself, and is handled below
-        inFlight.delete(request);
-        return;
-      }
+    page.on('response', response => {
+      const checkResponse = async () => {
+        const request = response.request();
+        // https://playwright.dev/docs/api/class-request#request-resource-type
+        const resourceType = request.resourceType();
+        if (resourceType === 'document') {
+          // This is the page itself, and is handled separately outside the event listener
+          return;
+        }
 
-      const response = await request.response();
-      if (response === null) {
-        // This will be handled by the requestfailed listener
-        inFlight.delete(request);
-        return;
-      }
-      const responseStatus = response.status();
-
-      if (
-        (responseStatus < 200 || responseStatus >= 400) &&
-        !ignoreRequestError(request)
-      ) {
-        failures.push({
-          failureType: 'page-request-error',
-          description: `Request made by page returned an error: ${request.method()} ${request.url()} -> ${responseStatus}`,
-        });
-      }
-
-      // Some google resources make requests to URLs that return 204s (I believe for cookieless tracking)
-      // filter them out here as we're looking for images with src URLs that have content which isn't an image
-      if (resourceType === 'image' && responseStatus !== 204) {
-        const responseMimeType = await response.headerValue('Content-Type');
+        const responseStatus = response.status();
         if (
-          responseMimeType !== null &&
-          !responseMimeType?.startsWith('image') &&
-          !ignoreMimeTypeMismatch(request)
+          (responseStatus < 200 || responseStatus >= 400) &&
+          !ignoreRequestError(request)
         ) {
           failures.push({
-            failureType: 'mime-type-mismatch',
-            description: `Request for an image resource at ${request.url()} returned an unexpected mime type ${responseMimeType}`,
+            failureType: 'page-request-error',
+            description: `Request made by page returned an error: ${request.method()} ${request.url()} -> ${responseStatus}`,
           });
         }
-      }
-      inFlight.delete(request);
+
+        // Some google resources make requests to URLs that return 204s (I believe for cookieless tracking)
+        // filter them out here as we're looking for images with src URLs that have content which isn't an image
+        if (resourceType === 'image' && responseStatus !== 204) {
+          const responseMimeType = await response.headerValue('Content-Type');
+          if (
+            responseMimeType !== null &&
+            !responseMimeType?.startsWith('image') &&
+            !ignoreMimeTypeMismatch(request)
+          ) {
+            failures.push({
+              failureType: 'mime-type-mismatch',
+              description: `Request for an image resource at ${request.url()} returned an unexpected mime type ${responseMimeType}`,
+            });
+          }
+        }
+      };
+
+      inFlight.add(response);
+      checkResponse()
+        .then(() => {
+          inFlight.delete(response);
+        })
+        .catch(e => {
+          console.error(`Something went wrong checking ${url}`);
+          console.error(
+            `Request was ${response.request().method()} ${response.url()}`
+          );
+          throw e;
+        });
     });
 
     try {
@@ -190,7 +197,6 @@ export const urlChecker =
     }
 
     try {
-      // Can't use networkidle here as pages with YouTube embeds keep sending analytics data :(
       await page.waitForLoadState('load');
       await new Promise(resolve => setTimeout(resolve, 1000));
     } catch (e) {
