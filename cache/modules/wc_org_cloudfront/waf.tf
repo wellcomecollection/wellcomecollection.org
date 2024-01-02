@@ -156,7 +156,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     priority = 4
 
     override_action {
-      count {}
+      none {}
     }
 
     statement {
@@ -179,7 +179,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     priority = 5
 
     override_action {
-      count {}
+      none {}
     }
 
     statement {
@@ -202,7 +202,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     priority = 6
 
     override_action {
-      count {}
+      none {}
     }
 
     statement {
