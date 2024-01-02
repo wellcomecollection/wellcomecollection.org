@@ -98,7 +98,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
       'source.production.dates.from',
       'source.production.dates.to',
     ],
-    queryParams: Object.keys(query),
+    queryParams: query,
   });
 
   const activeFiltersLabels = getActiveFiltersLabel({ filters });
