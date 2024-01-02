@@ -229,42 +229,46 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
         </button>
       </noscript>
 
-      <Modal
-        id={id}
-        isActive={isActive}
-        setIsActive={setIsActive}
-        openButtonRef={openMoreFiltersButtonRef}
-        modalStyle="filters"
-      >
-        <FiltersHeader>
-          <h3 className={font('wb', 4)}>All filters</h3>
-        </FiltersHeader>
-
-        <ModalInner>
-          {isEnhanced && (
-            <MoreFilters
-              changeHandler={changeHandler}
-              filters={filters}
-              form={form}
-              hasNoResults={hasNoResults}
-            />
+      {isEnhanced && (
+        <Modal
+          id={id}
+          isActive={isActive}
+          setIsActive={setIsActive}
+          openButtonRef={openMoreFiltersButtonRef}
+          modalStyle="filters"
+        >
+          <FiltersHeader>
+            <h3 className={font('wb', 4)}>All filters</h3>
+          </FiltersHeader>
+          {/* The Modal element needs to be pre-rendered even if inactive for its CSSTransition effect
+            But there's a bit of rerending withing MoreFilters that is causing issues with the Desktop behaviour,
+            so hiding if not active. https://github.com/wellcomecollection/wellcomecollection.org/issues/10287#issuecomment-1857622262 */}
+          {isActive && (
+            <ModalInner>
+              <MoreFilters
+                changeHandler={changeHandler}
+                filters={filters}
+                form={form}
+                hasNoResults={hasNoResults}
+              />
+            </ModalInner>
           )}
-        </ModalInner>
-        <FiltersFooter>
-          <NextLink passHref {...resetFilters}>
-            Reset filters
-          </NextLink>
+          <FiltersFooter>
+            <NextLink passHref {...resetFilters}>
+              Reset filters
+            </NextLink>
 
-          <ButtonSolid
-            ref={undefined}
-            type={ButtonTypes.button}
-            clickHandler={() => {
-              setIsActive(false);
-            }}
-            text="Show results"
-          />
-        </FiltersFooter>
-      </Modal>
+            <ButtonSolid
+              ref={undefined}
+              type={ButtonTypes.button}
+              clickHandler={() => {
+                setIsActive(false);
+              }}
+              text="Show results"
+            />
+          </FiltersFooter>
+        </Modal>
+      )}
     </>
   );
 };

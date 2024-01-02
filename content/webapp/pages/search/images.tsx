@@ -92,7 +92,12 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
 
   const hasNoResults = images.totalResults === 0;
   const hasActiveFilters = hasFilters({
-    filters: filters.map(f => f.id),
+    filters: [
+      ...filters.map(f => f.id),
+      // as in /works.tsx, production.dates is one dropdown but two properties, so we're specifying them in their individual format
+      'source.production.dates.from',
+      'source.production.dates.to',
+    ],
     queryParams: Object.keys(query),
   });
 
