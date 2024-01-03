@@ -1,6 +1,6 @@
 import { Work } from '@weco/content/services/wellcome/catalogue/types';
 import styled from 'styled-components';
-import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
+import Button from '@weco/common/views/components/Buttons';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import { getArchiveAncestorArray } from '@weco/content/utils/works';
@@ -128,7 +128,8 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }) => {
         {middleCrumbs.length > 1 && (
           <li>
             <div style={{ position: 'relative', top: '-5px' }}>
-              <DropdownButton
+              <Button
+                variant="DropdownButton"
                 label="…"
                 buttonType="inline"
                 id="archive-breadcrumbs"
@@ -152,7 +153,7 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }) => {
                     );
                   })}
                 </ul>
-              </DropdownButton>
+              </Button>
             </div>
           </li>
         )}

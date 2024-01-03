@@ -7,7 +7,7 @@ import {
 import { AuthClickThroughServiceWithPossibleServiceArray } from '../../../webapp/types/manifest';
 import { AuthAccessTokenService } from '@iiif/presentation-3';
 import { font } from '@weco/common/utils/classnames';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import useShowClickthrough from '../../hooks/useShowClickthrough';
@@ -68,7 +68,8 @@ const IIIFClickthrough: FunctionComponent<Props> = ({
           )}
           {clickThroughService?.['@id'] && origin && (
             <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
-              <ButtonSolid
+              <Button
+                variant="ButtonSolid"
                 dataGtmTrigger="show_the_content"
                 text="Show the content"
                 clickHandler={() => {

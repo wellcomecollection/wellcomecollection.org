@@ -10,7 +10,7 @@ import {
 import styled from 'styled-components';
 import TextInput from '@weco/common/views/components/TextInput';
 import { font } from '@weco/common/utils/classnames';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button from '@weco/common/views/components/Buttons';
 import ItemViewerContext, {
   results,
 } from '../ItemViewerContext/ItemViewerContext';
@@ -214,7 +214,8 @@ const IIIFSearchWithin: FunctionComponent = () => {
           />
         </SearchInputWrapper>
         <SearchButtonWrapper>
-          <ButtonSolid
+          <Button
+            variant="ButtonSolid"
             icon={search}
             text="search"
             isTextHidden={true}

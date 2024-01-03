@@ -27,7 +27,7 @@ import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/services/app';
 import styled from 'styled-components';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import Button from '@weco/common/views/components/Buttons';
 import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import cookies from '@weco/common/data/cookies';
@@ -226,7 +226,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               )
             )}
             <ButtonWrapper>
-              <ButtonSolidLink
+              <Button
+                variant="ButtonSolidLink"
                 colors={themeValues.buttonColors.charcoalWhiteCharcoal}
                 text="Change guide type"
                 link={`/guides/exhibitions/${exhibitionGuide.id}`}
@@ -235,7 +236,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                 }}
               />
             </ButtonWrapper>
-            <ButtonSolidLink
+            <Button
+              variant="ButtonSolidLink"
               colors={themeValues.buttonColors.charcoalWhiteCharcoal}
               text="Change exhibition"
               link="/guides/exhibitions"

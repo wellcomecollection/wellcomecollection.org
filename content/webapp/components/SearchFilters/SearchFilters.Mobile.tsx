@@ -18,10 +18,10 @@ import {
   CheckboxFilter as CheckboxFilterType,
   filterLabel,
 } from '@weco/content/services/wellcome/catalogue/filters';
-import ButtonSolid, {
+import Button, {
+  StyledButton,
   ButtonTypes,
-  SolidButton,
-} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+} from '@weco/common/views/components/Buttons';
 import { searchFilterCheckBox } from '@weco/content/text/aria-labels';
 import { filter } from '@weco/common/icons';
 import Modal from '@weco/common/views/components/Modal/Modal';
@@ -210,7 +210,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   return (
     <SearchFiltersContainer>
       <ShameButtonWrap>
-        <SolidButton
+        <StyledButton
           type={ButtonTypes.button}
           ref={openFiltersButtonRef}
           onClick={handleOpenFiltersButtonClick}
@@ -224,7 +224,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
           {activeFiltersCount > 0 && ' ' && (
             <ActiveFilters>{activeFiltersCount}</ActiveFilters>
           )}
-        </SolidButton>
+        </StyledButton>
       </ShameButtonWrap>
       <Modal
         id="mobile-filters-modal"
@@ -295,7 +295,8 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
             Reset filters
           </NextLink>
 
-          <ButtonSolid
+          <Button
+            variant="ButtonSolid"
             ref={okFiltersButtonRef}
             type={ButtonTypes.button}
             clickHandler={handleOkFiltersButtonClick}

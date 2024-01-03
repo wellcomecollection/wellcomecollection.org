@@ -4,7 +4,7 @@ import {
   Container,
   Wrapper,
 } from '@weco/identity/src/frontend/components/Layout.style';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import Button from '@weco/common/views/components/Buttons';
 import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { getServerData } from '@weco/common/server-data';
@@ -31,7 +31,8 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
               {success || urlUsed ? (
                 <>
                   <ValidatedSuccessText isNewSignUp={isNewSignUp} />
-                  <ButtonSolidLink
+                  <Button
+                    variant="ButtonSolidLink"
                     link="/account"
                     text={
                       userState === 'signedin'

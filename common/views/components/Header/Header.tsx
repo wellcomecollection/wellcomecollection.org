@@ -25,9 +25,9 @@ import {
   HeaderList,
   HeaderLink,
   HeaderActions,
-  SearchButton,
   HeaderNav,
   NavLoginWrapper,
+  SearchButton,
 } from './Header.styles';
 import DesktopSignIn from './DesktopSignIn';
 import MobileSignIn from './MobileSignIn';

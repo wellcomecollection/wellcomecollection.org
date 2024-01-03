@@ -1,144 +1,111 @@
-import { useState } from 'react';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import Control from '@weco/common/views/components/Buttons/Control/Control';
-import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
-import { chevron, digitalImage, eye, gridView } from '@weco/common/icons';
-import ControlReadme from '@weco/common/views/components/Buttons/Control/README.md';
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import Download from '@weco/content/components/Download/Download';
-import SearchFilters from '@weco/content/components/SearchFilters';
-import { linkResolver } from '@weco/common/utils/search';
+import Button from '@weco/common/views/components/Buttons';
+import { eye } from '@weco/common/icons';
+import { font } from '@weco/common/utils/classnames';
+import theme from '@weco/common/views/themes/default';
 
-const ButtonSolidTemplate = args => <ButtonSolid {...args} />;
-export const buttonSolid = ButtonSolidTemplate.bind({});
-buttonSolid.args = {
-  disabled: false,
-  icon: eye,
-  text: 'Click me',
-};
-buttonSolid.storyName = 'ButtonSolid';
-
-const ControlTemplate = args => (
-  <ReadmeDecorator
-    WrappedComponent={Control}
-    args={args}
-    Readme={ControlReadme}
-  />
-);
-export const control = ControlTemplate.bind({});
-control.args = {
-  text: 'something for screenreaders',
-  icon: chevron,
-  colorScheme: 'light',
-};
-control.storyName = 'Control';
-
-const ToolbarSegmentedControlTemplate = args => {
-  const [activeId, setActiveId] = useState('page');
+const ButtonSolidTemplate = args => {
+  const { icon, colors, ...restOfArgs } = args;
+  const getColors = colors => {
+    switch (colors) {
+      case 'Yellow':
+        return theme.buttonColors.yellowYellowBlack;
+      case 'Green border':
+        return theme.buttonColors.greenTransparentGreen;
+      case 'White':
+        return theme.buttonColors.whiteWhiteCharcoal;
+      case 'White border':
+        return theme.buttonColors.whiteTransparentWhite;
+      case 'Default':
+      default:
+        return theme.buttonColors.default;
+    }
+  };
 
   return (
-    <div style={{ padding: '50px', background: '#333' }}>
-      <ToolbarSegmentedControl
-        activeId={activeId}
-        hideLabels={args.hideLabels}
-        items={[
-          {
-            id: 'page',
-            icon: digitalImage,
-            label: 'Page',
-            clickHandler: () => setActiveId('page'),
-          },
-          {
-            id: 'grid',
-            icon: gridView,
-            label: 'Grid',
-            clickHandler: () => setActiveId('grid'),
-          },
-        ]}
+    <div
+      style={{
+        padding: '20px',
+        backgroundColor: colors.includes('White')
+          ? theme.color('black')
+          : undefined,
+      }}
+    >
+      <Button
+        text="Click me"
+        ariaLabel="Cardigan button example"
+        icon={icon ? eye : undefined}
+        colors={getColors(colors)}
+        link={args.variant === 'ButtonSolidLink' ? '#' : undefined}
+        clickHandler={e => {
+          e.preventDefault();
+          window.alert(
+            `oh hello, i'm a ${
+              args.variant === 'ButtonSolidLink' ? 'link' : 'button'
+            }`
+          );
+        }}
+        {...restOfArgs}
       />
     </div>
   );
 };
-export const toolbarSegmentedControl = ToolbarSegmentedControlTemplate.bind({});
-toolbarSegmentedControl.args = {
-  hideLabels: true,
+export const buttonSolid = ButtonSolidTemplate.bind({});
+buttonSolid.args = {
+  variant: 'ButtonSolid',
+  colors: 'default',
+  size: 'medium',
+  icon: true,
+  isIconAfter: false,
+  isTextHidden: false,
+  disabled: false,
 };
-toolbarSegmentedControl.storyName = 'ToolbarSegmentedControl';
+buttonSolid.argTypes = {
+  variant: {
+    options: ['ButtonSolid', 'ButtonSolidLink'],
+    control: { type: 'radio' },
+  },
+  colors: {
+    options: ['Default', 'Green border', 'Yellow', 'White', 'White border'],
+    control: 'select',
+  },
+  size: {
+    options: ['small', 'medium'],
+    control: { type: 'radio' },
+  },
+  icon: { control: 'boolean' },
+  isIconAfter: { control: 'boolean' },
+  isTextHidden: { control: 'boolean' },
+  disabled: { control: 'boolean' },
+};
+buttonSolid.storyName = 'ButtonSolid';
 
-const DownloadButtonTemplate = args => {
-  return <Download ariaControlsId="itemDownloads" {...args} />;
-};
-export const downloadButton = DownloadButtonTemplate.bind({});
-downloadButton.args = {
-  isInline: false,
-  useDarkControl: false,
-  downloadOptions: [
-    { id: 'test', label: 'download small image', format: 'image/jpeg' },
-    { id: 'test2', label: 'download large image', format: 'image/jpeg' },
-    { id: 'test3', label: 'download video', format: 'video/mp4' },
-  ],
-};
-downloadButton.storyName = 'DownloadButton';
-
-const FilterDropdownTemplate = args => {
-  return (
-    <SearchFilters
+const DropdownButtonTemplate = args => (
+  <div
+    className={font('intr', 6)}
+    style={{
+      padding: '20px',
+      backgroundColor: args.isOnDark ? theme.color('black') : undefined,
+    }}
+  >
+    <Button
+      variant="DropdownButton"
+      id="123"
+      label="Dropdown"
+      ariaLabel="Cardigan button example"
       {...args}
-      changeHandler={() => {
-        // do nothing
-      }}
-      linkResolver={params => linkResolver({ params, pathname: '/' })}
-    />
-  );
+    >
+      <span>Sign in to your library account</span>
+    </Button>
+  </div>
+);
+
+export const dropdownButton = DropdownButtonTemplate.bind({});
+dropdownButton.args = {
+  isOnDark: false,
+  hasNoOptions: false, // disabled?
 };
-export const filterDropdown = FilterDropdownTemplate.bind({});
-filterDropdown.args = {
-  filters: [
-    {
-      type: 'checkbox',
-      id: 'contributors',
-      label: 'Contributors',
-      options: [
-        {
-          id: 'bbb',
-          value: 'johndoe',
-          label: 'John Doe',
-          selected: false,
-        },
-        {
-          id: 'ccc',
-          value: 'janedoe',
-          label: 'Jane Doe',
-          selected: false,
-        },
-        {
-          id: 'ddd',
-          value: 'joebloggs',
-          label: 'Joe Bloggs',
-          selected: false,
-        },
-        {
-          id: 'eee',
-          value: 'johnsmith',
-          label: 'John Smith',
-          selected: false,
-        },
-        {
-          id: 'fff',
-          value: 'poppypoppyseed',
-          label: 'Poppy von Poppyseed',
-          selected: false,
-        },
-      ],
-    },
-    {
-      type: 'dateRange',
-      id: 'dates',
-      label: 'Dates',
-      from: { id: 'from' },
-      to: { id: 'to' },
-    },
-    { type: 'color', name: 'color' },
-  ],
+dropdownButton.argTypes = {
+  isOnDark: { control: 'boolean' },
+  hasNoOptions: { control: 'boolean' },
 };
-filterDropdown.storyName = 'FilterDropdown';
+dropdownButton.storyName = 'DropdownButton';

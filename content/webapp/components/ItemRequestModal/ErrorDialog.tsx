@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import { defaultRequestErrorMessage } from '@weco/common/data/microcopy';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button from '@weco/common/views/components/Buttons';
 import { CTAs, Header } from './common';
 import { themeValues } from '@weco/common/views/themes/config';
 import { font } from '@weco/common/utils/classnames';
@@ -22,7 +22,8 @@ const ErrorDialog: FunctionComponent<ErrorDialogProps> = ({
       {errorMessage || defaultRequestErrorMessage}
     </p>
     <CTAs>
-      <ButtonSolid
+      <Button
+        variant="ButtonSolid"
         colors={themeValues.buttonColors.greenTransparentGreen}
         text="Close"
         clickHandler={() => setIsActive(false)}

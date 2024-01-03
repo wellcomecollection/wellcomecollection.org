@@ -7,7 +7,7 @@ import DownloadLink, {
   DownloadFormat,
 } from '@weco/content/components/DownloadLink/DownloadLink';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
+import Button from '@weco/common/views/components/Buttons';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 
 export const DownloadOptions = styled.div.attrs({
@@ -65,7 +65,8 @@ const Download: FunctionComponent<Props> = ({
     <Wrapper $isEnhanced={isEnhanced} ref={downloadsContainer}>
       {downloadOptions.length > 0 && (
         <>
-          <DropdownButton
+          <Button
+            variant="DropdownButton"
             label="Downloads"
             buttonType={isInline ? 'inline' : 'outlined'}
             isOnDark={useDarkControl}
@@ -96,7 +97,7 @@ const Download: FunctionComponent<Props> = ({
                 </PlainList>
               </SpacingComponent>
             </DownloadOptions>
-          </DropdownButton>
+          </Button>
         </>
       )}
     </Wrapper>

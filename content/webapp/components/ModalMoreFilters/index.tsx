@@ -4,9 +4,7 @@ import styled from 'styled-components';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import Space from '@weco/common/views/components/styled/Space';
 import { searchFilterCheckBox } from '@weco/content/text/aria-labels';
-import ButtonSolid, {
-  ButtonTypes,
-} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import {
   Filter,
   CheckboxFilter as CheckboxFilterType,
@@ -255,7 +253,8 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
             Reset filters
           </NextLink>
 
-          <ButtonSolid
+          <Button
+            variant="ButtonSolid"
             ref={undefined}
             type={ButtonTypes.button}
             clickHandler={() => {

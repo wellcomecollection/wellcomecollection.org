@@ -11,9 +11,7 @@ import { Loading } from './Loading';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import { UpdateUserError, useUpdateUser } from '../hooks/useUpdateUser';
 import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
-import ButtonSolid, {
-  ButtonTypes,
-} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { font } from '@weco/common/utils/classnames';
@@ -155,7 +153,11 @@ export const ChangeEmail: React.FunctionComponent<
           />
         </FieldMargin>
         <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-          <ButtonSolid type={ButtonTypes.submit} text="Update email" />
+          <Button
+            variant="ButtonSolid"
+            type={ButtonTypes.submit}
+            text="Update email"
+          />
         </Space>
       </form>
     </ModalContainer>
