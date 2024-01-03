@@ -40,8 +40,7 @@ test.only('(1) | Search by term, filter by colour, check results, view image det
     page.getByRole('heading', { name: 'Visually similar images' })
   ).toBeVisible();
 
-  page.getByRole('link', { name: 'View expanded image' });
-  await page.getByLabel('View expanded image').click();
+  await page.getByRole('link', { name: 'View expanded image' }).click();
   await expect(page).toHaveURL(RegExp(ItemViewerURLRegex));
 });
 
