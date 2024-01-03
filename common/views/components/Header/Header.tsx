@@ -32,7 +32,7 @@ import {
 import DesktopSignIn from './DesktopSignIn';
 import MobileSignIn from './MobileSignIn';
 import HeaderSearch from './HeaderSearch';
-import { searchPlaceholderText } from '@weco/common/data/microcopy';
+import { searchLabelText } from '@weco/common/data/microcopy';
 import { SiteSection } from '../PageLayout/PageLayout';
 
 const NoJSIconWrapper = styled.div`
@@ -185,7 +185,7 @@ const Header: FunctionComponent<Props> = ({
                               icon={searchDropdownIsActive ? cross : search}
                             />
                             <span className="visually-hidden">
-                              {searchPlaceholderText.overview}
+                              {searchLabelText.overview}
                             </span>
                           </NoJSIconWrapper>
                         </NextLink>

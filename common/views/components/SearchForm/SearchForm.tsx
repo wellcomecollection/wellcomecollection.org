@@ -12,7 +12,7 @@ import {
   RefObject,
 } from 'react';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
-import { searchPlaceholderText } from '@weco/common/data/microcopy';
+import { searchLabelText } from '@weco/common/data/microcopy';
 
 type SearchCategory = 'overview' | 'works';
 
@@ -71,7 +71,7 @@ const SearchForm = ({
         inputValue={inputValue}
         setInputValue={setInputValue}
         form={`search-form-${searchCategory}`}
-        placeholder={searchPlaceholderText[searchCategory]}
+        placeholder={searchLabelText[searchCategory]}
         inputRef={inputRef}
         location={location}
       />
