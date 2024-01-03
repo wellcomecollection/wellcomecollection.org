@@ -57,7 +57,7 @@ const SortPaginationWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
+const CatalogueSearchPage: NextPageWithLayout<Props> = ({
   works,
   worksRouteProps,
   query,
@@ -80,7 +80,7 @@ export const CatalogueSearchPage: NextPageWithLayout<Props> = ({
       'production.dates.from',
       'production.dates.to',
     ],
-    queryParams: Object.keys(query),
+    queryParams: query,
   });
 
   const activeFiltersLabels = getActiveFiltersLabel({ filters });

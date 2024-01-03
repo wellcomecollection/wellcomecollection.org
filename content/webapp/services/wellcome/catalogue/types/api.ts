@@ -40,6 +40,8 @@ export type CatalogueImagesApiProps = {
   page?: number;
   'locations.license'?: string[];
   'source.genres.label'?: string[];
+  'production.dates.from'?: string;
+  'production.dates.to'?: string;
   'source.genres.concepts'?: string[];
   'source.subjects.label'?: string[];
   'source.contributors.agent.label'?: string[];
