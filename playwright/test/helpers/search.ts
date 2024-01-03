@@ -97,5 +97,7 @@ export const selectAndWaitForColourFilter = async (page: Page) => {
 
   if (isMobile(page)) {
     await page.getByRole('button', { name: 'Show results' }).click();
+  } else {
+    await page.getByRole('button', { name: 'Colours' }).click();
   }
 };
