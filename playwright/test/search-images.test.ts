@@ -19,7 +19,7 @@ const clickActionClickSearchResultItem = async (
     .click();
 };
 
-test.only('(1) | Search by term, filter by colour, check results, view image details, view expanded image', async ({
+test('(1) | Search by term, filter by colour, check results, view image details, view expanded image', async ({
   page,
   context,
 }) => {
