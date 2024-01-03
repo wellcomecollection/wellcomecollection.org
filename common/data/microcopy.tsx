@@ -148,13 +148,14 @@ export const requestingDisabled = (
 export const pastExhibitionsStrapline =
   'Take a look at our past exhibitions and installations.';
 
-// This is the placeholder terms used in the search box, both for the
+// This is the label used in the search box, both for the
 // search in the global nav and on the categories in wc.org/search
-export const searchPlaceholderText = {
+export const searchLabelText = {
   overview: 'Search our stories, images and catalogue',
   stories: 'Search for stories',
   images: 'Search for images',
   works: 'Search the catalogue',
+  events: 'Search our events',
 };
 
 export const visualStoryLinkText =
