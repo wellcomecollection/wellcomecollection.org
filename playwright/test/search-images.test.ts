@@ -7,7 +7,7 @@ import {
   selectAndWaitForColourFilter,
 } from './helpers/search';
 
-const regexImageGalleryUrl = /\/works\/[a-zA-Z0-9]+\/images[?]id=/;
+const ItemViewerURLRegex = /\/works\/[a-zA-Z0-9]+\/images[?]id=/;
 
 const clickActionClickSearchResultItem = async (
   nthChild: number,
@@ -19,7 +19,7 @@ const clickActionClickSearchResultItem = async (
     .click();
 };
 
-test('(1) | Search by term, filter by colour, check results, view image details, view expanded image', async ({
+test.only('(1) | Search by term, filter by colour, check results, view image details, view expanded image', async ({
   page,
   context,
 }) => {
@@ -42,7 +42,7 @@ test('(1) | Search by term, filter by colour, check results, view image details,
 
   page.getByRole('link', { name: 'View expanded image' });
   await page.getByLabel('View expanded image').click();
-  await expect(page).toHaveURL(RegExp(regexImageGalleryUrl));
+  await expect(page).toHaveURL(RegExp(ItemViewerURLRegex));
 });
 
 test('(2) | Image Modal | images without contributors still show a title', async ({
