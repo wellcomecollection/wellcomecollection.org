@@ -2,7 +2,7 @@ import { font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import { StyledButton } from '@weco/common/views/components/Buttons';
 import { FunctionComponent } from 'react';
 import { LinkProps } from '@weco/common/model/link-props';
 import styled from 'styled-components';
@@ -62,7 +62,7 @@ const Tags: FunctionComponent<Props> = ({
           return (
             <LinkWrapper as="li" key={i}>
               <NextLink {...linkAttributes} passHref legacyBehavior>
-                <SolidButton
+                <StyledButton
                   $size="small"
                   $colors={themeValues.buttonColors.pumiceTransparentCharcoal}
                 >
@@ -85,7 +85,7 @@ const Tags: FunctionComponent<Props> = ({
                       </PartWithSeparator>
                     ))}
                   </TagInner>
-                </SolidButton>
+                </StyledButton>
               </NextLink>
             </LinkWrapper>
           );

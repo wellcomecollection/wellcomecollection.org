@@ -5,9 +5,7 @@ import { allowedRequests } from '@weco/common/values/requests';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
-import ButtonSolid, {
-  ButtonTypes,
-} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import {
   PhysicalItem,
   Work,
@@ -156,12 +154,14 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
 
       <CTAs>
         <ConfirmRequestButtonWrapper>
-          <ButtonSolid
+          <Button
+            variant="ButtonSolid"
             text="Confirm request"
             dataGtmTrigger="requesting_confirm"
           />
         </ConfirmRequestButtonWrapper>
-        <ButtonSolid
+        <Button
+          variant="ButtonSolid"
           colors={themeValues.buttonColors.greenTransparentGreen}
           type={ButtonTypes.button}
           text="Cancel"

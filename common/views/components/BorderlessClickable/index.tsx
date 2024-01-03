@@ -7,10 +7,10 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import {
-  BaseButton,
+  BasicButton,
   BaseButtonInner,
   ButtonIconWrapper,
-} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+} from '@weco/common/views/components/Buttons/Buttons.styles';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { IconSvg } from '@weco/common/icons';
@@ -21,7 +21,7 @@ type StyleProps = {
   $isActive?: boolean;
 };
 
-const BorderlessClickableStyle = styled(BaseButton)<StyleProps>`
+const BorderlessClickableStyle = styled(BasicButton)<StyleProps>`
   background: transparent;
   color: ${props => props.theme.color('neutral.700')};
   padding: 10px 8px;

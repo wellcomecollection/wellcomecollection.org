@@ -23,9 +23,7 @@ import Layout, {
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import ButtonSolid, {
-  ButtonTypes,
-} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -234,7 +232,8 @@ const RegistrationPage: NextPage<Props> = ({
                     </SpacingComponent>
                     <SpacingComponent>
                       <FullWidthButton>
-                        <ButtonSolid
+                        <Button
+                          variant="ButtonSolid"
                           dataGtmTrigger="create_library_account"
                           type={ButtonTypes.submit}
                           text="Create library account"

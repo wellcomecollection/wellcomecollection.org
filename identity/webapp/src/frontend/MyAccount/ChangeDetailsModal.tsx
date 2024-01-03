@@ -1,6 +1,6 @@
 import React, { ReactElement, useRef, useState } from 'react';
 import Modal from '@weco/common/views/components/Modal/Modal';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button from '@weco/common/views/components/Buttons';
 import { UpdateUserSchema } from '../../types/schemas/update-user';
 import { themeValues } from '@weco/common/views/themes/config';
 
@@ -36,7 +36,8 @@ export const ChangeDetailsModal: React.FunctionComponent<
 
   return (
     <>
-      <ButtonSolid
+      <Button
+        variant="ButtonSolid"
         colors={themeValues.buttonColors.greenTransparentGreen}
         text={buttonText}
         clickHandler={() => setIsActive(true)}

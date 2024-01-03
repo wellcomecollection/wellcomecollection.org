@@ -1,10 +1,10 @@
+import { useContext } from 'react';
 import styled from 'styled-components';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import Space from '@weco/common/views/components/styled/Space';
 import Rotator from '@weco/common/views/components/styled/Rotator';
-import Control from '@weco/common/views/components/Buttons/Control/Control';
-import { useContext } from 'react';
+import Control from '@weco/common/views/components/Control';
 import { arrow } from '@weco/common/icons';
 import { LinkProps } from '@weco/common/model/link-props';
 

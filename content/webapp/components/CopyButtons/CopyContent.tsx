@@ -7,7 +7,7 @@ import {
 } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button from '@weco/common/views/components/Buttons';
 import { check } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
 import styled from 'styled-components';
@@ -72,7 +72,8 @@ const CopyContent: FunctionComponent<Props> = ({
       {displayedContent && displayedContent}
       {isEnhanced && (
         <ButtonContainer>
-          <ButtonSolid
+          <Button
+            variant="ButtonSolid"
             dataGtmTrigger="copy_content"
             colors={themeValues.buttonColors.pumiceTransparentCharcoal}
             size="small"

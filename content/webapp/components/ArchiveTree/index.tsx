@@ -15,7 +15,7 @@ import {
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
 import Modal from '@weco/common/views/components/Modal/Modal';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button from '@weco/common/views/components/Buttons';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import { tree } from '@weco/common/icons';
 import NestedList from './ArchiveTree.NestedList';
@@ -237,7 +237,8 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
       {windowSize === 'small' && isEnhanced ? (
         <>
           <ButtonWrap>
-            <ButtonSolid
+            <Button
+              variant="ButtonSolid"
               text="Collection contents"
               clickHandler={() => setShowArchiveTree(true)}
               aria-controls="collection-contents-modal"
