@@ -77,6 +77,16 @@ export const navigateToResultAndConfirmTitleMatches = async (
   await slowExpect(title).toContainText(String(searchResultTitle)); // searchResultTitle could also be null but I expect it would fail accordingly
 };
 
+export const clickImageSearchResultItem = async (
+  nthChild: number,
+  page: Page
+): Promise<void> => {
+  await page
+    .getByTestId('image-search-results-container')
+    .locator(`ul:first-child > li:nth-child(${nthChild}) a`)
+    .click();
+};
+
 // TODO
 // This could probably be better - We should have a different way of spotting if a filter is applied
 // Especially for mobile where they are hidden in the modal.

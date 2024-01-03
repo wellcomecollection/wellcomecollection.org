@@ -2,6 +2,7 @@ import { Page, test, expect } from '@playwright/test';
 import { newSearch } from './helpers/contexts';
 import { expectItemIsVisible } from './asserts/common';
 import {
+  clickImageSearchResultItem,
   searchQuerySubmitAndWait,
   selectAndWaitForColourFilter,
 } from './helpers/search';
@@ -29,7 +30,7 @@ test('(1) | Search by term, filter by colour, check results, view image details,
   await expect(
     page.getByTestId('image-search-results-container')
   ).toBeVisible();
-  await clickActionClickSearchResultItem(1, page);
+  await clickImageSearchResultItem(1, page);
   await expect(page.getByLabel('View expanded image')).toBeVisible();
 
   // Check we show visually similar images.  This could theoretically fail
@@ -39,6 +40,7 @@ test('(1) | Search by term, filter by colour, check results, view image details,
     page.getByRole('heading', { name: 'Visually similar images' })
   ).toBeVisible();
 
+  page.getByRole('link', { name: 'View expanded image' });
   await page.getByLabel('View expanded image').click();
   await expect(page).toHaveURL(RegExp(regexImageGalleryUrl));
 });
