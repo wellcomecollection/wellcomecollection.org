@@ -109,13 +109,8 @@ type Props = {
   backgroundTexture?: string;
   highlightHeading?: boolean;
   isContentTypeInfoBeforeMedia?: boolean;
+  SerialPartNumber?: ReactNode;
   sectionLevelPage?: boolean;
-  // TODO: Don't overload this, it's just for putting things in till
-  // we find a pattern
-  // EDIT: The comment above is 5 years old, we believe the change is simple
-  // and created a ticket to address it
-  // https://github.com/wellcomecollection/wellcomecollection.org/issues/10288
-  TitleTopper?: ReactNode;
 };
 
 const sectionLevelPageGridLayout = { s: 12, m: 12, l: 10, xl: 10 };
@@ -134,7 +129,7 @@ const PageHeader: FunctionComponent<Props> = ({
   heroImageBgColor = 'white',
   backgroundTexture,
   highlightHeading,
-  TitleTopper,
+  SerialPartNumber,
   sectionLevelPage,
 }) => {
   const Heading =
@@ -188,7 +183,7 @@ const PageHeader: FunctionComponent<Props> = ({
                 </Space>
               )}
             >
-              {TitleTopper}
+              {SerialPartNumber}
               {Heading}
             </ConditionalWrapper>
 
