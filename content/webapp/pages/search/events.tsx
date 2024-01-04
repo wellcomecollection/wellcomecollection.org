@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
 import Pagination from '@weco/content/components/Pagination/Pagination';
 import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
-import Sort from '@weco/content/components/Sort/Sort';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -65,23 +64,6 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
 
   const hasNoResults = eventResponseList.totalResults === 0;
 
-  // TODO
-  const sortOptions = [
-    // Default value to be left empty as to not be reflected in URL query
-    {
-      value: '',
-      text: 'Relevance',
-    },
-    {
-      value: 'publicationDate.asc',
-      text: 'Oldest to newest',
-    },
-    {
-      value: 'publicationDate.desc',
-      text: 'Newest to oldest',
-    },
-  ];
-
   return (
     <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
       {eventResponseList && (
@@ -98,9 +80,24 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
                 </span>
 
                 <SortPaginationWrapper>
-                  <Sort
+                  {/* TODO */}
+                  {/* <Sort
                     formId={SEARCH_PAGES_FORM_ID}
-                    options={sortOptions}
+                    options={[
+                      // Default value to be left empty as to not be reflected in URL query
+                      {
+                        value: '',
+                        text: 'Relevance',
+                      },
+                      {
+                        value: 'publicationDate.asc',
+                        text: 'Oldest to newest',
+                      },
+                      {
+                        value: 'publicationDate.desc',
+                        text: 'Newest to oldest',
+                      },
+                    ]}
                     jsLessOptions={{
                       sort: [
                         {
@@ -121,7 +118,7 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
                       sort: query.sort,
                       sortOrder: query.sortOrder,
                     }}
-                  />
+                  /> */}
                   <Pagination
                     formId={SEARCH_PAGES_FORM_ID}
                     totalPages={eventResponseList.totalPages}
@@ -217,7 +214,7 @@ export const getServerSideProps: GetServerSideProps<
       // sortOrder: getQueryPropertyValue(query.sortOrder),
       ...(pageNumber && { page: Number(pageNumber) }),
     },
-    pageSize: 25,
+    pageSize: 24,
     toggles: serverData.toggles,
   });
 
