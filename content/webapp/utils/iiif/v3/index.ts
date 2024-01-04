@@ -1,5 +1,12 @@
 import { Audio, Video } from '@weco/content/services/iiif/types/manifest/v3';
 import {
+  BornDigitalStatus,
+  DownloadOption,
+  TransformedCanvas,
+  AuthClickThroughServiceWithPossibleServiceArray,
+  SpecificationBehaviors,
+} from '@weco/content/types/manifest';
+import {
   AnnotationPage,
   AnnotationBody,
   ChoiceBody,
@@ -16,11 +23,6 @@ import {
   Range,
 } from '@iiif/presentation-3';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
-import {
-  DownloadOption,
-  TransformedCanvas,
-  AuthClickThroughServiceWithPossibleServiceArray,
-} from '@weco/content/types/manifest';
 import { getThumbnailImage } from './canvas';
 
 // The label we want to use to distinguish between parts of a multi-volume work
@@ -531,4 +533,37 @@ export function getCollectionManifests(manifest: Manifest): Canvas[] {
     })
     .flat();
   return [...firstLevelManifests, ...collectionManifests] as Canvas[];
+}
+
+type CustomSpecificationBehaviors = SpecificationBehaviors & 'placeholder';
+// Whether something is born digital or not is determined at the canvas level within a iiifManifest
+// It is therefore possible to have a iiifManifest that contains:
+// - only born digital items
+// - no born digital items
+// - a mix of the two.
+// We need to know which we have to determine the required UI.
+export function getBornDigitalStatus(manifest: Manifest): BornDigitalStatus {
+  const hasBornDigital =
+    manifest?.items.some(
+      canvas =>
+        canvas?.behavior?.includes(
+          'placeholder' as CustomSpecificationBehaviors
+        )
+    ) || false;
+  const hasNonBornDigital =
+    manifest?.items.some(
+      canvas =>
+        !canvas?.behavior?.includes(
+          'placeholder' as CustomSpecificationBehaviors
+        )
+    ) || false;
+  if (hasBornDigital && !hasNonBornDigital) {
+    return 'allBornDigital';
+  } else if (!hasBornDigital) {
+    return 'noBornDigital';
+  } else if (hasBornDigital && hasNonBornDigital) {
+    return 'mixedBornDigital';
+  } else {
+    return 'noBornDigital';
+  }
 }
