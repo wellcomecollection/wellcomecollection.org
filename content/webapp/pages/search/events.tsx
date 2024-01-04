@@ -80,7 +80,7 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
                 </span>
 
                 <SortPaginationWrapper>
-                  {/* TODO */}
+                  {/* TODO re-add when sorting works in Content API */}
                   {/* <Sort
                     formId={SEARCH_PAGES_FORM_ID}
                     options={[
