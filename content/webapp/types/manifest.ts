@@ -37,6 +37,11 @@ export type AuthClickThroughServiceWithPossibleServiceArray = Omit<
   service: AuthAccessTokenService | AuthAccessTokenService[];
 };
 
+export type BornDigitalStatus =
+  | 'allBornDigital'
+  | 'noBornDigital'
+  | 'mixedBornDigital';
+
 export type TransformedManifest = {
   // Currently from iiifManifest V2:
   downloadEnabled?: boolean;
