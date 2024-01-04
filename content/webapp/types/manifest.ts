@@ -43,10 +43,8 @@ export type BornDigitalStatus =
   | 'mixedBornDigital';
 
 export type TransformedManifest = {
-  // Currently from iiifManifest V2:
   downloadEnabled?: boolean;
   firstCollectionManifestLocation?: string;
-  // Currently from iiif manifest v3:
   title: string;
   id: string;
   audio: Audio | undefined;
