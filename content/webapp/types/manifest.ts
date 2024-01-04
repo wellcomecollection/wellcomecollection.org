@@ -45,6 +45,7 @@ export type BornDigitalStatus =
 export type TransformedManifest = {
   downloadEnabled?: boolean;
   firstCollectionManifestLocation?: string;
+  bornDigitalStatus: BornDigitalStatus;
   title: string;
   id: string;
   audio: Audio | undefined;
