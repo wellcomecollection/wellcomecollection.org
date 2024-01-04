@@ -190,7 +190,7 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
           </Grid>
         </Container>
 
-        {!bornDigitalMessage && ( // TODO take off ! before commiting
+        {bornDigitalMessage && (
           <Container>
             <Grid>
               <Space
