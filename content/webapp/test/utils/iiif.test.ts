@@ -8,6 +8,7 @@ import {
   getTransformedCanvases,
   getMultiVolumeLabel,
   groupStructures,
+  getBornDigitalStatus,
 } from '../../utils/iiif/v3';
 import {
   manifest,
@@ -17,6 +18,8 @@ import {
   physicalDescriptionMetadataItem,
   manifestWithVideo,
   clickThroughService,
+  manifestAllBornDigital,
+  manifestMixedBornDigital,
 } from '@weco/content/__mocks__/iiif-manifest-v3';
 
 import b16641097 from '@weco/content/test/fixtures/iiif/manifests/b16641097';
@@ -297,5 +300,24 @@ describe('getIIIFPresentationCredit', () => {
       manifestWithTranscript as Manifest
     );
     expect(credit).toEqual('Wellcome Collection');
+  });
+});
+
+describe.only('Determines if a iiif-manifest includes born digital items', () => {
+  it('returns a status of "noBornDigital" for manifests with no born digital items', () => {
+    const bornDigitalStatus = getBornDigitalStatus(manifest as Manifest);
+    expect(bornDigitalStatus).toEqual('noBornDigital');
+  });
+  it('returns a status of "mixedBornDigital" for manifests with a mix of born digital and non born digital items', () => {
+    const bornDigitalStatus = getBornDigitalStatus(
+      manifestMixedBornDigital as unknown as Manifest
+    );
+    expect(bornDigitalStatus).toEqual('mixedBornDigital');
+  });
+  it('returns a status of "allBornDigital" for manifests with only born digital items', () => {
+    const bornDigitalStatus = getBornDigitalStatus(
+      manifestAllBornDigital as unknown as Manifest
+    );
+    expect(bornDigitalStatus).toEqual('allBornDigital');
   });
 });
