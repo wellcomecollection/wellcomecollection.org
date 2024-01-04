@@ -53,8 +53,6 @@ export type Props = {
   selectedTab: string;
   setSelectedTab: Dispatch<SetStateAction<string>>;
   isWhite?: boolean;
-  // TODO: Is this still useful? I think it was meant to be measured for X length of time for Concepts and that's it?
-  // Check with Tacey
   trackWithSegment?: boolean;
 };
 
