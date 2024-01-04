@@ -30,6 +30,7 @@ import useTransformedManifest from '@weco/content/hooks/useTransformedManifest';
 import { Audio, Video } from '@weco/content/services/iiif/types/manifest/v3';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
+import { useToggles } from '@weco/common/server-data/Context';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -111,6 +112,7 @@ type Props = {
 
 const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
   const transformedIIIFManifest = useTransformedManifest(work);
+  const { bornDigitalMessage } = useToggles();
 
   const isArchive = !!(
     work.parts.length ||
@@ -129,7 +131,9 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
     iiifPresentationLocation || iiifImageLocation;
   const digitalLocationInfo =
     digitalLocation && getDigitalLocationInfo(digitalLocation);
-  const { video, audio } = { ...transformedIIIFManifest };
+  const { video, audio, collectionManifestsCount, bornDigitalStatus } = {
+    ...transformedIIIFManifest,
+  };
   const shouldShowItemLink = showItemLink({
     digitalLocation,
     accessCondition: digitalLocationInfo?.accessCondition,
@@ -153,8 +157,6 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
         crops: {},
       }
     : undefined;
-
-  const { collectionManifestsCount } = { ...transformedIIIFManifest };
 
   return (
     <IsArchiveContext.Provider value={isArchive}>
@@ -187,6 +189,34 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
             </Space>
           </Grid>
         </Container>
+
+        {!bornDigitalMessage && ( // TODO take off ! before commiting
+          <Container>
+            <Grid>
+              <Space
+                className={grid({ s: 12 })}
+                $v={{ size: 'l', properties: ['padding-top'] }}
+              >
+                <div
+                  style={{
+                    marginBottom: '10px',
+                    background: '#A1EEED',
+                    width: '100%',
+                    padding: '8px 16px 5px',
+                  }}
+                >
+                  <strong>{`The iif-manifest for this work ${
+                    bornDigitalStatus !== 'noBornDigital'
+                      ? 'has'
+                      : 'does not have'
+                  } born digital content`}</strong>
+                  <br />
+                  {`status: ${bornDigitalStatus}`}
+                </div>
+              </Space>
+            </Grid>
+          </Container>
+        )}
 
         {isArchive ? (
           <>
