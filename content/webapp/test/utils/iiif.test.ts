@@ -303,7 +303,7 @@ describe('getIIIFPresentationCredit', () => {
   });
 });
 
-describe.only('Determines if a iiif-manifest includes born digital items', () => {
+describe('Determines if a iiif-manifest includes born digital items', () => {
   it('returns a status of "noBornDigital" for manifests with no born digital items', () => {
     const bornDigitalStatus = getBornDigitalStatus(manifest as Manifest);
     expect(bornDigitalStatus).toEqual('noBornDigital');
