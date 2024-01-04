@@ -205,7 +205,7 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
                     padding: '8px 16px 5px',
                   }}
                 >
-                  <strong>{`The iif-manifest for this work ${
+                  <strong>{`The iiif-manifest for this work ${
                     bornDigitalStatus !== 'noBornDigital'
                       ? 'has'
                       : 'does not have'
