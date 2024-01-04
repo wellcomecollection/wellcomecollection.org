@@ -83,10 +83,8 @@ test('(3) | Image Modal | images with contributors show both title and contribut
   await newSearch(context, page, 'images');
   await searchQuerySubmitAndWait('fcmwqd5u', page);
   await clickActionClickSearchResultItem(1, page);
-  await expectItemIsVisible('h2 >> text="Dr. Darwin."', page);
-
-  await expectItemIsVisible(
-    'span >> text="Fortey, W. S. (William Samuel)"',
-    page
-  );
+  await expect(
+    page.getByRole('heading', { name: 'Dr. Darwin.' })
+  ).toBeVisible();
+  await expect(page.getByText('Fortey, W. S. (William Samuel)')).toBeVisible();
 });
