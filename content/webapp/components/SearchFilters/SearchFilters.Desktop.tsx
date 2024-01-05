@@ -91,7 +91,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
 
       {activeFiltersCount > 0 && (
         <ResetActiveFilters
-          query={query}
           linkResolver={linkResolver}
           resetFilters={linkResolver({ query })}
           filters={filters}

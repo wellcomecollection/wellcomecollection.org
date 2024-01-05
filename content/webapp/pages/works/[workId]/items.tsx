@@ -14,7 +14,7 @@ import { getDigitalLocationOfType } from '@weco/content/utils/works';
 import { removeIdiomaticTextTags } from '@weco/content/utils/string';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import IIIFViewer, {
   queryParamToArrayIndex,
 } from '@weco/content/components/IIIFViewer';
@@ -23,7 +23,7 @@ import BetaMessage from '@weco/content/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import Modal from '@weco/common/views/components/Modal/Modal';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button from '@weco/common/views/components/Buttons';
 import { font } from '@weco/common/utils/classnames';
 import { serialiseProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
@@ -33,18 +33,13 @@ import WorkLink from '@weco/content/components/WorkLink';
 import { getServerData } from '@weco/common/server-data';
 import AudioList from '@weco/content/components/AudioList/AudioList';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { unavailableImageMessage } from '@weco/common/data/microcopy';
+import { unavailableContentMessage } from '@weco/common/data/microcopy';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
 import { TransformedManifest } from '@weco/content/types/manifest';
-import WorkHeader from '@weco/content/components/WorkHeader/WorkHeader';
-import WorkTabbedNav from '@weco/content/components/WorkTabbedNav/WorkTabbedNav';
-import { Container } from '@weco/common/views/components/styled/Container';
-import { Grid } from '@weco/content/components/Work/Work';
-import { useToggles } from '@weco/common/server-data/Context';
 import {
   ApiToolbarLink,
   setTzitzitParams,
@@ -128,7 +123,6 @@ const ItemPage: NextPage<Props> = ({
   const [origin, setOrigin] = useState<string>();
   const [showModal, setShowModal] = useState(false);
   const [showViewer, setShowViewer] = useState(true);
-  const { worksTabbedNav } = useToggles();
   const {
     title,
     video,
@@ -141,7 +135,6 @@ const ItemPage: NextPage<Props> = ({
     restrictedService,
     isTotallyRestricted,
     canvases,
-    collectionManifestsCount,
   } = { ...transformedManifest };
 
   const [searchResults, setSearchResults] = useState(serverSearchResults);
@@ -214,34 +207,20 @@ const ItemPage: NextPage<Props> = ({
         />
       )}
 
-      {worksTabbedNav && (
-        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-          <Container>
-            <Grid>
-              <WorkHeader
-                work={work}
-                collectionManifestsCount={collectionManifestsCount}
-              />
-            </Grid>
-            <WorkTabbedNav work={work} selected="imageViewer" />
-          </Container>
-        </Space>
-      )}
-
       {isNotUndefined(audio) && audio?.sounds?.length > 0 && (
         <Space $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-          <Layout12>
+          <Layout gridSizes={gridSize12()}>
             <AudioList
               items={audio.sounds || []}
               thumbnail={audio.thumbnail}
               transcript={audio.transcript}
               workTitle={work.title}
             />
-          </Layout12>
+          </Layout>
         </Space>
       )}
       {video && (
-        <Layout12>
+        <Layout gridSizes={gridSize12()}>
           <Space
             $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
           >
@@ -257,21 +236,21 @@ const ItemPage: NextPage<Props> = ({
               showDownloadOptions={true}
             />
           </Space>
-        </Layout12>
+        </Layout>
       )}
-      {/* TODO remove this or update unavailable message to something more appropriate */}
+
       {!(isNotUndefined(audio) && audio?.sounds.length > 0) &&
         !video &&
         !pdf &&
         !mainImageService &&
         !iiifImageLocation && (
-          <Layout12>
+          <Layout gridSizes={gridSize12()}>
             <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
               <div style={{ marginTop: '98px' }}>
-                <BetaMessage message={unavailableImageMessage} />
+                <BetaMessage message={unavailableContentMessage} />
               </div>
             </Space>
-          </Layout12>
+          </Layout>
         )}
       {pdf && !mainImageService && (
         <IframePdfViewer
@@ -308,7 +287,8 @@ const ItemPage: NextPage<Props> = ({
               $h={{ size: 'm', properties: ['margin-right'] }}
               $v={{ size: 'm', properties: ['margin-top'] }}
             >
-              <ButtonSolid
+              <Button
+                variant="ButtonSolid"
                 dataGtmTrigger="show_the_content"
                 text="Show the content"
                 clickHandler={() => {

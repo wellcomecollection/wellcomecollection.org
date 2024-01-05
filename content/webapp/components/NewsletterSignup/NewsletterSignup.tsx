@@ -1,11 +1,11 @@
 import { SyntheticEvent, useState, useEffect, FunctionComponent } from 'react';
 import styled from 'styled-components';
-import TextInput from '@weco/common/views/components/TextInput/TextInput';
+import TextInput from '@weco/common/views/components/TextInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import useValidation from '@weco/common/hooks/useValidation';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button from '@weco/common/views/components/Buttons';
 import {
   newsletterAddressBook,
   secondaryAddressBooks,
@@ -149,11 +149,10 @@ const NewsletterSignup: FunctionComponent<Props> = ({
               label="Your email address"
               name="Email"
               type="email"
-              required={true}
-              big={true}
               value={emailValue}
               setValue={setEmailValue}
               errorMessage="Enter an email address in the correct format, like name@example.com"
+              required
               {...emailValidation}
             />
           </Space>
@@ -211,7 +210,8 @@ const NewsletterSignup: FunctionComponent<Props> = ({
           </Space>
 
           <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <ButtonSolid
+            <Button
+              variant="ButtonSolid"
               text="Subscribe"
               dataGtmTrigger="newsletter_signup_subscribe"
             />

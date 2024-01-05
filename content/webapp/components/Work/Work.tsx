@@ -26,12 +26,11 @@ import ArchiveTree from '../ArchiveTree';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
-import WorkTabbedNav from '../WorkTabbedNav/WorkTabbedNav';
-import { useToggles } from '@weco/common/server-data/Context';
 import useTransformedManifest from '@weco/content/hooks/useTransformedManifest';
 import { Audio, Video } from '@weco/content/services/iiif/types/manifest/v3';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
+import { useToggles } from '@weco/common/server-data/Context';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -112,8 +111,8 @@ type Props = {
 };
 
 const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
-  const { worksTabbedNav } = useToggles();
   const transformedIIIFManifest = useTransformedManifest(work);
+  const { bornDigitalMessage } = useToggles();
 
   const isArchive = !!(
     work.parts.length ||
@@ -132,18 +131,16 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
     iiifPresentationLocation || iiifImageLocation;
   const digitalLocationInfo =
     digitalLocation && getDigitalLocationInfo(digitalLocation);
-  const { video, audio } = { ...transformedIIIFManifest };
+  const { video, audio, collectionManifestsCount, bornDigitalStatus } = {
+    ...transformedIIIFManifest,
+  };
   const shouldShowItemLink = showItemLink({
     digitalLocation,
     accessCondition: digitalLocationInfo?.accessCondition,
     audio,
     video,
   });
-  const showTabbedNav =
-    worksTabbedNav &&
-    (shouldShowItemLink || (audio?.sounds || []).length > 0 || video);
-  // we want to experiment with showing the tabs for audio and video content
-  // so we can't rely on shouldShowItemLink if we have that content
+
   const imageUrl =
     iiifImageLocation && iiifImageLocation.url
       ? iiifImageTemplate(iiifImageLocation.url)({ size: `800,` })
@@ -160,8 +157,6 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
         crops: {},
       }
     : undefined;
-
-  const { collectionManifestsCount } = { ...transformedIIIFManifest };
 
   return (
     <IsArchiveContext.Provider value={isArchive}>
@@ -195,6 +190,34 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
           </Grid>
         </Container>
 
+        {bornDigitalMessage && (
+          <Container>
+            <Grid>
+              <Space
+                className={grid({ s: 12 })}
+                $v={{ size: 'l', properties: ['padding-top'] }}
+              >
+                <div
+                  style={{
+                    marginBottom: '10px',
+                    background: '#A1EEED',
+                    width: '100%',
+                    padding: '8px 16px 5px',
+                  }}
+                >
+                  <strong>{`The iiif-manifest for this work ${
+                    bornDigitalStatus !== 'noBornDigital'
+                      ? 'has'
+                      : 'does not have'
+                  } born digital content`}</strong>
+                  <br />
+                  {`status: ${bornDigitalStatus}`}
+                </div>
+              </Space>
+            </Grid>
+          </Container>
+        )}
+
         {isArchive ? (
           <>
             <Container>
@@ -217,12 +240,6 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
                   collectionManifestsCount={collectionManifestsCount}
                 />
               </Grid>
-              {showTabbedNav && (
-                <WorkTabbedNav
-                  work={toWorkBasic(work)}
-                  selected="catalogueDetails"
-                />
-              )}
             </Container>
 
             <Container>
@@ -247,12 +264,6 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
                   collectionManifestsCount={collectionManifestsCount}
                 />
               </Grid>
-              {showTabbedNav && (
-                <WorkTabbedNav
-                  work={toWorkBasic(work)}
-                  selected="catalogueDetails"
-                />
-              )}
             </Container>
             <WorkDetails work={work} shouldShowItemLink={shouldShowItemLink} />
           </>

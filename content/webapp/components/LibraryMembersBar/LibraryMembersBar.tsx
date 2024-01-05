@@ -86,7 +86,7 @@ const LibraryMembersBar: FunctionComponent = () => {
         >
           Library members:
         </Space>
-        <span data-test-id="requestingDisabled" className={font('intr', 5)}>
+        <span data-testid="requesting-disabled" className={font('intr', 5)}>
           {requestingDisabled}
         </span>
       </StyledComponent>

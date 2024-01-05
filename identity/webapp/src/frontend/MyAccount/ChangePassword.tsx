@@ -3,10 +3,8 @@ import { ErrorMessage } from '@hookform/error-message';
 import usePasswordRules from '../hooks/usePasswordRules';
 import { PasswordInput, PasswordRules } from '../components/PasswordInput';
 import { FieldMargin } from '../components/Form.style';
-import ButtonSolid, {
-  ButtonTypes,
-} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import { TextInputErrorMessage } from '@weco/common/views/components/TextInput/TextInput';
+import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
+import { InputErrorMessage } from '@weco/common/views/components/TextInput';
 import { useForm, useWatch } from 'react-hook-form';
 import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
@@ -134,7 +132,7 @@ export const ChangePassword: React.FunctionComponent<
             errors={formState.errors}
             name="password"
             render={({ message }) => (
-              <TextInputErrorMessage>{message}</TextInputErrorMessage>
+              <InputErrorMessage errorMessage={message} />
             )}
           />
         </FieldMargin>
@@ -156,7 +154,7 @@ export const ChangePassword: React.FunctionComponent<
             errors={formState.errors}
             name="newPassword"
             render={({ message }) => (
-              <TextInputErrorMessage>{message}</TextInputErrorMessage>
+              <InputErrorMessage errorMessage={message} />
             )}
           />
         </FieldMargin>
@@ -184,7 +182,7 @@ export const ChangePassword: React.FunctionComponent<
             errors={formState.errors}
             name="confirmation"
             render={({ message }) => (
-              <TextInputErrorMessage>{message}</TextInputErrorMessage>
+              <InputErrorMessage errorMessage={message} />
             )}
           />
           <Space $v={{ size: 's', properties: ['margin-top'] }}>
@@ -192,7 +190,11 @@ export const ChangePassword: React.FunctionComponent<
           </Space>
         </FieldMargin>
         <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-          <ButtonSolid type={ButtonTypes.submit} text="Update password" />
+          <Button
+            variant="ButtonSolid"
+            type={ButtonTypes.submit}
+            text="Update password"
+          />
         </Space>
       </form>
     </ModalContainer>

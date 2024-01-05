@@ -8,14 +8,14 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 import Space from '@weco/common/views/components/styled/Space';
-import Select from '@weco/content/components/Select/Select';
+import Select from '@weco/content/components/Select';
 import { propsToQuery } from '@weco/common/utils/routes';
 import {
   DefaultSortValuesType,
   getUrlQueryFromSortValue,
 } from '@weco/common/utils/search';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { ButtonTypes } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import { ButtonTypes } from '@weco/common/views/components/Buttons';
 
 const Wrapper = styled(Space)`
   ${props => props.theme.media('medium')`

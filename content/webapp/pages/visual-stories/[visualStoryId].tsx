@@ -18,6 +18,7 @@ import Body from '@weco/content/components/Body/Body';
 import { VisualStoryDocument } from '@weco/content/services/prismic/types/visual-stories';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { capitalize } from '@weco/common/utils/grammar';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 type Props = {
   visualStory: VisualStory;
@@ -32,7 +33,7 @@ export const returnVisualStoryProps = ({
   visualStoryDocument?: VisualStoryDocument;
   serverData: SimplifiedServerData;
 }) => {
-  if (visualStoryDocument) {
+  if (isNotUndefined(visualStoryDocument)) {
     const visualStory = transformVisualStory(visualStoryDocument);
     const jsonLd = visualStoryLd(visualStory);
 
@@ -47,21 +48,21 @@ export const returnVisualStoryProps = ({
         },
       }),
     };
-  } else {
-    return { notFound: true };
   }
+
+  return { notFound: true };
 };
 
 export const getServerSideProps = async context => {
   setCacheControl(context.res);
-  const client = createClient(context);
   const { visualStoryId } = context.query;
-  const serverData = await getServerData(context);
 
   if (!looksLikePrismicId(visualStoryId)) {
     return { notFound: true };
   }
 
+  const serverData = await getServerData(context);
+  const client = createClient(context);
   const visualStoryDocument = await fetchVisualStory(client, visualStoryId);
 
   return returnVisualStoryProps({ visualStoryDocument, serverData });

@@ -24,7 +24,7 @@ import StackingTable from '@weco/common/views/components/StackingTable/StackingT
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { itemIsRequestable } from '../../utils/requesting';
 import Placeholder from '@weco/content/components/Placeholder/Placeholder';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button from '@weco/common/views/components/Buttons';
 import { sierraAccessMethodtoNewLabel } from '@weco/common/data/microcopy';
 import { useToggles } from '@weco/common/server-data/Context';
 import { themeValues } from '@weco/common/views/themes/config';
@@ -186,7 +186,8 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 
     if (showButton) {
       const requestButton = (
-        <ButtonSolid
+        <Button
+          variant="ButtonSolid"
           colors={themeValues.buttonColors.greenTransparentGreen}
           disabled={userState !== 'signedin'}
           ref={requestButtonRef}

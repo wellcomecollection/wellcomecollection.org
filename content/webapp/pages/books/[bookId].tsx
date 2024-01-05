@@ -2,8 +2,8 @@ import { GetServerSideProps } from 'next';
 import { FunctionComponent, ReactElement } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import Button from '@weco/common/views/components/Buttons';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import { font, grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import BookImage from '@weco/content/components/BookImage/BookImage';
@@ -19,10 +19,11 @@ import { createClient } from '@weco/content/services/prismic/fetch';
 import { transformBook } from '@weco/content/services/prismic/transformers/books';
 import { Book } from '@weco/content/types/books';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
-import Layout8 from '@weco/common/views/components/Layout8/Layout8';
+import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
@@ -87,13 +88,14 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   setCacheControl(context.res);
   const { bookId } = context.query;
+
   if (!looksLikePrismicId(bookId)) {
     return { notFound: true };
   }
   const client = createClient(context);
   const bookDocument = await fetchBook(client, bookId);
 
-  if (bookDocument) {
+  if (isNotUndefined(bookDocument)) {
     const serverData = await getServerData(context);
     const book = transformBook(bookDocument);
 
@@ -121,13 +123,13 @@ const BookPage: FunctionComponent<Props> = props => {
   const { book } = props;
   const FeaturedMedia = book.cover && (
     <Space $v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
-      <Layout8>
+      <Layout gridSizes={gridSize8()}>
         <BookImage
           image={{ ...book.cover }}
           sizes={{ xlarge: 1 / 3, large: 1 / 3, medium: 1 / 3, small: 1 }}
           quality="low"
         />
-      </Layout8>
+      </Layout>
     </Space>
   );
   const breadcrumbs = {
@@ -175,7 +177,11 @@ const BookPage: FunctionComponent<Props> = props => {
           <BookMetadata book={book} />
         </MetadataWrapper>
         {book.orderLink && (
-          <ButtonSolidLink link={book.orderLink} text="Buy the book" />
+          <Button
+            variant="ButtonSolidLink"
+            link={book.orderLink}
+            text="Buy the book"
+          />
         )}
       </ContentPage>
     </PageLayout>

@@ -5,10 +5,10 @@ import {
   ReactElement,
   FunctionComponent,
 } from 'react';
-import TextInput from '@weco/common/views/components/TextInput/TextInput';
+import TextInput from '@weco/common/views/components/TextInput';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button from '@weco/common/views/components/Buttons';
 import { check } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
 
@@ -73,7 +73,8 @@ const CopyUrl: FunctionComponent<Props> = ({
             properties: ['margin-top'],
           }}
         >
-          <ButtonSolid
+          <Button
+            variant="ButtonSolid"
             dataGtmTrigger="copy_url"
             colors={themeValues.buttonColors.pumiceTransparentCharcoal}
             size="small"

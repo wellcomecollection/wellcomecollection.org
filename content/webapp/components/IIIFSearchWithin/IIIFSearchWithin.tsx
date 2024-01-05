@@ -7,16 +7,15 @@ import {
   FunctionComponent,
   useRef,
 } from 'react';
-import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import styled from 'styled-components';
+import TextInput from '@weco/common/views/components/TextInput';
 import { font } from '@weco/common/utils/classnames';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button from '@weco/common/views/components/Buttons';
 import ItemViewerContext, {
   results,
 } from '../ItemViewerContext/ItemViewerContext';
 import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
-import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
 import { search } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
@@ -34,6 +33,7 @@ const Highlight = styled.span`
 const SearchForm = styled.form`
   position: relative;
   display: flex;
+  align-items: flex-end;
 `;
 
 const SearchInputWrapper = styled.div`
@@ -209,19 +209,13 @@ const IIIFSearchWithin: FunctionComponent = () => {
             setValue={setValue}
             required={true}
             ref={inputRef}
-            darkBg
+            hasClearButton
+            clearHandler={handleClearResults}
           />
-          {value !== '' && (
-            <ClearSearch
-              inputRef={inputRef}
-              clickHandler={handleClearResults}
-              setValue={setValue}
-              right={10}
-            />
-          )}
         </SearchInputWrapper>
         <SearchButtonWrapper>
-          <ButtonSolid
+          <Button
+            variant="ButtonSolid"
             icon={search}
             text="search"
             isTextHidden={true}

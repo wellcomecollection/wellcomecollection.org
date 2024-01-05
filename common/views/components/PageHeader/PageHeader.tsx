@@ -13,11 +13,14 @@ import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { Picture } from '@weco/common/views/components/Picture/Picture';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import HighlightedHeading from './HighlightedHeading';
-import Layout10 from '@weco/common/views/components/Layout10/Layout10';
-import Layout from '@weco/common/views/components/Layout/Layout';
-import { gridSize12 } from '@weco/common/views/components/Layout12/Layout12';
-import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
-import WobblyBottom from '@weco/common/views/components/WobblyBottom/WobblyBottom';
+import Layout, {
+  gridSize10,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
+import {
+  WobblyEdge,
+  WobblyBottom,
+} from '@weco/common/views/components/WobblyEdge';
 import Space from '@weco/common/views/components/styled/Space';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
@@ -106,13 +109,8 @@ type Props = {
   backgroundTexture?: string;
   highlightHeading?: boolean;
   isContentTypeInfoBeforeMedia?: boolean;
+  SerialPartNumber?: ReactNode;
   sectionLevelPage?: boolean;
-  // TODO: Don't overload this, it's just for putting things in till
-  // we find a pattern
-  // EDIT: The comment above is 5 years old, we believe the change is simple
-  // and created a ticket to address it
-  // https://github.com/wellcomecollection/wellcomecollection.org/issues/10288
-  TitleTopper?: ReactNode;
 };
 
 const sectionLevelPageGridLayout = { s: 12, m: 12, l: 10, xl: 10 };
@@ -131,7 +129,7 @@ const PageHeader: FunctionComponent<Props> = ({
   heroImageBgColor = 'white',
   backgroundTexture,
   highlightHeading,
-  TitleTopper,
+  SerialPartNumber,
   sectionLevelPage,
 }) => {
   const Heading =
@@ -151,7 +149,9 @@ const PageHeader: FunctionComponent<Props> = ({
       <Container $backgroundTexture={backgroundTexture}>
         {Background}
         <Layout
-          gridSizes={sectionLevelPage ? gridSize12 : sectionLevelPageGridLayout}
+          gridSizes={
+            sectionLevelPage ? gridSize12() : sectionLevelPageGridLayout
+          }
         >
           <Wrapper
             $v={{
@@ -183,7 +183,7 @@ const PageHeader: FunctionComponent<Props> = ({
                 </Space>
               )}
             >
-              {TitleTopper}
+              {SerialPartNumber}
               {Heading}
             </ConditionalWrapper>
 
@@ -202,9 +202,9 @@ const PageHeader: FunctionComponent<Props> = ({
         </Layout>
 
         {FeaturedMedia && (
-          <Layout10>
+          <Layout gridSizes={gridSize10()}>
             <div style={{ position: 'relative' }}>{FeaturedMedia}</div>
-          </Layout10>
+          </Layout>
         )}
 
         {HeroPicture && (

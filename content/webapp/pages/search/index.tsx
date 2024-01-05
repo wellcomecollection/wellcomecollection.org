@@ -8,6 +8,7 @@ import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoRe
 import StoriesGrid from '@weco/content/components/StoriesGrid';
 import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
+import EventsSearchResults from '@weco/content/components/EventsSearchResults';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
@@ -38,14 +39,17 @@ import {
 import theme from '@weco/common/views/themes/default';
 import { formatNumber } from '@weco/common/utils/grammar';
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
+import { getEvents } from '@weco/content/services/wellcome/content/events';
 import {
   Article,
   ContentResultsList,
+  EventDocument,
 } from '@weco/content/services/wellcome/content/types/api';
 import { WellcomeApiError } from '@weco/content/services/wellcome';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
+import { useToggles } from '@weco/common/server-data/Context';
 
 // Creating this version of fromQuery for the overview page only
 // No filters or pagination required.
@@ -59,6 +63,7 @@ type Props = {
   works?: ReturnedResults<WorkBasic>;
   images?: ReturnedResults<Image>;
   stories?: ReturnedResults<Article>;
+  events?: ReturnedResults<EventDocument>;
   query: Query;
   pageview: Pageview;
 };
@@ -69,22 +74,23 @@ type SeeMoreButtonProps = {
   totalResults: number;
 };
 
-const StoriesSection = styled(Space).attrs({
+const BasicSection = styled(Space).attrs({
+  as: 'section',
   $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
-})`
+})``;
+
+const StoriesSection = styled(BasicSection)`
   background-color: ${props => props.theme.color('neutral.200')};
 `;
 
-const ImagesSection = styled(Space).attrs({
-  $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
-})`
+const ImagesSection = styled(BasicSection)`
   background-color: ${props => props.theme.color('black')};
   color: ${props => props.theme.color('white')};
 `;
 
-const WorksSection = styled(Space).attrs({
-  $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
-})``;
+const EventsSection = styled(BasicSection)`
+  background-color: ${props => props.theme.color('neutral.200')};
+`;
 
 const SectionTitle = ({ sectionName }: { sectionName: string }) => {
   return (
@@ -132,10 +138,12 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   works,
   images,
   stories,
+  events,
   query,
 }) => {
   const { query: queryString } = query;
   const { setLink } = useContext(SearchContext);
+  const { eventsSearch } = useToggles();
 
   useEffect(() => {
     const pathname = '/search';
@@ -181,7 +189,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
         ) : (
           <>
             {stories && (
-              <StoriesSection as="section">
+              <StoriesSection>
                 <Container>
                   <SectionTitle sectionName="Stories" />
                 </Container>
@@ -227,7 +235,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
             )}
 
             {works && (
-              <WorksSection>
+              <BasicSection>
                 <Container>
                   <SectionTitle sectionName="Catalogue" />
 
@@ -241,7 +249,33 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                     />
                   </Space>
                 </Container>
-              </WorksSection>
+              </BasicSection>
+            )}
+
+            {eventsSearch && events && (
+              <EventsSection>
+                <Container>
+                  <SectionTitle sectionName="Events" />
+
+                  <EventsSearchResults
+                    events={events.pageResults}
+                    dynamicImageSizes={{
+                      xlarge: 1 / 5,
+                      large: 1 / 5,
+                      medium: 1 / 2,
+                      small: 1 / 2,
+                    }}
+                  />
+
+                  <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+                    <SeeMoreButton
+                      text="All events"
+                      pathname="/search/events"
+                      totalResults={200} // TODO
+                    />
+                  </Space>
+                </Container>
+              </EventsSection>
             )}
           </>
         )}
@@ -296,7 +330,7 @@ export const getServerSideProps: GetServerSideProps<
 
   try {
     // Stories
-    // We want the default order to be "descending publication date" with the Prismic API
+    // We want the default order to be "descending publication date" with the Content API
 
     const storiesResults = await getArticles({
       params: {
@@ -342,8 +376,53 @@ export const getServerSideProps: GetServerSideProps<
       imagesResults.type === 'Error' &&
       worksResults.type === 'Error' &&
       storiesResults.type === 'Error'
+      //  && eventsResults.type === 'Error' // TODO uncomment when removing eventsSearch toggle
     ) {
-      return appError(context, 500, 'Search results error');
+      // Use the error from the works API as it is the most mature of the 3
+      return appError(
+        context,
+        worksResults.httpStatus,
+        worksResults.description || worksResults.label
+      );
+    }
+
+    // TODO reorganise when removing eventsSearch toggle
+    // Events
+    const { eventsSearch } = serverData?.toggles;
+
+    if (eventsSearch) {
+      const eventsResults = await getEvents({
+        params: {
+          ...query,
+          sort: getQueryPropertyValue(query.sort),
+          sortOrder: getQueryPropertyValue(query.sortOrder),
+        },
+        pageSize: 4,
+        toggles: serverData.toggles,
+      });
+
+      const events = getQueryResults({
+        categoryName: 'events',
+        queryResults: eventsResults as
+          | ContentResultsList<EventDocument>
+          | WellcomeApiError,
+      });
+
+      return {
+        props: serialiseProps({
+          ...defaultProps,
+          ...(stories && stories.pageResults?.length && { stories }),
+          ...(images?.pageResults.length && { images }),
+          ...(events?.pageResults.length && { events }),
+          works:
+            works && works.pageResults.length
+              ? {
+                  ...works,
+                  pageResults: works.pageResults.map(toWorkBasic),
+                }
+              : undefined,
+        }),
+      };
     }
 
     return {

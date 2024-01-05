@@ -21,6 +21,7 @@ import {
   getCollectionManifests,
   checkModalRequired,
   checkIsTotallyRestricted,
+  getBornDigitalStatus,
 } from '@weco/content/utils/iiif/v3';
 
 export function transformManifest(manifestV3: Manifest): TransformedManifest {
@@ -58,7 +59,10 @@ export function transformManifest(manifestV3: Manifest): TransformedManifest {
   const structures = manifestV3.structures || [];
   const isCollectionManifest = manifestV3.type === 'Collection';
   const downloadEnabled = hasPdfDownload(manifestV3);
+  const bornDigitalStatus = getBornDigitalStatus(manifestV3);
+
   return {
+    bornDigitalStatus,
     id,
     firstCollectionManifestLocation,
     audio,

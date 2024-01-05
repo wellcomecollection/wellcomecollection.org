@@ -1,5 +1,5 @@
 import mockToday from '@weco/common/test/utils/date-mocks';
-import { getEarliestFutureDateRange } from './EventDateRange';
+import { getEarliestFutureDateRange } from '.';
 
 describe('getEarliestFutureDateRange', () => {
   mockToday({ as: new Date('2022-08-30') });

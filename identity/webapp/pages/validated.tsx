@@ -4,8 +4,8 @@ import {
   Container,
   Wrapper,
 } from '@weco/identity/src/frontend/components/Layout.style';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import Layout10 from '@weco/common/views/components/Layout10/Layout10';
+import Button from '@weco/common/views/components/Buttons';
+import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
@@ -24,14 +24,15 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
   // auth0.com/docs/brand-and-customize/email/email-template-descriptions#redirect-to-results-for-verification-email-template
   return (
     <PageWrapper title="Email verified">
-      <Layout10>
+      <Layout gridSizes={gridSize10()}>
         <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
               {success || urlUsed ? (
                 <>
                   <ValidatedSuccessText isNewSignUp={isNewSignUp} />
-                  <ButtonSolidLink
+                  <Button
+                    variant="ButtonSolidLink"
                     link="/account"
                     text={
                       userState === 'signedin'
@@ -46,7 +47,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
             </Wrapper>
           </Container>
         </Space>
-      </Layout10>
+      </Layout>
     </PageWrapper>
   );
 };

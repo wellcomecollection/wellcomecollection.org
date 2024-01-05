@@ -15,7 +15,10 @@ const CheckboxRadioLabel = styled.label`
   cursor: pointer;
 `;
 
-const CheckboxRadioBox = styled.span<{ $type: string }>`
+const CheckboxRadioBox = styled.span<{
+  $type: string;
+  $hasErrorBorder?: boolean;
+}>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -26,6 +29,7 @@ const CheckboxRadioBox = styled.span<{ $type: string }>`
   height: 1.3em;
   border: 1px solid ${props => props.theme.color('black')};
   border-radius: ${props => (props.$type === 'radio' ? '50%' : '0')};
+  ${props => (props.$hasErrorBorder ? `border-color: red;` : ``)}
 
   .icon {
     position: absolute;
@@ -80,6 +84,7 @@ type CheckboxRadioProps = {
   value?: string;
   ariaLabel?: string;
   form?: string;
+  hasErrorBorder?: boolean;
 };
 
 const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
@@ -87,13 +92,14 @@ const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
   text,
   type,
   ariaLabel,
+  hasErrorBorder,
   ...inputProps
 }: CheckboxRadioProps): ReactElement<CheckboxRadioProps> => {
   return (
     <CheckboxRadioLabel htmlFor={id}>
       <CheckBoxWrapper>
         <CheckboxRadioInput id={id} $type={type} {...inputProps} />
-        <CheckboxRadioBox $type={type}>
+        <CheckboxRadioBox $type={type} $hasErrorBorder={hasErrorBorder}>
           <Icon icon={type === 'checkbox' ? check : indicator} />
         </CheckboxRadioBox>
       </CheckBoxWrapper>

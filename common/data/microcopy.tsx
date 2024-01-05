@@ -96,8 +96,8 @@ export const a11y = {
 export const wellcomeImagesRedirectBanner =
   'Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we’re working to improve data quality, search relevance and tools to help you use these images more easily.';
 
-export const unavailableImageMessage =
-  'We are working to make this image available online.';
+export const unavailableContentMessage =
+  'We are working to make this content available online.';
 
 // Messages used in a user's list of item requests
 // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7660
@@ -135,19 +135,27 @@ export const sierraAccessMethodtoNewLabel = {
 
 export const inOurBuilding = 'In our building';
 
-export const requestingDisabled =
-  'Requesting is temporarily unavailable while we perform maintenance work. In the meantime, email library@wellcomecollection.org the details of your request and when you would like to consult it and we can retrieve the items for you.';
+export const requestingDisabled = (
+  <>
+    {'Requesting is temporarily unavailable while we perform maintenance work.'}
+    <br />
+    {
+      'In the meantime, email library@wellcomecollection.org the details of your request and when you would like to consult it and we can retrieve the items for you.'
+    }
+  </>
+);
 
 export const pastExhibitionsStrapline =
   'Take a look at our past exhibitions and installations.';
 
-// This is the placeholder terms used in the search box, both for the
+// This is the label used in the search box, both for the
 // search in the global nav and on the categories in wc.org/search
-export const searchPlaceholderText = {
-  overview: 'Search our stories, images and catalogue',
+export const searchLabelText = {
+  overview: 'Search our stories, images and catalogue', // TODO edit once we add events officially
   stories: 'Search for stories',
   images: 'Search for images',
   works: 'Search the catalogue',
+  events: 'Search our events',
 };
 
 export const visualStoryLinkText =

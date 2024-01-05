@@ -35,11 +35,11 @@ If they're in the library, a new member has two options (quoting LE&E):
 
 The online form includes a brief explanation of what library membership includes, and asks them for an email address and password:
 
-<img src="./Screenshot 2023-03-09 at 09.21.02.png">
+<img src="./screenshots/library-membership/apply-for-membership.png">
 
 On the next screen, the user is asked to give us some personal information – currently just their name and the collections research agreement:
 
-<img src="./Screenshot 2023-03-09 at 09.22.12.png">
+<img src="./screenshots/library-membership/apply-for-membership-2.png">
 
 They are required to fill in this information – if they walk away and try to log in again later, they will keep returning to this screen until it’s completed.
 
@@ -55,18 +55,18 @@ Users can log in to their account using the account link in the top-right hand c
 
 The sign-up form is pretty standard: email, password, forgot password link:
 
-<img src="./Screenshot 2023-03-09 at 09.31.14.png">
+<img src="./screenshots/library-membership/sign-in.png">
 
 **Implementation note:** the previous sign-in form allowed users to sign in with their email address, library card number, or username; hence the note above the current form. At some point we should remove this note.
 
 Once somebody logs in, they go to their library account page, which includes personal information, a list of any pending item requests, and an option to request cancellation of their library membership.
 
-<img src="./Screenshot 2023-03-09 at 09.36.05.png">
+<img src="./screenshots/library-membership/library-account.png">
 If you click “Change email” or “Change password”, a modal window appears that asks you to enter your new details (and requires your current password to confirm).
 
 If you click “Cancel your membership”, a modal window appears explaining what will happen, asks you to enter your password, and then has a Confirm/Cancel step.
 
-<img src="./Screenshot 2023-03-09 at 15.42.16.png"> <img src="./Screenshot 2023-03-09 at 15.42.25.png"> <img src="./Screenshot 2023-03-09 at 15.41.46.png">
+<img src="./screenshots/library-membership/change-email.png"> <img src="./screenshots/library-membership/change-password.png"> <img src="./screenshots/library-membership/cancel-membership.png">
 
 Implementation notes:
 

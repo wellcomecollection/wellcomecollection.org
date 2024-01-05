@@ -6,9 +6,9 @@ import {
 import { ArticleAggregations } from '@weco/content/services/wellcome/content/types';
 import { quoteVal } from '@weco/common/utils/csv';
 import { toHtmlId } from '@weco/content/utils/string';
-import { ImagesProps } from '@weco/content/components/ImagesLink';
-import { WorksProps } from '@weco/content/components/WorksLink';
-import { StoriesProps } from '@weco/content/components/StoriesLink';
+import { ImagesProps } from '@weco/content/components/SearchPagesLink/Images';
+import { WorksProps } from '@weco/content/components/SearchPagesLink/Works';
+import { StoriesProps } from '@weco/content/components/SearchPagesLink/Stories';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import { formatNumber } from '@weco/common/utils/grammar';
 
@@ -85,29 +85,89 @@ function filterOptionsWithNonAggregates({
   selectedValues: (string | SelectedValue)[];
   showEmptyBuckets?: boolean;
 }): FilterOption[] {
-  const aggregationValues = options.map(option => option.value);
-  const nonAggregateOptions: FilterOption[] = selectedValues
-    .map(value =>
-      isString(value)
-        ? {
-            value,
-            label: value,
-          }
-        : value
-    )
-    .filter(({ value }) => !aggregationValues.includes(value))
-    .map(({ label, value }) => ({
-      id: toHtmlId(value),
-      value,
-      label,
-      selected: true,
-    }));
+  const aggregationValues: string[] = options.map(option => option.value);
+  const selectedOptionValues: string[] = selectedValues.map(value =>
+    isString(value) ? value : value.value
+  );
+  const aggregationOptionsByValue = mergeOptionCounts(options);
+  const selectedOptionsByValue = new Map<string, FilterOption>(
+    selectedValues.map(value => [
+      isString(value) ? value : value.value,
+      selectedValueToFilterOption(value),
+    ])
+  );
 
-  return nonAggregateOptions
-    .concat(options)
-    .filter(option => showEmptyBuckets || option.count || option.selected);
+  const allOptions: FilterOption[] = [
+    ...new Set(aggregationValues.concat(selectedOptionValues)),
+  ]
+    .map(
+      value =>
+        aggregationOptionsByValue.get(value) ||
+        selectedOptionsByValue.get(value)
+    )
+    .filter(option => isNotUndefined(option)) as FilterOption[];
+
+  return allOptions
+    .filter(option => showEmptyBuckets || option.count || option.selected)
+    .sort(optionOrder);
 }
 
+function selectedValueToFilterOption(
+  value: string | SelectedValue
+): FilterOption {
+  return isString(value)
+    ? {
+        id: value,
+        value,
+        label: value,
+        selected: true,
+      }
+    : {
+        id: value.value,
+        value: value.value,
+        label: value.label,
+        selected: true,
+      };
+}
+/**
+ * Sorting definition for FilterOptions.
+ *
+ * FilterOptions are ordered by count descending then label ascending,
+ * This places the most common values at the top, and presents a sensible
+ * and predictable ordering when any two values are equally as common.
+ *
+ * There is an exception to that general rule, in that values with
+ * no matching documents are presented at the top, rather than the bottom.
+ * This is expected either when a requested value is bogus, or is
+ * filtered out by the search term or other queries.
+ */
+function optionOrder(lhs: FilterOption, rhs: FilterOption): number {
+  const countDiff = (rhs.count || Infinity) - (lhs.count || Infinity);
+  const diff = countDiff || lhs.label.localeCompare(rhs.label);
+  return diff;
+}
+
+/**
+ * Creates a map of values to filter options.
+ *
+ * Options received from the API may contain multiple entries with identical
+ * labels.
+ * This is expected where:
+ *  - There are two genuinely different concepts with the same name (e.g. John Smith)
+ *  - The same concept has been identified differently in the source data (e.g. MeSH vs LCSH)
+ *
+ * The filters used in the UI operate on labels, so these differences are irrelevant
+ * in this context, and can cause problems, so homonymous options are to be merged.
+ */
+function mergeOptionCounts(options: FilterOption[]): Map<string, FilterOption> {
+  return options.reduce((acc, option) => {
+    const matchingOption = acc.get(option.value);
+    if (matchingOption && matchingOption.count) {
+      matchingOption.count += option.count || 0;
+    } else acc.set(option.value, option);
+    return acc;
+  }, new Map<string, FilterOption>());
+}
 /** Creates the label for a filter in the GUI.
  *
  * Note: we intentionally omit the count when we have a filter whose

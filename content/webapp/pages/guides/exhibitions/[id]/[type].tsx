@@ -18,14 +18,16 @@ import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/j
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
-import Layout8 from '@weco/common/views/components/Layout8/Layout8';
-import Layout10 from '@weco/common/views/components/Layout10/Layout10';
+import Layout, {
+  gridSize10,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/services/app';
 import styled from 'styled-components';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import Button from '@weco/common/views/components/Buttons';
 import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import cookies from '@weco/common/data/cookies';
@@ -35,6 +37,7 @@ import useHotjar from '@weco/content/hooks/useHotjar';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { font } from '@weco/common/utils/classnames';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 const ButtonWrapper = styled(Space).attrs({
   $v: { size: 's', properties: ['margin-bottom'] },
@@ -77,13 +80,12 @@ export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
   setCacheControl(context.res);
-  const serverData = await getServerData(context);
   const { id, type, usingQRCode, userPreferenceSet, stopId } = context.query;
-  const { res, req } = context;
 
   if (!looksLikePrismicId(id) || !isValidType(type)) {
     return { notFound: true };
   }
+  const { res, req } = context;
 
   const client = createClient(context);
   const exhibitionGuideQuery = await fetchExhibitionGuide(client, id);
@@ -142,7 +144,8 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  if (exhibitionGuideQuery) {
+  if (isNotUndefined(exhibitionGuideQuery)) {
+    const serverData = await getServerData(context);
     const exhibitionGuide = transformExhibitionGuide(exhibitionGuideQuery);
     const filteredExhibitionGuide = filterExhibitionGuideComponents(
       exhibitionGuide,
@@ -161,9 +164,9 @@ export const getServerSideProps: GetServerSideProps<
         stopId: stopId as string | undefined,
       }),
     };
-  } else {
-    return { notFound: true };
   }
+
+  return { notFound: true };
 };
 
 const ExhibitionGuidePage: FunctionComponent<Props> = props => {
@@ -208,7 +211,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
       skipToContentLinks={skipToContentLinks}
     >
       <Header $backgroundColor={typeColor}>
-        <Layout8 shift={false}>
+        <Layout gridSizes={gridSize8(false)}>
           <>
             <h1 className={font('wb', 1)}>
               {exhibitionGuide.title}{' '}
@@ -223,7 +226,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               )
             )}
             <ButtonWrapper>
-              <ButtonSolidLink
+              <Button
+                variant="ButtonSolidLink"
                 colors={themeValues.buttonColors.charcoalWhiteCharcoal}
                 text="Change guide type"
                 link={`/guides/exhibitions/${exhibitionGuide.id}`}
@@ -232,17 +236,18 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                 }}
               />
             </ButtonWrapper>
-            <ButtonSolidLink
+            <Button
+              variant="ButtonSolidLink"
               colors={themeValues.buttonColors.charcoalWhiteCharcoal}
               text="Change exhibition"
               link="/guides/exhibitions"
             />
           </>
-        </Layout8>
+        </Layout>
       </Header>
 
       <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-        <Layout10 isCentered={false}>
+        <Layout gridSizes={gridSize10(false)}>
           {userPreferenceSet ? (
             <p>
               {type !== 'captions-and-transcripts' && (
@@ -266,7 +271,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               )}
             </>
           )}
-        </Layout10>
+        </Layout>
       </Space>
 
       <ExhibitionGuideStops type={type} stops={exhibitionGuide.components} />

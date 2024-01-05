@@ -1,7 +1,9 @@
 import { FunctionComponent } from 'react';
-import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import HTMLDayDate from '@weco/common/views/components/HTMLDayDate/HTMLDayDate';
-import HTMLTime from '@weco/common/views/components/HTMLTime/HTMLTime';
+import {
+  HTMLDate,
+  HTMLDayDate,
+  HTMLTime,
+} from '@weco/common/views/components/HTMLDateAndTime';
 import { DateRange as DateRangeProps } from '@weco/common/model/date-range';
 import { isSameDay } from '@weco/common/utils/dates';
 

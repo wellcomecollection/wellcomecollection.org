@@ -22,15 +22,11 @@ import {
 } from '@weco/common/services/prismic/opening-times';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import SegmentedControl, {
-  Item,
-  ItemID,
-} from '@weco/content/components/SegmentedControl/SegmentedControl';
 import EventsByMonth from '@weco/content/components/EventsByMonth/EventsByMonth';
 import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import FacilityPromo from '@weco/content/components/FacilityPromo/FacilityPromo';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
@@ -75,7 +71,7 @@ import {
   getNextWeekendDateRange,
   startOfDay,
 } from '@weco/common/utils/dates';
-import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import {
   enrichTryTheseTooPromos,
   getTryTheseTooPromos,
@@ -84,8 +80,9 @@ import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { Container } from '@weco/common/views/components/styled/Container';
+import Tabs from '@weco/content/components/Tabs';
 
-const segmentedControlItems: Item[] = [
+const tabItems = [
   {
     id: 'current-and-coming-up',
     url: '/whats-on',
@@ -206,7 +203,7 @@ const OpeningTimes = styled.div`
 `;
 
 type HeaderProps = {
-  activeId: ItemID;
+  activeId: string;
   todaysOpeningHours: ExceptionalOpeningHoursDay | OpeningHoursDay | undefined;
   featuredText?: FeaturedTextType;
 };
@@ -284,13 +281,13 @@ const Header: FunctionComponent<HeaderProps> = ({
           )}
           <Space
             className={grid({ s: 12, m: 10, l: 7, xl: 7 })}
-            $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
+            $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
           >
-            <SegmentedControl
-              ariaCurrentText="page"
-              id="whatsOnFilter"
-              activeId={activeId}
-              items={segmentedControlItems}
+            <Tabs
+              tabBehaviour="navigate"
+              label="date filter"
+              currentSection={activeId}
+              items={tabItems}
             />
           </Space>
         </div>
@@ -407,7 +404,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
 
   const firstExhibition = exhibitions[0];
 
-  const extraTitleText = segmentedControlItems.find(item => item.id === period);
+  const extraTitleText = tabItems.find(item => item.id === period);
   const pageTitle = extraTitleText
     ? `What’s on${` - ${extraTitleText.text}`}`
     : `What’s on`;
@@ -441,17 +438,17 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
           todaysOpeningHours={todaysOpeningHours}
           featuredText={featuredText}
         />
-        <Layout12>
+        <Layout gridSizes={gridSize12()}>
           <DateRange dateRange={dateRange} period={period} />
           {/* TODO put back when building, shop and cafe are open normally */}
           {/* {period === 'today' && todaysOpeningHours?.isClosed && (
             <ClosedMessage />
           )} */}
-        </Layout12>
-        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+        </Layout>
+        <Space $v={{ size: 'm', properties: ['margin-top'] }}>
           {period === 'current-and-coming-up' && (
             <>
-              <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+              <Space $v={{ size: 'm', properties: ['padding-top'] }}>
                 <SpacingSection>
                   <SpacingComponent>
                     <SectionHeader title="Exhibitions" />
@@ -459,19 +456,17 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                   <SpacingComponent>
                     <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
                       {firstExhibition ? (
-                        <Layout12>
+                        <Layout gridSizes={gridSize12()}>
                           <FeaturedCardExhibition
                             exhibition={firstExhibition}
                             background="warmNeutral.300"
                             textColor="black"
                           />
-                        </Layout12>
+                        </Layout>
                       ) : (
-                        <Layout12>
-                          <p data-test-id="no-exhibitions">
-                            There are no current exhibitions
-                          </p>
-                        </Layout12>
+                        <Layout gridSizes={gridSize12()}>
+                          <p>There are no current exhibitions</p>
+                        </Layout>
                       )}
                     </Space>
                   </SpacingComponent>
@@ -498,9 +493,9 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                         links={[{ text: 'View all events', url: '/events' }]}
                       />
                     ) : (
-                      <Layout12>
+                      <Layout gridSizes={gridSize12()}>
                         <p>There are no upcoming events</p>
-                      </Layout12>
+                      </Layout>
                     )}
                   </SpacingComponent>
                 </SpacingSection>
@@ -522,9 +517,9 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                         ]}
                       />
                     ) : (
-                      <Layout12>
+                      <Layout gridSizes={gridSize12()}>
                         <p>There are no upcoming catch up events</p>
-                      </Layout12>
+                      </Layout>
                     )}
                   </SpacingComponent>
                 </SpacingSection>
@@ -536,7 +531,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
               <Space
                 $v={{ size: 'm', properties: ['padding-top', 'margin-bottom'] }}
               >
-                <Layout12>
+                <Layout gridSizes={gridSize12()}>
                   <div
                     style={{
                       display: 'flex',
@@ -547,7 +542,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                     <h2 className={font('wb', 2)}>Exhibitions and Events</h2>
                     <span className={font('intb', 4)}>Free admission</span>
                   </div>
-                </Layout12>
+                </Layout>
               </Space>
               <ExhibitionsAndEvents
                 exhibitions={exhibitions}

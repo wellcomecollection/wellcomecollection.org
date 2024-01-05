@@ -1,7 +1,7 @@
 import { cssGrid, font } from '@weco/common/utils/classnames';
 import { Card as CardType } from '../../types/card';
 import Card from '../Card/Card';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import FeaturedCard from '../FeaturedCard/FeaturedCard';
@@ -21,7 +21,7 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
   const image = getCrop(item.image, '16:9');
 
   return (
-    <Layout12>
+    <Layout gridSizes={gridSize12()}>
       <FeaturedCard
         image={
           image && {
@@ -59,7 +59,7 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
           <p className={font('intr', 5)}>{item.description}</p>
         )}
       </FeaturedCard>
-    </Layout12>
+    </Layout>
   );
 };
 

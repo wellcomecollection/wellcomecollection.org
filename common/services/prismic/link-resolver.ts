@@ -26,8 +26,7 @@ function linkResolver(doc: Props | DataProps): string {
       const {
         data: { relatedDocument },
       } = doc;
-
-      if (relatedDocument) {
+      if (relatedDocument?.id) {
         return `/${relatedDocument.type}/${relatedDocument.id}/visual-stories`;
       } else {
         return `/visual-stories/${id}`;

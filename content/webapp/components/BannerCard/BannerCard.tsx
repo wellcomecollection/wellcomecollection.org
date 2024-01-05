@@ -5,7 +5,7 @@ import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import { Season } from '@weco/content/types/seasons';
 import Space from '@weco/common/views/components/styled/Space';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button from '@weco/common/views/components/Buttons';
 import DateRange from '@weco/content/components/DateRange/DateRange';
 import { arrowSmall } from '@weco/common/icons';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
@@ -143,7 +143,8 @@ const BannerCard: FunctionComponent<Props> = ({
           </DateRangeWrapper>
         )}
         <p className={font('intr', 5)}>{description}</p>
-        <ButtonSolid
+        <Button
+          variant="ButtonSolid"
           colors={themeValues.buttonColors.whiteTransparentWhite}
           isIconAfter={true}
           icon={arrowSmall}

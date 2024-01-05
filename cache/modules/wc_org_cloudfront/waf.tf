@@ -11,6 +11,68 @@ locals {
   // A more restrictive limit for expensive URLs (eg /works)
   restrictive_rate_limit  = 1000
   restricted_path_regexes = ["^\\/works$", "^\\/images$", "^\\/concepts$", "^\\/search$"]
+
+  // These come from the information security team
+  // Qualys is an "enterprise vulnerability management tool"
+  // They get the list from the Qualys Cloud Portal
+  qualys_scanner_ips = toset([
+    "151.104.35.212",
+    "151.104.35.215",
+    "151.104.32.131",
+    "151.104.32.115",
+    "151.104.34.237",
+    "151.104.34.255",
+    "151.104.35.70",
+    "151.104.33.138",
+    "151.104.33.133",
+    "151.104.35.241",
+    "151.104.35.184",
+    "151.104.33.225",
+    "151.104.33.135",
+    "151.104.34.102",
+    "151.104.34.22",
+    "151.104.34.6",
+    "151.104.32.9",
+  ])
+
+  ip_allowlist = setunion(var.waf_ip_allowlist, local.qualys_scanner_ips)
+
+  // This is the complete list of Bot Control rules from
+  // https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html
+  //
+  // For ease of maintenance, we have the complete list here and comment out those rules which are
+  // we wish to be enabled or that we wish to remain enabled.
+  // Everything that is not commented out in this list will be disabled by setting its action to count.
+  //
+  // Config and rationale currently reflect's @jamieparkinson's understanding 3/1/2024
+  //
+  // TL;DR comment out a rule if you want to enable it
+  bot_control_rule_no_block_list = [
+    "CategoryAdvertising",       // No substantial traffic
+    "CategoryArchiver",          // Traffic is always desirable
+    "CategoryContentFetcher",    // Traffic is always desirable
+    "CategoryEmailClient",       // Traffic is always desirable
+    "CategoryHttpLibrary",       // High-risk for breaking scripts and other application services
+    "CategoryLinkChecker",       // No substantial traffic
+    "CategoryMiscellaneous",     // No substantial traffic
+    "CategoryMonitoring",        // Traffic is always desirable
+    "CategoryScrapingFramework", // No substantial traffic
+    "CategorySearchEngine",      // Traffic is always desirable
+    "CategorySecurity",          // Traffic is always desirable
+    // "CategorySeo",            // Unverified SEO bots are the source of the _vast_ majority of our bot traffic
+    "CategorySocialMedia",       // Traffic is always desirable
+    "CategoryAI",                // No substantial traffic
+    "SignalAutomatedBrowser",    // No substantial traffic
+    "SignalKnownBotDataCenter",  // Known bot data centres include "good" bots such as Updown
+    "SignalNonBrowserUserAgent", // High risk for breaking scripts and other application services
+    // These are for targeted Bot Control, which we don't use
+    // "TGT_VolumetricIpTokenAbsent",
+    // "TGT_VolumetricSession",
+    // "TGT_SignalAutomatedBrowser",
+    // "TGT_SignalBrowserInconsistency",
+    // "TGT_TokenReuseIp",
+    // "TGT_ML_CoordinatedActivityMedium and TGT_ML_CoordinatedActivityHigh"
+  ]
 }
 
 resource "aws_wafv2_web_acl" "wc_org" {
@@ -125,6 +187,121 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
+  rule {
+    name     = "core-rule-group"
+    priority = 4
+
+    override_action {
+      none {}
+    }
+
+    statement {
+      managed_rule_group_statement {
+        name        = "AWSManagedRulesCommonRuleSet"
+        vendor_name = "AWS"
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "weco-cloudfront-acl-core-${var.namespace}"
+    }
+  }
+
+  // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
+  rule {
+    name     = "sqli-rule-group"
+    priority = 5
+
+    override_action {
+      none {}
+    }
+
+    statement {
+      managed_rule_group_statement {
+        name        = "AWSManagedRulesSQLiRuleSet"
+        vendor_name = "AWS"
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "weco-cloudfront-acl-sqli-${var.namespace}"
+    }
+  }
+
+  // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
+  rule {
+    name     = "known-bad-inputs-rule-group"
+    priority = 6
+
+    override_action {
+      none {}
+    }
+
+    statement {
+      managed_rule_group_statement {
+        name        = "AWSManagedRulesKnownBadInputsRuleSet"
+        vendor_name = "AWS"
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "weco-cloudfront-acl-known-bad-inputs-${var.namespace}"
+    }
+  }
+
+  rule {
+    name     = "bot-control-rule-group"
+    priority = 7
+
+    // Because the Bot Control rules are quite aggressive, they block some useful bots
+    // such as Updown. While we could add overrides for specific bots, we don"t want to have to
+    // keep coming back here as we use different monitoring services, scripts, etc.
+    //
+    // Instead, we"re starting by disabling most of the more high-risk rules and retaining only the
+    // ones like CategorySeo which we know cover the majority of our known-bad bot traffic.
+    // Rules can be found here:
+    // https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html
+    override_action {
+      none {}
+    }
+
+    statement {
+      managed_rule_group_statement {
+        name        = "AWSManagedRulesBotControlRuleSet"
+        vendor_name = "AWS"
+
+        managed_rule_group_configs {
+          aws_managed_rules_bot_control_rule_set {
+            inspection_level = "COMMON"
+          }
+        }
+
+        dynamic "rule_action_override" {
+          for_each = local.bot_control_rule_no_block_list
+          content {
+            name = rule_action_override.value
+            action_to_use {
+              count {}
+            }
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "weco-cloudfront-acl-bot-control-${var.namespace}"
+    }
+  }
+
   visibility_config {
     cloudwatch_metrics_enabled = true
     sampled_requests_enabled   = true
@@ -152,5 +329,5 @@ resource "aws_wafv2_ip_set" "allowlist" {
   ip_address_version = "IPV4"
 
   # These need to be CIDR blocks rather than plain addresses
-  addresses = [for ip in var.waf_ip_allowlist : "${ip}/32"]
+  addresses = [for ip in local.ip_allowlist : "${ip}/32"]
 }

@@ -4,9 +4,7 @@ import styled from 'styled-components';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import Space from '@weco/common/views/components/styled/Space';
 import { searchFilterCheckBox } from '@weco/content/text/aria-labels';
-import ButtonSolid, {
-  ButtonTypes,
-} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import {
   Filter,
   CheckboxFilter as CheckboxFilterType,
@@ -229,42 +227,47 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
         </button>
       </noscript>
 
-      <Modal
-        id={id}
-        isActive={isActive}
-        setIsActive={setIsActive}
-        openButtonRef={openMoreFiltersButtonRef}
-        modalStyle="filters"
-      >
-        <FiltersHeader>
-          <h3 className={font('wb', 4)}>All filters</h3>
-        </FiltersHeader>
-
-        <ModalInner>
-          {isEnhanced && (
-            <MoreFilters
-              changeHandler={changeHandler}
-              filters={filters}
-              form={form}
-              hasNoResults={hasNoResults}
-            />
+      {isEnhanced && (
+        <Modal
+          id={id}
+          isActive={isActive}
+          setIsActive={setIsActive}
+          openButtonRef={openMoreFiltersButtonRef}
+          modalStyle="filters"
+        >
+          <FiltersHeader>
+            <h3 className={font('wb', 4)}>All filters</h3>
+          </FiltersHeader>
+          {/* The Modal element needs to be pre-rendered even if inactive for its CSSTransition effect
+            But there's a bit of rerending withing MoreFilters that is causing issues with the Desktop behaviour,
+            so hiding if not active. https://github.com/wellcomecollection/wellcomecollection.org/issues/10287#issuecomment-1857622262 */}
+          {isActive && (
+            <ModalInner>
+              <MoreFilters
+                changeHandler={changeHandler}
+                filters={filters}
+                form={form}
+                hasNoResults={hasNoResults}
+              />
+            </ModalInner>
           )}
-        </ModalInner>
-        <FiltersFooter>
-          <NextLink passHref {...resetFilters}>
-            Reset filters
-          </NextLink>
+          <FiltersFooter>
+            <NextLink passHref {...resetFilters}>
+              Reset filters
+            </NextLink>
 
-          <ButtonSolid
-            ref={undefined}
-            type={ButtonTypes.button}
-            clickHandler={() => {
-              setIsActive(false);
-            }}
-            text="Show results"
-          />
-        </FiltersFooter>
-      </Modal>
+            <Button
+              variant="ButtonSolid"
+              ref={undefined}
+              type={ButtonTypes.button}
+              clickHandler={() => {
+                setIsActive(false);
+              }}
+              text="Show results"
+            />
+          </FiltersFooter>
+        </Modal>
+      )}
     </>
   );
 };

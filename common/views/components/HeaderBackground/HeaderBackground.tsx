@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
-import WobblyEdge from '../WobblyEdge/WobblyEdge';
+import { WobblyEdge } from '../WobblyEdge';
 
 type Props = {
   backgroundTexture?: string;

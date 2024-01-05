@@ -9,7 +9,7 @@ import { Series } from '@weco/content/types/series';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import {
@@ -40,6 +40,7 @@ import styled from 'styled-components';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 const ContentTypeWrapper = styled.div`
   display: flex;
@@ -64,15 +65,16 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   setCacheControl(context.res);
   const { articleId } = context.query;
+
   if (!looksLikePrismicId(articleId)) {
     return { notFound: true };
   }
 
   const client = createClient(context);
   const articleDocument = await fetchArticle(client, articleId);
-  const serverData = await getServerData(context);
 
-  if (articleDocument) {
+  if (isNotUndefined(articleDocument)) {
+    const serverData = await getServerData(context);
     const article = transformArticle(articleDocument);
     const jsonLd = articleLd(article);
     return {
@@ -91,9 +93,9 @@ export const getServerSideProps: GetServerSideProps<
         },
       }),
     };
-  } else {
-    return { notFound: true };
   }
+
+  return { notFound: true };
 };
 
 type ArticleSeriesList = {
@@ -216,12 +218,11 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
   const isPodcast = article.format?.id === ArticleFormatIds.Podcast;
 
   // Check if the article is in a serial, and where
+  // If so, create relevant PartNumberIndicator
   const serial = article.series.find(series => series.schedule.length > 0);
   const partNumber = getPartNumberInSeries(article);
 
-  // We can abstract this out as a component if we see it elsewhere.
-  // Not too confident it's going to be used like this for long.
-  const TitleTopper = serial && partNumber && (
+  const SerialPartNumber = serial && partNumber && (
     <PartNumberIndicator
       number={partNumber}
       backgroundColor={serial.color}
@@ -293,7 +294,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
           : maybeHeroPicture
       }
       heroImageBgColor={isImageGallery ? 'white' : 'warmNeutral.300'}
-      TitleTopper={TitleTopper}
+      SerialPartNumber={SerialPartNumber}
       isContentTypeInfoBeforeMedia={true}
     />
   );

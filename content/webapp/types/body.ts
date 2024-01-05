@@ -3,7 +3,7 @@ import { Props as IframeProps } from '@weco/common/views/components/Iframe/Ifram
 import { Props as InfoBlockProps } from '@weco/content/components/InfoBlock/InfoBlock';
 import { Props as AsyncSearchResultsProps } from '../components/SearchResults/AsyncSearchResults';
 import { Props as QuoteProps } from '../components/Quote/Quote';
-import { Props as ImageGalleryProps } from '../components/ImageGallery/ImageGallery';
+import { Props as ImageGalleryProps } from '../components/ImageGallery';
 import { Props as GifVideoProps } from '../components/GifVideo/GifVideo';
 import { Props as TitledTextListProps } from '../components/TitledTextList/TitledTextList';
 import { Props as TagsGroupProps } from '@weco/content/components/TagsGroup/TagsGroup';
@@ -12,7 +12,7 @@ import { Props as EmbedProps } from '@weco/common/views/components/VideoEmbed/Vi
 import {
   TextAndIconsItem,
   TextAndImageItem,
-} from '../components/TextAndImageOrIcons/TextAndImageOrIcons';
+} from '../components/TextAndImageOrIcons';
 import { AudioPlayerProps } from '@weco/content/components/AudioPlayer/AudioPlayer';
 import * as prismic from '@prismicio/client';
 import { CaptionedImage } from '@weco/common/model/captioned-image';

@@ -12,15 +12,15 @@ import {
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { underConstruction } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import PageHeader, { headerSpaceSize } from '../PageHeader/PageHeader';
 import PageLayout from '../PageLayout/PageLayout';
 import SpacingSection from '../styled/SpacingSection';
 import SpacingComponent from '../styled/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import { dangerouslyGetEnabledToggles } from '@weco/common/utils/cookies';
+import Layout, { gridSize8 } from '../Layout';
 
-const ToggleMessageBar = styled(Space).attrs({
+const MessageBar = styled(Space).attrs({
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
@@ -68,8 +68,8 @@ const TogglesMessage: FunctionComponent = () => {
   }, []);
 
   return toggles.length > 0 ? (
-    <Layout8>
-      <ToggleMessageBar>
+    <Layout gridSizes={gridSize8()}>
+      <MessageBar>
         <Space $h={{ size: 's', properties: ['margin-right'] }}>
           <Icon icon={underConstruction} />
         </Space>
@@ -84,8 +84,38 @@ const TogglesMessage: FunctionComponent = () => {
             </Fragment>
           ))}
         </Space>
-      </ToggleMessageBar>
-    </Layout8>
+      </MessageBar>
+    </Layout>
+  ) : null;
+};
+
+const SafariPreviewMessage: FunctionComponent = () => {
+  const [showPreviewSafariMessage, setShowPreviewSafariMessage] =
+    useState(false);
+
+  useEffect(() => {
+    const isSafari =
+      !navigator.userAgent.includes('Chrome') &&
+      navigator.userAgent.includes('Safari');
+    const isPreview = window.location.host.includes('preview.');
+
+    setShowPreviewSafariMessage(isSafari && isPreview);
+  }, []);
+
+  return showPreviewSafariMessage ? (
+    <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+      <Layout gridSizes={gridSize8()}>
+        <MessageBar>
+          <Space $h={{ size: 's', properties: ['margin-right'] }}>
+            <Icon icon={underConstruction} />
+          </Space>
+          <Space $h={{ size: 's', properties: ['margin-right'] }}>
+            Prismic previews do not work in Safari. Please use a different
+            browser, or enable cross-site cookies.
+          </Space>
+        </MessageBar>
+      </Layout>
+    </Space>
   ) : null;
 };
 
@@ -131,6 +161,7 @@ const ErrorPage: FunctionComponent<Props> = ({ statusCode = 500, title }) => {
         />
         <SpacingSection>
           <SpacingComponent>
+            <SafariPreviewMessage />
             {getErrorMessage(statusCode)}
             <TogglesMessage />
           </SpacingComponent>

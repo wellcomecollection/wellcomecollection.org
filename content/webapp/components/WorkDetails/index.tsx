@@ -1,7 +1,7 @@
 import { FunctionComponent, useContext } from 'react';
 import { font } from '@weco/common/utils/classnames';
-import { toLink as worksLink } from '../WorksLink';
-import { toLink as imagesLink } from '../ImagesLink';
+import { toLink as worksLink } from '../SearchPagesLink/Works';
+import { toLink as imagesLink } from '../SearchPagesLink/Images';
 import {
   getDigitalLocationInfo,
   getDigitalLocationOfType,
@@ -16,10 +16,10 @@ import WorkDetailsList from './WorkDetails.List';
 import WorkDetailsTags from './WorkDetails.Tags';
 import WhereToFindIt from './WorkDetails.WhereToFind';
 import WorkDetailsHoldings from './WorkDetails.Holdings';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import Button from '@weco/common/views/components/Buttons';
 import { toLink as itemLink } from '../ItemLink';
 import { toLink as conceptLink } from '../ConceptLink';
-import Layout10 from '@weco/common/views/components/Layout10/Layout10';
+import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import {
   Work,
@@ -170,7 +170,8 @@ const WorkDetails: FunctionComponent<Props> = ({
 
       {work.images && work.images.length > 0 && (
         <WorkDetailsSection headingText="Selected images from this work">
-          <ButtonSolidLink
+          <Button
+            variant="ButtonSolidLink"
             dataGtmTrigger="view_selected_images"
             colors={themeValues.buttonColors.greenTransparentGreen}
             text={
@@ -454,7 +455,7 @@ const WorkDetails: FunctionComponent<Props> = ({
       {renderContent()}
     </Space>
   ) : (
-    <Layout10>{renderContent()}</Layout10>
+    <Layout gridSizes={gridSize10()}>{renderContent()}</Layout>
   );
 };
 

@@ -3,17 +3,15 @@ import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { FieldMargin } from '../components/Form.style';
 import TextInput, {
-  TextInputErrorMessage,
-} from '@weco/common/views/components/TextInput/TextInput';
+  InputErrorMessage,
+} from '@weco/common/views/components/TextInput';
 import { PasswordInput } from '../components/PasswordInput';
 import { validEmailPattern } from '../components/ValidationPatterns';
 import { Loading } from './Loading';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import { UpdateUserError, useUpdateUser } from '../hooks/useUpdateUser';
 import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
-import ButtonSolid, {
-  ButtonTypes,
-} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { font } from '@weco/common/utils/classnames';
@@ -150,12 +148,16 @@ export const ChangeEmail: React.FunctionComponent<
             errors={formState.errors}
             name="password"
             render={({ message }) => (
-              <TextInputErrorMessage>{message}</TextInputErrorMessage>
+              <InputErrorMessage errorMessage={message} />
             )}
           />
         </FieldMargin>
         <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-          <ButtonSolid type={ButtonTypes.submit} text="Update email" />
+          <Button
+            variant="ButtonSolid"
+            type={ButtonTypes.submit}
+            text="Update email"
+          />
         </Space>
       </form>
     </ModalContainer>

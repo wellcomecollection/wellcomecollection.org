@@ -31,3 +31,9 @@ $ cd playwright
 $ yarn
 $ PLAYWRIGHT_BASE_URL=http://localhost:3000 yarn test
 ```
+
+Some tests require you to run both `content` & `identity` apps at the same time, to do this run from the repository root:
+
+```console
+$ ./scripts/run-concurrently.sh
+```

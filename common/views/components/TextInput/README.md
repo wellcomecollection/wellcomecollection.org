@@ -2,7 +2,7 @@
 To display a text input and any relevant validation UI/messaging to the user.
 
 ### Notes
-- The input will validate when it is blurred or the form it lives in is submitted (either shows error state or 'valid' checkmark)
+- The input will validate when it is blurred or the form it lives in is submitted (either shows error or success state)
 - The input will hide any error at the point when it becomes valid and won't re-check for errors until it is blurred
 - The input will hide valid checkmark if it receives new input and won't revalidate until it is blurred
 

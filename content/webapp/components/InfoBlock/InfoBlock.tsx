@@ -2,7 +2,7 @@ import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import Button from '@weco/common/views/components/Buttons';
 import { dasherize } from '@weco/common/utils/grammar';
 import * as prismic from '@prismicio/client';
 import { themeValues } from '@weco/common/views/themes/config';
@@ -37,7 +37,8 @@ const InfoBlock: FunctionComponent<Props> = ({
       </div>
       {link && linkText && (
         <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-          <ButtonSolidLink
+          <Button
+            variant="ButtonSolidLink"
             colors={themeValues.buttonColors.greenTransparentGreen}
             link={link}
             text={linkText}

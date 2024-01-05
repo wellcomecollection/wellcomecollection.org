@@ -3,7 +3,7 @@ import { classNames, cssGrid } from '@weco/common/utils/classnames';
 import { Link } from '../../types/link';
 import { convertItemToCardProps } from '../../types/card';
 import BookPromo from '../BookPromo/BookPromo';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
@@ -81,7 +81,7 @@ const CardGrid: FunctionComponent<Props> = ({
         </div>
       </CssGridContainer>
       {links && links.length > 0 && (
-        <Layout12>
+        <Layout gridSizes={gridSize12()}>
           <Space $v={{ size: 'l', properties: ['margin-top'] }}>
             {links.map(link => (
               <Space
@@ -92,7 +92,7 @@ const CardGrid: FunctionComponent<Props> = ({
               </Space>
             ))}
           </Space>
-        </Layout12>
+        </Layout>
       )}
     </div>
   );

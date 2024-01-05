@@ -9,7 +9,7 @@ import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { newsletterDescription } from '@weco/common/data/microcopy';
 import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
-import Layout8 from '@weco/common/views/components/Layout8/Layout8';
+import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 type Props = {
@@ -58,13 +58,13 @@ const Newsletter: FunctionComponent<Props> = ({ result }) => {
 
       <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
         <Space $v={{ size: 'xl', properties: ['padding-bottom'] }}>
-          <Layout8>
+          <Layout gridSizes={gridSize8()}>
             <NewsletterSignup
               isSuccess={result === 'success'}
               isError={result === 'error'}
               isConfirmed={result === 'confirmed'}
             />
-          </Layout8>
+          </Layout>
         </Space>
       </Space>
     </PageLayout>

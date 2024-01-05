@@ -5,7 +5,7 @@ import IIIFClickthrough from '@weco/content/components/IIIFClickthrough/IIIFClic
 import Space from '@weco/common/views/components/styled/Space';
 import VideoPlayer from '@weco/content/components/VideoPlayer/VideoPlayer';
 import AudioList from '@weco/content/components/AudioList/AudioList';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import Button from '@weco/common/views/components/Buttons';
 import Download from '@weco/content/components/Download/Download';
 import WorkDetailsLicence from './WorkDetails.Licence';
 import { eye } from '@weco/common/icons';
@@ -119,21 +119,20 @@ const WorkDetailsAvailableOnline = ({
                 </ConditionalWrapper>
               </Space>
             )}
-
             <div style={{ display: 'flex' }}>
               {itemUrl && (
                 <Space
                   as="span"
                   $h={{ size: 'm', properties: ['margin-right'] }}
                 >
-                  <ButtonSolidLink
+                  <Button
+                    variant="ButtonSolidLink"
                     icon={eye}
                     text="View"
                     link={{ ...itemUrl }}
                   />
                 </Space>
               )}
-
               {showDownloadOptions && (
                 <Download
                   ariaControlsId="itemDownloads"
@@ -141,8 +140,10 @@ const WorkDetailsAvailableOnline = ({
                 />
               )}
             </div>
-            {((collectionManifestsCount && collectionManifestsCount > 0) ||
-              (canvasCount && canvasCount > 0)) && (
+            {(Boolean(
+              collectionManifestsCount && collectionManifestsCount > 0
+            ) ||
+              Boolean(canvasCount && canvasCount > 0)) && (
               <Space $v={{ size: 'm', properties: ['margin-top'] }}>
                 <p className={`${font('lr', 6)}`} style={{ marginBottom: 0 }}>
                   Contains:{' '}

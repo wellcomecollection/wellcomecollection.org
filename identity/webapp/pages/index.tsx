@@ -35,15 +35,17 @@ import { ChangeEmail } from '../src/frontend/MyAccount/ChangeEmail';
 import { ChangePassword } from '../src/frontend/MyAccount/ChangePassword';
 import { DeleteAccount } from '../src/frontend/MyAccount/DeleteAccount';
 import { useRequestedItems } from '../src/frontend/hooks/useRequestedItems';
-import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
-import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import Layout10 from '@weco/common/views/components/Layout10/Layout10';
+import Layout, {
+  gridSize10,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
+import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
 import { allowedRequests } from '@weco/common/values/requests';
 import { info2 } from '@weco/common/icons';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
-import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -219,18 +221,18 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
   return (
     <PageWrapper title="Your library account">
       <Header $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <Layout12>
+        <Layout gridSizes={gridSize12()}>
           <Space
             $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
             <Title>Library account</Title>
           </Space>
-        </Layout12>
+        </Layout>
         <div className="is-hidden-s">
           <WobblyEdge backgroundColor="warmNeutral.300" />
         </div>
       </Header>
-      <Layout10>
+      <Layout gridSizes={gridSize10()}>
         <>
           {!user?.emailValidated && (
             <AccountStatus type="info">
@@ -421,7 +423,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
             </Wrapper>
           </Container>
         </>
-      </Layout10>
+      </Layout>
     </PageWrapper>
   );
 };
