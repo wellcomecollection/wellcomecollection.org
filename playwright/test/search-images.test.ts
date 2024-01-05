@@ -8,6 +8,8 @@ import {
 
 const ItemViewerURLRegex = /\/works\/[a-zA-Z0-9]+\/images[?]id=/;
 
+test.describe.configure({ mode: 'parallel' });
+
 test('(1) | Search by term, filter by colour, check results, view image details, view expanded image', async ({
   page,
   context,
@@ -39,9 +41,11 @@ test('(2) | Image Modal | images without contributors still show a title', async
 }) => {
   await newSearch(context, page, 'images');
   await searchQuerySubmitAndWait('kd9h6gr3', page);
-
   await clickImageSearchResultItem(1, page);
-  await expect(page.getByText('Fish. Watercolour drawing.')).toBeVisible();
+
+  await expect(
+    page.getByTestId('image-modal').getByText('Fish. Watercolour drawing.')
+  ).toBeVisible();
 });
 
 test('(3) | Image Modal | images with contributors show both title and contributor', async ({
@@ -51,8 +55,10 @@ test('(3) | Image Modal | images with contributors show both title and contribut
   await newSearch(context, page, 'images');
   await searchQuerySubmitAndWait('fcmwqd5u', page);
   await clickImageSearchResultItem(1, page);
+
+  const imageModal = await page.getByTestId('image-modal');
   await expect(
-    page.getByRole('heading', { name: 'Dr. Darwin.' })
+    imageModal.getByRole('heading', { name: 'Dr. Darwin.' })
   ).toBeVisible();
-  // await expect(page.getByText('Fortey, W. S. (William Samuel)')).toBeVisible();
+  await expect(imageModal).toContainText('Fortey, W. S. (William Samuel)');
 });
