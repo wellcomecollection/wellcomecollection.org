@@ -68,6 +68,14 @@ const toggles = {
         'Adds an Events section to the Search hub and a new Events tab for more specific searches',
       type: 'experimental',
     },
+    {
+      id: 'bornDigitalMessage',
+      title: 'Displays whether a work has born digital items or not',
+      initialValue: false,
+      description:
+        'Adds some text to the top of a work page stating whether there are born digital items in the iiif-manifest',
+      type: 'experimental',
+    },
   ] as const,
   tests: [] as ABTest[],
 };
