@@ -4,7 +4,7 @@ import { isMobile } from './contexts';
 
 // Search pages tend to be slower to load and will benefit from a longer timeout
 // Default is currently 5000 https://playwright.dev/docs/test-timeouts
-const slowExpect = expect.configure({ timeout: 10000 });
+export const slowExpect = expect.configure({ timeout: 10000 });
 
 export const searchQuerySubmitAndWait = async (
   query: string,
@@ -77,6 +77,17 @@ export const navigateToResultAndConfirmTitleMatches = async (
   await slowExpect(title).toContainText(String(searchResultTitle)); // searchResultTitle could also be null but I expect it would fail accordingly
 };
 
+export const clickImageSearchResultItem = async (
+  nthChild: number,
+  page: Page
+): Promise<void> => {
+  await page
+    .getByTestId('image-search-results-container')
+    .locator(`ul:first-child > li:nth-child(${nthChild}) a`)
+    .click();
+  await slowExpect(page.getByLabel('View expanded image')).toBeVisible();
+};
+
 // TODO
 // This could probably be better - We should have a different way of spotting if a filter is applied
 // Especially for mobile where they are hidden in the modal.
@@ -95,7 +106,10 @@ export const selectAndWaitForColourFilter = async (page: Page) => {
   await page.getByRole('button', { name: 'Red' }).click();
   await testIfFilterIsApplied('red', page);
 
+  // Close modal box by applying the filter, or ensure the desktop filter box is closed
   if (isMobile(page)) {
     await page.getByRole('button', { name: 'Show results' }).click();
+  } else {
+    await page.getByRole('button', { name: 'Colours' }).click();
   }
 };

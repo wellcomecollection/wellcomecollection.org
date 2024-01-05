@@ -1,14 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { newSearch } from './helpers/contexts';
-
-import { expectItemIsVisible } from './asserts/common';
 import {
   searchQuerySubmitAndWait,
   selectAndWaitForColourFilter,
   selectAndWaitForFilter,
+  slowExpect,
   testIfFilterIsApplied,
 } from './helpers/search';
-import { searchResultsContainer } from './selectors/search';
 
 test.describe.configure({ mode: 'parallel' });
 
@@ -23,9 +21,11 @@ test('(1) | The users changes tabs; the query (but not the filters) should be ma
   await newSearch(context, page, 'images');
   await searchQuerySubmitAndWait('art of science', page);
   await selectAndWaitForColourFilter(page);
-  await expectItemIsVisible(searchResultsContainer, page);
+  await expect(
+    await page.getByTestId('image-search-results-container')
+  ).toBeVisible();
   await page.getByRole('link', { name: 'Catalogue' }).click();
-  await expect(page).toHaveURL(
+  await slowExpect(page).toHaveURL(
     `${baseUrl}/search/works?query=art%20of%20science`
   );
 });
@@ -37,7 +37,7 @@ test('(2) | The user clicks on "All Stories" on the Overview page; they should b
   await newSearch(context, page);
   await searchQuerySubmitAndWait('art of science', page);
   await page.getByRole('link', { name: 'All stories' }).click();
-  await expect(page).toHaveURL(
+  await slowExpect(page).toHaveURL(
     `${baseUrl}/search/stories?query=art+of+science`
   );
 });

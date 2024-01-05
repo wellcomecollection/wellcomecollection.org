@@ -1,115 +1,63 @@
-import { Page, test } from '@playwright/test';
-import { gotoWithoutCache, isMobile } from './helpers/contexts';
-import { clickActionClickSearchResultItem } from './actions/search';
-
-import { clickActionClickViewExpandedImage } from './actions/images';
-
-import { elementIsVisible, fillInputAction } from './actions/common';
+import { test, expect } from '@playwright/test';
+import { newSearch } from './helpers/contexts';
 import {
-  expectItemsIsVisible,
-  expectItemIsVisible,
-  expectUrlToMatch,
-} from './asserts/common';
-import { modalexpandedImageViewMoreButton } from './selectors/images';
+  clickImageSearchResultItem,
+  searchQuerySubmitAndWait,
+  selectAndWaitForColourFilter,
+} from './helpers/search';
 
-import { regexImageGalleryUrl } from './helpers/regex';
-import safeWaitForNavigation from './helpers/safeWaitForNavigation';
-import { baseUrl } from './helpers/urls';
-import {
-  formatFilterMobileButton,
-  mobileModal,
-  mobileModalCloseButton,
-} from './selectors/search';
+const ItemViewerURLRegex = /\/works\/[a-zA-Z0-9]+\/images[?]id=/;
 
-const imagesUrl = `${baseUrl}/search/images`;
-const searchBarInput = `#search-searchbar`;
-const colourSelectorFilterDropDown = `button[aria-controls="images.color"]`;
-const colourSelector = `button[data-test-id="swatch-red"]`;
-const imageSearchResultsContainer =
-  '[data-test-id="image-search-results-container"]';
-const imagesResultsListItem = `${imageSearchResultsContainer} li`;
+test.describe.configure({ mode: 'parallel' });
 
-const fillActionSearchInput = async (
-  value: string,
-  page: Page
-): Promise<void> => {
-  const selector = `${searchBarInput}`;
-  await fillInputAction(selector, value, page);
-};
+test('(1) | Search by term, filter by colour, check results, view image details, view expanded image', async ({
+  page,
+  context,
+}) => {
+  await newSearch(context, page, 'images');
+  await searchQuerySubmitAndWait('art of science', page);
 
-const selectColourInPicker = async (page: Page): Promise<void> => {
-  await Promise.all([safeWaitForNavigation(page), page.click(colourSelector)]);
-};
+  await selectAndWaitForColourFilter(page);
+  await expect(
+    page.getByTestId('image-search-results-container')
+  ).toBeVisible();
+  await clickImageSearchResultItem(1, page);
 
-async function gotoSearchResultPage(
-  { url, query }: { url: string; query: string },
-  page: Page
-): Promise<void> {
-  await gotoWithoutCache(url, page);
-  await fillActionSearchInput(query, page);
-  await Promise.all([
-    safeWaitForNavigation(page),
-    page.press(searchBarInput, 'Enter'),
-  ]);
-}
+  // Check we show visually similar images.  This could theoretically fail
+  // if the first result doesn't have any similar images, but if it fails
+  // it's much more likely we've broken something on the page.
+  await expect(
+    page.getByRole('heading', { name: 'Visually similar images' })
+  ).toBeVisible();
 
-test.describe('Image search', () => {
-  test('Search by term, filter by colour, check results, view image details, view expanded image', async ({
-    page,
-  }) => {
-    const query = 'art of science';
-    await gotoSearchResultPage({ url: imagesUrl, query }, page);
+  await page.getByRole('link', { name: 'View expanded image' }).click();
+  await expect(page).toHaveURL(RegExp(ItemViewerURLRegex));
+});
 
-    if (isMobile(page)) {
-      await page.click(formatFilterMobileButton);
-      await elementIsVisible(mobileModal, page);
-      await selectColourInPicker(page);
-      await page.click(mobileModalCloseButton);
-    } else {
-      await page.click(colourSelectorFilterDropDown);
-      await selectColourInPicker(page);
-      await page.click(colourSelectorFilterDropDown);
-    }
-    await expectItemIsVisible(imageSearchResultsContainer, page);
-    await expectItemsIsVisible(imagesResultsListItem, 1, page);
-    await clickActionClickSearchResultItem(1, page);
-    await expectItemIsVisible(modalexpandedImageViewMoreButton, page);
+test('(2) | Image Modal | images without contributors still show a title', async ({
+  page,
+  context,
+}) => {
+  await newSearch(context, page, 'images');
+  await searchQuerySubmitAndWait('kd9h6gr3', page);
+  await clickImageSearchResultItem(1, page);
 
-    // Check we show visually similar images.  This could theoretically fail
-    // if the first result doesn't have any similar images, but if it fails
-    // it's much more likely we've broken something on the page.
-    await expectItemIsVisible('h3 >> text="Visually similar images"', page);
+  await expect(
+    page.getByTestId('image-modal').getByText('Fish. Watercolour drawing.')
+  ).toBeVisible();
+});
 
-    await Promise.all([
-      safeWaitForNavigation(page),
-      clickActionClickViewExpandedImage(page),
-    ]);
-    expectUrlToMatch(regexImageGalleryUrl, page);
-  });
+test('(3) | Image Modal | images with contributors show both title and contributor', async ({
+  page,
+  context,
+}) => {
+  await newSearch(context, page, 'images');
+  await searchQuerySubmitAndWait('fcmwqd5u', page);
+  await clickImageSearchResultItem(1, page);
 
-  test.describe('the expanded image modal', () => {
-    test('images without contributors still show a title', async ({ page }) => {
-      await gotoSearchResultPage({ url: imagesUrl, query: 'kd9h6gr3' }, page);
-
-      await clickActionClickSearchResultItem(1, page);
-      await expectItemIsVisible(
-        'h2 >> text="Fish. Watercolour drawing."',
-        page
-      );
-    });
-
-    test('images with contributors show both title and contributor', async ({
-      page,
-    }) => {
-      await gotoSearchResultPage({ url: imagesUrl, query: 'fcmwqd5u' }, page);
-
-      await clickActionClickSearchResultItem(1, page);
-      await expectItemIsVisible('h2 >> text="Dr. Darwin."', page);
-
-      await expectItemIsVisible(
-        'span >> text="Fortey, W. S. (William Samuel)"',
-        page
-      );
-    });
-  });
+  const imageModal = await page.getByTestId('image-modal');
+  await expect(
+    imageModal.getByRole('heading', { name: 'Dr. Darwin.' })
+  ).toBeVisible();
+  await expect(imageModal).toContainText('Fortey, W. S. (William Samuel)');
 });
