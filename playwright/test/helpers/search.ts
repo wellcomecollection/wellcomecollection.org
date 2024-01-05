@@ -4,7 +4,7 @@ import { isMobile } from './contexts';
 
 // Search pages tend to be slower to load and will benefit from a longer timeout
 // Default is currently 5000 https://playwright.dev/docs/test-timeouts
-const slowExpect = expect.configure({ timeout: 10000 });
+export const slowExpect = expect.configure({ timeout: 10000 });
 
 export const searchQuerySubmitAndWait = async (
   query: string,
