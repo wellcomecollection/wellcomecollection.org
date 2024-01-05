@@ -24,6 +24,7 @@ type Props = PropsWithChildren<{
   width?: string | null;
   maxWidth?: string;
   id: string;
+  dataTestId?: string;
   openButtonRef?: MutableRefObject<HTMLElement | null>;
   removeCloseButton?: boolean;
   showOverlay?: boolean;
@@ -188,6 +189,7 @@ const Modal: FunctionComponent<Props> = ({
   width = null,
   maxWidth,
   id,
+  dataTestId,
   openButtonRef,
   removeCloseButton = false,
   showOverlay = true,
@@ -254,6 +256,7 @@ const Modal: FunctionComponent<Props> = ({
         >
           <ModalWindow
             id={id}
+            data-testid={dataTestId}
             hidden={!isActive}
             ref={nodeRef}
             $width={width}
