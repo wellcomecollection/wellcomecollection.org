@@ -22,7 +22,6 @@ test('(1) | Search by term, filter by colour, check results, view image details,
     page.getByTestId('image-search-results-container')
   ).toBeVisible();
   await clickImageSearchResultItem(1, page);
-  await expect(page.getByLabel('View expanded image')).toBeVisible();
 
   // Check we show visually similar images.  This could theoretically fail
   // if the first result doesn't have any similar images, but if it fails

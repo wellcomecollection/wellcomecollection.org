@@ -85,6 +85,7 @@ export const clickImageSearchResultItem = async (
     .getByTestId('image-search-results-container')
     .locator(`ul:first-child > li:nth-child(${nthChild}) a`)
     .click();
+  await slowExpect(page.getByLabel('View expanded image')).toBeVisible();
 };
 
 // TODO
@@ -105,6 +106,7 @@ export const selectAndWaitForColourFilter = async (page: Page) => {
   await page.getByRole('button', { name: 'Red' }).click();
   await testIfFilterIsApplied('red', page);
 
+  // Close modal box by applying the filter, or ensure the desktop filter box is closed
   if (isMobile(page)) {
     await page.getByRole('button', { name: 'Show results' }).click();
   } else {
