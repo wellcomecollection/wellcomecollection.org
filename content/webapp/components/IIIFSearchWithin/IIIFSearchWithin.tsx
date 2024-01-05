@@ -24,6 +24,7 @@ import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import { thumbnailsPageSize } from '@weco/content/components/IIIFViewer/Paginators';
 import { pluralize } from '@weco/common/utils/grammar';
+import { searchWithinLabel } from '@weco/content/text/aria-labels';
 
 const Highlight = styled.span`
   background: ${props => props.theme.color('accent.purple')};
@@ -203,7 +204,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
         <SearchInputWrapper>
           <TextInput
             id="searchWithin"
-            label="Search within this item"
+            label={searchWithinLabel}
             name="query"
             value={value}
             setValue={setValue}
