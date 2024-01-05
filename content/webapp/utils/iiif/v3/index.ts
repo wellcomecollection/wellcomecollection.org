@@ -559,8 +559,6 @@ export function getBornDigitalStatus(manifest: Manifest): BornDigitalStatus {
 
   if (hasBornDigital && !hasNonBornDigital) {
     return 'allBornDigital';
-  } else if (!hasBornDigital) {
-    return 'noBornDigital';
   } else if (hasBornDigital && hasNonBornDigital) {
     return 'mixedBornDigital';
   } else {
