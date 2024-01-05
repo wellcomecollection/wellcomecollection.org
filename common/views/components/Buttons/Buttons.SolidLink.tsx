@@ -1,22 +1,22 @@
 import { FunctionComponent, SyntheticEvent } from 'react';
 import NextLink, { LinkProps } from 'next/link';
 import { classNames } from '@weco/common/utils/classnames';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 import {
   BaseButtonInner,
   ButtonIconWrapper,
-  SolidButton,
   ButtonSolidBaseProps,
-} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
+  StyledButton,
+} from '.';
 
-type ButtonSolidLinkProps = ButtonSolidBaseProps & {
+export type ButtonSolidLinkProps = ButtonSolidBaseProps & {
   clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void;
   link: LinkProps | string;
   ariaLabel?: string;
 };
 
-export function getHref(link: LinkProps | string): undefined | string {
+function getHref(link: LinkProps | string): undefined | string {
   return typeof link === 'object' ? undefined : link;
 }
 
@@ -51,7 +51,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         )
       }
     >
-      <SolidButton
+      <StyledButton
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
         data-gtm-trigger={dataGtmTrigger}
@@ -86,7 +86,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
             </span>
           )}
         </BaseButtonInner>
-      </SolidButton>
+      </StyledButton>
     </ConditionalWrapper>
   );
 };

@@ -15,7 +15,7 @@ import {
   SEARCH_PAGES_FORM_ID,
 } from '@weco/common/utils/search';
 import { capitalize } from '@weco/common/utils/grammar';
-import { searchPlaceholderText } from '@weco/common/data/microcopy';
+import { searchLabelText } from '@weco/common/data/microcopy';
 import { useToggles } from '@weco/common/server-data/Context';
 import { NavigateSelectableTextLink } from 'components/Tabs/Tabs.Navigate';
 
@@ -121,7 +121,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
           <SearchBar
             inputValue={inputValue}
             setInputValue={setInputValue}
-            placeholder={searchPlaceholderText[currentSearchCategory]}
+            placeholder={searchLabelText[currentSearchCategory]}
             form={SEARCH_PAGES_FORM_ID}
             location="search"
           />

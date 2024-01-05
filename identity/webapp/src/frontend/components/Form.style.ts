@@ -1,6 +1,6 @@
 import { FieldError } from 'react-hook-form';
 import styled from 'styled-components';
-import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import { StyledButton } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
 
@@ -26,7 +26,7 @@ export const TextInput = styled.input<{ $invalid?: FieldError }>`
   border-radius: 6px;
 `;
 
-export const Button = styled(SolidButton)`
+export const Button = styled(StyledButton)`
   justify-content: center;
 `;
 

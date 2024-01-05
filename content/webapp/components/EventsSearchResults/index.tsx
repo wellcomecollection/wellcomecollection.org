@@ -105,7 +105,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({
               <EventInformation>
                 {/* Past events that are available online don't have a status indicator
                 as they display online availability information. */}
-                {isPast && !event.isAvailableOnline && (
+                {times.length > 0 && isPast && !event.isAvailableOnline && (
                   <StatusIndicator
                     start={times[0].range.startDateTime}
                     end={times[times.length - 1].range.endDateTime}

@@ -5,7 +5,7 @@ import {
 
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
+import Button from '@weco/common/views/components/Buttons';
 import { font } from '@weco/common/utils/classnames';
 
 type CheckboxFilterProps = {
@@ -16,7 +16,8 @@ type CheckboxFilterProps = {
 
 const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
   return (
-    <DropdownButton
+    <Button
+      variant="DropdownButton"
       isPill
       label={f.label}
       buttonType="inline"
@@ -44,7 +45,7 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
           );
         })}
       </PlainList>
-    </DropdownButton>
+    </Button>
   );
 };
 

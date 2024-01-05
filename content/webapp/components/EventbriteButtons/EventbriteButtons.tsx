@@ -1,11 +1,10 @@
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 import { Event } from '../../types/events';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import Button from '@weco/common/views/components/Buttons';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { ticket } from '@weco/common/icons';
-import styled from 'styled-components';
 
 const Location = styled(Space).attrs({
   as: 'p',
@@ -30,7 +29,7 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
   return (
     <div>
       {event.isCompletelySoldOut ? (
-        <ButtonSolid disabled={true} text="Fully booked" />
+        <Button variant="ButtonSolid" disabled={true} text="Fully booked" />
       ) : (
         <>
           {event.eventbriteId && (
@@ -45,9 +44,14 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
                 }}
               >
                 {event.inVenueSoldOut ? (
-                  <ButtonSolid disabled={true} text="Fully booked" />
+                  <Button
+                    variant="ButtonSolid"
+                    disabled={true}
+                    text="Fully booked"
+                  />
                 ) : (
-                  <ButtonSolidLink
+                  <Button
+                    variant="ButtonSolidLink"
                     link={`https://www.eventbrite.com/e/${event.eventbriteId}`}
                     icon={ticket}
                     dataGtmTrigger="click_to_book"
@@ -64,9 +68,14 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
               {isHybridEvent && <Location>Livestream event</Location>}
               <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
                 {event.onlineSoldOut ? (
-                  <ButtonSolid disabled={true} text="Fully booked" />
+                  <Button
+                    variant="ButtonSolid"
+                    disabled={true}
+                    text="Fully booked"
+                  />
                 ) : (
-                  <ButtonSolidLink
+                  <Button
+                    variant="ButtonSolidLink"
                     link={`https://www.eventbrite.com/e/${event.onlineEventbriteId}`}
                     icon={ticket}
                     dataGtmTrigger="click_to_book"

@@ -1,5 +1,6 @@
 import React, { Fragment, FunctionComponent, ReactNode } from 'react';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { ParsedUrlQuery } from 'querystring';
 
@@ -8,11 +9,15 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import { cross } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
-import { Filter } from '@weco/content/services/wellcome/catalogue/filters';
+import {
+  CheckboxFilter,
+  ColorFilter,
+  DateRangeFilter,
+  Filter,
+} from '@weco/content/services/wellcome/catalogue/filters';
 import { getColorDisplayName } from '@weco/content/components/PaletteColorPicker';
 
 type ResetActiveFilters = {
-  query?: string;
   resetFilters: LinkProps;
   filters: Filter[];
   linkResolver: (params: ParsedUrlQuery) => LinkProps;
@@ -61,41 +66,81 @@ const CancelFilter: FunctionComponent<CancelFilterProps> = ({
 };
 
 export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
-  query,
-  resetFilters,
   filters,
+  resetFilters,
   linkResolver,
 }: ResetActiveFilters) => {
-  // This is a hack until we decide exactly what it is we want the
-  // reset filters to do
-  const filterStateMap = new Map<string, string[] | string>();
-  filters.forEach(filter => {
-    if (filter.type === 'checkbox') {
-      const values = filter.options
-        .filter(option => option.selected)
-        .map(option => option.value);
+  const router = useRouter();
+  const renderCheckboxLink = (filter: CheckboxFilter) =>
+    filter.options
+      .filter(({ selected }) => selected)
+      .map(option => (
+        <NextLink
+          key={`cancel-${option.id}`}
+          passHref
+          {...linkResolver({
+            ...router.query,
+            page: '1',
+            [filter.id]: filter.options
+              .filter(
+                ({ selected, value }) => selected && value !== option.value
+              )
+              .map(({ value }) => value),
+            source: `cancel_filter/${filter.id}`,
+          })}
+        >
+          <CancelFilter text={option.label} />
+        </NextLink>
+      ));
 
-      filterStateMap.set(filter.id, values);
-    }
+  const renderDateRangeLinks = (filter: DateRangeFilter) => {
+    const renderIndividualLink = (
+      prefix: string,
+      f: DateRangeFilter['from'] | DateRangeFilter['to']
+    ) => (
+      <NextLink
+        passHref
+        {...linkResolver({
+          ...router.query,
+          page: '1',
+          [f.id]: undefined,
+          source: `cancel_filter/${f.id}`,
+        })}
+      >
+        <CancelFilter text={`${prefix} ${f.value}`} />
+      </NextLink>
+    );
+    return (
+      <Fragment key={`cancel-${filter.id}`}>
+        {filter.from.value ? renderIndividualLink('From', filter.from) : null}
+        {filter.to.value ? renderIndividualLink('To', filter.to) : null}
+      </Fragment>
+    );
+  };
 
-    if (filter.type === 'dateRange') {
-      if (filter.from.value) {
-        filterStateMap.set(filter.from.id, filter.from.value);
-      }
-
-      if (filter.to.value) {
-        filterStateMap.set(filter.to.id, filter.to.value);
-      }
-    }
-
-    if (filter.type === 'color') {
-      if (filter.color) {
-        filterStateMap.set(filter.id, [filter.color]);
-      }
-    }
-  });
-
-  const filterState = Object.fromEntries(filterStateMap);
+  const renderColorLink = (filter: ColorFilter) =>
+    filter.color ? (
+      <Fragment key={`cancel-${filter.id}`}>
+        <NextLink
+          passHref
+          {...linkResolver({
+            ...router.query,
+            page: '1',
+            [filter.id]: undefined,
+            source: `cancel_filter/${filter.id}`,
+          })}
+        >
+          <CancelFilter>
+            {filter.label}
+            <ColorSwatch $hexColor={`#${filter.color}`}>
+              <span className="visually-hidden">
+                {getColorDisplayName(filter.color)}
+              </span>
+            </ColorSwatch>
+          </CancelFilter>
+        </NextLink>
+      </Fragment>
+    ) : null;
 
   return (
     <Wrapper>
@@ -107,97 +152,17 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
             </Space>
           </h2>
           {filters.map(f => {
-            if (f.type === 'checkbox') {
-              const selectedOptions = f.options.filter(
-                option => option.selected
-              );
-              return selectedOptions
-                .filter(option => option.selected)
-                .map(option => {
-                  return (
-                    <NextLink
-                      key={`cancel-${option.id}`}
-                      passHref
-                      {...linkResolver({
-                        ...filterState,
-                        ...(query && { query }),
-                        page: '1',
-                        [f.id]: selectedOptions
-                          .filter(
-                            selectedOption =>
-                              option.value !== selectedOption.value
-                          )
-                          .map(option => option.value),
-                        source: `cancel_filter/${f.id}`,
-                      })}
-                    >
-                      <CancelFilter text={option.label} />
-                    </NextLink>
-                  );
-                });
-            } else if (f.type === 'dateRange') {
-              return (
-                <Fragment key={`cancel-${f.id}`}>
-                  {f.from.value && (
-                    <NextLink
-                      passHref
-                      {...linkResolver({
-                        ...filterState,
-                        query,
-                        page: '1',
-                        [f.from.id]: undefined,
-                        source: `cancel_filter/${f.from.id}`,
-                      })}
-                    >
-                      <CancelFilter text={`From ${f.from.value}`} />
-                    </NextLink>
-                  )}
-
-                  {f.to.value && (
-                    <NextLink
-                      passHref
-                      {...linkResolver({
-                        ...filterState,
-                        query,
-                        page: '1',
-                        [f.to.id]: undefined,
-                        source: `cancel_filter/${f.to.id}`,
-                      })}
-                    >
-                      <CancelFilter text={`To ${f.to.value}`} />
-                    </NextLink>
-                  )}
-                </Fragment>
-              );
-            } else if (f.type === 'color' && f.color) {
-              return (
-                <Fragment key={`cancel-${f.id}`}>
-                  <NextLink
-                    passHref
-                    {...linkResolver({
-                      ...filterState,
-                      query,
-                      page: '1',
-                      [f.id]: undefined,
-                      source: `cancel_filter/${f.id}`,
-                    })}
-                  >
-                    <CancelFilter>
-                      {f.label}
-                      <ColorSwatch $hexColor={`#${f.color}`}>
-                        <span className="visually-hidden">
-                          {getColorDisplayName(f.color)}
-                        </span>
-                      </ColorSwatch>
-                    </CancelFilter>
-                  </NextLink>
-                </Fragment>
-              );
-            } else {
-              return null;
+            switch (f.type) {
+              case 'checkbox':
+                return renderCheckboxLink(f);
+              case 'dateRange':
+                return renderDateRangeLinks(f);
+              case 'color':
+                return renderColorLink(f);
+              default:
+                return null;
             }
           })}
-
           <NextLink passHref {...resetFilters}>
             <CancelFilter text="Reset filters" />
           </NextLink>

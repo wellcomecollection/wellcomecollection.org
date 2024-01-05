@@ -1,5 +1,5 @@
 import Modal from '@weco/common/views/components/Modal/Modal';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button from '@weco/common/views/components/Buttons';
 import { useState, useRef, useEffect } from 'react';
 
 const Template = () => {
@@ -14,7 +14,8 @@ const Template = () => {
 
   return (
     <div style={{ padding: '50px' }}>
-      <ButtonSolid
+      <Button
+        variant="ButtonSolid"
         ref={openButtonRef}
         text="Show modal"
         clickHandler={() => setIsActive(true)}

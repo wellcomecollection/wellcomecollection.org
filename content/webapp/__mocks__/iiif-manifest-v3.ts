@@ -11318,3 +11318,328 @@ export const manifestWithClickThroughService = {
     },
   ],
 };
+
+export const manifestAllBornDigital = {
+  items: [
+    {
+      id: 'https://iiif-test.wellcomecollection.org/presentation/ARTCOO/B/10/canvases/ARTCOO_B_10---1_English_Ver.pdf',
+      type: 'Canvas',
+      label: {
+        none: ['1_English_Ver.pdf'],
+      },
+      width: 5000,
+      height: 5000,
+      thumbnail: [
+        {
+          id: 'https://iiif-test.wellcomecollection.org/extensions/born-digital/placeholder-thumb/fmt/17/application/pdf',
+          type: 'Image',
+          width: 500,
+          height: 500,
+          format: 'image/png',
+        },
+      ],
+      metadata: [
+        {
+          label: {
+            en: ['File format'],
+          },
+          value: {
+            none: ['Acrobat PDF 1.3 - Portable Document Format'],
+          },
+        },
+        {
+          label: {
+            en: ['File size'],
+          },
+          value: {
+            none: ['1.9 MB'],
+          },
+        },
+        {
+          label: {
+            en: ['Pronom key'],
+          },
+          value: {
+            none: ['fmt/17'],
+          },
+        },
+        {
+          label: {
+            en: ['Full path'],
+          },
+          value: {
+            none: ['1_English_Ver.pdf'],
+          },
+        },
+      ],
+      rendering: [
+        {
+          id: 'https://iiif-test.wellcomecollection.org/file/ARTCOO_B_10---1_English_Ver.pdf',
+          type: 'Text',
+          label: {
+            none: ['1_English_Ver.pdf'],
+          },
+          format: 'application/pdf',
+          behavior: ['original'],
+        },
+      ],
+      behavior: ['placeholder'],
+      navDate: '2022-03-25T00:00:00.0000000',
+      items: [
+        {
+          id: 'https://iiif-test.wellcomecollection.org/presentation/ARTCOO/B/10/canvases/ARTCOO_B_10---1_English_Ver.pdf/painting',
+          type: 'AnnotationPage',
+          items: [
+            {
+              id: 'https://iiif-test.wellcomecollection.org/presentation/ARTCOO/B/10/canvases/ARTCOO_B_10---1_English_Ver.pdf/painting/anno',
+              type: 'Annotation',
+              motivation: 'painting',
+              body: {
+                id: 'https://iiif-test.wellcomecollection.org/extensions/born-digital/placeholder-canvas/fmt/17/application/pdf',
+                type: 'Image',
+                width: 5000,
+                height: 5000,
+                format: 'image/png',
+              },
+              target:
+                'https://iiif-test.wellcomecollection.org/presentation/ARTCOO/B/10/canvases/ARTCOO_B_10---1_English_Ver.pdf',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'https://iiif-test.wellcomecollection.org/presentation/ARTCOO/B/10/canvases/ARTCOO_B_10---2_Japanese_Ver.pdf',
+      type: 'Canvas',
+      label: {
+        none: ['2_Japanese_Ver.pdf'],
+      },
+      width: 5000,
+      height: 5000,
+      thumbnail: [
+        {
+          id: 'https://iiif-test.wellcomecollection.org/extensions/born-digital/placeholder-thumb/fmt/17/application/pdf',
+          type: 'Image',
+          width: 500,
+          height: 500,
+          format: 'image/png',
+        },
+      ],
+      metadata: [
+        {
+          label: {
+            en: ['File format'],
+          },
+          value: {
+            none: ['Acrobat PDF 1.3 - Portable Document Format'],
+          },
+        },
+        {
+          label: {
+            en: ['File size'],
+          },
+          value: {
+            none: ['1.9 MB'],
+          },
+        },
+        {
+          label: {
+            en: ['Pronom key'],
+          },
+          value: {
+            none: ['fmt/17'],
+          },
+        },
+        {
+          label: {
+            en: ['Full path'],
+          },
+          value: {
+            none: ['2_Japanese_Ver.pdf'],
+          },
+        },
+      ],
+      rendering: [
+        {
+          id: 'https://iiif-test.wellcomecollection.org/file/ARTCOO_B_10---2_Japanese_Ver.pdf',
+          type: 'Text',
+          label: {
+            none: ['2_Japanese_Ver.pdf'],
+          },
+          format: 'application/pdf',
+          behavior: ['original'],
+        },
+      ],
+      behavior: ['placeholder'],
+      navDate: '2022-03-25T00:00:00.0000000',
+      items: [
+        {
+          id: 'https://iiif-test.wellcomecollection.org/presentation/ARTCOO/B/10/canvases/ARTCOO_B_10---2_Japanese_Ver.pdf/painting',
+          type: 'AnnotationPage',
+          items: [
+            {
+              id: 'https://iiif-test.wellcomecollection.org/presentation/ARTCOO/B/10/canvases/ARTCOO_B_10---2_Japanese_Ver.pdf/painting/anno',
+              type: 'Annotation',
+              motivation: 'painting',
+              body: {
+                id: 'https://iiif-test.wellcomecollection.org/extensions/born-digital/placeholder-canvas/fmt/17/application/pdf',
+                type: 'Image',
+                width: 5000,
+                height: 5000,
+                format: 'image/png',
+              },
+              target:
+                'https://iiif-test.wellcomecollection.org/presentation/ARTCOO/B/10/canvases/ARTCOO_B_10---2_Japanese_Ver.pdf',
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+export const manifestMixedBornDigital = {
+  items: [
+    {
+      id: 'https://iiif-stage.wellcomecollection.org/presentation/SAWFO/J/4/canvases/SAWFO_J_4---Disc_2---WFOT_ms.pps',
+      type: 'Canvas',
+      label: {
+        none: ['WFOT_ms.pps'],
+      },
+      width: 1000,
+      height: 800,
+      thumbnail: [
+        {
+          id: 'https://iiif-stage.wellcomecollection.org/extensions/born-digital/placeholder-thumb/fmt/126/application/vnd.ms-powerpoint',
+          type: 'Image',
+          width: 101,
+          height: 151,
+          format: 'image/png',
+        },
+      ],
+      metadata: [
+        {
+          label: {
+            en: ['File format'],
+          },
+          value: {
+            none: ['Microsoft Powerpoint'],
+          },
+        },
+        {
+          label: {
+            en: ['File size'],
+          },
+          value: {
+            none: ['1.6 MB'],
+          },
+        },
+        {
+          label: {
+            en: ['Pronom key'],
+          },
+          value: {
+            none: ['fmt/126'],
+          },
+        },
+        {
+          label: {
+            en: ['Full path'],
+          },
+          value: {
+            none: ['Disc_2/WFOT_ms.pps'],
+          },
+        },
+      ],
+      rendering: [
+        {
+          id: 'https://iiif-stage.wellcomecollection.org/file/SAWFO_J_4---Disc_2---WFOT_ms.pps',
+          type: 'Text',
+          label: {
+            none: ['WFOT_ms.pps'],
+          },
+          format: 'application/vnd.ms-powerpoint',
+          behavior: ['original'],
+        },
+      ],
+      behavior: ['placeholder'],
+      navDate: '2023-04-12T09:34:48.0000000+00:00',
+      items: [
+        {
+          id: 'https://iiif-stage.wellcomecollection.org/presentation/SAWFO/J/4/canvases/SAWFO_J_4---Disc_2---WFOT_ms.pps/painting',
+          type: 'AnnotationPage',
+          items: [
+            {
+              id: 'https://iiif-stage.wellcomecollection.org/presentation/SAWFO/J/4/canvases/SAWFO_J_4---Disc_2---WFOT_ms.pps/painting/anno',
+              type: 'Annotation',
+              motivation: 'painting',
+              body: {
+                id: 'https://iiif-stage.wellcomecollection.org/extensions/born-digital/placeholder-canvas/fmt/126/application/vnd.ms-powerpoint',
+                type: 'Image',
+                width: 1000,
+                height: 800,
+                format: 'image/png',
+              },
+              target:
+                'https://iiif-stage.wellcomecollection.org/presentation/SAWFO/J/4/canvases/SAWFO_J_4---Disc_2---WFOT_ms.pps',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'https://iiif-stage.wellcomecollection.org/presentation/SAWFO/J/4/canvases/SAWFO_J_4---Disc_2---slide13.wav',
+      type: 'Canvas',
+      label: {
+        none: ['slide13.wav'],
+      },
+      duration: 52.519,
+      metadata: [
+        {
+          label: {
+            en: ['Full path'],
+          },
+          value: {
+            none: ['Disc_2/slide13.wav'],
+          },
+        },
+      ],
+      rendering: [
+        {
+          duration: 52.519,
+          id: 'https://iiif-stage.wellcomecollection.org/av/SAWFO_J_4---Disc_2---slide13.wav/full/max/default.mp3',
+          type: 'Sound',
+          label: {
+            en: ['Audio file, 52.519 s'],
+          },
+          format: 'audio/mp3',
+        },
+      ],
+      navDate: '2023-04-12T09:34:41.0000000+00:00',
+      items: [
+        {
+          id: 'https://iiif-stage.wellcomecollection.org/presentation/SAWFO/J/4/canvases/SAWFO_J_4---Disc_2---slide13.wav/painting',
+          type: 'AnnotationPage',
+          items: [
+            {
+              id: 'https://iiif-stage.wellcomecollection.org/presentation/SAWFO/J/4/canvases/SAWFO_J_4---Disc_2---slide13.wav/painting/anno',
+              type: 'Annotation',
+              motivation: 'painting',
+              body: {
+                duration: 52.519,
+                id: 'https://iiif-stage.wellcomecollection.org/av/SAWFO_J_4---Disc_2---slide13.wav/full/max/default.mp3',
+                type: 'Sound',
+                label: {
+                  en: ['Audio file, 52.519 s'],
+                },
+                format: 'audio/mp3',
+              },
+              target:
+                'https://iiif-stage.wellcomecollection.org/presentation/SAWFO/J/4/canvases/SAWFO_J_4---Disc_2---slide13.wav',
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};

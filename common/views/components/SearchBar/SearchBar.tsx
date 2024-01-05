@@ -6,10 +6,9 @@ import {
   useRef,
 } from 'react';
 import styled from 'styled-components';
+
 import TextInput from '@weco/common/views/components/TextInput';
-import ButtonSolid, {
-  ButtonTypes,
-} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import { themeValues } from '@weco/common/views/themes/config';
 
 const Container = styled.div`
@@ -71,7 +70,8 @@ const SearchBar: FunctionComponent<Props> = ({
         />
       </SearchInputWrapper>
       <SearchButtonWrapper>
-        <ButtonSolid
+        <Button
+          variant="ButtonSolid"
           text="Search"
           type={ButtonTypes.submit}
           form={form}
