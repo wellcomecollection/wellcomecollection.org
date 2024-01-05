@@ -1,6 +1,5 @@
-import { Page, test, expect } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { newSearch } from './helpers/contexts';
-import { expectItemIsVisible } from './asserts/common';
 import {
   clickImageSearchResultItem,
   searchQuerySubmitAndWait,
@@ -9,15 +8,7 @@ import {
 
 const ItemViewerURLRegex = /\/works\/[a-zA-Z0-9]+\/images[?]id=/;
 
-const clickActionClickSearchResultItem = async (
-  nthChild: number,
-  page: Page
-): Promise<void> => {
-  await page
-    .getByTestId('image-search-results-container')
-    .locator(`ul:first-child > li:nth-child(${nthChild}) a`)
-    .click();
-};
+test.describe.configure({ mode: 'parallel' });
 
 test('(1) | Search by term, filter by colour, check results, view image details, view expanded image', async ({
   page,
@@ -50,9 +41,11 @@ test('(2) | Image Modal | images without contributors still show a title', async
 }) => {
   await newSearch(context, page, 'images');
   await searchQuerySubmitAndWait('kd9h6gr3', page);
+  await clickImageSearchResultItem(1, page);
 
-  await clickActionClickSearchResultItem(1, page);
-  await expectItemIsVisible('h2 >> text="Fish. Watercolour drawing."', page);
+  await expect(
+    page.getByTestId('image-modal').getByText('Fish. Watercolour drawing.')
+  ).toBeVisible();
 });
 
 test('(3) | Image Modal | images with contributors show both title and contributor', async ({
@@ -61,11 +54,11 @@ test('(3) | Image Modal | images with contributors show both title and contribut
 }) => {
   await newSearch(context, page, 'images');
   await searchQuerySubmitAndWait('fcmwqd5u', page);
-  await clickActionClickSearchResultItem(1, page);
-  await expectItemIsVisible('h2 >> text="Dr. Darwin."', page);
+  await clickImageSearchResultItem(1, page);
 
-  await expectItemIsVisible(
-    'span >> text="Fortey, W. S. (William Samuel)"',
-    page
-  );
+  const imageModal = await page.getByTestId('image-modal');
+  await expect(
+    imageModal.getByRole('heading', { name: 'Dr. Darwin.' })
+  ).toBeVisible();
+  await expect(imageModal).toContainText('Fortey, W. S. (William Samuel)');
 });

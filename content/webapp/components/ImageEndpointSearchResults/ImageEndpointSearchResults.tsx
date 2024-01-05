@@ -238,6 +238,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
       )}
       <Modal
         id="expanded-image-dialog"
+        dataTestId="image-modal"
         isActive={isActive}
         setIsActive={setIsActive}
         maxWidth="1020px"
