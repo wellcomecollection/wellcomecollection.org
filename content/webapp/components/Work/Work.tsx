@@ -190,7 +190,7 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
           </Grid>
         </Container>
 
-        {bornDigitalMessage && (
+        {bornDigitalMessage && bornDigitalStatus && (
           <Container>
             <Grid>
               <Space
