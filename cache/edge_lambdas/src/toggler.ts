@@ -13,7 +13,7 @@ type Test = {
   // range: [50, 100], // Run this test on 50% of users - not overlapping with ☝️
   range: [number, number];
   // Use the when property with caution, especially when journeys are using client side routing
-  // Need to ensure the all the possible endpoints a user can hit, will set the cookie
+  // Need to ensure that all the possible endpoints a user can hit, will set the cookie
   // when: (request) => {
   //   return request.uri.match(/^\/articles\/*/);
   // }
