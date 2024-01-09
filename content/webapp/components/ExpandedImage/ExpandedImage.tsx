@@ -12,7 +12,6 @@ import {
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
-import { expandedViewImageButton } from '@weco/content/text/aria-labels';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
 
@@ -348,7 +347,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
                   text="View image"
                   icon={eye}
                   link={expandedImageLink}
-                  ariaLabel={expandedViewImageButton}
+                  ariaLabel="View expanded image"
                 />
               </ViewImageButtonWrapper>
             </Space>

@@ -1,3 +1,7 @@
+// TODO probably delete as part of the item-viewer.test file refactor
+// https://github.com/wellcomecollection/wellcomecollection.org/issues/10409
+// It's only used there and we're aiming to move away from this kind of locator
+// In favour of `getByRole`, `getByLabel` etc.
 export const zoomInButton = 'css=button >> text="Zoom in"';
 export const rotateButton = 'css=button >> text="Rotate"';
 export const openseadragonCanvas = `.openseadragon-canvas`;

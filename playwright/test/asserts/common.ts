@@ -1,13 +1,14 @@
 import { expect } from '@playwright/test';
 import { Page } from 'playwright';
-import { itemsIsVisible, elementIsVisible } from '../actions/common';
 
-export const expectItemsIsVisible = async (
+// TODO aim to kill this whole file as part of https://github.com/wellcomecollection/wellcomecollection.org/issues/10409
+// It shouldn't be used once that ticket is done.
+//
+const elementIsVisible = async (
   selector: string,
-  minimumNumber: number,
   page: Page
-): Promise<void> => {
-  expect(await itemsIsVisible(selector, minimumNumber, page)).toBeTruthy();
+): Promise<boolean> => {
+  return Boolean(await page.waitForSelector(selector));
 };
 
 export const expectItemIsVisible = async (
@@ -16,9 +17,4 @@ export const expectItemIsVisible = async (
 ): Promise<void> => {
   console.debug(`Waiting for '${selector}' to be visible'`);
   expect(await elementIsVisible(selector, page)).toBeTruthy();
-};
-
-export const expectUrlToMatch = (regex: RegExp | string, page: Page): void => {
-  const condition = RegExp(regex);
-  expect(condition.test(page.url())).toBeTruthy();
 };

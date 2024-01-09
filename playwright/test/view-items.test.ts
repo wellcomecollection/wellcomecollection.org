@@ -33,10 +33,12 @@ import {
 } from './selectors/item';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
-import { searchWithinLabel, volumesNavigationLabel } from './text/aria-labels';
 import safeWaitForNavigation from './helpers/safeWaitForNavigation';
 
 const domain = new URL(baseUrl).host;
+
+const volumesNavigationLabel = 'Volumes navigation';
+const searchWithinLabel = 'Search within this item';
 
 const searchWithin = async (query: string, page: Page) => {
   await page.fill(`text=${searchWithinLabel}`, query);

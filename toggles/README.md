@@ -10,13 +10,13 @@ We currently use three categories of toggles:
 ### 1. Feature development toggle
 
 Used to release a feature early, generally internally. We then develop the feature until
-we are happy for it to be released to the public. These should expire over time.
+we are happy for it to be released to the public.
 
 * Go to `toggles/webapp/toggles.ts`.
 * Create new toggle with `initialValue: false`.
-* log in to AWS and run `yarn deploy`. This will make it available on the [toggles dashboard][toggles-dashboard].
+* log in to AWS and run `yarn deploy`. This will make it available on the [toggles dashboard](https://dash.wellcomecollection.org/toggles/).
 * If required, create a PR. Ensure you merge your code in `main`.
-* Let internal users know they can turn this feature on via the [toggles dashboard][toggles-dashboard].
+* Let internal users know they can turn this feature on via the [toggles dashboard](https://dash.wellcomecollection.org/toggles/).
 * Iterate!
 * Once you're happy with releasing the feature publicly, run `yarn setDefaultValueFor --{toggle_id}=true`.
 * If anything goes wrong, you can run `yarn setDefaultValueFor --{toggle_id}=false`.
@@ -43,7 +43,7 @@ people to explicitly set which cohort they would like to be in.
 ## Deployment
 
 The toggles are compiled from [TypeScript](./webapp/toggles.ts) to JSON, stored in an [S3 bucket](./terraform/main.tf)
-and served [via HTTP][toggles].
+and served via the [toggles dashboard](https://dash.wellcomecollection.org/toggles/).
 
 Deployment happens in the [webapp directory](./webapp)
 
@@ -65,6 +65,6 @@ yarn setDefaultValueFor --{toggle_id}=true
 ## Useful links
 - ["Feature Toggles (aka Feature Flags)" - by Martin Fowler][martin-fowler-feature-toggles]
 - [Toggles Dashboard](https://dash.wellcomecollection.org/toggles)
-- [Toggles](https://toggles.wellcomecollection.org/toggles.json)
+- [Toggles JSON](https://toggles.wellcomecollection.org/toggles.json)
 
 [martin-fowler-feature-toggles]: https://martinfowler.com/articles/feature-toggles.html
