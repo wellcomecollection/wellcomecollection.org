@@ -7,7 +7,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import {
   getEnFromInternationalString,
-  groupRanges,
   transformCanvas,
 } from '@weco/content/utils/iiif/v3';
 import PlainList from '@weco/common/views/components/styled/PlainList';
@@ -72,10 +71,9 @@ const Structures: FunctionComponent<Props> = ({
   work,
   query,
 }) => {
-  const groupedRanges = groupRanges(canvases || [], ranges);
-  return groupedRanges.length > 0 ? (
+  return ranges.length > 0 ? (
     <List>
-      {groupedRanges.map((range, i) => {
+      {ranges.map((range, i) => {
         const isCanvas = (rangeItem: RangeItems): rangeItem is Canvas => {
           return typeof rangeItem === 'object' && rangeItem.type === 'Canvas';
         };

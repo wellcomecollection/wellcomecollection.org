@@ -22,6 +22,7 @@ import {
   checkModalRequired,
   checkIsTotallyRestricted,
   getBornDigitalStatus,
+  groupRanges,
 } from '@weco/content/utils/iiif/v3';
 
 export function transformManifest(manifestV3: Manifest): TransformedManifest {
@@ -56,7 +57,10 @@ export function transformManifest(manifestV3: Manifest): TransformedManifest {
     isAnyImageOpen,
   });
   const searchService = getSearchService(manifestV3);
-  const structures = manifestV3.structures || [];
+  const structures = groupRanges(
+    transformedCanvases || [],
+    manifestV3.structures || []
+  );
   const isCollectionManifest = manifestV3.type === 'Collection';
   const downloadEnabled = hasPdfDownload(manifestV3);
   const bornDigitalStatus = getBornDigitalStatus(manifestV3);
