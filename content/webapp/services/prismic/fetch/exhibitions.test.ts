@@ -11,6 +11,7 @@ const client: GetServerSidePropsPrismicClient = {
 
 const timeout = 15 * 1000;
 
+// TODO this test will fail when a new Exhibition is published, we should see if we can stop that from happening.
 describe('fetchExhibitions', () => {
   // Implementation note: this test queries Prismic directly.
   //
