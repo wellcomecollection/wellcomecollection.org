@@ -50,6 +50,7 @@ describe('fetchExhibitions', () => {
         { id: 'Yzv9ChEAABfUrkVp', title: 'The Healing Pavilion' },
         { id: 'ZAW0PxQAACcG-pX8', title: 'Genetic Automata' },
         { id: 'ZJ1zCxAAACMAczPA', title: 'The Cult of Beauty' },
+        { id: 'ZZP8BxAAALeD00jo', title: 'Jason and the Adventure of 254' },
       ]);
 
       mockToday({ as: new Date('2023-04-24T12:00:00Z') });
@@ -70,6 +71,7 @@ describe('fetchExhibitions', () => {
         { id: 'Y8VNbhEAAPJM-oki', title: 'Milk' },
         { id: 'ZAW0PxQAACcG-pX8', title: 'Genetic Automata' },
         { id: 'ZJ1zCxAAACMAczPA', title: 'The Cult of Beauty' },
+        { id: 'ZZP8BxAAALeD00jo', title: 'Jason and the Adventure of 254' },
       ]);
     },
     timeout
