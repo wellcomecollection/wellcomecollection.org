@@ -7,8 +7,8 @@ import {
   getVideo,
   getTransformedCanvases,
   getMultiVolumeLabel,
-  groupStructures,
   getBornDigitalStatus,
+  groupRanges,
 } from '../../utils/iiif/v3';
 import {
   manifest,
@@ -164,9 +164,9 @@ const correctResult = [
   },
 ];
 
-describe('Group repetitive iiif structures', () => {
-  it('groups iiifStructures with consecutive canvases and the same label', () => {
-    const groupedStructures = groupStructures(
+describe('Group repetitive iiif ranges', () => {
+  it('groups iiif ranges with consecutive canvases and the same label', () => {
+    const groupedStructures = groupRanges(
       canvases,
       structures as unknown as Range[]
     );
