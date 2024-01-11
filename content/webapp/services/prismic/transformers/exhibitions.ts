@@ -97,8 +97,6 @@ export function transformExhibition(
   const start = transformTimestamp(data.start)!;
   const end = data.end ? transformTimestamp(data.end) : undefined;
   const statusOverride = asText(data.statusOverride);
-  const bslInfo = asRichText(data.bslInfo);
-  const audioDescriptionInfo = asRichText(data.audioDescriptionInfo);
 
   const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
     season => transformSeason(season as SeasonPrismicDocument)
@@ -128,8 +126,6 @@ export function transformExhibition(
     end,
     isPermanent: data.isPermanent === 'yes',
     statusOverride,
-    bslInfo,
-    audioDescriptionInfo,
     place,
     exhibits,
     contributors,

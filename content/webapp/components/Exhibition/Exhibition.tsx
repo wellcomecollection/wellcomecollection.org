@@ -21,8 +21,6 @@ import {
   a11Y,
   a11YVisual,
   IconSvg,
-  britishSignLanguage,
-  audioDescribed,
   download,
   arrow,
 } from '@weco/common/icons';
@@ -145,18 +143,6 @@ function getPlaceObject(
   );
 }
 
-function getBslAdItems(exhibition: ExhibitionType): ExhibitionItem[] {
-  return [exhibition.bslInfo, exhibition.audioDescriptionInfo]
-    .filter(Boolean)
-    .map(item => {
-      return {
-        description: item,
-        icon:
-          item === exhibition.bslInfo ? britishSignLanguage : audioDescribed,
-      };
-    });
-}
-
 function getAccessibilityItems(): ExhibitionItem[] {
   return [
     {
@@ -189,7 +175,6 @@ export function getInfoItems(exhibition: ExhibitionType): ExhibitionItem[] {
     getTodaysHoursObject(),
     getPlaceObject(exhibition),
     ...getAccessibilityItems(),
-    ...getBslAdItems(exhibition),
   ].filter(isNotUndefined);
 }
 

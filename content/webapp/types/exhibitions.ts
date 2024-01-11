@@ -45,8 +45,6 @@ export type Exhibition = GenericContentFields & {
   end?: Date;
   isPermanent: boolean;
   statusOverride?: string;
-  bslInfo?: prismic.RichTextField;
-  audioDescriptionInfo?: prismic.RichTextField;
   place?: Place;
   exhibits: Exhibit[];
   relatedIds: string[];

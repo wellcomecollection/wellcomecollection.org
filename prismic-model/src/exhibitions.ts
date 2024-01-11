@@ -21,15 +21,17 @@ const exhibitions: CustomType = {
       format: documentLink('Format', { linkedType: 'exhibition-formats' }),
       title,
       shortTitle: singleLineText('Short title', {
-        overrideTextOptions: ['heading1'],
+        overrideTextOptions: ['paragraph'],
+        placeholder:
+          'Replaces title in breadcrumbs. Useful if title is very long, should otherwise be left empty.',
       }),
       body,
       start: timestamp('Start date'),
       end: timestamp('End date'),
       isPermanent: booleanDeprecated('Is permanent?'),
       statusOverride: singleLineText('Status override'),
-      bslInfo: singleLineText('BSL information'),
-      audioDescriptionInfo: singleLineText('Audio description information'),
+      bslInfo: singleLineText('BSL information'), // TODO remove
+      audioDescriptionInfo: singleLineText('Audio description information'), // TODO remove
       place,
     },
     'In this exhibition': {
