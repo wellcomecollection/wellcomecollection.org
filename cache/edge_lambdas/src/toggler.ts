@@ -8,10 +8,12 @@ import {
 type Test = {
   id: string;
   title: string;
-  //   range: [0, 50], // Run this test on 50% of users
-  //   range: [50, 100], // Run this test on 50% of users - not overlapping with ☝️
+  // Traffic included in the test is always split 50/50, the range specifies the percentage of total traffic to include in the test
+  // range: [0, 50], // Run this test on 50% of users
+  // range: [50, 100], // Run this test on 50% of users - not overlapping with ☝️
   range: [number, number];
-  // eg -
+  // Use the when property with caution, especially when journeys are using client side routing
+  // Need to ensure that all the possible endpoints a user can hit, will set the cookie
   // when: (request) => {
   //   return request.uri.match(/^\/articles\/*/);
   // }

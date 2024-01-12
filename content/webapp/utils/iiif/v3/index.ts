@@ -449,7 +449,7 @@ export function checkIsTotallyRestricted(
   return Boolean(restrictedAuthService && !isAnyImageOpen);
 }
 
-function transformCanvas(canvas: Canvas): TransformedCanvas {
+export function transformCanvas(canvas: Canvas): TransformedCanvas {
   const imageService = getImageService(canvas);
   const imageServiceId = getImageServiceId(imageService);
   const hasRestrictedImage = isImageRestricted(canvas);
@@ -469,16 +469,21 @@ function transformCanvas(canvas: Canvas): TransformedCanvas {
   };
 }
 
-export function groupStructures(
+// When lots of the works were digitised, ranges with multiple items, such as a table of contents,
+// were created individually rather than as a single range with multiple items.
+// This means we would display repetitive links to the essentially the same thing.
+// This function groups ranges that have the same label and consecutive pages into a single structure,
+// So we can display one link to the first item in the range.
+export function groupRanges(
   items: TransformedCanvas[],
-  structures: Range[]
+  ranges: Range[]
 ): Range[] {
-  return structures.reduce(
-    (acc, structure) => {
-      if (!structure.items) return acc;
+  return ranges.reduce(
+    (acc, range) => {
+      if (!range.items) return acc;
 
-      const [lastCanvasInRange] = structure.items.slice(-1);
-      const [firstCanvasInRange] = structure.items;
+      const [lastCanvasInRange] = range.items.slice(-1);
+      const [firstCanvasInRange] = range.items;
       const firstCanvasIndex = items.findIndex(
         canvas =>
           !isString(firstCanvasInRange) && canvas.id === firstCanvasInRange.id
@@ -486,7 +491,7 @@ export function groupStructures(
 
       if (
         getEnFromInternationalString(acc.previousLabel) ===
-          getEnFromInternationalString(structure.label) &&
+          getEnFromInternationalString(range.label) &&
         acc.previousLastCanvasIndex &&
         firstCanvasIndex === acc.previousLastCanvasIndex + 1
       ) {
@@ -496,10 +501,10 @@ export function groupStructures(
         acc.groupedArray[acc.groupedArray.length - 1].items!.push(
           lastCanvasInRange
         );
-      } else if (structure.items.length > 0) {
-        acc.groupedArray.push(structure);
+      } else if (range.items.length > 0) {
+        acc.groupedArray.push(range);
       }
-      acc.previousLabel = structure.label;
+      acc.previousLabel = range.label;
       acc.previousLastCanvasIndex = items.findIndex(
         canvas =>
           !isString(lastCanvasInRange) && canvas.id === lastCanvasInRange.id
