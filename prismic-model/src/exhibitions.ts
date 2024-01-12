@@ -30,8 +30,6 @@ const exhibitions: CustomType = {
       end: timestamp('End date'),
       isPermanent: booleanDeprecated('Is permanent?'),
       statusOverride: singleLineText('Status override'),
-      bslInfo: singleLineText('BSL information'), // TODO remove
-      audioDescriptionInfo: singleLineText('Audio description information'), // TODO remove
       place,
     },
     'In this exhibition': {
