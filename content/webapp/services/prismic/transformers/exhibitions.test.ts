@@ -38,8 +38,6 @@ const doc = {
     end: '2022-10-15T23:00:00+0000',
     isPermanent: null,
     statusOverride: [],
-    bslInfo: [],
-    audioDescriptionInfo: [],
     place: {
       id: 'WoLtlioAACoANrY_',
       type: 'places',
