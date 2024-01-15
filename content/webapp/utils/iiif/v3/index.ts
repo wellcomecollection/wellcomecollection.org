@@ -4,6 +4,7 @@ import {
   DownloadOption,
   TransformedCanvas,
   AuthClickThroughServiceWithPossibleServiceArray,
+  BornDigitalData,
 } from '@weco/content/types/manifest';
 import {
   AnnotationPage,
@@ -21,9 +22,10 @@ import {
   AuthAccessTokenService,
   Range,
   SpecificationBehaviors,
+  RangeItems,
 } from '@iiif/presentation-3';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
-import { getThumbnailImage } from './canvas';
+import { getThumbnailImage, getBornDigitalData } from './canvas';
 
 // The label we want to use to distinguish between parts of a multi-volume work
 // (e.g. 'Copy 1' or 'Volume 1') can currently exist in either the first or
@@ -205,7 +207,7 @@ export function getTransformedCanvases(
   return canvases?.map(transformCanvas) || [];
 }
 
-function getLabelString(
+export function getLabelString(
   label: InternationalString | null | undefined
 ): string | undefined {
   if (!label) {
@@ -523,6 +525,48 @@ export function groupRanges(
       groupedArray: Range[];
     }
   ).groupedArray;
+}
+
+export const isCanvas = (rangeItem: RangeItems): rangeItem is Canvas => {
+  return typeof rangeItem === 'object' && rangeItem.type === 'Canvas';
+};
+
+export const isRange = (rangeItem: RangeItems): rangeItem is Range => {
+  return typeof rangeItem === 'object' && rangeItem.type === 'Range';
+};
+
+type RangeWithBornDigitalData = Omit<Range, 'items'> & {
+  items: (Range | (Canvas & { bornDigitalData: BornDigitalData }))[];
+};
+
+// We want to display the structure from the iiif-manifest
+// But we want to include links, which requires data from the Canvas in the items array
+// So we augment the canvas contained in the structure
+// with the necessary data from the matching canvas item
+export function augmentStructuresCanvasData(
+  structures: RangeItems[],
+  canvases: TransformedCanvas[]
+): RangeWithBornDigitalData[] {
+  return structures?.filter(isRange).map(range => {
+    const rangeItems = range?.items?.filter(isRange || isCanvas).map(item => {
+      if (isCanvas(item)) {
+        const matchingCanvas = canvases?.find(canvas => canvas.id === item.id);
+        return {
+          ...item,
+          bornDigitalData: matchingCanvas?.bornDigitalData,
+        };
+      } else {
+        return {
+          ...item,
+          items: augmentStructuresCanvasData(item?.items || [], canvases),
+        };
+      }
+    }) as RangeWithBornDigitalData[];
+    return {
+      ...range,
+      items: rangeItems,
+    };
+  });
 }
 
 export function getCollectionManifests(manifest: Manifest): Canvas[] {

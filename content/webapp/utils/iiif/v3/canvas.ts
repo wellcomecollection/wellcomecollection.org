@@ -1,6 +1,6 @@
-import { Canvas } from '@iiif/presentation-3';
+import { Canvas, SpecificationBehaviors } from '@iiif/presentation-3';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { ThumbnailImage } from '@weco/content/types/manifest';
+import { ThumbnailImage, BornDigitalData } from '@weco/content/types/manifest';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 // Temporary type until iiif3 types are correct
@@ -54,6 +54,29 @@ export function getThumbnailImage(canvas: Canvas): ThumbnailImage | undefined {
     return {
       width: thumbnail.width,
       url: thumbnail.id,
+    };
+  }
+}
+
+// TODO don't duplicate types with util/index;
+type CustomSpecificationBehaviors = SpecificationBehaviors | 'placeholder';
+
+// TODO comments explaining what is going on
+export function getBornDigitalData(
+  canvas: Canvas
+): BornDigitalData | undefined {
+  const behavior = canvas?.behavior as
+    | CustomSpecificationBehaviors[]
+    | undefined;
+  const isBornDigital = behavior?.includes('placeholder') || false;
+  const originalRendering = canvas.rendering?.find(item => {
+    return item?.behavior?.includes('original'); // TODO fix type
+  });
+  if (isBornDigital && originalRendering) {
+    return {
+      originalFile: originalRendering?.id,
+      label: originalRendering.label, // TODO fix type
+      format: originalRendering.format, // TODO fix type
     };
   }
 }
