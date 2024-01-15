@@ -69,11 +69,11 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'bornDigitalMessage',
-      title: 'Displays whether a work has born digital items or not',
+      id: 'showBornDigital',
+      title: 'Display born digital files',
       initialValue: false,
       description:
-        'Adds some text to the top of a work page stating whether there are born digital items in the iiif-manifest',
+        'If there are born digital items in the iiif-manifest, then links to all the files in the manifest are shown on the works page.',
       type: 'experimental',
     },
   ] as const,
