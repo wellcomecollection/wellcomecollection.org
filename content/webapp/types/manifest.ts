@@ -10,6 +10,12 @@ import { Audio, Video } from '@weco/content/services/iiif/types/manifest/v3';
 
 export type ThumbnailImage = { url: string; width: number };
 
+export type BornDigitalData = {
+  originalFile: string | undefined;
+  label: string | undefined;
+  format?: string;
+};
+
 export type TransformedCanvas = {
   id: string;
   width: number | undefined;
