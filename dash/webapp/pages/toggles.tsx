@@ -173,7 +173,7 @@ const IndexPage: FunctionComponent = () => {
       });
 
     const cookies = getCookies();
-    console.log({ cookies });
+
     const initialToggles = Object.keys(cookies).reduce((acc, key) => {
       if (key.startsWith('toggle_')) {
         acc[key.replace('toggle_', '')] = cookies[key] === 'true';
