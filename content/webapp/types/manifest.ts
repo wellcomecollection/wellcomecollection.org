@@ -25,6 +25,7 @@ export type TransformedCanvas = {
   label: string | undefined;
   textServiceId: string | undefined;
   thumbnailImage: ThumbnailImage | undefined;
+  bornDigitalData: BornDigitalData | undefined;
 };
 
 export type DownloadOption = {
