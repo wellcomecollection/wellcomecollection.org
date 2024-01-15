@@ -8,6 +8,8 @@ import styled from 'styled-components';
 import {
   getEnFromInternationalString,
   transformCanvas,
+  isRange,
+  isCanvas,
 } from '@weco/content/utils/iiif/v3';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
@@ -19,7 +21,7 @@ import {
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { TransformedCanvas } from '@weco/content/types/manifest';
-import { Range, RangeItems, Canvas } from '@iiif/presentation-3';
+import { Range } from '@iiif/presentation-3';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 
 export const List = styled(PlainList)`
@@ -74,18 +76,12 @@ const Structures: FunctionComponent<Props> = ({
   return ranges.length > 0 ? (
     <List>
       {ranges.map((range, i) => {
-        const isCanvas = (rangeItem: RangeItems): rangeItem is Canvas => {
-          return typeof rangeItem === 'object' && rangeItem.type === 'Canvas';
-        };
         const rangeCanvases =
           range?.items?.filter(isCanvas).map(transformCanvas) || [];
         const firstCanvasInRange = rangeCanvases[0];
         const canvasIndex =
           canvases?.findIndex(canvas => canvas.id === firstCanvasInRange?.id) ||
           0;
-        const isRange = (rangeItem: RangeItems): rangeItem is Range => {
-          return typeof rangeItem === 'object' && rangeItem.type === 'Range';
-        };
         const nestedRanges = range?.items?.filter(isRange) || [];
         return (
           <Item

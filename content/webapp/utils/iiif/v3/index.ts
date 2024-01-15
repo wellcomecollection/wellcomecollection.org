@@ -450,13 +450,14 @@ export function checkIsTotallyRestricted(
 }
 
 export function transformCanvas(canvas: Canvas): TransformedCanvas {
-  const imageService = getImageService(canvas);
+  const imageService = getImageService(canvas); // TODO possibly redo how this is done
   const imageServiceId = getImageServiceId(imageService);
   const hasRestrictedImage = isImageRestricted(canvas);
   const label = getCanvasLabel(canvas);
   const textServiceId = getCanvasTextServiceId(canvas);
   const thumbnailImage = getThumbnailImage(canvas);
   const { id, width, height } = canvas;
+  const bornDigitalData = getBornDigitalData(canvas);
   return {
     id,
     width,
@@ -466,6 +467,7 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
     label,
     textServiceId,
     thumbnailImage,
+    bornDigitalData,
   };
 }
 
