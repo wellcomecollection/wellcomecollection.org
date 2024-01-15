@@ -1,4 +1,4 @@
-import { NextApiHandler } from 'next';
+import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 import getConfig from 'next/config';
 import auth0 from '@weco/identity/src/utility/auth0';
 import axios, { AxiosInstance, Method as AxiosMethod } from 'axios';
@@ -14,7 +14,7 @@ export const identityAxios: AxiosInstance = axios.create({
 });
 
 const handleIdentityApiRequest: NextApiHandler = auth0.withApiAuthRequired(
-  async (req, res) => {
+  async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { accessToken } = await auth0.getAccessToken(req, res);
       const path = '/users/' + (req.query.users as string[]).join('/');
