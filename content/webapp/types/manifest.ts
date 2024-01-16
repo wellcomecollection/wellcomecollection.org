@@ -6,6 +6,8 @@ import {
   AuthAccessTokenService,
   Canvas,
   InternationalString,
+  SpecificationBehaviors,
+  ContentResource,
 } from '@iiif/presentation-3';
 import { Audio, Video } from '@weco/content/services/iiif/types/manifest/v3';
 
@@ -82,4 +84,14 @@ export type TransformedManifest = {
     | AuthClickThroughServiceWithPossibleServiceArray
     | undefined;
   tokenService: AuthAccessTokenService | undefined;
+};
+
+export type CustomSpecificationBehaviors =
+  | SpecificationBehaviors
+  | 'placeholder';
+
+export type CustomContentResource = ContentResource & {
+  behavior: 'original' | undefined;
+  label: InternationalString | null | undefined;
+  format: string | undefined;
 };

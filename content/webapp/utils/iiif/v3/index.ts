@@ -5,6 +5,7 @@ import {
   TransformedCanvas,
   AuthClickThroughServiceWithPossibleServiceArray,
   TransformedRange,
+  CustomSpecificationBehaviors,
 } from '@weco/content/types/manifest';
 import {
   AnnotationPage,
@@ -21,7 +22,6 @@ import {
   AuthExternalService,
   AuthAccessTokenService,
   Range,
-  SpecificationBehaviors,
   RangeItems,
 } from '@iiif/presentation-3';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
@@ -599,7 +599,6 @@ export function getCollectionManifests(manifest: Manifest): Canvas[] {
   return [...firstLevelManifests, ...collectionManifests] as Canvas[];
 }
 
-type CustomSpecificationBehaviors = SpecificationBehaviors | 'placeholder';
 // Whether something is born digital or not is determined at the canvas level within a iiifManifest
 // It is therefore possible to have a iiifManifest that contains:
 // - only born digital items

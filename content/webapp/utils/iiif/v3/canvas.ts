@@ -1,6 +1,11 @@
-import { Canvas, SpecificationBehaviors } from '@iiif/presentation-3';
+import { Canvas } from '@iiif/presentation-3';
+import {
+  CustomSpecificationBehaviors,
+  CustomContentResource,
+  ThumbnailImage,
+  BornDigitalData,
+} from '@weco/content/types/manifest';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { ThumbnailImage, BornDigitalData } from '@weco/content/types/manifest';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 // Temporary type until iiif3 types are correct
@@ -58,10 +63,9 @@ export function getThumbnailImage(canvas: Canvas): ThumbnailImage | undefined {
   }
 }
 
-// TODO don't duplicate types with util/index;
-type CustomSpecificationBehaviors = SpecificationBehaviors | 'placeholder';
-
-// TODO comments explaining what is going on
+// If the canvas has a behavior which includes 'placeholder'
+// we know it is Born digital: https://github.com/wellcomecollection/docs/blob/main/rfcs/046-born-digital-iiif/README.md
+// The data we need to display a link to the file is found in the rendering property of the canvas.
 export function getBornDigitalData(
   canvas: Canvas
 ): BornDigitalData | undefined {
@@ -69,14 +73,15 @@ export function getBornDigitalData(
     | CustomSpecificationBehaviors[]
     | undefined;
   const isBornDigital = behavior?.includes('placeholder') || false;
-  const originalRendering = canvas.rendering?.find(item => {
-    return item?.behavior?.includes('original'); // TODO fix type
+  const rendering = canvas.rendering as CustomContentResource[];
+  const originalRendering = rendering?.find(item => {
+    return item?.behavior?.includes('original');
   });
   if (isBornDigital && originalRendering) {
     return {
       originalFile: originalRendering?.id,
-      label: originalRendering.label, // TODO fix type
-      format: originalRendering.format, // TODO fix type
+      label: originalRendering.label,
+      format: originalRendering.format,
     };
   }
 }
