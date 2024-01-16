@@ -3,7 +3,11 @@ import {
   fromCommonParts,
   CommonParts,
 } from '@weco/content/utils/compressed-array';
-import { TransformedCanvas, TransformedManifest } from './manifest';
+import {
+  TransformedCanvas,
+  TransformedManifest,
+  BornDigitalData,
+} from './manifest';
 
 type CompressedTransformedCanvases = {
   id: CommonParts;
@@ -15,6 +19,7 @@ type CompressedTransformedCanvases = {
   textServiceId: CommonParts;
   thumbnailImageUrl: CommonParts;
   thumbnailImageWidth: (number | undefined)[];
+  bornDigitalData: (BornDigitalData | undefined)[];
 };
 
 export type CompressedTransformedManifest = Omit<
@@ -44,6 +49,7 @@ export function toCompressedTransformedManifest(
         canvases.map(c => c.thumbnailImage?.url)
       ),
       thumbnailImageWidth: canvases.map(c => c.thumbnailImage?.width),
+      bornDigitalData: canvases.map(c => c.bornDigitalData),
     },
     ...otherFields,
   };
@@ -62,8 +68,13 @@ export function fromCompressedManifest(
     compressedCanvases.thumbnailImageUrl
   );
 
-  const { width, height, restrictedImageIds, thumbnailImageWidth } =
-    compressedCanvases;
+  const {
+    width,
+    height,
+    restrictedImageIds,
+    thumbnailImageWidth,
+    bornDigitalData,
+  } = compressedCanvases;
 
   const uncompressedCanvases: TransformedCanvas[] = [];
 
@@ -85,6 +96,7 @@ export function fromCompressedManifest(
               /* eslint-enable @typescript-eslint/no-non-null-assertion */
             }
           : undefined,
+      bornDigitalData: bornDigitalData[index],
     };
 
     uncompressedCanvases.push(canvas);
