@@ -458,10 +458,11 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
   const label = getCanvasLabel(canvas);
   const textServiceId = getCanvasTextServiceId(canvas);
   const thumbnailImage = getThumbnailImage(canvas);
-  const { id, width, height } = canvas;
+  const { id, type, width, height } = canvas;
   const bornDigitalData = getBornDigitalData(canvas);
   return {
     id,
+    type,
     width,
     height,
     imageServiceId,
@@ -527,18 +528,18 @@ export function groupRanges(
   ).groupedArray;
 }
 
-export const isTransformedCanvas = (
-  rangeItem: RangeItems // TODO this is the wrong type
-): rangeItem is TransformedCanvas => {
-  return typeof rangeItem === 'object' && rangeItem.type === 'Canvas';
-};
-
 export const isCanvas = (rangeItem: RangeItems): rangeItem is Canvas => {
   return typeof rangeItem === 'object' && rangeItem.type === 'Canvas';
 };
 
 export const isRange = (rangeItem: RangeItems): rangeItem is Range => {
   return typeof rangeItem === 'object' && rangeItem.type === 'Range';
+};
+
+export const isTransformedCanvas = (
+  rangeItem: TransformedRange | TransformedCanvas
+): rangeItem is TransformedCanvas => {
+  return typeof rangeItem === 'object' && rangeItem.type === 'Canvas';
 };
 
 export const isTransformedRange = (

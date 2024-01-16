@@ -8,6 +8,7 @@ import {
   InternationalString,
   SpecificationBehaviors,
   ContentResource,
+  ResourceType,
 } from '@iiif/presentation-3';
 import { Audio, Video } from '@weco/content/services/iiif/types/manifest/v3';
 
@@ -21,6 +22,7 @@ export type BornDigitalData = {
 
 export type TransformedCanvas = {
   id: string;
+  type: NonNullable<ResourceType>;
   width: number | undefined;
   height: number | undefined;
   imageServiceId: string | undefined;

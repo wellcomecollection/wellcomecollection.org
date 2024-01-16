@@ -8,9 +8,11 @@ import {
   TransformedManifest,
   BornDigitalData,
 } from './manifest';
+import { ResourceType } from '@iiif/presentation-3';
 
 type CompressedTransformedCanvases = {
   id: CommonParts;
+  type: NonNullable<ResourceType>[];
   width: (number | undefined)[];
   height: (number | undefined)[];
   imageServiceId: CommonParts;
@@ -37,6 +39,7 @@ export function toCompressedTransformedManifest(
   return {
     compressedCanvases: {
       id: toCommonParts(canvases.map(c => c.id)),
+      type: canvases.map(c => c.type),
       width: canvases.map(c => c.width),
       height: canvases.map(c => c.height),
       imageServiceId: toCommonParts(canvases.map(c => c.imageServiceId)),
@@ -69,6 +72,7 @@ export function fromCompressedManifest(
   );
 
   const {
+    type,
     width,
     height,
     restrictedImageIds,
@@ -81,6 +85,7 @@ export function fromCompressedManifest(
   for (let index = 0; index < id.length; index++) {
     const canvas: TransformedCanvas = {
       id: id[index],
+      type: type[index],
       width: width[index],
       height: height[index],
       imageServiceId: imageServiceId[index],
