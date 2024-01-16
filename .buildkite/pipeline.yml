@@ -115,15 +115,15 @@
         run: edge_lambdas
         command: ['yarn', 'test']
 
-- label: 'deploy dash'
+- label: "Update pa11y dashboard"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
-        role: 'arn:aws:iam::130871440101:role/experience-ci'
+        role: "arn:aws:iam::130871440101:role/experience-ci"
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
-        run: dash
-        command: ['yarn', 'deploy']
+        run: pa11y
+        command: [ "yarn", "deploy" ]
         env:
           - AWS_ACCESS_KEY_ID
           - AWS_SECRET_ACCESS_KEY
