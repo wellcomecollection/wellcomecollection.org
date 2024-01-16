@@ -4,7 +4,7 @@ import {
   DownloadOption,
   TransformedCanvas,
   AuthClickThroughServiceWithPossibleServiceArray,
-  BornDigitalData,
+  TransformedRange,
 } from '@weco/content/types/manifest';
 import {
   AnnotationPage,
@@ -527,6 +527,12 @@ export function groupRanges(
   ).groupedArray;
 }
 
+export const isTransformedCanvas = (
+  rangeItem: RangeItems // TODO this is the wrong type
+): rangeItem is TransformedCanvas => {
+  return typeof rangeItem === 'object' && rangeItem.type === 'Canvas';
+};
+
 export const isCanvas = (rangeItem: RangeItems): rangeItem is Canvas => {
   return typeof rangeItem === 'object' && rangeItem.type === 'Canvas';
 };
@@ -535,33 +541,40 @@ export const isRange = (rangeItem: RangeItems): rangeItem is Range => {
   return typeof rangeItem === 'object' && rangeItem.type === 'Range';
 };
 
-type RangeWithBornDigitalData = Omit<Range, 'items'> & {
-  items: (Range | (Canvas & { bornDigitalData: BornDigitalData }))[];
+export const isTransformedRange = (
+  rangeItem: TransformedRange | TransformedCanvas
+): rangeItem is TransformedRange => {
+  return typeof rangeItem === 'object' && rangeItem.type === 'Range';
 };
 
 // We want to display the structure from the iiif-manifest
 // But we want to include links, which requires data from the Canvas in the items array
 // So we augment the canvas contained in the structure
 // with the necessary data from the matching canvas item
+
+// TODO write test for this function
 export function augmentStructuresCanvasData(
   structures: RangeItems[],
   canvases: TransformedCanvas[]
-): RangeWithBornDigitalData[] {
+): TransformedRange[] {
   return structures?.filter(isRange).map(range => {
-    const rangeItems = range?.items?.filter(isRange || isCanvas).map(item => {
-      if (isCanvas(item)) {
-        const matchingCanvas = canvases?.find(canvas => canvas.id === item.id);
-        return {
-          ...item,
-          bornDigitalData: matchingCanvas?.bornDigitalData,
-        };
-      } else {
-        return {
-          ...item,
-          items: augmentStructuresCanvasData(item?.items || [], canvases),
-        };
-      }
-    }) as RangeWithBornDigitalData[];
+    const rangeItems = range?.items
+      ?.map(item => {
+        if (isCanvas(item)) {
+          const matchingCanvas = canvases?.find(
+            canvas => canvas.id === item.id
+          );
+          return {
+            ...item,
+            bornDigitalData: matchingCanvas?.bornDigitalData,
+          };
+        } else if (isRange(item)) {
+          return augmentStructuresCanvasData([item] || [], canvases)[0];
+        } else {
+          return undefined;
+        }
+      })
+      .filter(Boolean) as TransformedRange[];
     return {
       ...range,
       items: rangeItems,

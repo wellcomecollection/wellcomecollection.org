@@ -5,6 +5,7 @@ import {
   AuthClickThroughService,
   AuthAccessTokenService,
   Canvas,
+  InternationalString,
 } from '@iiif/presentation-3';
 import { Audio, Video } from '@weco/content/services/iiif/types/manifest/v3';
 
@@ -12,7 +13,7 @@ export type ThumbnailImage = { url: string; width: number };
 
 export type BornDigitalData = {
   originalFile: string | undefined;
-  label: string | undefined;
+  label: InternationalString | null | undefined;
   format?: string;
 };
 
@@ -49,6 +50,10 @@ export type BornDigitalStatus =
   | 'noBornDigital'
   | 'mixedBornDigital';
 
+export type TransformedRange = Omit<Range, 'items'> & {
+  items: (TransformedRange | TransformedCanvas)[];
+};
+
 export type TransformedManifest = {
   downloadEnabled?: boolean;
   firstCollectionManifestLocation?: string;
@@ -71,7 +76,7 @@ export type TransformedManifest = {
   needsModal: boolean;
   restrictedService: AuthExternalService | undefined;
   searchService: Service | undefined;
-  structures: Range[];
+  structures: TransformedRange[];
   manifests: Canvas[];
   clickThroughService:
     | AuthClickThroughServiceWithPossibleServiceArray
