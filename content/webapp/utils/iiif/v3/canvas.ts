@@ -79,7 +79,7 @@ export function getBornDigitalData(
   });
   if (isBornDigital && originalRendering) {
     return {
-      originalFile: originalRendering?.id,
+      originalFile: originalRendering.id,
       label: originalRendering.label,
       format: originalRendering.format,
     };

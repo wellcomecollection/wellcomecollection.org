@@ -17,7 +17,7 @@ export type ThumbnailImage = { url: string; width: number };
 export type BornDigitalData = {
   originalFile: string | undefined;
   label: InternationalString | null | undefined;
-  format?: string;
+  format: string | undefined;
 };
 
 export type TransformedCanvas = {
