@@ -452,7 +452,7 @@ export function checkIsTotallyRestricted(
 }
 
 export function transformCanvas(canvas: Canvas): TransformedCanvas {
-  const imageService = getImageService(canvas); // TODO possibly redo how this is done
+  const imageService = getImageService(canvas);
   const imageServiceId = getImageServiceId(imageService);
   const hasRestrictedImage = isImageRestricted(canvas);
   const label = getCanvasLabel(canvas);
@@ -552,8 +552,6 @@ export const isTransformedRange = (
 // But we want to include links, which requires data from the Canvas in the items array
 // So we augment the canvas contained in the structure
 // with the necessary data from the matching canvas item
-
-// TODO write test for this function
 export function augmentStructuresCanvasData(
   structures: RangeItems[],
   canvases: TransformedCanvas[]
