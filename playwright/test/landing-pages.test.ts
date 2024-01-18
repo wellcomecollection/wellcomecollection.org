@@ -16,12 +16,35 @@ test.describe('With JavaScript disabled', () => {
 
   test(`the what's on page displays all events`, async ({ page }) => {
     await gotoWithoutCache(whatsOnUrl, page);
-    const links = page.locator('a:has-text("View all events")');
-    const linksCount = await links.count();
+    const links = await page
+      .getByRole('link', { name: 'View all events' })
+      .all();
+    const linksCount = links.length;
 
     for (let linkIndex = 0; linkIndex < linksCount; linkIndex++) {
-      const link = links.nth(linkIndex);
+      const link = links[linkIndex];
       await expect(link).toBeVisible();
+    }
+  });
+});
+
+test.describe('With JavaScript enabled', () => {
+  test(`the what's on page displays events by months in tabs`, async ({
+    page,
+  }) => {
+    await gotoWithoutCache(whatsOnUrl, page);
+    const links = await page
+      .getByRole('link', { name: 'View all events' })
+      .all();
+    const linksCount = links.length;
+
+    for (let linkIndex = 0; linkIndex < linksCount; linkIndex++) {
+      const link = links[linkIndex];
+      if (linkIndex === 0) {
+        await expect(link).toBeVisible();
+      } else {
+        await expect(link).toBeHidden();
+      }
     }
   });
 });
@@ -52,18 +75,6 @@ test.describe('Top-level landing pages', () => {
     const content = await page.textContent('h1');
 
     expect(content).toBe('What’s on');
-
-    const links = page.locator('a:has-text("View all events")');
-    const linksCount = await links.count();
-
-    for (let linkIndex = 0; linkIndex < linksCount; linkIndex++) {
-      const link = links.nth(linkIndex);
-      if (linkIndex === 0) {
-        await expect(link).toBeVisible();
-      } else {
-        await expect(link).toBeHidden();
-      }
-    }
   });
 
   test('the stories page renders with an accessible title', async ({
