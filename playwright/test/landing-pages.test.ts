@@ -29,7 +29,7 @@ test.describe('With JavaScript disabled', () => {
 });
 
 test.describe('With JavaScript enabled', () => {
-  test(`the what's on page displays events by months in tabs`, async ({
+  test(`the what's on page displays events by months in switchable tabs`, async ({
     page,
   }) => {
     await gotoWithoutCache(whatsOnUrl, page);
