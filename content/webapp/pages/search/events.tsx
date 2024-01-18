@@ -41,10 +41,6 @@ type Props = {
   eventsRouteProps: EventsProps;
 };
 
-const Wrapper = styled(Space)`
-  background-color: ${props => props.theme.color('neutral.200')};
-`;
-
 const SortPaginationWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -67,7 +63,7 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
   return (
     <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
       {eventResponseList && (
-        <Wrapper>
+        <>
           {hasNoResults ? (
             <Container>
               <SearchNoResults query={queryString} />
@@ -81,6 +77,7 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
 
                 <SortPaginationWrapper>
                   {/* TODO re-add when sorting works in Content API */}
+                  {/* https://github.com/wellcomecollection/wellcomecollection.org/issues/10554 */}
                   {/* <Sort
                     formId={SEARCH_PAGES_FORM_ID}
                     options={[
@@ -129,15 +126,7 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
               </PaginationWrapper>
 
               <main>
-                <EventsSearchResults
-                  events={eventResponseList.results}
-                  dynamicImageSizes={{
-                    xlarge: 1 / 5,
-                    large: 1 / 5,
-                    medium: 1 / 2,
-                    small: 1 / 2,
-                  }}
-                />
+                <EventsSearchResults events={eventResponseList.results} />
               </main>
 
               <PaginationWrapper $verticalSpacing="l" $alignRight>
@@ -149,7 +138,7 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
               </PaginationWrapper>
             </Container>
           )}
-        </Wrapper>
+        </>
       )}
     </Space>
   );

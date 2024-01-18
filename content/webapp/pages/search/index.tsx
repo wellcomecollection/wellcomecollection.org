@@ -257,15 +257,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                 <Container>
                   <SectionTitle sectionName="Events" />
 
-                  <EventsSearchResults
-                    events={events.pageResults}
-                    dynamicImageSizes={{
-                      xlarge: 1 / 5,
-                      large: 1 / 5,
-                      medium: 1 / 2,
-                      small: 1 / 2,
-                    }}
-                  />
+                  <EventsSearchResults events={events.pageResults} />
 
                   <Space $v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
@@ -397,7 +389,7 @@ export const getServerSideProps: GetServerSideProps<
           sort: getQueryPropertyValue(query.sort),
           sortOrder: getQueryPropertyValue(query.sortOrder),
         },
-        pageSize: 4,
+        pageSize: 3,
         toggles: serverData.toggles,
       });
 
