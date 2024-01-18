@@ -84,7 +84,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
         const primaryLabels = [
           event.format.label,
           // ...audiencesLabels, TODO re-add when part of API response
-          // ...relaxedPerformanceLabel,  TODO re-add when part of API response
+          // ...relaxedPerformanceLabel,  TODO investigate that field https://wellcome.slack.com/archives/C3N7J05TK/p1705594795269959
         ].map(text => ({ text }));
 
         const secondaryLabels = [...event.interpretations]

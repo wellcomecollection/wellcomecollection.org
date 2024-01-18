@@ -88,9 +88,9 @@ const ImagesSection = styled(BasicSection)`
   color: ${props => props.theme.color('white')};
 `;
 
-const EventsSection = styled(BasicSection)`
-  background-color: ${props => props.theme.color('neutral.200')};
-`;
+const EventsSection = styled(BasicSection).attrs({
+  $v: { size: 'xl', properties: ['padding-bottom'] },
+})``;
 
 const SectionTitle = ({ sectionName }: { sectionName: string }) => {
   return (
@@ -181,97 +181,95 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 
   return (
     <main>
-      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        {!stories && !images && !works ? (
-          <Container>
-            <SearchNoResults query={queryString} />
-          </Container>
-        ) : (
-          <>
-            {stories && (
-              <StoriesSection>
-                <Container>
-                  <SectionTitle sectionName="Stories" />
-                </Container>
-                <StoryPromoContainer>
-                  <StoriesGrid
-                    articles={stories.pageResults}
-                    dynamicImageSizes={{
-                      xlarge: 1 / 5,
-                      large: 1 / 5,
-                      medium: 1 / 2,
-                      small: 1 / 2,
-                    }}
+      {!stories && !images && !works ? (
+        <Container>
+          <SearchNoResults query={queryString} />
+        </Container>
+      ) : (
+        <>
+          {stories && (
+            <StoriesSection>
+              <Container>
+                <SectionTitle sectionName="Stories" />
+              </Container>
+              <StoryPromoContainer>
+                <StoriesGrid
+                  articles={stories.pageResults}
+                  dynamicImageSizes={{
+                    xlarge: 1 / 5,
+                    large: 1 / 5,
+                    medium: 1 / 2,
+                    small: 1 / 2,
+                  }}
+                />
+              </StoryPromoContainer>
+              <Container>
+                <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+                  <SeeMoreButton
+                    text="All stories"
+                    pathname="/search/stories"
+                    totalResults={stories.totalResults}
                   />
-                </StoryPromoContainer>
-                <Container>
-                  <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-                    <SeeMoreButton
-                      text="All stories"
-                      pathname="/search/stories"
-                      totalResults={stories.totalResults}
-                    />
-                  </Space>
-                </Container>
-              </StoriesSection>
-            )}
+                </Space>
+              </Container>
+            </StoriesSection>
+          )}
 
-            {images && (
-              <ImagesSection>
-                <Container>
-                  <SectionTitle sectionName="Images" />
+          {images && (
+            <ImagesSection>
+              <Container>
+                <SectionTitle sectionName="Images" />
 
-                  <ImageEndpointSearchResults images={images.pageResults} />
+                <ImageEndpointSearchResults images={images.pageResults} />
 
-                  <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-                    <SeeMoreButton
-                      text="All images"
-                      pathname="/search/images"
-                      totalResults={images.totalResults}
-                    />
-                  </Space>
-                </Container>
-              </ImagesSection>
-            )}
+                <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+                  <SeeMoreButton
+                    text="All images"
+                    pathname="/search/images"
+                    totalResults={images.totalResults}
+                  />
+                </Space>
+              </Container>
+            </ImagesSection>
+          )}
 
-            {works && (
-              <BasicSection>
-                <Container>
-                  <SectionTitle sectionName="Catalogue" />
+          {works && (
+            <BasicSection>
+              <Container>
+                <SectionTitle sectionName="Catalogue" />
 
-                  <WorksSearchResults works={works.pageResults} />
+                <WorksSearchResults works={works.pageResults} />
 
-                  <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-                    <SeeMoreButton
-                      text="All works"
-                      pathname="/search/works"
-                      totalResults={works.totalResults}
-                    />
-                  </Space>
-                </Container>
-              </BasicSection>
-            )}
+                <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+                  <SeeMoreButton
+                    text="All works"
+                    pathname="/search/works"
+                    totalResults={works.totalResults}
+                  />
+                </Space>
+              </Container>
+            </BasicSection>
+          )}
 
-            {eventsSearch && events && (
-              <EventsSection>
-                <Container>
-                  <SectionTitle sectionName="Events" />
+          {eventsSearch && events && (
+            <EventsSection>
+              <Container>
+                <SectionTitle sectionName="Events" />
 
-                  <EventsSearchResults events={events.pageResults} />
+                <EventsSearchResults events={events.pageResults} />
 
-                  <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-                    <SeeMoreButton
-                      text="All events"
-                      pathname="/search/events"
-                      totalResults={200} // TODO
-                    />
-                  </Space>
-                </Container>
-              </EventsSection>
-            )}
-          </>
-        )}
-      </Space>
+                <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+                  <SeeMoreButton
+                    text="All events"
+                    pathname="/search/events"
+                    totalResults={200} // TODO
+                  />
+                </Space>
+              </Container>
+            </EventsSection>
+          )}
+        </>
+      )}
     </main>
   );
 };
