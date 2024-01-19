@@ -29,7 +29,7 @@ test.describe('With JavaScript disabled', () => {
 });
 
 test.describe('With JavaScript enabled', () => {
-  test(`the what's on page displays events by months in switchable tabs`, async ({
+  test(`the what's on page displays events by months in switchable tabs, only current/active month being visible`, async ({
     page,
   }) => {
     await gotoWithoutCache(whatsOnUrl, page);
@@ -52,9 +52,7 @@ test.describe('With JavaScript enabled', () => {
 test.describe('Top-level landing pages', () => {
   test('the homepage renders with an accessible title', async ({ page }) => {
     await gotoWithoutCache(homepageUrl, page);
-    const content = await page.textContent('h1');
-
-    expect(content).toBe(
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
       'A free museum and library exploring health and human experience'
     );
   });
@@ -63,58 +61,58 @@ test.describe('Top-level landing pages', () => {
     page,
   }) => {
     await gotoWithoutCache(visitUsUrl, page);
-    const content = await page.textContent('h1');
-
-    expect(content).toBe('Visit us');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
+      'Visit us'
+    );
   });
 
   test(`the what's on page renders with an accessible title`, async ({
     page,
   }) => {
     await gotoWithoutCache(whatsOnUrl, page);
-    const content = await page.textContent('h1');
-
-    expect(content).toBe('What’s on');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
+      'What’s on'
+    );
   });
 
   test('the stories page renders with an accessible title', async ({
     page,
   }) => {
     await gotoWithoutCache(storiesUrl, page);
-    const content = await page.textContent('h1');
-
-    expect(content).toBe('Stories');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
+      'Stories'
+    );
   });
 
   test('the collections page renders with an accessible title', async ({
     page,
   }) => {
     await gotoWithoutCache(collectionsUrl, page);
-    const content = await page.textContent('h1');
-
-    expect(content).toBe('Collections');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
+      'Collections'
+    );
   });
 
   test('the about us page renders with an accessible title', async ({
     page,
   }) => {
     await gotoWithoutCache(aboutUsUrl, page);
-    const content = await page.textContent('h1');
-
-    expect(content).toBe('About us');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
+      'About us'
+    );
   });
 
   test('the works page renders with an accessible title', async ({ page }) => {
     await gotoWithoutCache(worksUrl, page);
-    const content = await page.textContent('h1');
-
-    expect(content).toBe('Works search');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
+      'Works search'
+    );
   });
 
   test('the images page renders with an accessible title', async ({ page }) => {
     await gotoWithoutCache(imagesUrl, page);
-    const content = await page.textContent('h1');
-
-    expect(content).toBe('Images search');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
+      'Images search'
+    );
   });
 });
