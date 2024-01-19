@@ -152,18 +152,14 @@ const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
                       <EventDateRange
                         eventTimes={times}
                         splitTime={true}
-                        // TODO change with date filtering
-                        fromDate={new Date()}
+                        // TODO change with date filtering, defaults to today
+                        // fromDate={}
                       />
                     </DateInfo>
-
-                    {/* TODO investigate this, not sure it's needed */}
-                    {/* {dateString && <DateInfo>{dateString}</DateInfo>}
-                      {timeString && <DateInfo>{timeString}</DateInfo>} */}
                   </>
                 )}
 
-                {/* TODO */}
+                {/* TODO isFullyBooked needs to be added to API reponse */}
                 {/* {upcomingDatesFullyBooked(event) && (
                 <Space $v={{ size: 'm', properties: ['margin-top'] }}>
                   <TextWithDot
@@ -189,7 +185,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
               </div>
             </CardBody>
 
-            {/* TODO to discuss */}
+            {/* TODO needs to be added to API response */}
             {/* {event.series.length > 0 && (
               <CardPostBody>
                 {event.series.map(series => (
