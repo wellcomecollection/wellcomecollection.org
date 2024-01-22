@@ -94,7 +94,6 @@ const graphQuery = `{
     title
     isOnline
     availableOnline
-    isRelaxedPerformance
     format {
       ... on event-formats {
         title

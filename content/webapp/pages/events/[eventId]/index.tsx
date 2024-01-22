@@ -176,9 +176,6 @@ const EventPage: NextPage<EventProps> = ({
   const eventInterpretations = event.interpretations.map(i => ({
     text: i.interpretationType.title,
   }));
-  const relaxedPerformanceLabel = event.isRelaxedPerformance
-    ? [{ text: 'Relaxed' }]
-    : [];
 
   const breadcrumbs = {
     items: [
@@ -207,11 +204,7 @@ const EventPage: NextPage<EventProps> = ({
   };
 
   const labels = {
-    labels: eventFormat.concat(
-      eventAudiences,
-      eventInterpretations,
-      relaxedPerformanceLabel
-    ),
+    labels: eventFormat.concat(eventAudiences, eventInterpretations),
   };
 
   const Header = (

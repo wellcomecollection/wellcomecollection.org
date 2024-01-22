@@ -43,7 +43,6 @@ const baseEvent: Event = {
   thirdPartyBooking: undefined,
   isCompletelySoldOut: false,
   isPast: false,
-  isRelaxedPerformance: false,
   format: {
     id: 'WmYRpCQAACUAn-Ap',
     title: 'Gallery tour',

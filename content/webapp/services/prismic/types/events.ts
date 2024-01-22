@@ -110,7 +110,6 @@ export type EventPrismicDocument = prismic.PrismicDocument<
     isOnline: prismic.BooleanField;
     availableOnline: prismic.BooleanField;
     times: prismic.GroupField<EventTimePrismicDocument>;
-    isRelaxedPerformance: prismic.SelectField<'yes'>;
     interpretations: prismic.GroupField<{
       interpretationType: prismic.ContentRelationshipField<
         'interpretation-types',
