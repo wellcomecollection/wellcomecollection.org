@@ -12,7 +12,7 @@ You can get a new set of pa11y results by running:
 ```console
 $ cd webapp
 $ yarn write-report
-$ AWS_PROFILE=experience-dev yarn deploy
+$ AWS_PROFILE=experience-developer yarn deploy
 ```
 
 Alternatively, we re-run pa11y on every deployment to prod.

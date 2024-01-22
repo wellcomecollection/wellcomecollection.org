@@ -1,15 +1,14 @@
 {
   "name": "@weco/pa11y",
+  "license": "MIT",
   "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "export": "next export",
     "write-report": "node write-report.js",
     "deploy": "node deploy.js"
   },
   "dependencies": {
+    "aws-sdk": "^2.751.0",
     "mkdirp-promise": "^5.0.1",
-    "pa11y": "^5.1.0",
-    "aws-sdk": "^2.751.0"
+    "pa11y": "^7.0.0",
+    "puppeteer": "^21.7.0"
   }
 }

@@ -7,7 +7,8 @@ import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import {
   getEnFromInternationalString,
-  transformCanvas,
+  isTransformedRange,
+  isTransformedCanvas,
 } from '@weco/content/utils/iiif/v3';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
@@ -18,8 +19,10 @@ import {
   Work,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
-import { TransformedCanvas } from '@weco/content/types/manifest';
-import { Range, RangeItems, Canvas } from '@iiif/presentation-3';
+import {
+  TransformedCanvas,
+  TransformedRange,
+} from '@weco/content/types/manifest';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 
 export const List = styled(PlainList)`
@@ -52,7 +55,7 @@ export const Item = styled(Space).attrs({
 `;
 
 type Props = {
-  ranges: Range[];
+  ranges: TransformedRange[];
   canvases: TransformedCanvas[] | undefined;
   currentCanvasIndex: number;
   setIsMobileSidebarActive: (v: boolean) => void;
@@ -74,19 +77,12 @@ const Structures: FunctionComponent<Props> = ({
   return ranges.length > 0 ? (
     <List>
       {ranges.map((range, i) => {
-        const isCanvas = (rangeItem: RangeItems): rangeItem is Canvas => {
-          return typeof rangeItem === 'object' && rangeItem.type === 'Canvas';
-        };
-        const rangeCanvases =
-          range?.items?.filter(isCanvas).map(transformCanvas) || [];
+        const rangeCanvases = range?.items?.filter(isTransformedCanvas) || [];
         const firstCanvasInRange = rangeCanvases[0];
         const canvasIndex =
           canvases?.findIndex(canvas => canvas.id === firstCanvasInRange?.id) ||
           0;
-        const isRange = (rangeItem: RangeItems): rangeItem is Range => {
-          return typeof rangeItem === 'object' && rangeItem.type === 'Range';
-        };
-        const nestedRanges = range?.items?.filter(isRange) || [];
+        const nestedRanges = range?.items?.filter(isTransformedRange) || [];
         return (
           <Item
             key={i}

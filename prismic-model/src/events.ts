@@ -61,7 +61,6 @@ const events: CustomType = {
       body,
     },
     Access: {
-      isRelaxedPerformance: booleanDeprecated('Relaxed'),
       interpretations: list('Interpretations', {
         interpretationType: documentLink('Interpretation', {
           linkedType: 'interpretation-types',
