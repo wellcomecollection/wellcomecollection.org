@@ -119,7 +119,6 @@ export type Event = GenericContentFields & {
   onlineSoldOut?: boolean;
   inVenueSoldOut?: boolean;
   isPast: boolean;
-  isRelaxedPerformance: boolean;
   isOnline: boolean;
   availableOnline: boolean;
   primaryLabels: Label[];

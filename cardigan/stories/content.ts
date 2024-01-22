@@ -409,7 +409,6 @@ export const event: Event = {
   interpretations: [],
   isCompletelySoldOut: false,
   isPast: false,
-  isRelaxedPerformance: false,
   isOnline: true,
   labels: [],
   locations: [
