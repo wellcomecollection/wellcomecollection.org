@@ -1,23 +1,25 @@
 import { test as base, expect } from '@playwright/test';
 import { concept } from './helpers/contexts';
-import { baseUrl } from './helpers/urls';
-import { makeDefaultToggleCookies } from './helpers/utils';
 import { ConceptPage } from './pages/concept';
 
-const domain = new URL(baseUrl).host;
-
 const test = base.extend<{
-  songsPage: ConceptPage;
+  armyPage: ConceptPage;
   lithographsPage: ConceptPage;
+  songsPage: ConceptPage;
+  thackrahPage: ConceptPage;
 }>({
-  context: async ({ context }, use) => {
-    const defaultToggleAndTestCookies = await makeDefaultToggleCookies(domain);
-    await context.addCookies([
-      { name: 'WC_cookiesAccepted', value: 'true', domain, path: '/' },
-      ...defaultToggleAndTestCookies,
-    ]);
+  armyPage: async ({ context, page }, use) => {
+    // Chosen because there are works both about and by this organisation
+    await concept('ck4h8gj9', context, page);
+    const armyPage = new ConceptPage(page, 'organisation');
+    await use(armyPage);
+  },
 
-    await use(context);
+  lithographsPage: async ({ context, page }, use) => {
+    // A Genre with both works and images using it, but nothing about it.
+    await concept('fmydsuw2', context, page);
+    const lithographsPage = new ConceptPage(page, 'type/technique');
+    await use(lithographsPage);
   },
 
   songsPage: async ({ context, page }, use) => {
@@ -27,206 +29,152 @@ const test = base.extend<{
     await use(songsPage);
   },
 
-  lithographsPage: async ({ context, page }, use) => {
-    // A Genre with both works and images using it, but nothing about it.
-    await concept('fmydsuw2', context, page);
-    const songsPage = new ConceptPage(page, 'type/technique');
-    await use(songsPage);
+  thackrahPage: async ({ context, page }, use) => {
+    // Chosen because there are works both about and by this person,
+    // and his label is punctuated in such a way that would break the page if
+    // it is not escaped properly in the API calls.
+    await concept('d46ea7yk', context, page);
+    const thackrahPage = new ConceptPage(page, 'person');
+    await use(thackrahPage);
   },
 });
 
-const conceptIds = {
-  // Chosen because there are no associated works if you don't quote
-  // the search properly.
-  'Thackrah, Charles Turner, 1795-1833': 'd46ea7yk',
+test.describe('concept pages', () => {
+  test.describe('a Concept representing an Agent with no Images', () => {
+    test('only has works tabs', async ({ thackrahPage }) => {
+      // It has two tabs for works
+      await expect(thackrahPage.worksAboutTab).toBeVisible();
+      await expect(thackrahPage.worksByTab).toBeVisible();
 
-  // Chosen because there are works both about and by this organisation
-  'Great Britain. Army': 'ck4h8gj9',
+      // and has no images tabs
+      await expect(thackrahPage.imagesTabGroup).not.toBeAttached();
 
-  // Chosen because there are images both about and by this organisation
-  'Physiological Society (Great Britain)': 'gdhn3r7q',
-};
+      // The "works by" panel should be visible initially
+      const worksByList = await thackrahPage.recordListFor(
+        thackrahPage.worksByTab
+      );
+      await expect(worksByList).toBeVisible();
+      await expect(worksByList.getByRole('listitem')).not.toHaveCount(0);
 
-test.describe('concepts @conceptPage', () => {
-  test('concept pages get a list of related works', async ({
-    page,
-    context,
-  }) => {
-    // I've deliberately picked a complicated ID with commas here, to make sure
-    // we're quoting the query we send to the works API.
-    await concept(
-      conceptIds['Thackrah, Charles Turner, 1795-1833'],
-      context,
-      page
-    );
-    await page.waitForSelector('h2 >> text="Catalogue"');
+      // The "works about" panel is not expected to be seen ...
+      const worksAboutList = await thackrahPage.recordListFor(
+        thackrahPage.worksAboutTab
+      );
+      await expect(worksAboutList).not.toBeVisible();
+      // Until the "works about" tab is clicked
+      await thackrahPage.worksAboutTab.click();
+      // The works about panel is expected to contain a list of works about the concept (spookily enough)
+      // This list is expected to be populated.
+      // Live data is used in this test, so the actual number is not guaranteed
+      // to remain stable. Hence asserting that it is not zero.
+      await expect(worksAboutList.getByRole('listitem')).not.toHaveCount(0);
+    });
   });
 
-  test('concept pages link to a filtered search for works about this subject/person', async ({
-    page,
-    context,
-  }) => {
-    // I've deliberately picked a complicated ID with commas here, to make sure
-    // we're quoting the link to a filtered search.
-    await concept(conceptIds['Great Britain. Army'], context, page);
-    await page.locator('[role="tab"][id="tab-worksAbout"]').click();
+  test.describe('a Concept representing an Agent with Works and Images both about and by them', () => {
+    test('has both works and image sections, each with about and by tabs', async ({
+      armyPage,
+    }) => {
+      // It has four tabs (two works, two images)
+      await expect(armyPage.worksAboutTab).toBeVisible();
+      await expect(armyPage.worksByTab).toBeVisible();
+      await expect(armyPage.imagesAboutTab).toBeVisible();
+      await expect(armyPage.imagesByTab).toBeVisible();
 
-    // Note: the `link-reset` class is added by ButtonSolid, and is a way to
-    // make sure we find the "All Works" link, and not a link to an individual work.
-    const aboutThisPerson = await page.waitForSelector(
-      'div#tabpanel-worksAbout a.link-reset'
-    );
+      // The "works by" and "images by" panels should be visible initially
+      const worksByList = await armyPage.recordListFor(armyPage.worksByTab);
+      await expect(worksByList).toBeVisible();
+      await expect(worksByList.getByRole('listitem')).not.toHaveCount(0);
+      const imagesByList = await armyPage.recordListFor(armyPage.imagesByTab);
+      await expect(imagesByList).toBeVisible();
+      await expect(imagesByList.getByRole('listitem')).not.toHaveCount(0);
 
-    const content = await aboutThisPerson.textContent();
+      // It has links to filtered searches
+      await armyPage.worksAboutTab.click();
+      expect(await armyPage.allWorksLink.getAttribute('href')).toBe(
+        '/search/works?subjects.label=%22Great+Britain.+Army%22'
+      );
 
-    expect(content?.startsWith('All works')).toBe(true);
-    expect(await aboutThisPerson.getAttribute('href')).toBe(
-      '/search/works?subjects.label=%22Great+Britain.+Army%22'
-    );
+      await armyPage.worksByTab.click();
+      expect(await armyPage.allWorksLink.getAttribute('href')).toBe(
+        '/search/works?contributors.agent.label=%22Great+Britain.+Army%22'
+      );
+
+      await armyPage.imagesByTab.click();
+      expect(await armyPage.allImagesLink.getAttribute('href')).toBe(
+        '/search/images?source.contributors.agent.label=%22Great+Britain.+Army%22'
+      );
+
+      await armyPage.imagesAboutTab.click();
+      expect(await armyPage.allImagesLink.getAttribute('href')).toBe(
+        '/search/images?source.subjects.label=%22Great+Britain.+Army%22'
+      );
+    });
   });
 
-  test('concept pages link to a filtered search for works by this subject/person', async ({
-    page,
-    context,
-  }) => {
-    // I've deliberately picked a complicated ID with commas here, to make sure
-    // we're quoting the link to a filtered search.
-    await concept(conceptIds['Great Britain. Army'], context, page);
+  test.describe('a Concept representing a Genre with works and images both about and using them', () => {
+    test('has both works and image sections, each with about and using tabs', async ({
+      songsPage,
+    }) => {
+      // It has four tabs (two works, two images)
+      await expect(songsPage.worksAboutTab).toBeVisible();
+      await expect(songsPage.worksInTab).toBeVisible();
+      await expect(songsPage.imagesAboutTab).toBeVisible();
+      await expect(songsPage.imagesInTab).toBeVisible();
+      // The "works using" and "images using" panels should be visible initially
+      const worksInList = await songsPage.recordListFor(songsPage.worksInTab);
+      await expect(worksInList).toBeVisible();
+      await expect(worksInList.getByRole('listitem')).not.toHaveCount(0);
+      const imagesInList = await songsPage.recordListFor(songsPage.imagesInTab);
+      await expect(imagesInList).toBeVisible();
+      await expect(imagesInList.getByRole('listitem')).not.toHaveCount(0);
 
-    // Note: the `link-reset` class is added by ButtonSolid, and is a way to
-    // make sure we find the "All Works" link, and not a link to an individual work.
-    const byThisPerson = await page.waitForSelector(
-      'div#tabpanel-worksBy a.link-reset'
-    );
+      // It has links to filtered searches
+      await songsPage.worksInTab.click();
+      expect(await songsPage.allWorksLink.getAttribute('href')).toBe(
+        `/search/works?genres.label=${encodeURIComponent('"Songs"')}`
+      );
 
-    const content = await byThisPerson.textContent();
+      await songsPage.worksAboutTab.click();
+      expect(await songsPage.allWorksLink.getAttribute('href')).toBe(
+        `/search/works?subjects.label=${encodeURIComponent('"Songs"')}`
+      );
 
-    expect(content?.startsWith('All works')).toBe(true);
-    expect(await byThisPerson.getAttribute('href')).toBe(
-      '/search/works?contributors.agent.label=%22Great+Britain.+Army%22'
-    );
+      await songsPage.imagesInTab.click();
+      expect(await songsPage.allImagesLink.getAttribute('href')).toBe(
+        `/search/images?source.genres.label=${encodeURIComponent('"Songs"')}`
+      );
+
+      await songsPage.imagesAboutTab.click();
+      expect(await songsPage.allImagesLink.getAttribute('href')).toBe(
+        `/search/images?source.subjects.label=${encodeURIComponent('"Songs"')}`
+      );
+    });
   });
 
-  test('concept pages get a list of related images', async ({
-    page,
-    context,
-  }) => {
-    // I've deliberately picked a complicated ID with commas here, to make sure
-    // we're quoting the query we send to the images API.
-    await concept(conceptIds['Great Britain. Army'], context, page);
-    await page.waitForSelector('h2 >> text="Images"');
-  });
+  test.describe('a Concept representing a Genre that is only used as a genre for both works and images', () => {
+    test('has both works and image sections showing records in that genre', async ({
+      lithographsPage,
+    }) => {
+      // Both images and works sections exist
+      await expect(lithographsPage.imagesHeader).toBeVisible();
+      await expect(lithographsPage.worksHeader).toBeVisible();
+      // There are no tabs, because there is only one group within each of the two sections
+      await expect(lithographsPage.worksAboutTab).not.toBeVisible();
+      await expect(lithographsPage.worksInTab).not.toBeVisible();
+      await expect(lithographsPage.imagesAboutTab).not.toBeVisible();
+      await expect(lithographsPage.imagesInTab).not.toBeVisible();
 
-  test('concept pages link to a filtered search for images about this subject/person', async ({
-    page,
-    context,
-  }) => {
-    // I've deliberately picked a complicated ID with commas here, to make sure
-    // we're quoting the link to a filtered search.
-    await concept(
-      conceptIds['Physiological Society (Great Britain)'],
-      context,
-      page
-    );
+      // It has links to filtered searches
+      expect(await lithographsPage.allWorksLink.getAttribute('href')).toBe(
+        `/search/works?genres.label=${encodeURIComponent('"Lithographs"')}`
+      );
 
-    await page.locator('[role="tab"][id="tab-imagesAbout"]').click();
-    // Note: the `link-reset` class is added by ButtonSolid, and is a way to
-    // make sure we find the "All Works" link, and not a link to an individual work.
-    const aboutThisPerson = await page.waitForSelector(
-      'div#tabpanel-imagesAbout a.link-reset'
-    );
-
-    const content = await aboutThisPerson.textContent();
-
-    expect(content?.startsWith('All images')).toBe(true);
-    expect(await aboutThisPerson.getAttribute('href')).toBe(
-      '/search/images?source.subjects.label=%22Physiological+Society+%28Great+Britain%29%22'
-    );
-  });
-
-  test('concept pages link to a filtered search for images by this subject/person', async ({
-    page,
-    context,
-  }) => {
-    // I've deliberately picked a complicated ID with commas here, to make sure
-    // we're quoting the link to a filtered search.
-    await concept(
-      conceptIds['Physiological Society (Great Britain)'],
-      context,
-      page
-    );
-
-    // Note: the `link-reset` class is added by ButtonSolid, and is a way to
-    // make sure we find the "All Works" link, and not a link to an individual work.
-    const byThisPerson = await page.waitForSelector(
-      'div#tabpanel-imagesBy a.link-reset'
-    );
-
-    const content = await byThisPerson.textContent();
-
-    expect(content?.startsWith('All images')).toBe(true);
-    expect(await byThisPerson.getAttribute('href')).toBe(
-      '/search/images?source.contributors.agent.label=%22Physiological+Society+%28Great+Britain%29%22'
-    );
-  });
-});
-
-test.describe('genres with works and images both about and using @conceptPage @genres', () => {
-  test('two works sections are shown: about and using', async ({
-    songsPage,
-  }) => {
-    await expect(songsPage.worksAboutTab).toBeVisible();
-    await expect(songsPage.worksInTab).toBeVisible();
-  });
-
-  test('the "All works" link filters by the concept label', async ({
-    songsPage,
-  }) => {
-    expect(await songsPage.allWorksLink.getAttribute('href')).toBe(
-      `/search/works?genres.label=${encodeURIComponent('"Songs"')}`
-    );
-  });
-
-  test('two images sections are shown: about and using', async ({
-    songsPage,
-  }) => {
-    await expect(songsPage.imagesAboutTab).toBeVisible();
-    await expect(songsPage.imagesInTab).toBeVisible();
-  });
-
-  test('the "All images" link filters by the concept label', async ({
-    songsPage,
-  }) => {
-    expect(await songsPage.allImagesLink.getAttribute('href')).toBe(
-      `/search/images?source.genres.label=${encodeURIComponent('"Songs"')}`
-    );
-  });
-});
-
-test.describe('genres used by works and images, with nothing about them @conceptPage @genres', () => {
-  test('both the Works and images sections are shown', async ({
-    lithographsPage,
-  }) => {
-    await expect(lithographsPage.imagesHeader).toBeVisible();
-    await expect(lithographsPage.worksHeader).toBeVisible();
-  });
-
-  test('the "All works" link filters by the concept label', async ({
-    lithographsPage,
-  }) => {
-    const allWorks = lithographsPage.allWorksLink;
-    expect(await allWorks.getAttribute('href')).toBe(
-      `/search/works?genres.label=${encodeURIComponent('"Lithographs"')}`
-    );
-  });
-
-  test('the "All images" link filters by the concept label', async ({
-    lithographsPage,
-  }) => {
-    expect(await lithographsPage.allImagesLink.getAttribute('href')).toBe(
-      `/search/images?source.genres.label=${encodeURIComponent(
-        '"Lithographs"'
-      )}`
-    );
+      expect(await lithographsPage.allImagesLink.getAttribute('href')).toBe(
+        `/search/images?source.genres.label=${encodeURIComponent(
+          '"Lithographs"'
+        )}`
+      );
+    });
   });
 });

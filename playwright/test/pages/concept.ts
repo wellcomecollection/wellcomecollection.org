@@ -50,11 +50,11 @@ export class ConceptPage {
       `Using this ${this.conceptTypeLabel}`
     );
     this.imagesAboutTab = this.tab(
-      this.worksTabGroup,
+      this.imagesTabGroup,
       `About this ${this.conceptTypeLabel}`
     );
     this.imagesByTab = this.tab(
-      this.worksTabGroup,
+      this.imagesTabGroup,
       `By this ${this.conceptTypeLabel}`
     );
     this.imagesInTab = this.tab(
@@ -74,6 +74,13 @@ export class ConceptPage {
     const label = await tab.textContent();
     if (label) return this.page.getByRole('tabpanel', { name: label });
     fail();
+  };
+
+  recordListFor = async (tab: Locator) => {
+    const panel = await this.tabPanelFor(tab);
+    // Entries in the recordList may themselves contain lists.
+    // return the first, which should be the top-level one.
+    return panel.getByRole('list').first();
   };
 
   allRecordsLink = (recordType: string) => {
