@@ -121,26 +121,6 @@ export class ConceptPage {
     );
   }
 
-  // Return a locator to find the corresponding tab panel for a given tab.
-  // The tab panel should be aria labelled by the tab, meaning that its accessible name
-  // is the same as the label for the tab, allowing this use of getByRole.
-  // The use of the full and exact label should mean that the correct panel is found (images vs works),
-  // as it includes the count suffix.
-  // However, this does mean that tabPanelFor is not a "pure" Locator that can be stored as
-  // a property in the constructor.  The test author needs to know that the tab exists
-  // tabPanelFor = async (tab: Locator) => {
-  //   const label = await tab.textContent();
-  //   if (label) return this.page.getByRole('tabpanel', { name: label });
-  //   fail();
-  // };
-
-  // recordListFor = async (tab: Locator) => {
-  //   const panel = await this.tabPanelFor(tab);
-  //   // Entries in the recordList may themselves contain lists.
-  //   // return the first, which should be the top-level one.
-  //   return panel.getByRole('list').first();
-  // };
-
   allRecordsLink = (recordType: string) => {
     const allRecords = this.page.getByRole('link', {
       name: new RegExp(`^All ${recordType} \\([0-9,\\.K]+\\)`),
