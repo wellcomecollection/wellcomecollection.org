@@ -135,8 +135,8 @@ export class ConceptPage {
       exact: false, // The text is expected to be followed by a count of the matching records
     });
 
-  tabPanel = (tabGroup: Locator, tabName: string) =>
-    tabGroup.getByRole('tabpanel', {
+  tabPanel = (section: Locator, tabName: string) =>
+    section.getByRole('tabpanel', {
       name: tabName,
       exact: false, // The text is expected to be followed by a count of the matching records
     });
