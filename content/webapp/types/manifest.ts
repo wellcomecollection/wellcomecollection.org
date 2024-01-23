@@ -5,13 +5,24 @@ import {
   AuthClickThroughService,
   AuthAccessTokenService,
   Canvas,
+  InternationalString,
+  SpecificationBehaviors,
+  ContentResource,
+  ResourceType,
 } from '@iiif/presentation-3';
 import { Audio, Video } from '@weco/content/services/iiif/types/manifest/v3';
 
 export type ThumbnailImage = { url: string; width: number };
 
+export type BornDigitalData = {
+  originalFile: string | undefined;
+  label: InternationalString | null | undefined;
+  format: string | undefined;
+};
+
 export type TransformedCanvas = {
   id: string;
+  type: NonNullable<ResourceType>;
   width: number | undefined;
   height: number | undefined;
   imageServiceId: string | undefined;
@@ -19,6 +30,7 @@ export type TransformedCanvas = {
   label: string | undefined;
   textServiceId: string | undefined;
   thumbnailImage: ThumbnailImage | undefined;
+  bornDigitalData: BornDigitalData | undefined;
 };
 
 export type DownloadOption = {
@@ -42,6 +54,10 @@ export type BornDigitalStatus =
   | 'noBornDigital'
   | 'mixedBornDigital';
 
+export type TransformedRange = Omit<Range, 'items'> & {
+  items: (TransformedRange | TransformedCanvas)[];
+};
+
 export type TransformedManifest = {
   downloadEnabled?: boolean;
   firstCollectionManifestLocation?: string;
@@ -64,10 +80,20 @@ export type TransformedManifest = {
   needsModal: boolean;
   restrictedService: AuthExternalService | undefined;
   searchService: Service | undefined;
-  structures: Range[];
+  structures: TransformedRange[];
   manifests: Canvas[];
   clickThroughService:
     | AuthClickThroughServiceWithPossibleServiceArray
     | undefined;
   tokenService: AuthAccessTokenService | undefined;
+};
+
+export type CustomSpecificationBehaviors =
+  | SpecificationBehaviors
+  | 'placeholder';
+
+export type CustomContentResource = ContentResource & {
+  behavior: 'original' | undefined;
+  label: InternationalString | null | undefined;
+  format: string | undefined;
 };

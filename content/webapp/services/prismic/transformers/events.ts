@@ -244,7 +244,6 @@ export function transformEvent(
   const times: EventTime[] = transformEventTimes(document.id, data.times || []);
 
   const lastEndTime = getLastEndTime(times);
-  const isRelaxedPerformance = data.isRelaxedPerformance === 'yes';
   const isOnline = data.isOnline;
   const availableOnline = data.availableOnline;
   const schedule = eventSchedule.map((event, i) => {
@@ -267,20 +266,16 @@ export function transformEvent(
   const interpretationsLabels = interpretations.map(
     i => i.interpretationType.title
   );
-  const relaxedPerformanceLabel = isRelaxedPerformance ? ['Relaxed'] : [];
 
   const labels = [
     formatLabel,
     ...audiencesLabels,
     ...interpretationsLabels,
-    ...relaxedPerformanceLabel,
   ].map(text => ({ text }));
 
-  const primaryLabels = [
-    formatLabel,
-    ...audiencesLabels,
-    ...relaxedPerformanceLabel,
-  ].map(text => ({ text }));
+  const primaryLabels = [formatLabel, ...audiencesLabels].map(text => ({
+    text,
+  }));
 
   const secondaryLabels = [...interpretationsLabels].map(text => ({ text }));
 
@@ -354,7 +349,6 @@ export function transformEvent(
     ticketSalesStart: transformTimestamp(data.ticketSalesStart),
     times,
     isPast: lastEndTime ? isPast(lastEndTime) : true,
-    isRelaxedPerformance,
     isOnline,
     availableOnline,
     labels,

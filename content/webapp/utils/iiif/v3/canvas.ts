@@ -1,6 +1,11 @@
 import { Canvas } from '@iiif/presentation-3';
+import {
+  CustomSpecificationBehaviors,
+  CustomContentResource,
+  ThumbnailImage,
+  BornDigitalData,
+} from '@weco/content/types/manifest';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { ThumbnailImage } from '@weco/content/types/manifest';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 // Temporary type until iiif3 types are correct
@@ -54,6 +59,29 @@ export function getThumbnailImage(canvas: Canvas): ThumbnailImage | undefined {
     return {
       width: thumbnail.width,
       url: thumbnail.id,
+    };
+  }
+}
+
+// If the canvas has a behavior which includes 'placeholder'
+// we know it is Born digital: https://github.com/wellcomecollection/docs/blob/main/rfcs/046-born-digital-iiif/README.md
+// The data we need to display a link to the file is found in the rendering property of the canvas.
+export function getBornDigitalData(
+  canvas: Canvas
+): BornDigitalData | undefined {
+  const behavior = canvas?.behavior as
+    | CustomSpecificationBehaviors[]
+    | undefined;
+  const isBornDigital = behavior?.includes('placeholder') || false;
+  const rendering = canvas.rendering as CustomContentResource[];
+  const originalRendering = rendering?.find(item => {
+    return item?.behavior?.includes('original');
+  });
+  if (isBornDigital && originalRendering) {
+    return {
+      originalFile: originalRendering.id,
+      label: originalRendering.label,
+      format: originalRendering.format,
     };
   }
 }

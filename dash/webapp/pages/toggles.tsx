@@ -6,7 +6,7 @@ import React, {
 } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
-import getCookies from 'next-cookies';
+import { getCookies } from 'cookies-next';
 import Header from '../components/Header';
 
 const fontFamily = 'Gadget, sans-serif';
@@ -172,7 +172,8 @@ const IndexPage: FunctionComponent = () => {
         setAbTests(json.tests);
       });
 
-    const cookies = getCookies({});
+    const cookies = getCookies();
+
     const initialToggles = Object.keys(cookies).reduce((acc, key) => {
       if (key.startsWith('toggle_')) {
         acc[key.replace('toggle_', '')] = cookies[key] === 'true';
