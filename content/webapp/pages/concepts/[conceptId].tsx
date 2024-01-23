@@ -339,7 +339,7 @@ export const ConceptPage: NextPage<Props> = ({
 
       {/* Images */}
       {hasImages && (
-        <ConceptImages as="section">
+        <ConceptImages as="section" aria-label="Images">
           <Container>
             <h2 className={`${font('wb', 3)} sectionTitle`}>Images</h2>
             {hasImagesTabs && (
@@ -389,6 +389,7 @@ export const ConceptPage: NextPage<Props> = ({
               size: 'xl',
               properties: ['margin-top', 'margin-bottom'],
             }}
+            aria-label="Catalogue"
           >
             <WorksTabPanel {...currentTabPanel(selectedWorksTab, worksTabs)} />
           </Space>

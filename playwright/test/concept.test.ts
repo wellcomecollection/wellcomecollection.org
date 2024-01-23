@@ -50,24 +50,22 @@ test.describe('concept pages', () => {
       await expect(thackrahPage.imagesTabGroup).not.toBeAttached();
 
       // The "works by" panel should be visible initially
-      const worksByList = await thackrahPage.recordListFor(
-        thackrahPage.worksByTab
-      );
-      await expect(worksByList).toBeVisible();
-      await expect(worksByList.getByRole('listitem')).not.toHaveCount(0);
+      await expect(thackrahPage.worksByTabPanel).toBeVisible();
+      // Live data is used in this test, so the actual number is not guaranteed
+      // to remain stable. Hence asserting that it is not zero.
+      await expect(
+        thackrahPage.worksByTabPanel.getByRole('listitem')
+      ).not.toHaveCount(0);
 
       // The "works about" panel is not expected to be seen ...
-      const worksAboutList = await thackrahPage.recordListFor(
-        thackrahPage.worksAboutTab
-      );
-      await expect(worksAboutList).not.toBeVisible();
+      await expect(thackrahPage.worksAboutTabPanel).not.toBeVisible();
       // Until the "works about" tab is clicked
       await thackrahPage.worksAboutTab.click();
       // The works about panel is expected to contain a list of works about the concept (spookily enough)
       // This list is expected to be populated.
-      // Live data is used in this test, so the actual number is not guaranteed
-      // to remain stable. Hence asserting that it is not zero.
-      await expect(worksAboutList.getByRole('listitem')).not.toHaveCount(0);
+      await expect(
+        thackrahPage.worksAboutTabPanel.getByRole('listitem')
+      ).not.toHaveCount(0);
     });
   });
 
@@ -82,12 +80,15 @@ test.describe('concept pages', () => {
       await expect(armyPage.imagesByTab).toBeVisible();
 
       // The "works by" and "images by" panels should be visible initially
-      const worksByList = await armyPage.recordListFor(armyPage.worksByTab);
-      await expect(worksByList).toBeVisible();
-      await expect(worksByList.getByRole('listitem')).not.toHaveCount(0);
-      const imagesByList = await armyPage.recordListFor(armyPage.imagesByTab);
-      await expect(imagesByList).toBeVisible();
-      await expect(imagesByList.getByRole('listitem')).not.toHaveCount(0);
+      await expect(armyPage.worksByTabPanel).toBeVisible();
+      await expect(
+        armyPage.worksByTabPanel.getByRole('listitem')
+      ).not.toHaveCount(0);
+
+      await expect(armyPage.imagesByTabPanel).toBeVisible();
+      await expect(
+        armyPage.imagesByTabPanel.getByRole('listitem')
+      ).not.toHaveCount(0);
 
       // It has links to filtered searches
       await armyPage.worksAboutTab.click();
@@ -122,12 +123,14 @@ test.describe('concept pages', () => {
       await expect(songsPage.imagesAboutTab).toBeVisible();
       await expect(songsPage.imagesInTab).toBeVisible();
       // The "works using" and "images using" panels should be visible initially
-      const worksInList = await songsPage.recordListFor(songsPage.worksInTab);
-      await expect(worksInList).toBeVisible();
-      await expect(worksInList.getByRole('listitem')).not.toHaveCount(0);
-      const imagesInList = await songsPage.recordListFor(songsPage.imagesInTab);
-      await expect(imagesInList).toBeVisible();
-      await expect(imagesInList.getByRole('listitem')).not.toHaveCount(0);
+      await expect(songsPage.worksInTabPanel).toBeVisible();
+      await expect(
+        songsPage.worksInTabPanel.getByRole('listitem')
+      ).not.toHaveCount(0);
+      await expect(songsPage.imagesInTabPanel).toBeVisible();
+      await expect(
+        songsPage.imagesInTabPanel.getByRole('listitem')
+      ).not.toHaveCount(0);
 
       // It has links to filtered searches
       await songsPage.worksInTab.click();

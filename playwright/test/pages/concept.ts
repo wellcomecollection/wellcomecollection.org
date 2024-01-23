@@ -6,6 +6,7 @@ export class ConceptPage {
   readonly imagesHeader: Locator;
   readonly worksHeader: Locator;
   readonly worksSection: Locator;
+  readonly imagesSection: Locator;
   readonly allWorksLink: Locator;
   readonly allImagesLink: Locator;
   readonly worksTabGroup: Locator;
@@ -16,6 +17,12 @@ export class ConceptPage {
   readonly imagesAboutTab: Locator;
   readonly imagesByTab: Locator;
   readonly imagesInTab: Locator;
+  readonly worksAboutTabPanel: Locator;
+  readonly worksByTabPanel: Locator;
+  readonly worksInTabPanel: Locator;
+  readonly imagesAboutTabPanel: Locator;
+  readonly imagesByTabPanel: Locator;
+  readonly imagesInTabPanel: Locator;
 
   constructor(page: Page, conceptTypeLabel: string) {
     this.page = page;
@@ -28,7 +35,9 @@ export class ConceptPage {
       name: 'Images',
       level: 2,
     });
-    this.worksSection = this.worksHeader;
+    this.worksSection = page.getByRole('region', { name: 'Catalogue' });
+    this.imagesSection = page.getByRole('region', { name: 'Images' });
+
     this.allWorksLink = this.allRecordsLink('works');
     this.allImagesLink = this.allRecordsLink('images');
     this.worksTabGroup = page.getByRole('tablist', {
@@ -61,6 +70,55 @@ export class ConceptPage {
       this.worksTabGroup,
       `Using this ${this.conceptTypeLabel}`
     );
+    this.worksAboutTab = this.tab(
+      this.worksTabGroup,
+      `About this ${this.conceptTypeLabel}`
+    );
+    this.worksByTab = this.tab(
+      this.worksTabGroup,
+      `By this ${this.conceptTypeLabel}`
+    );
+    this.worksInTab = this.tab(
+      this.worksTabGroup,
+      `Using this ${this.conceptTypeLabel}`
+    );
+    this.imagesAboutTab = this.tab(
+      this.imagesTabGroup,
+      `About this ${this.conceptTypeLabel}`
+    );
+    this.imagesByTab = this.tab(
+      this.imagesTabGroup,
+      `By this ${this.conceptTypeLabel}`
+    );
+    this.imagesInTab = this.tab(
+      this.imagesTabGroup,
+      `Using this ${this.conceptTypeLabel}`
+    );
+
+    this.worksAboutTabPanel = this.tabPanel(
+      this.worksSection,
+      `About this ${this.conceptTypeLabel}`
+    );
+    this.worksByTabPanel = this.tabPanel(
+      this.worksSection,
+      `By this ${this.conceptTypeLabel}`
+    );
+    this.worksInTabPanel = this.tabPanel(
+      this.worksSection,
+      `Using this ${this.conceptTypeLabel}`
+    );
+    this.imagesAboutTabPanel = this.tabPanel(
+      this.imagesSection,
+      `About this ${this.conceptTypeLabel}`
+    );
+    this.imagesByTabPanel = this.tabPanel(
+      this.imagesSection,
+      `By this ${this.conceptTypeLabel}`
+    );
+    this.imagesInTabPanel = this.tabPanel(
+      this.imagesSection,
+      `Using this ${this.conceptTypeLabel}`
+    );
   }
 
   // Return a locator to find the corresponding tab panel for a given tab.
@@ -70,18 +128,18 @@ export class ConceptPage {
   // as it includes the count suffix.
   // However, this does mean that tabPanelFor is not a "pure" Locator that can be stored as
   // a property in the constructor.  The test author needs to know that the tab exists
-  tabPanelFor = async (tab: Locator) => {
-    const label = await tab.textContent();
-    if (label) return this.page.getByRole('tabpanel', { name: label });
-    fail();
-  };
+  // tabPanelFor = async (tab: Locator) => {
+  //   const label = await tab.textContent();
+  //   if (label) return this.page.getByRole('tabpanel', { name: label });
+  //   fail();
+  // };
 
-  recordListFor = async (tab: Locator) => {
-    const panel = await this.tabPanelFor(tab);
-    // Entries in the recordList may themselves contain lists.
-    // return the first, which should be the top-level one.
-    return panel.getByRole('list').first();
-  };
+  // recordListFor = async (tab: Locator) => {
+  //   const panel = await this.tabPanelFor(tab);
+  //   // Entries in the recordList may themselves contain lists.
+  //   // return the first, which should be the top-level one.
+  //   return panel.getByRole('list').first();
+  // };
 
   allRecordsLink = (recordType: string) => {
     const allRecords = this.page.getByRole('link', {
@@ -93,6 +151,12 @@ export class ConceptPage {
 
   tab = (tabGroup: Locator, tabName: string) =>
     tabGroup.getByRole('tab', {
+      name: tabName,
+      exact: false, // The text is expected to be followed by a count of the matching records
+    });
+
+  tabPanel = (tabGroup: Locator, tabName: string) =>
+    tabGroup.getByRole('tabpanel', {
       name: tabName,
       exact: false, // The text is expected to be followed by a count of the matching records
     });
