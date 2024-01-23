@@ -6,7 +6,8 @@ import {
 import {
   TransformedCanvas,
   TransformedManifest,
-  BornDigitalData,
+  Original,
+  Display,
 } from './manifest';
 import { ResourceType } from '@iiif/presentation-3';
 
@@ -21,7 +22,8 @@ type CompressedTransformedCanvases = {
   textServiceId: CommonParts;
   thumbnailImageUrl: CommonParts;
   thumbnailImageWidth: (number | undefined)[];
-  bornDigitalData: (BornDigitalData | undefined)[];
+  original: (Original | undefined)[];
+  display: (Display | undefined)[];
 };
 
 export type CompressedTransformedManifest = Omit<
@@ -52,7 +54,8 @@ export function toCompressedTransformedManifest(
         canvases.map(c => c.thumbnailImage?.url)
       ),
       thumbnailImageWidth: canvases.map(c => c.thumbnailImage?.width),
-      bornDigitalData: canvases.map(c => c.bornDigitalData),
+      original: canvases.map(c => c.original),
+      display: canvases.map(c => c.display),
     },
     ...otherFields,
   };
@@ -77,7 +80,8 @@ export function fromCompressedManifest(
     height,
     restrictedImageIds,
     thumbnailImageWidth,
-    bornDigitalData,
+    original,
+    display,
   } = compressedCanvases;
 
   const uncompressedCanvases: TransformedCanvas[] = [];
@@ -101,7 +105,8 @@ export function fromCompressedManifest(
               /* eslint-enable @typescript-eslint/no-non-null-assertion */
             }
           : undefined,
-      bornDigitalData: bornDigitalData[index],
+      original: original[index],
+      display: display[index],
     };
 
     uncompressedCanvases.push(canvas);

@@ -8,6 +8,7 @@ import {
   CustomSpecificationBehaviors,
 } from '@weco/content/types/manifest';
 import {
+  Annotation,
   AnnotationPage,
   AnnotationBody,
   ChoiceBody,
@@ -23,9 +24,10 @@ import {
   AuthAccessTokenService,
   Range,
   RangeItems,
+  TechnicalProperties,
 } from '@iiif/presentation-3';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
-import { getThumbnailImage, getBornDigitalData } from './canvas';
+import { getThumbnailImage, getOriginal } from './canvas';
 
 // The label we want to use to distinguish between parts of a multi-volume work
 // (e.g. 'Copy 1' or 'Volume 1') can currently exist in either the first or
@@ -451,15 +453,54 @@ export function checkIsTotallyRestricted(
   return Boolean(restrictedAuthService && !isAnyImageOpen);
 }
 
+function getAnnotationsOfMotivation(
+  canvas: Canvas,
+  motivation: TechnicalProperties['motivation']
+): Annotation[] {
+  return ((
+    canvas.items?.map(annotationPage => {
+      return annotationPage.items?.filter(
+        item => item.motivation === motivation
+      );
+    }) || []
+  ).flat() || []) as Annotation[];
+}
+
+// Annotation["body"] can be a AnnotationBody | AnnotationBody[] | undefined
+// we make sure that it is always an array so we can treat it the same way
+function convertAnnotationBodyToArray(
+  annotationBody: Annotation['body']
+): AnnotationBody[] {
+  if (!annotationBody) return [];
+  if (Array.isArray(annotationBody)) {
+    return annotationBody;
+  } else {
+    return [annotationBody];
+  }
+}
+function getDisplay(annotation: Annotation) {
+  const annotationBodyArray = convertAnnotationBodyToArray(annotation.body);
+  return annotationBodyArray
+    ?.map(body => {
+      if (typeof body === 'object' && 'type' in body) {
+        return body;
+      } else {
+        return undefined; // Do we need to handle any of these cases? What sort of things are they?
+      }
+    })
+    .filter(Boolean);
+}
 export function transformCanvas(canvas: Canvas): TransformedCanvas {
-  const imageService = getImageService(canvas); // TODO possibly redo how this is done
+  const imageService = getImageService(canvas);
   const imageServiceId = getImageServiceId(imageService);
   const hasRestrictedImage = isImageRestricted(canvas);
   const label = getCanvasLabel(canvas);
   const textServiceId = getCanvasTextServiceId(canvas);
   const thumbnailImage = getThumbnailImage(canvas);
   const { id, type, width, height } = canvas;
-  const bornDigitalData = getBornDigitalData(canvas);
+  const original = getOriginal(canvas); // TODO comment to explain what this is
+  const paintings = getAnnotationsOfMotivation(canvas, 'painting'); // TODO comment to explain what this is
+  const display = paintings.map(getDisplay);
   return {
     id,
     type,
@@ -470,7 +511,8 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
     label,
     textServiceId,
     thumbnailImage,
-    bornDigitalData,
+    original,
+    display,
   };
 }
 
@@ -567,7 +609,9 @@ export function augmentStructuresCanvasData(
           );
           return {
             ...item,
-            bornDigitalData: matchingCanvas?.bornDigitalData,
+            label: matchingCanvas?.label,
+            original: matchingCanvas?.original,
+            display: matchingCanvas?.display,
           };
         } else if (isRange(item)) {
           return augmentStructuresCanvasData([item] || [], canvases)[0];

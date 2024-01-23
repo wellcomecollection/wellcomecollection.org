@@ -14,10 +14,17 @@ import { Audio, Video } from '@weco/content/services/iiif/types/manifest/v3';
 
 export type ThumbnailImage = { url: string; width: number };
 
-export type BornDigitalData = {
+export type Original = {
   originalFile: string | undefined;
   label: InternationalString | null | undefined;
   format?: string;
+};
+
+export type Display = {
+  canvasLabel: string | undefined;
+  itemLabel: InternationalString | null | undefined;
+  downloadUri: string | undefined;
+  format: string | undefined;
 };
 
 export type TransformedCanvas = {
@@ -30,7 +37,8 @@ export type TransformedCanvas = {
   label: string | undefined;
   textServiceId: string | undefined;
   thumbnailImage: ThumbnailImage | undefined;
-  bornDigitalData: BornDigitalData | undefined;
+  original: Original | undefined;
+  display: Display | undefined;
 };
 
 export type DownloadOption = {
