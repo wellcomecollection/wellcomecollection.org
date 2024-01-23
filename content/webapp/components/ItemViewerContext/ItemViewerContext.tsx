@@ -27,7 +27,7 @@ type Props = {
   work: WorkBasic & Pick<Work, 'description'>;
   transformedManifest: TransformedManifest | undefined;
   parentManifest: ParentManifest | undefined;
-  searchResults: SearchResults | undefined;
+  searchResults: SearchResults | null;
   setSearchResults: (v) => void;
 
   // UI props:
