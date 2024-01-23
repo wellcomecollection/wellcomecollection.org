@@ -8,19 +8,15 @@ import AudioList from '@weco/content/components/AudioList/AudioList';
 import Button from '@weco/common/views/components/Buttons';
 import Download from '@weco/content/components/Download/Download';
 import WorkDetailsLicence from './WorkDetails.Licence';
+import DownloadList from './WorkDetails.DownloadList';
 import { eye } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { LinkProps } from '@weco/common/model/link-props';
-import { DownloadOption, TransformedRange } from '@weco/content/types/manifest';
+import { DownloadOption } from '@weco/content/types/manifest';
 import useTransformedManifest from '@weco/content/hooks/useTransformedManifest';
 import { Note, Work } from '@weco/content/services/wellcome/catalogue/types';
 import { DigitalLocationInfo } from '@weco/content/utils/works';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import {
-  getLabelString,
-  isTransformedCanvas,
-  isTransformedRange,
-} from '@weco/content/utils/iiif/v3';
 import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
@@ -32,57 +28,6 @@ type Props = {
   digitalLocation: DigitalLocation;
   digitalLocationInfo?: DigitalLocationInfo;
   locationOfWork?: Note;
-};
-
-// TODO get non born digital file links and labels
-// TODO move this to its own component, once design work is done
-const Structures = ({ structures }: { structures: TransformedRange[] }) => {
-  return (
-    <>
-      {structures?.map((range, i) => {
-        const rangeItems = range?.items || [];
-        return (
-          <li key={i}>
-            <span style={{ fontSize: '18px' }}>
-              {getLabelString(range.label)}
-            </span>
-            {rangeItems.length > 0 && (
-              <ul>
-                {rangeItems.map((item, i) => {
-                  if (isTransformedCanvas(item)) {
-                    if (!item?.bornDigitalData) {
-                      return (
-                        <li key={i}>
-                          <strong>non born digital file</strong>
-                        </li>
-                      );
-                    } else {
-                      return (
-                        <li key={item.bornDigitalData?.originalFile || i}>
-                          <a href={item.bornDigitalData?.originalFile}>
-                            {`label: ${getLabelString(
-                              item.bornDigitalData?.label
-                            )}${
-                              item.bornDigitalData?.format &&
-                              `, format: ${item.bornDigitalData?.format}`
-                            }`}
-                          </a>
-                        </li>
-                      );
-                    }
-                  } else if (isTransformedRange(item)) {
-                    return <Structures key={i} structures={[item]} />;
-                  } else {
-                    return null;
-                  }
-                })}
-              </ul>
-            )}
-          </li>
-        );
-      })}
-    </>
-  );
 };
 
 const WorkDetailsAvailableOnline = ({
@@ -125,12 +70,8 @@ const WorkDetailsAvailableOnline = ({
         {showBornDigital &&
           (bornDigitalStatus === 'mixedBornDigital' ||
             bornDigitalStatus === 'allBornDigital') &&
-          structures && (
-            <ul>
-              <Structures structures={structures} />
-            </ul>
-          )}
-        {/* TODO don't show anything else if showing structures? */}
+          structures && <DownloadList structures={structures} />}
+
         {video && (
           <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
             <VideoPlayer
