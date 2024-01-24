@@ -35,8 +35,8 @@ export class ConceptPage {
       name: 'Images',
       level: 2,
     });
-    this.worksSection = page.getByRole('region', { name: 'Catalogue' });
-    this.imagesSection = page.getByRole('region', { name: 'Images' });
+    this.worksSection = page.getByTestId('works-section');
+    this.imagesSection = page.getByTestId('images-section');
 
     this.allWorksLink = this.allRecordsLink('works');
     this.allImagesLink = this.allRecordsLink('images');
