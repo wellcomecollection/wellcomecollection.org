@@ -51,6 +51,7 @@ const WorkDetailsAvailableOnline = ({
     tokenService,
     structures,
     bornDigitalStatus,
+    canvases,
   } = { ...transformedIIIFManifest };
   return (
     <WorkDetailsSection headingText="Available online">
@@ -70,7 +71,15 @@ const WorkDetailsAvailableOnline = ({
         {showBornDigital &&
           (bornDigitalStatus === 'mixedBornDigital' ||
             bornDigitalStatus === 'allBornDigital') &&
-          structures && <DownloadList structures={structures} />}
+          structures && (
+            <DownloadList
+              structures={
+                structures && structures.length > 0
+                  ? structures
+                  : canvases || []
+              }
+            />
+          )}
 
         {video && (
           <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
