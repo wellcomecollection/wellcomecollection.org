@@ -478,10 +478,11 @@ function convertAnnotationBodyToArray(
     return [annotationBody];
   }
 }
+
 function getDisplayData(
   annotation: Annotation
 ): (ChoiceBody | ContentResource)[] {
-  const annotationBodyArray = convertAnnotationBodyToArray(annotation.body);
+  const annotationBodyArray = convertAnnotationBodyToArray(annotation?.body);
   return annotationBodyArray
     ?.map(body => {
       if (typeof body === 'object' && 'type' in body) {
