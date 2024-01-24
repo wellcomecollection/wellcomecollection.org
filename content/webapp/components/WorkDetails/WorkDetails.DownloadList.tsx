@@ -62,31 +62,47 @@ const DownloadData: FunctionComponent<{
   data: ContentResource | CustomContentResource | ChoiceBody;
 }> = ({ canvas, data }) => {
   if (data.type === 'Choice') {
-    return data.items.map(choiceItem => {
-      if (typeof choiceItem !== 'string') {
-        return (
-          <li key={choiceItem.id}>
-            <FileLink
-              canvasLabel={canvas.label}
-              itemLabel={choiceItem.label}
-              fileUri={choiceItem.id}
-              format={choiceItem.format}
-            />
-          </li>
-        );
-      } else return null;
-    });
-  } else {
     return (
-      <li key={data.id}>
-        <FileLink
-          canvasLabel={canvas.label}
-          itemLabel={data.label}
-          fileUri={data.id}
-          format={data.format}
-        />
-      </li>
+      <>
+        {data.items.map(choiceItem => {
+          if (
+            typeof choiceItem !== 'string' &&
+            'label' in choiceItem &&
+            'format' in choiceItem
+          ) {
+            return (
+              <li key={choiceItem.id}>
+                <FileLink
+                  canvasLabel={canvas.label}
+                  itemLabel={
+                    choiceItem.label as InternationalString | null | undefined
+                  }
+                  fileUri={choiceItem.id}
+                  format={choiceItem.format}
+                />
+              </li>
+            );
+          } else {
+            return null;
+          }
+        })}
+      </>
     );
+  } else {
+    if (typeof data !== 'string' && 'label' in data && 'format' in data) {
+      return (
+        <li key={data.id}>
+          <FileLink
+            canvasLabel={canvas.label}
+            itemLabel={data.label as InternationalString | null | undefined}
+            fileUri={data.id}
+            format={data.format}
+          />
+        </li>
+      );
+    } else {
+      return null;
+    }
   }
 };
 
@@ -101,7 +117,7 @@ const DownloadList: FunctionComponent<{
         wrapper={children => <ul>{children}</ul>}
       >
         {structures?.map((range, i) => {
-          const rangeItems = range?.items || [];
+          const rangeItems = isTransformedRange(range) ? range.items || [] : [];
           return (
             <li key={i}>
               {isTransformedRange(range) && getLabelString(range.label)}
