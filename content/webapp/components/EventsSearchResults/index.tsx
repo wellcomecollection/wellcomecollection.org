@@ -25,6 +25,7 @@ import {
   CardImageWrapper,
   CardLabels,
   CardOuter,
+  CardPostBody,
   CardTitle,
 } from '@weco/content/components/Card/Card';
 import TextWithDot from '@weco/content/components/TextWithDot';
@@ -83,8 +84,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
 
         const primaryLabels = [
           event.format.label,
-          // ...audiencesLabels, TODO re-add when part of API response
-          // ...relaxedPerformanceLabel,  TODO investigate that field https://wellcome.slack.com/archives/C3N7J05TK/p1705594795269959
+          ...event.audiences.map(a => a.label),
         ].map(text => ({ text }));
 
         const secondaryLabels = [...event.interpretations]
@@ -185,8 +185,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
               </div>
             </CardBody>
 
-            {/* TODO needs to be added to API response */}
-            {/* {event.series.length > 0 && (
+            {event.series.length > 0 && (
               <CardPostBody>
                 {event.series.map(series => (
                   <p
@@ -194,11 +193,12 @@ const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
                     className={font('intb', 6)}
                     style={{ marginBottom: 0 }}
                   >
-                    <span className={font('intr', 6)}>Part of</span> {series.title}
+                    <span className={font('intr', 6)}>Part of</span>{' '}
+                    {series.title}
                   </p>
-                ))
+                ))}
               </CardPostBody>
-            )} */}
+            )}
 
             {secondaryLabels.length > 0 && (
               <Space
