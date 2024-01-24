@@ -262,7 +262,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                   <SeeMoreButton
                     text="All events"
                     pathname="/search/events"
-                    totalResults={200} // TODO
+                    totalResults={events.totalResults}
                   />
                 </Space>
               </Container>
