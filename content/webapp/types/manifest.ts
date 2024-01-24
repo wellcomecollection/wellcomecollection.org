@@ -7,6 +7,7 @@ import {
   Canvas,
   InternationalString,
   SpecificationBehaviors,
+  ChoiceBody,
   ContentResource,
   ResourceType,
 } from '@iiif/presentation-3';
@@ -20,13 +21,6 @@ export type Original = {
   format?: string;
 };
 
-export type Display = {
-  canvasLabel: string | undefined;
-  itemLabel: InternationalString | null | undefined;
-  downloadUri: string | undefined;
-  format: string | undefined;
-};
-
 export type TransformedCanvas = {
   id: string;
   type: NonNullable<ResourceType>;
@@ -37,8 +31,7 @@ export type TransformedCanvas = {
   label: string | undefined;
   textServiceId: string | undefined;
   thumbnailImage: ThumbnailImage | undefined;
-  original: Original | undefined;
-  display: Display | undefined;
+  downloadData: (CustomContentResource | ChoiceBody | ContentResource)[];
 };
 
 export type DownloadOption = {
@@ -102,6 +95,4 @@ export type CustomSpecificationBehaviors =
 
 export type CustomContentResource = ContentResource & {
   behavior: 'original' | undefined;
-  label: InternationalString | null | undefined;
-  format: string | undefined;
 };
