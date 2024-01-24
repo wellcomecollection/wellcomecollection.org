@@ -1,12 +1,20 @@
 import { FunctionComponent } from 'react';
-import { TransformedRange } from '@weco/content/types/manifest';
+import {
+  TransformedRange,
+  TransformedCanvas,
+  CustomContentResource,
+} from '@weco/content/types/manifest';
 import {
   getLabelString,
   isTransformedCanvas,
   isTransformedRange,
 } from '@weco/content/utils/iiif/v3';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
-import { InternationalString } from '@iiif/presentation-3';
+import {
+  InternationalString,
+  ContentResource,
+  ChoiceBody,
+} from '@iiif/presentation-3';
 
 type Format = {
   format: string | undefined;
@@ -25,7 +33,8 @@ type FileLinkProps = {
   fileUri: string | undefined;
   format: string | undefined;
 };
-// TODO determine exactly what we want to display
+
+// We need to determine exactly what we want to display
 // N.B. canvas and item labels are often the same, but item label is not always present
 // Should we just show item label and fall back to canvas label if the item label isn't present?
 // If so, maybe do this at the transform stage and only have one label
@@ -48,16 +57,45 @@ const FileLink: FunctionComponent<FileLinkProps> = ({
   );
 };
 
-const DownloadList = ({
-  structures,
-  includeOuterUl = true,
-}: {
-  structures: TransformedRange[];
+const DownloadData: FunctionComponent<{
+  canvas: TransformedCanvas;
+  data: ContentResource | CustomContentResource | ChoiceBody;
+}> = ({ canvas, data }) => {
+  if (data.type === 'Choice') {
+    return data.items.map(choiceItem => {
+      if (typeof choiceItem !== 'string') {
+        return (
+          <li key={choiceItem.id}>
+            <FileLink
+              canvasLabel={canvas.label}
+              itemLabel={choiceItem.label}
+              fileUri={choiceItem.id}
+              format={choiceItem.format}
+            />
+          </li>
+        );
+      } else return null;
+    });
+  } else {
+    return (
+      <li key={data.id}>
+        <FileLink
+          canvasLabel={canvas.label}
+          itemLabel={data.label}
+          fileUri={data.id}
+          format={data.format}
+        />
+      </li>
+    );
+  }
+};
+
+const DownloadList: FunctionComponent<{
+  structures: (TransformedRange | TransformedCanvas)[];
   includeOuterUl?: boolean;
-}) => {
+}> = ({ structures, includeOuterUl = true }) => {
   return (
     <>
-      {/* <pre>{JSON.stringify(structures, null, 2)}</pre> */}
       <ConditionalWrapper
         condition={includeOuterUl}
         wrapper={children => <ul>{children}</ul>}
@@ -66,58 +104,29 @@ const DownloadList = ({
           const rangeItems = range?.items || [];
           return (
             <li key={i}>
-              <span style={{ fontSize: '18px' }}>
-                {getLabelString(range.label)}
-              </span>
+              {isTransformedRange(range) && getLabelString(range.label)}
+              {isTransformedCanvas(range) && (
+                <>
+                  {range.downloadData.map(data => {
+                    return (
+                      <DownloadData key={data.id} canvas={range} data={data} />
+                    );
+                  })}
+                </>
+              )}
               {rangeItems.length > 0 && (
                 <ul>
                   {rangeItems.map((item, i) => {
                     if (isTransformedCanvas(item)) {
-                      if (item?.original) {
+                      return item.downloadData.map(data => {
                         return (
-                          <li key={item.original?.originalFile || i}>
-                            <FileLink
-                              canvasLabel={item.label}
-                              itemLabel={item.original.label}
-                              fileUri={item.original?.originalFile}
-                              format={item.original?.format}
-                            />
-                          </li>
+                          <DownloadData
+                            key={data.id}
+                            canvas={item}
+                            data={data}
+                          />
                         );
-                      } else {
-                        if (item.display) {
-                          return item.display.flat().map((displayItem, i) => {
-                            // TODO why need to flat(), can we get rid higher up the chain?
-                            return (
-                              <li key={i}>
-                                {/* TODO temporary strong tag to easily id non born digital items in the UI */}
-                                <strong>
-                                  <FileLink
-                                    canvasLabel={item.label}
-                                    itemLabel={displayItem.label}
-                                    fileUri={displayItem.id}
-                                    format={displayItem.format}
-                                  />
-                                </strong>
-                              </li>
-                            );
-                            // } // TODO is this needed?
-                            // else {
-                            //   return (
-                            //     <li key={i}>
-                            //       <strong>non born digital file</strong>
-                            //     </li>
-                            //   );
-                            // }
-                          });
-                        } else {
-                          return (
-                            <li key={i}>
-                              <strong>non born digital file</strong>
-                            </li>
-                          );
-                        }
-                      }
+                      });
                     } else if (isTransformedRange(item)) {
                       return (
                         <DownloadList
