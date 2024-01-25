@@ -5,7 +5,7 @@ import { gotoWithoutCache } from './helpers/contexts';
 test.describe('EventsByMonth with JavaScript disabled', () => {
   test.use({ javaScriptEnabled: false }); // Turn off JS for tests in this block
 
-  test(`the what's on page displays all events`, async ({ page }) => {
+  test('the /whats-on page displays all events', async ({ page }) => {
     await gotoWithoutCache(whatsOnUrl, page);
     const links = await page
       .getByRole('link', { name: 'View all events' })
@@ -20,7 +20,7 @@ test.describe('EventsByMonth with JavaScript disabled', () => {
 });
 
 test.describe('EventsByMonth with JavaScript enabled', () => {
-  test(`the what's on page displays events by months in switchable tabs, only current/active month being visible`, async ({
+  test('the /whats-on on page displays events by months in switchable tabs, only current/active month being visible', async ({
     page,
   }) => {
     await gotoWithoutCache(whatsOnUrl, page);
