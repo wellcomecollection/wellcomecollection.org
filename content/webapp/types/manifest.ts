@@ -7,6 +7,7 @@ import {
   Canvas,
   InternationalString,
   SpecificationBehaviors,
+  ChoiceBody,
   ContentResource,
   ResourceType,
 } from '@iiif/presentation-3';
@@ -14,7 +15,7 @@ import { Audio, Video } from '@weco/content/services/iiif/types/manifest/v3';
 
 export type ThumbnailImage = { url: string; width: number };
 
-export type BornDigitalData = {
+export type Original = {
   originalFile: string | undefined;
   label: InternationalString | null | undefined;
   format: string | undefined;
@@ -30,7 +31,7 @@ export type TransformedCanvas = {
   label: string | undefined;
   textServiceId: string | undefined;
   thumbnailImage: ThumbnailImage | undefined;
-  bornDigitalData: BornDigitalData | undefined;
+  downloadData: (CustomContentResource | ChoiceBody | ContentResource)[];
 };
 
 export type DownloadOption = {
@@ -94,6 +95,4 @@ export type CustomSpecificationBehaviors =
 
 export type CustomContentResource = ContentResource & {
   behavior: 'original' | undefined;
-  label: InternationalString | null | undefined;
-  format: string | undefined;
 };
