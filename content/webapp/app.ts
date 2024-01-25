@@ -46,6 +46,13 @@ const appPromise = nextApp
     koaApp.use(apmErrorMiddleware);
     koaApp.use(withCachedValues);
 
+    // Add a naive healthcheck endpoint for the load balancer
+    router.get('/management/healthcheck', async ctx => {
+      ctx.body = {
+        status: 'ok',
+      };
+    });
+
     router.get('/preview', async ctx => {
       // Kill any cookie we had set, as it think it is causing issues.
       ctx.cookies.set(prismic.cookie.preview);
