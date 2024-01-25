@@ -43,7 +43,6 @@ const baseEvent: Event = {
   thirdPartyBooking: undefined,
   isCompletelySoldOut: false,
   isPast: false,
-  isRelaxedPerformance: false,
   format: {
     id: 'WmYRpCQAACUAn-Ap',
     title: 'Gallery tour',
@@ -84,4 +83,16 @@ export const eventWithOneLocationOnline: Event = {
   ...baseEvent,
   locations: [location],
   isOnline: true,
+};
+export const eventFullyBooked: Event = {
+  ...baseEvent,
+  times: [
+    {
+      range: {
+        startDateTime: new Date('2035-08-20T14:00:00+0000'),
+        endDateTime: new Date('2035-08-24T14:00:00+0000'),
+      },
+      isFullyBooked: { inVenue: true, online: true },
+    },
+  ],
 };

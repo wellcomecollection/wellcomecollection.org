@@ -94,7 +94,6 @@ const graphQuery = `{
     title
     isOnline
     availableOnline
-    isRelaxedPerformance
     format {
       ... on event-formats {
         title
@@ -108,6 +107,8 @@ const graphQuery = `{
     times {
       startDateTime
       endDateTime
+      isFullyBooked
+      onlineIsFullyBooked
     }
     audiences {
       audience {

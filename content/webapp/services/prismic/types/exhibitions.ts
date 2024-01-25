@@ -32,8 +32,6 @@ export type ExhibitionPrismicDocument = prismic.PrismicDocument<
     end: prismic.TimestampField;
     isPermanent: prismic.SelectField<'yes'>;
     statusOverride: prismic.RichTextField;
-    bslInfo: prismic.RichTextField;
-    audioDescriptionInfo: prismic.RichTextField;
     place: prismic.ContentRelationshipField<'place'>;
     exhibits: prismic.GroupField<{
       item: prismic.ContentRelationshipField<

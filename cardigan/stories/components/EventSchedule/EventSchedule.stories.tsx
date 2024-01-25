@@ -133,7 +133,6 @@ const schedule = [
         },
       ],
       isPast: true,
-      isRelaxedPerformance: false,
       isOnline: null,
       availableOnline: null,
       primaryLabels: [
