@@ -20,6 +20,12 @@ export type ContentApiProps = {
 
 type ContentApiImage = Image & { type: 'PrismicImage' };
 
+export type Series = {
+  id: string;
+  title?: string;
+  contributors?: string[];
+}[];
+
 // Articles
 export type ArticleFormat = {
   type: 'ArticleFormat';
@@ -57,12 +63,20 @@ export type EventDocumentInterpretation = {
   label?: string;
 };
 
+export type EventDocumentAudience = {
+  type: 'EventAudience';
+  id: string;
+  label: string;
+};
+
 export type EventDocument = {
   type: 'Event';
   id: string;
   title: string;
   image?: ContentApiImage;
   times: ContentApiTimeField[];
+  audiences: EventDocumentAudience[];
+  series: Series;
   format: EventDocumentFormat;
   locations: EventDocumentLocation[];
   interpretations: EventDocumentInterpretation[];
@@ -85,6 +99,7 @@ type Contributor = {
   };
 };
 
+// Aggregrations
 type BasicAggregations = {
   format: WellcomeAggregation;
   type: 'Aggregations';
@@ -94,6 +109,7 @@ export type ArticleAggregations = BasicAggregations & {
   'contributors.contributor': WellcomeAggregation;
 };
 
+// Results
 export type ResultType = Article | EventDocument;
 
 export type ContentResultsList<Result extends ResultType> = WellcomeResultList<
