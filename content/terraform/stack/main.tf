@@ -11,6 +11,11 @@ module "content-service-17092020" {
   container_image = var.container_image
   container_port  = 3000
 
+  nginx_container_config = {
+    image_name    = "uk.ac.wellcome/nginx_frontend"
+    container_tag = "ec2c0e28e9b3e6805c408389cffade3021bf55ad"
+  }
+
   cpu    = var.env_suffix == "prod" ? 2048 : 512
   memory = var.env_suffix == "prod" ? 4096 : 1024
 

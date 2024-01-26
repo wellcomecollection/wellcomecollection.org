@@ -34,7 +34,7 @@ module "log_router_container_secrets_permissions" {
 }
 
 module "nginx_container" {
-  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/nginx/frontend?ref=v3.15.3"
+  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/nginx/frontend?ref=rk/remove-default-nginx-frontend-tag"
 
   forward_port      = var.container_port
   log_configuration = module.log_router_container.container_log_configuration
