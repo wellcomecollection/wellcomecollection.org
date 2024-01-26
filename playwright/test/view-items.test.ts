@@ -12,33 +12,32 @@ import {
   itemWithNonRestrictedAndOpenAccess,
   isMobile,
 } from './helpers/contexts';
-import {
-  zoomInButton,
-  rotateButton,
-  openseadragonCanvas,
-  fullscreenButton,
-  downloadsButton,
-  itemDownloadsModal,
-  smallImageDownload,
-  fullItemDownload,
-  workContributors,
-  workDates,
-  viewerSidebar,
-  mobilePageGridButtons,
-  toggleInfoDesktop,
-  toggleInfoMobile,
-  referenceNumber,
-  mainViewer,
-  searchWithinResultsHeader,
-} from './selectors/item';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
 import safeWaitForNavigation from './helpers/safeWaitForNavigation';
 
-const domain = new URL(baseUrl).host;
-
+const zoomInButton = 'css=button >> text="Zoom in"';
+const rotateButton = 'css=button >> text="Rotate"';
+const openseadragonCanvas = `.openseadragon-canvas`;
+const downloadsButton = `[aria-controls="itemDownloads"]`;
+const itemDownloadsModal = `#itemDownloads`;
+const smallImageDownload = `${itemDownloadsModal} li:nth-of-type(1) a`;
+const fullItemDownload = `${itemDownloadsModal} li:nth-of-type(3) a`;
+const workContributors = `[data-test-id="work-contributors"]`;
+const workDates = `[data-test-id="work-dates"]`;
+const referenceNumber = `[data-test-id="reference-number"]`;
+const fullscreenButton = 'css=button >> text="Full screen"';
+const searchWithinResultsHeader = `[data-test-id="results-header"]`;
+const mainViewer = `[data-test-id=main-viewer] > div`;
+const activeIndex = `[data-test-id=active-index]`;
+const viewerSidebar = `[data-test-id="viewer-sidebar"]`;
+const toggleInfoDesktop = `[data-test-id="toggle-info-desktop"]`;
+const toggleInfoMobile = `[data-test-id="toggle-info-mobile"]`;
+const mobilePageGridButtons = `[data-test-id="page-grid-buttons"] button`;
 const volumesNavigationLabel = 'Volumes navigation';
 const searchWithinLabel = 'Search within this item';
+
+const domain = new URL(baseUrl).host;
 
 const searchWithin = async (query: string, page: Page) => {
   await page.fill(`text=${searchWithinLabel}`, query);
