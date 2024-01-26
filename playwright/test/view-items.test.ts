@@ -13,7 +13,7 @@ import {
   isMobile,
 } from './helpers/contexts';
 import { baseUrl } from './helpers/urls';
-import { makeDefaultToggleCookies } from './helpers/utils';
+import { makeDefaultToggleCookies, scrollToBottom } from './helpers/utils';
 import safeWaitForNavigation from './helpers/safeWaitForNavigation';
 
 const zoomInButton = 'css=button >> text="Zoom in"';
@@ -268,13 +268,6 @@ test('(13) | The structured parts should be browseable', async ({
     await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
   }
 });
-
-const scrollToBottom = async (selector: string, page: Page) => {
-  // TODO move all these to the top
-  await page.$eval(selector, (element: HTMLElement) => {
-    element.scrollTo(0, element.scrollHeight);
-  });
-};
 
 test('(14) | The main viewer can be scrolled', async ({ page, context }) => {
   await itemWithSearchAndStructures(context, page);
