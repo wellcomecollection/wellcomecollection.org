@@ -29,7 +29,6 @@ const referenceNumber = `[data-test-id="reference-number"]`;
 const fullscreenButton = 'css=button >> text="Full screen"';
 const searchWithinResultsHeader = `[data-test-id="results-header"]`;
 const mainViewer = `[data-test-id=main-viewer] > div`;
-const activeIndex = `[data-test-id=active-index]`;
 const viewerSidebar = `[data-test-id="viewer-sidebar"]`;
 const toggleInfoDesktop = `[data-test-id="toggle-info-desktop"]`;
 const toggleInfoMobile = `[data-test-id="toggle-info-mobile"]`;
