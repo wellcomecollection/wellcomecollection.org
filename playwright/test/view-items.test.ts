@@ -61,7 +61,7 @@ const test = base.extend({
 // I'm also allowing them to run in parallel, hoping it'll help with timeouts as its considered a slow test file.
 test.describe.configure({ mode: 'parallel', retries: 1 });
 
-test('the images are scalable', async ({ page, context }) => {
+test('(1) | The images are scalable', async ({ page, context }) => {
   await multiVolumeItem(context, page);
 
   if (!isMobile(page)) {
@@ -76,7 +76,10 @@ test('the images are scalable', async ({ page, context }) => {
   expect(isVisible).toBeTruthy();
 });
 
-test('the info panel visibility can be toggled', async ({ page, context }) => {
+test('(2) | The info panel visibility can be toggled', async ({
+  page,
+  context,
+}) => {
   await multiVolumeItem(context, page);
   if (!isMobile(page)) {
     const isVisibleBefore = await page.isVisible(viewerSidebar);
@@ -124,7 +127,7 @@ const multiVolumeTest = test.extend({
 });
 
 multiVolumeTest(
-  'downloading an image of the current canvas',
+  '(3) | Downloading an image of the current canvas',
   async ({ page }) => {
     const smallImageDownloadElement = await page.waitForSelector(
       smallImageDownload
@@ -137,21 +140,23 @@ multiVolumeTest(
   }
 );
 
-multiVolumeTest('downloading the entire item', async ({ page }) => {
+multiVolumeTest('(4) | Downloading the entire item', async ({ page }) => {
   const fullItemDownloadElement = await page.waitForSelector(fullItemDownload);
   const fullDownloadUrl = await fullItemDownloadElement.getAttribute('href');
 
   expect(fullDownloadUrl).toBe(fullItemDownloadUrl);
 });
 
-test.only('the item has a title', async ({ page, context }) => {
-  // TODO remove only
+test('(5) | The item has a title', async ({ page, context }) => {
   await multiVolumeItem(context, page);
   const title = await page.textContent('h1');
   expect(title).toBe('Practica seu Lilium medicinae / [Bernard de Gordon].');
 });
 
-test('the item has contributor information', async ({ page, context }) => {
+test('(6) | The item has contributor information', async ({
+  page,
+  context,
+}) => {
   await multiVolumeItem(context, page);
   const contributors = await page.textContent(workContributors);
   expect(contributors).toBe(
@@ -159,20 +164,26 @@ test('the item has contributor information', async ({ page, context }) => {
   );
 });
 
-test('the item has date information', async ({ page, context }) => {
+test('(7) | The item has date information', async ({ page, context }) => {
   await multiVolumeItem(context, page);
   const dates = await page.textContent(workDates);
   // TODO: this text isn't very explanitory and should probably be updated in the DOM
   expect(dates).toBe('Date:1496[7]');
 });
 
-test('the item has reference number information', async ({ page, context }) => {
+test('(8) | The item has reference number information', async ({
+  page,
+  context,
+}) => {
   await itemWithReferenceNumber(context, page);
   const dates = await page.textContent(referenceNumber);
   expect(dates).toBe('Reference:WA/HMM/BU/1');
 });
 
-test('licence information should be available', async ({ page, context }) => {
+test('(9) | Licence information should be available', async ({
+  page,
+  context,
+}) => {
   await itemWithSearchAndStructures(context, page);
   if (isMobile(page)) {
     await page.click('text="Show info"');
@@ -182,7 +193,7 @@ test('licence information should be available', async ({ page, context }) => {
   await page.waitForSelector(`css=body >> text="Credit:"`);
 });
 
-test('the image should rotate', async ({ page, context }) => {
+test('(10) | The image should rotate', async ({ page, context }) => {
   await itemWithSearchAndStructures(context, page);
   await page.waitForSelector(rotateButton);
   await page.click(rotateButton);
@@ -196,7 +207,7 @@ test('the image should rotate', async ({ page, context }) => {
   }
 });
 
-test('the volumes should be browsable', async ({ page, context }) => {
+test('(11) | The volumes should be browsable', async ({ page, context }) => {
   if (!isMobile(page)) {
     await multiVolumeItem(context, page);
     await safeWaitForNavigation(page);
@@ -230,7 +241,7 @@ test('the volumes should be browsable', async ({ page, context }) => {
     );
   }
 
-  test('the multi-volume label should be appropriate', async ({
+  test('(12) | The multi-volume label should be appropriate', async ({
     page,
     context,
   }) => {
@@ -248,7 +259,10 @@ test('the volumes should be browsable', async ({ page, context }) => {
   });
 });
 
-test('the structured parts should be browseable', async ({ page, context }) => {
+test('(13) | The structured parts should be browseable', async ({
+  page,
+  context,
+}) => {
   await itemWithSearchAndStructures(context, page);
   await safeWaitForNavigation(page);
   if (isMobile(page)) {
@@ -269,7 +283,7 @@ const scrollToBottom = async (selector: string, page: Page) => {
   });
 };
 
-test('the main viewer can be scrolled', async ({ page, context }) => {
+test('(14) | The main viewer can be scrolled', async ({ page, context }) => {
   await itemWithSearchAndStructures(context, page);
   await page.waitForSelector(mainViewer);
   await scrollToBottom(mainViewer, page);
@@ -294,7 +308,7 @@ test('the main viewer can be scrolled', async ({ page, context }) => {
   );
 });
 
-test('the item should be searchable', async ({ page, context }) => {
+test('(15) | The item should be searchable', async ({ page, context }) => {
   await itemWithSearchAndStructures(context, page);
   await safeWaitForNavigation(page);
   if (isMobile(page)) {
@@ -308,19 +322,19 @@ test('the item should be searchable', async ({ page, context }) => {
   }
 });
 
-test('images should have alt text', async ({ page, context }) => {
+test('(16) | Images should have alt text', async ({ page, context }) => {
   await itemWithAltText({ canvasNumber: 2 }, context, page);
   await page.waitForSelector(`img[alt='22102033982']`);
 });
 
-test('image alt text should be unique', async ({ page, context }) => {
+test('(17) | Image alt text should be unique', async ({ page, context }) => {
   await itemWithAltText({ canvasNumber: 2 }, context, page);
   await page.waitForSelector(`img[alt='22102033982']`);
   const imagesWithSameText = await page.$$(`img[alt='22102033982']`);
   expect(imagesWithSameText.length).toBe(1);
 });
 
-test('an item with only open access items will not display a modal', async ({
+test('(18) | An item with only open access items will not display a modal', async ({
   page,
   context,
 }) => {
@@ -331,7 +345,7 @@ test('an item with only open access items will not display a modal', async ({
   ).toBeFalsy();
 });
 
-test('an item with a mix of restricted and open access items will not display a modal', async ({
+test('(19) | An item with a mix of restricted and open access items will not display a modal', async ({
   page,
   context,
 }) => {
@@ -342,7 +356,7 @@ test('an item with a mix of restricted and open access items will not display a 
   ).toBeFalsy();
 });
 
-test('an item with only restricted access items will display a modal with no option to view the content', async ({
+test('(20) | An item with only restricted access items will display a modal with no option to view the content', async ({
   page,
   context,
 }) => {
@@ -354,7 +368,7 @@ test('an item with only restricted access items will display a modal with no opt
   expect(await page.isVisible(`css=[data-test-id="canvas-0"] img`)).toBeFalsy();
 });
 
-test('an item with a mix of restricted and non-restricted access items will display a modal', async ({
+test('(21) | An item with a mix of restricted and non-restricted access items will display a modal', async ({
   page,
   context,
 }) => {
@@ -363,7 +377,7 @@ test('an item with a mix of restricted and non-restricted access items will disp
   expect(await page.isVisible(`css=[data-test-id="canvas-0"] img`)).toBeFalsy();
 });
 
-test('an item with a mix of non-restricted and open access items will display a modal', async ({
+test('(22) | An item with a mix of non-restricted and open access items will display a modal', async ({
   page,
   context,
 }) => {
