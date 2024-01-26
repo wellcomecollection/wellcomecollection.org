@@ -40,7 +40,7 @@ type Props = {
 const EventsContainer = styled.div`
   display: grid;
   gap: 30px;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
 `;
 
 const DateInfo = styled.p.attrs({
