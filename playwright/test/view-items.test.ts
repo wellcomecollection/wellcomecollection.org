@@ -54,11 +54,6 @@ const test = base.extend({
   },
 });
 
-// We've repeatedly had tests in this test file (not always the same one) fail once on a timeout, only to always pass on a retry.
-// I'll allow this file to retry once, see if it helps and makes our alerts more relevant.
-// I'm also allowing them to run in parallel, hoping it'll help with timeouts as its considered a slow test file.
-test.describe.configure({ mode: 'parallel', retries: 1 });
-
 test('(1) | The images are scalable', async ({ page, context }) => {
   await multiVolumeItem(context, page);
 
