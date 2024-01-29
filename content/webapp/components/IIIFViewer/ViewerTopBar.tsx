@@ -267,7 +267,6 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
           <>
             <ShameButton
               data-gtm-trigger="toggle_side_panel"
-              data-test-id="toggle-info-desktop"
               className="viewer-desktop"
               $isDark
               onClick={() => {
@@ -285,7 +284,6 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
             </ShameButton>
 
             <ShameButton
-              data-test-id="toggle-info-mobile"
               className="viewer-mobile"
               $isDark
               onClick={() => {

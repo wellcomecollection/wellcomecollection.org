@@ -320,7 +320,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
     >
       <Grid ref={viewerRef} $isFullSupportBrowser={isFullSupportBrowser}>
         <Sidebar
-          data-test-id="viewer-sidebar"
           $isActiveMobile={isMobileSidebarActive}
           $isActiveDesktop={isDesktopSidebarActive}
           $isFullSupportBrowser={isFullSupportBrowser}
