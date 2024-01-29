@@ -162,7 +162,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     <>
       <Inner className={font('intb', 5)}>
         {manifestLabel && (
-          <span data-test-id="current-manifest" className={font('intr', 5)}>
+          <span data-testid="manifest-label" className={font('intr', 5)}>
             {manifestLabel}
           </span>
         )}
@@ -171,21 +171,16 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
         </h1>
 
         {work.primaryContributorLabel && (
-          <Space
-            $h={{ size: 'm', properties: ['margin-right'] }}
-            data-test-id="work-contributors"
-          >
+          <Space $h={{ size: 'm', properties: ['margin-right'] }}>
             <LinkLabels items={[{ text: work.primaryContributorLabel }]} />
           </Space>
         )}
 
         {work.productionDates.length > 0 && (
-          <div data-test-id="work-dates">
-            <LinkLabels
-              heading="Date"
-              items={[{ text: work.productionDates[0] }]}
-            />
-          </div>
+          <LinkLabels
+            heading="Date"
+            items={[{ text: work.productionDates[0] }]}
+          />
         )}
 
         {work.referenceNumber && (
@@ -215,7 +210,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
         </Space>
       </Inner>
       <Inner>
-        <AccordionItem title="Licence and re-use" testId="licence-and-reuse">
+        <AccordionItem title="Licence and re-use">
           <div className={font('intr', 6)}>
             {license && license.label && (
               <p>
