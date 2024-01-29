@@ -25,10 +25,6 @@ const workDates = `[data-test-id="work-dates"]`;
 const referenceNumber = `[data-test-id="reference-number"]`;
 const searchWithinResultsHeader = `[data-test-id="results-header"]`;
 const mainViewer = `[data-test-id=main-viewer] > div`;
-const viewerSidebar = `[data-test-id="viewer-sidebar"]`;
-const toggleInfoDesktop = `[data-test-id="toggle-info-desktop"]`;
-const toggleInfoMobile = `[data-test-id="toggle-info-mobile"]`;
-const mobilePageGridButtons = `[data-test-id="page-grid-buttons"] button`;
 const volumesNavigationLabel = 'Volumes navigation';
 const searchWithinLabel = 'Search within this item';
 
