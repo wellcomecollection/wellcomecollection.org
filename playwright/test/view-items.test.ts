@@ -16,10 +16,6 @@ import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies, scrollToBottom } from './helpers/utils';
 import safeWaitForNavigation from './helpers/safeWaitForNavigation';
 
-const downloadsButton = `[aria-controls="itemDownloads"]`;
-const itemDownloadsModal = `#itemDownloads`;
-const smallImageDownload = `${itemDownloadsModal} li:nth-of-type(1) a`;
-const fullItemDownload = `${itemDownloadsModal} li:nth-of-type(3) a`;
 const workContributors = `[data-test-id="work-contributors"]`;
 const workDates = `[data-test-id="work-dates"]`;
 const referenceNumber = `[data-test-id="reference-number"]`;
@@ -29,10 +25,6 @@ const volumesNavigationLabel = 'Volumes navigation';
 const searchWithinLabel = 'Search within this item';
 
 const domain = new URL(baseUrl).host;
-const smallImageDownloadUrl =
-  'https://iiif.wellcomecollection.org/image/b10326947_hin-wel-all-00012266_0001.jp2/full/full/0/default.jpg';
-const fullItemDownloadUrl =
-  'https://iiif.wellcomecollection.org/pdf/b10326947_0001';
 
 const searchWithin = async (query: string, page: Page) => {
   await page.fill(`text=${searchWithinLabel}`, query);
@@ -53,8 +45,7 @@ const test = base.extend({
 const multiVolumeTest = test.extend({
   page: async ({ page, context }, use) => {
     await multiVolumeItem(context, page);
-    await page.click(downloadsButton);
-    await page.waitForSelector(itemDownloadsModal);
+    await page.getByRole('button', { name: 'Downloads' }).click();
     await use(page);
   },
 });
@@ -92,24 +83,24 @@ test('(2) | The info panel visibility can be toggled', async ({
 });
 
 multiVolumeTest(
-  '(3) | Downloading an image of the current canvas',
+  '(3) | An image of the current canvas can be downloaded',
   async ({ page }) => {
-    const smallImageDownloadElement = await page.waitForSelector(
-      smallImageDownload
+    const smallImageLink = page
+      .getByRole('link')
+      .filter({ hasText: 'This image (760x960 pixels)' });
+    expect(await smallImageLink.getAttribute('href')).toEqual(
+      'https://iiif.wellcomecollection.org/image/b10326947_hin-wel-all-00012266_0001.jp2/full/760%2C/0/default.jpg'
     );
-    const imageDownloadUrl = await smallImageDownloadElement.getAttribute(
-      'href'
-    );
-
-    expect(imageDownloadUrl).toBe(smallImageDownloadUrl);
   }
 );
 
-multiVolumeTest('(4) | Downloading the entire item', async ({ page }) => {
-  const fullItemDownloadElement = await page.waitForSelector(fullItemDownload);
-  const fullDownloadUrl = await fullItemDownloadElement.getAttribute('href');
-
-  expect(fullDownloadUrl).toBe(fullItemDownloadUrl);
+multiVolumeTest('(4) | The entire item can be downloaded', async ({ page }) => {
+  const smallImageLink = page
+    .getByRole('link')
+    .filter({ hasText: 'Whole item' });
+  expect(await smallImageLink.getAttribute('href')).toEqual(
+    'https://iiif.wellcomecollection.org/pdf/b10326947_0001'
+  );
 });
 
 test('(5) | The item has a title', async ({ page, context }) => {
