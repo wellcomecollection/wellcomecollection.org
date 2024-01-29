@@ -70,34 +70,24 @@ test('(2) | The info panel visibility can be toggled', async ({
   context,
 }) => {
   await multiVolumeItem(context, page);
+  // The heading is found in the info panel, so is a proxy for whether it is hidden or not
+  const heading = page.getByRole('heading').filter({
+    hasText: 'Practica seu Lilium medicinae / [Bernard de Gordon].',
+  });
   if (!isMobile(page)) {
-    const isVisibleBefore = await page.isVisible(viewerSidebar);
-    expect(isVisibleBefore).toBeTruthy();
-    await page.click(toggleInfoDesktop);
-    const isVisibleAfter = await page.isVisible(viewerSidebar);
-    expect(isVisibleAfter).toBeFalsy();
+    await expect(heading).toBeVisible();
+    await page.getByRole('button', { name: 'Hide info' }).click();
+    await expect(heading).toBeHidden();
   }
-
-  // Info is hidden by default on mobile. It covers the viewing
-  // area on mobile, so we want to ensure things that control
-  // the viewing area are also hidden when it is visible
+  // Info is hidden by default on mobile. It should cover the viewing
+  // area on mobile, so we also want to ensure things that control
+  // the viewing area are hidden when it is visible
   if (isMobile(page)) {
-    const isSidebarVisibleBefore = await page.isVisible(viewerSidebar);
-    const isMobilePageGridButtonVisibleBefore = await page.isVisible(
-      mobilePageGridButtons
-    );
-
-    expect(isSidebarVisibleBefore).toBeFalsy();
-    expect(isMobilePageGridButtonVisibleBefore).toBeTruthy();
-
-    await page.click(toggleInfoMobile);
-    const isSidebarVisibleAfter = await page.isVisible(viewerSidebar);
-    const isMobilePageGridButtonVisibleAfter = await page.isVisible(
-      mobilePageGridButtons
-    );
-
-    expect(isSidebarVisibleAfter).toBeTruthy();
-    expect(isMobilePageGridButtonVisibleAfter).toBeFalsy();
+    await expect(heading).toBeHidden();
+    await expect(page.getByRole('button', { name: 'Page' })).toBeVisible();
+    await page.getByRole('button', { name: 'Show info' }).click();
+    await expect(heading).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Page' })).toBeHidden();
   }
 });
 
