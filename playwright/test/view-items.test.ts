@@ -16,7 +16,6 @@ import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies, scrollToBottom } from './helpers/utils';
 import safeWaitForNavigation from './helpers/safeWaitForNavigation';
 
-const rotateButton = 'css=button >> text="Rotate"';
 const downloadsButton = `[aria-controls="itemDownloads"]`;
 const itemDownloadsModal = `#itemDownloads`;
 const smallImageDownload = `${itemDownloadsModal} li:nth-of-type(1) a`;
@@ -66,8 +65,7 @@ const multiVolumeTest = test.extend({
 
 test('(1) | The images can be zoomed', async ({ page, context }) => {
   await multiVolumeItem(context, page);
-  const zoomButton = page.getByRole('button', { name: 'Zoom in' });
-  await zoomButton.click();
+  await page.getByRole('button', { name: 'Zoom in' }).click();
   await expect(page.locator('.openseadragon-canvas')).toBeVisible();
 });
 
@@ -176,16 +174,13 @@ test('(9) | Licence information should be available', async ({
 
 test('(10) | The image should rotate', async ({ page, context }) => {
   await itemWithSearchAndStructures(context, page);
-  await page.waitForSelector(rotateButton);
-  await page.click(rotateButton);
-  if (!isMobile(page)) {
-    const currentIndex = await page.textContent('[data-test-id=active-index]');
-    const currentImageSrc = await page.getAttribute(
-      `[data-test-id=canvas-${Number(currentIndex) - 1}] img`,
-      'src'
-    );
-    expect(currentImageSrc).toContain('/90/default.jpg');
-  }
+  await page.getByRole('button', { name: 'Rotate' }).click();
+  const currentIndex = await page.getByTestId('active-index').textContent();
+  const currentImageSrc = await page
+    .getByTestId(`image-${Number(currentIndex) - 1}`)
+    .getAttribute('src');
+  // If the image url contains /90/default.jpg then the image is rotated 90 degrees
+  expect(currentImageSrc).toContain('/90/default.jpg');
 });
 
 test('(11) | The volumes should be browsable', async ({ page, context }) => {
