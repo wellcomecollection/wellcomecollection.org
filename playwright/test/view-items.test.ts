@@ -16,9 +16,7 @@ import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies, scrollToBottom } from './helpers/utils';
 import safeWaitForNavigation from './helpers/safeWaitForNavigation';
 
-const zoomInButton = 'css=button >> text="Zoom in"';
 const rotateButton = 'css=button >> text="Rotate"';
-const openseadragonCanvas = `.openseadragon-canvas`;
 const downloadsButton = `[aria-controls="itemDownloads"]`;
 const itemDownloadsModal = `#itemDownloads`;
 const smallImageDownload = `${itemDownloadsModal} li:nth-of-type(1) a`;
@@ -26,7 +24,6 @@ const fullItemDownload = `${itemDownloadsModal} li:nth-of-type(3) a`;
 const workContributors = `[data-test-id="work-contributors"]`;
 const workDates = `[data-test-id="work-dates"]`;
 const referenceNumber = `[data-test-id="reference-number"]`;
-const fullscreenButton = 'css=button >> text="Full screen"';
 const searchWithinResultsHeader = `[data-test-id="results-header"]`;
 const mainViewer = `[data-test-id=main-viewer] > div`;
 const viewerSidebar = `[data-test-id="viewer-sidebar"]`;
@@ -37,6 +34,10 @@ const volumesNavigationLabel = 'Volumes navigation';
 const searchWithinLabel = 'Search within this item';
 
 const domain = new URL(baseUrl).host;
+const smallImageDownloadUrl =
+  'https://iiif.wellcomecollection.org/image/b10326947_hin-wel-all-00012266_0001.jp2/full/full/0/default.jpg';
+const fullItemDownloadUrl =
+  'https://iiif.wellcomecollection.org/pdf/b10326947_0001';
 
 const searchWithin = async (query: string, page: Page) => {
   await page.fill(`text=${searchWithinLabel}`, query);
@@ -54,19 +55,20 @@ const test = base.extend({
   },
 });
 
-test('(1) | The images are scalable', async ({ page, context }) => {
-  await multiVolumeItem(context, page);
+const multiVolumeTest = test.extend({
+  page: async ({ page, context }, use) => {
+    await multiVolumeItem(context, page);
+    await page.click(downloadsButton);
+    await page.waitForSelector(itemDownloadsModal);
+    await use(page);
+  },
+});
 
-  if (!isMobile(page)) {
-    // TODO work out why this is causing issues on mobile
-    await page.click(fullscreenButton);
-  }
-  // check full screen
-  await page.click(zoomInButton);
-  await page.waitForSelector(openseadragonCanvas);
-  // make sure we can actually see deep zoom
-  const isVisible = await page.isVisible(openseadragonCanvas);
-  expect(isVisible).toBeTruthy();
+test('(1) | The images can be zoomed', async ({ page, context }) => {
+  await multiVolumeItem(context, page);
+  const zoomButton = page.getByRole('button', { name: 'Zoom in' });
+  await zoomButton.click();
+  await expect(page.locator('.openseadragon-canvas')).toBeVisible();
 });
 
 test('(2) | The info panel visibility can be toggled', async ({
@@ -103,20 +105,6 @@ test('(2) | The info panel visibility can be toggled', async ({
     expect(isSidebarVisibleAfter).toBeTruthy();
     expect(isMobilePageGridButtonVisibleAfter).toBeFalsy();
   }
-});
-
-const smallImageDownloadUrl =
-  'https://iiif.wellcomecollection.org/image/b10326947_hin-wel-all-00012266_0001.jp2/full/full/0/default.jpg';
-const fullItemDownloadUrl =
-  'https://iiif.wellcomecollection.org/pdf/b10326947_0001';
-
-const multiVolumeTest = test.extend({
-  page: async ({ page, context }, use) => {
-    await multiVolumeItem(context, page);
-    await page.click(downloadsButton);
-    await page.waitForSelector(itemDownloadsModal);
-    await use(page);
-  },
 });
 
 multiVolumeTest(
