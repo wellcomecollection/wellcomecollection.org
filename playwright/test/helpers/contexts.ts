@@ -78,14 +78,6 @@ const multiVolumeItem = async (
   await gotoWithoutCache(`${baseUrl}/works/mg56yqa4/items`, page);
 };
 
-const multiVolumeItem2 = async (
-  context: BrowserContext,
-  page: Page
-): Promise<void> => {
-  await context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/ykqft4tw/items`, page);
-};
-
 const itemWithAltText = async (
   params: { canvasNumber?: number },
   context: BrowserContext,
@@ -245,7 +237,6 @@ const isMobile = (page: Page): boolean =>
 
 export {
   multiVolumeItem,
-  multiVolumeItem2,
   itemWithAltText,
   newSearch,
   itemWithSearchAndStructures,

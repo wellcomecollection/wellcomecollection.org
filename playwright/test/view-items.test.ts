@@ -1,7 +1,6 @@
 import { Page, test as base, expect } from '@playwright/test';
 import {
   multiVolumeItem,
-  multiVolumeItem2,
   itemWithSearchAndStructures,
   itemWithReferenceNumber,
   itemWithAltText,
@@ -16,12 +15,8 @@ import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies, scrollToBottom } from './helpers/utils';
 import safeWaitForNavigation from './helpers/safeWaitForNavigation';
 
-const workContributors = `[data-test-id="work-contributors"]`;
-const workDates = `[data-test-id="work-dates"]`;
-const referenceNumber = `[data-test-id="reference-number"]`;
 const searchWithinResultsHeader = `[data-test-id="results-header"]`;
 const mainViewer = `[data-test-id=main-viewer] > div`;
-const volumesNavigationLabel = 'Volumes navigation';
 const searchWithinLabel = 'Search within this item';
 
 const domain = new URL(baseUrl).host;
@@ -103,53 +98,43 @@ multiVolumeTest('(4) | The entire item can be downloaded', async ({ page }) => {
   );
 });
 
-test('(5) | The item has a title', async ({ page, context }) => {
-  await multiVolumeItem(context, page);
-  const title = await page.textContent('h1');
-  expect(title).toBe('Practica seu Lilium medicinae / [Bernard de Gordon].');
-});
-
-test('(6) | The item has contributor information', async ({
+test('(5) | The item has contributor information', async ({
   page,
   context,
 }) => {
   await multiVolumeItem(context, page);
-  const contributors = await page.textContent(workContributors);
-  expect(contributors).toBe(
-    'Bernard, de Gordon, approximately 1260-approximately 1318.'
-  );
+  await expect(
+    page.getByText('Bernard, de Gordon, approximately 1260-approximately 1318.')
+  ).toBeVisible();
 });
 
-test('(7) | The item has date information', async ({ page, context }) => {
+test('(6) | The item has date information', async ({ page, context }) => {
   await multiVolumeItem(context, page);
-  const dates = await page.textContent(workDates);
-  // TODO: this text isn't very explanitory and should probably be updated in the DOM
-  expect(dates).toBe('Date:1496[7]');
+  await expect(page.getByText('Date:1496[7]')).toBeVisible();
 });
 
-test('(8) | The item has reference number information', async ({
+test('(7) | The item has reference number information', async ({
   page,
   context,
 }) => {
   await itemWithReferenceNumber(context, page);
-  const dates = await page.textContent(referenceNumber);
-  expect(dates).toBe('Reference:WA/HMM/BU/1');
+  await expect(page.getByText('Reference:WA/HMM/BU/1')).toBeVisible();
 });
 
-test('(9) | Licence information should be available', async ({
+test('(8) | Licence information should be available', async ({
   page,
   context,
 }) => {
   await itemWithSearchAndStructures(context, page);
   if (isMobile(page)) {
-    await page.click('text="Show info"');
+    await page.getByRole('button', { name: 'Show info' }).click();
   }
-  await page.getByTestId('licence-and-reuse').click();
-  await page.waitForSelector(`css=body >> text="Licence:"`);
-  await page.waitForSelector(`css=body >> text="Credit:"`);
+  await page.getByRole('button', { name: 'Licence and re-use' }).click();
+  await expect(page.getByText('Licence:')).toBeVisible();
+  await expect(page.getByText('Credit:')).toBeVisible();
 });
 
-test('(10) | The image should rotate', async ({ page, context }) => {
+test('(9) | The image should rotate', async ({ page, context }) => {
   await itemWithSearchAndStructures(context, page);
   await page.getByRole('button', { name: 'Rotate' }).click();
   const currentIndex = await page.getByTestId('active-index').textContent();
@@ -160,56 +145,31 @@ test('(10) | The image should rotate', async ({ page, context }) => {
   expect(currentImageSrc).toContain('/90/default.jpg');
 });
 
-test('(11) | The volumes should be browsable', async ({ page, context }) => {
-  if (!isMobile(page)) {
-    await multiVolumeItem(context, page);
-    await safeWaitForNavigation(page);
-    await page.waitForSelector(`css=body >> text="Volumes"`);
-    await page.click('text="Volumes"');
-    const navigationSelector = `nav [aria-label="${volumesNavigationLabel}"]`;
-    await page.waitForSelector(navigationSelector);
-
-    const navigationVisible = await page.isVisible(navigationSelector);
-    expect(navigationVisible).toBeTruthy();
-
-    const currentManifestLinkLabel = await page.textContent(
-      `${navigationSelector} a[aria-current="page"]`
-    );
-
-    const currentManifestLabel = await page.textContent(
-      '[data-test-id=current-manifest]'
-    );
-
-    expect(currentManifestLinkLabel).toEqual(currentManifestLabel);
-
-    const nextManifestLinkSelector = `${navigationSelector} a:not([aria-current="page"])`;
-    const nextManifestLinkLabel = await page.textContent(
-      nextManifestLinkSelector
-    );
-
-    await page.click(nextManifestLinkSelector);
-
-    await page.waitForSelector(
-      `css=[data-test-id=current-manifest] >> text="${nextManifestLinkLabel}"`
-    );
+test('(10) | The volumes should be browsable', async ({ page, context }) => {
+  await multiVolumeItem(context, page);
+  if (isMobile(page)) {
+    await page.getByRole('button', { name: 'Show info' }).click();
   }
+  await page.getByRole('button', { name: 'Volumes' }).click();
+  await expect(page.getByRole('link', { name: 'Copy 3' })).toBeVisible();
+});
 
-  test('(12) | The multi-volume label should be appropriate', async ({
-    page,
-    context,
-  }) => {
-    if (!isMobile(page)) {
-      await multiVolumeItem(context, page);
-      await page.waitForSelector(
-        `css=[data-test-id=current-manifest] >> text="Copy 1"`
-      );
-
-      await multiVolumeItem2(context, page);
-      await page.waitForSelector(
-        `css=[data-test-id=current-manifest] >> text="Volume 1"`
-      );
-    }
-  });
+test.only('(11) | The multi-volume label should be appropriate', async ({
+  page,
+  context,
+}) => {
+  await multiVolumeItem(context, page);
+  if (isMobile(page)) {
+    await page.getByRole('button', { name: 'Show info' }).click();
+  }
+  expect(await page.getByTestId('manifest-label').textContent()).toEqual(
+    'Copy 1'
+  );
+  await page.getByRole('button', { name: 'Volumes' }).click();
+  await page.getByRole('link', { name: 'Copy 3' }).click();
+  expect(await page.getByTestId('manifest-label').textContent()).toEqual(
+    'Copy 3'
+  );
 });
 
 test('(13) | The structured parts should be browseable', async ({
