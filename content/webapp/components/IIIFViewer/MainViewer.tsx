@@ -302,22 +302,20 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                       />
                     );
                   })}
-                <div data-test-id={`canvas-${index}`}>
-                  <ImageViewer
-                    id="item-page"
-                    infoUrl={infoUrl}
-                    width={currentCanvas.width || 0}
-                    height={currentCanvas.height || 0}
-                    alt={ocrText}
-                    urlTemplate={urlTemplateMain}
-                    index={index}
-                    loadHandler={() => {
-                      setMainLoaded(true);
-                    }}
-                    setImageRect={setImageRect}
-                    setImageContainerRect={setImageContainerRect}
-                  />
-                </div>
+                <ImageViewer
+                  id="item-page"
+                  infoUrl={infoUrl}
+                  width={currentCanvas.width || 0}
+                  height={currentCanvas.height || 0}
+                  alt={ocrText}
+                  urlTemplate={urlTemplateMain}
+                  index={index}
+                  loadHandler={() => {
+                    setMainLoaded(true);
+                  }}
+                  setImageRect={setImageRect}
+                  setImageContainerRect={setImageContainerRect}
+                />
               </>
             )}
         </>

@@ -163,6 +163,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   return (
     <ImageWrapper onLoad={loadHandler} ref={imageViewer}>
       <IIIFViewerImage
+        index={index}
         ref={imageRef}
         tabIndex={0}
         width={width}

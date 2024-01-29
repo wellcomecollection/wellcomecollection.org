@@ -24,6 +24,7 @@ const Image = styled.img<{ $highlightImage?: boolean; $zoomOnClick?: boolean }>`
 `;
 
 type Props = {
+  index: number;
   width: number;
   height?: number;
   src: string | undefined;
@@ -41,6 +42,7 @@ type Props = {
 
 const IIIFViewerImage = (
   {
+    index,
     width,
     height,
     src,
@@ -60,6 +62,7 @@ const IIIFViewerImage = (
   const [tryLoadingSmallerImg, setTryLoadingSmallerImg] = useState(true);
   return (
     <Image
+      data-testId={`image-${index}`}
       ref={ref}
       tabIndex={tabIndex}
       lang={lang}
