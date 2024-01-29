@@ -332,7 +332,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
         <MiddleZone className="viewer-desktop">
           {canvases && canvases.length > 1 && !showZoomed && !isResizing && (
             <>
-              <span data-test-id="active-index">{`${canvas || 0}`}</span>
+              <span data-testid="active-index">{`${canvas || 0}`}</span>
               {`/${canvases?.length || ''}`}{' '}
               {!(
                 canvases[queryParamToArrayIndex(canvas)]?.label?.trim() === '-'
