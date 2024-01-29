@@ -13,7 +13,7 @@ module "content-service-17092020" {
 
   nginx_container_config = {
     image_name    = "uk.ac.wellcome/nginx_frontend"
-    container_tag = "ec2c0e28e9b3e6805c408389cffade3021bf55ad"
+    container_tag = "b809c6ef4363ff0cbac8da7ff5e80d865cfcd008"
   }
 
   cpu    = var.env_suffix == "prod" ? 2048 : 512

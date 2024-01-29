@@ -33,7 +33,7 @@ module "identity-service-18012021" {
   # into the shared logging cluster.
   nginx_container_config = {
     image_name    = "uk.ac.wellcome/nginx_frontend_identity"
-    container_tag = "ec2c0e28e9b3e6805c408389cffade3021bf55ad"
+    container_tag = "b809c6ef4363ff0cbac8da7ff5e80d865cfcd008"
   }
 
   vpc_id  = local.vpc_id
