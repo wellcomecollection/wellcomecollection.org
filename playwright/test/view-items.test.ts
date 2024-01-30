@@ -173,21 +173,19 @@ test('(11) | The multi-volume label should be appropriate', async ({
   );
 });
 
-test('(13) | The structured parts should be browseable', async ({
+test('(12) | The structured parts should be browseable', async ({
   page,
   context,
 }) => {
-  await itemWithSearchAndStructures(context, page);
-  await safeWaitForNavigation(page);
+  await multiVolumeItem(context, page);
   if (isMobile(page)) {
-    await page.click('text="Show info"');
+    await page.getByRole('button', { name: 'Show info' }).click();
   }
-  await page.click('css=body >> text="Contents"');
-  await page.waitForSelector('css=body >> text="Title Page"');
-  await page.click('text="Title Page"');
-  if (!isMobile(page)) {
-    await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
-  }
+  expect(await page.getByTestId('active-index').textContent()).toEqual('1');
+  await page.getByRole('button', { name: 'Contents' }).click();
+  await page.getByRole('link', { name: 'Title Page' }).click();
+  await page.waitForTimeout(400);
+  expect(await page.getByTestId('active-index').textContent()).toEqual('9');
 });
 
 test('(14) | The main viewer can be scrolled', async ({ page, context }) => {
