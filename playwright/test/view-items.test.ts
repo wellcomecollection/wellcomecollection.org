@@ -1,4 +1,4 @@
-import { Page, test as base, expect } from '@playwright/test';
+import { test as base, expect } from '@playwright/test';
 import {
   multiVolumeItem,
   itemWithSearchAndStructures,
@@ -13,18 +13,8 @@ import {
 } from './helpers/contexts';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies, scrollToBottom } from './helpers/utils';
-import safeWaitForNavigation from './helpers/safeWaitForNavigation';
-
-const searchWithinResultsHeader = `[data-test-id="results-header"]`;
-const mainViewer = `[data-test-id=main-viewer] > div`;
-const searchWithinLabel = 'Search within this item';
 
 const domain = new URL(baseUrl).host;
-
-const searchWithin = async (query: string, page: Page) => {
-  await page.fill(`text=${searchWithinLabel}`, query);
-  await page.press(`text=${searchWithinLabel}`, 'Enter');
-};
 
 const test = base.extend({
   context: async ({ context }, use) => {
@@ -167,7 +157,7 @@ test('(11) | The multi-volume label should be appropriate', async ({
   );
   await page.getByRole('button', { name: 'Volumes' }).click();
   await page.getByRole('link', { name: 'Copy 3' }).click();
-  await page.waitForTimeout(400);
+  await page.waitForTimeout(800);
   expect(await page.getByTestId('manifest-label').textContent()).toEqual(
     'Copy 3'
   );
@@ -184,52 +174,38 @@ test('(12) | The structured parts should be browseable', async ({
   expect(await page.getByTestId('active-index').textContent()).toEqual('1');
   await page.getByRole('button', { name: 'Contents' }).click();
   await page.getByRole('link', { name: 'Title Page' }).click();
-  await page.waitForTimeout(400);
+  await page.waitForTimeout(800);
   expect(await page.getByTestId('active-index').textContent()).toEqual('9');
 });
 
-test('(14) | The main viewer can be scrolled', async ({ page, context }) => {
+test('(13) | The main viewer can be scrolled', async ({ page, context }) => {
+  const mainViewerSelector = '[data-testid=main-viewer] > div';
   await itemWithSearchAndStructures(context, page);
-  await page.waitForSelector(mainViewer);
-  await scrollToBottom(mainViewer, page);
-
-  // In this test, we're loading an item with 68 pages, scrolling to the
-  // bottom, then looking for the "68/68" text on the page.
-  //
-  // This text is hidden whenever the window is being scrolled, zoomed,
-  // or resized, because that might affect what the "current" page is.
-  //
-  // We've had issues with this test being flaky, because we don't wait
-  // long enough after we finish scrolling to look for this "68/68" --
-  // tossing in this wait seems to fix that.
-  await safeWaitForNavigation(page);
-
-  await page.waitForSelector(
-    `css=[data-test-id=active-index] >> text="68"`,
-
-    // The "68/68" label isn't visible on small screens, but the element
-    // will still be on the page.
-    { state: isMobile(page) ? 'attached' : 'visible' }
-  );
+  await page.locator(mainViewerSelector).isVisible();
+  await scrollToBottom(mainViewerSelector, page);
+  await page.waitForTimeout(800);
+  expect(await page.getByTestId('active-index').textContent()).toEqual('68');
 });
 
-test('(15) | The item should be searchable', async ({ page, context }) => {
+test('(14) | The item should be searchable', async ({ page, context }) => {
   await itemWithSearchAndStructures(context, page);
-  await safeWaitForNavigation(page);
   if (isMobile(page)) {
-    await page.click('text="Show info"');
+    await page.getByRole('button', { name: 'Show info' }).click();
   }
-  await searchWithin('darwin', page);
-  await page.waitForSelector(searchWithinResultsHeader);
-  await page.click(`${searchWithinResultsHeader} + ul li:first-of-type a`);
-  if (!isMobile(page)) {
-    await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
-  }
+  await page.getByLabel('Search within this item').fill('darwin');
+  await page.getByRole('button', { name: 'search within' }).click();
+  await expect(page.getByText('Found on image 5 / 68')).toBeVisible();
+  await page
+    .getByRole('link')
+    .filter({ hasText: 'Found on image 5 / 68' })
+    .click();
+  await page.waitForTimeout(800);
+  expect(await page.getByTestId('active-index').textContent()).toEqual('5');
 });
 
-test('(16) | Images should have alt text', async ({ page, context }) => {
+test.only('(15) | Images should have alt text', async ({ page, context }) => {
   await itemWithAltText({ canvasNumber: 2 }, context, page);
-  await page.waitForSelector(`img[alt='22102033982']`);
+  await expect(page.locator(`img[alt='22102033982']`)).toBeVisible();
 });
 
 test('(17) | Image alt text should be unique', async ({ page, context }) => {

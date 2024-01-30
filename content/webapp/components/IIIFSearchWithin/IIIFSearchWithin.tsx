@@ -218,7 +218,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
           <Button
             variant="ButtonSolid"
             icon={search}
-            text="search"
+            text="search within"
             isTextHidden={true}
             colors={themeValues.buttonColors.yellowYellowBlack}
           />
@@ -227,7 +227,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
       <div aria-live="polite">
         {isLoading && <Loading />}
         {searchResults !== null && Boolean(query.query) && (
-          <ResultsHeader data-test-id="results-header" aria-live="assertive">
+          <ResultsHeader aria-live="assertive">
             {pluralize(searchResults.within.total ?? 0, 'result')}
           </ResultsHeader>
         )}

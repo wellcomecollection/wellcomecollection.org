@@ -429,7 +429,7 @@ const MainViewer: FunctionComponent = () => {
   }, [canvas]);
 
   return (
-    <div data-test-id="main-viewer">
+    <div data-testid="main-viewer">
       <FixedSizeList
         width={mainAreaWidth}
         style={{ width: `${mainAreaWidth}px`, margin: '0 auto' }}
