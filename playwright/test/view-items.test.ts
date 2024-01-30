@@ -203,50 +203,37 @@ test('(14) | The item should be searchable', async ({ page, context }) => {
   expect(await page.getByTestId('active-index').textContent()).toEqual('5');
 });
 
-test.only('(15) | Images should have alt text', async ({ page, context }) => {
+test('(15) | Images should have unique alt text', async ({ page, context }) => {
   await itemWithAltText({ canvasNumber: 2 }, context, page);
-  await expect(page.locator(`img[alt='22102033982']`)).toBeVisible();
+  expect(await page.locator(`img[alt='22102033982']`).count()).toEqual(1);
 });
 
-test('(17) | Image alt text should be unique', async ({ page, context }) => {
-  await itemWithAltText({ canvasNumber: 2 }, context, page);
-  await page.waitForSelector(`img[alt='22102033982']`);
-  const imagesWithSameText = await page.$$(`img[alt='22102033982']`);
-  expect(imagesWithSameText.length).toBe(1);
-});
-
-test('(18) | An item with only open access items will not display a modal', async ({
+test('(16) | An item with only open access items will not display a modal', async ({
   page,
   context,
 }) => {
   await itemWithOnlyOpenAccess(context, page);
-  await page.waitForSelector(`css=[data-test-id="canvas-0"] img`);
-  expect(
-    await page.isVisible(`button:has-text('Show the content')`)
-  ).toBeFalsy();
+  await expect(page.getByText('Show the content')).toBeHidden();
 });
 
-test('(19) | An item with a mix of restricted and open access items will not display a modal', async ({
+test('(17) | An item with a mix of restricted and open access items will not display a modal', async ({
   page,
   context,
 }) => {
   await itemWithRestrictedAndOpenAccess(context, page);
-  await page.waitForSelector(`css=[data-test-id="canvas-0"] img`);
-  expect(
-    await page.isVisible(`button:has-text('Show the content')`)
-  ).toBeFalsy();
+  await expect(page.getByText('Show the content')).toBeHidden();
 });
 
-test('(20) | An item with only restricted access items will display a modal with no option to view the content', async ({
+test('(18) | An item with only restricted access items will display a modal with no option to view the content', async ({
   page,
   context,
 }) => {
   await itemWithOnlyRestrictedAccess(context, page);
-  await page.waitForSelector(`h2:has-text('Restricted material')`);
-  expect(
-    await page.isVisible(`button:has-text('Show the content')`)
-  ).toBeFalsy();
-  expect(await page.isVisible(`css=[data-test-id="canvas-0"] img`)).toBeFalsy();
+  await expect(
+    page.getByRole('heading', { name: 'Restricted material' })
+  ).toBeVisible();
+  await expect(page.getByText('Show the content')).toBeHidden();
+  await expect(page.getByTestId('image-0')).toBeHidden();
 });
 
 test('(21) | An item with a mix of restricted and non-restricted access items will display a modal', async ({
