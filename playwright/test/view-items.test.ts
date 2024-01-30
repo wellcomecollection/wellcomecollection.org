@@ -154,7 +154,7 @@ test('(10) | The volumes should be browsable', async ({ page, context }) => {
   await expect(page.getByRole('link', { name: 'Copy 3' })).toBeVisible();
 });
 
-test.only('(11) | The multi-volume label should be appropriate', async ({
+test('(11) | The multi-volume label should be appropriate', async ({
   page,
   context,
 }) => {
@@ -167,6 +167,7 @@ test.only('(11) | The multi-volume label should be appropriate', async ({
   );
   await page.getByRole('button', { name: 'Volumes' }).click();
   await page.getByRole('link', { name: 'Copy 3' }).click();
+  await page.waitForTimeout(400);
   expect(await page.getByTestId('manifest-label').textContent()).toEqual(
     'Copy 3'
   );
