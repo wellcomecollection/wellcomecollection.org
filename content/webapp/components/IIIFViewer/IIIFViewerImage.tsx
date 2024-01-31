@@ -62,7 +62,7 @@ const IIIFViewerImage = (
   const [tryLoadingSmallerImg, setTryLoadingSmallerImg] = useState(true);
   return (
     <Image
-      data-testId={index ? `image-${index}` : null}
+      data-testid={index !== undefined ? `image-${index}` : null}
       ref={ref}
       tabIndex={tabIndex}
       lang={lang}
