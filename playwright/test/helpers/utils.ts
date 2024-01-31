@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Page } from '@playwright/test';
 
 export type CookieType = {
   name: string;
@@ -33,9 +32,3 @@ export async function makeDefaultToggleCookies(
     };
   });
 }
-
-export const scrollToBottom = async (selector: string, page: Page) => {
-  await page.$eval(selector, (element: HTMLElement) => {
-    element.scrollTo(0, element.scrollHeight);
-  });
-};
