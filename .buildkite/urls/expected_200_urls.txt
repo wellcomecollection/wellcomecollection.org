@@ -9,6 +9,7 @@
 /exhibitions
 /stories
 /whats-on
+/visit-us
 /collections
 
 # Catalogue URLs
