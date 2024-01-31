@@ -96,6 +96,9 @@ test('(5) | The item has contributor information', async ({
   context,
 }) => {
   await multiVolumeItem(context, page);
+  if (isMobile(page)) {
+    await page.getByRole('button', { name: 'Show info' }).click();
+  }
   await expect(
     page.getByText('Bernard, de Gordon, approximately 1260-approximately 1318.')
   ).toBeVisible();
@@ -103,6 +106,9 @@ test('(5) | The item has contributor information', async ({
 
 test('(6) | The item has date information', async ({ page, context }) => {
   await multiVolumeItem(context, page);
+  if (isMobile(page)) {
+    await page.getByRole('button', { name: 'Show info' }).click();
+  }
   await expect(page.getByText('Date:1496[7]')).toBeVisible();
 });
 
@@ -111,6 +117,9 @@ test('(7) | The item has reference number information', async ({
   context,
 }) => {
   await itemWithReferenceNumber(context, page);
+  if (isMobile(page)) {
+    await page.getByRole('button', { name: 'Show info' }).click();
+  }
   await expect(page.getByText('Reference:WA/HMM/BU/1')).toBeVisible();
 });
 
