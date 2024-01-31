@@ -183,7 +183,10 @@ test('(12) | The structured parts should be browseable', async ({
   expect(await page.getByTestId('active-index').textContent()).toEqual('1');
   await page.getByRole('button', { name: 'Contents' }).click();
   await page.getByRole('link', { name: 'Title Page' }).click();
-  await expect(await page.getByText('9/559')).toBeVisible();
+  if (!isMobile(page)) {
+    // we don't display this info on mobile as there is not enough room
+    await expect(await page.getByText('9/559')).toBeVisible();
+  }
 });
 
 test('(13) | The main viewer can be scrolled', async ({ page, context }) => {
@@ -195,7 +198,10 @@ test('(13) | The main viewer can be scrolled', async ({ page, context }) => {
       element.scrollTo(0, element.scrollHeight);
     }
   );
-  await expect(await page.getByText('68/68')).toBeVisible();
+  if (!isMobile(page)) {
+    // we don't display this info on mobile as there is not enough room
+    await expect(await page.getByText('68/68')).toBeVisible();
+  }
 });
 
 test('(14) | The item should be searchable', async ({ page, context }) => {
@@ -210,7 +216,10 @@ test('(14) | The item should be searchable', async ({ page, context }) => {
     .getByRole('link')
     .filter({ hasText: 'Found on image 5 / 68' })
     .click();
-  await expect(await page.getByText('5/68')).toBeVisible();
+  if (!isMobile(page)) {
+    // we don't display this info on mobile as there is not enough room
+    await expect(await page.getByText('5/68')).toBeVisible();
+  }
 });
 
 test('(15) | Images should have unique alt text', async ({ page, context }) => {
