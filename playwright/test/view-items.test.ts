@@ -38,9 +38,6 @@ const multiVolumeDownloadTest = test.extend({
   },
 });
 
-// test 14 very occasionally fails on desktop, so am allowing 1 retry
-test.describe.configure({ mode: 'parallel', retries: 1 });
-
 test('(1) | The images can be zoomed', async ({ page, context }) => {
   await multiVolumeItem(context, page);
   await page.getByRole('button', { name: 'Zoom in' }).click();
