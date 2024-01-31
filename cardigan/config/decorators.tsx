@@ -57,7 +57,7 @@ export const ReadMeInfo = ({ Readme }: { Readme: ComponentType }) => {
 
 type ReadmeDecoratorProps = PropsWithChildren<{
   WrappedComponent: PropsWithChildren<ComponentType>;
-  args: Record<string, unknown>;
+  args?: Record<string, unknown>;
   Readme: ComponentType;
   order?: 'componentFirst' | 'readmeFirst';
 }>;

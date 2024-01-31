@@ -24,19 +24,8 @@ infoBanner.args = {
 };
 infoBanner.storyName = 'InfoBanner';
 
-const WebsiteIssuesBannerTemplate = args => (
-  <ReadmeDecorator
-    WrappedComponent={WebsiteIssuesBanner}
-    args={args}
-    Readme={Readme}
-  />
+const WebsiteIssuesBannerTemplate = () => (
+  <ReadmeDecorator WrappedComponent={WebsiteIssuesBanner} Readme={Readme} />
 );
 export const websiteIssuesBanner = WebsiteIssuesBannerTemplate.bind({});
-websiteIssuesBanner.args = {
-  document: {
-    data: {
-      $backgroundColor: 'accent.lightSalmon',
-    },
-  },
-};
 websiteIssuesBanner.storyName = 'WebsiteIssuesBanner';
