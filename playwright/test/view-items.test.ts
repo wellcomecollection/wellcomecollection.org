@@ -27,7 +27,7 @@ const test = base.extend({
   },
 });
 
-const multiVolumeTest = test.extend({
+const multiVolumeDownloadTest = test.extend({
   page: async ({ page, context }, use) => {
     await multiVolumeItem(context, page);
     await page.getByRole('button', { name: 'Downloads' }).click();
@@ -67,7 +67,7 @@ test('(2) | The info panel visibility can be toggled', async ({
   }
 });
 
-multiVolumeTest(
+multiVolumeDownloadTest(
   '(3) | An image of the current canvas can be downloaded',
   async ({ page }) => {
     const smallImageLink = page
@@ -79,14 +79,17 @@ multiVolumeTest(
   }
 );
 
-multiVolumeTest('(4) | The entire item can be downloaded', async ({ page }) => {
-  const smallImageLink = page
-    .getByRole('link')
-    .filter({ hasText: 'Whole item' });
-  expect(await smallImageLink.getAttribute('href')).toEqual(
-    'https://iiif.wellcomecollection.org/pdf/b10326947_0001'
-  );
-});
+multiVolumeDownloadTest(
+  '(4) | The entire item can be downloaded',
+  async ({ page }) => {
+    const smallImageLink = page
+      .getByRole('link')
+      .filter({ hasText: 'Whole item' });
+    expect(await smallImageLink.getAttribute('href')).toEqual(
+      'https://iiif.wellcomecollection.org/pdf/b10326947_0001'
+    );
+  }
+);
 
 test('(5) | The item has contributor information', async ({
   page,
