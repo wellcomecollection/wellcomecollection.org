@@ -162,9 +162,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     <>
       <Inner className={font('intb', 5)}>
         {manifestLabel && (
-          <span data-testid="manifest-label" className={font('intr', 5)}>
-            {manifestLabel}
-          </span>
+          <span className={font('intr', 5)}>{manifestLabel}</span>
         )}
         <h1>
           <WorkTitle title={work.title} />
