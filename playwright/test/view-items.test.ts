@@ -12,6 +12,7 @@ import {
   isMobile,
 } from './helpers/contexts';
 import { baseUrl } from './helpers/urls';
+import { makeDefaultToggleCookies } from './helpers/utils';
 
 const domain = new URL(baseUrl).host;
 
