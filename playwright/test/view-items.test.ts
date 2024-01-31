@@ -192,12 +192,12 @@ test('(12) | The structured parts should be browseable', async ({
 
 test('(13) | The main viewer can be scrolled', async ({ page, context }) => {
   await itemWithSearchAndStructures(context, page);
-  await expect(page.getByTestId('main-viewer').locator('> div')).toBeVisible();
-  await page.$eval(
-    '[data-testid="main-viewer"] > div',
-    (element: HTMLElement) => {
+  const mainScrollArea = page.getByTestId('main-viewer').locator('> div');
+  await expect(mainScrollArea).toBeVisible();
+  expect(
+    await mainScrollArea.evaluate((element: HTMLElement) => {
       element.scrollTo(0, element.scrollHeight);
-    }
+    })
   );
   if (!isMobile(page)) {
     // We don't display this info on mobile as there is not enough room
