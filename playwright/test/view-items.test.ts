@@ -245,20 +245,20 @@ test('(18) | An item with only restricted access items will display a modal with
   await expect(page.getByTestId('image-0')).toBeHidden();
 });
 
-test('(21) | An item with a mix of restricted and non-restricted access items will display a modal', async ({
+test('(19) | An item with a mix of restricted and non-restricted access items will display a modal', async ({
   page,
   context,
 }) => {
   await itemWithRestrictedAndNonRestrictedAccess(context, page);
-  await page.waitForSelector(`button:has-text('Show the content')`);
-  expect(await page.isVisible(`css=[data-test-id="canvas-0"] img`)).toBeFalsy();
+  await expect(page.getByText('Show the content')).toBeVisible();
+  await expect(page.getByTestId('image-0')).toBeHidden();
 });
 
-test('(22) | An item with a mix of non-restricted and open access items will display a modal', async ({
+test('(20) | An item with a mix of non-restricted and open access items will display a modal', async ({
   page,
   context,
 }) => {
   await itemWithNonRestrictedAndOpenAccess(context, page);
-  await page.waitForSelector(`button:has-text('Show the content')`);
-  expect(await page.isVisible(`css=[data-test-id="canvas-0"] img`)).toBeFalsy();
+  await expect(page.getByText('Show the content')).toBeVisible();
+  await expect(page.getByTestId('image-0')).toBeHidden();
 });
