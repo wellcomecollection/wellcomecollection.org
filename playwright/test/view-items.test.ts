@@ -193,10 +193,7 @@ test('(12) | The structured parts should be browseable', async ({
   }
 });
 
-test.only('(13) | The main viewer can be scrolled', async ({
-  page,
-  context,
-}) => {
+test('(13) | The main viewer can be scrolled', async ({ page, context }) => {
   await itemWithSearchAndStructures(context, page);
   await expect(page.getByTestId('main-viewer').locator('> div')).toBeVisible();
   await page.$eval(
