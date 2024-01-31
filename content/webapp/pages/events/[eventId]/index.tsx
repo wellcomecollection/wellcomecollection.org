@@ -237,7 +237,7 @@ const EventPage: NextPage<EventProps> = ({
             </Space>
           </Space>
           {event.isPast && <EventStatus text="Past" color="neutral.500" />}
-          {upcomingDatesFullyBooked(event) && (
+          {upcomingDatesFullyBooked(event.times) && (
             <EventStatus text="Fully booked" color="validation.red" />
           )}
         </>

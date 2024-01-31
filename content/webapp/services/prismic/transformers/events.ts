@@ -139,7 +139,7 @@ function transformThirdPartyBooking(
 
 export function transformEventTimes(
   id: string,
-  times: prismic.GroupField<EventTimePrismicDocument> | ContentApiTimeField[] // TODO review this, should we want the missing fields?
+  times: prismic.GroupField<EventTimePrismicDocument> | ContentApiTimeField[]
 ): EventTime[] {
   return times
     .map(
@@ -163,10 +163,15 @@ export function transformEventTimes(
           isNotUndefined(range.endDateTime)
           ? {
               range: range as DateTimeRange,
-              isFullyBooked: {
-                inVenue: isFullyBooked,
-                online: onlineIsFullyBooked,
-              },
+              isFullyBooked:
+                // isFullyBooked in the Content API is an object containing inVenue and online
+                // Therefore this accounts either Content API or Prismic provenance.
+                typeof isFullyBooked === 'object'
+                  ? { ...isFullyBooked }
+                  : {
+                      inVenue: isFullyBooked,
+                      online: onlineIsFullyBooked,
+                    },
             }
           : undefined;
       }

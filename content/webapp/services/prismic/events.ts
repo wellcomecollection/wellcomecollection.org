@@ -9,7 +9,7 @@ import {
   minDate,
   startOfDay,
 } from '@weco/common/utils/dates';
-import { HasTimes } from '../../types/events';
+import { EventTime, HasTimes } from '../../types/events';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 function getNextDateInFuture(event: HasTimes): Date | undefined {
@@ -203,10 +203,10 @@ export function isEventPast({ times }: HasTimes): boolean {
   return times.every(({ range }) => isPast(range.endDateTime));
 }
 
-export function upcomingDatesFullyBooked(event: HasTimes): boolean {
+export function upcomingDatesFullyBooked(times: EventTime[]): boolean {
   const upcoming =
-    event.times.length > 0
-      ? event.times.filter(({ range }) => !isPast(range.endDateTime))
+    times.length > 0
+      ? times.filter(({ range }) => !isPast(range.endDateTime))
       : [];
   if (upcoming.length > 0) {
     return upcoming.every(
