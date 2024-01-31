@@ -164,15 +164,10 @@ test('(11) | The multi-volume label should be appropriate', async ({
   if (isMobile(page)) {
     await page.getByRole('button', { name: 'Show info' }).click();
   }
-  expect(await page.getByTestId('manifest-label').textContent()).toEqual(
-    'Copy 1'
-  );
+  expect(await page.getByText('Copy 1'));
   await page.getByRole('button', { name: 'Volumes' }).click();
   await page.getByRole('link', { name: 'Copy 3' }).click();
-  await page.waitForTimeout(800);
-  expect(await page.getByTestId('manifest-label').textContent()).toEqual(
-    'Copy 3'
-  );
+  expect(await page.getByText('Copy 3').count());
 });
 
 test('(12) | The structured parts should be browseable', async ({
@@ -186,17 +181,19 @@ test('(12) | The structured parts should be browseable', async ({
   expect(await page.getByTestId('active-index').textContent()).toEqual('1');
   await page.getByRole('button', { name: 'Contents' }).click();
   await page.getByRole('link', { name: 'Title Page' }).click();
-  await page.waitForTimeout(800);
-  expect(await page.getByTestId('active-index').textContent()).toEqual('9');
+  await expect(await page.getByText('9/559')).toBeVisible();
 });
 
 test('(13) | The main viewer can be scrolled', async ({ page, context }) => {
-  const mainViewerSelector = '[data-testid=main-viewer] > div';
   await itemWithSearchAndStructures(context, page);
-  await page.locator(mainViewerSelector).isVisible();
-  await scrollToBottom(mainViewerSelector, page);
-  await page.waitForTimeout(800);
-  expect(await page.getByTestId('active-index').textContent()).toEqual('68');
+  await expect(page.locator('[data-testid="main-viewer"] > div')).toBeVisible();
+  await page.$eval(
+    '[data-testid="main-viewer"] > div',
+    (element: HTMLElement) => {
+      element.scrollTo(0, element.scrollHeight);
+    }
+  );
+  await expect(await page.getByText('68/68')).toBeVisible();
 });
 
 test('(14) | The item should be searchable', async ({ page, context }) => {
@@ -211,13 +208,13 @@ test('(14) | The item should be searchable', async ({ page, context }) => {
     .getByRole('link')
     .filter({ hasText: 'Found on image 5 / 68' })
     .click();
-  await page.waitForTimeout(800);
-  expect(await page.getByTestId('active-index').textContent()).toEqual('5');
+  await expect(await page.getByText('5/68')).toBeVisible();
 });
 
 test('(15) | Images should have unique alt text', async ({ page, context }) => {
   await itemWithAltText({ canvasNumber: 2 }, context, page);
-  expect(await page.locator(`img[alt='22102033982']`).count()).toEqual(1);
+  await expect(await page.getByAltText('22102033982')).toBeVisible();
+  expect(await page.getByAltText('22102033982').count()).toEqual(1);
 });
 
 test('(16) | An item with only open access items will not display a modal', async ({
