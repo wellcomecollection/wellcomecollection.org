@@ -165,8 +165,9 @@ export function transformEventTimes(
               range: range as DateTimeRange,
               isFullyBooked:
                 // isFullyBooked in the Content API is an object containing inVenue and online
-                // Therefore this accounts either Content API or Prismic provenance.
-                typeof isFullyBooked === 'object'
+                // Therefore this accounts either Content API ("yes"|null) or Prismic provenance.
+                // "null" being an object we need to guard against that too.
+                isFullyBooked !== null && typeof isFullyBooked === 'object'
                   ? { ...isFullyBooked }
                   : {
                       inVenue: isFullyBooked,
