@@ -13,6 +13,7 @@ import {
 } from './helpers/contexts';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
+import { apiResponse } from './mocks/search-within';
 
 const domain = new URL(baseUrl).host;
 
@@ -207,6 +208,13 @@ test('(13) | The main viewer can be scrolled', async ({ page, context }) => {
 
 test('(14) | The item should be searchable', async ({ page, context }) => {
   await itemWithSearchAndStructures(context, page);
+  await page.route(
+    'https://iiif.wellcomecollection.org/search/v1/b29338062?q=darwin',
+    async route => {
+      const json = apiResponse;
+      await route.fulfill({ json });
+    }
+  );
   if (isMobile(page)) {
     await page.getByRole('button', { name: 'Show info' }).click();
   }
