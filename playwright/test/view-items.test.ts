@@ -36,6 +36,8 @@ const multiVolumeDownloadTest = test.extend({
   },
 });
 
+test.describe.configure({ mode: 'parallel' });
+
 test('(1) | The images can be zoomed', async ({ page, context }) => {
   await multiVolumeItem(context, page);
   await page.getByRole('button', { name: 'Zoom in' }).click();
