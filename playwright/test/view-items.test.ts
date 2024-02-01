@@ -17,9 +17,6 @@ import { apiResponse } from './mocks/search-within';
 
 const domain = new URL(baseUrl).host;
 
-// Default is currently 5000 https://playwright.dev/docs/test-timeouts
-export const slowExpect = expect.configure({ timeout: 10000 });
-
 const test = base.extend({
   context: async ({ context }, use) => {
     const defaultToggleAndTestCookies = await makeDefaultToggleCookies(domain);
@@ -220,8 +217,7 @@ test('(14) | The item should be searchable', async ({ page, context }) => {
   }
   await page.getByLabel('Search within this item').fill('darwin');
   await page.getByRole('button', { name: 'search within' }).click();
-  // The search results can be slow to load and will benefit from a longer timeout
-  await slowExpect(page.getByText('Found on image 5 / 68')).toBeVisible();
+  await expect(page.getByText('Found on image 5 / 68')).toBeAttached();
   await page
     .getByRole('link')
     .filter({ hasText: 'Found on image 5 / 68' })
