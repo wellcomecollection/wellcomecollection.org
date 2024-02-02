@@ -147,7 +147,7 @@ const EventPromo: FunctionComponent<Props> = ({
             </>
           )}
 
-          {upcomingDatesFullyBooked(event) && (
+          {upcomingDatesFullyBooked(event.times) && (
             <Space $v={{ size: 'm', properties: ['margin-top'] }}>
               <TextWithDot
                 className={font('intr', 5)}
