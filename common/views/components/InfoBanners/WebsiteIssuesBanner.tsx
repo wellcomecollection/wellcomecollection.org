@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { getCookie, setCookie } from 'cookies-next';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { cross, information } from '@weco/common/icons';
+import { cross, exclamation } from '@weco/common/icons';
 import cookies from '@weco/common/data/cookies';
 import usePrevious from '@weco/common/hooks/usePrevious';
 import {
@@ -68,7 +68,7 @@ const WebsiteIssuesBanner: FunctionComponent<Props> = ({
             $h={{ size: 'm', properties: ['margin-right'] }}
             $v={{ size: 'xs', properties: ['margin-top'] }}
           >
-            <Icon icon={information} />
+            <Icon icon={exclamation} />
             <span className="visually-hidden" id="note">
               Notification
             </span>
