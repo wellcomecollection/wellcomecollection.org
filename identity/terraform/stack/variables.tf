@@ -34,3 +34,8 @@ variable "turn_off_outside_office_hours" {
   type    = bool
   default = false
 }
+
+variable "cloudfront_header_secrets" {
+  type    = list(string)
+  default = []
+}
