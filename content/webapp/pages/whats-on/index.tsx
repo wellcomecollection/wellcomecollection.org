@@ -142,18 +142,19 @@ const ClosedMessage = () => (
       headingClasses={font('wb', 2)}
       items={[]}
     >
+      <InfoIconWrapper>
+        <Icon icon={information} />
+      </InfoIconWrapper>
       <p className={font('intr', 5)}>
-        <InfoIconWrapper>
-          <Icon icon={information} />
-        </InfoIconWrapper>
         Our exhibitions are closed today, but our{' '}
         <a href="/pages/Wvl1wiAAADMJ3zNe">café</a> and{' '}
         <a href="/pages/WwgaIh8AAB8AGhC_">shop</a> are open for your visit.
       </p>
+
+      <InfoIconWrapper>
+        <Icon icon={clock} />
+      </InfoIconWrapper>
       <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
-        <InfoIconWrapper>
-          <Icon icon={clock} />
-        </InfoIconWrapper>
         Galleries open Tuesday–Sunday,{' '}
         <a href="/opening-times">see full opening times</a>.
       </p>

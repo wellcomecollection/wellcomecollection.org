@@ -41,24 +41,25 @@ const InfoBox: FunctionComponent<Props> = ({
     <>
       <h2 className={headingClasses}>{title}</h2>
       <InfoContainer>
-        {items.map(({ title, description, icon }, i) => (
-          <div key={i}>
-            {icon && (title || description) && (
-              <InfoIconWrapper>
-                <Icon icon={icon} />
-              </InfoIconWrapper>
-            )}
-            {title && <h3 className={font('intb', 5)}>{title}</h3>}
-            {description && (
-              <Space
-                $v={{ size: 'm', properties: ['margin-bottom'] }}
-                className={font('intr', 5)}
-              >
-                <PrismicHtmlBlock html={description} />
-              </Space>
-            )}
-          </div>
-        ))}
+        {items.length > 0 &&
+          items.map(({ title, description, icon }, i) => (
+            <div key={i}>
+              {icon && (title || description) && (
+                <InfoIconWrapper>
+                  <Icon icon={icon} />
+                </InfoIconWrapper>
+              )}
+              {title && <h3 className={font('intb', 5)}>{title}</h3>}
+              {description && (
+                <Space
+                  $v={{ size: 'm', properties: ['margin-bottom'] }}
+                  className={font('intr', 5)}
+                >
+                  <PrismicHtmlBlock html={description} />
+                </Space>
+              )}
+            </div>
+          ))}
         {children}
       </InfoContainer>
     </>
