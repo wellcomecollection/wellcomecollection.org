@@ -11,6 +11,7 @@ import {
   eventOnline,
   eventWithOneLocationOnline,
   eventWithMultipleLocations,
+  eventFullyBooked,
 } from '../../__mocks__/events';
 
 jest
@@ -46,6 +47,11 @@ describe('EventPromo', () => {
   it('Shows when an event is a physical/online hybrid', () => {
     renderComponent(eventWithOneLocationOnline);
     expect(screen.getByText('Online | In our building'));
+  });
+
+  it('Shows when an event if fully booked', () => {
+    renderComponent(eventFullyBooked);
+    expect(screen.getByText('Fully booked'));
   });
 });
 

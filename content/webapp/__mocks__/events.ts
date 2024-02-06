@@ -84,3 +84,15 @@ export const eventWithOneLocationOnline: Event = {
   locations: [location],
   isOnline: true,
 };
+export const eventFullyBooked: Event = {
+  ...baseEvent,
+  times: [
+    {
+      range: {
+        startDateTime: new Date('2035-08-20T14:00:00+0000'),
+        endDateTime: new Date('2035-08-24T14:00:00+0000'),
+      },
+      isFullyBooked: { inVenue: true, online: true },
+    },
+  ],
+};

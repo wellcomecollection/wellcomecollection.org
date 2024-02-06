@@ -11,6 +11,11 @@ module "content-service-17092020" {
   container_image = var.container_image
   container_port  = 3000
 
+  nginx_container_config = {
+    image_name    = "uk.ac.wellcome/nginx_frontend"
+    container_tag = "b809c6ef4363ff0cbac8da7ff5e80d865cfcd008"
+  }
+
   cpu    = var.env_suffix == "prod" ? 2048 : 512
   memory = var.env_suffix == "prod" ? 4096 : 1024
 
@@ -56,6 +61,8 @@ module "path_listener" {
   alb_listener_http_arn  = var.environment["listener_http_arn"]
   target_group_arn       = local.target_group_arn
 
+  cloudfront_header_secrets = var.cloudfront_header_secrets
+
   path_patterns = ["/*"]
   priority      = "49998"
 }
@@ -68,6 +75,8 @@ module "subdomain_listener" {
   alb_listener_https_arn = var.environment["listener_https_arn"]
   alb_listener_http_arn  = var.environment["listener_http_arn"]
   target_group_arn       = local.target_group_arn
+
+  cloudfront_header_secrets = var.cloudfront_header_secrets
 
   host_headers = ["${var.subdomain}.wellcomecollection.org"]
   priority     = "49999"

@@ -61,6 +61,14 @@ const toggles = {
       type: 'permanent',
     },
     {
+      id: 'issuesBanner',
+      title: 'Banner for issues across the website',
+      initialValue: false,
+      description:
+        "Banner to display publicly when we're experiencing issues across the website that will take longer to fix or are out of our control.",
+      type: 'permanent',
+    },
+    {
       id: 'eventsSearch',
       title: 'Add Events to Search pages',
       initialValue: false,

@@ -33,7 +33,7 @@ module "identity-service-18012021" {
   # into the shared logging cluster.
   nginx_container_config = {
     image_name    = "uk.ac.wellcome/nginx_frontend_identity"
-    container_tag = "39d58d9252e68c954e85323f3ac07eb3c0f580e8"
+    container_tag = "b809c6ef4363ff0cbac8da7ff5e80d865cfcd008"
   }
 
   vpc_id  = local.vpc_id
@@ -56,6 +56,8 @@ module "path_listener" {
   alb_listener_http_arn  = var.environment["listener_http_arn"]
   target_group_arn       = local.target_group_arn
 
+  cloudfront_header_secrets = var.cloudfront_header_secrets
+
   path_patterns = ["/account*"]
   priority      = "49994"
 }
@@ -68,6 +70,8 @@ module "subdomain_listener" {
   alb_listener_https_arn = var.environment["listener_https_arn"]
   alb_listener_http_arn  = var.environment["listener_http_arn"]
   target_group_arn       = local.target_group_arn
+
+  cloudfront_header_secrets = var.cloudfront_header_secrets
 
   priority     = "301"
   host_headers = ["${var.subdomain}.wellcomecollection.org"]
@@ -105,6 +109,8 @@ module "identity_data_listener" {
   alb_listener_https_arn = var.environment["listener_https_arn"]
   alb_listener_http_arn  = var.environment["listener_http_arn"]
   target_group_arn       = local.target_group_arn
+
+  cloudfront_header_secrets = var.cloudfront_header_secrets
 
   path_patterns = each.value
   priority      = local.min_priority + each.key

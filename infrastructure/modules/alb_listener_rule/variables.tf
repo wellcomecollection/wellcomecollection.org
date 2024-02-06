@@ -15,3 +15,8 @@ variable "host_headers" {
   type    = list(string)
   default = []
 }
+
+variable "cloudfront_header_secrets" {
+  type    = list(string)
+  default = []
+}

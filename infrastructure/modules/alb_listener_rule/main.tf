@@ -22,6 +22,20 @@ resource "aws_alb_listener_rule" "https" {
       }
     }
   }
+
+  condition {
+    // Add a check for any of the values of the secret headers
+    // This is used to allow the loadbalancer to check for secret 
+    // headers from CloudFront. We accept multiple headers to allow
+    // for secret rotation to take place safely.
+    dynamic "http_header" {
+      for_each = length(var.cloudfront_header_secrets) > 0 ? [""] : []
+      content {
+        http_header_name = "x-weco-cloudfront-shared-secret"
+        values           = var.cloudfront_header_secrets
+      }
+    }
+  }
 }
 
 resource "aws_alb_listener_rule" "http" {
@@ -47,6 +61,20 @@ resource "aws_alb_listener_rule" "http" {
       for_each = length(var.host_headers) > 0 ? [""] : []
       content {
         values = var.host_headers
+      }
+    }
+  }
+
+  condition {
+    // Add a check for any of the values of the secret headers
+    // This is used to allow the loadbalancer to check for secret 
+    // headers from CloudFront. We accept multiple headers to allow
+    // for secret rotation to take place safely.
+    dynamic "http_header" {
+      for_each = length(var.cloudfront_header_secrets) > 0 ? [""] : []
+      content {
+        http_header_name = "x-weco-cloudfront-shared-secret"
+        values           = var.cloudfront_header_secrets
       }
     }
   }

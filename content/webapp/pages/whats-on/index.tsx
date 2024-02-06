@@ -15,7 +15,7 @@ import {
   filterEventsForWeekend,
 } from '@weco/content/services/prismic/events';
 import { formatDayName, formatDate } from '@weco/common/utils/format-date';
-import { clock } from '@weco/common/icons';
+import { clock, information } from '@weco/common/icons';
 import {
   getTodaysVenueHours,
   getVenueById,
@@ -81,6 +81,11 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Tabs from '@weco/content/components/Tabs';
+import InfoBox, {
+  InfoIconWrapper,
+} from '@weco/content/components/InfoBox/InfoBox';
+import MoreLink from '@weco/content/components/MoreLink/MoreLink';
+import theme from '@weco/common/views/themes/default';
 
 const tabItems = [
   {
@@ -127,27 +132,41 @@ export function getRangeForPeriod(period: Period): { start: Date; end?: Date } {
   }
 }
 
-// const ClosedMessage = () => (
-//   <>
-//     <Space
-//       $v={{
-//         size: 'm',
-//         properties: ['margin-bottom'],
-//       }}
-//       as="p"
-//       className={font('wb', 2)}
-//     >
-//       Our exhibitions are closed today, but our <a href={cafePromo.url}>café</a>{' '}
-//       and <a href={shopPromo.url}>shop</a> are open for your visit.
-//     </Space>
-//     <Space
-//       $v={{
-//         size: 'l',
-//         properties: ['margin-top', 'margin-bottom'],
-//       }}
-//     ></Space>
-//   </>
-// );
+const ClosedMessage = () => (
+  <Space
+    $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+    style={{ maxWidth: theme.sizes.large }}
+  >
+    <InfoBox
+      title="Exhibitions are closed today"
+      headingClasses={font('wb', 2)}
+      items={[]}
+    >
+      <InfoIconWrapper>
+        <Icon icon={information} />
+      </InfoIconWrapper>
+      <p className={font('intr', 5)}>
+        Our exhibitions are closed today, but our{' '}
+        <a href="/pages/Wvl1wiAAADMJ3zNe">café</a> and{' '}
+        <a href="/pages/WwgaIh8AAB8AGhC_">shop</a> are open for your visit.
+      </p>
+
+      <InfoIconWrapper>
+        <Icon icon={clock} />
+      </InfoIconWrapper>
+      <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
+        Galleries open Tuesday–Sunday,{' '}
+        <a href="/opening-times">see full opening times</a>.
+      </p>
+    </InfoBox>
+    <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+      <MoreLink url="/exhibitions" name="View all exhibitions" />
+    </Space>
+    <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+      <MoreLink url="/events" name="View all events" />
+    </Space>
+  </Space>
+);
 
 type DateRangeProps = {
   dateRange: { start: Date; end?: Date };
@@ -421,6 +440,10 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
       ? filterEventsForWeekend(events)
       : events;
 
+  // When the galleries are closed, we shouldn't be displaying exhibitions
+  const exhibitionsToShow =
+    period === 'today' && todaysOpeningHours?.isClosed ? [] : exhibitions;
+
   return (
     <PageLayout
       title={pageTitle}
@@ -440,10 +463,10 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
         />
         <Layout gridSizes={gridSize12()}>
           <DateRange dateRange={dateRange} period={period} />
-          {/* TODO put back when building, shop and cafe are open normally */}
-          {/* {period === 'today' && todaysOpeningHours?.isClosed && (
+
+          {period === 'today' && todaysOpeningHours?.isClosed && (
             <ClosedMessage />
-          )} */}
+          )}
         </Layout>
         <Space $v={{ size: 'm', properties: ['margin-top'] }}>
           {period === 'current-and-coming-up' && (
@@ -526,34 +549,38 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
               </Space>
             </>
           )}
-          {period !== 'current-and-coming-up' && (
-            <SpacingSection>
-              <Space
-                $v={{ size: 'm', properties: ['padding-top', 'margin-bottom'] }}
-              >
-                <Layout gridSizes={gridSize12()}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <h2 className={font('wb', 2)}>Exhibitions and Events</h2>
-                    <span className={font('intb', 4)}>Free admission</span>
-                  </div>
-                </Layout>
-              </Space>
-              <ExhibitionsAndEvents
-                exhibitions={exhibitions}
-                events={eventsToShow}
-                links={[
-                  { text: 'View all exhibitions', url: '/exhibitions' },
-                  { text: 'View all events', url: '/events' },
-                ]}
-              />
-            </SpacingSection>
-          )}
+          {period !== 'current-and-coming-up' &&
+            (exhibitionsToShow.length > 0 || eventsToShow.length > 0) && (
+              <SpacingSection>
+                <Space
+                  $v={{
+                    size: 'm',
+                    properties: ['padding-top', 'margin-bottom'],
+                  }}
+                >
+                  <Layout gridSizes={gridSize12()}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <h2 className={font('wb', 2)}>Exhibitions and Events</h2>
+                      <span className={font('intb', 4)}>Free admission</span>
+                    </div>
+                  </Layout>
+                </Space>
+                <ExhibitionsAndEvents
+                  exhibitions={exhibitionsToShow}
+                  events={eventsToShow}
+                  links={[
+                    { text: 'View all exhibitions', url: '/exhibitions' },
+                    { text: 'View all events', url: '/events' },
+                  ]}
+                />
+              </SpacingSection>
+            )}
         </Space>
 
         <SpacingSection>

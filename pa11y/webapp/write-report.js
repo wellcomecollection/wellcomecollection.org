@@ -20,6 +20,7 @@ const urls = [
   '/',
   '/visit-us',
   '/whats-on',
+  '/collections',
   '/stories',
   '/articles/WyjHUicAACvGnmJI',
   '/articles/W8ivQRAAAJFijw1h',
