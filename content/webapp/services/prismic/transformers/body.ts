@@ -227,7 +227,10 @@ function transformInfoBlockSlice(slice: InfoBlockSlice): BodySlice {
       title: asTitle(slice.primary.title),
       text: slice.primary.text,
       linkText: slice.primary.linkText,
-      link: transformLink(slice.primary.link),
+      link:
+        'url' in slice.primary.link
+          ? transformLink(slice.primary.link)
+          : undefined,
     },
   };
 }

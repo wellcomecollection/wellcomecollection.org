@@ -14,6 +14,7 @@ type InfoBoxItem = LabelField & {
 type Props = PropsWithChildren<{
   title: string;
   items: InfoBoxItem[];
+  headingClasses?: string;
 }>;
 
 const InfoContainer = styled(Space).attrs({
@@ -23,17 +24,22 @@ const InfoContainer = styled(Space).attrs({
   background-color: ${props => props.theme.color('yellow')};
 `;
 
-const InfoIconWrapper = styled(Space).attrs({
+export const InfoIconWrapper = styled(Space).attrs({
   className: font('intb', 4),
   $h: { size: 's', properties: ['margin-right'] },
 })`
   float: left;
 `;
 
-const InfoBox: FunctionComponent<Props> = ({ title, items, children }) => {
+const InfoBox: FunctionComponent<Props> = ({
+  title,
+  items,
+  headingClasses = font('wb', 3),
+  children,
+}) => {
   return (
     <>
-      <h2 className={font('wb', 3)}>{title}</h2>
+      <h2 className={headingClasses}>{title}</h2>
       <InfoContainer>
         {items.map(({ title, description, icon }, i) => (
           <div key={i}>

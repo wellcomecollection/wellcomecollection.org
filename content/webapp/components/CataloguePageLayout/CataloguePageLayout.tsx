@@ -3,7 +3,7 @@ import * as prismic from '@prismicio/client';
 import PageLayout, {
   Props as PageLayoutProps,
 } from '@weco/common/views/components/PageLayout/PageLayout';
-import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
+import { InfoBanner } from '@weco/common/views/components/InfoBanners';
 import { wellcomeImagesRedirectBanner } from '@weco/common/data/microcopy';
 import cookies from '@weco/common/data/cookies';
 

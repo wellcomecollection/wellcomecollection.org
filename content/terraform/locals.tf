@@ -21,8 +21,9 @@ locals {
     }
   )
 
-
   e2e_app_image   = "${data.terraform_remote_state.experience_shared.outputs.buildkite_ecr_uri}:content-env.e2e"
   stage_app_image = "${data.terraform_remote_state.experience_shared.outputs.content_webapp_ecr_uri}:env.stage"
   prod_app_image  = "${data.terraform_remote_state.experience_shared.outputs.content_webapp_ecr_uri}:env.prod"
+
+  cloudfront_header_secrets = data.terraform_remote_state.cache.outputs.cloudfront_header_shared_secrets
 }

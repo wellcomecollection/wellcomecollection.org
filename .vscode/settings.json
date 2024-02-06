@@ -3,10 +3,10 @@
   "editor.tabSize": 2,
   "files.encoding": "utf8",
   "editor.codeActionsOnSave": {
-    "editor.insertSpaces": true,
-    "source.fixAll.eslint": true,
-    "source.fixAll.stylelint": true,
-    "files.trimTrailingWhitespace": true,
+    "editor.insertSpaces": "explicit",
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit",
+    "files.trimTrailingWhitespace": "explicit"
   },
   "stylelint.validate": ["typescriptreact"],
 }
