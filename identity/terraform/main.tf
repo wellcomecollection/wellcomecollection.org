@@ -7,6 +7,7 @@ module "identity-prod" {
   env_suffix      = "prod"
 
   environment = data.terraform_remote_state.experience_shared.outputs.prod
+  cloudfront_header_secrets = local.cloudfront_header_secrets
 
   env_vars = merge(
     local.service_env["prod"]["env_vars"],
@@ -26,6 +27,7 @@ module "identity-stage" {
   env_suffix      = "stage"
 
   environment = data.terraform_remote_state.experience_shared.outputs.stage
+  cloudfront_header_secrets = local.cloudfront_header_secrets
 
   env_vars = merge(
     local.service_env["stage"]["env_vars"],
@@ -53,6 +55,7 @@ module "identity-e2e" {
   env_suffix      = "e2e"
 
   environment = data.terraform_remote_state.experience_shared.outputs.e2e
+  cloudfront_header_secrets = local.cloudfront_header_secrets
 
   env_vars = merge(
     local.service_env["stage"]["env_vars"],

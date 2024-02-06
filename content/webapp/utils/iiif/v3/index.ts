@@ -8,6 +8,7 @@ import {
   CustomSpecificationBehaviors,
 } from '@weco/content/types/manifest';
 import {
+  Annotation,
   AnnotationPage,
   AnnotationBody,
   ChoiceBody,
@@ -23,9 +24,10 @@ import {
   AuthAccessTokenService,
   Range,
   RangeItems,
+  TechnicalProperties,
 } from '@iiif/presentation-3';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
-import { getThumbnailImage, getBornDigitalData } from './canvas';
+import { getThumbnailImage, getOriginal } from './canvas';
 
 // The label we want to use to distinguish between parts of a multi-volume work
 // (e.g. 'Copy 1' or 'Volume 1') can currently exist in either the first or
@@ -240,7 +242,7 @@ type BodyService = {
 };
 
 // Temporary types, as the provided AnnotationBody doesn't seem to be correct
-type Body = {
+type AnnotationPageBody = {
   service: BodyService;
 };
 
@@ -248,7 +250,7 @@ function getImageService(canvas: Canvas): BodyService | undefined {
   const items = canvas?.items;
   const AnnotationPages = items?.[0].items;
   const AnnotationBodies = AnnotationPages?.map(
-    annotationPage => annotationPage.body as Body
+    annotationPage => annotationPage.body as AnnotationPageBody
   ).flat();
   const BodiesServices = AnnotationBodies?.map(body => body?.service).flat();
   const imageService = BodiesServices?.find(
@@ -451,6 +453,46 @@ export function checkIsTotallyRestricted(
   return Boolean(restrictedAuthService && !isAnyImageOpen);
 }
 
+function getAnnotationsOfMotivation(
+  items: Canvas['items'],
+  motivation: TechnicalProperties['motivation']
+): Annotation[] {
+  return ((
+    items?.map(annotationPage => {
+      return annotationPage.items?.filter(
+        item => item.motivation === motivation
+      );
+    }) || []
+  ).flat() || []) as Annotation[];
+}
+
+// Annotation["body"] can be a AnnotationBody | AnnotationBody[] | undefined
+// we make sure that it is always an array so we can treat it the same way
+function convertAnnotationBodyToArray(
+  annotationBody: Annotation['body']
+): AnnotationBody[] {
+  if (!annotationBody) return [];
+  if (Array.isArray(annotationBody)) {
+    return annotationBody;
+  } else {
+    return [annotationBody];
+  }
+}
+
+function getDisplayData(
+  annotation: Annotation
+): (ChoiceBody | ContentResource)[] {
+  const annotationBodyArray = convertAnnotationBodyToArray(annotation?.body);
+  return annotationBodyArray
+    ?.map(body => {
+      if (typeof body === 'object' && 'type' in body) {
+        return body;
+      } else {
+        return undefined; // Do we need to handle any of these cases? What sort of things are they?
+      }
+    })
+    .filter(Boolean) as (ChoiceBody | ContentResource)[];
+}
 export function transformCanvas(canvas: Canvas): TransformedCanvas {
   const imageService = getImageService(canvas);
   const imageServiceId = getImageServiceId(imageService);
@@ -459,7 +501,46 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
   const textServiceId = getCanvasTextServiceId(canvas);
   const thumbnailImage = getThumbnailImage(canvas);
   const { id, type, width, height } = canvas;
-  const bornDigitalData = getBornDigitalData(canvas);
+  // We get the downloadData, which we display in the WorkDetails.DownloadList component from 3 potential sources:
+  // First we use AnnotationPages with a motivation of 'painting'.
+  // N.B. Resources associated with a Canvas by an Annotation that has the motivation value painting
+  // must be presented to the user as the representation of the Canvas.
+  // This gives us the url of the file, the label and format etc.
+  const painting = getAnnotationsOfMotivation(canvas.items || [], 'painting');
+  const paintingDisplayData = painting.map(getDisplayData).flat();
+  // Second we look for a rendering item with a behavior value that includes 'original'.
+  // This will be present when something is Born Digital,
+  // in which case we will want to use the url of the file etc. from here, as the canvas item only provides placeholder data
+  // see: https://github.com/wellcomecollection/docs/blob/main/rfcs/046-born-digital-iiif/README.md
+  const original = getOriginal(canvas.rendering || []);
+  // Lastly, we look for annotations with a motivation of 'supplementing'.
+  // N.B. Resources associated with a Canvas by an Annotation that has the motivation value supplementing
+  // may be presented to the user as part of the representation of the Canvas, or
+  // may be presented in a different part of the user interface.
+  // We need to do this to find the pdfs that were added to manifests before DLCS changes, which took place in May 2023.
+  // After this time the pdfs follow the Born Digital pattern.
+  const supplementing = getAnnotationsOfMotivation(
+    canvas.annotations || [],
+    'supplementing'
+  );
+  const supplementingDisplayData = supplementing.map(getDisplayData).flat();
+
+  // If the canvas has a behavior which includes 'placeholder'
+  // we know it is Born digital: https://github.com/wellcomecollection/docs/blob/main/rfcs/046-born-digital-iiif/README.md
+  // in which case we use original to provide the downloadData
+  const behavior = canvas?.behavior as
+    | CustomSpecificationBehaviors[]
+    | undefined;
+  const isPlaceholder = behavior?.includes('placeholder') || false;
+  // If it's not a placeholder we use the paintingsDisplayData if we have it
+  // and then fallback to the supplementingDisplayData
+  const displayData =
+    paintingDisplayData.length > 0
+      ? paintingDisplayData
+      : supplementingDisplayData;
+
+  const downloadData = isPlaceholder && original ? [original] : displayData;
+
   return {
     id,
     type,
@@ -470,7 +551,7 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
     label,
     textServiceId,
     thumbnailImage,
-    bornDigitalData,
+    downloadData,
   };
 }
 
@@ -565,7 +646,8 @@ export function augmentStructuresCanvasData(
           );
           return {
             ...item,
-            bornDigitalData: matchingCanvas?.bornDigitalData,
+            label: matchingCanvas?.label,
+            downloadData: matchingCanvas?.downloadData,
           };
         } else if (isRange(item)) {
           return augmentStructuresCanvasData([item] || [], canvases)[0];

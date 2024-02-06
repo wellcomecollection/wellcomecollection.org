@@ -20,6 +20,9 @@ const cookies = {
   // This remembers when somebody has dismissed the global info banner.
   globalAlert: 'WC_globalAlert',
 
+  // This remembers when somebody has dismissed the site issues info banner.
+  siteIssueBanner: 'WC_siteIssueBanner',
+
   // This remembers when somebody has dismissed the banner you get when
   // you've been redirected from Wellcome Images.
   wellcomeImagesRedirect: 'WC_wellcomeImagesRedirect',

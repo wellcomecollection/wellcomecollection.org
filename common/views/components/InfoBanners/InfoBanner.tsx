@@ -1,8 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { getCookie, setCookie } from 'cookies-next';
 import cookies from '@weco/common/data/cookies';
-import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
@@ -10,43 +8,19 @@ import usePrevious from '@weco/common/hooks/usePrevious';
 import { cross, information } from '@weco/common/icons';
 import { GlobalAlertPrismicDocument } from '@weco/common/services/prismic/documents';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
-import { Container } from '@weco/common/views/components/styled/Container';
+import {
+  BannerContainer,
+  BannerWrapper,
+  CloseButton,
+  Copy,
+  CopyContainer,
+} from './InfoBanners.styles';
 
 type Props = {
   cookieName: string;
   document: { data: InferDataInterface<GlobalAlertPrismicDocument> };
   onVisibilityChange?: (isVisible: boolean) => void;
 };
-
-const BannerContainer = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  className: font('intr', 5),
-})`
-  background-color: ${props => props.theme.color('yellow')};
-`;
-
-const BannerWrapper = styled(Container)`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const CopyContainer = styled.div`
-  display: flex;
-`;
-
-const Copy = styled(Space).attrs({
-  $h: { size: 'm', properties: ['margin-right'] },
-  className: 'body-text spaced-text',
-})`
-  align-self: center;
-`;
-
-const CloseButton = styled.button`
-  margin: 0;
-  padding: 0;
-  color: ${props =>
-    props.theme.color('black')}; /* This avoids the default blue links on iOS */
-`;
 
 const InfoBanner: FunctionComponent<Props> = ({
   cookieName,

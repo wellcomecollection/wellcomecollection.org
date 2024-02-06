@@ -28,6 +28,11 @@ export const DefaultErrorText: FunctionComponent = () => (
           and tell us what happened
         </li>
         <li>Refresh the page (sometimes it’s a temporary issue)</li>
+        <li>
+          Have a look at{' '}
+          <a href="https://status.wellcomecollection.org/">our status page</a>{' '}
+          for any updates
+        </li>
         <li>Try again a bit later</li>
       </ul>
     </Space>

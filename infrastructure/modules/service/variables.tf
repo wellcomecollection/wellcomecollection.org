@@ -21,12 +21,6 @@ variable "nginx_container_config" {
     image_name    = string
     container_tag = string
   })
-
-  // This has an increased max request body size, and increased proxy buffer sizes
-  default = {
-    image_name    = "uk.ac.wellcome/nginx_frontend"
-    container_tag = "9b95057b716a60f9891f77111b0bd524b85839aa"
-  }
 }
 
 variable "security_group_ids" {

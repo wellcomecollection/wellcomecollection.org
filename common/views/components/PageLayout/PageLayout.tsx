@@ -5,7 +5,7 @@ import { Url } from '@weco/common/model/link-props';
 import { JsonLdObj } from '../JsonLd/JsonLd';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import Header, { NavLink } from '../Header/Header';
-import InfoBanner from '../InfoBanner/InfoBanner';
+import { InfoBanner, WebsiteIssuesBanner } from '../InfoBanners';
 import CookieNotice from '../CookieNotice/CookieNotice';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer';
@@ -86,7 +86,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   apiToolbarLinks = [],
   skipToContentLinks = [],
 }) => {
-  const { apiToolbar } = useToggles();
+  const { apiToolbar, issuesBanner } = useToggles();
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''
@@ -312,6 +312,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           Skip to main content
         </a>
         <Header siteSection={siteSection} {...headerProps} />
+        {issuesBanner && <WebsiteIssuesBanner />}
         {globalAlert.data.isShown === 'show' &&
           (!globalAlert.data.routeRegex ||
             urlString.match(new RegExp(globalAlert.data.routeRegex))) && (

@@ -81,6 +81,14 @@ export async function createApp(): Promise<Koa> {
   );
 
   const router = new Router();
+
+  // Add a naive healthcheck endpoint for the load balancer
+  router.get('/management/healthcheck', async ctx => {
+    ctx.body = {
+      status: 'ok',
+    };
+  });
+
   router.all('(.*)', async ctx => {
     await nextHandler(ctx.req, ctx.res);
     ctx.respond = false;
