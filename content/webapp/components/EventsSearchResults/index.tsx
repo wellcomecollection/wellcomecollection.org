@@ -32,6 +32,7 @@ import TextWithDot from '@weco/content/components/TextWithDot';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import { Label } from '@weco/common/model/labels';
+import { upcomingDatesFullyBooked } from 'services/prismic/events';
 
 type Props = {
   events: EventDocument[];
@@ -159,16 +160,15 @@ const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
                   </>
                 )}
 
-                {/* TODO isFullyBooked needs to be added to API reponse */}
-                {/* {upcomingDatesFullyBooked(event) && (
-                <Space $v={{ size: 'm', properties: ['margin-top'] }}>
-                  <TextWithDot
-                    className={font('intr', 5)}
-                    dotColor="validation.red"
-                    text="Fully booked"
-                  />
-                </Space>
-              )} */}
+                {upcomingDatesFullyBooked(times) && (
+                  <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+                    <TextWithDot
+                      className={font('intr', 5)}
+                      dotColor="validation.red"
+                      text="Fully booked"
+                    />
+                  </Space>
+                )}
 
                 {!isPast && times.length > 1 && (
                   <p className={font('intb', 6)}>See all dates/times</p>

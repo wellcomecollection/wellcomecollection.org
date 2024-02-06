@@ -28,6 +28,8 @@ module "prod_wc_org_cloudfront_distribution" {
   request_policies  = module.cloudfront_policies.request_policies
   response_policies = module.cloudfront_policies.response_policies
   waf_ip_allowlist  = local.waf_ip_allowlist
+
+  header_shared_secret = local.current_shared_secret
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {

@@ -86,6 +86,12 @@ const ResultsList = styled.ul`
   padding: 0;
 `;
 
+const ErrorMessage = styled(Space).attrs({
+  as: 'p',
+  $v: { size: 'm', properties: ['margin-top'] },
+  className: font('intr', 6),
+})``;
+
 const Loading = () => (
   <div
     style={{
@@ -144,6 +150,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
   } = useContext(ItemViewerContext);
   const [value, setValue] = useState(query.query);
   const [isLoading, setIsLoading] = useState(false);
+  const [searchError, setSearchError] = useState(false);
   const { searchService, canvases } = { ...transformedManifest };
 
   function handleClearResults() {
@@ -169,7 +176,10 @@ const IIIFSearchWithin: FunctionComponent = () => {
         ).json();
         setIsLoading(false);
         setSearchResults && setSearchResults(results);
-      } catch (error) {}
+      } catch (error) {
+        setIsLoading(false);
+        setSearchError(true);
+      }
     } else {
       setSearchResults && setSearchResults(results);
     }
@@ -226,11 +236,22 @@ const IIIFSearchWithin: FunctionComponent = () => {
       </SearchForm>
       <div aria-live="polite">
         {isLoading && <Loading />}
+        {searchError && (
+          <ErrorMessage>
+            There has been a problem conducting the search.
+          </ErrorMessage>
+        )}
         {searchResults !== null && Boolean(query.query) && (
           <ResultsHeader aria-live="assertive">
             {pluralize(searchResults.within.total ?? 0, 'result')}
           </ResultsHeader>
         )}
+        {searchResults &&
+          Boolean(searchResults?.within?.total && query.query) && (
+            <ResultsHeader data-test-id="results-header" aria-live="assertive">
+              {pluralize(searchResults.within.total ?? 0, 'result')}
+            </ResultsHeader>
+          )}
         <ResultsList>
           {searchResults?.hits?.map((hit, i) => {
             // We need the matching resource for each hit to get the canvas it appears on

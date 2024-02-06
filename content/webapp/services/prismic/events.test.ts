@@ -81,7 +81,7 @@ describe('upcomingDatesFullyBooked', () => {
         },
       ],
     };
-    const result = upcomingDatesFullyBooked(event);
+    const result = upcomingDatesFullyBooked(event.times);
     expect(result).toEqual(true);
   });
 
@@ -105,7 +105,7 @@ describe('upcomingDatesFullyBooked', () => {
         },
       ],
     };
-    const result = upcomingDatesFullyBooked(event);
+    const result = upcomingDatesFullyBooked(event.times);
     expect(result).toEqual(false);
   });
 
@@ -122,7 +122,7 @@ describe('upcomingDatesFullyBooked', () => {
         },
       ],
     };
-    const result = upcomingDatesFullyBooked(event);
+    const result = upcomingDatesFullyBooked(event.times);
     expect(result).toEqual(false);
   });
 
@@ -139,7 +139,7 @@ describe('upcomingDatesFullyBooked', () => {
         },
       ],
     };
-    const result = upcomingDatesFullyBooked(event);
+    const result = upcomingDatesFullyBooked(event.times);
     expect(result).toEqual(false);
   });
 
@@ -148,7 +148,7 @@ describe('upcomingDatesFullyBooked', () => {
       id: 'event-id',
       times: [],
     };
-    const result = upcomingDatesFullyBooked(event);
+    const result = upcomingDatesFullyBooked(event.times);
     expect(result).toEqual(false);
   });
 });

@@ -21,6 +21,8 @@ locals {
       AUTH0_ACTION_SECRET = "identity/${env_name}/redirect_action_secret"
     }
   } }
+
+  cloudfront_header_secrets = data.terraform_remote_state.cache.outputs.cloudfront_header_shared_secrets
 }
 
 resource "aws_secretsmanager_secret" "session_keys" {
