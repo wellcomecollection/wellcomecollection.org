@@ -33,6 +33,9 @@ locals {
 #   `terraform apply` in the content and identity stacks will update the listener rules (recommended to do targetted apply per env).
 # - Update the CloudFront distros for all envs by setting current_shared_secret above to the new secret
 #   `terraform apply` in the cache stack will update the CloudFront distros (recommended to do targetted apply per env)
+# - Update the preview cloudfront distro by terraforming in the preview stack
+#   `terraform apply` in the preview stack will update the preview CloudFront distro
+# - Once all apps and CloudFront distros are updated, it's safe to delete the old secret in terraform
 
 output "cloudfront_header_shared_secrets" {
   # This is a relatively insecure way to share the secret as we're storing it in tf state, 
@@ -41,5 +44,10 @@ output "cloudfront_header_shared_secrets" {
     data.aws_secretsmanager_secret_version.header_shared_secret_020124.secret_string,
     # data.aws_secretsmanager_secret_version.header_shared_secret_DDMMYY.secret_string
   ] 
+  sensitive = true
+}
+
+output "current_shared_secret" {
+  value = local.current_shared_secret
   sensitive = true
 }
