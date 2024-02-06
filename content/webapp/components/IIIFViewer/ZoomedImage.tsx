@@ -5,6 +5,7 @@ import {
   useRef,
   useContext,
   FunctionComponent,
+  MutableRefObject,
 } from 'react';
 import styled from 'styled-components';
 import { DigitalLocation } from '@weco/common/model/catalogue';
@@ -61,12 +62,19 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
     : convertRequestUriToInfoUri(mainImageService['@id']);
   const [scriptError, setScriptError] = useState(false);
   const [viewer, setViewer] = useState(null);
+  const viewerRef: MutableRefObject<{ destroy: () => void } | null> =
+    useRef(null);
   const zoomStep = 0.5;
   const firstControl = useRef<HTMLButtonElement>(null);
   const lastControl = useRef<HTMLButtonElement>(null);
   const zoomedImage = useRef<HTMLDivElement>(null);
+  const hasInitialised = useRef(false);
 
   function setupViewer(imageInfoSrc: string, viewerId: string) {
+    // We use this to prevent the creation of two `.openseadragon-container`s
+    // which would otherwise happen in development with strict mode turned on
+    // (which in turn would break tests)
+    hasInitialised.current = true;
     fetch(imageInfoSrc)
       .then(response => response.json())
       .then(response => {
@@ -103,6 +111,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
           );
         });
         setViewer(osdViewer);
+        viewerRef.current = osdViewer;
       })
       .catch(() => {
         setScriptError(true);
@@ -110,8 +119,10 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
   }
 
   useEffect(() => {
-    setupViewer(zoomInfoUrl, 'zoomedImage');
+    !hasInitialised.current && setupViewer(zoomInfoUrl, 'zoomedImage');
     lastControl?.current && lastControl.current.focus();
+
+    return () => viewerRef.current?.destroy();
   }, []);
 
   function doZoomIn(viewer) {
