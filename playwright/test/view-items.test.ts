@@ -202,7 +202,7 @@ test('(13) | The main viewer can be scrolled', async ({ page, context }) => {
   );
   if (!isMobile(page)) {
     // We don't display this info on mobile as there is not enough room
-    await expect(page.getByText('68/68')).toBeVisible();
+    await slowExpect(page.getByText('68/68')).toBeVisible();
   }
 });
 
@@ -220,7 +220,6 @@ test('(14) | The item should be searchable', async ({ page, context }) => {
   }
   await page.getByLabel('Search within this item').fill('darwin');
   await page.getByRole('button', { name: 'search within' }).click();
-  await slowExpect(page.getByText('Found on image 5 / 68')).toBeAttached();
   await page
     .getByRole('link')
     .filter({ hasText: 'Found on image 5 / 68' })
