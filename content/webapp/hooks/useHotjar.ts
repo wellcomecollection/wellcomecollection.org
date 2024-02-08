@@ -5,6 +5,8 @@
 // We should probably move out the pieces that are troublesome, and check the rest
 
 import { useEffect, useState } from 'react';
+import { getConsentCookie } from '@weco/common/utils/cookie-consent';
+
 declare global {
   interface Window {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -43,8 +45,12 @@ const heatMapTrigger = (triggerName: string): void => {
 };
 
 const useHotjar = (shouldRender: boolean, triggerName?: string) => {
+  const hasAnalyticsConsent = getConsentCookie('analytics');
   const [rendered, setRendered] = useState(false);
+
   useEffect(() => {
+    if (!hasAnalyticsConsent) return;
+
     if (shouldRender && !rendered) {
       renderScript().then(() => {
         setRendered(true);
