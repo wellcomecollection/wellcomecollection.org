@@ -2,6 +2,7 @@ import { test as base, expect } from '@playwright/test';
 import {
   multiVolumeItem,
   itemWithSearchAndStructures,
+  itemWithSearchAndStructuresAndQuery,
   itemWithReferenceNumber,
   itemWithAltText,
   itemWithOnlyOpenAccess,
@@ -208,6 +209,19 @@ test('(13) | The main viewer can be scrolled', async ({ page, context }) => {
 
 test('(14) | The item should be searchable', async ({ page, context }) => {
   await itemWithSearchAndStructures(context, page);
+
+  if (isMobile(page)) {
+    await page.getByRole('button', { name: 'Show info' }).click();
+  }
+
+  await page.getByLabel('Search within this item').fill('darwin');
+  await page.getByRole('button', { name: 'search within' }).click();
+});
+
+test('(15) | The location of the search results should be displayed', async ({
+  page,
+  context,
+}) => {
   await page.route(
     'https://iiif.wellcomecollection.org/search/v1/b29338062?q=darwin',
     async route => {
@@ -215,28 +229,30 @@ test('(14) | The item should be searchable', async ({ page, context }) => {
       await route.fulfill({ json });
     }
   );
+  await itemWithSearchAndStructuresAndQuery(context, page);
+
   if (isMobile(page)) {
     await page.getByRole('button', { name: 'Show info' }).click();
   }
-  await page.getByLabel('Search within this item').fill('darwin');
-  await page.getByRole('button', { name: 'search within' }).click();
+
   await page
     .getByRole('link')
     .filter({ hasText: 'Found on image 5 / 68' })
     .click();
+
   if (!isMobile(page)) {
     // we don't display this info on mobile as there is not enough room
     await expect(page.getByText('5/68')).toBeVisible();
   }
 });
 
-test('(15) | Images should have unique alt text', async ({ page, context }) => {
+test('(16) | Images should have unique alt text', async ({ page, context }) => {
   await itemWithAltText({ canvasNumber: 2 }, context, page);
   await expect(page.getByAltText('22102033982')).toBeVisible();
   expect(await page.getByAltText('22102033982').count()).toEqual(1);
 });
 
-test('(16) | An item with only open access items will not display a modal', async ({
+test('(17) | An item with only open access items will not display a modal', async ({
   page,
   context,
 }) => {
@@ -244,7 +260,7 @@ test('(16) | An item with only open access items will not display a modal', asyn
   await expect(page.getByText('Show the content')).toBeHidden();
 });
 
-test('(17) | An item with a mix of restricted and open access items will not display a modal', async ({
+test('(18) | An item with a mix of restricted and open access items will not display a modal', async ({
   page,
   context,
 }) => {
@@ -252,7 +268,7 @@ test('(17) | An item with a mix of restricted and open access items will not dis
   await expect(page.getByText('Show the content')).toBeHidden();
 });
 
-test('(18) | An item with only restricted access items will display a modal with no option to view the content', async ({
+test('(19) | An item with only restricted access items will display a modal with no option to view the content', async ({
   page,
   context,
 }) => {
@@ -264,7 +280,7 @@ test('(18) | An item with only restricted access items will display a modal with
   await expect(page.getByTestId('image-0')).toBeHidden();
 });
 
-test('(19) | An item with a mix of restricted and non-restricted access items will display a modal', async ({
+test('(20) | An item with a mix of restricted and non-restricted access items will display a modal', async ({
   page,
   context,
 }) => {
@@ -273,7 +289,7 @@ test('(19) | An item with a mix of restricted and non-restricted access items wi
   await expect(page.getByTestId('image-0')).toBeHidden();
 });
 
-test('(20) | An item with a mix of non-restricted and open access items will display a modal', async ({
+test('(21) | An item with a mix of non-restricted and open access items will display a modal', async ({
   page,
   context,
 }) => {
