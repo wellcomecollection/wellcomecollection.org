@@ -14,7 +14,7 @@ const currentCookieConsent =
 // ignores all the checks and conditions, they should always be
 // defaulting to true for them
 export const getConsentCookie = (type: string): boolean => {
-  const hasCookiesWorkToggleOn = getCookie('toggle_cookiesWorks');
+  const hasCookiesWorkToggleOn = getCookie('toggle_cookiesWork');
 
   return hasCookiesWorkToggleOn ? !!currentCookieConsent[type] : true;
 };
@@ -26,7 +26,7 @@ export const getConsentCookieServerSide = (
   cookies: TmpCookiesObj,
   type: string
 ): boolean => {
-  const hasCookiesWorkToggleOn = cookies.toggle_cookiesWorks;
+  const hasCookiesWorkToggleOn = cookies.toggle_cookiesWork;
 
   const parsedCookie = hasCookiesWorkToggleOn
     ? cookies.cookieConsent && JSON.parse(cookies.cookieConsent)
