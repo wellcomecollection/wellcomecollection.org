@@ -94,7 +94,7 @@ const FooterNav = ({
   ariaLabel: string;
   isInline?: boolean;
 }): ReactElement => {
-  const { showConsentBtn } = useToggles();
+  const { cookiesWork } = useToggles();
   const [consentCookieValue, setConsentCookieValue] = useState<boolean>();
 
   useEffect(() => {
@@ -125,7 +125,7 @@ const FooterNav = ({
           );
         })}
         {/* TODO Remove this once we have a better idea of how get consent, this is a very temporary idea/solution */}
-        {showConsentBtn && type === 'InternalNavigation' && (
+        {cookiesWork && type === 'InternalNavigation' && (
           <li>
             <Buttons
               variant="ButtonSolid"
