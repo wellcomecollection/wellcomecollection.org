@@ -14,6 +14,7 @@ import {
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
 import { apiResponse } from './mocks/search-within';
+import { slowExpect } from './helpers/search';
 
 const domain = new URL(baseUrl).host;
 
@@ -167,7 +168,7 @@ test('(11) | The multi-volume label should be appropriate', async ({
   if (isMobile(page)) {
     await page.getByRole('button', { name: 'Show info' }).click();
   }
-  expect(await page.getByText('Copy 1'));
+  expect(page.getByText('Copy 1'));
   await page.getByRole('button', { name: 'Volumes' }).click();
   await page.getByRole('link', { name: 'Copy 3' }).click();
   expect(await page.getByText('Copy 3').count());
@@ -186,7 +187,7 @@ test('(12) | The structured parts should be browseable', async ({
   await page.getByRole('link', { name: 'Title Page' }).click();
   if (!isMobile(page)) {
     // we don't display this info on mobile as there is not enough room
-    await expect(await page.getByText('9/559')).toBeVisible();
+    await expect(page.getByText('9/559')).toBeVisible();
   }
 });
 
@@ -201,7 +202,7 @@ test('(13) | The main viewer can be scrolled', async ({ page, context }) => {
   );
   if (!isMobile(page)) {
     // We don't display this info on mobile as there is not enough room
-    await expect(await page.getByText('68/68')).toBeVisible();
+    await expect(page.getByText('68/68')).toBeVisible();
   }
 });
 
@@ -219,20 +220,20 @@ test('(14) | The item should be searchable', async ({ page, context }) => {
   }
   await page.getByLabel('Search within this item').fill('darwin');
   await page.getByRole('button', { name: 'search within' }).click();
-  await expect(page.getByText('Found on image 5 / 68')).toBeAttached();
+  await slowExpect(page.getByText('Found on image 5 / 68')).toBeAttached();
   await page
     .getByRole('link')
     .filter({ hasText: 'Found on image 5 / 68' })
     .click();
   if (!isMobile(page)) {
     // we don't display this info on mobile as there is not enough room
-    await expect(await page.getByText('5/68')).toBeVisible();
+    await expect(page.getByText('5/68')).toBeVisible();
   }
 });
 
 test('(15) | Images should have unique alt text', async ({ page, context }) => {
   await itemWithAltText({ canvasNumber: 2 }, context, page);
-  await expect(await page.getByAltText('22102033982')).toBeVisible();
+  await expect(page.getByAltText('22102033982')).toBeVisible();
   expect(await page.getByAltText('22102033982').count()).toEqual(1);
 });
 
