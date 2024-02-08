@@ -16,7 +16,7 @@ import {
   GoogleTagManagerNoScript,
   GaDimensions,
 } from '../../services/app/google-analytics';
-import { getCookie } from 'cookies-next';
+import { getCookies } from 'cookies-next';
 import { getConsentCookieServerSide } from '@weco/common/utils/cookie-consent';
 
 const {
@@ -60,7 +60,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
 
       const initialProps = await Document.getInitialProps(ctx);
       const hasAnalyticsConsent = getConsentCookieServerSide(
-        getCookie('cookieConsent', { res: ctx.res, req: ctx.req }),
+        getCookies({ res: ctx.res, req: ctx.req }),
         'analytics'
       );
 

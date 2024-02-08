@@ -1,18 +1,36 @@
-import { CookieValueTypes, getCookie, setCookie } from 'cookies-next';
+import { getCookie, setCookie } from 'cookies-next';
+import { TmpCookiesObj } from 'cookies-next/lib/types';
 
+// cookieConsent's value is a stringified object that looks like
+// {
+//   necessary: boolean,
+//   analytics: boolean
+// }
 const currentCookieConsent =
   !!getCookie('cookieConsent') &&
   JSON.parse(getCookie('cookieConsent') as string);
 
+// hasCookiesWorkToggleOn makes sure the rendering for regular users
+// ignores all the checks and conditions, they should always be
+// defaulting to true for them
 export const getConsentCookie = (type: string): boolean => {
-  return !!currentCookieConsent[type];
+  const hasCookiesWorkToggleOn = getCookie('toggle_cookiesWorks');
+
+  return hasCookiesWorkToggleOn ? !!currentCookieConsent[type] : true;
 };
 
+// hasCookiesWorkToggleOn makes sure the rendering for regular users
+// ignores all the checks and conditions, they should always be
+// defaulting to true for them
 export const getConsentCookieServerSide = (
-  cookieValue: CookieValueTypes,
+  cookies: TmpCookiesObj,
   type: string
 ): boolean => {
-  const parsedCookie = !!cookieValue && JSON.parse(cookieValue);
+  const hasCookiesWorkToggleOn = cookies.toggle_cookiesWorks;
+
+  const parsedCookie = hasCookiesWorkToggleOn
+    ? cookies.cookieConsent && JSON.parse(cookies.cookieConsent)
+    : { necessary: true, analytics: true };
 
   return !!parsedCookie[type];
 };
