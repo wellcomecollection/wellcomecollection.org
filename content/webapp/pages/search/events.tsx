@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
 import Pagination from '@weco/content/components/Pagination/Pagination';
 import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
+import Sort from '@weco/content/components/Sort/Sort';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -78,44 +79,46 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
                 <SortPaginationWrapper>
                   {/* TODO re-add when sorting works in Content API */}
                   {/* https://github.com/wellcomecollection/wellcomecollection.org/issues/10554 */}
-                  {/* <Sort
-                    formId={SEARCH_PAGES_FORM_ID}
-                    options={[
-                      // Default value to be left empty as to not be reflected in URL query
-                      {
-                        value: '',
-                        text: 'Relevance',
-                      },
-                      {
-                        value: 'publicationDate.asc',
-                        text: 'Oldest to newest',
-                      },
-                      {
-                        value: 'publicationDate.desc',
-                        text: 'Newest to oldest',
-                      },
-                    ]}
-                    jsLessOptions={{
-                      sort: [
+                  {
+                    <Sort
+                      formId={SEARCH_PAGES_FORM_ID}
+                      options={[
+                        // Default value to be left empty as to not be reflected in URL query
                         {
                           value: '',
                           text: 'Relevance',
                         },
                         {
-                          value: 'publicationDate',
-                          text: 'Publication date',
+                          value: 'publicationDate.asc',
+                          text: 'Oldest to newest',
                         },
-                      ],
-                      sortOrder: [
-                        { value: 'asc', text: 'Ascending' },
-                        { value: 'desc', text: 'Descending' },
-                      ],
-                    }}
-                    defaultValues={{
-                      sort: query.sort,
-                      sortOrder: query.sortOrder,
-                    }}
-                  /> */}
+                        {
+                          value: 'publicationDate.desc',
+                          text: 'Newest to oldest',
+                        },
+                      ]}
+                      jsLessOptions={{
+                        sort: [
+                          {
+                            value: '',
+                            text: 'Relevance',
+                          },
+                          {
+                            value: 'publicationDate',
+                            text: 'Publication date',
+                          },
+                        ],
+                        sortOrder: [
+                          { value: 'asc', text: 'Ascending' },
+                          { value: 'desc', text: 'Descending' },
+                        ],
+                      }}
+                      defaultValues={{
+                        sort: query.sort,
+                        sortOrder: query.sortOrder,
+                      }}
+                    />
+                  }
                   <Pagination
                     formId={SEARCH_PAGES_FORM_ID}
                     totalPages={eventResponseList.totalPages}
