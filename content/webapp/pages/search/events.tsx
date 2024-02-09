@@ -84,16 +84,17 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
                       formId={SEARCH_PAGES_FORM_ID}
                       options={[
                         // Default value to be left empty as to not be reflected in URL query
+                        // is this the best text 'newest to oldest?'
                         {
                           value: '',
                           text: 'Relevance',
                         },
                         {
-                          value: 'publicationDate.asc',
+                          value: 'times.startDateTime.asc',
                           text: 'Oldest to newest',
                         },
                         {
-                          value: 'publicationDate.desc',
+                          value: 'times.startDateTime.desc',
                           text: 'Newest to oldest',
                         },
                       ]}
@@ -104,8 +105,8 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
                             text: 'Relevance',
                           },
                           {
-                            value: 'publicationDate',
-                            text: 'Publication date',
+                            value: 'times.startDateTime',
+                            text: 'Event date',
                           },
                         ],
                         sortOrder: [
