@@ -228,7 +228,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
           <Button
             variant="ButtonSolid"
             icon={search}
-            text="search"
+            text="search within"
             isTextHidden={true}
             colors={themeValues.buttonColors.yellowYellowBlack}
           />

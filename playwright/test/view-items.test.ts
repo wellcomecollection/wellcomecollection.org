@@ -1,8 +1,8 @@
-import { Page, test as base, expect } from '@playwright/test';
+import { test as base, expect } from '@playwright/test';
 import {
   multiVolumeItem,
-  multiVolumeItem2,
   itemWithSearchAndStructures,
+  itemWithSearchAndStructuresAndQuery,
   itemWithReferenceNumber,
   itemWithAltText,
   itemWithOnlyOpenAccess,
@@ -12,38 +12,12 @@ import {
   itemWithNonRestrictedAndOpenAccess,
   isMobile,
 } from './helpers/contexts';
-import {
-  zoomInButton,
-  rotateButton,
-  openseadragonCanvas,
-  fullscreenButton,
-  downloadsButton,
-  itemDownloadsModal,
-  smallImageDownload,
-  fullItemDownload,
-  workContributors,
-  workDates,
-  viewerSidebar,
-  mobilePageGridButtons,
-  toggleInfoDesktop,
-  toggleInfoMobile,
-  referenceNumber,
-  mainViewer,
-  searchWithinResultsHeader,
-} from './selectors/item';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
-import safeWaitForNavigation from './helpers/safeWaitForNavigation';
+import { apiResponse } from './mocks/search-within';
+import { slowExpect } from './helpers/search';
 
 const domain = new URL(baseUrl).host;
-
-const volumesNavigationLabel = 'Volumes navigation';
-const searchWithinLabel = 'Search within this item';
-
-const searchWithin = async (query: string, page: Page) => {
-  await page.fill(`text=${searchWithinLabel}`, query);
-  await page.press(`text=${searchWithinLabel}`, 'Enter');
-};
 
 const test = base.extend({
   context: async ({ context }, use) => {
@@ -56,357 +30,270 @@ const test = base.extend({
   },
 });
 
-// We've repeatedly had tests in this test file (not always the same one) fail once on a timeout, only to always pass on a retry.
-// I'll allow this file to retry once, see if it helps and makes our alerts more relevant.
-// I'm also allowing them to run in parallel, hoping it'll help with timeouts as its considered a slow test file.
-test.describe.configure({ mode: 'parallel', retries: 1 });
-
-test.describe('Scenario 1: A user wants a large-scale view of an item', () => {
-  test('the images are scalable', async ({ page, context }) => {
+const multiVolumeDownloadTest = test.extend({
+  page: async ({ page, context }, use) => {
     await multiVolumeItem(context, page);
-
-    if (!isMobile(page)) {
-      // TODO work out why this is causing issues on mobile
-      await page.click(fullscreenButton);
-    }
-    // check full screen
-    await page.click(zoomInButton);
-    await page.waitForSelector(openseadragonCanvas);
-    // make sure we can actually see deep zoom
-    const isVisible = await page.isVisible(openseadragonCanvas);
-    expect(isVisible).toBeTruthy();
-  });
-
-  test('the info panel visibility can be toggled', async ({
-    page,
-    context,
-  }) => {
-    await multiVolumeItem(context, page);
-    if (!isMobile(page)) {
-      const isVisibleBefore = await page.isVisible(viewerSidebar);
-      expect(isVisibleBefore).toBeTruthy();
-      await page.click(toggleInfoDesktop);
-      const isVisibleAfter = await page.isVisible(viewerSidebar);
-      expect(isVisibleAfter).toBeFalsy();
-    }
-
-    // Info is hidden by default on mobile. It covers the viewing
-    // area on mobile, so we want to ensure things that control
-    // the viewing area are also hidden when it is visible
-    if (isMobile(page)) {
-      const isSidebarVisibleBefore = await page.isVisible(viewerSidebar);
-      const isMobilePageGridButtonVisibleBefore = await page.isVisible(
-        mobilePageGridButtons
-      );
-
-      expect(isSidebarVisibleBefore).toBeFalsy();
-      expect(isMobilePageGridButtonVisibleBefore).toBeTruthy();
-
-      await page.click(toggleInfoMobile);
-      const isSidebarVisibleAfter = await page.isVisible(viewerSidebar);
-      const isMobilePageGridButtonVisibleAfter = await page.isVisible(
-        mobilePageGridButtons
-      );
-
-      expect(isSidebarVisibleAfter).toBeTruthy();
-      expect(isMobilePageGridButtonVisibleAfter).toBeFalsy();
-    }
-  });
+    await page.getByRole('button', { name: 'Downloads' }).click();
+    await use(page);
+  },
 });
 
-test.describe('Scenario 2: A user wants to use the content offline', () => {
-  const smallImageDownloadUrl =
-    'https://iiif.wellcomecollection.org/image/b10326947_hin-wel-all-00012266_0001.jp2/full/full/0/default.jpg';
-  const fullItemDownloadUrl =
-    'https://iiif.wellcomecollection.org/pdf/b10326947_0001';
+test.describe.configure({ mode: 'parallel' });
 
-  const multiVolumeTest = test.extend({
-    page: async ({ page, context }, use) => {
-      await multiVolumeItem(context, page);
-      await page.click(downloadsButton);
-      await page.waitForSelector(itemDownloadsModal);
-      await use(page);
-    },
+test('(1) | The images can be zoomed', async ({ page, context }) => {
+  await multiVolumeItem(context, page);
+  await page.getByRole('button', { name: 'Zoom in' }).click();
+  await expect(page.locator('.openseadragon-canvas')).toBeVisible();
+});
+
+test('(2) | The info panel visibility can be toggled', async ({
+  page,
+  context,
+}) => {
+  await multiVolumeItem(context, page);
+  // The heading is found in the info panel, so is a proxy for whether it is hidden or not
+  const heading = page.getByRole('heading').filter({
+    hasText: 'Practica seu Lilium medicinae / [Bernard de Gordon].',
   });
+  if (!isMobile(page)) {
+    await expect(heading).toBeVisible();
+    await page.getByRole('button', { name: 'Hide info' }).click();
+    await expect(heading).toBeHidden();
+  }
+  // Info is hidden by default on mobile. It should cover the viewing
+  // area on mobile, so we also want to ensure things that control
+  // the viewing area are hidden when it is visible
+  if (isMobile(page)) {
+    await expect(heading).toBeHidden();
+    await expect(page.getByRole('button', { name: 'Page' })).toBeVisible();
+    await page.getByRole('button', { name: 'Show info' }).click();
+    await expect(heading).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Page' })).toBeHidden();
+  }
+});
 
-  multiVolumeTest(
-    'downloading an image of the current canvas',
-    async ({ page }) => {
-      const smallImageDownloadElement = await page.waitForSelector(
-        smallImageDownload
-      );
-      const imageDownloadUrl = await smallImageDownloadElement.getAttribute(
-        'href'
-      );
+multiVolumeDownloadTest(
+  '(3) | An image of the current canvas can be downloaded',
+  async ({ page }) => {
+    const smallImageLink = page
+      .getByRole('link')
+      .filter({ hasText: 'This image (760x960 pixels)' });
+    expect(await smallImageLink.getAttribute('href')).toEqual(
+      'https://iiif.wellcomecollection.org/image/b10326947_hin-wel-all-00012266_0001.jp2/full/760%2C/0/default.jpg'
+    );
+  }
+);
 
-      expect(imageDownloadUrl).toBe(smallImageDownloadUrl);
+multiVolumeDownloadTest(
+  '(4) | The entire item can be downloaded',
+  async ({ page }) => {
+    const smallImageLink = page
+      .getByRole('link')
+      .filter({ hasText: 'Whole item' });
+    expect(await smallImageLink.getAttribute('href')).toEqual(
+      'https://iiif.wellcomecollection.org/pdf/b10326947_0001'
+    );
+  }
+);
+
+test('(5) | The item has contributor information', async ({
+  page,
+  context,
+}) => {
+  await multiVolumeItem(context, page);
+  if (isMobile(page)) {
+    await page.getByRole('button', { name: 'Show info' }).click();
+  }
+  await expect(
+    page.getByText('Bernard, de Gordon, approximately 1260-approximately 1318.')
+  ).toBeVisible();
+});
+
+test('(6) | The item has date information', async ({ page, context }) => {
+  await multiVolumeItem(context, page);
+  if (isMobile(page)) {
+    await page.getByRole('button', { name: 'Show info' }).click();
+  }
+  await expect(page.getByText('Date:1496[7]')).toBeVisible();
+});
+
+test('(7) | The item has reference number information', async ({
+  page,
+  context,
+}) => {
+  await itemWithReferenceNumber(context, page);
+  if (isMobile(page)) {
+    await page.getByRole('button', { name: 'Show info' }).click();
+  }
+  await expect(page.getByText('Reference:WA/HMM/BU/1')).toBeVisible();
+});
+
+test('(8) | Licence information should be available', async ({
+  page,
+  context,
+}) => {
+  await itemWithSearchAndStructures(context, page);
+  if (isMobile(page)) {
+    await page.getByRole('button', { name: 'Show info' }).click();
+  }
+  await page.getByRole('button', { name: 'Licence and re-use' }).click();
+  await expect(page.getByText('Licence:')).toBeVisible();
+  await expect(page.getByText('Credit:')).toBeVisible();
+});
+
+test('(9) | The image should rotate', async ({ page, context }) => {
+  await itemWithSearchAndStructures(context, page);
+  await page.getByRole('button', { name: 'Rotate' }).click();
+  const currentIndex = await page.getByTestId('active-index').textContent();
+  const currentImageSrc = await page
+    .getByTestId(`image-${Number(currentIndex) - 1}`)
+    .getAttribute('src');
+  // If the image url contains /90/default.jpg then the image is rotated 90 degrees
+  expect(currentImageSrc).toContain('/90/default.jpg');
+});
+
+test('(10) | The volumes should be browsable', async ({ page, context }) => {
+  await multiVolumeItem(context, page);
+  if (isMobile(page)) {
+    await page.getByRole('button', { name: 'Show info' }).click();
+  }
+  await page.getByRole('button', { name: 'Volumes' }).click();
+  await expect(page.getByRole('link', { name: 'Copy 3' })).toBeVisible();
+});
+
+test('(11) | The multi-volume label should be appropriate', async ({
+  page,
+  context,
+}) => {
+  await multiVolumeItem(context, page);
+  if (isMobile(page)) {
+    await page.getByRole('button', { name: 'Show info' }).click();
+  }
+  expect(page.getByText('Copy 1'));
+  await page.getByRole('button', { name: 'Volumes' }).click();
+  await page.getByRole('link', { name: 'Copy 3' }).click();
+  expect(await page.getByText('Copy 3').count());
+});
+
+test('(12) | The structured parts should be browseable', async ({
+  page,
+  context,
+}) => {
+  await multiVolumeItem(context, page);
+  if (isMobile(page)) {
+    await page.getByRole('button', { name: 'Show info' }).click();
+  }
+  expect(await page.getByTestId('active-index').textContent()).toEqual('1');
+  await page.getByRole('button', { name: 'Contents' }).click();
+  await page.getByRole('link', { name: 'Title Page' }).click();
+  if (!isMobile(page)) {
+    // we don't display this info on mobile as there is not enough room
+    await expect(page.getByText('9/559')).toBeVisible();
+  }
+});
+
+test('(13) | The main viewer can be scrolled', async ({ page, context }) => {
+  await itemWithSearchAndStructures(context, page);
+  const mainScrollArea = page.getByTestId('main-viewer').locator('> div');
+  await expect(mainScrollArea).toBeVisible();
+  expect(
+    await mainScrollArea.evaluate((element: HTMLElement) => {
+      element.scrollTo(0, element.scrollHeight);
+    })
+  );
+  if (!isMobile(page)) {
+    // We don't display this info on mobile as there is not enough room
+    await slowExpect(page.getByText('68/68')).toBeVisible();
+  }
+});
+
+test('(14) | The item should be searchable', async ({ page, context }) => {
+  await itemWithSearchAndStructures(context, page);
+
+  if (isMobile(page)) {
+    await page.getByRole('button', { name: 'Show info' }).click();
+  }
+
+  await page.getByLabel('Search within this item').fill('darwin');
+  await page.getByRole('button', { name: 'search within' }).click();
+});
+
+test('(15) | The location of the search results should be displayed', async ({
+  page,
+  context,
+}) => {
+  await page.route(
+    'https://iiif.wellcomecollection.org/search/v1/b29338062?q=darwin',
+    async route => {
+      const json = apiResponse;
+      await route.fulfill({ json });
     }
   );
+  await itemWithSearchAndStructuresAndQuery(context, page);
 
-  multiVolumeTest('downloading the entire item', async ({ page }) => {
-    const fullItemDownloadElement = await page.waitForSelector(
-      fullItemDownload
-    );
-    const fullDownloadUrl = await fullItemDownloadElement.getAttribute('href');
+  if (isMobile(page)) {
+    await page.getByRole('button', { name: 'Show info' }).click();
+  }
 
-    expect(fullDownloadUrl).toBe(fullItemDownloadUrl);
-  });
+  await page
+    .getByRole('link')
+    .filter({ hasText: 'Found on image 5 / 68' })
+    .click();
+
+  if (!isMobile(page)) {
+    // we don't display this info on mobile as there is not enough room
+    await expect(page.getByText('5/68')).toBeVisible();
+  }
 });
 
-test.describe('Scenario 3: A user wants information about the item they are viewing', () => {
-  test('the item has a title', async ({ page, context }) => {
-    await multiVolumeItem(context, page);
-    const title = await page.textContent('h1');
-    expect(title).toBe('Practica seu Lilium medicinae / [Bernard de Gordon].');
-  });
-
-  test('the item has contributor information', async ({ page, context }) => {
-    await multiVolumeItem(context, page);
-    const contributors = await page.textContent(workContributors);
-    expect(contributors).toBe(
-      'Bernard, de Gordon, approximately 1260-approximately 1318.'
-    );
-  });
-
-  test('the item has date information', async ({ page, context }) => {
-    await multiVolumeItem(context, page);
-    const dates = await page.textContent(workDates);
-    // TODO: this text isn't very explanitory and should probably be updated in the DOM
-    expect(dates).toBe('Date:1496[7]');
-  });
-
-  test('the item has reference number information', async ({
-    page,
-    context,
-  }) => {
-    await itemWithReferenceNumber(context, page);
-    const dates = await page.textContent(referenceNumber);
-    expect(dates).toBe('Reference:WA/HMM/BU/1');
-  });
+test('(16) | Images should have unique alt text', async ({ page, context }) => {
+  await itemWithAltText({ canvasNumber: 2 }, context, page);
+  await expect(page.getByAltText('22102033982')).toBeVisible();
+  expect(await page.getByAltText('22102033982').count()).toEqual(1);
 });
 
-test.describe('Scenario 4: A user wants to know how they can make use of an item', () => {
-  test('licence information should be available', async ({ page, context }) => {
-    await itemWithSearchAndStructures(context, page);
-    if (isMobile(page)) {
-      await page.click('text="Show info"');
-    }
-    await page.getByTestId('licence-and-reuse').click();
-    await page.waitForSelector(`css=body >> text="Licence:"`);
-    await page.waitForSelector(`css=body >> text="Credit:"`);
-  });
+test('(17) | An item with only open access items will not display a modal', async ({
+  page,
+  context,
+}) => {
+  await itemWithOnlyOpenAccess(context, page);
+  await expect(page.getByText('Show the content')).toBeHidden();
 });
 
-test.describe('Scenario 5: A user wants to view an item in a different orientation', () => {
-  test('the image should rotate', async ({ page, context }) => {
-    await itemWithSearchAndStructures(context, page);
-    await page.waitForSelector(rotateButton);
-    await page.click(rotateButton);
-    if (!isMobile(page)) {
-      const currentIndex = await page.textContent(
-        '[data-test-id=active-index]'
-      );
-      const currentImageSrc = await page.getAttribute(
-        `[data-test-id=canvas-${Number(currentIndex) - 1}] img`,
-        'src'
-      );
-      expect(currentImageSrc).toContain('/90/default.jpg');
-    }
-  });
+test('(18) | An item with a mix of restricted and open access items will not display a modal', async ({
+  page,
+  context,
+}) => {
+  await itemWithRestrictedAndOpenAccess(context, page);
+  await expect(page.getByText('Show the content')).toBeHidden();
 });
 
-test.describe('Scenario 6: Item has multiple volumes', () => {
-  test('the volumes should be browsable', async ({ page, context }) => {
-    if (!isMobile(page)) {
-      await multiVolumeItem(context, page);
-      await safeWaitForNavigation(page);
-      await page.waitForSelector(`css=body >> text="Volumes"`);
-      await page.click('text="Volumes"');
-      const navigationSelector = `nav [aria-label="${volumesNavigationLabel}"]`;
-      await page.waitForSelector(navigationSelector);
-
-      const navigationVisible = await page.isVisible(navigationSelector);
-      expect(navigationVisible).toBeTruthy();
-
-      const currentManifestLinkLabel = await page.textContent(
-        `${navigationSelector} a[aria-current="page"]`
-      );
-
-      const currentManifestLabel = await page.textContent(
-        '[data-test-id=current-manifest]'
-      );
-
-      expect(currentManifestLinkLabel).toEqual(currentManifestLabel);
-
-      const nextManifestLinkSelector = `${navigationSelector} a:not([aria-current="page"])`;
-      const nextManifestLinkLabel = await page.textContent(
-        nextManifestLinkSelector
-      );
-
-      await page.click(nextManifestLinkSelector);
-
-      await page.waitForSelector(
-        `css=[data-test-id=current-manifest] >> text="${nextManifestLinkLabel}"`
-      );
-    }
-  });
-
-  test('the multi-volume label should be appropriate', async ({
-    page,
-    context,
-  }) => {
-    if (!isMobile(page)) {
-      await multiVolumeItem(context, page);
-      await page.waitForSelector(
-        `css=[data-test-id=current-manifest] >> text="Copy 1"`
-      );
-
-      await multiVolumeItem2(context, page);
-      await page.waitForSelector(
-        `css=[data-test-id=current-manifest] >> text="Volume 1"`
-      );
-    }
-  });
+test('(19) | An item with only restricted access items will display a modal with no option to view the content', async ({
+  page,
+  context,
+}) => {
+  await itemWithOnlyRestrictedAccess(context, page);
+  await expect(
+    page.getByRole('heading', { name: 'Restricted material' })
+  ).toBeVisible();
+  await expect(page.getByText('Show the content')).toBeHidden();
+  await expect(page.getByTestId('image-0')).toBeHidden();
 });
 
-test.describe('Scenario 7: A user wants to navigate an item by its parts', () => {
-  test('the structured parts should be browseable', async ({
-    page,
-    context,
-  }) => {
-    await itemWithSearchAndStructures(context, page);
-    await safeWaitForNavigation(page);
-    if (isMobile(page)) {
-      await page.click('text="Show info"');
-    }
-    await page.click('css=body >> text="Contents"');
-    await page.waitForSelector('css=body >> text="Title Page"');
-    await page.click('text="Title Page"');
-    if (!isMobile(page)) {
-      await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
-    }
-  });
+test('(20) | An item with a mix of restricted and non-restricted access items will display a modal', async ({
+  page,
+  context,
+}) => {
+  await itemWithRestrictedAndNonRestrictedAccess(context, page);
+  await expect(page.getByText('Show the content')).toBeVisible();
+  await expect(page.getByTestId('image-0')).toBeHidden();
 });
 
-const scrollToBottom = async (selector: string, page: Page) => {
-  await page.$eval(selector, (element: HTMLElement) => {
-    element.scrollTo(0, element.scrollHeight);
-  });
-};
-
-test.describe('Scenario 8: A user wants to be able to see all the images for an item', () => {
-  test('the main viewer can be scrolled', async ({ page, context }) => {
-    await itemWithSearchAndStructures(context, page);
-    await page.waitForSelector(mainViewer);
-    await scrollToBottom(mainViewer, page);
-
-    // In this test, we're loading an item with 68 pages, scrolling to the
-    // bottom, then looking for the "68/68" text on the page.
-    //
-    // This text is hidden whenever the window is being scrolled, zoomed,
-    // or resized, because that might affect what the "current" page is.
-    //
-    // We've had issues with this test being flaky, because we don't wait
-    // long enough after we finish scrolling to look for this "68/68" --
-    // tossing in this wait seems to fix that.
-    await safeWaitForNavigation(page);
-
-    await page.waitForSelector(
-      `css=[data-test-id=active-index] >> text="68"`,
-
-      // The "68/68" label isn't visible on small screens, but the element
-      // will still be on the page.
-      { state: isMobile(page) ? 'attached' : 'visible' }
-    );
-  });
-});
-
-test.describe("Scenario 9: A user wants to be able to search inside an item's text", () => {
-  test('the item should be searchable', async ({ page, context }) => {
-    await itemWithSearchAndStructures(context, page);
-    await safeWaitForNavigation(page);
-    if (isMobile(page)) {
-      await page.click('text="Show info"');
-    }
-    await searchWithin('darwin', page);
-    await page.waitForSelector(searchWithinResultsHeader);
-    await page.click(`${searchWithinResultsHeader} + ul li:first-of-type a`);
-    if (!isMobile(page)) {
-      await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
-    }
-  });
-});
-
-test.describe('Scenario 10: A user wants to be able to access alt text for the images', () => {
-  test('images should have alt text', async ({ page, context }) => {
-    await itemWithAltText({ canvasNumber: 2 }, context, page);
-    await page.waitForSelector(`img[alt='22102033982']`);
-  });
-
-  test('image alt text should be unique', async ({ page, context }) => {
-    await itemWithAltText({ canvasNumber: 2 }, context, page);
-    await page.waitForSelector(`img[alt='22102033982']`);
-    const imagesWithSameText = await page.$$(`img[alt='22102033982']`);
-    expect(imagesWithSameText.length).toBe(1);
-  });
-});
-
-test.describe('Scenario 11: A user wants to view an item with access restrictions', () => {
-  test('an item with only open access items will not display a modal', async ({
-    page,
-    context,
-  }) => {
-    await itemWithOnlyOpenAccess(context, page);
-    await page.waitForSelector(`css=[data-test-id="canvas-0"] img`);
-    expect(
-      await page.isVisible(`button:has-text('Show the content')`)
-    ).toBeFalsy();
-  });
-
-  test('an item with a mix of restricted and open access items will not display a modal', async ({
-    page,
-    context,
-  }) => {
-    await itemWithRestrictedAndOpenAccess(context, page);
-    await page.waitForSelector(`css=[data-test-id="canvas-0"] img`);
-    expect(
-      await page.isVisible(`button:has-text('Show the content')`)
-    ).toBeFalsy();
-  });
-
-  test('an item with only restricted access items will display a modal with no option to view the content', async ({
-    page,
-    context,
-  }) => {
-    await itemWithOnlyRestrictedAccess(context, page);
-    await page.waitForSelector(`h2:has-text('Restricted material')`);
-    expect(
-      await page.isVisible(`button:has-text('Show the content')`)
-    ).toBeFalsy();
-    expect(
-      await page.isVisible(`css=[data-test-id="canvas-0"] img`)
-    ).toBeFalsy();
-  });
-
-  test('an item with a mix of restricted and non-restricted access items will display a modal', async ({
-    page,
-    context,
-  }) => {
-    await itemWithRestrictedAndNonRestrictedAccess(context, page);
-    await page.waitForSelector(`button:has-text('Show the content')`);
-    expect(
-      await page.isVisible(`css=[data-test-id="canvas-0"] img`)
-    ).toBeFalsy();
-  });
-
-  test('an item with a mix of non-restricted and open access items will display a modal', async ({
-    page,
-    context,
-  }) => {
-    await itemWithNonRestrictedAndOpenAccess(context, page);
-    await page.waitForSelector(`button:has-text('Show the content')`);
-    expect(
-      await page.isVisible(`css=[data-test-id="canvas-0"] img`)
-    ).toBeFalsy();
-  });
+test('(21) | An item with a mix of non-restricted and open access items will display a modal', async ({
+  page,
+  context,
+}) => {
+  await itemWithNonRestrictedAndOpenAccess(context, page);
+  await expect(page.getByText('Show the content')).toBeVisible();
+  await expect(page.getByTestId('image-0')).toBeHidden();
 });
