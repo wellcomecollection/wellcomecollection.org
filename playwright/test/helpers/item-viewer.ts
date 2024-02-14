@@ -7,7 +7,7 @@ export const getShowContentBtnAndFirstImageStatus = async (
   {
     showContent,
     firstImage,
-  }: { showContent: 'hidden' | 'visible'; firstImage?: 'hidden' | 'visible' }
+  }: { showContent: 'hidden' | 'visible'; firstImage: 'hidden' | 'visible' }
 ): Promise<void> => {
   const showContentButton = page.getByRole('button', {
     name: 'Show the content',
@@ -20,7 +20,7 @@ export const getShowContentBtnAndFirstImageStatus = async (
     await expect(showContentButton).toBeVisible();
   }
 
-  if (firstImage && firstImage === 'hidden') {
+  if (firstImage === 'hidden') {
     await expect(firstImageLocator).toBeHidden();
   } else if (firstImage) {
     await expect(firstImageLocator).toBeVisible();
