@@ -84,7 +84,7 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
                       formId={SEARCH_PAGES_FORM_ID}
                       options={[
                         // Default value to be left empty as to not be reflected in URL query
-                        // is this the best text 'newest to oldest?'
+                        // TODO: 'oldest to newest' and 'newest to oldest' should be changed / option to sort should be better reflected here
                         {
                           value: '',
                           text: 'Relevance',
