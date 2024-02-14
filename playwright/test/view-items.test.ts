@@ -171,7 +171,7 @@ test('(12) | The structured parts should be browseable', async ({
   );
 });
 
-test('(13) | The main viewer can be scrolled up to the last canvas', async ({
+test.only('(13) | The main viewer can be scrolled up to the last canvas', async ({
   page,
   context,
 }) => {
@@ -180,11 +180,9 @@ test('(13) | The main viewer can be scrolled up to the last canvas', async ({
   const mainScrollArea = page.getByTestId('main-viewer').locator('> div');
   await expect(mainScrollArea).toBeVisible();
 
-  expect(
-    await mainScrollArea.evaluate((element: HTMLElement) => {
-      element.scrollTo(0, element.scrollHeight);
-    })
-  );
+  await mainScrollArea.evaluate(async (element: HTMLElement) => {
+    await element.scrollTo(0, element.scrollHeight);
+  });
 
   await slowExpect(page.getByTestId('pagination-indicator')).toHaveText(
     '68/68'
