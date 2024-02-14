@@ -77,49 +77,45 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
                 </span>
 
                 <SortPaginationWrapper>
-                  {/* TODO re-add when sorting works in Content API */}
-                  {/* https://github.com/wellcomecollection/wellcomecollection.org/issues/10554 */}
-                  {
-                    <Sort
-                      formId={SEARCH_PAGES_FORM_ID}
-                      options={[
-                        // Default value to be left empty as to not be reflected in URL query
-                        // TODO: 'oldest to newest' and 'newest to oldest' should be changed / option to sort should be better reflected here
+                  <Sort
+                    formId={SEARCH_PAGES_FORM_ID}
+                    options={[
+                      // Default value to be left empty as to not be reflected in URL query
+                      // TODO: 'oldest to newest' and 'newest to oldest' should be changed / option to sort should be better reflected
+                      {
+                        value: '',
+                        text: 'Relevance',
+                      },
+                      {
+                        value: 'times.startDateTime.asc',
+                        text: 'Oldest to newest',
+                      },
+                      {
+                        value: 'times.startDateTime.desc',
+                        text: 'Newest to oldest',
+                      },
+                    ]}
+                    jsLessOptions={{
+                      sort: [
                         {
                           value: '',
                           text: 'Relevance',
                         },
                         {
-                          value: 'times.startDateTime.asc',
-                          text: 'Oldest to newest',
+                          value: 'times.startDateTime',
+                          text: 'Event date',
                         },
-                        {
-                          value: 'times.startDateTime.desc',
-                          text: 'Newest to oldest',
-                        },
-                      ]}
-                      jsLessOptions={{
-                        sort: [
-                          {
-                            value: '',
-                            text: 'Relevance',
-                          },
-                          {
-                            value: 'times.startDateTime',
-                            text: 'Event date',
-                          },
-                        ],
-                        sortOrder: [
-                          { value: 'asc', text: 'Ascending' },
-                          { value: 'desc', text: 'Descending' },
-                        ],
-                      }}
-                      defaultValues={{
-                        sort: query.sort,
-                        sortOrder: query.sortOrder,
-                      }}
-                    />
-                  }
+                      ],
+                      sortOrder: [
+                        { value: 'asc', text: 'Ascending' },
+                        { value: 'desc', text: 'Descending' },
+                      ],
+                    }}
+                    defaultValues={{
+                      sort: query.sort,
+                      sortOrder: query.sortOrder,
+                    }}
+                  />
                   <Pagination
                     formId={SEARCH_PAGES_FORM_ID}
                     totalPages={eventResponseList.totalPages}
@@ -203,8 +199,8 @@ export const getServerSideProps: GetServerSideProps<
   const eventResponseList = await getEvents({
     params: {
       ...restOfQuery,
-      // sort: getQueryPropertyValue(query.sort),
-      // sortOrder: getQueryPropertyValue(query.sortOrder),
+      sort: getQueryPropertyValue(query.sort),
+      sortOrder: getQueryPropertyValue(query.sortOrder),
       ...(pageNumber && { page: Number(pageNumber) }),
     },
     pageSize: 24,
