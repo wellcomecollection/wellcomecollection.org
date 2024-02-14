@@ -291,7 +291,7 @@ test('(19) | An item with only restricted access items will display a modal with
   await expect(page.getByTestId('image-0')).toBeHidden();
 });
 
-test.only('(20) | An item with a mix of restricted and non-restricted access items will display a modal', async ({
+test('(20) | An item with a mix of restricted and non-restricted access items will display a modal', async ({
   page,
   context,
 }) => {
