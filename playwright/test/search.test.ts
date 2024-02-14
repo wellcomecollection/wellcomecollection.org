@@ -4,15 +4,12 @@ import {
   searchQuerySubmitAndWait,
   selectAndWaitForColourFilter,
   selectAndWaitForFilter,
-  slowExpect,
   testIfFilterIsApplied,
 } from './helpers/search';
+import { baseUrl } from './helpers/urls';
+import { slowExpect } from './helpers/utils';
 
 test.describe.configure({ mode: 'parallel' });
-
-const baseUrl = process.env.PLAYWRIGHT_BASE_URL
-  ? process.env.PLAYWRIGHT_BASE_URL
-  : 'http://localhost:3000';
 
 test('(1) | The users changes tabs; the query (but not the filters) should be maintained', async ({
   page,

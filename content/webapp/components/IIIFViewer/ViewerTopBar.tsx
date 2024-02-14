@@ -261,7 +261,6 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     <TopBar
       $isZooming={showZoomed}
       $isDesktopSidebarActive={isDesktopSidebarActive}
-      data-testid="viewer-topbar"
     >
       <Sidebar $isZooming={showZoomed}>
         {isEnhanced && !showZoomed && (
@@ -328,7 +327,10 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
               />
             )}
         </LeftZone>
-        <MiddleZone className="viewer-desktop">
+        <MiddleZone
+          className="viewer-desktop"
+          data-testid="pagination-indicator"
+        >
           {canvases && canvases.length > 1 && !showZoomed && !isResizing && (
             <>
               <span data-testid="active-index">{`${canvas || 0}`}</span>
