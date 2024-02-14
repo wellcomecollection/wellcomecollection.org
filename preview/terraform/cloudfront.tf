@@ -10,6 +10,13 @@ resource "aws_cloudfront_distribution" "preview" {
       https_port             = "443"
       origin_ssl_protocols   = ["TLSv1.2"]
     }
+
+    # We need to send the backend token to the load balancer so that it can
+    # authenticate requests to the backend.
+    custom_header {
+      name  = "x-weco-cloudfront-shared-secret"
+      value = local.current_shared_secret
+    }
   }
 
   enabled         = true

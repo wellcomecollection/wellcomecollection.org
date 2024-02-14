@@ -52,7 +52,7 @@ const ViewerBottomBar: FunctionComponent = () => {
   const { canvases } = { ...transformedManifest };
   return (
     <BottomBar>
-      <LeftZone data-test-id="page-grid-buttons">
+      <LeftZone>
         {!showZoomed &&
           canvases &&
           canvases.length > 1 &&
