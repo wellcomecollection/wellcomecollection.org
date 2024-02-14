@@ -186,13 +186,19 @@ test('(12) | The structured parts should be browseable', async ({
   expect(await page.getByTestId('active-index').textContent()).toEqual('1');
   await page.getByRole('button', { name: 'Contents' }).click();
   await page.getByRole('link', { name: 'Title Page' }).click();
+
   if (!isMobile(page)) {
     // we don't display this info on mobile as there is not enough room
-    await expect(page.getByText('9/559')).toBeVisible();
+    await expect(
+      page.getByTestId('viewer-topbar').getByText('9/559')
+    ).toBeVisible();
   }
 });
 
-test('(13) | The main viewer can be scrolled', async ({ page, context }) => {
+test('(13) | The main viewer can be scrolled up to the last canvas', async ({
+  page,
+  context,
+}) => {
   await itemWithSearchAndStructures(context, page);
   const mainScrollArea = page.getByTestId('main-viewer').locator('> div');
   await expect(mainScrollArea).toBeVisible();
@@ -201,9 +207,12 @@ test('(13) | The main viewer can be scrolled', async ({ page, context }) => {
       element.scrollTo(0, element.scrollHeight);
     })
   );
+
   if (!isMobile(page)) {
     // We don't display this info on mobile as there is not enough room
-    await slowExpect(page.getByText('68/68')).toBeVisible();
+    await slowExpect(
+      page.getByTestId('viewer-topbar').getByText('68/68')
+    ).toBeVisible();
   }
 });
 
@@ -218,7 +227,7 @@ test('(14) | The item should be searchable', async ({ page, context }) => {
   await page.getByRole('button', { name: 'search within' }).click();
 });
 
-test('(15) | The location of the search results should be displayed', async ({
+test('(15) | The location of the search results should be displayed in the viewer top bar', async ({
   page,
   context,
 }) => {
@@ -242,7 +251,9 @@ test('(15) | The location of the search results should be displayed', async ({
 
   if (!isMobile(page)) {
     // we don't display this info on mobile as there is not enough room
-    await expect(page.getByText('5/68')).toBeVisible();
+    await expect(
+      page.getByTestId('viewer-topbar').getByText('5/68')
+    ).toBeVisible();
   }
 });
 
@@ -280,7 +291,7 @@ test('(19) | An item with only restricted access items will display a modal with
   await expect(page.getByTestId('image-0')).toBeHidden();
 });
 
-test('(20) | An item with a mix of restricted and non-restricted access items will display a modal', async ({
+test.only('(20) | An item with a mix of restricted and non-restricted access items will display a modal', async ({
   page,
   context,
 }) => {

@@ -261,6 +261,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     <TopBar
       $isZooming={showZoomed}
       $isDesktopSidebarActive={isDesktopSidebarActive}
+      data-testid="viewer-topbar"
     >
       <Sidebar $isZooming={showZoomed}>
         {isEnhanced && !showZoomed && (
