@@ -171,7 +171,7 @@ test('(12) | The structured parts should be browseable', async ({
   );
 });
 
-test.only('(13) | The main viewer can be scrolled up to the last canvas', async ({
+test('(13) | The main viewer can be scrolled up to the last canvas', async ({
   page,
   context,
 }) => {
