@@ -243,7 +243,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
         )}
         {searchResults &&
           Boolean(searchResults?.within?.total && query.query) && (
-            <ResultsHeader data-test-id="results-header" aria-live="assertive">
+            <ResultsHeader data-testId="results-header" aria-live="assertive">
               {pluralize(searchResults.within.total ?? 0, 'result')}
             </ResultsHeader>
           )}

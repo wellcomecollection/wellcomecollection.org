@@ -136,14 +136,6 @@ const itemWithSearchAndStructures = async (
   await gotoWithoutCache(`${baseUrl}/works/re9cyhkt/items`, page);
 };
 
-const itemWithSearchAndStructuresAndQuery = async (
-  context: BrowserContext,
-  page: Page
-): Promise<void> => {
-  await context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/re9cyhkt/items?query=darwin`, page);
-};
-
 const itemWithReferenceNumber = async (
   context: BrowserContext,
   page: Page
@@ -248,7 +240,6 @@ export {
   itemWithAltText,
   newSearch,
   itemWithSearchAndStructures,
-  itemWithSearchAndStructuresAndQuery,
   itemWithReferenceNumber,
   workWithPhysicalLocationOnly,
   workWithDigitalLocationOnly,

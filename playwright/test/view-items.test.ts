@@ -2,7 +2,6 @@ import { test, expect } from '@playwright/test';
 import {
   multiVolumeItem,
   itemWithSearchAndStructures,
-  itemWithSearchAndStructuresAndQuery,
   itemWithReferenceNumber,
   itemWithAltText,
   itemWithOnlyOpenAccess,
@@ -12,7 +11,6 @@ import {
   itemWithNonRestrictedAndOpenAccess,
   isMobile,
 } from './helpers/contexts';
-import { apiResponse } from './mocks/search-within';
 import {
   accessSidebar,
   getShowContentBtnAndFirstImageStatus,
@@ -189,27 +187,17 @@ test('(13) | The main viewer can be scrolled up to the last canvas', async ({
   );
 });
 
-test('(14) | The item should be searchable', async ({ page, context }) => {
+test('(14) | The location of the search results should be displayed in the viewer top bar', async ({
+  page,
+  context,
+}) => {
   await itemWithSearchAndStructures(context, page);
   await accessSidebar(page);
 
   await page.getByLabel('Search within this item').fill('darwin');
   await page.getByRole('button', { name: 'search within' }).click();
-});
 
-test('(15) | The location of the search results should be displayed in the viewer top bar', async ({
-  page,
-  context,
-}) => {
-  await page.route(
-    'https://iiif.wellcomecollection.org/search/v1/b29338062?q=darwin',
-    async route => {
-      const json = apiResponse;
-      await route.fulfill({ json });
-    }
-  );
-  await itemWithSearchAndStructuresAndQuery(context, page);
-  await accessSidebar(page);
+  await expect(page.getByTestId('results-header')).toBeVisible();
 
   await page
     .getByRole('link')
@@ -219,13 +207,13 @@ test('(15) | The location of the search results should be displayed in the viewe
   await slowExpect(page.getByTestId('pagination-indicator')).toHaveText('5/68');
 });
 
-test('(16) | Images should have unique alt text', async ({ page, context }) => {
+test('(15) | Images should have unique alt text', async ({ page, context }) => {
   await itemWithAltText({ canvasNumber: 2 }, context, page);
   await expect(page.getByAltText('22102033982')).toBeVisible();
   expect(await page.getByAltText('22102033982').count()).toEqual(1);
 });
 
-test('(17) | An item with only open access items will not display a modal and display the content', async ({
+test('(16) | An item with only open access items will not display a modal and display the content', async ({
   page,
   context,
 }) => {
@@ -236,7 +224,7 @@ test('(17) | An item with only open access items will not display a modal and di
   });
 });
 
-test('(18) | An item with a mix of restricted and open access items will not display a modal and display the content', async ({
+test('(17) | An item with a mix of restricted and open access items will not display a modal and display the content', async ({
   page,
   context,
 }) => {
@@ -247,7 +235,7 @@ test('(18) | An item with a mix of restricted and open access items will not dis
   });
 });
 
-test('(19) | An item with only restricted access items will display a modal with no option to view the content', async ({
+test('(18) | An item with only restricted access items will display a modal with no option to view the content', async ({
   page,
   context,
 }) => {
@@ -262,7 +250,7 @@ test('(19) | An item with only restricted access items will display a modal with
   });
 });
 
-test('(20) | An item with a mix of restricted and non-restricted access items will display a modal that offers access to the content', async ({
+test('(19) | An item with a mix of restricted and non-restricted access items will display a modal that offers access to the content', async ({
   page,
   context,
 }) => {
@@ -277,7 +265,7 @@ test('(20) | An item with a mix of restricted and non-restricted access items wi
   });
 });
 
-test('(21) | An item with a mix of non-restricted and open access items will display a modal that offers access to the content', async ({
+test('(20) | An item with a mix of non-restricted and open access items will display a modal that offers access to the content', async ({
   page,
   context,
 }) => {
