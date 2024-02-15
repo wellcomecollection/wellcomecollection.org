@@ -197,7 +197,7 @@ test('(14) | The location of the search results should be displayed in the viewe
   await page.getByLabel('Search within this item').fill('darwin');
   await page.getByRole('button', { name: 'search within' }).click();
 
-  await expect(page.getByTestId('results-header')).toBeVisible();
+  await slowExpect(page.getByTestId('results-header')).toBeVisible();
 
   await page
     .getByRole('link')
