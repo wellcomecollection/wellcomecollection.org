@@ -1,9 +1,11 @@
 import { getCookie } from 'cookies-next';
-import cookies from '@weco/common/data/cookies';
 import Router from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import { v4 as uuidv4 } from 'uuid';
+import cookies from '@weco/common/data/cookies';
 import { PageviewName } from '@weco/common/data/segment-values';
+import { getConsentCookie } from '@weco/common/utils/cookie-consent';
+
 declare global {
   interface Window {
     // Segment.io requires `analytics: any;`
@@ -124,6 +126,9 @@ function trackSegmentEvent({
 }
 
 function track(conversion: Conversion) {
+  const hasAnalyticsConsent = getConsentCookie('analytics');
+  if (!hasAnalyticsConsent) return;
+
   const debug = Boolean(getCookie(cookies.analyticsDebug));
   // We make toggles available of the dataLayer for GTM, so can use them here too
   const togglesString = window?.dataLayer?.find(data => data.toggles)?.toggles;
