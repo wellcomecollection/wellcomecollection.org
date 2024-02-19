@@ -14,12 +14,9 @@ import { getDigitalLocationOfType } from '@weco/content/utils/works';
 import { removeIdiomaticTextTags } from '@weco/content/utils/string';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import IIIFViewer, {
   queryParamToArrayIndex,
 } from '@weco/content/components/IIIFViewer';
-import VideoPlayer from '@weco/content/components/VideoPlayer/VideoPlayer';
-import BetaMessage from '@weco/content/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import Modal from '@weco/common/views/components/Modal/Modal';
@@ -31,9 +28,7 @@ import { Pageview } from '@weco/common/services/conversion/track';
 import { fromQuery } from '@weco/content/components/ItemLink';
 import WorkLink from '@weco/content/components/WorkLink';
 import { getServerData } from '@weco/common/server-data';
-import AudioList from '@weco/content/components/AudioList/AudioList';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { unavailableContentMessage } from '@weco/common/data/microcopy';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
@@ -53,20 +48,15 @@ import {
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { fetchJson } from '@weco/content/utils/http';
 import { ParentManifest } from '@weco/content/components/ItemViewerContext/ItemViewerContext';
-import { getCollectionManifests } from '@weco/content/utils/iiif/v3';
+import {
+  getCollectionManifests,
+  hasItemType,
+} from '@weco/content/utils/iiif/v3';
+import IIIFItemList from '@weco/content/components/IIIFItemList/IIIFItemList';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
-`;
-
-const IframePdfViewer = styled(Space)`
-  width: 90vw;
-  height: 90vh;
-  display: block;
-  border: 0;
-  margin-top: 98px;
-  margin-left: auto;
-  margin-right: auto;
 `;
 
 const iframeId = 'authMessage';
@@ -125,16 +115,14 @@ const ItemPage: NextPage<Props> = ({
   const [showViewer, setShowViewer] = useState(true);
   const {
     title,
-    video,
     needsModal,
-    pdf,
     isAnyImageOpen,
-    audio,
     clickThroughService,
     tokenService,
     restrictedService,
     isTotallyRestricted,
     canvases,
+    placeholderId,
   } = { ...transformedManifest };
 
   const [searchResults, setSearchResults] = useState(serverSearchResults);
@@ -147,6 +135,8 @@ const ItemPage: NextPage<Props> = ({
   const mainImageService = imageServiceId && {
     '@id': imageServiceId,
   };
+
+  const hasImage = hasItemType(canvases, 'Image');
 
   // showViewer is true by default, so the noScriptViewer is available without javascript
   // if javascript is available we set it to false and then determine whether the clickthrough modal is required
@@ -206,63 +196,21 @@ const ItemPage: NextPage<Props> = ({
           src={`${tokenService['@id']}?messageId=1&origin=${origin}`}
         />
       )}
-
-      {isNotUndefined(audio) && audio?.sounds?.length > 0 && (
-        <Space $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-          <Layout gridSizes={gridSize12()}>
-            <AudioList
-              items={audio.sounds || []}
-              thumbnail={audio.thumbnail}
-              transcript={audio.transcript}
-              workTitle={work.title}
-            />
-          </Layout>
-        </Space>
-      )}
-      {video && (
+      {!hasImage && (
         <Layout gridSizes={gridSize12()}>
           <Space
-            $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
+            className="body-text"
+            $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
           >
-            <VideoPlayer
-              video={video}
-              // Note: because we can't prevent people from downloading videos if
-              // they're available online, any videos where we want to prevent
-              // download are restricted in Sierra.
-              //
-              // This means that any videos which can be viewed can also be downloaded.
-              //
-              // See discussion in https://wellcome.slack.com/archives/C8X9YKM5X/p1641833044030400
-              showDownloadOptions={true}
+            <IIIFItemList
+              canvases={canvases}
+              exclude={['Image']}
+              placeholderId={placeholderId}
             />
           </Space>
         </Layout>
       )}
 
-      {!(isNotUndefined(audio) && audio?.sounds.length > 0) &&
-        !video &&
-        !pdf &&
-        !mainImageService &&
-        !iiifImageLocation && (
-          <Layout gridSizes={gridSize12()}>
-            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-              <div style={{ marginTop: '98px' }}>
-                <BetaMessage message={unavailableContentMessage} />
-              </div>
-            </Space>
-          </Layout>
-        )}
-      {pdf && !mainImageService && (
-        <IframePdfViewer
-          $v={{
-            size: 'l',
-            properties: ['margin-bottom'],
-          }}
-          as="iframe"
-          title={`PDF: ${displayTitle}`}
-          src={pdf.id}
-        />
-      )}
       <Modal
         id="auth-modal"
         isActive={showModal}
@@ -308,6 +256,7 @@ const ItemPage: NextPage<Props> = ({
           </WorkLink>
         </div>
       </Modal>
+
       {showViewer &&
         ((mainImageService && currentCanvas) || iiifImageLocation) && (
           <IIIFViewer
