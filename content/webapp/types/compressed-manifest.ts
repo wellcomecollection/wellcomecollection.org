@@ -25,7 +25,9 @@ type CompressedTransformedCanvases = {
   textServiceId: CommonParts;
   thumbnailImageUrl: CommonParts;
   thumbnailImageWidth: (number | undefined)[];
-  downloadData: (CustomContentResource | ChoiceBody | ContentResource)[][];
+  painting: (ChoiceBody | ContentResource)[][];
+  original: CustomContentResource[][];
+  supplementing: (ChoiceBody | ContentResource)[][];
 };
 
 export type CompressedTransformedManifest = Omit<
@@ -56,7 +58,9 @@ export function toCompressedTransformedManifest(
         canvases.map(c => c.thumbnailImage?.url)
       ),
       thumbnailImageWidth: canvases.map(c => c.thumbnailImage?.width),
-      downloadData: canvases.map(c => c.downloadData),
+      painting: canvases.map(c => c.painting),
+      original: canvases.map(c => c.original),
+      supplementing: canvases.map(c => c.supplementing),
     },
     ...otherFields,
   };
@@ -81,7 +85,9 @@ export function fromCompressedManifest(
     height,
     restrictedImageIds,
     thumbnailImageWidth,
-    downloadData,
+    painting,
+    original,
+    supplementing,
   } = compressedCanvases;
 
   const uncompressedCanvases: TransformedCanvas[] = [];
@@ -105,7 +111,9 @@ export function fromCompressedManifest(
               /* eslint-enable @typescript-eslint/no-non-null-assertion */
             }
           : undefined,
-      downloadData: downloadData[index],
+      painting: painting[index],
+      original: original[index],
+      supplementing: supplementing[index],
     };
 
     uncompressedCanvases.push(canvas);
