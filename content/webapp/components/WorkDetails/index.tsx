@@ -33,6 +33,11 @@ import { formatDuration } from '@weco/common/utils/format-date';
 import { CopyUrl } from '@weco/content/components/CopyButtons';
 import WorkDetailsAvailableOnline from './WorkDetails.AvailableOnline';
 import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
+import {
+  hasItemType,
+  getDownloadOptionsFromManifestRendering,
+  getDownloadOptionsFromCanvasRenderingAndSupplementing,
+} from '@weco/content/utils/iiif/v3';
 
 type Props = {
   work: Work;
@@ -46,12 +51,9 @@ const WorkDetails: FunctionComponent<Props> = ({
   const isArchive = useContext(IsArchiveContext);
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
   const transformedIIIFManifest = useTransformedManifest(work);
-  const {
-    video,
-    downloadEnabled,
-    downloadOptions: manifestDownloadOptions,
-    audio,
-  } = { ...transformedIIIFManifest };
+  const { canvases, rendering } = {
+    ...transformedIIIFManifest,
+  };
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
@@ -74,6 +76,17 @@ const WorkDetails: FunctionComponent<Props> = ({
         height: transformedIIIFImage?.height,
       })
     : [];
+
+  const manifestDownloadOptions =
+    getDownloadOptionsFromManifestRendering(rendering);
+
+  // We need this for old style pdfs that appear on supplementing
+  const canvasDownloadOptions =
+    canvases
+      ?.map(canvas =>
+        getDownloadOptionsFromCanvasRenderingAndSupplementing(canvas)
+      )
+      .flat() || [];
 
   // Determine digital location. If the work has a iiif-presentation location and a iiif-image location
   // we use the former
@@ -134,19 +147,12 @@ const WorkDetails: FunctionComponent<Props> = ({
     return ![...orderedNotes, locationOfWork].some(n => n === note);
   });
 
-  function determineDownloadVisibility(downloadEnabled: boolean | undefined) {
-    if (digitalLocationInfo?.accessCondition === 'open-with-advisory') {
-      return false;
-    } else {
-      return downloadEnabled !== undefined ? downloadEnabled : true;
-    }
-  }
-
   const holdings = getHoldings(work);
+  const hasVideo = hasItemType(canvases, 'Video');
+  const hasSound = hasItemType(canvases, 'Sound');
 
   const showAvailableOnlineSection =
-    digitalLocation &&
-    (shouldShowItemLink || (audio?.sounds || []).length > 0 || video);
+    (digitalLocation && shouldShowItemLink) || hasVideo || hasSound;
 
   const renderContent = () => (
     <>
@@ -154,10 +160,10 @@ const WorkDetails: FunctionComponent<Props> = ({
         <WorkDetailsAvailableOnline
           work={work}
           downloadOptions={[
-            ...(manifestDownloadOptions || []),
+            ...manifestDownloadOptions,
             ...iiifImageDownloadOptions,
+            ...canvasDownloadOptions,
           ]}
-          showDownloadOptions={determineDownloadVisibility(downloadEnabled)}
           itemUrl={itemLink({ workId: work.id, source: 'work', props: {} })}
           shouldShowItemLink={shouldShowItemLink}
           digitalLocationInfo={digitalLocationInfo}
