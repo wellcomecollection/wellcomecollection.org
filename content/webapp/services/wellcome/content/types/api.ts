@@ -8,6 +8,10 @@ import { Image } from '@weco/content/services/prismic/types';
 export type ContentApiTimeField = {
   startDateTime?: Date;
   endDateTime?: Date;
+  isFullyBooked: {
+    inVenue: boolean;
+    online: boolean;
+  };
 };
 
 export type ContentApiProps = {

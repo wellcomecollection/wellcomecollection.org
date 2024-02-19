@@ -52,6 +52,8 @@ const beingHuman: Exhibition = {
       weight: 'default',
       value: {
         title: 'Exhibition highlights',
+        isStandalone: false,
+        isFrames: true,
         items: [
           {
             hasRoundedCorners: false,
@@ -1160,18 +1162,20 @@ const beingHuman: Exhibition = {
       },
     ],
   },
-  resources: [],
   relatedIds: ['XYt51BAAACIAYa4e', 'XYofFREAACQAp-Vl'],
+  accessResourcesPdfs: [],
   exhibits: [],
   seasons: [],
   contributors: [],
 };
 
-export const whatsOn: (hasExhibition: boolean) => WhatsOnProps = (
-  hasExhibition: boolean
-) => ({
+export const whatsOn: ({
+  hasExhibitions,
+}: {
+  hasExhibitions: boolean;
+}) => WhatsOnProps = ({ hasExhibitions }) => ({
   period: 'current-and-coming-up',
-  exhibitions: hasExhibition ? [beingHuman] : [],
+  exhibitions: hasExhibitions ? [beingHuman] : [],
   events: [],
   availableOnlineEvents: [],
   dateRange: { start: new Date(2020, 11, 5) },
