@@ -479,7 +479,7 @@ function convertAnnotationBodyToArray(
   }
 }
 
-function getDisplayData(
+export function getDisplayData(
   annotation: Annotation
 ): (ChoiceBody | ContentResource)[] {
   const annotationBodyArray = convertAnnotationBodyToArray(annotation?.body);
@@ -488,7 +488,7 @@ function getDisplayData(
       if (typeof body === 'object' && 'type' in body) {
         return body;
       } else {
-        return undefined; // Do we need to handle any of these cases? What sort of things are they?
+        return undefined;
       }
     })
     .filter(Boolean) as (ChoiceBody | ContentResource)[];
