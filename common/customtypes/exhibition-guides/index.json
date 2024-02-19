@@ -1,0 +1,142 @@
+{
+  "id": "exhibition-guides",
+  "label": "Exhibition guide",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Guide": {
+      "title": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Title",
+          "single": "heading1",
+          "useAsTitle": true
+        }
+      },
+      "related-exhibition": {
+        "type": "Link",
+        "config": {
+          "label": "Related Exhibition",
+          "select": "document",
+          "customtypes": ["exhibitions"]
+        }
+      },
+      "introText": {
+        "type": "StructuredText",
+        "config": {
+          "multi": "paragraph,hyperlink,strong,em",
+          "label": "Introductory text",
+          "placeholder": "This will fallback to the related exhibition's promo text if not filled in"
+        }
+      }
+    },
+    "Components": {
+      "components": {
+        "type": "Group",
+        "fieldset": "Guide Component",
+        "config": {
+          "fields": {
+            "standaloneTitle": {
+              "type": "StructuredText",
+              "config": {
+                "single": "paragraph,hyperlink,strong,em",
+                "label": "Standalone title",
+                "placeholder": "Provides a group heading for stops on captions and transcription pages"
+              }
+            },
+            "title": {
+              "type": "StructuredText",
+              "config": {
+                "label": "Title",
+                "single": "heading1",
+                "useAsTitle": true
+              }
+            },
+            "tombstone": {
+              "type": "StructuredText",
+              "config": {
+                "single": "paragraph,hyperlink,strong,em",
+                "label": "Tombstone"
+              }
+            },
+            "caption": {
+              "type": "StructuredText",
+              "config": {
+                "multi": "paragraph,hyperlink,strong,em",
+                "label": "Caption"
+              }
+            },
+            "image": {
+              "type": "Image",
+              "config": {
+                "label": "image",
+                "thumbnails": [
+                  {
+                    "name": "32:15",
+                    "width": 3200,
+                    "height": 1500
+                  },
+                  {
+                    "name": "16:9",
+                    "width": 3200,
+                    "height": 1800
+                  },
+                  {
+                    "name": "square",
+                    "width": 3200,
+                    "height": 3200
+                  }
+                ]
+              }
+            },
+            "number": {
+              "type": "Number",
+              "config": {
+                "label": "Stop number",
+                "placeholder": "Stop number for this content"
+              }
+            },
+            "context": {
+              "type": "StructuredText",
+              "config": {
+                "multi": "paragraph,hyperlink,strong,em",
+                "label": "Context",
+                "placeholder": "Optional context for a group of stops"
+              }
+            },
+            "audio-with-description": {
+              "type": "Link",
+              "config": {
+                "label": "Audio with description (.mp3 file)",
+                "select": "media",
+                "customtypes": []
+              }
+            },
+            "audio-without-description": {
+              "type": "Link",
+              "config": {
+                "label": "Audio without description (.mp3 file)",
+                "select": "media",
+                "customtypes": []
+              }
+            },
+            "bsl-video": {
+              "type": "Embed",
+              "config": {
+                "label": "Embed (Youtube)"
+              }
+            },
+            "transcript": {
+              "type": "StructuredText",
+              "config": {
+                "multi": "paragraph,hyperlink,strong,em",
+                "label": "Transcript"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "format": "custom"
+}

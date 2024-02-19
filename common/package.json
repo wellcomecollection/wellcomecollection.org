@@ -5,7 +5,8 @@
   "scripts": {
     "test": "jest",
     "test:watch": "yarn test -- --watchAll",
-    "test:updateSnapshots": "yarn test -- --updateSnapshot"
+    "test:updateSnapshots": "yarn test -- --updateSnapshot",
+    "slicemachine": "start-slicemachine"
   },
   "license": "MIT",
   "dependencies": {
@@ -17,8 +18,10 @@
     "@next/bundle-analyzer": "^13.2.3",
     "@popperjs/core": "^2.11.7",
     "@prismicio/client": "^7.3.1",
+    "@prismicio/next": "^1.5.0",
     "@prismicio/react": "^2.7.3",
     "@segment/snippet": "^4.10.0",
+    "@slicemachine/adapter-next": "^0.3.35",
     "@testing-library/dom": "^9.0.0",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.0.0",
@@ -47,6 +50,7 @@
     "react-dom": "^18.2.0",
     "react-popper": "^2.3.0",
     "react-transition-group": "^4.3.0",
+    "slice-machine-ui": "^1.24.0",
     "styled-components": "^6.1.0",
     "timezone-mock": "^1.3.6",
     "ts-jest": "29.1.0",
