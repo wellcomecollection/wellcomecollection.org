@@ -36,7 +36,8 @@ const toQuery: (props: ImageProps) => ParsedUrlQuery = props => {
 
 function toLink(
   partialProps: Partial<ImageProps>,
-  source: ImageLinkSource
+  source: ImageLinkSource,
+  sourcePath?: string
 ): LinkProps {
   const props: ImageProps = {
     ...emptyImageProps,
@@ -51,6 +52,7 @@ function toLink(
         workId: props.workId,
         ...query,
         source,
+        sourcePath,
       },
     },
     as: {
@@ -62,15 +64,19 @@ function toLink(
   };
 }
 
-type Props = LinkFrom<ImageProps> & { source: ImageLinkSource };
+type Props = LinkFrom<ImageProps> & {
+  source: ImageLinkSource;
+  sourcePath?: string;
+};
 
 const ImageLink: FunctionComponent<Props> = ({
   children,
   source,
+  sourcePath,
   ...props
 }: Props) => {
   return (
-    <NextLink {...toLink(props, source)} legacyBehavior>
+    <NextLink {...toLink(props, source, sourcePath)} legacyBehavior>
       {children}
     </NextLink>
   );
