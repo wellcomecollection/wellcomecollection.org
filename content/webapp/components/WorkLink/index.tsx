@@ -1,6 +1,7 @@
 import NextLink, { LinkProps } from 'next/link';
 import { FunctionComponent, PropsWithChildren } from 'react';
 import { WorkLinkSource } from '@weco/common/data/segment-values';
+import { usePathname } from 'next/navigation';
 
 // We remove `href` and `as` because we contruct those ourselves
 // in the component.
@@ -18,6 +19,7 @@ const WorkLink: FunctionComponent<Props> = ({
   children,
   ...linkProps
 }) => {
+  const pathname = usePathname();
   return (
     <NextLink
       href={{
@@ -25,6 +27,7 @@ const WorkLink: FunctionComponent<Props> = ({
         query: {
           workId: id,
           source,
+          sourcePath: pathname,
           resultPosition,
         },
       }}
