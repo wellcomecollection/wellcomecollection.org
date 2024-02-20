@@ -65,3 +65,7 @@ export const toggleCookieConsent = () => {
 // const removeAnalyticsCookies = () => {
 // deleteCookies([]);
 // };
+
+export const showPrivacySettings = () => {
+  window.CookieControl.open();
+};

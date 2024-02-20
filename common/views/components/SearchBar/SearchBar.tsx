@@ -1,4 +1,4 @@
-import {
+import React, {
   Dispatch,
   FunctionComponent,
   RefObject,
@@ -69,7 +69,6 @@ const SearchBar: FunctionComponent<Props> = ({
           hasClearButton
         />
       </SearchInputWrapper>
-      <button text="hi" onClick="() => CookieControl.open()" />
       <SearchButtonWrapper>
         <Button
           variant="ButtonSolid"

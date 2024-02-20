@@ -8,6 +8,7 @@ import Buttons from '../Buttons';
 import {
   getConsentCookie,
   toggleCookieConsent,
+  showPrivacySettings,
 } from '@weco/common/utils/cookie-consent';
 import { useToggles } from '@weco/common/server-data/Context';
 
@@ -131,6 +132,11 @@ const FooterNav = ({
               variant="ButtonSolid"
               text={`${consentCookieValue ? 'Disallow' : 'Allow'} tracking`}
               clickHandler={toggleCookieConsent}
+            />
+            <Buttons
+              variant="ButtonSolid"
+              text={`Show privacy settings`}
+              clickHandler={showPrivacySettings}
             />
           </li>
         )}

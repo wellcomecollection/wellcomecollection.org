@@ -14,6 +14,10 @@ declare global {
     analytics: any;
     // eslint-disable-next-line
     dataLayer: Record<string, any>[] | undefined;
+
+    CookieControl: {
+      open: () => void;
+    };
   }
 }
 
