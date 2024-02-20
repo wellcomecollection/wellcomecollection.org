@@ -59,10 +59,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
         });
 
       const initialProps = await Document.getInitialProps(ctx);
-      console.log({
-        getCookies: getCookies({ res: ctx.res, req: ctx.req }),
-        req: ctx.req,
-      });
+
       const hasAnalyticsConsent = getConsentCookieServerSide(
         getCookies({ res: ctx.res, req: ctx.req }),
         'analytics'
@@ -86,7 +83,6 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
   }
 
   render(): ReactElement<DocumentInitialProps> {
-    console.log({ hasAnalyticsConsent: this.props.hasAnalyticsConsent });
     return (
       <Html lang="en">
         <Head>
