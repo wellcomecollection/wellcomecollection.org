@@ -15,7 +15,7 @@ const currentCookieConsent =
 // defaulting to true for them
 export const getConsentCookie = (type: string): boolean => {
   const isCookiesWorkToggleOn = Boolean(getCookie('toggle_cookiesWork'));
-
+  console.log('client side', { isCookiesWorkToggleOn, currentCookieConsent });
   return isCookiesWorkToggleOn && currentCookieConsent
     ? currentCookieConsent[type]
     : true;
