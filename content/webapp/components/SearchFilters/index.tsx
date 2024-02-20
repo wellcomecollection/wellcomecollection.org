@@ -41,6 +41,8 @@ const SearchFilters: FunctionComponent<Props> = ({
   const activeFiltersCount = filters
     .map(f => {
       switch (f.type) {
+        case 'boolean':
+          return f.isSelected ? 1 : 0;
         case 'color':
           return f.color ? 1 : 0;
         case 'checkbox':
