@@ -1,70 +1,35 @@
-import { getCookie, setCookie } from 'cookies-next';
-import { TmpCookiesObj } from 'cookies-next/lib/types';
+import { getCookie } from 'cookies-next';
+import { DocumentContext } from 'next/document';
 
-// cookieConsent's value is a stringified object that looks like
-// {
-//   necessary: boolean,
-//   analytics: boolean
-// }
-const currentCookieConsent =
-  !!getCookie('CookieControl') &&
-  JSON.parse(getCookie('CookieControl') as string);
-
-// isCookiesWorkToggleOn makes sure the rendering for regular users
-// ignores all the checks and conditions, they should always be
-// defaulting to true for them
-export const getConsentCookie = (type: string): boolean => {
-  const isCookiesWorkToggleOn = Boolean(getCookie('toggle_cookiesWork'));
-
-  return isCookiesWorkToggleOn && currentCookieConsent
-    ? currentCookieConsent[type]
-    : true;
+type OptionalCookieState = 'accepted' | 'rejected';
+type CookieControlCookie = {
+  optionalCookies: {
+    analytics: OptionalCookieState;
+  };
 };
 
-// isCookiesWorkToggleOn makes sure the rendering for regular users
-// ignores all the checks and conditions, they should always be
-// defaulting to true for them
-export const getConsentCookieServerSide = (
-  cookies: TmpCookiesObj,
-  type: string
-): boolean => {
-  const isCookiesWorkToggleOn = cookies.toggle_cookiesWork;
-
-  const parsedCookie =
-    isCookiesWorkToggleOn && cookies.cookieConsent !== undefined
-      ? JSON.parse(cookies.cookieConsent)
-      : { necessary: true, analytics: true };
-
-  return !!parsedCookie[type];
+type ConsentState = {
+  analytics: boolean;
 };
 
-export const toggleCookieConsent = () => {
-  // Consent is CURRENTLY true by default,
-  // So the first click on the mock-consent button should set preference to false
-  const isPreferenceSet = currentCookieConsent?.analytics !== undefined;
-  const newValue = isPreferenceSet ? !currentCookieConsent?.analytics : false;
+export const getConsentState = (
+  ctx: DocumentContext | undefined = undefined
+) => {
+  const cookieControlCookie = getCookie('CookieControl', ctx);
 
-  setCookie(
-    'cookieConsent',
-    JSON.stringify({
-      necessary: true,
-      analytics: newValue,
-    }),
-    {
-      path: '/',
-    }
-  );
+  console.log(cookieControlCookie);
 
-  // if (newValue === false) {
-  //   removeAnalyticsCookies();
-  // }
+  const controlCookie =
+    cookieControlCookie !== undefined
+      ? (JSON.parse(cookieControlCookie) as CookieControlCookie)
+      : undefined;
 
-  window.location.reload();
+  const consentState: ConsentState = {
+    analytics: controlCookie?.optionalCookies.analytics === 'accepted',
+  };
+
+  return consentState;
 };
-
-// const removeAnalyticsCookies = () => {
-// deleteCookies([]);
-// };
 
 export const showPrivacySettings = () => {
   window.CookieControl.open();

@@ -6,7 +6,7 @@ import { JsonLdObj } from '../JsonLd/JsonLd';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import Header, { NavLink } from '../Header/Header';
 import { InfoBanner, WebsiteIssuesBanner } from '../InfoBanners';
-import CookieNotice from '../CookieNotice/CookieNotice';
+// import CookieNotice from '../CookieNotice/CookieNotice';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer';
 import PopupDialog from '../PopupDialog/PopupDialog';
@@ -265,6 +265,12 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
       */}
 
       <Script
+        src={`https://cdn.polyfill.io/v3/polyfill.js?version=${polyfillVersion}&features=${polyfillFeatures.join(
+          ','
+        )}`}
+      />
+
+      <Script
         src="https://i.wellcomecollection.org/assets/libs/picturefill.min.js"
         async
       />
@@ -292,6 +298,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         {apiToolbar && (
           <ApiToolbar links={apiToolbarLinks.filter(isNotUndefined)} />
         )}
+        {/* TODO: Temporarily removed the old cookie banner */}
         {/* <CookieNotice source={url.pathname || ''} /> */}
         {skipToContentLinks.map(({ anchorId, label }) => (
           <a
