@@ -10,6 +10,7 @@ import { filter } from '@weco/common/icons';
 import CheckboxFilter from './SearchFilters.Desktop.CheckboxFilter';
 import DesktopDateRangeFilter from './SearchFilters.Desktop.DateRangeFilter';
 import DesktopColorFilter from './SearchFilters.Desktop.ColorFilter';
+// import { BooleanFilter } from './SearchFilters.Desktop.BooleanFilter';
 
 const DynamicFilterArray = ({
   showMoreFiltersModal,
@@ -68,6 +69,15 @@ const DynamicFilterArray = ({
             hasNoOptions={hasNoResults && !f.color}
           />
         )}
+
+        {/* {f.type === 'boolean' && (
+          <BooleanFilter
+            {...(!showMoreFiltersModal && { form: searchFormId })}
+            f={f}
+            changeHandler={changeHandler}
+            hasNoOptions={hasNoResults && !f.isSelected}
+          />
+        )} */}
       </div>
     ) : (
       // TODO remove index from key once we resolve the doubled IDs issue
@@ -104,6 +114,15 @@ const DynamicFilterArray = ({
             hasNoOptions={hasNoResults && !f.color}
           />
         )}
+
+        {/* {f.type === 'boolean' && (
+          <BooleanFilter
+            {...(!showMoreFiltersModal && { form: searchFormId })}
+            f={f}
+            changeHandler={changeHandler}
+            hasNoOptions={(hasNoResults && !f.isSelected) || f.count === 0} // TODO confirm condition
+          />
+        )} */}
       </Space>
     );
   };

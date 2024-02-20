@@ -157,6 +157,21 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                 return renderCheckboxLink(f);
               case 'dateRange':
                 return renderDateRangeLinks(f);
+              // case 'boolean':
+              //   return f.isSelected ? (
+              //     <NextLink
+              //       key={f.id}
+              //       passHref
+              //       {...linkResolver({
+              //         ...router.query,
+              //         page: '1',
+              //         [f.id]: undefined,
+              //         source: `cancel_filter/${f.id}`,
+              //       })}
+              //     >
+              //       <CancelFilter text={f.label} />
+              //     </NextLink>
+              //   ) : null;
               case 'color':
                 return renderColorLink(f);
               default:

@@ -11,6 +11,8 @@ import { WorksProps } from '@weco/content/components/SearchPagesLink/Works';
 import { StoriesProps } from '@weco/content/components/SearchPagesLink/Stories';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import { formatNumber } from '@weco/common/utils/grammar';
+import { EventsProps } from '@weco/content/components/SearchPagesLink/Events';
+import { EventAggregations } from '../content/types';
 
 export type DateRangeFilter<Ids extends string = string> = {
   type: 'dateRange';
@@ -39,6 +41,18 @@ export type CheckboxFilter<Id extends string = string> = {
   excludeFromMoreFilters?: boolean;
 };
 
+export type BooleanFilter<Id extends string = string> = {
+  type: 'boolean';
+  id: Id;
+  label: string;
+  isSelected: boolean;
+  count?: number;
+  // Most filters are to be included in the More Filters Modal,
+  // so this only needs to be set to true in the rare case we
+  // wish to exclude it.
+  excludeFromMoreFilters?: boolean;
+};
+
 export type ColorFilter = {
   type: 'color';
   id: keyof ImagesProps;
@@ -50,6 +64,7 @@ export type ColorFilter = {
 export type Filter<Id extends string = string> =
   | CheckboxFilter<Id>
   | DateRangeFilter<Id>
+  | BooleanFilter
   | ColorFilter;
 
 type FilterOption = {
@@ -195,6 +210,11 @@ type ImagesFilterProps = {
 type StoriesFilterProps = {
   stories: { aggregations?: ArticleAggregations };
   props: StoriesProps;
+};
+
+type EventsFilterProps = {
+  events: { aggregations?: EventAggregations };
+  props: EventsProps;
 };
 
 const productionDatesFilter = ({
@@ -572,6 +592,82 @@ const storiesContributorFilter = ({
   }),
 });
 
+// TODO move content filters out of catalogue?
+const eventsFormatFilter = ({
+  events,
+  props,
+}: EventsFilterProps): CheckboxFilter<keyof EventsProps> => ({
+  type: 'checkbox',
+  id: 'format',
+  label: 'Formats',
+  options: filterOptionsWithNonAggregates({
+    options: events?.aggregations?.format?.buckets.map(bucket => ({
+      id: bucket.data.id,
+      value: bucket.data.id,
+      count: bucket.count,
+      label: bucket.data.label,
+      selected: props.format.includes(bucket.data.id),
+    })),
+    selectedValues: props.format,
+  }),
+});
+
+const eventsAudienceFilter = ({
+  events,
+  props,
+}: EventsFilterProps): CheckboxFilter<keyof EventsProps> => ({
+  type: 'checkbox',
+  id: 'audience',
+  label: 'Audiences',
+  options: filterOptionsWithNonAggregates({
+    options: events?.aggregations?.audience?.buckets.map(bucket => ({
+      id: bucket.data.id,
+      value: bucket.data.id,
+      count: bucket.count,
+      label: bucket.data.label,
+      selected: props.audience.includes(bucket.data.id),
+    })),
+    selectedValues: props.audience,
+  }),
+});
+
+const eventsInterpretationFilter = ({
+  events,
+  props,
+}: EventsFilterProps): CheckboxFilter<keyof EventsProps> => {
+  return {
+    type: 'checkbox',
+    id: 'interpretation',
+    label: 'Interpretations', // TODO different name for users?
+    options: filterOptionsWithNonAggregates({
+      options: events?.aggregations?.interpretation?.buckets.map(bucket => {
+        return {
+          id: bucket.data.id,
+          value: bucket.data.id,
+          count: bucket.count,
+          label: bucket.data.label,
+          selected: props.interpretation.includes(bucket.data.id),
+        };
+      }),
+      selectedValues: props.interpretation,
+    }),
+  };
+};
+
+// const eventsIsOnlineFilter = ({
+//   events,
+//   props,
+// }: EventsFilterProps): BooleanFilter<keyof EventsProps> => {
+//   console.log({ a: events?.aggregations?.isOnline });
+//   return {
+//     type: 'boolean',
+//     id: 'isOnline',
+//     label: 'Online only',
+//     count: events?.aggregations?.isOnline?.buckets?.[1]?.count || 0,
+//     isSelected: !!props.isOnline,
+//   };
+// };
+
 const imagesFilters: (props: ImagesFilterProps) => Filter[] = props =>
   [
     colorFilter,
@@ -601,4 +697,14 @@ const storiesFilters: (
 ) => Filter<keyof StoriesProps>[] = props =>
   [storiesFormatFilter, storiesContributorFilter].map(f => f(props));
 
-export { worksFilters, imagesFilters, storiesFilters };
+const eventsFilters: (
+  props: EventsFilterProps
+) => Filter<keyof EventsProps>[] = props =>
+  [
+    eventsFormatFilter,
+    eventsAudienceFilter,
+    eventsInterpretationFilter,
+    // eventsIsOnlineFilter,
+  ].map(f => f(props));
+
+export { worksFilters, imagesFilters, storiesFilters, eventsFilters };

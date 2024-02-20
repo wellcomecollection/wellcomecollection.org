@@ -10,6 +10,7 @@ import {
   FromCodecMap,
   encodeQuery,
   decodeQuery,
+  // booleanCodec,
 } from '@weco/common/utils/routes';
 import { EventsLinkSource } from '@weco/common/data/segment-values';
 export type EventsProps = FromCodecMap<typeof codecMap>;
@@ -17,13 +18,17 @@ const emptyEventsProps: EventsProps = {
   query: '',
   page: 1,
   format: [],
-  'contributors.contributor': [],
+  audience: [],
+  interpretation: [],
+  // isOnline: false,
 };
 const codecMap = {
   query: stringCodec,
   page: numberCodec,
   format: csvCodec,
-  'contributors.contributor': csvCodec,
+  audience: csvCodec,
+  interpretation: csvCodec,
+  // isOnline: booleanCodec,
 };
 const fromQuery: (params: ParsedUrlQuery) => EventsProps = params => {
   return decodeQuery<EventsProps>(params, codecMap);
