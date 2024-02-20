@@ -416,6 +416,7 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
     painting,
     original,
     supplementing,
+    metadata: canvas.metadata || [],
   };
 }
 
