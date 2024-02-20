@@ -82,6 +82,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
   }
 
   render(): ReactElement<DocumentInitialProps> {
+    console.log({ hasAnalyticsConsent: this.props.hasAnalyticsConsent });
     return (
       <Html lang="en">
         <Head>

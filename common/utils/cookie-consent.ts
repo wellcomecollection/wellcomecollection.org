@@ -14,7 +14,7 @@ const currentCookieConsent =
 // ignores all the checks and conditions, they should always be
 // defaulting to true for them
 export const getConsentCookie = (type: string): boolean => {
-  const isCookiesWorkToggleOn = getCookie('toggle_cookiesWork');
+  const isCookiesWorkToggleOn = Boolean(getCookie('toggle_cookiesWork'));
 
   return isCookiesWorkToggleOn && currentCookieConsent
     ? currentCookieConsent[type]
@@ -29,12 +29,13 @@ export const getConsentCookieServerSide = (
   type: string
 ): boolean => {
   const isCookiesWorkToggleOn = cookies.toggle_cookiesWork;
+  console.log({ isCookiesWorkToggleOn });
 
   const parsedCookie =
     isCookiesWorkToggleOn && cookies.cookieConsent !== undefined
       ? JSON.parse(cookies.cookieConsent)
       : { necessary: true, analytics: true };
-
+  console.log({ parsedCookie });
   return !!parsedCookie[type];
 };
 
@@ -49,7 +50,10 @@ export const toggleCookieConsent = () => {
     JSON.stringify({
       necessary: true,
       analytics: newValue,
-    })
+    }),
+    {
+      path: '/',
+    }
   );
 
   // if (newValue === false) {
