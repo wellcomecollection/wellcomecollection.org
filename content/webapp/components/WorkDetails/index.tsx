@@ -33,6 +33,7 @@ import { formatDuration } from '@weco/common/utils/format-date';
 import { CopyUrl } from '@weco/content/components/CopyButtons';
 import WorkDetailsAvailableOnline from './WorkDetails.AvailableOnline';
 import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
+import { usePathname } from 'next/navigation';
 
 type Props = {
   work: Work;
@@ -52,7 +53,7 @@ const WorkDetails: FunctionComponent<Props> = ({
     downloadOptions: manifestDownloadOptions,
     audio,
   } = { ...transformedIIIFManifest };
-
+  const pathname = usePathname();
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
@@ -280,7 +281,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                     textParts,
                     linkAttributes: conceptLink(
                       { conceptId: contributor.agent.id },
-                      'work_details/contributors'
+                      'work_details/contributors',
+                      pathname
                     ),
                   }
                 : {
@@ -289,7 +291,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                       {
                         'contributors.agent.label': [contributor.agent.label],
                       },
-                      'work_details/contributors'
+                      'work_details/contributors',
+                      pathname
                     ),
                   };
             })}
