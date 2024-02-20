@@ -86,6 +86,33 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
     return (
       <Html lang="en">
         <Head>
+          <script
+            src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js"
+            type="text/javascript"
+          ></script>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `CookieControl.load({
+                product: 'COMMUNITY',
+                apiKey: '73fee8f69cf633d66fae404ddd69d2559af7f887',
+                necessaryCookies: ['toggle_*'],
+                optionalCookies: [
+                  {
+                      name: 'analytics',
+                      label: 'Google Analytics',
+                      description: 'Analytical cookies help us to improve our website by collecting and reporting information on its usage.',
+                      cookies: ['_ga', '_ga*', '_gid', '_gat', '__utma', '__utmt', '__utmb', '__utmc', '__utmz', '__utmv'],
+                      onAccept: function(){
+                          console.log('analytics accepted');
+                      },
+                      onRevoke: function(){
+                          console.log('analytics rejected');
+                      }
+                  }
+                ]
+              });`,
+            }}
+          />
           {this.props.hasAnalyticsConsent && (
             <>
               {/* Adding toggles etc. to the datalayer so they are available to events in Google Tag Manager */}

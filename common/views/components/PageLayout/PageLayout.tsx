@@ -265,12 +265,6 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
       */}
 
       <Script
-        src={`https://cdn.polyfill.io/v3/polyfill.js?version=${polyfillVersion}&features=${polyfillFeatures.join(
-          ','
-        )}`}
-      />
-
-      <Script
         src="https://i.wellcomecollection.org/assets/libs/picturefill.min.js"
         async
       />
@@ -298,7 +292,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         {apiToolbar && (
           <ApiToolbar links={apiToolbarLinks.filter(isNotUndefined)} />
         )}
-        <CookieNotice source={url.pathname || ''} />
+        {/* <CookieNotice source={url.pathname || ''} /> */}
         {skipToContentLinks.map(({ anchorId, label }) => (
           <a
             className="visually-hidden visually-hidden-focusable"

@@ -69,6 +69,7 @@ const SearchBar: FunctionComponent<Props> = ({
           hasClearButton
         />
       </SearchInputWrapper>
+      <button text="hi" onClick="() => CookieControl.open()" />
       <SearchButtonWrapper>
         <Button
           variant="ButtonSolid"

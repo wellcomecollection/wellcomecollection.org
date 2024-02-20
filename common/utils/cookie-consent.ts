@@ -7,8 +7,8 @@ import { TmpCookiesObj } from 'cookies-next/lib/types';
 //   analytics: boolean
 // }
 const currentCookieConsent =
-  !!getCookie('cookieConsent') &&
-  JSON.parse(getCookie('cookieConsent') as string);
+  !!getCookie('CookieControl') &&
+  JSON.parse(getCookie('CookieControl') as string);
 
 // isCookiesWorkToggleOn makes sure the rendering for regular users
 // ignores all the checks and conditions, they should always be
