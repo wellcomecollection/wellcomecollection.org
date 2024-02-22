@@ -599,7 +599,7 @@ const eventsFormatFilter = ({
 }: EventsFilterProps): CheckboxFilter<keyof EventsProps> => ({
   type: 'checkbox',
   id: 'format',
-  label: 'Formats',
+  label: 'Event types',
   options: filterOptionsWithNonAggregates({
     options: events?.aggregations?.format?.buckets.map(bucket => ({
       id: bucket.data.id,
@@ -638,7 +638,7 @@ const eventsInterpretationFilter = ({
   return {
     type: 'checkbox',
     id: 'interpretation',
-    label: 'Interpretations', // TODO different name for users?
+    label: 'Accessibility',
     options: filterOptionsWithNonAggregates({
       options: events?.aggregations?.interpretation?.buckets.map(bucket => {
         return {
