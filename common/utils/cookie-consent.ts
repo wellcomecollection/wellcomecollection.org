@@ -1,14 +1,14 @@
 import { getCookie, setCookie } from 'cookies-next';
 import { TmpCookiesObj } from 'cookies-next/lib/types';
 
-// cookieConsent's value is a stringified object that looks like
+// WC_cookieConsent's value is a stringified object that looks like
 // {
 //   necessary: boolean,
 //   analytics: boolean
 // }
 const currentCookieConsent =
-  !!getCookie('cookieConsent') &&
-  JSON.parse(getCookie('cookieConsent') as string);
+  !!getCookie('WC_cookieConsent') &&
+  JSON.parse(getCookie('WC_cookieConsent') as string);
 
 // isCookiesWorkToggleOn makes sure the rendering for regular users
 // ignores all the checks and conditions, they should always be
@@ -31,8 +31,8 @@ export const getConsentCookieServerSide = (
   const isCookiesWorkToggleOn = cookies.toggle_cookiesWork;
 
   const parsedCookie =
-    isCookiesWorkToggleOn && cookies.cookieConsent !== undefined
-      ? JSON.parse(cookies.cookieConsent)
+    isCookiesWorkToggleOn && cookies.WC_cookieConsent !== undefined
+      ? JSON.parse(cookies.WC_cookieConsent)
       : { necessary: true, analytics: true };
 
   return !!parsedCookie[type];
@@ -45,7 +45,7 @@ export const toggleCookieConsent = () => {
   const newValue = isPreferenceSet ? !currentCookieConsent?.analytics : false;
 
   setCookie(
-    'cookieConsent',
+    'WC_cookieConsent',
     JSON.stringify({
       necessary: true,
       analytics: newValue,
