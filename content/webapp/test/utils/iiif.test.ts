@@ -158,7 +158,7 @@ const correctResult = [
 ];
 
 describe('Group repetitive iiif ranges', () => {
-  it.only('groups iiif ranges with consecutive canvases and the same label', () => {
+  it('groups iiif ranges with consecutive canvases and the same label', () => {
     const groupedStructures = groupRanges(
       canvases,
       structures as unknown as Range[]
