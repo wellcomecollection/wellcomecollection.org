@@ -6,7 +6,7 @@ import Document, {
   NextScript,
   Html,
 } from 'next/document';
-import { ReactElement, FunctionComponent } from 'react';
+import { useEffect, ReactElement, FunctionComponent } from 'react';
 import { ServerStyleSheet } from 'styled-components';
 import * as snippet from '@segment/snippet';
 import { Toggles } from '@weco/toggles';
@@ -24,6 +24,19 @@ const {
 } = process.env;
 
 const CookieControl: FunctionComponent = () => {
+  // TODO: I'd expect this to shout when the event is fired, but it doesn't :\
+  useEffect(() => {
+    const sayHello = () => {
+      console.log('HEELLO');
+    };
+
+    window.addEventListener('analyticsConsentWithdrawn', sayHello);
+
+    return () => {
+      window.removeEventListener('analyticsConsentWithdrawn', sayHello);
+    };
+  });
+
   return (
     <>
       <script
