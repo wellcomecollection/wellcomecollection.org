@@ -16,10 +16,12 @@
 import path from 'path';
 import { promises as fs } from 'fs';
 import { GetServerSidePropsContext } from 'next';
+import { getCookies } from 'cookies-next';
 import togglesHandler, { getTogglesFromContext } from './toggles';
 import prismicHandler from './prismic';
 import { simplifyServerData } from '../services/prismic/transformers/server-data';
 import { SimplifiedServerData } from './types';
+import { getConsentCookieServerSide } from '@weco/common/utils/cookie-consent';
 
 export type Handler<DefaultData, FetchedData> = {
   defaultValue: DefaultData;
@@ -132,7 +134,14 @@ export const getServerData = async (
     toggles[enableToggle].value = true;
   }
 
-  const serverData = { toggles, prismic };
+  const hasAnalyticsConsent = getConsentCookieServerSide(
+    getCookies({ res: context.res, req: context.req }),
+    'analytics'
+  );
+
+  console.log('getCookies', getCookies({ res: context.res, req: context.req }));
+
+  const serverData = { toggles, prismic, hasAnalyticsConsent };
 
   return simplifyServerData(serverData);
 };
