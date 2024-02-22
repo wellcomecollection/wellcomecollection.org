@@ -259,7 +259,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                 {
                   'partOf.title': partOf.title,
                 },
-                'work_details/partOf'
+                'work_details/partOf',
+                pathname
               ),
             }))}
           />
@@ -356,7 +357,8 @@ const WorkDetails: FunctionComponent<Props> = ({
 
                 linkAttributes: conceptLink(
                   { conceptId: genre.concepts[0].id as string },
-                  'work_details/genres'
+                  'work_details/genres',
+                  pathname
                 ),
               };
             })}
@@ -373,7 +375,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                   {
                     languages: [lang.id],
                   },
-                  'work_details/languages'
+                  'work_details/languages',
+                  pathname
                 ),
               };
             })}
@@ -395,7 +398,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                     ),
                     linkAttributes: conceptLink(
                       { conceptId: s.id },
-                      'work_details/subjects'
+                      'work_details/subjects',
+                      pathname
                     ),
                   }
                 : {
@@ -404,7 +408,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                       {
                         'subjects.label': [s.label],
                       },
-                      'work_details/subjects'
+                      'work_details/subjects',
+                      pathname
                     ),
                   };
             })}
