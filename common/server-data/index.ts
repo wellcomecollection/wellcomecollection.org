@@ -139,8 +139,6 @@ export const getServerData = async (
     'analytics'
   );
 
-  console.log('getCookies', getCookies({ res: context.res, req: context.req }));
-
   const serverData = { toggles, prismic, hasAnalyticsConsent };
 
   return simplifyServerData(serverData);
