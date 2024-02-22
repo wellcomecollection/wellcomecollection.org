@@ -31,8 +31,8 @@ export const getConsentCookieServerSide = (
   const isCookiesWorkToggleOn = cookies.toggle_cookiesWork;
 
   const parsedCookie =
-    isCookiesWorkToggleOn && cookies.cookieConsent !== undefined
-      ? JSON.parse(cookies.cookieConsent)
+    isCookiesWorkToggleOn && cookies.WC_cookieConsent !== undefined
+      ? JSON.parse(cookies.WC_cookieConsent)
       : { necessary: true, analytics: true };
 
   return !!parsedCookie[type];
