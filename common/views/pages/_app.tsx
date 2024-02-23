@@ -83,9 +83,22 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   const serverData = isServerDataSet ? pageProps.serverData : defaultServerData;
 
+  const reloadConsentStatus = () => {
+    window.location.reload();
+    window.CookieControl.open();
+  };
+
   useMaintainPageHeight();
   useEffect(() => {
     document.documentElement.classList.add('enhanced');
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('analyticsConsentChange', reloadConsentStatus);
+    return () => {
+      window.removeEventListener('analyticsConsentChange', reloadConsentStatus);
+      window.CookieControl.open();
+    };
   }, []);
 
   useEffect(() => {

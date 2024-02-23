@@ -15,7 +15,8 @@ import {
   GoogleTagManager,
   GoogleTagManagerNoScript,
   GaDimensions,
-} from '../../services/app/google-analytics';
+} from '@weco/common/services/app/google-analytics';
+import CivicUK from '@weco/common/services/app/civic-uk';
 
 const {
   ANALYTICS_WRITE_KEY = '78Czn5jNSaMSVrBq2J9K4yJjWxh6fyRI',
@@ -79,6 +80,8 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
     return (
       <Html lang="en">
         <Head>
+          <CivicUK />
+
           {this.props.hasAnalyticsConsent && (
             <>
               {/* Adding toggles etc. to the datalayer so they are available to events in Google Tag Manager */}

@@ -6,7 +6,7 @@ import { JsonLdObj } from '../JsonLd/JsonLd';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import Header, { NavLink } from '../Header/Header';
 import { InfoBanner, WebsiteIssuesBanner } from '../InfoBanners';
-import CookieNotice from '../CookieNotice/CookieNotice';
+// import CookieNotice from '../CookieNotice/CookieNotice';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer';
 import PopupDialog from '../PopupDialog/PopupDialog';
@@ -298,7 +298,8 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         {apiToolbar && (
           <ApiToolbar links={apiToolbarLinks.filter(isNotUndefined)} />
         )}
-        <CookieNotice source={url.pathname || ''} />
+        {/* Delete component when we go ahead with a better cookie solution */}
+        {/* <CookieNotice source={url.pathname || ''} /> */}
         {skipToContentLinks.map(({ anchorId, label }) => (
           <a
             className="visually-hidden visually-hidden-focusable"
