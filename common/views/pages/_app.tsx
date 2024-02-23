@@ -83,10 +83,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   const serverData = isServerDataSet ? pageProps.serverData : defaultServerData;
 
-  const reloadConsentStatus = () => {
-    window.location.reload();
-    window.CookieControl.open();
-  };
+  const reloadConsentStatus = () => window.location.reload();
 
   useMaintainPageHeight();
   useEffect(() => {
