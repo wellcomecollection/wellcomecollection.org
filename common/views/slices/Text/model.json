@@ -1,8 +1,8 @@
 {
-  "id": "test_slice",
+  "id": "text",
   "type": "SharedSlice",
-  "name": "TestSlice",
-  "description": "TestSlice",
+  "name": "Text",
+  "description": "Text",
   "variations": [
     {
       "id": "default",

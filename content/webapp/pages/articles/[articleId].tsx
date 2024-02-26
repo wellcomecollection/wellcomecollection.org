@@ -73,6 +73,8 @@ export const getServerSideProps: GetServerSideProps<
   const client = createClient(context);
   const articleDocument = await fetchArticle(client, articleId);
 
+  console.log(articleDocument.data.body[0]);
+
   if (isNotUndefined(articleDocument)) {
     const serverData = await getServerData(context);
     const article = transformArticle(articleDocument);

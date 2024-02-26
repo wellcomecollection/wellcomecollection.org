@@ -3,5 +3,6 @@
 import dynamic from 'next/dynamic';
 
 export const components = {
-  test_slice: dynamic(() => import('./TestSlice')),
+  audio_player: dynamic(() => import('./AudioPlayer')),
+  text: dynamic(() => import('./Text')),
 };

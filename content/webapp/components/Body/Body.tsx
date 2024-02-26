@@ -54,6 +54,8 @@ import * as prismic from '@prismicio/client';
 import { Props as ComicPreviousNextProps } from '../ComicPreviousNext/ComicPreviousNext';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import TextAndImageOrIcons from '../TextAndImageOrIcons';
+import { SliceZone } from '@prismicio/react';
+import { components } from '@weco/common/views/slices';
 
 const BodyWrapper = styled.div<{ $splitBackground: boolean }>`
   ${props =>
@@ -75,7 +77,7 @@ type LayoutWidthProps = PropsWithChildren<{
   width: 8 | 10 | 12;
 }>;
 
-const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
+export const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
   width,
   children,
 }): ReactElement | null => {
@@ -315,6 +317,12 @@ const Body: FunctionComponent<Props> = ({
           staticContent={staticContent}
         />
       )}
+
+      <SliceZone
+        slices={filteredBody}
+        components={components}
+        context={{ minWidth, firstTextSliceIndex }}
+      />
 
       {filteredBody.map((slice, i) => (
         <Fragment key={i}>

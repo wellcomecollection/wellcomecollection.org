@@ -48,11 +48,11 @@ export type ArticleFormatsDocument<Lang extends string = string> =
   >;
 
 /**
- * Primary content in *Story → Body content → Text → Primary*
+ * Primary content in *Story → Slice Zone → Text → Primary*
  */
 export interface ArticlesDocumentDataBodyTextSlicePrimary {
   /**
-   * Text field in *Story → Body content → Text → Primary*
+   * Text field in *Story → Slice Zone → Text → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -63,7 +63,7 @@ export interface ArticlesDocumentDataBodyTextSlicePrimary {
 }
 
 /**
- * Slice for *Story → Body content*
+ * Slice for *Story → Slice Zone*
  */
 export type ArticlesDocumentDataBodyTextSlice = prismic.Slice<
   'text',
@@ -72,11 +72,11 @@ export type ArticlesDocumentDataBodyTextSlice = prismic.Slice<
 >;
 
 /**
- * Primary content in *Story → Body content → Captioned image → Primary*
+ * Primary content in *Story → Slice Zone → Captioned image → Primary*
  */
 export interface ArticlesDocumentDataBodyEditorialImageSlicePrimary {
   /**
-   * Image field in *Story → Body content → Captioned image → Primary*
+   * Image field in *Story → Slice Zone → Captioned image → Primary*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -86,7 +86,7 @@ export interface ArticlesDocumentDataBodyEditorialImageSlicePrimary {
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
   /**
-   * Caption field in *Story → Body content → Captioned image → Primary*
+   * Caption field in *Story → Slice Zone → Captioned image → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -96,7 +96,7 @@ export interface ArticlesDocumentDataBodyEditorialImageSlicePrimary {
   caption: prismic.RichTextField;
 
   /**
-   * round image corners field in *Story → Body content → Captioned image → Primary*
+   * round image corners field in *Story → Slice Zone → Captioned image → Primary*
    *
    * - **Field Type**: Boolean
    * - **Placeholder**: *None*
@@ -108,7 +108,7 @@ export interface ArticlesDocumentDataBodyEditorialImageSlicePrimary {
 }
 
 /**
- * Slice for *Story → Body content*
+ * Slice for *Story → Slice Zone*
  */
 export type ArticlesDocumentDataBodyEditorialImageSlice = prismic.Slice<
   'editorialImage',
@@ -117,11 +117,11 @@ export type ArticlesDocumentDataBodyEditorialImageSlice = prismic.Slice<
 >;
 
 /**
- * Primary content in *Story → Body content → Image gallery → Primary*
+ * Primary content in *Story → Slice Zone → Image gallery → Primary*
  */
 export interface ArticlesDocumentDataBodyEditorialImageGallerySlicePrimary {
   /**
-   * Title field in *Story → Body content → Image gallery → Primary*
+   * Title field in *Story → Slice Zone → Image gallery → Primary*
    *
    * - **Field Type**: Title
    * - **Placeholder**: *None*
@@ -132,11 +132,11 @@ export interface ArticlesDocumentDataBodyEditorialImageGallerySlicePrimary {
 }
 
 /**
- * Item content in *Story → Body content → Image gallery → Items*
+ * Item content in *Story → Slice Zone → Image gallery → Items*
  */
 export interface ArticlesDocumentDataBodyEditorialImageGallerySliceItem {
   /**
-   * Image field in *Story → Body content → Image gallery → Items*
+   * Image field in *Story → Slice Zone → Image gallery → Items*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -146,7 +146,7 @@ export interface ArticlesDocumentDataBodyEditorialImageGallerySliceItem {
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
   /**
-   * Caption field in *Story → Body content → Image gallery → Items*
+   * Caption field in *Story → Slice Zone → Image gallery → Items*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -156,7 +156,7 @@ export interface ArticlesDocumentDataBodyEditorialImageGallerySliceItem {
   caption: prismic.RichTextField;
 
   /**
-   * round image corners field in *Story → Body content → Image gallery → Items*
+   * round image corners field in *Story → Slice Zone → Image gallery → Items*
    *
    * - **Field Type**: Boolean
    * - **Placeholder**: *None*
@@ -168,7 +168,7 @@ export interface ArticlesDocumentDataBodyEditorialImageGallerySliceItem {
 }
 
 /**
- * Slice for *Story → Body content*
+ * Slice for *Story → Slice Zone*
  */
 export type ArticlesDocumentDataBodyEditorialImageGallerySlice = prismic.Slice<
   'editorialImageGallery',
@@ -177,11 +177,11 @@ export type ArticlesDocumentDataBodyEditorialImageGallerySlice = prismic.Slice<
 >;
 
 /**
- * Primary content in *Story → Body content → Gif video → Primary*
+ * Primary content in *Story → Slice Zone → Gif video → Primary*
  */
 export interface ArticlesDocumentDataBodyGifVideoSlicePrimary {
   /**
-   * Caption field in *Story → Body content → Gif video → Primary*
+   * Caption field in *Story → Slice Zone → Gif video → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -191,7 +191,7 @@ export interface ArticlesDocumentDataBodyGifVideoSlicePrimary {
   caption: prismic.RichTextField;
 
   /**
-   * TASL field in *Story → Body content → Gif video → Primary*
+   * TASL field in *Story → Slice Zone → Gif video → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
@@ -201,7 +201,7 @@ export interface ArticlesDocumentDataBodyGifVideoSlicePrimary {
   tasl: prismic.KeyTextField;
 
   /**
-   * Video field in *Story → Body content → Gif video → Primary*
+   * Video field in *Story → Slice Zone → Gif video → Primary*
    *
    * - **Field Type**: Link to Media
    * - **Placeholder**: Video
@@ -211,7 +211,7 @@ export interface ArticlesDocumentDataBodyGifVideoSlicePrimary {
   video: prismic.LinkToMediaField;
 
   /**
-   * Playback rate field in *Story → Body content → Gif video → Primary*
+   * Playback rate field in *Story → Slice Zone → Gif video → Primary*
    *
    * - **Field Type**: Select
    * - **Placeholder**: *None*
@@ -223,7 +223,7 @@ export interface ArticlesDocumentDataBodyGifVideoSlicePrimary {
   >;
 
   /**
-   * Auto play field in *Story → Body content → Gif video → Primary*
+   * Auto play field in *Story → Slice Zone → Gif video → Primary*
    *
    * - **Field Type**: Boolean
    * - **Placeholder**: *None*
@@ -234,7 +234,7 @@ export interface ArticlesDocumentDataBodyGifVideoSlicePrimary {
   autoPlay: prismic.BooleanField;
 
   /**
-   * Loop video field in *Story → Body content → Gif video → Primary*
+   * Loop video field in *Story → Slice Zone → Gif video → Primary*
    *
    * - **Field Type**: Boolean
    * - **Placeholder**: *None*
@@ -245,7 +245,7 @@ export interface ArticlesDocumentDataBodyGifVideoSlicePrimary {
   loop: prismic.BooleanField;
 
   /**
-   * Mute video field in *Story → Body content → Gif video → Primary*
+   * Mute video field in *Story → Slice Zone → Gif video → Primary*
    *
    * - **Field Type**: Boolean
    * - **Placeholder**: *None*
@@ -256,7 +256,7 @@ export interface ArticlesDocumentDataBodyGifVideoSlicePrimary {
   mute: prismic.BooleanField;
 
   /**
-   * Show controls field in *Story → Body content → Gif video → Primary*
+   * Show controls field in *Story → Slice Zone → Gif video → Primary*
    *
    * - **Field Type**: Boolean
    * - **Placeholder**: *None*
@@ -268,7 +268,7 @@ export interface ArticlesDocumentDataBodyGifVideoSlicePrimary {
 }
 
 /**
- * Slice for *Story → Body content*
+ * Slice for *Story → Slice Zone*
  */
 export type ArticlesDocumentDataBodyGifVideoSlice = prismic.Slice<
   'gifVideo',
@@ -277,11 +277,11 @@ export type ArticlesDocumentDataBodyGifVideoSlice = prismic.Slice<
 >;
 
 /**
- * Primary content in *Story → Body content → Iframe → Primary*
+ * Primary content in *Story → Slice Zone → Iframe → Primary*
  */
 export interface ArticlesDocumentDataBodyIframeSlicePrimary {
   /**
-   * iframe src field in *Story → Body content → Iframe → Primary*
+   * iframe src field in *Story → Slice Zone → Iframe → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: iframe src
@@ -291,7 +291,7 @@ export interface ArticlesDocumentDataBodyIframeSlicePrimary {
   iframeSrc: prismic.KeyTextField;
 
   /**
-   * Preview image field in *Story → Body content → Iframe → Primary*
+   * Preview image field in *Story → Slice Zone → Iframe → Primary*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -302,7 +302,7 @@ export interface ArticlesDocumentDataBodyIframeSlicePrimary {
 }
 
 /**
- * Slice for *Story → Body content*
+ * Slice for *Story → Slice Zone*
  */
 export type ArticlesDocumentDataBodyIframeSlice = prismic.Slice<
   'iframe',
@@ -311,11 +311,11 @@ export type ArticlesDocumentDataBodyIframeSlice = prismic.Slice<
 >;
 
 /**
- * Primary content in *Story → Body content → Info block → Primary*
+ * Primary content in *Story → Slice Zone → Info block → Primary*
  */
 export interface ArticlesDocumentDataBodyInfoBlockSlicePrimary {
   /**
-   * Title field in *Story → Body content → Info block → Primary*
+   * Title field in *Story → Slice Zone → Info block → Primary*
    *
    * - **Field Type**: Title
    * - **Placeholder**: *None*
@@ -325,7 +325,7 @@ export interface ArticlesDocumentDataBodyInfoBlockSlicePrimary {
   title: prismic.TitleField;
 
   /**
-   * Text field in *Story → Body content → Info block → Primary*
+   * Text field in *Story → Slice Zone → Info block → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -335,7 +335,7 @@ export interface ArticlesDocumentDataBodyInfoBlockSlicePrimary {
   text: prismic.RichTextField;
 
   /**
-   * Button link field in *Story → Body content → Info block → Primary*
+   * Button link field in *Story → Slice Zone → Info block → Primary*
    *
    * - **Field Type**: Link
    * - **Placeholder**: *None*
@@ -345,7 +345,7 @@ export interface ArticlesDocumentDataBodyInfoBlockSlicePrimary {
   link: prismic.LinkField;
 
   /**
-   * Button text field in *Story → Body content → Info block → Primary*
+   * Button text field in *Story → Slice Zone → Info block → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
@@ -356,7 +356,7 @@ export interface ArticlesDocumentDataBodyInfoBlockSlicePrimary {
 }
 
 /**
- * Slice for *Story → Body content*
+ * Slice for *Story → Slice Zone*
  */
 export type ArticlesDocumentDataBodyInfoBlockSlice = prismic.Slice<
   'infoBlock',
@@ -365,11 +365,11 @@ export type ArticlesDocumentDataBodyInfoBlockSlice = prismic.Slice<
 >;
 
 /**
- * Primary content in *Story → Body content → Standfirst → Primary*
+ * Primary content in *Story → Slice Zone → Standfirst → Primary*
  */
 export interface ArticlesDocumentDataBodyStandfirstSlicePrimary {
   /**
-   * Standfirst field in *Story → Body content → Standfirst → Primary*
+   * Standfirst field in *Story → Slice Zone → Standfirst → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -380,7 +380,7 @@ export interface ArticlesDocumentDataBodyStandfirstSlicePrimary {
 }
 
 /**
- * Slice for *Story → Body content*
+ * Slice for *Story → Slice Zone*
  */
 export type ArticlesDocumentDataBodyStandfirstSlice = prismic.Slice<
   'standfirst',
@@ -389,11 +389,11 @@ export type ArticlesDocumentDataBodyStandfirstSlice = prismic.Slice<
 >;
 
 /**
- * Primary content in *Story → Body content → Quote → Primary*
+ * Primary content in *Story → Slice Zone → Quote → Primary*
  */
 export interface ArticlesDocumentDataBodyQuoteV2SlicePrimary {
   /**
-   * Quote field in *Story → Body content → Quote → Primary*
+   * Quote field in *Story → Slice Zone → Quote → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -403,7 +403,7 @@ export interface ArticlesDocumentDataBodyQuoteV2SlicePrimary {
   text: prismic.RichTextField;
 
   /**
-   * Citation field in *Story → Body content → Quote → Primary*
+   * Citation field in *Story → Slice Zone → Quote → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -414,7 +414,7 @@ export interface ArticlesDocumentDataBodyQuoteV2SlicePrimary {
 }
 
 /**
- * Slice for *Story → Body content*
+ * Slice for *Story → Slice Zone*
  */
 export type ArticlesDocumentDataBodyQuoteV2Slice = prismic.Slice<
   'quoteV2',
@@ -423,55 +423,11 @@ export type ArticlesDocumentDataBodyQuoteV2Slice = prismic.Slice<
 >;
 
 /**
- * Primary content in *Story → Body content → Audio Player → Primary*
- */
-export interface ArticlesDocumentDataBodyAudioPlayerSlicePrimary {
-  /**
-   * Title field in *Story → Body content → Audio Player → Primary*
-   *
-   * - **Field Type**: Title
-   * - **Placeholder**: *None*
-   * - **API ID Path**: articles.body[].audioPlayer.primary.title
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  title: prismic.TitleField;
-
-  /**
-   * Audio field in *Story → Body content → Audio Player → Primary*
-   *
-   * - **Field Type**: Link to Media
-   * - **Placeholder**: *None*
-   * - **API ID Path**: articles.body[].audioPlayer.primary.audio
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-   */
-  audio: prismic.LinkToMediaField;
-
-  /**
-   * Transcript (Collapsible content) field in *Story → Body content → Audio Player → Primary*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: articles.body[].audioPlayer.primary.transcript
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  transcript: prismic.RichTextField;
-}
-
-/**
- * Slice for *Story → Body content*
- */
-export type ArticlesDocumentDataBodyAudioPlayerSlice = prismic.Slice<
-  'audioPlayer',
-  Simplify<ArticlesDocumentDataBodyAudioPlayerSlicePrimary>,
-  never
->;
-
-/**
- * Primary content in *Story → Body content → Embed → Primary*
+ * Primary content in *Story → Slice Zone → Embed → Primary*
  */
 export interface ArticlesDocumentDataBodyEmbedSlicePrimary {
   /**
-   * `embed` field in *Story → Body content → Embed → Primary*
+   * `embed` field in *Story → Slice Zone → Embed → Primary*
    *
    * - **Field Type**: Embed
    * - **Placeholder**: *None*
@@ -481,7 +437,7 @@ export interface ArticlesDocumentDataBodyEmbedSlicePrimary {
   embed: prismic.EmbedField;
 
   /**
-   * Caption field in *Story → Body content → Embed → Primary*
+   * Caption field in *Story → Slice Zone → Embed → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -491,7 +447,7 @@ export interface ArticlesDocumentDataBodyEmbedSlicePrimary {
   caption: prismic.RichTextField;
 
   /**
-   * Transcript (Collapsible content) field in *Story → Body content → Embed → Primary*
+   * Transcript (Collapsible content) field in *Story → Slice Zone → Embed → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -502,7 +458,7 @@ export interface ArticlesDocumentDataBodyEmbedSlicePrimary {
 }
 
 /**
- * Slice for *Story → Body content*
+ * Slice for *Story → Slice Zone*
  */
 export type ArticlesDocumentDataBodyEmbedSlice = prismic.Slice<
   'embed',
@@ -511,11 +467,11 @@ export type ArticlesDocumentDataBodyEmbedSlice = prismic.Slice<
 >;
 
 /**
- * Primary content in *Story → Body content → Tag List → Primary*
+ * Primary content in *Story → Slice Zone → Tag List → Primary*
  */
 export interface ArticlesDocumentDataBodyTagListSlicePrimary {
   /**
-   * Title field in *Story → Body content → Tag List → Primary*
+   * Title field in *Story → Slice Zone → Tag List → Primary*
    *
    * - **Field Type**: Title
    * - **Placeholder**: *None*
@@ -526,11 +482,11 @@ export interface ArticlesDocumentDataBodyTagListSlicePrimary {
 }
 
 /**
- * Item content in *Story → Body content → Tag List → Items*
+ * Item content in *Story → Slice Zone → Tag List → Items*
  */
 export interface ArticlesDocumentDataBodyTagListSliceItem {
   /**
-   * Link field in *Story → Body content → Tag List → Items*
+   * Link field in *Story → Slice Zone → Tag List → Items*
    *
    * - **Field Type**: Link
    * - **Placeholder**: *None*
@@ -540,7 +496,7 @@ export interface ArticlesDocumentDataBodyTagListSliceItem {
   link: prismic.LinkField;
 
   /**
-   * Link text field in *Story → Body content → Tag List → Items*
+   * Link text field in *Story → Slice Zone → Tag List → Items*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
@@ -551,7 +507,7 @@ export interface ArticlesDocumentDataBodyTagListSliceItem {
 }
 
 /**
- * Slice for *Story → Body content*
+ * Slice for *Story → Slice Zone*
  */
 export type ArticlesDocumentDataBodyTagListSlice = prismic.Slice<
   'tagList',
@@ -560,6 +516,7 @@ export type ArticlesDocumentDataBodyTagListSlice = prismic.Slice<
 >;
 
 type ArticlesDocumentDataBodySlice =
+  | AudioPlayerSlice
   | ArticlesDocumentDataBodyTextSlice
   | ArticlesDocumentDataBodyEditorialImageSlice
   | ArticlesDocumentDataBodyEditorialImageGallerySlice
@@ -568,7 +525,6 @@ type ArticlesDocumentDataBodySlice =
   | ArticlesDocumentDataBodyInfoBlockSlice
   | ArticlesDocumentDataBodyStandfirstSlice
   | ArticlesDocumentDataBodyQuoteV2Slice
-  | ArticlesDocumentDataBodyAudioPlayerSlice
   | ArticlesDocumentDataBodyEmbedSlice
   | ArticlesDocumentDataBodyTagListSlice;
 
@@ -608,11 +564,11 @@ export interface ArticlesDocumentDataContributorsItem {
 }
 
 /**
- * Primary content in *Story → Promo → Editorial image → Primary*
+ * Primary content in *Story → Slice Zone → Editorial image → Primary*
  */
 export interface ArticlesDocumentDataPromoEditorialImageSlicePrimary {
   /**
-   * Promo text field in *Story → Promo → Editorial image → Primary*
+   * Promo text field in *Story → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -622,7 +578,7 @@ export interface ArticlesDocumentDataPromoEditorialImageSlicePrimary {
   caption: prismic.RichTextField;
 
   /**
-   * Promo image field in *Story → Promo → Editorial image → Primary*
+   * Promo image field in *Story → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -632,7 +588,7 @@ export interface ArticlesDocumentDataPromoEditorialImageSlicePrimary {
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
   /**
-   * Link override field in *Story → Promo → Editorial image → Primary*
+   * Link override field in *Story → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
@@ -643,7 +599,7 @@ export interface ArticlesDocumentDataPromoEditorialImageSlicePrimary {
 }
 
 /**
- * Slice for *Story → Promo*
+ * Slice for *Story → Slice Zone*
  */
 export type ArticlesDocumentDataPromoEditorialImageSlice = prismic.Slice<
   'editorialImage',
@@ -746,7 +702,7 @@ interface ArticlesDocumentData {
   format: prismic.ContentRelationshipField<'article-formats'>;
 
   /**
-   * Body content field in *Story*
+   * Slice Zone field in *Story*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
@@ -777,7 +733,7 @@ interface ArticlesDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   contributorsTitle: prismic.TitleField /**
-   * Promo field in *Story*
+   * Slice Zone field in *Story*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
@@ -14543,48 +14499,155 @@ export type AllDocumentTypes =
   | WebcomicsDocument;
 
 /**
- * Primary content in *TestSlice → Primary*
+ * Primary content in *AudioPlayer → Primary*
  */
-export interface TestSliceSliceDefaultPrimary {
+export interface AudioPlayerSliceDefaultPrimary {
   /**
-   * text field in *TestSlice → Primary*
+   * Title field in *AudioPlayer → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: audio_player.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Audio field in *AudioPlayer → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: audio_player.primary.audio
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  audio: prismic.LinkToMediaField;
+
+  /**
+   * Transcript (Collapsible content) field in *AudioPlayer → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: test_slice.primary.text
+   * - **API ID Path**: audio_player.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Default variation for AudioPlayer Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type AudioPlayerSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<AudioPlayerSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *AudioPlayer*
+ */
+type AudioPlayerSliceVariation = AudioPlayerSliceDefault;
+
+/**
+ * AudioPlayer Shared Slice
+ *
+ * - **API ID**: `audio_player`
+ * - **Description**: AudioPlayer
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type AudioPlayerSlice = prismic.SharedSlice<
+  'audio_player',
+  AudioPlayerSliceVariation
+>;
+
+/**
+ * Primary content in *Text → Primary*
+ */
+export interface TextSliceDefaultPrimary {
+  /**
+   * text field in *Text → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: text.primary.text
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   text: prismic.RichTextField;
 }
 
 /**
- * Default variation for TestSlice Slice
+ * Default variation for Text Slice
  *
  * - **API ID**: `default`
  * - **Description**: Default
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type TestSliceSliceDefault = prismic.SharedSliceVariation<
+export type TextSliceDefault = prismic.SharedSliceVariation<
   'default',
-  Simplify<TestSliceSliceDefaultPrimary>,
+  Simplify<TextSliceDefaultPrimary>,
   never
 >;
 
 /**
- * Slice variation for *TestSlice*
+ * Slice variation for *Text*
  */
-type TestSliceSliceVariation = TestSliceSliceDefault;
+type TextSliceVariation = TextSliceDefault;
 
 /**
- * TestSlice Shared Slice
+ * Text Shared Slice
  *
- * - **API ID**: `test_slice`
- * - **Description**: TestSlice
+ * - **API ID**: `text`
+ * - **Description**: Text
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type TestSliceSlice = prismic.SharedSlice<
-  'test_slice',
-  TestSliceSliceVariation
+export type TextSlice = prismic.SharedSlice<'text', TextSliceVariation>;
+
+/**
+ * Primary content in *WhatVariants → Primary*
+ */
+export interface WhatVariantsSliceDefaultPrimary {
+  /**
+   * image field in *WhatVariants → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: what_variants.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<never>;
+}
+
+/**
+ * Default variation for WhatVariants Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type WhatVariantsSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<WhatVariantsSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *WhatVariants*
+ */
+type WhatVariantsSliceVariation = WhatVariantsSliceDefault;
+
+/**
+ * WhatVariants Shared Slice
+ *
+ * - **API ID**: `what_variants`
+ * - **Description**: WhatVariants
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type WhatVariantsSlice = prismic.SharedSlice<
+  'what_variants',
+  WhatVariantsSliceVariation
 >;
 
 declare module '@prismicio/client' {
@@ -14610,7 +14673,6 @@ declare module '@prismicio/client' {
       ArticlesDocumentDataBodyInfoBlockSlicePrimary,
       ArticlesDocumentDataBodyStandfirstSlicePrimary,
       ArticlesDocumentDataBodyQuoteV2SlicePrimary,
-      ArticlesDocumentDataBodyAudioPlayerSlicePrimary,
       ArticlesDocumentDataBodyEmbedSlicePrimary,
       ArticlesDocumentDataBodyTagListSlicePrimary,
       ArticlesDocumentDataBodyTagListSliceItem,
@@ -15014,10 +15076,18 @@ declare module '@prismicio/client' {
       WebcomicsDocumentDataPromoSlice,
       WebcomicsDocumentDataSeriesItem,
       AllDocumentTypes,
-      TestSliceSlice,
-      TestSliceSliceDefaultPrimary,
-      TestSliceSliceVariation,
-      TestSliceSliceDefault,
+      AudioPlayerSlice,
+      AudioPlayerSliceDefaultPrimary,
+      AudioPlayerSliceVariation,
+      AudioPlayerSliceDefault,
+      TextSlice,
+      TextSliceDefaultPrimary,
+      TextSliceVariation,
+      TextSliceDefault,
+      WhatVariantsSlice,
+      WhatVariantsSliceDefaultPrimary,
+      WhatVariantsSliceVariation,
+      WhatVariantsSliceDefault,
     };
   }
 }
