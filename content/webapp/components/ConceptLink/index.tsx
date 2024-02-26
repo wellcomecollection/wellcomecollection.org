@@ -26,15 +26,19 @@ function toLink(
   };
 }
 
-type Props = LinkFrom<ConceptLinkProps> & { source: ConceptLinkSource };
+type Props = LinkFrom<ConceptLinkProps> & {
+  source: ConceptLinkSource;
+  sourcePath?: string;
+};
 
 const ConceptLink: FunctionComponent<Props> = ({
   children,
   source,
+  sourcePath,
   ...props
 }) => {
   return (
-    <NextLink {...toLink(props, source)} legacyBehavior>
+    <NextLink {...toLink(props, source, sourcePath)} legacyBehavior>
       {children}
     </NextLink>
   );
