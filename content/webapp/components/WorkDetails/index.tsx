@@ -38,6 +38,7 @@ import {
   getDownloadOptionsFromManifestRendering,
   getDownloadOptionsFromCanvasRenderingAndSupplementing,
 } from '@weco/content/utils/iiif/v3';
+import { usePathname } from 'next/navigation';
 
 type Props = {
   work: Work;
@@ -54,7 +55,7 @@ const WorkDetails: FunctionComponent<Props> = ({
   const { canvases, rendering } = {
     ...transformedIIIFManifest,
   };
-
+  const pathname = usePathname();
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
     work,
@@ -264,7 +265,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                 {
                   'partOf.title': partOf.title,
                 },
-                'work_details/partOf'
+                'work_details/partOf',
+                pathname
               ),
             }))}
           />
@@ -286,7 +288,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                     textParts,
                     linkAttributes: conceptLink(
                       { conceptId: contributor.agent.id },
-                      'work_details/contributors'
+                      'work_details/contributors',
+                      pathname
                     ),
                   }
                 : {
@@ -295,7 +298,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                       {
                         'contributors.agent.label': [contributor.agent.label],
                       },
-                      'work_details/contributors'
+                      'work_details/contributors',
+                      pathname
                     ),
                   };
             })}
@@ -359,7 +363,8 @@ const WorkDetails: FunctionComponent<Props> = ({
 
                 linkAttributes: conceptLink(
                   { conceptId: genre.concepts[0].id as string },
-                  'work_details/genres'
+                  'work_details/genres',
+                  pathname
                 ),
               };
             })}
@@ -376,7 +381,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                   {
                     languages: [lang.id],
                   },
-                  'work_details/languages'
+                  'work_details/languages',
+                  pathname
                 ),
               };
             })}
@@ -398,7 +404,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                     ),
                     linkAttributes: conceptLink(
                       { conceptId: s.id },
-                      'work_details/subjects'
+                      'work_details/subjects',
+                      pathname
                     ),
                   }
                 : {
@@ -407,7 +414,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                       {
                         'subjects.label': [s.label],
                       },
-                      'work_details/subjects'
+                      'work_details/subjects',
+                      pathname
                     ),
                   };
             })}

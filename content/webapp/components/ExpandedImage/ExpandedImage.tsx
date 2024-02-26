@@ -24,6 +24,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import { toLink as itemLink } from '../ItemLink';
 import { toLink as imageLink } from '../ImageLink';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
+import { usePathname } from 'next/navigation';
 
 type Props = {
   image: ImageType | undefined;
@@ -140,6 +141,8 @@ const ExpandedImage: FunctionComponent<Props> = ({
   const [currentImageId, setCurrentImageId] = useState<string | undefined>();
 
   const workId = image?.source.id;
+
+  const pathname = usePathname();
 
   useEffect(() => {
     // We want this fired only if there is a workId (not on initial load),
@@ -264,7 +267,8 @@ const ExpandedImage: FunctionComponent<Props> = ({
             id: image.id,
             resultPosition,
           },
-          trackingSource
+          trackingSource,
+          pathname
         )
       : detailedWork &&
         workId &&
@@ -272,6 +276,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
           workId,
           props: { resultPosition, ...(canvasDeeplink || {}) },
           source: trackingSource,
+          sourcePath: pathname,
         });
 
   if (!detailedWork) {

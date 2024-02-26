@@ -16,6 +16,7 @@ import { toLink as toWorksLink } from '@weco/content/components/SearchPagesLink/
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 import { capitalize, formatNumber } from '@weco/common/utils/grammar';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
+import { usePathname } from 'next/navigation';
 
 // Components
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
@@ -263,6 +264,7 @@ export const ConceptPage: NextPage<Props> = ({
   sectionsData,
   apiToolbarLinks,
 }) => {
+  const pathname = usePathname();
   const worksTabs = tabOrder
     .map(relationship => {
       const tabId = `works${capitalize(relationship)}`;
@@ -275,7 +277,8 @@ export const ConceptPage: NextPage<Props> = ({
         tabLabelText: data.label,
         link: toWorksLink(
           allRecordsLinkParams(tabId, conceptResponse),
-          linkSources[tabId]
+          linkSources[tabId],
+          pathname
         ),
       });
     })
