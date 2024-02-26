@@ -514,6 +514,18 @@ export function hasItemType(
   );
 }
 
+export function hasOriginalPdf(
+  canvases: TransformedCanvas[] | undefined
+): boolean {
+  return (
+    canvases?.some(canvas => {
+      return canvas.original.some(item => {
+        return 'format' in item && item.format === 'application/pdf';
+      });
+    }) || false
+  );
+}
+
 export function isCollection(
   manifest: Manifest | Collection
 ): manifest is Collection {
