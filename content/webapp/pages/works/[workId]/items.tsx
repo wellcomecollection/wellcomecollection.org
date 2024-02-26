@@ -51,6 +51,7 @@ import { ParentManifest } from '@weco/content/components/ItemViewerContext/ItemV
 import {
   getCollectionManifests,
   hasItemType,
+  hasOriginalPdf,
 } from '@weco/content/utils/iiif/v3';
 import IIIFItemList from '@weco/content/components/IIIFItemList/IIIFItemList';
 import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
@@ -137,6 +138,7 @@ const ItemPage: NextPage<Props> = ({
   };
 
   const hasImage = hasItemType(canvases, 'Image');
+  const hasPdf = hasOriginalPdf(canvases);
 
   // showViewer is true by default, so the noScriptViewer is available without javascript
   // if javascript is available we set it to false and then determine whether the clickthrough modal is required
@@ -196,7 +198,16 @@ const ItemPage: NextPage<Props> = ({
           src={`${tokenService['@id']}?messageId=1&origin=${origin}`}
         />
       )}
-      {!hasImage && (
+
+      {/*
+      Pdfs that have been added to the iiif manifest using the born digital pattern
+      will have a hasImage value of true.
+      However, we don't show the viewer for these items,
+      so we check for the presence of a pdf in the original property of the canvas.
+      If it has one we show the IIIFItemList
+      */}
+
+      {(!hasImage || hasPdf) && showViewer && (
         <Layout gridSizes={gridSize12()}>
           <Space
             className="body-text"
