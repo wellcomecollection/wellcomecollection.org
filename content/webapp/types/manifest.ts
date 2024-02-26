@@ -11,6 +11,7 @@ import {
   ContentResource,
   ResourceType,
   Manifest,
+  MetadataItem,
 } from '@iiif/presentation-3';
 
 export type ThumbnailImage = { url: string; width: number };
@@ -34,6 +35,7 @@ export type TransformedCanvas = {
   painting: (ChoiceBody | ContentResource)[];
   original: CustomContentResource[];
   supplementing: (ChoiceBody | ContentResource)[];
+  metadata: MetadataItem[];
 };
 
 export type DownloadOption = {

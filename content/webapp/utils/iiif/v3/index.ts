@@ -416,6 +416,7 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
     painting,
     original,
     supplementing,
+    metadata: canvas.metadata || [],
   };
 }
 
@@ -552,6 +553,14 @@ export function getOriginalFiles(
       ? canvas.painting
       : canvas.supplementing;
   return downloadData || [];
+}
+
+// If we have a files size, it is found in the metadata array of the canvas
+export function getFileSize(canvas: TransformedCanvas): string | undefined {
+  const fileSizeMeta = canvas.metadata.find(
+    metadata => getLabelString(metadata.label) === 'File size'
+  );
+  return fileSizeMeta ? getLabelString(fileSizeMeta.value) : undefined;
 }
 
 export function getCollectionManifests(

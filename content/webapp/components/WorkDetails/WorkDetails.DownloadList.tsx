@@ -18,6 +18,7 @@ import {
   isCanvas,
   isRange,
   getOriginalFiles,
+  getFileSize,
   isChoiceBody,
 } from '@weco/content/utils/iiif/v3';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
@@ -27,6 +28,7 @@ type FileLinkProps = {
   itemLabel: string | undefined;
   fileUri: string | undefined;
   format: string | undefined;
+  fileSize: string | undefined;
 };
 
 const FileLink: FunctionComponent<FileLinkProps> = ({
@@ -34,12 +36,12 @@ const FileLink: FunctionComponent<FileLinkProps> = ({
   itemLabel,
   format,
   fileUri,
-  /*, fileSize - is file size actually available in the data? */
+  fileSize,
 }) => {
   return (
     <a href={fileUri}>{`${canvasLabel} ${itemLabel} ${
       format ? `(${format})` : ''
-    }`}</a>
+    } ${fileSize ? `(${fileSize})` : ''}`}</a>
   );
 };
 
@@ -62,6 +64,7 @@ const Download: FunctionComponent<{
     format?: string;
   };
   const itemLabel = getLabel(displayItem);
+  const fileSize = canvas && getFileSize(canvas);
 
   if (typeof displayItem !== 'string') {
     return (
@@ -71,6 +74,7 @@ const Download: FunctionComponent<{
           itemLabel={itemLabel}
           fileUri={displayItem.id}
           format={displayItem.format}
+          fileSize={fileSize}
         />
       </li>
     );

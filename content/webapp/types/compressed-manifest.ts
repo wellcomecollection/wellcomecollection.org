@@ -12,6 +12,7 @@ import {
   ResourceType,
   ContentResource,
   ChoiceBody,
+  MetadataItem,
 } from '@iiif/presentation-3';
 
 type CompressedTransformedCanvases = {
@@ -28,6 +29,7 @@ type CompressedTransformedCanvases = {
   painting: (ChoiceBody | ContentResource)[][];
   original: CustomContentResource[][];
   supplementing: (ChoiceBody | ContentResource)[][];
+  metadata: MetadataItem[][];
 };
 
 export type CompressedTransformedManifest = Omit<
@@ -61,6 +63,7 @@ export function toCompressedTransformedManifest(
       painting: canvases.map(c => c.painting),
       original: canvases.map(c => c.original),
       supplementing: canvases.map(c => c.supplementing),
+      metadata: canvases.map(c => c.metadata),
     },
     ...otherFields,
   };
@@ -88,6 +91,7 @@ export function fromCompressedManifest(
     painting,
     original,
     supplementing,
+    metadata,
   } = compressedCanvases;
 
   const uncompressedCanvases: TransformedCanvas[] = [];
@@ -114,6 +118,7 @@ export function fromCompressedManifest(
       painting: painting[index],
       original: original[index],
       supplementing: supplementing[index],
+      metadata: metadata[index],
     };
 
     uncompressedCanvases.push(canvas);
