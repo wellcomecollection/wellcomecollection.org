@@ -85,14 +85,18 @@ function toLink(
   };
 }
 
-type Props = LinkFrom<WorksProps> & { source: WorksLinkSource };
+type Props = LinkFrom<WorksProps> & {
+  source: WorksLinkSource;
+  sourcePath?: string;
+};
 const WorksLink: FunctionComponent<Props> = ({
   children,
   source,
+  sourcePath,
   ...props
 }: Props) => {
   return (
-    <NextLink {...toLink(props, source)} legacyBehavior>
+    <NextLink {...toLink(props, source, sourcePath)} legacyBehavior>
       {children}
     </NextLink>
   );

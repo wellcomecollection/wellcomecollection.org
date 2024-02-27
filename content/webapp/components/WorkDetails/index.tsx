@@ -33,6 +33,11 @@ import { formatDuration } from '@weco/common/utils/format-date';
 import { CopyUrl } from '@weco/content/components/CopyButtons';
 import WorkDetailsAvailableOnline from './WorkDetails.AvailableOnline';
 import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
+import {
+  hasItemType,
+  getDownloadOptionsFromManifestRendering,
+  getDownloadOptionsFromCanvasRenderingAndSupplementing,
+} from '@weco/content/utils/iiif/v3';
 import { usePathname } from 'next/navigation';
 
 type Props = {
@@ -47,12 +52,9 @@ const WorkDetails: FunctionComponent<Props> = ({
   const isArchive = useContext(IsArchiveContext);
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
   const transformedIIIFManifest = useTransformedManifest(work);
-  const {
-    video,
-    downloadEnabled,
-    downloadOptions: manifestDownloadOptions,
-    audio,
-  } = { ...transformedIIIFManifest };
+  const { canvases, rendering } = {
+    ...transformedIIIFManifest,
+  };
   const pathname = usePathname();
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
@@ -75,6 +77,17 @@ const WorkDetails: FunctionComponent<Props> = ({
         height: transformedIIIFImage?.height,
       })
     : [];
+
+  const manifestDownloadOptions =
+    getDownloadOptionsFromManifestRendering(rendering);
+
+  // We need this for old style pdfs that appear on supplementing
+  const canvasDownloadOptions =
+    canvases
+      ?.map(canvas =>
+        getDownloadOptionsFromCanvasRenderingAndSupplementing(canvas)
+      )
+      .flat() || [];
 
   // Determine digital location. If the work has a iiif-presentation location and a iiif-image location
   // we use the former
@@ -135,19 +148,12 @@ const WorkDetails: FunctionComponent<Props> = ({
     return ![...orderedNotes, locationOfWork].some(n => n === note);
   });
 
-  function determineDownloadVisibility(downloadEnabled: boolean | undefined) {
-    if (digitalLocationInfo?.accessCondition === 'open-with-advisory') {
-      return false;
-    } else {
-      return downloadEnabled !== undefined ? downloadEnabled : true;
-    }
-  }
-
   const holdings = getHoldings(work);
+  const hasVideo = hasItemType(canvases, 'Video');
+  const hasSound = hasItemType(canvases, 'Sound');
 
   const showAvailableOnlineSection =
-    digitalLocation &&
-    (shouldShowItemLink || (audio?.sounds || []).length > 0 || video);
+    (digitalLocation && shouldShowItemLink) || hasVideo || hasSound;
 
   const renderContent = () => (
     <>
@@ -155,10 +161,10 @@ const WorkDetails: FunctionComponent<Props> = ({
         <WorkDetailsAvailableOnline
           work={work}
           downloadOptions={[
-            ...(manifestDownloadOptions || []),
+            ...manifestDownloadOptions,
             ...iiifImageDownloadOptions,
+            ...canvasDownloadOptions,
           ]}
-          showDownloadOptions={determineDownloadVisibility(downloadEnabled)}
           itemUrl={itemLink({ workId: work.id, source: 'work', props: {} })}
           shouldShowItemLink={shouldShowItemLink}
           digitalLocationInfo={digitalLocationInfo}
@@ -259,7 +265,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                 {
                   'partOf.title': partOf.title,
                 },
-                'work_details/partOf'
+                'work_details/partOf',
+                pathname
               ),
             }))}
           />
@@ -356,7 +363,8 @@ const WorkDetails: FunctionComponent<Props> = ({
 
                 linkAttributes: conceptLink(
                   { conceptId: genre.concepts[0].id as string },
-                  'work_details/genres'
+                  'work_details/genres',
+                  pathname
                 ),
               };
             })}
@@ -373,7 +381,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                   {
                     languages: [lang.id],
                   },
-                  'work_details/languages'
+                  'work_details/languages',
+                  pathname
                 ),
               };
             })}
@@ -395,7 +404,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                     ),
                     linkAttributes: conceptLink(
                       { conceptId: s.id },
-                      'work_details/subjects'
+                      'work_details/subjects',
+                      pathname
                     ),
                   }
                 : {
@@ -404,7 +414,8 @@ const WorkDetails: FunctionComponent<Props> = ({
                       {
                         'subjects.label': [s.label],
                       },
-                      'work_details/subjects'
+                      'work_details/subjects',
+                      pathname
                     ),
                   };
             })}

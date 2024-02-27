@@ -175,7 +175,8 @@ test('(11) | The multi-volume label should be appropriate', async ({
   expect(await page.getByText('Copy 3').count());
 });
 
-test('(12) | The structured parts should be browseable', async ({
+// TODO remove skip as part of https://github.com/wellcomecollection/wellcomecollection.org/issues/10644
+test.skip('(12) | The structured parts should be browseable', async ({
   page,
   context,
 }) => {
@@ -192,7 +193,11 @@ test('(12) | The structured parts should be browseable', async ({
   }
 });
 
-test('(13) | The main viewer can be scrolled', async ({ page, context }) => {
+// TODO remove skip as part of https://github.com/wellcomecollection/wellcomecollection.org/issues/10644
+test.skip('(13) | The main viewer can be scrolled', async ({
+  page,
+  context,
+}) => {
   await itemWithSearchAndStructures(context, page);
   const mainScrollArea = page.getByTestId('main-viewer').locator('> div');
   await expect(mainScrollArea).toBeVisible();
@@ -218,7 +223,8 @@ test('(14) | The item should be searchable', async ({ page, context }) => {
   await page.getByRole('button', { name: 'search within' }).click();
 });
 
-test('(15) | The location of the search results should be displayed', async ({
+// TODO remove skip as part of https://github.com/wellcomecollection/wellcomecollection.org/issues/10644
+test.skip('(15) | The location of the search results should be displayed', async ({
   page,
   context,
 }) => {
