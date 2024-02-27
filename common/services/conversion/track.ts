@@ -4,7 +4,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { v4 as uuidv4 } from 'uuid';
 import cookies from '@weco/common/data/cookies';
 import { PageviewName } from '@weco/common/data/segment-values';
-import { getConsentCookie } from '@weco/common/utils/cookie-consent';
+import { getAnalyticsConsentState } from '@weco/common/utils/cookie-consent';
 
 declare global {
   interface Window {
@@ -29,6 +29,7 @@ type EventGroup = 'conversion' | 'similarity';
 interface Conversion {
   type: ConversionType;
   source?: string;
+  sourcePath?: string;
   page: Page;
   properties: {
     [key: string]: unknown;
@@ -90,12 +91,13 @@ function trackPageview({
 }: EventProps): void {
   // Source is passed in the querystring in the app, but not the client.
   // e.g. /common/views/component/WorkLink/WorkLink.tsx
-  const { source, ...query } = Router.query;
+  const { source, sourcePath, ...query } = Router.query;
   pageName = name;
 
   const conversion: Conversion = {
     type: 'pageview',
     source: source?.toString() || 'unknown',
+    sourcePath: sourcePath?.toString() || 'unknown',
     eventGroup,
     page: {
       path: Router.asPath,
@@ -126,7 +128,7 @@ function trackSegmentEvent({
 }
 
 function track(conversion: Conversion) {
-  const hasAnalyticsConsent = getConsentCookie('analytics');
+  const hasAnalyticsConsent = getAnalyticsConsentState();
   if (!hasAnalyticsConsent) return;
 
   const debug = Boolean(getCookie(cookies.analyticsDebug));

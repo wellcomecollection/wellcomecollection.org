@@ -6,7 +6,7 @@ import { NavLink, links } from '@weco/common/views/components/Header/Header';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import Buttons from '../Buttons';
 import {
-  getConsentCookie,
+  getAnalyticsConsentState,
   toggleCookieConsent,
 } from '@weco/common/utils/cookie-consent';
 import { useToggles } from '@weco/common/server-data/Context';
@@ -98,7 +98,7 @@ const FooterNav = ({
   const [consentCookieValue, setConsentCookieValue] = useState<boolean>();
 
   useEffect(() => {
-    setConsentCookieValue(getConsentCookie('analytics'));
+    setConsentCookieValue(getAnalyticsConsentState());
   }, []);
 
   const itemsList =

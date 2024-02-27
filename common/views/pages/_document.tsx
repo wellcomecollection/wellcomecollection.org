@@ -16,8 +16,6 @@ import {
   GoogleTagManagerNoScript,
   GaDimensions,
 } from '../../services/app/google-analytics';
-import { getCookies } from 'cookies-next';
-import { getConsentCookieServerSide } from '@weco/common/utils/cookie-consent';
 
 const {
   ANALYTICS_WRITE_KEY = '78Czn5jNSaMSVrBq2J9K4yJjWxh6fyRI',
@@ -59,16 +57,12 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
         });
 
       const initialProps = await Document.getInitialProps(ctx);
-      const hasAnalyticsConsent = getConsentCookieServerSide(
-        getCookies({ res: ctx.res, req: ctx.req }),
-        'analytics'
-      );
 
       return {
         ...initialProps,
         toggles: pageProps.serverData?.toggles,
         gaDimensions: pageProps.gaDimensions,
-        hasAnalyticsConsent,
+        hasAnalyticsConsent: pageProps.serverData?.hasAnalyticsConsent,
         styles: (
           <>
             {initialProps.styles}
