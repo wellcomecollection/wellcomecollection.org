@@ -94,7 +94,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     window.addEventListener('analyticsConsentChange', reloadConsentStatus);
     return () => {
       window.removeEventListener('analyticsConsentChange', reloadConsentStatus);
-      window.CookieControl.open();
+      if (window.CookieControl) window.CookieControl.open();
     };
   }, []);
 

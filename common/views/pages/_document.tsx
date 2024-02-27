@@ -80,7 +80,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
     return (
       <Html lang="en">
         <Head>
-          <CivicUK />
+          {this.props.toggles?.cookiesWork?.value && <CivicUK />}
 
           {this.props.hasAnalyticsConsent && (
             <>
