@@ -84,10 +84,7 @@ const CheckboxRadioInput = styled.input.attrs<{ $type: string }>(props => ({
 `;
 
 // TODO review design
-const Copy = styled(Space).attrs({
-  as: 'span',
-  $h: { size: 's', properties: ['margin-left'] },
-})<{ $isDisabled: boolean }>`
+const Copy = styled.span<{ $isDisabled?: boolean }>`
   ${props =>
     props.$isDisabled ? `color:${props.theme.color('neutral.600')};` : ``}
 `;
@@ -137,7 +134,9 @@ const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
           <Icon icon={type === 'checkbox' ? check : indicator} />
         </CheckboxRadioBox>
       </CheckBoxWrapper>
-      <Copy $isDisabled={disabled}>{text}</Copy>
+      <Space $h={{ size: 's', properties: ['margin-left'] }}>
+        <Copy $isDisabled={disabled}>{text}</Copy>
+      </Space>
     </CheckboxRadioLabel>
   );
 };
