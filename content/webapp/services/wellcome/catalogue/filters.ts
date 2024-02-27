@@ -41,18 +41,6 @@ export type CheckboxFilter<Id extends string = string> = {
   excludeFromMoreFilters?: boolean;
 };
 
-export type BooleanFilter<Id extends string = string> = {
-  type: 'boolean';
-  id: Id;
-  label: string;
-  isSelected: boolean;
-  count?: number;
-  // Most filters are to be included in the More Filters Modal,
-  // so this only needs to be set to true in the rare case we
-  // wish to exclude it.
-  excludeFromMoreFilters?: boolean;
-};
-
 export type ColorFilter = {
   type: 'color';
   id: keyof ImagesProps;
@@ -64,7 +52,6 @@ export type ColorFilter = {
 export type Filter<Id extends string = string> =
   | CheckboxFilter<Id>
   | DateRangeFilter<Id>
-  | BooleanFilter
   | ColorFilter;
 
 type FilterOption = {
@@ -654,20 +641,6 @@ const eventsInterpretationFilter = ({
   };
 };
 
-// const eventsIsOnlineFilter = ({
-//   events,
-//   props,
-// }: EventsFilterProps): BooleanFilter<keyof EventsProps> => {
-//   console.log({ a: events?.aggregations?.isOnline });
-//   return {
-//     type: 'boolean',
-//     id: 'isOnline',
-//     label: 'Online only',
-//     count: events?.aggregations?.isOnline?.buckets?.[1]?.count || 0,
-//     isSelected: !!props.isOnline,
-//   };
-// };
-
 const imagesFilters: (props: ImagesFilterProps) => Filter[] = props =>
   [
     colorFilter,
@@ -700,11 +673,8 @@ const storiesFilters: (
 const eventsFilters: (
   props: EventsFilterProps
 ) => Filter<keyof EventsProps>[] = props =>
-  [
-    eventsFormatFilter,
-    eventsAudienceFilter,
-    eventsInterpretationFilter,
-    // eventsIsOnlineFilter,
-  ].map(f => f(props));
+  [eventsFormatFilter, eventsAudienceFilter, eventsInterpretationFilter].map(
+    f => f(props)
+  );
 
 export { worksFilters, imagesFilters, storiesFilters, eventsFilters };

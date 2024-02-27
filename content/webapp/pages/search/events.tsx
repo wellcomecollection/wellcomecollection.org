@@ -245,12 +245,7 @@ export const getServerSideProps: GetServerSideProps<
       sort: getQueryPropertyValue(query.sort),
       sortOrder: getQueryPropertyValue(query.sortOrder),
       ...(pageNumber && { page: Number(pageNumber) }),
-      aggregations: [
-        'format',
-        'audience',
-        'interpretation',
-        // 'isOnline',
-      ],
+      aggregations: ['format', 'audience', 'interpretation'],
     },
     pageSize: 24,
     toggles: serverData.toggles,

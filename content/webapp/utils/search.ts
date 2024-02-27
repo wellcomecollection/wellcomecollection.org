@@ -38,8 +38,6 @@ export const getActiveFiltersLabel = ({
         return dateRange || undefined;
       } else if (f.type === 'color' && f.color) {
         return getColorDisplayName(f.color) || undefined;
-        // } else if (f.type === 'boolean') {
-        //   return f.isSelected ? 'isOnline' : undefined; // TODO test
       }
       return undefined;
     })

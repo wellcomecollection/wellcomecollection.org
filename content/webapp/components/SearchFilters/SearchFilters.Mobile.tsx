@@ -16,7 +16,6 @@ import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxR
 import { SearchFiltersSharedProps } from '.';
 import {
   CheckboxFilter as CheckboxFilterType,
-  // BooleanFilter as BooleanFilterType,
   filterLabel,
 } from '@weco/content/services/wellcome/catalogue/filters';
 import Button, {
@@ -142,27 +141,6 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
     </>
   );
 };
-
-// type BooleanFilterProps = {
-//   f: BooleanFilterType;
-//   changeHandler: () => void;
-//   form?: string;
-// };
-// const BooleanFilter = ({ f, changeHandler, form }: BooleanFilterProps) => {
-//   return (
-//     <CheckboxRadio
-//       id={`mobile-${f.id}`}
-//       type="checkbox"
-//       text={filterLabel({ label: f.label, count: f.count })}
-//       value="true"
-//       name={f.id}
-//       checked={f.isSelected}
-//       onChange={changeHandler}
-//       ariaLabel={searchFilterCheckBox(f.label)}
-//       form={form}
-//     />
-//   );
-// };
 
 const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   query,
@@ -306,14 +284,6 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                       form={searchFormId}
                     />
                   )}
-
-                  {/* {f.type === 'boolean' && (
-                    <BooleanFilter
-                      f={f}
-                      changeHandler={changeHandler}
-                      form={searchFormId}
-                    />
-                  )} */}
                 </FilterSection>
               );
             })}
