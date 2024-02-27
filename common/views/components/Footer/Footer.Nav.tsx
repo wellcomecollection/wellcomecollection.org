@@ -1,9 +1,15 @@
-import { ReactElement } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { NavLink, links } from '@weco/common/views/components/Header/Header';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
+import Buttons from '../Buttons';
+import {
+  getAnalyticsConsentState,
+  toggleCookieConsent,
+} from '@weco/common/utils/cookie-consent';
+import { useToggles } from '@weco/common/server-data/Context';
 
 const NavList = styled.ul<{ $isInline?: boolean }>`
   list-style-type: none;
@@ -88,6 +94,13 @@ const FooterNav = ({
   ariaLabel: string;
   isInline?: boolean;
 }): ReactElement => {
+  const { cookiesWork } = useToggles();
+  const [consentCookieValue, setConsentCookieValue] = useState<boolean>();
+
+  useEffect(() => {
+    setConsentCookieValue(getAnalyticsConsentState());
+  }, []);
+
   const itemsList =
     type === 'PoliciesNavigation' ? PoliciesNavigation : InternalNavigation;
 
@@ -111,6 +124,16 @@ const FooterNav = ({
             </li>
           );
         })}
+        {/* TODO Remove this once we have a better idea of how get consent, this is a very temporary idea/solution */}
+        {cookiesWork && type === 'InternalNavigation' && (
+          <li>
+            <Buttons
+              variant="ButtonSolid"
+              text={`${consentCookieValue ? 'Disallow' : 'Allow'} tracking`}
+              clickHandler={toggleCookieConsent}
+            />
+          </li>
+        )}
       </NavList>
     </nav>
   );

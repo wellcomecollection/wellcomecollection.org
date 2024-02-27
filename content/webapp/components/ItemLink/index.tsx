@@ -43,9 +43,10 @@ type ToLinkProps = {
   workId: string;
   props: Partial<ItemProps>;
   source: ItemLinkSource;
+  sourcePath?: string;
 };
 
-function toLink({ workId, props, source }: ToLinkProps): LinkProps {
+function toLink({ workId, props, source, sourcePath }: ToLinkProps): LinkProps {
   const itemProps: ItemProps = {
     ...emptyItemProps,
     ...props,
@@ -55,7 +56,7 @@ function toLink({ workId, props, source }: ToLinkProps): LinkProps {
   return {
     href: {
       pathname: '/works/[workId]/items',
-      query: { ...urlQuery, source },
+      query: { ...urlQuery, source, sourcePath },
     },
     as: {
       pathname: `/works/${workId}/items`,
