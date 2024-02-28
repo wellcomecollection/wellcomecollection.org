@@ -16,7 +16,7 @@ import {
   GoogleTagManagerNoScript,
   GaDimensions,
 } from '@weco/common/services/app/google-analytics';
-import CivicUK from '@weco/common/services/app/civic-uk';
+import CivicUK from '@weco/common/services/app/civic-uk/scripts';
 
 const {
   ANALYTICS_WRITE_KEY = '78Czn5jNSaMSVrBq2J9K4yJjWxh6fyRI',
