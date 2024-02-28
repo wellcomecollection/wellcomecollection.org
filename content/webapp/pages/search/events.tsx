@@ -16,6 +16,7 @@ import { Pageview } from '@weco/common/services/conversion/track';
 import { pluralize } from '@weco/common/utils/grammar';
 import {
   getQueryPropertyValue,
+  linkResolver,
   SEARCH_PAGES_FORM_ID,
 } from '@weco/common/utils/search';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
@@ -31,8 +32,11 @@ import {
   fromQuery,
   EventsProps,
 } from '@weco/content/components/SearchPagesLink/Events';
-import { getEvents } from 'services/wellcome/content/events';
-import EventsSearchResults from 'components/EventsSearchResults';
+import { getEvents } from '@weco/content/services/wellcome/content/events';
+import EventsSearchResults from '@weco/content/components/EventsSearchResults';
+import SearchFilters from '@weco/content/components/SearchFilters';
+import { hasFilters } from '@weco/content/utils/search';
+import { eventsFilters } from '@weco/content/services/wellcome/catalogue/filters';
 
 type Props = {
   eventResponseList: ContentResultsList<EventDocument>;
@@ -56,13 +60,50 @@ const SortPaginationWrapper = styled.div`
 export const EventsSearchPage: NextPageWithLayout<Props> = ({
   eventResponseList,
   query,
+  eventsRouteProps,
 }) => {
   const { query: queryString } = query;
 
+  const filters = eventsFilters({
+    events: eventResponseList,
+    props: eventsRouteProps,
+  });
+
   const hasNoResults = eventResponseList.totalResults === 0;
+  const hasActiveFilters = hasFilters({
+    filters: filters.map(f => f.id),
+    queryParams: query,
+  });
 
   return (
     <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
+      {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
+        <Container>
+          <Space
+            $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+          >
+            <SearchFilters
+              query={queryString}
+              linkResolver={params =>
+                linkResolver({ params, pathname: '/search/events' })
+              }
+              searchFormId={SEARCH_PAGES_FORM_ID}
+              changeHandler={() => {
+                const form = document.getElementById(SEARCH_PAGES_FORM_ID);
+                form &&
+                  form.dispatchEvent(
+                    new window.Event('submit', {
+                      cancelable: true,
+                      bubbles: true,
+                    })
+                  );
+              }}
+              filters={filters}
+              hasNoResults={hasNoResults}
+            />
+          </Space>
+        </Container>
+      )}
       {eventResponseList && (
         <>
           {hasNoResults ? (
@@ -157,9 +198,9 @@ export const getServerSideProps: GetServerSideProps<
   if (!eventsSearch.value) {
     return { notFound: true };
   }
-
   const query = context.query;
   const params = fromQuery(query);
+
   const defaultProps = serialiseProps({
     eventsRouteProps: params,
     serverData,
@@ -202,6 +243,7 @@ export const getServerSideProps: GetServerSideProps<
       sort: getQueryPropertyValue(query.sort),
       sortOrder: getQueryPropertyValue(query.sortOrder),
       ...(pageNumber && { page: Number(pageNumber) }),
+      aggregations: ['format', 'audience', 'interpretation'],
     },
     pageSize: 24,
     toggles: serverData.toggles,
