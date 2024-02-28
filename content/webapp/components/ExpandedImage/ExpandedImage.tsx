@@ -267,16 +267,14 @@ const ExpandedImage: FunctionComponent<Props> = ({
             id: image.id,
             resultPosition,
           },
-          trackingSource,
-          pathname
+          `${trackingSource}_${pathname}`
         )
       : detailedWork &&
         workId &&
         itemLink({
           workId,
           props: { resultPosition, ...(canvasDeeplink || {}) },
-          source: trackingSource,
-          sourcePath: pathname,
+          source: `${trackingSource}_${pathname}`,
         });
 
   if (!detailedWork) {

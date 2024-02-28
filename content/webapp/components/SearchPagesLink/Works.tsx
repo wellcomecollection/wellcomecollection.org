@@ -63,8 +63,7 @@ const toQuery: (props: WorksProps) => ParsedUrlQuery = props => {
 
 function toLink(
   partialProps: Partial<WorksProps>,
-  source: WorksLinkSource,
-  sourcePath?: string
+  source: WorksLinkSource
 ): LinkProps {
   const pathname = '/search/works';
   const props: WorksProps = {
@@ -76,7 +75,7 @@ function toLink(
   return {
     href: {
       pathname,
-      query: { ...query, source, sourcePath },
+      query: { ...query, source },
     },
     as: {
       pathname,
@@ -87,16 +86,14 @@ function toLink(
 
 type Props = LinkFrom<WorksProps> & {
   source: WorksLinkSource;
-  sourcePath?: string;
 };
 const WorksLink: FunctionComponent<Props> = ({
   children,
   source,
-  sourcePath,
   ...props
 }: Props) => {
   return (
-    <NextLink {...toLink(props, source, sourcePath)} legacyBehavior>
+    <NextLink {...toLink(props, source)} legacyBehavior>
       {children}
     </NextLink>
   );

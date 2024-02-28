@@ -26,8 +26,7 @@ const WorkLink: FunctionComponent<Props> = ({
         pathname: '/works/[workId]',
         query: {
           workId: id,
-          source,
-          sourcePath: pathname,
+          source: `${source}_${pathname}`,
           resultPosition,
         },
       }}
