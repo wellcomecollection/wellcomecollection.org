@@ -70,8 +70,7 @@ const CatalogueSearchPage: NextPageWithLayout<Props> = ({
   useEffect(() => {
     const link = toLink(
       { ...worksRouteProps },
-      'works_search_context',
-      pathname
+      `works_search_context_${pathname}`
     );
     setLink(link);
   }, [worksRouteProps]);
@@ -100,8 +99,7 @@ const CatalogueSearchPage: NextPageWithLayout<Props> = ({
             href={convertUrlToString(
               toLink(
                 { ...worksRouteProps, page: (worksRouteProps.page || 1) - 1 },
-                'search/paginator',
-                pathname
+                `search/paginator_${pathname}`
               ).as
             )}
           />
@@ -112,8 +110,7 @@ const CatalogueSearchPage: NextPageWithLayout<Props> = ({
             href={convertUrlToString(
               toLink(
                 { ...worksRouteProps, page: worksRouteProps.page + 1 },
-                'search/paginator',
-                pathname
+                `search/paginator_${pathname}`
               ).as
             )}
           />

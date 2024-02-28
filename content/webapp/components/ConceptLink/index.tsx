@@ -6,18 +6,13 @@ import { ConceptLinkSource } from '@weco/common/data/segment-values';
 
 type ConceptLinkProps = { conceptId: string };
 
-function toLink(
-  props: ConceptLinkProps,
-  source: ConceptLinkSource,
-  sourcePath?: string
-): LinkProps {
+function toLink(props: ConceptLinkProps, source: ConceptLinkSource): LinkProps {
   return {
     href: {
       pathname: '/concepts/[conceptId]',
       query: {
         conceptId: props.conceptId,
         source,
-        sourcePath,
       },
     },
     as: {
@@ -28,17 +23,15 @@ function toLink(
 
 type Props = LinkFrom<ConceptLinkProps> & {
   source: ConceptLinkSource;
-  sourcePath?: string;
 };
 
 const ConceptLink: FunctionComponent<Props> = ({
   children,
   source,
-  sourcePath,
   ...props
 }) => {
   return (
-    <NextLink {...toLink(props, source, sourcePath)} legacyBehavior>
+    <NextLink {...toLink(props, source)} legacyBehavior>
       {children}
     </NextLink>
   );

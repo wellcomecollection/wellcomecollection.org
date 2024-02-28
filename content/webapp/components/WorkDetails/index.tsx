@@ -265,8 +265,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                 {
                   'partOf.title': partOf.title,
                 },
-                'work_details/partOf',
-                pathname
+                `work_details/partOf_${pathname}`
               ),
             }))}
           />
@@ -288,8 +287,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                     textParts,
                     linkAttributes: conceptLink(
                       { conceptId: contributor.agent.id },
-                      'work_details/contributors',
-                      pathname
+                      `work_details/contributors_${pathname}`
                     ),
                   }
                 : {
@@ -298,8 +296,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                       {
                         'contributors.agent.label': [contributor.agent.label],
                       },
-                      'work_details/contributors',
-                      pathname
+                      `work_details/contributors_${pathname}`
                     ),
                   };
             })}
@@ -363,8 +360,7 @@ const WorkDetails: FunctionComponent<Props> = ({
 
                 linkAttributes: conceptLink(
                   { conceptId: genre.concepts[0].id as string },
-                  'work_details/genres',
-                  pathname
+                  `work_details/genres_${pathname}`
                 ),
               };
             })}
@@ -381,8 +377,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                   {
                     languages: [lang.id],
                   },
-                  'work_details/languages',
-                  pathname
+                  `work_details/languages_${pathname}`
                 ),
               };
             })}
@@ -404,8 +399,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                     ),
                     linkAttributes: conceptLink(
                       { conceptId: s.id },
-                      'work_details/subjects',
-                      pathname
+                      `work_details/subjects_${pathname}`
                     ),
                   }
                 : {
@@ -414,8 +408,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                       {
                         'subjects.label': [s.label],
                       },
-                      'work_details/subjects',
-                      pathname
+                      `work_details/subjects_${pathname}`
                     ),
                   };
             })}

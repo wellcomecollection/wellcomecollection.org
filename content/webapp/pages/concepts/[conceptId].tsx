@@ -34,6 +34,7 @@ import {
   WorkBasic,
   Work as WorkType,
 } from '@weco/content/services/wellcome/catalogue/types';
+import { ImagesLinkSource } from '@weco/common/data/segment-values';
 
 // Styles
 import Space from '@weco/common/views/components/styled/Space';
@@ -277,8 +278,7 @@ export const ConceptPage: NextPage<Props> = ({
         tabLabelText: data.label,
         link: toWorksLink(
           allRecordsLinkParams(tabId, conceptResponse),
-          linkSources[tabId],
-          pathname
+          linkSources[tabId]
         ),
       });
     })
@@ -298,7 +298,7 @@ export const ConceptPage: NextPage<Props> = ({
         tabLabelText: sectionsData[relationship].label,
         link: toImagesLink(
           allRecordsLinkParams(tabId, conceptResponse),
-          linkSources[tabId]
+          `${linkSources[tabId]}_${pathname}` as ImagesLinkSource
         ),
       });
     })
