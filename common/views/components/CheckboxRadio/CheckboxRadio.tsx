@@ -18,7 +18,6 @@ const CheckboxRadioLabel = styled.label`
 const CheckboxRadioBox = styled.span<{
   $type: string;
   $hasErrorBorder?: boolean;
-  $isDisabled?: boolean;
 }>`
   display: inline-flex;
   align-items: center;
@@ -31,10 +30,6 @@ const CheckboxRadioBox = styled.span<{
   border: 1px solid ${props => props.theme.color('black')};
   border-radius: ${props => (props.$type === 'radio' ? '50%' : '0')};
   ${props => (props.$hasErrorBorder ? `border-color: red;` : ``)}
-  ${props =>
-    props.$isDisabled
-      ? `border-color: ${props.theme.color('neutral.400')}; `
-      : ``}
 
   .icon {
     position: absolute;
@@ -64,15 +59,6 @@ const CheckboxRadioInput = styled.input.attrs<{ $type: string }>(props => ({
     border-width: 2px;
   }
 
-  &[disabled] {
-    & ~ ${CheckboxRadioBox} {
-      color: pink;
-    }
-    &:hover ~ ${CheckboxRadioBox} {
-      border-width: 1px;
-    }
-  }
-
   &:focus-visible ~ ${CheckboxRadioBox}, &:focus ~ ${CheckboxRadioBox} {
     box-shadow: ${props => props.theme.focusBoxShadow};
     outline: ${props => props.theme.highContrastOutlineFix};
@@ -81,12 +67,6 @@ const CheckboxRadioInput = styled.input.attrs<{ $type: string }>(props => ({
   &:focus ~ ${CheckboxRadioBox}:not(:focus-visible ~ ${CheckboxRadioBox}) {
     box-shadow: none;
   }
-`;
-
-// TODO review design
-const Copy = styled.span<{ $isDisabled?: boolean }>`
-  ${props =>
-    props.$isDisabled ? `color:${props.theme.color('neutral.600')};` : ``}
 `;
 
 const CheckBoxWrapper = styled.div`
@@ -104,7 +84,6 @@ type CheckboxRadioProps = {
   value?: string;
   ariaLabel?: string;
   form?: string;
-  disabled?: boolean;
   hasErrorBorder?: boolean;
 };
 
@@ -114,28 +93,18 @@ const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
   type,
   ariaLabel,
   hasErrorBorder,
-  disabled,
   ...inputProps
 }: CheckboxRadioProps): ReactElement<CheckboxRadioProps> => {
   return (
     <CheckboxRadioLabel htmlFor={id}>
       <CheckBoxWrapper>
-        <CheckboxRadioInput
-          id={id}
-          $type={type}
-          disabled={disabled}
-          {...inputProps}
-        />
-        <CheckboxRadioBox
-          $type={type}
-          $hasErrorBorder={hasErrorBorder}
-          $isDisabled={disabled}
-        >
+        <CheckboxRadioInput id={id} $type={type} {...inputProps} />
+        <CheckboxRadioBox $type={type} $hasErrorBorder={hasErrorBorder}>
           <Icon icon={type === 'checkbox' ? check : indicator} />
         </CheckboxRadioBox>
       </CheckBoxWrapper>
-      <Space $h={{ size: 's', properties: ['margin-left'] }}>
-        <Copy $isDisabled={disabled}>{text}</Copy>
+      <Space as="span" $h={{ size: 's', properties: ['margin-left'] }}>
+        {text}
       </Space>
     </CheckboxRadioLabel>
   );
