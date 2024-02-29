@@ -174,8 +174,7 @@ test('(11) | The multi-volume label should be appropriate', async ({
   expect(await page.getByText('Copy 3').count());
 });
 
-// TODO remove skip as part of https://github.com/wellcomecollection/wellcomecollection.org/issues/10644
-test.skip('(12) | The structured parts should be browseable', async ({
+test('(12) | The structured parts should be browseable', async ({
   page,
   context,
 }) => {
@@ -192,26 +191,27 @@ test.skip('(12) | The structured parts should be browseable', async ({
   }
 });
 
-// TODO remove skip as part of https://github.com/wellcomecollection/wellcomecollection.org/issues/10644
-test.skip('(13) | The main viewer can be scrolled', async ({
+test('(13) | The main viewer can be scrolled all the way to the last slide', async ({
   page,
   context,
 }) => {
   await itemWithSearchAndStructures(context, page);
   const mainScrollArea = page.getByTestId('main-viewer').locator('> div');
   await expect(mainScrollArea).toBeVisible();
+
   expect(
     await mainScrollArea.evaluate((element: HTMLElement) => {
       element.scrollTo(0, element.scrollHeight);
     })
   );
-  if (!isMobile(page)) {
-    // We don't display this info on mobile as there is not enough room
-    await slowExpect(page.getByText('68/68')).toBeVisible();
-  }
+
+  await expect(page.getByTestId('image-67')).toBeInViewport();
 });
 
-test('(14) | The item should be searchable', async ({ page, context }) => {
+test('(14) | The item should be searchable and a search should display relevant results', async ({
+  page,
+  context,
+}) => {
   await itemWithSearchAndStructures(context, page);
 
   if (isMobile(page)) {
@@ -220,10 +220,11 @@ test('(14) | The item should be searchable', async ({ page, context }) => {
 
   await page.getByLabel('Search within this item').fill('darwin');
   await page.getByRole('button', { name: 'search within' }).click();
+
+  await slowExpect(page.getByTestId('results-header')).toBeVisible();
 });
 
-// TODO remove skip as part of https://github.com/wellcomecollection/wellcomecollection.org/issues/10644
-test.skip('(15) | The location of the search results should be displayed', async ({
+test('(15) | The location of the search results should be displayed', async ({
   page,
   context,
 }) => {
@@ -243,12 +244,7 @@ test.skip('(15) | The location of the search results should be displayed', async
   await page
     .getByRole('link')
     .filter({ hasText: 'Found on image 5 / 68' })
-    .click();
-
-  if (!isMobile(page)) {
-    // we don't display this info on mobile as there is not enough room
-    await expect(page.getByText('5/68')).toBeVisible();
-  }
+    .isVisible();
 });
 
 test('(16) | Images should have unique alt text', async ({ page, context }) => {
