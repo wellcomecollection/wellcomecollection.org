@@ -224,10 +224,9 @@ test('(15) | The location of the search results should be displayed', async ({
 
   await accessSidebarOnMobile(page);
 
-  await page
-    .getByRole('link')
-    .filter({ hasText: 'Found on image 5 / 68' })
-    .isVisible();
+  await expect(
+    page.getByRole('link').filter({ hasText: 'Found on image 5 / 68' })
+  ).toBeVisible();
 });
 
 test('(16) | Images should have unique alt text', async ({ page, context }) => {
