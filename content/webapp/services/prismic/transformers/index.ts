@@ -133,6 +133,7 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
     : undefined;
 
   const body = data.body ? transformBody(data.body) : [];
+  const originalBody = data.body || [];
   const standfirst = body.find(isStandfirst);
 
   const metadataDescription = asText(data.metadataDescription);
@@ -141,6 +142,7 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
     id: doc.id,
     title: asTitle(data.title),
     body,
+    originalBody,
     standfirst: standfirst?.value,
     promo,
     image,

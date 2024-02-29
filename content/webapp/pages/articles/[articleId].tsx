@@ -73,8 +73,6 @@ export const getServerSideProps: GetServerSideProps<
   const client = createClient(context);
   const articleDocument = await fetchArticle(client, articleId);
 
-  console.log(articleDocument.data.body[0]);
-
   if (isNotUndefined(articleDocument)) {
     const serverData = await getServerData(context);
     const article = transformArticle(articleDocument);
@@ -334,6 +332,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
         Header={Header}
         Body={
           <Body
+            originalBody={article.originalBody}
             body={article.body}
             comicPreviousNext={
               isComicFormat ? getComicPreviousNext() : undefined

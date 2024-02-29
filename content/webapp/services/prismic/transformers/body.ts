@@ -36,7 +36,7 @@ import {
   transformTaslFromString,
 } from '@weco/common/services/prismic/transformers';
 import * as prismic from '@prismicio/client';
-import { BodySlice, Weight } from '../../../types/body';
+import { BodySlice, Slice, Weight } from '../../../types/body';
 import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
 import { transformPage } from './pages';
 import { transformGuide } from './guides';
@@ -51,6 +51,8 @@ import {
   getVimeoEmbedUrl,
   getYouTubeEmbedUrl,
 } from './embeds';
+import { AudioPlayerProps } from '../../../components/AudioPlayer/AudioPlayer';
+import { Props as QuoteProps } from '../../../components/Quote/Quote';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -248,7 +250,9 @@ function transformIframeSlice(slice: IframeSlice): BodySlice {
   };
 }
 
-function transformQuoteSlice(slice: QuoteSlice | QuoteV2Slice): BodySlice {
+export function transformQuoteSlice(
+  slice: QuoteSlice | QuoteV2Slice
+): Slice<'quote', QuoteProps> {
   return {
     type: 'quote',
     weight: getWeight(slice.slice_label),
@@ -277,7 +281,9 @@ function transformTagListSlice(slice: TagListSlice): BodySlice {
   };
 }
 
-function transformAudioPlayerSlice(slice: AudioPlayerSlice): BodySlice {
+export function transformAudioPlayerSlice(
+  slice: AudioPlayerSlice
+): Slice<'audioPlayer', AudioPlayerProps> {
   return {
     type: 'audioPlayer',
     value: {

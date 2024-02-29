@@ -1,5 +1,5 @@
 {
-  "id": "audio_player",
+  "id": "audioPlayer",
   "type": "SharedSlice",
   "name": "AudioPlayer",
   "description": "AudioPlayer",

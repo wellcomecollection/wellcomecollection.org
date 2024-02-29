@@ -56,6 +56,7 @@ import { PaletteColor } from '@weco/common/views/themes/config';
 import TextAndImageOrIcons from '../TextAndImageOrIcons';
 import { SliceZone } from '@prismicio/react';
 import { components } from '@weco/common/views/slices';
+import { Body } from '@weco/content/services/prismic/types/body';
 
 const BodyWrapper = styled.div<{ $splitBackground: boolean }>`
   ${props =>
@@ -94,6 +95,7 @@ export const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
 };
 
 type Props = {
+  originalBody: prismic.Slice[];
   body: BodySlice[];
   onThisPage?: Link[];
   showOnThisPage?: boolean;
@@ -134,6 +136,7 @@ const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
 `;
 
 const Body: FunctionComponent<Props> = ({
+  originalBody,
   body,
   onThisPage,
   showOnThisPage,
@@ -151,6 +154,13 @@ const Body: FunctionComponent<Props> = ({
     // The standfirst is now put into the header
     // and used exclusively by articles / article series
     .filter(slice => slice.type !== 'standfirst');
+
+  const filteredOriginalBody = originalBody
+    .filter(
+      slice =>
+        !(slice.slice_type === 'picture' && slice.slice_label === 'featured')
+    )
+    .filter(slice => slice.slice_type !== 'standfirst');
 
   const firstTextSliceIndex = filteredBody
     .map(slice => slice.type)
@@ -319,9 +329,14 @@ const Body: FunctionComponent<Props> = ({
       )}
 
       <SliceZone
-        slices={filteredBody}
+        slices={filteredOriginalBody}
         components={components}
-        context={{ minWidth, firstTextSliceIndex }}
+        context={{
+          minWidth,
+          firstTextSliceIndex,
+          isVisualStory,
+          comicPreviousNext,
+        }}
       />
 
       {filteredBody.map((slice, i) => (

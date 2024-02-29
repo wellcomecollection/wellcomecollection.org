@@ -119,6 +119,7 @@ const VisualStory: FunctionComponent<Props> = ({ visualStory, jsonLd }) => {
         Header={Header}
         Body={
           <Body
+            originalBody={visualStory.originalBody}
             body={visualStory.body}
             pageId={visualStory.id}
             onThisPage={visualStory.onThisPage}

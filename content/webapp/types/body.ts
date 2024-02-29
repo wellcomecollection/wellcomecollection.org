@@ -34,7 +34,7 @@ export type Weight =
   | 'supporting'
   | 'frames';
 
-type Slice<TypeName extends string, Value> = {
+export type Slice<TypeName extends string, Value> = {
   type: TypeName;
   weight?: Weight;
   value: Value;

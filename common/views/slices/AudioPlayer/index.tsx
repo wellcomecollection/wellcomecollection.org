@@ -1,14 +1,18 @@
-import { Content } from '@prismicio/client';
+import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
-import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
-import { transformAudioPlayerSlice } from '@weco/content/services/prismic/transformers/body';
+import AudioPlayer, {
+  AudioPlayerProps,
+} from '@weco/content/components/AudioPlayer/AudioPlayer';
 
-export type AudioPlayerSliceProps =
-  SliceComponentProps<Content.AudioPlayerSlice>;
+export type AudioPlayerSliceProps = SliceComponentProps<{
+  type: 'audioPlayer';
+  value: AudioPlayerProps;
+}>;
 
-const AudioPlayerSlice = ({ slice }: AudioPlayerSliceProps): JSX.Element => {
-  const props = transformAudioPlayerSlice(slice);
-  return <AudioPlayer {...props.value} />;
+const AudioPlayerSlice: FunctionComponent<AudioPlayerSliceProps> = ({
+  slice,
+}): JSX.Element => {
+  return <AudioPlayer {...slice.value} />;
 };
 
 export default AudioPlayerSlice;

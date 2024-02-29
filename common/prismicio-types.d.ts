@@ -14507,7 +14507,7 @@ export interface AudioPlayerSliceDefaultPrimary {
    *
    * - **Field Type**: Title
    * - **Placeholder**: *None*
-   * - **API ID Path**: audio_player.primary.title
+   * - **API ID Path**: audioPlayer.primary.title
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   title: prismic.TitleField;
@@ -14517,7 +14517,7 @@ export interface AudioPlayerSliceDefaultPrimary {
    *
    * - **Field Type**: Link to Media
    * - **Placeholder**: *None*
-   * - **API ID Path**: audio_player.primary.audio
+   * - **API ID Path**: audioPlayer.primary.audio
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   audio: prismic.LinkToMediaField;
@@ -14527,7 +14527,7 @@ export interface AudioPlayerSliceDefaultPrimary {
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: audio_player.primary.transcript
+   * - **API ID Path**: audioPlayer.primary.transcript
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   transcript: prismic.RichTextField;
@@ -14554,14 +14554,93 @@ type AudioPlayerSliceVariation = AudioPlayerSliceDefault;
 /**
  * AudioPlayer Shared Slice
  *
- * - **API ID**: `audio_player`
+ * - **API ID**: `audioPlayer`
  * - **Description**: AudioPlayer
  * - **Documentation**: https://prismic.io/docs/slice
  */
 export type AudioPlayerSlice = prismic.SharedSlice<
-  'audio_player',
+  'audioPlayer',
   AudioPlayerSliceVariation
 >;
+
+/**
+ * Primary content in *Quote → Primary*
+ */
+export interface QuoteSliceDefaultPrimary {
+  /**
+   * Quote field in *Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: quote.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Citation field in *Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: quote.primary.citation
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  citation: prismic.RichTextField;
+}
+
+/**
+ * Default variation for Quote Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type QuoteSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<QuoteSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *Quote*
+ */
+type QuoteSliceVariation = QuoteSliceDefault;
+
+/**
+ * Quote Shared Slice
+ *
+ * - **API ID**: `quote`
+ * - **Description**: Quote
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type QuoteSlice = prismic.SharedSlice<'quote', QuoteSliceVariation>;
+
+/**
+ * Default variation for Test Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type TestSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Record<string, never>,
+  never
+>;
+
+/**
+ * Slice variation for *Test*
+ */
+type TestSliceVariation = TestSliceDefault;
+
+/**
+ * Test Shared Slice
+ *
+ * - **API ID**: `test`
+ * - **Description**: Test
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type TestSlice = prismic.SharedSlice<'test', TestSliceVariation>;
 
 /**
  * Primary content in *Text → Primary*
@@ -14604,51 +14683,6 @@ type TextSliceVariation = TextSliceDefault;
  * - **Documentation**: https://prismic.io/docs/slice
  */
 export type TextSlice = prismic.SharedSlice<'text', TextSliceVariation>;
-
-/**
- * Primary content in *WhatVariants → Primary*
- */
-export interface WhatVariantsSliceDefaultPrimary {
-  /**
-   * image field in *WhatVariants → Primary*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: what_variants.primary.image
-   * - **Documentation**: https://prismic.io/docs/field#image
-   */
-  image: prismic.ImageField<never>;
-}
-
-/**
- * Default variation for WhatVariants Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type WhatVariantsSliceDefault = prismic.SharedSliceVariation<
-  'default',
-  Simplify<WhatVariantsSliceDefaultPrimary>,
-  never
->;
-
-/**
- * Slice variation for *WhatVariants*
- */
-type WhatVariantsSliceVariation = WhatVariantsSliceDefault;
-
-/**
- * WhatVariants Shared Slice
- *
- * - **API ID**: `what_variants`
- * - **Description**: WhatVariants
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type WhatVariantsSlice = prismic.SharedSlice<
-  'what_variants',
-  WhatVariantsSliceVariation
->;
 
 declare module '@prismicio/client' {
   interface CreateClient {
@@ -15080,14 +15114,17 @@ declare module '@prismicio/client' {
       AudioPlayerSliceDefaultPrimary,
       AudioPlayerSliceVariation,
       AudioPlayerSliceDefault,
+      QuoteSlice,
+      QuoteSliceDefaultPrimary,
+      QuoteSliceVariation,
+      QuoteSliceDefault,
+      TestSlice,
+      TestSliceVariation,
+      TestSliceDefault,
       TextSlice,
       TextSliceDefaultPrimary,
       TextSliceVariation,
       TextSliceDefault,
-      WhatVariantsSlice,
-      WhatVariantsSliceDefaultPrimary,
-      WhatVariantsSliceVariation,
-      WhatVariantsSliceDefault,
     };
   }
 }

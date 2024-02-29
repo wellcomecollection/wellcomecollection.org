@@ -97,7 +97,13 @@ const SeasonPage = ({
       <ContentPage
         id={season.id}
         Header={<SeasonsHeader season={season} />}
-        Body={<Body body={season.body} pageId={season.id} />}
+        Body={
+          <Body
+            originalBody={season.originalBody}
+            body={season.body}
+            pageId={season.id}
+          />
+        }
         hideContributors={true}
       />
 
