@@ -51,7 +51,7 @@ export type ImagesLinkSource =
   | 'unknown';
 
 export type ItemLinkSource =
-  | 'work'
+  | `work_${string}`
   | `images_search_result_${string}`
   | 'viewer/paginator'
   | 'viewer/thumbnail'
