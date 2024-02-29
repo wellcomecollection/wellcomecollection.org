@@ -165,7 +165,11 @@ const WorkDetails: FunctionComponent<Props> = ({
             ...iiifImageDownloadOptions,
             ...canvasDownloadOptions,
           ]}
-          itemUrl={itemLink({ workId: work.id, source: 'work', props: {} })}
+          itemUrl={itemLink({
+            workId: work.id,
+            source: `work_${pathname}`,
+            props: {},
+          })}
           shouldShowItemLink={shouldShowItemLink}
           digitalLocationInfo={digitalLocationInfo}
           digitalLocation={digitalLocation}
