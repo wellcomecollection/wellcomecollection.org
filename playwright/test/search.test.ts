@@ -7,12 +7,9 @@ import {
   testIfFilterIsApplied,
 } from './helpers/search';
 import { slowExpect } from './helpers/utils';
+import { baseUrl } from './helpers/urls';
 
 test.describe.configure({ mode: 'parallel' });
-
-const baseUrl = process.env.PLAYWRIGHT_BASE_URL
-  ? process.env.PLAYWRIGHT_BASE_URL
-  : 'http://localhost:3000';
 
 test('(1) | The users changes tabs; the query (but not the filters) should be maintained', async ({
   page,
