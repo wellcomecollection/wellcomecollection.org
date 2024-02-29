@@ -56,7 +56,6 @@ import { PaletteColor } from '@weco/common/views/themes/config';
 import TextAndImageOrIcons from '../TextAndImageOrIcons';
 import { SliceZone } from '@prismicio/react';
 import { components } from '@weco/common/views/slices';
-import { Body } from '@weco/content/services/prismic/types/body';
 
 const BodyWrapper = styled.div<{ $splitBackground: boolean }>`
   ${props =>
@@ -134,6 +133,13 @@ const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
 }))<{ $rowBackgroundColor: PaletteColor }>`
   background-color: ${props => props.theme.color(props.$rowBackgroundColor)};
 `;
+
+export const defaultContext = {
+  minWidth: 8,
+  firstTextSliceIndex: 1,
+  isVisualStory: false,
+  comicPreviousNext: undefined,
+};
 
 const Body: FunctionComponent<Props> = ({
   originalBody,

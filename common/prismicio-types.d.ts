@@ -14499,68 +14499,99 @@ export type AllDocumentTypes =
   | WebcomicsDocument;
 
 /**
- * Primary content in *AudioPlayer → Primary*
+ * Primary content in *EditorialImage → Primary*
  */
-export interface AudioPlayerSliceDefaultPrimary {
+export interface EditorialImageSliceDefaultPrimary {
   /**
-   * Title field in *AudioPlayer → Primary*
+   * Image field in *EditorialImage → Primary*
    *
-   * - **Field Type**: Title
+   * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: audioPlayer.primary.title
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   * - **API ID Path**: editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
-  title: prismic.TitleField;
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
   /**
-   * Audio field in *AudioPlayer → Primary*
-   *
-   * - **Field Type**: Link to Media
-   * - **Placeholder**: *None*
-   * - **API ID Path**: audioPlayer.primary.audio
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-   */
-  audio: prismic.LinkToMediaField;
-
-  /**
-   * Transcript (Collapsible content) field in *AudioPlayer → Primary*
+   * Caption field in *EditorialImage → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **API ID Path**: audioPlayer.primary.transcript
+   * - **API ID Path**: editorialImage.primary.caption
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  transcript: prismic.RichTextField;
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *EditorialImage → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: editorialImage.primary.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
 }
 
 /**
- * Default variation for AudioPlayer Slice
+ * Default variation for EditorialImage Slice
  *
  * - **API ID**: `default`
  * - **Description**: Default
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type AudioPlayerSliceDefault = prismic.SharedSliceVariation<
+export type EditorialImageSliceDefault = prismic.SharedSliceVariation<
   'default',
-  Simplify<AudioPlayerSliceDefaultPrimary>,
+  Simplify<EditorialImageSliceDefaultPrimary>,
   never
 >;
 
 /**
- * Slice variation for *AudioPlayer*
+ * Slice variation for *EditorialImage*
  */
-type AudioPlayerSliceVariation = AudioPlayerSliceDefault;
+type EditorialImageSliceVariation = EditorialImageSliceDefault;
 
 /**
- * AudioPlayer Shared Slice
+ * EditorialImage Shared Slice
  *
- * - **API ID**: `audioPlayer`
- * - **Description**: AudioPlayer
+ * - **API ID**: `editorialImage`
+ * - **Description**: EditorialImage
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type AudioPlayerSlice = prismic.SharedSlice<
-  'audioPlayer',
-  AudioPlayerSliceVariation
+export type EditorialImageSlice = prismic.SharedSlice<
+  'editorialImage',
+  EditorialImageSliceVariation
+>;
+
+/**
+ * Default variation for EditorialImageGallery Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type EditorialImageGallerySliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Record<string, never>,
+  never
+>;
+
+/**
+ * Slice variation for *EditorialImageGallery*
+ */
+type EditorialImageGallerySliceVariation = EditorialImageGallerySliceDefault;
+
+/**
+ * EditorialImageGallery Shared Slice
+ *
+ * - **API ID**: `editorialImageGallery`
+ * - **Description**: EditorialImageGallery
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type EditorialImageGallerySlice = prismic.SharedSlice<
+  'editorialImageGallery',
+  EditorialImageGallerySliceVariation
 >;
 
 /**
@@ -14614,33 +14645,6 @@ type QuoteSliceVariation = QuoteSliceDefault;
  * - **Documentation**: https://prismic.io/docs/slice
  */
 export type QuoteSlice = prismic.SharedSlice<'quote', QuoteSliceVariation>;
-
-/**
- * Default variation for Test Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type TestSliceDefault = prismic.SharedSliceVariation<
-  'default',
-  Record<string, never>,
-  never
->;
-
-/**
- * Slice variation for *Test*
- */
-type TestSliceVariation = TestSliceDefault;
-
-/**
- * Test Shared Slice
- *
- * - **API ID**: `test`
- * - **Description**: Test
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type TestSlice = prismic.SharedSlice<'test', TestSliceVariation>;
 
 /**
  * Primary content in *Text → Primary*
@@ -15110,17 +15114,17 @@ declare module '@prismicio/client' {
       WebcomicsDocumentDataPromoSlice,
       WebcomicsDocumentDataSeriesItem,
       AllDocumentTypes,
-      AudioPlayerSlice,
-      AudioPlayerSliceDefaultPrimary,
-      AudioPlayerSliceVariation,
-      AudioPlayerSliceDefault,
+      EditorialImageSlice,
+      EditorialImageSliceDefaultPrimary,
+      EditorialImageSliceVariation,
+      EditorialImageSliceDefault,
+      EditorialImageGallerySlice,
+      EditorialImageGallerySliceVariation,
+      EditorialImageGallerySliceDefault,
       QuoteSlice,
       QuoteSliceDefaultPrimary,
       QuoteSliceVariation,
       QuoteSliceDefault,
-      TestSlice,
-      TestSliceVariation,
-      TestSliceDefault,
       TextSlice,
       TextSliceDefaultPrimary,
       TextSliceVariation,

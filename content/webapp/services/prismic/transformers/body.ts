@@ -53,6 +53,8 @@ import {
 } from './embeds';
 import { AudioPlayerProps } from '../../../components/AudioPlayer/AudioPlayer';
 import { Props as QuoteProps } from '../../../components/Quote/Quote';
+import { CaptionedImageProps } from '../../../components/CaptionedImage/CaptionedImage';
+import { Props as ImageGalleryProps } from '../../../components/ImageGallery';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -143,7 +145,9 @@ function transformContactSlice(slice: ContactSlice): BodySlice | undefined {
     : undefined;
 }
 
-function transformEditorialImageSlice(slice: EditorialImageSlice): BodySlice {
+export function transformEditorialImageSlice(
+  slice: EditorialImageSlice
+): Slice<'picture', CaptionedImageProps> {
   return {
     weight: getWeight(slice.slice_label),
     type: 'picture',
@@ -151,9 +155,9 @@ function transformEditorialImageSlice(slice: EditorialImageSlice): BodySlice {
   };
 }
 
-function transformEditorialImageGallerySlice(
+export function transformEditorialImageGallerySlice(
   slice: EditorialImageGallerySlice
-): BodySlice {
+): Slice<'imageGallery', ImageGalleryProps> {
   return {
     type: 'imageGallery',
     value: {
