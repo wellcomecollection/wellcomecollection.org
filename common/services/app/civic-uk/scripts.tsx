@@ -8,8 +8,9 @@ const CivicUK = () => (
       dangerouslySetInnerHTML={{
         __html: `CookieControl.load({
             product: 'COMMUNITY',
-            apiKey: '73fee8f69cf633d66fae404ddd69d2559af7f887',
-            branding: { removeIcon: true }, // PRO only
+            apiKey: '5a1b492f47fac442240976a4f991ad92278ef15a',
+            product: 'pro',
+            branding: { removeIcon: true }, 
             necessaryCookies: ['toggle_*'],
             optionalCookies: [
               {
