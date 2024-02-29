@@ -13,9 +13,8 @@ import {
   isMobile,
 } from './helpers/contexts';
 import { baseUrl } from './helpers/urls';
-import { makeDefaultToggleCookies } from './helpers/utils';
+import { makeDefaultToggleCookies, slowExpect } from './helpers/utils';
 import { apiResponse } from './mocks/search-within';
-import { slowExpect } from './helpers/search';
 
 const domain = new URL(baseUrl).host;
 

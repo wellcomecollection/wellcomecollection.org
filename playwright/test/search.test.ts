@@ -4,9 +4,9 @@ import {
   searchQuerySubmitAndWait,
   selectAndWaitForColourFilter,
   selectAndWaitForFilter,
-  slowExpect,
   testIfFilterIsApplied,
 } from './helpers/search';
+import { slowExpect } from './helpers/utils';
 
 test.describe.configure({ mode: 'parallel' });
 
