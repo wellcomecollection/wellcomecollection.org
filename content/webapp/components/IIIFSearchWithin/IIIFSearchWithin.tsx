@@ -215,6 +215,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
           <TextInput
             id="searchWithin"
             label={searchWithinLabel}
+            type="search"
             name="query"
             value={value}
             setValue={setValue}

@@ -208,7 +208,7 @@ test('(13) | The main viewer can be scrolled all the way to the last slide', asy
   await expect(page.getByTestId('image-67')).toBeInViewport();
 });
 
-test('(14) | The item should be searchable and a search should display relevant results', async ({
+test('(14) | The item should be searchable and a search should display results', async ({
   page,
   context,
 }) => {
@@ -218,8 +218,9 @@ test('(14) | The item should be searchable and a search should display relevant 
     await page.getByRole('button', { name: 'Show info' }).click();
   }
 
-  await page.getByLabel('Search within this item').fill('darwin');
-  await page.getByRole('button', { name: 'search within' }).click();
+  const searchBar = page.getByRole('searchbox');
+  await searchBar.fill('darwin');
+  await searchBar.press('Enter');
 
   await slowExpect(page.getByTestId('results-header')).toBeVisible();
 });
