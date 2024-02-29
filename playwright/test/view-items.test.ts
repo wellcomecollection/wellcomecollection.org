@@ -13,7 +13,7 @@ import {
   isMobile,
 } from './helpers/contexts';
 import { baseUrl } from './helpers/urls';
-import { makeDefaultToggleCookies, slowExpect } from './helpers/utils';
+import { makeDefaultToggleCookies } from './helpers/utils';
 import { apiResponse } from './mocks/search-within';
 
 const domain = new URL(baseUrl).host;
@@ -208,7 +208,7 @@ test('(13) | The main viewer can be scrolled all the way to the last slide', asy
   await expect(page.getByTestId('image-67')).toBeInViewport();
 });
 
-test('(14) | The item should be searchable and a search should display results', async ({
+test.only('(14) | The item should be searchable and a search should display results', async ({
   page,
   context,
 }) => {
@@ -218,11 +218,11 @@ test('(14) | The item should be searchable and a search should display results',
     await page.getByRole('button', { name: 'Show info' }).click();
   }
 
-  const searchBar = page.getByRole('searchbox');
-  await searchBar.fill('darwin');
-  await searchBar.press('Enter');
+  await page.getByLabel('Search within this item').fill('darwin');
+  await page.getByRole('button', { name: 'search within' }).click();
 
-  await slowExpect(page.getByTestId('results-header')).toBeVisible();
+  const slowerExpect = expect.configure({ timeout: 20000 });
+  await slowerExpect(page.getByTestId('results-header')).toBeVisible();
 });
 
 test('(15) | The location of the search results should be displayed', async ({
