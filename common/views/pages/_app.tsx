@@ -83,7 +83,8 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   const serverData = isServerDataSet ? pageProps.serverData : defaultServerData;
 
-  const reloadConsentStatus = () => window.location.reload();
+  const onAnalyticsConsentChange = () =>
+    console.log('Decide on what to do here and how to handle');
 
   useMaintainPageHeight();
   useEffect(() => {
@@ -91,9 +92,12 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   }, []);
 
   useEffect(() => {
-    window.addEventListener('analyticsConsentChange', reloadConsentStatus);
+    window.addEventListener('analyticsConsentChange', onAnalyticsConsentChange);
     return () => {
-      window.removeEventListener('analyticsConsentChange', reloadConsentStatus);
+      window.removeEventListener(
+        'analyticsConsentChange',
+        onAnalyticsConsentChange
+      );
     };
   }, []);
 
