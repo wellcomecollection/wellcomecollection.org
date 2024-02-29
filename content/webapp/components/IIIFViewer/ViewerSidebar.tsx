@@ -182,7 +182,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
         )}
 
         {work.referenceNumber && (
-          <div data-test-id="reference-number">
+          <div>
             <LinkLabels
               heading="Reference"
               items={[{ text: work.referenceNumber }]}
