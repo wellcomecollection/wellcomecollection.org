@@ -74,7 +74,6 @@ const CivicUK = () => (
                 ],
                 onAccept: function () {
                   const event = new CustomEvent('analyticsConsentChange', {});
-                  window.alert('accept');
                   window.dispatchEvent(event);
                 },
                 onRevoke: function () {
