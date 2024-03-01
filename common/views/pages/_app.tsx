@@ -83,8 +83,9 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   const serverData = isServerDataSet ? pageProps.serverData : defaultServerData;
 
-  const onAnalyticsConsentChange = () =>
-    console.log('Decide on what to do here and how to handle');
+  const onAnalyticsConsentChange = () => {
+    // Have popup that says "Your cookie settings have been saved"
+  };
 
   useMaintainPageHeight();
   useEffect(() => {
