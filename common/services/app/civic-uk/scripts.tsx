@@ -15,7 +15,6 @@ const text = {
   notifyTitle: 'Our website uses cookies',
   notifyDescription:
     "We use cookies to make our website work. To help us make our marketing and website better, we'd like your consent to use cookies on behalf of third parties too.",
-  thirdPartyTitle: 'HI',
   closeLabel: 'Close preference centre',
   settings: 'Manage cookies',
   accept: 'Accept all',
