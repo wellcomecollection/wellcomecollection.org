@@ -1,3 +1,4 @@
+import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import React, { useEffect, FunctionComponent, ReactElement } from 'react';
 import { ThemeProvider } from 'styled-components';
@@ -22,9 +23,10 @@ import { AppErrorProps } from '@weco/common/services/app';
 import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
 import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
 import { GaDimensions } from '@weco/common/services/app/google-analytics';
-import { NextPage } from 'next';
 import { deserialiseProps } from '@weco/common/utils/json';
 import { SearchContextProvider } from '@weco/common/views/components/SearchContext/SearchContext';
+import ConsentAndScripts from '@weco/common/views/components/ConsentAndScripts';
+import { renderSegmentSnippet } from './_document';
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
@@ -83,23 +85,10 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   const serverData = isServerDataSet ? pageProps.serverData : defaultServerData;
 
-  const onAnalyticsConsentChange = () => {
-    // Have popup that says "Your cookie settings have been saved"
-  };
-
   useMaintainPageHeight();
+
   useEffect(() => {
     document.documentElement.classList.add('enhanced');
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener('analyticsConsentChange', onAnalyticsConsentChange);
-    return () => {
-      window.removeEventListener(
-        'analyticsConsentChange',
-        onAnalyticsConsentChange
-      );
-    };
   }, []);
 
   useEffect(() => {
@@ -133,6 +122,14 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                     isFontsLoaded={useIsFontsLoaded()}
                   />
                   <LoadingIndicator />
+
+                  {pageProps.serverData?.toggles?.cookiesWork?.value && (
+                    <ConsentAndScripts
+                      toggles={pageProps.serverData?.toggles}
+                      segmentSnippet={renderSegmentSnippet()}
+                    />
+                  )}
+
                   {!pageProps.err &&
                     getLayout(<Component {...deserialiseProps(pageProps)} />)}
                   {pageProps.err && (

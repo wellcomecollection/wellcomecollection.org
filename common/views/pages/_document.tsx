@@ -16,14 +16,13 @@ import {
   GoogleTagManagerNoScript,
   GaDimensions,
 } from '@weco/common/services/app/google-analytics';
-import CivicUK from '@weco/common/services/app/civic-uk/scripts';
 
 const {
   ANALYTICS_WRITE_KEY = '78Czn5jNSaMSVrBq2J9K4yJjWxh6fyRI',
   NODE_ENV = 'development',
 } = process.env;
 
-function renderSegmentSnippet() {
+export function renderSegmentSnippet() {
   const opts = {
     apiKey: ANALYTICS_WRITE_KEY,
     page: false,
@@ -80,9 +79,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
     return (
       <Html lang="en">
         <Head>
-          {this.props.toggles?.cookiesWork?.value && <CivicUK />}
-
-          {this.props.hasAnalyticsConsent && (
+          {!this.props.toggles?.cookiesWork?.value && (
             <>
               {/* Adding toggles etc. to the datalayer so they are available to events in Google Tag Manager */}
               <Ga4DataLayer
@@ -98,7 +95,10 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
           )}
         </Head>
         <body>
-          {this.props.hasAnalyticsConsent && <GoogleTagManagerNoScript />}
+          {/* This doesn't actually work and needs adressing for our testing */}
+          {!this.props.toggles?.cookiesWork?.value && (
+            <GoogleTagManagerNoScript />
+          )}
           <div id="top">
             <Main />
           </div>

@@ -17,7 +17,9 @@ type Props = {
 // GA4 now limits event parameter values to 100 characters: https://support.google.com/analytics/answer/9267744?hl=en
 // So instead of sending the whole toggles JSON blob, we only look at the "test" typed toggles and send a concatenated string made of the toggles' name
 // , preceeded with a! if its value is false.
-function createToggleString(toggles: Toggles | undefined): string | null {
+export function createToggleString(
+  toggles: Toggles | undefined
+): string | null {
   const testToggles = toggles
     ? Object.keys(toggles).reduce((acc, key) => {
         if (toggles?.[key].type === 'test') {

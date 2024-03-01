@@ -72,11 +72,11 @@ const CivicUK = () => (
                   '__utmv',
                 ],
                 onAccept: function () {
-                  const event = new CustomEvent('analyticsConsentChange', {});
+                  const event = new CustomEvent('analyticsConsentAccepted', {});
                   window.dispatchEvent(event);
                 },
                 onRevoke: function () {
-                  const event = new CustomEvent('analyticsConsentChange', {});
+                  const event = new CustomEvent('analyticsConsentRejected', {});
                   window.dispatchEvent(event);
                 },
               },
