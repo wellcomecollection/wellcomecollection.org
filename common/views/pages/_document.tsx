@@ -13,7 +13,6 @@ import { Toggles } from '@weco/toggles';
 import {
   Ga4DataLayer,
   GoogleTagManager,
-  GoogleTagManagerNoScript,
   GaDimensions,
 } from '@weco/common/services/app/google-analytics';
 import CivicUK from '@weco/common/services/app/civic-uk/scripts';
@@ -98,7 +97,6 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
           )}
         </Head>
         <body>
-          {this.props.hasAnalyticsConsent && <GoogleTagManagerNoScript />}
           <div id="top">
             <Main />
           </div>
