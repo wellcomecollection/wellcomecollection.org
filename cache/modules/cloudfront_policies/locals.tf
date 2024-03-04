@@ -1,6 +1,6 @@
 locals {
   toggles_cookies        = ["toggles", "toggle_*"]
-  userpreference_cookies = ["WC_*"]
+  userpreference_cookies = ["WC_*", "CookieControl"]
   ga_cookies             = ["_ga"]
 
   one_minute = 60
