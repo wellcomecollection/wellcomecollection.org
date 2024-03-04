@@ -11,7 +11,7 @@ export const getAnalyticsConsentState = (
   context?: GetServerSidePropsContext
 ): boolean => {
   const cookies = getCookies(context);
-  const isCookiesWorkToggleOn = cookies.toggle_cookiesWork;
+  const isCookiesWorkToggleOn = cookies.toggle_cookiesWork === 'true';
   const consentCookie = cookies.CookieControl;
 
   // Ensures this returns true for regular users
