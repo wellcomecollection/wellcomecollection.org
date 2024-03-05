@@ -13,7 +13,6 @@ import { Toggles } from '@weco/toggles';
 import {
   Ga4DataLayer,
   GoogleTagManager,
-  GoogleTagManagerNoScript,
   GaDimensions,
 } from '@weco/common/services/app/google-analytics';
 
@@ -98,10 +97,6 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
           </>
         </Head>
         <body>
-          {/* This doesn't actually work and needs adressing for our testing */}
-          {!this.props.toggles?.cookiesWork?.value && (
-            <GoogleTagManagerNoScript />
-          )}
           <div id="top">
             <Main />
           </div>
