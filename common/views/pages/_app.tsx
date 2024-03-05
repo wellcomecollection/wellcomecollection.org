@@ -125,7 +125,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
                   {pageProps.serverData?.toggles?.cookiesWork?.value && (
                     <ConsentAndScripts
-                      toggles={pageProps.serverData?.toggles}
                       segmentSnippet={renderSegmentSnippet()}
                     />
                   )}

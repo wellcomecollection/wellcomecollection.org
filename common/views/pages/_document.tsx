@@ -79,20 +79,23 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
     return (
       <Html lang="en">
         <Head>
-          {!this.props.toggles?.cookiesWork?.value && (
-            <>
-              {/* Adding toggles etc. to the datalayer so they are available to events in Google Tag Manager */}
-              <Ga4DataLayer
-                data={{
-                  toggles: this.props.toggles,
-                }}
-              />
-              <GoogleTagManager />
-              <script
-                dangerouslySetInnerHTML={{ __html: renderSegmentSnippet() }}
-              />
-            </>
-          )}
+          <>
+            {/* Adding toggles etc. to the datalayer so they are available to events in Google Tag Manager */}
+            <Ga4DataLayer
+              data={{
+                toggles: this.props.toggles,
+              }}
+            />
+
+            {!this.props.toggles?.cookiesWork?.value && (
+              <>
+                <GoogleTagManager />
+                <script
+                  dangerouslySetInnerHTML={{ __html: renderSegmentSnippet() }}
+                />
+              </>
+            )}
+          </>
         </Head>
         <body>
           {/* This doesn't actually work and needs adressing for our testing */}
