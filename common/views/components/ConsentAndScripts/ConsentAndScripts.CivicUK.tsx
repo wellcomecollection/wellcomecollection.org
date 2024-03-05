@@ -1,5 +1,3 @@
-import { font } from '@weco/common/utils/classnames';
-
 const branding = {
   removeIcon: true,
   removeAbout: true,
@@ -15,10 +13,12 @@ const text = {
   notifyTitle: 'Our website uses cookies',
   notifyDescription:
     "We use cookies to make our website work. To help us make our marketing and website better, we'd like your consent to use cookies on behalf of third parties too.",
-  closeLabel: 'Close preference centre',
+  closeLabel: 'Save and close',
   settings: 'Manage cookies',
   accept: 'Accept all',
+  acceptSettings: 'Accept all',
   reject: 'Essential only',
+  rejectSettings: 'Essential only',
 };
 
 // Should your privacy policy change after a user gives consent,
@@ -50,13 +50,11 @@ const CivicUK = () => (
             closeStyle: 'button',
             settingsStyle: 'button',
             notifyDismissButton: false,
-            acceptButton: false,
-            rejectButton: false,
             necessaryCookies: ['toggle_*'],
             optionalCookies: [
               {
                 name: 'analytics',
-                label: '<h2 class=${font('wb', 3)}>Measure website use</h2>',
+                label: 'Measure website use',
                 description:
                   '<ul><li>We use these cookies to recognise you, to count your visits to the website, and to see how you move around it.</li><li>They help us to provide you with a good experience while you browse, for example by helping to make sure you can find what you need.</li><li>They also allows us to improve the way the website works.</li></ul>',
                 cookies: [
