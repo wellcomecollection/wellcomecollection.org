@@ -9,11 +9,15 @@ const ConsentAndScripts = ({ segmentSnippet }: { segmentSnippet: string }) => {
   const onAnalyticsConsentAccepted = () => {
     // Add scripts
     setConsentState(true);
+
+    // TODO Update datalayer config to add consent
   };
 
   const onAnalyticsConsentRejected = () => {
     // Remove scripts
     setConsentState(false);
+
+    // TODO Update datalayer config to remove consent
   };
 
   useEffect(() => {

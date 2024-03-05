@@ -5,8 +5,6 @@ import {
   useEffect,
   FunctionComponent,
   PropsWithChildren,
-  Dispatch,
-  SetStateAction,
 } from 'react';
 import theme from '@weco/common/views/themes/default';
 import { Size } from '@weco/common/views/themes/config';
@@ -17,8 +15,6 @@ type AppContextProps = {
   windowSize: Size;
   audioPlaybackRate: number;
   setAudioPlaybackRate: (rate: number) => void;
-  displayCookiePreferencePopup: boolean;
-  setDisplayCookiePreferencePopup: Dispatch<SetStateAction<boolean>>;
 };
 
 const appContextDefaults = {
@@ -27,8 +23,6 @@ const appContextDefaults = {
   windowSize: 'small' as Size,
   audioPlaybackRate: 1,
   setAudioPlaybackRate: () => null,
-  displayCookiePreferencePopup: false,
-  setDisplayCookiePreferencePopup: () => null,
 };
 
 export const AppContext = createContext<AppContextProps>(appContextDefaults);
@@ -59,9 +53,6 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
   const [audioPlaybackRate, setAudioPlaybackRate] = useState(
     appContextDefaults.audioPlaybackRate
   );
-
-  const [displayCookiePreferencePopup, setDisplayCookiePreferencePopup] =
-    useState(appContextDefaults.displayCookiePreferencePopup);
 
   useEffect(() => {
     setIsEnhanced(true);
@@ -97,8 +88,6 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
         windowSize,
         audioPlaybackRate,
         setAudioPlaybackRate,
-        displayCookiePreferencePopup,
-        setDisplayCookiePreferencePopup,
       }}
     >
       {children}
