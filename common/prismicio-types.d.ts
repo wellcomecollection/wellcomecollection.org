@@ -14542,6 +14542,33 @@ export type AllDocumentTypes =
   | WebcomicSeriesDocument
   | WebcomicsDocument;
 
+/**
+ * Default variation for YoYo Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type YoYoSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Record<string, never>,
+  never
+>;
+
+/**
+ * Slice variation for *YoYo*
+ */
+type YoYoSliceVariation = YoYoSliceDefault;
+
+/**
+ * YoYo Shared Slice
+ *
+ * - **API ID**: `yo_yo`
+ * - **Description**: YoYo
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type YoYoSlice = prismic.SharedSlice<'yo_yo', YoYoSliceVariation>;
+
 declare module '@prismicio/client' {
   interface CreateClient {
     (
@@ -14969,6 +14996,9 @@ declare module '@prismicio/client' {
       WebcomicsDocumentDataPromoSlice,
       WebcomicsDocumentDataSeriesItem,
       AllDocumentTypes,
+      YoYoSlice,
+      YoYoSliceVariation,
+      YoYoSliceDefault,
     };
   }
 }
