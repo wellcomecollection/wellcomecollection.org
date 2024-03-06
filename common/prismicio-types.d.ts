@@ -14542,51 +14542,6 @@ export type AllDocumentTypes =
   | WebcomicSeriesDocument
   | WebcomicsDocument;
 
-/**
- * Primary content in *TestSlice → Primary*
- */
-export interface TestSliceSliceDefaultPrimary {
-  /**
-   * text field in *TestSlice → Primary*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: test_slice.primary.text
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  text: prismic.RichTextField;
-}
-
-/**
- * Default variation for TestSlice Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type TestSliceSliceDefault = prismic.SharedSliceVariation<
-  'default',
-  Simplify<TestSliceSliceDefaultPrimary>,
-  never
->;
-
-/**
- * Slice variation for *TestSlice*
- */
-type TestSliceSliceVariation = TestSliceSliceDefault;
-
-/**
- * TestSlice Shared Slice
- *
- * - **API ID**: `test_slice`
- * - **Description**: TestSlice
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type TestSliceSlice = prismic.SharedSlice<
-  'test_slice',
-  TestSliceSliceVariation
->;
-
 declare module '@prismicio/client' {
   interface CreateClient {
     (
@@ -15014,10 +14969,6 @@ declare module '@prismicio/client' {
       WebcomicsDocumentDataPromoSlice,
       WebcomicsDocumentDataSeriesItem,
       AllDocumentTypes,
-      TestSliceSlice,
-      TestSliceSliceDefaultPrimary,
-      TestSliceSliceVariation,
-      TestSliceSliceDefault,
     };
   }
 }
