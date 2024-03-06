@@ -13,9 +13,9 @@ import { Toggles } from '@weco/toggles';
 import {
   Ga4DataLayer,
   GoogleTagManager,
-  GoogleTagManagerNoScript,
   GaDimensions,
-} from '../../services/app/google-analytics';
+} from '@weco/common/services/app/google-analytics';
+import CivicUK from '@weco/common/services/app/civic-uk/scripts';
 
 const {
   ANALYTICS_WRITE_KEY = '78Czn5jNSaMSVrBq2J9K4yJjWxh6fyRI',
@@ -37,6 +37,7 @@ function renderSegmentSnippet() {
 
 type DocumentInitialPropsWithTogglesAndGa = DocumentInitialProps & {
   toggles: Toggles;
+  hasAnalyticsConsent: boolean;
   gaDimensions?: GaDimensions;
 };
 class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
@@ -61,6 +62,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
         ...initialProps,
         toggles: pageProps.serverData?.toggles,
         gaDimensions: pageProps.gaDimensions,
+        hasAnalyticsConsent: pageProps.serverData?.hasAnalyticsConsent,
         styles: (
           <>
             {initialProps.styles}
@@ -77,19 +79,24 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
     return (
       <Html lang="en">
         <Head>
-          {/* Adding toggles etc. to the datalayer so they are available to events in Google Tag Manager */}
-          <Ga4DataLayer
-            data={{
-              toggles: this.props.toggles,
-            }}
-          />
-          <GoogleTagManager />
-          <script
-            dangerouslySetInnerHTML={{ __html: renderSegmentSnippet() }}
-          />
+          {this.props.toggles?.cookiesWork?.value && <CivicUK />}
+
+          {this.props.hasAnalyticsConsent && (
+            <>
+              {/* Adding toggles etc. to the datalayer so they are available to events in Google Tag Manager */}
+              <Ga4DataLayer
+                data={{
+                  toggles: this.props.toggles,
+                }}
+              />
+              <GoogleTagManager />
+              <script
+                dangerouslySetInnerHTML={{ __html: renderSegmentSnippet() }}
+              />
+            </>
+          )}
         </Head>
         <body>
-          <GoogleTagManagerNoScript />
           <div id="top">
             <Main />
           </div>

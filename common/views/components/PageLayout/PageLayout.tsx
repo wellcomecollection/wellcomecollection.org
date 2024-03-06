@@ -86,7 +86,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   apiToolbarLinks = [],
   skipToContentLinks = [],
 }) => {
-  const { apiToolbar, issuesBanner } = useToggles();
+  const { apiToolbar, issuesBanner, cookiesWork } = useToggles();
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''
@@ -265,7 +265,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
       */}
 
       <Script
-        src={`https://cdn.polyfill.io/v3/polyfill.js?version=${polyfillVersion}&features=${polyfillFeatures.join(
+        src={`https://polyfill-fastly.io/v3/polyfill.js?version=${polyfillVersion}&features=${polyfillFeatures.join(
           ','
         )}`}
       />
@@ -298,7 +298,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         {apiToolbar && (
           <ApiToolbar links={apiToolbarLinks.filter(isNotUndefined)} />
         )}
-        <CookieNotice source={url.pathname || ''} />
+        {!cookiesWork && <CookieNotice source={url.pathname || ''} />}
         {skipToContentLinks.map(({ anchorId, label }) => (
           <a
             className="visually-hidden visually-hidden-focusable"
