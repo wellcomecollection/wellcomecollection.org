@@ -265,7 +265,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
       */}
 
       <Script
-        src={`https://cdn.polyfill.io/v3/polyfill.js?version=${polyfillVersion}&features=${polyfillFeatures.join(
+        src={`https://polyfill-fastly.io/v3/polyfill.js?version=${polyfillVersion}&features=${polyfillFeatures.join(
           ','
         )}`}
       />
