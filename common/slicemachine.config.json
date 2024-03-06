@@ -1,6 +1,6 @@
 {
   "repositoryName": "wellcomecollection",
   "adapter": "@slicemachine/adapter-next",
-  "libraries": ["../../views/slices"],
+  "libraries": ["./views/slices"],
   "localSliceSimulatorURL": "http://localhost:3000/slice-simulator"
 }
