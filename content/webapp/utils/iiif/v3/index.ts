@@ -563,11 +563,25 @@ export function getFileSize(canvas: TransformedCanvas): string | undefined {
   return fileSizeMeta ? getLabelString(fileSizeMeta.value) : undefined;
 }
 
+type CollectionItemsWithItems = CollectionItems & {
+  items: CollectionItemsWithItems[];
+};
 export function getCollectionManifests(
-  manifest: Manifest | Collection
+  manifest:
+    | Manifest
+    | Collection
+    | (CollectionItems & { items: CollectionItemsWithItems[] })
 ): CollectionItems[] {
-  if (isCollection(manifest)) {
-    return manifest.items?.filter(c => c.type === 'Manifest');
+  if (manifest.type === 'Collection') {
+    return manifest.items
+      .map(item => {
+        if (item.type === 'Manifest') {
+          return item;
+        } else {
+          return getCollectionManifests(item);
+        }
+      })
+      .flat(Infinity);
   } else {
     return [];
   }
