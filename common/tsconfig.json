@@ -20,6 +20,6 @@
     "strictNullChecks": true,
     "downlevelIteration": true
   },
-  "exclude": ["node_modules", "lib", "slicemachine.config.json"],
+  "exclude": ["node_modules", "lib"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }
