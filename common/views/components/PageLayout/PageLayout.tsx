@@ -161,7 +161,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   return (
     <>
       <Head>
-        <title key="title">{fullTitle}</title>
+        <title>{fullTitle}</title>
         <meta key="metadescription" name="description" content={description} />
         <link rel="canonical" href={absoluteUrl} />
         {/* meta elements need to be contained as direct children of the Head element, so don't componentise the following */}
