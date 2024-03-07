@@ -581,7 +581,7 @@ export function getCollectionManifests(
           return getCollectionManifests(item);
         }
       })
-      .flat(Infinity);
+      .flat(Infinity) as CollectionItems[];
   } else {
     return [];
   }
