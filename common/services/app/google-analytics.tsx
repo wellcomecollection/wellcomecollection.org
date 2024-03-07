@@ -11,6 +11,7 @@ type Props = {
   data: {
     toggles?: Toggles;
   };
+  hasAnalyticsConsent: boolean;
 };
 
 // We send toggles as an event parameter to GA4 so we can determine the condition in which a particular event took place.
@@ -42,21 +43,38 @@ function createToggleString(toggles: Toggles | undefined): string | null {
     : null;
 }
 
-export const Ga4DataLayer: FunctionComponent<Props> = ({ data }) => {
+export const Ga4DataLayer: FunctionComponent<Props> = ({
+  data,
+  hasAnalyticsConsent,
+}) => {
   const toggleString = createToggleString(data.toggles);
 
-  return toggleString ? (
-    <script
-      dangerouslySetInnerHTML={{
-        __html: `
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-          toggles: '${toggleString}'
-        });
-        `,
-      }}
-    />
-  ) : null;
+  return (
+    <>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){window.dataLayer.push(arguments);}
+
+            gtag('consent', 'default', {
+              'ad_storage': ${hasAnalyticsConsent ? '"granted"' : '"denied"'},
+              'analytics_storage': ${
+                hasAnalyticsConsent ? '"granted"' : '"denied"'
+              }
+            });
+
+            ${
+              toggleString &&
+              `window.dataLayer.push({
+                toggles: '${toggleString}'
+              });`
+            }
+          `,
+        }}
+      />
+    </>
+  );
 };
 
 export const GoogleTagManager: FunctionComponent = () => (

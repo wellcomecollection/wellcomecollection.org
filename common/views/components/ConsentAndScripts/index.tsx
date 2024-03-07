@@ -10,14 +10,22 @@ const ConsentAndScripts = ({ segmentSnippet }: { segmentSnippet: string }) => {
     // Add scripts
     setConsentState(true);
 
-    // TODO Update datalayer config to add consent
+    // Update datalayer config to add consent
+    gtag('consent', 'update', {
+      ad_storage: 'granted',
+      analytics_storage: 'granted',
+    });
   };
 
   const onAnalyticsConsentRejected = () => {
     // Remove scripts
     setConsentState(false);
 
-    // TODO Update datalayer config to remove consent
+    // Update datalayer config to remove consent
+    gtag('consent', 'update', {
+      ad_storage: 'denied',
+      analytics_storage: 'denied',
+    });
   };
 
   useEffect(() => {

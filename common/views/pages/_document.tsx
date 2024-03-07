@@ -81,6 +81,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
           <>
             {/* Adding toggles etc. to the datalayer so they are available to events in Google Tag Manager */}
             <Ga4DataLayer
+              hasAnalyticsConsent={this.props.hasAnalyticsConsent}
               data={{
                 toggles: this.props.toggles,
               }}
