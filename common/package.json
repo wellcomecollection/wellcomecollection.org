@@ -47,6 +47,7 @@
     "react-dom": "^18.2.0",
     "react-popper": "^2.3.0",
     "react-transition-group": "^4.3.0",
+    "slice-machine-ui": "^1.24.0",
     "styled-components": "^6.1.0",
     "timezone-mock": "^1.3.6",
     "ts-jest": "29.1.0",
