@@ -14,10 +14,11 @@ export const components = {
   iframe: dynamic(() => import('./Iframe')),
   infoBlock: dynamic(() => import('./InfoBlock')),
   map: dynamic(() => import('./Map')),
+  embed: dynamic(() => import('./Embed')),
   quote: dynamic(() => import('./Quote')),
   standfirst: dynamic(() => import('./Standfirst')),
   tagList: dynamic(() => import('./TagList')),
   text: dynamic(() => import('./Text')),
-  textAndImage: dynamic(() => import('./TextAndImage')),
   textAndIcons: dynamic(() => import('./TextAndIcons')),
+  textAndImage: dynamic(() => import('./TextAndImage')),
 };

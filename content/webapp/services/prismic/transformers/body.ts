@@ -63,10 +63,11 @@ import { Props as InfoBlockProps } from '../../../components/InfoBlock/InfoBlock
 import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
 import { Props as TagListProps } from '../../../components/TagsGroup/TagsGroup';
 import { Props as StandfirstProps } from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
+import { Props as EmbedProps } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import {
   TextAndImageItem,
   TextAndIconsItem,
-} from 'components/TextAndImageOrIcons';
+} from '../../../components/TextAndImageOrIcons';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -355,7 +356,12 @@ export function transformCollectionVenueSlice(
     : undefined;
 }
 
-export function transformEmbedSlice(slice: EmbedSlice): BodySlice | undefined {
+export function transformEmbedSlice(
+  slice: EmbedSlice
+):
+  | Slice<'videoEmbed', EmbedProps>
+  | Slice<'soundcloudEmbed', EmbedProps>
+  | undefined {
   const embed = slice.primary.embed;
 
   if (embed.provider_name === 'Vimeo') {
