@@ -96,7 +96,7 @@ export async function getImage({
 
   try {
     const image = await res.json();
-    return { url, image };
+    return { url, image } as ImageResponse;
   } catch (e) {
     return { url, image: wellcomeApiError() };
   }
