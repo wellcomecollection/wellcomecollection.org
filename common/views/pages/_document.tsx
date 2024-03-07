@@ -86,14 +86,12 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
                 toggles: this.props.toggles,
               }}
             />
+            <GoogleTagManager />
 
             {!this.props.toggles?.cookiesWork?.value && (
-              <>
-                <GoogleTagManager />
-                <script
-                  dangerouslySetInnerHTML={{ __html: renderSegmentSnippet() }}
-                />
-              </>
+              <script
+                dangerouslySetInnerHTML={{ __html: renderSegmentSnippet() }}
+              />
             )}
           </>
         </Head>
