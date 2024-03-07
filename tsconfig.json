@@ -1,5 +1,8 @@
 {
   "files": [],
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
   "references": [
     {
       "path": "./identity/webapp"
