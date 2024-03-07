@@ -63,7 +63,10 @@ import { Props as InfoBlockProps } from '../../../components/InfoBlock/InfoBlock
 import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
 import { Props as TagListProps } from '../../../components/TagsGroup/TagsGroup';
 import { Props as StandfirstProps } from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
-import { TextAndImageItem } from 'components/TextAndImageOrIcons';
+import {
+  TextAndImageItem,
+  TextAndIconsItem,
+} from 'components/TextAndImageOrIcons';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -113,7 +116,9 @@ export function transformTextAndImage(
   };
 }
 
-function transformTextAndIcons(slice: TextAndIconsSlice): BodySlice {
+export function transformTextAndIcons(
+  slice: TextAndIconsSlice
+): Slice<'textAndIcons', TextAndIconsItem> {
   return {
     type: 'textAndIcons',
     value: {

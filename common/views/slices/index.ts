@@ -19,4 +19,5 @@ export const components = {
   tagList: dynamic(() => import('./TagList')),
   text: dynamic(() => import('./Text')),
   textAndImage: dynamic(() => import('./TextAndImage')),
+  textAndIcons: dynamic(() => import('./TextAndIcons')),
 };
