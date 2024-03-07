@@ -18,7 +18,7 @@ type Props = {
 // GA4 now limits event parameter values to 100 characters: https://support.google.com/analytics/answer/9267744?hl=en
 // So instead of sending the whole toggles JSON blob, we only look at the "test" typed toggles and send a concatenated string made of the toggles' name
 // , preceeded with a! if its value is false.
-function createToggleString(toggles: Toggles | undefined): string | null {
+function createABToggleString(toggles: Toggles | undefined): string | null {
   const testToggles = toggles
     ? Object.keys(toggles).reduce((acc, key) => {
         if (toggles?.[key].type === 'test') {
@@ -47,34 +47,37 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({
   data,
   hasAnalyticsConsent,
 }) => {
-  const toggleString = createToggleString(data.toggles);
+  const abTestsToggleString = createABToggleString(data.toggles);
 
-  return (
-    <>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
+  return data.toggles?.cookiesWork?.value || abTestsToggleString ? (
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `
             window.dataLayer = window.dataLayer || [];
-            function gtag(){window.dataLayer.push(arguments);}
-
-            gtag('consent', 'default', {
-              'ad_storage': ${hasAnalyticsConsent ? '"granted"' : '"denied"'},
-              'analytics_storage': ${
-                hasAnalyticsConsent ? '"granted"' : '"denied"'
-              }
-            });
 
             ${
-              toggleString &&
+              data.toggles?.cookiesWork?.value
+                ? `function gtag(){window.dataLayer.push(arguments);}
+              
+              gtag('consent', 'default', {
+                'ad_storage': ${hasAnalyticsConsent ? '"granted"' : '"denied"'},
+                'analytics_storage': ${
+                  hasAnalyticsConsent ? '"granted"' : '"denied"'
+                }
+              });`
+                : ``
+            }
+
+            ${
+              abTestsToggleString &&
               `window.dataLayer.push({
-                toggles: '${toggleString}'
+                toggles: '${abTestsToggleString}'
               });`
             }
           `,
-        }}
-      />
-    </>
-  );
+      }}
+    />
+  ) : null;
 };
 
 export const GoogleTagManager: FunctionComponent = () => (

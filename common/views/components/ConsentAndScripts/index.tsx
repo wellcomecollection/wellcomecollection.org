@@ -6,25 +6,14 @@ import { getAnalyticsConsentState } from '@weco/common/services/app/civic-uk';
 const ConsentAndScripts = ({ segmentSnippet }: { segmentSnippet: string }) => {
   const [consentState, setConsentState] = useState(false);
 
-  const onAnalyticsConsentAccepted = () => {
-    // Add scripts
-    setConsentState(true);
+  const onAnalyticsConsentChanged = (event: CustomEvent) => {
+    // Toggle rendering of scripts
+    setConsentState(event.detail.consent === 'granted');
 
-    // Update datalayer config to add consent
+    // Update datalayer config with consent value
     gtag('consent', 'update', {
-      ad_storage: 'granted',
-      analytics_storage: 'granted',
-    });
-  };
-
-  const onAnalyticsConsentRejected = () => {
-    // Remove scripts
-    setConsentState(false);
-
-    // Update datalayer config to remove consent
-    gtag('consent', 'update', {
-      ad_storage: 'denied',
-      analytics_storage: 'denied',
+      ad_storage: event.detail.consent,
+      analytics_storage: event.detail.consent,
     });
   };
 
@@ -32,22 +21,14 @@ const ConsentAndScripts = ({ segmentSnippet }: { segmentSnippet: string }) => {
     setConsentState(getAnalyticsConsentState());
 
     window.addEventListener(
-      'analyticsConsentAccepted',
-      onAnalyticsConsentAccepted
-    );
-    window.addEventListener(
-      'analyticsConsentRejected',
-      onAnalyticsConsentRejected
+      'analyticsConsentChanged',
+      onAnalyticsConsentChanged
     );
 
     return () => {
       window.removeEventListener(
-        'analyticsConsentAccepted',
-        onAnalyticsConsentAccepted
-      );
-      window.removeEventListener(
-        'analyticsConsentRejected',
-        onAnalyticsConsentRejected
+        'analyticsConsentChanged',
+        onAnalyticsConsentChanged
       );
     };
   }, []);
@@ -56,20 +37,17 @@ const ConsentAndScripts = ({ segmentSnippet }: { segmentSnippet: string }) => {
     <>
       {consentState && (
         <Head>
-          <>
-            {/* Adding toggles etc. to the datalayer so they are available to events in Google Tag Manager */}
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
                   (function(w,d,s,l,i){w[l] = w[l] || [];w[l].push({'gtm.start':
                   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
                   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
                   })(window,document,'script','dataLayer','GTM-53DFWQD');`,
-              }}
-            />
-            <script dangerouslySetInnerHTML={{ __html: segmentSnippet }} />
-          </>
+            }}
+          />
+          <script dangerouslySetInnerHTML={{ __html: segmentSnippet }} />
         </Head>
       )}
 

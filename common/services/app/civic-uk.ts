@@ -17,7 +17,8 @@ export const getAnalyticsConsentState = (
   // Ensures this returns true for regular users
   // that don't have the "Cookie works" toggle on
   if (isCookiesWorkToggleOn) {
-    // If the feature flag is ON and consent has been defined
+    // If the feature flag is ON and consent has been defined,
+    // return its value
     if (consentCookie !== undefined) {
       const civicUKCookie: CivicUKCookie = JSON.parse(
         decodeURIComponent(consentCookie)
