@@ -14,7 +14,6 @@ const ConsentAndScripts = ({ segmentSnippet }: { segmentSnippet: string }) => {
 
     // Update datalayer config with consent value
     gtag('consent', 'update', {
-      ad_storage: event.detail.consent,
       analytics_storage: event.detail.consent,
     });
   };
