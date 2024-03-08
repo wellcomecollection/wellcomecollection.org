@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import { themeValues } from '@weco/common/views/themes/config';
-import { Filter } from '@weco/content/services/wellcome/catalogue/filters';
+import { Filter } from '@weco/content/services/wellcome/common/filters';
 import Space from '@weco/common/views/components/styled/Space';
 import { filter } from '@weco/common/icons';
 

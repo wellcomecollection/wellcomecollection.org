@@ -579,7 +579,6 @@ const storiesContributorFilter = ({
   }),
 });
 
-// TODO move content filters out of catalogue?
 const eventsFormatFilter = ({
   events,
   props,
@@ -618,28 +617,29 @@ const eventsAudienceFilter = ({
   }),
 });
 
-const eventsInterpretationFilter = ({
-  events,
-  props,
-}: EventsFilterProps): CheckboxFilter<keyof EventsProps> => {
-  return {
-    type: 'checkbox',
-    id: 'interpretation',
-    label: 'Accessibility',
-    options: filterOptionsWithNonAggregates({
-      options: events?.aggregations?.interpretation?.buckets.map(bucket => {
-        return {
-          id: bucket.data.id,
-          value: bucket.data.id,
-          count: bucket.count,
-          label: bucket.data.label,
-          selected: props.interpretation.includes(bucket.data.id),
-        };
-      }),
-      selectedValues: props.interpretation,
-    }),
-  };
-};
+// TODO re-add when https://github.com/wellcomecollection/content-api/issues/106 is done
+// const eventsInterpretationFilter = ({
+//   events,
+//   props,
+// }: EventsFilterProps): CheckboxFilter<keyof EventsProps> => {
+//   return {
+//     type: 'checkbox',
+//     id: 'interpretation',
+//     label: 'Accessibility',
+//     options: filterOptionsWithNonAggregates({
+//       options: events?.aggregations?.interpretation?.buckets.map(bucket => {
+//         return {
+//           id: bucket.data.id,
+//           value: bucket.data.id,
+//           count: bucket.count,
+//           label: bucket.data.label,
+//           selected: props.interpretation.includes(bucket.data.id),
+//         };
+//       }),
+//       selectedValues: props.interpretation,
+//     }),
+//   };
+// };
 
 const imagesFilters: (props: ImagesFilterProps) => Filter[] = props =>
   [
@@ -673,8 +673,11 @@ const storiesFilters: (
 const eventsFilters: (
   props: EventsFilterProps
 ) => Filter<keyof EventsProps>[] = props =>
-  [eventsFormatFilter, eventsAudienceFilter, eventsInterpretationFilter].map(
-    f => f(props)
-  );
+  [
+    eventsFormatFilter,
+    eventsAudienceFilter,
+    // TODO re-add when https://github.com/wellcomecollection/content-api/issues/106 is done
+    // eventsInterpretationFilter
+  ].map(f => f(props));
 
 export { worksFilters, imagesFilters, storiesFilters, eventsFilters };

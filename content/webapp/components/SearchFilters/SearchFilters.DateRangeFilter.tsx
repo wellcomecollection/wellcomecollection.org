@@ -1,6 +1,6 @@
 import { useControlledState } from '@weco/content/utils/useControlledState';
 import NumberInput from '@weco/content/components/NumberInput/NumberInput';
-import { DateRangeFilter as DateRangeFilterType } from '@weco/content/services/wellcome/catalogue/filters';
+import { DateRangeFilter as DateRangeFilterType } from '@weco/content/services/wellcome/common/filters';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const dateRegex = /^\d{4}$|^$/;

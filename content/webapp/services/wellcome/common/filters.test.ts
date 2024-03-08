@@ -1,5 +1,5 @@
-import worksAggregations from './fixtures/works-aggregations';
-import imagesAggregations from './fixtures/images-aggregations';
+import worksAggregations from '../catalogue/fixtures/works-aggregations';
+import imagesAggregations from '../catalogue/fixtures/images-aggregations';
 import { CheckboxFilter, imagesFilters, worksFilters } from './filters';
 import { fromQuery as fromWorksQuery } from '@weco/content/components/SearchPagesLink/Works';
 import {
@@ -52,7 +52,7 @@ describe('filter options', () => {
             type: 'Subject',
           },
           count: 666,
-          type: 'AggregationBucket',
+          type: 'AggregationBucket' as const,
         },
         {
           data: {
@@ -60,7 +60,7 @@ describe('filter options', () => {
             type: 'Subject',
           },
           count: 999,
-          type: 'AggregationBucket',
+          type: 'AggregationBucket' as const,
         },
         {
           data: {
@@ -68,7 +68,7 @@ describe('filter options', () => {
             type: 'Subject',
           },
           count: 100,
-          type: 'AggregationBucket',
+          type: 'AggregationBucket' as const,
         },
         {
           data: {
@@ -76,7 +76,7 @@ describe('filter options', () => {
             type: 'Subject',
           },
           count: 100,
-          type: 'AggregationBucket',
+          type: 'AggregationBucket' as const,
         },
       ]),
       props: fromWorksQuery({}),
@@ -103,7 +103,7 @@ describe('filter options', () => {
             type: 'Subject',
           },
           count: 3,
-          type: 'AggregationBucket',
+          type: 'AggregationBucket' as const,
         },
         {
           data: {
@@ -111,7 +111,7 @@ describe('filter options', () => {
             type: 'Subject',
           },
           count: 0,
-          type: 'AggregationBucket',
+          type: 'AggregationBucket' as const,
         },
         {
           data: {
@@ -119,7 +119,7 @@ describe('filter options', () => {
             type: 'Subject',
           },
           count: 1,
-          type: 'AggregationBucket',
+          type: 'AggregationBucket' as const,
         },
         {
           data: {
@@ -127,7 +127,7 @@ describe('filter options', () => {
             type: 'Subject',
           },
           count: 2,
-          type: 'AggregationBucket',
+          type: 'AggregationBucket' as const,
         },
       ]),
       props: fromWorksQuery({ 'subjects.label': '"Zouaves"' }),
@@ -179,7 +179,7 @@ describe('filter options', () => {
               type: 'Subject',
             },
             count: 100,
-            type: 'AggregationBucket',
+            type: 'AggregationBucket' as const,
           },
         ]),
         props: fromWorksQuery({
@@ -203,7 +203,7 @@ describe('filter options', () => {
               type: 'Subject',
             },
             count: 0,
-            type: 'AggregationBucket',
+            type: 'AggregationBucket' as const,
           },
           {
             data: {
@@ -211,7 +211,7 @@ describe('filter options', () => {
               type: 'Subject',
             },
             count: 0,
-            type: 'AggregationBucket',
+            type: 'AggregationBucket' as const,
           },
           {
             data: {
@@ -219,7 +219,7 @@ describe('filter options', () => {
               type: 'Subject',
             },
             count: 999,
-            type: 'AggregationBucket',
+            type: 'AggregationBucket' as const,
           },
         ]),
         props: fromWorksQuery({
@@ -253,7 +253,7 @@ describe('filter options', () => {
           type: 'Subject',
         },
         count: 100,
-        type: 'AggregationBucket',
+        type: 'AggregationBucket' as const,
       },
       {
         data: {
@@ -261,7 +261,7 @@ describe('filter options', () => {
           type: 'Subject',
         },
         count: 65705,
-        type: 'AggregationBucket',
+        type: 'AggregationBucket' as const,
       },
       {
         data: {
@@ -269,7 +269,7 @@ describe('filter options', () => {
           type: 'Subject',
         },
         count: 5,
-        type: 'AggregationBucket',
+        type: 'AggregationBucket' as const,
       },
     ]);
 
@@ -294,6 +294,7 @@ describe('filter options', () => {
   describe('matching query options to aggregation options', () => {
     const workTypeAggregations = {
       aggregations: {
+        type: 'Aggregations' as const,
         workType: {
           buckets: [
             {
@@ -303,7 +304,7 @@ describe('filter options', () => {
                 type: 'Format',
               },
               count: 113802,
-              type: 'AggregationBucket',
+              type: 'AggregationBucket' as const,
             },
             {
               data: {
@@ -312,7 +313,7 @@ describe('filter options', () => {
                 type: 'Format',
               },
               count: 13402,
-              type: 'AggregationBucket',
+              type: 'AggregationBucket' as const,
             },
             {
               data: {
@@ -321,11 +322,12 @@ describe('filter options', () => {
                 type: 'Format',
               },
               count: 3755,
-              type: 'AggregationBucket',
+              type: 'AggregationBucket' as const,
             },
           ],
+          type: 'Aggregation' as const,
         },
-        availabilities: { buckets: [] },
+        availabilities: { buckets: [], type: 'Aggregation' as const },
         languages: {
           buckets: [
             {
@@ -335,7 +337,7 @@ describe('filter options', () => {
                 type: 'Language',
               },
               count: 33,
-              type: 'AggregationBucket',
+              type: 'AggregationBucket' as const,
             },
             {
               data: {
@@ -344,9 +346,10 @@ describe('filter options', () => {
                 type: 'Language',
               },
               count: 21,
-              type: 'AggregationBucket',
+              type: 'AggregationBucket' as const,
             },
           ],
+          type: 'Aggregation' as const,
         },
       },
     };
@@ -403,9 +406,10 @@ describe('filter options', () => {
   function worksAggregationsWith(aggregationName, bucketList) {
     return {
       aggregations: {
-        workType: { buckets: [] },
-        availabilities: { buckets: [] },
+        workType: { buckets: [], type: 'Aggregation' as const },
+        availabilities: { buckets: [], type: 'Aggregation' as const },
         [aggregationName]: { buckets: bucketList },
+        type: 'Aggregations' as const,
       },
     };
   }
