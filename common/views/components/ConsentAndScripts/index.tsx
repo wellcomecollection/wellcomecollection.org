@@ -6,7 +6,9 @@ import { getAnalyticsConsentState } from '@weco/common/services/app/civic-uk';
 const ConsentAndScripts = ({ segmentSnippet }: { segmentSnippet: string }) => {
   const [consentState, setConsentState] = useState(false);
 
-  const onAnalyticsConsentChanged = (event: CustomEvent) => {
+  const onAnalyticsConsentChanged = (
+    event: CustomEvent<{ consent: 'granted' | 'denied' }>
+  ) => {
     // Toggle rendering of scripts
     setConsentState(event.detail.consent === 'granted');
 
