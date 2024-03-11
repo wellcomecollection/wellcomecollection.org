@@ -8,7 +8,9 @@
     "start": "NODE_ENV=production ts-node-transpile-only --project tsconfig.server.json server",
     "test": "NODE_ENV=test jest --no-cache",
     "test:watch": "yarn test -- --watchAll",
-    "deployBundleAnalysis": "aws s3 sync .dist s3://dash.wellcomecollection.org/bundles --only-show-errors --acl public-read"
+    "deployBundleAnalysis": "aws s3 sync .dist s3://dash.wellcomecollection.org/bundles --only-show-errors --acl public-read",
+    "slicemachine": "start-slicemachine"
+
   },
   "dependencies": {
     "@iiif/presentation-3": "^2.1.3",
@@ -46,5 +48,9 @@
     "ts-jest": "29.1.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
+  },
+  "devDependencies": {
+    "@slicemachine/adapter-next": "^0.3.36",
+    "slice-machine-ui": "^1.24.1"
   }
 }
