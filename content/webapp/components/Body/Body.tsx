@@ -142,6 +142,7 @@ export type SliceZoneContext = {
   isShortFilm: boolean;
   pageId: string;
   isLanding: boolean;
+  isDropCapped: boolean;
 };
 
 export const defaultContext: SliceZoneContext = {
@@ -152,6 +153,7 @@ export const defaultContext: SliceZoneContext = {
   isShortFilm: false,
   pageId: '',
   isLanding: false,
+  isDropCapped: false,
 };
 
 const Body: FunctionComponent<Props> = ({
@@ -358,6 +360,7 @@ const Body: FunctionComponent<Props> = ({
           comicPreviousNext,
           pageId,
           isLanding,
+          isDropCapped,
         }}
       />
 

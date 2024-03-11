@@ -31,7 +31,7 @@ const Text: FunctionComponent<TextProps> = ({ slice, context, index }) => {
             'first-text-slice': options.firstTextSliceIndex === index,
           })}
         >
-          {options.firstTextSliceIndex === index ? (
+          {options.firstTextSliceIndex === index && options.isDropCapped ? (
             <>
               <PrismicHtmlBlock
                 html={[slice.primary.text[0]] as prismic.RichTextField}
