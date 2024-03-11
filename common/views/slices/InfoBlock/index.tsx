@@ -1,4 +1,4 @@
-import { Content } from '@prismicio/client';
+import { InfoBlockSlice } from '../../../prismicio-types.f';
 import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
 import SpacingComponent from '../../components/styled/SpacingComponent';
@@ -10,7 +10,7 @@ import { transformInfoBlockSlice } from '@weco/content/services/prismic/transfor
 import InfoBlock from '@weco/content/components/InfoBlock/InfoBlock';
 
 export type InfoBlockProps = SliceComponentProps<
-  Content.InfoBlockSlice,
+  InfoBlockSlice,
   SliceZoneContext
 >;
 

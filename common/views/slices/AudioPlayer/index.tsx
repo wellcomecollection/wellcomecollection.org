@@ -1,4 +1,5 @@
-import { Content } from '@prismicio/client';
+// import { Content } from '@prismicio/client';
+import { AudioPlayerSlice } from '../../../prismicio-types';
 import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
 import SpacingComponent from '../../components/styled/SpacingComponent';
@@ -10,7 +11,7 @@ import { transformAudioPlayerSlice } from '@weco/content/services/prismic/transf
 import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
 
 export type AudioPlayerProps = SliceComponentProps<
-  Content.AudioPlayerSlice,
+  AudioPlayerSlice,
   SliceZoneContext
 >;
 

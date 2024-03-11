@@ -1,4 +1,4 @@
-import { Content } from '@prismicio/client';
+import { ContactSlice } from '../../../prismicio-types';
 import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
 import SpacingComponent from '../../components/styled/SpacingComponent';
@@ -9,10 +9,7 @@ import {
 import { transformContactSlice } from '@weco/content/services/prismic/transformers/body';
 import Contact from '@weco/content/components/Contact/Contact';
 
-export type ContactProps = SliceComponentProps<
-  Content.ContactSlice,
-  SliceZoneContext
->;
+export type ContactProps = SliceComponentProps<ContactSlice, SliceZoneContext>;
 
 const ContactSlice: FunctionComponent<ContactProps> = ({ slice, context }) => {
   const transformedSlice = transformContactSlice(slice);

@@ -1,4 +1,4 @@
-import { Content } from '@prismicio/client';
+import { ContentListSlice } from '../../../prismicio-types';
 import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
 import SpacingComponent from '../../components/styled/SpacingComponent';
@@ -14,7 +14,7 @@ import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 export type ContentListProps = SliceComponentProps<
-  Content.ContentListSlice,
+  ContentListSlice,
   SliceZoneContext
 >;
 

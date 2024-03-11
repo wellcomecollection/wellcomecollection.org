@@ -1,4 +1,4 @@
-import { Content } from '@prismicio/client';
+import { EditorialImageSlice } from '../../../prismicio-types';
 import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
 import SpacingComponent from '../../components/styled/SpacingComponent';
@@ -11,7 +11,7 @@ import CaptionedImage from '@weco/content/components/CaptionedImage/CaptionedIma
 import { transformEditorialImageSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type EditorialImageSliceProps = SliceComponentProps<
-  Content.EditorialImageSlice,
+  EditorialImageSlice,
   SliceZoneContext
 >;
 
