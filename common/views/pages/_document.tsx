@@ -15,14 +15,13 @@ import {
   GoogleTagManager,
   GaDimensions,
 } from '@weco/common/services/app/google-analytics';
-import CivicUK from '@weco/common/services/app/civic-uk/scripts';
 
 const {
   ANALYTICS_WRITE_KEY = '78Czn5jNSaMSVrBq2J9K4yJjWxh6fyRI',
   NODE_ENV = 'development',
 } = process.env;
 
-function renderSegmentSnippet() {
+export function renderSegmentSnippet() {
   const opts = {
     apiKey: ANALYTICS_WRITE_KEY,
     page: false,
@@ -79,22 +78,26 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
     return (
       <Html lang="en">
         <Head>
-          {this.props.toggles?.cookiesWork?.value && <CivicUK />}
+          <>
+            {/* Adding toggles etc. to the datalayer so they are available to events in Google Tag Manager */}
+            <Ga4DataLayer
+              hasAnalyticsConsent={this.props.hasAnalyticsConsent}
+              data={{
+                toggles: this.props.toggles,
+              }}
+            />
 
-          {this.props.hasAnalyticsConsent && (
-            <>
-              {/* Adding toggles etc. to the datalayer so they are available to events in Google Tag Manager */}
-              <Ga4DataLayer
-                data={{
-                  toggles: this.props.toggles,
-                }}
-              />
-              <GoogleTagManager />
+            {/* Removing/readding this script on consent changes causes issues with meta tag duplicates
+            https://github.com/wellcomecollection/wellcomecollection.org/pull/10685#discussion_r1516298683 
+            Let's keep an eye on this issue and consider moving it next to the Segment script when it's fixed */}
+            <GoogleTagManager />
+
+            {!this.props.toggles?.cookiesWork?.value && (
               <script
                 dangerouslySetInnerHTML={{ __html: renderSegmentSnippet() }}
               />
-            </>
-          )}
+            )}
+          </>
         </Head>
         <body>
           <div id="top">
