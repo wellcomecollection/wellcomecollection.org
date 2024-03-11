@@ -68,6 +68,7 @@ import {
   TextAndImageItem,
   TextAndIconsItem,
 } from '../../../components/TextAndImageOrIcons';
+import { Props as TitledTextListProps } from '../../../components/TitledTextList/TitledTextList';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -242,7 +243,9 @@ function transformTitledTextItem({
   };
 }
 
-function transformTitledTextListSlice(slice: TitledTextListSlice): BodySlice {
+export function transformTitledTextListSlice(
+  slice: TitledTextListSlice
+): Slice<'titledTextList', TitledTextListProps> {
   return {
     type: 'titledTextList',
     value: {
