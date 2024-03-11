@@ -16,7 +16,6 @@ import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxR
 import { SearchFiltersSharedProps } from '.';
 import {
   CheckboxFilter as CheckboxFilterType,
-  BooleanFilter as BooleanFilterType,
   filterLabel,
 } from '@weco/content/services/wellcome/common/filters';
 import Button, {
@@ -28,6 +27,7 @@ import { filter } from '@weco/common/icons';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import PaletteColorPicker from '@weco/content/components/PaletteColorPicker';
 import DateRangeFilter from './SearchFilters.DateRangeFilter';
+import { BooleanFilter } from './SearchFilters.BooleanFilter';
 import { font } from '@weco/common/utils/classnames';
 
 const SearchFiltersContainer = styled(Space).attrs({
@@ -141,27 +141,6 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
         })}
       </PlainList>
     </>
-  );
-};
-
-type BooleanFilterProps = {
-  f: BooleanFilterType;
-  changeHandler: () => void;
-  form?: string;
-};
-const BooleanFilter = ({ f, changeHandler, form }: BooleanFilterProps) => {
-  return (
-    <CheckboxRadio
-      id={`mobile-${f.id}`}
-      type="checkbox"
-      text={filterLabel({ label: f.label, count: f.count })}
-      value="true"
-      name={f.id}
-      checked={f.isSelected}
-      onChange={changeHandler}
-      ariaLabel={searchFilterCheckBox(f.label)}
-      form={form}
-    />
   );
 };
 

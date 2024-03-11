@@ -13,7 +13,7 @@ import { filter } from '@weco/common/icons';
 import CheckboxFilter from './SearchFilters.Desktop.CheckboxFilter';
 import DesktopDateRangeFilter from './SearchFilters.Desktop.DateRangeFilter';
 import DesktopColorFilter from './SearchFilters.Desktop.ColorFilter';
-import { BooleanFilter } from './SearchFilters.Desktop.BooleanFilter';
+import { BooleanFilter } from './SearchFilters.BooleanFilter';
 import { partition } from '@weco/common/utils/arrays';
 
 const DynamicFilterArray = ({
