@@ -16,6 +16,7 @@ import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxR
 import { SearchFiltersSharedProps } from '.';
 import {
   CheckboxFilter as CheckboxFilterType,
+  BooleanFilter as BooleanFilterType,
   filterLabel,
 } from '@weco/content/services/wellcome/common/filters';
 import Button, {
@@ -69,6 +70,7 @@ const ActiveFilters = styled(Space).attrs({
 
 const FiltersBody = styled(Space).attrs({
   $h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'xl', properties: ['padding-bottom'] },
 })`
   input[type='number'] {
     min-width: calc(24px + 4ch);
@@ -139,6 +141,27 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
         })}
       </PlainList>
     </>
+  );
+};
+
+type BooleanFilterProps = {
+  f: BooleanFilterType;
+  changeHandler: () => void;
+  form?: string;
+};
+const BooleanFilter = ({ f, changeHandler, form }: BooleanFilterProps) => {
+  return (
+    <CheckboxRadio
+      id={`mobile-${f.id}`}
+      type="checkbox"
+      text={filterLabel({ label: f.label, count: f.count })}
+      value="true"
+      name={f.id}
+      checked={f.isSelected}
+      onChange={changeHandler}
+      ariaLabel={searchFilterCheckBox(f.label)}
+      form={form}
+    />
   );
 };
 
@@ -281,6 +304,15 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                       name={f.id}
                       color={f.color}
                       onChangeColor={changeHandler}
+                      form={searchFormId}
+                    />
+                  )}
+
+                  {/* TODO discuss this one for when count is 0 */}
+                  {f.type === 'boolean' && !(hasNoResults && !f.isSelected) && (
+                    <BooleanFilter
+                      f={f}
+                      changeHandler={changeHandler}
                       form={searchFormId}
                     />
                   )}

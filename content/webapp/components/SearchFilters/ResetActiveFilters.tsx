@@ -10,6 +10,7 @@ import { cross } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
 import {
+  BooleanFilter,
   CheckboxFilter,
   ColorFilter,
   DateRangeFilter,
@@ -142,6 +143,22 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
       </Fragment>
     ) : null;
 
+  const renderBooleanLink = (filter: BooleanFilter) =>
+    filter.isSelected ? (
+      <NextLink
+        key={filter.id}
+        passHref
+        {...linkResolver({
+          ...router.query,
+          page: '1',
+          [filter.id]: undefined,
+          source: `cancel_filter/${filter.id}`,
+        })}
+      >
+        <CancelFilter text={filter.label} />
+      </NextLink>
+    ) : null;
+
   return (
     <Wrapper>
       <div className={font('intb', 5)}>
@@ -159,6 +176,8 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                 return renderDateRangeLinks(f);
               case 'color':
                 return renderColorLink(f);
+              case 'boolean':
+                return renderBooleanLink(f);
               default:
                 return null;
             }

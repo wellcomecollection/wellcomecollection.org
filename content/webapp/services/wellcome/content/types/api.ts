@@ -116,6 +116,7 @@ export type ArticleAggregations = BasicAggregations & {
 export type EventAggregations = BasicAggregations & {
   audience: WellcomeAggregation;
   interpretation: WellcomeAggregation;
+  isAvailableOnline: WellcomeAggregation;
 };
 
 // Results

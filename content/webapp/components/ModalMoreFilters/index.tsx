@@ -17,6 +17,7 @@ import { LinkProps } from '@weco/common/model/link-props';
 import { DateRangeFilter } from '../SearchFilters';
 import PaletteColorPicker from '../PaletteColorPicker';
 import { font } from '@weco/common/utils/classnames';
+import { BooleanFilter } from '@weco/content/components/SearchFilters/SearchFilters.Desktop.BooleanFilter';
 
 type ModalMoreFiltersProps = {
   id: string;
@@ -188,6 +189,15 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                       name={f.id}
                       color={f.color}
                       onChangeColor={changeHandler}
+                      form={form}
+                    />
+                  )}
+
+                  {/* TODO discuss this one for when count is 0 */}
+                  {f.type === 'boolean' && !(hasNoResults && !f.isSelected) && (
+                    <BooleanFilter
+                      f={f}
+                      changeHandler={changeHandler}
                       form={form}
                     />
                   )}

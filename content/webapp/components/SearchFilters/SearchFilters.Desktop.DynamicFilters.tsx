@@ -3,13 +3,18 @@ import { useRouter } from 'next/router';
 
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import { themeValues } from '@weco/common/views/themes/config';
-import { Filter } from '@weco/content/services/wellcome/common/filters';
+import {
+  BooleanFilter as BooleanFilterType,
+  Filter,
+} from '@weco/content/services/wellcome/common/filters';
 import Space from '@weco/common/views/components/styled/Space';
 import { filter } from '@weco/common/icons';
 
 import CheckboxFilter from './SearchFilters.Desktop.CheckboxFilter';
 import DesktopDateRangeFilter from './SearchFilters.Desktop.DateRangeFilter';
 import DesktopColorFilter from './SearchFilters.Desktop.ColorFilter';
+import { BooleanFilter } from './SearchFilters.Desktop.BooleanFilter';
+import { partition } from '@weco/common/utils/arrays';
 
 const DynamicFilterArray = ({
   showMoreFiltersModal,
@@ -33,6 +38,10 @@ const DynamicFilterArray = ({
       setWrapperWidth(left + width);
     }
   };
+  const [booleanFilters, dropdownFilters] = partition(
+    filters,
+    (f: BooleanFilterType) => f.type === 'boolean'
+  );
 
   const renderDynamicFilter = (f: Filter, i: number) => {
     const isHidden = hasCalculatedFilters
@@ -177,7 +186,8 @@ const DynamicFilterArray = ({
 
   return (
     <>
-      {filters.map(renderDynamicFilter)}
+      {dropdownFilters.map(renderDynamicFilter)}
+
       <Space $h={{ size: 'm', properties: ['margin-right'] }}>
         <Button
           variant="ButtonSolid"
@@ -195,6 +205,15 @@ const DynamicFilterArray = ({
           isPill
         />
       </Space>
+
+      {booleanFilters?.map(f => (
+        <BooleanFilter
+          key={f.id}
+          {...(!showMoreFiltersModal && { form: searchFormId })}
+          f={f}
+          changeHandler={changeHandler}
+        />
+      ))}
     </>
   );
 };
