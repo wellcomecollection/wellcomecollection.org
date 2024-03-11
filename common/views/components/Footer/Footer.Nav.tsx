@@ -120,6 +120,7 @@ const FooterNav = ({
           <li>
             <Buttons
               variant="ButtonSolid"
+              dataGtmTrigger="consent_test_btn"
               text="Cookie preference centre"
               clickHandler={() => {
                 window.CookieControl.open();
