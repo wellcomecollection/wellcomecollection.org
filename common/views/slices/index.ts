@@ -18,6 +18,7 @@ export const components = {
   quote: dynamic(() => import('./Quote')),
   standfirst: dynamic(() => import('./Standfirst')),
   tagList: dynamic(() => import('./TagList')),
+  searchResults: dynamic(() => import('./SearchResults')),
   text: dynamic(() => import('./Text')),
   textAndIcons: dynamic(() => import('./TextAndIcons')),
   textAndImage: dynamic(() => import('./TextAndImage')),

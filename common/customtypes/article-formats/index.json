@@ -3,14 +3,16 @@
   "label": "Story format",
   "repeatable": true,
   "status": true,
+  "format": "custom",
   "json": {
     "Article format": {
       "title": {
         "type": "StructuredText",
         "config": {
           "label": "Title",
-          "single": "heading1",
-          "useAsTitle": true
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "single": "heading1"
         }
       },
       "description": {
@@ -21,6 +23,5 @@
         }
       }
     }
-  },
-  "format": "custom"
+  }
 }
