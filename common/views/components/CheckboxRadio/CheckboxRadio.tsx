@@ -11,7 +11,7 @@ import { check, indicator } from '@weco/common/icons';
 
 const CheckboxRadioLabel = styled.label<{ $isDisabled?: boolean }>`
   display: inline-flex;
-  align-items: center;
+  align-items: flex-start;
   cursor: ${props => (props.$isDisabled ? ' not-allowed' : 'pointer')};
 `;
 
@@ -78,8 +78,9 @@ const CheckboxRadioInput = styled.input.attrs<{ $type: string }>(props => ({
 `;
 
 const CheckBoxWrapper = styled.div`
+  display: inline-flex;
   position: relative;
-  top: 3px;
+  top: 1px;
 `;
 
 const Label = styled.span<{ $isDisabled?: boolean }>`
