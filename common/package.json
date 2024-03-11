@@ -56,9 +56,5 @@
     "url-template": "^2.0.8",
     "uuid": "^9.0.0",
     "webpack-bundle-analyzer": "^4.8.0"
-  },
-  "devDependencies": {
-    "@slicemachine/adapter-next": "^0.3.36",
-    "slice-machine-ui": "^1.24.1"
   }
 }
