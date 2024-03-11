@@ -180,7 +180,10 @@ const Body: FunctionComponent<Props> = ({
   const filteredOriginalBody = originalBody
     .filter(
       slice =>
-        !(slice.slice_type === 'picture' && slice.slice_label === 'featured')
+        !(
+          slice.slice_type === 'editorialImage' &&
+          slice.slice_label === 'featured'
+        )
     )
     .filter(slice => slice.slice_type !== 'standfirst');
 
