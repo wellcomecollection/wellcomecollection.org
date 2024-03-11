@@ -1,0 +1,113 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"image": {
+				"url": "https://images.unsplash.com/photo-1616679312958-a86d9539afae?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMzc0NjN8MHwxfHNlYXJjaHw0fHxjaXRydXMlMjBmcnVpdHxlbnwwfHx8fDE3MDk4Mjk5NjN8MA&ixlib=rb-4.0.3&q=85",
+				"alt": "orange fruit on white ceramic plate",
+				"origin": {
+					"id": "Jr7t5QviCDM",
+					"url": "https://images.unsplash.com/photo-1616679312958-a86d9539afae?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMzc0NjN8MHwxfHNlYXJjaHw0fHxjaXRydXMlMjBmcnVpdHxlbnwwfHx8fDE3MDk4Mjk5NjN8MA&ixlib=rb-4.0.3&q=85",
+					"width": 3024,
+					"height": 4032
+				},
+				"width": 3024,
+				"height": 4032,
+				"edit": {
+					"background": "transparent",
+					"zoom": 1,
+					"crop": {
+						"x": 0,
+						"y": 0
+					}
+				},
+				"credits": null,
+				"__TYPE__": "ImageContent",
+				"thumbnails": {
+					"32:15": {
+						"url": "https://images.unsplash.com/photo-1616679312958-a86d9539afae?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMzc0NjN8MHwxfHNlYXJjaHw0fHxjaXRydXMlMjBmcnVpdHxlbnwwfHx8fDE3MDk4Mjk5NjN8MA&ixlib=rb-4.0.3&q=85&rect=0%2C1307%2C3024%2C1418&w=3200&h=1500",
+						"alt": "orange fruit on white ceramic plate",
+						"origin": {
+							"id": "Jr7t5QviCDM",
+							"url": "https://images.unsplash.com/photo-1616679312958-a86d9539afae?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMzc0NjN8MHwxfHNlYXJjaHw0fHxjaXRydXMlMjBmcnVpdHxlbnwwfHx8fDE3MDk4Mjk5NjN8MA&ixlib=rb-4.0.3&q=85",
+							"width": 3024,
+							"height": 4032
+						},
+						"width": 3200,
+						"height": 1500,
+						"edit": {
+							"background": "transparent",
+							"zoom": 1,
+							"crop": {
+								"x": 0,
+								"y": 1307
+							}
+						},
+						"credits": null
+					},
+					"16:9": {
+						"url": "https://images.unsplash.com/photo-1616679312958-a86d9539afae?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMzc0NjN8MHwxfHNlYXJjaHw0fHxjaXRydXMlMjBmcnVpdHxlbnwwfHx8fDE3MDk4Mjk5NjN8MA&ixlib=rb-4.0.3&q=85&rect=0%2C1166%2C3024%2C1701&w=3200&h=1800",
+						"alt": "orange fruit on white ceramic plate",
+						"origin": {
+							"id": "Jr7t5QviCDM",
+							"url": "https://images.unsplash.com/photo-1616679312958-a86d9539afae?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMzc0NjN8MHwxfHNlYXJjaHw0fHxjaXRydXMlMjBmcnVpdHxlbnwwfHx8fDE3MDk4Mjk5NjN8MA&ixlib=rb-4.0.3&q=85",
+							"width": 3024,
+							"height": 4032
+						},
+						"width": 3200,
+						"height": 1800,
+						"edit": {
+							"background": "transparent",
+							"zoom": 1,
+							"crop": {
+								"x": 0,
+								"y": 1166
+							}
+						},
+						"credits": null
+					},
+					"square": {
+						"url": "https://images.unsplash.com/photo-1616679312958-a86d9539afae?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMzc0NjN8MHwxfHNlYXJjaHw0fHxjaXRydXMlMjBmcnVpdHxlbnwwfHx8fDE3MDk4Mjk5NjN8MA&ixlib=rb-4.0.3&q=85&rect=0%2C504%2C3024%2C3024&w=3200&h=3200",
+						"alt": "orange fruit on white ceramic plate",
+						"origin": {
+							"id": "Jr7t5QviCDM",
+							"url": "https://images.unsplash.com/photo-1616679312958-a86d9539afae?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMzc0NjN8MHwxfHNlYXJjaHw0fHxjaXRydXMlMjBmcnVpdHxlbnwwfHx8fDE3MDk4Mjk5NjN8MA&ixlib=rb-4.0.3&q=85",
+							"width": 3024,
+							"height": 4032
+						},
+						"width": 3200,
+						"height": 3200,
+						"edit": {
+							"background": "transparent",
+							"zoom": 1,
+							"crop": {
+								"x": 0,
+								"y": 504
+							}
+						},
+						"credits": null
+					}
+				}
+			},
+			"caption": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "This is a caption",
+							"spans": []
+						},
+						"direction": "ltr"
+					}
+				]
+			},
+			"hasRoundedCorners": {
+				"__TYPE__": "BooleanContent",
+				"value": false
+			}
+		},
+		"items": []
+	}
+]

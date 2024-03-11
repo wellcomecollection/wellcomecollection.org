@@ -21,7 +21,7 @@ import {
   TextAndImageSlice,
   TextAndIconsSlice,
 } from '../types/body';
-import { Props as ContactProps } from '@weco/content/components/Contact/Contact';
+import { Content } from '@prismicio/client'; // TODO fix this
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   isFilledLinkToDocumentWithData,
@@ -55,6 +55,14 @@ import { AudioPlayerProps } from '../../../components/AudioPlayer/AudioPlayer';
 import { Props as QuoteProps } from '../../../components/Quote/Quote';
 import { CaptionedImageProps } from '../../../components/CaptionedImage/CaptionedImage';
 import { Props as ImageGalleryProps } from '../../../components/ImageGallery';
+import { Props as ContactProps } from '../../../components/Contact/Contact';
+import { Props as MapProps } from '../../../components/Map/Map';
+import { Props as CollectionVenueProps } from '../../../components/VenueHours/VenueHours';
+import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
+import { Props as InfoBlockProps } from '../../../components/InfoBlock/InfoBlock';
+import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
+import { Props as TagListProps } from '../../../components/TagsGroup/TagsGroup';
+import { Props as StandfirstProps } from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -71,7 +79,9 @@ export function getWeight(weight: string | null): Weight {
   }
 }
 
-function transformStandfirstSlice(slice: StandfirstSlice): BodySlice {
+export function transformStandfirstSlice(
+  slice: StandfirstSlice | Content.StandfirstSlice
+): Slice<'standfirst', StandfirstProps> {
   return {
     type: 'standfirst',
     weight: getWeight(slice.slice_label),
@@ -112,7 +122,9 @@ function transformTextAndIcons(slice: TextAndIconsSlice): BodySlice {
   };
 }
 
-function transformMapSlice(slice: MapSlice): BodySlice {
+export function transformMapSlice(
+  slice: MapSlice | Content.MapSlice // TODO remove MapSlice?
+): Slice<'map', MapProps> {
   return {
     type: 'map',
     value: {
@@ -136,7 +148,9 @@ function transformTeamToContact(team: TeamPrismicDocument): ContactProps {
   };
 }
 
-function transformContactSlice(slice: ContactSlice): BodySlice | undefined {
+export function transformContactSlice(
+  slice: ContactSlice
+): Slice<'contact', ContactProps> | undefined {
   return isFilledLinkToDocumentWithData(slice.primary.content)
     ? {
         type: 'contact',
@@ -146,7 +160,7 @@ function transformContactSlice(slice: ContactSlice): BodySlice | undefined {
 }
 
 export function transformEditorialImageSlice(
-  slice: EditorialImageSlice
+  slice: EditorialImageSlice | Content.EditorialImageSlice
 ): Slice<'picture', CaptionedImageProps> {
   return {
     weight: getWeight(slice.slice_label),
@@ -169,7 +183,9 @@ export function transformEditorialImageGallerySlice(
   };
 }
 
-function transformGifVideoSlice(slice: GifVideoSlice): BodySlice | undefined {
+export function transformGifVideoSlice(
+  slice: GifVideoSlice
+): Slice<'gifVideo', GifVideoProps> | undefined {
   const playbackRate = slice.primary.playbackRate
     ? parseFloat(slice.primary.playbackRate)
     : 1;
@@ -226,7 +242,9 @@ function transformTitledTextListSlice(slice: TitledTextListSlice): BodySlice {
   };
 }
 
-function transformInfoBlockSlice(slice: InfoBlockSlice): BodySlice {
+export function transformInfoBlockSlice(
+  slice: InfoBlockSlice | Content.InfoBlockSlice
+): Slice<'infoBlock', InfoBlockProps> {
   return {
     type: 'infoBlock',
     value: {
@@ -241,7 +259,9 @@ function transformInfoBlockSlice(slice: InfoBlockSlice): BodySlice {
   };
 }
 
-function transformIframeSlice(slice: IframeSlice): BodySlice {
+export function transformIframeSlice(
+  slice: IframeSlice | Content.IframeSlice
+): Slice<'iframe', IframeProps> {
   return {
     type: 'iframe',
     weight: getWeight(slice.slice_label),
@@ -269,7 +289,9 @@ export function transformQuoteSlice(
   };
 }
 
-function transformTagListSlice(slice: TagListSlice): BodySlice {
+export function transformTagListSlice(
+  slice: TagListSlice
+): Slice<'tagList', TagListProps> {
   return {
     type: 'tagList',
     value: {
@@ -309,9 +331,9 @@ function transformSearchResultsSlice(slice: SearchResultsSlice): BodySlice {
   };
 }
 
-function transformCollectionVenueSlice(
+export function transformCollectionVenueSlice(
   slice: CollectionVenueSlice
-): BodySlice | undefined {
+): Slice<'collectionVenue', CollectionVenueProps> | undefined {
   return isFilledLinkToDocumentWithData(slice.primary.content)
     ? {
         type: 'collectionVenue',
@@ -365,7 +387,9 @@ export function transformEmbedSlice(slice: EmbedSlice): BodySlice | undefined {
   }
 }
 
-function transformContentListSlice(slice: ContentListSlice): BodySlice {
+export function transformContentListSlice(
+  slice: ContentListSlice | Content.ContentList
+): Slice<'contentList', ContentListProps> {
   // Tech debt, remove the as any and return it to a correct prismic type
   // will require a better understanding of how prismic types work
 

@@ -135,15 +135,18 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
   const body = data.body ? transformBody(data.body) : [];
   const originalBody = data.body || [];
   const standfirst = body.find(isStandfirst);
+  const originalStandfirst = originalBody.find(
+    (slice: prismic.Slice) => slice.slice_type === 'standfirst'
+  );
 
   const metadataDescription = asText(data.metadataDescription);
-
   return {
     id: doc.id,
     title: asTitle(data.title),
     body,
     originalBody,
     standfirst: standfirst?.value,
+    originalStandfirst,
     promo,
     image,
     metadataDescription,

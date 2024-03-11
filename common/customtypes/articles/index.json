@@ -27,7 +27,7 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "audio_player": {
+            "audioPlayer": {
               "type": "SharedSlice"
             },
             "text": {

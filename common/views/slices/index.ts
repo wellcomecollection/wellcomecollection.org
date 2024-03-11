@@ -3,9 +3,19 @@
 import dynamic from 'next/dynamic';
 
 export const components = {
+  audioPlayer: dynamic(() => import('./AudioPlayer')),
+  collectionVenue: dynamic(() => import('./CollectionVenue')),
+  contact: dynamic(() => import('./Contact')),
+  contentList: dynamic(() => import('./ContentList')),
   editorialImage: dynamic(() => import('./EditorialImage')),
   editorialImageGallery: dynamic(() => import('./EditorialImageGallery')),
   quoteV2: dynamic(() => import('./Quote')),
+  gifVideo: dynamic(() => import('./GifVideo')),
+  iframe: dynamic(() => import('./Iframe')),
+  infoBlock: dynamic(() => import('./InfoBlock')),
+  map: dynamic(() => import('./Map')),
   quote: dynamic(() => import('./Quote')),
+  standfirst: dynamic(() => import('./Standfirst')),
+  tagList: dynamic(() => import('./TagList')),
   text: dynamic(() => import('./Text')),
 };

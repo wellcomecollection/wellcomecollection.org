@@ -134,11 +134,24 @@ const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
   background-color: ${props => props.theme.color(props.$rowBackgroundColor)};
 `;
 
-export const defaultContext = {
+export type SliceZoneContext = {
+  minWidth: 8 | 10 | 12;
+  firstTextSliceIndex: number;
+  isVisualStory: boolean;
+  comicPreviousNext?: ComicPreviousNextProps;
+  isShortFilm: boolean;
+  pageId: string;
+  isLanding: boolean;
+};
+
+export const defaultContext: SliceZoneContext = {
   minWidth: 8,
   firstTextSliceIndex: 1,
   isVisualStory: false,
   comicPreviousNext: undefined,
+  isShortFilm: false,
+  pageId: '',
+  isLanding: false,
 };
 
 const Body: FunctionComponent<Props> = ({
@@ -159,6 +172,7 @@ const Body: FunctionComponent<Props> = ({
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
     // The standfirst is now put into the header
     // and used exclusively by articles / article series
+    // TODO this isn't true - used for page and visual story and series?
     .filter(slice => slice.type !== 'standfirst');
 
   const filteredOriginalBody = originalBody
@@ -342,6 +356,8 @@ const Body: FunctionComponent<Props> = ({
           firstTextSliceIndex,
           isVisualStory,
           comicPreviousNext,
+          pageId,
+          isLanding,
         }}
       />
 

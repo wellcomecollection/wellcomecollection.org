@@ -149,7 +149,7 @@ export const UnusualOpeningHours: FunctionComponent<
   </>
 );
 
-type Props = {
+export type Props = {
   venue: Venue;
   weight: Weight;
 };
