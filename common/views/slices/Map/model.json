@@ -12,21 +12,22 @@
       "description": "Default",
       "imageUrl": "",
       "primary": {
-        "title" : {
-          "type" : "StructuredText",
-          "config" : {
-            "label" : "Title",
-            "single" : "heading1",
-            "useAsTitle" : true
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "single": "heading1",
+            "useAsTitle": true
           }
         },
-        "geolocation" : {
-          "type" : "GeoPoint",
-          "config" : {
-            "label" : "Geo point"
+        "geolocation": {
+          "type": "GeoPoint",
+          "config": {
+            "label": "Geo point"
           }
         }
-      }
+      },
+      "items": {}
     }
   ]
 }
