@@ -10,7 +10,23 @@
       "docURL": "...",
       "version": "initial",
       "description": "Default",
-      "imageUrl": ""
+      "imageUrl": "",
+      "primary": {
+        "iframeSrc": {
+          "type": "Text",
+          "config": {
+            "label": "iframe src",
+            "placeholder": "iframe src"
+          }
+        },
+        "previewImage": {
+          "type": "Image",
+          "config": {
+            "label": "Preview image"
+          }
+        }
+      },
+      "items": {}
     }
   ]
 }

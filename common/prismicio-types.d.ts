@@ -15063,6 +15063,31 @@ export type GifVideoSlice = prismic.SharedSlice<
 >;
 
 /**
+ * Primary content in *Iframe → Primary*
+ */
+export interface IframeSliceDefaultPrimary {
+  /**
+   * iframe src field in *Iframe → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: iframe src
+   * - **API ID Path**: iframe.primary.iframeSrc
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  iframeSrc: prismic.KeyTextField;
+
+  /**
+   * Preview image field in *Iframe → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: iframe.primary.previewImage
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  previewImage: prismic.ImageField<never>;
+}
+
+/**
  * Default variation for Iframe Slice
  *
  * - **API ID**: `default`
@@ -15071,7 +15096,7 @@ export type GifVideoSlice = prismic.SharedSlice<
  */
 export type IframeSliceDefault = prismic.SharedSliceVariation<
   'default',
-  Record<string, never>,
+  Simplify<IframeSliceDefaultPrimary>,
   never
 >;
 
@@ -16132,6 +16157,7 @@ declare module '@prismicio/client' {
       GifVideoSliceVariation,
       GifVideoSliceDefault,
       IframeSlice,
+      IframeSliceDefaultPrimary,
       IframeSliceVariation,
       IframeSliceDefault,
       InfoBlockSlice,
