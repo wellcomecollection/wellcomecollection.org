@@ -21,7 +21,6 @@ import {
   TextAndImageSlice,
   TextAndIconsSlice,
 } from '../types/body';
-import { StandfirstSlice } from '@weco/common/prismicio-types'; // TODO fix this
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   isFilledLinkToDocumentWithData,
@@ -69,8 +68,8 @@ import {
 } from '../../../components/TextAndImageOrIcons';
 import { Props as TitledTextListProps } from '../../../components/TitledTextList/TitledTextList';
 import { Props as AsyncSearchResultsProps } from '../../../components/SearchResults/AsyncSearchResults';
+import { Props as SearchResultsProps } from '../../../components/SearchResults/SearchResults';
 import { Venue } from '@weco/common/model/opening-hours';
-import { ContentListProps } from '@weco/common/views/slices/ContentList';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -410,7 +409,7 @@ export function transformEmbedSlice(
 
 export function transformContentListSlice(
   slice: ContentListSlice
-): Slice<'contentList', ContentListProps> {
+): Slice<'contentList', SearchResultsProps> {
   // Tech debt, remove the as any and return it to a correct prismic type
   // will require a better understanding of how prismic types work
 
