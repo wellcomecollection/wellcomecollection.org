@@ -13,6 +13,10 @@ export function transformSeries(document: SeriesPrismicDocument): Series {
   const { data } = document;
   const genericFields = transformGenericFields(document);
   const standfirst = genericFields.standfirst || undefined;
+  const untransformedBody = data.body || [];
+  const untransformedStandfirst = untransformedBody.find(
+    slice => slice.slice_type === 'standfirst'
+  );
   const color = getSeriesColor(data.color || undefined);
   const schedule: ArticleScheduleItem[] = data.schedule
     ? (data.schedule
@@ -44,6 +48,7 @@ export function transformSeries(document: SeriesPrismicDocument): Series {
     labels,
     schedule,
     standfirst,
+    untransformedStandfirst,
     color,
     items: [],
     seasons,

@@ -19,6 +19,8 @@ import { VisualStoryDocument } from '@weco/content/services/prismic/types/visual
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { capitalize } from '@weco/common/utils/grammar';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { useToggles } from '@weco/common/server-data/Context';
+import Standfirst from '@weco/common/views/slices/Standfirst/index';
 
 type Props = {
   visualStory: VisualStory;
@@ -69,11 +71,20 @@ export const getServerSideProps = async context => {
 };
 
 const VisualStory: FunctionComponent<Props> = ({ visualStory, jsonLd }) => {
+  const { sliceMachine } = useToggles();
   const { relatedDocument } = visualStory;
 
-  const ContentTypeInfo = visualStory.standfirst && (
-    <PageHeaderStandfirst html={visualStory.standfirst} />
-  );
+  const ContentTypeInfo =
+    visualStory.standfirst && !sliceMachine ? (
+      <PageHeaderStandfirst html={visualStory.standfirst} />
+    ) : visualStory.untransformedStandfirst && sliceMachine ? (
+      <Standfirst
+        slice={visualStory.untransformedStandfirst}
+        index={0}
+        context={{}}
+        slices={[]}
+      />
+    ) : null;
 
   const Header = (
     <PageHeader

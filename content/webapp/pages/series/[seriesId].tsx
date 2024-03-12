@@ -41,6 +41,8 @@ import styled from 'styled-components';
 import ArticleCard from '@weco/content/components/ArticleCard/ArticleCard';
 import ArticleScheduleItemCard from '@weco/content/components/ArticleScheduleItemCard';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import { useToggles } from '@weco/common/server-data/Context';
+import Standfirst from '@weco/common/views/slices/Standfirst/index';
 
 const SeriesItem = styled.div<{ $isFirst: boolean }>`
   border-top: ${props =>
@@ -160,6 +162,7 @@ export const getServerSideProps: GetServerSideProps<
 
 const ArticleSeriesPage: FunctionComponent<Props> = props => {
   const { series, articles, scheduledItems } = props;
+  const { sliceMachine } = useToggles();
   const breadcrumbs = {
     items: [
       {
@@ -174,9 +177,18 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
     ],
   };
 
-  const ContentTypeInfo = series.standfirst && (
-    <PageHeaderStandfirst html={series.standfirst} />
-  );
+  const ContentTypeInfo =
+    series.standfirst && !sliceMachine ? (
+      <PageHeaderStandfirst html={series.standfirst} />
+    ) : series.untransformedStandfirst && sliceMachine ? (
+      <Standfirst
+        slice={series.untransformedStandfirst}
+        index={0}
+        context={{}}
+        slices={[]}
+      />
+    ) : null;
+
   const FeaturedMedia = getFeaturedMedia(series);
   const Header = (
     <PageHeader

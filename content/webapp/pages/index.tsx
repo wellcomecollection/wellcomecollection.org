@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
+import * as prismic from '@prismicio/client';
 import styled from 'styled-components';
 import Head from 'next/head';
 import { font } from '@weco/common/utils/classnames';
@@ -50,6 +51,8 @@ import {
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import Standfirst from '@weco/common/views/slices/Standfirst/index';
+import { useToggles } from '@weco/common/server-data/Context';
 
 const CreamBox = styled(Space).attrs({
   $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
@@ -64,6 +67,7 @@ type Props = {
   articles: ArticleBasic[];
   jsonLd: JsonLdObj[];
   standfirst?: BodySlice & { type: 'standfirst' };
+  untransformedStandfirst?: prismic.Slice;
   headerList: (BodySlice & { type: 'contentList' }) | null;
   contentList: BodySlice & { type: 'contentList' };
 };
@@ -118,6 +122,10 @@ export const getServerSideProps: GetServerSideProps<
   const exhibitions = transformExhibitionsQuery(exhibitionsQuery).results;
 
   const standfirst = page.body.find(isStandfirst);
+  const untransformedBody = pageDocument?.data.body || [];
+  const untransformedStandfirst = untransformedBody.find(
+    slice => slice.slice_type === 'standfirst'
+  );
   const contentLists = page.body.filter(isContentList);
 
   const headerList = contentLists.length === 2 ? contentLists[0] : null;
@@ -136,6 +144,7 @@ export const getServerSideProps: GetServerSideProps<
         serverData,
         jsonLd,
         standfirst,
+        untransformedStandfirst,
         headerList,
         contentList,
         // If an exhibition or event appears in the header, we don't want
@@ -157,9 +166,11 @@ const Homepage: FunctionComponent<Props> = ({
   articles,
   jsonLd,
   standfirst,
+  untransformedStandfirst,
   headerList,
   contentList,
 }) => {
+  const { sliceMachine } = useToggles();
   return (
     <>
       <Head>
@@ -206,9 +217,20 @@ const Homepage: FunctionComponent<Props> = ({
                 <h1>{homepageHeading}</h1>
               </Space>
             </Space>
-            {standfirst && (
+
+            {standfirst && !sliceMachine && (
               <CreamBox>
                 <PageHeaderStandfirst html={standfirst.value} />
+              </CreamBox>
+            )}
+            {untransformedStandfirst && sliceMachine && (
+              <CreamBox>
+                <Standfirst
+                  slice={untransformedStandfirst}
+                  index={0}
+                  context={{}}
+                  slices={[]}
+                />{' '}
               </CreamBox>
             )}
           </SpacingSection>
