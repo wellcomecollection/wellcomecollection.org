@@ -21,7 +21,7 @@ import {
   TextAndImageSlice,
   TextAndIconsSlice,
 } from '../types/body';
-import { Content } from '@prismicio/client'; // TODO fix this
+import { StandfirstSlice } from '@weco/common/prismicio-types'; // TODO fix this
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   isFilledLinkToDocumentWithData,
@@ -57,7 +57,6 @@ import { CaptionedImageProps } from '../../../components/CaptionedImage/Captione
 import { Props as ImageGalleryProps } from '../../../components/ImageGallery';
 import { Props as ContactProps } from '../../../components/Contact/Contact';
 import { Props as MapProps } from '../../../components/Map/Map';
-import { Props as CollectionVenueProps } from '../../../components/VenueHours/VenueHours';
 import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
 import { Props as InfoBlockProps } from '../../../components/InfoBlock/InfoBlock';
 import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
@@ -71,6 +70,7 @@ import {
 import { Props as TitledTextListProps } from '../../../components/TitledTextList/TitledTextList';
 import { Props as AsyncSearchResultsProps } from '../../../components/SearchResults/AsyncSearchResults';
 import { Venue } from '@weco/common/model/opening-hours';
+import { ContentListProps } from '@weco/common/views/slices/ContentList';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -88,7 +88,7 @@ export function getWeight(weight: string | null): Weight {
 }
 
 export function transformStandfirstSlice(
-  slice: StandfirstSlice | Content.StandfirstSlice
+  slice: StandfirstSlice
 ): Slice<'standfirst', StandfirstProps> {
   return {
     type: 'standfirst',
@@ -134,9 +134,7 @@ export function transformTextAndIcons(
   };
 }
 
-export function transformMapSlice(
-  slice: MapSlice | Content.MapSlice // TODO remove MapSlice?
-): Slice<'map', MapProps> {
+export function transformMapSlice(slice: MapSlice): Slice<'map', MapProps> {
   return {
     type: 'map',
     value: {
@@ -172,7 +170,7 @@ export function transformContactSlice(
 }
 
 export function transformEditorialImageSlice(
-  slice: EditorialImageSlice | Content.EditorialImageSlice
+  slice: EditorialImageSlice
 ): Slice<'picture', CaptionedImageProps> {
   return {
     weight: getWeight(slice.slice_label),
@@ -257,7 +255,7 @@ export function transformTitledTextListSlice(
 }
 
 export function transformInfoBlockSlice(
-  slice: InfoBlockSlice | Content.InfoBlockSlice
+  slice: InfoBlockSlice
 ): Slice<'infoBlock', InfoBlockProps> {
   return {
     type: 'infoBlock',
@@ -274,7 +272,7 @@ export function transformInfoBlockSlice(
 }
 
 export function transformIframeSlice(
-  slice: IframeSlice | Content.IframeSlice
+  slice: IframeSlice
 ): Slice<'iframe', IframeProps> {
   return {
     type: 'iframe',
@@ -411,7 +409,7 @@ export function transformEmbedSlice(
 }
 
 export function transformContentListSlice(
-  slice: ContentListSlice | Content.ContentList
+  slice: ContentListSlice
 ): Slice<'contentList', ContentListProps> {
   // Tech debt, remove the as any and return it to a correct prismic type
   // will require a better understanding of how prismic types work
