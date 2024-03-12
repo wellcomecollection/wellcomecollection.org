@@ -27,8 +27,34 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "audio_player": {
-              "type": "SharedSlice"
+            "audioPlayer": {
+              "type": "Slice",
+              "fieldset": "Audio Player",
+              "non-repeat": {
+                "title": {
+                  "type": "StructuredText",
+                  "config": {
+                    "label": "Title",
+                    "single": "heading1",
+                    "useAsTitle": true
+                  }
+                },
+                "audio": {
+                  "type": "Link",
+                  "config": {
+                    "label": "Audio",
+                    "select": "media",
+                    "customtypes": []
+                  }
+                },
+                "transcript": {
+                  "type": "StructuredText",
+                  "config": {
+                    "multi": "heading2,heading3,paragraph,strong",
+                    "label": "Transcript (Collapsible content)"
+                  }
+                }
+              }
             },
             "text": {
               "type": "Slice",
