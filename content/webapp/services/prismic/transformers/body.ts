@@ -35,7 +35,12 @@ import {
   transformTaslFromString,
 } from '@weco/common/services/prismic/transformers';
 import * as prismic from '@prismicio/client';
-import { BodySlice, Slice, Weight } from '../../../types/body';
+import {
+  BodySlice,
+  ContentListProps,
+  Slice,
+  Weight,
+} from '../../../types/body';
 import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
 import { transformPage } from './pages';
 import { transformGuide } from './guides';
@@ -67,7 +72,6 @@ import {
 } from '../../../components/TextAndImageOrIcons';
 import { Props as TitledTextListProps } from '../../../components/TitledTextList/TitledTextList';
 import { Props as AsyncSearchResultsProps } from '../../../components/SearchResults/AsyncSearchResults';
-import { Props as SearchResultsProps } from '../../../components/SearchResults/SearchResults';
 import { Venue } from '@weco/common/model/opening-hours';
 
 export function getWeight(weight: string | null): Weight {
@@ -402,7 +406,7 @@ export function transformEmbedSlice(
 
 export function transformContentListSlice(
   slice: ContentListSlice
-): Slice<'contentList', SearchResultsProps> {
+): Slice<'contentList', ContentListProps> {
   // Tech debt, remove the as any and return it to a correct prismic type
   // will require a better understanding of how prismic types work
 

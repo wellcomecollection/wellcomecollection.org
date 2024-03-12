@@ -14,7 +14,17 @@ import {
   TextAndImageItem,
 } from '../components/TextAndImageOrIcons';
 import { AudioPlayerProps } from '@weco/content/components/AudioPlayer/AudioPlayer';
-import { Props as SearchResultsProps } from '@weco/content/components/SearchResults/SearchResults';
+
+import { ArticleBasic } from './articles';
+import { Book } from './books';
+import { EventBasic } from './events';
+import { EventSeries } from './event-series';
+import { ExhibitionBasic } from './exhibitions';
+import { Page } from './pages';
+import { Series, SeriesBasic } from './series';
+import { Guide } from './guides';
+import { Season } from './seasons';
+import { Card } from './card';
 
 import * as prismic from '@prismicio/client';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
@@ -57,6 +67,25 @@ export function isStandfirst(
   return slice.type === 'standfirst';
 }
 
+export type ContentListItems =
+  | Page
+  | EventSeries
+  | Book
+  | EventBasic
+  | ArticleBasic
+  | ExhibitionBasic
+  | Series
+  | SeriesBasic
+  | Guide
+  | Season;
+
+export type ContentListProps = {
+  title?: string | undefined;
+  summary?: string | undefined;
+  items: (ContentListItems | Card)[];
+  showPosition?: boolean | undefined;
+};
+
 export type BodySlice =
   | Slice<'standfirst', prismic.RichTextField>
   | Slice<'textAndImage', TextAndImageItem>
@@ -76,5 +105,5 @@ export type BodySlice =
   | Slice<'collectionVenue', { content: Venue; showClosingTimes: boolean }>
   | Slice<'videoEmbed', EmbedProps>
   | Slice<'soundcloudEmbed', EmbedProps>
-  | Slice<'contentList', SearchResultsProps>
+  | Slice<'contentList', ContentListProps>
   | Slice<'audioPlayer', AudioPlayerProps>;

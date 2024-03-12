@@ -1,14 +1,14 @@
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { Format } from './format';
 import { EventBasic } from './events';
-import { Article } from './articles';
+import { ArticleBasic } from './articles';
 import { Season } from './seasons';
 import { Page, ParentPage } from './pages';
 import { Series, SeriesBasic } from './series';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { EventSeries } from './event-series';
 import { Book } from './books';
-import { Exhibition } from './exhibitions';
+import { ExhibitionBasic } from './exhibitions';
 import { Guide } from './guides';
 import { Project } from './projects';
 import { ExhibitionGuide, ExhibitionGuideBasic } from './exhibition-guides';
@@ -26,7 +26,7 @@ export type Card = {
 
 export function convertItemToCardProps(
   item:
-    | Article
+    | ArticleBasic
     | EventBasic
     | Season
     | Page
@@ -35,7 +35,7 @@ export function convertItemToCardProps(
     | ParentPage
     | EventSeries
     | Book
-    | Exhibition
+    | ExhibitionBasic
     | Guide
     | Project
     | ExhibitionGuide
