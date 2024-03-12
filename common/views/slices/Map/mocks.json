@@ -1,0 +1,16 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"geolocation": {
+				"__TYPE__": "GeoPointContent",
+				"position": {
+					"lat": 51.52614859999997,
+					"lng": -0.1345602000000068
+				}
+			}
+		},
+		"items": []
+	}
+]
