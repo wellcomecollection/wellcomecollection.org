@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic';
 
 export const components = {
+  audioPlayer: dynamic(() => import('./AudioPlayer')),
   editorialImage: dynamic(() => import('./EditorialImage')),
   editorialImageGallery: dynamic(() => import('./EditorialImageGallery')),
   quoteV2: dynamic(() => import('./Quote')),
