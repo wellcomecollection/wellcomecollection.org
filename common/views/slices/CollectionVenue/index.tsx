@@ -9,6 +9,7 @@ import Layout from '@weco/common/views/components/Layout';
 import { transformCollectionVenueSlice } from '@weco/content/services/prismic/transformers/body';
 import VenueHours from '@weco/content/components/VenueHours/VenueHours';
 import VenueClosedPeriods from '@weco/content/components/VenueClosedPeriods/VenueClosedPeriods';
+import { FunctionComponent } from 'react';
 
 export type CollectionVenueProps = SliceComponentProps<
   CollectionVenueSlice,
@@ -16,10 +17,10 @@ export type CollectionVenueProps = SliceComponentProps<
 >;
 
 // TODO change types to use FunctionComponent
-const CollectionVenue = ({
+const CollectionVenue: FunctionComponent<CollectionVenueProps> = ({
   slice,
   context,
-}: CollectionVenueProps): JSX.Element | null => {
+}: CollectionVenueProps) => {
   const transformedSlice = transformCollectionVenueSlice(slice);
   if (transformedSlice) {
     return (

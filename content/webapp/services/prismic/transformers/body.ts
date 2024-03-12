@@ -70,6 +70,7 @@ import {
 } from '../../../components/TextAndImageOrIcons';
 import { Props as TitledTextListProps } from '../../../components/TitledTextList/TitledTextList';
 import { Props as AsyncSearchResultsProps } from '../../../components/SearchResults/AsyncSearchResults';
+import { Venue } from '@weco/common/model/opening-hours';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -348,7 +349,9 @@ export function transformSearchResultsSlice(
 
 export function transformCollectionVenueSlice(
   slice: CollectionVenueSlice
-): Slice<'collectionVenue', CollectionVenueProps> | undefined {
+):
+  | Slice<'collectionVenue', { content: Venue; showClosingTimes: boolean }>
+  | undefined {
   return isFilledLinkToDocumentWithData(slice.primary.content)
     ? {
         type: 'collectionVenue',
