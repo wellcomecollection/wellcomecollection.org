@@ -17,6 +17,7 @@ export function clear(): void {
 export async function getServerData(): Promise<ServerData> {
   return {
     toggles: {},
+    hasAnalyticsConsent: false,
     prismic: {
       globalAlert: emptyGlobalAlert(),
       popupDialog: emptyPopupDialog(),

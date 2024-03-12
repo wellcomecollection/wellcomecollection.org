@@ -45,11 +45,28 @@ describe('transformContributors', () => {
           spans: [],
         },
       ],
+      id: 'ZZaByxAAAJQ63n4l',
+      uid: null,
+      url: null,
+      type: 'articles',
+      tags: [],
+      first_publication_date: '2024-02-14T10:00:00+0000',
+      last_publication_date: '2024-02-16T09:52:22+0000',
+      slugs: [
+        'primodos-paternalism-and-the-fight-to-be-heard',
+        'primodos-and-two-womens-fight-to-be-heard',
+        'primodos-paternalism-and-the-quest-to-be-heard',
+        'primodos-paternalism-and-two-womens-quest-to-be-heard',
+      ],
+      linked_documents: [],
+      lang: 'en-gb',
+      alternate_languages: [],
       data: {
         contributors: [],
       },
     };
 
+    // @ts-expect-error this transformer expects contributors and they should never be missing if called
     const contributor = transformContributors(document);
 
     expect(contributor).toStrictEqual([]);
