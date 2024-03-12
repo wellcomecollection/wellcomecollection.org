@@ -15,12 +15,20 @@ export const getAnalyticsConsentState = (
   const consentCookie = cookies.CookieControl;
 
   // Ensures this returns true for regular users
-  // that don't have the "Cookie works" toggle on/have defined the consent cookie
-  if (isCookiesWorkToggleOn && consentCookie !== undefined) {
-    const civicUKCookie: CivicUKCookie = JSON.parse(
-      decodeURIComponent(consentCookie)
-    );
-    return civicUKCookie.optionalCookies?.analytics === 'accepted';
+  // that don't have the "Cookie works" toggle on
+  if (isCookiesWorkToggleOn) {
+    // If the feature flag is ON and consent has been defined,
+    // return its value
+    if (consentCookie !== undefined) {
+      const civicUKCookie: CivicUKCookie = JSON.parse(
+        decodeURIComponent(consentCookie)
+      );
+
+      return civicUKCookie.optionalCookies?.analytics === 'accepted';
+    } else {
+      // If the feature flag is ON but consent has yet to be defined
+      return false;
+    }
   } else {
     return true;
   }
