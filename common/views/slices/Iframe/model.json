@@ -1,0 +1,16 @@
+{
+  "id": "iframe",
+  "type": "SharedSlice",
+  "name": "Iframe",
+  "description": "Iframe",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": ""
+    }
+  ]
+}
