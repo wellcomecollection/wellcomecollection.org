@@ -20,6 +20,6 @@
     "strictNullChecks": true,
     "downlevelIteration": true
   },
-  "exclude": ["node_modules", "lib"],
+  "exclude": ["node_modules", "lib", "slicemachine.config.json"],
   "include": ["next-env.d.ts", "prismicio-types.d.ts", "**/*.ts", "**/*.tsx"]
 }
