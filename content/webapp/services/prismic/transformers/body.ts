@@ -60,7 +60,6 @@ import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
 import { Props as InfoBlockProps } from '../../../components/InfoBlock/InfoBlock';
 import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
 import { Props as TagListProps } from '../../../components/TagsGroup/TagsGroup';
-import { Props as StandfirstProps } from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import { Props as EmbedProps } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import {
   TextAndImageItem,
@@ -88,7 +87,7 @@ export function getWeight(weight: string | null): Weight {
 
 export function transformStandfirstSlice(
   slice: StandfirstSlice
-): Slice<'standfirst', StandfirstProps> {
+): Slice<'standfirst', prismic.RichTextField> {
   return {
     type: 'standfirst',
     weight: getWeight(slice.slice_label),
