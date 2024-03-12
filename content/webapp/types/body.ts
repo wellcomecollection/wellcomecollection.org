@@ -14,18 +14,11 @@ import {
   TextAndImageItem,
 } from '../components/TextAndImageOrIcons';
 import { AudioPlayerProps } from '@weco/content/components/AudioPlayer/AudioPlayer';
+import { Props as SearchResultsProps } from '@weco/content/components/SearchResults/SearchResults';
+
 import * as prismic from '@prismicio/client';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
 import { Venue } from '@weco/common/model/opening-hours';
-import { Page } from './pages';
-import { EventSeries } from './event-series';
-import { Book } from './books';
-import { EventBasic } from './events';
-import { Article } from './articles';
-import { Exhibition } from './exhibitions';
-import { Card } from './card';
-import { Season } from './seasons';
-import { Guide } from './guides';
 
 export type Weight =
   | 'default'
@@ -38,21 +31,6 @@ export type Slice<TypeName extends string, Value> = {
   type: TypeName;
   weight?: Weight;
   value: Value;
-};
-
-type ContentList = {
-  title?: string;
-  items: (
-    | Page
-    | EventSeries
-    | Book
-    | EventBasic
-    | Article
-    | Exhibition
-    | Card
-    | Season
-    | Guide
-  )[];
 };
 
 export function isContentList(
@@ -98,5 +76,5 @@ export type BodySlice =
   | Slice<'collectionVenue', { content: Venue; showClosingTimes: boolean }>
   | Slice<'videoEmbed', EmbedProps>
   | Slice<'soundcloudEmbed', EmbedProps>
-  | Slice<'contentList', ContentList>
+  | Slice<'contentList', SearchResultsProps>
   | Slice<'audioPlayer', AudioPlayerProps>;
