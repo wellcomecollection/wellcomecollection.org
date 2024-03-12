@@ -7,5 +7,6 @@ export const components = {
   editorialImageGallery: dynamic(() => import('./EditorialImageGallery')),
   quoteV2: dynamic(() => import('./Quote')),
   quote: dynamic(() => import('./Quote')),
+  standfirst: dynamic(() => import('./Standfirst')),
   text: dynamic(() => import('./Text')),
 };
