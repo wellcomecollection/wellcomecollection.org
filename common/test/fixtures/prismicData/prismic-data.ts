@@ -1,4 +1,4 @@
-import { SimplifiedPrismicData } from 'server-data/prismic';
+import { SimplifiedPrismicData } from '@weco/common/server-data/prismic';
 
 const prismicData: SimplifiedPrismicData = {
   globalAlert: {
