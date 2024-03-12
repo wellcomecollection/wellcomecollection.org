@@ -1,4 +1,4 @@
-import { InfoBlockSlice } from '../../../prismicio-types.f';
+import { InfoBlockSlice } from '../../../prismicio-types';
 import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
 import SpacingComponent from '../../components/styled/SpacingComponent';
