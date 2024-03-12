@@ -152,7 +152,6 @@ export type TitledTextList = prismic.Slice<
     title: prismic.RichTextField;
     text: prismic.RichTextField;
     link: prismic.LinkField;
-    label: prismic.ContentRelationshipField<'labels'>;
   }
 >;
 

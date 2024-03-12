@@ -29,7 +29,7 @@ import {
 import { TeamPrismicDocument } from '../types/teams';
 import { transformCaptionedImage } from './images';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
-import { asRichText, transformLabelType, asTitle, asText } from '.';
+import { asRichText, asTitle, asText } from '.';
 import {
   transformLink,
   transformTaslFromString,
@@ -223,21 +223,15 @@ function transformTitledTextItem({
   title,
   text,
   link,
-  label,
 }: {
   title: prismic.RichTextField;
   text: prismic.RichTextField;
   link: prismic.LinkField;
-  label: prismic.ContentRelationshipField<'labels'>;
 }) {
   return {
     title: asTitle(title),
     text: asRichText(text),
     link: transformLink(link),
-    label: isFilledLinkToDocumentWithData(label)
-      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        transformLabelType(label as any)
-      : undefined,
   };
 }
 
