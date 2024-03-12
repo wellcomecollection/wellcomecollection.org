@@ -12,7 +12,7 @@ const Wrapper = styled(Space).attrs({
   }
 `;
 
-type Props = ComponentPropsWithoutRef<typeof PrismicHtmlBlock>;
+export type Props = ComponentPropsWithoutRef<typeof PrismicHtmlBlock>;
 
 const PageHeaderStandfirst: FunctionComponent<Props> = props => (
   <Wrapper>

@@ -55,6 +55,7 @@ import { AudioPlayerProps } from '../../../components/AudioPlayer/AudioPlayer';
 import { Props as QuoteProps } from '../../../components/Quote/Quote';
 import { CaptionedImageProps } from '../../../components/CaptionedImage/CaptionedImage';
 import { Props as ImageGalleryProps } from '../../../components/ImageGallery';
+import { Props as StandfirstProps } from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -71,7 +72,9 @@ export function getWeight(weight: string | null): Weight {
   }
 }
 
-function transformStandfirstSlice(slice: StandfirstSlice): BodySlice {
+export function transformStandfirstSlice(
+  slice: StandfirstSlice | Content.StandfirstSlice
+): Slice<'standfirst', StandfirstProps> {
   return {
     type: 'standfirst',
     weight: getWeight(slice.slice_label),
