@@ -16,6 +16,8 @@ import {
   GaDimensions,
 } from '@weco/common/services/app/google-analytics';
 
+// Don't attempt to destructure the process object
+// https://github.com/vercel/next.js/pull/20869/files
 const ANALYTICS_WRITE_KEY =
   process.env.ANALYTICS_WRITE_KEY || '78Czn5jNSaMSVrBq2J9K4yJjWxh6fyRI';
 const NODE_ENV = process.env.NODE_ENV || 'development';
