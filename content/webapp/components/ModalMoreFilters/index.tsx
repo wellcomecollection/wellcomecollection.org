@@ -1,4 +1,4 @@
-import React, { FunctionComponent, RefObject, useContext } from 'react';
+import { FunctionComponent, RefObject, useContext } from 'react';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import Modal from '@weco/common/views/components/Modal/Modal';

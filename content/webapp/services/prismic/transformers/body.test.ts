@@ -18,6 +18,7 @@ describe('transformBody', () => {
     // The embed URL includes a ?list query parameter, which can throw off our
     // URL-fixing code if we're not careful.
     const slice: Embed = {
+      id: '123',
       slice_type: 'embed',
       slice_label: null,
       items: [],
@@ -62,6 +63,7 @@ describe('transformBody', () => {
   it("creates a no-cookie YouTube embed when there's no query parameter", () => {
     // This is from https://wellcomecollection.org/events/YVSCyRAAAEGADThi
     const slice: Embed = {
+      id: '234',
       slice_type: 'embed',
       slice_label: null,
       items: [],

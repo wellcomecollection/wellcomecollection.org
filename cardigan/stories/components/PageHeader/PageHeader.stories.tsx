@@ -209,6 +209,7 @@ const bookImage = {
   crops: {},
   sizesQueries: '',
 };
+
 const EventFeaturedMedia = () => (
   <PrismicImage image={eventImage} quality="low" />
 );
@@ -221,6 +222,10 @@ const Template = args => (
   />
 );
 
+const sharedParams = {
+  chromatic: { diffThreshold: 0.2, delay: 1000 },
+};
+
 export const article = Template.bind({});
 article.args = {
   title: 'How the magician’s assistant creates the illusion',
@@ -230,9 +235,7 @@ article.args = {
   ContentTypeInfo,
   isContentTypeInfoBeforeMedia: true,
 };
-article.parameters = {
-  chromatic: { diffThreshold: 0.2 },
-};
+article.parameters = sharedParams;
 
 const ContentPageTemplate = args => (
   <ReadmeDecorator
@@ -268,9 +271,7 @@ shortFilm.args = {
     />
   ),
 };
-shortFilm.parameters = {
-  chromatic: { diffThreshold: 0.2 },
-};
+shortFilm.parameters = sharedParams;
 
 export const event = Template.bind({});
 event.args = {
@@ -286,6 +287,7 @@ event.args = {
     />
   ),
 };
+event.parameters = sharedParams;
 
 export const exhibition = Template.bind({});
 exhibition.args = {
@@ -296,6 +298,7 @@ exhibition.args = {
   ContentTypeInfo: <ExhibitionContentTypeInfo />,
   isContentTypeInfoBeforeMedia: true,
 };
+exhibition.parameters = sharedParams;
 
 export const list = Template.bind({});
 list.args = {
@@ -306,6 +309,7 @@ list.args = {
   ContentTypeInfo:
     'We publish adventurous and unusual books that explore health, medicine and the complexities of the human condition.',
 };
+list.parameters = sharedParams;
 
 export const page = Template.bind({});
 page.args = {
@@ -314,6 +318,7 @@ page.args = {
   highlightHeading: true,
   breadcrumbs: { items: [{ text: 'Get involved', url: '#' }] },
 };
+page.parameters = sharedParams;
 
 export const book = Template.bind({});
 book.args = {
@@ -333,6 +338,4 @@ book.args = {
     </Space>
   ),
 };
-book.parameters = {
-  chromatic: { diffThreshold: 0.2 },
-};
+book.parameters = sharedParams;
