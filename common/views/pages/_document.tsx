@@ -16,10 +16,11 @@ import {
   GaDimensions,
 } from '@weco/common/services/app/google-analytics';
 
-const {
-  ANALYTICS_WRITE_KEY = '78Czn5jNSaMSVrBq2J9K4yJjWxh6fyRI',
-  NODE_ENV = 'development',
-} = process.env;
+// Don't attempt to destructure the process object
+// https://github.com/vercel/next.js/pull/20869/files
+const ANALYTICS_WRITE_KEY =
+  process.env.ANALYTICS_WRITE_KEY || '78Czn5jNSaMSVrBq2J9K4yJjWxh6fyRI';
+const NODE_ENV = process.env.NODE_ENV || 'development';
 
 export function renderSegmentSnippet() {
   const opts = {
@@ -88,7 +89,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
             />
 
             {/* Removing/readding this script on consent changes causes issues with meta tag duplicates
-            https://github.com/wellcomecollection/wellcomecollection.org/pull/10685#discussion_r1516298683 
+            https://github.com/wellcomecollection/wellcomecollection.org/pull/10685#discussion_r1516298683
             Let's keep an eye on this issue and consider moving it next to the Segment script when it's fixed */}
             <GoogleTagManager />
 
