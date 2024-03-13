@@ -1,38 +1,20 @@
 import { FunctionComponent } from 'react';
 import Link from 'next/link';
-import styled from 'styled-components';
-
-const Wrapper = styled.div`
-  background: #ffce3c;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  position: relative;
-  height: 60px;
-  display: flex;
-`;
-
-const Title = styled.h2`
-  margin: 0;
-  padding: 0;
-  margin-left: 18px;
-  margin-right: 18px;
-  color: #323232;
-  font-weight: normal;
-  line-height: 2.5em;
-  min-width: 150px;
-`;
-
-const StyledLink = styled(Link)`
-  color: #323232;
-  text-decoration: none;
-  font-weight: bold;
-`;
 
 type Props = { title: string };
 
 const Header: FunctionComponent<Props> = ({ title }) => {
   return (
-    <Wrapper>
+    <div
+      style={{
+        background: '#ffce3c',
+        marginTop: '30px',
+        marginBottom: '30px',
+        position: 'relative',
+        height: '60px',
+        display: 'flex',
+      }}
+    >
       <h1 style={{ margin: 0, padding: 0 }}>
         <a href="/">
           <img
@@ -48,9 +30,21 @@ const Header: FunctionComponent<Props> = ({ title }) => {
           />
         </a>
       </h1>
-
       <div style={{ display: 'flex' }}>
-        <Title>{title}</Title>
+        <h2
+          style={{
+            margin: 0,
+            padding: 0,
+            marginLeft: '18px',
+            marginRight: '18px',
+            color: '#323232',
+            fontWeight: 'normal',
+            lineHeight: '2.5em',
+            minWidth: '150px',
+          }}
+        >
+          {title}
+        </h2>
 
         <ul
           style={{
@@ -61,15 +55,41 @@ const Header: FunctionComponent<Props> = ({ title }) => {
             alignItems: 'center',
           }}
         >
-          <li style={{ marginRight: '18px' }}>
-            <StyledLink href="/pa11y">Pa11y</StyledLink>
+          <li
+            style={{
+              marginRight: '18px',
+            }}
+          >
+            <Link
+              href="/pa11y/"
+              style={{
+                color: '#323232',
+                textDecoration: 'none',
+                fontWeight: 'bold',
+              }}
+            >
+              Pa11y
+            </Link>
           </li>
-          <li style={{ marginRight: '18px' }}>
-            <StyledLink href="/toggles">Toggles</StyledLink>
+          <li
+            style={{
+              marginRight: '18px',
+            }}
+          >
+            <Link
+              href="/toggles/"
+              style={{
+                color: '#323232',
+                textDecoration: 'none',
+                fontWeight: 'bold',
+              }}
+            >
+              Toggles
+            </Link>
           </li>
         </ul>
       </div>
-    </Wrapper>
+    </div>
   );
 };
 

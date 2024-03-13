@@ -200,7 +200,11 @@ const IndexPage: FunctionComponent = () => {
       <Head>
         <title>Toggles dashboard</title>
       </Head>
-      <div style={{ fontFamily }}>
+      <div
+        style={{
+          fontFamily,
+        }}
+      >
         <Header title="Toggles" />
         <div
           style={{
@@ -222,10 +226,8 @@ const IndexPage: FunctionComponent = () => {
             />
           </div>
           <TextBox>
-            You can turn on a toggle on (👍) or off (👎), which will only be
-            active on the browser you are currently using, so feel free to
-            explore them! Toggles also have a public status which is set for
-            100% of users, which is done through devs running a script.
+            You can turn on a toggle on (👍) or off (👎). Toggles also have a
+            public status which is set for 100% of users.
           </TextBox>
           <ResetButton onClick={reset}>
             🗑&nbsp;&nbsp;Reset all toggles to default&nbsp;&nbsp;🔄
