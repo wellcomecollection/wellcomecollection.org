@@ -19815,7 +19815,7 @@ slice-ansi@^4.0.0:
     astral-regex "^2.0.0"
     is-fullwidth-code-point "^3.0.0"
 
-slice-machine-ui@^1.24.1:
+slice-machine-ui@^1.25.0:
   version "1.25.0"
   resolved "https://registry.yarnpkg.com/slice-machine-ui/-/slice-machine-ui-1.25.0.tgz#3432736d9f8d0b4fd5fd8d3ee0761f8b9ffd940c"
   integrity sha512-zA32YLzz7vj6myT82AC73+LKLIXT3dP0KMJADyDNzdQoolevd55Gf1qYzBEQUHJYjQi1pCRxsu4mYrWihdCUjQ==
