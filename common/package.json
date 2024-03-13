@@ -21,7 +21,6 @@
     "@prismicio/next": "^1.5.0",
     "@prismicio/react": "^2.7.3",
     "@segment/snippet": "^4.10.0",
-    "@slicemachine/adapter-next": "^0.3.35",
     "@testing-library/dom": "^9.0.0",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.0.0",
@@ -57,5 +56,9 @@
     "url-template": "^2.0.8",
     "uuid": "^9.0.0",
     "webpack-bundle-analyzer": "^4.8.0"
+  },
+  "devDependencies": {
+    "@slicemachine/adapter-next": "^0.3.36",
+    "slice-machine-ui": "^1.24.1"
   }
 }
