@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import React, {
+import {
   ReactElement,
   FunctionComponent,
   Fragment,

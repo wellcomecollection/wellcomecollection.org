@@ -14,7 +14,7 @@ import {
   ColorFilter,
   DateRangeFilter,
   Filter,
-} from '@weco/content/services/wellcome/catalogue/filters';
+} from '@weco/content/services/wellcome/common/filters';
 import { getColorDisplayName } from '@weco/content/components/PaletteColorPicker';
 
 type ResetActiveFilters = {

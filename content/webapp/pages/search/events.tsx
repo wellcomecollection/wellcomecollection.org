@@ -36,7 +36,7 @@ import { getEvents } from '@weco/content/services/wellcome/content/events';
 import EventsSearchResults from '@weco/content/components/EventsSearchResults';
 import SearchFilters from '@weco/content/components/SearchFilters';
 import { hasFilters } from '@weco/content/utils/search';
-import { eventsFilters } from '@weco/content/services/wellcome/catalogue/filters';
+import { eventsFilters } from '@weco/content/services/wellcome/common/filters';
 
 type Props = {
   eventResponseList: ContentResultsList<EventDocument>;

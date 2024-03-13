@@ -1,4 +1,4 @@
-import React, { FunctionComponent, RefObject, useContext } from 'react';
+import { FunctionComponent, RefObject, useContext } from 'react';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import Modal from '@weco/common/views/components/Modal/Modal';
@@ -9,7 +9,7 @@ import {
   Filter,
   CheckboxFilter as CheckboxFilterType,
   filterLabel,
-} from '@weco/content/services/wellcome/catalogue/filters';
+} from '@weco/content/services/wellcome/common/filters';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import PlainList from '@weco/common/views/components/styled/PlainList';

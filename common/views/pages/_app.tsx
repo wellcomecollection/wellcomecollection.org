@@ -1,3 +1,4 @@
+import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import React, { useEffect, FunctionComponent, ReactElement } from 'react';
 import { ThemeProvider } from 'styled-components';
@@ -22,9 +23,9 @@ import { AppErrorProps } from '@weco/common/services/app';
 import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
 import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
 import { GaDimensions } from '@weco/common/services/app/google-analytics';
-import { NextPage } from 'next';
 import { deserialiseProps } from '@weco/common/utils/json';
 import { SearchContextProvider } from '@weco/common/views/components/SearchContext/SearchContext';
+import CivicUK from '@weco/common/views/components/CivicUK';
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
@@ -83,20 +84,29 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   const serverData = isServerDataSet ? pageProps.serverData : defaultServerData;
 
-  const onAnalyticsConsentChange = () =>
-    console.log('Decide on what to do here and how to handle');
-
   useMaintainPageHeight();
+
+  const onAnalyticsConsentChanged = (
+    event: CustomEvent<{ consent: 'granted' | 'denied' }>
+  ) => {
+    // Update datalayer config with consent value
+    gtag('consent', 'update', {
+      analytics_storage: event.detail.consent,
+    });
+  };
+
   useEffect(() => {
     document.documentElement.classList.add('enhanced');
-  }, []);
 
-  useEffect(() => {
-    window.addEventListener('analyticsConsentChange', onAnalyticsConsentChange);
+    window.addEventListener(
+      'analyticsConsentChanged',
+      onAnalyticsConsentChanged
+    );
+
     return () => {
       window.removeEventListener(
-        'analyticsConsentChange',
-        onAnalyticsConsentChange
+        'analyticsConsentChanged',
+        onAnalyticsConsentChanged
       );
     };
   }, []);
@@ -132,6 +142,11 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                     isFontsLoaded={useIsFontsLoaded()}
                   />
                   <LoadingIndicator />
+
+                  {pageProps.serverData?.toggles?.cookiesWork?.value && (
+                    <CivicUK />
+                  )}
+
                   {!pageProps.err &&
                     getLayout(<Component {...deserialiseProps(pageProps)} />)}
                   {pageProps.err && (

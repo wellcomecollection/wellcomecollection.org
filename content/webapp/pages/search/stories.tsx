@@ -36,7 +36,7 @@ import {
   fromQuery,
   StoriesProps,
 } from '@weco/content/components/SearchPagesLink/Stories';
-import { storiesFilters } from '@weco/content/services/wellcome/catalogue/filters';
+import { storiesFilters } from '@weco/content/services/wellcome/common/filters';
 
 type Props = {
   storyResponseList: ContentResultsList<Article>;
