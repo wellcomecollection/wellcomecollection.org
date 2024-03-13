@@ -25,8 +25,7 @@ import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeig
 import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import { deserialiseProps } from '@weco/common/utils/json';
 import { SearchContextProvider } from '@weco/common/views/components/SearchContext/SearchContext';
-import ConsentAndScripts from '@weco/common/views/components/ConsentAndScripts';
-import { renderSegmentSnippet } from './_document';
+import CivicUK from '@weco/common/views/components/CivicUK';
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
@@ -87,8 +86,29 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   useMaintainPageHeight();
 
+  const onAnalyticsConsentChanged = (
+    event: CustomEvent<{ consent: 'granted' | 'denied' }>
+  ) => {
+    // Update datalayer config with consent value
+    gtag('consent', 'update', {
+      analytics_storage: event.detail.consent,
+    });
+  };
+
   useEffect(() => {
     document.documentElement.classList.add('enhanced');
+
+    window.addEventListener(
+      'analyticsConsentChanged',
+      onAnalyticsConsentChanged
+    );
+
+    return () => {
+      window.removeEventListener(
+        'analyticsConsentChanged',
+        onAnalyticsConsentChanged
+      );
+    };
   }, []);
 
   useEffect(() => {
@@ -124,9 +144,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                   <LoadingIndicator />
 
                   {pageProps.serverData?.toggles?.cookiesWork?.value && (
-                    <ConsentAndScripts
-                      segmentSnippet={renderSegmentSnippet()}
-                    />
+                    <CivicUK />
                   )}
 
                   {!pageProps.err &&
