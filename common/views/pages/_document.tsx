@@ -37,8 +37,8 @@ export function renderSegmentSnippet() {
 
 type DocumentInitialPropsWithTogglesAndGa = DocumentInitialProps & {
   toggles: Toggles;
-  hasAnalyticsConsent: boolean;
   gaDimensions?: GaDimensions;
+  hasAnalyticsConsent: boolean;
 };
 class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
   static async getInitialProps(
@@ -76,6 +76,8 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
   }
 
   render(): ReactElement<DocumentInitialProps> {
+    const cookiesWork = this.props.toggles?.cookiesWork?.value;
+
     return (
       <Html lang="en">
         <Head>
@@ -83,9 +85,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
             {/* Adding toggles etc. to the datalayer so they are available to events in Google Tag Manager */}
             <Ga4DataLayer
               hasAnalyticsConsent={this.props.hasAnalyticsConsent}
-              data={{
-                toggles: this.props.toggles,
-              }}
+              data={{ toggles: this.props.toggles }}
             />
 
             {/* Removing/readding this script on consent changes causes issues with meta tag duplicates
@@ -93,7 +93,8 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
             Let's keep an eye on this issue and consider moving it next to the Segment script when it's fixed */}
             <GoogleTagManager />
 
-            {!this.props.toggles?.cookiesWork?.value && (
+            {(!cookiesWork ||
+              (cookiesWork && this.props.hasAnalyticsConsent)) && (
               <script
                 dangerouslySetInnerHTML={{ __html: renderSegmentSnippet() }}
               />
