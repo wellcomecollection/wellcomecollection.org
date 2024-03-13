@@ -26,7 +26,7 @@ import {
 } from '@weco/content/components/SearchPagesLink/Images';
 import { getServerData } from '@weco/common/server-data';
 import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
-import { imagesFilters } from '@weco/content/services/wellcome/catalogue/filters';
+import { imagesFilters } from '@weco/content/services/wellcome/common/filters';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { linkResolver, SEARCH_PAGES_FORM_ID } from '@weco/common/utils/search';
 import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';

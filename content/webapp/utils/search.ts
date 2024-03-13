@@ -1,6 +1,6 @@
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { getColorDisplayName } from 'components/PaletteColorPicker';
-import { Filter } from '@weco/content/services/wellcome/catalogue/filters';
+import { Filter } from '@weco/content/services/wellcome/common/filters';
 
 // FILTERS
 /**

@@ -23,7 +23,7 @@ import { getServerData } from '@weco/common/server-data';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
-import { worksFilters } from '@weco/content/services/wellcome/catalogue/filters';
+import { worksFilters } from '@weco/content/services/wellcome/common/filters';
 import {
   emptyResultList,
   WellcomeResultList,
