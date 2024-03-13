@@ -18,14 +18,23 @@ const IndexPage: FunctionComponent = () => {
       <Head>
         <title>Dashboard</title>
       </Head>
-      <div style={{ fontFamily }}>
+      <div
+        style={{
+          fontFamily,
+        }}
+      >
         <Header title="Dashboard" />
-        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+        <div
+          style={{
+            maxWidth: '600px',
+            margin: '0 auto',
+          }}
+        >
           <h1>Wellcome Collection</h1>
           <ul>
             <li>
               <a href="https://wellcomecollection.org" rel="website">
-                Wellcome Collection website
+                Website
               </a>
             </li>
             <li>
@@ -33,7 +42,7 @@ const IndexPage: FunctionComponent = () => {
                 href="https://github.com/wellcomecollection/wellcomecollection.org"
                 rel="repo"
               >
-                wc.org Github repo
+                Experience Github repo
               </a>
             </li>
             <li>
@@ -68,20 +77,24 @@ const IndexPage: FunctionComponent = () => {
           </ul>
 
           {prismicLintResults && (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <div style={{ paddingRight: '1em' }}>
-                {prismicLintResults.totalErrors === 0 && (
-                  <Issue $type="success">0 issues</Issue>
-                )}
-                {prismicLintResults.totalErrors > 0 && (
-                  <Issue $type="error">
-                    {prismicLintResults.totalErrors} issue
-                    {prismicLintResults.totalErrors > 1 ? 's' : ''}
-                  </Issue>
-                )}
-              </div>
-              <a href="/prismic-linting">Prismic linting report</a>
-            </div>
+            <table>
+              <tr>
+                <td style={{ paddingRight: '1em' }}>
+                  {prismicLintResults.totalErrors === 0 && (
+                    <Issue $type="success">0 issues</Issue>
+                  )}
+                  {prismicLintResults.totalErrors > 0 && (
+                    <Issue $type="error">
+                      {prismicLintResults.totalErrors} issue
+                      {prismicLintResults.totalErrors > 1 ? 's' : ''}
+                    </Issue>
+                  )}
+                </td>
+                <td>
+                  <a href="/prismic-linting">Prismic linting report</a>
+                </td>
+              </tr>
+            </table>
           )}
         </div>
       </div>
