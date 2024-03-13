@@ -1,4 +1,4 @@
-import { EditorialImageGallerySlice } from '../../../prismicio-types';
+import { EditorialImageGallerySlice as SliceType } from '../../../prismicio-types';
 import { FunctionComponent } from 'react';
 import ImageGallery from '@weco/content/components/ImageGallery';
 import { SliceComponentProps } from '@prismicio/react';
@@ -10,7 +10,7 @@ import {
 } from '@weco/content/components/Body/Body';
 
 export type EditorialImageGalleryProps = SliceComponentProps<
-  EditorialImageGallerySlice,
+  SliceType,
   SliceZoneContext
 >;
 

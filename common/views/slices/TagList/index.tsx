@@ -1,4 +1,4 @@
-import { TagListSlice } from '../../../prismicio-types';
+import { TagListSlice as SliceType } from '../../../prismicio-types';
 import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
 import SpacingComponent from '../../components/styled/SpacingComponent';
@@ -9,7 +9,7 @@ import {
 import TagsGroup from '@weco/content/components/TagsGroup/TagsGroup';
 import { transformTagListSlice } from '@weco/content/services/prismic/transformers/body';
 
-export type TagListProps = SliceComponentProps<TagListSlice, SliceZoneContext>;
+export type TagListProps = SliceComponentProps<SliceType, SliceZoneContext>;
 
 const TagList: FunctionComponent<TagListProps> = ({ slice, context }) => {
   const transformedSlice = transformTagListSlice(slice);

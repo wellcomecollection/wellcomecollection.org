@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { EmbedSlice } from '../../../prismicio-types';
+import { EmbedSlice as SliceType } from '../../../prismicio-types';
 import { SliceComponentProps } from '@prismicio/react';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { transformEmbedSlice } from '@weco/content/services/prismic/transformers/body';
@@ -11,7 +11,7 @@ import {
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import SoundCloudEmbed from '@weco/content/components/SoundCloudEmbed/SoundCloudEmbed';
 
-export type EmbedProps = SliceComponentProps<EmbedSlice, SliceZoneContext>;
+export type EmbedProps = SliceComponentProps<SliceType, SliceZoneContext>;
 
 const EmbedSlice: FunctionComponent<EmbedProps> = ({ slice, context }) => {
   const transformedSlice = transformEmbedSlice(slice);

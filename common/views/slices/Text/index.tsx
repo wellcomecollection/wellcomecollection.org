@@ -1,5 +1,5 @@
 import * as prismic from '@prismicio/client';
-import { TextSlice } from '../../../prismicio-types';
+import { TextSlice as SliceType } from '../../../prismicio-types';
 import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
@@ -15,7 +15,7 @@ import {
 } from '@weco/content/components/Body/Body';
 import { classNames } from '@weco/common/utils/classnames';
 
-export type TextProps = SliceComponentProps<TextSlice, SliceZoneContext>;
+export type TextProps = SliceComponentProps<SliceType, SliceZoneContext>;
 
 const Text: FunctionComponent<TextProps> = ({ slice, context, index }) => {
   const options = { ...defaultContext, ...context };
