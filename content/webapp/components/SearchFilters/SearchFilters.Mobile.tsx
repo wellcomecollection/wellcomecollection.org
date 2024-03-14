@@ -287,7 +287,6 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                     />
                   )}
 
-                  {/* TODO discuss this one for when count is 0 */}
                   {f.type === 'boolean' && !(hasNoResults && !f.isSelected) && (
                     <BooleanFilter
                       f={f}

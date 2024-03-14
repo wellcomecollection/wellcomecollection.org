@@ -182,44 +182,47 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
           <FilterSection key={`${f.id}-${i}`}>
             {getFilterLabel(f.type, f.label)}
 
-            <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
-              <PlainList as="div">
-                <section aria-label={f.label}>
-                  {f.type === 'checkbox' && (
-                    <CheckboxFilter
-                      f={f}
-                      changeHandler={changeHandler}
-                      form={form}
-                    />
-                  )}
-                  {f.type === 'dateRange' &&
-                    !(hasNoResults && !(f.from.value || f.to.value)) && (
-                      <DateRangeFilter
+            {(f.type !== 'checkbox' ||
+              (f.type === 'checkbox' && f.options.length > 0)) && (
+              <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
+                <PlainList as="div">
+                  <section aria-label={f.label}>
+                    {f.type === 'checkbox' && (
+                      <CheckboxFilter
                         f={f}
                         changeHandler={changeHandler}
                         form={form}
                       />
                     )}
-                  {f.type === 'color' && !(hasNoResults && !f.color) && (
-                    <PaletteColorPicker
-                      name={f.id}
-                      color={f.color}
-                      onChangeColor={changeHandler}
-                      form={form}
-                    />
-                  )}
+                    {f.type === 'dateRange' &&
+                      !(hasNoResults && !(f.from.value || f.to.value)) && (
+                        <DateRangeFilter
+                          f={f}
+                          changeHandler={changeHandler}
+                          form={form}
+                        />
+                      )}
+                    {f.type === 'color' && !(hasNoResults && !f.color) && (
+                      <PaletteColorPicker
+                        name={f.id}
+                        color={f.color}
+                        onChangeColor={changeHandler}
+                        form={form}
+                      />
+                    )}
 
-                  {/* TODO discuss this one for when count is 0 */}
-                  {f.type === 'boolean' && !(hasNoResults && !f.isSelected) && (
-                    <BooleanFilter
-                      f={f}
-                      changeHandler={changeHandler}
-                      form={form}
-                    />
-                  )}
-                </section>
-              </PlainList>
-            </Space>
+                    {f.type === 'boolean' &&
+                      !(hasNoResults && !f.isSelected) && (
+                        <BooleanFilter
+                          f={f}
+                          changeHandler={changeHandler}
+                          form={form}
+                        />
+                      )}
+                  </section>
+                </PlainList>
+              </Space>
+            )}
           </FilterSection>
         ))}
     </>

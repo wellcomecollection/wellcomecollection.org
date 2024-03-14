@@ -33,13 +33,6 @@ const ColorSwatch = styled.span<{ $hexColor: string }>`
   padding-top: 2px;
 `;
 
-const Wrapper = styled(Space).attrs({
-  className: 'tokens',
-  $v: { size: 's', properties: ['padding-top'] },
-})`
-  background-color: ${props => props.theme.color('white')};
-`;
-
 const IconWrapper = styled(Space).attrs({
   $h: { size: 'xs', properties: ['margin-right'] },
 })`
@@ -160,33 +153,29 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
     ) : null;
 
   return (
-    <Wrapper>
-      <div className={font('intb', 5)}>
-        <div>
-          <h2 style={{ display: 'inline' }}>
-            <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
-              Active filters:
-            </Space>
-          </h2>
-          {filters.map(f => {
-            switch (f.type) {
-              case 'checkbox':
-                return renderCheckboxLink(f);
-              case 'dateRange':
-                return renderDateRangeLinks(f);
-              case 'color':
-                return renderColorLink(f);
-              case 'boolean':
-                return renderBooleanLink(f);
-              default:
-                return null;
-            }
-          })}
-          <NextLink passHref {...resetFilters}>
-            <CancelFilter text="Reset filters" />
-          </NextLink>
-        </div>
-      </div>
-    </Wrapper>
+    <div className={font('intb', 5)}>
+      <h2 style={{ display: 'inline' }}>
+        <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
+          Active filters:
+        </Space>
+      </h2>
+      {filters.map(f => {
+        switch (f.type) {
+          case 'checkbox':
+            return renderCheckboxLink(f);
+          case 'dateRange':
+            return renderDateRangeLinks(f);
+          case 'color':
+            return renderColorLink(f);
+          case 'boolean':
+            return renderBooleanLink(f);
+          default:
+            return null;
+        }
+      })}
+      <NextLink passHref {...resetFilters}>
+        <CancelFilter text="Reset filters" />
+      </NextLink>
+    </div>
   );
 };

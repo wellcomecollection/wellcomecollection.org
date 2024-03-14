@@ -22,7 +22,7 @@ const Wrapper = styled(Space).attrs({
   className: font('intr', 5),
 })`
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   width: 100%;
   flex-wrap: wrap;
 `;
@@ -95,7 +95,11 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
         </FilterDropdownsContainer>
 
         {booleanFilters?.map(f => (
-          <Space key={f.id} $v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <Space
+            key={f.id}
+            $v={{ size: 'm', properties: ['margin-bottom'] }}
+            style={{ height: '32px', display: 'flex', alignItems: 'center' }}
+          >
             <BooleanFilter
               {...(!showMoreFiltersModal && { form: searchFormId })}
               f={f as BooleanFilterType}
