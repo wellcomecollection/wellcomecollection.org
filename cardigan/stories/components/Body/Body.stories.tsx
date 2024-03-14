@@ -10,6 +10,7 @@ import {
 const Template = args => <Body {...args} />;
 export const basic = Template.bind({});
 basic.args = {
+  originalBody: [],
   body: [
     {
       type: 'picture',
