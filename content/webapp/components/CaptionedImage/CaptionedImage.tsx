@@ -59,7 +59,7 @@ const ImageContainerInner = styled.div<ImageContainerInnerProps>`
   }
 `;
 
-type CaptionedImageProps = CaptionedImageType & {
+export type CaptionedImageProps = CaptionedImageType & {
   isBody?: boolean;
   preCaptionNode?: ReactNode;
 };

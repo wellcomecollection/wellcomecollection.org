@@ -275,7 +275,13 @@ const Exhibition: FunctionComponent<Props> = ({
     <ContentPage
       id={exhibition.id}
       Header={Header}
-      Body={<Body body={exhibition.body} pageId={exhibition.id} />}
+      Body={
+        <Body
+          originalBody={exhibition.originalBody}
+          body={exhibition.body}
+          pageId={exhibition.id}
+        />
+      }
       seasons={exhibition.seasons}
       // We hide contributors as we show them further up the page
       hideContributors={true}

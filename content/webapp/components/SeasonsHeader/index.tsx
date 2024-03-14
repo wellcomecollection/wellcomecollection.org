@@ -4,6 +4,7 @@ import styled from 'styled-components';
 // Helpers/Utils
 import { font } from '@weco/common/utils/classnames';
 import { getCrop } from '@weco/common/model/image';
+import { components } from '@weco/common/views/slices';
 
 // Components
 import DateRange from '@weco/content/components/DateRange/DateRange';
@@ -16,6 +17,7 @@ import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandf
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import { WobblyBottom } from '@weco/common/views/components/WobblyEdge';
+import { SliceZone } from '@prismicio/react';
 
 // Types
 import { Season } from '@weco/content/types/seasons';
@@ -33,7 +35,7 @@ type Props = {
 };
 
 const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
-  const { title, standfirst, start, end, labels } = season;
+  const { title, standfirst, start, end, labels, originalStandfirst } = season;
 
   const superWidescreenImage = getCrop(season.image, '32:15');
 
@@ -78,6 +80,14 @@ const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
                         </div>
                       )}
                       {standfirst && <PageHeaderStandfirst html={standfirst} />}
+                      {/* TODO need to toggle this or do we just leave it as it is? and remove the slice component? */}
+                      {originalStandfirst && (
+                        <SliceZone
+                          slices={[originalStandfirst]}
+                          components={components}
+                          context={{}}
+                        />
+                      )}
                     </Space>
                   </Space>
                 </TextWrapper>
