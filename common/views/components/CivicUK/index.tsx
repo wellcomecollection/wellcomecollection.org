@@ -1,3 +1,5 @@
+import cookies from '@weco/common/data/cookies';
+
 const branding = {
   removeIcon: true,
   removeAbout: true,
@@ -32,6 +34,21 @@ const statement = {
   updated: '25/05/2018',
 };
 
+// Define all necessary cookies here and document their usage a little.
+// Don't put comments in the return array as it gets stringified later.
+const necessaryCookies = () => {
+  // View @weco/common/data/cookies for details on each
+  const wcCookies = Object.values(cookies).map(c => c);
+
+  // Allows Prismic previews
+  const prismicPreview = ['io.prismic.preview', 'isPreview'];
+
+  // See @weco/toggles/webapp/toggles for details on each
+  const featureFlags = ['toggle_*'];
+
+  return [...wcCookies, ...prismicPreview, ...featureFlags];
+};
+
 const CivicUK = () => (
   <>
     <script
@@ -50,7 +67,7 @@ const CivicUK = () => (
             closeStyle: 'button',
             settingsStyle: 'button',
             notifyDismissButton: false,
-            necessaryCookies: ['toggle_*'],
+            necessaryCookies: ${JSON.stringify(necessaryCookies())},
             optionalCookies: [
               {
                 name: 'analytics',
