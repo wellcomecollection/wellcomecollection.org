@@ -41,7 +41,7 @@ export async function getConcept({
   }
 
   try {
-    return await res.json();
+    return (await res.json()) as ConceptResponse;
   } catch (e) {
     return wellcomeApiError();
   }
