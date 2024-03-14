@@ -47,6 +47,7 @@
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
 - label: ':docker: build dash'
+  branches: 'main'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
@@ -152,6 +153,7 @@
           - identity:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity_webapp:latest
 
 - label: 'deploy dash'
+  branches: 'main'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
