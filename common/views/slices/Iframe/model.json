@@ -1,0 +1,32 @@
+{
+  "id": "iframe",
+  "type": "SharedSlice",
+  "name": "Iframe",
+  "description": "Iframe",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "iframeSrc": {
+          "type": "Text",
+          "config": {
+            "label": "iframe src",
+            "placeholder": "iframe src"
+          }
+        },
+        "previewImage": {
+          "type": "Image",
+          "config": {
+            "label": "Preview image"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

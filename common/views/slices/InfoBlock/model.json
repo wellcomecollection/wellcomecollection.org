@@ -1,0 +1,46 @@
+{
+  "id": "infoBlock",
+  "type": "SharedSlice",
+  "name": "InfoBlock",
+  "description": "InfoBlock",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading2",
+            "label": "Title"
+          }
+        },
+        "text": {
+          "type": "StructuredText",
+          "config": {
+            "multi": "paragraph,hyperlink,strong,em,heading3,list-item",
+            "label": "Text"
+          }
+        },
+        "link": {
+          "type": "Link",
+          "config": {
+            "label": "Button link",
+            "select": "web",
+            "customtypes": []
+          }
+        },
+        "linkText": {
+          "type": "Text",
+          "config": {
+            "label": "Button text"
+          }
+        }
+      }
+    }
+  ]
+}
