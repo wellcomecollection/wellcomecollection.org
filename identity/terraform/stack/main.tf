@@ -26,6 +26,8 @@ module "identity-service-18012021" {
 
   secret_env_vars = merge({
     PRISMIC_ACCESS_TOKEN = "prismic-model/prod/access-token"
+
+    NEXT_PUBLIC_CIVICUK_API_KEY = "civicuk/api_key"
   }, var.secret_env_vars)
 
   # We have a custom nginx container that redacts the values of
