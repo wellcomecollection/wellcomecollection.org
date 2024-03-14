@@ -10,10 +10,8 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { SearchFiltersSharedProps } from '.';
-
-import ModalMoreFilters from '../ModalMoreFilters';
+import ModalMoreFilters from './SearchFilters.Desktop.Modal';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-
 import { ResetActiveFilters } from './ResetActiveFilters';
 import DynamicFilterArray from './SearchFilters.Desktop.DynamicFilters';
 

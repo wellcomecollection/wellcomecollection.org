@@ -29,6 +29,7 @@ import PaletteColorPicker from '@weco/content/components/PaletteColorPicker';
 import DateRangeFilter from './SearchFilters.DateRangeFilter';
 import { BooleanFilter } from './SearchFilters.BooleanFilter';
 import { font } from '@weco/common/utils/classnames';
+import { getFilterLabel } from './SearchFilters.Desktop.Modal';
 
 const SearchFiltersContainer = styled(Space).attrs({
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
@@ -258,9 +259,8 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                 // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
                 // as we now sometimes get "Warning: Encountered two children with the same key" console errors
                 <FilterSection key={`${f.id}-${i}`}>
-                  <h3 className={font('wb', 4)}>
-                    {f.type === 'color' ? 'Colours' : f.label}
-                  </h3>
+                  {getFilterLabel(f.type, f.label)}
+
                   {f.type === 'checkbox' && (
                     <CheckboxFilter
                       f={f}

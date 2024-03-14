@@ -14,7 +14,7 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import { LinkProps } from '@weco/common/model/link-props';
-import { DateRangeFilter } from '../SearchFilters';
+import DateRangeFilter from './SearchFilters.DateRangeFilter';
 import PaletteColorPicker from '../PaletteColorPicker';
 import { font } from '@weco/common/utils/classnames';
 import { BooleanFilter } from '@weco/content/components/SearchFilters/SearchFilters.BooleanFilter';
@@ -148,6 +148,23 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
   );
 };
 
+export const getFilterLabel = (type: Filter['type'], label: string) => {
+  let filterTitle: string | undefined;
+
+  switch (type) {
+    case 'color':
+      filterTitle = 'Colours';
+      break;
+    case 'boolean':
+      break;
+    default:
+      filterTitle = label;
+      break;
+  }
+
+  return filterTitle ? <h3 className={font('wb', 4)}>{filterTitle}</h3> : null;
+};
+
 const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
   changeHandler,
   filters,
@@ -163,9 +180,8 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
           // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
           // as we now sometimes get "Warning: Encountered two children with the same key" console errors
           <FilterSection key={`${f.id}-${i}`}>
-            <h3 className={font('wb', 4)}>
-              {f.type === 'color' ? 'Colours' : f.label}
-            </h3>
+            {getFilterLabel(f.type, f.label)}
+
             <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
               <PlainList as="div">
                 <section aria-label={f.label}>
