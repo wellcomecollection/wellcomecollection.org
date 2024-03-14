@@ -34,16 +34,19 @@ const statement = {
   updated: '25/05/2018',
 };
 
+// Define all necessary cookies here and document their usage a little.
+// Don't put comments in the return array as it gets stringified later.
 const necessaryCookies = () => {
+  // View @weco/common/data/cookies for details on each
   const wcCookies = Object.values(cookies).map(c => c);
 
-  return [
-    ...wcCookies,
-    'toggle_*',
-    // Allows Prismic previews
-    'io.prismic.preview',
-    'isPreview',
-  ];
+  // Allows Prismic previews
+  const prismicPreview = ['io.prismic.preview', 'isPreview'];
+
+  // See @weco/toggles/webapp/toggles for details on each
+  const featureFlags = ['toggle_*'];
+
+  return [...wcCookies, ...prismicPreview, ...featureFlags];
 };
 
 const CivicUK = () => (
