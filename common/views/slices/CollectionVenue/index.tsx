@@ -24,7 +24,7 @@ const CollectionVenue: FunctionComponent<CollectionVenueProps> = ({
   if (transformedSlice) {
     return (
       <SpacingComponent $sliceType={transformedSlice.type}>
-        {transformedSlice.value.showClosingTimes ? ( // TODO
+        {transformedSlice.value.showClosingTimes ? (
           <LayoutWidth width={context.minWidth}>
             <VenueClosedPeriods venue={transformedSlice.value.content} />
           </LayoutWidth>
