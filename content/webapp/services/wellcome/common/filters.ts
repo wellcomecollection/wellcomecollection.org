@@ -630,13 +630,20 @@ const eventsAudienceFilter = ({
 const eventsIsAvailableOnlineFilter = ({
   events,
   props,
-}: EventsFilterProps): BooleanFilter<keyof EventsProps> => ({
-  type: 'boolean',
-  id: 'isAvailableOnline',
-  label: 'Catch-up events only',
-  count: events?.aggregations?.isAvailableOnline?.buckets?.[1]?.count || 0,
-  isSelected: !!props.isAvailableOnline,
-});
+}: EventsFilterProps): BooleanFilter<keyof EventsProps> => {
+  const isAvailableOnlineTrueBucket =
+    events?.aggregations?.isAvailableOnline?.buckets.find(
+      b => b.data.isAvailableOnline === true
+    );
+
+  return {
+    type: 'boolean',
+    id: 'isAvailableOnline',
+    label: 'Catch-up events only',
+    count: isAvailableOnlineTrueBucket?.count || 0,
+    isSelected: !!props.isAvailableOnline,
+  };
+};
 
 // TODO re-add when https://github.com/wellcomecollection/content-api/issues/106 is done
 // const eventsInterpretationFilter = ({

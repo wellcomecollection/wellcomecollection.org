@@ -1,5 +1,7 @@
 import { ArticleFormatId } from '@weco/content/data/content-format-ids';
 import {
+  IdentifiedBucketData,
+  UnidentifiedBucketData,
   WellcomeAggregation,
   WellcomeResultList,
 } from '@weco/content/services/wellcome';
@@ -116,7 +118,11 @@ export type ArticleAggregations = BasicAggregations & {
 export type EventAggregations = BasicAggregations & {
   audience: WellcomeAggregation;
   interpretation: WellcomeAggregation;
-  isAvailableOnline: WellcomeAggregation;
+  isAvailableOnline: WellcomeAggregation<
+    (IdentifiedBucketData | UnidentifiedBucketData) & {
+      isAvailableOnline: boolean;
+    }
+  >;
 };
 
 // Results
