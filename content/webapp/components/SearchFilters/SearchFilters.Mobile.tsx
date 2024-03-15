@@ -27,7 +27,9 @@ import { filter } from '@weco/common/icons';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import PaletteColorPicker from '@weco/content/components/PaletteColorPicker';
 import DateRangeFilter from './SearchFilters.DateRangeFilter';
+import { BooleanFilter } from './SearchFilters.BooleanFilter';
 import { font } from '@weco/common/utils/classnames';
+import { getFilterLabel } from './SearchFilters.Desktop.Modal';
 
 const SearchFiltersContainer = styled(Space).attrs({
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
@@ -69,6 +71,7 @@ const ActiveFilters = styled(Space).attrs({
 
 const FiltersBody = styled(Space).attrs({
   $h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'xl', properties: ['padding-bottom'] },
 })`
   input[type='number'] {
     min-width: calc(24px + 4ch);
@@ -256,9 +259,8 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                 // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
                 // as we now sometimes get "Warning: Encountered two children with the same key" console errors
                 <FilterSection key={`${f.id}-${i}`}>
-                  <h3 className={font('wb', 4)}>
-                    {f.type === 'color' ? 'Colours' : f.label}
-                  </h3>
+                  {getFilterLabel(f.type, f.label)}
+
                   {f.type === 'checkbox' && (
                     <CheckboxFilter
                       f={f}
@@ -281,6 +283,14 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                       name={f.id}
                       color={f.color}
                       onChangeColor={changeHandler}
+                      form={searchFormId}
+                    />
+                  )}
+
+                  {f.type === 'boolean' && !(hasNoResults && !f.isSelected) && (
+                    <BooleanFilter
+                      f={f}
+                      changeHandler={changeHandler}
                       form={searchFormId}
                     />
                   )}

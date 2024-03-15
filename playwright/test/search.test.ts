@@ -70,3 +70,14 @@ test('(5) | The search input does not have focus on initial load', async ({
   await newSearch(context, page, 'works');
   await expect(page.getByRole('searchbox')).not.toBeFocused();
 });
+
+test('(6) | Boolean filters are disabled when there are no results that match them', async ({
+  context,
+  page,
+}) => {
+  await newSearch(context, page, 'events');
+  await selectAndWaitForFilter('Event types', 'W-BjXhEAAASpa8Kb', page); // Shopping
+  await expect(
+    page.getByLabel('Catch-up events only', { exact: false })
+  ).toBeDisabled();
+});

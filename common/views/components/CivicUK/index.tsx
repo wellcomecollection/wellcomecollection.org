@@ -1,3 +1,5 @@
+import cookies from '@weco/common/data/cookies';
+
 const branding = {
   removeIcon: true,
   removeAbout: true,
@@ -32,7 +34,26 @@ const statement = {
   updated: '25/05/2018',
 };
 
-const CivicUK = () => (
+// Define all necessary cookies here and document their usage a little.
+// Don't put comments in the return array as it gets stringified later.
+const necessaryCookies = () => {
+  // View @weco/common/data/cookies for details on each
+  const wcCookies = Object.values(cookies).map(c => c);
+
+  // Allows Prismic previews
+  const prismicPreview = ['io.prismic.preview', 'isPreview'];
+
+  // See @weco/toggles/webapp/toggles for details on each
+  const featureFlags = ['toggle_*'];
+
+  return [...wcCookies, ...prismicPreview, ...featureFlags];
+};
+
+type Props = {
+  apiKey: string;
+};
+
+const CivicUK = (props: Props) => (
   <>
     <script
       src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js"
@@ -42,7 +63,7 @@ const CivicUK = () => (
       dangerouslySetInnerHTML={{
         __html: `CookieControl.load({
             product: 'COMMUNITY',
-            apiKey: '5a1b492f47fac442240976a4f991ad92278ef15a',
+            apiKey: '${props.apiKey}',
             product: 'pro',
             initialState: 'notify',
             layout: 'popup',
@@ -50,7 +71,7 @@ const CivicUK = () => (
             closeStyle: 'button',
             settingsStyle: 'button',
             notifyDismissButton: false,
-            necessaryCookies: ['toggle_*'],
+            necessaryCookies: ${JSON.stringify(necessaryCookies())},
             optionalCookies: [
               {
                 name: 'analytics',

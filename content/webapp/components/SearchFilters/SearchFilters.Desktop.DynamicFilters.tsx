@@ -178,6 +178,7 @@ const DynamicFilterArray = ({
   return (
     <>
       {filters.map(renderDynamicFilter)}
+
       <Space $h={{ size: 'm', properties: ['margin-right'] }}>
         <Button
           variant="ButtonSolid"

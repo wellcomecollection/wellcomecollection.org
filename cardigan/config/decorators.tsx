@@ -20,6 +20,7 @@ export const ContextDecorator: FunctionComponent<PropsWithChildren> = ({
 export const ReadMeInfo = ({ Readme }: { Readme: ComponentType }) => {
   return (
     <Space
+      data-chromatic="ignore"
       $v={{
         size: 'xl',
         properties: ['margin-top'],
