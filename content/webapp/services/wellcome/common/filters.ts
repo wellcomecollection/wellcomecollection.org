@@ -631,16 +631,15 @@ const eventsIsAvailableOnlineFilter = ({
   events,
   props,
 }: EventsFilterProps): BooleanFilter<keyof EventsProps> => {
-  const isAvailableOnlineTrueBucket =
-    events?.aggregations?.isAvailableOnline?.buckets.find(
-      b => b.data.isAvailableOnline === true
-    );
-
+  // const isAvailableOnlineTrueBucket =
+  // events?.aggregations?.isAvailableOnline?.buckets.find(
+  //   b => b.data.isAvailableOnline === true
+  // );
   return {
     type: 'boolean',
     id: 'isAvailableOnline',
     label: 'Catch-up events only',
-    count: isAvailableOnlineTrueBucket?.count || 0,
+    count: events?.aggregations?.isAvailableOnline?.buckets?.[1]?.count || 0,
     isSelected: !!props.isAvailableOnline,
   };
 };
