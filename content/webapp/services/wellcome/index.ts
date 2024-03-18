@@ -55,9 +55,14 @@ export type UnidentifiedBucketData = {
   type: string;
 };
 
+export type BooleanBucketData = UnidentifiedBucketData & {
+  value: boolean;
+};
+
 export type WellcomeAggregation<
   BucketData extends
     | IdentifiedBucketData
+    | BooleanBucketData
     | UnidentifiedBucketData = IdentifiedBucketData,
 > = {
   buckets: {
