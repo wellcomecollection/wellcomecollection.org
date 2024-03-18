@@ -41,11 +41,11 @@ export function getLocationText(
   // * If an event is only in venue, in multiple locations, we display 'In our building'
   // * If an event is only online, we display 'Online'
   // * If an event is online and in venue, we display 'Online | In our building'
-  // * If an event has a single Prismic location, 'Throughout the building', we display 'In our building'
+  // * If an event has a single Prismic location, 'Throughout our building', we display 'In our building'
   //   This is how the editorial team used to do multi-location events before we added proper support
   //   for multiple locations.
   if (!isOnline && isNotUndefined(places) && places.length === 1) {
-    return places[0].title === 'Throughout the building'
+    return places[0].title === 'Throughout our building'
       ? inOurBuilding
       : places[0].title;
   }
