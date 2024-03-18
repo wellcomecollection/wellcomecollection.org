@@ -41,7 +41,7 @@ const necessaryCookies = () => {
   const wcCookies = Object.values(cookies).map(c => c);
 
   // Allows Prismic previews
-  const prismicPreview = ['io.prismic.preview', 'isPreview'];
+  const prismicPreview = ['io.prismic.preview'];
 
   // See @weco/toggles/webapp/toggles for details on each
   const featureFlags = ['toggle_*'];
