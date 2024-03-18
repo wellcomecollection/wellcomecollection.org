@@ -9,6 +9,7 @@ import {
 } from '@weco/content/components/Body/Body';
 import CaptionedImage from '@weco/content/components/CaptionedImage/CaptionedImage';
 import { transformEditorialImageSlice } from '@weco/content/services/prismic/transformers/body';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 
 export type EditorialImageSliceProps = SliceComponentProps<
   SliceType,
@@ -24,9 +25,23 @@ const EditorialImageSlice: FunctionComponent<EditorialImageSliceProps> = ({
   const options = { ...defaultContext, context };
   return (
     <SpacingComponent $sliceType={transformedSlice.type}>
-      <LayoutWidth width={options.isVisualStory ? 8 : 10}>
-        <CaptionedImage {...transformedSlice.value} />
-      </LayoutWidth>
+      {transformedSlice.weight === 'default' && (
+        <LayoutWidth width={options.isVisualStory ? 8 : 10}>
+          <CaptionedImage {...transformedSlice.value} />
+        </LayoutWidth>
+      )}
+
+      {transformedSlice.weight === 'standalone' && (
+        <Layout gridSizes={gridSize12()}>
+          <CaptionedImage {...transformedSlice.value} />
+        </Layout>
+      )}
+
+      {transformedSlice.weight === 'supporting' && (
+        <LayoutWidth width={options.minWidth}>
+          <CaptionedImage {...transformedSlice.value} />
+        </LayoutWidth>
+      )}
     </SpacingComponent>
   );
 };
