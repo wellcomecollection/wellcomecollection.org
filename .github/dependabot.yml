@@ -13,25 +13,12 @@ updates:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch"] # Ignore all patch updates for version updates only
     groups:
-      version-update: # Group updates by type
+      all:
         patterns: ["*"]
-    applies-to:
-      - version-updates
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    groups:
-      security-update:
-        patterns: ["*"]
-    applies-to:
-      - security-updates
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
       interval: 'weekly'
     groups:
-      version-update: # Group updates by type
+      all: 
         patterns: ["*"]
-    applies-to:
-      - version-updates
