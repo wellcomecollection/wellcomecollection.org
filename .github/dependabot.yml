@@ -13,42 +13,25 @@ updates:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch"] # Ignore all patch updates for version updates only
     groups:
-      all:
+      version-update: # Group updates by type
         patterns: ["*"]
+    applies-to:
+      - version-updates
   - package-ecosystem: "npm"
-    directory: "/content/webapp"
+    directory: "/"
     schedule:
       interval: "weekly"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch"]
     groups:
-      all:
+      security-update:
         patterns: ["*"]
-  - package-ecosystem: "npm"
-    directory: "/identity/webapp"
-    schedule:
-      interval: "weekly"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch"]
-    groups:
-      all:
-        patterns: ["*"]
-  - package-ecosystem: "npm"
-    directory: "/common"
-    schedule:
-      interval: "weekly"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-patch"]
-    groups:
-      all:
-        patterns: ["*"]
+    applies-to:
+      - security-updates
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
       interval: 'weekly'
     groups:
-      all:
+      version-update: # Group updates by type
         patterns: ["*"]
+    applies-to:
+      - version-updates
