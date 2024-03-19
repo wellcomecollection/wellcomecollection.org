@@ -5,8 +5,7 @@
   "scripts": {
     "test": "jest",
     "test:watch": "yarn test -- --watchAll",
-    "test:updateSnapshots": "yarn test -- --updateSnapshot",
-    "slicemachine": "start-slicemachine"
+    "test:updateSnapshots": "yarn test -- --updateSnapshot"
   },
   "license": "MIT",
   "dependencies": {
