@@ -10,6 +10,7 @@ import { cross } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
 import {
+  BooleanFilter,
   CheckboxFilter,
   ColorFilter,
   DateRangeFilter,
@@ -30,13 +31,6 @@ const ColorSwatch = styled.span<{ $hexColor: string }>`
   background-color: ${props => props.$hexColor};
   margin-left: 6px;
   padding-top: 2px;
-`;
-
-const Wrapper = styled(Space).attrs({
-  className: 'tokens',
-  $v: { size: 's', properties: ['padding-top'] },
-})`
-  background-color: ${props => props.theme.color('white')};
 `;
 
 const IconWrapper = styled(Space).attrs({
@@ -142,32 +136,46 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
       </Fragment>
     ) : null;
 
+  const renderBooleanLink = (filter: BooleanFilter) =>
+    filter.isSelected ? (
+      <NextLink
+        key={filter.id}
+        passHref
+        {...linkResolver({
+          ...router.query,
+          page: '1',
+          [filter.id]: undefined,
+          source: `cancel_filter/${filter.id}`,
+        })}
+      >
+        <CancelFilter text={filter.label} />
+      </NextLink>
+    ) : null;
+
   return (
-    <Wrapper>
-      <div className={font('intb', 5)}>
-        <div>
-          <h2 style={{ display: 'inline' }}>
-            <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
-              Active filters:
-            </Space>
-          </h2>
-          {filters.map(f => {
-            switch (f.type) {
-              case 'checkbox':
-                return renderCheckboxLink(f);
-              case 'dateRange':
-                return renderDateRangeLinks(f);
-              case 'color':
-                return renderColorLink(f);
-              default:
-                return null;
-            }
-          })}
-          <NextLink passHref {...resetFilters}>
-            <CancelFilter text="Reset filters" />
-          </NextLink>
-        </div>
-      </div>
-    </Wrapper>
+    <div className={font('intb', 5)}>
+      <h2 style={{ display: 'inline' }}>
+        <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
+          Active filters:
+        </Space>
+      </h2>
+      {filters.map(f => {
+        switch (f.type) {
+          case 'checkbox':
+            return renderCheckboxLink(f);
+          case 'dateRange':
+            return renderDateRangeLinks(f);
+          case 'color':
+            return renderColorLink(f);
+          case 'boolean':
+            return renderBooleanLink(f);
+          default:
+            return null;
+        }
+      })}
+      <NextLink passHref {...resetFilters}>
+        <CancelFilter text="Reset filters" />
+      </NextLink>
+    </div>
   );
 };

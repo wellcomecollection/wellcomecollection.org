@@ -41,6 +41,15 @@ export type CheckboxFilter<Id extends string = string> = {
   excludeFromMoreFilters?: boolean;
 };
 
+export type BooleanFilter<Id extends string = string> = {
+  type: 'boolean';
+  id: Id;
+  label: string;
+  isSelected: boolean;
+  count?: number;
+  excludeFromMoreFilters?: boolean;
+};
+
 export type ColorFilter = {
   type: 'color';
   id: keyof ImagesProps;
@@ -52,6 +61,7 @@ export type ColorFilter = {
 export type Filter<Id extends string = string> =
   | CheckboxFilter<Id>
   | DateRangeFilter<Id>
+  | BooleanFilter
   | ColorFilter;
 
 type FilterOption = {
@@ -617,6 +627,22 @@ const eventsAudienceFilter = ({
   }),
 });
 
+const eventsIsAvailableOnlineFilter = ({
+  events,
+  props,
+}: EventsFilterProps): BooleanFilter<keyof EventsProps> => {
+  const isAvailableOnlineTrueBucket =
+    events?.aggregations?.isAvailableOnline.buckets.find(b => b.data.value);
+
+  return {
+    type: 'boolean',
+    id: 'isAvailableOnline',
+    label: 'Catch-up events only',
+    count: isAvailableOnlineTrueBucket?.count || 0,
+    isSelected: !!props.isAvailableOnline,
+  };
+};
+
 // TODO re-add when https://github.com/wellcomecollection/content-api/issues/106 is done
 // const eventsInterpretationFilter = ({
 //   events,
@@ -676,6 +702,7 @@ const eventsFilters: (
   [
     eventsFormatFilter,
     eventsAudienceFilter,
+    eventsIsAvailableOnlineFilter,
     // TODO re-add when https://github.com/wellcomecollection/content-api/issues/106 is done
     // eventsInterpretationFilter
   ].map(f => f(props));
