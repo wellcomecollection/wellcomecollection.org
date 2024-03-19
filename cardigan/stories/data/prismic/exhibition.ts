@@ -335,7 +335,7 @@ const exhibitionDocument = {
             alt: "Photograph of a young woman wearing a face covering exploring an exhibition gallery space. The woman is standing to the right of frame, arms clasped across her body, reading an information panel on the front of a large circular wooden board. This text is hidden from view as the camera is looking at the back of this wooden board. Behind the board is a large TV screen mounted to a vertical rectangular board wich is covered in a blue patterned upper section and a re patterned lower section. On the screen is a still from a video showing a demonstration or protest with people carrying banner. One of the banners has the words, 'No justice, no peace, no racist police!' written on it. Behind the young woman the gallery space recedes into the distance, with further exhibits and two large windows.",
             copyright:
               'What does it mean to be human now? Four views by CYP x CALLY | Photo: Steven Pocock | Wellcome Collection | | CC-BY-NC ||',
-            url: 'https://images.prismic.io/wellcomecollection/9bfacc1c-a725-44d7-8c68-4a69fc6a8227_EP_001510_038.jpg?auto=compress,format&rect=4,0,3993,2665&w=4000&h=2670',
+            url: 'https://images.prismic.io/wellcomecollection/9bfacc1c-a725-44d7-8c68-4a69fc6a8227_EP_001510_038.jpg?auto=format&rect=4,0,3993,2665&w=4000&h=2670',
             '32:15': {
               dimensions: {
                 width: 3200,
@@ -344,7 +344,7 @@ const exhibitionDocument = {
               alt: "Photograph of a young woman wearing a face covering exploring an exhibition gallery space. The woman is standing to the right of frame, arms clasped across her body, reading an information panel on the front of a large circular wooden board. This text is hidden from view as the camera is looking at the back of this wooden board. Behind the board is a large TV screen mounted to a vertical rectangular board wich is covered in a blue patterned upper section and a re patterned lower section. On the screen is a still from a video showing a demonstration or protest with people carrying banner. One of the banners has the words, 'No justice, no peace, no racist police!' written on it. Behind the young woman the gallery space recedes into the distance, with further exhibits and two large windows.",
               copyright:
                 'What does it mean to be human now? Four views by CYP x CALLY | Photo: Steven Pocock | Wellcome Collection | | CC-BY-NC ||',
-              url: 'https://images.prismic.io/wellcomecollection/9bfacc1c-a725-44d7-8c68-4a69fc6a8227_EP_001510_038.jpg?auto=compress,format&rect=0,675,4000,1875&w=3200&h=1500',
+              url: 'https://images.prismic.io/wellcomecollection/9bfacc1c-a725-44d7-8c68-4a69fc6a8227_EP_001510_038.jpg?auto=format&rect=0,675,4000,1875&w=3200&h=1500',
             },
             '16:9': {
               dimensions: {
@@ -354,7 +354,7 @@ const exhibitionDocument = {
               alt: "Photograph of a young woman wearing a face covering exploring an exhibition gallery space. The woman is standing to the right of frame, arms clasped across her body, reading an information panel on the front of a large circular wooden board. This text is hidden from view as the camera is looking at the back of this wooden board. Behind the board is a large TV screen mounted to a vertical rectangular board wich is covered in a blue patterned upper section and a re patterned lower section. On the screen is a still from a video showing a demonstration or protest with people carrying banner. One of the banners has the words, 'No justice, no peace, no racist police!' written on it. Behind the young woman the gallery space recedes into the distance, with further exhibits and two large windows.",
               copyright:
                 'What does it mean to be human now? Four views by CYP x CALLY | Photo: Steven Pocock | Wellcome Collection | | CC-BY-NC ||',
-              url: 'https://images.prismic.io/wellcomecollection/9bfacc1c-a725-44d7-8c68-4a69fc6a8227_EP_001510_038.jpg?auto=compress,format&rect=0,416,4000,2250&w=3200&h=1800',
+              url: 'https://images.prismic.io/wellcomecollection/9bfacc1c-a725-44d7-8c68-4a69fc6a8227_EP_001510_038.jpg?auto=format&rect=0,416,4000,2250&w=3200&h=1800',
             },
             square: {
               dimensions: {
@@ -364,7 +364,7 @@ const exhibitionDocument = {
               alt: "Photograph of a young woman wearing a face covering exploring an exhibition gallery space. The woman is standing to the right of frame, arms clasped across her body, reading an information panel on the front of a large circular wooden board. This text is hidden from view as the camera is looking at the back of this wooden board. Behind the board is a large TV screen mounted to a vertical rectangular board wich is covered in a blue patterned upper section and a re patterned lower section. On the screen is a still from a video showing a demonstration or protest with people carrying banner. One of the banners has the words, 'No justice, no peace, no racist police!' written on it. Behind the young woman the gallery space recedes into the distance, with further exhibits and two large windows.",
               copyright:
                 'What does it mean to be human now? Four views by CYP x CALLY | Photo: Steven Pocock | Wellcome Collection | | CC-BY-NC ||',
-              url: 'https://images.prismic.io/wellcomecollection/9bfacc1c-a725-44d7-8c68-4a69fc6a8227_EP_001510_038.jpg?auto=compress,format&rect=1142,0,2670,2670&w=3200&h=3200',
+              url: 'https://images.prismic.io/wellcomecollection/9bfacc1c-a725-44d7-8c68-4a69fc6a8227_EP_001510_038.jpg?auto=format&rect=1142,0,2670,2670&w=3200&h=3200',
             },
           },
           link: null,
@@ -406,7 +406,7 @@ export const exhibitionBasic = {
   promo: {
     image: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/2c4f31fc-ed75-4a01-9e1c-882bdae8a92d_EP_001991_018.jpg?auto=compress,format&rect=0,180,4000,2250&w=3200&h=1800',
+        'https://images.prismic.io/wellcomecollection/2c4f31fc-ed75-4a01-9e1c-882bdae8a92d_EP_001991_018.jpg?auto=format&rect=0,180,4000,2250&w=3200&h=1800',
       width: 3200,
       height: 1800,
     },
