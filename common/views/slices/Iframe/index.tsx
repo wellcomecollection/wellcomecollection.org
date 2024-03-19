@@ -1,11 +1,11 @@
-import { Content } from '@prismicio/client';
+import { IframeSlice as SliceType } from '../../../prismicio-types';
 import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
 import SpacingComponent from '../../components/styled/SpacingComponent';
 import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
 import { transformIframeSlice } from '@weco/content/services/prismic/transformers/body';
 import Iframe from '@weco/common/views/components/Iframe/Iframe';
-export type IframeProps = SliceComponentProps<Content.IframeSlice>;
+export type IframeProps = SliceComponentProps<SliceType>;
 
 const IframeSlice: FunctionComponent<IframeProps> = ({ slice }) => {
   const transformedSlice = transformIframeSlice(slice);
