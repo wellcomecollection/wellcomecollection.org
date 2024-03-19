@@ -1,3 +1,4 @@
+{
   "id": "audioPlayer",
   "type": "SharedSlice",
   "name": "AudioPlayer",
