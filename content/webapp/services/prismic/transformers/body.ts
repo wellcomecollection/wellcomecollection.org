@@ -40,7 +40,7 @@ import {
   ContentListProps,
   Slice,
   Weight,
-} from '../../../types/body';
+} from '@weco/content/types/body';
 import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
 import { transformPage } from './pages';
 import { transformGuide } from './guides';
@@ -55,23 +55,23 @@ import {
   getVimeoEmbedUrl,
   getYouTubeEmbedUrl,
 } from './embeds';
-import { AudioPlayerProps } from '../../../components/AudioPlayer/AudioPlayer';
-import { Props as QuoteProps } from '../../../components/Quote/Quote';
-import { CaptionedImageProps } from '../../../components/CaptionedImage/CaptionedImage';
-import { Props as ImageGalleryProps } from '../../../components/ImageGallery';
-import { Props as ContactProps } from '../../../components/Contact/Contact';
-import { Props as MapProps } from '../../../components/Map/Map';
-import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
-import { Props as InfoBlockProps } from '../../../components/InfoBlock/InfoBlock';
+import { AudioPlayerProps } from '@weco/content/components/AudioPlayer/AudioPlayer';
+import { Props as QuoteProps } from '@weco/content/components/Quote/Quote';
+import { CaptionedImageProps } from '@weco/content/components/CaptionedImage/CaptionedImage';
+import { Props as ImageGalleryProps } from '@weco/content/components/ImageGallery';
+import { Props as ContactProps } from '@weco/content/components/Contact/Contact';
+import { Props as MapProps } from '@weco/content/components/Map/Map';
+import { Props as GifVideoProps } from '@weco/content/components/GifVideo/GifVideo';
+import { Props as InfoBlockProps } from '@weco/content/components/InfoBlock/InfoBlock';
 import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
-import { Props as TagListProps } from '../../../components/TagsGroup/TagsGroup';
+import { Props as TagListProps } from '@weco/content/components/TagsGroup/TagsGroup';
 import { Props as EmbedProps } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import {
   TextAndImageItem,
   TextAndIconsItem,
-} from '../../../components/TextAndImageOrIcons';
-import { Props as TitledTextListProps } from '../../../components/TitledTextList/TitledTextList';
-import { Props as AsyncSearchResultsProps } from '../../../components/SearchResults/AsyncSearchResults';
+} from '@weco/content/components/TextAndImageOrIcons';
+import { Props as TitledTextListProps } from '@weco/content/components/TitledTextList/TitledTextList';
+import { Props as AsyncSearchResultsProps } from '@weco/content/components/SearchResults/AsyncSearchResults';
 import { Venue } from '@weco/common/model/opening-hours';
 
 export function getWeight(weight: string | null): Weight {
