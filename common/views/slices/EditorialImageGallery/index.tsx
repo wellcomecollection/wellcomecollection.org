@@ -24,7 +24,7 @@ const EditorialImageGallerySlice: FunctionComponent<
   );
   const index = allImageGallerySlices.findIndex(s => s.id === slice.id);
 
-  return (
+  return transformedSlice.value.items?.length ? (
     <SpacingComponent $sliceType={transformedSlice.type}>
       <ImageGallery
         {...transformedSlice.value}
@@ -32,7 +32,7 @@ const EditorialImageGallerySlice: FunctionComponent<
         comicPreviousNext={options.comicPreviousNext}
       />
     </SpacingComponent>
-  );
+  ) : null;
 };
 
 export default EditorialImageGallerySlice;
