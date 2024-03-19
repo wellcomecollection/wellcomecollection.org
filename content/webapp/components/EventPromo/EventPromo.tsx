@@ -23,6 +23,7 @@ import { PlaceBasic } from '@weco/content/types/places';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { inOurBuilding } from '@weco/common/data/microcopy';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { EventDocumentPlace } from '@weco/content/services/wellcome/content/types/api';
 
 type Props = {
   event: EventBasic;
@@ -34,7 +35,7 @@ type Props = {
 
 export function getLocationText(
   isOnline?: boolean,
-  places?: PlaceBasic[]
+  places?: PlaceBasic[] | EventDocumentPlace[]
 ): string {
   // Acceptance criteria from https://github.com/wellcomecollection/wellcomecollection.org/issues/7818
   // * If an event is only in venue, in a single location, we display the specific location (e.g. 'Reading Room')
@@ -45,9 +46,12 @@ export function getLocationText(
   //   This is how the editorial team used to do multi-location events before we added proper support
   //   for multiple locations.
   if (!isOnline && isNotUndefined(places) && places.length === 1) {
-    return places[0].title === 'Throughout the building'
+    const firstEventLabel =
+      ('type' in places[0] ? places[0].label : places[0].title) || '';
+
+    return firstEventLabel === 'Throughout the building'
       ? inOurBuilding
-      : places[0].title;
+      : firstEventLabel;
   }
 
   if (!isOnline && isNotUndefined(places) && places.length > 1) {

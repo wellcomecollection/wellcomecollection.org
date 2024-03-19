@@ -56,10 +56,26 @@ export type EventDocumentFormat = {
   label: string;
 };
 
-export type EventDocumentLocation = {
-  type: 'EventLocation';
+type OnlineAttendance = {
+  id: 'online';
+  label: 'Online';
+};
+type BuildingAttendance = {
+  id: 'in-our-building';
+  label: 'In our building';
+};
+export type EventDocumentPlace = {
+  type: 'EventPlace';
   id: string;
   label?: string;
+};
+export type EventDocumentLocations = {
+  isOnline: boolean;
+  places?: EventDocumentPlace[];
+  attendance: ((BuildingAttendance | OnlineAttendance) & {
+    type: 'EventAttendance';
+  })[];
+  type: 'EventLocations';
 };
 
 export type EventDocumentInterpretation = {
@@ -83,8 +99,8 @@ export type EventDocument = {
   audiences: EventDocumentAudience[];
   series: Series;
   format: EventDocumentFormat;
-  locations: EventDocumentLocation[];
   interpretations: EventDocumentInterpretation[];
+  locations: EventDocumentLocations;
   isAvailableOnline: boolean;
 };
 
@@ -117,6 +133,7 @@ export type ArticleAggregations = BasicAggregations & {
 export type EventAggregations = BasicAggregations & {
   audience: WellcomeAggregation;
   interpretation: WellcomeAggregation;
+  location: WellcomeAggregation;
   isAvailableOnline: WellcomeAggregation<BooleanBucketData>;
 };
 
