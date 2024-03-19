@@ -39,11 +39,7 @@ export function useUpdatePassword(): UseUpdatePasswordMutation {
       .catch((err: AxiosError) => {
         switch (err.response?.status) {
           case 400: {
-            if (
-              err.response?.data.message.includes(
-                'PIN is not valid : PIN is trivial'
-              )
-            ) {
+            if (err.message.includes('PIN is not valid : PIN is trivial')) {
               setError(UpdatePasswordError.REPEATED_CHARACTERS);
               break;
             } else {
