@@ -87,4 +87,11 @@ describe('getLocationText', () => {
     expect(locationText).toEqual('Online | In our building');
     expect(locationText2).toEqual('Online | In our building');
   });
+
+  it('returns undefined if Content API place label is missing', () => {
+    const locationText = getLocationText(false, [
+      { type: 'EventPlace', id: '123' },
+    ]);
+    expect(locationText).toEqual(undefined);
+  });
 });

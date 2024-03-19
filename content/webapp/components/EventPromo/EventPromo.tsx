@@ -36,7 +36,7 @@ type Props = {
 export function getLocationText(
   isOnline?: boolean,
   places?: PlaceBasic[] | EventDocumentPlace[]
-): string {
+): string | undefined {
   // Acceptance criteria from https://github.com/wellcomecollection/wellcomecollection.org/issues/7818
   // * If an event is only in venue, in a single location, we display the specific location (e.g. 'Reading Room')
   // * If an event is only in venue, in multiple locations, we display 'In our building'
@@ -46,8 +46,9 @@ export function getLocationText(
   //   This is how the editorial team used to do multi-location events before we added proper support
   //   for multiple locations.
   if (!isOnline && isNotUndefined(places) && places.length === 1) {
+    // Content API's EventDocumentPlace has a type, PlaceBasic does
     const firstEventLabel =
-      ('type' in places[0] ? places[0].label : places[0].title) || '';
+      'type' in places[0] ? places[0].label : places[0].title;
 
     return firstEventLabel === 'Throughout the building'
       ? inOurBuilding
@@ -86,6 +87,8 @@ const EventPromo: FunctionComponent<Props> = ({
   fromDate,
 }) => {
   const isPast = event.isPast;
+  const locationText = getLocationText(event.isOnline, event.locations);
+
   return (
     <CardOuter
       data-component="EventPromo"
@@ -121,11 +124,11 @@ const EventPromo: FunctionComponent<Props> = ({
         <div>
           <CardTitle>{event.title}</CardTitle>
 
-          {(event.isOnline || event.locations.length > 0) && (
+          {locationText && (
             <LocationWrapper>
               <Icon icon={location} matchText />
               <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
-                {getLocationText(event.isOnline, event.locations)}
+                {locationText}
               </Space>
             </LocationWrapper>
           )}

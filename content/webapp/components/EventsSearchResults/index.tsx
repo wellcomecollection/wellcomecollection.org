@@ -83,6 +83,11 @@ const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
           }))
           .filter(isNotUndefined) as Label[];
 
+        const locationText = getLocationText(
+          event.locations.isOnline,
+          event.locations.places
+        );
+
         return (
           <CardOuter
             key={event.id}
@@ -121,15 +126,14 @@ const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
               <div>
                 <CardTitle>{event.title}</CardTitle>
 
-                <LocationWrapper>
-                  <Icon icon={location} matchText />
-                  <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
-                    {getLocationText(
-                      event.locations.isOnline,
-                      event.locations.places
-                    )}
-                  </Space>
-                </LocationWrapper>
+                {locationText && (
+                  <LocationWrapper>
+                    <Icon icon={location} matchText />
+                    <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
+                      {locationText}
+                    </Space>
+                  </LocationWrapper>
+                )}
 
                 {event.isAvailableOnline && (
                   <Space $v={{ size: 's', properties: ['margin-top'] }}>
