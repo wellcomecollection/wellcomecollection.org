@@ -5,7 +5,9 @@ export const textAndIconsSlice = () => {
   return slice('Text and icons', {
     description: 'Side-by-side',
     nonRepeat: {
-      text: multiLineText('Text', { extraTextOptions: ['heading3'] }),
+      text: multiLineText('Text', {
+        extraTextOptions: ['heading3', 'list-item'],
+      }),
     },
     repeat: {
       icon: {
