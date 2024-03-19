@@ -8,7 +8,6 @@ export type StandfirstProps = SliceComponentProps<SliceType>;
 const Standfirst: FunctionComponent<StandfirstProps> = ({ slice }) => {
   const transformedSlice = transformStandfirstSlice(slice);
   return <PageHeaderStandfirst html={transformedSlice.value} />;
-  // TODO fix type
 };
 
 export default Standfirst;
