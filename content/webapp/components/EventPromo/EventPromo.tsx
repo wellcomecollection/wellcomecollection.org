@@ -46,7 +46,7 @@ export function getLocationText(
   //   This is how the editorial team used to do multi-location events before we added proper support
   //   for multiple locations.
   if (!isOnline && isNotUndefined(places) && places.length === 1) {
-    // Content API's EventDocumentPlace has a type, PlaceBasic does
+    // Content API's EventDocumentPlace has a type, PlaceBasic doesn't.
     const firstEventLabel =
       'type' in places[0] ? places[0].label : places[0].title;
 
