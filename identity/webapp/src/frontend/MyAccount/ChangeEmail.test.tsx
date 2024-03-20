@@ -58,9 +58,8 @@ describe('ChangeEmail', () => {
 
   it('allows the user to confirm their password', async () => {
     renderComponent();
-    const confirmPasswordInput = await screen.findByLabelText(
-      /confirm password/i
-    );
+    const confirmPasswordInput =
+      await screen.findByLabelText(/confirm password/i);
     await act(async () => userEvent.type(confirmPasswordInput, 'Superman1938'));
     await waitFor(() =>
       expect(confirmPasswordInput).toHaveValue('Superman1938')
