@@ -4331,13 +4331,6 @@
   resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-7.6.0.tgz#9ea331766084288634a9247fcd8b84f16ff4ba07"
   integrity sha512-XK6BTq1NDMo9Xqw/YkYyGjSsg44fbNwYRx7QK2CuoQgyy+f1rrTDHoExVM5PsyXCtfl2vs2vVJ0MN0yN6LppRw==
 
-"@formatjs/intl-localematcher@^0.5.2":
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/@formatjs/intl-localematcher/-/intl-localematcher-0.5.4.tgz#caa71f2e40d93e37d58be35cfffe57865f2b366f"
-  integrity sha512-zTwEpWOzZ2CiKcB93BLngUX59hQkuZjT2+SAQEscSm52peDW/getsawMcWF1rGRpMCX6D7nSJA3CzJ8gn13N/g==
-  dependencies:
-    tslib "^2.4.0"
-
 "@gar/promisify@^1.0.1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.2.tgz#30aa825f11d438671d585bd44e7fd564535fc210"
@@ -5020,15 +5013,6 @@
     newtype-ts "^0.3.5"
     tslib "^2.3.1"
     uuid "^8.3.2"
-
-"@prismicio/next@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@prismicio/next/-/next-1.5.0.tgz#a11d8dfbc715b35981f89e7c97d2f788ed2d80ec"
-  integrity sha512-WbAbBwvUUfrgCJCX8a1SKjGrbnpzLtbo9MnTn0aDRc2yZ4BhK1PRN4Q24Bqx0wmJybQkzM6PcBKiDkZBps1gxA==
-  dependencies:
-    "@formatjs/intl-localematcher" "^0.5.2"
-    imgix-url-builder "^0.0.4"
-    negotiator "^0.6.3"
 
 "@prismicio/react@^2.7.3":
   version "2.7.3"
@@ -16103,7 +16087,7 @@ negotiator@0.6.2:
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.2.tgz#feacf7ccf525a77ae9634436a64883ffeca346fb"
   integrity sha512-hZXc7K2e+PgeI1eDBe/10Ard4ekbfrrqG8Ep+8Jmf4JID2bNg7NvCPOZN+kfF574pFQI7mum2AUqDidoKqcTOw==
 
-negotiator@0.6.3, negotiator@^0.6.3:
+negotiator@0.6.3:
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.3.tgz#58e323a72fedc0d6f9cd4d31fe49f51479590ccd"
   integrity sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==
