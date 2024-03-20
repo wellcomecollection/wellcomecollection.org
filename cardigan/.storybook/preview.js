@@ -1,5 +1,5 @@
-import { default as React } from 'react';
-import { RouterContext } from 'next/dist/shared/lib/router-context';
+import React from 'react';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import { DocsContainer } from '@storybook/addon-docs/blocks';
 import theme from '@weco/common/views/themes/default';
 import { ContextDecorator } from '@weco/cardigan/config/decorators';
