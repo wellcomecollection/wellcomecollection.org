@@ -31,6 +31,8 @@ const Map: FunctionComponent<Props> = ({
   const mapContainer = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!window) return;
+
     loader.load().then(google => {
       const mapCanvas = mapContainer.current;
       const latLng = {
