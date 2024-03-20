@@ -11,7 +11,6 @@ export type Props = {
 const options: LoaderOptions = {
   version: 'quartely',
 };
-const loader = new Loader('AIzaSyCcrz-MyrCbbJNrpFpPXxUFl16FFGmOBKs', options);
 
 const MapContainer = styled.div`
   position: relative;
@@ -31,6 +30,10 @@ const Map: FunctionComponent<Props> = ({
   const mapContainer = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const loader = new Loader(
+      'AIzaSyCcrz-MyrCbbJNrpFpPXxUFl16FFGmOBKs',
+      options
+    );
     loader.load().then(google => {
       const mapCanvas = mapContainer.current;
       const latLng = {
