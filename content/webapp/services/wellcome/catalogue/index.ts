@@ -40,7 +40,9 @@ export async function catalogueQuery<Params, Result extends ResultType>(
 
   const url = `${rootUris[apiOptions.env]}/v2/${endpoint}?${searchParams}`;
 
-  return wellcomeApiQuery(url);
+  return wellcomeApiQuery(url) as unknown as
+    | CatalogueResultsList<Result>
+    | WellcomeApiError;
 }
 
 // Returns true if a string is plausibly a canonical ID, false otherwise.

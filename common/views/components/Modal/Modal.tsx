@@ -264,6 +264,7 @@ const Modal: FunctionComponent<Props> = ({
           >
             {!removeCloseButton && (
               <CloseButton
+                type="button"
                 data-testid="close-modal-button"
                 ref={closeButtonRef}
                 onClick={() => {
