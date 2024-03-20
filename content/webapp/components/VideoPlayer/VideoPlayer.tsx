@@ -17,6 +17,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
   showDownloadOptions,
 }: Props) => {
   const { trackPlay, trackEnded, trackTimeUpdate } = useAVTracking('video');
+  console.log('placeholder', placeholderId);
   return (
     <video
       onPlay={event => {
@@ -28,11 +29,13 @@ const VideoPlayer: FunctionComponent<Props> = ({
       controls
       preload="none"
       poster={placeholderId}
-      style={{
-        maxWidth: '100%',
-        maxHeight: '260px',
-        display: 'inline-block',
-      }}
+      // TODO remove this style
+      // TODO need to check on /works and on ExhibitionGuideStops
+      // style={{
+      //   maxWidth: '100%',
+      //   maxHeight: '260px',
+      //   display: 'inline-block',
+      // }}
     >
       <source src={video.id} type={video.format} />
       {`Sorry, your browser doesn't support embedded video.`}

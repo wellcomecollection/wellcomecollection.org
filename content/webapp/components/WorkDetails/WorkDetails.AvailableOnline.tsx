@@ -55,6 +55,7 @@ const ItemPageLink = ({
                   as={itemUrl.as}
                 >
                   {children}
+                  hello
                 </NextLink>
               )
             }
@@ -162,11 +163,11 @@ const WorkDetailsAvailableOnline = ({
         {(!showBornDigital ||
           (showBornDigital && bornDigitalStatus === 'noBornDigital')) && (
           <>
-            {!shouldShowItemLink && (
+            {!shouldShowItemLink && ( // TODO put back !
               <>
                 <IIIFItemList
                   canvases={canvases}
-                  exclude={['Image', 'Text']}
+                  exclude={[]} // TODO ['Image', 'Text']
                   placeholderId={placeholderId}
                 />
                 {rendering?.map(r => {
