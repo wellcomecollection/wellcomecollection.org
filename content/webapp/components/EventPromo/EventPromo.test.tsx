@@ -61,11 +61,11 @@ describe('getLocationText', () => {
     expect(locationText).toEqual('Reading Room');
   });
 
-  it('returns "In our building" given one physical location which has the name "Throughout the building"', () => {
+  it('returns "In our building" given one physical location which has the name "Throughout our building"', () => {
     const locationText = getLocationText(false, [
       {
         ...location,
-        title: 'Throughout the building',
+        title: 'Throughout our building',
       },
     ]);
     expect(locationText).toEqual('In our building');
@@ -86,5 +86,12 @@ describe('getLocationText', () => {
     const locationText2 = getLocationText(true, [location, location]);
     expect(locationText).toEqual('Online | In our building');
     expect(locationText2).toEqual('Online | In our building');
+  });
+
+  it('returns undefined if Content API place label is missing', () => {
+    const locationText = getLocationText(false, [
+      { type: 'EventPlace', id: '123' },
+    ]);
+    expect(locationText).toEqual(undefined);
   });
 });

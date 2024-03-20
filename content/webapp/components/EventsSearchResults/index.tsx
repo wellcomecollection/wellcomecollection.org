@@ -15,10 +15,9 @@ import {
   transformEventTimes,
 } from '@weco/content/services/prismic/transformers/events';
 import { isPast as checkIfIsPast } from '@weco/common/utils/dates';
-// import Icon from '@weco/common/views/components/Icon/Icon';
-// import { getLocationText } from 'components/EventPromo/EventPromo';
-// import { location } from '@weco/common/icons';
-// import { PlaceBasic } from '@weco/content/types/places';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { getLocationText } from '@weco/content/components/EventPromo/EventPromo';
+import { location } from '@weco/common/icons';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   CardBody,
@@ -51,13 +50,13 @@ const DateInfo = styled.p.attrs({
   margin: 0;
 `;
 
-// const LocationWrapper = styled(Space).attrs({
-//   className: font('intr', 5),
-//   $v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
-// })`
-//   display: flex;
-//   align-items: center;
-// `;
+const LocationWrapper = styled(Space).attrs({
+  className: font('intr', 5),
+  $v: { size: 's', properties: ['margin-top', 'margin-bottom'] },
+})`
+  display: flex;
+  align-items: center;
+`;
 
 // Pretty much the equivalent to EventPromo component, but as the data is structured differently, it felt easier to copy here.
 // Should we merge them and make it more complex? As the goal is to only use the Content API at some point, I'm wondering if it's worth the effort?
@@ -73,12 +72,6 @@ const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
         const lastEndTime = getLastEndTime(times);
         const isPast = lastEndTime ? checkIfIsPast(lastEndTime) : true;
 
-        // const locations: PlaceBasic[] = event.locations
-        //   .map(l => {
-        //     return l.label ? { title: l.label } : undefined;
-        //   })
-        //   .filter(t => isNotUndefined(t)) as PlaceBasic[];
-
         const primaryLabels = [
           event.format.label,
           ...event.audiences.map(a => a.label),
@@ -89,6 +82,11 @@ const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
             text: interpretation.label,
           }))
           .filter(isNotUndefined) as Label[];
+
+        const locationText = getLocationText(
+          event.locations.isOnline,
+          event.locations.places
+        );
 
         return (
           <CardOuter
@@ -128,12 +126,14 @@ const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
               <div>
                 <CardTitle>{event.title}</CardTitle>
 
-                {/* <LocationWrapper>
-                  <Icon icon={location} matchText />
-                  <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
-                    {getLocationText(locations.isOnline, locations.places)}
-                  </Space>
-                </LocationWrapper> */}
+                {locationText && (
+                  <LocationWrapper>
+                    <Icon icon={location} matchText />
+                    <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
+                      {locationText}
+                    </Space>
+                  </LocationWrapper>
+                )}
 
                 {event.isAvailableOnline && (
                   <Space $v={{ size: 's', properties: ['margin-top'] }}>

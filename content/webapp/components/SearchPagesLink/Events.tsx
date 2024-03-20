@@ -20,6 +20,7 @@ const emptyEventsProps: EventsProps = {
   format: [],
   audience: [],
   interpretation: [],
+  location: [],
   isAvailableOnline: false,
 };
 const codecMap = {
@@ -28,6 +29,7 @@ const codecMap = {
   format: csvCodec,
   audience: csvCodec,
   interpretation: csvCodec,
+  location: csvCodec,
   isAvailableOnline: booleanCodec,
 };
 const fromQuery: (params: ParsedUrlQuery) => EventsProps = params => {

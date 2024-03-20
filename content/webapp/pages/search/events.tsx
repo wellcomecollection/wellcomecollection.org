@@ -255,6 +255,7 @@ export const getServerSideProps: GetServerSideProps<
         'format',
         'audience',
         'interpretation',
+        'location',
         'isAvailableOnline',
       ],
     },
