@@ -47,6 +47,8 @@ const SearchFilters: FunctionComponent<Props> = ({
           return f.options.filter(option => option.selected).length;
         case 'dateRange':
           return f.from.value || f.to.value ? 1 : 0;
+        case 'boolean':
+          return f.isSelected ? 1 : 0;
         default:
           return 0;
       }

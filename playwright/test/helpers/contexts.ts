@@ -179,9 +179,22 @@ const workWithDigitalLocationAndLocationNote = async (
 const newSearch = async (
   context: BrowserContext,
   page: Page,
-  searchType: 'overview' | 'stories' | 'images' | 'works' = 'overview'
+  searchType:
+    | 'overview'
+    | 'stories'
+    | 'events'
+    | 'images'
+    | 'works' = 'overview',
+  behindToggle = false
 ): Promise<void> => {
-  await context.addCookies(requiredCookies);
+  if (behindToggle) {
+    await context.addCookies([
+      ...requiredCookies,
+      createCookie('toggle_eventsSearch'),
+    ]);
+  } else {
+    await context.addCookies([...requiredCookies]);
+  }
 
   const searchUrl = `search${
     searchType === 'overview' ? `` : `/${searchType}`

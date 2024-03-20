@@ -35,7 +35,7 @@ import {
 import { getEvents } from '@weco/content/services/wellcome/content/events';
 import EventsSearchResults from '@weco/content/components/EventsSearchResults';
 import SearchFilters from '@weco/content/components/SearchFilters';
-import { hasFilters } from '@weco/content/utils/search';
+import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
 import { eventsFilters } from '@weco/content/services/wellcome/common/filters';
 
 type Props = {
@@ -74,6 +74,8 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
     filters: filters.map(f => f.id),
     queryParams: query,
   });
+
+  const activeFiltersLabels = getActiveFiltersLabel({ filters });
 
   return (
     <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
@@ -115,6 +117,12 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
               <PaginationWrapper $verticalSpacing="l">
                 <span role="status">
                   {pluralize(eventResponseList.totalResults, 'result')}
+                  {activeFiltersLabels.length > 0 && (
+                    <span className="visually-hidden">
+                      {' '}
+                      filtered with: {activeFiltersLabels.join(', ')}
+                    </span>
+                  )}
                 </span>
 
                 <SortPaginationWrapper>
@@ -243,7 +251,13 @@ export const getServerSideProps: GetServerSideProps<
       sort: getQueryPropertyValue(query.sort),
       sortOrder: getQueryPropertyValue(query.sortOrder),
       ...(pageNumber && { page: Number(pageNumber) }),
-      aggregations: ['format', 'audience', 'interpretation'],
+      aggregations: [
+        'format',
+        'audience',
+        'interpretation',
+        'location',
+        'isAvailableOnline',
+      ],
     },
     pageSize: 24,
     toggles: serverData.toggles,

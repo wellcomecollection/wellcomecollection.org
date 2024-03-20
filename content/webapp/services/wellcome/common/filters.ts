@@ -41,6 +41,15 @@ export type CheckboxFilter<Id extends string = string> = {
   excludeFromMoreFilters?: boolean;
 };
 
+export type BooleanFilter<Id extends string = string> = {
+  type: 'boolean';
+  id: Id;
+  label: string;
+  isSelected: boolean;
+  count?: number;
+  excludeFromMoreFilters?: boolean;
+};
+
 export type ColorFilter = {
   type: 'color';
   id: keyof ImagesProps;
@@ -52,6 +61,7 @@ export type ColorFilter = {
 export type Filter<Id extends string = string> =
   | CheckboxFilter<Id>
   | DateRangeFilter<Id>
+  | BooleanFilter
   | ColorFilter;
 
 type FilterOption = {
@@ -617,6 +627,41 @@ const eventsAudienceFilter = ({
   }),
 });
 
+const eventsLocationFilter = ({
+  events,
+  props,
+}: EventsFilterProps): CheckboxFilter<keyof EventsProps> => ({
+  type: 'checkbox',
+  id: 'location',
+  label: 'Locations',
+  options: filterOptionsWithNonAggregates({
+    options: events?.aggregations?.location?.buckets.map(bucket => ({
+      id: bucket.data.id,
+      value: bucket.data.id,
+      count: bucket.count,
+      label: bucket.data.label,
+      selected: props.location.includes(bucket.data.id),
+    })),
+    selectedValues: props.location,
+  }),
+});
+
+const eventsIsAvailableOnlineFilter = ({
+  events,
+  props,
+}: EventsFilterProps): BooleanFilter<keyof EventsProps> => {
+  const isAvailableOnlineTrueBucket =
+    events?.aggregations?.isAvailableOnline.buckets.find(b => b.data.value);
+
+  return {
+    type: 'boolean',
+    id: 'isAvailableOnline',
+    label: 'Catch-up events only',
+    count: isAvailableOnlineTrueBucket?.count || 0,
+    isSelected: !!props.isAvailableOnline,
+  };
+};
+
 // TODO re-add when https://github.com/wellcomecollection/content-api/issues/106 is done
 // const eventsInterpretationFilter = ({
 //   events,
@@ -676,6 +721,8 @@ const eventsFilters: (
   [
     eventsFormatFilter,
     eventsAudienceFilter,
+    eventsLocationFilter,
+    eventsIsAvailableOnlineFilter,
     // TODO re-add when https://github.com/wellcomecollection/content-api/issues/106 is done
     // eventsInterpretationFilter
   ].map(f => f(props));

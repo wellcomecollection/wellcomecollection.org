@@ -16,9 +16,8 @@ import {
 } from '@weco/content/services/prismic/transformers/events';
 import { isPast as checkIfIsPast } from '@weco/common/utils/dates';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { getLocationText } from 'components/EventPromo/EventPromo';
+import { getLocationText } from '@weco/content/components/EventPromo/EventPromo';
 import { location } from '@weco/common/icons';
-import { PlaceBasic } from '@weco/content/types/places';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   CardBody,
@@ -73,16 +72,6 @@ const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
         const lastEndTime = getLastEndTime(times);
         const isPast = lastEndTime ? checkIfIsPast(lastEndTime) : true;
 
-        const isOnline = Boolean(
-          event.locations.find(l => l.label === 'Online')
-        );
-
-        const locations: PlaceBasic[] = event.locations
-          .map(l => {
-            return l.label ? { title: l.label } : undefined;
-          })
-          .filter(t => isNotUndefined(t)) as PlaceBasic[];
-
         const primaryLabels = [
           event.format.label,
           ...event.audiences.map(a => a.label),
@@ -93,6 +82,11 @@ const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
             text: interpretation.label,
           }))
           .filter(isNotUndefined) as Label[];
+
+        const locationText = getLocationText(
+          event.locations.isOnline,
+          event.locations.places
+        );
 
         return (
           <CardOuter
@@ -132,11 +126,11 @@ const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
               <div>
                 <CardTitle>{event.title}</CardTitle>
 
-                {(isOnline || locations.length > 0) && (
+                {locationText && (
                   <LocationWrapper>
                     <Icon icon={location} matchText />
                     <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
-                      {getLocationText(isOnline, locations)}
+                      {locationText}
                     </Space>
                   </LocationWrapper>
                 )}

@@ -100,11 +100,7 @@ const Index: FunctionComponent = () => {
         <title>Pa11y dashboard</title>
       </Head>
       {resultsList && (
-        <div
-          style={{
-            fontFamily,
-          }}
-        >
+        <div style={{ fontFamily }}>
           <Header title="Pa11y" />
           <div
             style={{
