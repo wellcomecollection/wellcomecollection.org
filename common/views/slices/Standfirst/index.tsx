@@ -1,4 +1,4 @@
-import { StandfirstSlice as SliceType } from '../../../prismicio-types';
+import { StandfirstSlice as SliceType } from '@weco/common/prismicio-types';
 import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
 import { transformStandfirstSlice } from '@weco/content/services/prismic/transformers/body';

@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { TextAndIconsSlice as SliceType } from '../../../prismicio-types';
+import { TextAndIconsSlice as SliceType } from '@weco/common/prismicio-types';
 import { SliceComponentProps } from '@prismicio/react';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';

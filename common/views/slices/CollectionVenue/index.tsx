@@ -1,4 +1,4 @@
-import { CollectionVenueSlice as SliceType } from '../../../prismicio-types';
+import { CollectionVenueSlice as SliceType } from '@weco/common/prismicio-types';
 import { SliceComponentProps } from '@prismicio/react';
 import SpacingComponent from '../../components/styled/SpacingComponent';
 import {

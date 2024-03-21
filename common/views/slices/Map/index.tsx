@@ -1,4 +1,4 @@
-import { MapSlice as SliceType } from '../../../prismicio-types';
+import { MapSlice as SliceType } from '@weco/common/prismicio-types';
 import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
 import SpacingComponent from '../../components/styled/SpacingComponent';

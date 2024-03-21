@@ -1,4 +1,4 @@
-import { QuoteSlice as SliceType } from '../../../prismicio-types';
+import { QuoteSlice as SliceType } from '@weco/common/prismicio-types';
 import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
 import Quote from '@weco/content/components/Quote/Quote';

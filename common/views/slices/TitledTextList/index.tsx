@@ -1,4 +1,4 @@
-import { TitledTextListSlice as SliceType } from '../../../prismicio-types';
+import { TitledTextListSlice as SliceType } from '@weco/common/prismicio-types';
 import { SliceComponentProps } from '@prismicio/react';
 import {
   SliceZoneContext,
