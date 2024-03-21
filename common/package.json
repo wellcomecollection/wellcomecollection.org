@@ -56,6 +56,6 @@
     "webpack-bundle-analyzer": "^4.8.0"
   },
   "devDependencies": {
-    "slice-machine-ui": "^1.25.0"
+    "slice-machine-ui": "^1.21.0"
   }
 }
