@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useRef } from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { Loader, LoaderOptions } from 'google-maps';
 import styled from 'styled-components';
 
@@ -28,12 +28,14 @@ const Map: FunctionComponent<Props> = ({
   longitude,
 }: Props) => {
   const mapContainer = useRef<HTMLDivElement>(null);
+  const [loader, setLoader] = useState<Loader | undefined>();
+  useEffect(() => {
+    setLoader(new Loader('AIzaSyCcrz-MyrCbbJNrpFpPXxUFl16FFGmOBKs', options));
+  }, []);
 
   useEffect(() => {
-    const loader = new Loader(
-      'AIzaSyCcrz-MyrCbbJNrpFpPXxUFl16FFGmOBKs',
-      options
-    );
+    if (!loader) return;
+
     loader.load().then(google => {
       const mapCanvas = mapContainer.current;
       const latLng = {
@@ -81,7 +83,7 @@ const Map: FunctionComponent<Props> = ({
         });
       }
     };
-  }, []);
+  }, [loader]);
 
   return <MapContainer ref={mapContainer} />;
 };
