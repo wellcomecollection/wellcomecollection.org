@@ -133,15 +133,20 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
     : undefined;
 
   const body = data.body ? transformBody(data.body) : [];
+  const untransformedBody = data.body || [];
   const standfirst = body.find(isStandfirst);
-
+  const untransformedStandfirst = untransformedBody.find(
+    (slice: prismic.Slice) => slice.slice_type === 'standfirst'
+  );
   const metadataDescription = asText(data.metadataDescription);
 
   return {
     id: doc.id,
     title: asTitle(data.title),
     body,
+    untransformedBody,
     standfirst: standfirst?.value,
+    untransformedStandfirst,
     promo,
     image,
     metadataDescription,

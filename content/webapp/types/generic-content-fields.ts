@@ -9,7 +9,9 @@ export type GenericContentFields = {
   title: string;
   promo?: ImagePromo;
   body: BodySlice[];
+  untransformedBody: prismic.Slice[];
   standfirst?: prismic.RichTextField;
+  untransformedStandfirst?: prismic.Slice;
   image?: ImageType;
   metadataDescription?: string;
   labels: Label[];
