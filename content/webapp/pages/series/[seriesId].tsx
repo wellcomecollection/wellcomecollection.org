@@ -211,7 +211,13 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
       <ContentPage
         id={series.id}
         Header={Header}
-        Body={<Body body={series.body} pageId={series.id} />}
+        Body={
+          <Body
+            untransformedBody={series.untransformedBody}
+            body={series.body}
+            pageId={series.id}
+          />
+        }
         contributors={series.contributors}
         seasons={series.seasons}
       >

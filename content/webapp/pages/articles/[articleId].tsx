@@ -332,6 +332,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
         Header={Header}
         Body={
           <Body
+            untransformedBody={article.untransformedBody}
             body={article.body}
             comicPreviousNext={
               isComicFormat ? getComicPreviousNext() : undefined
