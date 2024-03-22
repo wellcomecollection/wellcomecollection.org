@@ -11,7 +11,6 @@ import Map from '@weco/content/components/Map/Map';
 
 export type MapProps = SliceComponentProps<SliceType, SliceZoneContext>;
 
-// TODO fix Error: Hydration failed because the initial UI does not match what was rendered on the server.
 const MapSlice: FunctionComponent<MapProps> = ({ slice, context }) => {
   const transformedSlice = transformMapSlice(slice);
   return (
