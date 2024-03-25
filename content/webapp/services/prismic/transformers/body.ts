@@ -92,11 +92,11 @@ export function getWeight(weight: string | null): Weight {
 
 export function transformStandfirstSlice(
   slice: StandfirstSlice
-): Slice<'standfirst', StandfirstProps> {
+): Slice<'standfirst', prismic.RichTextField> {
   return {
     type: 'standfirst',
     weight: getWeight(slice.slice_label),
-    value: { html: slice.primary.text },
+    value: slice.primary.text,
   };
 }
 
@@ -173,7 +173,7 @@ export function transformContactSlice(
 }
 
 export function transformEditorialImageSlice(
-  slice: EditorialImageSlice |
+  slice: EditorialImageSlice
 ): Slice<'picture', CaptionedImageProps> {
   return {
     weight: getWeight(slice.slice_label),
@@ -183,7 +183,7 @@ export function transformEditorialImageSlice(
 }
 
 export function transformEditorialImageGallerySlice(
-  slice: EditorialImageGallerySlice | EditorialImageGallerySlice2
+  slice: EditorialImageGallerySlice
 ): Slice<'imageGallery', ImageGalleryProps> {
   return {
     type: 'imageGallery',
