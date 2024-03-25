@@ -72,7 +72,6 @@ import {
 } from '@weco/content/components/TextAndImageOrIcons';
 import { Props as TitledTextListProps } from '@weco/content/components/TitledTextList/TitledTextList';
 import { Props as AsyncSearchResultsProps } from '@weco/content/components/SearchResults/AsyncSearchResults';
-import { Props as StandfirstProps } from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import { Venue } from '@weco/common/model/opening-hours';
 
 export function getWeight(weight: string | null): Weight {
