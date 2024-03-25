@@ -2,7 +2,7 @@ import { QuoteSlice as SliceType } from '@weco/common/prismicio-types';
 import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
 import Quote from '@weco/content/components/Quote/Quote';
-import SpacingComponent from '../../components/styled/SpacingComponent';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
   LayoutWidth,
   SliceZoneContext,
