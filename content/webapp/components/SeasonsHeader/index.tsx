@@ -85,7 +85,7 @@ const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
                       )}
                       {untransformedStandfirst && sliceMachine && (
                         <Standfirst
-                          slice={untransformedStandfirst} // TODO fix
+                          slice={untransformedStandfirst}
                           index={0}
                           context={{}}
                           slices={[]}
