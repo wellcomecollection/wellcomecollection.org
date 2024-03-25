@@ -1,26 +1,26 @@
 import {
-  CollectionVenue as CollectionVenueSlice,
-  Contact as ContactSlice,
-  ContentList as ContentListSlice,
+  CollectionVenueSlice,
+  ContactSlice,
+  ContentListSlice,
   EditorialImageSlice,
   EditorialImageGallerySlice,
-  Embed as EmbedSlice,
-  Iframe as IframeSlice,
-  InfoBlock as InfoBlockSlice,
-  Map as MapSlice,
-  Quote as QuoteSlice,
-  QuoteV2 as QuoteV2Slice,
-  SearchResults as SearchResultsSlice,
-  Standfirst as StandfirstSlice,
-  TagList as TagListSlice,
+  EmbedSlice,
+  IframeSlice,
+  InfoBlockSlice,
+  MapSlice,
+  QuoteSlice,
+  QuoteV2Slice,
+  SearchResultsSlice,
+  StandfirstSlice,
+  TagListSlice,
   TextSlice,
-  TitledTextList as TitledTextListSlice,
+  TitledTextListSlice,
   GifVideoSlice,
-  AudioPlayer as AudioPlayerSlice,
-  Body,
+  AudioPlayerSlice,
   TextAndImageSlice,
   TextAndIconsSlice,
-} from '../types/body';
+} from '@weco/common/prismicio-types';
+import { Body } from '../types/body'; // TODO do we need all the types in this file anymore?
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   isFilledLinkToDocumentWithData,
@@ -72,6 +72,7 @@ import {
 } from '@weco/content/components/TextAndImageOrIcons';
 import { Props as TitledTextListProps } from '@weco/content/components/TitledTextList/TitledTextList';
 import { Props as AsyncSearchResultsProps } from '@weco/content/components/SearchResults/AsyncSearchResults';
+import { Props as StandfirstProps } from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import { Venue } from '@weco/common/model/opening-hours';
 
 export function getWeight(weight: string | null): Weight {
@@ -91,11 +92,11 @@ export function getWeight(weight: string | null): Weight {
 
 export function transformStandfirstSlice(
   slice: StandfirstSlice
-): Slice<'standfirst', prismic.RichTextField> {
+): Slice<'standfirst', StandfirstProps> {
   return {
     type: 'standfirst',
     weight: getWeight(slice.slice_label),
-    value: slice.primary.text,
+    value: { html: slice.primary.text },
   };
 }
 
@@ -172,7 +173,7 @@ export function transformContactSlice(
 }
 
 export function transformEditorialImageSlice(
-  slice: EditorialImageSlice
+  slice: EditorialImageSlice |
 ): Slice<'picture', CaptionedImageProps> {
   return {
     weight: getWeight(slice.slice_label),
@@ -182,7 +183,7 @@ export function transformEditorialImageSlice(
 }
 
 export function transformEditorialImageGallerySlice(
-  slice: EditorialImageGallerySlice
+  slice: EditorialImageGallerySlice | EditorialImageGallerySlice2
 ): Slice<'imageGallery', ImageGalleryProps> {
   return {
     type: 'imageGallery',
