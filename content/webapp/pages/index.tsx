@@ -124,7 +124,7 @@ export const getServerSideProps: GetServerSideProps<
   const standfirst = page.body.find(isStandfirst);
   const untransformedBody = pageDocument?.data.body || [];
   const untransformedStandfirst = untransformedBody.find(
-    slice => slice.slice_type === 'standfirst'
+    (slice: prismic.Slice) => slice.slice_type === 'standfirst'
   );
   const contentLists = page.body.filter(isContentList);
 

@@ -1,3 +1,4 @@
+import * as prismic from '@prismicio/client';
 import { Series, SeriesBasic } from '../../../types/series';
 import { SeriesPrismicDocument } from '../types/series';
 import { asTitle, transformGenericFields, transformSingleLevelGroup } from '.';
@@ -15,7 +16,7 @@ export function transformSeries(document: SeriesPrismicDocument): Series {
   const standfirst = genericFields.standfirst || undefined;
   const untransformedBody = data.body || [];
   const untransformedStandfirst = untransformedBody.find(
-    slice => slice.slice_type === 'standfirst'
+    (slice: prismic.Slice) => slice.slice_type === 'standfirst'
   );
   const color = getSeriesColor(data.color || undefined);
   const schedule: ArticleScheduleItem[] = data.schedule
