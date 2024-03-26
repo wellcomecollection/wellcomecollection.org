@@ -162,4 +162,4 @@ export const visualStoryLinkText =
   'Information to help you plan and prepare for your visit';
 
 export const exhibitionGuideLinkText =
-  'Explore audio description, British Sign Language and captions and transcripts';
+  'Explore audio description, British Sign Language, captions and transcripts';
