@@ -1,0 +1,46 @@
+{
+  "id": "contentList",
+  "type": "SharedSlice",
+  "name": "ContentList",
+  "description": "ContentList",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "single": "heading1",
+            "useAsTitle": true
+          }
+        }
+      },
+      "items": {
+        "content": {
+          "type": "Link",
+          "config": {
+            "label": "Content item",
+            "select": "document",
+            "customtypes": [
+              "pages",
+              "event-series",
+              "books",
+              "events",
+              "articles",
+              "exhibitions",
+              "card",
+              "seasons",
+              "guides"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

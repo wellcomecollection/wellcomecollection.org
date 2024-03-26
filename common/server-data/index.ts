@@ -59,7 +59,7 @@ async function read(key: Key, defaultValue: DefaulVal<Key>) {
   }
 }
 
-const timers = new Map<Key, NodeJS.Timer>();
+const timers = new Map<Key, NodeJS.Timeout>();
 async function write(key: Key, fetch: () => Promise<DefaulVal<Key>>) {
   try {
     const data = await fetch();

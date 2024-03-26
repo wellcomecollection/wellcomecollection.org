@@ -1,0 +1,65 @@
+{
+  "id": "editorialImageGallery",
+  "type": "SharedSlice",
+  "name": "EditorialImageGallery",
+  "description": "EditorialImageGallery",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "single": "heading1",
+            "useAsTitle": true
+          }
+        }
+      },
+      "items": {
+        "image": {
+          "type": "Image",
+          "config": {
+            "label": "Image",
+            "thumbnails": [
+              {
+                "name": "32:15",
+                "width": 3200,
+                "height": 1500
+              },
+              {
+                "name": "16:9",
+                "width": 3200,
+                "height": 1800
+              },
+              {
+                "name": "square",
+                "width": 3200,
+                "height": 3200
+              }
+            ]
+          }
+        },
+        "caption": {
+          "type": "StructuredText",
+          "config": {
+            "multi": "paragraph,hyperlink,strong,em",
+            "label": "Caption"
+          }
+        },
+        "hasRoundedCorners": {
+          "type": "Boolean",
+          "config": {
+            "default_value": false,
+            "label": "round image corners"
+          }
+        }
+      }
+    }
+  ]
+}

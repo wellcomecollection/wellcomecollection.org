@@ -13,10 +13,6 @@ const items = [
       },
     ],
     link: 'https://wellcomecollection.org',
-    label: {
-      id: 'YCVHBBUAACgAUxW0',
-      title: 'Online',
-    },
   },
   {
     title: '19th century British Library newspapers',
@@ -28,10 +24,6 @@ const items = [
       },
     ],
     link: 'https://bbc.co.uk',
-    label: {
-      id: 'YCVHKRUAACoAUxXw',
-      title: 'In library',
-    },
   },
 ];
 

@@ -1,10 +1,8 @@
 import { FunctionComponent } from 'react';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
-import { LabelField } from '@weco/content/model/label-field';
 import * as prismic from '@prismicio/client';
 
 const HeadingLink = styled.a.attrs({
@@ -34,7 +32,6 @@ export type Props = {
     title?: string;
     link?: string;
     text?: prismic.RichTextField;
-    label?: LabelField;
   }[];
 };
 
@@ -49,12 +46,6 @@ const TitledTextList: FunctionComponent<Props> = ({ items }) => (
           <TextContainer>
             <PrismicHtmlBlock key={i} html={item.text} />
           </TextContainer>
-        )}
-        {item.label?.title && (
-          <LabelsList
-            labels={[{ text: item.label.title }]}
-            defaultLabelColor="warmNeutral.300"
-          />
         )}
       </Space>
     ))}

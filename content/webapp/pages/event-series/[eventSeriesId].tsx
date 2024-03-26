@@ -167,7 +167,11 @@ const EventSeriesPage: FunctionComponent<Props> = ({
         Header={Header}
         Body={
           page === 1 ? (
-            <Body body={series.body} pageId={series.id} />
+            <Body
+              originalBody={series.originalBody}
+              body={series.body}
+              pageId={series.id}
+            />
           ) : undefined
         }
         contributors={series.contributors}

@@ -8,7 +8,7 @@ import { serialiseProps } from '@weco/common/utils/json';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { transformVisualStory } from '@weco/content/services/prismic/transformers/visual-stories';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
-import { VisualStory } from '@weco/content/types/visual-stories';
+import { type VisualStory } from '@weco/content/types/visual-stories';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import { visualStoryLd } from '@weco/content/services/prismic/transformers/json-ld';
@@ -119,6 +119,7 @@ const VisualStory: FunctionComponent<Props> = ({ visualStory, jsonLd }) => {
         Header={Header}
         Body={
           <Body
+            originalBody={visualStory.originalBody}
             body={visualStory.body}
             pageId={visualStory.id}
             onThisPage={visualStory.onThisPage}

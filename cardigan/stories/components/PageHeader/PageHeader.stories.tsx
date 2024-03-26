@@ -261,6 +261,7 @@ shortFilm.args = {
   Body: (
     <Body
       contentType="short-film"
+      originalBody={[]}
       body={[
         {
           type: 'videoEmbed',

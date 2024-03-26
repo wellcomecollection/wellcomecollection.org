@@ -16,9 +16,11 @@ import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandf
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import { WobblyBottom } from '@weco/common/views/components/WobblyEdge';
-
 // Types
 import { Season } from '@weco/content/types/seasons';
+import Standfirst from '@weco/common/views/slices/Standfirst';
+import { StandfirstSlice } from '@weco/common/prismicio-types';
+import { useToggles } from '@weco/common/server-data/Context';
 
 const HeaderWrapper = styled.div`
   background: ${props => props.theme.color('neutral.700')};
@@ -33,7 +35,8 @@ type Props = {
 };
 
 const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
-  const { title, standfirst, start, end, labels } = season;
+  const { sliceMachine } = useToggles();
+  const { title, standfirst, start, end, labels, originalStandfirst } = season;
 
   const superWidescreenImage = getCrop(season.image, '32:15');
 
@@ -77,7 +80,18 @@ const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
                           <DateRange start={start} end={end} />
                         </div>
                       )}
-                      {standfirst && <PageHeaderStandfirst html={standfirst} />}
+                      {!sliceMachine && standfirst && (
+                        <PageHeaderStandfirst html={standfirst} />
+                      )}
+
+                      {sliceMachine && originalStandfirst && (
+                        <Standfirst
+                          index={0}
+                          slices={[]}
+                          context={{}}
+                          slice={originalStandfirst as StandfirstSlice}
+                        />
+                      )}
                     </Space>
                   </Space>
                 </TextWrapper>

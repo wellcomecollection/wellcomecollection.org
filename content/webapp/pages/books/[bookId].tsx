@@ -169,7 +169,13 @@ const BookPage: FunctionComponent<Props> = props => {
       <ContentPage
         id={book.id}
         Header={Header}
-        Body={<Body body={book.body} pageId={book.id} />}
+        Body={
+          <Body
+            originalBody={book.originalBody}
+            body={book.body}
+            pageId={book.id}
+          />
+        }
         contributors={book.contributors}
         seasons={book.seasons}
       >

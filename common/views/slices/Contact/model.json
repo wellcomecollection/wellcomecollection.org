@@ -1,0 +1,29 @@
+{
+  "id": "contact",
+  "type": "SharedSlice",
+  "name": "Contact",
+  "description": "Contact",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "content": {
+          "type": "Link",
+          "config": {
+            "label": "content",
+            "select": "document",
+            "customtypes": [
+              "teams"
+            ]
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

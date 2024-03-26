@@ -1,0 +1,33 @@
+{
+  "id": "collectionVenue",
+  "type": "SharedSlice",
+  "name": "CollectionVenue",
+  "description": "CollectionVenue",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "content" : {
+          "type" : "Link",
+          "config" : {
+            "label" : "Content item",
+            "select" : "document",
+            "customtypes" : [ "collection-venue" ]
+          }
+        },
+        "showClosingTimes" : {
+          "type" : "Select",
+          "config" : {
+            "label" : "Show closing times",
+            "options" : [ "yes" ]
+          }
+        }
+      }
+    }
+  ]
+}
