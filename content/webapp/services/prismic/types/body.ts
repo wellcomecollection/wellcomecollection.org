@@ -3,7 +3,7 @@ import { isUndefined } from '@weco/common/utils/type-guards';
 import { Image } from '.';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
 import { TeamPrismicDocument } from './teams';
-
+// TODO do we still need these types?
 export type TextSlice = prismic.Slice<'text', { text: prismic.RichTextField }>;
 
 export type TextAndImageSlice = prismic.Slice<

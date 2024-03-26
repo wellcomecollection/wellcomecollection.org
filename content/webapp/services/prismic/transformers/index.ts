@@ -4,6 +4,7 @@ import {
   InferDataInterface,
   isFilledLinkToDocumentWithData,
 } from '@weco/common/services/prismic/types';
+import { StandfirstSlice } from '@weco/common/prismicio-types';
 import { GenericContentFields } from '../../../types/generic-content-fields';
 import { ImageType } from '@weco/common/model/image';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
@@ -137,7 +138,7 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
   const standfirst = body.find(isStandfirst);
   const untransformedStandfirst = untransformedBody.find(
     (slice: prismic.Slice) => slice.slice_type === 'standfirst'
-  );
+  ) as StandfirstSlice | undefined;
   const metadataDescription = asText(data.metadataDescription);
 
   return {

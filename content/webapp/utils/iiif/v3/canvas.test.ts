@@ -18,7 +18,7 @@ describe('getThumbnailImage', () => {
   it('finds a thumbnail image from a digitised book', () => {
     // This test looks for thumbnails in manifests that are pre- and post-
     // the DLCS image server upgrades in summer 2023.
-    const canvas1 = b21506115.items[0];
+    const canvas1 = b21506115.items[0] as Canvas;
     expect(getThumbnailImage(canvas1)).toStrictEqual({
       url: 'https://iiif.wellcomecollection.org/thumbs/b21506115_0001.jp2/full/286%2C/0/default.jpg',
       width: 286,

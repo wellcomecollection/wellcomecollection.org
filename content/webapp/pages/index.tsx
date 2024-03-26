@@ -52,6 +52,7 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import Standfirst from '@weco/common/views/slices/Standfirst/index';
+import { StandfirstSlice } from '@weco/common/prismicio-types';
 import { useToggles } from '@weco/common/server-data/Context';
 
 const CreamBox = styled(Space).attrs({
@@ -67,7 +68,7 @@ type Props = {
   articles: ArticleBasic[];
   jsonLd: JsonLdObj[];
   standfirst?: BodySlice & { type: 'standfirst' };
-  untransformedStandfirst?: prismic.Slice;
+  untransformedStandfirst?: StandfirstSlice;
   headerList: (BodySlice & { type: 'contentList' }) | null;
   contentList: BodySlice & { type: 'contentList' };
 };
@@ -125,7 +126,7 @@ export const getServerSideProps: GetServerSideProps<
   const untransformedBody = pageDocument?.data.body || [];
   const untransformedStandfirst = untransformedBody.find(
     (slice: prismic.Slice) => slice.slice_type === 'standfirst'
-  );
+  ) as StandfirstSlice | undefined;
   const contentLists = page.body.filter(isContentList);
 
   const headerList = contentLists.length === 2 ? contentLists[0] : null;

@@ -20,7 +20,7 @@ import {
   TextAndImageSlice,
   TextAndIconsSlice,
 } from '@weco/common/prismicio-types';
-import { Body } from '../types/body'; // TODO do we need all the types in this file anymore?
+import { Body } from '@weco/content/services/prismic/types/body';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   isFilledLinkToDocumentWithData,
