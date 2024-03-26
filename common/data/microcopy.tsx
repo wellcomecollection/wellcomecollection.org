@@ -159,7 +159,7 @@ export const searchLabelText = {
 };
 
 export const visualStoryLinkText =
-  'Explore information to help you plan and prepare for your visit';
+  'Information to help you plan and prepare for your visit';
 
 export const exhibitionGuideLinkText =
-  'Explore Audio description, British Sign Language and captions and transcripts';
+  'Explore audio description, British Sign Language and captions and transcripts';
