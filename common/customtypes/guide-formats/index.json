@@ -1,0 +1,26 @@
+{
+  "id": "guide-formats",
+  "label": "Guide format",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Guide format": {
+      "title": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Title",
+          "single": "heading1",
+          "useAsTitle": true
+        }
+      },
+      "description": {
+        "type": "StructuredText",
+        "config": {
+          "multi": "paragraph,hyperlink,strong,em",
+          "label": "Description"
+        }
+      }
+    }
+  },
+  "format": "custom"
+}

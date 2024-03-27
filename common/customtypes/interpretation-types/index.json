@@ -1,0 +1,40 @@
+{
+  "id": "interpretation-types",
+  "label": "Interpretation type",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Interpretation type": {
+      "title": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Title",
+          "single": "heading1",
+          "useAsTitle": true
+        }
+      },
+      "abbreviation": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph",
+          "label": "Abbreviation"
+        }
+      },
+      "description": {
+        "type": "StructuredText",
+        "config": {
+          "multi": "paragraph,hyperlink,strong,em",
+          "label": "Message"
+        }
+      },
+      "primaryDescription": {
+        "type": "StructuredText",
+        "config": {
+          "multi": "paragraph,hyperlink,strong,em",
+          "label": "Message if primary interpretation"
+        }
+      }
+    }
+  },
+  "format": "custom"
+}

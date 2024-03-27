@@ -1,0 +1,252 @@
+{
+  "id": "collection-venue",
+  "label": "Collection venue",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Main": {
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Title"
+        }
+      },
+      "order": {
+        "type": "Number",
+        "config": {
+          "label": "Order"
+        }
+      },
+      "image": {
+        "type": "Image",
+        "config": {
+          "label": "Image",
+          "thumbnails": [
+            {
+              "name": "32:15",
+              "width": 3200,
+              "height": 1500
+            },
+            {
+              "name": "16:9",
+              "width": 3200,
+              "height": 1800
+            },
+            {
+              "name": "square",
+              "width": 3200,
+              "height": 3200
+            }
+          ]
+        }
+      },
+      "link": {
+        "type": "Link",
+        "config": {
+          "label": "Link",
+          "select": "web",
+          "customtypes": [],
+          "placeholder": "Enter url"
+        }
+      },
+      "linkText": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph,hyperlink,strong,em",
+          "label": "Linktext"
+        }
+      }
+    },
+    "Regular opening times": {
+      "monday": {
+        "type": "Group",
+        "fieldset": "Monday's times",
+        "config": {
+          "repeat": false,
+          "fields": {
+            "startDateTime": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Opens"
+              }
+            },
+            "endDateTime": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Closes"
+              }
+            }
+          }
+        }
+      },
+      "tuesday": {
+        "type": "Group",
+        "fieldset": "Tuesday's times",
+        "config": {
+          "repeat": false,
+          "fields": {
+            "startDateTime": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Opens"
+              }
+            },
+            "endDateTime": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Closes"
+              }
+            }
+          }
+        }
+      },
+      "wednesday": {
+        "type": "Group",
+        "fieldset": "Wednesday's times",
+        "config": {
+          "repeat": false,
+          "fields": {
+            "startDateTime": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Opens"
+              }
+            },
+            "endDateTime": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Closes"
+              }
+            }
+          }
+        }
+      },
+      "thursday": {
+        "type": "Group",
+        "fieldset": "Thursday's times",
+        "config": {
+          "repeat": false,
+          "fields": {
+            "startDateTime": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Opens"
+              }
+            },
+            "endDateTime": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Closes"
+              }
+            }
+          }
+        }
+      },
+      "friday": {
+        "type": "Group",
+        "fieldset": "Friday's times",
+        "config": {
+          "repeat": false,
+          "fields": {
+            "startDateTime": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Opens"
+              }
+            },
+            "endDateTime": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Closes"
+              }
+            }
+          }
+        }
+      },
+      "saturday": {
+        "type": "Group",
+        "fieldset": "Saturday's times",
+        "config": {
+          "repeat": false,
+          "fields": {
+            "startDateTime": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Opens"
+              }
+            },
+            "endDateTime": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Closes"
+              }
+            }
+          }
+        }
+      },
+      "sunday": {
+        "type": "Group",
+        "fieldset": "Sunday's times",
+        "config": {
+          "repeat": false,
+          "fields": {
+            "startDateTime": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Opens"
+              }
+            },
+            "endDateTime": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Closes"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Modified opening times": {
+      "modifiedDayOpeningTimes": {
+        "type": "Group",
+        "fieldset": "Modified day opening times",
+        "config": {
+          "fields": {
+            "overrideDate": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Override date"
+              }
+            },
+            "type": {
+              "type": "Select",
+              "config": {
+                "label": "Override type",
+                "options": [
+                  "Bank holiday",
+                  "Easter",
+                  "Christmas and New Year",
+                  "Late Spectacular",
+                  "other"
+                ]
+              }
+            },
+            "startDateTime": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Opens"
+              }
+            },
+            "endDateTime": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Closes"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "format": "custom"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "audiences",
+  "label": "Audience",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Audience": {
+      "title": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Title",
+          "single": "heading1",
+          "useAsTitle": true
+        }
+      },
+      "description": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph,hyperlink,strong,em",
+          "label": "Description"
+        }
+      }
+    }
+  },
+  "format": "custom"
+}

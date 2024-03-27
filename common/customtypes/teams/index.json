@@ -1,0 +1,43 @@
+{
+  "id": "teams",
+  "label": "Team",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Team": {
+      "title": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph,hyperlink,strong,em,heading1",
+          "label": "Title"
+        }
+      },
+      "subtitle": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph,hyperlink,strong,em",
+          "label": "Subtitle"
+        }
+      },
+      "email": {
+        "type": "Text",
+        "config": {
+          "label": "Email"
+        }
+      },
+      "phone": {
+        "type": "Text",
+        "config": {
+          "label": "Phone"
+        }
+      },
+      "url": {
+        "type": "Text",
+        "config": {
+          "label": "URL"
+        }
+      }
+    }
+  },
+  "format": "custom"
+}

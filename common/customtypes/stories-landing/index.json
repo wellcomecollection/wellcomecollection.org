@@ -1,0 +1,85 @@
+{
+  "id": "stories-landing",
+  "label": "Stories landing",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "introText": {
+        "type": "StructuredText",
+        "config": {
+          "multi": "paragraph,hyperlink,strong,em",
+          "label": "Introductory text",
+          "placeholder": "This will appear at the top of the stories landing page."
+        }
+      }
+    },
+    "Featured stories/series": {
+      "storiesTitle": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Title",
+          "single": "heading1",
+          "useAsTitle": true
+        }
+      },
+      "storiesDescription": {
+        "type": "StructuredText",
+        "config": {
+          "multi": "paragraph,hyperlink,strong,em",
+          "label": "description"
+        }
+      },
+      "stories": {
+        "type": "Group",
+        "fieldset": "stories",
+        "config": {
+          "fields": {
+            "story": {
+              "type": "Link",
+              "config": {
+                "label": "story/series",
+                "select": "document",
+                "customtypes": ["articles", "series"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "Featured books": {
+      "booksTitle": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Title",
+          "single": "heading1",
+          "useAsTitle": true
+        }
+      },
+      "booksDescription": {
+        "type": "StructuredText",
+        "config": {
+          "multi": "paragraph,hyperlink,strong,em",
+          "label": "description"
+        }
+      },
+      "books": {
+        "type": "Group",
+        "fieldset": "books",
+        "config": {
+          "fields": {
+            "book": {
+              "type": "Link",
+              "config": {
+                "label": "book",
+                "select": "document",
+                "customtypes": ["books"]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "format": "custom"
+}

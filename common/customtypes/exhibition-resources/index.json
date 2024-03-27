@@ -1,0 +1,33 @@
+{
+  "id": "exhibition-resources",
+  "label": "Exhibition resource",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Exhibition resource": {
+      "title": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Title",
+          "single": "heading1",
+          "useAsTitle": true
+        }
+      },
+      "description": {
+        "type": "StructuredText",
+        "config": {
+          "multi": "paragraph,hyperlink,strong,em",
+          "label": "Description"
+        }
+      },
+      "icon": {
+        "type": "Select",
+        "config": {
+          "label": "Icon type",
+          "options": ["information", "family"]
+        }
+      }
+    }
+  },
+  "format": "custom"
+}
