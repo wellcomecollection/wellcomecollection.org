@@ -90,7 +90,7 @@ export type Embed = prismic.Slice<
 export type Map = prismic.Slice<
   'map',
   {
-    title: prismic.KeyTextField;
+    title: prismic.RichTextField;
     geolocation: prismic.GeoPointField;
   }
 >;
