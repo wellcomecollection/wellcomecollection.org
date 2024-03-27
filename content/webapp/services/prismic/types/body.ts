@@ -1,9 +1,8 @@
 import * as prismic from '@prismicio/client';
-import { isUndefined } from '@weco/common/utils/type-guards';
 import { Image } from '.';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
 import { TeamPrismicDocument } from './teams';
-// TODO do we still need these types?
+// TODO delete this file once we've moved to SliceZone
 export type TextSlice = prismic.Slice<'text', { text: prismic.RichTextField }>;
 
 export type TextAndImageSlice = prismic.Slice<
@@ -200,20 +199,3 @@ export type SliceTypes =
   | SearchResults;
 
 export type Body = prismic.SliceZone<SliceTypes>;
-
-// This generates a map of { [key: SliceKey]: SliceType }
-type SliceMap = {
-  [S in SliceTypes as S extends prismic.Slice<infer X> ? X : never]: S;
-};
-
-export function isSliceType<SliceType extends keyof SliceMap>(
-  type: SliceType,
-  label?: string
-) {
-  return (slice: SliceTypes): slice is SliceMap[typeof type] => {
-    return (
-      slice.slice_type === type &&
-      (isUndefined(label) || slice.slice_label === label)
-    );
-  };
-}
