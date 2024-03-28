@@ -75,7 +75,7 @@ type LayoutWidthProps = PropsWithChildren<{
   width: 8 | 10 | 12;
 }>;
 
-const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
+export const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
   width,
   children,
 }): ReactElement | null => {
@@ -130,6 +130,28 @@ const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
 }))<{ $rowBackgroundColor: PaletteColor }>`
   background-color: ${props => props.theme.color(props.$rowBackgroundColor)};
 `;
+
+export type SliceZoneContext = {
+  minWidth: 8 | 10 | 12;
+  firstTextSliceIndex: number;
+  isVisualStory: boolean;
+  comicPreviousNext?: ComicPreviousNextProps;
+  isShortFilm: boolean;
+  pageId: string;
+  isLanding: boolean;
+  isDropCapped: boolean;
+};
+
+export const defaultContext: SliceZoneContext = {
+  minWidth: 8,
+  firstTextSliceIndex: 1,
+  isVisualStory: false,
+  comicPreviousNext: undefined,
+  isShortFilm: false,
+  pageId: '',
+  isLanding: false,
+  isDropCapped: false,
+};
 
 const Body: FunctionComponent<Props> = ({
   body,

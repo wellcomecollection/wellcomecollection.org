@@ -1,0 +1,32 @@
+{
+  "id": "map",
+  "type": "SharedSlice",
+  "name": "Map",
+  "description": "Map",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "title" : {
+          "type" : "StructuredText",
+          "config" : {
+            "label" : "Title",
+            "single" : "heading1",
+            "useAsTitle" : true
+          }
+        },
+        "geolocation" : {
+          "type" : "GeoPoint",
+          "config" : {
+            "label" : "Geo point"
+          }
+        }
+      }
+    }
+  ]
+}

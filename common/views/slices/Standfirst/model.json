@@ -1,0 +1,25 @@
+{
+  "id": "standfirst",
+  "type": "SharedSlice",
+  "name": "Standfirst",
+  "description": "Standfirst",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "text": {
+          "type": "StructuredText",
+          "config": {
+            "single": "strong,em,hyperlink",
+            "label": "Standfirst"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "id": "gifVideo",
+  "type": "SharedSlice",
+  "name": "GifVideo",
+  "description": "GifVideo",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "caption" : {
+          "type" : "StructuredText",
+          "config" : {
+            "single" : "paragraph,hyperlink,strong,em",
+            "label" : "Caption"
+          }
+        },
+        "tasl" : {
+          "type" : "Text",
+          "config" : {
+            "label" : "TASL",
+            "placeholder" : "title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink"
+          }
+        },
+        "video" : {
+          "type" : "Link",
+          "config" : {
+            "label" : "Video",
+            "select" : "media",
+            "customtypes" : [ ],
+            "placeholder" : "Video"
+          }
+        },
+        "playbackRate" : {
+          "type" : "Select",
+          "config" : {
+            "label" : "Playback rate",
+            "options" : [ "0.1", "0.25", "0.5", "0.75", "1", "1.25", "1.5", "1.75", "2" ]
+          }
+        },
+        "autoPlay" : {
+          "type" : "Boolean",
+          "config" : {
+            "default_value" : true,
+            "label" : "Auto play"
+          }
+        },
+        "loop" : {
+          "type" : "Boolean",
+          "config" : {
+            "default_value" : true,
+            "label" : "Loop video"
+          }
+        },
+        "mute" : {
+          "type" : "Boolean",
+          "config" : {
+            "default_value" : true,
+            "label" : "Mute video"
+          }
+        },
+        "showControls" : {
+          "type" : "Boolean",
+          "config" : {
+            "default_value" : false,
+            "label" : "Show controls"
+          }
+        }
+      }
+    }
+  ]
+}

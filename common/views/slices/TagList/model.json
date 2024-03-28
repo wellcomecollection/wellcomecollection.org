@@ -1,0 +1,41 @@
+{
+  "id": "tagList",
+  "type": "SharedSlice",
+  "name": "TagList",
+  "description": "TagList",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading2",
+            "label": "Title"
+          }
+        }
+      },
+      "items": {
+        "link": {
+          "type": "Link",
+          "config": {
+            "label": "Link",
+            "select": "web",
+            "customtypes": []
+          }
+        },
+        "linkText": {
+          "type": "Text",
+          "config": {
+            "label": "Link text"
+          }
+        }
+      }
+    }
+  ]
+}
