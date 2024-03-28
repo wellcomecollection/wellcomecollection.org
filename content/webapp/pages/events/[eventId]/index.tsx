@@ -171,6 +171,9 @@ const EventPage: NextPage<EventProps> = ({
   const body = hasFeaturedVideo
     ? event.body.slice(1, event.body.length)
     : event.body;
+  const untransformedBody = hasFeaturedVideo
+    ? event.untransformedBody.slice(1, event.untransformedBody.length)
+    : event.untransformedBody;
   const eventFormat = event.format ? [{ text: event.format.title }] : [];
   const eventAudiences = event.audiences.map(a => ({ text: a.title }));
   const eventInterpretations = event.interpretations.map(i => ({
@@ -261,7 +264,13 @@ const EventPage: NextPage<EventProps> = ({
       <ContentPage
         id={event.id}
         Header={Header}
-        Body={<Body body={body} pageId={event.id} />}
+        Body={
+          <Body
+            untransformedBody={untransformedBody}
+            body={body}
+            pageId={event.id}
+          />
+        }
         seasons={event.seasons}
         // We hide contributors as we render them higher up the page on events
         hideContributors={true}

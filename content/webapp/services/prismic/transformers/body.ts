@@ -1,26 +1,28 @@
 import {
-  CollectionVenue as CollectionVenueSlice,
-  Contact as ContactSlice,
-  ContentList as ContentListSlice,
+  CollectionVenueSlice,
+  ContentListSlice,
   EditorialImageSlice,
   EditorialImageGallerySlice,
-  Embed as EmbedSlice,
-  Iframe as IframeSlice,
-  InfoBlock as InfoBlockSlice,
-  Map as MapSlice,
-  Quote as QuoteSlice,
-  QuoteV2 as QuoteV2Slice,
-  SearchResults as SearchResultsSlice,
-  Standfirst as StandfirstSlice,
-  TagList as TagListSlice,
+  EmbedSlice,
+  IframeSlice,
+  InfoBlockSlice,
+  MapSlice,
+  QuoteSlice,
+  QuoteV2Slice,
+  SearchResultsSlice,
+  StandfirstSlice,
+  TagListSlice,
   TextSlice,
-  TitledTextList as TitledTextListSlice,
+  TitledTextListSlice,
   GifVideoSlice,
-  AudioPlayer as AudioPlayerSlice,
-  Body,
+  AudioPlayerSlice,
   TextAndImageSlice,
   TextAndIconsSlice,
-} from '../types/body';
+} from '@weco/common/prismicio-types';
+import {
+  Body,
+  Contact as ContactSlice, // TODO Get this from prismicio-types (currently this causes typescript errors)
+} from '@weco/content/services/prismic/types/body'; // TODO remove once we've moved to using SliceZone component
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   isFilledLinkToDocumentWithData,
@@ -40,7 +42,7 @@ import {
   ContentListProps,
   Slice,
   Weight,
-} from '@weco/content/types/body';
+} from '@weco/content/types/body'; // TODO should we rename move these transformed types
 import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
 import { transformPage } from './pages';
 import { transformGuide } from './guides';
@@ -99,7 +101,9 @@ export function transformStandfirstSlice(
   };
 }
 
-function transformTextSlice(slice: TextSlice): BodySlice {
+function transformTextSlice(
+  slice: TextSlice
+): Slice<'text', prismic.RichTextField> {
   return {
     type: 'text',
     weight: getWeight(slice.slice_label),
@@ -452,6 +456,7 @@ export function transformContentListSlice(
   };
 }
 
+// TODO remove once we've moved to using SliceZone component
 export function transformBody(body: Body): BodySlice[] {
   return body
     .map(slice => {

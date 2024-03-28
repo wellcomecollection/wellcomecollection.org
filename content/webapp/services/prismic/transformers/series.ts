@@ -1,5 +1,7 @@
+import * as prismic from '@prismicio/client';
 import { Series, SeriesBasic } from '../../../types/series';
 import { SeriesPrismicDocument } from '../types/series';
+import { StandfirstSlice } from '@weco/common/prismicio-types';
 import { asTitle, transformGenericFields, transformSingleLevelGroup } from '.';
 import { transformSeason } from './seasons';
 import { ArticleScheduleItem } from '../../../types/article-schedule-items';
@@ -13,6 +15,10 @@ export function transformSeries(document: SeriesPrismicDocument): Series {
   const { data } = document;
   const genericFields = transformGenericFields(document);
   const standfirst = genericFields.standfirst || undefined;
+  const untransformedBody = data.body || [];
+  const untransformedStandfirst = untransformedBody.find(
+    (slice: prismic.Slice) => slice.slice_type === 'standfirst'
+  ) as StandfirstSlice | undefined;
   const color = getSeriesColor(data.color || undefined);
   const schedule: ArticleScheduleItem[] = data.schedule
     ? (data.schedule
@@ -44,6 +50,7 @@ export function transformSeries(document: SeriesPrismicDocument): Series {
     labels,
     schedule,
     standfirst,
+    untransformedStandfirst,
     color,
     items: [],
     seasons,

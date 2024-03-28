@@ -58,6 +58,7 @@ export const bannerCardItem: Season = {
   type: 'seasons',
   id: 'bannerCardItem',
   body: [],
+  untransformedBody: [],
   labels: [],
   title: 'What does it mean to be human, now?',
   start: new Date('2021-01-05T00:00:00.000Z'),
@@ -363,6 +364,7 @@ export const event: Event = {
   audiences: [],
   availableOnline: true,
   body: [],
+  untransformedBody: [],
   bookingInformation: null,
   bookingType: 'First come, first served',
   contributors: [],
@@ -416,6 +418,7 @@ export const event: Event = {
       id: 'WoLtUioAACkANrUM',
       title: 'Viewing Room',
       body: [],
+      untransformedBody: [],
       labels: [],
       level: 2,
       capacity: 20,
@@ -650,6 +653,7 @@ export const article: Article = {
       },
     },
   ],
+  untransformedBody: [],
   promo: {
     caption: 'Do you have any dark clouds following you?',
     image: {
@@ -748,6 +752,7 @@ export const article: Article = {
         },
       ],
       body: [],
+      untransformedBody: [],
       standfirst: null,
       promo: {
         caption: '',

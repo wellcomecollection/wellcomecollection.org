@@ -37,6 +37,7 @@ const season: Season = {
     },
   },
   body: [],
+  untransformedBody: [],
   type: 'seasons',
 };
 

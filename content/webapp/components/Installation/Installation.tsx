@@ -81,7 +81,13 @@ const Installation: FunctionComponent<Props> = ({ installation }) => {
     <ContentPage
       id={installation.id}
       Header={Header}
-      Body={<Body body={installation.body} pageId={installation.id} />}
+      Body={
+        <Body
+          untransformedBody={installation.untransformedBody}
+          body={installation.body}
+          pageId={installation.id}
+        />
+      }
       seasons={installation.seasons}
       contributors={installation.contributors}
     >

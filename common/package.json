@@ -31,6 +31,7 @@
     "@types/uuid": "^9.0.1",
     "@weco/toggles": "1.0.0",
     "babel-core": "^7.0.0-bridge.0",
+    "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-jest": "^29.5.0",
     "babel-plugin-styled-components": "^2.1.4",
     "cookies-next": "^4.1.1",
