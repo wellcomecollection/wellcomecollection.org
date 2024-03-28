@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 import * as prismic from '@prismicio/client';
 import { isUndefined } from '@weco/common/utils/type-guards';
+import sliceMachineConfig from '@weco/common/slicemachine.config.json';
 
 export function createClient(): prismic.Client {
   // We use an access token for Prismic in prod to avoid certain classes of
@@ -26,7 +27,11 @@ export function createClient(): prismic.Client {
   }
 
   const endpoint = prismic.getRepositoryEndpoint('wellcomecollection');
-  const client = prismic.createClient(endpoint, { fetch, accessToken });
+  const client = prismic.createClient(endpoint, {
+    fetch,
+    accessToken,
+    ...sliceMachineConfig,
+  });
 
   return client;
 }

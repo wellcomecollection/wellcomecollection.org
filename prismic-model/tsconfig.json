@@ -1,7 +1,8 @@
-{ 
+{
   "compilerOptions": {
     // This is for lodash
     "esModuleInterop": true,
+    "resolveJsonModule": true
   },
   // This is for https://github.com/wellcomecollection/ts-aws
   "ts-node": {
