@@ -19,12 +19,13 @@ import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { Page } from '@weco/content/types/pages';
 import { EventSeries } from '@weco/content/types/event-series';
-import { Book } from '@weco/content/types/books';
+import { BookBasic } from '@weco/content/types/books';
 import { EventBasic } from '@weco/content/types/events';
 import { Guide } from '@weco/content/types/guides';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import DateRange from '@weco/content/components/DateRange/DateRange';
+import { SeriesBasic } from '@weco/content/types/series';
 
 type PartialFeaturedCard = {
   image?: ImageType;
@@ -63,7 +64,8 @@ export function convertItemToFeaturedCardProps(
     | Season
     | Page
     | EventSeries
-    | Book
+    | BookBasic
+    | SeriesBasic
     | EventBasic
     | Guide
 ): PartialFeaturedCard {
