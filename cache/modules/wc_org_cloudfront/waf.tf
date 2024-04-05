@@ -302,6 +302,40 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  rule {
+    name     = "google-other-rate-limit"
+    priority = 8
+
+    action {
+      block {
+        custom_response {
+          response_code = 429
+        }
+      }
+    }
+
+    statement {
+      rate_based_statement {
+        limit                 = 1500
+        evaluation_window_sec = 60
+        aggregate_key_type    = "CONSTANT"
+
+        scope_down_statement {
+          label_match_statement {
+            scope = "LABEL"
+            key   = "aws:bot-control:bot:name:google_other"
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "weco-cloudfront-acl-google-other-rate-limit-${var.namespace}"
+    }
+  }
+
   visibility_config {
     cloudwatch_metrics_enabled = true
     sampled_requests_enabled   = true
