@@ -373,7 +373,7 @@ const Body: FunctionComponent<Props> = ({
       {!sliceMachine &&
         filteredBody.map((slice, i) => (
           <Fragment key={i}>
-            {/* If the first slice is featured text we display it any static content, i.e. <AdditionalContent /> */}
+            {/* If the first slice is featured text we display it and any static content, i.e. <AdditionalContent /> */}
             {i === 0 &&
               slice.type === 'text' &&
               slice.weight === 'featured' && (
