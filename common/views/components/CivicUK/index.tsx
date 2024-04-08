@@ -1,14 +1,31 @@
 import cookies from '@weco/common/data/cookies';
+import theme from '@weco/common/views/themes/default';
+import { font } from '@weco/common/utils/classnames';
 
+// Notes for designing chat
+// font-size-headers won't be responsive, but it's the only way otherwise it gets overwritten
+// Only one background color can be set for accept button (same in notify and popup)
+// Toggle can't change border color, has to be same as background-color
 const branding = {
   removeIcon: true,
   removeAbout: true,
   fontFamily: 'Inter, sans-serif',
+  fontSizeHeaders: '20px',
+  fontColor: theme.color('black'),
+  backgroundColor: theme.color('warmNeutral.200'),
+  acceptText: theme.color('black'),
+  acceptBackground: theme.color('yellow'),
+  rejectText: theme.color('black'),
+  toggleColor: theme.color('black'),
+  toggleBackground: theme.color('neutral.300'),
 };
 
+// Notes for designing chat
+// Notify title font-size is being overwritten
 const text = {
-  title: 'Manage cookies',
-  intro: '',
+  title: `<h1 class="${font('intb', 2)}">Manage cookies</h1>`,
+  intro:
+    "We use cookies to make our website work. To help us make our marketing and website better, we'd like your consent to use cookies on behalf of third parties too.",
   necessaryTitle: 'Essential cookies',
   necessaryDescription:
     'These cookies are necessary for our website to function and therefore always need to be on.',
@@ -27,11 +44,10 @@ const text = {
 // Cookie Control will invalidate prior records of consent and seek the user's preferences using the latest information available.
 // https://www.civicuk.com/cookie-control/documentation/cookies
 const statement = {
-  description:
-    "We use cookies to make our website work. To help us make our marketing and website better, we'd like your consent to use cookies on behalf of third parties too.",
-  name: 'Find out more in our privacy policy',
-  url: 'https://wellcome.org/who-we-are/privacy-and-terms',
-  updated: '25/05/2018',
+  description: 'You can read more about how we use cookies in our',
+  name: 'Privacy policy',
+  url: 'https://wellcome.org/who-we-are/privacy-and-terms', // TODO https://github.com/wellcomecollection/wellcomecollection.org/issues/10706
+  updated: '25/05/2018', // TODO as part of https://github.com/wellcomecollection/wellcomecollection.org/issues/10706
 };
 
 // Define all necessary cookies here and document their usage a little.
@@ -46,7 +62,10 @@ const necessaryCookies = () => {
   // See @weco/toggles/webapp/toggles for details on each
   const featureFlags = ['toggle_*'];
 
-  return [...wcCookies, ...prismicPreview, ...featureFlags];
+  // Digirati auth related
+  const digiratiCookies = ['dlcs-*'];
+
+  return [...wcCookies, ...prismicPreview, ...featureFlags, ...digiratiCookies];
 };
 
 type Props = {
@@ -67,6 +86,7 @@ const CivicUK = (props: Props) => (
             product: 'pro',
             initialState: 'notify',
             layout: 'popup',
+            theme: 'light',
             setInnerHTML: true,
             closeStyle: 'button',
             settingsStyle: 'button',
