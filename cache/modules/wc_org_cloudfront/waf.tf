@@ -316,14 +316,16 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
     statement {
       rate_based_statement {
-        limit                 = 1500
+        limit                 = 1000
         evaluation_window_sec = 60
         aggregate_key_type    = "CONSTANT"
 
         scope_down_statement {
           label_match_statement {
             scope = "LABEL"
-            key   = "aws:bot-control:bot:name:google_other"
+            # Noting the namespace prefix as per
+            # https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html#aws-managed-rule-groups-bot-labels-rg
+            key = "awswaf:managed:aws:bot-control:bot:name:google_other"
           }
         }
       }
