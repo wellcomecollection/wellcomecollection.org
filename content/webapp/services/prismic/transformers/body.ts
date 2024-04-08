@@ -42,7 +42,7 @@ import {
   ContentListProps,
   Slice,
   Weight,
-} from '@weco/content/types/body'; // TODO should we rename move these transformed types
+} from '@weco/content/types/body';
 import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
 import { transformPage } from './pages';
 import { transformGuide } from './guides';
