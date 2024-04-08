@@ -51,7 +51,7 @@ import {
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import Standfirst from '@weco/common/views/slices/Standfirst/index';
+import Standfirst from '@weco/common/views/slices/Standfirst';
 import { StandfirstSlice } from '@weco/common/prismicio-types';
 import { useToggles } from '@weco/common/server-data/Context';
 

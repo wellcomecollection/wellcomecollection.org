@@ -42,7 +42,7 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { useToggles } from '@weco/common/server-data/Context';
-import Standfirst from '@weco/common/views/slices/Standfirst/index';
+import Standfirst from '@weco/common/views/slices/Standfirst';
 
 const ContentTypeWrapper = styled.div`
   display: flex;

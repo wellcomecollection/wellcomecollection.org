@@ -20,7 +20,7 @@ import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { capitalize } from '@weco/common/utils/grammar';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { useToggles } from '@weco/common/server-data/Context';
-import Standfirst from '@weco/common/views/slices/Standfirst/index';
+import Standfirst from '@weco/common/views/slices/Standfirst';
 
 type Props = {
   visualStory: VisualStory;

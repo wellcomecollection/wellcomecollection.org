@@ -42,7 +42,7 @@ import ArticleCard from '@weco/content/components/ArticleCard/ArticleCard';
 import ArticleScheduleItemCard from '@weco/content/components/ArticleScheduleItemCard';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { useToggles } from '@weco/common/server-data/Context';
-import Standfirst from '@weco/common/views/slices/Standfirst/index';
+import Standfirst from '@weco/common/views/slices/Standfirst';
 
 const SeriesItem = styled.div<{ $isFirst: boolean }>`
   border-top: ${props =>
