@@ -20,10 +20,10 @@ const VolumeWrapper = styled(Space).attrs({
   }
 `;
 
-type MuteUnmuteButtonProps = { $isMuted: boolean; ariaPressed?: boolean };
+type MuteUnmuteButtonProps = { $isMuted: boolean };
 const MuteUnmuteButton = styled.button.attrs<MuteUnmuteButtonProps>(
   ({ $isMuted }) => ({
-    ariaPressed: $isMuted,
+    'aria-pressed': $isMuted,
   })
 )`
   padding: 0;
