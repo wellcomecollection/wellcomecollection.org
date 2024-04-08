@@ -64,11 +64,13 @@ const createCookie = (name: string) => {
 const acceptCookieCookie = createCookie('WC_cookiesAccepted');
 const stageApiToggleCookie = createCookie('toggle_stagingApi');
 
+const sliceMachineToggleCookie = createCookie('toggle_sliceMachine');
+
 // TODO: context.addCookies should run for the first test of a suite (even on beforeAll/beforeEach)
 
 const requiredCookies = useStageApis
-  ? [acceptCookieCookie, stageApiToggleCookie]
-  : [acceptCookieCookie];
+  ? [acceptCookieCookie, stageApiToggleCookie, sliceMachineToggleCookie]
+  : [acceptCookieCookie, sliceMachineToggleCookie];
 
 const multiVolumeItem = async (
   context: BrowserContext,
