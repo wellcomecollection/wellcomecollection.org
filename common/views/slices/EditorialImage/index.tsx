@@ -23,6 +23,8 @@ const EditorialImageSlice: FunctionComponent<EditorialImageSliceProps> = ({
   const transformedSlice = transformEditorialImageSlice(slice);
 
   const options = { ...defaultContext, context };
+  // TODO: use one layout for all image weights if/when it's established
+  // that width isn't an adequate means to illustrate a difference
   return (
     <SpacingComponent $sliceType={transformedSlice.type}>
       {transformedSlice.weight === 'default' && (

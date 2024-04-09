@@ -7,7 +7,7 @@ import {
   defaultSerializer,
   dropCapSerializer,
 } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
-import SpacingComponent from '../../components/styled/SpacingComponent';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
   LayoutWidth,
   defaultContext,

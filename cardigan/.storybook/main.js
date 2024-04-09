@@ -49,6 +49,14 @@ module.exports = {
       },
     });
 
+    config.resolve.fallback = {
+      stream: require.resolve('stream-browserify'),
+      path: require.resolve('path-browserify'),
+      crypto: require.resolve('crypto-browserify'),
+      fs: require.resolve('browserify-fs'),
+      zlib: require.resolve('browserify-zlib'),
+    };
+
     return config;
   },
 };

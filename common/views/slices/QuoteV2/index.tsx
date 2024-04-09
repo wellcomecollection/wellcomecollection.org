@@ -1,3 +1,3 @@
-import QuoteSlice from '@weco/common/views/slices/Quote/index';
+import QuoteSlice from '@weco/common/views/slices/Quote';
 
 export default QuoteSlice;
