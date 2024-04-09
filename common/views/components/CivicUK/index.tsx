@@ -37,7 +37,7 @@ const text = {
   notifyTitle: `<span ${notifyTitleStyles}>Our website uses cookies</span>`,
   notifyDescription:
     "We use cookies to make our website work. To help us make our marketing and website better, we'd like your consent to use cookies on behalf of third parties too.",
-  closeLabel: 'Save and close',
+  closeLabel: '<span style="font-weight: normal;">Save and close</span>',
   settings: 'Manage cookies',
   accept: 'Accept all',
   acceptSettings: 'Accept all',
