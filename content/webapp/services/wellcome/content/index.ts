@@ -28,5 +28,7 @@ export async function contentQuery<Params, Result extends ResultType>(
 
   const url = `${rootUris[apiOptions.env]}/v0/${endpoint}?${searchParams}`;
 
-  return wellcomeApiQuery(url);
+  return wellcomeApiQuery(url) as unknown as
+    | ContentResultsList<Result>
+    | WellcomeApiError;
 }
