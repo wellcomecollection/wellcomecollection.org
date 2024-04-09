@@ -55,9 +55,14 @@ export type UnidentifiedBucketData = {
   type: string;
 };
 
+export type BooleanBucketData = UnidentifiedBucketData & {
+  value: boolean;
+};
+
 export type WellcomeAggregation<
   BucketData extends
     | IdentifiedBucketData
+    | BooleanBucketData
     | UnidentifiedBucketData = IdentifiedBucketData,
 > = {
   buckets: {
@@ -123,7 +128,7 @@ export type WellcomeApiError = {
 export const wellcomeApiQuery = async (url: string) => {
   try {
     const res = await wellcomeApiFetch(url);
-    const json = await res.json();
+    const json = (await res.json()) as { type: string; httpStatus: number };
 
     // In general we want to know about errors from the catalogue API, but
     // HTTP 414 URI Too Long isn't interesting -- it's usually a sign of an

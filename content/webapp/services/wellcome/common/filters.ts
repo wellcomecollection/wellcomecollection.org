@@ -627,16 +627,40 @@ const eventsAudienceFilter = ({
   }),
 });
 
+const eventsLocationFilter = ({
+  events,
+  props,
+}: EventsFilterProps): CheckboxFilter<keyof EventsProps> => ({
+  type: 'checkbox',
+  id: 'location',
+  label: 'Locations',
+  options: filterOptionsWithNonAggregates({
+    options: events?.aggregations?.location?.buckets.map(bucket => ({
+      id: bucket.data.id,
+      value: bucket.data.id,
+      count: bucket.count,
+      label: bucket.data.label,
+      selected: props.location.includes(bucket.data.id),
+    })),
+    selectedValues: props.location,
+  }),
+});
+
 const eventsIsAvailableOnlineFilter = ({
   events,
   props,
-}: EventsFilterProps): BooleanFilter<keyof EventsProps> => ({
-  type: 'boolean',
-  id: 'isAvailableOnline',
-  label: 'Catch-up events only',
-  count: events?.aggregations?.isAvailableOnline?.buckets?.[1]?.count || 0,
-  isSelected: !!props.isAvailableOnline,
-});
+}: EventsFilterProps): BooleanFilter<keyof EventsProps> => {
+  const isAvailableOnlineTrueBucket =
+    events?.aggregations?.isAvailableOnline.buckets.find(b => b.data.value);
+
+  return {
+    type: 'boolean',
+    id: 'isAvailableOnline',
+    label: 'Catch-up events only',
+    count: isAvailableOnlineTrueBucket?.count || 0,
+    isSelected: !!props.isAvailableOnline,
+  };
+};
 
 // TODO re-add when https://github.com/wellcomecollection/content-api/issues/106 is done
 // const eventsInterpretationFilter = ({
@@ -697,6 +721,7 @@ const eventsFilters: (
   [
     eventsFormatFilter,
     eventsAudienceFilter,
+    eventsLocationFilter,
     eventsIsAvailableOnlineFilter,
     // TODO re-add when https://github.com/wellcomecollection/content-api/issues/106 is done
     // eventsInterpretationFilter

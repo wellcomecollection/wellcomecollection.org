@@ -4,6 +4,7 @@ import { Props as WhatsOnProps } from '../pages/whats-on';
 const beingHuman: Exhibition = {
   id: 'XNFfsxAAANwqbNWD',
   title: 'Being Human',
+  untransformedBody: [],
   body: [
     {
       type: 'quote',
@@ -1152,6 +1153,7 @@ const beingHuman: Exhibition = {
     id: 'Wn1gdSoAACgAH_-x',
     title: 'Being Human gallery',
     body: [],
+    untransformedBody: [],
     labels: [],
     level: 1,
     information: [

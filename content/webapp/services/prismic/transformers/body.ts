@@ -1,27 +1,28 @@
 import {
-  CollectionVenue as CollectionVenueSlice,
-  Contact as ContactSlice,
-  ContentList as ContentListSlice,
+  CollectionVenueSlice,
+  ContentListSlice,
   EditorialImageSlice,
   EditorialImageGallerySlice,
-  Embed as EmbedSlice,
-  Iframe as IframeSlice,
-  InfoBlock as InfoBlockSlice,
-  Map as MapSlice,
-  Quote as QuoteSlice,
-  QuoteV2 as QuoteV2Slice,
-  SearchResults as SearchResultsSlice,
-  Standfirst as StandfirstSlice,
-  TagList as TagListSlice,
+  EmbedSlice,
+  IframeSlice,
+  InfoBlockSlice,
+  MapSlice,
+  QuoteSlice,
+  QuoteV2Slice,
+  SearchResultsSlice,
+  StandfirstSlice,
+  TagListSlice,
   TextSlice,
-  TitledTextList as TitledTextListSlice,
+  TitledTextListSlice,
   GifVideoSlice,
-  AudioPlayer as AudioPlayerSlice,
-  Body,
+  AudioPlayerSlice,
   TextAndImageSlice,
   TextAndIconsSlice,
-} from '../types/body';
-import { Props as ContactProps } from '@weco/content/components/Contact/Contact';
+} from '@weco/common/prismicio-types';
+import {
+  Body,
+  Contact as ContactSlice, // TODO Get this from prismicio-types (currently this causes typescript errors)
+} from '@weco/content/services/prismic/types/body'; // TODO remove once we've moved to using SliceZone component
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   isFilledLinkToDocumentWithData,
@@ -30,13 +31,18 @@ import {
 import { TeamPrismicDocument } from '../types/teams';
 import { transformCaptionedImage } from './images';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
-import { asRichText, transformLabelType, asTitle, asText } from '.';
+import { asRichText, asTitle, asText } from '.';
 import {
   transformLink,
   transformTaslFromString,
 } from '@weco/common/services/prismic/transformers';
 import * as prismic from '@prismicio/client';
-import { BodySlice, Weight } from '../../../types/body';
+import {
+  BodySlice,
+  ContentListProps,
+  Slice,
+  Weight,
+} from '@weco/content/types/body';
 import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
 import { transformPage } from './pages';
 import { transformGuide } from './guides';
@@ -51,6 +57,24 @@ import {
   getVimeoEmbedUrl,
   getYouTubeEmbedUrl,
 } from './embeds';
+import { AudioPlayerProps } from '@weco/content/components/AudioPlayer/AudioPlayer';
+import { Props as QuoteProps } from '@weco/content/components/Quote/Quote';
+import { CaptionedImageProps } from '@weco/content/components/CaptionedImage/CaptionedImage';
+import { Props as ImageGalleryProps } from '@weco/content/components/ImageGallery';
+import { Props as ContactProps } from '@weco/content/components/Contact/Contact';
+import { Props as MapProps } from '@weco/content/components/Map/Map';
+import { Props as GifVideoProps } from '@weco/content/components/GifVideo/GifVideo';
+import { Props as InfoBlockProps } from '@weco/content/components/InfoBlock/InfoBlock';
+import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
+import { Props as TagListProps } from '@weco/content/components/TagsGroup/TagsGroup';
+import { Props as EmbedProps } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
+import {
+  TextAndImageItem,
+  TextAndIconsItem,
+} from '@weco/content/components/TextAndImageOrIcons';
+import { Props as TitledTextListProps } from '@weco/content/components/TitledTextList/TitledTextList';
+import { Props as AsyncSearchResultsProps } from '@weco/content/components/SearchResults/AsyncSearchResults';
+import { Venue } from '@weco/common/model/opening-hours';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -67,7 +91,9 @@ export function getWeight(weight: string | null): Weight {
   }
 }
 
-function transformStandfirstSlice(slice: StandfirstSlice): BodySlice {
+export function transformStandfirstSlice(
+  slice: StandfirstSlice
+): Slice<'standfirst', prismic.RichTextField> {
   return {
     type: 'standfirst',
     weight: getWeight(slice.slice_label),
@@ -75,7 +101,9 @@ function transformStandfirstSlice(slice: StandfirstSlice): BodySlice {
   };
 }
 
-function transformTextSlice(slice: TextSlice): BodySlice {
+function transformTextSlice(
+  slice: TextSlice
+): Slice<'text', prismic.RichTextField> {
   return {
     type: 'text',
     weight: getWeight(slice.slice_label),
@@ -83,7 +111,9 @@ function transformTextSlice(slice: TextSlice): BodySlice {
   };
 }
 
-function transformTextAndImage(slice: TextAndImageSlice): BodySlice {
+export function transformTextAndImage(
+  slice: TextAndImageSlice
+): Slice<'textAndImage', TextAndImageItem> {
   return {
     type: 'textAndImage',
     value: {
@@ -96,7 +126,9 @@ function transformTextAndImage(slice: TextAndImageSlice): BodySlice {
   };
 }
 
-function transformTextAndIcons(slice: TextAndIconsSlice): BodySlice {
+export function transformTextAndIcons(
+  slice: TextAndIconsSlice
+): Slice<'textAndIcons', TextAndIconsItem> {
   return {
     type: 'textAndIcons',
     value: {
@@ -108,7 +140,7 @@ function transformTextAndIcons(slice: TextAndIconsSlice): BodySlice {
   };
 }
 
-function transformMapSlice(slice: MapSlice): BodySlice {
+export function transformMapSlice(slice: MapSlice): Slice<'map', MapProps> {
   return {
     type: 'map',
     value: {
@@ -132,7 +164,9 @@ function transformTeamToContact(team: TeamPrismicDocument): ContactProps {
   };
 }
 
-function transformContactSlice(slice: ContactSlice): BodySlice | undefined {
+export function transformContactSlice(
+  slice: ContactSlice
+): Slice<'contact', ContactProps> | undefined {
   return isFilledLinkToDocumentWithData(slice.primary.content)
     ? {
         type: 'contact',
@@ -141,7 +175,9 @@ function transformContactSlice(slice: ContactSlice): BodySlice | undefined {
     : undefined;
 }
 
-function transformEditorialImageSlice(slice: EditorialImageSlice): BodySlice {
+export function transformEditorialImageSlice(
+  slice: EditorialImageSlice
+): Slice<'picture', CaptionedImageProps> {
   return {
     weight: getWeight(slice.slice_label),
     type: 'picture',
@@ -149,9 +185,9 @@ function transformEditorialImageSlice(slice: EditorialImageSlice): BodySlice {
   };
 }
 
-function transformEditorialImageGallerySlice(
+export function transformEditorialImageGallerySlice(
   slice: EditorialImageGallerySlice
-): BodySlice {
+): Slice<'imageGallery', ImageGalleryProps> {
   return {
     type: 'imageGallery',
     value: {
@@ -163,7 +199,9 @@ function transformEditorialImageGallerySlice(
   };
 }
 
-function transformGifVideoSlice(slice: GifVideoSlice): BodySlice | undefined {
+export function transformGifVideoSlice(
+  slice: GifVideoSlice
+): Slice<'gifVideo', GifVideoProps> | undefined {
   const playbackRate = slice.primary.playbackRate
     ? parseFloat(slice.primary.playbackRate)
     : 1;
@@ -193,25 +231,21 @@ function transformTitledTextItem({
   title,
   text,
   link,
-  label,
 }: {
   title: prismic.RichTextField;
   text: prismic.RichTextField;
   link: prismic.LinkField;
-  label: prismic.ContentRelationshipField<'labels'>;
 }) {
   return {
     title: asTitle(title),
     text: asRichText(text),
     link: transformLink(link),
-    label: isFilledLinkToDocumentWithData(label)
-      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        transformLabelType(label as any)
-      : undefined,
   };
 }
 
-function transformTitledTextListSlice(slice: TitledTextListSlice): BodySlice {
+export function transformTitledTextListSlice(
+  slice: TitledTextListSlice
+): Slice<'titledTextList', TitledTextListProps> {
   return {
     type: 'titledTextList',
     value: {
@@ -220,7 +254,9 @@ function transformTitledTextListSlice(slice: TitledTextListSlice): BodySlice {
   };
 }
 
-function transformInfoBlockSlice(slice: InfoBlockSlice): BodySlice {
+export function transformInfoBlockSlice(
+  slice: InfoBlockSlice
+): Slice<'infoBlock', InfoBlockProps> {
   return {
     type: 'infoBlock',
     value: {
@@ -235,7 +271,9 @@ function transformInfoBlockSlice(slice: InfoBlockSlice): BodySlice {
   };
 }
 
-function transformIframeSlice(slice: IframeSlice): BodySlice {
+export function transformIframeSlice(
+  slice: IframeSlice
+): Slice<'iframe', IframeProps> {
   return {
     type: 'iframe',
     weight: getWeight(slice.slice_label),
@@ -248,7 +286,9 @@ function transformIframeSlice(slice: IframeSlice): BodySlice {
   };
 }
 
-function transformQuoteSlice(slice: QuoteSlice | QuoteV2Slice): BodySlice {
+export function transformQuoteSlice(
+  slice: QuoteSlice | QuoteV2Slice
+): Slice<'quote', QuoteProps> {
   return {
     type: 'quote',
     weight: getWeight(slice.slice_label),
@@ -261,7 +301,9 @@ function transformQuoteSlice(slice: QuoteSlice | QuoteV2Slice): BodySlice {
   };
 }
 
-function transformTagListSlice(slice: TagListSlice): BodySlice {
+export function transformTagListSlice(
+  slice: TagListSlice
+): Slice<'tagList', TagListProps> {
   return {
     type: 'tagList',
     value: {
@@ -277,7 +319,9 @@ function transformTagListSlice(slice: TagListSlice): BodySlice {
   };
 }
 
-function transformAudioPlayerSlice(slice: AudioPlayerSlice): BodySlice {
+export function transformAudioPlayerSlice(
+  slice: AudioPlayerSlice
+): Slice<'audioPlayer', AudioPlayerProps> {
   return {
     type: 'audioPlayer',
     value: {
@@ -288,7 +332,9 @@ function transformAudioPlayerSlice(slice: AudioPlayerSlice): BodySlice {
   };
 }
 
-function transformSearchResultsSlice(slice: SearchResultsSlice): BodySlice {
+export function transformSearchResultsSlice(
+  slice: SearchResultsSlice
+): Slice<'searchResults', AsyncSearchResultsProps> {
   return {
     type: 'searchResults',
     weight: getWeight(slice.slice_label),
@@ -299,9 +345,11 @@ function transformSearchResultsSlice(slice: SearchResultsSlice): BodySlice {
   };
 }
 
-function transformCollectionVenueSlice(
+export function transformCollectionVenueSlice(
   slice: CollectionVenueSlice
-): BodySlice | undefined {
+):
+  | Slice<'collectionVenue', { content: Venue; showClosingTimes: boolean }>
+  | undefined {
   return isFilledLinkToDocumentWithData(slice.primary.content)
     ? {
         type: 'collectionVenue',
@@ -315,7 +363,12 @@ function transformCollectionVenueSlice(
     : undefined;
 }
 
-export function transformEmbedSlice(slice: EmbedSlice): BodySlice | undefined {
+export function transformEmbedSlice(
+  slice: EmbedSlice
+):
+  | Slice<'videoEmbed', EmbedProps>
+  | Slice<'soundcloudEmbed', EmbedProps>
+  | undefined {
   const embed = slice.primary.embed;
 
   if (embed.provider_name === 'Vimeo') {
@@ -355,7 +408,9 @@ export function transformEmbedSlice(slice: EmbedSlice): BodySlice | undefined {
   }
 }
 
-function transformContentListSlice(slice: ContentListSlice): BodySlice {
+export function transformContentListSlice(
+  slice: ContentListSlice
+): Slice<'contentList', ContentListProps> {
   // Tech debt, remove the as any and return it to a correct prismic type
   // will require a better understanding of how prismic types work
 
@@ -401,6 +456,7 @@ function transformContentListSlice(slice: ContentListSlice): BodySlice {
   };
 }
 
+// TODO remove once we've moved to using SliceZone component
 export function transformBody(body: Body): BodySlice[] {
   return body
     .map(slice => {

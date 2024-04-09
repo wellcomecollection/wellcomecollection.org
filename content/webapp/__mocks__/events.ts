@@ -15,6 +15,7 @@ export const location = {
   id: 'Wn1fvyoAACgAH_yG',
   title: 'Reading Room',
   body: [],
+  untransformedBody: [],
   labels: [],
   level: 2,
   information: [
@@ -49,6 +50,7 @@ const baseEvent: Event = {
     description: undefined,
   },
   body: [],
+  untransformedBody: [],
   image,
   hasEarlyRegistration: false,
   labels: [

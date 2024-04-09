@@ -19,7 +19,7 @@ test('A visual story with a related document provides navigation between them bo
 
   // Find "Visual Story" block and confirm the URL structure is correct
   const visualStoryBlock = page.getByRole('link', {
-    name: 'Visual story Explore information to help you plan and prepare for your visit',
+    name: 'Visual story Information to help you plan and prepare for your visit',
     exact: true,
   });
   await expect(visualStoryBlock).toBeVisible();

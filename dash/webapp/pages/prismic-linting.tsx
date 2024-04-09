@@ -27,11 +27,7 @@ const Index: FunctionComponent = () => {
         <title>Prismic linting dashboard</title>
       </Head>
       {resultsList && (
-        <div
-          style={{
-            fontFamily,
-          }}
-        >
+        <div style={{ fontFamily }}>
           <Header title="Prismic linting" />
           <div
             style={{

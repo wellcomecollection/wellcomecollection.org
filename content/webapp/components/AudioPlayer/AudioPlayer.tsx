@@ -19,10 +19,8 @@ const AudioPlayerWrapper = styled.figure`
 `;
 
 type PlayPauseButtonProps = { $isPlaying: boolean };
-const PlayPauseButton = styled.button.attrs<
-  PlayPauseButtonProps & { ariaPressed?: boolean }
->(props => ({
-  ariaPressed: props.$isPlaying,
+const PlayPauseButton = styled.button.attrs<PlayPauseButtonProps>(props => ({
+  'aria-pressed': props.$isPlaying,
 }))<PlayPauseButtonProps>`
   padding: 0;
 

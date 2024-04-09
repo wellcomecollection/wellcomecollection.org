@@ -13,6 +13,7 @@ import {
 } from 'react';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { searchLabelText } from '@weco/common/data/microcopy';
+import { useToggles } from '@weco/common/server-data/Context';
 
 type SearchCategory = 'overview' | 'works';
 
@@ -41,6 +42,7 @@ const SearchForm = ({
   const router = useRouter();
   const routerQuery = getQueryPropertyValue(router?.query?.query);
   const { link: searchLink } = useContext(SearchContext);
+  const { eventsSearch } = useToggles();
   const initialValue =
     routerQuery || searchLink.as.query?.query?.toString() || '';
   const [inputValue, setInputValue] = useState(initialValue);
@@ -71,7 +73,15 @@ const SearchForm = ({
         inputValue={inputValue}
         setInputValue={setInputValue}
         form={`search-form-${searchCategory}`}
-        placeholder={searchLabelText[searchCategory]}
+        placeholder={
+          searchLabelText[
+            searchCategory !== 'overview'
+              ? searchCategory
+              : eventsSearch
+              ? 'overviewToggle'
+              : 'overview'
+          ]
+        }
         inputRef={inputRef}
         location={location}
       />

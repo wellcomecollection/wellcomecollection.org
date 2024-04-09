@@ -25,7 +25,7 @@ class AsyncSearchResults extends Component<Props, State> {
       this.props.query
     );
 
-    this.setState({ items: multiContentQuery?.results || [] });
+    this.setState({ items: multiContentQuery?.results.filter(Boolean) || [] });
   }
 
   render(): ReactElement {

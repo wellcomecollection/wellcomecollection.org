@@ -226,6 +226,9 @@ export const Page: FunctionComponent<Props> = ({
   const body = hasFeaturedMedia
     ? page.body.slice(1, page.body.length)
     : page.body;
+  const untransformedBody = hasFeaturedMedia
+    ? page.untransformedBody.slice(1, page.untransformedBody.length)
+    : page.untransformedBody;
 
   const featuredMedia = featuredPicture ? (
     getFeaturedPictureWithTasl(featuredPicture)
@@ -364,6 +367,7 @@ export const Page: FunctionComponent<Props> = ({
         Header={Header}
         Body={
           <Body
+            untransformedBody={untransformedBody}
             body={body}
             pageId={page.id}
             onThisPage={page.onThisPage}
