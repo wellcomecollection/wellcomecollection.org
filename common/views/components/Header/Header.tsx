@@ -34,6 +34,7 @@ import MobileSignIn from './MobileSignIn';
 import HeaderSearch from './HeaderSearch';
 import { searchLabelText } from '@weco/common/data/microcopy';
 import { SiteSection } from '../PageLayout/PageLayout';
+import { useToggles } from '@weco/common/server-data/Context';
 
 const NoJSIconWrapper = styled.div`
   padding: 5px 8px 0;
@@ -103,6 +104,7 @@ const Header: FunctionComponent<Props> = ({
   const [searchDropdownIsActive, setSearchDropdownIsActive] = useState(false);
   const searchButtonRef = useRef<HTMLButtonElement>(null);
   const { isEnhanced } = useContext(AppContext);
+  const { eventsSearch } = useToggles();
 
   useEffect(() => {
     if (document && document.documentElement) {
@@ -185,7 +187,9 @@ const Header: FunctionComponent<Props> = ({
                               icon={searchDropdownIsActive ? cross : search}
                             />
                             <span className="visually-hidden">
-                              {searchLabelText.overview}
+                              {eventsSearch
+                                ? searchLabelText.overviewToggle
+                                : searchLabelText.overview}
                             </span>
                           </NoJSIconWrapper>
                         </NextLink>
