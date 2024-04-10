@@ -249,7 +249,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
                 </div>
               </h3>
               <OpeningHours>
-                {/* 
+                {/*
                   This will format the date of the exception as e.g. 'Saturday 1 October'.
 
                   The year is omitted because these periods are only displayed when they're

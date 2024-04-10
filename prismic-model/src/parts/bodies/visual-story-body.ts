@@ -47,7 +47,9 @@ export default {
       textAndImage: slice('Text and image', {
         description: 'Side-by-side',
         nonRepeat: {
-          text: multiLineText('Text', { extraTextOptions: ['heading3'] }),
+          text: multiLineText('Text', {
+            extraTextOptions: ['heading3', 'list-item'],
+          }),
           image: {
             type: 'Image',
             config: {

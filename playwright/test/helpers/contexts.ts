@@ -184,12 +184,17 @@ const newSearch = async (
     | 'stories'
     | 'events'
     | 'images'
-    | 'works' = 'overview'
+    | 'works' = 'overview',
+  behindToggle = false
 ): Promise<void> => {
-  await context.addCookies([
-    ...requiredCookies,
-    createCookie('toggle_eventsSearch'),
-  ]);
+  if (behindToggle) {
+    await context.addCookies([
+      ...requiredCookies,
+      createCookie('toggle_eventsSearch'),
+    ]);
+  } else {
+    await context.addCookies([...requiredCookies]);
+  }
 
   const searchUrl = `search${
     searchType === 'overview' ? `` : `/${searchType}`

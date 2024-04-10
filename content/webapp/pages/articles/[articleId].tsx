@@ -41,6 +41,8 @@ import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { useToggles } from '@weco/common/server-data/Context';
+import Standfirst from '@weco/common/views/slices/Standfirst';
 
 const ContentTypeWrapper = styled.div`
   display: flex;
@@ -163,6 +165,7 @@ const HTMLDateWrapper = styled.span.attrs({ className: font('intr', 6) })`
 
 const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
+  const { sliceMachine } = useToggles();
 
   useEffect(() => {
     async function setSeries() {
@@ -232,7 +235,17 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
 
   const ContentTypeInfo = (
     <>
-      {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
+      {article.standfirst && !sliceMachine && (
+        <PageHeaderStandfirst html={article.standfirst} />
+      )}
+      {article.untransformedStandfirst && sliceMachine && (
+        <Standfirst
+          slice={article.untransformedStandfirst}
+          index={0}
+          context={{}}
+          slices={[]}
+        />
+      )}
       <ContentTypeWrapper>
         <Space $v={{ size: 's', properties: ['margin-top'] }}>
           <ContentTypeText>
@@ -332,6 +345,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
         Header={Header}
         Body={
           <Body
+            untransformedBody={article.untransformedBody}
             body={article.body}
             comicPreviousNext={
               isComicFormat ? getComicPreviousNext() : undefined

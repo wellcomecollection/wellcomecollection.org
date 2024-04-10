@@ -192,7 +192,7 @@ const BaseControl: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
     'aria-expanded': ariaExpanded,
     'aria-pressed': ariaPressed,
     'data-gtm-trigger': dataGtmTrigger,
-    'tab-index': tabIndex,
+    tabIndex,
     $extraClasses: extraClasses,
     $colorScheme: colorScheme,
     onClick: handleClick,

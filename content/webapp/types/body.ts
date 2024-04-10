@@ -14,18 +14,21 @@ import {
   TextAndImageItem,
 } from '../components/TextAndImageOrIcons';
 import { AudioPlayerProps } from '@weco/content/components/AudioPlayer/AudioPlayer';
+
+import { ArticleBasic } from './articles';
+import { Book } from './books';
+import { EventBasic } from './events';
+import { EventSeries } from './event-series';
+import { ExhibitionBasic } from './exhibitions';
+import { Page } from './pages';
+import { Series, SeriesBasic } from './series';
+import { Guide } from './guides';
+import { Season } from './seasons';
+import { Card } from './card';
+
 import * as prismic from '@prismicio/client';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
 import { Venue } from '@weco/common/model/opening-hours';
-import { Page } from './pages';
-import { EventSeries } from './event-series';
-import { Book } from './books';
-import { EventBasic } from './events';
-import { Article } from './articles';
-import { Exhibition } from './exhibitions';
-import { Card } from './card';
-import { Season } from './seasons';
-import { Guide } from './guides';
 
 export type Weight =
   | 'default'
@@ -34,25 +37,10 @@ export type Weight =
   | 'supporting'
   | 'frames';
 
-type Slice<TypeName extends string, Value> = {
+export type Slice<TypeName extends string, Value> = {
   type: TypeName;
   weight?: Weight;
   value: Value;
-};
-
-type ContentList = {
-  title?: string;
-  items: (
-    | Page
-    | EventSeries
-    | Book
-    | EventBasic
-    | Article
-    | Exhibition
-    | Card
-    | Season
-    | Guide
-  )[];
 };
 
 export function isContentList(
@@ -79,6 +67,25 @@ export function isStandfirst(
   return slice.type === 'standfirst';
 }
 
+export type ContentListItems =
+  | Page
+  | EventSeries
+  | Book
+  | EventBasic
+  | ArticleBasic
+  | ExhibitionBasic
+  | Series
+  | SeriesBasic
+  | Guide
+  | Season;
+
+export type ContentListProps = {
+  title?: string | undefined;
+  summary?: string | undefined;
+  items: (ContentListItems | Card)[];
+  showPosition?: boolean | undefined;
+};
+
 export type BodySlice =
   | Slice<'standfirst', prismic.RichTextField>
   | Slice<'textAndImage', TextAndImageItem>
@@ -98,5 +105,5 @@ export type BodySlice =
   | Slice<'collectionVenue', { content: Venue; showClosingTimes: boolean }>
   | Slice<'videoEmbed', EmbedProps>
   | Slice<'soundcloudEmbed', EmbedProps>
-  | Slice<'contentList', ContentList>
+  | Slice<'contentList', ContentListProps>
   | Slice<'audioPlayer', AudioPlayerProps>;
