@@ -6,10 +6,7 @@ import Router from 'koa-router';
 import next from 'next';
 import { apmErrorMiddleware } from '@weco/common/services/apm/errorMiddleware';
 import { init as initServerData } from '@weco/common/server-data';
-import {
-  withCachedValues,
-  handleAllRoute,
-} from '@weco/common/koa-middleware/withCachedValues';
+import { handleAllRoute } from '@weco/common/koa-middleware/withCachedValues';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 import * as prismic from '@prismicio/client';
@@ -44,7 +41,6 @@ const appPromise = nextApp
     });
 
     koaApp.use(apmErrorMiddleware);
-    koaApp.use(withCachedValues);
 
     // Add a naive healthcheck endpoint for the load balancer
     router.get('/management/healthcheck', async ctx => {
@@ -70,10 +66,6 @@ const appPromise = nextApp
       const url = await client.resolvePreviewURL({
         linkResolver: retypedLinkResolver,
         defaultURL: '/',
-      });
-
-      ctx.cookies.set('isPreview', 'true', {
-        httpOnly: false,
       });
 
       ctx.redirect(url);
