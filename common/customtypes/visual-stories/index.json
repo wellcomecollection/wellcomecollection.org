@@ -155,7 +155,7 @@
                 "text": {
                   "type": "StructuredText",
                   "config": {
-                    "multi": "paragraph,hyperlink,strong,em,heading3",
+                    "multi": "paragrapch,hyperlink,strong,em,heading3,list-item",
                     "label": "Text"
                   }
                 },
@@ -182,7 +182,7 @@
                 "text": {
                   "type": "StructuredText",
                   "config": {
-                    "multi": "paragraph,hyperlink,strong,em,heading3",
+                    "multi": "paragraph,hyperlink,strong,em,heading3,list-item",
                     "label": "Text"
                   }
                 }
