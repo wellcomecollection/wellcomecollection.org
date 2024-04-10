@@ -243,122 +243,99 @@ const Body: FunctionComponent<Props> = ({
       featuredCardText: 'black',
     },
   ];
-  const AdditionalContent = ({
-    index,
-    sections = [],
-    isLanding = false,
-    staticContent,
-  }: {
-    index: number;
+
+  const LandingPageSections: FunctionComponent<{
     sections: ContentListSlice[];
-    isLanding: boolean;
-    staticContent: ReactElement | null;
-  }): ReactElement<Props> | null => {
-    if (index === 0) {
-      return (
-        <>
-          {staticContent}
-          {onThisPage && onThisPage.length > 2 && showOnThisPage && (
-            <SpacingComponent>
-              <LayoutWidth width={minWidth}>
-                <OnThisPageAnchors links={onThisPage} />
-              </LayoutWidth>
-            </SpacingComponent>
-          )}
-          {isLanding &&
-            sections.map((section, index) => {
-              const isFirst = index === 0;
-              const isLast = index === sections.length - 1;
-              const sectionTheme = sectionThemes[index % sectionThemes.length];
-              const hasFeatured = section.value.items.length === 1;
-              const firstItem = section.value.items?.[0];
-              const isCardType = firstItem?.type === 'card';
+  }> = ({ sections = [] }) => (
+    <>
+      {sections.map((section, index) => {
+        const isFirst = index === 0;
+        const isLast = index === sections.length - 1;
+        const sectionTheme = sectionThemes[index % sectionThemes.length];
+        const hasFeatured = section.value.items.length === 1;
+        const firstItem = section.value.items?.[0];
+        const isCardType = firstItem?.type === 'card';
 
-              const firstItemProps =
-                firstItem &&
-                (isCardType
-                  ? convertCardToFeaturedCardProps(firstItem)
-                  : convertItemToFeaturedCardProps(firstItem));
+        const firstItemProps =
+          firstItem &&
+          (isCardType
+            ? convertCardToFeaturedCardProps(firstItem)
+            : convertItemToFeaturedCardProps(firstItem));
 
-              const cardItems = hasFeatured
-                ? section.value.items.slice(1)
-                : section.value.items;
-              const featuredItem =
-                hasFeatured && firstItem ? (
-                  <FeaturedCard
-                    {...firstItemProps}
-                    background={sectionTheme.featuredCardBackground}
-                    textColor={sectionTheme.featuredCardText}
-                    isReversed={false}
-                  >
-                    <h3 className={font('wb', 2)}>{firstItem.title}</h3>
-                    {isCardType && firstItem.description && (
-                      <p className={font('intr', 5)}>{firstItem.description}</p>
-                    )}
-                    {'promo' in firstItem && firstItem.promo && (
-                      <p className={font('intr', 5)}>
-                        {firstItem.promo.caption}
-                      </p>
-                    )}
-                  </FeaturedCard>
-                ) : null;
+        const cardItems = hasFeatured
+          ? section.value.items.slice(1)
+          : section.value.items;
+        const featuredItem =
+          hasFeatured && firstItem ? (
+            <FeaturedCard
+              {...firstItemProps}
+              background={sectionTheme.featuredCardBackground}
+              textColor={sectionTheme.featuredCardText}
+              isReversed={false}
+            >
+              <h3 className={font('wb', 2)}>{firstItem.title}</h3>
+              {isCardType && firstItem.description && (
+                <p className={font('intr', 5)}>{firstItem.description}</p>
+              )}
+              {'promo' in firstItem && firstItem.promo && (
+                <p className={font('intr', 5)}>{firstItem.promo.caption}</p>
+              )}
+            </FeaturedCard>
+          ) : null;
 
-              const cards = cardItems.map((item, i) => {
-                const cardProps =
-                  item.type === 'card' ? item : convertItemToCardProps(item);
-                return <Card key={i} item={cardProps} />;
-              });
+        const cards = cardItems.map((item, i) => {
+          const cardProps =
+            item.type === 'card' ? item : convertItemToCardProps(item);
+          return <Card key={i} item={cardProps} />;
+        });
 
-              return (
-                <Fragment key={index}>
-                  {!isFirst && (
-                    <WobblyEdge
-                      backgroundColor={sectionTheme.rowBackground}
-                      isStatic
-                    />
-                  )}
-                  <Wrapper
-                    $v={{
-                      size: 'xl',
-                      properties:
-                        isLast && sectionTheme.rowBackground === 'white'
-                          ? ['padding-top']
-                          : isFirst && sectionTheme.rowBackground === 'white'
-                          ? ['padding-bottom']
-                          : ['padding-top', 'padding-bottom'],
-                    }}
-                    $cardBackgroundColor={sectionTheme.cardBackground}
-                    $rowBackgroundColor={sectionTheme.rowBackground}
-                  >
-                    {section.value.title && (
-                      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-                        <SectionHeader title={section.value.title} />
-                      </Space>
-                    )}
-                    {featuredItem && (
-                      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-                        <Layout gridSizes={gridSize12()}>{featuredItem}</Layout>
-                      </Space>
-                    )}
-                    {cards.length > 0 && (
-                      <GridFactory
-                        items={cards}
-                        overrideGridSizes={
-                          sectionLevelPage ? sectionLevelPageGrid : undefined
-                        }
-                      />
-                    )}
-                  </Wrapper>
-                  {!isLast && <WobblyEdge backgroundColor="white" isStatic />}
-                </Fragment>
-              );
-            })}
-        </>
-      );
-    } else {
-      return null;
-    }
-  };
+        return (
+          <Fragment key={index}>
+            {!isFirst && (
+              <WobblyEdge
+                backgroundColor={sectionTheme.rowBackground}
+                isStatic
+              />
+            )}
+            <Wrapper
+              $v={{
+                size: 'xl',
+                properties:
+                  isLast && sectionTheme.rowBackground === 'white'
+                    ? ['padding-top']
+                    : isFirst && sectionTheme.rowBackground === 'white'
+                    ? ['padding-bottom']
+                    : ['padding-top', 'padding-bottom'],
+              }}
+              $cardBackgroundColor={sectionTheme.cardBackground}
+              $rowBackgroundColor={sectionTheme.rowBackground}
+            >
+              {section.value.title && (
+                <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                  <SectionHeader title={section.value.title} />
+                </Space>
+              )}
+              {featuredItem && (
+                <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                  <Layout gridSizes={gridSize12()}>{featuredItem}</Layout>
+                </Space>
+              )}
+              {cards.length > 0 && (
+                <GridFactory
+                  items={cards}
+                  overrideGridSizes={
+                    sectionLevelPage ? sectionLevelPageGrid : undefined
+                  }
+                />
+              )}
+            </Wrapper>
+            {!isLast && <WobblyEdge backgroundColor="white" isStatic />}
+          </Fragment>
+        );
+      })}
+    </>
+  );
+
   const isShortFilm = contentType === 'short-film';
   const isVisualStory = contentType === 'visual-story';
 
@@ -389,14 +366,17 @@ const Body: FunctionComponent<Props> = ({
         </Layout>
       )}
 
-      {filteredBody.length < 1 && (
-        <AdditionalContent
-          index={0}
-          sections={sections}
-          isLanding={isLanding}
-          staticContent={staticContent}
-        />
+      {staticContent}
+
+      {onThisPage && onThisPage.length > 2 && showOnThisPage && (
+        <SpacingComponent>
+          <LayoutWidth width={minWidth}>
+            <OnThisPageAnchors links={onThisPage} />
+          </LayoutWidth>
+        </SpacingComponent>
       )}
+
+      {isLanding && <LandingPageSections sections={sections} />}
 
       {sliceMachine && (
         <SliceZone
@@ -417,14 +397,6 @@ const Body: FunctionComponent<Props> = ({
       {!sliceMachine &&
         filteredBody.map((slice, i) => (
           <Fragment key={i}>
-            {/* If the first slice is featured text we display it and any static content, i.e. <AdditionalContent /> */}
-            <AdditionalContent
-              index={i}
-              sections={sections}
-              isLanding={isLanding}
-              staticContent={staticContent}
-            />
-
             {slice.type === 'text' && (
               <SpacingComponent $sliceType={slice.type}>
                 <LayoutWidth width={minWidth}>
