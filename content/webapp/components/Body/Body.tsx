@@ -172,21 +172,21 @@ const Body: FunctionComponent<Props> = ({
   comicPreviousNext,
   contentType,
 }: Props) => {
+  const isFirstFeaturedTextSliceFromBody = (slice, i) =>
+    i === 0 && slice.type === 'text' && slice.weight === 'featured';
+  const isFirstFeaturedTextSliceFromUntransformedBody = (slice, i) =>
+    i === 0 && slice.slice_type === 'text' && slice.slice_label === 'featured';
+
   const { sliceMachine } = useToggles();
   const featuredTextFromBody = body.find(
-    (slice, i) =>
-      i === 0 && slice.type === 'text' && slice.weight === 'featured'
+    isFirstFeaturedTextSliceFromBody
   ) as Slice<'text', prismic.RichTextField>;
   const featuredTextFromUntransformedBody = untransformedBody.find(
-    (slice, i) =>
-      i === 0 && slice.slice_type === 'text' && slice.slice_label === 'featured'
+    isFirstFeaturedTextSliceFromUntransformedBody
   ) as prismic.Slice<'text', { text: prismic.RichTextField }>;
 
   const filteredBody = body
-    .filter(
-      (slice, i) =>
-        !(i === 0 && slice.type === 'text' && slice.weight === 'featured')
-    )
+    .filter((slice, i) => !isFirstFeaturedTextSliceFromBody(slice, i))
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
     // The standfirst is now put into the header
     // and used exclusively by articles / article series
@@ -194,12 +194,7 @@ const Body: FunctionComponent<Props> = ({
 
   const filteredUntransformedBody = untransformedBody
     .filter(
-      (slice, i) =>
-        !(
-          i === 0 &&
-          slice.slice_type === 'text' &&
-          slice.slice_label === 'featured'
-        )
+      (slice, i) => !isFirstFeaturedTextSliceFromUntransformedBody(slice, i)
     )
     .filter(
       slice =>
