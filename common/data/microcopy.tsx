@@ -150,8 +150,10 @@ export const pastExhibitionsStrapline =
 
 // This is the label used in the search box, both for the
 // search in the global nav and on the categories in wc.org/search
+// TODO review this copy https://github.com/wellcomecollection/wellcomecollection.org/issues/10777
 export const searchLabelText = {
-  overview: 'Search our stories, images and catalogue', // TODO edit once we add events officially
+  overview: 'Search our stories, images and catalogue',
+  overviewToggle: 'Search our stories, images, catalogue and events',
   stories: 'Search for stories',
   images: 'Search for images',
   works: 'Search the catalogue',
@@ -159,7 +161,7 @@ export const searchLabelText = {
 };
 
 export const visualStoryLinkText =
-  'Explore information to help you plan and prepare for your visit';
+  'Information to help you plan and prepare for your visit';
 
 export const exhibitionGuideLinkText =
-  'Explore Audio description, British Sign Language and captions and transcripts';
+  'Explore audio description, British Sign Language, captions and transcripts';

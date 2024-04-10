@@ -33,16 +33,16 @@ const StandaloneTitle = styled(Space).attrs({
     props.theme.color(getTypeColor('captions-and-transcripts'))};
 `;
 
-type LevelProps = { level: number };
+type LevelProps = { $level: number };
 
 const ContextTitle = styled(Space).attrs<LevelProps>(props => ({
-  as: `h${props.level}` as KnownTarget,
+  as: `h${props.$level}` as KnownTarget,
   className: font('wb', 3),
   $v: { size: 'm', properties: ['margin-bottom'] },
 }))<LevelProps>``;
 
 const TranscriptTitle = styled(Space).attrs<LevelProps>(props => ({
-  as: `h${props.level}` as KnownTarget,
+  as: `h${props.$level}` as KnownTarget,
   className: font('wb', 4),
   $v: { size: 'm', properties: ['margin-bottom'] },
 }))<LevelProps>``;
@@ -60,7 +60,7 @@ const ContextContainer = styled(Space).attrs<ContextContainerProps>(props => ({
 `;
 
 const TombstoneTitle = styled(Space).attrs<LevelProps>(props => ({
-  as: `h${props.level}` as KnownTarget,
+  as: `h${props.$level}` as KnownTarget,
   className: font('wb', 3),
   $v: { size: 's', properties: ['margin-bottom'] },
 }))<LevelProps>``;
@@ -217,7 +217,7 @@ const Stop: FunctionComponent<{
             <Tombstone>
               {!hasContext && title && (
                 <TombstoneTitle
-                  level={tombstoneHeadingLevel}
+                  $level={tombstoneHeadingLevel}
                   id={`${dasherizeShorten(`${title}`)}-${index}`}
                 >
                   {title}
@@ -236,7 +236,7 @@ const Stop: FunctionComponent<{
                   {title.length > 0 && (
                     <ContextTitle
                       id={`${dasherizeShorten(`${title}`)}-c${index}`}
-                      level={contextHeadingLevel}
+                      $level={contextHeadingLevel}
                     >
                       {title}
                     </ContextTitle>
@@ -260,7 +260,7 @@ const Stop: FunctionComponent<{
               )}
               {hasShowFullTranscriptionButton && (
                 <Transcription>
-                  <TranscriptTitle level={audioTranscriptHeadingLevel}>
+                  <TranscriptTitle $level={audioTranscriptHeadingLevel}>
                     {stop.number ? `Stop ${stop.number}: ` : ''}Audio transcript
                   </TranscriptTitle>
                   <CollapsibleContent
