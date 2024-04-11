@@ -105,26 +105,27 @@ const FooterNav = ({
         {itemsList.map((link, i) => {
           // ID for Javascript-less users who tried to click on the Burger menu and will get redirected here
           const isBurgerMenuLink = type === 'InternalNavigation' && i === 0;
+          const isManageCookies = link.title === 'Manage cookies';
 
-          return (
+          return cookiesWork && isManageCookies ? (
             <li key={link.title}>
-              {cookiesWork &&
-              type === 'PoliciesNavigation' &&
-              link.title === 'Manage cookies' ? (
-                <Link
-                  href={link.href}
-                  onClick={e => {
-                    e.preventDefault();
-                    window.CookieControl.open();
-                  }}
-                  style={{ display: 'block' }}
-                >
-                  {/* TODO remove trigger in GTM as well once we move everything over */}
-                  <NavLinkElement data-gtm-trigger="consent_test_btn">
-                    {link.title}
-                  </NavLinkElement>
-                </Link>
-              ) : (
+              <Link
+                href={link.href}
+                onClick={e => {
+                  e.preventDefault();
+                  window.CookieControl.open();
+                }}
+                style={{ display: 'block' }}
+              >
+                {/* TODO remove trigger in GTM as well once we move everything over */}
+                <NavLinkElement data-gtm-trigger="consent_test_btn">
+                  {link.title}
+                </NavLinkElement>
+              </Link>
+            </li>
+          ) : (
+            !isManageCookies && (
+              <li key={link.title}>
                 <NavLinkElement
                   as="a"
                   href={link.href}
@@ -133,8 +134,8 @@ const FooterNav = ({
                 >
                   {link.title}
                 </NavLinkElement>
-              )}
-            </li>
+              </li>
+            )
           );
         })}
       </NavList>
