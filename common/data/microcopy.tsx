@@ -43,7 +43,8 @@ export const pageDescriptions = {
       'Search for images about health and human experience. Our collections include paintings, photographs, engravings, etchings, illustrations and more.',
     works:
       'Search our collections about health and human experience. Our collections include books, manuscripts, visual materials, journals and unpublished archives.',
-    events: '',
+    events:
+      'Search for past and current events to discover our range of free tours, talks, workshops and more.',
   },
 };
 
