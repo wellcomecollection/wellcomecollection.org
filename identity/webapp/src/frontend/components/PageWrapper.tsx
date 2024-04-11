@@ -1,10 +1,14 @@
-import { FunctionComponent, PropsWithChildren } from 'react';
+import { FunctionComponent, PropsWithChildren, useContext } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import Header from '@weco/common/views/components/Header/Header';
 import { GlobalStyle } from '@weco/common/views/themes/default';
 import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
 import Favicons from '@weco/common/views/components/Favicons/Favicons';
+import Footer from '@weco/common/views/components/Footer';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { usePrismicData } from '@weco/common/server-data/Context';
+import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 
 const Main = styled.div`
   ${props =>
@@ -22,6 +26,10 @@ export const PageWrapper: FunctionComponent<PropsWithChildren<Props>> = ({
   title,
   children,
 }) => {
+  const { isEnhanced } = useContext(AppContext);
+  const { collectionVenues } = usePrismicData();
+  const venues = transformCollectionVenues(collectionVenues);
+
   return (
     <>
       <Head>
@@ -31,6 +39,7 @@ export const PageWrapper: FunctionComponent<PropsWithChildren<Props>> = ({
       <GlobalStyle isFontsLoaded={useIsFontsLoaded()} />
       <Header siteSection="collections" />
       <Main>{children}</Main>
+      {isEnhanced && <Footer venues={venues} />}
     </>
   );
 };

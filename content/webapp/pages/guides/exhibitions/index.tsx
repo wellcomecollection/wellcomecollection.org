@@ -82,7 +82,6 @@ const ExhibitionGuidesPage: FunctionComponent<Props> = props => {
         isMinimalHeader: true,
       }}
       hideNewsletterPromo={true}
-      hideFooter={true}
     >
       <SpacingSection>
         <LayoutPaginatedResults
