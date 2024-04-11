@@ -10,8 +10,6 @@ const notifyTitleStyles = `
   style="display: block; margin: ${theme.spacingUnits['4']}px 0;"
 `;
 
-// Notes for designing chat
-// Toggle can't change border color, has to be same as background-color
 const branding = {
   removeIcon: true,
   removeAbout: true,
