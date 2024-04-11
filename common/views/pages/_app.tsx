@@ -2,7 +2,6 @@ import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import React, { useEffect, FunctionComponent, ReactElement } from 'react';
 import { ThemeProvider } from 'styled-components';
-import { PrismicPreview } from '@prismicio/next';
 import theme, { GlobalStyle } from '@weco/common/views/themes/default';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator/LoadingIndicator';
 import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
@@ -21,6 +20,7 @@ import { ServerDataContext } from '@weco/common/server-data/Context';
 import UserProvider from '@weco/common/views/components/UserProvider/UserProvider';
 import { ApmContextProvider } from '@weco/common/views/components/ApmContext/ApmContext';
 import { AppErrorProps } from '@weco/common/services/app';
+import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
 import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
 import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import { deserialiseProps } from '@weco/common/utils/json';
@@ -126,6 +126,8 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   // or when requested client-side through next/link or next/router
   // i.e. everything that we consider to be a page view
 
+  usePrismicPreview(() => Boolean(document.cookie.match('isPreview=true')));
+
   const getLayout = Component.getLayout || (page => <>{page}</>);
 
   return (
@@ -155,8 +157,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                       title={pageProps.err.message}
                     />
                   )}
-
-                  <PrismicPreview repositoryName="wellcomecollection" />
                 </ThemeProvider>
               </SearchContextProvider>
             </AppContextProvider>
