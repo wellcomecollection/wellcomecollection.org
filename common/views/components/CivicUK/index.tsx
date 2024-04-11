@@ -23,8 +23,9 @@ const branding = {
   acceptText: theme.color('black'),
   acceptBackground: theme.color('yellow'),
   rejectText: theme.color('black'),
-  toggleColor: theme.color('black'),
+  toggleColor: '#0055cc',
   toggleBackground: theme.color('neutral.300'),
+  toggleText: theme.color('black'),
 };
 
 const text = {
