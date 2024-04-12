@@ -206,7 +206,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
         isMinimalHeader: true,
       }}
       hideNewsletterPromo={true}
-      hideFooter={true}
       apiToolbarLinks={[createPrismicLink(exhibitionGuide.id)]}
       skipToContentLinks={skipToContentLinks}
     >
