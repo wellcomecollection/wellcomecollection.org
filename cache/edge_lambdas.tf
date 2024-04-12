@@ -17,7 +17,7 @@ resource "aws_iam_role" "edge_lambda_role" {
   name_prefix        = "edge_lambda"
   assume_role_policy = data.aws_iam_policy_document.lambda.json
 
-  managed_policy_arns   = [
+  managed_policy_arns = [
     "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
   ]
 }

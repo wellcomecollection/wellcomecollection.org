@@ -68,3 +68,9 @@ variable "allow_scaling_to_zero" {
   type        = bool
   default     = false
 }
+
+variable "nginx_memory_reservation" {
+  type    = number
+  default = 50
+
+}

@@ -11,12 +11,12 @@ resource "aws_cloudfront_origin_request_policy" "host_query_and_toggles" {
 
     cookies {
       items = sort(
-          concat(
-            local.toggles_cookies,
-            local.userpreference_cookies,
-            local.ga_cookies,
-          )
+        concat(
+          local.toggles_cookies,
+          local.userpreference_cookies,
+          local.ga_cookies,
         )
+      )
     }
   }
 
