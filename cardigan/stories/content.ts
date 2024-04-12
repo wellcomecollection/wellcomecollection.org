@@ -13,114 +13,14 @@ faker.seed(123);
 
 export const id = randomNumber(1000, 2000);
 
-export const interpretations = [
-  {
-    interpretationType: {
-      id: 'id',
-      title: 'British sign language interpreted',
-      description: '',
-      primaryDescription: '',
-    },
-    isPrimary: false,
-  },
-  {
-    interpretationType: {
-      id: 'id',
-      title: 'Audio described',
-      description: '',
-      primaryDescription: '',
-    },
-    isPrimary: false,
-  },
-  {
-    interpretationType: {
-      id: 'id',
-      title: 'Speech-to-Text',
-      description: '',
-      primaryDescription: '',
-    },
-    isPrimary: true,
-  },
-  {
-    interpretationType: {
-      id: 'id',
-      title: 'Hearing loop',
-      description: '',
-      primaryDescription: '',
-    },
-    isPrimary: false,
-  },
-];
-
-export const url = faker.internet.url();
-
-export const bannerCardItem: Season = {
-  type: 'seasons',
-  id: 'bannerCardItem',
-  body: [],
-  untransformedBody: [],
-  labels: [],
-  title: 'What does it mean to be human, now?',
-  start: new Date('2021-01-05T00:00:00.000Z'),
-  end: new Date('2021-01-26T00:00:00.000Z'),
-  promo: {
-    caption:
-      'Our new season explores the intertwined connections between the individual, societal and global health.',
-    image: {
-      contentUrl:
-        'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?rect=0,0,1600,900&w=3200&h=1800',
-      width: 3200,
-      height: 1800,
-      alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
-      tasl: {
-        title: "Alzheimer's disease",
-        author: 'Florence Winterflood',
-        sourceName: 'Wellcome Collection',
-        sourceLink: 'CC-BY-NC',
-        license: undefined,
-        copyrightHolder: undefined,
-        copyrightLink: undefined,
-      },
-    },
-    link: null,
-  },
-  image: {
-    contentUrl:
-      'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg',
-    width: 1600,
-    height: 900,
-    alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
-    tasl: {
-      title: "Alzheimer's disease",
-      author: 'Florence Winterflood',
-      sourceName: 'Wellcome Collection',
-      sourceLink: 'CC-BY-NC',
-      license: undefined,
-      copyrightHolder: undefined,
-      copyrightLink: undefined,
-    },
-    simpleCrops: {
-      '32:15': {
-        contentUrl:
-          'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?rect=0,75,1600,750&w=3200&h=1500',
-        width: 3200,
-        height: 1500,
-      },
-      '16:9': {
-        contentUrl:
-          'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?rect=0,0,1600,900&w=3200&h=1800',
-        width: 3200,
-        height: 1800,
-      },
-      square: {
-        contentUrl:
-          'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?rect=350,0,900,900&w=3200&h=3200',
-        width: 3200,
-        height: 3200,
-      },
-    },
-  },
-};
+const basicImage =
+  'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg';
+const darkCloudPromoImage =
+  'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png';
+const darkCloudImage =
+  'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png';
+const promoMainImage =
+  'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png';
 
 export const image = (
   contentUrl = 'https://images.prismic.io/wellcomecollection/5b28b809814fc6d1d716b0082725b24e0a0ad6a9_ep_000012_089.jpg',
@@ -200,6 +100,110 @@ export const pictureImages = [
     minWidth: null,
   },
 ];
+
+export const interpretations = [
+  {
+    interpretationType: {
+      id: 'id',
+      title: 'British sign language interpreted',
+      description: '',
+      primaryDescription: '',
+    },
+    isPrimary: false,
+  },
+  {
+    interpretationType: {
+      id: 'id',
+      title: 'Audio described',
+      description: '',
+      primaryDescription: '',
+    },
+    isPrimary: false,
+  },
+  {
+    interpretationType: {
+      id: 'id',
+      title: 'Speech-to-Text',
+      description: '',
+      primaryDescription: '',
+    },
+    isPrimary: true,
+  },
+  {
+    interpretationType: {
+      id: 'id',
+      title: 'Hearing loop',
+      description: '',
+      primaryDescription: '',
+    },
+    isPrimary: false,
+  },
+];
+
+export const url = faker.internet.url();
+
+export const bannerCardItem: Season = {
+  type: 'seasons',
+  id: 'bannerCardItem',
+  body: [],
+  untransformedBody: [],
+  labels: [],
+  title: 'What does it mean to be human, now?',
+  start: new Date('2021-01-05T00:00:00.000Z'),
+  end: new Date('2021-01-26T00:00:00.000Z'),
+  promo: {
+    caption:
+      'Our new season explores the intertwined connections between the individual, societal and global health.',
+    image: {
+      contentUrl: `${basicImage}?rect=0,0,1600,900&w=3200&h=1800`,
+      width: 3200,
+      height: 1800,
+      alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
+      tasl: {
+        title: "Alzheimer's disease",
+        author: 'Florence Winterflood',
+        sourceName: 'Wellcome Collection',
+        sourceLink: 'CC-BY-NC',
+        license: undefined,
+        copyrightHolder: undefined,
+        copyrightLink: undefined,
+      },
+    },
+    link: null,
+  },
+  image: {
+    contentUrl: basicImage,
+    width: 1600,
+    height: 900,
+    alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
+    tasl: {
+      title: "Alzheimer's disease",
+      author: 'Florence Winterflood',
+      sourceName: 'Wellcome Collection',
+      sourceLink: 'CC-BY-NC',
+      license: undefined,
+      copyrightHolder: undefined,
+      copyrightLink: undefined,
+    },
+    simpleCrops: {
+      '32:15': {
+        contentUrl: `${basicImage}?rect=0,75,1600,750&w=3200&h=1500`,
+        width: 3200,
+        height: 1500,
+      },
+      '16:9': {
+        contentUrl: `${basicImage}?rect=0,0,1600,900&w=3200&h=1800`,
+        width: 3200,
+        height: 1800,
+      },
+      square: {
+        contentUrl: `${basicImage}?rect=350,0,900,900&w=3200&h=3200`,
+        width: 3200,
+        height: 3200,
+      },
+    },
+  },
+};
 
 export const editorialSeries = [
   {
@@ -617,8 +621,7 @@ export const article: Article = {
         items: [
           {
             image: {
-              contentUrl:
-                'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png',
+              contentUrl: darkCloudImage,
               width: 6000,
               height: 6000,
               alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
@@ -627,20 +630,17 @@ export const article: Article = {
               },
               simpleCrops: {
                 '32:15': {
-                  contentUrl:
-                    'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png?rect=0,1594,6000,2813&w=3200&h=1500',
+                  contentUrl: `${darkCloudImage}?rect=0,1594,6000,2813&w=3200&h=1500`,
                   width: 3200,
                   height: 1500,
                 },
                 '16:9': {
-                  contentUrl:
-                    'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png?rect=0,1313,6000,3375&w=3200&h=1800',
+                  contentUrl: `${darkCloudImage}?rect=0,1313,6000,3375&w=3200&h=1800`,
                   width: 3200,
                   height: 1800,
                 },
                 square: {
-                  contentUrl:
-                    'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png?rect=0,0,6000,6000&w=3200&h=3200',
+                  contentUrl: `${darkCloudImage}?rect=0,0,6000,6000&w=3200&h=3200`,
                   width: 3200,
                   height: 3200,
                 },
@@ -657,8 +657,7 @@ export const article: Article = {
   promo: {
     caption: 'Do you have any dark clouds following you?',
     image: {
-      contentUrl:
-        'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?rect=0,0,1600,900&w=3200&h=1800',
+      contentUrl: `${darkCloudPromoImage}?rect=0,0,1600,900&w=3200&h=1800`,
       width: 3200,
       height: 1800,
       alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
@@ -669,8 +668,7 @@ export const article: Article = {
     link: null,
   },
   image: {
-    contentUrl:
-      'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png',
+    contentUrl: darkCloudPromoImage,
     width: 1600,
     height: 900,
     alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
@@ -679,20 +677,17 @@ export const article: Article = {
     },
     simpleCrops: {
       '32:15': {
-        contentUrl:
-          'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?rect=0,75,1600,750&w=3200&h=1500',
+        contentUrl: `${darkCloudPromoImage}?rect=0,75,1600,750&w=3200&h=1500`,
         width: 3200,
         height: 1500,
       },
       '16:9': {
-        contentUrl:
-          'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?rect=0,0,1600,900&w=3200&h=1800',
+        contentUrl: `${darkCloudPromoImage}?rect=0,0,1600,900&w=3200&h=1800`,
         width: 3200,
         height: 1800,
       },
       square: {
-        contentUrl:
-          'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?rect=350,0,900,900&w=3200&h=3200',
+        contentUrl: `${darkCloudPromoImage}?rect=350,0,900,900&w=3200&h=3200`,
         width: 3200,
         height: 3200,
       },
@@ -757,8 +752,7 @@ export const article: Article = {
       promo: {
         caption: '',
         image: {
-          contentUrl:
-            'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?rect=0,0,1600,900&w=3200&h=1800',
+          contentUrl: `${promoMainImage}?rect=0,0,1600,900&w=3200&h=1800`,
           width: 3200,
           height: 1800,
           alt: 'Person holding a large red love heart, smiling.',
@@ -769,8 +763,7 @@ export const article: Article = {
         link: null,
       },
       image: {
-        contentUrl:
-          'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png',
+        contentUrl: promoMainImage,
         width: 1600,
         height: 900,
         alt: 'Person holding a large red love heart, smiling.',
@@ -779,20 +772,17 @@ export const article: Article = {
         },
         simpleCrops: {
           '32:15': {
-            contentUrl:
-              'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?rect=0,75,1600,750&w=3200&h=1500',
+            contentUrl: `${promoMainImage}?rect=0,75,1600,750&w=3200&h=1500`,
             width: 3200,
             height: 1500,
           },
           '16:9': {
-            contentUrl:
-              'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?rect=0,0,1600,900&w=3200&h=1800',
+            contentUrl: `${promoMainImage}?rect=0,0,1600,900&w=3200&h=1800`,
             width: 3200,
             height: 1800,
           },
           square: {
-            contentUrl:
-              'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?rect=350,0,900,900&w=3200&h=3200',
+            contentUrl: `${promoMainImage}?rect=350,0,900,900&w=3200&h=3200`,
             width: 3200,
             height: 3200,
           },
