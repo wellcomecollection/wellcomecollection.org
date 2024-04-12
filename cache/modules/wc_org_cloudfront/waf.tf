@@ -338,7 +338,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
     statement {
       rate_based_statement {
-        aggregate_key_type    = "IP"
+        aggregate_key_type    = "CONSTANT"
         evaluation_window_sec = 60
         limit                 = 500
 
