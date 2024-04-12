@@ -302,6 +302,65 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  rule {
+    name     = "google-other-block"
+    priority = 8
+
+    action {
+      block {}
+    }
+
+    statement {
+      label_match_statement {
+        key   = "awswaf:managed:aws:bot-control:bot:name:google_other"
+        scope = "LABEL"
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "weco-cloudfront-acl-google-other-block-${var.namespace}"
+      sampled_requests_enabled   = true
+    }
+  }
+
+  rule {
+    name     = "geo-rate-limit"
+    priority = 9
+
+    action {
+      block {
+        custom_response {
+          response_code = 429
+        }
+      }
+    }
+
+    statement {
+      rate_based_statement {
+        aggregate_key_type = "IP"
+        limit              = 500
+
+        scope_down_statement {
+          geo_match_statement {
+            // We have seen significant bot traffic from these regions,
+            // so we rate limit to a lower threshold.
+            country_codes = [
+              "CN",
+              "SG",
+            ]
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "geo-rate-limit-${var.namespace}"
+      sampled_requests_enabled   = true
+    }
+  }
+
   visibility_config {
     cloudwatch_metrics_enabled = true
     sampled_requests_enabled   = true
