@@ -338,8 +338,9 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
     statement {
       rate_based_statement {
-        aggregate_key_type = "IP"
-        limit              = 500
+        aggregate_key_type    = "IP"
+        evaluation_window_sec = 60
+        limit                 = 500
 
         scope_down_statement {
           geo_match_statement {
