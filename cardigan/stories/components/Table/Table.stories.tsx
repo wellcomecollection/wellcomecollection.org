@@ -40,7 +40,8 @@ const Template = args => {
   return (
     <>
       <p>
-        Choose &quot;add more content&quot; and resize to see navigable arrows
+        On a large desktop, choose &quot;add more content&quot; and resize to
+        see navigable arrows
       </p>
       <Table
         rows={
