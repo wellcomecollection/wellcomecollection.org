@@ -313,6 +313,10 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             $hasControl={hasControl}
             data-gtm-trigger="tree_link"
             data-gtm-data-tree-level={level}
+            onClick={event => {
+              // We don't want to open the branch, when the work link is activated
+              event.stopPropagation();
+            }}
           >
             <WorkTitle title={item.work.title} />
             <RefNumber>{item.work.referenceNumber}</RefNumber>
