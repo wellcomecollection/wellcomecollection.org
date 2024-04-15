@@ -165,3 +165,24 @@ export const visualStoryLinkText =
 
 export const exhibitionGuideLinkText =
   'Explore audio description, British Sign Language, captions and transcripts';
+
+// TODO check heading - contains born digital material is more accurate
+export const bornDigitalMessage = (
+  <>
+    <h2>This is a Born-digital item</h2>
+    <p>
+      Born-digital items are materials created in a digital format, including
+      websites, email, digital photographs, electronic records, and more.
+      Born-digital items are different from analogue items (such as paper
+      manuscripts or photographs) that have later been digitised.
+    </p>
+    <p>
+      Our Born-digital items cover many file formats, some of which modern
+      computer software may no longer support.{' '}
+      <strong>
+        We cannot guarantee that you can view the item once you have downloaded
+        it.
+      </strong>
+    </p>
+  </>
+);
