@@ -1,8 +1,4 @@
-import styled from 'styled-components';
 import { chevron } from '@weco/common/icons';
-import { font, classNames } from '@weco/common/utils/classnames';
-import WorkTitle from '../WorkTitle/WorkTitle';
-import WorkLink from '../WorkLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import {
   ListProps,
@@ -15,16 +11,8 @@ import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/wor
 import { FunctionComponent, useContext } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import NestedList from './ArchiveTree.NestedList';
-import { StyledLink, TreeControl, TreeItem } from './ArchiveTree.styles';
-
-const RefNumber = styled.span.attrs({
-  className: font('intr', 6),
-})`
-  line-height: 1;
-  display: block;
-  color: ${props => props.theme.color('neutral.600')};
-  text-decoration: none;
-`;
+import { TreeControl, TreeItem } from './ArchiveTree.styles';
+import WorkItem from './ArchiveTree.WorkItem';
 
 const LEFT = [37, 'ArrowLeft'];
 const RIGHT = [39, 'ArrowRight'];
@@ -295,32 +283,13 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             <Icon rotate={item.openStatus ? undefined : 270} icon={chevron} />
           </TreeControl>
         )}
-        <WorkLink
-          id={item.work.id}
-          source="archive_tree"
-          scroll={false}
-          passHref
-        >
-          <StyledLink
-            className={classNames({
-              [font('intb', 6)]: level === 1,
-              [font('intr', 6)]: level > 1,
-            })}
-            tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
-            ref={currentWorkId === item.work.id ? selected : undefined}
-            $isCurrent={currentWorkId === item.work.id}
-            $hasControl={hasControl}
-            data-gtm-trigger="tree_link"
-            data-gtm-data-tree-level={level}
-            onClick={event => {
-              // We don't want to open the branch, when the work link is activated
-              event.stopPropagation();
-            }}
-          >
-            <WorkTitle title={item.work.title} />
-            <RefNumber>{item.work.referenceNumber}</RefNumber>
-          </StyledLink>
-        </WorkLink>
+        <WorkItem
+          item={item}
+          hasControl={hasControl}
+          isSelected={isSelected}
+          currentWorkId={currentWorkId}
+          level={level}
+        />
       </div>
       {item.children && item.openStatus && (
         <NestedList
