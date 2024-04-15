@@ -20,6 +20,8 @@ import Download from '@weco/content/components/Download/Download';
 import { getLabelString, getFormatString } from '@weco/content/utils/iiif/v3';
 import { InternationalString, ContentResource } from '@iiif/presentation-3';
 import { useToggles } from '@weco/common/server-data/Context';
+import { bornDigitalMessage } from '@weco/common/data/microcopy';
+import styled from 'styled-components';
 
 type Props = {
   work: Work;
@@ -109,6 +111,13 @@ const ItemPageLink = ({
   );
 };
 
+// TODO spacing, font size etc.
+const MessageBox = styled(Space).attrs({
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+})`
+  background-color: ${props => props.theme.color('warmNeutral.300')};
+`;
 const WorkDetailsAvailableOnline = ({
   work,
   downloadOptions,
@@ -131,8 +140,15 @@ const WorkDetailsAvailableOnline = ({
     placeholderId,
     rendering,
   } = { ...transformedIIIFManifest };
+  const isBornDigital =
+    showBornDigital &&
+    (bornDigitalStatus === 'mixedBornDigital' ||
+      bornDigitalStatus === 'allBornDigital');
+
   return (
-    <WorkDetailsSection headingText="Available online">
+    <WorkDetailsSection
+      headingText={`Available ${isBornDigital ? 'to download' : 'online'}`}
+    >
       <ConditionalWrapper
         condition={Boolean(tokenService && !shouldShowItemLink)}
         wrapper={children =>
@@ -158,6 +174,7 @@ const WorkDetailsAvailableOnline = ({
               canvases={canvases || []}
             />
           )}
+          <MessageBox>{bornDigitalMessage}</MessageBox>
 
         {(!showBornDigital ||
           (showBornDigital && bornDigitalStatus === 'noBornDigital')) && (
