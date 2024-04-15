@@ -173,6 +173,10 @@ const WorkDetailsAvailableOnline = ({
               }
               canvases={canvases || []}
             />
+        <>
+          {/* TODO font and spacing */}
+          {Number(canvases?.length) > 0 && (
+            <p>Contains {canvases?.length} files</p>
           )}
           <MessageBox>{bornDigitalMessage}</MessageBox>
 
