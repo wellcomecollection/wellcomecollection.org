@@ -11,7 +11,6 @@ type NestedListProps = ListProps & {
 const NestedList: FunctionComponent<NestedListProps> = ({
   currentWorkId,
   archiveTree,
-  selected,
   fullTree,
   setArchiveTree,
   level,
@@ -37,7 +36,6 @@ const NestedList: FunctionComponent<NestedListProps> = ({
                 key={item.work.id}
                 item={item}
                 currentWorkId={currentWorkId}
-                selected={selected}
                 fullTree={fullTree}
                 setArchiveTree={setArchiveTree}
                 level={level}

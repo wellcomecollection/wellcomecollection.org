@@ -24,7 +24,6 @@ export type TreeItemProps = {
 
 export type ListProps = {
   currentWorkId: string;
-  selected: RefObject<HTMLAnchorElement>;
   fullTree: UiTree;
   setArchiveTree: (tree: UiTree) => void;
   level: number;

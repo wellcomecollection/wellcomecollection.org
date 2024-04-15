@@ -124,7 +124,6 @@ type ListItemProps = ListProps & {
 const ListItem: FunctionComponent<ListItemProps> = ({
   item,
   currentWorkId,
-  selected,
   setArchiveTree,
   fullTree,
   level,
@@ -325,7 +324,6 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       </div>
       {item.children && item.openStatus && (
         <NestedList
-          selected={selected}
           currentWorkId={currentWorkId}
           archiveTree={item.children}
           fullTree={fullTree}

@@ -211,8 +211,6 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
     setShowArchiveTree(false);
   }, [work]);
 
-  const selected = useRef<HTMLAnchorElement>(null);
-
   useEffect(() => {
     async function setupTree() {
       const tree = await createArchiveTree({
@@ -263,7 +261,6 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
                 <TreeInstructions>{instructions}</TreeInstructions>
               )}
               <NestedList
-                selected={selected}
                 currentWorkId={work.id}
                 fullTree={archiveTree}
                 setArchiveTree={setArchiveTree}
@@ -287,7 +284,6 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
                 <TreeInstructions>{instructions}</TreeInstructions>
               )}
               <NestedList
-                selected={selected}
                 currentWorkId={work.id}
                 fullTree={archiveTree}
                 setArchiveTree={setArchiveTree}
