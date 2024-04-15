@@ -17,7 +17,6 @@ const NestedList: FunctionComponent<NestedListProps> = ({
   level,
   tabbableId,
   setTabbableId,
-  setShowArchiveTree,
   archiveAncestorArray,
 }: NestedListProps) => {
   const { isEnhanced } = useContext(AppContext);
@@ -46,7 +45,6 @@ const NestedList: FunctionComponent<NestedListProps> = ({
                 posInSet={i + 1}
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
-                setShowArchiveTree={setShowArchiveTree}
                 archiveAncestorArray={archiveAncestorArray}
               />
             )

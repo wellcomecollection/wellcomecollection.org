@@ -206,6 +206,11 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
     }
   }, [archiveTree, tabbableId]);
 
+  useEffect(() => {
+    // On mobile we want to close the archive tree if a user selects a work
+    setShowArchiveTree(false);
+  }, [work]);
+
   const selected = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
@@ -266,7 +271,6 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
                 level={1}
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
-                setShowArchiveTree={setShowArchiveTree}
                 archiveAncestorArray={archiveAncestorArray}
               />
             </Tree>
@@ -291,7 +295,6 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
                 level={1}
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
-                setShowArchiveTree={setShowArchiveTree}
                 archiveAncestorArray={archiveAncestorArray}
               />
             </Tree>

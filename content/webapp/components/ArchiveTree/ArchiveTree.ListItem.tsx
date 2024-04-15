@@ -132,7 +132,6 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   posInSet,
   tabbableId,
   setTabbableId,
-  setShowArchiveTree,
   archiveAncestorArray,
 }: ListItemProps) => {
   const { isEnhanced } = useContext(AppContext);
@@ -314,10 +313,6 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             $hasControl={hasControl}
             data-gtm-trigger="tree_link"
             data-gtm-data-tree-level={level}
-            onClick={event => {
-              event.stopPropagation();
-              setShowArchiveTree(false);
-            }}
           >
             <WorkTitle title={item.work.title} />
             <RefNumber>{item.work.referenceNumber}</RefNumber>
@@ -330,11 +325,9 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           currentWorkId={currentWorkId}
           archiveTree={item.children}
           fullTree={fullTree}
-          setArchiveTree={setArchiveTree}
           level={level + 1}
           tabbableId={tabbableId}
           setTabbableId={setTabbableId}
-          setShowArchiveTree={setShowArchiveTree}
           archiveAncestorArray={archiveAncestorArray}
         />
       )}

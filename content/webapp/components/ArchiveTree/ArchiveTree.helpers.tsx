@@ -30,7 +30,6 @@ export type ListProps = {
   level: number;
   tabbableId?: string;
   setTabbableId: (id: string) => void;
-  setShowArchiveTree: (show: boolean) => void;
   archiveAncestorArray: RelatedWork[];
 };
 
