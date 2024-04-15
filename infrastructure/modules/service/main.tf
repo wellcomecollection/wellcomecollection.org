@@ -36,8 +36,9 @@ module "log_router_container_secrets_permissions" {
 module "nginx_container" {
   source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/nginx/frontend?ref=v4.0.0"
 
-  forward_port      = var.container_port
-  log_configuration = module.log_router_container.container_log_configuration
+  forward_port       = var.container_port
+  log_configuration  = module.log_router_container.container_log_configuration
+  memory_reservation = var.nginx_memory_reservation
 
   container_tag = var.nginx_container_config["container_tag"]
   image_name    = var.nginx_container_config["image_name"]

@@ -120,7 +120,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
       }}
       apiToolbarLinks={[createPrismicLink(exhibitionGuide.id)]}
       hideNewsletterPromo={true}
-      hideFooter={true}
     >
       <Layout gridSizes={gridSize10(false)}>
         <SpacingSection>

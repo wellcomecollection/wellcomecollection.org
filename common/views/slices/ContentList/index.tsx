@@ -19,7 +19,8 @@ const ContentListSlice: FunctionComponent<ContentListProps> = ({
   slice,
   context,
 }) => {
-  const options = { ...defaultContext, context };
+  const options = { ...defaultContext, ...context };
+
   const transformedSlice = transformContentListSlice(slice);
   if (!options.isLanding) {
     return (

@@ -113,6 +113,17 @@ const SearchLayout: FunctionComponent<SearchLayoutProps> = ({
           },
         });
         break;
+      case 'events':
+        setPageLayoutMetadata({
+          ...basePageMetadata,
+          description: pageDescriptions.search.events,
+          title: `${queryStringTitle}Events search`,
+          url: {
+            ...basePageMetadata.url,
+            pathname: '/search/events',
+          },
+        });
+        break;
 
       default:
         break;

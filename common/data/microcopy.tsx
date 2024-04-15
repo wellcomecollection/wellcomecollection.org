@@ -40,9 +40,11 @@ export const pageDescriptions = {
     stories:
       'Search for stories about health and human experience. Our words and pictures make connections, provoke new thinking and share lived experiences.',
     images:
-      'Search for images about health and human experience. Our collections include paintings, photogrpahs, engravings, etchings, illustrations and more.',
+      'Search for images about health and human experience. Our collections include paintings, photographs, engravings, etchings, illustrations and more.',
     works:
       'Search our collections about health and human experience. Our collections include books, manuscripts, visual materials, journals and unpublished archives.',
+    events:
+      'Search for past and current events to discover our range of free tours, talks, workshops and more.',
   },
 };
 
