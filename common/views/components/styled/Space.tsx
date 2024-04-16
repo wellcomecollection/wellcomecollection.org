@@ -52,7 +52,7 @@ type HorizontalSpaceProps = {
   overrides?: SpaceOverrides;
 };
 
-export type SpaceComponentProps = {
+type SpaceComponentProps = {
   $v?: VerticalSpaceProps;
   $h?: HorizontalSpaceProps;
 };
