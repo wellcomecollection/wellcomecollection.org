@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import Table from '@weco/content/components/Table/Table';
+import Table from '@weco/content/components/Table';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { PaletteColor, themeValues } from '@weco/common/views/themes/config';
