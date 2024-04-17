@@ -1,4 +1,4 @@
-import Table from '@weco/content/components/Table/Table';
+import Table from '@weco/content/components/Table';
 import { fontSizesAtBreakpoints } from '@weco/common/views/themes/typography';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
