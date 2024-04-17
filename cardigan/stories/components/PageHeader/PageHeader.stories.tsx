@@ -89,7 +89,7 @@ const articlePictureImages = [
     height: 3200,
     alt: '',
     tasl: {
-      title: "Naomi Paxton as the magician's assistant",
+      title: 'Florence Winterflood Image',
       author: 'Thomas SG Farnetti',
       sourceName: 'Wellcome Collection',
       sourceLink: null,
