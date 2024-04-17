@@ -13,17 +13,13 @@ faker.seed(123);
 
 export const id = randomNumber(1000, 2000);
 
-const basicImage =
-  'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg';
-const darkCloudPromoImage =
-  'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png';
-const darkCloudImage =
-  'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png';
-const promoMainImage =
-  'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png';
+export const imagesBaseUrl = `${window.location.origin}/images`;
+
+export const florenceWinterfloodImage = `${imagesBaseUrl}/florence-winterflood`;
+export const darkCloudImage = `${imagesBaseUrl}/darkcloud-promo`;
 
 export const image = (
-  contentUrl = 'https://images.prismic.io/wellcomecollection/5b28b809814fc6d1d716b0082725b24e0a0ad6a9_ep_000012_089.jpg',
+  contentUrl = `${imagesBaseUrl}/reading-room-3200x1800.jpg`,
   width = 640,
   height = 360
 ) => {
@@ -44,7 +40,7 @@ export const image = (
 };
 
 export const squareImage = (
-  contentUrl = 'https://images.prismic.io/wellcomecollection/e0d9c99ab840cbb76e1981ed453c57f4b5d02a65_reading-room-clock.jpg',
+  contentUrl = `${imagesBaseUrl}/reading-room-clock-3200x3200.jpg`,
   width = 300,
   height = 300
 ) => {
@@ -63,43 +59,6 @@ export const squareImage = (
     },
   };
 };
-
-export const pictureImages = [
-  {
-    contentUrl:
-      'https://images.prismic.io/wellcomecollection/fb5b20a53897d484fde6afc612fb9563e987fd5f_tf_180516_2060224.jpg',
-    width: 3200,
-    height: 1500,
-    alt: 'Photograph of a man and a woman looking at an exhibit in the Teeth exhibition at Wellcome Collection.',
-    tasl: {
-      title: 'Teeth exhibition',
-      author: 'Thomas SG Farnetti',
-      sourceName: 'Wellcome Collection',
-      sourceLink: null,
-      license: 'CC-BY-NC' as LicenseType,
-      copyrightHolder: null,
-      copyrightLink: null,
-    },
-    minWidth: '600px',
-  },
-  {
-    contentUrl:
-      'https://images.prismic.io/wellcomecollection/3ab79986b581a18eabd68602d0f27e989535e0dc_tf_180516_2060224.jpg',
-    width: 3200,
-    height: 3200,
-    alt: 'Photograph of a man and a woman looking at an exhibit in the Teeth exhibition at Wellcome Collection.',
-    tasl: {
-      title: 'Teeth exhibition',
-      author: 'Thomas SG Farnetti',
-      sourceName: 'Wellcome Collection',
-      sourceLink: null,
-      license: 'CC-BY-NC' as LicenseType,
-      copyrightHolder: null,
-      copyrightLink: null,
-    },
-    minWidth: null,
-  },
-];
 
 export const interpretations = [
   {
@@ -155,7 +114,7 @@ export const bannerCardItem: Season = {
     caption:
       'Our new season explores the intertwined connections between the individual, societal and global health.',
     image: {
-      contentUrl: `${basicImage}?rect=0,0,1600,900&w=3200&h=1800`,
+      contentUrl: `${florenceWinterfloodImage}-3200x1800.jpg`,
       width: 3200,
       height: 1800,
       alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
@@ -172,7 +131,7 @@ export const bannerCardItem: Season = {
     link: null,
   },
   image: {
-    contentUrl: basicImage,
+    contentUrl: `${florenceWinterfloodImage}-1600x900.jpg`,
     width: 1600,
     height: 900,
     alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
@@ -187,17 +146,17 @@ export const bannerCardItem: Season = {
     },
     simpleCrops: {
       '32:15': {
-        contentUrl: `${basicImage}?rect=0,75,1600,750&w=3200&h=1500`,
+        contentUrl: `${florenceWinterfloodImage}-3200x1500.jpg`,
         width: 3200,
         height: 1500,
       },
       '16:9': {
-        contentUrl: `${basicImage}?rect=0,0,1600,900&w=3200&h=1800`,
+        contentUrl: `${florenceWinterfloodImage}-3200x1800.jpg`,
         width: 3200,
         height: 1800,
       },
       square: {
-        contentUrl: `${basicImage}?rect=350,0,900,900&w=3200&h=3200`,
+        contentUrl: `${florenceWinterfloodImage}-3200x3200.jpg`,
         width: 3200,
         height: 3200,
       },
@@ -377,38 +336,28 @@ export const event: Event = {
   format: { id: 'WlYVBiQAACcAWcu9', title: 'Seminar', description: null },
   hasEarlyRegistration: false,
   image: {
-    contentUrl:
-      'https://images.prismic.io/wellcomecollection/a4e2a07674bb171ba0b7d7dc7dcf09f1694e13ff_sdp_20181009_0007.jpg',
-    width: 4000,
-    height: 2250,
-    alt: 'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+    contentUrl: `${darkCloudImage}-1600x900.png`,
+    width: 1600,
+    height: 900,
+    alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
     tasl: {
-      title: 'Exploring Research event',
-      author: 'Steven Pocock',
-      sourceName: 'Wellcome Collection',
-      sourceLink: null,
-      license: 'CC-BY-NC' as LicenseType,
-      copyrightHolder: null,
-      copyrightLink: null,
+      title: 'Weewaaz',
     },
     simpleCrops: {
-      square: {
-        contentUrl:
-          'https://images.prismic.io/wellcomecollection/318dba668b46078bd957578fa5fc3b2f9b86c5a0_sdp_20181009_0007.jpg',
-        width: 3200,
-        height: 3200,
-      },
       '32:15': {
-        contentUrl:
-          'https://images.prismic.io/wellcomecollection/7b01a0b1273b96cfeb8a5c37e812bd83fe96f537_sdp_20181009_0007.jpg',
+        contentUrl: `${darkCloudImage}-3200x1500.png`,
         width: 3200,
         height: 1500,
       },
       '16:9': {
-        contentUrl:
-          'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg',
+        contentUrl: `${darkCloudImage}-3200x1800.png`,
         width: 3200,
         height: 1800,
+      },
+      square: {
+        contentUrl: `${darkCloudImage}-3200x3200.png`,
+        width: 3200,
+        height: 3200,
       },
     },
   },
@@ -452,22 +401,14 @@ export const event: Event = {
   ],
   primaryLabels: [{ text: 'Seminar' }],
   promo: {
-    caption:
-      'Come and hear Dr Emma Spary discuss her research on the often- overlooked role of priests in the history of pharmacy.',
+    caption: 'Do you have any dark clouds following you?',
     image: {
-      contentUrl:
-        'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg',
+      contentUrl: `${darkCloudImage}-3200x1800.png`,
       width: 3200,
       height: 1800,
-      alt: 'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+      alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
       tasl: {
-        title: 'Exploring Research event',
-        author: 'Steven Pocock',
-        sourceName: 'Wellcome Collection',
-        sourceLink: null,
-        license: 'CC-BY-NC' as LicenseType,
-        copyrightHolder: null,
-        copyrightLink: null,
+        title: 'Weewaaz',
       },
     },
     link: null,
@@ -584,8 +525,7 @@ export const article: Article = {
         id: 'YJ5GbRAAACMA_XnW',
         name: 'Weewaaz',
         image: {
-          contentUrl:
-            'https://images.prismic.io/wellcomecollection/8689f8f1-b106-46bb-84d7-97e5bce33ed3_weewaaz.png?rect=0,0,538,538&w=3200&h=3200',
+          contentUrl: `${darkCloudImage}-3200x3200.png`,
           width: 3200,
           height: 3200,
           alt: 'Weewaaz',
@@ -621,26 +561,26 @@ export const article: Article = {
         items: [
           {
             image: {
-              contentUrl: darkCloudImage,
-              width: 6000,
-              height: 6000,
-              alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
+              contentUrl: `${darkCloudImage}-1600x900.png`,
+              width: 1600,
+              height: 900,
+              alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
               tasl: {
                 title: 'Weewaaz',
               },
               simpleCrops: {
                 '32:15': {
-                  contentUrl: `${darkCloudImage}?rect=0,1594,6000,2813&w=3200&h=1500`,
+                  contentUrl: `${darkCloudImage}-3200x1500.png`,
                   width: 3200,
                   height: 1500,
                 },
                 '16:9': {
-                  contentUrl: `${darkCloudImage}?rect=0,1313,6000,3375&w=3200&h=1800`,
+                  contentUrl: `${darkCloudImage}-3200x1800.png`,
                   width: 3200,
                   height: 1800,
                 },
                 square: {
-                  contentUrl: `${darkCloudImage}?rect=0,0,6000,6000&w=3200&h=3200`,
+                  contentUrl: `${darkCloudImage}-3200x3200.png`,
                   width: 3200,
                   height: 3200,
                 },
@@ -657,7 +597,7 @@ export const article: Article = {
   promo: {
     caption: 'Do you have any dark clouds following you?',
     image: {
-      contentUrl: `${darkCloudPromoImage}?rect=0,0,1600,900&w=3200&h=1800`,
+      contentUrl: `${darkCloudImage}-3200x1800.png`,
       width: 3200,
       height: 1800,
       alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
@@ -668,7 +608,7 @@ export const article: Article = {
     link: null,
   },
   image: {
-    contentUrl: darkCloudPromoImage,
+    contentUrl: `${darkCloudImage}-1600x900.png`,
     width: 1600,
     height: 900,
     alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
@@ -677,17 +617,17 @@ export const article: Article = {
     },
     simpleCrops: {
       '32:15': {
-        contentUrl: `${darkCloudPromoImage}?rect=0,75,1600,750&w=3200&h=1500`,
+        contentUrl: `${darkCloudImage}-3200x1500.png`,
         width: 3200,
         height: 1500,
       },
       '16:9': {
-        contentUrl: `${darkCloudPromoImage}?rect=0,0,1600,900&w=3200&h=1800`,
+        contentUrl: `${darkCloudImage}-3200x1800.png`,
         width: 3200,
         height: 1800,
       },
       square: {
-        contentUrl: `${darkCloudPromoImage}?rect=350,0,900,900&w=3200&h=3200`,
+        contentUrl: `${darkCloudImage}-3200x3200.png`,
         width: 3200,
         height: 3200,
       },
@@ -720,8 +660,7 @@ export const article: Article = {
             id: 'YJ5GbRAAACMA_XnW',
             name: 'Weewaaz',
             image: {
-              contentUrl:
-                'https://images.prismic.io/wellcomecollection/8689f8f1-b106-46bb-84d7-97e5bce33ed3_weewaaz.png?rect=0,0,538,538&w=3200&h=3200',
+              contentUrl: `${darkCloudImage}-3200x3200.png`,
               width: 3200,
               height: 3200,
               alt: 'Weewaaz',
@@ -752,7 +691,7 @@ export const article: Article = {
       promo: {
         caption: '',
         image: {
-          contentUrl: `${promoMainImage}?rect=0,0,1600,900&w=3200&h=1800`,
+          contentUrl: `${darkCloudImage}-3200x1800.png`,
           width: 3200,
           height: 1800,
           alt: 'Person holding a large red love heart, smiling.',
@@ -763,7 +702,7 @@ export const article: Article = {
         link: null,
       },
       image: {
-        contentUrl: promoMainImage,
+        contentUrl: `${darkCloudImage}-1600x900.png`,
         width: 1600,
         height: 900,
         alt: 'Person holding a large red love heart, smiling.',
@@ -772,17 +711,17 @@ export const article: Article = {
         },
         simpleCrops: {
           '32:15': {
-            contentUrl: `${promoMainImage}?rect=0,75,1600,750&w=3200&h=1500`,
+            contentUrl: `${darkCloudImage}-3200x1500.png`,
             width: 3200,
             height: 1500,
           },
           '16:9': {
-            contentUrl: `${promoMainImage}?rect=0,0,1600,900&w=3200&h=1800`,
+            contentUrl: `${darkCloudImage}-3200x1800.png`,
             width: 3200,
             height: 1800,
           },
           square: {
-            contentUrl: `${promoMainImage}?rect=350,0,900,900&w=3200&h=3200`,
+            contentUrl: `${darkCloudImage}-3200x3200.png`,
             width: 3200,
             height: 3200,
           },

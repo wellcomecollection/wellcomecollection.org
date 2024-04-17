@@ -1,10 +1,10 @@
 import SeasonsHeader from '@weco/content/components/SeasonsHeader';
 import { ImageType } from '@weco/common/model/image';
 import { Season } from '@weco/content/types/seasons';
+import { imagesBaseUrl } from '../../content';
 
 const image: ImageType = {
-  contentUrl:
-    'https://images.prismic.io/wellcomecollection/7b0bfd6f-6a12-432f-9040-2c9724cb7605_ep_000832_016.jpg?rect=0,0,4000,2250&w=3200&h=1800',
+  contentUrl: `${imagesBaseUrl}/reading-room-3200x1800.jpg`,
   width: 3200,
   height: 1800,
   alt: '',

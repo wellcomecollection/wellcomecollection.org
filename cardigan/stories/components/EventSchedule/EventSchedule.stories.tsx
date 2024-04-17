@@ -1,6 +1,7 @@
 import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule';
 import Readme from '@weco/content/components/EventSchedule/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { darkCloudImage } from '../../content';
 
 const schedule = [
   {
@@ -12,8 +13,7 @@ const schedule = [
         caption:
           'Drop in to experience a newly commissioned work by artists Basel Zaraa and Tania El Khoury about the health experiences of refugees. This  performance will use painting, touch and sound to connect you with the emotional and mental health hardships faced by people in detention centres and will evolve over the weekend.',
         image: {
-          contentUrl:
-            'https://images.prismic.io/wellcomecollection%2F6a4e6248-13d9-4fa3-a2e9-a31723c24ab8_tania+and+basel.jpg?rect=0,0,3484,1960&w=3200&h=1800',
+          contentUrl: `${darkCloudImage}-3200x1800.png`,
           width: 3200,
           height: 1800,
           alt: 'Photograph of a forearm with fingers outstretched, against a slatted wooden background. Small human figures are draw onto the arm, one is circled.',
@@ -27,8 +27,7 @@ const schedule = [
         link: null,
       },
       image: {
-        contentUrl:
-          'https://images.prismic.io/wellcomecollection%2F6a4e6248-13d9-4fa3-a2e9-a31723c24ab8_tania+and+basel.jpg?rect=0,0,3484,1960&w=3484&h=1960',
+        contentUrl: `${darkCloudImage}-3200x1800.png`,
         width: 3484,
         height: 1960,
         alt: 'Photograph of a forearm with fingers outstretched, against a slatted wooden background. Small human figures are draw onto the arm, one is circled.',

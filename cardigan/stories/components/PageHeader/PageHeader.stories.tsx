@@ -15,7 +15,11 @@ import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { LicenseType } from '@weco/common/model/license';
 import Body from '@weco/content/components/Body/Body';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
-import { videoEmbed } from '@weco/cardigan/stories/content';
+import {
+  florenceWinterfloodImage,
+  imagesBaseUrl,
+  videoEmbed,
+} from '@weco/cardigan/stories/content';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 
 const Date = styled.span.attrs({ className: font('intr', 6) })`
@@ -63,8 +67,7 @@ const ContentTypeInfo = (
 
 const articlePictureImages = [
   {
-    contentUrl:
-      'https://images.prismic.io/wellcomecollection/58311b341bbcab74990e2ad0917b51162452b58f_tf_190405_3790149.jpg',
+    contentUrl: `${florenceWinterfloodImage}-3200x1800.jpg`,
     width: 3200,
     height: 1800,
     alt: '',
@@ -81,8 +84,7 @@ const articlePictureImages = [
     minWidth: '600px',
   },
   {
-    contentUrl:
-      'https://images.prismic.io/wellcomecollection/17c12bebf53c50311e288f2fe8654d8400a0129a_tf_190405_3790149.jpg',
+    contentUrl: `${florenceWinterfloodImage}-3200x3200.jpg`,
     width: 3200,
     height: 3200,
     alt: '',
@@ -102,8 +104,7 @@ const articlePictureImages = [
 
 const exhibitionPictureImages = [
   {
-    contentUrl:
-      'https://images.prismic.io/wellcomecollection/b40da45c5b49cc5dd946dffeddbf8ce114ac0003_ep_000832_058.jpg',
+    contentUrl: `${florenceWinterfloodImage}-3200x1800.jpg`,
     width: 3200,
     height: 1800,
     alt: 'Photograph of an exhibition gallery space, with a blue stained wood wall in the background, in front of which a young man looks at a life-size artwork of a figure resembling an astronaut. In the foreground a young woman sits on a wooden bench holding an audio speaker to her ear.',
@@ -119,8 +120,7 @@ const exhibitionPictureImages = [
     minWidth: '600px',
   },
   {
-    contentUrl:
-      'https://images.prismic.io/wellcomecollection/2e7bcd148d629cd8fe670d42bac997051f4112ea_ep_000832_058.jpg',
+    contentUrl: `${florenceWinterfloodImage}-3200x3200.jpg`,
     width: 3200,
     height: 3200,
     alt: 'Photograph of an exhibition gallery space, with a blue stained wood wall in the background, in front of which a young man looks at a life-size artwork of a figure resembling an astronaut. In the foreground a young woman sits on a wooden bench holding an audio speaker to her ear.',
@@ -174,8 +174,7 @@ const BookContentTypeInfo = () => (
 );
 
 const eventImage = {
-  contentUrl:
-    'https://images.prismic.io/wellcomecollection/3f15b8e9-bad2-4018-97ec-e50121a11d56_BTG191122154226.jpg?rect=0,0,4000,2250&w=3200&h=1800',
+  contentUrl: `${florenceWinterfloodImage}-3200x1800.jpg`,
   width: 3200,
   height: 1800,
   alt: null,
@@ -192,8 +191,7 @@ const eventImage = {
 };
 
 const bookImage = {
-  contentUrl:
-    'https://images.prismic.io/wellcomecollection/db52c5b0-d4bf-4def-b83e-14a2d7e9b42d_Together+book+cover.jpg',
+  contentUrl: `${imagesBaseUrl}/book.png`,
   width: 1080,
   height: 1659,
   alt: 'Book cover featuring the word ‘Together’, multicoloured and in joined-up text',
