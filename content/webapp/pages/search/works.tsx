@@ -203,7 +203,6 @@ const CatalogueSearchPage: NextPageWithLayout<Props> = ({
                   />
 
                   <Pagination
-                    formId={SEARCH_PAGES_FORM_ID}
                     totalPages={works.totalPages}
                     ariaLabel="Catalogue search pagination"
                     isHiddenMobile
@@ -217,7 +216,6 @@ const CatalogueSearchPage: NextPageWithLayout<Props> = ({
 
               <PaginationWrapper $verticalSpacing="l" $alignRight>
                 <Pagination
-                  formId={SEARCH_PAGES_FORM_ID}
                   totalPages={works.totalPages}
                   ariaLabel="Catalogue search pagination"
                 />
