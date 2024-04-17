@@ -19,6 +19,7 @@ module.exports = {
       options: { transcludeMarkdown: true },
     },
   ],
+  staticDirs: ['../public'], //👈 Configures the static asset folder in Storybook
   webpackFinal: async (config, { configType }) => {
     // Adds support for modules using mjs
     config.module.rules.push({
