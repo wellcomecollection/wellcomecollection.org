@@ -44,15 +44,18 @@ const text = {
   rejectSettings: 'Essential only',
 };
 
+// This format is required by Civic UK
+// TODO confirm this date as part of https://github.com/wellcomecollection/wellcomecollection.org/issues/10706
+export const policyUpdatedDate = '25/05/2018';
+
 // Should your privacy policy change after a user gives consent,
 // Cookie Control will invalidate prior records of consent and seek the user's preferences using the latest information available.
 // https://www.civicuk.com/cookie-control/documentation/cookies
-// TODO change URL and Updated as part of https://github.com/wellcomecollection/wellcomecollection.org/issues/10706
 const statement = {
   description: 'You can read more about how we use cookies in our',
-  name: 'Privacy policy',
-  url: 'https://wellcome.org/who-we-are/privacy-and-terms',
-  updated: '25/05/2018',
+  name: 'Cookie policy',
+  url: '/cookie-policy',
+  updated: policyUpdatedDate,
 };
 
 // Define all necessary cookies here and document their usage a little.
@@ -90,6 +93,7 @@ const CivicUK = (props: Props) => (
             apiKey: '${props.apiKey}',
             product: 'pro',
             initialState: 'notify',
+            consentCookieExpiry: 182,
             layout: 'popup',
             theme: 'light',
             setInnerHTML: true,
