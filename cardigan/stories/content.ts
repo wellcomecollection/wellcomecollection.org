@@ -117,7 +117,7 @@ export const bannerCardItem: Season = {
       contentUrl: `${florenceWinterfloodImage}-3200x1800.jpg`,
       width: 3200,
       height: 1800,
-      alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
+      alt: 'An image with an alt text.',
       tasl: {
         title: "Alzheimer's disease",
         author: 'Florence Winterflood',
