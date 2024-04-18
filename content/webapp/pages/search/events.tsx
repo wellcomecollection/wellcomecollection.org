@@ -166,7 +166,6 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
                     }}
                   />
                   <Pagination
-                    formId={SEARCH_PAGES_FORM_ID}
                     totalPages={eventResponseList.totalPages}
                     ariaLabel="Events search pagination"
                     isHiddenMobile
@@ -180,7 +179,6 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
 
               <PaginationWrapper $verticalSpacing="l" $alignRight>
                 <Pagination
-                  formId={SEARCH_PAGES_FORM_ID}
                   totalPages={eventResponseList.totalPages}
                   ariaLabel="Events search pagination"
                 />

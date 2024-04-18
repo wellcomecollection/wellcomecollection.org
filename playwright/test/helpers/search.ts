@@ -46,18 +46,22 @@ export const selectAndWaitForFilter = async (
 };
 
 export const navigateToNextPageAndConfirmNavigation = async (page: Page) => {
-  const paginationInput = page.getByTestId('pagination').getByRole('textbox');
+  const firstPage = await page
+    .getByTestId('pagination')
+    .getByTestId('current-page')
+    .textContent();
 
-  const currentPage = await paginationInput.inputValue();
   const nextButton = page
     .getByTestId('pagination')
     .getByRole('link', { name: 'Next' });
 
   await nextButton.click();
 
-  await slowExpect(paginationInput).toHaveValue(
-    String(Number(currentPage) + 1)
-  );
+  const newPage = await page
+    .getByTestId('pagination')
+    .getByTestId('current-page');
+
+  await slowExpect(newPage).toHaveText(String(Number(firstPage) + 1));
 };
 
 export const navigateToResultAndConfirmTitleMatches = async (

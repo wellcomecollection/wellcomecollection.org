@@ -220,7 +220,6 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                     />
 
                     <Pagination
-                      formId={SEARCH_PAGES_FORM_ID}
                       totalPages={images.totalPages}
                       ariaLabel="Image search pagination"
                       hasDarkBg
@@ -235,7 +234,6 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
 
                 <PaginationWrapper $verticalSpacing="l" $alignRight>
                   <Pagination
-                    formId={SEARCH_PAGES_FORM_ID}
                     totalPages={images.totalPages}
                     ariaLabel="Image search pagination"
                     hasDarkBg
