@@ -27,7 +27,7 @@ const SoundCloudEmbed: FunctionComponent<Props> = ({
   transcript,
 }) => {
   return (
-    <Figure>
+    <Figure data-chromatic="ignore">
       <iframe
         width="100%"
         height="140"
