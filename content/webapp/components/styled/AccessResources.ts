@@ -23,7 +23,7 @@ export const ResourcesItem = styled.li`
 
 export const ResourceLink = styled(Space).attrs<{ href: string }>({
   as: 'a',
-  $h: { size: 's', properties: ['padding-left', 'padding-right'] },
+  $h: { size: 's', properties: ['padding-left'] },
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })<{ $borderColor: PaletteColor; $underlineText?: boolean }>`
   display: block;
@@ -32,6 +32,9 @@ export const ResourceLink = styled(Space).attrs<{ href: string }>({
   text-decoration: ${props => (props.$underlineText ? 'underline' : 'none')};
   border: 1px solid ${props => props.theme.color('warmNeutral.400')};
   border-left: 10px solid ${props => props.theme.color(props.$borderColor)};
+
+  /* Accounts for the size of the arrow icon */
+  padding-right: 34px;
 
   &:hover {
     background: ${props => props.theme.color('neutral.400')};

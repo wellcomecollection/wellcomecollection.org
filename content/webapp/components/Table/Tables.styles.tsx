@@ -13,6 +13,7 @@ export const ScrollButtonWrap = styled.div<{
   z-index: 2;
   top: 50%;
   cursor: pointer;
+  margin: 0;
   pointer-events: ${props => (props.$isActive ? 'all' : 'none')};
   opacity: ${props => (props.$isActive ? 1 : 0.2)};
   transition: opacity ${props => props.theme.transitionProperties};
