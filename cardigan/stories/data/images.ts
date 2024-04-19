@@ -1,6 +1,10 @@
 import { LicenseType } from '@weco/common/model/license';
 import { faker } from '@faker-js/faker';
 import { singleLineOfText } from './text';
+import { Picture } from '@weco/common/model/picture';
+import { ImageType } from '@weco/common/model/image';
+import { CaptionedImageProps } from '@weco/content/components/CaptionedImage/CaptionedImage';
+import { Props as ImageGalleryProps } from '@weco/content/components/ImageGallery';
 
 type ImageSize = '1600x900' | '3200x1500' | '3200x1800' | '3200x3200';
 
@@ -18,14 +22,13 @@ export const image = (
   contentUrl = readingRoomImageUrl,
   width = 640,
   height = 360
-) => {
+): Picture => {
   return {
     contentUrl,
     width,
     height,
     alt: 'an image with some alt text',
     tasl: {
-      contentUrl,
       title: 'The title of the image',
       author: 'The author',
       sourceName: 'Wellcome Collection',
@@ -39,14 +42,13 @@ export const squareImage = (
   contentUrl = readingRoomClockImageUrl,
   width = 300,
   height = 300
-) => {
+): ImageType => {
   return {
     contentUrl,
     width,
     height,
     alt: '',
     tasl: {
-      contentUrl,
       title: 'The title of the image',
       author: 'The author',
       sourceName: 'Wellcome Collection',
@@ -56,9 +58,8 @@ export const squareImage = (
   };
 };
 
-export const captionedImage = () => ({
+export const captionedImage = (): CaptionedImageProps => ({
   image: image(),
-
   caption: [
     {
       type: 'paragraph',
@@ -66,13 +67,17 @@ export const captionedImage = () => ({
       spans: [],
     },
   ],
+  hasRoundedCorners: false,
 });
 
-export const imageGallery = () => {
+export const imageGallery = (): ImageGalleryProps & { id: number } => {
   const items = Array(4).fill(captionedImage());
+
   return {
-    id: '123',
+    id: 123,
     title: singleLineOfText(),
     items,
+    isStandalone: false,
+    isFrames: false,
   };
 };
