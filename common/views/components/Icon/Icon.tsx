@@ -7,6 +7,7 @@ type WrapperProps = {
   $rotate?: number;
   $iconColor?: PaletteColor;
   $matchText?: boolean;
+  $sizeOverride?: string;
 };
 
 const Wrapper = styled.span.attrs({
@@ -29,6 +30,13 @@ const Wrapper = styled.span.attrs({
     width: 1em;
   `}
 
+  ${props =>
+    props.$sizeOverride &&
+    `
+    ${props.$sizeOverride}
+  `}
+
+
   .icon__svg {
     height: 100%;
     left: 0;
@@ -47,6 +55,7 @@ type Props = {
   rotate?: number;
   iconColor?: PaletteColor;
   matchText?: boolean;
+  sizeOverride?: string;
   title?: string;
   attrs?: { [key: string]: [string] };
 };
@@ -56,6 +65,7 @@ const Icon: FunctionComponent<Props> = ({
   rotate,
   iconColor,
   matchText,
+  sizeOverride,
   title,
   attrs = {},
 }: Props) => (
@@ -64,6 +74,7 @@ const Icon: FunctionComponent<Props> = ({
     $rotate={rotate}
     $iconColor={iconColor}
     $matchText={matchText}
+    $sizeOverride={sizeOverride}
   >
     <svg
       className="icon__svg"
