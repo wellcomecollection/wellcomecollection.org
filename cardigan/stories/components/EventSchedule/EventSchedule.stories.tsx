@@ -1,7 +1,7 @@
 import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule';
 import Readme from '@weco/content/components/EventSchedule/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import { darkCloudImage } from '../../content';
+import { darkCloudImageUrl } from '@weco/cardigan/stories/data/images';
 
 const schedule = [
   {
@@ -13,7 +13,7 @@ const schedule = [
         caption:
           'Drop in to experience a newly commissioned work by artists Basel Zaraa and Tania El Khoury about the health experiences of refugees. This  performance will use painting, touch and sound to connect you with the emotional and mental health hardships faced by people in detention centres and will evolve over the weekend.',
         image: {
-          contentUrl: `${darkCloudImage}-3200x1800.png`,
+          contentUrl: darkCloudImageUrl('3200x1800'),
           width: 3200,
           height: 1800,
           alt: 'Photograph of a forearm with fingers outstretched, against a slatted wooden background. Small human figures are draw onto the arm, one is circled.',
@@ -27,7 +27,7 @@ const schedule = [
         link: null,
       },
       image: {
-        contentUrl: `${darkCloudImage}-3200x1800.png`,
+        contentUrl: darkCloudImageUrl('3200x1800'),
         width: 3484,
         height: 1960,
         alt: 'Photograph of a forearm with fingers outstretched, against a slatted wooden background. Small human figures are draw onto the arm, one is circled.',

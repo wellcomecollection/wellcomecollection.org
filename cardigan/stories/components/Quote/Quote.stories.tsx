@@ -1,5 +1,5 @@
 import Quote from '@weco/content/components/Quote/Quote';
-import { quote } from '@weco/cardigan/stories/content';
+import { quote } from '@weco/cardigan/stories/data/content';
 import Readme from '@weco/content/components/Quote/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 

@@ -2,7 +2,7 @@ import TextAndImageOrIcons from '@weco/content/components/TextAndImageOrIcons';
 import Readme from '@weco/content/components/TextAndImageOrIcons/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { mockImage } from '@weco/common/test/fixtures/components/compact-card';
-import { smallText } from '../../content';
+import { smallText } from '@weco/cardigan/stories/data/text';
 import { mockIcons } from '@weco/common/test/fixtures/components/text-and-icons';
 
 const Template = args => (
