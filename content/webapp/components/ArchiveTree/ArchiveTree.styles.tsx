@@ -18,20 +18,26 @@ export const TreeInstructions = styled.p.attrs({
   display: none;
 `;
 
-export const Tree = styled.div<{ $isEnhanced?: boolean }>`
+export const Tree = styled.div<{
+  $isEnhanced?: boolean;
+  $showFirstLevelGuideline?: boolean;
+  $maxWidth?: number;
+}>`
   ul {
     position: relative;
     padding-left: 0;
     margin: 0;
+    width: 100%;
 
-    ${props => props.theme.media('medium')`
-      width: 375px;
-    `}
+    ${props =>
+      props.theme.media('medium')(`
+      width: ${props.$maxWidth ? `${props.$maxWidth}px` : '100%'}
+    `)}
 
     &::before {
       display: none;
       position: absolute;
-      content: ${props => (props.$isEnhanced ? `'${instructions}'` : null)};
+      content: ${props => (props.$isEnhanced ? `'${treeInstructions}'` : null)};
       z-index: 2;
       top: 0;
       background: ${props => props.theme.color('yellow')};
@@ -48,6 +54,10 @@ export const Tree = styled.div<{ $isEnhanced?: boolean }>`
     ul {
       content: '';
       width: auto;
+      padding-left: ${props =>
+        props.$showFirstLevelGuideline
+          ? `${controlDimensions.controlWidth}px`
+          : 0};
     }
   }
 
@@ -70,7 +80,6 @@ export const TreeItem = styled.li.attrs<TreeItemProps>(props => ({
 }))<TreeItemProps>`
   position: relative;
   list-style: ${props => (props.$isEnhanced ? 'none' : 'disc')};
-  padding: 0;
 
   &.guideline::before,
   &.guideline::after {
