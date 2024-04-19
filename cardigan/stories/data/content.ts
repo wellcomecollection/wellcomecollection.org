@@ -88,7 +88,6 @@ export const event: Event = {
   type: 'events',
   id: 'x123',
   title: 'Event title',
-  audiences: [],
   availableOnline: true,
   body: [],
   untransformedBody: [],
