@@ -1,4 +1,4 @@
-import { Article } from '@weco/content/types/articles';
+import { Article, ArticleBasic } from '@weco/content/types/articles';
 import { Event } from '@weco/content/types/events';
 import { faker } from '@faker-js/faker';
 import { Season } from '@weco/content/types/seasons';
@@ -15,54 +15,6 @@ export function randomNumber(min: number, max: number): number {
 }
 
 faker.seed(123);
-
-export const id = randomNumber(1000, 2000);
-export const url = faker.internet.url();
-
-const sameAs = [
-  { link: 'https://twitter.com/mbannisy', title: '@mbannisy' },
-  { link: 'http://things.com', title: 'things.com' },
-  { link: 'https://google.com', title: 'This is it!' },
-];
-
-export const interpretations = [
-  {
-    interpretationType: {
-      id: 'id',
-      title: 'British sign language interpreted',
-      description: '',
-      primaryDescription: '',
-    },
-    isPrimary: false,
-  },
-  {
-    interpretationType: {
-      id: 'id',
-      title: 'Audio described',
-      description: '',
-      primaryDescription: '',
-    },
-    isPrimary: false,
-  },
-  {
-    interpretationType: {
-      id: 'id',
-      title: 'Speech-to-Text',
-      description: '',
-      primaryDescription: '',
-    },
-    isPrimary: true,
-  },
-  {
-    interpretationType: {
-      id: 'id',
-      title: 'Hearing loop',
-      description: '',
-      primaryDescription: '',
-    },
-    isPrimary: false,
-  },
-];
 
 export const bannerCardItem: Season = {
   type: 'seasons',
@@ -282,7 +234,11 @@ export const person: PersonType = {
       title: 'Avatar',
     },
   },
-  sameAs,
+  sameAs: [
+    { link: 'https://twitter.com/mbannisy', title: '@mbannisy' },
+    { link: 'http://things.com', title: 'things.com' },
+    { link: 'https://google.com', title: 'This is it!' },
+  ],
 };
 
 export const organisation: OrganisationType = {
@@ -536,7 +492,7 @@ export const article: Article = {
   seasons: [],
 };
 
-export const articleBasic = {
+export const articleBasic: ArticleBasic = {
   type: 'articles',
   id: 'article-basic',
   promo: article.promo,
