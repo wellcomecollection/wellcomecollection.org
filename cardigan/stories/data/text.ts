@@ -5,7 +5,7 @@ faker.seed(123);
 
 export const singleLineOfText = () => faker.random.words(7);
 
-export const prismicRichTextMultiline = [
+export const prismicRichTextMultiline: PrismicRichTextField = [
   {
     type: 'heading2',
     text: 'In consectetur urna turpis, eu egestas elit ultricies ac. ',
@@ -36,20 +36,19 @@ export const prismicRichTextMultiline = [
     text: 'Sed feugiat diam non mattis dignissim. Morbi vel pharetra dolor. Suspendisse viverra hendrerit leo a viverra. Vestibulum pharetra, tellus eu vestibulum hendrerit, ex justo condimentum nunc, eget varius lectus ante non erat. Etiam ac erat interdum, ultricies purus ac, malesuada nisi.',
     spans: [],
   },
-] as PrismicRichTextField;
+];
 
-export const text = () =>
+export const text = (): PrismicRichTextField[] =>
   Array(2).fill({
     type: 'paragraph',
     text: `${faker.random.words(30)}`,
     spans: [],
   });
 
-export const smallText = () =>
-  [
-    {
-      type: 'paragraph',
-      text: `${faker.random.words(20)}`,
-      spans: [],
-    },
-  ] as PrismicRichTextField;
+export const smallText = (): PrismicRichTextField => [
+  {
+    type: 'paragraph',
+    text: `${faker.random.words(20)}`,
+    spans: [],
+  },
+];

@@ -15,10 +15,6 @@ import {
 } from '@weco/content/types/contributors';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 
-export function randomNumber(min: number, max: number): number {
-  return Math.floor(Math.random() * max) + min;
-}
-
 faker.seed(123);
 
 export const bannerCardItem: Season = {
