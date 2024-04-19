@@ -45,10 +45,11 @@ export const text = () =>
     spans: [],
   });
 
-export const smallText = () => [
-  {
-    type: 'paragraph',
-    text: `${faker.random.words(20)}`,
-    spans: [],
-  },
-];
+export const smallText = () =>
+  [
+    {
+      type: 'paragraph',
+      text: `${faker.random.words(20)}`,
+      spans: [],
+    },
+  ] as PrismicRichTextField;

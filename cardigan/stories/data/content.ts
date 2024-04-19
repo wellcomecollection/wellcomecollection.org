@@ -5,6 +5,10 @@ import { Season } from '@weco/content/types/seasons';
 import { darkCloudImageUrl, florenceWinterfloodImageUrl } from './images';
 import { smallText } from './text';
 import { Props as QuoteProps } from '@weco/content/components/Quote/Quote';
+import {
+  Person as PersonType,
+  Organisation as OrganisationType,
+} from '@weco/content/types/contributors';
 
 export function randomNumber(min: number, max: number): number {
   return Math.floor(Math.random() * max) + min;
@@ -264,43 +268,40 @@ export const quote: QuoteProps = {
   isPullOrReview: false,
 };
 
-export function person() {
-  return {
-    id: faker.datatype.uuid(),
-    name: faker.name.fullName(),
-    description: smallText(),
-    image: {
-      contentUrl: faker.image.avatar(),
-      width: 120,
-      height: 120,
-      alt: 'Avatar',
-      tasl: {
-        title: 'Avatar',
-      },
+export const person: PersonType = {
+  type: 'people',
+  id: faker.datatype.uuid(),
+  name: faker.name.fullName(),
+  description: smallText(),
+  image: {
+    contentUrl: faker.image.avatar(),
+    width: 120,
+    height: 120,
+    alt: 'Avatar',
+    tasl: {
+      title: 'Avatar',
     },
-    sameAs,
-  };
-}
+  },
+  sameAs,
+};
 
-export function organisation() {
-  return {
-    id: faker.datatype.uuid(),
-    name: faker.company.name(),
-    description: smallText(),
-    url: 'https://wellcomecollection.org',
-    image: {
-      contentUrl:
-        'https://vignette.wikia.nocookie.net/logopedia/images/4/42/BBC_Worldwide_1995.svg/revision/latest?cb=20180114133014',
-      width: 3200,
-      height: 3200,
-      alt: 'Weewaaz',
-      tasl: {
-        title: 'Weewaaz',
-      },
+export const organisation: OrganisationType = {
+  type: 'organisations',
+  id: faker.datatype.uuid(),
+  name: faker.company.name(),
+  description: smallText(),
+  image: {
+    contentUrl:
+      'https://vignette.wikia.nocookie.net/logopedia/images/4/42/BBC_Worldwide_1995.svg/revision/latest?cb=20180114133014',
+    width: 3200,
+    height: 3200,
+    alt: 'Weewaaz',
+    tasl: {
+      title: 'Weewaaz',
     },
-    sameAs: [],
-  };
-}
+  },
+  sameAs: [],
+};
 
 export const article: Article = {
   type: 'articles',

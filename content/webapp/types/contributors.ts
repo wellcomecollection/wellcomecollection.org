@@ -6,7 +6,7 @@ type SameAs = {
   title: string;
 }[];
 
-type Person = {
+export type Person = {
   type: 'people';
   id: string;
   name?: string;
@@ -16,7 +16,7 @@ type Person = {
   pronouns?: string;
 };
 
-type Organisation = {
+export type Organisation = {
   type: 'organisations';
   id: string;
   name?: string;
