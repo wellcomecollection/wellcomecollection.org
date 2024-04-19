@@ -6,25 +6,25 @@ labels: ''
 assignees: ''
 
 ---
-**What is the problem to solve?**
+## What is the problem to solve?
 
 
-**What stage of research is it? (discovery/general usability testing/post release)**
+## What stage of research is it? (discovery/general usability testing/post release)
 
 
-**What are the objectives?**
+## What are the objectives?
 
 
-**What are the assumptions?**
+## What are the assumptions?
 
 
-**What research technique is required?**
+## What research technique is required?
 
 
-**Optimal number of participants**
+## Optimal number of participants
 
 
-**Acceptance criteria**
+## Acceptance criteria
 
 
-**Deadline for results/dependencies:**
+## Deadline for results/dependencies:
