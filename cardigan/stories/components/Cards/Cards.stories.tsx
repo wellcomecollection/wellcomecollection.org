@@ -4,7 +4,6 @@ import FeaturedCard from '@weco/content/components/FeaturedCard/FeaturedCard';
 import EventPromo from '@weco/content/components/EventPromo/EventPromo';
 import ExhibitionPromo from '@weco/content/components/ExhibitionPromo/ExhibitionPromo';
 import StoryPromo from '@weco/content/components/StoryPromo/StoryPromo';
-import { exhibitionBasic } from '@weco/cardigan/stories/data/prismic/exhibition';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Readme from '@weco/content/components/FeaturedCard/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
@@ -12,6 +11,7 @@ import { font } from '@weco/common/utils/classnames';
 import {
   bannerCardItem,
   articleBasic,
+  exhibitionBasic,
   event,
 } from '@weco/cardigan/stories/data/content';
 import { image, squareImage } from '@weco/cardigan/stories/data/images';

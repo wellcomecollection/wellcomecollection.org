@@ -2,13 +2,18 @@ import { Article, ArticleBasic } from '@weco/content/types/articles';
 import { Event } from '@weco/content/types/events';
 import { faker } from '@faker-js/faker';
 import { Season } from '@weco/content/types/seasons';
-import { darkCloudImageUrl, florenceWinterfloodImageUrl } from './images';
+import {
+  darkCloudImageUrl,
+  florenceWinterfloodImageUrl,
+  image,
+} from './images';
 import { smallText } from './text';
 import { Props as QuoteProps } from '@weco/content/components/Quote/Quote';
 import {
   Person as PersonType,
   Organisation as OrganisationType,
 } from '@weco/content/types/contributors';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 
 export function randomNumber(min: number, max: number): number {
   return Math.floor(Math.random() * max) + min;
@@ -499,5 +504,19 @@ export const articleBasic: ArticleBasic = {
   series: [],
   title: article.title,
   datePublished: article.datePublished,
+  labels: [],
+};
+
+export const exhibitionBasic: ExhibitionBasic = {
+  type: 'exhibitions',
+  id: 'exhibition-basic',
+  title: 'What does it mean to be human now? Four views by CYP x CALLY',
+  promo: {
+    image: image(florenceWinterfloodImageUrl('3200x1800'), 3200, 1800),
+  },
+  start: new Date('2021-05-17T23:00:00+0000'),
+  end: new Date('2021-09-29T23:00:00+0000'),
+  isPermanent: null,
+  contributors: [],
   labels: [],
 };
