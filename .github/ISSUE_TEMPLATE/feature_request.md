@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 ## What?
-<!-- What is being requested --?
+<!-- What is being requested -->
 
 ## Why? 
 <!-- Why is this being suggested? What isn't working? What has been observed? What could be improved? -->
