@@ -37,7 +37,7 @@ basic.args = {
     },
     {
       type: 'quote',
-      value: quote(),
+      value: quote,
     },
   ],
 };

@@ -4,6 +4,7 @@ import { faker } from '@faker-js/faker';
 import { Season } from '@weco/content/types/seasons';
 import { darkCloudImageUrl, florenceWinterfloodImageUrl } from './images';
 import { smallText } from './text';
+import { Props as QuoteProps } from '@weco/content/components/Quote/Quote';
 
 export function randomNumber(min: number, max: number): number {
   return Math.floor(Math.random() * max) + min;
@@ -235,7 +236,7 @@ export const event: Event = {
   series: [],
 };
 
-export const quote = () => ({
+export const quote: QuoteProps = {
   text: [
     {
       type: 'paragraph',
@@ -260,7 +261,8 @@ export const quote = () => ({
       ],
     },
   ],
-});
+  isPullOrReview: false,
+};
 
 export function person() {
   return {
