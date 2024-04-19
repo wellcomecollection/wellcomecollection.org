@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import {
   TreeItemProps,
   controlDimensions,
-  instructions,
   verticalGuidePosition,
 } from './ArchiveTree.helpers';
+import { treeInstructions } from '@weco/common/data/microcopy';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const TreeContainer = styled.div`
