@@ -1,7 +1,7 @@
 import { CopyUrl, CopyContent } from '@weco/content/components/CopyButtons';
 import Readme from '@weco/content/components/CopyButtons/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import { singleLineOfText } from '../../content';
+import { singleLineOfText } from '@weco/cardigan/stories/data/text';
 
 const CopyUrlTemplate = args => (
   <ReadmeDecorator WrappedComponent={CopyUrl} args={args} Readme={Readme} />

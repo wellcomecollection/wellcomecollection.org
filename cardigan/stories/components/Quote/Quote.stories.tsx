@@ -1,23 +1,30 @@
 import Quote from '@weco/content/components/Quote/Quote';
-import { quote } from '@weco/cardigan/stories/content';
+import { quote } from '@weco/cardigan/stories/data/content';
 import Readme from '@weco/content/components/Quote/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const Template = args => (
   <ReadmeDecorator WrappedComponent={Quote} args={args} Readme={Readme} />
 );
-export const block = Template.bind({});
-block.args = {
-  text: quote().text,
-  citation: quote().citation,
-  isPullOrReview: false,
-};
-block.storyName = 'Quote';
 
-export const pullOrReview = Template.bind({});
-pullOrReview.args = {
-  text: quote().text,
-  citation: quote().citation,
-  isPullOrReview: true,
+export const basic = Template.bind({});
+basic.args = {
+  ...quote,
 };
-pullOrReview.storyName = 'Pull/Review';
+basic.storyName = 'Quote';
+basic.argTypes = {
+  isPullOrReview: {
+    control: 'boolean',
+    name: 'Is either a pull quote or a review',
+  },
+  text: {
+    table: {
+      disable: true,
+    },
+  },
+  citation: {
+    table: {
+      disable: true,
+    },
+  },
+};

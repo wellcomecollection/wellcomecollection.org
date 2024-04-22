@@ -1,11 +1,10 @@
 import Body from '@weco/content/components/Body/Body';
+import { videoEmbed, quote } from '@weco/cardigan/stories/data/content';
 import {
   captionedImage,
-  text as textContent,
-  videoEmbed,
   imageGallery,
-  quote,
-} from '@weco/cardigan/stories/content';
+} from '@weco/cardigan/stories/data/images';
+import { text as textContent } from '@weco/cardigan/stories/data/text';
 
 const Template = args => <Body {...args} />;
 export const basic = Template.bind({});
@@ -38,7 +37,7 @@ basic.args = {
     },
     {
       type: 'quote',
-      value: quote(),
+      value: quote,
     },
   ],
 };

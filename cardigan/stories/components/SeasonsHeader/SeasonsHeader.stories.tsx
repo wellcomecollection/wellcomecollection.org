@@ -1,7 +1,7 @@
 import SeasonsHeader from '@weco/content/components/SeasonsHeader';
 import { ImageType } from '@weco/common/model/image';
 import { Season } from '@weco/content/types/seasons';
-import { imagesBaseUrl } from '../../content';
+import { imagesBaseUrl } from '@weco/cardigan/stories/data/images';
 
 const image: ImageType = {
   contentUrl: `${imagesBaseUrl}/reading-room-3200x1800.jpg`,

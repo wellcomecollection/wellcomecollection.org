@@ -15,12 +15,12 @@ import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { LicenseType } from '@weco/common/model/license';
 import Body from '@weco/content/components/Body/Body';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
-import {
-  florenceWinterfloodImage,
-  imagesBaseUrl,
-  videoEmbed,
-} from '@weco/cardigan/stories/content';
+import { videoEmbed } from '@weco/cardigan/stories/data/content';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import {
+  bookImageUrl,
+  florenceWinterfloodImageUrl,
+} from '@weco/cardigan/stories/data/images';
 
 const Date = styled.span.attrs({ className: font('intr', 6) })`
   color: ${props => props.theme.color('neutral.600')};
@@ -67,7 +67,7 @@ const ContentTypeInfo = (
 
 const articlePictureImages = [
   {
-    contentUrl: `${florenceWinterfloodImage}-3200x1800.jpg`,
+    contentUrl: florenceWinterfloodImageUrl('3200x1800'),
     width: 3200,
     height: 1800,
     alt: '',
@@ -84,7 +84,7 @@ const articlePictureImages = [
     minWidth: '600px',
   },
   {
-    contentUrl: `${florenceWinterfloodImage}-3200x3200.jpg`,
+    contentUrl: florenceWinterfloodImageUrl('3200x3200'),
     width: 3200,
     height: 3200,
     alt: '',
@@ -104,7 +104,7 @@ const articlePictureImages = [
 
 const exhibitionPictureImages = [
   {
-    contentUrl: `${florenceWinterfloodImage}-3200x1800.jpg`,
+    contentUrl: florenceWinterfloodImageUrl('3200x1800'),
     width: 3200,
     height: 1800,
     alt: 'Photograph of an exhibition gallery space, with a blue stained wood wall in the background, in front of which a young man looks at a life-size artwork of a figure resembling an astronaut. In the foreground a young woman sits on a wooden bench holding an audio speaker to her ear.',
@@ -120,7 +120,7 @@ const exhibitionPictureImages = [
     minWidth: '600px',
   },
   {
-    contentUrl: `${florenceWinterfloodImage}-3200x3200.jpg`,
+    contentUrl: florenceWinterfloodImageUrl('3200x3200'),
     width: 3200,
     height: 3200,
     alt: 'Photograph of an exhibition gallery space, with a blue stained wood wall in the background, in front of which a young man looks at a life-size artwork of a figure resembling an astronaut. In the foreground a young woman sits on a wooden bench holding an audio speaker to her ear.',
@@ -174,7 +174,7 @@ const BookContentTypeInfo = () => (
 );
 
 const eventImage = {
-  contentUrl: `${florenceWinterfloodImage}-3200x1800.jpg`,
+  contentUrl: florenceWinterfloodImageUrl('3200x1800'),
   width: 3200,
   height: 1800,
   alt: null,
@@ -191,7 +191,7 @@ const eventImage = {
 };
 
 const bookImage = {
-  contentUrl: `${imagesBaseUrl}/book.png`,
+  contentUrl: bookImageUrl,
   width: 1080,
   height: 1659,
   alt: 'Book cover featuring the word ‘Together’, multicoloured and in joined-up text',

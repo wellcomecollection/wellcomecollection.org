@@ -1,105 +1,21 @@
-import { LicenseType } from '@weco/common/model/license';
-import { Article } from '@weco/content/types/articles';
+import { Article, ArticleBasic } from '@weco/content/types/articles';
 import { Event } from '@weco/content/types/events';
 import { faker } from '@faker-js/faker';
-import { RichTextField as PrismicRichTextField } from '@prismicio/client';
 import { Season } from '@weco/content/types/seasons';
-
-export function randomNumber(min: number, max: number): number {
-  return Math.floor(Math.random() * max) + min;
-}
+import {
+  darkCloudImageUrl,
+  florenceWinterfloodImageUrl,
+  image,
+} from './images';
+import { smallText } from './text';
+import { Props as QuoteProps } from '@weco/content/components/Quote/Quote';
+import {
+  Person as PersonType,
+  Organisation as OrganisationType,
+} from '@weco/content/types/contributors';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 
 faker.seed(123);
-
-export const id = randomNumber(1000, 2000);
-
-export const imagesBaseUrl = `${window.location.origin}/images`;
-
-export const florenceWinterfloodImage = `${imagesBaseUrl}/florence-winterflood`;
-export const darkCloudImage = `${imagesBaseUrl}/darkcloud-promo`;
-
-export const image = (
-  contentUrl = `${imagesBaseUrl}/reading-room-3200x1800.jpg`,
-  width = 640,
-  height = 360
-) => {
-  return {
-    contentUrl,
-    width,
-    height,
-    alt: 'an image with some alt text',
-    tasl: {
-      contentUrl,
-      title: 'The title of the image',
-      author: 'The author',
-      sourceName: 'Wellcome Collection',
-      sourceLink: 'https://wellcomecollection.org/works',
-      license: 'CC-BY-NC' as LicenseType,
-    },
-  };
-};
-
-export const squareImage = (
-  contentUrl = `${imagesBaseUrl}/reading-room-clock-3200x3200.jpg`,
-  width = 300,
-  height = 300
-) => {
-  return {
-    contentUrl,
-    width,
-    height,
-    alt: '',
-    tasl: {
-      contentUrl,
-      title: 'The title of the image',
-      author: 'The author',
-      sourceName: 'Wellcome Collection',
-      sourceLink: 'https://wellcomecollection.org/works',
-      license: 'CC-BY-NC' as LicenseType,
-    },
-  };
-};
-
-export const interpretations = [
-  {
-    interpretationType: {
-      id: 'id',
-      title: 'British sign language interpreted',
-      description: '',
-      primaryDescription: '',
-    },
-    isPrimary: false,
-  },
-  {
-    interpretationType: {
-      id: 'id',
-      title: 'Audio described',
-      description: '',
-      primaryDescription: '',
-    },
-    isPrimary: false,
-  },
-  {
-    interpretationType: {
-      id: 'id',
-      title: 'Speech-to-Text',
-      description: '',
-      primaryDescription: '',
-    },
-    isPrimary: true,
-  },
-  {
-    interpretationType: {
-      id: 'id',
-      title: 'Hearing loop',
-      description: '',
-      primaryDescription: '',
-    },
-    isPrimary: false,
-  },
-];
-
-export const url = faker.internet.url();
 
 export const bannerCardItem: Season = {
   type: 'seasons',
@@ -114,7 +30,7 @@ export const bannerCardItem: Season = {
     caption:
       'Our new season explores the intertwined connections between the individual, societal and global health.',
     image: {
-      contentUrl: `${florenceWinterfloodImage}-3200x1800.jpg`,
+      contentUrl: florenceWinterfloodImageUrl('3200x1800'),
       width: 3200,
       height: 1800,
       alt: 'An image with an alt text.',
@@ -131,7 +47,7 @@ export const bannerCardItem: Season = {
     link: null,
   },
   image: {
-    contentUrl: `${florenceWinterfloodImage}-1600x900.jpg`,
+    contentUrl: florenceWinterfloodImageUrl('1600x900'),
     width: 1600,
     height: 900,
     alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
@@ -146,175 +62,23 @@ export const bannerCardItem: Season = {
     },
     simpleCrops: {
       '32:15': {
-        contentUrl: `${florenceWinterfloodImage}-3200x1500.jpg`,
+        contentUrl: florenceWinterfloodImageUrl('3200x1500'),
         width: 3200,
         height: 1500,
       },
       '16:9': {
-        contentUrl: `${florenceWinterfloodImage}-3200x1800.jpg`,
+        contentUrl: florenceWinterfloodImageUrl('3200x1800'),
         width: 3200,
         height: 1800,
       },
       square: {
-        contentUrl: `${florenceWinterfloodImage}-3200x3200.jpg`,
+        contentUrl: florenceWinterfloodImageUrl('3200x3200'),
         width: 3200,
         height: 3200,
       },
     },
   },
 };
-
-export const editorialSeries = [
-  {
-    name: 'Searching for Genius',
-    description: [
-      {
-        type: 'paragraph',
-        text: 'This five-part series is great. ',
-        spans: [],
-      },
-    ],
-    color: 'accent.blue',
-    schedule: [
-      {
-        title: [{ type: 'heading1', text: 'First heading', spans: [] }],
-        publishDate: '2018-04-18T23: 00: 00+0000',
-      },
-      {
-        title: [{ type: 'heading1', text: 'Second heading', spans: [] }],
-        publishDate: '2018-04-25T23: 00: 00+0000',
-      },
-      {
-        title: [{ type: 'heading1', text: 'Third heading', spans: [] }],
-        publishDate: '2018-05-02T23: 00: 00+0000',
-      },
-      {
-        title: [{ type: 'heading1', text: 'Fourth heading', spans: [] }],
-        publishDate: '2018-05-09T23: 00: 00+0000',
-      },
-      {
-        title: [{ type: 'heading1', text: 'Fifth heading', spans: [] }],
-        publishDate: '2018-05-16T23: 00: 00+0000',
-      },
-    ],
-    promo: [],
-  },
-];
-
-export const eventSeries = [
-  {
-    id: 'Wn28GCoAACkAIYol',
-    title: 'The Evidence:  Civilisations and Health',
-    description: [
-      {
-        type: 'paragraph',
-        text: 'The BBC World Service is joining forces with Wellcome Collection for this series of events and radio programmes exploring health in the context of society and civilisation. ',
-        spans: [],
-      },
-    ],
-  },
-];
-
-export const eventSchedule = [
-  {
-    event: {
-      id: 'Wo1c-CoAACoAZG2p',
-      type: 'events',
-      tags: ['delist'],
-      slug: 'creative-activities',
-      lang: 'en-gb',
-      link_type: 'Document',
-      isBroken: false,
-    },
-    hideLink: null,
-  },
-  {
-    event: {
-      id: 'Wo1ZxioAAMLuZF_Q',
-      type: 'events',
-      tags: ['delist'],
-      slug: 'shakti-and-seva-gender-and-health-in-south-asia',
-      lang: 'en-gb',
-      link_type: 'Document',
-      isBroken: false,
-    },
-    hideLink: null,
-  },
-  {
-    event: {
-      id: 'Wo1bOSoAAHW6ZGYC',
-      type: 'events',
-      tags: ['delist'],
-      slug: 'music-from-club-kali',
-      lang: 'en-gb',
-      link_type: 'Document',
-      isBroken: false,
-    },
-    hideLink: null,
-  },
-];
-
-export const captionedImage = () => ({
-  image: image(),
-
-  caption: [
-    {
-      type: 'paragraph',
-      text: faker.random.words(10),
-      spans: [],
-    },
-  ],
-});
-
-export const singleLineOfText = () => faker.random.words(7);
-
-export const prismicRichTextMultiline = [
-  {
-    type: 'heading2',
-    text: 'In consectetur urna turpis, eu egestas elit ultricies ac. ',
-    spans: [],
-  },
-  {
-    type: 'paragraph',
-    text: 'Sed feugiat diam non mattis dignissim. Morbi vel pharetra dolor. Suspendisse viverra hendrerit leo a viverra. Vestibulum pharetra, tellus eu vestibulum hendrerit, ex justo condimentum nunc, eget varius lectus ante non erat. Etiam ac erat interdum, ultricies purus ac, malesuada nisi.',
-    spans: [],
-  },
-  {
-    type: 'heading3',
-    text: 'Sed feugiat diam non mattis dignissim.',
-    spans: [],
-  },
-  {
-    type: 'paragraph',
-    text: 'In consectetur urna turpis, eu egestas elit ultricies ac. Curabitur a urna velit. Maecenas vel pellentesque risus. Morbi ex sem, vestibulum id accumsan luctus, vehicula quis ipsum. Fusce nec felis mauris. Duis ornare odio interdum, consectetur nisi quis, blandit urna. Vestibulum imperdiet eu neque non tincidunt. Donec facilisis semper pulvinar.',
-    spans: [],
-  },
-  {
-    type: 'paragraph',
-    text: 'Sed feugiat diam non mattis dignissim. Morbi vel pharetra dolor. Suspendisse viverra hendrerit leo a viverra. Vestibulum pharetra, tellus eu vestibulum hendrerit, ex justo condimentum nunc, eget varius lectus ante non erat. Etiam ac erat interdum, ultricies purus ac, malesuada nisi.',
-    spans: [],
-  },
-  {
-    type: 'paragraph',
-    text: 'Sed feugiat diam non mattis dignissim. Morbi vel pharetra dolor. Suspendisse viverra hendrerit leo a viverra. Vestibulum pharetra, tellus eu vestibulum hendrerit, ex justo condimentum nunc, eget varius lectus ante non erat. Etiam ac erat interdum, ultricies purus ac, malesuada nisi.',
-    spans: [],
-  },
-] as PrismicRichTextField;
-
-export const text = () =>
-  Array(2).fill({
-    type: 'paragraph',
-    text: `${faker.random.words(30)}`,
-    spans: [],
-  });
-
-export const smallText = () => [
-  {
-    type: 'paragraph',
-    text: `${faker.random.words(20)}`,
-    spans: [],
-  },
-];
 
 export const videoEmbed = {
   embedUrl: 'https://www.youtube.com/embed/l0A8-DmX0Z0?feature=oembed',
@@ -336,7 +100,7 @@ export const event: Event = {
   format: { id: 'WlYVBiQAACcAWcu9', title: 'Seminar', description: null },
   hasEarlyRegistration: false,
   image: {
-    contentUrl: `${darkCloudImage}-1600x900.png`,
+    contentUrl: darkCloudImageUrl('1600x900'),
     width: 1600,
     height: 900,
     alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
@@ -345,17 +109,17 @@ export const event: Event = {
     },
     simpleCrops: {
       '32:15': {
-        contentUrl: `${darkCloudImage}-3200x1500.png`,
+        contentUrl: darkCloudImageUrl('3200x1500'),
         width: 3200,
         height: 1500,
       },
       '16:9': {
-        contentUrl: `${darkCloudImage}-3200x1800.png`,
+        contentUrl: darkCloudImageUrl('3200x1800'),
         width: 3200,
         height: 1800,
       },
       square: {
-        contentUrl: `${darkCloudImage}-3200x3200.png`,
+        contentUrl: darkCloudImageUrl('3200x3200'),
         width: 3200,
         height: 3200,
       },
@@ -403,7 +167,7 @@ export const event: Event = {
   promo: {
     caption: 'Do you have any dark clouds following you?',
     image: {
-      contentUrl: `${darkCloudImage}-3200x1800.png`,
+      contentUrl: darkCloudImageUrl('3200x1800'),
       width: 3200,
       height: 1800,
       alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
@@ -429,16 +193,7 @@ export const event: Event = {
   series: [],
 };
 
-export const imageGallery = () => {
-  const items = Array(4).fill(captionedImage());
-  return {
-    id: '123',
-    title: singleLineOfText(),
-    items,
-  };
-};
-
-export const quote = () => ({
+export const quote: QuoteProps = {
   text: [
     {
       type: 'paragraph',
@@ -463,51 +218,47 @@ export const quote = () => ({
       ],
     },
   ],
-});
+  isPullOrReview: false,
+};
 
-const sameAs = [
-  { link: 'https://twitter.com/mbannisy', title: '@mbannisy' },
-  { link: 'http://things.com', title: 'things.com' },
-  { link: 'https://google.com', title: 'This is it!' },
-];
-
-export function person() {
-  return {
-    id: faker.datatype.uuid(),
-    name: faker.name.fullName(),
-    description: smallText(),
-    image: {
-      contentUrl: faker.image.avatar(),
-      width: 120,
-      height: 120,
-      alt: 'Avatar',
-      tasl: {
-        title: 'Avatar',
-      },
+export const person: PersonType = {
+  type: 'people',
+  id: faker.datatype.uuid(),
+  name: faker.name.fullName(),
+  description: smallText(),
+  image: {
+    contentUrl: faker.image.avatar(),
+    width: 120,
+    height: 120,
+    alt: 'Avatar',
+    tasl: {
+      title: 'Avatar',
     },
-    sameAs,
-  };
-}
+  },
+  sameAs: [
+    { link: 'https://twitter.com/mbannisy', title: '@mbannisy' },
+    { link: 'http://things.com', title: 'things.com' },
+    { link: 'https://google.com', title: 'This is it!' },
+  ],
+};
 
-export function organisation() {
-  return {
-    id: faker.datatype.uuid(),
-    name: faker.company.name(),
-    description: smallText(),
-    url: 'https://wellcomecollection.org',
-    image: {
-      contentUrl:
-        'https://vignette.wikia.nocookie.net/logopedia/images/4/42/BBC_Worldwide_1995.svg/revision/latest?cb=20180114133014',
-      width: 3200,
-      height: 3200,
-      alt: 'Weewaaz',
-      tasl: {
-        title: 'Weewaaz',
-      },
+export const organisation: OrganisationType = {
+  type: 'organisations',
+  id: faker.datatype.uuid(),
+  name: faker.company.name(),
+  description: smallText(),
+  image: {
+    contentUrl:
+      'https://vignette.wikia.nocookie.net/logopedia/images/4/42/BBC_Worldwide_1995.svg/revision/latest?cb=20180114133014',
+    width: 3200,
+    height: 3200,
+    alt: 'Weewaaz',
+    tasl: {
+      title: 'Weewaaz',
     },
-    sameAs: [],
-  };
-}
+  },
+  sameAs: [],
+};
 
 export const article: Article = {
   type: 'articles',
@@ -525,7 +276,7 @@ export const article: Article = {
         id: 'YJ5GbRAAACMA_XnW',
         name: 'Weewaaz',
         image: {
-          contentUrl: `${darkCloudImage}-3200x3200.png`,
+          contentUrl: darkCloudImageUrl('3200x3200'),
           width: 3200,
           height: 3200,
           alt: 'Weewaaz',
@@ -561,7 +312,7 @@ export const article: Article = {
         items: [
           {
             image: {
-              contentUrl: `${darkCloudImage}-1600x900.png`,
+              contentUrl: darkCloudImageUrl('1600x900'),
               width: 1600,
               height: 900,
               alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
@@ -570,17 +321,17 @@ export const article: Article = {
               },
               simpleCrops: {
                 '32:15': {
-                  contentUrl: `${darkCloudImage}-3200x1500.png`,
+                  contentUrl: darkCloudImageUrl('3200x1500'),
                   width: 3200,
                   height: 1500,
                 },
                 '16:9': {
-                  contentUrl: `${darkCloudImage}-3200x1800.png`,
+                  contentUrl: darkCloudImageUrl('3200x1800'),
                   width: 3200,
                   height: 1800,
                 },
                 square: {
-                  contentUrl: `${darkCloudImage}-3200x3200.png`,
+                  contentUrl: darkCloudImageUrl('3200x3200'),
                   width: 3200,
                   height: 3200,
                 },
@@ -597,7 +348,7 @@ export const article: Article = {
   promo: {
     caption: 'Do you have any dark clouds following you?',
     image: {
-      contentUrl: `${darkCloudImage}-3200x1800.png`,
+      contentUrl: darkCloudImageUrl('3200x1800'),
       width: 3200,
       height: 1800,
       alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
@@ -608,7 +359,7 @@ export const article: Article = {
     link: null,
   },
   image: {
-    contentUrl: `${darkCloudImage}-1600x900.png`,
+    contentUrl: darkCloudImageUrl('1600x900'),
     width: 1600,
     height: 900,
     alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
@@ -617,17 +368,17 @@ export const article: Article = {
     },
     simpleCrops: {
       '32:15': {
-        contentUrl: `${darkCloudImage}-3200x1500.png`,
+        contentUrl: darkCloudImageUrl('3200x1500'),
         width: 3200,
         height: 1500,
       },
       '16:9': {
-        contentUrl: `${darkCloudImage}-3200x1800.png`,
+        contentUrl: darkCloudImageUrl('3200x1800'),
         width: 3200,
         height: 1800,
       },
       square: {
-        contentUrl: `${darkCloudImage}-3200x3200.png`,
+        contentUrl: darkCloudImageUrl('3200x3200'),
         width: 3200,
         height: 3200,
       },
@@ -660,7 +411,7 @@ export const article: Article = {
             id: 'YJ5GbRAAACMA_XnW',
             name: 'Weewaaz',
             image: {
-              contentUrl: `${darkCloudImage}-3200x3200.png`,
+              contentUrl: darkCloudImageUrl('3200x3200'),
               width: 3200,
               height: 3200,
               alt: 'Weewaaz',
@@ -691,7 +442,7 @@ export const article: Article = {
       promo: {
         caption: '',
         image: {
-          contentUrl: `${darkCloudImage}-3200x1800.png`,
+          contentUrl: darkCloudImageUrl('3200x1800'),
           width: 3200,
           height: 1800,
           alt: 'Person holding a large red love heart, smiling.',
@@ -702,7 +453,7 @@ export const article: Article = {
         link: null,
       },
       image: {
-        contentUrl: `${darkCloudImage}-1600x900.png`,
+        contentUrl: darkCloudImageUrl('1600x900'),
         width: 1600,
         height: 900,
         alt: 'Person holding a large red love heart, smiling.',
@@ -711,17 +462,17 @@ export const article: Article = {
         },
         simpleCrops: {
           '32:15': {
-            contentUrl: `${darkCloudImage}-3200x1500.png`,
+            contentUrl: darkCloudImageUrl('3200x1500'),
             width: 3200,
             height: 1500,
           },
           '16:9': {
-            contentUrl: `${darkCloudImage}-3200x1800.png`,
+            contentUrl: darkCloudImageUrl('3200x1800'),
             width: 3200,
             height: 1800,
           },
           square: {
-            contentUrl: `${darkCloudImage}-3200x3200.png`,
+            contentUrl: darkCloudImageUrl('3200x3200'),
             width: 3200,
             height: 3200,
           },
@@ -742,12 +493,26 @@ export const article: Article = {
   seasons: [],
 };
 
-export const articleBasic = {
+export const articleBasic: ArticleBasic = {
   type: 'articles',
   id: 'article-basic',
   promo: article.promo,
   series: [],
   title: article.title,
   datePublished: article.datePublished,
+  labels: [],
+};
+
+export const exhibitionBasic: ExhibitionBasic = {
+  type: 'exhibitions',
+  id: 'exhibition-basic',
+  title: 'What does it mean to be human now? Four views by CYP x CALLY',
+  promo: {
+    image: image(florenceWinterfloodImageUrl('3200x1800'), 3200, 1800),
+  },
+  start: new Date('2021-05-17T23:00:00+0000'),
+  end: new Date('2021-09-29T23:00:00+0000'),
+  isPermanent: null,
+  contributors: [],
   labels: [],
 };
