@@ -7,8 +7,8 @@ assignees: ''
 
 ---
 
-**What**
+## What
 <!-- A clear and concise description of what the bug is. -->
 
-**Where**
+## Where
 <!-- a link, or a screenshot if relevant, as to where the bug is-->

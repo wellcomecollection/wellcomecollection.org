@@ -36,7 +36,7 @@ export const pageDescriptions = {
     'Explore new perspectives on bodies, brains and health with our guest comic artists.',
   search: {
     overview:
-      'Search Wellcome Collection. Our stories, images and collections make connections and provoke new thinking about health and human experience.',
+      "Search Wellcome Collection's images, catalogue, stories and events to explore perspectives on health and human experiences.",
     stories:
       'Search for stories about health and human experience. Our words and pictures make connections, provoke new thinking and share lived experiences.',
     images:
@@ -159,7 +159,7 @@ export const searchLabelText = {
   stories: 'Search for stories',
   images: 'Search for images',
   works: 'Search the catalogue',
-  events: 'Search our events',
+  events: 'Search for events',
 };
 
 export const visualStoryLinkText =

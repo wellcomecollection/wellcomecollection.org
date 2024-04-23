@@ -199,7 +199,7 @@ export const Palette: FunctionComponent = () => (
               <PaletteBlock key={colorName}>
                 <PaletteName>{colorName}</PaletteName>
                 <PaletteColor
-                  hasBorder={colorName === 'white'}
+                  $hasBorder={colorName === 'white'}
                   style={{ background: colorValues.hex }}
                 />
                 <PaletteHex>

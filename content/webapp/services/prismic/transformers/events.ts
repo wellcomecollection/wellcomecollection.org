@@ -50,7 +50,7 @@ import { transformContributors } from './contributors';
 import * as prismic from '@prismicio/client';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { noAltTextBecausePromo } from './images';
-import { ContentApiTimeField } from 'services/wellcome/content/types/api';
+import { ContentApiTimeField } from '@weco/content/services/wellcome/content/types/api';
 
 function transformEventBookingType(
   eventDoc: EventPrismicDocument
