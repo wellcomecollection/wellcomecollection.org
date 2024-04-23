@@ -1,8 +1,5 @@
-import { RefObject } from 'react';
 import { RelatedWork } from '@weco/content/services/wellcome/catalogue/types';
-
-export const instructions =
-  'Archive Tree: Tab into the tree, then use up and down arrows to move through tree items. Use right and left arrows to toggle sub menus open and closed. When focused on an item you can tab to the link it contains.';
+import { ReactElement } from 'react';
 import {
   getLabelString,
   isTransformedCanvas,
@@ -48,13 +45,40 @@ export type ListProps = {
   tabbableId?: string;
   setTabbableId: (id: string) => void;
   archiveAncestorArray: RelatedWork[];
+  firstItemTabbable: boolean;
+  showFirstLevelGuideline: boolean;
+  ItemRenderer: ReactElement<{
+    item: UiTreeNode;
+    isEnhanced: boolean;
+    level: number;
+    showFirstLevelGuideline: boolean;
+    hasControl: boolean;
+    highlightCondition: 'primary' | 'secondary' | undefined;
+  }>;
+};
+
+type CanvasWork = TransformedCanvas & {
+  title: string;
+  totalParts: number;
+  downloads: (ContentResource | CustomContentResource | ChoiceBody)[];
+};
+
+type RangeWork = Range & {
+  title: string;
+  totalParts: number;
+};
+
+export const isRelatedWork = (
+  work: RelatedWork | CanvasWork | RangeWork
+): work is RelatedWork => {
+  return work.type !== 'Range' && work.type !== 'Canvas';
 };
 
 export type UiTreeNode = {
   openStatus: boolean;
-  work: RelatedWork;
   parentId?: string;
   children?: UiTree;
+  work: RelatedWork | CanvasWork | RangeWork;
 };
 
 export type UiTree = UiTreeNode[];
