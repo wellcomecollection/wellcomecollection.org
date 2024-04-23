@@ -3,6 +3,24 @@ import { RelatedWork } from '@weco/content/services/wellcome/catalogue/types';
 
 export const instructions =
   'Archive Tree: Tab into the tree, then use up and down arrows to move through tree items. Use right and left arrows to toggle sub menus open and closed. When focused on an item you can tab to the link it contains.';
+import {
+  getLabelString,
+  isTransformedCanvas,
+  getOriginalFiles,
+  isCanvas,
+  isRange,
+} from '@weco/content/utils/iiif/v3';
+import {
+  Manifest,
+  ChoiceBody,
+  ContentResource,
+  Range,
+} from '@iiif/presentation-3';
+import {
+  TransformedCanvas,
+  CustomContentResource,
+} from '@weco/content/types/manifest';
+import { isString } from '@weco/common/utils/type-guards';
 
 export const controlDimensions = {
   controlWidth: 44,
@@ -83,4 +101,54 @@ export function updateChildren({
       };
     }
   });
+}
+
+export function convertStructuresToTree(
+  structures: Manifest['structures'],
+  canvases: TransformedCanvas[] | undefined,
+  parentId: string
+): UiTree {
+  const items = structures && structures.length > 0 ? structures : canvases;
+  return (
+    (items
+      ?.map(item => {
+        if (isRange(item)) {
+          return {
+            openStatus: true,
+            parentId,
+            work: {
+              ...item,
+              title: getLabelString(item.label),
+              totalParts: item.items?.length || 0,
+            },
+            children: convertStructuresToTree(
+              item.items?.filter(item => !isString(item)) as Range[],
+              canvases,
+              item.id
+            ),
+          };
+        } else if (isCanvas(item)) {
+          const transformedCanvas = isTransformedCanvas(item)
+            ? item
+            : canvases?.find(
+                transformedCanvas => item.id === transformedCanvas.id
+              );
+          const downloads = transformedCanvas
+            ? getOriginalFiles(transformedCanvas)
+            : [];
+          return {
+            openStatus: true,
+            parentId,
+            work: {
+              ...transformedCanvas,
+              downloads,
+              totalParts: 0,
+            },
+          };
+        } else {
+          return null;
+        }
+      })
+      .filter(Boolean) as UiTree) || []
+  );
 }
