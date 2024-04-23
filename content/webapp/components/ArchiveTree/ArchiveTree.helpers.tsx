@@ -176,3 +176,13 @@ export function convertStructuresToTree(
       .filter(Boolean) as UiTree) || []
   );
 }
+
+export function getAriaLabel(item: UiTreeNode) {
+  return isRelatedWork(item.work)
+    ? `${item.work.title}${
+        item.work.referenceNumber
+          ? `, reference number ${item.work.referenceNumber}`
+          : ''
+      }`
+    : item.work.title;
+}
