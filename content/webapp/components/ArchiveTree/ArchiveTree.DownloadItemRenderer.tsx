@@ -45,11 +45,7 @@ const DownloadItemRenderer = ({
       )}
       {item.work?.downloads?.map(download => {
         return (
-          <DownloadItem
-            key={download.id}
-            canvas={item.work.transformedCanvas}
-            item={download}
-          />
+          <DownloadItem key={download.id} canvas={item.work} item={download} />
         );
       })}
     </ItemWrapper>
