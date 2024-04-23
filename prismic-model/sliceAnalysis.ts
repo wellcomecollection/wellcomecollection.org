@@ -33,15 +33,11 @@ import {
 import fs from 'fs';
 import { success } from './console';
 
-const { label, type, printUrl, report } = yargs(process.argv.slice(2))
-  .usage(
-    'Usage: $0 --label [string] --type [string] --printUrl [boolean] --report [boolean]'
-  )
+const { type, report } = yargs(process.argv.slice(2))
+  .usage('Usage: $0  --type [string] --report [boolean]')
   .options({
-    label: { type: 'string' },
     type: { type: 'string' },
     report: { type: 'boolean' },
-    printUrl: { type: 'boolean' },
   })
   .parseSync();
 
@@ -74,11 +70,7 @@ async function main() {
         ? result.data.body.some(slice => slice.slice_type === type)
         : true;
 
-      const isWithLabel: boolean = label
-        ? result.data.body.some(slice => slice.slice_label === label)
-        : true;
-
-      if (isWithType && isWithLabel) {
+      if (isWithType) {
         // Find how often the slice is used within the content type
         let nodeSliceCount = 0;
         result.data.body
@@ -101,9 +93,7 @@ async function main() {
           ...(type && {
             sliceCount: nodeSliceCount,
           }),
-          ...(printUrl && {
-            url: `http://wellcomecollection.org/${result.type}/${result.id}`,
-          }),
+          url: `http://wellcomecollection.org/${result.type}/${result.id}`,
         });
       }
     }
