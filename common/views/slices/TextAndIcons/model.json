@@ -3,6 +3,18 @@
   "type": "SharedSlice",
   "name": "TextAndIcons",
   "description": "Text and icons (side-by-side)",
+  "legacyPaths": {
+    "event-series::body::textAndIcons": "default",
+    "events::body::textAndIcons": "default",
+    "exhibitions::body::textAndIcons": "default",
+    "guides::body::textAndIcons": "default",
+    "pages::body::textAndIcons": "default",
+    "places::body::textAndIcons": "default",
+    "projects::body::textAndIcons": "default",
+    "seasons::body::textAndIcons": "default",
+    "series::body::textAndIcons": "default",
+    "visual-stories::body::textAndIcons": "default"
+  },
   "variations": [
     {
       "id": "default",

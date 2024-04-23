@@ -27,22 +27,6 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "audio_player": {
-              "type": "SharedSlice"
-            },
-            "text": {
-              "type": "Slice",
-              "fieldset": "Text",
-              "non-repeat": {
-                "text": {
-                  "type": "StructuredText",
-                  "config": {
-                    "multi": "heading2,heading3,paragraph,strong,em,hyperlink,list-item,embed",
-                    "label": "Text"
-                  }
-                }
-              }
-            },
             "editorialImage": {
               "type": "Slice",
               "fieldset": "Captioned image",

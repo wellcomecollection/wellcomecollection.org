@@ -3,6 +3,19 @@
   "type": "SharedSlice",
   "name": "QuoteV2",
   "description": "QuoteV2",
+  "legacyPaths": {
+    "articles::body::quoteV2": "default",
+    "event-series::body::quoteV2": "default",
+    "events::body::quoteV2": "default",
+    "exhibitions::body::quoteV2": "default",
+    "guides::body::quoteV2": "default",
+    "pages::body::quoteV2": "default",
+    "places::body::quoteV2": "default",
+    "projects::body::quoteV2": "default",
+    "seasons::body::quoteV2": "default",
+    "series::body::quoteV2": "default",
+    "webcomics::body::quoteV2": "default"
+  },
   "variations": [
     {
       "id": "default",

@@ -4,6 +4,19 @@
   "type": "SharedSlice",
   "name": "Quote",
   "description": "Quote",
+  "legacyPaths": {
+    "articles::body::quote": "default",
+    "event-series::body::quote": "default",
+    "events::body::quote": "default",
+    "exhibitions::body::quote": "default",
+    "guides::body::quote": "default",
+    "pages::body::quote": "default",
+    "places::body::quote": "default",
+    "projects::body::quote": "default",
+    "seasons::body::quote": "default",
+    "series::body::quote": "default",
+    "webcomics::body::quote": "default"
+  },
   "variations": [
     {
       "id": "default",

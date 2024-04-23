@@ -3,6 +3,20 @@
   "type": "SharedSlice",
   "name": "Embed",
   "description": "Embed (Youtube, SoundCloud, etc.)",
+  "legacyPaths": {
+    "articles::body::embed": "default",
+    "event-series::body::embed": "default",
+    "events::body::embed": "default",
+    "exhibitions::body::embed": "default",
+    "guides::body::embed": "default",
+    "pages::body::embed": "default",
+    "places::body::embed": "default",
+    "projects::body::embed": "default",
+    "seasons::body::embed": "default",
+    "series::body::embed": "default",
+    "visual-stories::body::embed": "default",
+    "webcomics::body::embed": "default"
+  },
   "variations": [
     {
       "id": "default",

@@ -5,6 +5,14474 @@ import type * as prismic from '@prismicio/client';
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
 /**
+ * Content for Story format documents
+ */
+interface ArticleFormatsDocumentData {
+  /**
+   * Title field in *Story format*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: article-formats.title
+   * - **Tab**: Article format
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Description field in *Story format*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: article-formats.description
+   * - **Tab**: Article format
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Story format document from Prismic
+ *
+ * - **API ID**: `article-formats`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ArticleFormatsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<ArticleFormatsDocumentData>,
+    'article-formats',
+    Lang
+  >;
+
+/**
+ * Primary content in *Story → Slice Zone → Captioned image → Primary*
+ */
+export interface ArticlesDocumentDataBodyEditorialImageSlicePrimary {
+  /**
+   * Image field in *Story → Slice Zone → Captioned image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Story → Slice Zone → Captioned image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Story → Slice Zone → Captioned image → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: articles.body[].editorialImage.primary.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Story → Slice Zone*
+ */
+export type ArticlesDocumentDataBodyEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<ArticlesDocumentDataBodyEditorialImageSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Story → Slice Zone → Image gallery → Primary*
+ */
+export interface ArticlesDocumentDataBodyEditorialImageGallerySlicePrimary {
+  /**
+   * Title field in *Story → Slice Zone → Image gallery → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].editorialImageGallery.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Story → Slice Zone → Image gallery → Items*
+ */
+export interface ArticlesDocumentDataBodyEditorialImageGallerySliceItem {
+  /**
+   * Image field in *Story → Slice Zone → Image gallery → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].editorialImageGallery.items.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Story → Slice Zone → Image gallery → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].editorialImageGallery.items.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Story → Slice Zone → Image gallery → Items*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: articles.body[].editorialImageGallery.items.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Story → Slice Zone*
+ */
+export type ArticlesDocumentDataBodyEditorialImageGallerySlice = prismic.Slice<
+  'editorialImageGallery',
+  Simplify<ArticlesDocumentDataBodyEditorialImageGallerySlicePrimary>,
+  Simplify<ArticlesDocumentDataBodyEditorialImageGallerySliceItem>
+>;
+
+/**
+ * Primary content in *Story → Slice Zone → Gif video → Primary*
+ */
+export interface ArticlesDocumentDataBodyGifVideoSlicePrimary {
+  /**
+   * Caption field in *Story → Slice Zone → Gif video → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].gifVideo.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * TASL field in *Story → Slice Zone → Gif video → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
+   * - **API ID Path**: articles.body[].gifVideo.primary.tasl
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  tasl: prismic.KeyTextField;
+
+  /**
+   * Video field in *Story → Slice Zone → Gif video → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: Video
+   * - **API ID Path**: articles.body[].gifVideo.primary.video
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  video: prismic.LinkToMediaField;
+
+  /**
+   * Playback rate field in *Story → Slice Zone → Gif video → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].gifVideo.primary.playbackRate
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  playbackRate: prismic.SelectField<
+    '0.1' | '0.25' | '0.5' | '0.75' | '1' | '1.25' | '1.5' | '1.75' | '2'
+  >;
+
+  /**
+   * Auto play field in *Story → Slice Zone → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: articles.body[].gifVideo.primary.autoPlay
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  autoPlay: prismic.BooleanField;
+
+  /**
+   * Loop video field in *Story → Slice Zone → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: articles.body[].gifVideo.primary.loop
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  loop: prismic.BooleanField;
+
+  /**
+   * Mute video field in *Story → Slice Zone → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: articles.body[].gifVideo.primary.mute
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  mute: prismic.BooleanField;
+
+  /**
+   * Show controls field in *Story → Slice Zone → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: articles.body[].gifVideo.primary.showControls
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  showControls: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Story → Slice Zone*
+ */
+export type ArticlesDocumentDataBodyGifVideoSlice = prismic.Slice<
+  'gifVideo',
+  Simplify<ArticlesDocumentDataBodyGifVideoSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Story → Slice Zone → Iframe → Primary*
+ */
+export interface ArticlesDocumentDataBodyIframeSlicePrimary {
+  /**
+   * iframe src field in *Story → Slice Zone → Iframe → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: iframe src
+   * - **API ID Path**: articles.body[].iframe.primary.iframeSrc
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  iframeSrc: prismic.KeyTextField;
+
+  /**
+   * Preview image field in *Story → Slice Zone → Iframe → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].iframe.primary.previewImage
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  previewImage: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Story → Slice Zone*
+ */
+export type ArticlesDocumentDataBodyIframeSlice = prismic.Slice<
+  'iframe',
+  Simplify<ArticlesDocumentDataBodyIframeSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Story → Slice Zone → Info block → Primary*
+ */
+export interface ArticlesDocumentDataBodyInfoBlockSlicePrimary {
+  /**
+   * Title field in *Story → Slice Zone → Info block → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].infoBlock.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Story → Slice Zone → Info block → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].infoBlock.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Button link field in *Story → Slice Zone → Info block → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].infoBlock.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Button text field in *Story → Slice Zone → Info block → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].infoBlock.primary.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Story → Slice Zone*
+ */
+export type ArticlesDocumentDataBodyInfoBlockSlice = prismic.Slice<
+  'infoBlock',
+  Simplify<ArticlesDocumentDataBodyInfoBlockSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Story → Slice Zone → Standfirst → Primary*
+ */
+export interface ArticlesDocumentDataBodyStandfirstSlicePrimary {
+  /**
+   * Standfirst field in *Story → Slice Zone → Standfirst → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].standfirst.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Story → Slice Zone*
+ */
+export type ArticlesDocumentDataBodyStandfirstSlice = prismic.Slice<
+  'standfirst',
+  Simplify<ArticlesDocumentDataBodyStandfirstSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Story → Slice Zone → Quote → Primary*
+ */
+export interface ArticlesDocumentDataBodyQuoteV2SlicePrimary {
+  /**
+   * Quote field in *Story → Slice Zone → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].quoteV2.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Citation field in *Story → Slice Zone → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].quoteV2.primary.citation
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  citation: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Story → Slice Zone*
+ */
+export type ArticlesDocumentDataBodyQuoteV2Slice = prismic.Slice<
+  'quoteV2',
+  Simplify<ArticlesDocumentDataBodyQuoteV2SlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Story → Slice Zone → Embed → Primary*
+ */
+export interface ArticlesDocumentDataBodyEmbedSlicePrimary {
+  /**
+   * `embed` field in *Story → Slice Zone → Embed → Primary*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].embed.primary.embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  embed: prismic.EmbedField;
+
+  /**
+   * Caption field in *Story → Slice Zone → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].embed.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Transcript (Collapsible content) field in *Story → Slice Zone → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].embed.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Story → Slice Zone*
+ */
+export type ArticlesDocumentDataBodyEmbedSlice = prismic.Slice<
+  'embed',
+  Simplify<ArticlesDocumentDataBodyEmbedSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Story → Slice Zone → Tag List → Primary*
+ */
+export interface ArticlesDocumentDataBodyTagListSlicePrimary {
+  /**
+   * Title field in *Story → Slice Zone → Tag List → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].tagList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Story → Slice Zone → Tag List → Items*
+ */
+export interface ArticlesDocumentDataBodyTagListSliceItem {
+  /**
+   * Link field in *Story → Slice Zone → Tag List → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].tagList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Link text field in *Story → Slice Zone → Tag List → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[].tagList.items.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Story → Slice Zone*
+ */
+export type ArticlesDocumentDataBodyTagListSlice = prismic.Slice<
+  'tagList',
+  Simplify<ArticlesDocumentDataBodyTagListSlicePrimary>,
+  Simplify<ArticlesDocumentDataBodyTagListSliceItem>
+>;
+
+type ArticlesDocumentDataBodySlice =
+  | ArticlesDocumentDataBodyEditorialImageSlice
+  | ArticlesDocumentDataBodyEditorialImageGallerySlice
+  | ArticlesDocumentDataBodyGifVideoSlice
+  | ArticlesDocumentDataBodyIframeSlice
+  | ArticlesDocumentDataBodyInfoBlockSlice
+  | ArticlesDocumentDataBodyStandfirstSlice
+  | ArticlesDocumentDataBodyQuoteV2Slice
+  | ArticlesDocumentDataBodyEmbedSlice
+  | ArticlesDocumentDataBodyTagListSlice;
+
+/**
+ * Item in *Story → Contributors*
+ */
+export interface ArticlesDocumentDataContributorsItem {
+  /**
+   * Role field in *Story → Contributors*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.contributors[].role
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  role: prismic.ContentRelationshipField<'editorial-contributor-roles'>;
+
+  /**
+   * Contributor field in *Story → Contributors*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.contributors[].contributor
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  contributor: prismic.ContentRelationshipField<'people' | 'organisations'>;
+
+  /**
+   * Contributor description override field in *Story → Contributors*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.contributors[].description
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Primary content in *Story → Slice Zone → Editorial image → Primary*
+ */
+export interface ArticlesDocumentDataPromoEditorialImageSlicePrimary {
+  /**
+   * Promo text field in *Story → Slice Zone → Editorial image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.promo[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Promo image field in *Story → Slice Zone → Editorial image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.promo[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Link override field in *Story → Slice Zone → Editorial image → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.promo[].editorialImage.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  link: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Story → Slice Zone*
+ */
+export type ArticlesDocumentDataPromoEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<ArticlesDocumentDataPromoEditorialImageSlicePrimary>,
+  never
+>;
+
+type ArticlesDocumentDataPromoSlice =
+  ArticlesDocumentDataPromoEditorialImageSlice;
+
+/**
+ * Item in *Story → Series*
+ */
+export interface ArticlesDocumentDataSeriesItem {
+  /**
+   * Series field in *Story → Series*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.series[].series
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  series: prismic.ContentRelationshipField<'series'>;
+
+  /**
+   * Position in series field in *Story → Series*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.series[].positionInSeries
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  positionInSeries: prismic.NumberField;
+}
+
+/**
+ * Item in *Story → Seasons*
+ */
+export interface ArticlesDocumentDataSeasonsItem {
+  /**
+   * Season field in *Story → Seasons*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: Select a Season
+   * - **API ID Path**: articles.seasons[].season
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  season: prismic.ContentRelationshipField<'seasons'>;
+}
+
+/**
+ * Item in *Story → Parents*
+ */
+export interface ArticlesDocumentDataParentsItem {
+  /**
+   * Order field in *Story → Parents*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.parents[].order
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  order: prismic.NumberField;
+
+  /**
+   * Parent field in *Story → Parents*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: Select a parent
+   * - **API ID Path**: articles.parents[].parent
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  parent: prismic.ContentRelationshipField<'exhibitions'>;
+}
+
+/**
+ * Content for Story documents
+ */
+interface ArticlesDocumentData {
+  /**
+   * Title field in *Story*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.title
+   * - **Tab**: Story
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Format field in *Story*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.format
+   * - **Tab**: Story
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  format: prismic.ContentRelationshipField<'article-formats'>;
+
+  /**
+   * Slice Zone field in *Story*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.body[]
+   * - **Tab**: Story
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  body: prismic.SliceZone<ArticlesDocumentDataBodySlice> /**
+   * Contributors field in *Story*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.contributors[]
+   * - **Tab**: Contributors
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  contributors: prismic.GroupField<
+    Simplify<ArticlesDocumentDataContributorsItem>
+  >;
+
+  /**
+   * Contributors heading override field in *Story*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.contributorsTitle
+   * - **Tab**: Contributors
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  contributorsTitle: prismic.TitleField /**
+   * Slice Zone field in *Story*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.promo[]
+   * - **Tab**: Promo
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */;
+  promo: prismic.SliceZone<ArticlesDocumentDataPromoSlice> /**
+   * Metadata description field in *Story*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.metadataDescription
+   * - **Tab**: Metadata
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */;
+  metadataDescription: prismic.RichTextField /**
+   * Series field in *Story*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.series[]
+   * - **Tab**: Content relationships
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  series: prismic.GroupField<Simplify<ArticlesDocumentDataSeriesItem>>;
+
+  /**
+   * Seasons field in *Story*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.seasons[]
+   * - **Tab**: Content relationships
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  seasons: prismic.GroupField<Simplify<ArticlesDocumentDataSeasonsItem>>;
+
+  /**
+   * Parents field in *Story*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.parents[]
+   * - **Tab**: Content relationships
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  parents: prismic.GroupField<Simplify<ArticlesDocumentDataParentsItem>> /**
+   * Override publish date rendering. This will not affect ordering field in *Story*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.publishDate
+   * - **Tab**: Overrides
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */;
+  publishDate: prismic.TimestampField;
+}
+
+/**
+ * Story document from Prismic
+ *
+ * - **API ID**: `articles`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ArticlesDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<ArticlesDocumentData>,
+    'articles',
+    Lang
+  >;
+
+/**
+ * Content for Audience documents
+ */
+interface AudiencesDocumentData {
+  /**
+   * Title field in *Audience*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: audiences.title
+   * - **Tab**: Audience
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Description field in *Audience*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: audiences.description
+   * - **Tab**: Audience
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Audience document from Prismic
+ *
+ * - **API ID**: `audiences`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type AudiencesDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<AudiencesDocumentData>,
+    'audiences',
+    Lang
+  >;
+
+/**
+ * Content for Background texture documents
+ */
+interface BackgroundTexturesDocumentData {
+  /**
+   * `image` field in *Background texture*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: background-textures.image
+   * - **Tab**: Background texture
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<never>;
+
+  /**
+   * name field in *Background texture*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: background-textures.name
+   * - **Tab**: Background texture
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  name: prismic.KeyTextField;
+}
+
+/**
+ * Background texture document from Prismic
+ *
+ * - **API ID**: `background-textures`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type BackgroundTexturesDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<BackgroundTexturesDocumentData>,
+    'background-textures',
+    Lang
+  >;
+
+/**
+ * Primary content in *Book → Body content → Text → Primary*
+ */
+export interface BooksDocumentDataBodyTextSlicePrimary {
+  /**
+   * Text field in *Book → Body content → Text → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].text.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Book → Body content*
+ */
+export type BooksDocumentDataBodyTextSlice = prismic.Slice<
+  'text',
+  Simplify<BooksDocumentDataBodyTextSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Book → Body content → Captioned image → Primary*
+ */
+export interface BooksDocumentDataBodyEditorialImageSlicePrimary {
+  /**
+   * Image field in *Book → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Book → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Book → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: books.body[].editorialImage.primary.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Book → Body content*
+ */
+export type BooksDocumentDataBodyEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<BooksDocumentDataBodyEditorialImageSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Book → Body content → Image gallery → Primary*
+ */
+export interface BooksDocumentDataBodyEditorialImageGallerySlicePrimary {
+  /**
+   * Title field in *Book → Body content → Image gallery → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].editorialImageGallery.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Book → Body content → Image gallery → Items*
+ */
+export interface BooksDocumentDataBodyEditorialImageGallerySliceItem {
+  /**
+   * Image field in *Book → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].editorialImageGallery.items.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Book → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].editorialImageGallery.items.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Book → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: books.body[].editorialImageGallery.items.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Book → Body content*
+ */
+export type BooksDocumentDataBodyEditorialImageGallerySlice = prismic.Slice<
+  'editorialImageGallery',
+  Simplify<BooksDocumentDataBodyEditorialImageGallerySlicePrimary>,
+  Simplify<BooksDocumentDataBodyEditorialImageGallerySliceItem>
+>;
+
+/**
+ * Primary content in *Book → Body content → Gif video → Primary*
+ */
+export interface BooksDocumentDataBodyGifVideoSlicePrimary {
+  /**
+   * Caption field in *Book → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].gifVideo.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * TASL field in *Book → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
+   * - **API ID Path**: books.body[].gifVideo.primary.tasl
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  tasl: prismic.KeyTextField;
+
+  /**
+   * Video field in *Book → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: Video
+   * - **API ID Path**: books.body[].gifVideo.primary.video
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  video: prismic.LinkToMediaField;
+
+  /**
+   * Playback rate field in *Book → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].gifVideo.primary.playbackRate
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  playbackRate: prismic.SelectField<
+    '0.1' | '0.25' | '0.5' | '0.75' | '1' | '1.25' | '1.5' | '1.75' | '2'
+  >;
+
+  /**
+   * Auto play field in *Book → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: books.body[].gifVideo.primary.autoPlay
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  autoPlay: prismic.BooleanField;
+
+  /**
+   * Loop video field in *Book → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: books.body[].gifVideo.primary.loop
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  loop: prismic.BooleanField;
+
+  /**
+   * Mute video field in *Book → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: books.body[].gifVideo.primary.mute
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  mute: prismic.BooleanField;
+
+  /**
+   * Show controls field in *Book → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: books.body[].gifVideo.primary.showControls
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  showControls: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Book → Body content*
+ */
+export type BooksDocumentDataBodyGifVideoSlice = prismic.Slice<
+  'gifVideo',
+  Simplify<BooksDocumentDataBodyGifVideoSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Book → Body content → Iframe → Primary*
+ */
+export interface BooksDocumentDataBodyIframeSlicePrimary {
+  /**
+   * iframe src field in *Book → Body content → Iframe → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: iframe src
+   * - **API ID Path**: books.body[].iframe.primary.iframeSrc
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  iframeSrc: prismic.KeyTextField;
+
+  /**
+   * Preview image field in *Book → Body content → Iframe → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].iframe.primary.previewImage
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  previewImage: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Book → Body content*
+ */
+export type BooksDocumentDataBodyIframeSlice = prismic.Slice<
+  'iframe',
+  Simplify<BooksDocumentDataBodyIframeSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Book → Body content → Quote → Primary*
+ */
+export interface BooksDocumentDataBodyQuoteSlicePrimary {
+  /**
+   * Quote field in *Book → Body content → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].quote.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Citation field in *Book → Body content → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].quote.primary.citation
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  citation: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Book → Body content*
+ */
+export type BooksDocumentDataBodyQuoteSlice = prismic.Slice<
+  'quote',
+  Simplify<BooksDocumentDataBodyQuoteSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Book → Body content → Standfirst → Primary*
+ */
+export interface BooksDocumentDataBodyStandfirstSlicePrimary {
+  /**
+   * Standfirst field in *Book → Body content → Standfirst → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].standfirst.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Book → Body content*
+ */
+export type BooksDocumentDataBodyStandfirstSlice = prismic.Slice<
+  'standfirst',
+  Simplify<BooksDocumentDataBodyStandfirstSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Book → Body content → Embed → Primary*
+ */
+export interface BooksDocumentDataBodyEmbedSlicePrimary {
+  /**
+   * `embed` field in *Book → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].embed.primary.embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  embed: prismic.EmbedField;
+
+  /**
+   * Caption field in *Book → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].embed.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Transcript (Collapsible content) field in *Book → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].embed.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Book → Body content*
+ */
+export type BooksDocumentDataBodyEmbedSlice = prismic.Slice<
+  'embed',
+  Simplify<BooksDocumentDataBodyEmbedSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Book → Body content → Audio Player → Primary*
+ */
+export interface BooksDocumentDataBodyAudioPlayerSlicePrimary {
+  /**
+   * Title field in *Book → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].audioPlayer.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Audio field in *Book → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].audioPlayer.primary.audio
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  audio: prismic.LinkToMediaField;
+
+  /**
+   * Transcript (Collapsible content) field in *Book → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].audioPlayer.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Book → Body content*
+ */
+export type BooksDocumentDataBodyAudioPlayerSlice = prismic.Slice<
+  'audioPlayer',
+  Simplify<BooksDocumentDataBodyAudioPlayerSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Book → Body content → Collection venue's hours → Primary*
+ */
+export interface BooksDocumentDataBodyCollectionVenueSlicePrimary {
+  /**
+   * Content item field in *Book → Body content → Collection venue's hours → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].collectionVenue.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'collection-venue'>;
+
+  /**
+   * Show closing times field in *Book → Body content → Collection venue's hours → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].collectionVenue.primary.showClosingTimes
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  showClosingTimes: prismic.SelectField<'yes'>;
+}
+
+/**
+ * Slice for *Book → Body content*
+ */
+export type BooksDocumentDataBodyCollectionVenueSlice = prismic.Slice<
+  'collectionVenue',
+  Simplify<BooksDocumentDataBodyCollectionVenueSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Book → Body content → Contact → Primary*
+ */
+export interface BooksDocumentDataBodyContactSlicePrimary {
+  /**
+   * Content item field in *Book → Body content → Contact → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].contact.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'teams'>;
+}
+
+/**
+ * Slice for *Book → Body content*
+ */
+export type BooksDocumentDataBodyContactSlice = prismic.Slice<
+  'contact',
+  Simplify<BooksDocumentDataBodyContactSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Book → Body content → Tag List → Primary*
+ */
+export interface BooksDocumentDataBodyTagListSlicePrimary {
+  /**
+   * Title field in *Book → Body content → Tag List → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].tagList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Book → Body content → Tag List → Items*
+ */
+export interface BooksDocumentDataBodyTagListSliceItem {
+  /**
+   * Link field in *Book → Body content → Tag List → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].tagList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Link text field in *Book → Body content → Tag List → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].tagList.items.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Book → Body content*
+ */
+export type BooksDocumentDataBodyTagListSlice = prismic.Slice<
+  'tagList',
+  Simplify<BooksDocumentDataBodyTagListSlicePrimary>,
+  Simplify<BooksDocumentDataBodyTagListSliceItem>
+>;
+
+/**
+ * Primary content in *Book → Body content → Info block → Primary*
+ */
+export interface BooksDocumentDataBodyInfoBlockSlicePrimary {
+  /**
+   * Title field in *Book → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].infoBlock.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Book → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].infoBlock.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Button link field in *Book → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].infoBlock.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Button text field in *Book → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].infoBlock.primary.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Book → Body content*
+ */
+export type BooksDocumentDataBodyInfoBlockSlice = prismic.Slice<
+  'infoBlock',
+  Simplify<BooksDocumentDataBodyInfoBlockSlicePrimary>,
+  never
+>;
+
+/**
+ * Item content in *Book → Body content → Descriptive links list → Items*
+ */
+export interface BooksDocumentDataBodyTitledTextListSliceItem {
+  /**
+   * Title field in *Book → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].titledTextList.items.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Book → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].titledTextList.items.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Link field in *Book → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].titledTextList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+}
+
+/**
+ * Slice for *Book → Body content*
+ */
+export type BooksDocumentDataBodyTitledTextListSlice = prismic.Slice<
+  'titledTextList',
+  Record<string, never>,
+  Simplify<BooksDocumentDataBodyTitledTextListSliceItem>
+>;
+
+/**
+ * Primary content in *Book → Body content → Content list → Primary*
+ */
+export interface BooksDocumentDataBodyContentListSlicePrimary {
+  /**
+   * Title field in *Book → Body content → Content list → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].contentList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Book → Body content → Content list → Items*
+ */
+export interface BooksDocumentDataBodyContentListSliceItem {
+  /**
+   * Content item field in *Book → Body content → Content list → Items*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].contentList.items.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<
+    | 'pages'
+    | 'event-series'
+    | 'books'
+    | 'events'
+    | 'articles'
+    | 'exhibitions'
+    | 'card'
+    | 'seasons'
+    | 'landing-pages'
+    | 'guides'
+  >;
+}
+
+/**
+ * Slice for *Book → Body content*
+ */
+export type BooksDocumentDataBodyContentListSlice = prismic.Slice<
+  'contentList',
+  Simplify<BooksDocumentDataBodyContentListSlicePrimary>,
+  Simplify<BooksDocumentDataBodyContentListSliceItem>
+>;
+
+/**
+ * Primary content in *Book → Body content → Search results → Primary*
+ */
+export interface BooksDocumentDataBodySearchResultsSlicePrimary {
+  /**
+   * Title field in *Book → Body content → Search results → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].searchResults.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Query field in *Book → Body content → Search results → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].searchResults.primary.query
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  query: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Book → Body content*
+ */
+export type BooksDocumentDataBodySearchResultsSlice = prismic.Slice<
+  'searchResults',
+  Simplify<BooksDocumentDataBodySearchResultsSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Book → Body content → Text and icons → Primary*
+ */
+export interface BooksDocumentDataBodyTextAndIconsSlicePrimary {
+  /**
+   * Text field in *Book → Body content → Text and icons → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].textAndIcons.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Item content in *Book → Body content → Text and icons → Items*
+ */
+export interface BooksDocumentDataBodyTextAndIconsSliceItem {
+  /**
+   * Icon (will display at 100px wide) field in *Book → Body content → Text and icons → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].textAndIcons.items.icon
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  icon: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Book → Body content*
+ */
+export type BooksDocumentDataBodyTextAndIconsSlice = prismic.Slice<
+  'textAndIcons',
+  Simplify<BooksDocumentDataBodyTextAndIconsSlicePrimary>,
+  Simplify<BooksDocumentDataBodyTextAndIconsSliceItem>
+>;
+
+/**
+ * Primary content in *Book → Body content → Map → Primary*
+ */
+export interface BooksDocumentDataBodyMapSlicePrimary {
+  /**
+   * Title field in *Book → Body content → Map → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].map.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Geo point field in *Book → Body content → Map → Primary*
+   *
+   * - **Field Type**: GeoPoint
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[].map.primary.geolocation
+   * - **Documentation**: https://prismic.io/docs/field#geopoint
+   */
+  geolocation: prismic.GeoPointField;
+}
+
+/**
+ * Slice for *Book → Body content*
+ */
+export type BooksDocumentDataBodyMapSlice = prismic.Slice<
+  'map',
+  Simplify<BooksDocumentDataBodyMapSlicePrimary>,
+  never
+>;
+
+type BooksDocumentDataBodySlice =
+  | BooksDocumentDataBodyTextSlice
+  | BooksDocumentDataBodyEditorialImageSlice
+  | BooksDocumentDataBodyEditorialImageGallerySlice
+  | BooksDocumentDataBodyGifVideoSlice
+  | BooksDocumentDataBodyIframeSlice
+  | BooksDocumentDataBodyQuoteSlice
+  | BooksDocumentDataBodyStandfirstSlice
+  | BooksDocumentDataBodyEmbedSlice
+  | BooksDocumentDataBodyAudioPlayerSlice
+  | BooksDocumentDataBodyCollectionVenueSlice
+  | BooksDocumentDataBodyContactSlice
+  | BooksDocumentDataBodyTagListSlice
+  | BooksDocumentDataBodyInfoBlockSlice
+  | BooksDocumentDataBodyTitledTextListSlice
+  | BooksDocumentDataBodyContentListSlice
+  | BooksDocumentDataBodySearchResultsSlice
+  | BooksDocumentDataBodyTextAndIconsSlice
+  | BooksDocumentDataBodyMapSlice;
+
+/**
+ * Item in *Book → Reviews*
+ */
+export interface BooksDocumentDataReviewsItem {
+  /**
+   * Review field in *Book → Reviews*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.reviews[].text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Citation field in *Book → Reviews*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.reviews[].citation
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  citation: prismic.RichTextField;
+}
+
+/**
+ * Item in *Book → Contributors*
+ */
+export interface BooksDocumentDataContributorsItem {
+  /**
+   * Role field in *Book → Contributors*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.contributors[].role
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  role: prismic.ContentRelationshipField<'editorial-contributor-roles'>;
+
+  /**
+   * Contributor field in *Book → Contributors*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.contributors[].contributor
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  contributor: prismic.ContentRelationshipField<'people' | 'organisations'>;
+
+  /**
+   * Contributor description override field in *Book → Contributors*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.contributors[].description
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Primary content in *Book → Promo → Editorial image → Primary*
+ */
+export interface BooksDocumentDataPromoEditorialImageSlicePrimary {
+  /**
+   * Promo text field in *Book → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.promo[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Promo image field in *Book → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.promo[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Link override field in *Book → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.promo[].editorialImage.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  link: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Book → Promo*
+ */
+export type BooksDocumentDataPromoEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<BooksDocumentDataPromoEditorialImageSlicePrimary>,
+  never
+>;
+
+type BooksDocumentDataPromoSlice = BooksDocumentDataPromoEditorialImageSlice;
+
+/**
+ * Item in *Book → Seasons*
+ */
+export interface BooksDocumentDataSeasonsItem {
+  /**
+   * Season field in *Book → Seasons*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: Select a Season
+   * - **API ID Path**: books.seasons[].season
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  season: prismic.ContentRelationshipField<'seasons'>;
+}
+
+/**
+ * Item in *Book → Parents*
+ */
+export interface BooksDocumentDataParentsItem {
+  /**
+   * Order field in *Book → Parents*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.parents[].order
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  order: prismic.NumberField;
+
+  /**
+   * Parent field in *Book → Parents*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: Select a parent
+   * - **API ID Path**: books.parents[].parent
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  parent: prismic.ContentRelationshipField<'exhibitions'>;
+}
+
+/**
+ * Content for Book documents
+ */
+interface BooksDocumentData {
+  /**
+   * Title field in *Book*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.title
+   * - **Tab**: Book
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Subtitle field in *Book*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.subtitle
+   * - **Tab**: Book
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  subtitle: prismic.RichTextField;
+
+  /**
+   * Body content field in *Book*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.body[]
+   * - **Tab**: Book
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  body: prismic.SliceZone<BooksDocumentDataBodySlice>;
+
+  /**
+   * Order link field in *Book*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.orderLink
+   * - **Tab**: Book
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  orderLink: prismic.LinkField;
+
+  /**
+   * Price field in *Book*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.price
+   * - **Tab**: Book
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  price: prismic.KeyTextField;
+
+  /**
+   * Format field in *Book*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.format
+   * - **Tab**: Book
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  format: prismic.KeyTextField;
+
+  /**
+   * Extent field in *Book*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.extent
+   * - **Tab**: Book
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  extent: prismic.KeyTextField;
+
+  /**
+   * ISBN field in *Book*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.isbn
+   * - **Tab**: Book
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  isbn: prismic.KeyTextField;
+
+  /**
+   * Reviews field in *Book*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.reviews[]
+   * - **Tab**: Book
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  reviews: prismic.GroupField<Simplify<BooksDocumentDataReviewsItem>>;
+
+  /**
+   * Date published field in *Book*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.datePublished
+   * - **Tab**: Book
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  datePublished: prismic.TimestampField /**
+   * Contributors field in *Book*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.contributors[]
+   * - **Tab**: Contributors
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  contributors: prismic.GroupField<Simplify<BooksDocumentDataContributorsItem>>;
+
+  /**
+   * Contributors heading override field in *Book*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.contributorsTitle
+   * - **Tab**: Contributors
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  contributorsTitle: prismic.TitleField /**
+   * Promo field in *Book*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.promo[]
+   * - **Tab**: Promo
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */;
+  promo: prismic.SliceZone<BooksDocumentDataPromoSlice> /**
+   * Metadata description field in *Book*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.metadataDescription
+   * - **Tab**: Metadata
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */;
+  metadataDescription: prismic.RichTextField /**
+   * Seasons field in *Book*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.seasons[]
+   * - **Tab**: Content relationships
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  seasons: prismic.GroupField<Simplify<BooksDocumentDataSeasonsItem>>;
+
+  /**
+   * Parents field in *Book*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: books.parents[]
+   * - **Tab**: Content relationships
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  parents: prismic.GroupField<Simplify<BooksDocumentDataParentsItem>>;
+}
+
+/**
+ * Book document from Prismic
+ *
+ * - **API ID**: `books`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type BooksDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<Simplify<BooksDocumentData>, 'books', Lang>;
+
+/**
+ * Content for Card documents
+ */
+interface CardDocumentData {
+  /**
+   * Title field in *Card*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: card.title
+   * - **Tab**: Card
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Format field in *Card*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: card.format
+   * - **Tab**: Card
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  format: prismic.ContentRelationshipField<
+    'event-formats' | 'article-formats' | 'labels'
+  >;
+
+  /**
+   * Description field in *Card*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: card.description
+   * - **Tab**: Card
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Image field in *Card*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: card.image
+   * - **Tab**: Card
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Link field in *Card*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: card.link
+   * - **Tab**: Card
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+}
+
+/**
+ * Card document from Prismic
+ *
+ * - **API ID**: `card`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type CardDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<Simplify<CardDocumentData>, 'card', Lang>;
+
+/**
+ * Item in *Collection venue → Monday's times*
+ */
+export interface CollectionVenueDocumentDataMondayItem {
+  /**
+   * Opens field in *Collection venue → Monday's times*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.monday[].startDateTime
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  startDateTime: prismic.TimestampField;
+
+  /**
+   * Closes field in *Collection venue → Monday's times*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.monday[].endDateTime
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  endDateTime: prismic.TimestampField;
+}
+
+/**
+ * Item in *Collection venue → Tuesday's times*
+ */
+export interface CollectionVenueDocumentDataTuesdayItem {
+  /**
+   * Opens field in *Collection venue → Tuesday's times*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.tuesday[].startDateTime
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  startDateTime: prismic.TimestampField;
+
+  /**
+   * Closes field in *Collection venue → Tuesday's times*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.tuesday[].endDateTime
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  endDateTime: prismic.TimestampField;
+}
+
+/**
+ * Item in *Collection venue → Wednesday's times*
+ */
+export interface CollectionVenueDocumentDataWednesdayItem {
+  /**
+   * Opens field in *Collection venue → Wednesday's times*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.wednesday[].startDateTime
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  startDateTime: prismic.TimestampField;
+
+  /**
+   * Closes field in *Collection venue → Wednesday's times*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.wednesday[].endDateTime
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  endDateTime: prismic.TimestampField;
+}
+
+/**
+ * Item in *Collection venue → Thursday's times*
+ */
+export interface CollectionVenueDocumentDataThursdayItem {
+  /**
+   * Opens field in *Collection venue → Thursday's times*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.thursday[].startDateTime
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  startDateTime: prismic.TimestampField;
+
+  /**
+   * Closes field in *Collection venue → Thursday's times*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.thursday[].endDateTime
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  endDateTime: prismic.TimestampField;
+}
+
+/**
+ * Item in *Collection venue → Friday's times*
+ */
+export interface CollectionVenueDocumentDataFridayItem {
+  /**
+   * Opens field in *Collection venue → Friday's times*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.friday[].startDateTime
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  startDateTime: prismic.TimestampField;
+
+  /**
+   * Closes field in *Collection venue → Friday's times*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.friday[].endDateTime
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  endDateTime: prismic.TimestampField;
+}
+
+/**
+ * Item in *Collection venue → Saturday's times*
+ */
+export interface CollectionVenueDocumentDataSaturdayItem {
+  /**
+   * Opens field in *Collection venue → Saturday's times*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.saturday[].startDateTime
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  startDateTime: prismic.TimestampField;
+
+  /**
+   * Closes field in *Collection venue → Saturday's times*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.saturday[].endDateTime
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  endDateTime: prismic.TimestampField;
+}
+
+/**
+ * Item in *Collection venue → Sunday's times*
+ */
+export interface CollectionVenueDocumentDataSundayItem {
+  /**
+   * Opens field in *Collection venue → Sunday's times*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.sunday[].startDateTime
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  startDateTime: prismic.TimestampField;
+
+  /**
+   * Closes field in *Collection venue → Sunday's times*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.sunday[].endDateTime
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  endDateTime: prismic.TimestampField;
+}
+
+/**
+ * Item in *Collection venue → Modified day opening times*
+ */
+export interface CollectionVenueDocumentDataModifiedDayOpeningTimesItem {
+  /**
+   * Override date field in *Collection venue → Modified day opening times*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.modifiedDayOpeningTimes[].overrideDate
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  overrideDate: prismic.TimestampField;
+
+  /**
+   * Override type field in *Collection venue → Modified day opening times*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.modifiedDayOpeningTimes[].type
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  type: prismic.SelectField<
+    | 'Bank holiday'
+    | 'Easter'
+    | 'Christmas and New Year'
+    | 'Late Spectacular'
+    | 'other'
+  >;
+
+  /**
+   * Opens field in *Collection venue → Modified day opening times*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.modifiedDayOpeningTimes[].startDateTime
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  startDateTime: prismic.TimestampField;
+
+  /**
+   * Closes field in *Collection venue → Modified day opening times*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.modifiedDayOpeningTimes[].endDateTime
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  endDateTime: prismic.TimestampField;
+}
+
+/**
+ * Content for Collection venue documents
+ */
+interface CollectionVenueDocumentData {
+  /**
+   * Title field in *Collection venue*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Order field in *Collection venue*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.order
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  order: prismic.NumberField;
+
+  /**
+   * Image field in *Collection venue*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.image
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Link field in *Collection venue*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: Enter url
+   * - **API ID Path**: collection-venue.link
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Linktext field in *Collection venue*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.linkText
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  linkText: prismic.RichTextField /**
+   * Monday's times field in *Collection venue*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.monday[]
+   * - **Tab**: Regular opening times
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  monday: prismic.GroupField<Simplify<CollectionVenueDocumentDataMondayItem>>;
+
+  /**
+   * Tuesday's times field in *Collection venue*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.tuesday[]
+   * - **Tab**: Regular opening times
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  tuesday: prismic.GroupField<Simplify<CollectionVenueDocumentDataTuesdayItem>>;
+
+  /**
+   * Wednesday's times field in *Collection venue*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.wednesday[]
+   * - **Tab**: Regular opening times
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  wednesday: prismic.GroupField<
+    Simplify<CollectionVenueDocumentDataWednesdayItem>
+  >;
+
+  /**
+   * Thursday's times field in *Collection venue*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.thursday[]
+   * - **Tab**: Regular opening times
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  thursday: prismic.GroupField<
+    Simplify<CollectionVenueDocumentDataThursdayItem>
+  >;
+
+  /**
+   * Friday's times field in *Collection venue*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.friday[]
+   * - **Tab**: Regular opening times
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  friday: prismic.GroupField<Simplify<CollectionVenueDocumentDataFridayItem>>;
+
+  /**
+   * Saturday's times field in *Collection venue*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.saturday[]
+   * - **Tab**: Regular opening times
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  saturday: prismic.GroupField<
+    Simplify<CollectionVenueDocumentDataSaturdayItem>
+  >;
+
+  /**
+   * Sunday's times field in *Collection venue*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.sunday[]
+   * - **Tab**: Regular opening times
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  sunday: prismic.GroupField<
+    Simplify<CollectionVenueDocumentDataSundayItem>
+  > /**
+   * Modified day opening times field in *Collection venue*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: collection-venue.modifiedDayOpeningTimes[]
+   * - **Tab**: Modified opening times
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  modifiedDayOpeningTimes: prismic.GroupField<
+    Simplify<CollectionVenueDocumentDataModifiedDayOpeningTimesItem>
+  >;
+}
+
+/**
+ * Collection venue document from Prismic
+ *
+ * - **API ID**: `collection-venue`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type CollectionVenueDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<CollectionVenueDocumentData>,
+    'collection-venue',
+    Lang
+  >;
+
+/**
+ * Content for Contributor role documents
+ */
+interface EditorialContributorRolesDocumentData {
+  /**
+   * Title field in *Contributor role*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: editorial-contributor-roles.title
+   * - **Tab**: Contributor
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * Word to describe output of the role field in *Contributor role*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: editorial-contributor-roles.describedBy
+   * - **Tab**: Contributor
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  describedBy: prismic.KeyTextField;
+}
+
+/**
+ * Contributor role document from Prismic
+ *
+ * - **API ID**: `editorial-contributor-roles`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type EditorialContributorRolesDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<EditorialContributorRolesDocumentData>,
+    'editorial-contributor-roles',
+    Lang
+  >;
+
+/**
+ * Content for Event format documents
+ */
+interface EventFormatsDocumentData {
+  /**
+   * Title field in *Event format*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-formats.title
+   * - **Tab**: Event format
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Description field in *Event format*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-formats.description
+   * - **Tab**: Event format
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Event format document from Prismic
+ *
+ * - **API ID**: `event-formats`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type EventFormatsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<EventFormatsDocumentData>,
+    'event-formats',
+    Lang
+  >;
+
+/**
+ * Content for Event policy documents
+ */
+interface EventPoliciesDocumentData {
+  /**
+   * Title field in *Event policy*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-policies.title
+   * - **Tab**: Event policy
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Description field in *Event policy*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-policies.description
+   * - **Tab**: Event policy
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Event policy document from Prismic
+ *
+ * - **API ID**: `event-policies`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type EventPoliciesDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<EventPoliciesDocumentData>,
+    'event-policies',
+    Lang
+  >;
+
+/**
+ * Primary content in *Event series → Body content → Text → Primary*
+ */
+export interface EventSeriesDocumentDataBodyTextSlicePrimary {
+  /**
+   * Text field in *Event series → Body content → Text → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].text.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Event series → Body content*
+ */
+export type EventSeriesDocumentDataBodyTextSlice = prismic.Slice<
+  'text',
+  Simplify<EventSeriesDocumentDataBodyTextSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event series → Body content → Captioned image → Primary*
+ */
+export interface EventSeriesDocumentDataBodyEditorialImageSlicePrimary {
+  /**
+   * Image field in *Event series → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Event series → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Event series → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: event-series.body[].editorialImage.primary.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Event series → Body content*
+ */
+export type EventSeriesDocumentDataBodyEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<EventSeriesDocumentDataBodyEditorialImageSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event series → Body content → Image gallery → Primary*
+ */
+export interface EventSeriesDocumentDataBodyEditorialImageGallerySlicePrimary {
+  /**
+   * Title field in *Event series → Body content → Image gallery → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].editorialImageGallery.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Event series → Body content → Image gallery → Items*
+ */
+export interface EventSeriesDocumentDataBodyEditorialImageGallerySliceItem {
+  /**
+   * Image field in *Event series → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].editorialImageGallery.items.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Event series → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].editorialImageGallery.items.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Event series → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: event-series.body[].editorialImageGallery.items.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Event series → Body content*
+ */
+export type EventSeriesDocumentDataBodyEditorialImageGallerySlice =
+  prismic.Slice<
+    'editorialImageGallery',
+    Simplify<EventSeriesDocumentDataBodyEditorialImageGallerySlicePrimary>,
+    Simplify<EventSeriesDocumentDataBodyEditorialImageGallerySliceItem>
+  >;
+
+/**
+ * Primary content in *Event series → Body content → Gif video → Primary*
+ */
+export interface EventSeriesDocumentDataBodyGifVideoSlicePrimary {
+  /**
+   * Caption field in *Event series → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].gifVideo.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * TASL field in *Event series → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
+   * - **API ID Path**: event-series.body[].gifVideo.primary.tasl
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  tasl: prismic.KeyTextField;
+
+  /**
+   * Video field in *Event series → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: Video
+   * - **API ID Path**: event-series.body[].gifVideo.primary.video
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  video: prismic.LinkToMediaField;
+
+  /**
+   * Playback rate field in *Event series → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].gifVideo.primary.playbackRate
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  playbackRate: prismic.SelectField<
+    '0.1' | '0.25' | '0.5' | '0.75' | '1' | '1.25' | '1.5' | '1.75' | '2'
+  >;
+
+  /**
+   * Auto play field in *Event series → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: event-series.body[].gifVideo.primary.autoPlay
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  autoPlay: prismic.BooleanField;
+
+  /**
+   * Loop video field in *Event series → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: event-series.body[].gifVideo.primary.loop
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  loop: prismic.BooleanField;
+
+  /**
+   * Mute video field in *Event series → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: event-series.body[].gifVideo.primary.mute
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  mute: prismic.BooleanField;
+
+  /**
+   * Show controls field in *Event series → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: event-series.body[].gifVideo.primary.showControls
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  showControls: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Event series → Body content*
+ */
+export type EventSeriesDocumentDataBodyGifVideoSlice = prismic.Slice<
+  'gifVideo',
+  Simplify<EventSeriesDocumentDataBodyGifVideoSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event series → Body content → Iframe → Primary*
+ */
+export interface EventSeriesDocumentDataBodyIframeSlicePrimary {
+  /**
+   * iframe src field in *Event series → Body content → Iframe → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: iframe src
+   * - **API ID Path**: event-series.body[].iframe.primary.iframeSrc
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  iframeSrc: prismic.KeyTextField;
+
+  /**
+   * Preview image field in *Event series → Body content → Iframe → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].iframe.primary.previewImage
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  previewImage: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Event series → Body content*
+ */
+export type EventSeriesDocumentDataBodyIframeSlice = prismic.Slice<
+  'iframe',
+  Simplify<EventSeriesDocumentDataBodyIframeSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event series → Body content → Quote → Primary*
+ */
+export interface EventSeriesDocumentDataBodyQuoteSlicePrimary {
+  /**
+   * Quote field in *Event series → Body content → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].quote.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Citation field in *Event series → Body content → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].quote.primary.citation
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  citation: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Event series → Body content*
+ */
+export type EventSeriesDocumentDataBodyQuoteSlice = prismic.Slice<
+  'quote',
+  Simplify<EventSeriesDocumentDataBodyQuoteSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event series → Body content → Standfirst → Primary*
+ */
+export interface EventSeriesDocumentDataBodyStandfirstSlicePrimary {
+  /**
+   * Standfirst field in *Event series → Body content → Standfirst → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].standfirst.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Event series → Body content*
+ */
+export type EventSeriesDocumentDataBodyStandfirstSlice = prismic.Slice<
+  'standfirst',
+  Simplify<EventSeriesDocumentDataBodyStandfirstSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event series → Body content → Embed → Primary*
+ */
+export interface EventSeriesDocumentDataBodyEmbedSlicePrimary {
+  /**
+   * `embed` field in *Event series → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].embed.primary.embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  embed: prismic.EmbedField;
+
+  /**
+   * Caption field in *Event series → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].embed.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Transcript (Collapsible content) field in *Event series → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].embed.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Event series → Body content*
+ */
+export type EventSeriesDocumentDataBodyEmbedSlice = prismic.Slice<
+  'embed',
+  Simplify<EventSeriesDocumentDataBodyEmbedSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event series → Body content → Audio Player → Primary*
+ */
+export interface EventSeriesDocumentDataBodyAudioPlayerSlicePrimary {
+  /**
+   * Title field in *Event series → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].audioPlayer.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Audio field in *Event series → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].audioPlayer.primary.audio
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  audio: prismic.LinkToMediaField;
+
+  /**
+   * Transcript (Collapsible content) field in *Event series → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].audioPlayer.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Event series → Body content*
+ */
+export type EventSeriesDocumentDataBodyAudioPlayerSlice = prismic.Slice<
+  'audioPlayer',
+  Simplify<EventSeriesDocumentDataBodyAudioPlayerSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event series → Body content → Collection venue's hours → Primary*
+ */
+export interface EventSeriesDocumentDataBodyCollectionVenueSlicePrimary {
+  /**
+   * Content item field in *Event series → Body content → Collection venue's hours → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].collectionVenue.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'collection-venue'>;
+
+  /**
+   * Show closing times field in *Event series → Body content → Collection venue's hours → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].collectionVenue.primary.showClosingTimes
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  showClosingTimes: prismic.SelectField<'yes'>;
+}
+
+/**
+ * Slice for *Event series → Body content*
+ */
+export type EventSeriesDocumentDataBodyCollectionVenueSlice = prismic.Slice<
+  'collectionVenue',
+  Simplify<EventSeriesDocumentDataBodyCollectionVenueSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event series → Body content → Contact → Primary*
+ */
+export interface EventSeriesDocumentDataBodyContactSlicePrimary {
+  /**
+   * Content item field in *Event series → Body content → Contact → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].contact.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'teams'>;
+}
+
+/**
+ * Slice for *Event series → Body content*
+ */
+export type EventSeriesDocumentDataBodyContactSlice = prismic.Slice<
+  'contact',
+  Simplify<EventSeriesDocumentDataBodyContactSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event series → Body content → Tag List → Primary*
+ */
+export interface EventSeriesDocumentDataBodyTagListSlicePrimary {
+  /**
+   * Title field in *Event series → Body content → Tag List → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].tagList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Event series → Body content → Tag List → Items*
+ */
+export interface EventSeriesDocumentDataBodyTagListSliceItem {
+  /**
+   * Link field in *Event series → Body content → Tag List → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].tagList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Link text field in *Event series → Body content → Tag List → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].tagList.items.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Event series → Body content*
+ */
+export type EventSeriesDocumentDataBodyTagListSlice = prismic.Slice<
+  'tagList',
+  Simplify<EventSeriesDocumentDataBodyTagListSlicePrimary>,
+  Simplify<EventSeriesDocumentDataBodyTagListSliceItem>
+>;
+
+/**
+ * Primary content in *Event series → Body content → Info block → Primary*
+ */
+export interface EventSeriesDocumentDataBodyInfoBlockSlicePrimary {
+  /**
+   * Title field in *Event series → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].infoBlock.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Event series → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].infoBlock.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Button link field in *Event series → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].infoBlock.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Button text field in *Event series → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].infoBlock.primary.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Event series → Body content*
+ */
+export type EventSeriesDocumentDataBodyInfoBlockSlice = prismic.Slice<
+  'infoBlock',
+  Simplify<EventSeriesDocumentDataBodyInfoBlockSlicePrimary>,
+  never
+>;
+
+/**
+ * Item content in *Event series → Body content → Descriptive links list → Items*
+ */
+export interface EventSeriesDocumentDataBodyTitledTextListSliceItem {
+  /**
+   * Title field in *Event series → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].titledTextList.items.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Event series → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].titledTextList.items.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Link field in *Event series → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].titledTextList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+}
+
+/**
+ * Slice for *Event series → Body content*
+ */
+export type EventSeriesDocumentDataBodyTitledTextListSlice = prismic.Slice<
+  'titledTextList',
+  Record<string, never>,
+  Simplify<EventSeriesDocumentDataBodyTitledTextListSliceItem>
+>;
+
+/**
+ * Primary content in *Event series → Body content → Content list → Primary*
+ */
+export interface EventSeriesDocumentDataBodyContentListSlicePrimary {
+  /**
+   * Title field in *Event series → Body content → Content list → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].contentList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Event series → Body content → Content list → Items*
+ */
+export interface EventSeriesDocumentDataBodyContentListSliceItem {
+  /**
+   * Content item field in *Event series → Body content → Content list → Items*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].contentList.items.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<
+    | 'pages'
+    | 'event-series'
+    | 'books'
+    | 'events'
+    | 'articles'
+    | 'exhibitions'
+    | 'card'
+    | 'seasons'
+    | 'landing-pages'
+    | 'guides'
+  >;
+}
+
+/**
+ * Slice for *Event series → Body content*
+ */
+export type EventSeriesDocumentDataBodyContentListSlice = prismic.Slice<
+  'contentList',
+  Simplify<EventSeriesDocumentDataBodyContentListSlicePrimary>,
+  Simplify<EventSeriesDocumentDataBodyContentListSliceItem>
+>;
+
+/**
+ * Primary content in *Event series → Body content → Search results → Primary*
+ */
+export interface EventSeriesDocumentDataBodySearchResultsSlicePrimary {
+  /**
+   * Title field in *Event series → Body content → Search results → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].searchResults.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Query field in *Event series → Body content → Search results → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].searchResults.primary.query
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  query: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Event series → Body content*
+ */
+export type EventSeriesDocumentDataBodySearchResultsSlice = prismic.Slice<
+  'searchResults',
+  Simplify<EventSeriesDocumentDataBodySearchResultsSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event series → Body content → Text and icons → Primary*
+ */
+export interface EventSeriesDocumentDataBodyTextAndIconsSlicePrimary {
+  /**
+   * Text field in *Event series → Body content → Text and icons → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].textAndIcons.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Item content in *Event series → Body content → Text and icons → Items*
+ */
+export interface EventSeriesDocumentDataBodyTextAndIconsSliceItem {
+  /**
+   * Icon (will display at 100px wide) field in *Event series → Body content → Text and icons → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].textAndIcons.items.icon
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  icon: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Event series → Body content*
+ */
+export type EventSeriesDocumentDataBodyTextAndIconsSlice = prismic.Slice<
+  'textAndIcons',
+  Simplify<EventSeriesDocumentDataBodyTextAndIconsSlicePrimary>,
+  Simplify<EventSeriesDocumentDataBodyTextAndIconsSliceItem>
+>;
+
+/**
+ * Primary content in *Event series → Body content → Map → Primary*
+ */
+export interface EventSeriesDocumentDataBodyMapSlicePrimary {
+  /**
+   * Title field in *Event series → Body content → Map → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].map.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Geo point field in *Event series → Body content → Map → Primary*
+   *
+   * - **Field Type**: GeoPoint
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[].map.primary.geolocation
+   * - **Documentation**: https://prismic.io/docs/field#geopoint
+   */
+  geolocation: prismic.GeoPointField;
+}
+
+/**
+ * Slice for *Event series → Body content*
+ */
+export type EventSeriesDocumentDataBodyMapSlice = prismic.Slice<
+  'map',
+  Simplify<EventSeriesDocumentDataBodyMapSlicePrimary>,
+  never
+>;
+
+type EventSeriesDocumentDataBodySlice =
+  | EventSeriesDocumentDataBodyTextSlice
+  | EventSeriesDocumentDataBodyEditorialImageSlice
+  | EventSeriesDocumentDataBodyEditorialImageGallerySlice
+  | EventSeriesDocumentDataBodyGifVideoSlice
+  | EventSeriesDocumentDataBodyIframeSlice
+  | EventSeriesDocumentDataBodyQuoteSlice
+  | EventSeriesDocumentDataBodyStandfirstSlice
+  | EventSeriesDocumentDataBodyEmbedSlice
+  | EventSeriesDocumentDataBodyAudioPlayerSlice
+  | EventSeriesDocumentDataBodyCollectionVenueSlice
+  | EventSeriesDocumentDataBodyContactSlice
+  | EventSeriesDocumentDataBodyTagListSlice
+  | EventSeriesDocumentDataBodyInfoBlockSlice
+  | EventSeriesDocumentDataBodyTitledTextListSlice
+  | EventSeriesDocumentDataBodyContentListSlice
+  | EventSeriesDocumentDataBodySearchResultsSlice
+  | EventSeriesDocumentDataBodyTextAndIconsSlice
+  | EventSeriesDocumentDataBodyMapSlice;
+
+/**
+ * Item in *Event series → Contributors*
+ */
+export interface EventSeriesDocumentDataContributorsItem {
+  /**
+   * Role field in *Event series → Contributors*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.contributors[].role
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  role: prismic.ContentRelationshipField<'editorial-contributor-roles'>;
+
+  /**
+   * Contributor field in *Event series → Contributors*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.contributors[].contributor
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  contributor: prismic.ContentRelationshipField<'people' | 'organisations'>;
+
+  /**
+   * Contributor description override field in *Event series → Contributors*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.contributors[].description
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Primary content in *Event series → Promo → Editorial image → Primary*
+ */
+export interface EventSeriesDocumentDataPromoEditorialImageSlicePrimary {
+  /**
+   * Promo text field in *Event series → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.promo[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Promo image field in *Event series → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.promo[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Link override field in *Event series → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.promo[].editorialImage.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  link: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Event series → Promo*
+ */
+export type EventSeriesDocumentDataPromoEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<EventSeriesDocumentDataPromoEditorialImageSlicePrimary>,
+  never
+>;
+
+type EventSeriesDocumentDataPromoSlice =
+  EventSeriesDocumentDataPromoEditorialImageSlice;
+
+/**
+ * Content for Event series documents
+ */
+interface EventSeriesDocumentData {
+  /**
+   * Title field in *Event series*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.title
+   * - **Tab**: Event series
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Background texture field in *Event series*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.backgroundTexture
+   * - **Tab**: Event series
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  backgroundTexture: prismic.ContentRelationshipField<'background-textures'>;
+
+  /**
+   * Body content field in *Event series*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.body[]
+   * - **Tab**: Event series
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  body: prismic.SliceZone<EventSeriesDocumentDataBodySlice> /**
+   * Contributors field in *Event series*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.contributors[]
+   * - **Tab**: Contributors
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  contributors: prismic.GroupField<
+    Simplify<EventSeriesDocumentDataContributorsItem>
+  >;
+
+  /**
+   * Contributors heading override field in *Event series*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.contributorsTitle
+   * - **Tab**: Contributors
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  contributorsTitle: prismic.TitleField /**
+   * Promo field in *Event series*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.promo[]
+   * - **Tab**: Promo
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */;
+  promo: prismic.SliceZone<EventSeriesDocumentDataPromoSlice> /**
+   * Metadata description field in *Event series*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.metadataDescription
+   * - **Tab**: Metadata
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */;
+  metadataDescription: prismic.RichTextField;
+}
+
+/**
+ * Event series document from Prismic
+ *
+ * - **API ID**: `event-series`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type EventSeriesDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<EventSeriesDocumentData>,
+    'event-series',
+    Lang
+  >;
+
+/**
+ * Item in *Event → Locations*
+ */
+export interface EventsDocumentDataLocationsItem {
+  /**
+   * Location field in *Event → Locations*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.locations[].location
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  location: prismic.ContentRelationshipField<'places'>;
+}
+
+/**
+ * Item in *Event → Times*
+ */
+export interface EventsDocumentDataTimesItem {
+  /**
+   * Start field in *Event → Times*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.times[].startDateTime
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  startDateTime: prismic.TimestampField;
+
+  /**
+   * End field in *Event → Times*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.times[].endDateTime
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  endDateTime: prismic.TimestampField;
+
+  /**
+   * In-venue fully booked field in *Event → Times*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.times[].isFullyBooked
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  isFullyBooked: prismic.SelectField<'yes'>;
+
+  /**
+   * Online fully booked field in *Event → Times*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.times[].onlineIsFullyBooked
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  onlineIsFullyBooked: prismic.SelectField<'yes'>;
+}
+
+/**
+ * Primary content in *Event → Body content → Text → Primary*
+ */
+export interface EventsDocumentDataBodyTextSlicePrimary {
+  /**
+   * Text field in *Event → Body content → Text → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].text.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Event → Body content*
+ */
+export type EventsDocumentDataBodyTextSlice = prismic.Slice<
+  'text',
+  Simplify<EventsDocumentDataBodyTextSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event → Body content → Captioned image → Primary*
+ */
+export interface EventsDocumentDataBodyEditorialImageSlicePrimary {
+  /**
+   * Image field in *Event → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Event → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Event → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: events.body[].editorialImage.primary.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Event → Body content*
+ */
+export type EventsDocumentDataBodyEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<EventsDocumentDataBodyEditorialImageSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event → Body content → Image gallery → Primary*
+ */
+export interface EventsDocumentDataBodyEditorialImageGallerySlicePrimary {
+  /**
+   * Title field in *Event → Body content → Image gallery → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].editorialImageGallery.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Event → Body content → Image gallery → Items*
+ */
+export interface EventsDocumentDataBodyEditorialImageGallerySliceItem {
+  /**
+   * Image field in *Event → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].editorialImageGallery.items.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Event → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].editorialImageGallery.items.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Event → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: events.body[].editorialImageGallery.items.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Event → Body content*
+ */
+export type EventsDocumentDataBodyEditorialImageGallerySlice = prismic.Slice<
+  'editorialImageGallery',
+  Simplify<EventsDocumentDataBodyEditorialImageGallerySlicePrimary>,
+  Simplify<EventsDocumentDataBodyEditorialImageGallerySliceItem>
+>;
+
+/**
+ * Primary content in *Event → Body content → Gif video → Primary*
+ */
+export interface EventsDocumentDataBodyGifVideoSlicePrimary {
+  /**
+   * Caption field in *Event → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].gifVideo.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * TASL field in *Event → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
+   * - **API ID Path**: events.body[].gifVideo.primary.tasl
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  tasl: prismic.KeyTextField;
+
+  /**
+   * Video field in *Event → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: Video
+   * - **API ID Path**: events.body[].gifVideo.primary.video
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  video: prismic.LinkToMediaField;
+
+  /**
+   * Playback rate field in *Event → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].gifVideo.primary.playbackRate
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  playbackRate: prismic.SelectField<
+    '0.1' | '0.25' | '0.5' | '0.75' | '1' | '1.25' | '1.5' | '1.75' | '2'
+  >;
+
+  /**
+   * Auto play field in *Event → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: events.body[].gifVideo.primary.autoPlay
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  autoPlay: prismic.BooleanField;
+
+  /**
+   * Loop video field in *Event → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: events.body[].gifVideo.primary.loop
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  loop: prismic.BooleanField;
+
+  /**
+   * Mute video field in *Event → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: events.body[].gifVideo.primary.mute
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  mute: prismic.BooleanField;
+
+  /**
+   * Show controls field in *Event → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: events.body[].gifVideo.primary.showControls
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  showControls: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Event → Body content*
+ */
+export type EventsDocumentDataBodyGifVideoSlice = prismic.Slice<
+  'gifVideo',
+  Simplify<EventsDocumentDataBodyGifVideoSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event → Body content → Iframe → Primary*
+ */
+export interface EventsDocumentDataBodyIframeSlicePrimary {
+  /**
+   * iframe src field in *Event → Body content → Iframe → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: iframe src
+   * - **API ID Path**: events.body[].iframe.primary.iframeSrc
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  iframeSrc: prismic.KeyTextField;
+
+  /**
+   * Preview image field in *Event → Body content → Iframe → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].iframe.primary.previewImage
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  previewImage: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Event → Body content*
+ */
+export type EventsDocumentDataBodyIframeSlice = prismic.Slice<
+  'iframe',
+  Simplify<EventsDocumentDataBodyIframeSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event → Body content → Quote → Primary*
+ */
+export interface EventsDocumentDataBodyQuoteSlicePrimary {
+  /**
+   * Quote field in *Event → Body content → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].quote.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Citation field in *Event → Body content → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].quote.primary.citation
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  citation: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Event → Body content*
+ */
+export type EventsDocumentDataBodyQuoteSlice = prismic.Slice<
+  'quote',
+  Simplify<EventsDocumentDataBodyQuoteSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event → Body content → Standfirst → Primary*
+ */
+export interface EventsDocumentDataBodyStandfirstSlicePrimary {
+  /**
+   * Standfirst field in *Event → Body content → Standfirst → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].standfirst.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Event → Body content*
+ */
+export type EventsDocumentDataBodyStandfirstSlice = prismic.Slice<
+  'standfirst',
+  Simplify<EventsDocumentDataBodyStandfirstSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event → Body content → Embed → Primary*
+ */
+export interface EventsDocumentDataBodyEmbedSlicePrimary {
+  /**
+   * `embed` field in *Event → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].embed.primary.embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  embed: prismic.EmbedField;
+
+  /**
+   * Caption field in *Event → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].embed.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Transcript (Collapsible content) field in *Event → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].embed.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Event → Body content*
+ */
+export type EventsDocumentDataBodyEmbedSlice = prismic.Slice<
+  'embed',
+  Simplify<EventsDocumentDataBodyEmbedSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event → Body content → Audio Player → Primary*
+ */
+export interface EventsDocumentDataBodyAudioPlayerSlicePrimary {
+  /**
+   * Title field in *Event → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].audioPlayer.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Audio field in *Event → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].audioPlayer.primary.audio
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  audio: prismic.LinkToMediaField;
+
+  /**
+   * Transcript (Collapsible content) field in *Event → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].audioPlayer.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Event → Body content*
+ */
+export type EventsDocumentDataBodyAudioPlayerSlice = prismic.Slice<
+  'audioPlayer',
+  Simplify<EventsDocumentDataBodyAudioPlayerSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event → Body content → Collection venue's hours → Primary*
+ */
+export interface EventsDocumentDataBodyCollectionVenueSlicePrimary {
+  /**
+   * Content item field in *Event → Body content → Collection venue's hours → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].collectionVenue.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'collection-venue'>;
+
+  /**
+   * Show closing times field in *Event → Body content → Collection venue's hours → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].collectionVenue.primary.showClosingTimes
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  showClosingTimes: prismic.SelectField<'yes'>;
+}
+
+/**
+ * Slice for *Event → Body content*
+ */
+export type EventsDocumentDataBodyCollectionVenueSlice = prismic.Slice<
+  'collectionVenue',
+  Simplify<EventsDocumentDataBodyCollectionVenueSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event → Body content → Contact → Primary*
+ */
+export interface EventsDocumentDataBodyContactSlicePrimary {
+  /**
+   * Content item field in *Event → Body content → Contact → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].contact.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'teams'>;
+}
+
+/**
+ * Slice for *Event → Body content*
+ */
+export type EventsDocumentDataBodyContactSlice = prismic.Slice<
+  'contact',
+  Simplify<EventsDocumentDataBodyContactSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event → Body content → Tag List → Primary*
+ */
+export interface EventsDocumentDataBodyTagListSlicePrimary {
+  /**
+   * Title field in *Event → Body content → Tag List → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].tagList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Event → Body content → Tag List → Items*
+ */
+export interface EventsDocumentDataBodyTagListSliceItem {
+  /**
+   * Link field in *Event → Body content → Tag List → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].tagList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Link text field in *Event → Body content → Tag List → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].tagList.items.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Event → Body content*
+ */
+export type EventsDocumentDataBodyTagListSlice = prismic.Slice<
+  'tagList',
+  Simplify<EventsDocumentDataBodyTagListSlicePrimary>,
+  Simplify<EventsDocumentDataBodyTagListSliceItem>
+>;
+
+/**
+ * Primary content in *Event → Body content → Info block → Primary*
+ */
+export interface EventsDocumentDataBodyInfoBlockSlicePrimary {
+  /**
+   * Title field in *Event → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].infoBlock.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Event → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].infoBlock.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Button link field in *Event → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].infoBlock.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Button text field in *Event → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].infoBlock.primary.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Event → Body content*
+ */
+export type EventsDocumentDataBodyInfoBlockSlice = prismic.Slice<
+  'infoBlock',
+  Simplify<EventsDocumentDataBodyInfoBlockSlicePrimary>,
+  never
+>;
+
+/**
+ * Item content in *Event → Body content → Descriptive links list → Items*
+ */
+export interface EventsDocumentDataBodyTitledTextListSliceItem {
+  /**
+   * Title field in *Event → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].titledTextList.items.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Event → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].titledTextList.items.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Link field in *Event → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].titledTextList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+}
+
+/**
+ * Slice for *Event → Body content*
+ */
+export type EventsDocumentDataBodyTitledTextListSlice = prismic.Slice<
+  'titledTextList',
+  Record<string, never>,
+  Simplify<EventsDocumentDataBodyTitledTextListSliceItem>
+>;
+
+/**
+ * Primary content in *Event → Body content → Content list → Primary*
+ */
+export interface EventsDocumentDataBodyContentListSlicePrimary {
+  /**
+   * Title field in *Event → Body content → Content list → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].contentList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Event → Body content → Content list → Items*
+ */
+export interface EventsDocumentDataBodyContentListSliceItem {
+  /**
+   * Content item field in *Event → Body content → Content list → Items*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].contentList.items.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<
+    | 'pages'
+    | 'event-series'
+    | 'books'
+    | 'events'
+    | 'articles'
+    | 'exhibitions'
+    | 'card'
+    | 'seasons'
+    | 'landing-pages'
+    | 'guides'
+  >;
+}
+
+/**
+ * Slice for *Event → Body content*
+ */
+export type EventsDocumentDataBodyContentListSlice = prismic.Slice<
+  'contentList',
+  Simplify<EventsDocumentDataBodyContentListSlicePrimary>,
+  Simplify<EventsDocumentDataBodyContentListSliceItem>
+>;
+
+/**
+ * Primary content in *Event → Body content → Search results → Primary*
+ */
+export interface EventsDocumentDataBodySearchResultsSlicePrimary {
+  /**
+   * Title field in *Event → Body content → Search results → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].searchResults.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Query field in *Event → Body content → Search results → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].searchResults.primary.query
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  query: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Event → Body content*
+ */
+export type EventsDocumentDataBodySearchResultsSlice = prismic.Slice<
+  'searchResults',
+  Simplify<EventsDocumentDataBodySearchResultsSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Event → Body content → Text and icons → Primary*
+ */
+export interface EventsDocumentDataBodyTextAndIconsSlicePrimary {
+  /**
+   * Text field in *Event → Body content → Text and icons → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].textAndIcons.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Item content in *Event → Body content → Text and icons → Items*
+ */
+export interface EventsDocumentDataBodyTextAndIconsSliceItem {
+  /**
+   * Icon (will display at 100px wide) field in *Event → Body content → Text and icons → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].textAndIcons.items.icon
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  icon: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Event → Body content*
+ */
+export type EventsDocumentDataBodyTextAndIconsSlice = prismic.Slice<
+  'textAndIcons',
+  Simplify<EventsDocumentDataBodyTextAndIconsSlicePrimary>,
+  Simplify<EventsDocumentDataBodyTextAndIconsSliceItem>
+>;
+
+/**
+ * Primary content in *Event → Body content → Map → Primary*
+ */
+export interface EventsDocumentDataBodyMapSlicePrimary {
+  /**
+   * Title field in *Event → Body content → Map → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].map.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Geo point field in *Event → Body content → Map → Primary*
+   *
+   * - **Field Type**: GeoPoint
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[].map.primary.geolocation
+   * - **Documentation**: https://prismic.io/docs/field#geopoint
+   */
+  geolocation: prismic.GeoPointField;
+}
+
+/**
+ * Slice for *Event → Body content*
+ */
+export type EventsDocumentDataBodyMapSlice = prismic.Slice<
+  'map',
+  Simplify<EventsDocumentDataBodyMapSlicePrimary>,
+  never
+>;
+
+type EventsDocumentDataBodySlice =
+  | EventsDocumentDataBodyTextSlice
+  | EventsDocumentDataBodyEditorialImageSlice
+  | EventsDocumentDataBodyEditorialImageGallerySlice
+  | EventsDocumentDataBodyGifVideoSlice
+  | EventsDocumentDataBodyIframeSlice
+  | EventsDocumentDataBodyQuoteSlice
+  | EventsDocumentDataBodyStandfirstSlice
+  | EventsDocumentDataBodyEmbedSlice
+  | EventsDocumentDataBodyAudioPlayerSlice
+  | EventsDocumentDataBodyCollectionVenueSlice
+  | EventsDocumentDataBodyContactSlice
+  | EventsDocumentDataBodyTagListSlice
+  | EventsDocumentDataBodyInfoBlockSlice
+  | EventsDocumentDataBodyTitledTextListSlice
+  | EventsDocumentDataBodyContentListSlice
+  | EventsDocumentDataBodySearchResultsSlice
+  | EventsDocumentDataBodyTextAndIconsSlice
+  | EventsDocumentDataBodyMapSlice;
+
+/**
+ * Item in *Event → Interpretations*
+ */
+export interface EventsDocumentDataInterpretationsItem {
+  /**
+   * Interpretation field in *Event → Interpretations*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.interpretations[].interpretationType
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  interpretationType: prismic.ContentRelationshipField<'interpretation-types'>;
+
+  /**
+   * Primary interprtation field in *Event → Interpretations*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.interpretations[].isPrimary
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  isPrimary: prismic.SelectField<'yes'>;
+
+  /**
+   * Extra information field in *Event → Interpretations*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.interpretations[].extraInformation
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  extraInformation: prismic.RichTextField;
+}
+
+/**
+ * Item in *Event → Audiences*
+ */
+export interface EventsDocumentDataAudiencesItem {
+  /**
+   * Audience field in *Event → Audiences*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.audiences[].audience
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  audience: prismic.ContentRelationshipField<'audiences'>;
+}
+
+/**
+ * Item in *Event → Policies*
+ */
+export interface EventsDocumentDataPoliciesItem {
+  /**
+   * Policy field in *Event → Policies*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.policies[].policy
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  policy: prismic.ContentRelationshipField<'event-policies'>;
+}
+
+/**
+ * Item in *Event → Policies*
+ */
+export interface EventsDocumentDataOnlinePoliciesItem {
+  /**
+   * Policy field in *Event → Policies*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.onlinePolicies[].policy
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  policy: prismic.ContentRelationshipField<'event-policies'>;
+}
+
+/**
+ * Item in *Event → Events*
+ */
+export interface EventsDocumentDataScheduleItem {
+  /**
+   * Event field in *Event → Events*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.schedule[].event
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  event: prismic.ContentRelationshipField<'events'>;
+
+  /**
+   * Suppress link to event field in *Event → Events*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.schedule[].isNotLinked
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  isNotLinked: prismic.SelectField<'yes'>;
+}
+
+/**
+ * Item in *Event → Contributors*
+ */
+export interface EventsDocumentDataContributorsItem {
+  /**
+   * Role field in *Event → Contributors*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.contributors[].role
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  role: prismic.ContentRelationshipField<'editorial-contributor-roles'>;
+
+  /**
+   * Contributor field in *Event → Contributors*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.contributors[].contributor
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  contributor: prismic.ContentRelationshipField<'people' | 'organisations'>;
+
+  /**
+   * Contributor description override field in *Event → Contributors*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.contributors[].description
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Primary content in *Event → Promo → Editorial image → Primary*
+ */
+export interface EventsDocumentDataPromoEditorialImageSlicePrimary {
+  /**
+   * Promo text field in *Event → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.promo[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Promo image field in *Event → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.promo[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Link override field in *Event → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.promo[].editorialImage.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  link: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Event → Promo*
+ */
+export type EventsDocumentDataPromoEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<EventsDocumentDataPromoEditorialImageSlicePrimary>,
+  never
+>;
+
+type EventsDocumentDataPromoSlice = EventsDocumentDataPromoEditorialImageSlice;
+
+/**
+ * Item in *Event → Event series*
+ */
+export interface EventsDocumentDataSeriesItem {
+  /**
+   * Series field in *Event → Event series*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.series[].series
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  series: prismic.ContentRelationshipField<'event-series'>;
+}
+
+/**
+ * Item in *Event → Seasons*
+ */
+export interface EventsDocumentDataSeasonsItem {
+  /**
+   * Season field in *Event → Seasons*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: Select a Season
+   * - **API ID Path**: events.seasons[].season
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  season: prismic.ContentRelationshipField<'seasons'>;
+}
+
+/**
+ * Item in *Event → Parents*
+ */
+export interface EventsDocumentDataParentsItem {
+  /**
+   * Order field in *Event → Parents*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.parents[].order
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  order: prismic.NumberField;
+
+  /**
+   * Parent field in *Event → Parents*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: Select a parent
+   * - **API ID Path**: events.parents[].parent
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  parent: prismic.ContentRelationshipField<'exhibitions'>;
+}
+
+/**
+ * Content for Event documents
+ */
+interface EventsDocumentData {
+  /**
+   * Title field in *Event*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.title
+   * - **Tab**: Event
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Format field in *Event*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.format
+   * - **Tab**: Event
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  format: prismic.ContentRelationshipField<'event-formats'>;
+
+  /**
+   * Locations field in *Event*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.locations[]
+   * - **Tab**: Event
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  locations: prismic.GroupField<Simplify<EventsDocumentDataLocationsItem>>;
+
+  /**
+   * Happens Online? field in *Event*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: events.isOnline
+   * - **Tab**: Event
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  isOnline: prismic.BooleanField;
+
+  /**
+   * Available Online? field in *Event*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: events.availableOnline
+   * - **Tab**: Event
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  availableOnline: prismic.BooleanField;
+
+  /**
+   * Times field in *Event*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.times[]
+   * - **Tab**: Event
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  times: prismic.GroupField<Simplify<EventsDocumentDataTimesItem>>;
+
+  /**
+   * Body content field in *Event*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.body[]
+   * - **Tab**: Event
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  body: prismic.SliceZone<EventsDocumentDataBodySlice> /**
+   * Interpretations field in *Event*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.interpretations[]
+   * - **Tab**: Access
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  interpretations: prismic.GroupField<
+    Simplify<EventsDocumentDataInterpretationsItem>
+  >;
+
+  /**
+   * Audiences field in *Event*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.audiences[]
+   * - **Tab**: Access
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  audiences: prismic.GroupField<Simplify<EventsDocumentDataAudiencesItem>> /**
+   * Ticket sales start field in *Event*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.ticketSalesStart
+   * - **Tab**: Reservation
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */;
+  ticketSalesStart: prismic.TimestampField;
+
+  /**
+   * Booking enquiry team field in *Event*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.bookingEnquiryTeam
+   * - **Tab**: Reservation
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  bookingEnquiryTeam: prismic.ContentRelationshipField<'teams'>;
+
+  /**
+   * Eventbrite event field in *Event*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.eventbriteEvent
+   * - **Tab**: Reservation
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  eventbriteEvent: prismic.EmbedField;
+
+  /**
+   * Third party booking name field in *Event*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.thirdPartyBookingName
+   * - **Tab**: Reservation
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  thirdPartyBookingName: prismic.KeyTextField;
+
+  /**
+   * Third party booking url field in *Event*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.thirdPartyBookingUrl
+   * - **Tab**: Reservation
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  thirdPartyBookingUrl: prismic.LinkField;
+
+  /**
+   * Extra information field in *Event*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.bookingInformation
+   * - **Tab**: Reservation
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  bookingInformation: prismic.RichTextField;
+
+  /**
+   * Policies field in *Event*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.policies[]
+   * - **Tab**: Reservation
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  policies: prismic.GroupField<Simplify<EventsDocumentDataPoliciesItem>>;
+
+  /**
+   * Early registration field in *Event*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.hasEarlyRegistration
+   * - **Tab**: Reservation
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  hasEarlyRegistration: prismic.SelectField<'yes'>;
+
+  /**
+   * Cost field in *Event*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.cost
+   * - **Tab**: Reservation
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  cost: prismic.KeyTextField /**
+   * Ticket sales start field in *Event*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.onlineTicketSalesStart
+   * - **Tab**: Online reservation
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */;
+  onlineTicketSalesStart: prismic.TimestampField;
+
+  /**
+   * Booking enquiry team field in *Event*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.onlineBookingEnquiryTeam
+   * - **Tab**: Online reservation
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  onlineBookingEnquiryTeam: prismic.ContentRelationshipField<'teams'>;
+
+  /**
+   * Eventbrite event field in *Event*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.onlineEventbriteEvent
+   * - **Tab**: Online reservation
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  onlineEventbriteEvent: prismic.EmbedField;
+
+  /**
+   * Third party booking name field in *Event*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.onlineThirdPartyBookingName
+   * - **Tab**: Online reservation
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  onlineThirdPartyBookingName: prismic.KeyTextField;
+
+  /**
+   * Third party booking url field in *Event*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.onlineThirdPartyBookingUrl
+   * - **Tab**: Online reservation
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  onlineThirdPartyBookingUrl: prismic.LinkField;
+
+  /**
+   * Extra information field in *Event*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.onlineBookingInformation
+   * - **Tab**: Online reservation
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  onlineBookingInformation: prismic.RichTextField;
+
+  /**
+   * Policies field in *Event*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.onlinePolicies[]
+   * - **Tab**: Online reservation
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  onlinePolicies: prismic.GroupField<
+    Simplify<EventsDocumentDataOnlinePoliciesItem>
+  >;
+
+  /**
+   * Early registration field in *Event*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.onlineHasEarlyRegistration
+   * - **Tab**: Online reservation
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  onlineHasEarlyRegistration: prismic.SelectField<'yes'>;
+
+  /**
+   * Cost field in *Event*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.onlineCost
+   * - **Tab**: Online reservation
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  onlineCost: prismic.KeyTextField /**
+   * Events field in *Event*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.schedule[]
+   * - **Tab**: Schedule
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  schedule: prismic.GroupField<Simplify<EventsDocumentDataScheduleItem>>;
+
+  /**
+   * Background texture field in *Event*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.backgroundTexture
+   * - **Tab**: Schedule
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  backgroundTexture: prismic.ContentRelationshipField<'background-textures'> /**
+   * Contributors field in *Event*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.contributors[]
+   * - **Tab**: Contributors
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  contributors: prismic.GroupField<
+    Simplify<EventsDocumentDataContributorsItem>
+  >;
+
+  /**
+   * Contributors heading override field in *Event*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.contributorsTitle
+   * - **Tab**: Contributors
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  contributorsTitle: prismic.TitleField /**
+   * Promo field in *Event*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.promo[]
+   * - **Tab**: Promo
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */;
+  promo: prismic.SliceZone<EventsDocumentDataPromoSlice> /**
+   * Metadata description field in *Event*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.metadataDescription
+   * - **Tab**: Metadata
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */;
+  metadataDescription: prismic.RichTextField /**
+   * Event series field in *Event*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.series[]
+   * - **Tab**: Content relationships
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  series: prismic.GroupField<Simplify<EventsDocumentDataSeriesItem>>;
+
+  /**
+   * Seasons field in *Event*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.seasons[]
+   * - **Tab**: Content relationships
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  seasons: prismic.GroupField<Simplify<EventsDocumentDataSeasonsItem>>;
+
+  /**
+   * Parents field in *Event*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.parents[]
+   * - **Tab**: Content relationships
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  parents: prismic.GroupField<Simplify<EventsDocumentDataParentsItem>>;
+}
+
+/**
+ * Event document from Prismic
+ *
+ * - **API ID**: `events`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type EventsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<EventsDocumentData>,
+    'events',
+    Lang
+  >;
+
+/**
+ * Content for Exhibition format documents
+ */
+interface ExhibitionFormatsDocumentData {
+  /**
+   * Title field in *Exhibition format*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-formats.title
+   * - **Tab**: Exhibition format
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Description field in *Exhibition format*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-formats.description
+   * - **Tab**: Exhibition format
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Exhibition format document from Prismic
+ *
+ * - **API ID**: `exhibition-formats`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ExhibitionFormatsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<ExhibitionFormatsDocumentData>,
+    'exhibition-formats',
+    Lang
+  >;
+
+/**
+ * Item in *Exhibition guide → Guide Component*
+ */
+export interface ExhibitionGuidesDocumentDataComponentsItem {
+  /**
+   * Standalone title field in *Exhibition guide → Guide Component*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Provides a group heading for stops on captions and transcription pages
+   * - **API ID Path**: exhibition-guides.components[].standaloneTitle
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  standaloneTitle: prismic.RichTextField;
+
+  /**
+   * Title field in *Exhibition guide → Guide Component*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-guides.components[].title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Tombstone field in *Exhibition guide → Guide Component*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-guides.components[].tombstone
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  tombstone: prismic.RichTextField;
+
+  /**
+   * Caption field in *Exhibition guide → Guide Component*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-guides.components[].caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * image field in *Exhibition guide → Guide Component*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-guides.components[].image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Stop number field in *Exhibition guide → Guide Component*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: Stop number for this content
+   * - **API ID Path**: exhibition-guides.components[].number
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  number: prismic.NumberField;
+
+  /**
+   * Context field in *Exhibition guide → Guide Component*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Optional context for a group of stops
+   * - **API ID Path**: exhibition-guides.components[].context
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  context: prismic.RichTextField;
+
+  /**
+   * Audio with description (.mp3 file) field in *Exhibition guide → Guide Component*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-guides.components[].audio-with-description
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  'audio-with-description': prismic.LinkToMediaField;
+
+  /**
+   * Audio without description (.mp3 file) field in *Exhibition guide → Guide Component*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-guides.components[].audio-without-description
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  'audio-without-description': prismic.LinkToMediaField;
+
+  /**
+   * Embed (Youtube) field in *Exhibition guide → Guide Component*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-guides.components[].bsl-video
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  'bsl-video': prismic.EmbedField;
+
+  /**
+   * Transcript field in *Exhibition guide → Guide Component*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-guides.components[].transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Content for Exhibition guide documents
+ */
+interface ExhibitionGuidesDocumentData {
+  /**
+   * Title field in *Exhibition guide*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-guides.title
+   * - **Tab**: Guide
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Related Exhibition field in *Exhibition guide*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-guides.related-exhibition
+   * - **Tab**: Guide
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  'related-exhibition': prismic.ContentRelationshipField<'exhibitions'>;
+
+  /**
+   * Introductory text field in *Exhibition guide*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: This will fallback to the related exhibition's promo text if not filled in
+   * - **API ID Path**: exhibition-guides.introText
+   * - **Tab**: Guide
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  introText: prismic.RichTextField /**
+   * Guide Component field in *Exhibition guide*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-guides.components[]
+   * - **Tab**: Components
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  components: prismic.GroupField<
+    Simplify<ExhibitionGuidesDocumentDataComponentsItem>
+  >;
+}
+
+/**
+ * Exhibition guide document from Prismic
+ *
+ * - **API ID**: `exhibition-guides`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ExhibitionGuidesDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<ExhibitionGuidesDocumentData>,
+    'exhibition-guides',
+    Lang
+  >;
+
+/**
+ * Content for Exhibition resource documents
+ */
+interface ExhibitionResourcesDocumentData {
+  /**
+   * Title field in *Exhibition resource*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-resources.title
+   * - **Tab**: Exhibition resource
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Description field in *Exhibition resource*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-resources.description
+   * - **Tab**: Exhibition resource
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Icon type field in *Exhibition resource*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-resources.icon
+   * - **Tab**: Exhibition resource
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  icon: prismic.SelectField<'information' | 'family'>;
+}
+
+/**
+ * Exhibition resource document from Prismic
+ *
+ * - **API ID**: `exhibition-resources`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ExhibitionResourcesDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<ExhibitionResourcesDocumentData>,
+    'exhibition-resources',
+    Lang
+  >;
+
+/**
+ * Primary content in *Exhibition → Body content → Text → Primary*
+ */
+export interface ExhibitionsDocumentDataBodyTextSlicePrimary {
+  /**
+   * Text field in *Exhibition → Body content → Text → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].text.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Exhibition → Body content*
+ */
+export type ExhibitionsDocumentDataBodyTextSlice = prismic.Slice<
+  'text',
+  Simplify<ExhibitionsDocumentDataBodyTextSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Exhibition → Body content → Captioned image → Primary*
+ */
+export interface ExhibitionsDocumentDataBodyEditorialImageSlicePrimary {
+  /**
+   * Image field in *Exhibition → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Exhibition → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Exhibition → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: exhibitions.body[].editorialImage.primary.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Exhibition → Body content*
+ */
+export type ExhibitionsDocumentDataBodyEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<ExhibitionsDocumentDataBodyEditorialImageSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Exhibition → Body content → Image gallery → Primary*
+ */
+export interface ExhibitionsDocumentDataBodyEditorialImageGallerySlicePrimary {
+  /**
+   * Title field in *Exhibition → Body content → Image gallery → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].editorialImageGallery.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Exhibition → Body content → Image gallery → Items*
+ */
+export interface ExhibitionsDocumentDataBodyEditorialImageGallerySliceItem {
+  /**
+   * Image field in *Exhibition → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].editorialImageGallery.items.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Exhibition → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].editorialImageGallery.items.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Exhibition → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: exhibitions.body[].editorialImageGallery.items.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Exhibition → Body content*
+ */
+export type ExhibitionsDocumentDataBodyEditorialImageGallerySlice =
+  prismic.Slice<
+    'editorialImageGallery',
+    Simplify<ExhibitionsDocumentDataBodyEditorialImageGallerySlicePrimary>,
+    Simplify<ExhibitionsDocumentDataBodyEditorialImageGallerySliceItem>
+  >;
+
+/**
+ * Primary content in *Exhibition → Body content → Gif video → Primary*
+ */
+export interface ExhibitionsDocumentDataBodyGifVideoSlicePrimary {
+  /**
+   * Caption field in *Exhibition → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].gifVideo.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * TASL field in *Exhibition → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
+   * - **API ID Path**: exhibitions.body[].gifVideo.primary.tasl
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  tasl: prismic.KeyTextField;
+
+  /**
+   * Video field in *Exhibition → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: Video
+   * - **API ID Path**: exhibitions.body[].gifVideo.primary.video
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  video: prismic.LinkToMediaField;
+
+  /**
+   * Playback rate field in *Exhibition → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].gifVideo.primary.playbackRate
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  playbackRate: prismic.SelectField<
+    '0.1' | '0.25' | '0.5' | '0.75' | '1' | '1.25' | '1.5' | '1.75' | '2'
+  >;
+
+  /**
+   * Auto play field in *Exhibition → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: exhibitions.body[].gifVideo.primary.autoPlay
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  autoPlay: prismic.BooleanField;
+
+  /**
+   * Loop video field in *Exhibition → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: exhibitions.body[].gifVideo.primary.loop
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  loop: prismic.BooleanField;
+
+  /**
+   * Mute video field in *Exhibition → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: exhibitions.body[].gifVideo.primary.mute
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  mute: prismic.BooleanField;
+
+  /**
+   * Show controls field in *Exhibition → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: exhibitions.body[].gifVideo.primary.showControls
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  showControls: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Exhibition → Body content*
+ */
+export type ExhibitionsDocumentDataBodyGifVideoSlice = prismic.Slice<
+  'gifVideo',
+  Simplify<ExhibitionsDocumentDataBodyGifVideoSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Exhibition → Body content → Iframe → Primary*
+ */
+export interface ExhibitionsDocumentDataBodyIframeSlicePrimary {
+  /**
+   * iframe src field in *Exhibition → Body content → Iframe → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: iframe src
+   * - **API ID Path**: exhibitions.body[].iframe.primary.iframeSrc
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  iframeSrc: prismic.KeyTextField;
+
+  /**
+   * Preview image field in *Exhibition → Body content → Iframe → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].iframe.primary.previewImage
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  previewImage: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Exhibition → Body content*
+ */
+export type ExhibitionsDocumentDataBodyIframeSlice = prismic.Slice<
+  'iframe',
+  Simplify<ExhibitionsDocumentDataBodyIframeSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Exhibition → Body content → Quote → Primary*
+ */
+export interface ExhibitionsDocumentDataBodyQuoteSlicePrimary {
+  /**
+   * Quote field in *Exhibition → Body content → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].quote.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Citation field in *Exhibition → Body content → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].quote.primary.citation
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  citation: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Exhibition → Body content*
+ */
+export type ExhibitionsDocumentDataBodyQuoteSlice = prismic.Slice<
+  'quote',
+  Simplify<ExhibitionsDocumentDataBodyQuoteSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Exhibition → Body content → Standfirst → Primary*
+ */
+export interface ExhibitionsDocumentDataBodyStandfirstSlicePrimary {
+  /**
+   * Standfirst field in *Exhibition → Body content → Standfirst → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].standfirst.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Exhibition → Body content*
+ */
+export type ExhibitionsDocumentDataBodyStandfirstSlice = prismic.Slice<
+  'standfirst',
+  Simplify<ExhibitionsDocumentDataBodyStandfirstSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Exhibition → Body content → Embed → Primary*
+ */
+export interface ExhibitionsDocumentDataBodyEmbedSlicePrimary {
+  /**
+   * `embed` field in *Exhibition → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].embed.primary.embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  embed: prismic.EmbedField;
+
+  /**
+   * Caption field in *Exhibition → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].embed.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Transcript (Collapsible content) field in *Exhibition → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].embed.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Exhibition → Body content*
+ */
+export type ExhibitionsDocumentDataBodyEmbedSlice = prismic.Slice<
+  'embed',
+  Simplify<ExhibitionsDocumentDataBodyEmbedSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Exhibition → Body content → Audio Player → Primary*
+ */
+export interface ExhibitionsDocumentDataBodyAudioPlayerSlicePrimary {
+  /**
+   * Title field in *Exhibition → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].audioPlayer.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Audio field in *Exhibition → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].audioPlayer.primary.audio
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  audio: prismic.LinkToMediaField;
+
+  /**
+   * Transcript (Collapsible content) field in *Exhibition → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].audioPlayer.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Exhibition → Body content*
+ */
+export type ExhibitionsDocumentDataBodyAudioPlayerSlice = prismic.Slice<
+  'audioPlayer',
+  Simplify<ExhibitionsDocumentDataBodyAudioPlayerSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Exhibition → Body content → Collection venue's hours → Primary*
+ */
+export interface ExhibitionsDocumentDataBodyCollectionVenueSlicePrimary {
+  /**
+   * Content item field in *Exhibition → Body content → Collection venue's hours → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].collectionVenue.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'collection-venue'>;
+
+  /**
+   * Show closing times field in *Exhibition → Body content → Collection venue's hours → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].collectionVenue.primary.showClosingTimes
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  showClosingTimes: prismic.SelectField<'yes'>;
+}
+
+/**
+ * Slice for *Exhibition → Body content*
+ */
+export type ExhibitionsDocumentDataBodyCollectionVenueSlice = prismic.Slice<
+  'collectionVenue',
+  Simplify<ExhibitionsDocumentDataBodyCollectionVenueSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Exhibition → Body content → Contact → Primary*
+ */
+export interface ExhibitionsDocumentDataBodyContactSlicePrimary {
+  /**
+   * Content item field in *Exhibition → Body content → Contact → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].contact.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'teams'>;
+}
+
+/**
+ * Slice for *Exhibition → Body content*
+ */
+export type ExhibitionsDocumentDataBodyContactSlice = prismic.Slice<
+  'contact',
+  Simplify<ExhibitionsDocumentDataBodyContactSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Exhibition → Body content → Tag List → Primary*
+ */
+export interface ExhibitionsDocumentDataBodyTagListSlicePrimary {
+  /**
+   * Title field in *Exhibition → Body content → Tag List → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].tagList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Exhibition → Body content → Tag List → Items*
+ */
+export interface ExhibitionsDocumentDataBodyTagListSliceItem {
+  /**
+   * Link field in *Exhibition → Body content → Tag List → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].tagList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Link text field in *Exhibition → Body content → Tag List → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].tagList.items.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Exhibition → Body content*
+ */
+export type ExhibitionsDocumentDataBodyTagListSlice = prismic.Slice<
+  'tagList',
+  Simplify<ExhibitionsDocumentDataBodyTagListSlicePrimary>,
+  Simplify<ExhibitionsDocumentDataBodyTagListSliceItem>
+>;
+
+/**
+ * Primary content in *Exhibition → Body content → Info block → Primary*
+ */
+export interface ExhibitionsDocumentDataBodyInfoBlockSlicePrimary {
+  /**
+   * Title field in *Exhibition → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].infoBlock.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Exhibition → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].infoBlock.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Button link field in *Exhibition → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].infoBlock.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Button text field in *Exhibition → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].infoBlock.primary.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Exhibition → Body content*
+ */
+export type ExhibitionsDocumentDataBodyInfoBlockSlice = prismic.Slice<
+  'infoBlock',
+  Simplify<ExhibitionsDocumentDataBodyInfoBlockSlicePrimary>,
+  never
+>;
+
+/**
+ * Item content in *Exhibition → Body content → Descriptive links list → Items*
+ */
+export interface ExhibitionsDocumentDataBodyTitledTextListSliceItem {
+  /**
+   * Title field in *Exhibition → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].titledTextList.items.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Exhibition → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].titledTextList.items.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Link field in *Exhibition → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].titledTextList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+}
+
+/**
+ * Slice for *Exhibition → Body content*
+ */
+export type ExhibitionsDocumentDataBodyTitledTextListSlice = prismic.Slice<
+  'titledTextList',
+  Record<string, never>,
+  Simplify<ExhibitionsDocumentDataBodyTitledTextListSliceItem>
+>;
+
+/**
+ * Primary content in *Exhibition → Body content → Content list → Primary*
+ */
+export interface ExhibitionsDocumentDataBodyContentListSlicePrimary {
+  /**
+   * Title field in *Exhibition → Body content → Content list → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].contentList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Exhibition → Body content → Content list → Items*
+ */
+export interface ExhibitionsDocumentDataBodyContentListSliceItem {
+  /**
+   * Content item field in *Exhibition → Body content → Content list → Items*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].contentList.items.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<
+    | 'pages'
+    | 'event-series'
+    | 'books'
+    | 'events'
+    | 'articles'
+    | 'exhibitions'
+    | 'card'
+    | 'seasons'
+    | 'landing-pages'
+    | 'guides'
+  >;
+}
+
+/**
+ * Slice for *Exhibition → Body content*
+ */
+export type ExhibitionsDocumentDataBodyContentListSlice = prismic.Slice<
+  'contentList',
+  Simplify<ExhibitionsDocumentDataBodyContentListSlicePrimary>,
+  Simplify<ExhibitionsDocumentDataBodyContentListSliceItem>
+>;
+
+/**
+ * Primary content in *Exhibition → Body content → Search results → Primary*
+ */
+export interface ExhibitionsDocumentDataBodySearchResultsSlicePrimary {
+  /**
+   * Title field in *Exhibition → Body content → Search results → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].searchResults.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Query field in *Exhibition → Body content → Search results → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].searchResults.primary.query
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  query: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Exhibition → Body content*
+ */
+export type ExhibitionsDocumentDataBodySearchResultsSlice = prismic.Slice<
+  'searchResults',
+  Simplify<ExhibitionsDocumentDataBodySearchResultsSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Exhibition → Body content → Text and icons → Primary*
+ */
+export interface ExhibitionsDocumentDataBodyTextAndIconsSlicePrimary {
+  /**
+   * Text field in *Exhibition → Body content → Text and icons → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].textAndIcons.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Item content in *Exhibition → Body content → Text and icons → Items*
+ */
+export interface ExhibitionsDocumentDataBodyTextAndIconsSliceItem {
+  /**
+   * Icon (will display at 100px wide) field in *Exhibition → Body content → Text and icons → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].textAndIcons.items.icon
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  icon: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Exhibition → Body content*
+ */
+export type ExhibitionsDocumentDataBodyTextAndIconsSlice = prismic.Slice<
+  'textAndIcons',
+  Simplify<ExhibitionsDocumentDataBodyTextAndIconsSlicePrimary>,
+  Simplify<ExhibitionsDocumentDataBodyTextAndIconsSliceItem>
+>;
+
+/**
+ * Primary content in *Exhibition → Body content → Map → Primary*
+ */
+export interface ExhibitionsDocumentDataBodyMapSlicePrimary {
+  /**
+   * Title field in *Exhibition → Body content → Map → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].map.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Geo point field in *Exhibition → Body content → Map → Primary*
+   *
+   * - **Field Type**: GeoPoint
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[].map.primary.geolocation
+   * - **Documentation**: https://prismic.io/docs/field#geopoint
+   */
+  geolocation: prismic.GeoPointField;
+}
+
+/**
+ * Slice for *Exhibition → Body content*
+ */
+export type ExhibitionsDocumentDataBodyMapSlice = prismic.Slice<
+  'map',
+  Simplify<ExhibitionsDocumentDataBodyMapSlicePrimary>,
+  never
+>;
+
+type ExhibitionsDocumentDataBodySlice =
+  | ExhibitionsDocumentDataBodyTextSlice
+  | ExhibitionsDocumentDataBodyEditorialImageSlice
+  | ExhibitionsDocumentDataBodyEditorialImageGallerySlice
+  | ExhibitionsDocumentDataBodyGifVideoSlice
+  | ExhibitionsDocumentDataBodyIframeSlice
+  | ExhibitionsDocumentDataBodyQuoteSlice
+  | ExhibitionsDocumentDataBodyStandfirstSlice
+  | ExhibitionsDocumentDataBodyEmbedSlice
+  | ExhibitionsDocumentDataBodyAudioPlayerSlice
+  | ExhibitionsDocumentDataBodyCollectionVenueSlice
+  | ExhibitionsDocumentDataBodyContactSlice
+  | ExhibitionsDocumentDataBodyTagListSlice
+  | ExhibitionsDocumentDataBodyInfoBlockSlice
+  | ExhibitionsDocumentDataBodyTitledTextListSlice
+  | ExhibitionsDocumentDataBodyContentListSlice
+  | ExhibitionsDocumentDataBodySearchResultsSlice
+  | ExhibitionsDocumentDataBodyTextAndIconsSlice
+  | ExhibitionsDocumentDataBodyMapSlice;
+
+/**
+ * Item in *Exhibition → Exhibits*
+ */
+export interface ExhibitionsDocumentDataExhibitsItem {
+  /**
+   * Exhibit field in *Exhibition → Exhibits*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.exhibits[].item
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  item: prismic.ContentRelationshipField<'exhibitions'>;
+}
+
+/**
+ * Item in *Exhibition → Gallery tours*
+ */
+export interface ExhibitionsDocumentDataEventsItem {
+  /**
+   * Gallery tour field in *Exhibition → Gallery tours*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.events[].item
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  item: prismic.ContentRelationshipField<'events'>;
+}
+
+/**
+ * Item in *Exhibition → Articles*
+ */
+export interface ExhibitionsDocumentDataArticlesItem {
+  /**
+   * Article field in *Exhibition → Articles*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.articles[].item
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  item: prismic.ContentRelationshipField<'articles'>;
+}
+
+/**
+ * Item in *Exhibition → Access pdfs*
+ */
+export interface ExhibitionsDocumentDataAccessResourcesPdfsItem {
+  /**
+   * Link text field in *Exhibition → Access pdfs*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.accessResourcesPdfs[].linkText
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  linkText: prismic.RichTextField;
+
+  /**
+   * Document link field in *Exhibition → Access pdfs*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.accessResourcesPdfs[].documentLink
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  documentLink: prismic.LinkToMediaField;
+}
+
+/**
+ * Item in *Exhibition → Contributors*
+ */
+export interface ExhibitionsDocumentDataContributorsItem {
+  /**
+   * Role field in *Exhibition → Contributors*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.contributors[].role
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  role: prismic.ContentRelationshipField<'editorial-contributor-roles'>;
+
+  /**
+   * Contributor field in *Exhibition → Contributors*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.contributors[].contributor
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  contributor: prismic.ContentRelationshipField<'people' | 'organisations'>;
+
+  /**
+   * Contributor description override field in *Exhibition → Contributors*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.contributors[].description
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Primary content in *Exhibition → Promo → Editorial image → Primary*
+ */
+export interface ExhibitionsDocumentDataPromoEditorialImageSlicePrimary {
+  /**
+   * Promo text field in *Exhibition → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.promo[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Promo image field in *Exhibition → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.promo[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Link override field in *Exhibition → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.promo[].editorialImage.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  link: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Exhibition → Promo*
+ */
+export type ExhibitionsDocumentDataPromoEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<ExhibitionsDocumentDataPromoEditorialImageSlicePrimary>,
+  never
+>;
+
+type ExhibitionsDocumentDataPromoSlice =
+  ExhibitionsDocumentDataPromoEditorialImageSlice;
+
+/**
+ * Item in *Exhibition → Seasons*
+ */
+export interface ExhibitionsDocumentDataSeasonsItem {
+  /**
+   * Season field in *Exhibition → Seasons*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: Select a Season
+   * - **API ID Path**: exhibitions.seasons[].season
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  season: prismic.ContentRelationshipField<'seasons'>;
+}
+
+/**
+ * Item in *Exhibition → Parents*
+ */
+export interface ExhibitionsDocumentDataParentsItem {
+  /**
+   * Order field in *Exhibition → Parents*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.parents[].order
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  order: prismic.NumberField;
+
+  /**
+   * Parent field in *Exhibition → Parents*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: Select a parent
+   * - **API ID Path**: exhibitions.parents[].parent
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  parent: prismic.ContentRelationshipField<'exhibitions'>;
+}
+
+/**
+ * Content for Exhibition documents
+ */
+interface ExhibitionsDocumentData {
+  /**
+   * Format field in *Exhibition*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.format
+   * - **Tab**: Exhibition
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  format: prismic.ContentRelationshipField<'exhibition-formats'>;
+
+  /**
+   * Title field in *Exhibition*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.title
+   * - **Tab**: Exhibition
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Short title field in *Exhibition*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Replaces title in breadcrumbs. Useful if title is very long, should otherwise be left empty.
+   * - **API ID Path**: exhibitions.shortTitle
+   * - **Tab**: Exhibition
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  shortTitle: prismic.RichTextField;
+
+  /**
+   * Body content field in *Exhibition*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[]
+   * - **Tab**: Exhibition
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  body: prismic.SliceZone<ExhibitionsDocumentDataBodySlice>;
+
+  /**
+   * Start date field in *Exhibition*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.start
+   * - **Tab**: Exhibition
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  start: prismic.TimestampField;
+
+  /**
+   * End date field in *Exhibition*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.end
+   * - **Tab**: Exhibition
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  end: prismic.TimestampField;
+
+  /**
+   * Is permanent? field in *Exhibition*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.isPermanent
+   * - **Tab**: Exhibition
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  isPermanent: prismic.SelectField<'yes'>;
+
+  /**
+   * Status override field in *Exhibition*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.statusOverride
+   * - **Tab**: Exhibition
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  statusOverride: prismic.RichTextField;
+
+  /**
+   * Where is it? field in *Exhibition*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.place
+   * - **Tab**: Exhibition
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  place: prismic.ContentRelationshipField<'places'> /**
+   * Exhibits field in *Exhibition*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.exhibits[]
+   * - **Tab**: In this exhibition
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  exhibits: prismic.GroupField<Simplify<ExhibitionsDocumentDataExhibitsItem>>;
+
+  /**
+   * Gallery tours field in *Exhibition*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.events[]
+   * - **Tab**: In this exhibition
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  events: prismic.GroupField<Simplify<ExhibitionsDocumentDataEventsItem>> /**
+   * Articles field in *Exhibition*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.articles[]
+   * - **Tab**: About this exhibition
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  articles: prismic.GroupField<
+    Simplify<ExhibitionsDocumentDataArticlesItem>
+  > /**
+   * Access pdfs field in *Exhibition*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.accessResourcesPdfs[]
+   * - **Tab**: Access content
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  accessResourcesPdfs: prismic.GroupField<
+    Simplify<ExhibitionsDocumentDataAccessResourcesPdfsItem>
+  >;
+
+  /**
+   * Text and links field in *Exhibition*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.accessResourcesText
+   * - **Tab**: Access content
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  accessResourcesText: prismic.RichTextField /**
+   * Contributors field in *Exhibition*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.contributors[]
+   * - **Tab**: Contributors
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  contributors: prismic.GroupField<
+    Simplify<ExhibitionsDocumentDataContributorsItem>
+  >;
+
+  /**
+   * Contributors heading override field in *Exhibition*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.contributorsTitle
+   * - **Tab**: Contributors
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  contributorsTitle: prismic.TitleField /**
+   * Promo field in *Exhibition*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.promo[]
+   * - **Tab**: Promo
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */;
+  promo: prismic.SliceZone<ExhibitionsDocumentDataPromoSlice> /**
+   * Metadata description field in *Exhibition*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.metadataDescription
+   * - **Tab**: Metadata
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */;
+  metadataDescription: prismic.RichTextField /**
+   * Seasons field in *Exhibition*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.seasons[]
+   * - **Tab**: Content relationships
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  seasons: prismic.GroupField<Simplify<ExhibitionsDocumentDataSeasonsItem>>;
+
+  /**
+   * Parents field in *Exhibition*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.parents[]
+   * - **Tab**: Content relationships
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  parents: prismic.GroupField<Simplify<ExhibitionsDocumentDataParentsItem>>;
+}
+
+/**
+ * Exhibition document from Prismic
+ *
+ * - **API ID**: `exhibitions`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ExhibitionsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<ExhibitionsDocumentData>,
+    'exhibitions',
+    Lang
+  >;
+
+/**
+ * Content for Global alert documents
+ */
+interface GlobalAlertDocumentData {
+  /**
+   * text field in *Global alert*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: text
+   * - **API ID Path**: global-alert.text
+   * - **Tab**: Global alert
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Display field in *Global alert*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: Show or hide
+   * - **Default Value**: hide
+   * - **API ID Path**: global-alert.isShown
+   * - **Tab**: Global alert
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  isShown: prismic.SelectField<'hide' | 'show', 'filled'>;
+
+  /**
+   * Write a pipe-separated (|) list of page paths here if you only want the alert to display on certain pages. Leave empty if you want the alert to appear on all pages. field in *Global alert*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: path(s) to match
+   * - **API ID Path**: global-alert.routeRegex
+   * - **Tab**: Global alert
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  routeRegex: prismic.KeyTextField;
+}
+
+/**
+ * Global alert document from Prismic
+ *
+ * - **API ID**: `global-alert`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type GlobalAlertDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<GlobalAlertDocumentData>,
+    'global-alert',
+    Lang
+  >;
+
+/**
+ * Content for Guide format documents
+ */
+interface GuideFormatsDocumentData {
+  /**
+   * Title field in *Guide format*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guide-formats.title
+   * - **Tab**: Guide format
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Description field in *Guide format*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guide-formats.description
+   * - **Tab**: Guide format
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Guide format document from Prismic
+ *
+ * - **API ID**: `guide-formats`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type GuideFormatsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<GuideFormatsDocumentData>,
+    'guide-formats',
+    Lang
+  >;
+
+/**
+ * Primary content in *Guide → Body content → Text → Primary*
+ */
+export interface GuidesDocumentDataBodyTextSlicePrimary {
+  /**
+   * Text field in *Guide → Body content → Text → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].text.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Guide → Body content*
+ */
+export type GuidesDocumentDataBodyTextSlice = prismic.Slice<
+  'text',
+  Simplify<GuidesDocumentDataBodyTextSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Guide → Body content → Captioned image → Primary*
+ */
+export interface GuidesDocumentDataBodyEditorialImageSlicePrimary {
+  /**
+   * Image field in *Guide → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Guide → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Guide → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: guides.body[].editorialImage.primary.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Guide → Body content*
+ */
+export type GuidesDocumentDataBodyEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<GuidesDocumentDataBodyEditorialImageSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Guide → Body content → Image gallery → Primary*
+ */
+export interface GuidesDocumentDataBodyEditorialImageGallerySlicePrimary {
+  /**
+   * Title field in *Guide → Body content → Image gallery → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].editorialImageGallery.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Guide → Body content → Image gallery → Items*
+ */
+export interface GuidesDocumentDataBodyEditorialImageGallerySliceItem {
+  /**
+   * Image field in *Guide → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].editorialImageGallery.items.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Guide → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].editorialImageGallery.items.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Guide → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: guides.body[].editorialImageGallery.items.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Guide → Body content*
+ */
+export type GuidesDocumentDataBodyEditorialImageGallerySlice = prismic.Slice<
+  'editorialImageGallery',
+  Simplify<GuidesDocumentDataBodyEditorialImageGallerySlicePrimary>,
+  Simplify<GuidesDocumentDataBodyEditorialImageGallerySliceItem>
+>;
+
+/**
+ * Primary content in *Guide → Body content → Gif video → Primary*
+ */
+export interface GuidesDocumentDataBodyGifVideoSlicePrimary {
+  /**
+   * Caption field in *Guide → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].gifVideo.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * TASL field in *Guide → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
+   * - **API ID Path**: guides.body[].gifVideo.primary.tasl
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  tasl: prismic.KeyTextField;
+
+  /**
+   * Video field in *Guide → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: Video
+   * - **API ID Path**: guides.body[].gifVideo.primary.video
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  video: prismic.LinkToMediaField;
+
+  /**
+   * Playback rate field in *Guide → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].gifVideo.primary.playbackRate
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  playbackRate: prismic.SelectField<
+    '0.1' | '0.25' | '0.5' | '0.75' | '1' | '1.25' | '1.5' | '1.75' | '2'
+  >;
+
+  /**
+   * Auto play field in *Guide → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: guides.body[].gifVideo.primary.autoPlay
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  autoPlay: prismic.BooleanField;
+
+  /**
+   * Loop video field in *Guide → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: guides.body[].gifVideo.primary.loop
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  loop: prismic.BooleanField;
+
+  /**
+   * Mute video field in *Guide → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: guides.body[].gifVideo.primary.mute
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  mute: prismic.BooleanField;
+
+  /**
+   * Show controls field in *Guide → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: guides.body[].gifVideo.primary.showControls
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  showControls: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Guide → Body content*
+ */
+export type GuidesDocumentDataBodyGifVideoSlice = prismic.Slice<
+  'gifVideo',
+  Simplify<GuidesDocumentDataBodyGifVideoSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Guide → Body content → Iframe → Primary*
+ */
+export interface GuidesDocumentDataBodyIframeSlicePrimary {
+  /**
+   * iframe src field in *Guide → Body content → Iframe → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: iframe src
+   * - **API ID Path**: guides.body[].iframe.primary.iframeSrc
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  iframeSrc: prismic.KeyTextField;
+
+  /**
+   * Preview image field in *Guide → Body content → Iframe → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].iframe.primary.previewImage
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  previewImage: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Guide → Body content*
+ */
+export type GuidesDocumentDataBodyIframeSlice = prismic.Slice<
+  'iframe',
+  Simplify<GuidesDocumentDataBodyIframeSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Guide → Body content → Quote → Primary*
+ */
+export interface GuidesDocumentDataBodyQuoteSlicePrimary {
+  /**
+   * Quote field in *Guide → Body content → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].quote.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Citation field in *Guide → Body content → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].quote.primary.citation
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  citation: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Guide → Body content*
+ */
+export type GuidesDocumentDataBodyQuoteSlice = prismic.Slice<
+  'quote',
+  Simplify<GuidesDocumentDataBodyQuoteSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Guide → Body content → Standfirst → Primary*
+ */
+export interface GuidesDocumentDataBodyStandfirstSlicePrimary {
+  /**
+   * Standfirst field in *Guide → Body content → Standfirst → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].standfirst.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Guide → Body content*
+ */
+export type GuidesDocumentDataBodyStandfirstSlice = prismic.Slice<
+  'standfirst',
+  Simplify<GuidesDocumentDataBodyStandfirstSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Guide → Body content → Embed → Primary*
+ */
+export interface GuidesDocumentDataBodyEmbedSlicePrimary {
+  /**
+   * `embed` field in *Guide → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].embed.primary.embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  embed: prismic.EmbedField;
+
+  /**
+   * Caption field in *Guide → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].embed.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Transcript (Collapsible content) field in *Guide → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].embed.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Guide → Body content*
+ */
+export type GuidesDocumentDataBodyEmbedSlice = prismic.Slice<
+  'embed',
+  Simplify<GuidesDocumentDataBodyEmbedSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Guide → Body content → Audio Player → Primary*
+ */
+export interface GuidesDocumentDataBodyAudioPlayerSlicePrimary {
+  /**
+   * Title field in *Guide → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].audioPlayer.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Audio field in *Guide → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].audioPlayer.primary.audio
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  audio: prismic.LinkToMediaField;
+
+  /**
+   * Transcript (Collapsible content) field in *Guide → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].audioPlayer.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Guide → Body content*
+ */
+export type GuidesDocumentDataBodyAudioPlayerSlice = prismic.Slice<
+  'audioPlayer',
+  Simplify<GuidesDocumentDataBodyAudioPlayerSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Guide → Body content → Collection venue's hours → Primary*
+ */
+export interface GuidesDocumentDataBodyCollectionVenueSlicePrimary {
+  /**
+   * Content item field in *Guide → Body content → Collection venue's hours → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].collectionVenue.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'collection-venue'>;
+
+  /**
+   * Show closing times field in *Guide → Body content → Collection venue's hours → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].collectionVenue.primary.showClosingTimes
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  showClosingTimes: prismic.SelectField<'yes'>;
+}
+
+/**
+ * Slice for *Guide → Body content*
+ */
+export type GuidesDocumentDataBodyCollectionVenueSlice = prismic.Slice<
+  'collectionVenue',
+  Simplify<GuidesDocumentDataBodyCollectionVenueSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Guide → Body content → Contact → Primary*
+ */
+export interface GuidesDocumentDataBodyContactSlicePrimary {
+  /**
+   * Content item field in *Guide → Body content → Contact → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].contact.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'teams'>;
+}
+
+/**
+ * Slice for *Guide → Body content*
+ */
+export type GuidesDocumentDataBodyContactSlice = prismic.Slice<
+  'contact',
+  Simplify<GuidesDocumentDataBodyContactSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Guide → Body content → Tag List → Primary*
+ */
+export interface GuidesDocumentDataBodyTagListSlicePrimary {
+  /**
+   * Title field in *Guide → Body content → Tag List → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].tagList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Guide → Body content → Tag List → Items*
+ */
+export interface GuidesDocumentDataBodyTagListSliceItem {
+  /**
+   * Link field in *Guide → Body content → Tag List → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].tagList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Link text field in *Guide → Body content → Tag List → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].tagList.items.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Guide → Body content*
+ */
+export type GuidesDocumentDataBodyTagListSlice = prismic.Slice<
+  'tagList',
+  Simplify<GuidesDocumentDataBodyTagListSlicePrimary>,
+  Simplify<GuidesDocumentDataBodyTagListSliceItem>
+>;
+
+/**
+ * Primary content in *Guide → Body content → Info block → Primary*
+ */
+export interface GuidesDocumentDataBodyInfoBlockSlicePrimary {
+  /**
+   * Title field in *Guide → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].infoBlock.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Guide → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].infoBlock.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Button link field in *Guide → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].infoBlock.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Button text field in *Guide → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].infoBlock.primary.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Guide → Body content*
+ */
+export type GuidesDocumentDataBodyInfoBlockSlice = prismic.Slice<
+  'infoBlock',
+  Simplify<GuidesDocumentDataBodyInfoBlockSlicePrimary>,
+  never
+>;
+
+/**
+ * Item content in *Guide → Body content → Descriptive links list → Items*
+ */
+export interface GuidesDocumentDataBodyTitledTextListSliceItem {
+  /**
+   * Title field in *Guide → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].titledTextList.items.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Guide → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].titledTextList.items.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Link field in *Guide → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].titledTextList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+}
+
+/**
+ * Slice for *Guide → Body content*
+ */
+export type GuidesDocumentDataBodyTitledTextListSlice = prismic.Slice<
+  'titledTextList',
+  Record<string, never>,
+  Simplify<GuidesDocumentDataBodyTitledTextListSliceItem>
+>;
+
+/**
+ * Primary content in *Guide → Body content → Content list → Primary*
+ */
+export interface GuidesDocumentDataBodyContentListSlicePrimary {
+  /**
+   * Title field in *Guide → Body content → Content list → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].contentList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Guide → Body content → Content list → Items*
+ */
+export interface GuidesDocumentDataBodyContentListSliceItem {
+  /**
+   * Content item field in *Guide → Body content → Content list → Items*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].contentList.items.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<
+    | 'pages'
+    | 'event-series'
+    | 'books'
+    | 'events'
+    | 'articles'
+    | 'exhibitions'
+    | 'card'
+    | 'seasons'
+    | 'landing-pages'
+    | 'guides'
+  >;
+}
+
+/**
+ * Slice for *Guide → Body content*
+ */
+export type GuidesDocumentDataBodyContentListSlice = prismic.Slice<
+  'contentList',
+  Simplify<GuidesDocumentDataBodyContentListSlicePrimary>,
+  Simplify<GuidesDocumentDataBodyContentListSliceItem>
+>;
+
+/**
+ * Primary content in *Guide → Body content → Search results → Primary*
+ */
+export interface GuidesDocumentDataBodySearchResultsSlicePrimary {
+  /**
+   * Title field in *Guide → Body content → Search results → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].searchResults.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Query field in *Guide → Body content → Search results → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].searchResults.primary.query
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  query: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Guide → Body content*
+ */
+export type GuidesDocumentDataBodySearchResultsSlice = prismic.Slice<
+  'searchResults',
+  Simplify<GuidesDocumentDataBodySearchResultsSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Guide → Body content → Text and icons → Primary*
+ */
+export interface GuidesDocumentDataBodyTextAndIconsSlicePrimary {
+  /**
+   * Text field in *Guide → Body content → Text and icons → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].textAndIcons.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Item content in *Guide → Body content → Text and icons → Items*
+ */
+export interface GuidesDocumentDataBodyTextAndIconsSliceItem {
+  /**
+   * Icon (will display at 100px wide) field in *Guide → Body content → Text and icons → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].textAndIcons.items.icon
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  icon: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Guide → Body content*
+ */
+export type GuidesDocumentDataBodyTextAndIconsSlice = prismic.Slice<
+  'textAndIcons',
+  Simplify<GuidesDocumentDataBodyTextAndIconsSlicePrimary>,
+  Simplify<GuidesDocumentDataBodyTextAndIconsSliceItem>
+>;
+
+/**
+ * Primary content in *Guide → Body content → Map → Primary*
+ */
+export interface GuidesDocumentDataBodyMapSlicePrimary {
+  /**
+   * Title field in *Guide → Body content → Map → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].map.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Geo point field in *Guide → Body content → Map → Primary*
+   *
+   * - **Field Type**: GeoPoint
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[].map.primary.geolocation
+   * - **Documentation**: https://prismic.io/docs/field#geopoint
+   */
+  geolocation: prismic.GeoPointField;
+}
+
+/**
+ * Slice for *Guide → Body content*
+ */
+export type GuidesDocumentDataBodyMapSlice = prismic.Slice<
+  'map',
+  Simplify<GuidesDocumentDataBodyMapSlicePrimary>,
+  never
+>;
+
+type GuidesDocumentDataBodySlice =
+  | GuidesDocumentDataBodyTextSlice
+  | GuidesDocumentDataBodyEditorialImageSlice
+  | GuidesDocumentDataBodyEditorialImageGallerySlice
+  | GuidesDocumentDataBodyGifVideoSlice
+  | GuidesDocumentDataBodyIframeSlice
+  | GuidesDocumentDataBodyQuoteSlice
+  | GuidesDocumentDataBodyStandfirstSlice
+  | GuidesDocumentDataBodyEmbedSlice
+  | GuidesDocumentDataBodyAudioPlayerSlice
+  | GuidesDocumentDataBodyCollectionVenueSlice
+  | GuidesDocumentDataBodyContactSlice
+  | GuidesDocumentDataBodyTagListSlice
+  | GuidesDocumentDataBodyInfoBlockSlice
+  | GuidesDocumentDataBodyTitledTextListSlice
+  | GuidesDocumentDataBodyContentListSlice
+  | GuidesDocumentDataBodySearchResultsSlice
+  | GuidesDocumentDataBodyTextAndIconsSlice
+  | GuidesDocumentDataBodyMapSlice;
+
+/**
+ * Primary content in *Guide → Promo → Editorial image → Primary*
+ */
+export interface GuidesDocumentDataPromoEditorialImageSlicePrimary {
+  /**
+   * Promo text field in *Guide → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.promo[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Promo image field in *Guide → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.promo[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Link override field in *Guide → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.promo[].editorialImage.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  link: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Guide → Promo*
+ */
+export type GuidesDocumentDataPromoEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<GuidesDocumentDataPromoEditorialImageSlicePrimary>,
+  never
+>;
+
+type GuidesDocumentDataPromoSlice = GuidesDocumentDataPromoEditorialImageSlice;
+
+/**
+ * Content for Guide documents
+ */
+interface GuidesDocumentData {
+  /**
+   * Title field in *Guide*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.title
+   * - **Tab**: Guide
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Format field in *Guide*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.format
+   * - **Tab**: Guide
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  format: prismic.ContentRelationshipField<'guide-formats'>;
+
+  /**
+   * Date published field in *Guide*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.datePublished
+   * - **Tab**: Guide
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  datePublished: prismic.TimestampField;
+
+  /**
+   * Show 'On this page' anchor links. This will only appear if there are more than 2 H2s in the body field in *Guide*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: guides.showOnThisPage
+   * - **Tab**: Guide
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  showOnThisPage: prismic.BooleanField;
+
+  /**
+   * Body content field in *Guide*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.body[]
+   * - **Tab**: Guide
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  body: prismic.SliceZone<GuidesDocumentDataBodySlice> /**
+   * Promo field in *Guide*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.promo[]
+   * - **Tab**: Promo
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */;
+  promo: prismic.SliceZone<GuidesDocumentDataPromoSlice> /**
+   * Metadata description field in *Guide*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guides.metadataDescription
+   * - **Tab**: Metadata
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */;
+  metadataDescription: prismic.RichTextField;
+}
+
+/**
+ * Guide document from Prismic
+ *
+ * - **API ID**: `guides`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type GuidesDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<GuidesDocumentData>,
+    'guides',
+    Lang
+  >;
+
+/**
+ * Content for Interpretation type documents
+ */
+interface InterpretationTypesDocumentData {
+  /**
+   * Title field in *Interpretation type*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: interpretation-types.title
+   * - **Tab**: Interpretation type
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Abbreviation field in *Interpretation type*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: interpretation-types.abbreviation
+   * - **Tab**: Interpretation type
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  abbreviation: prismic.RichTextField;
+
+  /**
+   * Message field in *Interpretation type*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: interpretation-types.description
+   * - **Tab**: Interpretation type
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Message if primary interpretation field in *Interpretation type*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: interpretation-types.primaryDescription
+   * - **Tab**: Interpretation type
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  primaryDescription: prismic.RichTextField;
+}
+
+/**
+ * Interpretation type document from Prismic
+ *
+ * - **API ID**: `interpretation-types`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type InterpretationTypesDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<InterpretationTypesDocumentData>,
+    'interpretation-types',
+    Lang
+  >;
+
+/**
+ * Content for Label documents
+ */
+interface LabelsDocumentData {
+  /**
+   * Title field in *Label*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: labels.title
+   * - **Tab**: Label
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Description field in *Label*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: labels.description
+   * - **Tab**: Label
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Label document from Prismic
+ *
+ * - **API ID**: `labels`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type LabelsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<LabelsDocumentData>,
+    'labels',
+    Lang
+  >;
+
+/**
+ * Item in *Organisation → Same as*
+ */
+export interface OrganisationsDocumentDataSameAsItem {
+  /**
+   * Link field in *Organisation → Same as*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: https://example.com/organisation (required)
+   * - **API ID Path**: organisations.sameAs[].link
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  link: prismic.KeyTextField;
+
+  /**
+   * Title field in *Organisation → Same as*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: The official website of Organisation (required)
+   * - **API ID Path**: organisations.sameAs[].title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.RichTextField;
+}
+
+/**
+ * Content for Organisation documents
+ */
+interface OrganisationsDocumentData {
+  /**
+   * Title field in *Organisation*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: organisations.name
+   * - **Tab**: Organisation
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  name: prismic.TitleField;
+
+  /**
+   * Description field in *Organisation*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: organisations.description
+   * - **Tab**: Organisation
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Image field in *Organisation*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: organisations.image
+   * - **Tab**: Organisation
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Same as field in *Organisation*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: organisations.sameAs[]
+   * - **Tab**: Organisation
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  sameAs: prismic.GroupField<Simplify<OrganisationsDocumentDataSameAsItem>>;
+}
+
+/**
+ * Organisation document from Prismic
+ *
+ * - **API ID**: `organisations`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type OrganisationsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<OrganisationsDocumentData>,
+    'organisations',
+    Lang
+  >;
+
+/**
+ * Content for Page format documents
+ */
+interface PageFormatsDocumentData {
+  /**
+   * Title field in *Page format*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page-formats.title
+   * - **Tab**: Page format
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Description field in *Page format*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page-formats.description
+   * - **Tab**: Page format
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Page format document from Prismic
+ *
+ * - **API ID**: `page-formats`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type PageFormatsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<PageFormatsDocumentData>,
+    'page-formats',
+    Lang
+  >;
+
+/**
+ * Primary content in *Page → Slice Zone → Text → Primary*
+ */
+export interface PagesDocumentDataBodyTextSlicePrimary {
+  /**
+   * Text field in *Page → Slice Zone → Text → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].text.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Page → Slice Zone*
+ */
+export type PagesDocumentDataBodyTextSlice = prismic.Slice<
+  'text',
+  Simplify<PagesDocumentDataBodyTextSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Page → Slice Zone → Captioned image → Primary*
+ */
+export interface PagesDocumentDataBodyEditorialImageSlicePrimary {
+  /**
+   * Image field in *Page → Slice Zone → Captioned image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Page → Slice Zone → Captioned image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Page → Slice Zone → Captioned image → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: pages.body[].editorialImage.primary.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Page → Slice Zone*
+ */
+export type PagesDocumentDataBodyEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<PagesDocumentDataBodyEditorialImageSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Page → Slice Zone → Image gallery → Primary*
+ */
+export interface PagesDocumentDataBodyEditorialImageGallerySlicePrimary {
+  /**
+   * Title field in *Page → Slice Zone → Image gallery → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].editorialImageGallery.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Page → Slice Zone → Image gallery → Items*
+ */
+export interface PagesDocumentDataBodyEditorialImageGallerySliceItem {
+  /**
+   * Image field in *Page → Slice Zone → Image gallery → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].editorialImageGallery.items.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Page → Slice Zone → Image gallery → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].editorialImageGallery.items.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Page → Slice Zone → Image gallery → Items*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: pages.body[].editorialImageGallery.items.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Page → Slice Zone*
+ */
+export type PagesDocumentDataBodyEditorialImageGallerySlice = prismic.Slice<
+  'editorialImageGallery',
+  Simplify<PagesDocumentDataBodyEditorialImageGallerySlicePrimary>,
+  Simplify<PagesDocumentDataBodyEditorialImageGallerySliceItem>
+>;
+
+/**
+ * Primary content in *Page → Slice Zone → Gif video → Primary*
+ */
+export interface PagesDocumentDataBodyGifVideoSlicePrimary {
+  /**
+   * Caption field in *Page → Slice Zone → Gif video → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].gifVideo.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * TASL field in *Page → Slice Zone → Gif video → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
+   * - **API ID Path**: pages.body[].gifVideo.primary.tasl
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  tasl: prismic.KeyTextField;
+
+  /**
+   * Video field in *Page → Slice Zone → Gif video → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: Video
+   * - **API ID Path**: pages.body[].gifVideo.primary.video
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  video: prismic.LinkToMediaField;
+
+  /**
+   * Playback rate field in *Page → Slice Zone → Gif video → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].gifVideo.primary.playbackRate
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  playbackRate: prismic.SelectField<
+    '0.1' | '0.25' | '0.5' | '0.75' | '1' | '1.25' | '1.5' | '1.75' | '2'
+  >;
+
+  /**
+   * Auto play field in *Page → Slice Zone → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: pages.body[].gifVideo.primary.autoPlay
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  autoPlay: prismic.BooleanField;
+
+  /**
+   * Loop video field in *Page → Slice Zone → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: pages.body[].gifVideo.primary.loop
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  loop: prismic.BooleanField;
+
+  /**
+   * Mute video field in *Page → Slice Zone → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: pages.body[].gifVideo.primary.mute
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  mute: prismic.BooleanField;
+
+  /**
+   * Show controls field in *Page → Slice Zone → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: pages.body[].gifVideo.primary.showControls
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  showControls: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Page → Slice Zone*
+ */
+export type PagesDocumentDataBodyGifVideoSlice = prismic.Slice<
+  'gifVideo',
+  Simplify<PagesDocumentDataBodyGifVideoSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Page → Slice Zone → Iframe → Primary*
+ */
+export interface PagesDocumentDataBodyIframeSlicePrimary {
+  /**
+   * iframe src field in *Page → Slice Zone → Iframe → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: iframe src
+   * - **API ID Path**: pages.body[].iframe.primary.iframeSrc
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  iframeSrc: prismic.KeyTextField;
+
+  /**
+   * Preview image field in *Page → Slice Zone → Iframe → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].iframe.primary.previewImage
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  previewImage: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Page → Slice Zone*
+ */
+export type PagesDocumentDataBodyIframeSlice = prismic.Slice<
+  'iframe',
+  Simplify<PagesDocumentDataBodyIframeSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Page → Slice Zone → Quote → Primary*
+ */
+export interface PagesDocumentDataBodyQuoteSlicePrimary {
+  /**
+   * Quote field in *Page → Slice Zone → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].quote.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Citation field in *Page → Slice Zone → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].quote.primary.citation
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  citation: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Page → Slice Zone*
+ */
+export type PagesDocumentDataBodyQuoteSlice = prismic.Slice<
+  'quote',
+  Simplify<PagesDocumentDataBodyQuoteSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Page → Slice Zone → Standfirst → Primary*
+ */
+export interface PagesDocumentDataBodyStandfirstSlicePrimary {
+  /**
+   * Standfirst field in *Page → Slice Zone → Standfirst → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].standfirst.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Page → Slice Zone*
+ */
+export type PagesDocumentDataBodyStandfirstSlice = prismic.Slice<
+  'standfirst',
+  Simplify<PagesDocumentDataBodyStandfirstSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Page → Slice Zone → Embed → Primary*
+ */
+export interface PagesDocumentDataBodyEmbedSlicePrimary {
+  /**
+   * `embed` field in *Page → Slice Zone → Embed → Primary*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].embed.primary.embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  embed: prismic.EmbedField;
+
+  /**
+   * Caption field in *Page → Slice Zone → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].embed.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Transcript (Collapsible content) field in *Page → Slice Zone → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].embed.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Page → Slice Zone*
+ */
+export type PagesDocumentDataBodyEmbedSlice = prismic.Slice<
+  'embed',
+  Simplify<PagesDocumentDataBodyEmbedSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Page → Slice Zone → Audio Player → Primary*
+ */
+export interface PagesDocumentDataBodyAudioPlayerSlicePrimary {
+  /**
+   * Title field in *Page → Slice Zone → Audio Player → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].audioPlayer.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Audio field in *Page → Slice Zone → Audio Player → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].audioPlayer.primary.audio
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  audio: prismic.LinkToMediaField;
+
+  /**
+   * Transcript (Collapsible content) field in *Page → Slice Zone → Audio Player → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].audioPlayer.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Page → Slice Zone*
+ */
+export type PagesDocumentDataBodyAudioPlayerSlice = prismic.Slice<
+  'audioPlayer',
+  Simplify<PagesDocumentDataBodyAudioPlayerSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Page → Slice Zone → Collection venue's hours → Primary*
+ */
+export interface PagesDocumentDataBodyCollectionVenueSlicePrimary {
+  /**
+   * Content item field in *Page → Slice Zone → Collection venue's hours → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].collectionVenue.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'collection-venue'>;
+
+  /**
+   * Show closing times field in *Page → Slice Zone → Collection venue's hours → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].collectionVenue.primary.showClosingTimes
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  showClosingTimes: prismic.SelectField<'yes'>;
+}
+
+/**
+ * Slice for *Page → Slice Zone*
+ */
+export type PagesDocumentDataBodyCollectionVenueSlice = prismic.Slice<
+  'collectionVenue',
+  Simplify<PagesDocumentDataBodyCollectionVenueSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Page → Slice Zone → Contact → Primary*
+ */
+export interface PagesDocumentDataBodyContactSlicePrimary {
+  /**
+   * Content item field in *Page → Slice Zone → Contact → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].contact.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'teams'>;
+}
+
+/**
+ * Slice for *Page → Slice Zone*
+ */
+export type PagesDocumentDataBodyContactSlice = prismic.Slice<
+  'contact',
+  Simplify<PagesDocumentDataBodyContactSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Page → Slice Zone → Tag List → Primary*
+ */
+export interface PagesDocumentDataBodyTagListSlicePrimary {
+  /**
+   * Title field in *Page → Slice Zone → Tag List → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].tagList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Page → Slice Zone → Tag List → Items*
+ */
+export interface PagesDocumentDataBodyTagListSliceItem {
+  /**
+   * Link field in *Page → Slice Zone → Tag List → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].tagList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Link text field in *Page → Slice Zone → Tag List → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].tagList.items.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Page → Slice Zone*
+ */
+export type PagesDocumentDataBodyTagListSlice = prismic.Slice<
+  'tagList',
+  Simplify<PagesDocumentDataBodyTagListSlicePrimary>,
+  Simplify<PagesDocumentDataBodyTagListSliceItem>
+>;
+
+/**
+ * Primary content in *Page → Slice Zone → Info block → Primary*
+ */
+export interface PagesDocumentDataBodyInfoBlockSlicePrimary {
+  /**
+   * Title field in *Page → Slice Zone → Info block → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].infoBlock.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Page → Slice Zone → Info block → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].infoBlock.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Button link field in *Page → Slice Zone → Info block → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].infoBlock.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Button text field in *Page → Slice Zone → Info block → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].infoBlock.primary.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Page → Slice Zone*
+ */
+export type PagesDocumentDataBodyInfoBlockSlice = prismic.Slice<
+  'infoBlock',
+  Simplify<PagesDocumentDataBodyInfoBlockSlicePrimary>,
+  never
+>;
+
+/**
+ * Item content in *Page → Slice Zone → Descriptive links list → Items*
+ */
+export interface PagesDocumentDataBodyTitledTextListSliceItem {
+  /**
+   * Title field in *Page → Slice Zone → Descriptive links list → Items*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].titledTextList.items.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Page → Slice Zone → Descriptive links list → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].titledTextList.items.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Link field in *Page → Slice Zone → Descriptive links list → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].titledTextList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+}
+
+/**
+ * Slice for *Page → Slice Zone*
+ */
+export type PagesDocumentDataBodyTitledTextListSlice = prismic.Slice<
+  'titledTextList',
+  Record<string, never>,
+  Simplify<PagesDocumentDataBodyTitledTextListSliceItem>
+>;
+
+/**
+ * Primary content in *Page → Slice Zone → Content list → Primary*
+ */
+export interface PagesDocumentDataBodyContentListSlicePrimary {
+  /**
+   * Title field in *Page → Slice Zone → Content list → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].contentList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Page → Slice Zone → Content list → Items*
+ */
+export interface PagesDocumentDataBodyContentListSliceItem {
+  /**
+   * Content item field in *Page → Slice Zone → Content list → Items*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].contentList.items.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<
+    | 'pages'
+    | 'event-series'
+    | 'books'
+    | 'events'
+    | 'articles'
+    | 'exhibitions'
+    | 'card'
+    | 'seasons'
+    | 'landing-pages'
+    | 'guides'
+  >;
+}
+
+/**
+ * Slice for *Page → Slice Zone*
+ */
+export type PagesDocumentDataBodyContentListSlice = prismic.Slice<
+  'contentList',
+  Simplify<PagesDocumentDataBodyContentListSlicePrimary>,
+  Simplify<PagesDocumentDataBodyContentListSliceItem>
+>;
+
+/**
+ * Primary content in *Page → Slice Zone → Search results → Primary*
+ */
+export interface PagesDocumentDataBodySearchResultsSlicePrimary {
+  /**
+   * Title field in *Page → Slice Zone → Search results → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].searchResults.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Query field in *Page → Slice Zone → Search results → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].searchResults.primary.query
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  query: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Page → Slice Zone*
+ */
+export type PagesDocumentDataBodySearchResultsSlice = prismic.Slice<
+  'searchResults',
+  Simplify<PagesDocumentDataBodySearchResultsSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Page → Slice Zone → Text and icons → Primary*
+ */
+export interface PagesDocumentDataBodyTextAndIconsSlicePrimary {
+  /**
+   * Text field in *Page → Slice Zone → Text and icons → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].textAndIcons.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Item content in *Page → Slice Zone → Text and icons → Items*
+ */
+export interface PagesDocumentDataBodyTextAndIconsSliceItem {
+  /**
+   * Icon (will display at 100px wide) field in *Page → Slice Zone → Text and icons → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].textAndIcons.items.icon
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  icon: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Page → Slice Zone*
+ */
+export type PagesDocumentDataBodyTextAndIconsSlice = prismic.Slice<
+  'textAndIcons',
+  Simplify<PagesDocumentDataBodyTextAndIconsSlicePrimary>,
+  Simplify<PagesDocumentDataBodyTextAndIconsSliceItem>
+>;
+
+/**
+ * Primary content in *Page → Slice Zone → Map → Primary*
+ */
+export interface PagesDocumentDataBodyMapSlicePrimary {
+  /**
+   * Title field in *Page → Slice Zone → Map → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].map.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Geo point field in *Page → Slice Zone → Map → Primary*
+   *
+   * - **Field Type**: GeoPoint
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[].map.primary.geolocation
+   * - **Documentation**: https://prismic.io/docs/field#geopoint
+   */
+  geolocation: prismic.GeoPointField;
+}
+
+/**
+ * Slice for *Page → Slice Zone*
+ */
+export type PagesDocumentDataBodyMapSlice = prismic.Slice<
+  'map',
+  Simplify<PagesDocumentDataBodyMapSlicePrimary>,
+  never
+>;
+
+type PagesDocumentDataBodySlice =
+  | PagesDocumentDataBodyTextSlice
+  | PagesDocumentDataBodyEditorialImageSlice
+  | PagesDocumentDataBodyEditorialImageGallerySlice
+  | PagesDocumentDataBodyGifVideoSlice
+  | PagesDocumentDataBodyIframeSlice
+  | PagesDocumentDataBodyQuoteSlice
+  | PagesDocumentDataBodyStandfirstSlice
+  | PagesDocumentDataBodyEmbedSlice
+  | PagesDocumentDataBodyAudioPlayerSlice
+  | PagesDocumentDataBodyCollectionVenueSlice
+  | PagesDocumentDataBodyContactSlice
+  | PagesDocumentDataBodyTagListSlice
+  | PagesDocumentDataBodyInfoBlockSlice
+  | PagesDocumentDataBodyTitledTextListSlice
+  | PagesDocumentDataBodyContentListSlice
+  | PagesDocumentDataBodySearchResultsSlice
+  | PagesDocumentDataBodyTextAndIconsSlice
+  | PagesDocumentDataBodyMapSlice;
+
+/**
+ * Primary content in *Page → Slice Zone → Editorial image → Primary*
+ */
+export interface PagesDocumentDataPromoEditorialImageSlicePrimary {
+  /**
+   * Promo text field in *Page → Slice Zone → Editorial image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.promo[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Promo image field in *Page → Slice Zone → Editorial image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.promo[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Link override field in *Page → Slice Zone → Editorial image → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.promo[].editorialImage.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  link: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Page → Slice Zone*
+ */
+export type PagesDocumentDataPromoEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<PagesDocumentDataPromoEditorialImageSlicePrimary>,
+  never
+>;
+
+type PagesDocumentDataPromoSlice = PagesDocumentDataPromoEditorialImageSlice;
+
+/**
+ * Item in *Page → Seasons*
+ */
+export interface PagesDocumentDataSeasonsItem {
+  /**
+   * Season field in *Page → Seasons*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: Select a Season
+   * - **API ID Path**: pages.seasons[].season
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  season: prismic.ContentRelationshipField<'seasons'>;
+}
+
+/**
+ * Item in *Page → Parent pages*
+ */
+export interface PagesDocumentDataParentsItem {
+  /**
+   * Order field in *Page → Parent pages*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.parents[].order
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  order: prismic.NumberField;
+
+  /**
+   * Parent page field in *Page → Parent pages*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: Select a parent page
+   * - **API ID Path**: pages.parents[].parent
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  parent: prismic.ContentRelationshipField<'pages' | 'exhibitions'>;
+}
+
+/**
+ * Item in *Page → Contributors*
+ */
+export interface PagesDocumentDataContributorsItem {
+  /**
+   * Role field in *Page → Contributors*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.contributors[].role
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  role: prismic.ContentRelationshipField<'editorial-contributor-roles'>;
+
+  /**
+   * Contributor field in *Page → Contributors*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.contributors[].contributor
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  contributor: prismic.ContentRelationshipField<'people' | 'organisations'>;
+
+  /**
+   * Contributor description override field in *Page → Contributors*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.contributors[].description
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Content for Page documents
+ */
+interface PagesDocumentData {
+  /**
+   * Title field in *Page*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.title
+   * - **Tab**: Page
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Format field in *Page*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.format
+   * - **Tab**: Page
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  format: prismic.ContentRelationshipField<'page-formats'>;
+
+  /**
+   * Date published field in *Page*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.datePublished
+   * - **Tab**: Page
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  datePublished: prismic.TimestampField;
+
+  /**
+   * Show 'On this page' anchor links. This will only appear if there are more than 2 H2s in the body field in *Page*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: pages.showOnThisPage
+   * - **Tab**: Page
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  showOnThisPage: prismic.BooleanField;
+
+  /**
+   * Slice Zone field in *Page*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.body[]
+   * - **Tab**: Page
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  body: prismic.SliceZone<PagesDocumentDataBodySlice> /**
+   * Slice Zone field in *Page*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.promo[]
+   * - **Tab**: Promo
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */;
+  promo: prismic.SliceZone<PagesDocumentDataPromoSlice> /**
+   * Metadata description field in *Page*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.metadataDescription
+   * - **Tab**: Metadata
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */;
+  metadataDescription: prismic.RichTextField /**
+   * Seasons field in *Page*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.seasons[]
+   * - **Tab**: Content relationships
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  seasons: prismic.GroupField<Simplify<PagesDocumentDataSeasonsItem>>;
+
+  /**
+   * Parent pages field in *Page*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.parents[]
+   * - **Tab**: Content relationships
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  parents: prismic.GroupField<Simplify<PagesDocumentDataParentsItem>> /**
+   * Contributors field in *Page*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.contributors[]
+   * - **Tab**: Contributors
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  contributors: prismic.GroupField<Simplify<PagesDocumentDataContributorsItem>>;
+
+  /**
+   * Contributors heading override field in *Page*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.contributorsTitle
+   * - **Tab**: Contributors
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  contributorsTitle: prismic.TitleField;
+}
+
+/**
+ * Page document from Prismic
+ *
+ * - **API ID**: `pages`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type PagesDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<Simplify<PagesDocumentData>, 'pages', Lang>;
+
+/**
+ * Item in *Person → Same as*
+ */
+export interface PeopleDocumentDataSameAsItem {
+  /**
+   * Link field in *Person → Same as*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: https://example.com/person (required)
+   * - **API ID Path**: people.sameAs[].link
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  link: prismic.KeyTextField;
+
+  /**
+   * Link text field in *Person → Same as*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: The personal website of Person (required)
+   * - **API ID Path**: people.sameAs[].title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.RichTextField;
+}
+
+/**
+ * Content for Person documents
+ */
+interface PeopleDocumentData {
+  /**
+   * Full name field in *Person*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: people.name
+   * - **Tab**: Person
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  name: prismic.KeyTextField;
+
+  /**
+   * Description field in *Person*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: people.description
+   * - **Tab**: Person
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Pronouns field in *Person*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: people.pronouns
+   * - **Tab**: Person
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  pronouns: prismic.KeyTextField;
+
+  /**
+   * Image field in *Person*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: people.image
+   * - **Tab**: Person
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Same as field in *Person*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: people.sameAs[]
+   * - **Tab**: Person
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  sameAs: prismic.GroupField<Simplify<PeopleDocumentDataSameAsItem>>;
+}
+
+/**
+ * Person document from Prismic
+ *
+ * - **API ID**: `people`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type PeopleDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<PeopleDocumentData>,
+    'people',
+    Lang
+  >;
+
+/**
+ * Primary content in *Place → Body content → Text → Primary*
+ */
+export interface PlacesDocumentDataBodyTextSlicePrimary {
+  /**
+   * Text field in *Place → Body content → Text → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].text.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Place → Body content*
+ */
+export type PlacesDocumentDataBodyTextSlice = prismic.Slice<
+  'text',
+  Simplify<PlacesDocumentDataBodyTextSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Place → Body content → Captioned image → Primary*
+ */
+export interface PlacesDocumentDataBodyEditorialImageSlicePrimary {
+  /**
+   * Image field in *Place → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Place → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Place → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: places.body[].editorialImage.primary.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Place → Body content*
+ */
+export type PlacesDocumentDataBodyEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<PlacesDocumentDataBodyEditorialImageSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Place → Body content → Image gallery → Primary*
+ */
+export interface PlacesDocumentDataBodyEditorialImageGallerySlicePrimary {
+  /**
+   * Title field in *Place → Body content → Image gallery → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].editorialImageGallery.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Place → Body content → Image gallery → Items*
+ */
+export interface PlacesDocumentDataBodyEditorialImageGallerySliceItem {
+  /**
+   * Image field in *Place → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].editorialImageGallery.items.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Place → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].editorialImageGallery.items.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Place → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: places.body[].editorialImageGallery.items.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Place → Body content*
+ */
+export type PlacesDocumentDataBodyEditorialImageGallerySlice = prismic.Slice<
+  'editorialImageGallery',
+  Simplify<PlacesDocumentDataBodyEditorialImageGallerySlicePrimary>,
+  Simplify<PlacesDocumentDataBodyEditorialImageGallerySliceItem>
+>;
+
+/**
+ * Primary content in *Place → Body content → Gif video → Primary*
+ */
+export interface PlacesDocumentDataBodyGifVideoSlicePrimary {
+  /**
+   * Caption field in *Place → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].gifVideo.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * TASL field in *Place → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
+   * - **API ID Path**: places.body[].gifVideo.primary.tasl
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  tasl: prismic.KeyTextField;
+
+  /**
+   * Video field in *Place → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: Video
+   * - **API ID Path**: places.body[].gifVideo.primary.video
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  video: prismic.LinkToMediaField;
+
+  /**
+   * Playback rate field in *Place → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].gifVideo.primary.playbackRate
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  playbackRate: prismic.SelectField<
+    '0.1' | '0.25' | '0.5' | '0.75' | '1' | '1.25' | '1.5' | '1.75' | '2'
+  >;
+
+  /**
+   * Auto play field in *Place → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: places.body[].gifVideo.primary.autoPlay
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  autoPlay: prismic.BooleanField;
+
+  /**
+   * Loop video field in *Place → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: places.body[].gifVideo.primary.loop
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  loop: prismic.BooleanField;
+
+  /**
+   * Mute video field in *Place → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: places.body[].gifVideo.primary.mute
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  mute: prismic.BooleanField;
+
+  /**
+   * Show controls field in *Place → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: places.body[].gifVideo.primary.showControls
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  showControls: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Place → Body content*
+ */
+export type PlacesDocumentDataBodyGifVideoSlice = prismic.Slice<
+  'gifVideo',
+  Simplify<PlacesDocumentDataBodyGifVideoSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Place → Body content → Iframe → Primary*
+ */
+export interface PlacesDocumentDataBodyIframeSlicePrimary {
+  /**
+   * iframe src field in *Place → Body content → Iframe → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: iframe src
+   * - **API ID Path**: places.body[].iframe.primary.iframeSrc
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  iframeSrc: prismic.KeyTextField;
+
+  /**
+   * Preview image field in *Place → Body content → Iframe → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].iframe.primary.previewImage
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  previewImage: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Place → Body content*
+ */
+export type PlacesDocumentDataBodyIframeSlice = prismic.Slice<
+  'iframe',
+  Simplify<PlacesDocumentDataBodyIframeSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Place → Body content → Quote → Primary*
+ */
+export interface PlacesDocumentDataBodyQuoteSlicePrimary {
+  /**
+   * Quote field in *Place → Body content → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].quote.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Citation field in *Place → Body content → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].quote.primary.citation
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  citation: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Place → Body content*
+ */
+export type PlacesDocumentDataBodyQuoteSlice = prismic.Slice<
+  'quote',
+  Simplify<PlacesDocumentDataBodyQuoteSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Place → Body content → Standfirst → Primary*
+ */
+export interface PlacesDocumentDataBodyStandfirstSlicePrimary {
+  /**
+   * Standfirst field in *Place → Body content → Standfirst → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].standfirst.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Place → Body content*
+ */
+export type PlacesDocumentDataBodyStandfirstSlice = prismic.Slice<
+  'standfirst',
+  Simplify<PlacesDocumentDataBodyStandfirstSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Place → Body content → Embed → Primary*
+ */
+export interface PlacesDocumentDataBodyEmbedSlicePrimary {
+  /**
+   * `embed` field in *Place → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].embed.primary.embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  embed: prismic.EmbedField;
+
+  /**
+   * Caption field in *Place → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].embed.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Transcript (Collapsible content) field in *Place → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].embed.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Place → Body content*
+ */
+export type PlacesDocumentDataBodyEmbedSlice = prismic.Slice<
+  'embed',
+  Simplify<PlacesDocumentDataBodyEmbedSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Place → Body content → Audio Player → Primary*
+ */
+export interface PlacesDocumentDataBodyAudioPlayerSlicePrimary {
+  /**
+   * Title field in *Place → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].audioPlayer.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Audio field in *Place → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].audioPlayer.primary.audio
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  audio: prismic.LinkToMediaField;
+
+  /**
+   * Transcript (Collapsible content) field in *Place → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].audioPlayer.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Place → Body content*
+ */
+export type PlacesDocumentDataBodyAudioPlayerSlice = prismic.Slice<
+  'audioPlayer',
+  Simplify<PlacesDocumentDataBodyAudioPlayerSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Place → Body content → Collection venue's hours → Primary*
+ */
+export interface PlacesDocumentDataBodyCollectionVenueSlicePrimary {
+  /**
+   * Content item field in *Place → Body content → Collection venue's hours → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].collectionVenue.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'collection-venue'>;
+
+  /**
+   * Show closing times field in *Place → Body content → Collection venue's hours → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].collectionVenue.primary.showClosingTimes
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  showClosingTimes: prismic.SelectField<'yes'>;
+}
+
+/**
+ * Slice for *Place → Body content*
+ */
+export type PlacesDocumentDataBodyCollectionVenueSlice = prismic.Slice<
+  'collectionVenue',
+  Simplify<PlacesDocumentDataBodyCollectionVenueSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Place → Body content → Contact → Primary*
+ */
+export interface PlacesDocumentDataBodyContactSlicePrimary {
+  /**
+   * Content item field in *Place → Body content → Contact → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].contact.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'teams'>;
+}
+
+/**
+ * Slice for *Place → Body content*
+ */
+export type PlacesDocumentDataBodyContactSlice = prismic.Slice<
+  'contact',
+  Simplify<PlacesDocumentDataBodyContactSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Place → Body content → Tag List → Primary*
+ */
+export interface PlacesDocumentDataBodyTagListSlicePrimary {
+  /**
+   * Title field in *Place → Body content → Tag List → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].tagList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Place → Body content → Tag List → Items*
+ */
+export interface PlacesDocumentDataBodyTagListSliceItem {
+  /**
+   * Link field in *Place → Body content → Tag List → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].tagList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Link text field in *Place → Body content → Tag List → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].tagList.items.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Place → Body content*
+ */
+export type PlacesDocumentDataBodyTagListSlice = prismic.Slice<
+  'tagList',
+  Simplify<PlacesDocumentDataBodyTagListSlicePrimary>,
+  Simplify<PlacesDocumentDataBodyTagListSliceItem>
+>;
+
+/**
+ * Primary content in *Place → Body content → Info block → Primary*
+ */
+export interface PlacesDocumentDataBodyInfoBlockSlicePrimary {
+  /**
+   * Title field in *Place → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].infoBlock.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Place → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].infoBlock.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Button link field in *Place → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].infoBlock.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Button text field in *Place → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].infoBlock.primary.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Place → Body content*
+ */
+export type PlacesDocumentDataBodyInfoBlockSlice = prismic.Slice<
+  'infoBlock',
+  Simplify<PlacesDocumentDataBodyInfoBlockSlicePrimary>,
+  never
+>;
+
+/**
+ * Item content in *Place → Body content → Descriptive links list → Items*
+ */
+export interface PlacesDocumentDataBodyTitledTextListSliceItem {
+  /**
+   * Title field in *Place → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].titledTextList.items.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Place → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].titledTextList.items.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Link field in *Place → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].titledTextList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+}
+
+/**
+ * Slice for *Place → Body content*
+ */
+export type PlacesDocumentDataBodyTitledTextListSlice = prismic.Slice<
+  'titledTextList',
+  Record<string, never>,
+  Simplify<PlacesDocumentDataBodyTitledTextListSliceItem>
+>;
+
+/**
+ * Primary content in *Place → Body content → Content list → Primary*
+ */
+export interface PlacesDocumentDataBodyContentListSlicePrimary {
+  /**
+   * Title field in *Place → Body content → Content list → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].contentList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Place → Body content → Content list → Items*
+ */
+export interface PlacesDocumentDataBodyContentListSliceItem {
+  /**
+   * Content item field in *Place → Body content → Content list → Items*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].contentList.items.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<
+    | 'pages'
+    | 'event-series'
+    | 'books'
+    | 'events'
+    | 'articles'
+    | 'exhibitions'
+    | 'card'
+    | 'seasons'
+    | 'landing-pages'
+    | 'guides'
+  >;
+}
+
+/**
+ * Slice for *Place → Body content*
+ */
+export type PlacesDocumentDataBodyContentListSlice = prismic.Slice<
+  'contentList',
+  Simplify<PlacesDocumentDataBodyContentListSlicePrimary>,
+  Simplify<PlacesDocumentDataBodyContentListSliceItem>
+>;
+
+/**
+ * Primary content in *Place → Body content → Search results → Primary*
+ */
+export interface PlacesDocumentDataBodySearchResultsSlicePrimary {
+  /**
+   * Title field in *Place → Body content → Search results → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].searchResults.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Query field in *Place → Body content → Search results → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].searchResults.primary.query
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  query: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Place → Body content*
+ */
+export type PlacesDocumentDataBodySearchResultsSlice = prismic.Slice<
+  'searchResults',
+  Simplify<PlacesDocumentDataBodySearchResultsSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Place → Body content → Text and icons → Primary*
+ */
+export interface PlacesDocumentDataBodyTextAndIconsSlicePrimary {
+  /**
+   * Text field in *Place → Body content → Text and icons → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].textAndIcons.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Item content in *Place → Body content → Text and icons → Items*
+ */
+export interface PlacesDocumentDataBodyTextAndIconsSliceItem {
+  /**
+   * Icon (will display at 100px wide) field in *Place → Body content → Text and icons → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].textAndIcons.items.icon
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  icon: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Place → Body content*
+ */
+export type PlacesDocumentDataBodyTextAndIconsSlice = prismic.Slice<
+  'textAndIcons',
+  Simplify<PlacesDocumentDataBodyTextAndIconsSlicePrimary>,
+  Simplify<PlacesDocumentDataBodyTextAndIconsSliceItem>
+>;
+
+/**
+ * Primary content in *Place → Body content → Map → Primary*
+ */
+export interface PlacesDocumentDataBodyMapSlicePrimary {
+  /**
+   * Title field in *Place → Body content → Map → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].map.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Geo point field in *Place → Body content → Map → Primary*
+   *
+   * - **Field Type**: GeoPoint
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[].map.primary.geolocation
+   * - **Documentation**: https://prismic.io/docs/field#geopoint
+   */
+  geolocation: prismic.GeoPointField;
+}
+
+/**
+ * Slice for *Place → Body content*
+ */
+export type PlacesDocumentDataBodyMapSlice = prismic.Slice<
+  'map',
+  Simplify<PlacesDocumentDataBodyMapSlicePrimary>,
+  never
+>;
+
+type PlacesDocumentDataBodySlice =
+  | PlacesDocumentDataBodyTextSlice
+  | PlacesDocumentDataBodyEditorialImageSlice
+  | PlacesDocumentDataBodyEditorialImageGallerySlice
+  | PlacesDocumentDataBodyGifVideoSlice
+  | PlacesDocumentDataBodyIframeSlice
+  | PlacesDocumentDataBodyQuoteSlice
+  | PlacesDocumentDataBodyStandfirstSlice
+  | PlacesDocumentDataBodyEmbedSlice
+  | PlacesDocumentDataBodyAudioPlayerSlice
+  | PlacesDocumentDataBodyCollectionVenueSlice
+  | PlacesDocumentDataBodyContactSlice
+  | PlacesDocumentDataBodyTagListSlice
+  | PlacesDocumentDataBodyInfoBlockSlice
+  | PlacesDocumentDataBodyTitledTextListSlice
+  | PlacesDocumentDataBodyContentListSlice
+  | PlacesDocumentDataBodySearchResultsSlice
+  | PlacesDocumentDataBodyTextAndIconsSlice
+  | PlacesDocumentDataBodyMapSlice;
+
+/**
+ * Content for Place documents
+ */
+interface PlacesDocumentData {
+  /**
+   * Title field in *Place*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.title
+   * - **Tab**: Place
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Geolocation field in *Place*
+   *
+   * - **Field Type**: GeoPoint
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.geolocation
+   * - **Tab**: Place
+   * - **Documentation**: https://prismic.io/docs/field#geopoint
+   */
+  geolocation: prismic.GeoPointField;
+
+  /**
+   * Level field in *Place*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.level
+   * - **Tab**: Place
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  level: prismic.NumberField;
+
+  /**
+   * Capacity field in *Place*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.capacity
+   * - **Tab**: Place
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  capacity: prismic.NumberField;
+
+  /**
+   * Location information field in *Place*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.locationInformation
+   * - **Tab**: Place
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  locationInformation: prismic.RichTextField;
+
+  /**
+   * Body content field in *Place*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: places.body[]
+   * - **Tab**: Place
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  body: prismic.SliceZone<PlacesDocumentDataBodySlice>;
+}
+
+/**
+ * Place document from Prismic
+ *
+ * - **API ID**: `places`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type PlacesDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<PlacesDocumentData>,
+    'places',
+    Lang
+  >;
+
+/**
+ * Content for Popup dialog documents
+ */
+interface PopupDialogDocumentData {
+  /**
+   * Open button text field in *Popup dialog*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: popup-dialog.openButtonText
+   * - **Tab**: Popup dialog
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  openButtonText: prismic.KeyTextField;
+
+  /**
+   * Title inside the open dialog field in *Popup dialog*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: popup-dialog.title
+   * - **Tab**: Popup dialog
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Text inside the open dialog field in *Popup dialog*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: popup-dialog.text
+   * - **Tab**: Popup dialog
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * CTA inside the open dialog button text field in *Popup dialog*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: popup-dialog.linkText
+   * - **Tab**: Popup dialog
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+
+  /**
+   * CTA inside the open dialog button link field in *Popup dialog*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: popup-dialog.link
+   * - **Tab**: Popup dialog
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Is shown? field in *Popup dialog*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: popup-dialog.isShown
+   * - **Tab**: Popup dialog
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  isShown: prismic.BooleanField;
+}
+
+/**
+ * Popup dialog document from Prismic
+ *
+ * - **API ID**: `popup-dialog`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type PopupDialogDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<PopupDialogDocumentData>,
+    'popup-dialog',
+    Lang
+  >;
+
+/**
+ * Content for Project format documents
+ */
+interface ProjectFormatsDocumentData {
+  /**
+   * Title field in *Project format*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project-formats.title
+   * - **Tab**: Project format
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Description field in *Project format*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: project-formats.description
+   * - **Tab**: Project format
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Project format document from Prismic
+ *
+ * - **API ID**: `project-formats`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ProjectFormatsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<ProjectFormatsDocumentData>,
+    'project-formats',
+    Lang
+  >;
+
+/**
+ * Primary content in *Project → Body content → Text → Primary*
+ */
+export interface ProjectsDocumentDataBodyTextSlicePrimary {
+  /**
+   * Text field in *Project → Body content → Text → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].text.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Project → Body content*
+ */
+export type ProjectsDocumentDataBodyTextSlice = prismic.Slice<
+  'text',
+  Simplify<ProjectsDocumentDataBodyTextSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Project → Body content → Captioned image → Primary*
+ */
+export interface ProjectsDocumentDataBodyEditorialImageSlicePrimary {
+  /**
+   * Image field in *Project → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Project → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Project → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: projects.body[].editorialImage.primary.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Project → Body content*
+ */
+export type ProjectsDocumentDataBodyEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<ProjectsDocumentDataBodyEditorialImageSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Project → Body content → Image gallery → Primary*
+ */
+export interface ProjectsDocumentDataBodyEditorialImageGallerySlicePrimary {
+  /**
+   * Title field in *Project → Body content → Image gallery → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].editorialImageGallery.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Project → Body content → Image gallery → Items*
+ */
+export interface ProjectsDocumentDataBodyEditorialImageGallerySliceItem {
+  /**
+   * Image field in *Project → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].editorialImageGallery.items.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Project → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].editorialImageGallery.items.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Project → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: projects.body[].editorialImageGallery.items.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Project → Body content*
+ */
+export type ProjectsDocumentDataBodyEditorialImageGallerySlice = prismic.Slice<
+  'editorialImageGallery',
+  Simplify<ProjectsDocumentDataBodyEditorialImageGallerySlicePrimary>,
+  Simplify<ProjectsDocumentDataBodyEditorialImageGallerySliceItem>
+>;
+
+/**
+ * Primary content in *Project → Body content → Gif video → Primary*
+ */
+export interface ProjectsDocumentDataBodyGifVideoSlicePrimary {
+  /**
+   * Caption field in *Project → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].gifVideo.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * TASL field in *Project → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
+   * - **API ID Path**: projects.body[].gifVideo.primary.tasl
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  tasl: prismic.KeyTextField;
+
+  /**
+   * Video field in *Project → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: Video
+   * - **API ID Path**: projects.body[].gifVideo.primary.video
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  video: prismic.LinkToMediaField;
+
+  /**
+   * Playback rate field in *Project → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].gifVideo.primary.playbackRate
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  playbackRate: prismic.SelectField<
+    '0.1' | '0.25' | '0.5' | '0.75' | '1' | '1.25' | '1.5' | '1.75' | '2'
+  >;
+
+  /**
+   * Auto play field in *Project → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: projects.body[].gifVideo.primary.autoPlay
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  autoPlay: prismic.BooleanField;
+
+  /**
+   * Loop video field in *Project → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: projects.body[].gifVideo.primary.loop
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  loop: prismic.BooleanField;
+
+  /**
+   * Mute video field in *Project → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: projects.body[].gifVideo.primary.mute
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  mute: prismic.BooleanField;
+
+  /**
+   * Show controls field in *Project → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: projects.body[].gifVideo.primary.showControls
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  showControls: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Project → Body content*
+ */
+export type ProjectsDocumentDataBodyGifVideoSlice = prismic.Slice<
+  'gifVideo',
+  Simplify<ProjectsDocumentDataBodyGifVideoSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Project → Body content → Iframe → Primary*
+ */
+export interface ProjectsDocumentDataBodyIframeSlicePrimary {
+  /**
+   * iframe src field in *Project → Body content → Iframe → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: iframe src
+   * - **API ID Path**: projects.body[].iframe.primary.iframeSrc
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  iframeSrc: prismic.KeyTextField;
+
+  /**
+   * Preview image field in *Project → Body content → Iframe → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].iframe.primary.previewImage
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  previewImage: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Project → Body content*
+ */
+export type ProjectsDocumentDataBodyIframeSlice = prismic.Slice<
+  'iframe',
+  Simplify<ProjectsDocumentDataBodyIframeSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Project → Body content → Quote → Primary*
+ */
+export interface ProjectsDocumentDataBodyQuoteSlicePrimary {
+  /**
+   * Quote field in *Project → Body content → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].quote.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Citation field in *Project → Body content → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].quote.primary.citation
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  citation: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Project → Body content*
+ */
+export type ProjectsDocumentDataBodyQuoteSlice = prismic.Slice<
+  'quote',
+  Simplify<ProjectsDocumentDataBodyQuoteSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Project → Body content → Standfirst → Primary*
+ */
+export interface ProjectsDocumentDataBodyStandfirstSlicePrimary {
+  /**
+   * Standfirst field in *Project → Body content → Standfirst → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].standfirst.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Project → Body content*
+ */
+export type ProjectsDocumentDataBodyStandfirstSlice = prismic.Slice<
+  'standfirst',
+  Simplify<ProjectsDocumentDataBodyStandfirstSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Project → Body content → Embed → Primary*
+ */
+export interface ProjectsDocumentDataBodyEmbedSlicePrimary {
+  /**
+   * `embed` field in *Project → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].embed.primary.embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  embed: prismic.EmbedField;
+
+  /**
+   * Caption field in *Project → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].embed.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Transcript (Collapsible content) field in *Project → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].embed.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Project → Body content*
+ */
+export type ProjectsDocumentDataBodyEmbedSlice = prismic.Slice<
+  'embed',
+  Simplify<ProjectsDocumentDataBodyEmbedSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Project → Body content → Audio Player → Primary*
+ */
+export interface ProjectsDocumentDataBodyAudioPlayerSlicePrimary {
+  /**
+   * Title field in *Project → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].audioPlayer.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Audio field in *Project → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].audioPlayer.primary.audio
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  audio: prismic.LinkToMediaField;
+
+  /**
+   * Transcript (Collapsible content) field in *Project → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].audioPlayer.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Project → Body content*
+ */
+export type ProjectsDocumentDataBodyAudioPlayerSlice = prismic.Slice<
+  'audioPlayer',
+  Simplify<ProjectsDocumentDataBodyAudioPlayerSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Project → Body content → Collection venue's hours → Primary*
+ */
+export interface ProjectsDocumentDataBodyCollectionVenueSlicePrimary {
+  /**
+   * Content item field in *Project → Body content → Collection venue's hours → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].collectionVenue.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'collection-venue'>;
+
+  /**
+   * Show closing times field in *Project → Body content → Collection venue's hours → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].collectionVenue.primary.showClosingTimes
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  showClosingTimes: prismic.SelectField<'yes'>;
+}
+
+/**
+ * Slice for *Project → Body content*
+ */
+export type ProjectsDocumentDataBodyCollectionVenueSlice = prismic.Slice<
+  'collectionVenue',
+  Simplify<ProjectsDocumentDataBodyCollectionVenueSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Project → Body content → Contact → Primary*
+ */
+export interface ProjectsDocumentDataBodyContactSlicePrimary {
+  /**
+   * Content item field in *Project → Body content → Contact → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].contact.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'teams'>;
+}
+
+/**
+ * Slice for *Project → Body content*
+ */
+export type ProjectsDocumentDataBodyContactSlice = prismic.Slice<
+  'contact',
+  Simplify<ProjectsDocumentDataBodyContactSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Project → Body content → Tag List → Primary*
+ */
+export interface ProjectsDocumentDataBodyTagListSlicePrimary {
+  /**
+   * Title field in *Project → Body content → Tag List → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].tagList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Project → Body content → Tag List → Items*
+ */
+export interface ProjectsDocumentDataBodyTagListSliceItem {
+  /**
+   * Link field in *Project → Body content → Tag List → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].tagList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Link text field in *Project → Body content → Tag List → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].tagList.items.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Project → Body content*
+ */
+export type ProjectsDocumentDataBodyTagListSlice = prismic.Slice<
+  'tagList',
+  Simplify<ProjectsDocumentDataBodyTagListSlicePrimary>,
+  Simplify<ProjectsDocumentDataBodyTagListSliceItem>
+>;
+
+/**
+ * Primary content in *Project → Body content → Info block → Primary*
+ */
+export interface ProjectsDocumentDataBodyInfoBlockSlicePrimary {
+  /**
+   * Title field in *Project → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].infoBlock.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Project → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].infoBlock.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Button link field in *Project → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].infoBlock.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Button text field in *Project → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].infoBlock.primary.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Project → Body content*
+ */
+export type ProjectsDocumentDataBodyInfoBlockSlice = prismic.Slice<
+  'infoBlock',
+  Simplify<ProjectsDocumentDataBodyInfoBlockSlicePrimary>,
+  never
+>;
+
+/**
+ * Item content in *Project → Body content → Descriptive links list → Items*
+ */
+export interface ProjectsDocumentDataBodyTitledTextListSliceItem {
+  /**
+   * Title field in *Project → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].titledTextList.items.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Project → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].titledTextList.items.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Link field in *Project → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].titledTextList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+}
+
+/**
+ * Slice for *Project → Body content*
+ */
+export type ProjectsDocumentDataBodyTitledTextListSlice = prismic.Slice<
+  'titledTextList',
+  Record<string, never>,
+  Simplify<ProjectsDocumentDataBodyTitledTextListSliceItem>
+>;
+
+/**
+ * Primary content in *Project → Body content → Content list → Primary*
+ */
+export interface ProjectsDocumentDataBodyContentListSlicePrimary {
+  /**
+   * Title field in *Project → Body content → Content list → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].contentList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Project → Body content → Content list → Items*
+ */
+export interface ProjectsDocumentDataBodyContentListSliceItem {
+  /**
+   * Content item field in *Project → Body content → Content list → Items*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].contentList.items.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<
+    | 'pages'
+    | 'event-series'
+    | 'books'
+    | 'events'
+    | 'articles'
+    | 'exhibitions'
+    | 'card'
+    | 'seasons'
+    | 'landing-pages'
+    | 'guides'
+  >;
+}
+
+/**
+ * Slice for *Project → Body content*
+ */
+export type ProjectsDocumentDataBodyContentListSlice = prismic.Slice<
+  'contentList',
+  Simplify<ProjectsDocumentDataBodyContentListSlicePrimary>,
+  Simplify<ProjectsDocumentDataBodyContentListSliceItem>
+>;
+
+/**
+ * Primary content in *Project → Body content → Search results → Primary*
+ */
+export interface ProjectsDocumentDataBodySearchResultsSlicePrimary {
+  /**
+   * Title field in *Project → Body content → Search results → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].searchResults.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Query field in *Project → Body content → Search results → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].searchResults.primary.query
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  query: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Project → Body content*
+ */
+export type ProjectsDocumentDataBodySearchResultsSlice = prismic.Slice<
+  'searchResults',
+  Simplify<ProjectsDocumentDataBodySearchResultsSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Project → Body content → Text and icons → Primary*
+ */
+export interface ProjectsDocumentDataBodyTextAndIconsSlicePrimary {
+  /**
+   * Text field in *Project → Body content → Text and icons → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].textAndIcons.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Item content in *Project → Body content → Text and icons → Items*
+ */
+export interface ProjectsDocumentDataBodyTextAndIconsSliceItem {
+  /**
+   * Icon (will display at 100px wide) field in *Project → Body content → Text and icons → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].textAndIcons.items.icon
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  icon: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Project → Body content*
+ */
+export type ProjectsDocumentDataBodyTextAndIconsSlice = prismic.Slice<
+  'textAndIcons',
+  Simplify<ProjectsDocumentDataBodyTextAndIconsSlicePrimary>,
+  Simplify<ProjectsDocumentDataBodyTextAndIconsSliceItem>
+>;
+
+/**
+ * Primary content in *Project → Body content → Map → Primary*
+ */
+export interface ProjectsDocumentDataBodyMapSlicePrimary {
+  /**
+   * Title field in *Project → Body content → Map → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].map.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Geo point field in *Project → Body content → Map → Primary*
+   *
+   * - **Field Type**: GeoPoint
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[].map.primary.geolocation
+   * - **Documentation**: https://prismic.io/docs/field#geopoint
+   */
+  geolocation: prismic.GeoPointField;
+}
+
+/**
+ * Slice for *Project → Body content*
+ */
+export type ProjectsDocumentDataBodyMapSlice = prismic.Slice<
+  'map',
+  Simplify<ProjectsDocumentDataBodyMapSlicePrimary>,
+  never
+>;
+
+type ProjectsDocumentDataBodySlice =
+  | ProjectsDocumentDataBodyTextSlice
+  | ProjectsDocumentDataBodyEditorialImageSlice
+  | ProjectsDocumentDataBodyEditorialImageGallerySlice
+  | ProjectsDocumentDataBodyGifVideoSlice
+  | ProjectsDocumentDataBodyIframeSlice
+  | ProjectsDocumentDataBodyQuoteSlice
+  | ProjectsDocumentDataBodyStandfirstSlice
+  | ProjectsDocumentDataBodyEmbedSlice
+  | ProjectsDocumentDataBodyAudioPlayerSlice
+  | ProjectsDocumentDataBodyCollectionVenueSlice
+  | ProjectsDocumentDataBodyContactSlice
+  | ProjectsDocumentDataBodyTagListSlice
+  | ProjectsDocumentDataBodyInfoBlockSlice
+  | ProjectsDocumentDataBodyTitledTextListSlice
+  | ProjectsDocumentDataBodyContentListSlice
+  | ProjectsDocumentDataBodySearchResultsSlice
+  | ProjectsDocumentDataBodyTextAndIconsSlice
+  | ProjectsDocumentDataBodyMapSlice;
+
+/**
+ * Item in *Project → Contributors*
+ */
+export interface ProjectsDocumentDataContributorsItem {
+  /**
+   * Role field in *Project → Contributors*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.contributors[].role
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  role: prismic.ContentRelationshipField<'editorial-contributor-roles'>;
+
+  /**
+   * Contributor field in *Project → Contributors*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.contributors[].contributor
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  contributor: prismic.ContentRelationshipField<'people' | 'organisations'>;
+
+  /**
+   * Contributor description override field in *Project → Contributors*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.contributors[].description
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Primary content in *Project → Promo → Editorial image → Primary*
+ */
+export interface ProjectsDocumentDataPromoEditorialImageSlicePrimary {
+  /**
+   * Promo text field in *Project → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.promo[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Promo image field in *Project → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.promo[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Link override field in *Project → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.promo[].editorialImage.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  link: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Project → Promo*
+ */
+export type ProjectsDocumentDataPromoEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<ProjectsDocumentDataPromoEditorialImageSlicePrimary>,
+  never
+>;
+
+type ProjectsDocumentDataPromoSlice =
+  ProjectsDocumentDataPromoEditorialImageSlice;
+
+/**
+ * Item in *Project → Seasons*
+ */
+export interface ProjectsDocumentDataSeasonsItem {
+  /**
+   * Season field in *Project → Seasons*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: Select a Season
+   * - **API ID Path**: projects.seasons[].season
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  season: prismic.ContentRelationshipField<'seasons'>;
+}
+
+/**
+ * Content for Project documents
+ */
+interface ProjectsDocumentData {
+  /**
+   * Title field in *Project*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.title
+   * - **Tab**: Project
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Format field in *Project*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.format
+   * - **Tab**: Project
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  format: prismic.ContentRelationshipField<'project-formats'>;
+
+  /**
+   * Start date field in *Project*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.start
+   * - **Tab**: Project
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  start: prismic.TimestampField;
+
+  /**
+   * End date field in *Project*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.end
+   * - **Tab**: Project
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  end: prismic.TimestampField;
+
+  /**
+   * Body content field in *Project*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.body[]
+   * - **Tab**: Project
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  body: prismic.SliceZone<ProjectsDocumentDataBodySlice> /**
+   * Contributors field in *Project*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.contributors[]
+   * - **Tab**: Contributors
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  contributors: prismic.GroupField<
+    Simplify<ProjectsDocumentDataContributorsItem>
+  >;
+
+  /**
+   * Contributors heading override field in *Project*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.contributorsTitle
+   * - **Tab**: Contributors
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  contributorsTitle: prismic.TitleField /**
+   * Promo field in *Project*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.promo[]
+   * - **Tab**: Promo
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */;
+  promo: prismic.SliceZone<ProjectsDocumentDataPromoSlice> /**
+   * Seasons field in *Project*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.seasons[]
+   * - **Tab**: Content relationships
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  seasons: prismic.GroupField<Simplify<ProjectsDocumentDataSeasonsItem>> /**
+   * Metadata description field in *Project*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: projects.metadataDescription
+   * - **Tab**: Metadata
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */;
+  metadataDescription: prismic.RichTextField;
+}
+
+/**
+ * Project document from Prismic
+ *
+ * - **API ID**: `projects`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ProjectsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<ProjectsDocumentData>,
+    'projects',
+    Lang
+  >;
+
+/**
+ * Primary content in *Season → Body content → Text → Primary*
+ */
+export interface SeasonsDocumentDataBodyTextSlicePrimary {
+  /**
+   * Text field in *Season → Body content → Text → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].text.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Season → Body content*
+ */
+export type SeasonsDocumentDataBodyTextSlice = prismic.Slice<
+  'text',
+  Simplify<SeasonsDocumentDataBodyTextSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Season → Body content → Captioned image → Primary*
+ */
+export interface SeasonsDocumentDataBodyEditorialImageSlicePrimary {
+  /**
+   * Image field in *Season → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Season → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Season → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: seasons.body[].editorialImage.primary.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Season → Body content*
+ */
+export type SeasonsDocumentDataBodyEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<SeasonsDocumentDataBodyEditorialImageSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Season → Body content → Image gallery → Primary*
+ */
+export interface SeasonsDocumentDataBodyEditorialImageGallerySlicePrimary {
+  /**
+   * Title field in *Season → Body content → Image gallery → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].editorialImageGallery.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Season → Body content → Image gallery → Items*
+ */
+export interface SeasonsDocumentDataBodyEditorialImageGallerySliceItem {
+  /**
+   * Image field in *Season → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].editorialImageGallery.items.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Season → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].editorialImageGallery.items.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Season → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: seasons.body[].editorialImageGallery.items.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Season → Body content*
+ */
+export type SeasonsDocumentDataBodyEditorialImageGallerySlice = prismic.Slice<
+  'editorialImageGallery',
+  Simplify<SeasonsDocumentDataBodyEditorialImageGallerySlicePrimary>,
+  Simplify<SeasonsDocumentDataBodyEditorialImageGallerySliceItem>
+>;
+
+/**
+ * Primary content in *Season → Body content → Gif video → Primary*
+ */
+export interface SeasonsDocumentDataBodyGifVideoSlicePrimary {
+  /**
+   * Caption field in *Season → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].gifVideo.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * TASL field in *Season → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
+   * - **API ID Path**: seasons.body[].gifVideo.primary.tasl
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  tasl: prismic.KeyTextField;
+
+  /**
+   * Video field in *Season → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: Video
+   * - **API ID Path**: seasons.body[].gifVideo.primary.video
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  video: prismic.LinkToMediaField;
+
+  /**
+   * Playback rate field in *Season → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].gifVideo.primary.playbackRate
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  playbackRate: prismic.SelectField<
+    '0.1' | '0.25' | '0.5' | '0.75' | '1' | '1.25' | '1.5' | '1.75' | '2'
+  >;
+
+  /**
+   * Auto play field in *Season → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: seasons.body[].gifVideo.primary.autoPlay
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  autoPlay: prismic.BooleanField;
+
+  /**
+   * Loop video field in *Season → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: seasons.body[].gifVideo.primary.loop
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  loop: prismic.BooleanField;
+
+  /**
+   * Mute video field in *Season → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: seasons.body[].gifVideo.primary.mute
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  mute: prismic.BooleanField;
+
+  /**
+   * Show controls field in *Season → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: seasons.body[].gifVideo.primary.showControls
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  showControls: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Season → Body content*
+ */
+export type SeasonsDocumentDataBodyGifVideoSlice = prismic.Slice<
+  'gifVideo',
+  Simplify<SeasonsDocumentDataBodyGifVideoSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Season → Body content → Iframe → Primary*
+ */
+export interface SeasonsDocumentDataBodyIframeSlicePrimary {
+  /**
+   * iframe src field in *Season → Body content → Iframe → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: iframe src
+   * - **API ID Path**: seasons.body[].iframe.primary.iframeSrc
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  iframeSrc: prismic.KeyTextField;
+
+  /**
+   * Preview image field in *Season → Body content → Iframe → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].iframe.primary.previewImage
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  previewImage: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Season → Body content*
+ */
+export type SeasonsDocumentDataBodyIframeSlice = prismic.Slice<
+  'iframe',
+  Simplify<SeasonsDocumentDataBodyIframeSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Season → Body content → Quote → Primary*
+ */
+export interface SeasonsDocumentDataBodyQuoteSlicePrimary {
+  /**
+   * Quote field in *Season → Body content → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].quote.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Citation field in *Season → Body content → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].quote.primary.citation
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  citation: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Season → Body content*
+ */
+export type SeasonsDocumentDataBodyQuoteSlice = prismic.Slice<
+  'quote',
+  Simplify<SeasonsDocumentDataBodyQuoteSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Season → Body content → Standfirst → Primary*
+ */
+export interface SeasonsDocumentDataBodyStandfirstSlicePrimary {
+  /**
+   * Standfirst field in *Season → Body content → Standfirst → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].standfirst.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Season → Body content*
+ */
+export type SeasonsDocumentDataBodyStandfirstSlice = prismic.Slice<
+  'standfirst',
+  Simplify<SeasonsDocumentDataBodyStandfirstSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Season → Body content → Embed → Primary*
+ */
+export interface SeasonsDocumentDataBodyEmbedSlicePrimary {
+  /**
+   * `embed` field in *Season → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].embed.primary.embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  embed: prismic.EmbedField;
+
+  /**
+   * Caption field in *Season → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].embed.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Transcript (Collapsible content) field in *Season → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].embed.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Season → Body content*
+ */
+export type SeasonsDocumentDataBodyEmbedSlice = prismic.Slice<
+  'embed',
+  Simplify<SeasonsDocumentDataBodyEmbedSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Season → Body content → Audio Player → Primary*
+ */
+export interface SeasonsDocumentDataBodyAudioPlayerSlicePrimary {
+  /**
+   * Title field in *Season → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].audioPlayer.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Audio field in *Season → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].audioPlayer.primary.audio
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  audio: prismic.LinkToMediaField;
+
+  /**
+   * Transcript (Collapsible content) field in *Season → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].audioPlayer.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Season → Body content*
+ */
+export type SeasonsDocumentDataBodyAudioPlayerSlice = prismic.Slice<
+  'audioPlayer',
+  Simplify<SeasonsDocumentDataBodyAudioPlayerSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Season → Body content → Collection venue's hours → Primary*
+ */
+export interface SeasonsDocumentDataBodyCollectionVenueSlicePrimary {
+  /**
+   * Content item field in *Season → Body content → Collection venue's hours → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].collectionVenue.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'collection-venue'>;
+
+  /**
+   * Show closing times field in *Season → Body content → Collection venue's hours → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].collectionVenue.primary.showClosingTimes
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  showClosingTimes: prismic.SelectField<'yes'>;
+}
+
+/**
+ * Slice for *Season → Body content*
+ */
+export type SeasonsDocumentDataBodyCollectionVenueSlice = prismic.Slice<
+  'collectionVenue',
+  Simplify<SeasonsDocumentDataBodyCollectionVenueSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Season → Body content → Contact → Primary*
+ */
+export interface SeasonsDocumentDataBodyContactSlicePrimary {
+  /**
+   * Content item field in *Season → Body content → Contact → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].contact.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'teams'>;
+}
+
+/**
+ * Slice for *Season → Body content*
+ */
+export type SeasonsDocumentDataBodyContactSlice = prismic.Slice<
+  'contact',
+  Simplify<SeasonsDocumentDataBodyContactSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Season → Body content → Tag List → Primary*
+ */
+export interface SeasonsDocumentDataBodyTagListSlicePrimary {
+  /**
+   * Title field in *Season → Body content → Tag List → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].tagList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Season → Body content → Tag List → Items*
+ */
+export interface SeasonsDocumentDataBodyTagListSliceItem {
+  /**
+   * Link field in *Season → Body content → Tag List → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].tagList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Link text field in *Season → Body content → Tag List → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].tagList.items.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Season → Body content*
+ */
+export type SeasonsDocumentDataBodyTagListSlice = prismic.Slice<
+  'tagList',
+  Simplify<SeasonsDocumentDataBodyTagListSlicePrimary>,
+  Simplify<SeasonsDocumentDataBodyTagListSliceItem>
+>;
+
+/**
+ * Primary content in *Season → Body content → Info block → Primary*
+ */
+export interface SeasonsDocumentDataBodyInfoBlockSlicePrimary {
+  /**
+   * Title field in *Season → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].infoBlock.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Season → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].infoBlock.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Button link field in *Season → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].infoBlock.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Button text field in *Season → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].infoBlock.primary.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Season → Body content*
+ */
+export type SeasonsDocumentDataBodyInfoBlockSlice = prismic.Slice<
+  'infoBlock',
+  Simplify<SeasonsDocumentDataBodyInfoBlockSlicePrimary>,
+  never
+>;
+
+/**
+ * Item content in *Season → Body content → Descriptive links list → Items*
+ */
+export interface SeasonsDocumentDataBodyTitledTextListSliceItem {
+  /**
+   * Title field in *Season → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].titledTextList.items.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Season → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].titledTextList.items.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Link field in *Season → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].titledTextList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+}
+
+/**
+ * Slice for *Season → Body content*
+ */
+export type SeasonsDocumentDataBodyTitledTextListSlice = prismic.Slice<
+  'titledTextList',
+  Record<string, never>,
+  Simplify<SeasonsDocumentDataBodyTitledTextListSliceItem>
+>;
+
+/**
+ * Primary content in *Season → Body content → Content list → Primary*
+ */
+export interface SeasonsDocumentDataBodyContentListSlicePrimary {
+  /**
+   * Title field in *Season → Body content → Content list → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].contentList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Season → Body content → Content list → Items*
+ */
+export interface SeasonsDocumentDataBodyContentListSliceItem {
+  /**
+   * Content item field in *Season → Body content → Content list → Items*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].contentList.items.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<
+    | 'pages'
+    | 'event-series'
+    | 'books'
+    | 'events'
+    | 'articles'
+    | 'exhibitions'
+    | 'card'
+    | 'seasons'
+    | 'landing-pages'
+    | 'guides'
+  >;
+}
+
+/**
+ * Slice for *Season → Body content*
+ */
+export type SeasonsDocumentDataBodyContentListSlice = prismic.Slice<
+  'contentList',
+  Simplify<SeasonsDocumentDataBodyContentListSlicePrimary>,
+  Simplify<SeasonsDocumentDataBodyContentListSliceItem>
+>;
+
+/**
+ * Primary content in *Season → Body content → Search results → Primary*
+ */
+export interface SeasonsDocumentDataBodySearchResultsSlicePrimary {
+  /**
+   * Title field in *Season → Body content → Search results → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].searchResults.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Query field in *Season → Body content → Search results → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].searchResults.primary.query
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  query: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Season → Body content*
+ */
+export type SeasonsDocumentDataBodySearchResultsSlice = prismic.Slice<
+  'searchResults',
+  Simplify<SeasonsDocumentDataBodySearchResultsSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Season → Body content → Text and icons → Primary*
+ */
+export interface SeasonsDocumentDataBodyTextAndIconsSlicePrimary {
+  /**
+   * Text field in *Season → Body content → Text and icons → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].textAndIcons.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Item content in *Season → Body content → Text and icons → Items*
+ */
+export interface SeasonsDocumentDataBodyTextAndIconsSliceItem {
+  /**
+   * Icon (will display at 100px wide) field in *Season → Body content → Text and icons → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].textAndIcons.items.icon
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  icon: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Season → Body content*
+ */
+export type SeasonsDocumentDataBodyTextAndIconsSlice = prismic.Slice<
+  'textAndIcons',
+  Simplify<SeasonsDocumentDataBodyTextAndIconsSlicePrimary>,
+  Simplify<SeasonsDocumentDataBodyTextAndIconsSliceItem>
+>;
+
+/**
+ * Primary content in *Season → Body content → Map → Primary*
+ */
+export interface SeasonsDocumentDataBodyMapSlicePrimary {
+  /**
+   * Title field in *Season → Body content → Map → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].map.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Geo point field in *Season → Body content → Map → Primary*
+   *
+   * - **Field Type**: GeoPoint
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[].map.primary.geolocation
+   * - **Documentation**: https://prismic.io/docs/field#geopoint
+   */
+  geolocation: prismic.GeoPointField;
+}
+
+/**
+ * Slice for *Season → Body content*
+ */
+export type SeasonsDocumentDataBodyMapSlice = prismic.Slice<
+  'map',
+  Simplify<SeasonsDocumentDataBodyMapSlicePrimary>,
+  never
+>;
+
+type SeasonsDocumentDataBodySlice =
+  | SeasonsDocumentDataBodyTextSlice
+  | SeasonsDocumentDataBodyEditorialImageSlice
+  | SeasonsDocumentDataBodyEditorialImageGallerySlice
+  | SeasonsDocumentDataBodyGifVideoSlice
+  | SeasonsDocumentDataBodyIframeSlice
+  | SeasonsDocumentDataBodyQuoteSlice
+  | SeasonsDocumentDataBodyStandfirstSlice
+  | SeasonsDocumentDataBodyEmbedSlice
+  | SeasonsDocumentDataBodyAudioPlayerSlice
+  | SeasonsDocumentDataBodyCollectionVenueSlice
+  | SeasonsDocumentDataBodyContactSlice
+  | SeasonsDocumentDataBodyTagListSlice
+  | SeasonsDocumentDataBodyInfoBlockSlice
+  | SeasonsDocumentDataBodyTitledTextListSlice
+  | SeasonsDocumentDataBodyContentListSlice
+  | SeasonsDocumentDataBodySearchResultsSlice
+  | SeasonsDocumentDataBodyTextAndIconsSlice
+  | SeasonsDocumentDataBodyMapSlice;
+
+/**
+ * Primary content in *Season → Promo → Editorial image → Primary*
+ */
+export interface SeasonsDocumentDataPromoEditorialImageSlicePrimary {
+  /**
+   * Promo text field in *Season → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.promo[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Promo image field in *Season → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.promo[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Link override field in *Season → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.promo[].editorialImage.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  link: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Season → Promo*
+ */
+export type SeasonsDocumentDataPromoEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<SeasonsDocumentDataPromoEditorialImageSlicePrimary>,
+  never
+>;
+
+type SeasonsDocumentDataPromoSlice =
+  SeasonsDocumentDataPromoEditorialImageSlice;
+
+/**
+ * Content for Season documents
+ */
+interface SeasonsDocumentData {
+  /**
+   * Title field in *Season*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.title
+   * - **Tab**: Season
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Start date field in *Season*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.start
+   * - **Tab**: Season
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  start: prismic.TimestampField;
+
+  /**
+   * End date field in *Season*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.end
+   * - **Tab**: Season
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  end: prismic.TimestampField;
+
+  /**
+   * Body content field in *Season*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.body[]
+   * - **Tab**: Season
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  body: prismic.SliceZone<SeasonsDocumentDataBodySlice> /**
+   * Promo field in *Season*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: seasons.promo[]
+   * - **Tab**: Promo
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */;
+  promo: prismic.SliceZone<SeasonsDocumentDataPromoSlice>;
+}
+
+/**
+ * Season document from Prismic
+ *
+ * - **API ID**: `seasons`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type SeasonsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<SeasonsDocumentData>,
+    'seasons',
+    Lang
+  >;
+
+/**
+ * Primary content in *Story series → Body content → Text → Primary*
+ */
+export interface SeriesDocumentDataBodyTextSlicePrimary {
+  /**
+   * Text field in *Story series → Body content → Text → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].text.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Story series → Body content*
+ */
+export type SeriesDocumentDataBodyTextSlice = prismic.Slice<
+  'text',
+  Simplify<SeriesDocumentDataBodyTextSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Story series → Body content → Captioned image → Primary*
+ */
+export interface SeriesDocumentDataBodyEditorialImageSlicePrimary {
+  /**
+   * Image field in *Story series → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Story series → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Story series → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: series.body[].editorialImage.primary.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Story series → Body content*
+ */
+export type SeriesDocumentDataBodyEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<SeriesDocumentDataBodyEditorialImageSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Story series → Body content → Image gallery → Primary*
+ */
+export interface SeriesDocumentDataBodyEditorialImageGallerySlicePrimary {
+  /**
+   * Title field in *Story series → Body content → Image gallery → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].editorialImageGallery.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Story series → Body content → Image gallery → Items*
+ */
+export interface SeriesDocumentDataBodyEditorialImageGallerySliceItem {
+  /**
+   * Image field in *Story series → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].editorialImageGallery.items.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Story series → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].editorialImageGallery.items.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Story series → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: series.body[].editorialImageGallery.items.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Story series → Body content*
+ */
+export type SeriesDocumentDataBodyEditorialImageGallerySlice = prismic.Slice<
+  'editorialImageGallery',
+  Simplify<SeriesDocumentDataBodyEditorialImageGallerySlicePrimary>,
+  Simplify<SeriesDocumentDataBodyEditorialImageGallerySliceItem>
+>;
+
+/**
+ * Primary content in *Story series → Body content → Gif video → Primary*
+ */
+export interface SeriesDocumentDataBodyGifVideoSlicePrimary {
+  /**
+   * Caption field in *Story series → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].gifVideo.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * TASL field in *Story series → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
+   * - **API ID Path**: series.body[].gifVideo.primary.tasl
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  tasl: prismic.KeyTextField;
+
+  /**
+   * Video field in *Story series → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: Video
+   * - **API ID Path**: series.body[].gifVideo.primary.video
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  video: prismic.LinkToMediaField;
+
+  /**
+   * Playback rate field in *Story series → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].gifVideo.primary.playbackRate
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  playbackRate: prismic.SelectField<
+    '0.1' | '0.25' | '0.5' | '0.75' | '1' | '1.25' | '1.5' | '1.75' | '2'
+  >;
+
+  /**
+   * Auto play field in *Story series → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: series.body[].gifVideo.primary.autoPlay
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  autoPlay: prismic.BooleanField;
+
+  /**
+   * Loop video field in *Story series → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: series.body[].gifVideo.primary.loop
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  loop: prismic.BooleanField;
+
+  /**
+   * Mute video field in *Story series → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: series.body[].gifVideo.primary.mute
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  mute: prismic.BooleanField;
+
+  /**
+   * Show controls field in *Story series → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: series.body[].gifVideo.primary.showControls
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  showControls: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Story series → Body content*
+ */
+export type SeriesDocumentDataBodyGifVideoSlice = prismic.Slice<
+  'gifVideo',
+  Simplify<SeriesDocumentDataBodyGifVideoSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Story series → Body content → Iframe → Primary*
+ */
+export interface SeriesDocumentDataBodyIframeSlicePrimary {
+  /**
+   * iframe src field in *Story series → Body content → Iframe → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: iframe src
+   * - **API ID Path**: series.body[].iframe.primary.iframeSrc
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  iframeSrc: prismic.KeyTextField;
+
+  /**
+   * Preview image field in *Story series → Body content → Iframe → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].iframe.primary.previewImage
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  previewImage: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Story series → Body content*
+ */
+export type SeriesDocumentDataBodyIframeSlice = prismic.Slice<
+  'iframe',
+  Simplify<SeriesDocumentDataBodyIframeSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Story series → Body content → Quote → Primary*
+ */
+export interface SeriesDocumentDataBodyQuoteSlicePrimary {
+  /**
+   * Quote field in *Story series → Body content → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].quote.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Citation field in *Story series → Body content → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].quote.primary.citation
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  citation: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Story series → Body content*
+ */
+export type SeriesDocumentDataBodyQuoteSlice = prismic.Slice<
+  'quote',
+  Simplify<SeriesDocumentDataBodyQuoteSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Story series → Body content → Standfirst → Primary*
+ */
+export interface SeriesDocumentDataBodyStandfirstSlicePrimary {
+  /**
+   * Standfirst field in *Story series → Body content → Standfirst → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].standfirst.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Story series → Body content*
+ */
+export type SeriesDocumentDataBodyStandfirstSlice = prismic.Slice<
+  'standfirst',
+  Simplify<SeriesDocumentDataBodyStandfirstSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Story series → Body content → Embed → Primary*
+ */
+export interface SeriesDocumentDataBodyEmbedSlicePrimary {
+  /**
+   * `embed` field in *Story series → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].embed.primary.embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  embed: prismic.EmbedField;
+
+  /**
+   * Caption field in *Story series → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].embed.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Transcript (Collapsible content) field in *Story series → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].embed.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Story series → Body content*
+ */
+export type SeriesDocumentDataBodyEmbedSlice = prismic.Slice<
+  'embed',
+  Simplify<SeriesDocumentDataBodyEmbedSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Story series → Body content → Audio Player → Primary*
+ */
+export interface SeriesDocumentDataBodyAudioPlayerSlicePrimary {
+  /**
+   * Title field in *Story series → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].audioPlayer.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Audio field in *Story series → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].audioPlayer.primary.audio
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  audio: prismic.LinkToMediaField;
+
+  /**
+   * Transcript (Collapsible content) field in *Story series → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].audioPlayer.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Story series → Body content*
+ */
+export type SeriesDocumentDataBodyAudioPlayerSlice = prismic.Slice<
+  'audioPlayer',
+  Simplify<SeriesDocumentDataBodyAudioPlayerSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Story series → Body content → Collection venue's hours → Primary*
+ */
+export interface SeriesDocumentDataBodyCollectionVenueSlicePrimary {
+  /**
+   * Content item field in *Story series → Body content → Collection venue's hours → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].collectionVenue.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'collection-venue'>;
+
+  /**
+   * Show closing times field in *Story series → Body content → Collection venue's hours → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].collectionVenue.primary.showClosingTimes
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  showClosingTimes: prismic.SelectField<'yes'>;
+}
+
+/**
+ * Slice for *Story series → Body content*
+ */
+export type SeriesDocumentDataBodyCollectionVenueSlice = prismic.Slice<
+  'collectionVenue',
+  Simplify<SeriesDocumentDataBodyCollectionVenueSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Story series → Body content → Contact → Primary*
+ */
+export interface SeriesDocumentDataBodyContactSlicePrimary {
+  /**
+   * Content item field in *Story series → Body content → Contact → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].contact.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'teams'>;
+}
+
+/**
+ * Slice for *Story series → Body content*
+ */
+export type SeriesDocumentDataBodyContactSlice = prismic.Slice<
+  'contact',
+  Simplify<SeriesDocumentDataBodyContactSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Story series → Body content → Tag List → Primary*
+ */
+export interface SeriesDocumentDataBodyTagListSlicePrimary {
+  /**
+   * Title field in *Story series → Body content → Tag List → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].tagList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Story series → Body content → Tag List → Items*
+ */
+export interface SeriesDocumentDataBodyTagListSliceItem {
+  /**
+   * Link field in *Story series → Body content → Tag List → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].tagList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Link text field in *Story series → Body content → Tag List → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].tagList.items.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Story series → Body content*
+ */
+export type SeriesDocumentDataBodyTagListSlice = prismic.Slice<
+  'tagList',
+  Simplify<SeriesDocumentDataBodyTagListSlicePrimary>,
+  Simplify<SeriesDocumentDataBodyTagListSliceItem>
+>;
+
+/**
+ * Primary content in *Story series → Body content → Info block → Primary*
+ */
+export interface SeriesDocumentDataBodyInfoBlockSlicePrimary {
+  /**
+   * Title field in *Story series → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].infoBlock.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Story series → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].infoBlock.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Button link field in *Story series → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].infoBlock.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Button text field in *Story series → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].infoBlock.primary.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Story series → Body content*
+ */
+export type SeriesDocumentDataBodyInfoBlockSlice = prismic.Slice<
+  'infoBlock',
+  Simplify<SeriesDocumentDataBodyInfoBlockSlicePrimary>,
+  never
+>;
+
+/**
+ * Item content in *Story series → Body content → Descriptive links list → Items*
+ */
+export interface SeriesDocumentDataBodyTitledTextListSliceItem {
+  /**
+   * Title field in *Story series → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].titledTextList.items.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Story series → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].titledTextList.items.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Link field in *Story series → Body content → Descriptive links list → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].titledTextList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+}
+
+/**
+ * Slice for *Story series → Body content*
+ */
+export type SeriesDocumentDataBodyTitledTextListSlice = prismic.Slice<
+  'titledTextList',
+  Record<string, never>,
+  Simplify<SeriesDocumentDataBodyTitledTextListSliceItem>
+>;
+
+/**
+ * Primary content in *Story series → Body content → Content list → Primary*
+ */
+export interface SeriesDocumentDataBodyContentListSlicePrimary {
+  /**
+   * Title field in *Story series → Body content → Content list → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].contentList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Story series → Body content → Content list → Items*
+ */
+export interface SeriesDocumentDataBodyContentListSliceItem {
+  /**
+   * Content item field in *Story series → Body content → Content list → Items*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].contentList.items.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<
+    | 'pages'
+    | 'event-series'
+    | 'books'
+    | 'events'
+    | 'articles'
+    | 'exhibitions'
+    | 'card'
+    | 'seasons'
+    | 'landing-pages'
+    | 'guides'
+  >;
+}
+
+/**
+ * Slice for *Story series → Body content*
+ */
+export type SeriesDocumentDataBodyContentListSlice = prismic.Slice<
+  'contentList',
+  Simplify<SeriesDocumentDataBodyContentListSlicePrimary>,
+  Simplify<SeriesDocumentDataBodyContentListSliceItem>
+>;
+
+/**
+ * Primary content in *Story series → Body content → Search results → Primary*
+ */
+export interface SeriesDocumentDataBodySearchResultsSlicePrimary {
+  /**
+   * Title field in *Story series → Body content → Search results → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].searchResults.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Query field in *Story series → Body content → Search results → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].searchResults.primary.query
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  query: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Story series → Body content*
+ */
+export type SeriesDocumentDataBodySearchResultsSlice = prismic.Slice<
+  'searchResults',
+  Simplify<SeriesDocumentDataBodySearchResultsSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Story series → Body content → Text and icons → Primary*
+ */
+export interface SeriesDocumentDataBodyTextAndIconsSlicePrimary {
+  /**
+   * Text field in *Story series → Body content → Text and icons → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].textAndIcons.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Item content in *Story series → Body content → Text and icons → Items*
+ */
+export interface SeriesDocumentDataBodyTextAndIconsSliceItem {
+  /**
+   * Icon (will display at 100px wide) field in *Story series → Body content → Text and icons → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].textAndIcons.items.icon
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  icon: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Story series → Body content*
+ */
+export type SeriesDocumentDataBodyTextAndIconsSlice = prismic.Slice<
+  'textAndIcons',
+  Simplify<SeriesDocumentDataBodyTextAndIconsSlicePrimary>,
+  Simplify<SeriesDocumentDataBodyTextAndIconsSliceItem>
+>;
+
+/**
+ * Primary content in *Story series → Body content → Map → Primary*
+ */
+export interface SeriesDocumentDataBodyMapSlicePrimary {
+  /**
+   * Title field in *Story series → Body content → Map → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].map.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Geo point field in *Story series → Body content → Map → Primary*
+   *
+   * - **Field Type**: GeoPoint
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[].map.primary.geolocation
+   * - **Documentation**: https://prismic.io/docs/field#geopoint
+   */
+  geolocation: prismic.GeoPointField;
+}
+
+/**
+ * Slice for *Story series → Body content*
+ */
+export type SeriesDocumentDataBodyMapSlice = prismic.Slice<
+  'map',
+  Simplify<SeriesDocumentDataBodyMapSlicePrimary>,
+  never
+>;
+
+type SeriesDocumentDataBodySlice =
+  | SeriesDocumentDataBodyTextSlice
+  | SeriesDocumentDataBodyEditorialImageSlice
+  | SeriesDocumentDataBodyEditorialImageGallerySlice
+  | SeriesDocumentDataBodyGifVideoSlice
+  | SeriesDocumentDataBodyIframeSlice
+  | SeriesDocumentDataBodyQuoteSlice
+  | SeriesDocumentDataBodyStandfirstSlice
+  | SeriesDocumentDataBodyEmbedSlice
+  | SeriesDocumentDataBodyAudioPlayerSlice
+  | SeriesDocumentDataBodyCollectionVenueSlice
+  | SeriesDocumentDataBodyContactSlice
+  | SeriesDocumentDataBodyTagListSlice
+  | SeriesDocumentDataBodyInfoBlockSlice
+  | SeriesDocumentDataBodyTitledTextListSlice
+  | SeriesDocumentDataBodyContentListSlice
+  | SeriesDocumentDataBodySearchResultsSlice
+  | SeriesDocumentDataBodyTextAndIconsSlice
+  | SeriesDocumentDataBodyMapSlice;
+
+/**
+ * Item in *Story series → Schedule*
+ */
+export interface SeriesDocumentDataScheduleItem {
+  /**
+   * Title field in *Story series → Schedule*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.schedule[].title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Date to be published field in *Story series → Schedule*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.schedule[].publishDate
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  publishDate: prismic.TimestampField;
+}
+
+/**
+ * Item in *Story series → Contributors*
+ */
+export interface SeriesDocumentDataContributorsItem {
+  /**
+   * Role field in *Story series → Contributors*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.contributors[].role
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  role: prismic.ContentRelationshipField<'editorial-contributor-roles'>;
+
+  /**
+   * Contributor field in *Story series → Contributors*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.contributors[].contributor
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  contributor: prismic.ContentRelationshipField<'people' | 'organisations'>;
+
+  /**
+   * Contributor description override field in *Story series → Contributors*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.contributors[].description
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Primary content in *Story series → Promo → Editorial image → Primary*
+ */
+export interface SeriesDocumentDataPromoEditorialImageSlicePrimary {
+  /**
+   * Promo text field in *Story series → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.promo[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Promo image field in *Story series → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.promo[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Link override field in *Story series → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.promo[].editorialImage.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  link: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Story series → Promo*
+ */
+export type SeriesDocumentDataPromoEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<SeriesDocumentDataPromoEditorialImageSlicePrimary>,
+  never
+>;
+
+type SeriesDocumentDataPromoSlice = SeriesDocumentDataPromoEditorialImageSlice;
+
+/**
+ * Item in *Story series → Seasons*
+ */
+export interface SeriesDocumentDataSeasonsItem {
+  /**
+   * Season field in *Story series → Seasons*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: Select a Season
+   * - **API ID Path**: series.seasons[].season
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  season: prismic.ContentRelationshipField<'seasons'>;
+}
+
+/**
+ * Content for Story series documents
+ */
+interface SeriesDocumentData {
+  /**
+   * Title field in *Story series*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.title
+   * - **Tab**: Story series
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Format field in *Story series*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.format
+   * - **Tab**: Story series
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  format: prismic.ContentRelationshipField<'article-formats'>;
+
+  /**
+   * Colour field in *Story series*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.color
+   * - **Tab**: Story series
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  color: prismic.SelectField<
+    'accent.green' | 'accent.purple' | 'accent.salmon' | 'accent.blue'
+  >;
+
+  /**
+   * Body content field in *Story series*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.body[]
+   * - **Tab**: Story series
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  body: prismic.SliceZone<SeriesDocumentDataBodySlice> /**
+   * Schedule field in *Story series*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.schedule[]
+   * - **Tab**: Schedule
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  schedule: prismic.GroupField<Simplify<SeriesDocumentDataScheduleItem>> /**
+   * Contributors field in *Story series*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.contributors[]
+   * - **Tab**: Contributors
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  contributors: prismic.GroupField<
+    Simplify<SeriesDocumentDataContributorsItem>
+  >;
+
+  /**
+   * Contributors heading override field in *Story series*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.contributorsTitle
+   * - **Tab**: Contributors
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  contributorsTitle: prismic.TitleField /**
+   * Promo field in *Story series*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.promo[]
+   * - **Tab**: Promo
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */;
+  promo: prismic.SliceZone<SeriesDocumentDataPromoSlice> /**
+   * Metadata description field in *Story series*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.metadataDescription
+   * - **Tab**: Metadata
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */;
+  metadataDescription: prismic.RichTextField /**
+   * Seasons field in *Story series*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.seasons[]
+   * - **Tab**: Content relationships
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  seasons: prismic.GroupField<Simplify<SeriesDocumentDataSeasonsItem>>;
+}
+
+/**
+ * Story series document from Prismic
+ *
+ * - **API ID**: `series`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type SeriesDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<SeriesDocumentData>,
+    'series',
+    Lang
+  >;
+
+/**
+ * Item in *Stories landing → stories*
+ */
+export interface StoriesLandingDocumentDataStoriesItem {
+  /**
+   * story/series field in *Stories landing → stories*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: stories-landing.stories[].story
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  story: prismic.ContentRelationshipField<'articles' | 'series'>;
+}
+
+/**
+ * Item in *Stories landing → books*
+ */
+export interface StoriesLandingDocumentDataBooksItem {
+  /**
+   * book field in *Stories landing → books*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: stories-landing.books[].book
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  book: prismic.ContentRelationshipField<'books'>;
+}
+
+/**
+ * Content for Stories landing documents
+ */
+interface StoriesLandingDocumentData {
+  /**
+   * Introductory text field in *Stories landing*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: This will appear at the top of the stories landing page.
+   * - **API ID Path**: stories-landing.introText
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  introText: prismic.RichTextField /**
+   * Title field in *Stories landing*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: stories-landing.storiesTitle
+   * - **Tab**: Featured stories/series
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */;
+  storiesTitle: prismic.TitleField;
+
+  /**
+   * description field in *Stories landing*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: stories-landing.storiesDescription
+   * - **Tab**: Featured stories/series
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  storiesDescription: prismic.RichTextField;
+
+  /**
+   * stories field in *Stories landing*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: stories-landing.stories[]
+   * - **Tab**: Featured stories/series
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  stories: prismic.GroupField<
+    Simplify<StoriesLandingDocumentDataStoriesItem>
+  > /**
+   * Title field in *Stories landing*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: stories-landing.booksTitle
+   * - **Tab**: Featured books
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */;
+  booksTitle: prismic.TitleField;
+
+  /**
+   * description field in *Stories landing*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: stories-landing.booksDescription
+   * - **Tab**: Featured books
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  booksDescription: prismic.RichTextField;
+
+  /**
+   * books field in *Stories landing*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: stories-landing.books[]
+   * - **Tab**: Featured books
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  books: prismic.GroupField<Simplify<StoriesLandingDocumentDataBooksItem>>;
+}
+
+/**
+ * Stories landing document from Prismic
+ *
+ * - **API ID**: `stories-landing`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type StoriesLandingDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<StoriesLandingDocumentData>,
+    'stories-landing',
+    Lang
+  >;
+
+/**
+ * Content for Team documents
+ */
+interface TeamsDocumentData {
+  /**
+   * Title field in *Team*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: teams.title
+   * - **Tab**: Team
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * Subtitle field in *Team*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: teams.subtitle
+   * - **Tab**: Team
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  subtitle: prismic.RichTextField;
+
+  /**
+   * Email field in *Team*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: teams.email
+   * - **Tab**: Team
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  email: prismic.KeyTextField;
+
+  /**
+   * Phone field in *Team*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: teams.phone
+   * - **Tab**: Team
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  phone: prismic.KeyTextField;
+
+  /**
+   * URL field in *Team*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: teams.url
+   * - **Tab**: Team
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  url: prismic.KeyTextField;
+}
+
+/**
+ * Team document from Prismic
+ *
+ * - **API ID**: `teams`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type TeamsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<Simplify<TeamsDocumentData>, 'teams', Lang>;
+
+/**
+ * Primary content in *Visual story → Slice zone → Standfirst → Primary*
+ */
+export interface VisualStoriesDocumentDataBodyStandfirstSlicePrimary {
+  /**
+   * Standfirst field in *Visual story → Slice zone → Standfirst → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: visual-stories.body[].standfirst.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Visual story → Slice zone*
+ */
+export type VisualStoriesDocumentDataBodyStandfirstSlice = prismic.Slice<
+  'standfirst',
+  Simplify<VisualStoriesDocumentDataBodyStandfirstSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Visual story → Slice zone → Contact → Primary*
+ */
+export interface VisualStoriesDocumentDataBodyContactSlicePrimary {
+  /**
+   * Content item field in *Visual story → Slice zone → Contact → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: visual-stories.body[].contact.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  content: prismic.ContentRelationshipField<'teams'>;
+}
+
+/**
+ * Slice for *Visual story → Slice zone*
+ */
+export type VisualStoriesDocumentDataBodyContactSlice = prismic.Slice<
+  'contact',
+  Simplify<VisualStoriesDocumentDataBodyContactSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Visual story → Slice zone → Text → Primary*
+ */
+export interface VisualStoriesDocumentDataBodyTextSlicePrimary {
+  /**
+   * Text field in *Visual story → Slice zone → Text → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: visual-stories.body[].text.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Visual story → Slice zone*
+ */
+export type VisualStoriesDocumentDataBodyTextSlice = prismic.Slice<
+  'text',
+  Simplify<VisualStoriesDocumentDataBodyTextSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Visual story → Slice zone → Captioned image → Primary*
+ */
+export interface VisualStoriesDocumentDataBodyEditorialImageSlicePrimary {
+  /**
+   * Image field in *Visual story → Slice zone → Captioned image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: visual-stories.body[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Visual story → Slice zone → Captioned image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: visual-stories.body[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Visual story → Slice zone → Captioned image → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: visual-stories.body[].editorialImage.primary.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Visual story → Slice zone*
+ */
+export type VisualStoriesDocumentDataBodyEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<VisualStoriesDocumentDataBodyEditorialImageSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Visual story → Slice zone → Embed → Primary*
+ */
+export interface VisualStoriesDocumentDataBodyEmbedSlicePrimary {
+  /**
+   * `embed` field in *Visual story → Slice zone → Embed → Primary*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: visual-stories.body[].embed.primary.embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  embed: prismic.EmbedField;
+
+  /**
+   * Caption field in *Visual story → Slice zone → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: visual-stories.body[].embed.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Transcript (Collapsible content) field in *Visual story → Slice zone → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: visual-stories.body[].embed.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Visual story → Slice zone*
+ */
+export type VisualStoriesDocumentDataBodyEmbedSlice = prismic.Slice<
+  'embed',
+  Simplify<VisualStoriesDocumentDataBodyEmbedSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Visual story → Slice zone → Text and image → Primary*
+ */
+export interface VisualStoriesDocumentDataBodyTextAndImageSlicePrimary {
+  /**
+   * Text field in *Visual story → Slice zone → Text and image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: visual-stories.body[].textAndImage.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Image field in *Visual story → Slice zone → Text and image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: visual-stories.body[].textAndImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<never>;
+
+  /**
+   * Allow image to be zoomed to fill viewport? field in *Visual story → Slice zone → Text and image → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: visual-stories.body[].textAndImage.primary.isZoomable
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  isZoomable: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Visual story → Slice zone*
+ */
+export type VisualStoriesDocumentDataBodyTextAndImageSlice = prismic.Slice<
+  'textAndImage',
+  Simplify<VisualStoriesDocumentDataBodyTextAndImageSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Visual story → Slice zone → Text and icons → Primary*
+ */
+export interface VisualStoriesDocumentDataBodyTextAndIconsSlicePrimary {
+  /**
+   * Text field in *Visual story → Slice zone → Text and icons → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: visual-stories.body[].textAndIcons.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Item content in *Visual story → Slice zone → Text and icons → Items*
+ */
+export interface VisualStoriesDocumentDataBodyTextAndIconsSliceItem {
+  /**
+   * Icon (will display at 100px wide) field in *Visual story → Slice zone → Text and icons → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: visual-stories.body[].textAndIcons.items.icon
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  icon: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Visual story → Slice zone*
+ */
+export type VisualStoriesDocumentDataBodyTextAndIconsSlice = prismic.Slice<
+  'textAndIcons',
+  Simplify<VisualStoriesDocumentDataBodyTextAndIconsSlicePrimary>,
+  Simplify<VisualStoriesDocumentDataBodyTextAndIconsSliceItem>
+>;
+
+type VisualStoriesDocumentDataBodySlice =
+  | VisualStoriesDocumentDataBodyStandfirstSlice
+  | VisualStoriesDocumentDataBodyContactSlice
+  | VisualStoriesDocumentDataBodyTextSlice
+  | VisualStoriesDocumentDataBodyEditorialImageSlice
+  | VisualStoriesDocumentDataBodyEmbedSlice
+  | VisualStoriesDocumentDataBodyTextAndImageSlice
+  | VisualStoriesDocumentDataBodyTextAndIconsSlice;
+
+/**
+ * Primary content in *Visual story → Promo → Editorial image → Primary*
+ */
+export interface VisualStoriesDocumentDataPromoEditorialImageSlicePrimary {
+  /**
+   * Promo text field in *Visual story → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: visual-stories.promo[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Promo image field in *Visual story → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: visual-stories.promo[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Link override field in *Visual story → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: visual-stories.promo[].editorialImage.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  link: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Visual story → Promo*
+ */
+export type VisualStoriesDocumentDataPromoEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<VisualStoriesDocumentDataPromoEditorialImageSlicePrimary>,
+  never
+>;
+
+type VisualStoriesDocumentDataPromoSlice =
+  VisualStoriesDocumentDataPromoEditorialImageSlice;
+
+/**
+ * Content for Visual story documents
+ */
+interface VisualStoriesDocumentData {
+  /**
+   * Title field in *Visual story*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: visual-stories.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Related Document (e.g. Exhibition or Event) field in *Visual story*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: visual-stories.relatedDocument
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  relatedDocument: prismic.ContentRelationshipField<'exhibitions' | 'events'>;
+
+  /**
+   * Date published field in *Visual story*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: visual-stories.datePublished
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  datePublished: prismic.TimestampField;
+
+  /**
+   * Show 'On this page' anchor links. This will only appear if there are more than 2 H2s in the body field in *Visual story*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: visual-stories.showOnThisPage
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  showOnThisPage: prismic.BooleanField;
+
+  /**
+   * Slice zone field in *Visual story*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: visual-stories.body[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  body: prismic.SliceZone<VisualStoriesDocumentDataBodySlice> /**
+   * Promo field in *Visual story*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: visual-stories.promo[]
+   * - **Tab**: Promo
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */;
+  promo: prismic.SliceZone<VisualStoriesDocumentDataPromoSlice>;
+}
+
+/**
+ * Visual story document from Prismic
+ *
+ * - **API ID**: `visual-stories`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type VisualStoriesDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<VisualStoriesDocumentData>,
+    'visual-stories',
+    Lang
+  >;
+
+/**
+ * Item in *[Deprecated] Webcomic series → Contributors*
+ */
+export interface WebcomicSeriesDocumentDataContributorsItem {
+  /**
+   * Role field in *[Deprecated] Webcomic series → Contributors*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomic-series.contributors[].role
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  role: prismic.ContentRelationshipField<'editorial-contributor-roles'>;
+
+  /**
+   * Contributor field in *[Deprecated] Webcomic series → Contributors*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomic-series.contributors[].contributor
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  contributor: prismic.ContentRelationshipField<'people' | 'organisations'>;
+
+  /**
+   * Contributor description override field in *[Deprecated] Webcomic series → Contributors*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomic-series.contributors[].description
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Primary content in *[Deprecated] Webcomic series → Promo → Editorial image → Primary*
+ */
+export interface WebcomicSeriesDocumentDataPromoEditorialImageSlicePrimary {
+  /**
+   * Promo text field in *[Deprecated] Webcomic series → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomic-series.promo[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Promo image field in *[Deprecated] Webcomic series → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomic-series.promo[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Link override field in *[Deprecated] Webcomic series → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomic-series.promo[].editorialImage.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  link: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *[Deprecated] Webcomic series → Promo*
+ */
+export type WebcomicSeriesDocumentDataPromoEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<WebcomicSeriesDocumentDataPromoEditorialImageSlicePrimary>,
+  never
+>;
+
+type WebcomicSeriesDocumentDataPromoSlice =
+  WebcomicSeriesDocumentDataPromoEditorialImageSlice;
+
+/**
+ * Content for [Deprecated] Webcomic series documents
+ */
+interface WebcomicSeriesDocumentData {
+  /**
+   * Title field in *[Deprecated] Webcomic series*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomic-series.title
+   * - **Tab**: [Deprecated] Webcomic series
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Description field in *[Deprecated] Webcomic series*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomic-series.description
+   * - **Tab**: [Deprecated] Webcomic series
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField /**
+   * Contributors field in *[Deprecated] Webcomic series*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomic-series.contributors[]
+   * - **Tab**: Contributors
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  contributors: prismic.GroupField<
+    Simplify<WebcomicSeriesDocumentDataContributorsItem>
+  >;
+
+  /**
+   * Contributors heading override field in *[Deprecated] Webcomic series*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomic-series.contributorsTitle
+   * - **Tab**: Contributors
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  contributorsTitle: prismic.TitleField /**
+   * Promo field in *[Deprecated] Webcomic series*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomic-series.promo[]
+   * - **Tab**: Promo
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */;
+  promo: prismic.SliceZone<WebcomicSeriesDocumentDataPromoSlice> /**
+   * Metadata description field in *[Deprecated] Webcomic series*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomic-series.metadataDescription
+   * - **Tab**: Metadata
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */;
+  metadataDescription: prismic.RichTextField;
+}
+
+/**
+ * [Deprecated] Webcomic series document from Prismic
+ *
+ * - **API ID**: `webcomic-series`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type WebcomicSeriesDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<WebcomicSeriesDocumentData>,
+    'webcomic-series',
+    Lang
+  >;
+
+/**
+ * Primary content in *Webcomic → Body content → Text → Primary*
+ */
+export interface WebcomicsDocumentDataBodyTextSlicePrimary {
+  /**
+   * Text field in *Webcomic → Body content → Text → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].text.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Webcomic → Body content*
+ */
+export type WebcomicsDocumentDataBodyTextSlice = prismic.Slice<
+  'text',
+  Simplify<WebcomicsDocumentDataBodyTextSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Webcomic → Body content → Captioned image → Primary*
+ */
+export interface WebcomicsDocumentDataBodyEditorialImageSlicePrimary {
+  /**
+   * Image field in *Webcomic → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Webcomic → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Webcomic → Body content → Captioned image → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: webcomics.body[].editorialImage.primary.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Webcomic → Body content*
+ */
+export type WebcomicsDocumentDataBodyEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<WebcomicsDocumentDataBodyEditorialImageSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Webcomic → Body content → Image gallery → Primary*
+ */
+export interface WebcomicsDocumentDataBodyEditorialImageGallerySlicePrimary {
+  /**
+   * Title field in *Webcomic → Body content → Image gallery → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].editorialImageGallery.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Webcomic → Body content → Image gallery → Items*
+ */
+export interface WebcomicsDocumentDataBodyEditorialImageGallerySliceItem {
+  /**
+   * Image field in *Webcomic → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].editorialImageGallery.items.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Caption field in *Webcomic → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].editorialImageGallery.items.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * round image corners field in *Webcomic → Body content → Image gallery → Items*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: webcomics.body[].editorialImageGallery.items.hasRoundedCorners
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  hasRoundedCorners: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Webcomic → Body content*
+ */
+export type WebcomicsDocumentDataBodyEditorialImageGallerySlice = prismic.Slice<
+  'editorialImageGallery',
+  Simplify<WebcomicsDocumentDataBodyEditorialImageGallerySlicePrimary>,
+  Simplify<WebcomicsDocumentDataBodyEditorialImageGallerySliceItem>
+>;
+
+/**
+ * Primary content in *Webcomic → Body content → Gif video → Primary*
+ */
+export interface WebcomicsDocumentDataBodyGifVideoSlicePrimary {
+  /**
+   * Caption field in *Webcomic → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].gifVideo.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * TASL field in *Webcomic → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
+   * - **API ID Path**: webcomics.body[].gifVideo.primary.tasl
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  tasl: prismic.KeyTextField;
+
+  /**
+   * Video field in *Webcomic → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: Video
+   * - **API ID Path**: webcomics.body[].gifVideo.primary.video
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  video: prismic.LinkToMediaField;
+
+  /**
+   * Playback rate field in *Webcomic → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].gifVideo.primary.playbackRate
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  playbackRate: prismic.SelectField<
+    '0.1' | '0.25' | '0.5' | '0.75' | '1' | '1.25' | '1.5' | '1.75' | '2'
+  >;
+
+  /**
+   * Auto play field in *Webcomic → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: webcomics.body[].gifVideo.primary.autoPlay
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  autoPlay: prismic.BooleanField;
+
+  /**
+   * Loop video field in *Webcomic → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: webcomics.body[].gifVideo.primary.loop
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  loop: prismic.BooleanField;
+
+  /**
+   * Mute video field in *Webcomic → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: webcomics.body[].gifVideo.primary.mute
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  mute: prismic.BooleanField;
+
+  /**
+   * Show controls field in *Webcomic → Body content → Gif video → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: webcomics.body[].gifVideo.primary.showControls
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  showControls: prismic.BooleanField;
+}
+
+/**
+ * Slice for *Webcomic → Body content*
+ */
+export type WebcomicsDocumentDataBodyGifVideoSlice = prismic.Slice<
+  'gifVideo',
+  Simplify<WebcomicsDocumentDataBodyGifVideoSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Webcomic → Body content → Iframe → Primary*
+ */
+export interface WebcomicsDocumentDataBodyIframeSlicePrimary {
+  /**
+   * iframe src field in *Webcomic → Body content → Iframe → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: iframe src
+   * - **API ID Path**: webcomics.body[].iframe.primary.iframeSrc
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  iframeSrc: prismic.KeyTextField;
+
+  /**
+   * Preview image field in *Webcomic → Body content → Iframe → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].iframe.primary.previewImage
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  previewImage: prismic.ImageField<never>;
+}
+
+/**
+ * Slice for *Webcomic → Body content*
+ */
+export type WebcomicsDocumentDataBodyIframeSlice = prismic.Slice<
+  'iframe',
+  Simplify<WebcomicsDocumentDataBodyIframeSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Webcomic → Body content → Info block → Primary*
+ */
+export interface WebcomicsDocumentDataBodyInfoBlockSlicePrimary {
+  /**
+   * Title field in *Webcomic → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].infoBlock.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Text field in *Webcomic → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].infoBlock.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Button link field in *Webcomic → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].infoBlock.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Button text field in *Webcomic → Body content → Info block → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].infoBlock.primary.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Webcomic → Body content*
+ */
+export type WebcomicsDocumentDataBodyInfoBlockSlice = prismic.Slice<
+  'infoBlock',
+  Simplify<WebcomicsDocumentDataBodyInfoBlockSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Webcomic → Body content → Standfirst → Primary*
+ */
+export interface WebcomicsDocumentDataBodyStandfirstSlicePrimary {
+  /**
+   * Standfirst field in *Webcomic → Body content → Standfirst → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].standfirst.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Webcomic → Body content*
+ */
+export type WebcomicsDocumentDataBodyStandfirstSlice = prismic.Slice<
+  'standfirst',
+  Simplify<WebcomicsDocumentDataBodyStandfirstSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Webcomic → Body content → Quote → Primary*
+ */
+export interface WebcomicsDocumentDataBodyQuoteV2SlicePrimary {
+  /**
+   * Quote field in *Webcomic → Body content → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].quoteV2.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
+
+  /**
+   * Citation field in *Webcomic → Body content → Quote → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].quoteV2.primary.citation
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  citation: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Webcomic → Body content*
+ */
+export type WebcomicsDocumentDataBodyQuoteV2Slice = prismic.Slice<
+  'quoteV2',
+  Simplify<WebcomicsDocumentDataBodyQuoteV2SlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Webcomic → Body content → Audio Player → Primary*
+ */
+export interface WebcomicsDocumentDataBodyAudioPlayerSlicePrimary {
+  /**
+   * Title field in *Webcomic → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].audioPlayer.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Audio field in *Webcomic → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].audioPlayer.primary.audio
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  audio: prismic.LinkToMediaField;
+
+  /**
+   * Transcript (Collapsible content) field in *Webcomic → Body content → Audio Player → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].audioPlayer.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Webcomic → Body content*
+ */
+export type WebcomicsDocumentDataBodyAudioPlayerSlice = prismic.Slice<
+  'audioPlayer',
+  Simplify<WebcomicsDocumentDataBodyAudioPlayerSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Webcomic → Body content → Embed → Primary*
+ */
+export interface WebcomicsDocumentDataBodyEmbedSlicePrimary {
+  /**
+   * `embed` field in *Webcomic → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].embed.primary.embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  embed: prismic.EmbedField;
+
+  /**
+   * Caption field in *Webcomic → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].embed.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Transcript (Collapsible content) field in *Webcomic → Body content → Embed → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].embed.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Slice for *Webcomic → Body content*
+ */
+export type WebcomicsDocumentDataBodyEmbedSlice = prismic.Slice<
+  'embed',
+  Simplify<WebcomicsDocumentDataBodyEmbedSlicePrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Webcomic → Body content → Tag List → Primary*
+ */
+export interface WebcomicsDocumentDataBodyTagListSlicePrimary {
+  /**
+   * Title field in *Webcomic → Body content → Tag List → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].tagList.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+}
+
+/**
+ * Item content in *Webcomic → Body content → Tag List → Items*
+ */
+export interface WebcomicsDocumentDataBodyTagListSliceItem {
+  /**
+   * Link field in *Webcomic → Body content → Tag List → Items*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].tagList.items.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Link text field in *Webcomic → Body content → Tag List → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[].tagList.items.linkText
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  linkText: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Webcomic → Body content*
+ */
+export type WebcomicsDocumentDataBodyTagListSlice = prismic.Slice<
+  'tagList',
+  Simplify<WebcomicsDocumentDataBodyTagListSlicePrimary>,
+  Simplify<WebcomicsDocumentDataBodyTagListSliceItem>
+>;
+
+type WebcomicsDocumentDataBodySlice =
+  | WebcomicsDocumentDataBodyTextSlice
+  | WebcomicsDocumentDataBodyEditorialImageSlice
+  | WebcomicsDocumentDataBodyEditorialImageGallerySlice
+  | WebcomicsDocumentDataBodyGifVideoSlice
+  | WebcomicsDocumentDataBodyIframeSlice
+  | WebcomicsDocumentDataBodyInfoBlockSlice
+  | WebcomicsDocumentDataBodyStandfirstSlice
+  | WebcomicsDocumentDataBodyQuoteV2Slice
+  | WebcomicsDocumentDataBodyAudioPlayerSlice
+  | WebcomicsDocumentDataBodyEmbedSlice
+  | WebcomicsDocumentDataBodyTagListSlice;
+
+/**
+ * Item in *Webcomic → Contributors*
+ */
+export interface WebcomicsDocumentDataContributorsItem {
+  /**
+   * Role field in *Webcomic → Contributors*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.contributors[].role
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  role: prismic.ContentRelationshipField<'editorial-contributor-roles'>;
+
+  /**
+   * Contributor field in *Webcomic → Contributors*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.contributors[].contributor
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  contributor: prismic.ContentRelationshipField<'people' | 'organisations'>;
+
+  /**
+   * Contributor description override field in *Webcomic → Contributors*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.contributors[].description
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Primary content in *Webcomic → Promo → Editorial image → Primary*
+ */
+export interface WebcomicsDocumentDataPromoEditorialImageSlicePrimary {
+  /**
+   * Promo text field in *Webcomic → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.promo[].editorialImage.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+
+  /**
+   * Promo image field in *Webcomic → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.promo[].editorialImage.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Link override field in *Webcomic → Promo → Editorial image → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.promo[].editorialImage.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  link: prismic.KeyTextField;
+}
+
+/**
+ * Slice for *Webcomic → Promo*
+ */
+export type WebcomicsDocumentDataPromoEditorialImageSlice = prismic.Slice<
+  'editorialImage',
+  Simplify<WebcomicsDocumentDataPromoEditorialImageSlicePrimary>,
+  never
+>;
+
+type WebcomicsDocumentDataPromoSlice =
+  WebcomicsDocumentDataPromoEditorialImageSlice;
+
+/**
+ * Item in *Webcomic → Series*
+ */
+export interface WebcomicsDocumentDataSeriesItem {
+  /**
+   * Series field in *Webcomic → Series*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.series[].series
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  series: prismic.ContentRelationshipField<'webcomic-series'>;
+}
+
+/**
+ * Content for Webcomic documents
+ */
+interface WebcomicsDocumentData {
+  /**
+   * Title field in *Webcomic*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.title
+   * - **Tab**: Webcomic
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Format field in *Webcomic*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.format
+   * - **Tab**: Webcomic
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  format: prismic.ContentRelationshipField<'article-formats'>;
+
+  /**
+   * Webcomic field in *Webcomic*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.image
+   * - **Tab**: Webcomic
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<never>;
+
+  /**
+   * Body content field in *Webcomic*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.body[]
+   * - **Tab**: Webcomic
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  body: prismic.SliceZone<WebcomicsDocumentDataBodySlice> /**
+   * Contributors field in *Webcomic*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.contributors[]
+   * - **Tab**: Contributors
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  contributors: prismic.GroupField<
+    Simplify<WebcomicsDocumentDataContributorsItem>
+  >;
+
+  /**
+   * Contributors heading override field in *Webcomic*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.contributorsTitle
+   * - **Tab**: Contributors
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  contributorsTitle: prismic.TitleField /**
+   * Promo field in *Webcomic*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.promo[]
+   * - **Tab**: Promo
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */;
+  promo: prismic.SliceZone<WebcomicsDocumentDataPromoSlice> /**
+   * Metadata description field in *Webcomic*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.metadataDescription
+   * - **Tab**: Metadata
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */;
+  metadataDescription: prismic.RichTextField /**
+   * Series field in *Webcomic*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.series[]
+   * - **Tab**: Content relationships
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  series: prismic.GroupField<Simplify<WebcomicsDocumentDataSeriesItem>> /**
+   * Override publish date rendering. This will not affect ordering field in *Webcomic*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: webcomics.publishDate
+   * - **Tab**: Overrides
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */;
+  publishDate: prismic.TimestampField;
+}
+
+/**
+ * Webcomic document from Prismic
+ *
+ * - **API ID**: `webcomics`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type WebcomicsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<WebcomicsDocumentData>,
+    'webcomics',
+    Lang
+  >;
+
+export type AllDocumentTypes =
+  | ArticleFormatsDocument
+  | ArticlesDocument
+  | AudiencesDocument
+  | BackgroundTexturesDocument
+  | BooksDocument
+  | CardDocument
+  | CollectionVenueDocument
+  | EditorialContributorRolesDocument
+  | EventFormatsDocument
+  | EventPoliciesDocument
+  | EventSeriesDocument
+  | EventsDocument
+  | ExhibitionFormatsDocument
+  | ExhibitionGuidesDocument
+  | ExhibitionResourcesDocument
+  | ExhibitionsDocument
+  | GlobalAlertDocument
+  | GuideFormatsDocument
+  | GuidesDocument
+  | InterpretationTypesDocument
+  | LabelsDocument
+  | OrganisationsDocument
+  | PageFormatsDocument
+  | PagesDocument
+  | PeopleDocument
+  | PlacesDocument
+  | PopupDialogDocument
+  | ProjectFormatsDocument
+  | ProjectsDocument
+  | SeasonsDocument
+  | SeriesDocument
+  | StoriesLandingDocument
+  | TeamsDocument
+  | VisualStoriesDocument
+  | WebcomicSeriesDocument
+  | WebcomicsDocument;
+
+/**
  * Primary content in *AudioPlayer → Primary*
  */
 export interface AudioPlayerSliceDefaultPrimary {
@@ -1213,11 +15681,426 @@ declare module '@prismicio/client' {
     (
       repositoryNameOrEndpoint: string,
       options?: prismic.ClientConfig
-    ): prismic.Client;
+    ): prismic.Client<AllDocumentTypes>;
   }
 
   namespace Content {
     export type {
+      ArticleFormatsDocument,
+      ArticleFormatsDocumentData,
+      ArticlesDocument,
+      ArticlesDocumentData,
+      ArticlesDocumentDataBodyEditorialImageSlicePrimary,
+      ArticlesDocumentDataBodyEditorialImageGallerySlicePrimary,
+      ArticlesDocumentDataBodyEditorialImageGallerySliceItem,
+      ArticlesDocumentDataBodyGifVideoSlicePrimary,
+      ArticlesDocumentDataBodyIframeSlicePrimary,
+      ArticlesDocumentDataBodyInfoBlockSlicePrimary,
+      ArticlesDocumentDataBodyStandfirstSlicePrimary,
+      ArticlesDocumentDataBodyQuoteV2SlicePrimary,
+      ArticlesDocumentDataBodyEmbedSlicePrimary,
+      ArticlesDocumentDataBodyTagListSlicePrimary,
+      ArticlesDocumentDataBodyTagListSliceItem,
+      ArticlesDocumentDataBodySlice,
+      ArticlesDocumentDataContributorsItem,
+      ArticlesDocumentDataPromoEditorialImageSlicePrimary,
+      ArticlesDocumentDataPromoSlice,
+      ArticlesDocumentDataSeriesItem,
+      ArticlesDocumentDataSeasonsItem,
+      ArticlesDocumentDataParentsItem,
+      AudiencesDocument,
+      AudiencesDocumentData,
+      BackgroundTexturesDocument,
+      BackgroundTexturesDocumentData,
+      BooksDocument,
+      BooksDocumentData,
+      BooksDocumentDataBodyTextSlicePrimary,
+      BooksDocumentDataBodyEditorialImageSlicePrimary,
+      BooksDocumentDataBodyEditorialImageGallerySlicePrimary,
+      BooksDocumentDataBodyEditorialImageGallerySliceItem,
+      BooksDocumentDataBodyGifVideoSlicePrimary,
+      BooksDocumentDataBodyIframeSlicePrimary,
+      BooksDocumentDataBodyQuoteSlicePrimary,
+      BooksDocumentDataBodyStandfirstSlicePrimary,
+      BooksDocumentDataBodyEmbedSlicePrimary,
+      BooksDocumentDataBodyAudioPlayerSlicePrimary,
+      BooksDocumentDataBodyCollectionVenueSlicePrimary,
+      BooksDocumentDataBodyContactSlicePrimary,
+      BooksDocumentDataBodyTagListSlicePrimary,
+      BooksDocumentDataBodyTagListSliceItem,
+      BooksDocumentDataBodyInfoBlockSlicePrimary,
+      BooksDocumentDataBodyTitledTextListSliceItem,
+      BooksDocumentDataBodyContentListSlicePrimary,
+      BooksDocumentDataBodyContentListSliceItem,
+      BooksDocumentDataBodySearchResultsSlicePrimary,
+      BooksDocumentDataBodyTextAndIconsSlicePrimary,
+      BooksDocumentDataBodyTextAndIconsSliceItem,
+      BooksDocumentDataBodyMapSlicePrimary,
+      BooksDocumentDataBodySlice,
+      BooksDocumentDataReviewsItem,
+      BooksDocumentDataContributorsItem,
+      BooksDocumentDataPromoEditorialImageSlicePrimary,
+      BooksDocumentDataPromoSlice,
+      BooksDocumentDataSeasonsItem,
+      BooksDocumentDataParentsItem,
+      CardDocument,
+      CardDocumentData,
+      CollectionVenueDocument,
+      CollectionVenueDocumentData,
+      CollectionVenueDocumentDataMondayItem,
+      CollectionVenueDocumentDataTuesdayItem,
+      CollectionVenueDocumentDataWednesdayItem,
+      CollectionVenueDocumentDataThursdayItem,
+      CollectionVenueDocumentDataFridayItem,
+      CollectionVenueDocumentDataSaturdayItem,
+      CollectionVenueDocumentDataSundayItem,
+      CollectionVenueDocumentDataModifiedDayOpeningTimesItem,
+      EditorialContributorRolesDocument,
+      EditorialContributorRolesDocumentData,
+      EventFormatsDocument,
+      EventFormatsDocumentData,
+      EventPoliciesDocument,
+      EventPoliciesDocumentData,
+      EventSeriesDocument,
+      EventSeriesDocumentData,
+      EventSeriesDocumentDataBodyTextSlicePrimary,
+      EventSeriesDocumentDataBodyEditorialImageSlicePrimary,
+      EventSeriesDocumentDataBodyEditorialImageGallerySlicePrimary,
+      EventSeriesDocumentDataBodyEditorialImageGallerySliceItem,
+      EventSeriesDocumentDataBodyGifVideoSlicePrimary,
+      EventSeriesDocumentDataBodyIframeSlicePrimary,
+      EventSeriesDocumentDataBodyQuoteSlicePrimary,
+      EventSeriesDocumentDataBodyStandfirstSlicePrimary,
+      EventSeriesDocumentDataBodyEmbedSlicePrimary,
+      EventSeriesDocumentDataBodyAudioPlayerSlicePrimary,
+      EventSeriesDocumentDataBodyCollectionVenueSlicePrimary,
+      EventSeriesDocumentDataBodyContactSlicePrimary,
+      EventSeriesDocumentDataBodyTagListSlicePrimary,
+      EventSeriesDocumentDataBodyTagListSliceItem,
+      EventSeriesDocumentDataBodyInfoBlockSlicePrimary,
+      EventSeriesDocumentDataBodyTitledTextListSliceItem,
+      EventSeriesDocumentDataBodyContentListSlicePrimary,
+      EventSeriesDocumentDataBodyContentListSliceItem,
+      EventSeriesDocumentDataBodySearchResultsSlicePrimary,
+      EventSeriesDocumentDataBodyTextAndIconsSlicePrimary,
+      EventSeriesDocumentDataBodyTextAndIconsSliceItem,
+      EventSeriesDocumentDataBodyMapSlicePrimary,
+      EventSeriesDocumentDataBodySlice,
+      EventSeriesDocumentDataContributorsItem,
+      EventSeriesDocumentDataPromoEditorialImageSlicePrimary,
+      EventSeriesDocumentDataPromoSlice,
+      EventsDocument,
+      EventsDocumentData,
+      EventsDocumentDataLocationsItem,
+      EventsDocumentDataTimesItem,
+      EventsDocumentDataBodyTextSlicePrimary,
+      EventsDocumentDataBodyEditorialImageSlicePrimary,
+      EventsDocumentDataBodyEditorialImageGallerySlicePrimary,
+      EventsDocumentDataBodyEditorialImageGallerySliceItem,
+      EventsDocumentDataBodyGifVideoSlicePrimary,
+      EventsDocumentDataBodyIframeSlicePrimary,
+      EventsDocumentDataBodyQuoteSlicePrimary,
+      EventsDocumentDataBodyStandfirstSlicePrimary,
+      EventsDocumentDataBodyEmbedSlicePrimary,
+      EventsDocumentDataBodyAudioPlayerSlicePrimary,
+      EventsDocumentDataBodyCollectionVenueSlicePrimary,
+      EventsDocumentDataBodyContactSlicePrimary,
+      EventsDocumentDataBodyTagListSlicePrimary,
+      EventsDocumentDataBodyTagListSliceItem,
+      EventsDocumentDataBodyInfoBlockSlicePrimary,
+      EventsDocumentDataBodyTitledTextListSliceItem,
+      EventsDocumentDataBodyContentListSlicePrimary,
+      EventsDocumentDataBodyContentListSliceItem,
+      EventsDocumentDataBodySearchResultsSlicePrimary,
+      EventsDocumentDataBodyTextAndIconsSlicePrimary,
+      EventsDocumentDataBodyTextAndIconsSliceItem,
+      EventsDocumentDataBodyMapSlicePrimary,
+      EventsDocumentDataBodySlice,
+      EventsDocumentDataInterpretationsItem,
+      EventsDocumentDataAudiencesItem,
+      EventsDocumentDataPoliciesItem,
+      EventsDocumentDataOnlinePoliciesItem,
+      EventsDocumentDataScheduleItem,
+      EventsDocumentDataContributorsItem,
+      EventsDocumentDataPromoEditorialImageSlicePrimary,
+      EventsDocumentDataPromoSlice,
+      EventsDocumentDataSeriesItem,
+      EventsDocumentDataSeasonsItem,
+      EventsDocumentDataParentsItem,
+      ExhibitionFormatsDocument,
+      ExhibitionFormatsDocumentData,
+      ExhibitionGuidesDocument,
+      ExhibitionGuidesDocumentData,
+      ExhibitionGuidesDocumentDataComponentsItem,
+      ExhibitionResourcesDocument,
+      ExhibitionResourcesDocumentData,
+      ExhibitionsDocument,
+      ExhibitionsDocumentData,
+      ExhibitionsDocumentDataBodyTextSlicePrimary,
+      ExhibitionsDocumentDataBodyEditorialImageSlicePrimary,
+      ExhibitionsDocumentDataBodyEditorialImageGallerySlicePrimary,
+      ExhibitionsDocumentDataBodyEditorialImageGallerySliceItem,
+      ExhibitionsDocumentDataBodyGifVideoSlicePrimary,
+      ExhibitionsDocumentDataBodyIframeSlicePrimary,
+      ExhibitionsDocumentDataBodyQuoteSlicePrimary,
+      ExhibitionsDocumentDataBodyStandfirstSlicePrimary,
+      ExhibitionsDocumentDataBodyEmbedSlicePrimary,
+      ExhibitionsDocumentDataBodyAudioPlayerSlicePrimary,
+      ExhibitionsDocumentDataBodyCollectionVenueSlicePrimary,
+      ExhibitionsDocumentDataBodyContactSlicePrimary,
+      ExhibitionsDocumentDataBodyTagListSlicePrimary,
+      ExhibitionsDocumentDataBodyTagListSliceItem,
+      ExhibitionsDocumentDataBodyInfoBlockSlicePrimary,
+      ExhibitionsDocumentDataBodyTitledTextListSliceItem,
+      ExhibitionsDocumentDataBodyContentListSlicePrimary,
+      ExhibitionsDocumentDataBodyContentListSliceItem,
+      ExhibitionsDocumentDataBodySearchResultsSlicePrimary,
+      ExhibitionsDocumentDataBodyTextAndIconsSlicePrimary,
+      ExhibitionsDocumentDataBodyTextAndIconsSliceItem,
+      ExhibitionsDocumentDataBodyMapSlicePrimary,
+      ExhibitionsDocumentDataBodySlice,
+      ExhibitionsDocumentDataExhibitsItem,
+      ExhibitionsDocumentDataEventsItem,
+      ExhibitionsDocumentDataArticlesItem,
+      ExhibitionsDocumentDataAccessResourcesPdfsItem,
+      ExhibitionsDocumentDataContributorsItem,
+      ExhibitionsDocumentDataPromoEditorialImageSlicePrimary,
+      ExhibitionsDocumentDataPromoSlice,
+      ExhibitionsDocumentDataSeasonsItem,
+      ExhibitionsDocumentDataParentsItem,
+      GlobalAlertDocument,
+      GlobalAlertDocumentData,
+      GuideFormatsDocument,
+      GuideFormatsDocumentData,
+      GuidesDocument,
+      GuidesDocumentData,
+      GuidesDocumentDataBodyTextSlicePrimary,
+      GuidesDocumentDataBodyEditorialImageSlicePrimary,
+      GuidesDocumentDataBodyEditorialImageGallerySlicePrimary,
+      GuidesDocumentDataBodyEditorialImageGallerySliceItem,
+      GuidesDocumentDataBodyGifVideoSlicePrimary,
+      GuidesDocumentDataBodyIframeSlicePrimary,
+      GuidesDocumentDataBodyQuoteSlicePrimary,
+      GuidesDocumentDataBodyStandfirstSlicePrimary,
+      GuidesDocumentDataBodyEmbedSlicePrimary,
+      GuidesDocumentDataBodyAudioPlayerSlicePrimary,
+      GuidesDocumentDataBodyCollectionVenueSlicePrimary,
+      GuidesDocumentDataBodyContactSlicePrimary,
+      GuidesDocumentDataBodyTagListSlicePrimary,
+      GuidesDocumentDataBodyTagListSliceItem,
+      GuidesDocumentDataBodyInfoBlockSlicePrimary,
+      GuidesDocumentDataBodyTitledTextListSliceItem,
+      GuidesDocumentDataBodyContentListSlicePrimary,
+      GuidesDocumentDataBodyContentListSliceItem,
+      GuidesDocumentDataBodySearchResultsSlicePrimary,
+      GuidesDocumentDataBodyTextAndIconsSlicePrimary,
+      GuidesDocumentDataBodyTextAndIconsSliceItem,
+      GuidesDocumentDataBodyMapSlicePrimary,
+      GuidesDocumentDataBodySlice,
+      GuidesDocumentDataPromoEditorialImageSlicePrimary,
+      GuidesDocumentDataPromoSlice,
+      InterpretationTypesDocument,
+      InterpretationTypesDocumentData,
+      LabelsDocument,
+      LabelsDocumentData,
+      OrganisationsDocument,
+      OrganisationsDocumentData,
+      OrganisationsDocumentDataSameAsItem,
+      PageFormatsDocument,
+      PageFormatsDocumentData,
+      PagesDocument,
+      PagesDocumentData,
+      PagesDocumentDataBodyTextSlicePrimary,
+      PagesDocumentDataBodyEditorialImageSlicePrimary,
+      PagesDocumentDataBodyEditorialImageGallerySlicePrimary,
+      PagesDocumentDataBodyEditorialImageGallerySliceItem,
+      PagesDocumentDataBodyGifVideoSlicePrimary,
+      PagesDocumentDataBodyIframeSlicePrimary,
+      PagesDocumentDataBodyQuoteSlicePrimary,
+      PagesDocumentDataBodyStandfirstSlicePrimary,
+      PagesDocumentDataBodyEmbedSlicePrimary,
+      PagesDocumentDataBodyAudioPlayerSlicePrimary,
+      PagesDocumentDataBodyCollectionVenueSlicePrimary,
+      PagesDocumentDataBodyContactSlicePrimary,
+      PagesDocumentDataBodyTagListSlicePrimary,
+      PagesDocumentDataBodyTagListSliceItem,
+      PagesDocumentDataBodyInfoBlockSlicePrimary,
+      PagesDocumentDataBodyTitledTextListSliceItem,
+      PagesDocumentDataBodyContentListSlicePrimary,
+      PagesDocumentDataBodyContentListSliceItem,
+      PagesDocumentDataBodySearchResultsSlicePrimary,
+      PagesDocumentDataBodyTextAndIconsSlicePrimary,
+      PagesDocumentDataBodyTextAndIconsSliceItem,
+      PagesDocumentDataBodyMapSlicePrimary,
+      PagesDocumentDataBodySlice,
+      PagesDocumentDataPromoEditorialImageSlicePrimary,
+      PagesDocumentDataPromoSlice,
+      PagesDocumentDataSeasonsItem,
+      PagesDocumentDataParentsItem,
+      PagesDocumentDataContributorsItem,
+      PeopleDocument,
+      PeopleDocumentData,
+      PeopleDocumentDataSameAsItem,
+      PlacesDocument,
+      PlacesDocumentData,
+      PlacesDocumentDataBodyTextSlicePrimary,
+      PlacesDocumentDataBodyEditorialImageSlicePrimary,
+      PlacesDocumentDataBodyEditorialImageGallerySlicePrimary,
+      PlacesDocumentDataBodyEditorialImageGallerySliceItem,
+      PlacesDocumentDataBodyGifVideoSlicePrimary,
+      PlacesDocumentDataBodyIframeSlicePrimary,
+      PlacesDocumentDataBodyQuoteSlicePrimary,
+      PlacesDocumentDataBodyStandfirstSlicePrimary,
+      PlacesDocumentDataBodyEmbedSlicePrimary,
+      PlacesDocumentDataBodyAudioPlayerSlicePrimary,
+      PlacesDocumentDataBodyCollectionVenueSlicePrimary,
+      PlacesDocumentDataBodyContactSlicePrimary,
+      PlacesDocumentDataBodyTagListSlicePrimary,
+      PlacesDocumentDataBodyTagListSliceItem,
+      PlacesDocumentDataBodyInfoBlockSlicePrimary,
+      PlacesDocumentDataBodyTitledTextListSliceItem,
+      PlacesDocumentDataBodyContentListSlicePrimary,
+      PlacesDocumentDataBodyContentListSliceItem,
+      PlacesDocumentDataBodySearchResultsSlicePrimary,
+      PlacesDocumentDataBodyTextAndIconsSlicePrimary,
+      PlacesDocumentDataBodyTextAndIconsSliceItem,
+      PlacesDocumentDataBodyMapSlicePrimary,
+      PlacesDocumentDataBodySlice,
+      PopupDialogDocument,
+      PopupDialogDocumentData,
+      ProjectFormatsDocument,
+      ProjectFormatsDocumentData,
+      ProjectsDocument,
+      ProjectsDocumentData,
+      ProjectsDocumentDataBodyTextSlicePrimary,
+      ProjectsDocumentDataBodyEditorialImageSlicePrimary,
+      ProjectsDocumentDataBodyEditorialImageGallerySlicePrimary,
+      ProjectsDocumentDataBodyEditorialImageGallerySliceItem,
+      ProjectsDocumentDataBodyGifVideoSlicePrimary,
+      ProjectsDocumentDataBodyIframeSlicePrimary,
+      ProjectsDocumentDataBodyQuoteSlicePrimary,
+      ProjectsDocumentDataBodyStandfirstSlicePrimary,
+      ProjectsDocumentDataBodyEmbedSlicePrimary,
+      ProjectsDocumentDataBodyAudioPlayerSlicePrimary,
+      ProjectsDocumentDataBodyCollectionVenueSlicePrimary,
+      ProjectsDocumentDataBodyContactSlicePrimary,
+      ProjectsDocumentDataBodyTagListSlicePrimary,
+      ProjectsDocumentDataBodyTagListSliceItem,
+      ProjectsDocumentDataBodyInfoBlockSlicePrimary,
+      ProjectsDocumentDataBodyTitledTextListSliceItem,
+      ProjectsDocumentDataBodyContentListSlicePrimary,
+      ProjectsDocumentDataBodyContentListSliceItem,
+      ProjectsDocumentDataBodySearchResultsSlicePrimary,
+      ProjectsDocumentDataBodyTextAndIconsSlicePrimary,
+      ProjectsDocumentDataBodyTextAndIconsSliceItem,
+      ProjectsDocumentDataBodyMapSlicePrimary,
+      ProjectsDocumentDataBodySlice,
+      ProjectsDocumentDataContributorsItem,
+      ProjectsDocumentDataPromoEditorialImageSlicePrimary,
+      ProjectsDocumentDataPromoSlice,
+      ProjectsDocumentDataSeasonsItem,
+      SeasonsDocument,
+      SeasonsDocumentData,
+      SeasonsDocumentDataBodyTextSlicePrimary,
+      SeasonsDocumentDataBodyEditorialImageSlicePrimary,
+      SeasonsDocumentDataBodyEditorialImageGallerySlicePrimary,
+      SeasonsDocumentDataBodyEditorialImageGallerySliceItem,
+      SeasonsDocumentDataBodyGifVideoSlicePrimary,
+      SeasonsDocumentDataBodyIframeSlicePrimary,
+      SeasonsDocumentDataBodyQuoteSlicePrimary,
+      SeasonsDocumentDataBodyStandfirstSlicePrimary,
+      SeasonsDocumentDataBodyEmbedSlicePrimary,
+      SeasonsDocumentDataBodyAudioPlayerSlicePrimary,
+      SeasonsDocumentDataBodyCollectionVenueSlicePrimary,
+      SeasonsDocumentDataBodyContactSlicePrimary,
+      SeasonsDocumentDataBodyTagListSlicePrimary,
+      SeasonsDocumentDataBodyTagListSliceItem,
+      SeasonsDocumentDataBodyInfoBlockSlicePrimary,
+      SeasonsDocumentDataBodyTitledTextListSliceItem,
+      SeasonsDocumentDataBodyContentListSlicePrimary,
+      SeasonsDocumentDataBodyContentListSliceItem,
+      SeasonsDocumentDataBodySearchResultsSlicePrimary,
+      SeasonsDocumentDataBodyTextAndIconsSlicePrimary,
+      SeasonsDocumentDataBodyTextAndIconsSliceItem,
+      SeasonsDocumentDataBodyMapSlicePrimary,
+      SeasonsDocumentDataBodySlice,
+      SeasonsDocumentDataPromoEditorialImageSlicePrimary,
+      SeasonsDocumentDataPromoSlice,
+      SeriesDocument,
+      SeriesDocumentData,
+      SeriesDocumentDataBodyTextSlicePrimary,
+      SeriesDocumentDataBodyEditorialImageSlicePrimary,
+      SeriesDocumentDataBodyEditorialImageGallerySlicePrimary,
+      SeriesDocumentDataBodyEditorialImageGallerySliceItem,
+      SeriesDocumentDataBodyGifVideoSlicePrimary,
+      SeriesDocumentDataBodyIframeSlicePrimary,
+      SeriesDocumentDataBodyQuoteSlicePrimary,
+      SeriesDocumentDataBodyStandfirstSlicePrimary,
+      SeriesDocumentDataBodyEmbedSlicePrimary,
+      SeriesDocumentDataBodyAudioPlayerSlicePrimary,
+      SeriesDocumentDataBodyCollectionVenueSlicePrimary,
+      SeriesDocumentDataBodyContactSlicePrimary,
+      SeriesDocumentDataBodyTagListSlicePrimary,
+      SeriesDocumentDataBodyTagListSliceItem,
+      SeriesDocumentDataBodyInfoBlockSlicePrimary,
+      SeriesDocumentDataBodyTitledTextListSliceItem,
+      SeriesDocumentDataBodyContentListSlicePrimary,
+      SeriesDocumentDataBodyContentListSliceItem,
+      SeriesDocumentDataBodySearchResultsSlicePrimary,
+      SeriesDocumentDataBodyTextAndIconsSlicePrimary,
+      SeriesDocumentDataBodyTextAndIconsSliceItem,
+      SeriesDocumentDataBodyMapSlicePrimary,
+      SeriesDocumentDataBodySlice,
+      SeriesDocumentDataScheduleItem,
+      SeriesDocumentDataContributorsItem,
+      SeriesDocumentDataPromoEditorialImageSlicePrimary,
+      SeriesDocumentDataPromoSlice,
+      SeriesDocumentDataSeasonsItem,
+      StoriesLandingDocument,
+      StoriesLandingDocumentData,
+      StoriesLandingDocumentDataStoriesItem,
+      StoriesLandingDocumentDataBooksItem,
+      TeamsDocument,
+      TeamsDocumentData,
+      VisualStoriesDocument,
+      VisualStoriesDocumentData,
+      VisualStoriesDocumentDataBodyStandfirstSlicePrimary,
+      VisualStoriesDocumentDataBodyContactSlicePrimary,
+      VisualStoriesDocumentDataBodyTextSlicePrimary,
+      VisualStoriesDocumentDataBodyEditorialImageSlicePrimary,
+      VisualStoriesDocumentDataBodyEmbedSlicePrimary,
+      VisualStoriesDocumentDataBodyTextAndImageSlicePrimary,
+      VisualStoriesDocumentDataBodyTextAndIconsSlicePrimary,
+      VisualStoriesDocumentDataBodyTextAndIconsSliceItem,
+      VisualStoriesDocumentDataBodySlice,
+      VisualStoriesDocumentDataPromoEditorialImageSlicePrimary,
+      VisualStoriesDocumentDataPromoSlice,
+      WebcomicSeriesDocument,
+      WebcomicSeriesDocumentData,
+      WebcomicSeriesDocumentDataContributorsItem,
+      WebcomicSeriesDocumentDataPromoEditorialImageSlicePrimary,
+      WebcomicSeriesDocumentDataPromoSlice,
+      WebcomicsDocument,
+      WebcomicsDocumentData,
+      WebcomicsDocumentDataBodyTextSlicePrimary,
+      WebcomicsDocumentDataBodyEditorialImageSlicePrimary,
+      WebcomicsDocumentDataBodyEditorialImageGallerySlicePrimary,
+      WebcomicsDocumentDataBodyEditorialImageGallerySliceItem,
+      WebcomicsDocumentDataBodyGifVideoSlicePrimary,
+      WebcomicsDocumentDataBodyIframeSlicePrimary,
+      WebcomicsDocumentDataBodyInfoBlockSlicePrimary,
+      WebcomicsDocumentDataBodyStandfirstSlicePrimary,
+      WebcomicsDocumentDataBodyQuoteV2SlicePrimary,
+      WebcomicsDocumentDataBodyAudioPlayerSlicePrimary,
+      WebcomicsDocumentDataBodyEmbedSlicePrimary,
+      WebcomicsDocumentDataBodyTagListSlicePrimary,
+      WebcomicsDocumentDataBodyTagListSliceItem,
+      WebcomicsDocumentDataBodySlice,
+      WebcomicsDocumentDataContributorsItem,
+      WebcomicsDocumentDataPromoEditorialImageSlicePrimary,
+      WebcomicsDocumentDataPromoSlice,
+      WebcomicsDocumentDataSeriesItem,
+      AllDocumentTypes,
       AudioPlayerSlice,
       AudioPlayerSliceDefaultPrimary,
       AudioPlayerSliceVariation,

@@ -3,6 +3,19 @@
   "type": "SharedSlice",
   "name": "AudioPlayer",
   "description": "AudioPlayer",
+  "legacyPaths": {
+    "articles::body::audioPlayer": "default",
+    "event-series::body::audioPlayer": "default",
+    "events::body::audioPlayer": "default",
+    "exhibitions::body::audioPlayer": "default",
+    "guides::body::audioPlayer": "default",
+    "pages::body::audioPlayer": "default",
+    "places::body::audioPlayer": "default",
+    "projects::body::audioPlayer": "default",
+    "seasons::body::audioPlayer": "default",
+    "series::body::audioPlayer": "default",
+    "webcomics::body::audioPlayer": "default"
+  },
   "variations": [
     {
       "id": "default",
