@@ -56,7 +56,6 @@ type ArticlesDocumentDataBodySlice =
   | GifVideoSlice
   | TextSlice
   | StandfirstSlice
-  | QuoteV2Slice
   | InfoBlockSlice
   | QuoteSlice;
 
@@ -468,7 +467,6 @@ type BooksDocumentDataBodySlice =
   | StandfirstSlice
   | TagListSlice
   | QuoteSlice
-  | QuoteV2Slice
   | InfoBlockSlice
   | ContactSlice
   | CollectionVenueSlice
@@ -1395,7 +1393,6 @@ type EventSeriesDocumentDataBodySlice =
   | StandfirstSlice
   | TagListSlice
   | QuoteSlice
-  | QuoteV2Slice
   | InfoBlockSlice
   | ContactSlice
   | CollectionVenueSlice
@@ -1653,7 +1650,6 @@ type EventsDocumentDataBodySlice =
   | StandfirstSlice
   | TagListSlice
   | QuoteSlice
-  | QuoteV2Slice
   | InfoBlockSlice
   | ContactSlice
   | CollectionVenueSlice
@@ -2602,7 +2598,6 @@ type ExhibitionsDocumentDataBodySlice =
   | StandfirstSlice
   | TagListSlice
   | QuoteSlice
-  | QuoteV2Slice
   | InfoBlockSlice
   | ContactSlice
   | CollectionVenueSlice
@@ -3147,7 +3142,6 @@ type GuidesDocumentDataBodySlice =
   | StandfirstSlice
   | TagListSlice
   | QuoteSlice
-  | QuoteV2Slice
   | InfoBlockSlice
   | ContactSlice
   | CollectionVenueSlice
@@ -3551,7 +3545,6 @@ type PagesDocumentDataBodySlice =
   | StandfirstSlice
   | TagListSlice
   | QuoteSlice
-  | QuoteV2Slice
   | InfoBlockSlice
   | ContactSlice
   | CollectionVenueSlice
@@ -3926,7 +3919,6 @@ type PlacesDocumentDataBodySlice =
   | StandfirstSlice
   | TagListSlice
   | QuoteSlice
-  | QuoteV2Slice
   | InfoBlockSlice
   | ContactSlice
   | CollectionVenueSlice
@@ -4166,7 +4158,6 @@ type ProjectsDocumentDataBodySlice =
   | StandfirstSlice
   | TagListSlice
   | QuoteSlice
-  | QuoteV2Slice
   | InfoBlockSlice
   | ContactSlice
   | CollectionVenueSlice
@@ -4410,7 +4401,6 @@ type SeasonsDocumentDataBodySlice =
   | StandfirstSlice
   | TagListSlice
   | QuoteSlice
-  | QuoteV2Slice
   | InfoBlockSlice
   | ContactSlice
   | CollectionVenueSlice
@@ -4553,7 +4543,6 @@ type SeriesDocumentDataBodySlice =
   | StandfirstSlice
   | TagListSlice
   | QuoteSlice
-  | QuoteV2Slice
   | InfoBlockSlice
   | ContactSlice
   | CollectionVenueSlice
@@ -5319,7 +5308,6 @@ type WebcomicsDocumentDataBodySlice =
   | GifVideoSlice
   | TextSlice
   | StandfirstSlice
-  | QuoteV2Slice
   | InfoBlockSlice
   | QuoteSlice;
 
@@ -6375,36 +6363,6 @@ type QuoteSliceVariation = QuoteSliceDefault;
 export type QuoteSlice = prismic.SharedSlice<'quote', QuoteSliceVariation>;
 
 /**
- * Default variation for QuoteV2 Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type QuoteV2SliceDefault = prismic.SharedSliceVariation<
-  'default',
-  Record<string, never>,
-  never
->;
-
-/**
- * Slice variation for *QuoteV2*
- */
-type QuoteV2SliceVariation = QuoteV2SliceDefault;
-
-/**
- * QuoteV2 Shared Slice
- *
- * - **API ID**: `quoteV2`
- * - **Description**: QuoteV2
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type QuoteV2Slice = prismic.SharedSlice<
-  'quoteV2',
-  QuoteV2SliceVariation
->;
-
-/**
  * Primary content in *SearchResults → Primary*
  */
 export interface SearchResultsSliceDefaultPrimary {
@@ -7029,9 +6987,6 @@ declare module '@prismicio/client' {
       QuoteSliceDefaultPrimary,
       QuoteSliceVariation,
       QuoteSliceDefault,
-      QuoteV2Slice,
-      QuoteV2SliceVariation,
-      QuoteV2SliceDefault,
       SearchResultsSlice,
       SearchResultsSliceDefaultPrimary,
       SearchResultsSliceVariation,

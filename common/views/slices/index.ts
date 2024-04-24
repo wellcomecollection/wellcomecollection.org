@@ -15,7 +15,6 @@ export const components = {
   infoBlock: dynamic(() => import('./InfoBlock')),
   map: dynamic(() => import('./Map')),
   quote: dynamic(() => import('./Quote')),
-  quoteV2: dynamic(() => import('./QuoteV2')),
   searchResults: dynamic(() => import('./SearchResults')),
   standfirst: dynamic(() => import('./Standfirst')),
   tagList: dynamic(() => import('./TagList')),

@@ -75,9 +75,6 @@
             "quote": {
               "type": "SharedSlice"
             },
-            "quoteV2": {
-              "type": "SharedSlice"
-            },
             "infoBlock": {
               "type": "SharedSlice"
             },
