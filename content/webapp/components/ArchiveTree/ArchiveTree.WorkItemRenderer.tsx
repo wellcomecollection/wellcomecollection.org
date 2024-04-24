@@ -1,10 +1,10 @@
 import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
+import { RelatedWork } from '@weco/content/services/wellcome/catalogue/types';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import WorkLink from '../WorkLink';
 import { StyledLink } from './ArchiveTree.styles';
-import { UiTreeNode } from './ArchiveTree.helpers';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { TreeControl } from '@weco/content/components/ArchiveTree/ArchiveTree.styles';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -19,16 +19,17 @@ const RefNumber = styled.span.attrs({
   text-decoration: none;
 `;
 
-type Props = {
-  item: UiTreeNode;
+export type WorkItemRendererProps = {
+  work: RelatedWork;
   hasControl: boolean;
   level: number;
   isSelected: boolean;
   currentWorkId: string;
   highlightCondition: 'primary' | 'secondary' | undefined;
+  showFirstLevelGuideline: boolean;
 };
 
-const WorkItem: FunctionComponent<Props> = ({
+const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
   item,
   hasControl,
   level,
