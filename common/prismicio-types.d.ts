@@ -6334,6 +6334,17 @@ export interface QuoteSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   citation: prismic.RichTextField;
+
+  /**
+   * pull/review quote field in *Quote → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: quote.primary.isPullOrReview
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  isPullOrReview: prismic.BooleanField;
 }
 
 /**

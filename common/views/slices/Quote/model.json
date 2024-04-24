@@ -1,4 +1,3 @@
-
 {
   "id": "quote",
   "type": "SharedSlice",
@@ -40,6 +39,15 @@
             "placeholder": "",
             "allowTargetBlank": false,
             "single": "paragraph,strong,em,hyperlink"
+          }
+        },
+        "isPullOrReview": {
+          "type": "Boolean",
+          "config": {
+            "label": "pull/review quote",
+            "default_value": false,
+            "placeholder_true": "true",
+            "placeholder_false": "false"
           }
         }
       },
