@@ -136,7 +136,7 @@ function convertStructuresToTree(
       ?.map(item => {
         if (isRange(item)) {
           return {
-            openStatus: true,
+            openStatus: false,
             parentId,
             work: {
               ...item,
@@ -159,7 +159,7 @@ function convertStructuresToTree(
             ? getOriginalFiles(transformedCanvas)
             : [];
           return {
-            openStatus: true,
+            openStatus: false,
             parentId,
             work: {
               ...transformedCanvas,
@@ -181,7 +181,7 @@ export function createDownloadTree(
 ): UiTree {
   const downloads = convertStructuresToTree(structures, canvases, 'objects');
   const topLevelItem = {
-    openStatus: true, // TODO change to false
+    openStatus: false,
     work: {
       id: 'objects',
       type: 'Range',
