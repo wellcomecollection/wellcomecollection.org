@@ -298,6 +298,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
     >
       {ItemRenderer && (
         <ItemRenderer
+          currentWorkId={currentWorkId}
           item={item}
           isEnhanced={isEnhanced}
           level={level}
