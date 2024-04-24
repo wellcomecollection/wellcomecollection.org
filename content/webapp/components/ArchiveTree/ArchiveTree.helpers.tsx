@@ -1,5 +1,5 @@
 import { RelatedWork } from '@weco/content/services/wellcome/catalogue/types';
-import { ReactElement } from 'react';
+import { FunctionComponent } from 'react';
 import {
   getLabelString,
   isTransformedCanvas,
@@ -18,6 +18,8 @@ import {
   CustomContentResource,
 } from '@weco/content/types/manifest';
 import { isString } from '@weco/common/utils/type-guards';
+import { DownloadItemRendererProps } from '@weco/content/components/ArchiveTree/ArchiveTree.DownloadItemRenderer';
+import { WorkItemRendererProps } from '@weco/content/components/ArchiveTree/ArchiveTree.WorkItemRenderer';
 
 export const controlDimensions = {
   controlWidth: 44,
@@ -38,6 +40,7 @@ export type TreeItemProps = {
 };
 
 export type ListProps = {
+  item: UiTreeNode;
   currentWorkId: string;
   fullTree: UiTree;
   setArchiveTree: (tree: UiTree) => void;
@@ -47,23 +50,18 @@ export type ListProps = {
   archiveAncestorArray: RelatedWork[];
   firstItemTabbable: boolean;
   showFirstLevelGuideline: boolean;
-  ItemRenderer: ReactElement<{
-    item: UiTreeNode;
-    isEnhanced: boolean;
-    level: number;
-    showFirstLevelGuideline: boolean;
-    hasControl: boolean;
-    highlightCondition: 'primary' | 'secondary' | undefined;
-  }>;
+  ItemRenderer: FunctionComponent<
+    DownloadItemRendererProps | WorkItemRendererProps
+  >;
 };
 
-type CanvasWork = TransformedCanvas & {
+export type CanvasWork = TransformedCanvas & {
   title: string;
   totalParts: number;
   downloads: (ContentResource | CustomContentResource | ChoiceBody)[];
 };
 
-type RangeWork = Range & {
+export type RangeWork = Range & {
   title: string;
   totalParts: number;
 };
@@ -101,7 +99,7 @@ export function updateChildren({
 }: {
   tree: UiTree;
   id: string;
-  value: UiTreeNode[];
+  value: UiTree;
   manualUpdate?: boolean;
 }): UiTree {
   return tree.map(item => {
@@ -127,7 +125,7 @@ export function updateChildren({
   });
 }
 
-export function convertStructuresToTree(
+function convertStructuresToTree(
   structures: Manifest['structures'],
   canvases: TransformedCanvas[] | undefined,
   parentId: string
@@ -175,6 +173,25 @@ export function convertStructuresToTree(
       })
       .filter(Boolean) as UiTree) || []
   );
+}
+
+export function createDownloadTree(
+  structures: Manifest['structures'],
+  canvases: TransformedCanvas[] | undefined
+): UiTree {
+  const downloads = convertStructuresToTree(structures, canvases, 'objects');
+  const topLevelItem = {
+    openStatus: true, // TODO change to false
+    work: {
+      id: 'objects',
+      type: 'Range',
+      title: 'objects',
+      label: { en: ['objects'] },
+      totalParts: downloads.length,
+    } as RangeWork,
+    children: downloads,
+  };
+  return [topLevelItem];
 }
 
 export function getAriaLabel(item: UiTreeNode) {
