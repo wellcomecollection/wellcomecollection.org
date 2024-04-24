@@ -19,18 +19,15 @@ import Button from '@weco/common/views/components/Buttons';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import { tree } from '@weco/common/icons';
 import NestedList from './ArchiveTree.NestedList';
-import {
-  UiTree,
-  UiTreeNode,
-  instructions,
-  updateChildren,
-} from './ArchiveTree.helpers';
+import { UiTree, UiTreeNode, updateChildren } from './ArchiveTree.helpers';
+import { treeInstructions } from '@weco/common/data/microcopy';
 import {
   ButtonWrap,
   Tree,
   TreeContainer,
   TreeInstructions,
 } from './ArchiveTree.styles';
+import WorkItem from './ArchiveTree.WorkItemRenderer';
 
 function createNodeFromWork({
   work,
@@ -132,7 +129,7 @@ async function getSiblings({
 }: {
   id: string;
   openStatusOverride?: boolean;
-}): Promise<UiTreeNode[]> {
+}): Promise<UiTree> {
   const currWork = await getWorkClientSide(id);
   if (currWork.type !== 'Error' && currWork.type !== 'Redirect') {
     return createSiblingsArray({
@@ -258,7 +255,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
           >
             <Tree $isEnhanced={isEnhanced}>
               {isEnhanced && (
-                <TreeInstructions>{instructions}</TreeInstructions>
+                <TreeInstructions>{treeInstructions}</TreeInstructions>
               )}
               <NestedList
                 currentWorkId={work.id}
@@ -269,6 +266,9 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
                 archiveAncestorArray={archiveAncestorArray}
+                firstItemTabbable={false}
+                showFirstLevelGuideline={false}
+                ItemRenderer={WorkItem}
               />
             </Tree>
           </Modal>
@@ -279,9 +279,9 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
             $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
             <h2 className={font('wb', 4)}>Collection contents</h2>
-            <Tree $isEnhanced={isEnhanced}>
+            <Tree $isEnhanced={isEnhanced} $maxWidth={375}>
               {isEnhanced && (
-                <TreeInstructions>{instructions}</TreeInstructions>
+                <TreeInstructions>{treeInstructions}</TreeInstructions>
               )}
               <NestedList
                 currentWorkId={work.id}
@@ -292,6 +292,9 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
                 archiveAncestorArray={archiveAncestorArray}
+                firstItemTabbable={false}
+                showFirstLevelGuideline={false}
+                ItemRenderer={WorkItem}
               />
             </Tree>
           </Space>
