@@ -1,18 +1,19 @@
-import { chevron } from '@weco/common/icons';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import {
   ListProps,
   UiTree,
   UiTreeNode,
   getTabbableIds,
   updateChildren,
+  getAriaLabel,
+  CanvasWork,
+  RangeWork,
 } from './ArchiveTree.helpers';
+import { RelatedWork } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
 import { FunctionComponent, useContext } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import NestedList from './ArchiveTree.NestedList';
-import { TreeControl, TreeItem } from './ArchiveTree.styles';
-import WorkItem from './ArchiveTree.WorkItem';
+import { TreeItem } from './ArchiveTree.styles';
 
 const LEFT = [37, 'ArrowLeft'];
 const RIGHT = [39, 'ArrowRight'];
@@ -104,12 +105,31 @@ async function expandTree({
 }
 
 type ListItemProps = ListProps & {
-  item: UiTreeNode;
   setSize: number;
   posInSet: number;
+  index: number;
 };
 
+function getTabIndex({
+  isEnhanced,
+  isSelected,
+  level,
+  index,
+  firstItemTabbable,
+}): 0 | -1 | undefined {
+  if (isEnhanced) {
+    if (firstItemTabbable && level === 1 && index === 0) {
+      return 0;
+    } else {
+      return isSelected ? 0 : -1;
+    }
+  } else {
+    return undefined;
+  }
+}
+
 const ListItem: FunctionComponent<ListItemProps> = ({
+  index,
   item,
   currentWorkId,
   setArchiveTree,
@@ -120,9 +140,12 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   tabbableId,
   setTabbableId,
   archiveAncestorArray,
+  firstItemTabbable,
+  showFirstLevelGuideline,
+  ItemRenderer,
 }: ListItemProps) => {
   const { isEnhanced } = useContext(AppContext);
-  const isEndNode = item.children && item.children.length === 0;
+  const isEndNode = item.work.totalParts === 0;
   const isSelected =
     (tabbableId && tabbableId === item.work.id) ||
     (!tabbableId && currentWorkId === item.work.id);
@@ -133,14 +156,19 @@ const ListItem: FunctionComponent<ListItemProps> = ({
     ? 'primary'
     : descendentIsSelected
     ? 'secondary'
-    : '';
+    : undefined;
 
   const hasControl = Boolean(
     item?.work?.totalParts && item?.work?.totalParts > 0
   );
 
+  const showGuideline =
+    isEnhanced &&
+    hasControl &&
+    item.openStatus &&
+    (level > 1 || showFirstLevelGuideline);
+
   function toggleBranch() {
-    // TODO use new API totalParts data when available
     if (item.children === undefined) {
       expandTree({
         item,
@@ -163,7 +191,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       id={item.work.id}
       role={isEnhanced ? 'treeitem' : undefined}
       $isEnhanced={isEnhanced}
-      $showGuideline={isEnhanced && hasControl && item.openStatus && level > 1}
+      $showGuideline={showGuideline}
       aria-level={isEnhanced ? level : undefined}
       aria-setsize={isEnhanced ? setSize : undefined}
       aria-posinset={isEnhanced ? posInSet : undefined}
@@ -174,17 +202,15 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             : undefined
           : undefined
       }
-      aria-label={
-        isEnhanced
-          ? `${item.work.title}${
-              item.work.referenceNumber
-                ? `, reference number ${item.work.referenceNumber}`
-                : ''
-            }`
-          : undefined
-      }
+      aria-label={isEnhanced ? getAriaLabel(item) : undefined}
       aria-selected={isEnhanced ? isSelected : undefined}
-      tabIndex={isEnhanced ? (isSelected ? 0 : -1) : undefined}
+      tabIndex={getTabIndex({
+        isEnhanced,
+        isSelected,
+        level,
+        index,
+        firstItemTabbable,
+      })}
       onKeyDown={event => {
         event.stopPropagation();
         const key = event.key || event.keyCode;
@@ -213,7 +239,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             }
 
             // When focus is on an end node, does nothing.
-            if (item.children && item.children.length === 0) {
+            if (item.work.totalParts && item.work.totalParts === 0) {
               return;
             }
 
@@ -226,8 +252,11 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           }
           case LEFT.includes(key): {
             // When focus is on an open node, closes the node.
-            if (item.openStatus && item.children && item.children.length > 0) {
-              // TODO remove when API updated with totalDescendentParts
+            if (
+              item.openStatus &&
+              item.work.totalParts &&
+              item.work.totalParts > 0
+            ) {
               setArchiveTree(
                 updateOpenStatus({
                   id: item.work.id,
@@ -239,11 +268,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             }
             // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
             // When focus is on a root node that is also either an end node or a closed node, does nothing.
-            if (
-              isEndNode ||
-              !item.openStatus ||
-              (item.children && item.children.length === 0) // TODO remove when API updated
-            ) {
+            if (isEndNode || !item.openStatus) {
               if (item.parentId) {
                 setTabbableId(item.parentId);
               }
@@ -274,23 +299,17 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         }
       }}
     >
-      <div style={{ display: 'inline-flex' }}>
-        {isEnhanced && level > 1 && hasControl && (
-          <TreeControl
-            data-gtm-trigger="tree_chevron"
-            $highlightCondition={highlightCondition}
-          >
-            <Icon rotate={item.openStatus ? undefined : 270} icon={chevron} />
-          </TreeControl>
-        )}
-        <WorkItem
+      {ItemRenderer && (
+        <ItemRenderer
           item={item}
-          hasControl={hasControl}
-          isSelected={isSelected}
-          currentWorkId={currentWorkId}
+          isEnhanced={isEnhanced}
           level={level}
+          showFirstLevelGuideline={showFirstLevelGuideline}
+          hasControl={hasControl}
+          highlightCondition={highlightCondition}
         />
-      </div>
+      )}
+
       {item.children && item.openStatus && (
         <NestedList
           currentWorkId={currentWorkId}
@@ -300,6 +319,10 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           tabbableId={tabbableId}
           setTabbableId={setTabbableId}
           archiveAncestorArray={archiveAncestorArray}
+          setArchiveTree={setArchiveTree}
+          firstItemTabbable={firstItemTabbable}
+          showFirstLevelGuideline={showFirstLevelGuideline}
+          ItemRenderer={ItemRenderer}
         />
       )}
     </TreeItem>
