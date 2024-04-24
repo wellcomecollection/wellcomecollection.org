@@ -43,6 +43,7 @@ const WorkDetailsWrapper = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-top'] },
 })`
   flex: 1;
+  min-width: 0; /* prevent item overflowing its container */
 `;
 
 export const Grid = styled.div.attrs({
