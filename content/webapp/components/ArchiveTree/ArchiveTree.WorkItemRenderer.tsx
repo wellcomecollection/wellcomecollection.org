@@ -1,7 +1,7 @@
 import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
-import { RelatedWork } from '@weco/content/services/wellcome/catalogue/types';
+import { UiTreeNode } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import WorkLink from '../WorkLink';
 import { StyledLink } from './ArchiveTree.styles';
@@ -20,7 +20,7 @@ const RefNumber = styled.span.attrs({
 `;
 
 export type WorkItemRendererProps = {
-  work: RelatedWork;
+  item: UiTreeNode;
   hasControl: boolean;
   level: number;
   isSelected: boolean;
