@@ -1,7 +1,10 @@
 import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
-import { UiTreeNode } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
+import {
+  UiTreeNode,
+  isRelatedWork,
+} from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import WorkLink from '../WorkLink';
 import { StyledLink } from './ArchiveTree.styles';
@@ -71,7 +74,9 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
           }}
         >
           <WorkTitle title={item.work.title} />
-          <RefNumber>{item.work.referenceNumber}</RefNumber>
+          {isRelatedWork(item.work) && (
+            <RefNumber>{item.work.referenceNumber}</RefNumber>
+          )}
         </StyledLink>
       </WorkLink>
     </div>
