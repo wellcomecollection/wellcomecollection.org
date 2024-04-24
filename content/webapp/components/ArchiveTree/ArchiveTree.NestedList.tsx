@@ -4,7 +4,7 @@ import ListItem from './ArchiveTree.ListItem';
 import { font } from '@weco/common/utils/classnames';
 import { ListProps, UiTree } from './ArchiveTree.helpers';
 
-type NestedListProps = ListProps & {
+type NestedListProps = Omit<ListProps, 'item'> & {
   archiveTree: UiTree;
 };
 
@@ -17,6 +17,9 @@ const NestedList: FunctionComponent<NestedListProps> = ({
   tabbableId,
   setTabbableId,
   archiveAncestorArray,
+  firstItemTabbable,
+  showFirstLevelGuideline,
+  ItemRenderer,
 }: NestedListProps) => {
   const { isEnhanced } = useContext(AppContext);
   return (
@@ -33,6 +36,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
           return (
             item.work && (
               <ListItem
+                index={i}
                 key={item.work.id}
                 item={item}
                 currentWorkId={currentWorkId}
@@ -44,6 +48,9 @@ const NestedList: FunctionComponent<NestedListProps> = ({
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
                 archiveAncestorArray={archiveAncestorArray}
+                firstItemTabbable={firstItemTabbable}
+                showFirstLevelGuideline={showFirstLevelGuideline}
+                ItemRenderer={ItemRenderer}
               />
             )
           );
