@@ -70,7 +70,6 @@
     "@typescript-eslint/parser": "^6.21.0",
     "babel-jest": "^29.5.0",
     "babel-plugin-dynamic-import-node": "^2.3.3",
-    "babel-plugin-styled-components": "^2.1.4",
     "babel-plugin-transform-typescript-metadata": "^0.3.1",
     "babel-preset-react": "^6.24.1",
     "es-abstract": "^1.21.2",
