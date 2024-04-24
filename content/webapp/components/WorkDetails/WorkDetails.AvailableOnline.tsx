@@ -1,3 +1,4 @@
+import { useState, useEffect, useContext } from 'react';
 import NextLink from 'next/link';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import WorkDetailsSection from './WorkDetails.Section';
@@ -5,7 +6,6 @@ import IIIFClickthrough from '@weco/content/components/IIIFClickthrough/IIIFClic
 import Space from '@weco/common/views/components/styled/Space';
 import Button from '@weco/common/views/components/Buttons';
 import WorkDetailsLicence from './WorkDetails.Licence';
-import DownloadList from './WorkDetails.DownloadList';
 import { eye } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { LinkProps } from '@weco/common/model/link-props';
@@ -14,14 +14,63 @@ import useTransformedManifest from '@weco/content/hooks/useTransformedManifest';
 import { Note, Work } from '@weco/content/services/wellcome/catalogue/types';
 import { DigitalLocationInfo } from '@weco/content/utils/works';
 import { DigitalLocation } from '@weco/common/model/catalogue';
+import { UiTree } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
 import IIIFItemList from '@weco/content/components/IIIFItemList/IIIFItemList';
 import DownloadLink from '@weco/content/components/DownloadLink/DownloadLink';
 import Download from '@weco/content/components/Download/Download';
 import { getLabelString, getFormatString } from '@weco/content/utils/iiif/v3';
 import { InternationalString, ContentResource } from '@iiif/presentation-3';
 import { useToggles } from '@weco/common/server-data/Context';
-import { bornDigitalMessage } from '@weco/common/data/microcopy';
+import {
+  bornDigitalMessage,
+  treeInstructions,
+} from '@weco/common/data/microcopy';
 import styled from 'styled-components';
+import NestedList from '@weco/content/components/ArchiveTree/ArchiveTree.NestedList';
+import {
+  Tree,
+  TreeInstructions,
+} from '@weco/content/components/ArchiveTree//ArchiveTree.styles';
+import {
+  createDownloadTree,
+  controlDimensions,
+} from '@weco/content/components/ArchiveTree//ArchiveTree.helpers';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import DownloadItemRenderer from '@weco/content/components/ArchiveTree/ArchiveTree.DownloadItemRenderer';
+import { DownloadTable } from '@weco/content/components/WorkDetails/WorkDetails.DownloadItem';
+
+const TreeHeadings = styled(Space).attrs({
+  $v: { size: 'xl', properties: ['margin-top'] },
+})`
+  background: ${props => props.theme.color('warmNeutral.300')};
+`;
+
+const TreeContainer = styled.div`
+  background: linear-gradient(
+    to bottom,
+    ${props => props.theme.color('warmNeutral.200')},
+    ${props => props.theme.color('warmNeutral.200')} 50%,
+    ${props => props.theme.color('white')} 50%,
+    ${props => props.theme.color('white')}
+  );
+  background-size: 100% ${`${controlDimensions.controlHeight * 2}px`};
+`;
+
+const MessageBox = styled(Space).attrs({
+  className: font('intr', 5),
+  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+})`
+  background-color: ${props => props.theme.color('warmNeutral.300')};
+
+  h2 {
+    margin: 0;
+  }
+
+  p:last-child {
+    margin: 0;
+  }
+`;
 
 type Props = {
   work: Work;
@@ -111,13 +160,6 @@ const ItemPageLink = ({
   );
 };
 
-// TODO spacing, font size etc.
-const MessageBox = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-})`
-  background-color: ${props => props.theme.color('warmNeutral.300')};
-`;
 const WorkDetailsAvailableOnline = ({
   work,
   downloadOptions,
@@ -144,7 +186,21 @@ const WorkDetailsAvailableOnline = ({
     showBornDigital &&
     (bornDigitalStatus === 'mixedBornDigital' ||
       bornDigitalStatus === 'allBornDigital');
+  const [tabbableId, setTabbableId] = useState<string>();
+  const [archiveTree, setArchiveTree] = useState<UiTree>([]);
 
+  useEffect(() => {
+    const downloads = createDownloadTree(structures, canvases);
+    setArchiveTree(downloads);
+  }, [structures]);
+
+  useEffect(() => {
+    const elementToFocus = tabbableId && document.getElementById(tabbableId);
+    if (elementToFocus) {
+      elementToFocus.focus();
+    }
+  }, [archiveTree, tabbableId]);
+  const { isEnhanced } = useContext(AppContext);
   return (
     <WorkDetailsSection
       headingText={`Available ${isBornDigital ? 'to download' : 'online'}`}
@@ -164,21 +220,53 @@ const WorkDetailsAvailableOnline = ({
       >
         {showBornDigital &&
           (bornDigitalStatus === 'mixedBornDigital' ||
-            bornDigitalStatus === 'allBornDigital') && (
-            <DownloadList
-              structures={
-                structures && structures.length > 0
-                  ? structures
-                  : canvases || []
-              }
-              canvases={canvases || []}
-            />
         <>
-          {/* TODO font and spacing */}
           {Number(canvases?.length) > 0 && (
-            <p>Contains {canvases?.length} files</p>
+            <p className={font('lr', 6)}>Contains {canvases?.length} files</p>
           )}
           <MessageBox>{bornDigitalMessage}</MessageBox>
+          <div style={{ overflow: 'visible' }}>
+            <div
+              style={{
+                display: 'inline-table',
+                minWidth: '100%',
+              }}
+            >
+              <TreeHeadings aria-hidden="true">
+                <DownloadTable>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Kind</th>
+                      <th>Size</th>
+                      <th>Download</th>
+                    </tr>
+                  </thead>
+                </DownloadTable>
+              </TreeHeadings>
+              <TreeContainer>
+                <Tree $isEnhanced={isEnhanced} $showFirstLevelGuideline={true}>
+                  {isEnhanced && (
+                    <TreeInstructions>{`Download tree: ${treeInstructions}`}</TreeInstructions>
+                  )}
+                  <NestedList
+                    currentWorkId={work.id} // TODO only relevant to work link -  can we get it different way - Context?
+                    fullTree={archiveTree}
+                    setArchiveTree={setArchiveTree}
+                    archiveTree={archiveTree}
+                    level={1}
+                    tabbableId={tabbableId}
+                    setTabbableId={setTabbableId}
+                    archiveAncestorArray={[]} // TODO can we work this out rather than passing it down?
+                    firstItemTabbable={true}
+                    showFirstLevelGuideline={true}
+                    ItemRenderer={DownloadItemRenderer}
+                  />
+                </Tree>
+              </TreeContainer>
+            </div>
+          </div>
+        </>
 
         {(!showBornDigital ||
           (showBornDigital && bornDigitalStatus === 'noBornDigital')) && (
