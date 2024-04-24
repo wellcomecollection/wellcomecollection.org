@@ -88,14 +88,15 @@ const DownloadItem: FunctionComponent<{
   if (typeof displayItem !== 'string') {
     return (
       <DownloadTable>
-        <thead className="visually-hidden">
+        {/* TODO would like to put this back but it casues spacing issues in Safari */}
+        {/* <thead className="visually-hidden">
           <tr>
             <th>Name</th>
             <th>Kind</th>
             <th>Size</th>
             <th>Download</th>
           </tr>
-        </thead>
+        </thead> */}
         <tbody>
           <tr>
             <td>
