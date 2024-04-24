@@ -32,7 +32,6 @@
     "lodash.debounce": "^4.0.8",
     "next": "^13.2.3",
     "next-router-mock": "^0.9.3",
-    "node-fetch": "^2.6.2",
     "nprogress": "^0.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
