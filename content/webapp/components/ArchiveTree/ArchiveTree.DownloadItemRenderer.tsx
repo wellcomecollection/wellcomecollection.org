@@ -1,10 +1,13 @@
+import { FunctionComponent } from 'react';
 import { TreeControl } from '@weco/content/components/ArchiveTree/ArchiveTree.styles';
+import { UiTreeNode } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import DownloadItem from '@weco/content/components/WorkDetails/WorkDetails.DownloadItem';
 import { chevron, closedFolder, openFolder } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { controlDimensions } from './ArchiveTree.helpers';
 import { styled } from 'styled-components';
+import { TransformedCanvas } from '@weco/content/types/manifest';
 
 const ItemWrapper = styled.div.attrs({
   className: font('intr', 6),
@@ -14,7 +17,14 @@ const ItemWrapper = styled.div.attrs({
   width: 100%;
 `;
 
-const DownloadItemRenderer = ({
+export type DownloadItemRendererProps = {
+  item: UiTreeNode;
+  isEnhanced: boolean;
+  hasControl: boolean;
+  highlightCondition: 'primary' | 'secondary' | undefined;
+};
+
+const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
   item,
   isEnhanced,
   hasControl,
@@ -43,11 +53,17 @@ const DownloadItemRenderer = ({
           {item.work.title}
         </span>
       )}
-      {item.work?.downloads?.map(download => {
-        return (
-          <DownloadItem key={download.id} canvas={item.work} item={download} />
-        );
-      })}
+
+      {item.work.type === 'Canvas' &&
+        item.work?.downloads?.map(download => {
+          return (
+            <DownloadItem
+              key={download.id}
+              canvas={item.work as TransformedCanvas}
+              item={download}
+            />
+          );
+        })}
     </ItemWrapper>
   );
 };
