@@ -40,5 +40,8 @@
   "devDependencies": {
     "@slicemachine/adapter-next": "^0.3.36",
     "slice-machine-ui": "^1.25.0"
+  },
+  "peerDependencies": {
+    "babel-plugin-styled-components": "^2.1.4"
   }
 }
