@@ -5,10 +5,7 @@ import {
   getTabbableIds,
   updateChildren,
   getAriaLabel,
-  CanvasWork,
-  RangeWork,
 } from './ArchiveTree.helpers';
-import { RelatedWork } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
 import { FunctionComponent, useContext } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
