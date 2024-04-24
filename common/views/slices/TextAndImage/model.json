@@ -4,6 +4,18 @@
   "type": "SharedSlice",
   "name": "TextAndImage",
   "description": "Text and image (side-by-side)",
+  "legacyPaths": {
+    "event-series::body::textAndImage": "default",
+    "events::body::textAndImage": "default",
+    "exhibitions::body::textAndImage": "default",
+    "guides::body::textAndImage": "default",
+    "pages::body::textAndImage": "default",
+    "places::body::textAndImage": "default",
+    "projects::body::textAndImage": "default",
+    "seasons::body::textAndImage": "default",
+    "series::body::textAndImage": "default",
+    "visual-stories::body::textAndImage": "default"
+  },
   "variations": [
     {
       "id": "default",

@@ -3,6 +3,20 @@
   "type": "SharedSlice",
   "name": "Text",
   "description": "Text",
+  "legacyPaths": {
+    "articles::body::text": "default",
+    "event-series::body::text": "default",
+    "events::body::text": "default",
+    "exhibitions::body::text": "default",
+    "guides::body::text": "default",
+    "pages::body::text": "default",
+    "places::body::text": "default",
+    "projects::body::text": "default",
+    "seasons::body::text": "default",
+    "series::body::text": "default",
+    "visual-stories::body::text": "default",
+    "webcomics::body::text": "default"
+  },
   "variations": [
     {
       "id": "default",

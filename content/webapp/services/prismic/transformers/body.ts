@@ -194,7 +194,8 @@ export function transformEditorialImageGallerySlice(
       title: asText(slice.primary.title),
       items: slice.items.map(item => transformCaptionedImage(item)),
       isStandalone: getWeight(slice.slice_label) === 'standalone',
-      isFrames: getWeight(slice.slice_label) === 'frames',
+      isFrames:
+        slice.primary.isFrames || getWeight(slice.slice_label) === 'frames',
     },
   };
 }

@@ -3,6 +3,19 @@
   "type": "SharedSlice",
   "name": "Iframe",
   "description": "Iframe",
+  "legacyPaths": {
+    "articles::body::iframe": "default",
+    "event-series::body::iframe": "default",
+    "events::body::iframe": "default",
+    "exhibitions::body::iframe": "default",
+    "guides::body::iframe": "default",
+    "pages::body::iframe": "default",
+    "places::body::iframe": "default",
+    "projects::body::iframe": "default",
+    "seasons::body::iframe": "default",
+    "series::body::iframe": "default",
+    "webcomics::body::iframe": "default"
+  },
   "variations": [
     {
       "id": "default",

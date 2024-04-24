@@ -3,6 +3,17 @@
   "type": "SharedSlice",
   "name": "CollectionVenue",
   "description": "CollectionVenue",
+  "legacyPaths": {
+    "event-series::body::collectionVenue": "default",
+    "events::body::collectionVenue": "default",
+    "exhibitions::body::collectionVenue": "default",
+    "guides::body::collectionVenue": "default",
+    "pages::body::collectionVenue": "default",
+    "places::body::collectionVenue": "default",
+    "projects::body::collectionVenue": "default",
+    "seasons::body::collectionVenue": "default",
+    "series::body::collectionVenue": "default"
+  },
   "variations": [
     {
       "id": "default",

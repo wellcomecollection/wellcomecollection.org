@@ -3,6 +3,19 @@
   "type": "SharedSlice",
   "name": "GifVideo",
   "description": "GifVideo",
+  "legacyPaths": {
+    "articles::body::gifVideo": "default",
+    "event-series::body::gifVideo": "default",
+    "events::body::gifVideo": "default",
+    "exhibitions::body::gifVideo": "default",
+    "guides::body::gifVideo": "default",
+    "pages::body::gifVideo": "default",
+    "places::body::gifVideo": "default",
+    "projects::body::gifVideo": "default",
+    "seasons::body::gifVideo": "default",
+    "series::body::gifVideo": "default",
+    "webcomics::body::gifVideo": "default"
+  },
   "variations": [
     {
       "id": "default",

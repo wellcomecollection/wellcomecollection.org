@@ -3,6 +3,19 @@
   "type": "SharedSlice",
   "name": "TagList",
   "description": "TagList",
+  "legacyPaths": {
+    "articles::body::tagList": "default",
+    "event-series::body::tagList": "default",
+    "events::body::tagList": "default",
+    "exhibitions::body::tagList": "default",
+    "guides::body::tagList": "default",
+    "pages::body::tagList": "default",
+    "places::body::tagList": "default",
+    "projects::body::tagList": "default",
+    "seasons::body::tagList": "default",
+    "series::body::tagList": "default",
+    "webcomics::body::tagList": "default"
+  },
   "variations": [
     {
       "id": "default",
