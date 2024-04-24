@@ -220,53 +220,60 @@ const WorkDetailsAvailableOnline = ({
       >
         {showBornDigital &&
           (bornDigitalStatus === 'mixedBornDigital' ||
-        <>
-          {Number(canvases?.length) > 0 && (
-            <p className={font('lr', 6)}>Contains {canvases?.length} files</p>
+            bornDigitalStatus === 'allBornDigital') && (
+            <>
+              {Number(canvases?.length) > 0 && (
+                <p className={font('lr', 6)}>
+                  Contains {canvases?.length} files
+                </p>
+              )}
+              <MessageBox>{bornDigitalMessage}</MessageBox>
+              <div style={{ overflow: 'visible' }}>
+                <div
+                  style={{
+                    display: 'inline-table',
+                    minWidth: '100%',
+                  }}
+                >
+                  <TreeHeadings aria-hidden="true">
+                    <DownloadTable>
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Kind</th>
+                          <th>Size</th>
+                          <th>Download</th>
+                        </tr>
+                      </thead>
+                    </DownloadTable>
+                  </TreeHeadings>
+                  <TreeContainer>
+                    <Tree
+                      $isEnhanced={isEnhanced}
+                      $showFirstLevelGuideline={true}
+                    >
+                      {isEnhanced && (
+                        <TreeInstructions>{`Download tree: ${treeInstructions}`}</TreeInstructions>
+                      )}
+                      <NestedList
+                        currentWorkId={work.id}
+                        fullTree={archiveTree}
+                        setArchiveTree={setArchiveTree}
+                        archiveTree={archiveTree}
+                        level={1}
+                        tabbableId={tabbableId}
+                        setTabbableId={setTabbableId}
+                        archiveAncestorArray={[]}
+                        firstItemTabbable={true}
+                        showFirstLevelGuideline={true}
+                        ItemRenderer={DownloadItemRenderer}
+                      />
+                    </Tree>
+                  </TreeContainer>
+                </div>
+              </div>
+            </>
           )}
-          <MessageBox>{bornDigitalMessage}</MessageBox>
-          <div style={{ overflow: 'visible' }}>
-            <div
-              style={{
-                display: 'inline-table',
-                minWidth: '100%',
-              }}
-            >
-              <TreeHeadings aria-hidden="true">
-                <DownloadTable>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Kind</th>
-                      <th>Size</th>
-                      <th>Download</th>
-                    </tr>
-                  </thead>
-                </DownloadTable>
-              </TreeHeadings>
-              <TreeContainer>
-                <Tree $isEnhanced={isEnhanced} $showFirstLevelGuideline={true}>
-                  {isEnhanced && (
-                    <TreeInstructions>{`Download tree: ${treeInstructions}`}</TreeInstructions>
-                  )}
-                  <NestedList
-                    currentWorkId={work.id} // TODO only relevant to work link -  can we get it different way - Context?
-                    fullTree={archiveTree}
-                    setArchiveTree={setArchiveTree}
-                    archiveTree={archiveTree}
-                    level={1}
-                    tabbableId={tabbableId}
-                    setTabbableId={setTabbableId}
-                    archiveAncestorArray={[]} // TODO can we work this out rather than passing it down?
-                    firstItemTabbable={true}
-                    showFirstLevelGuideline={true}
-                    ItemRenderer={DownloadItemRenderer}
-                  />
-                </Tree>
-              </TreeContainer>
-            </div>
-          </div>
-        </>
 
         {(!showBornDigital ||
           (showBornDigital && bornDigitalStatus === 'noBornDigital')) && (
