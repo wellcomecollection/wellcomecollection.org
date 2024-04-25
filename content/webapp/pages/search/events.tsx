@@ -199,11 +199,6 @@ export const getServerSideProps: GetServerSideProps<
   setCacheControl(context.res, cacheTTL.search);
   const serverData = await getServerData(context);
 
-  const { eventsSearch } = serverData?.toggles;
-
-  if (!eventsSearch.value) {
-    return { notFound: true };
-  }
   const query = context.query;
   const params = fromQuery(query);
 

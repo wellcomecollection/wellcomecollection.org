@@ -69,14 +69,6 @@ const toggles = {
       type: 'permanent',
     },
     {
-      id: 'eventsSearch',
-      title: 'Add Events to Search pages',
-      initialValue: false,
-      description:
-        'Adds an Events section to the Search hub and a new Events tab for more specific searches',
-      type: 'experimental',
-    },
-    {
       id: 'showBornDigital',
       title: 'Display born digital files',
       initialValue: false,
