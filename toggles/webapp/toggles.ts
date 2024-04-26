@@ -100,6 +100,14 @@ const toggles = {
         'This will render content using Prismic Slice Machine slices instead of legacy slices',
       type: 'experimental',
     },
+    {
+      id: 'offsiteRequesting',
+      title: 'Get item availability slots from itemsAPI',
+      initialValue: false,
+      description:
+        "This will get the item's availability from itemsAPI when online-requesting an item",
+      type: 'experimental',
+    },
   ] as const,
   tests: [] as ABTest[],
 };
