@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { baseUrl } from './helpers/urls';
+import { baseUrl } from './helpers/utils';
 import { gotoWithoutCache } from './helpers/contexts';
 
 test('Redirects to another format if we have an EG preference and come from a QR code', async ({
