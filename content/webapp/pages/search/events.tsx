@@ -166,7 +166,6 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
                     }}
                   />
                   <Pagination
-                    formId={SEARCH_PAGES_FORM_ID}
                     totalPages={eventResponseList.totalPages}
                     ariaLabel="Events search pagination"
                     isHiddenMobile
@@ -180,7 +179,6 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
 
               <PaginationWrapper $verticalSpacing="l" $alignRight>
                 <Pagination
-                  formId={SEARCH_PAGES_FORM_ID}
                   totalPages={eventResponseList.totalPages}
                   ariaLabel="Events search pagination"
                 />
@@ -201,11 +199,6 @@ export const getServerSideProps: GetServerSideProps<
   setCacheControl(context.res, cacheTTL.search);
   const serverData = await getServerData(context);
 
-  const { eventsSearch } = serverData?.toggles;
-
-  if (!eventsSearch.value) {
-    return { notFound: true };
-  }
   const query = context.query;
   const params = fromQuery(query);
 

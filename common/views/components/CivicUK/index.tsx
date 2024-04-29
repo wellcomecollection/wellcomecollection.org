@@ -1,21 +1,42 @@
 import cookies from '@weco/common/data/cookies';
+import theme from '@weco/common/views/themes/default';
+import { font } from '@weco/common/utils/classnames';
+
+const headingStyles =
+  'style="font-weight: 500; font-family: Inter, sans-serif;"';
+
+const notifyTitleStyles = `
+  class="${font('intm', 3)}"
+  style="display: block; margin: ${theme.spacingUnits['4']}px 0;"
+`;
 
 const branding = {
   removeIcon: true,
   removeAbout: true,
   fontFamily: 'Inter, sans-serif',
+  fontSize: '0.9375rem',
+  fontSizeHeaders: '1.175rem',
+  fontColor: theme.color('black'),
+  backgroundColor: theme.color('warmNeutral.200'),
+  acceptText: theme.color('black'),
+  acceptBackground: theme.color('yellow'),
+  rejectText: theme.color('black'),
+  toggleColor: '#0055cc',
+  toggleBackground: theme.color('neutral.300'),
+  toggleText: theme.color('black'),
 };
 
 const text = {
-  title: 'Manage cookies',
-  intro: '',
-  necessaryTitle: 'Essential cookies',
+  title: `<h1 class="${font('intm', 2)}">Manage cookies</h1>`,
+  intro:
+    "We use cookies to make our website work. To help us make our marketing and website better, we'd like your consent to use cookies on behalf of third parties too.",
+  necessaryTitle: `<h2 ${headingStyles}>Essential cookies</h2>`,
   necessaryDescription:
     'These cookies are necessary for our website to function and therefore always need to be on.',
-  notifyTitle: 'Our website uses cookies',
+  notifyTitle: `<span ${notifyTitleStyles}>Our website uses cookies</span>`,
   notifyDescription:
     "We use cookies to make our website work. To help us make our marketing and website better, we'd like your consent to use cookies on behalf of third parties too.",
-  closeLabel: 'Save and close',
+  closeLabel: '<span style="font-weight: normal;">Save and close</span>',
   settings: 'Manage cookies',
   accept: 'Accept all',
   acceptSettings: 'Accept all',
@@ -23,15 +44,18 @@ const text = {
   rejectSettings: 'Essential only',
 };
 
+// This format is required by Civic UK
+// TODO confirm this date as part of https://github.com/wellcomecollection/wellcomecollection.org/issues/10706
+export const policyUpdatedDate = '25/05/2018';
+
 // Should your privacy policy change after a user gives consent,
 // Cookie Control will invalidate prior records of consent and seek the user's preferences using the latest information available.
 // https://www.civicuk.com/cookie-control/documentation/cookies
 const statement = {
-  description:
-    "We use cookies to make our website work. To help us make our marketing and website better, we'd like your consent to use cookies on behalf of third parties too.",
-  name: 'Find out more in our privacy policy',
-  url: 'https://wellcome.org/who-we-are/privacy-and-terms',
-  updated: '25/05/2018',
+  description: 'You can read more about how we use cookies in our',
+  name: 'Cookie policy',
+  url: '/cookie-policy',
+  updated: policyUpdatedDate,
 };
 
 // Define all necessary cookies here and document their usage a little.
@@ -46,7 +70,10 @@ const necessaryCookies = () => {
   // See @weco/toggles/webapp/toggles for details on each
   const featureFlags = ['toggle_*'];
 
-  return [...wcCookies, ...prismicPreview, ...featureFlags];
+  // Digirati auth related
+  const digiratiCookies = ['dlcs-*'];
+
+  return [...wcCookies, ...prismicPreview, ...featureFlags, ...digiratiCookies];
 };
 
 type Props = {
@@ -66,7 +93,9 @@ const CivicUK = (props: Props) => (
             apiKey: '${props.apiKey}',
             product: 'pro',
             initialState: 'notify',
+            consentCookieExpiry: 182,
             layout: 'popup',
+            theme: 'light',
             setInnerHTML: true,
             closeStyle: 'button',
             settingsStyle: 'button',
@@ -75,7 +104,7 @@ const CivicUK = (props: Props) => (
             optionalCookies: [
               {
                 name: 'analytics',
-                label: 'Measure website use',
+                label: '<h2 ${headingStyles}>Measure website use</h2>',
                 description:
                   '<ul><li>We use these cookies to recognise you, to count your visits to the website, and to see how you move around it.</li><li>They help us to provide you with a good experience while you browse, for example by helping to make sure you can find what you need.</li><li>They also allows us to improve the way the website works.</li></ul>',
                 cookies: [

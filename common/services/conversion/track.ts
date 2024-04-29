@@ -155,6 +155,12 @@ function track(conversion: Conversion) {
     });
   }
 
+  const dimensions = conversion.properties?.dimensions;
+
+  if (dimensions) {
+    window.dataLayer?.push({ dimensions });
+  }
+
   window.analytics.track(eventGroup, {
     session,
     properties: { ...properties, toggles },

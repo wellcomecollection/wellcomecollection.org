@@ -106,8 +106,8 @@ test('(4) | The user is sorting by production dates in search; sort updates URL 
   await select.selectOption({ index: 1 });
   await expect(select).toHaveValue('production.dates.asc');
   await expect(
-    page.getByTestId('pagination').locator('input[name="page"]')
-  ).toHaveValue('1');
+    page.getByTestId('pagination').getByTestId('current-page')
+  ).toHaveText('1');
 });
 
 test('(5) | The user is coming from a prefiltered series search; they should be able to add more filters', async ({

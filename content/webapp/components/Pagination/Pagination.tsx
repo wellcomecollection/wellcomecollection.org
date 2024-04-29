@@ -1,12 +1,10 @@
-import { useEffect, useState, FunctionComponent, useContext } from 'react';
+import { useEffect, useState, FunctionComponent } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { chevron } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import { font } from '@weco/common/utils/classnames';
 import { formatNumber } from '@weco/common/utils/grammar';
 
@@ -15,7 +13,6 @@ export type Props = {
   ariaLabel: string;
   hasDarkBg?: boolean;
   isHiddenMobile?: boolean;
-  formId?: string;
 };
 
 const Container = styled.nav.attrs({
@@ -77,33 +74,17 @@ const ChevronWrapper = styled.a<{ $prev?: boolean; $hasDarkBg?: boolean }>`
   `}
 `;
 
-const PageSelectorInput = styled.input<{ $darkBg?: boolean }>`
-  height: 36px;
-  width: 36px;
-  max-width: 50px;
-  background: none;
-  color: ${({ $darkBg, theme }) => theme.color($darkBg ? 'white' : 'black')};
-  border: ${({ $darkBg, theme }) =>
-      theme.color($darkBg ? 'neutral.300' : 'neutral.600')}
-    1px solid;
-  text-align: center;
-  margin: 0 10px;
-`;
-
 export const Pagination: FunctionComponent<Props> = ({
   totalPages,
   ariaLabel,
   hasDarkBg,
   isHiddenMobile,
-  formId,
 }) => {
   const router = useRouter();
   const { query, pathname } = router;
 
   const pageNumber = query.page ? Number(query.page) : 1;
   const [currentPage, setCurrentPage] = useState(pageNumber);
-  const [isFocused, setIsFocused] = useState(false);
-  const { isEnhanced } = useContext(AppContext);
 
   useEffect(() => {
     // Only push changes if the page number is a different one than on currently
@@ -147,34 +128,10 @@ export const Pagination: FunctionComponent<Props> = ({
         </Link>
       )}
 
-      {isEnhanced ? (
-        <ConditionalWrapper
-          condition={!formId}
-          wrapper={children => <form>{children}</form>}
-        >
-          <span aria-hidden>Showing page</span>
-          <PageSelectorInput
-            name="page"
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            // We only use the formId if the input is focused
-            // as we can have more than one paginator on the same page
-            // and don't want to submit the same input with different values
-            form={isFocused ? formId : ''}
-            aria-label={`Jump to page ${currentPage} of ${formatNumber(
-              totalPages
-            )}`}
-            value={currentPage}
-            onChange={e => setCurrentPage(Number(e.target.value))}
-            $darkBg={hasDarkBg}
-          />
-          <span aria-hidden>/ {formatNumber(totalPages)}</span>
-        </ConditionalWrapper>
-      ) : (
-        <span>
-          Page <strong>{currentPage}</strong> of {formatNumber(totalPages)}
-        </span>
-      )}
+      <span>
+        Page <strong data-testid="current-page">{currentPage}</strong> of{' '}
+        {formatNumber(totalPages)}
+      </span>
 
       {showNext && (
         <Link

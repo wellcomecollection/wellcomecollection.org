@@ -2,7 +2,7 @@
 # the load balancer in all environments. It is used to ensure that 
 # only requests from CloudFront are allowed to access the load balancers.
 resource "aws_secretsmanager_secret" "header_shared_secret_020124" {
-  name = "shared/cloudfront_custom_header/020124"
+  name        = "shared/cloudfront_custom_header/020124"
   description = "Shared secret for authenticating requests from CloudFront"
 }
 
@@ -43,11 +43,11 @@ output "cloudfront_header_shared_secrets" {
   value = [
     data.aws_secretsmanager_secret_version.header_shared_secret_020124.secret_string,
     # data.aws_secretsmanager_secret_version.header_shared_secret_DDMMYY.secret_string
-  ] 
+  ]
   sensitive = true
 }
 
 output "current_shared_secret" {
-  value = local.current_shared_secret
+  value     = local.current_shared_secret
   sensitive = true
 }

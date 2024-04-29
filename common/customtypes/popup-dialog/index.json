@@ -1,0 +1,51 @@
+{
+  "id": "popup-dialog",
+  "label": "Popup dialog",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Popup dialog": {
+      "openButtonText": {
+        "type": "Text",
+        "config": {
+          "label": "Open button text"
+        }
+      },
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Title inside the open dialog"
+        }
+      },
+      "text": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph,hyperlink,strong,em",
+          "label": "Text inside the open dialog"
+        }
+      },
+      "linkText": {
+        "type": "Text",
+        "config": {
+          "label": "CTA inside the open dialog button text"
+        }
+      },
+      "link": {
+        "type": "Link",
+        "config": {
+          "label": "CTA inside the open dialog button link",
+          "select": "web",
+          "customtypes": []
+        }
+      },
+      "isShown": {
+        "type": "Boolean",
+        "config": {
+          "default_value": false,
+          "label": "Is shown?"
+        }
+      }
+    }
+  },
+  "format": "custom"
+}

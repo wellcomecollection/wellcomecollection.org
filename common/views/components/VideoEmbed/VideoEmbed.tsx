@@ -83,7 +83,7 @@ const VideoEmbed: FunctionComponent<Props> = ({
 
   return (
     <>
-      <VideoEmbedWrapper>
+      <VideoEmbedWrapper data-chromatic="ignore">
         <IframeContainer>
           {isActive ? (
             <iframe

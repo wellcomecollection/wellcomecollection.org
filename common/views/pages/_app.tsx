@@ -116,7 +116,10 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     if (pageProps.pageview) {
       trackPageview({
         name: pageProps.pageview.name,
-        properties: pageProps.pageview.properties,
+        properties: {
+          ...pageProps.pageview.properties,
+          dimensions: pageProps.gaDimensions,
+        },
         eventGroup: pageProps.pageview.eventGroup,
       });
     }

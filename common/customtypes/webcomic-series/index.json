@@ -1,0 +1,130 @@
+{
+  "id": "webcomic-series",
+  "label": "[Deprecated] Webcomic series",
+  "repeatable": true,
+  "status": false,
+  "json": {
+    "[Deprecated] Webcomic series": {
+      "title": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Title",
+          "single": "heading1",
+          "useAsTitle": true
+        }
+      },
+      "description": {
+        "type": "StructuredText",
+        "config": {
+          "multi": "paragraph,hyperlink,strong,em",
+          "label": "Description"
+        }
+      }
+    },
+    "Contributors": {
+      "contributors": {
+        "type": "Group",
+        "fieldset": "Contributors",
+        "config": {
+          "fields": {
+            "role": {
+              "type": "Link",
+              "config": {
+                "label": "Role",
+                "select": "document",
+                "customtypes": ["editorial-contributor-roles"]
+              }
+            },
+            "contributor": {
+              "type": "Link",
+              "config": {
+                "label": "Contributor",
+                "select": "document",
+                "customtypes": ["people", "organisations"]
+              }
+            },
+            "description": {
+              "type": "StructuredText",
+              "config": {
+                "multi": "paragraph,hyperlink,strong,em",
+                "label": "Contributor description override"
+              }
+            }
+          }
+        }
+      },
+      "contributorsTitle": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Contributors heading override",
+          "single": "heading1"
+        }
+      }
+    },
+    "Promo": {
+      "promo": {
+        "type": "Slices",
+        "config": {
+          "label": "Promo",
+          "choices": {
+            "editorialImage": {
+              "type": "Slice",
+              "fieldset": "Editorial image",
+              "config": {
+                "label": "Editorial image"
+              },
+              "non-repeat": {
+                "caption": {
+                  "type": "StructuredText",
+                  "config": {
+                    "label": "Promo text",
+                    "single": "paragraph"
+                  }
+                },
+                "image": {
+                  "type": "Image",
+                  "config": {
+                    "label": "Promo image",
+                    "thumbnails": [
+                      {
+                        "name": "32:15",
+                        "width": 3200,
+                        "height": 1500
+                      },
+                      {
+                        "name": "16:9",
+                        "width": 3200,
+                        "height": 1800
+                      },
+                      {
+                        "name": "square",
+                        "width": 3200,
+                        "height": 3200
+                      }
+                    ]
+                  }
+                },
+                "link": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Link override"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Metadata": {
+      "metadataDescription": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph,hyperlink,strong,em",
+          "label": "Metadata description"
+        }
+      }
+    }
+  },
+  "format": "custom"
+}

@@ -21,11 +21,11 @@ jobs:
     name: Bundle size diff
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       # TODO: Remove this line when we can safely upgrade all our packages
       # to versions that support Node 16.
       # See https://github.com/wellcomecollection/wellcomecollection.org/pull/9324
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 16
       - uses: preactjs/compressed-size-action@v2

@@ -3,7 +3,7 @@ import { themeValues } from '@weco/common/views/themes/config';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider/Divider';
-import Table from '@weco/content/components/Table/Table';
+import Table from '@weco/content/components/Table';
 import {
   RGB,
   HSL,
@@ -199,7 +199,7 @@ export const Palette: FunctionComponent = () => (
               <PaletteBlock key={colorName}>
                 <PaletteName>{colorName}</PaletteName>
                 <PaletteColor
-                  hasBorder={colorName === 'white'}
+                  $hasBorder={colorName === 'white'}
                   style={{ background: colorValues.hex }}
                 />
                 <PaletteHex>

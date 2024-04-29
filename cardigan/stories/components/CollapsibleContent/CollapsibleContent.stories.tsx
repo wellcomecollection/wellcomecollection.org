@@ -1,5 +1,5 @@
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
-import { prismicRichTextMultiline } from '@weco/cardigan/stories/content';
+import { prismicRichTextMultiline } from '@weco/cardigan/stories/data/text';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 
 const Template = args => <CollapsibleContent {...args} />;

@@ -1,7 +1,8 @@
 import ExhibitionCaptions from '@weco/content/components/ExhibitionCaptions/ExhibitionCaptions';
-import { text, image } from '@weco/cardigan/stories/content';
 import Readme from '@weco/content/components/ExhibitionCaptions/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { text } from '@weco/cardigan/stories/data/text';
+import { image } from '@weco/cardigan/stories/data/images';
 
 const Template = args => (
   <ReadmeDecorator

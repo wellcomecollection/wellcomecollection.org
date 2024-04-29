@@ -1,10 +1,10 @@
 import { ReactElement } from 'react';
 import styled from 'styled-components';
+import Link from 'next/link';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { NavLink, links } from '@weco/common/views/components/Header/Header';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import Buttons from '../Buttons';
 import { useToggles } from '@weco/common/server-data/Context';
 
 const NavList = styled.ul<{ $isInline?: boolean }>`
@@ -32,7 +32,7 @@ const NavList = styled.ul<{ $isInline?: boolean }>`
       `)}
 
       li {
-        margin-right: 2rem;
+        margin-right: 1.1rem;
 
         &:last-child {
           margin-right: 0;
@@ -81,6 +81,33 @@ const PoliciesNavigation: NavLink[] = [
   },
 ];
 
+// This is for the cookiesWork toggle, once it's for everyone, then officialise this new list.
+const PoliciesNavigationWithCookieWork: NavLink[] = [
+  { href: 'https://wellcome.org/jobs', title: 'Jobs' },
+  { href: '/press', title: 'Media office' },
+  {
+    href: 'https://developers.wellcomecollection.org',
+    title: 'Developers',
+  },
+  {
+    href: 'https://wellcome.org/who-we-are/privacy-and-terms',
+    title: 'Privacy and terms',
+  },
+
+  {
+    href: '/cookie-policy',
+    title: 'Cookie policy',
+  },
+  {
+    href: '/',
+    title: 'Manage cookies',
+  },
+  {
+    href: 'https://wellcome.org/who-we-are/modern-slavery-statement',
+    title: 'Modern slavery statement',
+  },
+];
+
 const FooterNav = ({
   type,
   ariaLabel,
@@ -92,8 +119,12 @@ const FooterNav = ({
 }): ReactElement => {
   const { cookiesWork } = useToggles();
 
+  // This is for the cookiesWork toggle, once it's for everyone, then officialise this new list.
+  const tempPolicyList = cookiesWork
+    ? PoliciesNavigationWithCookieWork
+    : PoliciesNavigation;
   const itemsList =
-    type === 'PoliciesNavigation' ? PoliciesNavigation : InternalNavigation;
+    type === 'PoliciesNavigation' ? tempPolicyList : InternalNavigation;
 
   return (
     <nav aria-label={ariaLabel}>
@@ -101,33 +132,39 @@ const FooterNav = ({
         {itemsList.map((link, i) => {
           // ID for Javascript-less users who tried to click on the Burger menu and will get redirected here
           const isBurgerMenuLink = type === 'InternalNavigation' && i === 0;
+          const isManageCookies = link.title === 'Manage cookies';
 
-          return (
+          return isManageCookies ? (
             <li key={link.title}>
-              <NavLinkElement
-                as="a"
+              <Link
                 href={link.href}
-                data-gtm-trigger="footer_nav_link"
-                {...(isBurgerMenuLink && { id: 'footer-nav-1' })}
+                onClick={e => {
+                  e.preventDefault();
+                  window.CookieControl.open();
+                }}
+                style={{ display: 'block' }}
               >
-                {link.title}
-              </NavLinkElement>
+                {/* TODO remove trigger in GTM as well once we move everything over */}
+                <NavLinkElement data-gtm-trigger="consent_test_btn">
+                  {link.title}
+                </NavLinkElement>
+              </Link>
             </li>
+          ) : (
+            !isManageCookies && (
+              <li key={link.title}>
+                <NavLinkElement
+                  as="a"
+                  href={link.href}
+                  data-gtm-trigger="footer_nav_link"
+                  {...(isBurgerMenuLink && { id: 'footer-nav-1' })}
+                >
+                  {link.title}
+                </NavLinkElement>
+              </li>
+            )
           );
         })}
-        {/* TODO style this/change the preference centre link to something else, this is a very temporary idea/solution */}
-        {cookiesWork && type === 'InternalNavigation' && (
-          <li>
-            <Buttons
-              variant="ButtonSolid"
-              dataGtmTrigger="consent_test_btn"
-              text="Cookie preference centre"
-              clickHandler={() => {
-                window.CookieControl.open();
-              }}
-            />
-          </li>
-        )}
       </NavList>
     </nav>
   );

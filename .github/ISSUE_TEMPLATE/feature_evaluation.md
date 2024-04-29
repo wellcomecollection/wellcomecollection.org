@@ -7,16 +7,16 @@ assignees: ''
 
 ---
 
-**We want to know if the following change has improved the user experience**
+## We want to know if the following change has improved the user experience
 
 
-**Definition of success is**
+## Definition of success is
 
 
-**We'll know if we're succeeding if we measure the following metric and this happens**
+## We'll know if we're succeeding if we measure the following metric and this happens
 
 
-**Definition of failure is**
+## Definition of failure is
 
 
-**We'll know if we're failing if we measure the following metric and this happens**
+## We'll know if we're failing if we measure the following metric and this happens

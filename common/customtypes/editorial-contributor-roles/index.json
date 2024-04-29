@@ -1,0 +1,24 @@
+{
+  "id": "editorial-contributor-roles",
+  "label": "Contributor role",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Contributor": {
+      "title": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph,hyperlink,strong,em,heading1",
+          "label": "Title"
+        }
+      },
+      "describedBy": {
+        "type": "Text",
+        "config": {
+          "label": "Word to describe output of the role"
+        }
+      }
+    }
+  },
+  "format": "custom"
+}

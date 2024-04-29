@@ -69,14 +69,6 @@ const toggles = {
       type: 'permanent',
     },
     {
-      id: 'eventsSearch',
-      title: 'Add Events to Search pages',
-      initialValue: false,
-      description:
-        'Adds an Events section to the Search hub and a new Events tab for more specific searches',
-      type: 'experimental',
-    },
-    {
       id: 'showBornDigital',
       title: 'Display born digital files',
       initialValue: false,
@@ -98,6 +90,14 @@ const toggles = {
       initialValue: false,
       description:
         'This will render content using Prismic Slice Machine slices instead of legacy slices',
+      type: 'experimental',
+    },
+    {
+      id: 'offsiteRequesting',
+      title: 'Get item availability slots from itemsAPI',
+      initialValue: false,
+      description:
+        "This will get the item's availability from itemsAPI when online-requesting an item",
       type: 'experimental',
     },
   ] as const,

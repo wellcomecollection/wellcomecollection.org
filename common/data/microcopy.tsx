@@ -36,13 +36,15 @@ export const pageDescriptions = {
     'Explore new perspectives on bodies, brains and health with our guest comic artists.',
   search: {
     overview:
-      'Search Wellcome Collection. Our stories, images and collections make connections and provoke new thinking about health and human experience.',
+      "Search Wellcome Collection's images, catalogue, stories and events to explore perspectives on health and human experiences.",
     stories:
       'Search for stories about health and human experience. Our words and pictures make connections, provoke new thinking and share lived experiences.',
     images:
-      'Search for images about health and human experience. Our collections include paintings, photogrpahs, engravings, etchings, illustrations and more.',
+      'Search for images about health and human experience. Our collections include paintings, photographs, engravings, etchings, illustrations and more.',
     works:
       'Search our collections about health and human experience. Our collections include books, manuscripts, visual materials, journals and unpublished archives.',
+    events:
+      'Search for past and up-coming events to discover our range of free tours, talks, workshops and more.',
   },
 };
 
@@ -152,12 +154,11 @@ export const pastExhibitionsStrapline =
 // search in the global nav and on the categories in wc.org/search
 // TODO review this copy https://github.com/wellcomecollection/wellcomecollection.org/issues/10777
 export const searchLabelText = {
-  overview: 'Search our stories, images and catalogue',
-  overviewToggle: 'Search our stories, images, catalogue and events',
+  overview: 'Search our stories, images, catalogue and events',
   stories: 'Search for stories',
   images: 'Search for images',
   works: 'Search the catalogue',
-  events: 'Search our events',
+  events: 'Search for events',
 };
 
 export const visualStoryLinkText =
