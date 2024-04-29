@@ -29,7 +29,7 @@
         "text": {
           "type": "StructuredText",
           "config": {
-            "single": "strong,em,hyperlink",
+            "single": "paragraph,strong,em,hyperlink",
             "label": "Standfirst"
           }
         }
