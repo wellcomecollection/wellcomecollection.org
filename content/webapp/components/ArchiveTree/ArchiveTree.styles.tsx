@@ -62,7 +62,7 @@ export const Tree = styled.div<{
   }
 
   ul ul ul {
-    padding-left: ${`${controlDimensions.controlWidth}px`};
+    padding-left: ${controlDimensions.controlWidth}px;
   }
 `;
 
@@ -91,8 +91,8 @@ export const TreeItem = styled.li.attrs<TreeItemProps>(props => ({
   &.guideline::before {
     border-left: 1px solid ${props => props.theme.color('yellow')};
     width: 0;
-    top: ${`${verticalGuidePosition}px`};
-    left: ${`${controlDimensions.controlWidth / 2}px`};
+    top: ${verticalGuidePosition}px;
+    left: ${controlDimensions.controlWidth / 2}px;
     height: calc(
       100% - ${verticalGuidePosition + controlDimensions.controlHeight / 2}px
     );
@@ -104,33 +104,31 @@ export const TreeItem = styled.li.attrs<TreeItemProps>(props => ({
     height: 6px;
     border-radius: 50%;
     background: ${props => props.theme.color('yellow')};
-    left: ${`${controlDimensions.controlWidth / 2 - 3}px`};
-    bottom: ${`${controlDimensions.controlHeight / 2}px`};
+    left: ${controlDimensions.controlWidth / 2 - 3}px;
+    bottom: ${controlDimensions.controlHeight / 2}px;
   }
 `;
 
 export const TreeControl = styled.span<{ $highlightCondition?: string }>`
   display: inline-block;
   cursor: pointer;
-  height: ${`${controlDimensions.controlHeight}px`};
-  width: ${`${controlDimensions.controlWidth}px`};
-  min-width: ${`${controlDimensions.controlWidth}px`};
+  height: ${controlDimensions.controlHeight}px;
+  width: ${controlDimensions.controlWidth}px;
+  min-width: ${controlDimensions.controlWidth}px;
   position: relative;
   z-index: 1;
 
   &::before {
     content: '';
     position: absolute;
-    height: ${`${controlDimensions.circleHeight}px`};
-    width: ${`${controlDimensions.circleWidth}px`};
+    height: ${controlDimensions.circleHeight}px;
+    width: ${controlDimensions.circleWidth}px;
 
     /* centre the circle in the control */
-    top: ${`${
-      (controlDimensions.controlHeight - controlDimensions.circleHeight) / 2
-    }px`};
-    left: ${`${
-      (controlDimensions.controlWidth - controlDimensions.circleWidth) / 2
-    }px`};
+    top: ${(controlDimensions.controlHeight - controlDimensions.circleHeight) /
+    2}px;
+    left: ${(controlDimensions.controlWidth - controlDimensions.circleWidth) /
+    2}px;
 
     background: ${props =>
       props.theme.color(
@@ -153,8 +151,8 @@ export const TreeControl = styled.span<{ $highlightCondition?: string }>`
 
     /* centre the icon in the control
        icons have a height and width of 24px */
-    top: ${`${(controlDimensions.controlHeight - 24) / 2}px`};
-    left: ${`${(controlDimensions.controlWidth - 24) / 2}px`};
+    top: ${(controlDimensions.controlHeight - 24) / 2}px;
+    left: ${(controlDimensions.controlWidth - 24) / 2}px;
   }
 `;
 
@@ -167,7 +165,7 @@ type StyledLinkProps = {
 
 export const StyledLink = styled.a<StyledLinkProps>`
   display: inline-block;
-  min-height: ${`${controlDimensions.controlHeight}px`};
+  min-height: ${controlDimensions.controlHeight}px;
   line-height: 1;
   color: ${props => props.theme.color('black')};
   background: ${props =>

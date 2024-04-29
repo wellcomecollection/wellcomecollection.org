@@ -22,7 +22,7 @@ import { controlDimensions } from '@weco/content/components/ArchiveTree/ArchiveT
 
 export const DownloadTable = styled.table.attrs({ className: font('intr', 6) })`
   position: relative;
-  height: ${`${controlDimensions.controlHeight}px`};
+  height: ${controlDimensions.controlHeight}px;
   white-space: nowrap;
   margin: 0;
   width: 100%;
@@ -43,7 +43,7 @@ export const DownloadTable = styled.table.attrs({ className: font('intr', 6) })`
   }
 
   th:first-child {
-    padding-left: ${`${controlDimensions.controlWidth}px`};
+    padding-left: ${controlDimensions.controlWidth}px;
   }
 
   th:nth-child(2),

@@ -53,7 +53,7 @@ const TreeContainer = styled.div`
     ${props => props.theme.color('white')} 50%,
     ${props => props.theme.color('white')}
   );
-  background-size: 100% ${`${controlDimensions.controlHeight * 2}px`};
+  background-size: 100% ${controlDimensions.controlHeight * 2}px};
 `;
 
 const MessageBox = styled(Space).attrs({

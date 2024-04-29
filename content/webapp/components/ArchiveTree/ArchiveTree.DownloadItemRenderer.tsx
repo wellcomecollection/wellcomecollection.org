@@ -13,7 +13,7 @@ const ItemWrapper = styled.div.attrs({
   className: font('intr', 6),
 })`
   display: flex;
-  height: ${`${controlDimensions.controlHeight}px`};
+  height: ${controlDimensions.controlHeight}px;
   width: 100%;
 `;
 
