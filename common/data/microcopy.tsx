@@ -166,3 +166,26 @@ export const visualStoryLinkText =
 
 export const exhibitionGuideLinkText =
   'Explore audio description, British Sign Language, captions and transcripts';
+
+export const treeInstructions =
+  'Tab into the tree, then use up and down arrows to move through tree items. Use right and left arrows to toggle sub menus open and closed. When focused on an item you can tab to the link it contains.';
+
+export const bornDigitalMessage = (
+  <>
+    <h2>This contains born-digital items</h2>
+    <p>
+      Born-digital items are materials created in a digital format, including
+      websites, email, digital photographs, electronic records, and more.
+      Born-digital items are different from analogue items (such as paper
+      manuscripts or photographs) that have later been digitised.
+    </p>
+    <p>
+      Our Born-digital items cover many file formats, some of which modern
+      computer software may no longer support.{' '}
+      <strong>
+        We cannot guarantee that you can view the item once you have downloaded
+        it.
+      </strong>
+    </p>
+  </>
+);
