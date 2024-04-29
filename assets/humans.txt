@@ -5,13 +5,8 @@ _______________________________________________________________________________
 
 /* WE ARE */
 
-Digital Engagement Office
- Christy Henshaw
- Hannah Brown
-
 Digital Production (digitisation):
  Christy Henshaw
- Harkiran Dhindsa
  Branwen Lloyd-Evans
  Holly Peel
  Rosie Curran
@@ -22,6 +17,7 @@ Digital Production (digitisation):
  Ezra Little
 
 Digital Editorial Content:
+ Grace Brewer
  Lalita Kaplish
  Helen Babbs
  Vanesha Singh
@@ -33,12 +29,10 @@ Photography:
  Thomas S G Farnetti
  Laurie Auchterlonie
  Steven Pocock
- Thomas Cox
  Eszter Bonyi
  Kathleen Arundell
 
 Digital Platform:
- Tacey Kobayashi
  Gareth Estchild
  David McCormick
  Jamie Parkinson
@@ -53,11 +47,6 @@ Digital Platform:
  Jonathan Cates
  Kasia Bruzda
 
-Access:
- Selene Burn
- Evie Jeffreys
-
-
 /* ALUMNI - WE MISS YOU ALL ! */
 
  Alice White
@@ -68,6 +57,7 @@ Access:
  Adilson Mendes Bacelar
  Dominique Marshall
  Tom Scott
+ Harkiran Dhindsa
  Harrison Pim
  Alice Richmond
  Mel Rogan
@@ -89,6 +79,7 @@ Access:
  Orla O'Donnell
  Aisha Mazhar
  Robert Bidder
+ Rosie Croysdale
  Helen Sherwood-Taylor
  Lyndsay Thackrah
  Hayley Thair
@@ -97,6 +88,8 @@ Access:
  Rioghnach Ahern
  Deborah Leem
  Russell Dornan
+ Tacey Kobayashi
+ Thomas Cox
  Chris Hilton
  Tomi Lahdesmaki
  Chloe Guest
@@ -104,6 +97,7 @@ Access:
 
 /* THANKS */
 
+Hannah Brown
 Rada Vlatkovic
 Tania Williams
 Tom Crane - Digirati
