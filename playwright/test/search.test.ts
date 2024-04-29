@@ -75,7 +75,7 @@ test('(6) | Boolean filters are disabled when there are no results that match th
   context,
   page,
 }) => {
-  await newSearch(context, page, 'events', true);
+  await newSearch(context, page, 'events');
   await selectAndWaitForFilter('Event types', 'W-BjXhEAAASpa8Kb', page); // Shopping
   await expect(
     page.getByLabel('Catch-up events only', { exact: false })
