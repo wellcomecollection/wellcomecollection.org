@@ -190,7 +190,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
   const { isEnhanced, windowSize } = useContext(AppContext);
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const initialLoad = useRef(true);
-  const [showArchiveTree, setShowArchiveTree] = useState(false);
+  const [showArchiveTreeModal, setShowArchiveTreeModal] = useState(false);
   const [archiveTree, setArchiveTree] = useState(createBasicTree({ work }));
   const [tabbableId, setTabbableId] = useState<string>();
   const openButtonRef = useRef(null);
@@ -205,7 +205,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
 
   useEffect(() => {
     // On mobile we want to close the archive tree if a user selects a work
-    setShowArchiveTree(false);
+    setShowArchiveTreeModal(false);
   }, [work]);
 
   useEffect(() => {
@@ -240,7 +240,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
             <Button
               variant="ButtonSolid"
               text="Collection contents"
-              clickHandler={() => setShowArchiveTree(true)}
+              clickHandler={() => setShowArchiveTreeModal(true)}
               aria-controls="collection-contents-modal"
               aria-label="show collection contents"
               icon={tree}
@@ -248,8 +248,8 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
             />
           </ButtonWrap>
           <Modal
-            isActive={showArchiveTree}
-            setIsActive={setShowArchiveTree}
+            isActive={showArchiveTreeModal}
+            setIsActive={setShowArchiveTreeModal}
             id="collection-contents-modal"
             openButtonRef={openButtonRef}
           >
