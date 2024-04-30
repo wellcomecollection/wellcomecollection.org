@@ -2530,6 +2530,126 @@ export type ExhibitionGuidesDocument<Lang extends string = string> =
   >;
 
 /**
+ * Item in *Exhibition highlight tour → Stop*
+ */
+export interface ExhibitionHighlightToursDocumentDataStopsItem {
+  /**
+   * Title field in *Exhibition highlight tour → Stop*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-highlight-tours.stops[].title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Stop number field in *Exhibition highlight tour → Stop*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: Stop number for this content
+   * - **API ID Path**: exhibition-highlight-tours.stops[].number
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  number: prismic.NumberField;
+
+  /**
+   * Audio with description (.mp3 file) field in *Exhibition highlight tour → Stop*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-highlight-tours.stops[].audio-with-description
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  'audio-with-description': prismic.LinkToMediaField;
+
+  /**
+   * Embed (Youtube) field in *Exhibition highlight tour → Stop*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-highlight-tours.stops[].bsl-video
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  'bsl-video': prismic.EmbedField;
+
+  /**
+   * Transcript field in *Exhibition highlight tour → Stop*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-highlight-tours.stops[].transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Content for Exhibition highlight tour documents
+ */
+interface ExhibitionHighlightToursDocumentData {
+  /**
+   * Title field in *Exhibition highlight tour*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-highlight-tours.title
+   * - **Tab**: Guide
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Related Exhibition field in *Exhibition highlight tour*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-highlight-tours.related-exhibition
+   * - **Tab**: Guide
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  'related-exhibition': prismic.ContentRelationshipField<'exhibitions'>;
+
+  /**
+   * Introductory text field in *Exhibition highlight tour*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: This will fallback to the related exhibition's promo text if not filled in
+   * - **API ID Path**: exhibition-highlight-tours.introText
+   * - **Tab**: Guide
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  introText: prismic.RichTextField /**
+   * Stop field in *Exhibition highlight tour*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-highlight-tours.stops[]
+   * - **Tab**: Stops
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  stops: prismic.GroupField<
+    Simplify<ExhibitionHighlightToursDocumentDataStopsItem>
+  >;
+}
+
+/**
+ * Exhibition highlight tour document from Prismic
+ *
+ * - **API ID**: `exhibition-highlight-tours`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ExhibitionHighlightToursDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<ExhibitionHighlightToursDocumentData>,
+    'exhibition-highlight-tours',
+    Lang
+  >;
+
+/**
  * Content for Exhibition resource documents
  */
 interface ExhibitionResourcesDocumentData {
@@ -2580,6 +2700,126 @@ export type ExhibitionResourcesDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithoutUID<
     Simplify<ExhibitionResourcesDocumentData>,
     'exhibition-resources',
+    Lang
+  >;
+
+/**
+ * Item in *Exhibition text → Text Component*
+ */
+export interface ExhibitionTextsDocumentDataComponentsItem {
+  /**
+   * Standalone title field in *Exhibition text → Text Component*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Provides a group heading for following components
+   * - **API ID Path**: exhibition-texts.components[].standaloneTitle
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  standaloneTitle: prismic.RichTextField;
+
+  /**
+   * Context field in *Exhibition text → Text Component*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Optional context for a group of components
+   * - **API ID Path**: exhibition-texts.components[].context
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  context: prismic.RichTextField;
+
+  /**
+   * Title field in *Exhibition text → Text Component*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-texts.components[].title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Tombstone field in *Exhibition text → Text Component*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-texts.components[].tombstone
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  tombstone: prismic.RichTextField;
+
+  /**
+   * Caption field in *Exhibition text → Text Component*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-texts.components[].caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+}
+
+/**
+ * Content for Exhibition text documents
+ */
+interface ExhibitionTextsDocumentData {
+  /**
+   * Title field in *Exhibition text*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-texts.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.TitleField;
+
+  /**
+   * Related Exhibition field in *Exhibition text*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-texts.related-exhibition
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  'related-exhibition': prismic.ContentRelationshipField<'exhibitions'>;
+
+  /**
+   * Introductory text field in *Exhibition text*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: This will fallback to the related exhibition's promo text if not filled in
+   * - **API ID Path**: exhibition-texts.introText
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  introText: prismic.RichTextField /**
+   * Text Component field in *Exhibition text*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibition-texts.components[]
+   * - **Tab**: Components
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  components: prismic.GroupField<
+    Simplify<ExhibitionTextsDocumentDataComponentsItem>
+  >;
+}
+
+/**
+ * Exhibition text document from Prismic
+ *
+ * - **API ID**: `exhibition-texts`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ExhibitionTextsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<ExhibitionTextsDocumentData>,
+    'exhibition-texts',
     Lang
   >;
 
@@ -5548,7 +5788,9 @@ export type AllDocumentTypes =
   | EventsDocument
   | ExhibitionFormatsDocument
   | ExhibitionGuidesDocument
+  | ExhibitionHighlightToursDocument
   | ExhibitionResourcesDocument
+  | ExhibitionTextsDocument
   | ExhibitionsDocument
   | GlobalAlertDocument
   | GuideFormatsDocument
@@ -6871,8 +7113,14 @@ declare module '@prismicio/client' {
       ExhibitionGuidesDocument,
       ExhibitionGuidesDocumentData,
       ExhibitionGuidesDocumentDataComponentsItem,
+      ExhibitionHighlightToursDocument,
+      ExhibitionHighlightToursDocumentData,
+      ExhibitionHighlightToursDocumentDataStopsItem,
       ExhibitionResourcesDocument,
       ExhibitionResourcesDocumentData,
+      ExhibitionTextsDocument,
+      ExhibitionTextsDocumentData,
+      ExhibitionTextsDocumentDataComponentsItem,
       ExhibitionsDocument,
       ExhibitionsDocumentData,
       ExhibitionsDocumentDataBodySlice,
