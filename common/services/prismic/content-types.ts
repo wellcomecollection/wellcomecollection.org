@@ -13,6 +13,8 @@ const contentTypes = [
   'webcomics',
   'guide-formats',
   'exhibition-guides',
+  'exhibition-texts',
+  'exhibition-highlight-tours',
   'stories-landing',
   'visual-stories',
 ] as const;
