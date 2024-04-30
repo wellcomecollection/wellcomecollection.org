@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/18-slim
+FROM public.ecr.aws/docker/library/node:18-slim
 
 COPY ./package.json /repo/package.json
 COPY ./yarn.lock /repo/yarn.lock
