@@ -223,8 +223,8 @@ export const quote: QuoteProps = {
 
 export const person: PersonType = {
   type: 'people',
-  id: faker.datatype.uuid(),
-  name: faker.name.fullName(),
+  id: faker.string.uuid(),
+  name: faker.person.fullName(),
   description: smallText(),
   image: {
     contentUrl: faker.image.avatar(),
@@ -244,7 +244,7 @@ export const person: PersonType = {
 
 export const organisation: OrganisationType = {
   type: 'organisations',
-  id: faker.datatype.uuid(),
+  id: faker.string.uuid(),
   name: faker.company.name(),
   description: smallText(),
   image: {
