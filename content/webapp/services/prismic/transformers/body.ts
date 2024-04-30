@@ -495,6 +495,7 @@ export function transformBody(body: Body): BodySlice[] {
           return transformSearchResultsSlice(slice);
 
         case 'quote':
+        case 'quoteV2':
           return transformQuoteSlice(slice);
 
         case 'iframe':
