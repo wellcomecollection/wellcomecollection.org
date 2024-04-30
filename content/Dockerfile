@@ -1,5 +1,5 @@
 # This image should be built with the parent directory as context
-FROM public.ecr.aws/docker/library/18-slim
+FROM public.ecr.aws/docker/library/node:18-slim
 
 WORKDIR /app
 
