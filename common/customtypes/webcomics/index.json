@@ -3,6 +3,7 @@
   "label": "Webcomic",
   "repeatable": true,
   "status": false,
+  "format": "custom",
   "json": {
     "Webcomic": {
       "title": {
@@ -32,6 +33,9 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
+            "embed": {
+              "type": "SharedSlice"
+            },
             "audioPlayer": {
               "type": "SharedSlice"
             },
@@ -109,8 +113,8 @@
     "Promo": {
       "promo": {
         "type": "Slices",
+        "fieldset": "Slice Zone",
         "config": {
-          "label": "Promo",
           "choices": {
             "editorialImage": {
               "type": "Slice",
@@ -196,6 +200,5 @@
         "type": "Timestamp"
       }
     }
-  },
-  "format": "custom"
+  }
 }

@@ -48,6 +48,7 @@ export type ArticleFormatsDocument<Lang extends string = string> =
   >;
 
 type ArticlesDocumentDataBodySlice =
+  | EmbedSlice
   | AudioPlayerSlice
   | TagListSlice
   | IframeSlice
@@ -5300,6 +5301,7 @@ export type WebcomicSeriesDocument<Lang extends string = string> =
   >;
 
 type WebcomicsDocumentDataBodySlice =
+  | EmbedSlice
   | AudioPlayerSlice
   | TagListSlice
   | IframeSlice
@@ -5347,11 +5349,11 @@ export interface WebcomicsDocumentDataContributorsItem {
 }
 
 /**
- * Primary content in *Webcomic → Promo → Editorial image → Primary*
+ * Primary content in *Webcomic → Slice Zone → Editorial image → Primary*
  */
 export interface WebcomicsDocumentDataPromoEditorialImageSlicePrimary {
   /**
-   * Promo text field in *Webcomic → Promo → Editorial image → Primary*
+   * Promo text field in *Webcomic → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -5361,7 +5363,7 @@ export interface WebcomicsDocumentDataPromoEditorialImageSlicePrimary {
   caption: prismic.RichTextField;
 
   /**
-   * Promo image field in *Webcomic → Promo → Editorial image → Primary*
+   * Promo image field in *Webcomic → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -5371,7 +5373,7 @@ export interface WebcomicsDocumentDataPromoEditorialImageSlicePrimary {
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
   /**
-   * Link override field in *Webcomic → Promo → Editorial image → Primary*
+   * Link override field in *Webcomic → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
@@ -5382,7 +5384,7 @@ export interface WebcomicsDocumentDataPromoEditorialImageSlicePrimary {
 }
 
 /**
- * Slice for *Webcomic → Promo*
+ * Slice for *Webcomic → Slice Zone*
  */
 export type WebcomicsDocumentDataPromoEditorialImageSlice = prismic.Slice<
   'editorialImage',
@@ -5477,7 +5479,7 @@ interface WebcomicsDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   contributorsTitle: prismic.TitleField /**
-   * Promo field in *Webcomic*
+   * Slice Zone field in *Webcomic*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
@@ -6146,6 +6148,31 @@ export type GifVideoSlice = prismic.SharedSlice<
 >;
 
 /**
+ * Primary content in *Iframe → Primary*
+ */
+export interface IframeSliceDefaultPrimary {
+  /**
+   * iframe src field in *Iframe → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: iframe src
+   * - **API ID Path**: iframe.primary.iframeSrc
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  iframeSrc: prismic.KeyTextField;
+
+  /**
+   * Preview image field in *Iframe → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: iframe.primary.previewImage
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  previewImage: prismic.ImageField<never>;
+}
+
+/**
  * Default variation for Iframe Slice
  *
  * - **API ID**: `default`
@@ -6154,7 +6181,7 @@ export type GifVideoSlice = prismic.SharedSlice<
  */
 export type IframeSliceDefault = prismic.SharedSliceVariation<
   'default',
-  Record<string, never>,
+  Simplify<IframeSliceDefaultPrimary>,
   never
 >;
 
@@ -6973,6 +7000,7 @@ declare module '@prismicio/client' {
       GifVideoSliceVariation,
       GifVideoSliceDefault,
       IframeSlice,
+      IframeSliceDefaultPrimary,
       IframeSliceVariation,
       IframeSliceDefault,
       InfoBlockSlice,
