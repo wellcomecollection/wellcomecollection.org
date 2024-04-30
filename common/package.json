@@ -17,6 +17,7 @@
     "@prismicio/react": "^2.7.3",
     "@segment/snippet": "^4.10.0",
     "@weco/toggles": "1.0.0",
+    "babel-plugin-styled-components": "^2.1.4",
     "cookies-next": "^4.1.1",
     "elastic-apm-node": "^3.21.1",
     "focus-trap-react": "^10.1.1",
