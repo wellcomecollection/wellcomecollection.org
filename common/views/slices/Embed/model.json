@@ -33,8 +33,10 @@
         "caption": {
           "type": "StructuredText",
           "config": {
-            "single": "hyperlink,em",
-            "label": "Caption"
+            "label": "Caption",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "single": "em,hyperlink,paragraph"
           }
         },
         "transcript": {

@@ -1,0 +1,172 @@
+{
+  "id": "exhibition-highlight-tours",
+  "label": "Exhibition highlight tour",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Guide": {
+      "title": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Title",
+          "single": "heading1",
+          "useAsTitle": true
+        }
+      },
+      "related-exhibition": {
+        "type": "Link",
+        "config": {
+          "label": "Related Exhibition",
+          "select": "document",
+          "customtypes": [
+            "exhibitions"
+          ]
+        }
+      },
+      "introText": {
+        "type": "StructuredText",
+        "config": {
+          "multi": "paragraph,hyperlink,strong,em",
+          "label": "Introductory text",
+          "placeholder": "This will fallback to the related exhibition's promo text if not filled in"
+        }
+      }
+    },
+    "Stops": {
+      "stops": {
+        "type": "Group",
+        "fieldset": "Stop",
+        "config": {
+          "fields": {
+            "title": {
+              "type": "StructuredText",
+              "config": {
+                "label": "Title",
+                "single": "heading1",
+                "useAsTitle": true
+              }
+            },
+            "number": {
+              "type": "Number",
+              "config": {
+                "label": "Stop number",
+                "placeholder": "Stop number for this content"
+              }
+            },
+            "audio-with-description": {
+              "type": "Link",
+              "config": {
+                "label": "Audio with description (.mp3 file)",
+                "select": "media",
+                "customtypes": []
+              }
+            },
+            "bsl-video": {
+              "type": "Embed",
+              "config": {
+                "label": "Embed (Youtube)"
+              }
+            },
+            "transcript": {
+              "type": "StructuredText",
+              "config": {
+                "multi": "paragraph,hyperlink,strong,em",
+                "label": "Transcript"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "format": "custom"
+}
+
+
+
+
+
+10:48
+{
+  "id": "exhibition-texts",
+  "label": "Exhibition text",
+  "repeatable": true,
+  "status": true,
+  "format": "custom",
+  "json": {
+    "Main": {
+      "title": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Title",
+          "single": "heading1",
+          "useAsTitle": true
+        }
+      },
+      "related-exhibition": {
+        "type": "Link",
+        "config": {
+          "label": "Related Exhibition",
+          "select": "document",
+          "customtypes": ["exhibitions"]
+        }
+      },
+      "introText": {
+        "type": "StructuredText",
+        "config": {
+          "multi": "paragraph,hyperlink,strong,em",
+          "label": "Introductory text",
+          "placeholder": "This will fallback to the related exhibition's promo text if not filled in"
+        }
+      }
+    },
+    "Components": {
+      "components": {
+        "type": "Group",
+        "fieldset": "Text Component",
+        "config": {
+          "fields": {
+            "standaloneTitle": {
+              "type": "StructuredText",
+              "config": {
+                "multi": "paragraph,hyperlink,strong,em",
+                "label": "Standalone title",
+                "placeholder": "Provides a group heading for following components"
+              }
+            },
+            "context": {
+              "type": "StructuredText",
+              "config": {
+                "multi": "paragraph,hyperlink,strong,em",
+                "label": "Context",
+                "placeholder": "Optional context for a group of components"
+              }
+            },
+            "title": {
+              "type": "StructuredText",
+              "config": {
+                "label": "Title",
+                "single": "heading1",
+                "useAsTitle": true
+              }
+            },
+            "tombstone": {
+              "type": "StructuredText",
+              "config": {
+                "multi": "paragraph,hyperlink,strong,em",
+                "label": "Tombstone"
+              }
+            },
+            "caption": {
+              "type": "StructuredText",
+              "config": {
+                "multi": "paragraph,hyperlink,strong,em",
+                "label": "Caption"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
