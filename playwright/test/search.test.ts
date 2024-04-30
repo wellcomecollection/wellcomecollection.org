@@ -6,8 +6,7 @@ import {
   selectAndWaitForFilter,
   testIfFilterIsApplied,
 } from './helpers/search';
-import { slowExpect } from './helpers/utils';
-import { baseUrl } from './helpers/urls';
+import { slowExpect, baseUrl } from './helpers/utils';
 
 test.describe.configure({ mode: 'parallel' });
 
