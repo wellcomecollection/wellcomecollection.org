@@ -1,6 +1,6 @@
 import * as prismic from '@prismicio/client';
 import { BrowserContext, Page, errors as playwrightErrors } from 'playwright';
-import { baseUrl, useStageApis } from './urls';
+import { baseUrl, useStageApis } from './utils';
 import { devices } from '@playwright/test';
 import { ArticlePrismicDocument } from '@weco/content/services/prismic/types/articles';
 
@@ -186,17 +186,9 @@ const newSearch = async (
     | 'stories'
     | 'events'
     | 'images'
-    | 'works' = 'overview',
-  behindToggle = false
+    | 'works' = 'overview'
 ): Promise<void> => {
-  if (behindToggle) {
-    await context.addCookies([
-      ...requiredCookies,
-      createCookie('toggle_eventsSearch'),
-    ]);
-  } else {
-    await context.addCookies([...requiredCookies]);
-  }
+  await context.addCookies([...requiredCookies]);
 
   const searchUrl = `search${
     searchType === 'overview' ? `` : `/${searchType}`
@@ -255,6 +247,19 @@ const visualStory = async (
   await gotoWithoutCache(`${baseUrl}/visual-stories/${id}`, page);
 };
 
+const whatsOn = async (context: BrowserContext, page: Page): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/whats-on`, page);
+};
+
+const mediaOffice = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/pages/WuxrKCIAAP9h3hmw`, page); // alias is /press but it doesn't work locally
+};
+
 const isMobile = (page: Page): boolean =>
   (page.viewportSize()?.width ?? 0) <= devices['iPhone 11'].viewport.width;
 
@@ -279,4 +284,6 @@ export {
   isMobile,
   event,
   visualStory,
+  whatsOn,
+  mediaOffice,
 };

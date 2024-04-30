@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { mediaOfficeUrl } from './helpers/urls';
-import { gotoWithoutCache } from './helpers/contexts';
+import { mediaOffice } from './helpers/contexts';
 
 test('(1) Media office page shows 16 most recent press releases', async ({
+  context,
   page,
 }) => {
-  await gotoWithoutCache(mediaOfficeUrl, page);
+  await mediaOffice(context, page);
   await expect(page.getByTestId('search-result')).toHaveCount(16);
 });

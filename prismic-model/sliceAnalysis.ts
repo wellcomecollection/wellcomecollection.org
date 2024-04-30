@@ -33,15 +33,11 @@ import {
 import fs from 'fs';
 import { success } from './console';
 
-const { label, type, printUrl, report } = yargs(process.argv.slice(2))
-  .usage(
-    'Usage: $0 --label [string] --type [string] --printUrl [boolean] --report [boolean]'
-  )
+const { type, report } = yargs(process.argv.slice(2))
+  .usage('Usage: $0  --type [string] --report [boolean]')
   .options({
-    label: { type: 'string' },
     type: { type: 'string' },
     report: { type: 'boolean' },
-    printUrl: { type: 'boolean' },
   })
   .parseSync();
 
@@ -52,7 +48,12 @@ async function main() {
   );
 
   const sliceCounter = new Map(sliceNames.map(sliceName => [sliceName, 0]));
-  const matches = [];
+  // Create list made of the content type where the slice is used
+  const contentTypeMatches = [];
+  // How often is the slice used in total on the website
+  let slicesMatches = 0;
+  // Get all the types where the slice is used
+  const contentTypes = [];
 
   const snapshotDir = await downloadPrismicSnapshot();
 
@@ -69,36 +70,62 @@ async function main() {
         ? result.data.body.some(slice => slice.slice_type === type)
         : true;
 
-      const isWithLabel: boolean = label
-        ? result.data.body.some(slice => slice.slice_label === label)
-        : true;
+      if (isWithType) {
+        // Find how often the slice is used within the content type
+        let nodeSliceCount = 0;
+        result.data.body
+          .map(slice => {
+            if (slice.slice_type === type) {
+              slicesMatches++;
+              nodeSliceCount++;
+              return slice.slice_label;
+            }
+            return undefined;
+          })
+          .filter(f => f);
 
-      if (isWithType && isWithLabel) {
-        matches.push({
+        contentTypes.push(result.type);
+
+        contentTypeMatches.push({
           id: result.id,
           type: result.type,
-          format: result.data.format?.slug,
           title: result.data.title[0].text,
-          ...(printUrl && {
-            url: `http://wellcomecollection.org/${result.type}/${result.id}`,
+          ...(type && {
+            sliceCount: nodeSliceCount,
           }),
+          url: `http://wellcomecollection.org/${result.type}/${result.id}`,
         });
       }
     }
   }
 
-  if (report) {
-    await fs.writeFile('./sliceReport.json', JSON.stringify(matches), err => {
-      if (err) console.log(err);
-      else {
-        success('File written successfully');
-      }
-    });
-    success('Reporting done!');
-  }
+  // Filter which content types the slices are used in to remove duplicates
+  const contentTFinal = contentTypes.filter(
+    (c, i) => contentTypes.indexOf(c) === i
+  );
 
+  // Array listing all the slices we have and their count
   const slicesArray = Array.from(sliceCounter.entries());
 
+  // Total count of all slices
+  let totalSlices = 0;
+  slicesArray.forEach(entry => {
+    totalSlices = totalSlices + entry[1];
+  });
+
+  if (report) {
+    await fs.writeFile(
+      './sliceReport.json',
+      JSON.stringify(contentTypeMatches),
+      err => {
+        if (err) console.log(err);
+        else {
+          success('File written successfully');
+        }
+      }
+    );
+    success('Reporting done!');
+  }
   console.info(`=== Slice count (${slicesArray.length}) ==`);
   slicesArray
     .sort((a, b) => a[1] - b[1])
@@ -107,8 +134,12 @@ async function main() {
     );
   console.info('');
 
-  console.info(matches);
-  console.info(`found ${matches.length}`);
+  console.info(contentTypeMatches);
+  console.info(
+    `found ${
+      slicesMatches ? slicesMatches + ' ' + type : totalSlices + ' slices'
+    } in ${contentTypeMatches.length} ${contentTFinal.join(', ')}`
+  );
 }
 
 main();

@@ -36,7 +36,10 @@ const useTransformedManifest = (
           work,
           'iiif-presentation'
         );
-        if (!iiifPresentationLocation) return;
+        if (!iiifPresentationLocation) {
+          setTransformedManifest(undefined);
+          return;
+        }
         manifestPromises.set(
           work.id,
           fetchIIIFPresentationManifest(iiifPresentationLocation.url)
