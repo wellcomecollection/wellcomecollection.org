@@ -1,0 +1,44 @@
+{
+  "id": "guide_section_heading",
+  "type": "SharedSlice",
+  "name": "GuideSectionHeading",
+  "description": "GuideSectionHeading",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "number": {
+          "type": "Number",
+          "config": {
+            "label": "Stop number",
+            "placeholder": "Add the stop number if the content is related to a particular stop"
+          }
+        },
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "placeholder": "Provides a section heading for related exhibition items",
+            "allowTargetBlank": true,
+            "multi": "heading2"
+          }
+        },
+        "context": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Context",
+            "placeholder": "Optional context for a group of related items",
+            "allowTargetBlank": false,
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}
