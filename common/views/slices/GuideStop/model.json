@@ -1,0 +1,59 @@
+{
+  "id": "guide_stop",
+  "type": "SharedSlice",
+  "name": "GuideStop",
+  "description": "GuideStop",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "number": {
+          "type": "Number",
+          "config": {
+            "label": "Stop number",
+            "placeholder": "Stop number for this content"
+          }
+        },
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "placeholder": "",
+            "allowTargetBlank": false,
+            "multi": "heading2"
+          }
+        },
+        "audio_with_description": {
+          "type": "Link",
+          "config": {
+            "label": "Audio with description (.mp3 file)",
+            "placeholder": "",
+            "select": "media"
+          }
+        },
+        "bsl_video": {
+          "type": "Embed",
+          "config": {
+            "label": "BSL video (Youtube)",
+            "placeholder": ""
+          }
+        },
+        "transcript": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Transcript",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}
