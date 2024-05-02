@@ -4,7 +4,13 @@ import { ChoiceBody, ContentResource } from '@iiif/presentation-3';
 import { CustomContentResource } from '@weco/content/types/manifest';
 
 type Props = {
-  video: (ContentResource | CustomContentResource | ChoiceBody) & {
+  video: (
+    | (Omit<ContentResource, 'type'> & {
+        type: ContentResource['type'] | 'Audio';
+      })
+    | CustomContentResource
+    | ChoiceBody
+  ) & {
     format?: string;
   };
   placeholderId: string | undefined;
