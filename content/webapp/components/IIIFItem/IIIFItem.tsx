@@ -55,10 +55,15 @@ const Choice: FunctionComponent<
 
 type ItemProps = {
   canvas: TransformedCanvas;
-  item: ContentResource | CustomContentResource | ChoiceBody;
+  item:
+    | (Omit<ContentResource, 'type'> & {
+        type: ContentResource['type'] | 'Audio';
+      })
+    | CustomContentResource
+    | ChoiceBody;
   placeholderId: string | undefined;
   i: number;
-  exclude: (ContentResource['type'] | ChoiceBody['type'])[]; // allows us to exclude certain types from being rendered
+  exclude: (ContentResource['type'] | 'Audio' | ChoiceBody['type'])[]; // allows us to exclude certain types from being rendered
 };
 
 // This component will be useful for the IIIFViewer if we want to make that render video, audio, pdfs and Born Digital files in addition to images.
