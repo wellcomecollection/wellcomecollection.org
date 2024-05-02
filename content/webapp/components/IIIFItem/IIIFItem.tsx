@@ -89,8 +89,8 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           exclude={exclude}
         />
       );
-    case (item.type === 'Sound' && !exclude.includes('Sound')) ||
-      (item.type === 'Audio' && !exclude.includes('Audio') && Boolean(item.id)):
+    case ((item.type === 'Sound' && !exclude.includes('Sound')) ||
+      (item.type === 'Audio' && !exclude.includes('Audio'))) && Boolean(item.id):
       return (
         <AudioPlayer
           audioFile={item.id || ''}
