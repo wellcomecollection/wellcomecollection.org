@@ -24,7 +24,7 @@
       "shortTitle": {
         "type": "StructuredText",
         "config": {
-          "single": "paragraph",
+          "single": "paragraph,heading1",
           "label": "Short title",
           "placeholder": "Replaces title in breadcrumbs. Useful if title is very long, should otherwise be left empty."
         }
