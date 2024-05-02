@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "migrate": "ts-node migrate",
     "contentAnalysis": "ts-node contentAnalysis",
     "sliceAnalysis": "ts-node sliceAnalysis",
     "deployType": "ts-node deployType",
