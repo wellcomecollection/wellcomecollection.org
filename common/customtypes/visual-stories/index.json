@@ -3,6 +3,7 @@
   "label": "Visual story",
   "repeatable": true,
   "status": true,
+  "format": "custom",
   "json": {
     "Main": {
       "title": {
@@ -35,166 +36,30 @@
         }
       },
       "body": {
-        "fieldset": "Slice zone",
         "type": "Slices",
+        "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "standfirst": {
-              "type": "Slice",
-              "fieldset": "Standfirst",
-              "non-repeat": {
-                "text": {
-                  "type": "StructuredText",
-                  "config": {
-                    "single": "strong,em,hyperlink",
-                    "label": "Standfirst"
-                  }
-                }
-              }
-            },
-            "contact": {
-              "type": "Slice",
-              "fieldset": "Contact",
-              "non-repeat": {
-                "content": {
-                  "type": "Link",
-                  "config": {
-                    "label": "Content item",
-                    "select": "document",
-                    "customtypes": ["teams"]
-                  }
-                }
-              }
-            },
-            "text": {
-              "type": "Slice",
-              "fieldset": "Text",
-              "non-repeat": {
-                "text": {
-                  "type": "StructuredText",
-                  "config": {
-                    "multi": "heading2,heading3,paragraph,strong,em,hyperlink,list-item,embed",
-                    "label": "Text"
-                  }
-                }
-              }
-            },
-            "editorialImage": {
-              "type": "Slice",
-              "fieldset": "Captioned image",
-              "non-repeat": {
-                "image": {
-                  "type": "Image",
-                  "config": {
-                    "label": "Image",
-                    "thumbnails": [
-                      {
-                        "name": "32:15",
-                        "width": 3200,
-                        "height": 1500
-                      },
-                      {
-                        "name": "16:9",
-                        "width": 3200,
-                        "height": 1800
-                      },
-                      {
-                        "name": "square",
-                        "width": 3200,
-                        "height": 3200
-                      }
-                    ]
-                  }
-                },
-                "caption": {
-                  "type": "StructuredText",
-                  "config": {
-                    "multi": "paragraph,hyperlink,strong,em",
-                    "label": "Caption"
-                  }
-                },
-                "hasRoundedCorners": {
-                  "type": "Boolean",
-                  "config": {
-                    "default_value": false,
-                    "label": "round image corners"
-                  }
-                }
-              }
-            },
-            "embed": {
-              "type": "Slice",
-              "description": "Youtube, SoundCloud, etc.",
-              "fieldset": "Embed",
-              "non-repeat": {
-                "embed": {
-                  "type": "Embed",
-                  "fieldset": "Embed"
-                },
-                "caption": {
-                  "type": "StructuredText",
-                  "config": {
-                    "single": "hyperlink,em",
-                    "label": "Caption"
-                  }
-                },
-                "transcript": {
-                  "type": "StructuredText",
-                  "config": {
-                    "multi": "heading2,heading3,paragraph,strong",
-                    "label": "Transcript (Collapsible content)"
-                  }
-                }
-              }
+            "textAndIcons": {
+              "type": "SharedSlice"
             },
             "textAndImage": {
-              "type": "Slice",
-              "fieldset": "Text and image",
-              "description": "Side-by-side",
-              "non-repeat": {
-                "text": {
-                  "type": "StructuredText",
-                  "config": {
-                    "multi": "paragrapch,hyperlink,strong,em,heading3,list-item",
-                    "label": "Text"
-                  }
-                },
-                "image": {
-                  "type": "Image",
-                  "config": {
-                    "label": "Image"
-                  }
-                },
-                "isZoomable": {
-                  "type": "Boolean",
-                  "config": {
-                    "default_value": false,
-                    "label": "Allow image to be zoomed to fill viewport?"
-                  }
-                }
-              }
+              "type": "SharedSlice"
             },
-            "textAndIcons": {
-              "type": "Slice",
-              "fieldset": "Text and icons",
-              "description": "Side-by-side",
-              "non-repeat": {
-                "text": {
-                  "type": "StructuredText",
-                  "config": {
-                    "multi": "paragraph,hyperlink,strong,em,heading3,list-item",
-                    "label": "Text"
-                  }
-                }
-              },
-              "repeat": {
-                "icon": {
-                  "type": "Image",
-                  "config": {
-                    "label": "Icon (will display at 100px wide)"
-                  }
-                }
-              }
+            "embed": {
+              "type": "SharedSlice"
+            },
+            "editorialImage": {
+              "type": "SharedSlice"
+            },
+            "text": {
+              "type": "SharedSlice"
+            },
+            "contact": {
+              "type": "SharedSlice"
+            },
+            "standfirst": {
+              "type": "SharedSlice"
             }
           }
         }
@@ -203,8 +68,8 @@
     "Promo": {
       "promo": {
         "type": "Slices",
+        "fieldset": "Slice Zone",
         "config": {
-          "label": "Promo",
           "choices": {
             "editorialImage": {
               "type": "Slice",
@@ -255,6 +120,5 @@
         }
       }
     }
-  },
-  "format": "custom"
+  }
 }

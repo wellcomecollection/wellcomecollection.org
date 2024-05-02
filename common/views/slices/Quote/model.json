@@ -1,9 +1,32 @@
-
 {
   "id": "quote",
   "type": "SharedSlice",
   "name": "Quote",
   "description": "Quote",
+  "legacyPaths": {
+    "articles::body::quote": "default",
+    "event-series::body::quote": "default",
+    "events::body::quote": "default",
+    "exhibitions::body::quote": "default",
+    "guides::body::quote": "default",
+    "pages::body::quote": "default",
+    "places::body::quote": "default",
+    "projects::body::quote": "default",
+    "seasons::body::quote": "default",
+    "series::body::quote": "default",
+    "webcomics::body::quote": "default",
+    "articles::body::quoteV2": "default",
+    "event-series::body::quoteV2": "default",
+    "events::body::quoteV2": "default",
+    "exhibitions::body::quoteV2": "default",
+    "guides::body::quoteV2": "default",
+    "pages::body::quoteV2": "default",
+    "places::body::quoteV2": "default",
+    "projects::body::quoteV2": "default",
+    "seasons::body::quoteV2": "default",
+    "series::body::quoteV2": "default",
+    "webcomics::body::quoteV2": "default"
+  },
   "variations": [
     {
       "id": "default",
@@ -27,6 +50,15 @@
             "placeholder": "",
             "allowTargetBlank": false,
             "single": "paragraph,strong,em,hyperlink"
+          }
+        },
+        "isPullOrReview": {
+          "type": "Boolean",
+          "config": {
+            "label": "pull/review quote",
+            "default_value": false,
+            "placeholder_true": "true",
+            "placeholder_false": "false"
           }
         }
       },

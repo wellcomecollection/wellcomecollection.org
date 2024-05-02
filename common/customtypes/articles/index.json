@@ -27,331 +27,38 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "audio_player": {
+            "embed": {
+              "type": "SharedSlice"
+            },
+            "audioPlayer": {
+              "type": "SharedSlice"
+            },
+            "tagList": {
+              "type": "SharedSlice"
+            },
+            "iframe": {
+              "type": "SharedSlice"
+            },
+            "editorialImageGallery": {
+              "type": "SharedSlice"
+            },
+            "editorialImage": {
+              "type": "SharedSlice"
+            },
+            "gifVideo": {
               "type": "SharedSlice"
             },
             "text": {
-              "type": "Slice",
-              "fieldset": "Text",
-              "non-repeat": {
-                "text": {
-                  "type": "StructuredText",
-                  "config": {
-                    "multi": "heading2,heading3,paragraph,strong,em,hyperlink,list-item,embed",
-                    "label": "Text"
-                  }
-                }
-              }
-            },
-            "editorialImage": {
-              "type": "Slice",
-              "fieldset": "Captioned image",
-              "non-repeat": {
-                "image": {
-                  "type": "Image",
-                  "config": {
-                    "label": "Image",
-                    "thumbnails": [
-                      {
-                        "name": "32:15",
-                        "width": 3200,
-                        "height": 1500
-                      },
-                      {
-                        "name": "16:9",
-                        "width": 3200,
-                        "height": 1800
-                      },
-                      {
-                        "name": "square",
-                        "width": 3200,
-                        "height": 3200
-                      }
-                    ]
-                  }
-                },
-                "caption": {
-                  "type": "StructuredText",
-                  "config": {
-                    "multi": "paragraph,hyperlink,strong,em",
-                    "label": "Caption"
-                  }
-                },
-                "hasRoundedCorners": {
-                  "type": "Boolean",
-                  "config": {
-                    "default_value": false,
-                    "label": "round image corners"
-                  }
-                }
-              }
-            },
-            "editorialImageGallery": {
-              "type": "Slice",
-              "fieldset": "Image gallery",
-              "non-repeat": {
-                "title": {
-                  "type": "StructuredText",
-                  "config": {
-                    "label": "Title",
-                    "single": "heading1",
-                    "useAsTitle": true
-                  }
-                }
-              },
-              "repeat": {
-                "image": {
-                  "type": "Image",
-                  "config": {
-                    "label": "Image",
-                    "thumbnails": [
-                      {
-                        "name": "32:15",
-                        "width": 3200,
-                        "height": 1500
-                      },
-                      {
-                        "name": "16:9",
-                        "width": 3200,
-                        "height": 1800
-                      },
-                      {
-                        "name": "square",
-                        "width": 3200,
-                        "height": 3200
-                      }
-                    ]
-                  }
-                },
-                "caption": {
-                  "type": "StructuredText",
-                  "config": {
-                    "multi": "paragraph,hyperlink,strong,em",
-                    "label": "Caption"
-                  }
-                },
-                "hasRoundedCorners": {
-                  "type": "Boolean",
-                  "config": {
-                    "default_value": false,
-                    "label": "round image corners"
-                  }
-                }
-              }
-            },
-            "gifVideo": {
-              "type": "Slice",
-              "fieldset": "Gif video",
-              "non-repeat": {
-                "caption": {
-                  "type": "StructuredText",
-                  "config": {
-                    "single": "paragraph,hyperlink,strong,em",
-                    "label": "Caption"
-                  }
-                },
-                "tasl": {
-                  "type": "Text",
-                  "config": {
-                    "label": "TASL",
-                    "placeholder": "title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink"
-                  }
-                },
-                "video": {
-                  "type": "Link",
-                  "config": {
-                    "label": "Video",
-                    "select": "media",
-                    "customtypes": [],
-                    "placeholder": "Video"
-                  }
-                },
-                "playbackRate": {
-                  "type": "Select",
-                  "config": {
-                    "label": "Playback rate",
-                    "options": [
-                      "0.1",
-                      "0.25",
-                      "0.5",
-                      "0.75",
-                      "1",
-                      "1.25",
-                      "1.5",
-                      "1.75",
-                      "2"
-                    ]
-                  }
-                },
-                "autoPlay": {
-                  "type": "Boolean",
-                  "config": {
-                    "default_value": true,
-                    "label": "Auto play"
-                  }
-                },
-                "loop": {
-                  "type": "Boolean",
-                  "config": {
-                    "default_value": true,
-                    "label": "Loop video"
-                  }
-                },
-                "mute": {
-                  "type": "Boolean",
-                  "config": {
-                    "default_value": true,
-                    "label": "Mute video"
-                  }
-                },
-                "showControls": {
-                  "type": "Boolean",
-                  "config": {
-                    "default_value": false,
-                    "label": "Show controls"
-                  }
-                }
-              }
-            },
-            "iframe": {
-              "type": "Slice",
-              "fieldset": "Iframe",
-              "non-repeat": {
-                "iframeSrc": {
-                  "type": "Text",
-                  "config": {
-                    "label": "iframe src",
-                    "placeholder": "iframe src"
-                  }
-                },
-                "previewImage": {
-                  "type": "Image",
-                  "config": {
-                    "label": "Preview image"
-                  }
-                }
-              }
-            },
-            "infoBlock": {
-              "type": "Slice",
-              "fieldset": "Info block",
-              "non-repeat": {
-                "title": {
-                  "type": "StructuredText",
-                  "config": {
-                    "single": "heading2",
-                    "label": "Title"
-                  }
-                },
-                "text": {
-                  "type": "StructuredText",
-                  "config": {
-                    "multi": "paragraph,hyperlink,strong,em,heading3,list-item",
-                    "label": "Text"
-                  }
-                },
-                "link": {
-                  "type": "Link",
-                  "config": {
-                    "label": "Button link",
-                    "select": "web",
-                    "customtypes": []
-                  }
-                },
-                "linkText": {
-                  "type": "Text",
-                  "config": {
-                    "label": "Button text"
-                  }
-                }
-              }
+              "type": "SharedSlice"
             },
             "standfirst": {
-              "type": "Slice",
-              "fieldset": "Standfirst",
-              "non-repeat": {
-                "text": {
-                  "type": "StructuredText",
-                  "config": {
-                    "single": "strong,em,hyperlink",
-                    "label": "Standfirst"
-                  }
-                }
-              }
+              "type": "SharedSlice"
             },
-            "quoteV2": {
-              "type": "Slice",
-              "fieldset": "Quote",
-              "non-repeat": {
-                "text": {
-                  "type": "StructuredText",
-                  "config": {
-                    "multi": "paragraph,hyperlink,strong,em",
-                    "label": "Quote"
-                  }
-                },
-                "citation": {
-                  "type": "StructuredText",
-                  "config": {
-                    "single": "paragraph,hyperlink,strong,em",
-                    "label": "Citation"
-                  }
-                }
-              }
+            "infoBlock": {
+              "type": "SharedSlice"
             },
-            "embed": {
-              "type": "Slice",
-              "description": "Youtube, SoundCloud, etc.",
-              "fieldset": "Embed",
-              "non-repeat": {
-                "embed": {
-                  "type": "Embed",
-                  "fieldset": "Embed"
-                },
-                "caption": {
-                  "type": "StructuredText",
-                  "config": {
-                    "single": "hyperlink,em",
-                    "label": "Caption"
-                  }
-                },
-                "transcript": {
-                  "type": "StructuredText",
-                  "config": {
-                    "multi": "heading2,heading3,paragraph,strong",
-                    "label": "Transcript (Collapsible content)"
-                  }
-                }
-              }
-            },
-            "tagList": {
-              "type": "Slice",
-              "fieldset": "Tag List",
-              "non-repeat": {
-                "title": {
-                  "type": "StructuredText",
-                  "config": {
-                    "single": "heading2",
-                    "label": "Title"
-                  }
-                }
-              },
-              "repeat": {
-                "link": {
-                  "type": "Link",
-                  "config": {
-                    "label": "Link",
-                    "select": "web",
-                    "customtypes": []
-                  }
-                },
-                "linkText": {
-                  "type": "Text",
-                  "config": {
-                    "label": "Link text"
-                  }
-                }
-              }
+            "quote": {
+              "type": "SharedSlice"
             }
           }
         }
