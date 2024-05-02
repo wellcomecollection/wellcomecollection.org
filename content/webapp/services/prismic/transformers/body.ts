@@ -298,7 +298,7 @@ export function transformQuoteSlice(
       isPullOrReview:
         slice.primary.isPullOrReview ||
         slice.slice_label === 'pull' ||
-        slice.slice_label === 'review',
+        slice.slice_label === 'review', // TODO: tidy after migration
     },
   };
 }
