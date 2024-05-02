@@ -55,6 +55,8 @@ const Choice: FunctionComponent<
 
 type ItemProps = {
   canvas: TransformedCanvas;
+  // Some of our ContentResources can have a type of 'Audio':
+  // https://iiif.wellcomecollection.org/presentation/v3/b17276342
   item:
     | (Omit<ContentResource, 'type'> & {
         type: ContentResource['type'] | 'Audio';
@@ -90,7 +92,8 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         />
       );
     case ((item.type === 'Sound' && !exclude.includes('Sound')) ||
-      (item.type === 'Audio' && !exclude.includes('Audio'))) && Boolean(item.id):
+      (item.type === 'Audio' && !exclude.includes('Audio'))) &&
+      Boolean(item.id):
       return (
         <AudioPlayer
           audioFile={item.id || ''}
