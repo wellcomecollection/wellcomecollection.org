@@ -495,7 +495,7 @@ export function transformBody(body: Body): BodySlice[] {
           return transformSearchResultsSlice(slice);
 
         case 'quote':
-        case 'quoteV2':
+        case 'quoteV2': // TODO: remove this after migration
           return transformQuoteSlice(slice);
 
         case 'iframe':
