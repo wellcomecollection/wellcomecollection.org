@@ -29,51 +29,17 @@
           "label": "Introductory text",
           "placeholder": "This will fallback to the related exhibition's promo text if not filled in"
         }
-      }
-    },
-    "Components": {
-      "components": {
-        "type": "Group",
-        "fieldset": "Text Component",
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
         "config": {
-          "fields": {
-            "standaloneTitle": {
-              "type": "StructuredText",
-              "config": {
-                "multi": "paragraph,hyperlink,strong,em",
-                "label": "Standalone title",
-                "placeholder": "Provides a group heading for following components"
-              }
+          "choices": {
+            "guide_section_heading": {
+              "type": "SharedSlice"
             },
-            "context": {
-              "type": "StructuredText",
-              "config": {
-                "multi": "paragraph,hyperlink,strong,em",
-                "label": "Context",
-                "placeholder": "Optional context for a group of components"
-              }
-            },
-            "title": {
-              "type": "StructuredText",
-              "config": {
-                "label": "Title",
-                "single": "heading1",
-                "useAsTitle": true
-              }
-            },
-            "tombstone": {
-              "type": "StructuredText",
-              "config": {
-                "multi": "paragraph,hyperlink,strong,em",
-                "label": "Tombstone"
-              }
-            },
-            "caption": {
-              "type": "StructuredText",
-              "config": {
-                "multi": "paragraph,hyperlink,strong,em",
-                "label": "Caption"
-              }
+            "guide_text_item": {
+              "type": "SharedSlice"
             }
           }
         }
