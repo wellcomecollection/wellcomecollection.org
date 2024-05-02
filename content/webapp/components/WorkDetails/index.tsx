@@ -150,7 +150,8 @@ const WorkDetails: FunctionComponent<Props> = ({
 
   const holdings = getHoldings(work);
   const hasVideo = hasItemType(canvases, 'Video');
-  const hasSound = hasItemType(canvases, 'Sound');
+  const hasSound =
+    hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
 
   const showAvailableOnlineSection =
     (digitalLocation && shouldShowItemLink) || hasVideo || hasSound;

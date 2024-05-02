@@ -1,30 +1,16 @@
-import styled from 'styled-components';
-import { chevron } from '@weco/common/icons';
-import { font, classNames } from '@weco/common/utils/classnames';
-import WorkTitle from '../WorkTitle/WorkTitle';
-import WorkLink from '../WorkLink';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import {
   ListProps,
   UiTree,
   UiTreeNode,
   getTabbableIds,
   updateChildren,
+  getAriaLabel,
 } from './ArchiveTree.helpers';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
 import { FunctionComponent, useContext } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import NestedList from './ArchiveTree.NestedList';
-import { StyledLink, TreeControl, TreeItem } from './ArchiveTree.styles';
-
-const RefNumber = styled.span.attrs({
-  className: font('intr', 6),
-})`
-  line-height: 1;
-  display: block;
-  color: ${props => props.theme.color('neutral.600')};
-  text-decoration: none;
-`;
+import { TreeItem } from './ArchiveTree.styles';
 
 const LEFT = [37, 'ArrowLeft'];
 const RIGHT = [39, 'ArrowRight'];
@@ -116,15 +102,33 @@ async function expandTree({
 }
 
 type ListItemProps = ListProps & {
-  item: UiTreeNode;
   setSize: number;
   posInSet: number;
+  index: number;
 };
 
+function getTabIndex({
+  isEnhanced,
+  isSelected,
+  level,
+  index,
+  firstItemTabbable,
+}): 0 | -1 | undefined {
+  if (isEnhanced) {
+    if (firstItemTabbable && level === 1 && index === 0) {
+      return 0;
+    } else {
+      return isSelected ? 0 : -1;
+    }
+  } else {
+    return undefined;
+  }
+}
+
 const ListItem: FunctionComponent<ListItemProps> = ({
+  index,
   item,
   currentWorkId,
-  selected,
   setArchiveTree,
   fullTree,
   level,
@@ -132,11 +136,13 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   posInSet,
   tabbableId,
   setTabbableId,
-  setShowArchiveTree,
   archiveAncestorArray,
+  firstItemTabbable,
+  showFirstLevelGuideline,
+  ItemRenderer,
 }: ListItemProps) => {
   const { isEnhanced } = useContext(AppContext);
-  const isEndNode = item.children && item.children.length === 0;
+  const isEndNode = item.work.totalParts === 0;
   const isSelected =
     (tabbableId && tabbableId === item.work.id) ||
     (!tabbableId && currentWorkId === item.work.id);
@@ -147,14 +153,19 @@ const ListItem: FunctionComponent<ListItemProps> = ({
     ? 'primary'
     : descendentIsSelected
     ? 'secondary'
-    : '';
+    : undefined;
 
   const hasControl = Boolean(
     item?.work?.totalParts && item?.work?.totalParts > 0
   );
 
+  const showGuideline =
+    isEnhanced &&
+    hasControl &&
+    item.openStatus &&
+    (level > 1 || showFirstLevelGuideline);
+
   function toggleBranch() {
-    // TODO use new API totalParts data when available
     if (item.children === undefined) {
       expandTree({
         item,
@@ -177,7 +188,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       id={item.work.id}
       role={isEnhanced ? 'treeitem' : undefined}
       $isEnhanced={isEnhanced}
-      $showGuideline={isEnhanced && hasControl && item.openStatus && level > 1}
+      $showGuideline={showGuideline}
       aria-level={isEnhanced ? level : undefined}
       aria-setsize={isEnhanced ? setSize : undefined}
       aria-posinset={isEnhanced ? posInSet : undefined}
@@ -188,17 +199,15 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             : undefined
           : undefined
       }
-      aria-label={
-        isEnhanced
-          ? `${item.work.title}${
-              item.work.referenceNumber
-                ? `, reference number ${item.work.referenceNumber}`
-                : ''
-            }`
-          : undefined
-      }
+      aria-label={isEnhanced ? getAriaLabel(item) : undefined}
       aria-selected={isEnhanced ? isSelected : undefined}
-      tabIndex={isEnhanced ? (isSelected ? 0 : -1) : undefined}
+      tabIndex={getTabIndex({
+        isEnhanced,
+        isSelected,
+        level,
+        index,
+        firstItemTabbable,
+      })}
       onKeyDown={event => {
         event.stopPropagation();
         const key = event.key || event.keyCode;
@@ -227,7 +236,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             }
 
             // When focus is on an end node, does nothing.
-            if (item.children && item.children.length === 0) {
+            if (item.work.totalParts && item.work.totalParts === 0) {
               return;
             }
 
@@ -240,8 +249,11 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           }
           case LEFT.includes(key): {
             // When focus is on an open node, closes the node.
-            if (item.openStatus && item.children && item.children.length > 0) {
-              // TODO remove when API updated with totalDescendentParts
+            if (
+              item.openStatus &&
+              item.work.totalParts &&
+              item.work.totalParts > 0
+            ) {
               setArchiveTree(
                 updateOpenStatus({
                   id: item.work.id,
@@ -253,11 +265,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             }
             // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
             // When focus is on a root node that is also either an end node or a closed node, does nothing.
-            if (
-              isEndNode ||
-              !item.openStatus ||
-              (item.children && item.children.length === 0) // TODO remove when API updated
-            ) {
+            if (isEndNode || !item.openStatus) {
               if (item.parentId) {
                 setTabbableId(item.parentId);
               }
@@ -288,54 +296,31 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         }
       }}
     >
-      <div style={{ display: 'inline-flex' }}>
-        {isEnhanced && level > 1 && hasControl && (
-          <TreeControl
-            data-gtm-trigger="tree_chevron"
-            $highlightCondition={highlightCondition}
-          >
-            <Icon rotate={item.openStatus ? undefined : 270} icon={chevron} />
-          </TreeControl>
-        )}
-        <WorkLink
-          id={item.work.id}
-          source="archive_tree"
-          scroll={false}
-          passHref
-        >
-          <StyledLink
-            className={classNames({
-              [font('intb', 6)]: level === 1,
-              [font('intr', 6)]: level > 1,
-            })}
-            tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
-            ref={currentWorkId === item.work.id ? selected : undefined}
-            $isCurrent={currentWorkId === item.work.id}
-            $hasControl={hasControl}
-            data-gtm-trigger="tree_link"
-            data-gtm-data-tree-level={level}
-            onClick={event => {
-              event.stopPropagation();
-              setShowArchiveTree(false);
-            }}
-          >
-            <WorkTitle title={item.work.title} />
-            <RefNumber>{item.work.referenceNumber}</RefNumber>
-          </StyledLink>
-        </WorkLink>
-      </div>
+      {ItemRenderer && (
+        <ItemRenderer
+          currentWorkId={currentWorkId}
+          item={item}
+          isEnhanced={isEnhanced}
+          level={level}
+          showFirstLevelGuideline={showFirstLevelGuideline}
+          hasControl={hasControl}
+          highlightCondition={highlightCondition}
+        />
+      )}
+
       {item.children && item.openStatus && (
         <NestedList
-          selected={selected}
           currentWorkId={currentWorkId}
           archiveTree={item.children}
           fullTree={fullTree}
-          setArchiveTree={setArchiveTree}
           level={level + 1}
           tabbableId={tabbableId}
           setTabbableId={setTabbableId}
-          setShowArchiveTree={setShowArchiveTree}
           archiveAncestorArray={archiveAncestorArray}
+          setArchiveTree={setArchiveTree}
+          firstItemTabbable={firstItemTabbable}
+          showFirstLevelGuideline={showFirstLevelGuideline}
+          ItemRenderer={ItemRenderer}
         />
       )}
     </TreeItem>

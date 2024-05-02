@@ -315,7 +315,11 @@ export const getServerSideProps: GetServerSideProps<
   });
 
   if (images.type === 'Error') {
-    return appError(context, images.httpStatus, 'Images API error');
+    return appError(
+      context,
+      images.httpStatus,
+      images.description || images.label || 'Images API error'
+    );
   }
 
   return {

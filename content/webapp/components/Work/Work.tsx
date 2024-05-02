@@ -43,6 +43,7 @@ const WorkDetailsWrapper = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-top'] },
 })`
   flex: 1;
+  min-width: 0; /* prevent item overflowing its container */
 `;
 
 export const Grid = styled.div.attrs({
@@ -63,7 +64,8 @@ function showItemLink({
   // This is usually the case, except for manifests with 'Born digital' items.
   // When we have born digital items, we show links to all the items on the work page instead of the players/view button, so it shouldn't matter.
   const hasVideo = hasItemType(canvases, 'Video');
-  const hasSound = hasItemType(canvases, 'Sound');
+  const hasSound =
+    hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
   if (accessCondition === 'closed' || accessCondition === 'restricted') {
     return false;
   } else if (digitalLocation && !hasVideo && !hasSound) {
