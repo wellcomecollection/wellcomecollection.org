@@ -35,6 +35,7 @@ const WebsiteIssuesBanner: FunctionComponent<Props> = ({
     setCookie(cookieName, 'true', {
       path: '/',
       expires: nowPlusFour,
+      secure: true,
     });
 
     setIsVisible(false);

@@ -43,6 +43,7 @@ const InfoBanner: FunctionComponent<Props> = ({
       expires: isSingleSessionCookie
         ? undefined
         : new Date('2036-12-31T23:59:59Z'),
+      secure: true,
     });
 
     setIsVisible(false);
