@@ -73,8 +73,8 @@ const PhysicalItems: FunctionComponent<Props> = ({
   const [itemsState, setItemsState] = useItemsState(workItems);
 
   useEffect(() => {
-    setPhysicalItems(workItems);
-  }, [workItems]);
+    setPhysicalItems(physicalItems);
+  }, [physicalItems]);
 
   useAbortSignalEffect(
     signal => {

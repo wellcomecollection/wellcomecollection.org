@@ -149,6 +149,7 @@ export type Item<LocationType> = {
   locations: LocationType[];
   type: 'Item';
   note?: string;
+  availableDates?: AvailabilitySlot[];
 };
 
 export type PhysicalItem = Item<PhysicalLocation> & {
@@ -157,6 +158,11 @@ export type PhysicalItem = Item<PhysicalLocation> & {
     label: string;
     type: string;
   };
+};
+
+export type AvailabilitySlot = {
+  from: string;
+  to: string;
 };
 
 type Date = {

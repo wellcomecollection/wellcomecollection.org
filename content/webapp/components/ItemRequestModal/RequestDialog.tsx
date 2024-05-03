@@ -5,6 +5,7 @@ import { allowedRequests } from '@weco/common/values/requests';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
+import NewRequestingDayPicker from '../RequestingDayPicker/NewRequestingDayPicker';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import {
   PhysicalItem,
@@ -14,6 +15,7 @@ import styled from 'styled-components';
 import { CTAs, CurrentRequests, Header } from './common';
 import { themeValues } from '@weco/common/views/themes/config';
 import { dateAsValue, dateFromValue } from './format-date';
+import { useToggles } from '@weco/common/server-data/Context';
 
 const PickUpDate = styled(Space).attrs({
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
@@ -77,6 +79,8 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
   setIsActive,
   currentHoldNumber,
 }) => {
+  const { offsiteRequesting } = useToggles();
+
   const availableDates = useAvailableDates();
   const [pickUpDate, setPickUpDate] = useState<string | undefined>(
     availableDates.nextAvailable && dateAsValue(availableDates.nextAvailable)
@@ -140,14 +144,25 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
             </PickupDeadline>
           </PickUpDateDescription>
           <PickUpDateInputWrapper>
-            <RequestingDayPicker
-              startDate={availableDates.nextAvailable}
-              endDate={availableDates.lastAvailable}
-              exceptionalClosedDates={availableDates.exceptionalClosedDates}
-              regularClosedDays={availableDates.regularClosedDays}
-              pickUpDate={pickUpDate}
-              setPickUpDate={setPickUpDate}
-            />
+            <>
+              {offsiteRequesting && (
+                <NewRequestingDayPicker
+                  availableDates={item?.availableDates || []}
+                  pickUpDate={pickUpDate}
+                  setPickUpDate={setPickUpDate}
+                />
+              )}
+              {!offsiteRequesting && (
+                <RequestingDayPicker
+                  startDate={availableDates.nextAvailable}
+                  endDate={availableDates.lastAvailable}
+                  exceptionalClosedDates={availableDates.exceptionalClosedDates}
+                  regularClosedDays={availableDates.regularClosedDays}
+                  pickUpDate={pickUpDate}
+                  setPickUpDate={setPickUpDate}
+                />
+              )}
+            </>
           </PickUpDateInputWrapper>
         </PickUpDate>
       </Space>
