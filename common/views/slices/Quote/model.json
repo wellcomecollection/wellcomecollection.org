@@ -5,6 +5,7 @@
   "description": "Quote",
   "legacyPaths": {
     "articles::body::quote": "default",
+    "books::body::quote": "default",
     "event-series::body::quote": "default",
     "events::body::quote": "default",
     "exhibitions::body::quote": "default",
@@ -16,6 +17,7 @@
     "series::body::quote": "default",
     "webcomics::body::quote": "default",
     "articles::body::quoteV2": "default",
+    "books::body::quoteV2": "default",
     "event-series::body::quoteV2": "default",
     "events::body::quoteV2": "default",
     "exhibitions::body::quoteV2": "default",

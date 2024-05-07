@@ -5,6 +5,7 @@
   "name": "TextAndImage",
   "description": "Text and image (side-by-side)",
   "legacyPaths": {
+    "books::body::textAndImage": "default",
     "event-series::body::textAndImage": "default",
     "events::body::textAndImage": "default",
     "exhibitions::body::textAndImage": "default",
