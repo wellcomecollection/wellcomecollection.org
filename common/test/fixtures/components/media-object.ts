@@ -8,8 +8,8 @@ export const mockData = {
       text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
       spans: [
         {
-          start: 48,
-          end: 54,
+          start: 53,
+          end: 64,
           type: 'hyperlink',
           data: {
             link_type: 'Web',
