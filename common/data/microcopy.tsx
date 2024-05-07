@@ -36,7 +36,7 @@ export const pageDescriptions = {
     'Explore new perspectives on bodies, brains and health with our guest comic artists.',
   search: {
     overview:
-      'Search Wellcome Collection. Our stories, images and collections make connections and provoke new thinking about health and human experience.',
+      "Search Wellcome Collection's images, catalogue, stories and events to explore perspectives on health and human experiences.",
     stories:
       'Search for stories about health and human experience. Our words and pictures make connections, provoke new thinking and share lived experiences.',
     images:
@@ -154,12 +154,11 @@ export const pastExhibitionsStrapline =
 // search in the global nav and on the categories in wc.org/search
 // TODO review this copy https://github.com/wellcomecollection/wellcomecollection.org/issues/10777
 export const searchLabelText = {
-  overview: 'Search our stories, images and catalogue',
-  overviewToggle: 'Search our stories, images, catalogue and events',
+  overview: 'Search our stories, images, catalogue and events',
   stories: 'Search for stories',
   images: 'Search for images',
   works: 'Search the catalogue',
-  events: 'Search our events',
+  events: 'Search for events',
 };
 
 export const visualStoryLinkText =
@@ -167,3 +166,26 @@ export const visualStoryLinkText =
 
 export const exhibitionGuideLinkText =
   'Explore audio description, British Sign Language, captions and transcripts';
+
+export const treeInstructions =
+  'Tab into the tree, then use up and down arrows to move through tree items. Use right and left arrows to toggle sub menus open and closed. When focused on an item you can tab to the link it contains.';
+
+export const bornDigitalMessage = (
+  <>
+    <h2>This contains born-digital items</h2>
+    <p>
+      Born-digital items are materials created in a digital format, including
+      websites, email, digital photographs, electronic records, and more.
+      Born-digital items are different from analogue items (such as paper
+      manuscripts or photographs) that have later been digitised.
+    </p>
+    <p>
+      Our Born-digital items cover many file formats, some of which modern
+      computer software may no longer support.{' '}
+      <strong>
+        We cannot guarantee that you can view the item once you have downloaded
+        it.
+      </strong>
+    </p>
+  </>
+);

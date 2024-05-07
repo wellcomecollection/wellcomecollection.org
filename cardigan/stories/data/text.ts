@@ -1,9 +1,7 @@
-import { faker } from '@faker-js/faker';
 import { RichTextField as PrismicRichTextField } from '@prismicio/client';
 
-faker.seed(123);
-
-export const singleLineOfText = () => faker.random.words(7);
+export const singleLineOfText = () =>
+  'Donec non finibus tortor. Nullam scelerisque felis.';
 
 export const prismicRichTextMultiline: PrismicRichTextField = [
   {
@@ -41,14 +39,14 @@ export const prismicRichTextMultiline: PrismicRichTextField = [
 export const text = (): PrismicRichTextField[] =>
   Array(2).fill({
     type: 'paragraph',
-    text: `${faker.random.words(30)}`,
+    text: 'Sed sit amet finibus velit. Sed ornare eu enim eget varius. Integer molestie ultrices leo non malesuada. Mauris quis dui vitae erat congue maximus. Nullam fringilla at ante vitae convallis.',
     spans: [],
   });
 
 export const smallText = (): PrismicRichTextField => [
   {
     type: 'paragraph',
-    text: `${faker.random.words(20)}`,
+    text: 'Vestibulum porttitor urna ac molestie imperdiet. Aliquam erat volutpat. Nam nec rhoncus orci. Aliquam quis nulla volutpat, semper nunc eget.',
     spans: [],
   },
 ];

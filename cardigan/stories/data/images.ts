@@ -1,5 +1,4 @@
 import { LicenseType } from '@weco/common/model/license';
-import { faker } from '@faker-js/faker';
 import { singleLineOfText } from './text';
 import { Picture } from '@weco/common/model/picture';
 import { ImageType } from '@weco/common/model/image';
@@ -63,7 +62,7 @@ export const captionedImage = (): CaptionedImageProps => ({
   caption: [
     {
       type: 'paragraph',
-      text: faker.random.words(10),
+      text: 'Etiam pellentesque dui tellus, quis dictum turpis blandit id. Etiam.',
       spans: [],
     },
   ],

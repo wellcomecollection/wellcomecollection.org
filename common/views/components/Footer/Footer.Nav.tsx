@@ -32,7 +32,7 @@ const NavList = styled.ul<{ $isInline?: boolean }>`
       `)}
 
       li {
-        margin-right: 2rem;
+        margin-right: 1.1rem;
 
         &:last-child {
           margin-right: 0;
@@ -76,6 +76,29 @@ const PoliciesNavigation: NavLink[] = [
     title: 'Privacy and terms',
   },
   {
+    href: 'https://wellcome.org/who-we-are/modern-slavery-statement',
+    title: 'Modern slavery statement',
+  },
+];
+
+// This is for the cookiesWork toggle, once it's for everyone, then officialise this new list.
+const PoliciesNavigationWithCookieWork: NavLink[] = [
+  { href: 'https://wellcome.org/jobs', title: 'Jobs' },
+  { href: '/press', title: 'Media office' },
+  {
+    href: 'https://developers.wellcomecollection.org',
+    title: 'Developers',
+  },
+  {
+    href: 'https://wellcome.org/who-we-are/privacy-and-terms',
+    title: 'Privacy and terms',
+  },
+
+  {
+    href: '/cookie-policy',
+    title: 'Cookie policy',
+  },
+  {
     href: '/',
     title: 'Manage cookies',
   },
@@ -96,8 +119,12 @@ const FooterNav = ({
 }): ReactElement => {
   const { cookiesWork } = useToggles();
 
+  // This is for the cookiesWork toggle, once it's for everyone, then officialise this new list.
+  const tempPolicyList = cookiesWork
+    ? PoliciesNavigationWithCookieWork
+    : PoliciesNavigation;
   const itemsList =
-    type === 'PoliciesNavigation' ? PoliciesNavigation : InternalNavigation;
+    type === 'PoliciesNavigation' ? tempPolicyList : InternalNavigation;
 
   return (
     <nav aria-label={ariaLabel}>
@@ -107,7 +134,7 @@ const FooterNav = ({
           const isBurgerMenuLink = type === 'InternalNavigation' && i === 0;
           const isManageCookies = link.title === 'Manage cookies';
 
-          return cookiesWork && isManageCookies ? (
+          return isManageCookies ? (
             <li key={link.title}>
               <Link
                 href={link.href}

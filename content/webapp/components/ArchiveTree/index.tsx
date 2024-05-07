@@ -19,18 +19,15 @@ import Button from '@weco/common/views/components/Buttons';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import { tree } from '@weco/common/icons';
 import NestedList from './ArchiveTree.NestedList';
-import {
-  UiTree,
-  UiTreeNode,
-  instructions,
-  updateChildren,
-} from './ArchiveTree.helpers';
+import { UiTree, UiTreeNode, updateChildren } from './ArchiveTree.helpers';
+import { treeInstructions } from '@weco/common/data/microcopy';
 import {
   ButtonWrap,
   Tree,
   TreeContainer,
   TreeInstructions,
 } from './ArchiveTree.styles';
+import WorkItem from './ArchiveTree.WorkItemRenderer';
 
 function createNodeFromWork({
   work,
@@ -132,7 +129,7 @@ async function getSiblings({
 }: {
   id: string;
   openStatusOverride?: boolean;
-}): Promise<UiTreeNode[]> {
+}): Promise<UiTree> {
   const currWork = await getWorkClientSide(id);
   if (currWork.type !== 'Error' && currWork.type !== 'Redirect') {
     return createSiblingsArray({
@@ -193,7 +190,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
   const { isEnhanced, windowSize } = useContext(AppContext);
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const initialLoad = useRef(true);
-  const [showArchiveTree, setShowArchiveTree] = useState(false);
+  const [showArchiveTreeModal, setShowArchiveTreeModal] = useState(false);
   const [archiveTree, setArchiveTree] = useState(createBasicTree({ work }));
   const [tabbableId, setTabbableId] = useState<string>();
   const openButtonRef = useRef(null);
@@ -206,7 +203,10 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
     }
   }, [archiveTree, tabbableId]);
 
-  const selected = useRef<HTMLAnchorElement>(null);
+  useEffect(() => {
+    // On mobile we want to close the archive tree if a user selects a work
+    setShowArchiveTreeModal(false);
+  }, [work]);
 
   useEffect(() => {
     async function setupTree() {
@@ -240,7 +240,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
             <Button
               variant="ButtonSolid"
               text="Collection contents"
-              clickHandler={() => setShowArchiveTree(true)}
+              clickHandler={() => setShowArchiveTreeModal(true)}
               aria-controls="collection-contents-modal"
               aria-label="show collection contents"
               icon={tree}
@@ -248,17 +248,16 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
             />
           </ButtonWrap>
           <Modal
-            isActive={showArchiveTree}
-            setIsActive={setShowArchiveTree}
+            isActive={showArchiveTreeModal}
+            setIsActive={setShowArchiveTreeModal}
             id="collection-contents-modal"
             openButtonRef={openButtonRef}
           >
             <Tree $isEnhanced={isEnhanced}>
               {isEnhanced && (
-                <TreeInstructions>{instructions}</TreeInstructions>
+                <TreeInstructions>{treeInstructions}</TreeInstructions>
               )}
               <NestedList
-                selected={selected}
                 currentWorkId={work.id}
                 fullTree={archiveTree}
                 setArchiveTree={setArchiveTree}
@@ -266,8 +265,10 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
                 level={1}
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
-                setShowArchiveTree={setShowArchiveTree}
                 archiveAncestorArray={archiveAncestorArray}
+                firstItemTabbable={false}
+                showFirstLevelGuideline={false}
+                ItemRenderer={WorkItem}
               />
             </Tree>
           </Modal>
@@ -278,12 +279,11 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
             $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
             <h2 className={font('wb', 4)}>Collection contents</h2>
-            <Tree $isEnhanced={isEnhanced}>
+            <Tree $isEnhanced={isEnhanced} $maxWidth={375}>
               {isEnhanced && (
-                <TreeInstructions>{instructions}</TreeInstructions>
+                <TreeInstructions>{treeInstructions}</TreeInstructions>
               )}
               <NestedList
-                selected={selected}
                 currentWorkId={work.id}
                 fullTree={archiveTree}
                 setArchiveTree={setArchiveTree}
@@ -291,8 +291,10 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
                 level={1}
                 tabbableId={tabbableId}
                 setTabbableId={setTabbableId}
-                setShowArchiveTree={setShowArchiveTree}
                 archiveAncestorArray={archiveAncestorArray}
+                firstItemTabbable={false}
+                showFirstLevelGuideline={false}
+                ItemRenderer={WorkItem}
               />
             </Tree>
           </Space>

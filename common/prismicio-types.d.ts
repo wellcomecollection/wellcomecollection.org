@@ -2529,60 +2529,7 @@ export type ExhibitionGuidesDocument<Lang extends string = string> =
     Lang
   >;
 
-/**
- * Item in *Exhibition highlight tour → Stop*
- */
-export interface ExhibitionHighlightToursDocumentDataStopsItem {
-  /**
-   * Title field in *Exhibition highlight tour → Stop*
-   *
-   * - **Field Type**: Title
-   * - **Placeholder**: *None*
-   * - **API ID Path**: exhibition-highlight-tours.stops[].title
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  title: prismic.TitleField;
-
-  /**
-   * Stop number field in *Exhibition highlight tour → Stop*
-   *
-   * - **Field Type**: Number
-   * - **Placeholder**: Stop number for this content
-   * - **API ID Path**: exhibition-highlight-tours.stops[].number
-   * - **Documentation**: https://prismic.io/docs/field#number
-   */
-  number: prismic.NumberField;
-
-  /**
-   * Audio with description (.mp3 file) field in *Exhibition highlight tour → Stop*
-   *
-   * - **Field Type**: Link to Media
-   * - **Placeholder**: *None*
-   * - **API ID Path**: exhibition-highlight-tours.stops[].audio-with-description
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-   */
-  'audio-with-description': prismic.LinkToMediaField;
-
-  /**
-   * Embed (Youtube) field in *Exhibition highlight tour → Stop*
-   *
-   * - **Field Type**: Embed
-   * - **Placeholder**: *None*
-   * - **API ID Path**: exhibition-highlight-tours.stops[].bsl-video
-   * - **Documentation**: https://prismic.io/docs/field#embed
-   */
-  'bsl-video': prismic.EmbedField;
-
-  /**
-   * Transcript field in *Exhibition highlight tour → Stop*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: exhibition-highlight-tours.stops[].transcript
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  transcript: prismic.RichTextField;
-}
+type ExhibitionHighlightToursDocumentDataSlicesSlice = GuideStopSlice;
 
 /**
  * Content for Exhibition highlight tour documents
@@ -2594,7 +2541,7 @@ interface ExhibitionHighlightToursDocumentData {
    * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-highlight-tours.title
-   * - **Tab**: Guide
+   * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   title: prismic.TitleField;
@@ -2605,7 +2552,7 @@ interface ExhibitionHighlightToursDocumentData {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-highlight-tours.related-exhibition
-   * - **Tab**: Guide
+   * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   'related-exhibition': prismic.ContentRelationshipField<'exhibitions'>;
@@ -2616,21 +2563,21 @@ interface ExhibitionHighlightToursDocumentData {
    * - **Field Type**: Rich Text
    * - **Placeholder**: This will fallback to the related exhibition's promo text if not filled in
    * - **API ID Path**: exhibition-highlight-tours.introText
-   * - **Tab**: Guide
+   * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  introText: prismic.RichTextField /**
-   * Stop field in *Exhibition highlight tour*
+  introText: prismic.RichTextField;
+
+  /**
+   * Slice Zone field in *Exhibition highlight tour*
    *
-   * - **Field Type**: Group
+   * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
-   * - **API ID Path**: exhibition-highlight-tours.stops[]
-   * - **Tab**: Stops
-   * - **Documentation**: https://prismic.io/docs/field#group
-   */;
-  stops: prismic.GroupField<
-    Simplify<ExhibitionHighlightToursDocumentDataStopsItem>
-  >;
+   * - **API ID Path**: exhibition-highlight-tours.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  slices: prismic.SliceZone<ExhibitionHighlightToursDocumentDataSlicesSlice>;
 }
 
 /**
@@ -2703,60 +2650,9 @@ export type ExhibitionResourcesDocument<Lang extends string = string> =
     Lang
   >;
 
-/**
- * Item in *Exhibition text → Text Component*
- */
-export interface ExhibitionTextsDocumentDataComponentsItem {
-  /**
-   * Standalone title field in *Exhibition text → Text Component*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: Provides a group heading for following components
-   * - **API ID Path**: exhibition-texts.components[].standaloneTitle
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  standaloneTitle: prismic.RichTextField;
-
-  /**
-   * Context field in *Exhibition text → Text Component*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: Optional context for a group of components
-   * - **API ID Path**: exhibition-texts.components[].context
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  context: prismic.RichTextField;
-
-  /**
-   * Title field in *Exhibition text → Text Component*
-   *
-   * - **Field Type**: Title
-   * - **Placeholder**: *None*
-   * - **API ID Path**: exhibition-texts.components[].title
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  title: prismic.TitleField;
-
-  /**
-   * Tombstone field in *Exhibition text → Text Component*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: exhibition-texts.components[].tombstone
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  tombstone: prismic.RichTextField;
-
-  /**
-   * Caption field in *Exhibition text → Text Component*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: exhibition-texts.components[].caption
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  caption: prismic.RichTextField;
-}
+type ExhibitionTextsDocumentDataSlicesSlice =
+  | GuideSectionHeadingSlice
+  | GuideTextItemSlice;
 
 /**
  * Content for Exhibition text documents
@@ -2793,18 +2689,18 @@ interface ExhibitionTextsDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  introText: prismic.RichTextField /**
-   * Text Component field in *Exhibition text*
+  introText: prismic.RichTextField;
+
+  /**
+   * Slice Zone field in *Exhibition text*
    *
-   * - **Field Type**: Group
+   * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
-   * - **API ID Path**: exhibition-texts.components[]
-   * - **Tab**: Components
-   * - **Documentation**: https://prismic.io/docs/field#group
-   */;
-  components: prismic.GroupField<
-    Simplify<ExhibitionTextsDocumentDataComponentsItem>
-  >;
+   * - **API ID Path**: exhibition-texts.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  slices: prismic.SliceZone<ExhibitionTextsDocumentDataSlicesSlice>;
 }
 
 /**
@@ -6390,6 +6286,231 @@ export type GifVideoSlice = prismic.SharedSlice<
 >;
 
 /**
+ * Primary content in *GuideSectionHeading → Primary*
+ */
+export interface GuideSectionHeadingSliceDefaultPrimary {
+  /**
+   * Stop number field in *GuideSectionHeading → Primary*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: Add the stop number if the content is related to a particular stop
+   * - **API ID Path**: guide_section_heading.primary.number
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  number: prismic.NumberField;
+
+  /**
+   * Title field in *GuideSectionHeading → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Provides a section heading for related exhibition items
+   * - **API ID Path**: guide_section_heading.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * Context field in *GuideSectionHeading → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Optional context for a group of related items
+   * - **API ID Path**: guide_section_heading.primary.context
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  context: prismic.RichTextField;
+}
+
+/**
+ * Default variation for GuideSectionHeading Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type GuideSectionHeadingSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<GuideSectionHeadingSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *GuideSectionHeading*
+ */
+type GuideSectionHeadingSliceVariation = GuideSectionHeadingSliceDefault;
+
+/**
+ * GuideSectionHeading Shared Slice
+ *
+ * - **API ID**: `guide_section_heading`
+ * - **Description**: GuideSectionHeading
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type GuideSectionHeadingSlice = prismic.SharedSlice<
+  'guide_section_heading',
+  GuideSectionHeadingSliceVariation
+>;
+
+/**
+ * Primary content in *GuideStop → Primary*
+ */
+export interface GuideStopSliceDefaultPrimary {
+  /**
+   * Stop number field in *GuideStop → Primary*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: Stop number for this content
+   * - **API ID Path**: guide_stop.primary.number
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  number: prismic.NumberField;
+
+  /**
+   * Title field in *GuideStop → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guide_stop.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * Audio with description (.mp3 file) field in *GuideStop → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guide_stop.primary.audio_with_description
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  audio_with_description: prismic.LinkToMediaField;
+
+  /**
+   * BSL video (Youtube) field in *GuideStop → Primary*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guide_stop.primary.bsl_video
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  bsl_video: prismic.EmbedField;
+
+  /**
+   * Transcript field in *GuideStop → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guide_stop.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
+}
+
+/**
+ * Default variation for GuideStop Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type GuideStopSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<GuideStopSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *GuideStop*
+ */
+type GuideStopSliceVariation = GuideStopSliceDefault;
+
+/**
+ * GuideStop Shared Slice
+ *
+ * - **API ID**: `guide_stop`
+ * - **Description**: GuideStop
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type GuideStopSlice = prismic.SharedSlice<
+  'guide_stop',
+  GuideStopSliceVariation
+>;
+
+/**
+ * Primary content in *GuideTextItem → Primary*
+ */
+export interface GuideTextItemSliceDefaultPrimary {
+  /**
+   * Stop number field in *GuideTextItem → Primary*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: Add the stop number if the content is related to a particular stop
+   * - **API ID Path**: guide_text_item.primary.number
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  number: prismic.NumberField;
+
+  /**
+   * Title field in *GuideTextItem → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guide_text_item.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * Tombstone field in *GuideTextItem → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guide_text_item.primary.tombstone
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  tombstone: prismic.RichTextField;
+
+  /**
+   * Caption field in *GuideTextItem → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guide_text_item.primary.caption
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  caption: prismic.RichTextField;
+}
+
+/**
+ * Default variation for GuideTextItem Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type GuideTextItemSliceDefault = prismic.SharedSliceVariation<
+  'default',
+  Simplify<GuideTextItemSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *GuideTextItem*
+ */
+type GuideTextItemSliceVariation = GuideTextItemSliceDefault;
+
+/**
+ * GuideTextItem Shared Slice
+ *
+ * - **API ID**: `guide_text_item`
+ * - **Description**: GuideTextItem
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type GuideTextItemSlice = prismic.SharedSlice<
+  'guide_text_item',
+  GuideTextItemSliceVariation
+>;
+
+/**
  * Primary content in *Iframe → Primary*
  */
 export interface IframeSliceDefaultPrimary {
@@ -7115,12 +7236,12 @@ declare module '@prismicio/client' {
       ExhibitionGuidesDocumentDataComponentsItem,
       ExhibitionHighlightToursDocument,
       ExhibitionHighlightToursDocumentData,
-      ExhibitionHighlightToursDocumentDataStopsItem,
+      ExhibitionHighlightToursDocumentDataSlicesSlice,
       ExhibitionResourcesDocument,
       ExhibitionResourcesDocumentData,
       ExhibitionTextsDocument,
       ExhibitionTextsDocumentData,
-      ExhibitionTextsDocumentDataComponentsItem,
+      ExhibitionTextsDocumentDataSlicesSlice,
       ExhibitionsDocument,
       ExhibitionsDocumentData,
       ExhibitionsDocumentDataBodySlice,
@@ -7247,6 +7368,18 @@ declare module '@prismicio/client' {
       GifVideoSliceDefaultPrimary,
       GifVideoSliceVariation,
       GifVideoSliceDefault,
+      GuideSectionHeadingSlice,
+      GuideSectionHeadingSliceDefaultPrimary,
+      GuideSectionHeadingSliceVariation,
+      GuideSectionHeadingSliceDefault,
+      GuideStopSlice,
+      GuideStopSliceDefaultPrimary,
+      GuideStopSliceVariation,
+      GuideStopSliceDefault,
+      GuideTextItemSlice,
+      GuideTextItemSliceDefaultPrimary,
+      GuideTextItemSliceVariation,
+      GuideTextItemSliceDefault,
       IframeSlice,
       IframeSliceDefaultPrimary,
       IframeSliceVariation,

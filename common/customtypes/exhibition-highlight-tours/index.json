@@ -3,6 +3,7 @@
   "label": "Exhibition highlight tour",
   "repeatable": true,
   "status": true,
+  "format": "custom",
   "json": {
     "Guide": {
       "title": {
@@ -18,9 +19,7 @@
         "config": {
           "label": "Related Exhibition",
           "select": "document",
-          "customtypes": [
-            "exhibitions"
-          ]
+          "customtypes": ["exhibitions"]
         }
       },
       "introText": {
@@ -30,54 +29,18 @@
           "label": "Introductory text",
           "placeholder": "This will fallback to the related exhibition's promo text if not filled in"
         }
-      }
-    },
-    "Stops": {
-      "stops": {
-        "type": "Group",
-        "fieldset": "Stop",
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
         "config": {
-          "fields": {
-            "title": {
-              "type": "StructuredText",
-              "config": {
-                "label": "Title",
-                "single": "heading1",
-                "useAsTitle": true
-              }
-            },
-            "number": {
-              "type": "Number",
-              "config": {
-                "label": "Stop number",
-                "placeholder": "Stop number for this content"
-              }
-            },
-            "audio-with-description": {
-              "type": "Link",
-              "config": {
-                "label": "Audio with description (.mp3 file)",
-                "select": "media",
-                "customtypes": []
-              }
-            },
-            "bsl-video": {
-              "type": "Embed",
-              "config": {
-                "label": "Embed (Youtube)"
-              }
-            },
-            "transcript": {
-              "type": "StructuredText",
-              "config": {
-                "multi": "paragraph,hyperlink,strong,em",
-                "label": "Transcript"
-              }
+          "choices": {
+            "guide_stop": {
+              "type": "SharedSlice"
             }
           }
         }
       }
     }
-  },
-  "format": "custom"
+  }
 }

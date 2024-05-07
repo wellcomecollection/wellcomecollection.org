@@ -16,5 +16,6 @@ assignees: ''
 <!-- What information or research has imformed this request? -->
 
 ## Done when
--  [ ] 
--  [ ] 
+- [ ] 
+- [ ]
+- [ ]  Documentation updated

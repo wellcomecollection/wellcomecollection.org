@@ -1,4 +1,4 @@
-import { test as base, expect, Page } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 import {
   multiVolumeItem,
   itemWithSearchAndStructures,
@@ -12,22 +12,7 @@ import {
   itemWithNonRestrictedAndOpenAccess,
   isMobile,
 } from './helpers/contexts';
-import { baseUrl } from './helpers/urls';
-import { makeDefaultToggleCookies } from './helpers/utils';
 import { apiResponse } from './mocks/search-within';
-
-const domain = new URL(baseUrl).host;
-
-const test = base.extend({
-  context: async ({ context }, use) => {
-    const defaultToggleAndTestCookies = await makeDefaultToggleCookies(domain);
-    await context.addCookies([
-      { name: 'WC_cookiesAccepted', value: 'true', domain, path: '/' },
-      ...defaultToggleAndTestCookies,
-    ]);
-    await use(context);
-  },
-});
 
 const multiVolumeDownloadTest = test.extend({
   page: async ({ page, context }, use) => {

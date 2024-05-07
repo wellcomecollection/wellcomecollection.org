@@ -104,10 +104,8 @@ You can run:
 
 You might want to add flags for more information, though, such as:
 
-`--label [slice format label name]` will print out more information about a specific format label.
 `--type [slice type name]` will print out more information about a specific type. There might be a lot of them and it can't print them all, so...
 `--report` will create a `sliceReport.json` file with the full list.
-`--printUrl` will also try to give you relevant URLs based on the type and ID.
 
 
 See the file comment on [sliceAnalysis.ts](./sliceAnalysis.ts)

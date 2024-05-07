@@ -4,6 +4,7 @@
   "name": "CollectionVenue",
   "description": "CollectionVenue",
   "legacyPaths": {
+    "books::body::collectionVenue": "default",
     "event-series::body::collectionVenue": "default",
     "events::body::collectionVenue": "default",
     "exhibitions::body::collectionVenue": "default",

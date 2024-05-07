@@ -4,6 +4,7 @@
   "name": "TitledTextList",
   "description": "Descriptive links list",
   "legacyPaths": {
+    "books::body::titledTextList": "default",
     "event-series::body::titledTextList": "default",
     "events::body::titledTextList": "default",
     "exhibitions::body::titledTextList": "default",
