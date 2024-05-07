@@ -85,7 +85,17 @@ async function init() {
     });
 
     try {
-      console.log(await response.json());
+      const res = await response.json();
+      console.log(res);
+
+      if (!res.id) {
+        // probably rate limited – make sure we log the id so we can manually migrate later
+        fs.appendFile('migration.log', `${doc.id}\n\n`, err => {
+          if (err) {
+            console.error(err);
+          }
+        });
+      }
     } catch (error) {
       const { message } = error;
       fs.appendFile('migration.log', `${message}\n\n`, err => {
