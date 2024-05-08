@@ -353,7 +353,13 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
             isDropCapped={true}
             pageId={article.id}
             minWidth={isPodcast ? 10 : 8}
-            contentType={isShortFilmFormat ? 'short-film' : undefined}
+            contentType={
+              isShortFilmFormat
+                ? 'short-film'
+                : isImageGallery
+                ? 'image-gallery'
+                : undefined
+            }
           />
         }
         RelatedContent={Siblings}

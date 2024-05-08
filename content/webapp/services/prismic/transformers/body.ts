@@ -185,14 +185,16 @@ export function transformEditorialImageSlice(
 }
 
 export function transformEditorialImageGallerySlice(
-  slice: EditorialImageGallerySlice
+  slice: EditorialImageGallerySlice,
+  isStandalone?: boolean
 ): Slice<'imageGallery', ImageGalleryProps> {
   return {
     type: 'imageGallery',
     value: {
       title: asText(slice.primary.title),
       items: slice.items.map(item => transformCaptionedImage(item)),
-      isStandalone: getWeight(slice.slice_label) === 'standalone',
+      isStandalone:
+        isStandalone || getWeight(slice.slice_label) === 'standalone',
       isFrames:
         slice.primary.isFrames || getWeight(slice.slice_label) === 'frames',
     },
