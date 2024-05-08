@@ -194,7 +194,7 @@ export function transformEditorialImageGallerySlice(
       title: asText(slice.primary.title),
       items: slice.items.map(item => transformCaptionedImage(item)),
       isStandalone:
-        isStandalone || getWeight(slice.slice_label) === 'standalone',
+        isStandalone || getWeight(slice.slice_label) === 'standalone', // TODO: remove the getWeight() part when migration's complete
       isFrames:
         slice.primary.isFrames || getWeight(slice.slice_label) === 'frames',
     },
