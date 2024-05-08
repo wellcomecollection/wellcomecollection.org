@@ -288,7 +288,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
   const isComicFormat = article.format?.id === ArticleFormatIds.Comic;
   const isInPicturesFormat = article.format?.id === ArticleFormatIds.InPictures;
   const isShortFilmFormat = article.format?.id === ArticleFormatIds.ShortFilm;
-  const isImageGallery = isInPicturesFormat || isComicFormat;
+  const isStandaloneImageGallery = isInPicturesFormat || isComicFormat;
 
   const Header = (
     <PageHeader
@@ -356,8 +356,8 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
             contentType={
               isShortFilmFormat
                 ? 'short-film'
-                : isImageGallery
-                ? 'image-gallery'
+                : isStandaloneImageGallery
+                ? 'standalone-image-gallery'
                 : undefined
             }
           />

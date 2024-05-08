@@ -107,7 +107,7 @@ type Props = {
   sectionLevelPage?: boolean;
   staticContent?: ReactElement | null;
   comicPreviousNext?: ComicPreviousNextProps;
-  contentType?: 'short-film' | 'visual-story' | 'image-gallery';
+  contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
 };
 
 type SectionTheme = {
@@ -145,7 +145,7 @@ export type SliceZoneContext = {
   pageId: string;
   isLanding: boolean;
   isDropCapped: boolean;
-  contentType?: 'short-film' | 'visual-story' | 'image-gallery';
+  contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
 };
 
 export const defaultContext: SliceZoneContext = {

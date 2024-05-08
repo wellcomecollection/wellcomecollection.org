@@ -17,7 +17,7 @@ export type EditorialImageGalleryProps = SliceComponentProps<
 const EditorialImageGallerySlice: FunctionComponent<
   EditorialImageGalleryProps
 > = ({ slice, slices, context }) => {
-  const isStandalone = context.contentType === 'image-gallery';
+  const isStandalone = context.contentType === 'standalone-image-gallery';
   const transformedSlice = transformEditorialImageGallerySlice(
     slice,
     isStandalone
