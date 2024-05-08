@@ -358,7 +358,10 @@ export function transformCollectionVenueSlice(
         weight: getWeight(slice.slice_label),
         value: {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          content: transformCollectionVenue(slice.primary.content as any),
+          content: {
+            ...transformCollectionVenue(slice.primary.content as any),
+            isFeatured: slice.primary.isFeatured,
+          },
           showClosingTimes: slice.primary.showClosingTimes === 'yes',
         },
       }

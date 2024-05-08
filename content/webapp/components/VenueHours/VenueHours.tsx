@@ -170,7 +170,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
     exceptionalOpeningHours &&
     getUpcomingExceptionalOpeningHours(exceptionalOpeningHours);
 
-  const isFeatured = weight === 'featured';
+  const isFeatured = weight === 'featured' || venue.isFeatured;
   return (
     <>
       {isFeatured && (
@@ -207,7 +207,8 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
           className={font('wb', 3)}
           $h={{ size: 'm', properties: ['padding-right'] }}
         >
-          {isFeatured ? venue.name : 'Opening hours'}
+          {venue.name}
+          {/* {isFeatured ? venue.name : 'Opening hours'} */}
         </Space>
         <OpeningHours>
           {venue.openingHours.regular.map(
