@@ -297,16 +297,16 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
       title={article.title}
       ContentTypeInfo={ContentTypeInfo}
       FeaturedMedia={
-        isShortFilmFormat || isImageGallery || isPodcast
+        isShortFilmFormat || isStandaloneImageGallery || isPodcast
           ? undefined
           : maybeFeaturedMedia
       }
       HeroPicture={
-        isShortFilmFormat || isImageGallery || isPodcast
+        isShortFilmFormat || isStandaloneImageGallery || isPodcast
           ? undefined
           : maybeHeroPicture
       }
-      heroImageBgColor={isImageGallery ? 'white' : 'warmNeutral.300'}
+      heroImageBgColor={isStandaloneImageGallery ? 'white' : 'warmNeutral.300'}
       SerialPartNumber={SerialPartNumber}
       isContentTypeInfoBeforeMedia={true}
     />
