@@ -18,8 +18,17 @@ async function init() {
   const password = process.env.PRISMIC_PASSWORD;
 
   // fetch documents
-  const client = createClient(repository, { fetch });
-  const allDocs = await client.getAllByType(id);
+  const client = createClient(repository, {
+    fetch,
+    ref: 'xyz',
+    accessToken: process.env.PRISMIC_ACCESS_TOKEN,
+  });
+  const refs = await client.getRefs();
+  console.log({ refs });
+  // const allDocs = await client.getAllByType(id);
+  const doc = await client.getByID('ZcI1CBAAAPpnKxMq');
+
+  console.log(doc);
 
   fs.writeFile('migration.log', '', err => {
     if (err) {
@@ -70,6 +79,7 @@ async function init() {
     doc.data.body = body;
 
     // construct the request URL
+    console.log(JSON.stringify(doc));
     const url = `https://migration.prismic.io/documents/${doc.id}`;
 
     // Send the update
@@ -123,10 +133,11 @@ async function init() {
   const token = await authResponse.text();
   const timer = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-  for (const doc of allDocs) {
-    await timer(2000); // don't make too many requests
-    migrateDoc(doc, token);
-  }
+  // for (const doc of allDocs.results) {
+  //   await timer(2000); // don't make too many requests
+  //   migrateDoc(doc, token);
+  // }
+  migrateDoc(doc, token);
 }
 
 init();
