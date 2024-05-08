@@ -190,7 +190,7 @@ export function transformEvent(
     scheduleQuery && scheduleQuery.results
       ? scheduleQuery.results.map(doc => transformEvent(doc))
       : [];
-  const interpretations: Interpretation[] = data.interpretations
+  const interpretations: Interpretation[] = (data.interpretations || [])
     .map(interpretation =>
       prismic.isFilled.link(interpretation.interpretationType)
         ? {
