@@ -169,8 +169,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
   const upcomingExceptionalOpeningHours =
     exceptionalOpeningHours &&
     getUpcomingExceptionalOpeningHours(exceptionalOpeningHours);
-
-  const isFeatured = weight === 'featured' || venue.isFeatured;
+  const isFeatured = weight === 'featured' || venue.isFeatured; // TODO: remove weight check after migration
   return (
     <>
       {isFeatured && (
@@ -207,8 +206,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
           className={font('wb', 3)}
           $h={{ size: 'm', properties: ['padding-right'] }}
         >
-          {venue.name}
-          {/* {isFeatured ? venue.name : 'Opening hours'} */}
+          {isFeatured ? venue.name : 'Opening hours'}
         </Space>
         <OpeningHours>
           {venue.openingHours.regular.map(
