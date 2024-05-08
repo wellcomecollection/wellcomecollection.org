@@ -8,7 +8,6 @@ import {
   InfoBlockSlice,
   MapSlice,
   QuoteSlice,
-  QuoteV2Slice,
   SearchResultsSlice,
   StandfirstSlice,
   TagListSlice,
@@ -194,7 +193,8 @@ export function transformEditorialImageGallerySlice(
       title: asText(slice.primary.title),
       items: slice.items.map(item => transformCaptionedImage(item)),
       isStandalone: getWeight(slice.slice_label) === 'standalone',
-      isFrames: getWeight(slice.slice_label) === 'frames',
+      isFrames:
+        slice.primary.isFrames || getWeight(slice.slice_label) === 'frames',
     },
   };
 }
@@ -287,7 +287,7 @@ export function transformIframeSlice(
 }
 
 export function transformQuoteSlice(
-  slice: QuoteSlice | QuoteV2Slice
+  slice: QuoteSlice
 ): Slice<'quote', QuoteProps> {
   return {
     type: 'quote',
@@ -296,7 +296,9 @@ export function transformQuoteSlice(
       text: slice.primary.text,
       citation: slice.primary.citation,
       isPullOrReview:
-        slice.slice_label === 'pull' || slice.slice_label === 'review',
+        slice.primary.isPullOrReview ||
+        slice.slice_label === 'pull' ||
+        slice.slice_label === 'review', // TODO: tidy after migration
     },
   };
 }
@@ -492,15 +494,8 @@ export function transformBody(body: Body): BodySlice[] {
         case 'searchResults':
           return transformSearchResultsSlice(slice);
 
-        // Quote used to be the one we offered - it still exists in 189 instances
-        // We now offer QuoteV2 instead, which has the same fields.
-        // They both use the same renderer - we just need to still support legacy Quote
-        // TODO: One day, manually move them all over to use QuoteV2 and clear out any
-        //       old reference to Quote. Ideally rename QuoteV2 to Quote.
-        //       The best way to do this is up for debate:
-        //       https://github.com/wellcomecollection/wellcomecollection.org/pull/9979#issuecomment-1602448601
         case 'quote':
-        case 'quoteV2':
+        case 'quoteV2': // TODO: remove this after migration
           return transformQuoteSlice(slice);
 
         case 'iframe':

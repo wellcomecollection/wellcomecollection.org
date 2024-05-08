@@ -1,0 +1,53 @@
+{
+  "id": "guide_text_item",
+  "type": "SharedSlice",
+  "name": "GuideTextItem",
+  "description": "GuideTextItem",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "number": {
+          "type": "Number",
+          "config": {
+            "label": "Stop number",
+            "placeholder": "Add the stop number if the content is related to a particular stop"
+          }
+        },
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "placeholder": "",
+            "allowTargetBlank": false,
+            "multi": "heading2"
+          }
+        },
+        "tombstone": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Tombstone",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        },
+        "caption": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Caption",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

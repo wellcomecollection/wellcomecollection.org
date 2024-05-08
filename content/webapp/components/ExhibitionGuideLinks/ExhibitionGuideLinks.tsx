@@ -36,7 +36,11 @@ type Props = {
 function cookieHandler(key: string, data: string) {
   // We set the cookie to expire in 8 hours (the maximum length of
   // time the galleries are open in a day)
-  const options = { maxAge: 8 * 60 * 60, path: '/' };
+  const options = {
+    maxAge: 8 * 60 * 60,
+    path: '/',
+    secure: true,
+  };
   setCookie(key, data, options);
 }
 

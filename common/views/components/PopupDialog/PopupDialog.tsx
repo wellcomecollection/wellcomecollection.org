@@ -178,6 +178,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
     setCookie(cookies.popupDialog, 'true', {
       path: '/',
       expires: undefined,
+      secure: true,
     });
 
     setShouldRender(false);

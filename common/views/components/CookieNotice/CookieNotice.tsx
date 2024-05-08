@@ -63,6 +63,7 @@ const CookieNotice: FunctionComponent<Props> = () => {
     setCookie(cookies.cookiesAccepted, 'true', {
       path: '/',
       expires: addDays(today(), 30),
+      secure: true,
     });
 
     setShouldRender(false);

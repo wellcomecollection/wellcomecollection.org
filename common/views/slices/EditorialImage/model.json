@@ -3,6 +3,20 @@
   "type": "SharedSlice",
   "name": "EditorialImage",
   "description": "EditorialImage",
+  "legacyPaths": {
+    "articles::body::editorialImage": "default",
+    "event-series::body::editorialImage": "default",
+    "events::body::editorialImage": "default",
+    "exhibitions::body::editorialImage": "default",
+    "guides::body::editorialImage": "default",
+    "pages::body::editorialImage": "default",
+    "places::body::editorialImage": "default",
+    "projects::body::editorialImage": "default",
+    "seasons::body::editorialImage": "default",
+    "series::body::editorialImage": "default",
+    "visual-stories::body::editorialImage": "default",
+    "webcomics::body::editorialImage": "default"
+  },
   "variations": [
     {
       "id": "default",

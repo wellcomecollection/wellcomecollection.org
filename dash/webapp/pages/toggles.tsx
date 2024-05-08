@@ -135,7 +135,7 @@ function setCookie(name, value) {
     : `Expires=${new Date(0).toString()}`;
   document.cookie = `toggle_${name}=${
     value || ''
-  }; Path=/; Domain=wellcomecollection.org; ${expiration}`;
+  }; Path=/; Domain=wellcomecollection.org; ${expiration}; Secure`;
 }
 
 type Toggle = {

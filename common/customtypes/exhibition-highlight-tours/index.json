@@ -1,0 +1,46 @@
+{
+  "id": "exhibition-highlight-tours",
+  "label": "Exhibition highlight tour",
+  "repeatable": true,
+  "status": true,
+  "format": "custom",
+  "json": {
+    "Guide": {
+      "title": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Title",
+          "single": "heading1",
+          "useAsTitle": true
+        }
+      },
+      "related-exhibition": {
+        "type": "Link",
+        "config": {
+          "label": "Related Exhibition",
+          "select": "document",
+          "customtypes": ["exhibitions"]
+        }
+      },
+      "introText": {
+        "type": "StructuredText",
+        "config": {
+          "multi": "paragraph,hyperlink,strong,em",
+          "label": "Introductory text",
+          "placeholder": "This will fallback to the related exhibition's promo text if not filled in"
+        }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {
+            "guide_stop": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
+    }
+  }
+}

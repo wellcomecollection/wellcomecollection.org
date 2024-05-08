@@ -178,7 +178,10 @@ const ApiToolbar: FunctionComponent<Props> = ({ links = [] }) => {
         type="button"
         onClick={() => {
           setMini(!mini);
-          setCookie(cookies.apiToolbarMini, !mini, { path: '/' });
+          setCookie(cookies.apiToolbarMini, !mini, {
+            path: '/',
+            secure: true,
+          });
         }}
         style={{ padding: '10px' }}
       >

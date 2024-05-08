@@ -2,4 +2,4 @@
 To display digitised items with their associated metadata
 
 
-[Edit this Readme on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/main/catalogue/webapp/components/IIIFViewer/README.md)
+[Edit this Readme on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/main/content/webapp/components/IIIFViewer/README.md)
