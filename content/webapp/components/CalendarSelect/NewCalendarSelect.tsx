@@ -26,7 +26,7 @@ const availabilitySlotsToSelectOptions = (
         )}`,
       }))
       // the list of available dates is returned from the itemsAPI in various lenghts
-      // trimming down to 12 for consistency
+      // trimming down to 12
       .slice(0, 12)
   );
 };
