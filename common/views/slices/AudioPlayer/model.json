@@ -5,6 +5,7 @@
   "description": "AudioPlayer",
   "legacyPaths": {
     "articles::body::audioPlayer": "default",
+    "books::body::audioPlayer": "default",
     "event-series::body::audioPlayer": "default",
     "events::body::audioPlayer": "default",
     "exhibitions::body::audioPlayer": "default",

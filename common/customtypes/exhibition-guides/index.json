@@ -2,7 +2,7 @@
   "id": "exhibition-guides",
   "label": "Exhibition guide",
   "repeatable": true,
-  "status": true,
+  "status": false,
   "json": {
     "Guide": {
       "title": {

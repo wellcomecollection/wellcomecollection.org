@@ -5,6 +5,7 @@
   "description": "Text",
   "legacyPaths": {
     "articles::body::text": "default",
+    "books::body::text": "default",
     "event-series::body::text": "default",
     "events::body::text": "default",
     "exhibitions::body::text": "default",

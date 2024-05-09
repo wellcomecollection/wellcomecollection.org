@@ -4,6 +4,7 @@
   "name": "ContentList",
   "description": "ContentList",
   "legacyPaths": {
+    "books::body::contentList": "default",
     "event-series::body::contentList": "default",
     "events::body::contentList": "default",
     "exhibitions::body::contentList": "default",

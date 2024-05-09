@@ -4,6 +4,7 @@
   "name": "CollectionVenue",
   "description": "CollectionVenue",
   "legacyPaths": {
+    "books::body::collectionVenue": "default",
     "event-series::body::collectionVenue": "default",
     "events::body::collectionVenue": "default",
     "exhibitions::body::collectionVenue": "default",
@@ -23,22 +24,36 @@
       "description": "Default",
       "imageUrl": "",
       "primary": {
-        "content" : {
-          "type" : "Link",
-          "config" : {
-            "label" : "Content item",
-            "select" : "document",
-            "customtypes" : [ "collection-venue" ]
+        "content": {
+          "type": "Link",
+          "config": {
+            "label": "Content item",
+            "select": "document",
+            "customtypes": [
+              "collection-venue"
+            ]
           }
         },
-        "showClosingTimes" : {
-          "type" : "Select",
-          "config" : {
-            "label" : "Show closing times",
-            "options" : [ "yes" ]
+        "showClosingTimes": {
+          "type": "Select",
+          "config": {
+            "label": "Show closing times",
+            "options": [
+              "yes"
+            ]
+          }
+        },
+        "isFeatured": {
+          "type": "Boolean",
+          "config": {
+            "label": "Show title and image",
+            "placeholder_false": "false",
+            "placeholder_true": "true",
+            "default_value": false
           }
         }
-      }
+      },
+      "items": {}
     }
   ]
 }

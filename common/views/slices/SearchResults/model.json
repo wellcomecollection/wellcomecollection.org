@@ -5,6 +5,7 @@
   "name": "SearchResults",
   "description": "SearchResults",
   "legacyPaths": {
+    "books::body::searchResults": "default",
     "event-series::body::searchResults": "default",
     "events::body::searchResults": "default",
     "exhibitions::body::searchResults": "default",
