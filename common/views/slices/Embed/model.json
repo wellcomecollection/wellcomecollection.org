@@ -5,6 +5,7 @@
   "description": "Embed (Youtube, SoundCloud, etc.)",
   "legacyPaths": {
     "articles::body::embed": "default",
+    "books::body::embed": "default",
     "event-series::body::embed": "default",
     "events::body::embed": "default",
     "exhibitions::body::embed": "default",

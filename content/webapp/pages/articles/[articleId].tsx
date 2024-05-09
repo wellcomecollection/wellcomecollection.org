@@ -288,7 +288,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
   const isComicFormat = article.format?.id === ArticleFormatIds.Comic;
   const isInPicturesFormat = article.format?.id === ArticleFormatIds.InPictures;
   const isShortFilmFormat = article.format?.id === ArticleFormatIds.ShortFilm;
-  const isImageGallery = isInPicturesFormat || isComicFormat;
+  const isStandaloneImageGallery = isInPicturesFormat || isComicFormat;
 
   const Header = (
     <PageHeader
@@ -297,16 +297,16 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
       title={article.title}
       ContentTypeInfo={ContentTypeInfo}
       FeaturedMedia={
-        isShortFilmFormat || isImageGallery || isPodcast
+        isShortFilmFormat || isStandaloneImageGallery || isPodcast
           ? undefined
           : maybeFeaturedMedia
       }
       HeroPicture={
-        isShortFilmFormat || isImageGallery || isPodcast
+        isShortFilmFormat || isStandaloneImageGallery || isPodcast
           ? undefined
           : maybeHeroPicture
       }
-      heroImageBgColor={isImageGallery ? 'white' : 'warmNeutral.300'}
+      heroImageBgColor={isStandaloneImageGallery ? 'white' : 'warmNeutral.300'}
       SerialPartNumber={SerialPartNumber}
       isContentTypeInfoBeforeMedia={true}
     />
@@ -353,7 +353,13 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
             isDropCapped={true}
             pageId={article.id}
             minWidth={isPodcast ? 10 : 8}
-            contentType={isShortFilmFormat ? 'short-film' : undefined}
+            contentType={
+              isShortFilmFormat
+                ? 'short-film'
+                : isStandaloneImageGallery
+                ? 'standalone-image-gallery'
+                : undefined
+            }
           />
         }
         RelatedContent={Siblings}

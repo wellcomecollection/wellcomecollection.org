@@ -4,6 +4,7 @@
   "name": "TextAndIcons",
   "description": "Text and icons (side-by-side)",
   "legacyPaths": {
+    "books::body::textAndIcons": "default",
     "event-series::body::textAndIcons": "default",
     "events::body::textAndIcons": "default",
     "exhibitions::body::textAndIcons": "default",
@@ -27,7 +28,7 @@
         "text": {
           "type": "StructuredText",
           "config": {
-            "multi": "paragraph,hyperlink,strong,em,heading3",
+            "multi": "paragraph,list-item,hyperlink,strong,em,heading3",
             "label": "Text"
           }
         }

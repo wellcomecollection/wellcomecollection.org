@@ -4,6 +4,7 @@
   "name": "Map",
   "description": "Map",
   "legacyPaths": {
+    "books::body::map": "default",
     "event-series::body::map": "default",
     "events::body::map": "default",
     "exhibitions::body::map": "default",

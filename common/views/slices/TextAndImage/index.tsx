@@ -10,7 +10,6 @@ export type TextAndImageProps = SliceComponentProps<SliceType>;
 
 const TextAndImageSlice: FunctionComponent<TextAndImageProps> = ({ slice }) => {
   const transformedSlice = transformTextAndImage(slice);
-
   return (
     <SpacingComponent $sliceType={transformedSlice.type}>
       <Layout gridSizes={gridSize8()}>
