@@ -335,6 +335,7 @@ const Body: FunctionComponent<Props> = ({
 
   const isShortFilm = contentType === 'short-film';
   const isVisualStory = contentType === 'visual-story';
+  const isStandaloneImageGallery = contentType === 'standalone-image-gallery';
 
   return (
     <BodyWrapper
@@ -477,6 +478,7 @@ const Body: FunctionComponent<Props> = ({
               <SpacingComponent $sliceType={slice.type}>
                 <ImageGallery
                   {...slice.value}
+                  isStandalone={isStandaloneImageGallery}
                   id={imageGalleryIdCount++}
                   comicPreviousNext={comicPreviousNext}
                 />
