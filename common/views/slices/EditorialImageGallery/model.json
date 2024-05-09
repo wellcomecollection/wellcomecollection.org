@@ -5,6 +5,7 @@
   "description": "EditorialImageGallery",
   "legacyPaths": {
     "articles::body::editorialImageGallery": "default",
+    "books::body::editorialImageGallery": "default",
     "event-series::body::editorialImageGallery": "default",
     "events::body::editorialImageGallery": "default",
     "exhibitions::body::editorialImageGallery": "default",

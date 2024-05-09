@@ -5,6 +5,7 @@
   "description": "Standfirst",
   "legacyPaths": {
     "articles::body::standfirst": "default",
+    "books::body::standfirst": "default",
     "event-series::body::standfirst": "default",
     "events::body::standfirst": "default",
     "exhibitions::body::standfirst": "default",

@@ -4,6 +4,7 @@
   "name": "Contact",
   "description": "Contact",
   "legacyPaths": {
+    "books::body::contact": "default",
     "event-series::body::contact": "default",
     "events::body::contact": "default",
     "exhibitions::body::contact": "default",

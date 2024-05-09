@@ -2541,7 +2541,7 @@ interface ExhibitionHighlightToursDocumentData {
    * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-highlight-tours.title
-   * - **Tab**: Main
+   * - **Tab**: Guide
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   title: prismic.TitleField;
@@ -2552,7 +2552,7 @@ interface ExhibitionHighlightToursDocumentData {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-highlight-tours.related-exhibition
-   * - **Tab**: Main
+   * - **Tab**: Guide
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   'related-exhibition': prismic.ContentRelationshipField<'exhibitions'>;
@@ -2563,7 +2563,7 @@ interface ExhibitionHighlightToursDocumentData {
    * - **Field Type**: Rich Text
    * - **Placeholder**: This will fallback to the related exhibition's promo text if not filled in
    * - **API ID Path**: exhibition-highlight-tours.introText
-   * - **Tab**: Main
+   * - **Tab**: Guide
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   introText: prismic.RichTextField;
@@ -2574,7 +2574,7 @@ interface ExhibitionHighlightToursDocumentData {
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-highlight-tours.slices[]
-   * - **Tab**: Main
+   * - **Tab**: Guide
    * - **Documentation**: https://prismic.io/docs/field#slices
    */
   slices: prismic.SliceZone<ExhibitionHighlightToursDocumentDataSlicesSlice>;
@@ -5797,6 +5797,17 @@ export interface CollectionVenueSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/field#select
    */
   showClosingTimes: prismic.SelectField<'yes'>;
+
+  /**
+   * Show title and image field in *CollectionVenue → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: collectionVenue.primary.isFeatured
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  isFeatured: prismic.BooleanField;
 }
 
 /**
