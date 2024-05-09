@@ -359,8 +359,11 @@ export function transformCollectionVenueSlice(
         type: 'collectionVenue',
         weight: getWeight(slice.slice_label),
         value: {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          content: transformCollectionVenue(slice.primary.content as any),
+          content: {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ...transformCollectionVenue(slice.primary.content as any),
+            isFeatured: slice.primary.isFeatured,
+          },
           showClosingTimes: slice.primary.showClosingTimes === 'yes',
         },
       }

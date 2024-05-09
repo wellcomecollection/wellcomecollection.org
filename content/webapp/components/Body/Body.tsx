@@ -580,7 +580,8 @@ const Body: FunctionComponent<Props> = ({
                 ) : (
                   <Layout
                     gridSizes={
-                      slice.weight === 'featured'
+                      slice.weight === 'featured' ||
+                      slice.value.content.isFeatured // TODO: remove weight check after migration
                         ? {
                             s: 12,
                             m: 12,
