@@ -13,7 +13,7 @@ export async function getLocalType(
   id: string
 ): Promise<CustomType | undefined> {
   try {
-    return (await import(`../src/${id}`)).default;
+    return (await import(`@weco/common/customtypes/${id}`)).default;
   } catch (e) {
     console.warn(`Cannot load local type '${id}': ${e}`);
   }

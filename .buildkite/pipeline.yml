@@ -1,8 +1,8 @@
-- label: ":docker: build common"
-  key: "build_common"
+- label: ':docker: build common'
+  key: 'build_common'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
@@ -10,11 +10,11 @@
           - common
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
-- label: ":docker: build content"
-  key: "build_content"
+- label: ':docker: build content'
+  key: 'build_content'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
@@ -22,11 +22,11 @@
           - content
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
-- label: ":docker: build edge_lambdas"
-  key: "build_edge_lambdas"
+- label: ':docker: build edge_lambdas'
+  key: 'build_edge_lambdas'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
@@ -34,11 +34,11 @@
           - edge_lambdas
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
-- label: ":docker: build identity"
-  key: "build_identity"
+- label: ':docker: build identity'
+  key: 'build_identity'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
@@ -46,11 +46,11 @@
           - identity
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
-- label: ":docker: build dash"
-  branches: "main"
+- label: ':docker: build dash'
+  branches: 'main'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
@@ -58,71 +58,68 @@
           - dash
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
-## This test is now out of date as it compares the Prismic types to our old model files
-## We no longer use these files since the move to slice machine
-## We will reinstate this test to compare the models to the new type files, see: #10860
-# - label: "diff prismic model"
-#   branches: "main"
-#   plugins:
-#     - wellcomecollection/aws-assume-role#v0.2.2:
-#         role: "arn:aws:iam::130871440101:role/experience-ci"
-#     - ecr#v2.1.1:
-#         login: true
-#     - docker-compose#v3.5.0:
-#         run: prismic_model
-#         env:
-#           - CI
-#         command: ["yarn", "diffCustomTypes"]
-
-- label: "test common"
-  depends_on: "build_common"
+- label: 'diff prismic model'
+  branches: 'main'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        run: prismic_model
+        env:
+          - CI
+        command: ['yarn', 'diffCustomTypes']
+
+- label: 'test common'
+  depends_on: 'build_common'
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
         run: common
-        command: ["yarn", "test"]
+        command: ['yarn', 'test']
 
-- label: "test content"
-  depends_on: "build_content"
+- label: 'test content'
+  depends_on: 'build_content'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
         run: content
-        command: ["yarn", "test"]
+        command: ['yarn', 'test']
 
-- label: "test identity"
-  depends_on: "build_identity"
+- label: 'test identity'
+  depends_on: 'build_identity'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
         run: identity
-        command: ["yarn", "test"]
+        command: ['yarn', 'test']
 
-- label: "test edge_lambdas"
-  depends_on: "build_edge_lambdas"
+- label: 'test edge_lambdas'
+  depends_on: 'build_edge_lambdas'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
         run: edge_lambdas
-        command: ["yarn", "test"]
+        command: ['yarn', 'test']
 
 # This step kicks of the "end-to-end on pull requests" flow.
 #
 # It doesn't run on main, because we run e2es on main by deploying
 # into our stage/prod environments instead.
-- label: "check if we need to run e2es"
+- label: 'check if we need to run e2es'
   command: .buildkite/e2e_on_pull_requests/check_if_we_need_to_ask.sh
   if: build.branch != "main"
 
@@ -131,11 +128,11 @@
 
 - wait
 
-- label: "deploy content"
-  branches: "main"
+- label: 'deploy content'
+  branches: 'main'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
@@ -143,11 +140,11 @@
           - content:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:ref.${BUILDKITE_COMMIT}
           - content:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:latest
 
-- label: "deploy identity"
-  branches: "main"
+- label: 'deploy identity'
+  branches: 'main'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
@@ -155,65 +152,65 @@
           - identity:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity_webapp:ref.${BUILDKITE_COMMIT}
           - identity:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity_webapp:latest
 
-- label: "deploy dash"
-  branches: "main"
+- label: 'deploy dash'
+  branches: 'main'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
         run: dash
-        command: ["yarn", "deploy"]
+        command: ['yarn', 'deploy']
         env:
           - AWS_ACCESS_KEY_ID
           - AWS_SECRET_ACCESS_KEY
           - AWS_SESSION_TOKEN
 
-- label: "deploy edge_lambdas"
-  branches: "main"
+- label: 'deploy edge_lambdas'
+  branches: 'main'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
         run: edge_lambdas
-        command: ["yarn", "deploy"]
+        command: ['yarn', 'deploy']
         env:
           - AWS_ACCESS_KEY_ID
           - AWS_SECRET_ACCESS_KEY
           - AWS_SESSION_TOKEN
 
-- label: "deploy updown"
-  branches: "main"
+- label: 'deploy updown'
+  branches: 'main'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
         run: updown
-        command: ["yarn", "apply"]
+        command: ['yarn', 'apply']
         env:
           - AWS_ACCESS_KEY_ID
           - AWS_SECRET_ACCESS_KEY
           - AWS_SESSION_TOKEN
 
-- label: "deploy assets"
-  branches: "main"
+- label: 'deploy assets'
+  branches: 'main'
   commands: ./assets/deploy_assets.sh
   agents:
     queue: nano
 
 - wait
 
-- label: "Trigger stage deployment"
-  branches: "main"
+- label: 'Trigger stage deployment'
+  branches: 'main'
   plugins:
     - wellcomecollection/github-deployments#v0.3.0:
-        assume_role: "arn:aws:iam::130871440101:role/experience-ci"
+        assume_role: 'arn:aws:iam::130871440101:role/experience-ci'
         environment: stage
-        ref: "${BUILDKITE_COMMIT}"
+        ref: '${BUILDKITE_COMMIT}'
   agents:
     queue: nano
