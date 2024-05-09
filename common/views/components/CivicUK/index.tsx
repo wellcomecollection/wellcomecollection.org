@@ -45,8 +45,7 @@ const text = {
 };
 
 // This format is required by Civic UK
-// TODO confirm this date as part of https://github.com/wellcomecollection/wellcomecollection.org/issues/10706
-export const policyUpdatedDate = '25/05/2018';
+export const policyUpdatedDate = '17/04/2024';
 
 // Should your privacy policy change after a user gives consent,
 // Cookie Control will invalidate prior records of consent and seek the user's preferences using the latest information available.
