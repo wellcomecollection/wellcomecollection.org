@@ -107,7 +107,7 @@ type Props = {
   sectionLevelPage?: boolean;
   staticContent?: ReactElement | null;
   comicPreviousNext?: ComicPreviousNextProps;
-  contentType?: 'short-film' | 'visual-story';
+  contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
 };
 
 type SectionTheme = {
@@ -145,6 +145,7 @@ export type SliceZoneContext = {
   pageId: string;
   isLanding: boolean;
   isDropCapped: boolean;
+  contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
 };
 
 export const defaultContext: SliceZoneContext = {
@@ -156,6 +157,7 @@ export const defaultContext: SliceZoneContext = {
   pageId: '',
   isLanding: false,
   isDropCapped: false,
+  contentType: undefined,
 };
 
 const Body: FunctionComponent<Props> = ({
@@ -385,6 +387,7 @@ const Body: FunctionComponent<Props> = ({
             pageId,
             isLanding,
             isDropCapped,
+            contentType,
           }}
         />
       )}
