@@ -58,18 +58,21 @@
           - dash
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
-- label: "diff prismic model"
-  branches: "main"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: prismic_model
-        env:
-          - CI
-        command: ["yarn", "diffCustomTypes"]
+## This test is now out of date as it compares the Prismic types to our old model files
+## We no longer use these files since the move to slice machine
+## We will reinstate this test to compare the models to the new type files, see: #10860
+# - label: "diff prismic model"
+#   branches: "main"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: prismic_model
+#         env:
+#           - CI
+#         command: ["yarn", "diffCustomTypes"]
 
 - label: "test common"
   depends_on: "build_common"
