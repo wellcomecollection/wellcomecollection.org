@@ -50,6 +50,7 @@ export type Venue = {
   url?: string;
   linkText?: string;
   image?: ImageType;
+  isFeatured?: boolean;
 };
 
 // http://schema.org/specialOpeningHoursSpecification
