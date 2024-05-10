@@ -35,19 +35,15 @@ const NewCalendarSelect: FunctionComponent<Props> = ({
   availableDates,
   chosenDate,
   setChosenDate,
-}) => {
-  return availableDates.length ? (
-    <Select
-      name="calendar_dates"
-      label="Select a date"
-      hideLabel={true}
-      options={availabilitySlotsToSelectOptions(availableDates)}
-      value={chosenDate || 'Select a date'}
-      onChange={e => setChosenDate(e.target.value)}
-    />
-  ) : (
-    <>Error: Available dates could not be found.</>
-  );
-};
+}) => (
+  <Select
+    name="calendar_dates"
+    label="Select a date"
+    hideLabel={true}
+    options={availabilitySlotsToSelectOptions(availableDates)}
+    value={chosenDate || 'Select a date'}
+    onChange={e => setChosenDate(e.target.value)}
+  />
+);
 
 export default NewCalendarSelect;
