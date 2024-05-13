@@ -63,7 +63,9 @@ const CardGrid: FunctionComponent<Props> = ({
               {item.type === 'articles' && (
                 <StoryPromo article={item} hidePromoText={hidePromoText} />
               )}
-              {item.type === 'exhibition-guides' && (
+              {(item.type === 'exhibition-guides' ||
+                item.type === 'exhibition-highlight-tours' ||
+                item.type === 'exhibition-texts') && (
                 <ExhibitionGuidePromo exhibitionGuide={item} />
               )}
               {item.type === 'exhibition-guides-links' && (
