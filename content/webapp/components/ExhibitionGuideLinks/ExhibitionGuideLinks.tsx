@@ -29,7 +29,7 @@ function cookieHandler(key: string, data: string) {
   setCookie(key, data, options);
 }
 
-const ExhibitionGuideLinks: FunctionComponent<Props> = ({
+export const ExhibitionGuideLinks: FunctionComponent<Props> = ({
   pathname,
   availableTypes,
 }) => {
@@ -97,4 +97,61 @@ const ExhibitionGuideLinks: FunctionComponent<Props> = ({
   );
 };
 
-export default ExhibitionGuideLinks;
+type ResourceProps = {
+  textPathname: string | undefined; // TODO make these more specifid=c?
+  audioPathname: string | undefined;
+  videoPathname: string | undefined;
+};
+
+export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
+  textPathname,
+  audioPathname,
+  videoPathname,
+}) => {
+  return (
+    <TypeList>
+      {audioPathname && (
+        <TypeOption
+          url={audioPathname}
+          title="Listen to audio"
+          text="Find out more about the exhibition with short audio tracks."
+          backgroundColor="accent.lightSalmon"
+          icon={audioDescribed}
+          onClick={() => {
+            cookieHandler(
+              cookies.exhibitionGuideType,
+              'audio-without-descriptions'
+            );
+          }}
+        />
+      )}
+      {textPathname && (
+        <TypeOption
+          url={textPathname}
+          title="Read captions and transcripts"
+          text="All the wall and label texts from the gallery, plus audio transcripts – great for those without headphones."
+          backgroundColor="accent.lightGreen"
+          icon={speechToText}
+          onClick={() => {
+            cookieHandler(
+              cookies.exhibitionGuideType,
+              'captions-and-transcripts'
+            );
+          }}
+        />
+      )}
+      {videoPathname && (
+        <TypeOption
+          url={videoPathname}
+          title="Watch British Sign Language videos"
+          text="Commentary about the exhibition in British Sign Language videos."
+          backgroundColor="accent.lightBlue"
+          icon={britishSignLanguage}
+          onClick={() => {
+            cookieHandler(cookies.exhibitionGuideType, 'bsl');
+          }}
+        />
+      )}
+    </TypeList>
+  );
+};
