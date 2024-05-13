@@ -42,7 +42,7 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
   }))(exhibitionGuide);
 }
 
-function transformRelatedExhibition(exhibition): RelatedExhibition {
+export function transformRelatedExhibition(exhibition): RelatedExhibition {
   const promo =
     exhibition.data.promo && transformImagePromo(exhibition.data.promo);
 
