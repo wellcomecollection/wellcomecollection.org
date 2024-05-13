@@ -5,6 +5,7 @@ import { allowedRequests } from '@weco/common/values/requests';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
+import NewRequestingDayPicker from '../RequestingDayPicker/NewRequestingDayPicker';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import {
   PhysicalItem,
@@ -14,10 +15,10 @@ import styled from 'styled-components';
 import { CTAs, CurrentRequests, Header } from './common';
 import { themeValues } from '@weco/common/views/themes/config';
 import { dateAsValue, dateFromValue } from './format-date';
+import { useToggles } from '@weco/common/server-data/Context';
 
 const PickUpDate = styled(Space).attrs({
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'l', properties: ['column-gap'] },
 })`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
   border-bottom: 1px solid ${props => props.theme.color('neutral.300')};
@@ -62,6 +63,14 @@ const PickupDeadline = styled.p.attrs({
   `}
 `;
 
+const ErrorMessage = styled(Space).attrs({
+  as: 'p',
+  $h: { size: 'm', properties: ['padding-left'] },
+  $v: { size: 'm', properties: ['margin-bottom', 'margin-top'] },
+})`
+  border-left: 5px solid ${props => props.theme.color('validation.red')};
+`;
+
 type RequestDialogProps = {
   work: Work;
   item: PhysicalItem;
@@ -77,6 +86,8 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
   setIsActive,
   currentHoldNumber,
 }) => {
+  const { offsiteRequesting } = useToggles();
+
   const availableDates = useAvailableDates();
   const [pickUpDate, setPickUpDate] = useState<string | undefined>(
     availableDates.nextAvailable && dateAsValue(availableDates.nextAvailable)
@@ -140,14 +151,36 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
             </PickupDeadline>
           </PickUpDateDescription>
           <PickUpDateInputWrapper>
-            <RequestingDayPicker
-              startDate={availableDates.nextAvailable}
-              endDate={availableDates.lastAvailable}
-              exceptionalClosedDates={availableDates.exceptionalClosedDates}
-              regularClosedDays={availableDates.regularClosedDays}
-              pickUpDate={pickUpDate}
-              setPickUpDate={setPickUpDate}
-            />
+            <>
+              {offsiteRequesting &&
+                (item.availableDates?.length ? (
+                  <NewRequestingDayPicker
+                    availableDates={item.availableDates}
+                    pickUpDate={pickUpDate}
+                    setPickUpDate={setPickUpDate}
+                  />
+                ) : (
+                  <ErrorMessage>
+                    Error fetching available dates.
+                    <br />
+                    Try again later or email us at
+                    <br />
+                    <a href="mailto:digital@wellcomecollection.org">
+                      digital@wellcomecollection.org
+                    </a>
+                  </ErrorMessage>
+                ))}
+              {!offsiteRequesting && (
+                <RequestingDayPicker
+                  startDate={availableDates.nextAvailable}
+                  endDate={availableDates.lastAvailable}
+                  exceptionalClosedDates={availableDates.exceptionalClosedDates}
+                  regularClosedDays={availableDates.regularClosedDays}
+                  pickUpDate={pickUpDate}
+                  setPickUpDate={setPickUpDate}
+                />
+              )}
+            </>
           </PickUpDateInputWrapper>
         </PickUpDate>
       </Space>
@@ -158,6 +191,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
             variant="ButtonSolid"
             text="Confirm request"
             dataGtmTrigger="requesting_confirm"
+            disabled={!item.availableDates?.length}
           />
         </ConfirmRequestButtonWrapper>
         <Button
