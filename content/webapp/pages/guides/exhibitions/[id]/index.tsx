@@ -28,7 +28,10 @@ import SpacingSection from '@weco/common/views/components/styled/SpacingSection'
 import { AppErrorProps } from '@weco/common/services/app';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import OtherExhibitionGuides from '@weco/content/components/OtherExhibitionGuides/OtherExhibitionGuides';
-import ExhibitionGuideLinks from '@weco/content/components/ExhibitionGuideLinks/ExhibitionGuideLinks';
+import {
+  ExhibitionGuideLinks,
+  ExhibitionResourceLinks,
+} from '@weco/content/components/ExhibitionGuideLinks/ExhibitionGuideLinks';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
