@@ -1,12 +1,19 @@
 import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibitionGuides } from '@weco/content/services/prismic/fetch/exhibition-guides';
-import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
+import { fetchExhibitionTexts } from '@weco/content/services/prismic/fetch/exhibition-texts';
+import { fetchExhibitionHighlightTours } from '@weco/content/services/prismic/fetch/exhibition-highlight-tours';
 import {
   transformExhibitionGuide,
   transformExhibitionGuideToExhibitionGuideBasic,
 } from '@weco/content/services/prismic/transformers/exhibition-guides';
+import {
+  transformExhibitionTexts,
+  transformToBasic,
+} from '@weco/content/services/prismic/transformers/exhibition-texts';
+import { transformExhibitionHighlightTour } from '@weco/content/services/prismic/transformers/exhibition-highlight-tours';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
@@ -21,7 +28,6 @@ import SpacingSection from '@weco/common/views/components/styled/SpacingSection'
 import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-
 type Props = {
   exhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
   jsonLd: JsonLdObj[];
@@ -39,25 +45,73 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   const client = createClient(context);
-  const exhibitionGuidesQuery = await fetchExhibitionGuides(client, { page });
+  // ExhibitionGuides are deprecated in Prismic, we fetch them for the old content
+  const exhibitionGuidesQueryPromise = fetchExhibitionGuides(client, { page });
+  // What was ExhibitionGuides is now split into ExhibitionTexts and ExhibitionHighlightTours
+  // We look for both of these and later combine any that share the same related exhibition
+  // for the purpose of rendering links to the exhibition guide index page.
+  const exhibitionTextsQueryPromise = fetchExhibitionTexts(client, { page });
+  const exhibitionHighlightsToursQueryPromise = fetchExhibitionHighlightTours(
+    client,
+    { page }
+  );
+
+  const [
+    exhibitionGuidesQuery,
+    exhibitionTextsQuery,
+    exhibitionHighlightsToursQuery,
+  ] = await Promise.all([
+    exhibitionGuidesQueryPromise,
+    exhibitionTextsQueryPromise,
+    exhibitionHighlightsToursQueryPromise,
+  ]);
 
   const exhibitionGuides = transformQuery(
     exhibitionGuidesQuery,
     transformExhibitionGuide
   );
 
-  const basicExhibitionGuides = {
-    ...exhibitionGuides,
-    results: exhibitionGuides.results.map(
+  const exhibitionTexts = transformQuery(
+    exhibitionTextsQuery,
+    transformExhibitionTexts
+  );
+  const exhibitionHighlightTours = transformQuery(
+    exhibitionHighlightsToursQuery,
+    transformExhibitionHighlightTour
+  );
+
+  // exhibitionTexts and exhibitionHighlightTours may have the same related exhibition
+  // in that case we only keep one of them
+  // for the purpose of rendering links to the exhibition guide page.
+  const uniqueExhibitionsWithGuides = [
+    ...new Map(
+      [
+        ...exhibitionTexts.results.map(transformToBasic),
+        ...exhibitionHighlightTours.results.map(transformToBasic),
+      ].map(item => [item.relatedExhibition?.id, item])
+    ).values(),
+  ];
+
+  const allResults = [
+    ...uniqueExhibitionsWithGuides,
+    ...exhibitionGuides.results.map(
       transformExhibitionGuideToExhibitionGuideBasic
     ),
+  ];
+
+  const exhibitionGuidesResponse = {
+    currentPage: 1,
+    pageSize: allResults.length,
+    totalResults: allResults.length,
+    totalPages: 1,
+    results: allResults,
   };
 
-  const jsonLd = exhibitionGuides.results.map(exhibitionGuideLd);
+  const jsonLd = exhibitionGuidesResponse.results.map(exhibitionGuideLd);
 
   return {
     props: serialiseProps({
-      exhibitionGuides: basicExhibitionGuides,
+      exhibitionGuides: exhibitionGuidesResponse,
       jsonLd,
       serverData,
     }),
