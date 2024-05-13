@@ -62,7 +62,7 @@ function showItemLink({
   digitalLocation: DigitalLocation | undefined;
   accessCondition: string | undefined;
   canvases: TransformedCanvas[] | undefined;
-  bornDigitalStatus: BornDigitalStatus;
+  bornDigitalStatus: BornDigitalStatus | undefined;
 }): boolean {
   // We don't show the item link if there are bornDigital items present because we display download links on the page instead.
   // We don't show the item link if there are video or sound items present because we display the players on the page instead.
