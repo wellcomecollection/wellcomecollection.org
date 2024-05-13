@@ -149,4 +149,4 @@ $ yarn migrate --id articles
 
 ### Note
 
-This will only migrate _published_ documents. In order to migrate documents in draft, you will first have to find the Prismic `ref` of the document and include this as an option to `createClient`.
+This will only migrate _published_ documents. In order to migrate documents in draft, you will first have to find the Prismic `ref` of the document and include this as an option to `createClient`. Once a draft document is in a migration release, it is important _not_ to publish it, otherwise it will indeed be published on the front-end. Instead, it should be archived and then re-saved to draft from the archive.
