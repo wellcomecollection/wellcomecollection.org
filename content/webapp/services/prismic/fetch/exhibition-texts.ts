@@ -8,6 +8,8 @@ const exhibitionTextsFetcher = fetcher<ExhibitionTextsDocument>(
   exhibitionsFetchLinks
 );
 
+export const fetchExhibitionText = exhibitionTextsFetcher.getById;
+
 export const fetchExhibitionTexts = (
   client: GetServerSidePropsPrismicClient,
   { ...opts }: GetByTypeParams
