@@ -9,6 +9,9 @@ const exhibitionHighlightToursFetcher =
     exhibitionsFetchLinks
   );
 
+export const fetchExhibitionHighlightTour =
+  exhibitionHighlightToursFetcher.getById;
+
 export const fetchExhibitionHighlightTours = (
   client: GetServerSidePropsPrismicClient,
   { ...opts }: GetByTypeParams
