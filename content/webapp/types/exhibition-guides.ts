@@ -1,6 +1,10 @@
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
 import * as prismic from '@prismicio/client';
+import {
+  ExhibitionTextsDocumentData,
+  ExhibitionHighlightToursDocumentData,
+} from '@weco/common/prismicio-types';
 
 type CaptionsOrTranscripts = {
   title: string;
@@ -33,7 +37,11 @@ export type RelatedExhibition = {
 export type ExhibitionGuideBasic = {
   title: string;
   introText: prismic.RichTextField;
-  type: 'exhibition-guides' | 'exhibition-guides-links';
+  type:
+    | 'exhibition-guides'
+    | 'exhibition-guides-links'
+    | 'exhibition-texts'
+    | 'exhibition-highlight-tours';
   id: string;
   image?: ImageType;
   promo?: ImagePromo;
@@ -65,3 +73,11 @@ export function isValidType(
   return typeNames.includes(type as any);
   /* eslint-enable @typescript-eslint/no-explicit-any */
 }
+
+export type ExhibitionTexts = ExhibitionGuideBasic & {
+  textItems: ExhibitionTextsDocumentData['slices'];
+};
+
+export type ExhibitionHighlightTours = ExhibitionGuideBasic & {
+  stops: ExhibitionHighlightToursDocumentData['slices'];
+};
