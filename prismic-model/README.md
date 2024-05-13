@@ -131,3 +131,22 @@ If you have a locally running content app (`yarn content` in the repo root), you
 ```console
 $ yarn tryAllContentPages
 ```
+
+
+## Migrating content using the migration API
+
+The [migration API](https://prismic.io/docs/migration-api-technical-reference) allows you to `PUT` changes to existing Prismic documents, or `POST` new documents. The data format follows the response format of the [document API](https://prismic.io/docs/rest-api-technical-reference).
+
+The `migrate.ts` script expects an `--id` parameter for a custom type, and will migrate all documents of this type as you please (e.g. to mutate the shape of the body slices in order to work with Slice Machine).
+
+You will need to create a `.env` file with values for the variables listed in `.env_example` if one doesn't exist.
+
+### Usage
+
+```console
+$ yarn migrate --id articles
+```
+
+### Note
+
+This will only migrate _published_ documents. In order to migrate documents in draft, you will first have to find the Prismic `ref` of the document and include this as an option to `createClient`.

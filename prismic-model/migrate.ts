@@ -20,15 +20,10 @@ async function init() {
   // fetch documents
   const client = createClient(repository, {
     fetch,
-    ref: 'xyz',
+    // ref: process.env.PRISMIC_REF, // required to migrate _draft_ content
     accessToken: process.env.PRISMIC_ACCESS_TOKEN,
   });
-  const refs = await client.getRefs();
-  console.log({ refs });
-  // const allDocs = await client.getAllByType(id);
-  const doc = await client.getByID('ZcI1CBAAAPpnKxMq');
-
-  console.log(doc);
+  const allDocs = await client.getAllByType(id);
 
   fs.writeFile('migration.log', '', err => {
     if (err) {
@@ -36,50 +31,14 @@ async function init() {
     }
   });
   async function migrateDoc(doc, token) {
-    const body = doc.data.body
-      .filter(slice => {
-        return !(
-          slice.slice_type === 'editorialImage' &&
-          slice.slice_label === 'featured'
-        ); // remove featured images (we don't display them currently, and if we remove the label, they will start showing up, which we don't want)
-      })
-      .map(slice => {
-        // handle image gallery frames with new boolean field
-        if (
-          slice.slice_type === 'editorialImageGallery' &&
-          slice.slice_label === 'frames'
-        ) {
-          slice.primary.isFrames = true;
-        }
-
-        // get rid of 'quoteV2'
-        if (slice.slice_type === 'quoteV2') {
-          const idSuffix = slice.id.match(/\$.*/);
-          slice.slice_type = 'quote';
-          slice.id = `quote${idSuffix}`;
-        }
-
-        // handle pull/review quotes with new boolean field
-        if (
-          (slice.slice_type === 'quote' || slice.slice_type === 'quotev2') &&
-          (slice.slice_label === 'pull' || slice.slice_label === 'review')
-        ) {
-          slice.primary.isPullOrReview = true;
-        }
-
-        // remove all labels
-        slice.slice_label = null;
-
-        return {
-          variation: 'default', // all slices require a variation to appear in the editor
-          ...slice,
-        };
-      });
+    const body = doc.data.body.map(slice => {
+      // mutate slice
+      return slice;
+    });
 
     doc.data.body = body;
 
     // construct the request URL
-    console.log(JSON.stringify(doc));
     const url = `https://migration.prismic.io/documents/${doc.id}`;
 
     // Send the update
@@ -133,11 +92,10 @@ async function init() {
   const token = await authResponse.text();
   const timer = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-  // for (const doc of allDocs.results) {
-  //   await timer(2000); // don't make too many requests
-  //   migrateDoc(doc, token);
-  // }
-  migrateDoc(doc, token);
+  for (const doc of allDocs.results) {
+    await timer(2000); // don't make too many requests
+    migrateDoc(doc, token);
+  }
 }
 
 init();
