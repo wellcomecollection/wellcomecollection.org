@@ -30,7 +30,10 @@ import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import useTransformedManifest from '@weco/content/hooks/useTransformedManifest';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
-import { TransformedCanvas } from '@weco/content/types/manifest';
+import {
+  TransformedCanvas,
+  BornDigitalStatus,
+} from '@weco/content/types/manifest';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -54,21 +57,29 @@ function showItemLink({
   digitalLocation,
   accessCondition,
   canvases,
+  bornDigitalStatus,
 }: {
   digitalLocation: DigitalLocation | undefined;
   accessCondition: string | undefined;
   canvases: TransformedCanvas[] | undefined;
+  bornDigitalStatus: BornDigitalStatus | undefined;
 }): boolean {
+  // We don't show the item link if there are bornDigital items present because we display download links on the page instead.
   // We don't show the item link if there are video or sound items present because we display the players on the page instead.
-  // This relies on there only being one type of thing in a manifest, otherwise non video/sound items will be hidden.
+  // This means that for the video and sound files, we rely on there only being one type of thing in a manifest, otherwise non video/sound items will be hidden from the user.
   // This is usually the case, except for manifests with 'Born digital' items.
-  // When we have born digital items, we show links to all the items on the work page instead of the players/view button, so it shouldn't matter.
+  // But since we display links to all files when there are 'Born digital' items present then this should not matter.
   const hasVideo = hasItemType(canvases, 'Video');
   const hasSound =
     hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
   if (accessCondition === 'closed' || accessCondition === 'restricted') {
     return false;
-  } else if (digitalLocation && !hasVideo && !hasSound) {
+  } else if (
+    digitalLocation &&
+    !hasVideo &&
+    !hasSound &&
+    bornDigitalStatus === 'noBornDigital'
+  ) {
     return true;
   } else {
     return false;
@@ -136,7 +147,7 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
     iiifPresentationLocation || iiifImageLocation;
   const digitalLocationInfo =
     digitalLocation && getDigitalLocationInfo(digitalLocation);
-  const { collectionManifestsCount, canvases } = {
+  const { collectionManifestsCount, canvases, bornDigitalStatus } = {
     ...transformedIIIFManifest,
   };
 
@@ -144,6 +155,7 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
     digitalLocation,
     accessCondition: digitalLocationInfo?.accessCondition,
     canvases,
+    bornDigitalStatus,
   });
 
   const imageUrl =
