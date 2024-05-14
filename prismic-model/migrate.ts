@@ -4,10 +4,10 @@ import fetch from 'node-fetch';
 import fs from 'node:fs';
 import 'dotenv/config';
 
-const { id } = yargs(process.argv.slice(2))
-  .usage('Usage: $0 --id [customTypeId]')
+const { type } = yargs(process.argv.slice(2))
+  .usage('Usage: $0 --type [customTypeId]')
   .options({
-    id: { type: 'string', demandOption: true },
+    type: { type: 'string', demandOption: true },
   })
   .parseSync();
 
@@ -21,9 +21,9 @@ async function init() {
   const client = createClient(repository, {
     fetch,
     // ref: process.env.PRISMIC_REF, // required to migrate _draft_ content
-    accessToken: process.env.PRISMIC_ACCESS_TOKEN,
+    // accessToken: process.env.PRISMIC_ACCESS_TOKEN, // also required for _draft_ content
   });
-  const allDocs = await client.getAllByType(id);
+  const allDocs = await client.getAllByType(type);
 
   fs.writeFile('migration.log', '', err => {
     if (err) {
@@ -92,7 +92,7 @@ async function init() {
   const token = await authResponse.text();
   const timer = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-  for (const doc of allDocs.results) {
+  for (const doc of allDocs) {
     await timer(2000); // don't make too many requests
     migrateDoc(doc, token);
   }
