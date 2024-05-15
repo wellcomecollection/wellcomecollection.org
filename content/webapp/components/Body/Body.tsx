@@ -107,7 +107,7 @@ type Props = {
   sectionLevelPage?: boolean;
   staticContent?: ReactElement | null;
   comicPreviousNext?: ComicPreviousNextProps;
-  contentType?: 'short-film' | 'visual-story';
+  contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
 };
 
 type SectionTheme = {
@@ -145,6 +145,7 @@ export type SliceZoneContext = {
   pageId: string;
   isLanding: boolean;
   isDropCapped: boolean;
+  contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
 };
 
 export const defaultContext: SliceZoneContext = {
@@ -156,6 +157,7 @@ export const defaultContext: SliceZoneContext = {
   pageId: '',
   isLanding: false,
   isDropCapped: false,
+  contentType: undefined,
 };
 
 const Body: FunctionComponent<Props> = ({
@@ -333,6 +335,7 @@ const Body: FunctionComponent<Props> = ({
 
   const isShortFilm = contentType === 'short-film';
   const isVisualStory = contentType === 'visual-story';
+  const isStandaloneImageGallery = contentType === 'standalone-image-gallery';
 
   return (
     <BodyWrapper
@@ -385,6 +388,7 @@ const Body: FunctionComponent<Props> = ({
             pageId,
             isLanding,
             isDropCapped,
+            contentType,
           }}
         />
       )}
@@ -474,6 +478,7 @@ const Body: FunctionComponent<Props> = ({
               <SpacingComponent $sliceType={slice.type}>
                 <ImageGallery
                   {...slice.value}
+                  isStandalone={isStandaloneImageGallery}
                   id={imageGalleryIdCount++}
                   comicPreviousNext={comicPreviousNext}
                 />
@@ -577,7 +582,8 @@ const Body: FunctionComponent<Props> = ({
                 ) : (
                   <Layout
                     gridSizes={
-                      slice.weight === 'featured'
+                      slice.weight === 'featured' ||
+                      slice.value.content.isFeatured // TODO: remove weight check after migration
                         ? {
                             s: 12,
                             m: 12,

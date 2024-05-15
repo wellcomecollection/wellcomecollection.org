@@ -185,14 +185,16 @@ export function transformEditorialImageSlice(
 }
 
 export function transformEditorialImageGallerySlice(
-  slice: EditorialImageGallerySlice
+  slice: EditorialImageGallerySlice,
+  isStandalone?: boolean
 ): Slice<'imageGallery', ImageGalleryProps> {
   return {
     type: 'imageGallery',
     value: {
       title: asText(slice.primary.title),
       items: slice.items.map(item => transformCaptionedImage(item)),
-      isStandalone: getWeight(slice.slice_label) === 'standalone',
+      isStandalone:
+        isStandalone || getWeight(slice.slice_label) === 'standalone', // TODO: remove the getWeight() part when migration's complete
       isFrames:
         slice.primary.isFrames || getWeight(slice.slice_label) === 'frames',
     },
@@ -357,8 +359,11 @@ export function transformCollectionVenueSlice(
         type: 'collectionVenue',
         weight: getWeight(slice.slice_label),
         value: {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          content: transformCollectionVenue(slice.primary.content as any),
+          content: {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            ...transformCollectionVenue(slice.primary.content as any),
+            isFeatured: slice.primary.isFeatured,
+          },
           showClosingTimes: slice.primary.showClosingTimes === 'yes',
         },
       }

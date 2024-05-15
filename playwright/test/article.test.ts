@@ -77,6 +77,6 @@ test('(5) | Articles use the 32:15 crop for their social media preview', async (
 
   await expect(metaTag).toHaveAttribute(
     'content',
-    'https://images.prismic.io/wellcomecollection/2a42de1c-7954-4ece-be5f-775079c4bc54_Lauren+seated+outside.jpg?auto=compress%2Cformat&rect=0%2C275%2C4000%2C1875&w=800&h=375'
+    'https://images.prismic.io/wellcomecollection/2a42de1c-7954-4ece-be5f-775079c4bc54_Lauren+seated+outside.jpg?auto=compress%2Cformat&rect=0%2C261%2C4000%2C1875&w=800&h=375'
   );
 });

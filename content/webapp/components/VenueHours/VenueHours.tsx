@@ -169,8 +169,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
   const upcomingExceptionalOpeningHours =
     exceptionalOpeningHours &&
     getUpcomingExceptionalOpeningHours(exceptionalOpeningHours);
-
-  const isFeatured = weight === 'featured';
+  const isFeatured = weight === 'featured' || venue.isFeatured; // TODO: remove weight check after migration
   return (
     <>
       {isFeatured && (

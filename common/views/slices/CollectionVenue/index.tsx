@@ -31,7 +31,8 @@ const CollectionVenue = ({
         ) : (
           <Layout
             gridSizes={
-              transformedSlice.weight === 'featured'
+              transformedSlice.weight === 'featured' || // TODO: remove after Slice Machine migration
+              transformedSlice.value.content.isFeatured
                 ? {
                     s: 12,
                     m: 12,

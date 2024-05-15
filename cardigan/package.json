@@ -29,7 +29,7 @@
     "babel-preset-react-app": "^9.1.2",
     "browserify-fs": "^1.0.0",
     "browserify-zlib": "^0.2.0",
-    "chromatic": "^6.7.3",
+    "chromatic": "^6.21.1",
     "crypto-browserify": "^3.12.0",
     "css-loader": "^6.7.3",
     "eslint": "^8.46.0",

@@ -546,6 +546,10 @@ export const workWithPartOf: Work = {
           type: 'DigitalLocation',
         },
       ],
+      availableDates: [
+        { from: '2022-05-23T09:00:00.000Z', to: '2022-05-23T09:00:00.000Z' },
+        { from: '2022-05-24T09:00:00.000Z', to: '2022-05-24T09:00:00.000Z' },
+      ],
       type: 'Item',
     },
   ],

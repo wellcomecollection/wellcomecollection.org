@@ -72,10 +72,6 @@ const PhysicalItems: FunctionComponent<Props> = ({
   const [physicalItems, setPhysicalItems] = useState(workItems);
   const [itemsState, setItemsState] = useItemsState(workItems);
 
-  useEffect(() => {
-    setPhysicalItems(workItems);
-  }, [workItems]);
-
   useAbortSignalEffect(
     signal => {
       const fetchUserHolds = async () => {
