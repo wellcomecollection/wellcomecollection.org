@@ -1,68 +1,49 @@
 import { FunctionComponent } from 'react';
-import Select, { SelectOption } from '@weco/content/components/Select';
-import { isRequestableDate } from '../../utils/dates';
-import { getDatesBetween } from '@weco/common/utils/dates';
+import Select from '@weco/content/components/Select';
 import { dateAsValue } from '../ItemRequestModal/format-date';
-import {
-  formatDayName,
-  formatDayMonth,
-  DayOfWeek,
-} from '@weco/common/utils/format-date';
+import { AvailabilitySlot } from '@weco/content/services/wellcome/catalogue/types';
+import { formatDayName, formatDayMonth } from '@weco/common/utils/format-date';
 
 type Props = {
-  startDate?: Date;
-  endDate?: Date;
-  excludedDates: Date[];
-  excludedDays: DayOfWeek[];
+  availableDates: AvailabilitySlot[];
   chosenDate?: string;
   setChosenDate: (value: string) => void;
 };
 
-function getAvailableDates(
-  startDate: Date,
-  endDate: Date,
-  excludedDates: Date[],
-  excludedDays: DayOfWeek[]
-): SelectOption[] {
-  return getDatesBetween({ startDate, endDate })
-    .filter(date =>
-      isRequestableDate({
-        date,
-        startDate,
-        endDate,
-        excludedDates,
-        excludedDays,
-      })
-    )
-    .map(date => ({
-      value: dateAsValue(date),
-      text: `${formatDayName(date)} ${formatDayMonth(date)}`,
-    }));
-}
+const availabilitySlotsToSelectOptions = (
+  availableDates: AvailabilitySlot[]
+) => {
+  // AvailabilitySlots have open and close dateTimestamps
+  // right now we only care about the day, not the time
+  // so we're only using "from" = opening date/time
+  return (
+    availableDates
+      .map(availabilitySlot => new Date(availabilitySlot.from))
+      .map(availableDate => ({
+        value: dateAsValue(availableDate),
+        text: `${formatDayName(availableDate)} ${formatDayMonth(
+          availableDate
+        )}`,
+      }))
+      // the list of available dates is returned from the itemsAPI in various lenghts
+      // trimming down to 12
+      .slice(0, 12)
+  );
+};
 
 const CalendarSelect: FunctionComponent<Props> = ({
-  startDate,
-  endDate,
-  excludedDates,
-  excludedDays,
+  availableDates,
   chosenDate,
   setChosenDate,
-}) => {
-  const availableDates =
-    startDate &&
-    endDate &&
-    getAvailableDates(startDate, endDate, excludedDates, excludedDays);
-
-  return availableDates ? (
-    <Select
-      name="calendar_dates"
-      label="Select a date"
-      hideLabel={true}
-      options={availableDates}
-      value={chosenDate || 'Select a date'}
-      onChange={e => setChosenDate(e.target.value)}
-    />
-  ) : null;
-};
+}) => (
+  <Select
+    name="calendar_dates"
+    label="Select a date"
+    hideLabel={true}
+    options={availabilitySlotsToSelectOptions(availableDates)}
+    value={chosenDate || 'Select a date'}
+    onChange={e => setChosenDate(e.target.value)}
+  />
+);
 
 export default CalendarSelect;
