@@ -154,7 +154,8 @@ const WorkDetails: FunctionComponent<Props> = ({
   const hasVideo = hasItemType(canvases, 'Video');
   const hasSound =
     hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
-  const hasBornDigital = bornDigitalStatus !== 'noBornDigital';
+  const hasBornDigital =
+    bornDigitalStatus && bornDigitalStatus !== 'noBornDigital';
 
   const showAvailableOnlineSection =
     (digitalLocation && shouldShowItemLink) ||
