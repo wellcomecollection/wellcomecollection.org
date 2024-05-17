@@ -74,10 +74,10 @@ export function isValidType(
   /* eslint-enable @typescript-eslint/no-explicit-any */
 }
 
-export type ExhibitionTexts = ExhibitionGuideBasic & {
+export type ExhibitionText = ExhibitionGuideBasic & {
   textItems: ExhibitionTextsDocumentData['slices'];
 };
 
-export type ExhibitionHighlightTours = ExhibitionGuideBasic & {
+export type ExhibitionHighlightTour = ExhibitionGuideBasic & {
   stops: ExhibitionHighlightToursDocumentData['slices'];
 };
