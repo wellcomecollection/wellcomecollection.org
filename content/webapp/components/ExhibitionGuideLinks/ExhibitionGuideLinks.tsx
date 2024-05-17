@@ -112,7 +112,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
     <TypeList>
       {audioPathname && (
         <TypeOption
-          url={audioPathname}
+          url={`/${audioPathname}`}
           title="Listen to audio"
           text="Find out more about the exhibition with short audio tracks."
           backgroundColor="accent.lightSalmon"
@@ -127,7 +127,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
       )}
       {textPathname && (
         <TypeOption
-          url={textPathname}
+          url={`/${textPathname}`}
           title="Read captions and transcripts"
           text="All the wall and label texts from the gallery, plus audio transcripts – great for those without headphones."
           backgroundColor="accent.lightGreen"
@@ -142,7 +142,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
       )}
       {videoPathname && (
         <TypeOption
-          url={videoPathname}
+          url={`/${videoPathname}`}
           title="Watch British Sign Language videos"
           text="Commentary about the exhibition in British Sign Language videos."
           backgroundColor="accent.lightBlue"
