@@ -2551,22 +2551,22 @@ interface ExhibitionHighlightToursDocumentData {
    *
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
-   * - **API ID Path**: exhibition-highlight-tours.related-exhibition
+   * - **API ID Path**: exhibition-highlight-tours.related_exhibition
    * - **Tab**: Guide
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  'related-exhibition': prismic.ContentRelationshipField<'exhibitions'>;
+  related_exhibition: prismic.ContentRelationshipField<'exhibitions'>;
 
   /**
    * Introductory text field in *Exhibition highlight tour*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: This will fallback to the related exhibition's promo text if not filled in
-   * - **API ID Path**: exhibition-highlight-tours.introText
+   * - **API ID Path**: exhibition-highlight-tours.intro_text
    * - **Tab**: Guide
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  introText: prismic.RichTextField;
+  intro_text: prismic.RichTextField;
 
   /**
    * Slice Zone field in *Exhibition highlight tour*
@@ -2670,26 +2670,26 @@ interface ExhibitionTextsDocumentData {
   title: prismic.TitleField;
 
   /**
-   * Related Exhibition field in *Exhibition text*
+   * Related exhibition field in *Exhibition text*
    *
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
-   * - **API ID Path**: exhibition-texts.related-exhibition
+   * - **API ID Path**: exhibition-texts.related_exhibition
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  'related-exhibition': prismic.ContentRelationshipField<'exhibitions'>;
+  related_exhibition: prismic.ContentRelationshipField<'exhibitions'>;
 
   /**
    * Introductory text field in *Exhibition text*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: This will fallback to the related exhibition's promo text if not filled in
-   * - **API ID Path**: exhibition-texts.introText
+   * - **API ID Path**: exhibition-texts.intro_text
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  introText: prismic.RichTextField;
+  intro_text: prismic.RichTextField;
 
   /**
    * Slice Zone field in *Exhibition text*
@@ -6321,14 +6321,24 @@ export interface GuideSectionHeadingSliceDefaultPrimary {
   title: prismic.RichTextField;
 
   /**
-   * Context field in *GuideSectionHeading → Primary*
+   * Subtitle field in *GuideSectionHeading → Primary*
    *
    * - **Field Type**: Rich Text
-   * - **Placeholder**: Optional context for a group of related items
-   * - **API ID Path**: guide_section_heading.primary.context
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guide_section_heading.primary.subtitle
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  context: prismic.RichTextField;
+  subtitle: prismic.RichTextField;
+
+  /**
+   * Text field in *GuideSectionHeading → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guide_section_heading.primary.text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  text: prismic.RichTextField;
 }
 
 /**
