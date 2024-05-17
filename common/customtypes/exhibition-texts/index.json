@@ -10,24 +10,26 @@
         "type": "StructuredText",
         "config": {
           "label": "Title",
-          "single": "heading1",
-          "useAsTitle": true
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "single": "heading1"
         }
       },
-      "related-exhibition": {
+      "related_exhibition": {
         "type": "Link",
         "config": {
-          "label": "Related Exhibition",
+          "label": "Related exhibition",
           "select": "document",
           "customtypes": ["exhibitions"]
         }
       },
-      "introText": {
+      "intro_text": {
         "type": "StructuredText",
         "config": {
-          "multi": "paragraph,hyperlink,strong,em",
           "label": "Introductory text",
-          "placeholder": "This will fallback to the related exhibition's promo text if not filled in"
+          "placeholder": "This will fallback to the related exhibition's promo text if not filled in",
+          "allowTargetBlank": true,
+          "multi": "paragraph,strong,em,hyperlink"
         }
       },
       "slices": {
