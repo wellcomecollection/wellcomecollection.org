@@ -13,7 +13,7 @@ import {
   transformExhibitionTexts,
   transformToBasic,
 } from '@weco/content/services/prismic/transformers/exhibition-texts';
-import { transformExhibitionHighlightTour } from '@weco/content/services/prismic/transformers/exhibition-highlight-tours';
+import { transformExhibitionHighlightTours } from '@weco/content/services/prismic/transformers/exhibition-highlight-tours';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
@@ -28,10 +28,52 @@ import SpacingSection from '@weco/common/views/components/styled/SpacingSection'
 import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+
 type Props = {
   exhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
   jsonLd: JsonLdObj[];
 };
+
+// We want a list of all the exhibition guides,
+// including the deprecated ExhibitionGuides
+// and the combined exhibitionTexts and exhibitionHiglightTours,
+// which relate to a single exhibition
+export function allGuides({
+  exhibitionGuides,
+  exhibitionTexts,
+  exhibitionHighlightTours,
+}: {
+  exhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
+  exhibitionTexts: PaginatedResults<ExhibitionGuideBasic>;
+  exhibitionHighlightTours: PaginatedResults<ExhibitionGuideBasic>;
+}): PaginatedResults<ExhibitionGuideBasic> {
+  // exhibitionTexts and exhibitionHighlightTours may have the same related exhibition
+  // in that case we only keep one of them
+  // for the purpose of rendering links to the exhibition guide page.
+  const uniqueExhibitionsWithGuides = [
+    ...new Map(
+      [
+        ...exhibitionTexts.results.map(transformToBasic),
+        ...exhibitionHighlightTours.results.map(transformToBasic),
+      ].map(item => [item.relatedExhibition?.id, item])
+    ).values(),
+  ];
+
+  const allResults = [
+    ...uniqueExhibitionsWithGuides,
+    ...exhibitionGuides.results.map(
+      transformExhibitionGuideToExhibitionGuideBasic
+    ),
+  ];
+
+  return {
+    currentPage: 1,
+    pageSize: allResults.length,
+    totalResults: allResults.length,
+    totalPages: 1,
+    results: allResults,
+  };
+}
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
@@ -75,43 +117,23 @@ export const getServerSideProps: GetServerSideProps<
     exhibitionTextsQuery,
     transformExhibitionTexts
   );
+
   const exhibitionHighlightTours = transformQuery(
     exhibitionHighlightsToursQuery,
-    transformExhibitionHighlightTour
+    transformExhibitionHighlightTours
   );
 
-  // exhibitionTexts and exhibitionHighlightTours may have the same related exhibition
-  // in that case we only keep one of them
-  // for the purpose of rendering links to the exhibition guide page.
-  const uniqueExhibitionsWithGuides = [
-    ...new Map(
-      [
-        ...exhibitionTexts.results.map(transformToBasic),
-        ...exhibitionHighlightTours.results.map(transformToBasic),
-      ].map(item => [item.relatedExhibition?.id, item])
-    ).values(),
-  ];
+  const guides = allGuides({
+    exhibitionTexts,
+    exhibitionHighlightTours,
+    exhibitionGuides,
+  });
 
-  const allResults = [
-    ...uniqueExhibitionsWithGuides,
-    ...exhibitionGuides.results.map(
-      transformExhibitionGuideToExhibitionGuideBasic
-    ),
-  ];
-
-  const exhibitionGuidesResponse = {
-    currentPage: 1,
-    pageSize: allResults.length,
-    totalResults: allResults.length,
-    totalPages: 1,
-    results: allResults,
-  };
-
-  const jsonLd = exhibitionGuidesResponse.results.map(exhibitionGuideLd);
+  const jsonLd = guides.results.map(exhibitionGuideLd);
 
   return {
     props: serialiseProps({
-      exhibitionGuides: exhibitionGuidesResponse,
+      exhibitionGuides: guides,
       jsonLd,
       serverData,
     }),
