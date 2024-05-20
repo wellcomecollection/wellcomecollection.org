@@ -1,5 +1,7 @@
 import {
   ExhibitionGuide,
+  ExhibitionText,
+  ExhibitionHighlightTour,
   ExhibitionGuideType,
   isValidType,
 } from '@weco/content/types/exhibition-guides';
@@ -7,10 +9,14 @@ import { deleteCookie, getCookie } from 'cookies-next';
 import { FunctionComponent } from 'react';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibitionGuide } from '@weco/content/services/prismic/fetch/exhibition-guides';
+import { fetchExhibitionText } from '@weco/content/services/prismic/fetch/exhibition-texts';
+import { fetchExhibitionHighlightTour } from '@weco/content/services/prismic/fetch/exhibition-highlight-tours';
 import {
   filterExhibitionGuideComponents,
   transformExhibitionGuide,
 } from '@weco/content/services/prismic/transformers/exhibition-guides';
+import { transformExhibitionTexts } from '@weco/content/services/prismic/transformers/exhibition-texts';
+import { transformExhibitionHighlightTours } from '@weco/content/services/prismic/transformers/exhibition-highlight-tours';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
@@ -38,6 +44,9 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { font } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { SliceZone } from '@prismicio/react';
+import { components } from '@weco/common/views/slices';
+import { Container } from '@weco/common/views/components/styled/Container';
 
 const ButtonWrapper = styled(Space).attrs({
   $v: { size: 's', properties: ['margin-bottom'] },
@@ -55,8 +64,26 @@ const Header = styled(Space).attrs({
   background: ${props => props.theme.color(props.$backgroundColor)};
 `;
 
+const isExhibitionGuide = (
+  item: ExhibitionGuide | ExhibitionText | ExhibitionHighlightTour
+): item is ExhibitionGuide => {
+  return 'components' in item;
+};
+
+const isExhibitionHighlightTour = (
+  item: ExhibitionGuide | ExhibitionText | ExhibitionHighlightTour
+): item is ExhibitionHighlightTour => {
+  return 'stops' in item;
+};
+
+const isExhibitionText = (
+  item: ExhibitionGuide | ExhibitionText | ExhibitionHighlightTour
+): item is ExhibitionText => {
+  return 'textItems' in item;
+};
+
 type Props = {
-  exhibitionGuide: ExhibitionGuide;
+  exhibitionGuide: ExhibitionGuide | ExhibitionText | ExhibitionHighlightTour;
   jsonLd: JsonLdObj;
   type: ExhibitionGuideType;
   userPreferenceSet?: string | string[];
@@ -88,7 +115,26 @@ export const getServerSideProps: GetServerSideProps<
   const { res, req } = context;
 
   const client = createClient(context);
-  const exhibitionGuideQuery = await fetchExhibitionGuide(client, id);
+
+  // We don't know exactly which type of document the id is for, so:
+  // We try and get any deprecated ExhibitionGuides
+  // and also the custom types that have replaced ExhibitionGuides
+  const exhibitionGuideQueryPromise = fetchExhibitionGuide(client, id);
+  const exhibitionTextQueryPromise = fetchExhibitionText(client, id);
+  const exhibitionHighlightTourQueryPromise = fetchExhibitionHighlightTour(
+    client,
+    id
+  );
+
+  const [
+    exhibitionGuideQuery,
+    exhibitionTextQuery,
+    exhibitionHighlightTourQuery,
+  ] = await Promise.all([
+    exhibitionGuideQueryPromise,
+    exhibitionTextQueryPromise,
+    exhibitionHighlightTourQueryPromise,
+  ]);
 
   const userPreferenceGuideType = getCookie(cookies.exhibitionGuideType, {
     req,
@@ -125,6 +171,7 @@ export const getServerSideProps: GetServerSideProps<
    * this prevents somebody getting stuck in this sort of redirect loop.
    *
    */
+
   if (
     usingQRCode &&
     typeof userPreferenceGuideType === 'string' &&
@@ -144,26 +191,68 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  if (isNotUndefined(exhibitionGuideQuery)) {
+  if (
+    isNotUndefined(exhibitionGuideQuery) ||
+    isNotUndefined(exhibitionTextQuery) ||
+    isNotUndefined(exhibitionHighlightTourQuery)
+  ) {
     const serverData = await getServerData(context);
-    const exhibitionGuide = transformExhibitionGuide(exhibitionGuideQuery);
-    const filteredExhibitionGuide = filterExhibitionGuideComponents(
-      exhibitionGuide,
-      type
-    );
 
-    const jsonLd = exhibitionGuideLd(exhibitionGuide);
+    // If we're dealing with the deprecated ExhibitionGuides
+    if (isNotUndefined(exhibitionGuideQuery)) {
+      const exhibitionGuide = transformExhibitionGuide(exhibitionGuideQuery);
+      const filteredExhibitionGuide = filterExhibitionGuideComponents(
+        exhibitionGuide,
+        type
+      );
 
-    return {
-      props: serialiseProps({
-        exhibitionGuide: filteredExhibitionGuide,
-        jsonLd,
-        serverData,
-        type,
-        userPreferenceSet,
-        stopId: stopId as string | undefined,
-      }),
-    };
+      const jsonLd = exhibitionGuideLd(exhibitionGuide);
+
+      return {
+        props: serialiseProps({
+          exhibitionGuide: filteredExhibitionGuide,
+          jsonLd,
+          serverData,
+          type,
+          userPreferenceSet,
+          stopId: stopId as string | undefined,
+        }),
+      };
+    }
+
+    // If we're dealing with and ExhibitionText
+    if (isNotUndefined(exhibitionTextQuery)) {
+      const exhibitionText = transformExhibitionTexts(exhibitionTextQuery);
+      const jsonLd = exhibitionGuideLd(exhibitionText);
+      return {
+        props: serialiseProps({
+          exhibitionGuide: exhibitionText,
+          jsonLd,
+          serverData,
+          type,
+          userPreferenceSet,
+          stopId: stopId as string | undefined,
+        }),
+      };
+    }
+
+    // If we're dealing with an ExhibitionHighlightTour
+    if (isNotUndefined(exhibitionHighlightTourQuery)) {
+      const exhibitionHighlightTour = transformExhibitionHighlightTours(
+        exhibitionHighlightTourQuery
+      );
+      const jsonLd = exhibitionGuideLd(exhibitionHighlightTour);
+      return {
+        props: serialiseProps({
+          exhibitionGuide: exhibitionHighlightTour,
+          jsonLd,
+          serverData,
+          type,
+          userPreferenceSet,
+          stopId: stopId as string | undefined,
+        }),
+      };
+    }
   }
 
   return { notFound: true };
@@ -175,10 +264,15 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   const { exhibitionGuide, jsonLd, type, userPreferenceSet } = props;
   const pathname = `guides/exhibitions/${exhibitionGuide.id}/${type}`;
   const typeColor = getTypeColor(type);
-  const numberedStops = exhibitionGuide.components.filter(c => c.number);
+  const numberOfStops =
+    (isExhibitionGuide(exhibitionGuide) &&
+      exhibitionGuide.components?.filter(c => c.number).length) ||
+    (isExhibitionHighlightTour(exhibitionGuide) &&
+      exhibitionGuide.stops?.length);
 
   const thisStopTitle = props.stopId
-    ? exhibitionGuide.components.find(c => c.anchorId === props.stopId)
+    ? isExhibitionGuide(exhibitionGuide) &&
+      exhibitionGuide.components.find(c => c.anchorId === props.stopId)
         ?.displayTitle
     : undefined;
 
@@ -244,13 +338,12 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
           </>
         </Layout>
       </Header>
-
       <Space $v={{ size: 'l', properties: ['margin-top'] }}>
         <Layout gridSizes={gridSize10(false)}>
           {userPreferenceSet ? (
             <p>
               {type !== 'captions-and-transcripts' && (
-                <>This exhibition has {numberedStops.length} stops. </>
+                <>This exhibition has {numberOfStops} stops. </>
               )}
               You selected this type of guide previously, but you can also
               select{' '}
@@ -266,14 +359,36 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
           ) : (
             <>
               {type !== 'captions-and-transcripts' && (
-                <p>This exhibition has {numberedStops.length} stops.</p>
+                <p>This exhibition has {numberOfStops} stops.</p>
               )}
             </>
           )}
         </Layout>
       </Space>
-
-      <ExhibitionGuideStops type={type} stops={exhibitionGuide.components} />
+      {/* For deprecated ExhibitionGuides */}
+      {isExhibitionGuide(exhibitionGuide) &&
+        exhibitionGuide.components?.length > 0 && (
+          <ExhibitionGuideStops
+            type={type}
+            stops={exhibitionGuide.components}
+          />
+        )}
+      {/* For ExhibitionTexts */}
+      {isExhibitionText(exhibitionGuide) && (
+        <SliceZone slices={exhibitionGuide.textItems} components={components} />
+      )}
+      {/* For ExhibitionHighlightTours - audio/video */}
+      {isExhibitionHighlightTour(exhibitionGuide) && (
+        <Container>
+          <div className="grid">
+            <SliceZone
+              slices={exhibitionGuide.stops}
+              components={components}
+              context={{ type }}
+            />
+          </div>
+        </Container>
+      )}
     </PageLayout>
   );
 };
