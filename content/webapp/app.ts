@@ -53,6 +53,12 @@ const appPromise = nextApp
       };
     });
 
+    router.get('/slice-simulator', async (ctx, next) => {
+      ctx.remove('x-frame-options');
+
+      await next();
+    });
+
     router.get('/preview', async ctx => {
       // Kill any cookie we had set, as it think it is causing issues.
       ctx.cookies.set(prismic.cookie.preview);
