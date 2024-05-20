@@ -43,6 +43,8 @@ export type ExhibitionGuideBasic = {
     | 'exhibition-texts'
     | 'exhibition-highlight-tours';
   id: string;
+  exhibitionTextId?: string;
+  exhibitionHighlightTourId?: string;
   image?: ImageType;
   promo?: ImagePromo;
   relatedExhibition?: RelatedExhibition;
