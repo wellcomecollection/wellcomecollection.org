@@ -13,7 +13,11 @@ import { Page } from '@weco/content/types/pages';
 import { Season } from '@weco/content/types/seasons';
 import { objToJsonLd } from '@weco/common/utils/json-ld';
 import { Exhibition } from '@weco/content/types/exhibitions';
-import { ExhibitionGuide } from '@weco/content/types/exhibition-guides';
+import {
+  ExhibitionGuide,
+  ExhibitionText,
+  ExhibitionHighlightTour,
+} from '@weco/content/types/exhibition-guides';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { Series } from '@weco/content/types/series';
 
@@ -44,7 +48,9 @@ function contributorLd(contributors: Contributor[]) {
   });
 }
 
-export function exhibitionGuideLd(exhibitionGuide: ExhibitionGuide): JsonLdObj {
+export function exhibitionGuideLd(
+  exhibitionGuide: ExhibitionGuide | ExhibitionText | ExhibitionHighlightTour
+): JsonLdObj {
   return objToJsonLd(
     {
       '@type': 'Thing',
