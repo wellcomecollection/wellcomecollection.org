@@ -242,6 +242,29 @@ resource "aws_cloudfront_distribution" "wc_org" {
   }
 
   ordered_cache_behavior {
+    path_pattern     = "/slice-simulator*"
+    target_origin_id = local.alb_origin_id
+
+    allowed_methods        = local.stateless_methods
+    cached_methods         = local.stateless_methods
+    viewer_protocol_policy = "redirect-to-https"
+
+    cache_policy_id            = var.cache_policies["weco-apps"]
+    origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
+
+    // We can't apply the security headers policy to Slice Machine routes, as
+    // it breaks the Slice Machine preview.
+
+    dynamic "lambda_function_association" {
+      for_each = local.lambda_associations
+      content {
+        event_type = lambda_function_association.value.event_type
+        lambda_arn = lambda_function_association.value.lambda_arn
+      }
+    }
+  }
+
+  ordered_cache_behavior {
     path_pattern     = "/humans.txt"
     target_origin_id = local.assets_origin_id
 
