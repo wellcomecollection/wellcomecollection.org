@@ -50,6 +50,7 @@ export function allGuides({
   // exhibitionTexts and exhibitionHighlightTours may have the same related exhibition
   // in that case we only keep one of them
   // for the purpose of rendering links to the exhibition guide page.
+
   const uniqueExhibitionsWithGuides = [
     ...new Map(
       [
@@ -60,7 +61,41 @@ export function allGuides({
   ];
 
   const allResults = [
-    ...uniqueExhibitionsWithGuides,
+    ...uniqueExhibitionsWithGuides.map(guide => {
+      const matchingExhibitionText = exhibitionTexts.results.find(
+        et => et.relatedExhibition?.id === guide.relatedExhibition?.id
+      );
+      const matchingExhibitionHighlightTour =
+        exhibitionHighlightTours.results.find(
+          eht => eht.relatedExhibition?.id === guide.relatedExhibition?.id
+        );
+      return {
+        ...guide,
+        exhibitionTextId: matchingExhibitionText?.id,
+        exhibitionHighlightTourId: matchingExhibitionHighlightTour?.id,
+        availableTypes: {
+          BSLVideo:
+            matchingExhibitionText?.availableTypes.BSLVideo ||
+            matchingExhibitionHighlightTour?.availableTypes.BSLVideo ||
+            false,
+          audioWithDescriptions:
+            matchingExhibitionText?.availableTypes.audioWithDescriptions ||
+            matchingExhibitionHighlightTour?.availableTypes
+              .audioWithDescriptions ||
+            false,
+          audioWithoutDescriptions:
+            matchingExhibitionText?.availableTypes.audioWithoutDescriptions ||
+            matchingExhibitionHighlightTour?.availableTypes
+              .audioWithoutDescriptions ||
+            false,
+          captionsOrTranscripts:
+            matchingExhibitionText?.availableTypes.captionsOrTranscripts ||
+            matchingExhibitionHighlightTour?.availableTypes
+              .captionsOrTranscripts ||
+            false,
+        },
+      };
+    }),
     ...exhibitionGuides.results.map(
       transformExhibitionGuideToExhibitionGuideBasic
     ),
