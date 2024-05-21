@@ -73,7 +73,6 @@ export function transformExhibitionHighlightToursQuery(
 
 type GuideHighlightTour = {
   number: number | undefined;
-  anchorId: string;
   title: string;
   audio: string | undefined;
   video: string | undefined;
@@ -81,14 +80,11 @@ type GuideHighlightTour = {
 };
 
 export function transformGuideStopSlice(
-  slice: GuideStopSlice,
-  index: number
+  slice: GuideStopSlice
 ): GuideHighlightTour {
   const title = asTitle(slice.primary.title);
-  const anchorId = `${dasherizeShorten(title)}-${index}`;
   return {
     number: slice.primary.number || undefined,
-    anchorId,
     title,
     audio: isFilledLinkToMediaField(slice.primary.audio_with_description)
       ? slice.primary.audio_with_description.url

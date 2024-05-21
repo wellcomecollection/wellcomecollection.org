@@ -86,22 +86,18 @@ export function transformExhibitionTextsQuery(
 
 type GuideTextItem = {
   number: number | undefined;
-  anchorId: string;
   title: string;
   caption: prismic.RichTextField | undefined;
   tombstone: prismic.RichTextField | undefined;
 };
 
 export function transformGuideTextItemSlice(
-  slice: GuideTextItemSlice,
-  index: number
+  slice: GuideTextItemSlice
 ): GuideTextItem {
   const title = asTitle(slice.primary.title);
-  const anchorId = `${dasherizeShorten(title)}-${index}`;
 
   return {
     number: slice.primary.number || undefined,
-    anchorId,
     title,
     tombstone: asRichText(slice.primary.tombstone),
     caption: slice.primary.caption
@@ -112,21 +108,17 @@ export function transformGuideTextItemSlice(
 
 type GuideSectionHeading = {
   number: number | undefined;
-  anchorId: string;
   title: string;
   subtitle: string;
   text: prismic.RichTextField | undefined;
 };
 
 export function transformGuideSectionHeadingSlice(
-  slice: GuideSectionHeadingSlice,
-  index: number
+  slice: GuideSectionHeadingSlice
 ): GuideSectionHeading {
   const title = asTitle(slice.primary.title);
-  const anchorId = `${dasherizeShorten(title)}-${index}`;
   return {
     number: slice.primary.number || undefined,
-    anchorId,
     title,
     subtitle: asTitle(slice.primary.subtitle),
     text: slice.primary.text ? asRichText(slice.primary.text) : undefined,
