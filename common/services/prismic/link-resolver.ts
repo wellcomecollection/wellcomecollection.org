@@ -19,7 +19,12 @@ function linkResolver(doc: Props | DataProps): string {
 
   if (type === 'webcomics') return `/articles/${id}`;
   if (type === 'webcomic-series') return `/series/${id}`;
-  if (type === 'exhibition-guides') return `/guides/exhibitions/${id}`;
+  if (
+    type === 'exhibition-guides' ||
+    type === 'exhibition-texts' ||
+    type === 'exhibition-highlight-tours'
+  )
+    return `/guides/exhibitions/${id}`;
 
   if (type === 'visual-stories') {
     if ('data' in doc) {
