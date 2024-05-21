@@ -16,7 +16,6 @@ import { asRichText, asTitle } from '.';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { transformImagePromo } from './images';
 import { transformRelatedExhibition } from '@weco/content/services/prismic/transformers/exhibition-guides';
-import { dasherizeShorten } from '@weco/common/utils/grammar';
 
 export function transformToBasic(
   fullDocument: ExhibitionText | ExhibitionHighlightTour
