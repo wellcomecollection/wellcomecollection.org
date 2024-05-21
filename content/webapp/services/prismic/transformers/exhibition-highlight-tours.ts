@@ -14,7 +14,6 @@ import { ExhibitionHighlightTour } from '@weco/content/types/exhibition-guides';
 import { asRichText, asTitle } from '.';
 import { transformImagePromo } from './images';
 import { transformRelatedExhibition } from '@weco/content/services/prismic/transformers/exhibition-guides';
-import { dasherizeShorten } from '@weco/common/utils/grammar';
 import { getYouTubeEmbedUrl } from '@weco/content/services/prismic/transformers/embeds';
 
 export function transformExhibitionHighlightTours(
