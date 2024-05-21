@@ -21,7 +21,7 @@ const Text: FunctionComponent<TextProps> = ({ slice, context, index }) => {
   const options = { ...defaultContext, ...context };
   return (
     <SpacingComponent $sliceType={slice.slice_type}>
-      <LayoutWidth width={context.minWidth}>
+      <LayoutWidth width={options.minWidth}>
         <div
           className={classNames({
             'body-text spaced-text': true,
