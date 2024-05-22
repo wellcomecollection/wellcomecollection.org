@@ -12,10 +12,10 @@ import {
 } from '@weco/content/components/Body/GridFactory';
 
 export type Props = {
-  number: number;
+  number: number | undefined;
   title: string;
-  audio: string;
-  video: string;
+  audio: string | undefined;
+  video: string | undefined;
   type: string;
 };
 
