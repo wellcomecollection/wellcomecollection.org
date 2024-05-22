@@ -82,7 +82,7 @@ const CookieNotice: FunctionComponent<Props> = () => {
             <CookieMessageText>
               <Text>Wellcome uses cookies.</Text>
             </CookieMessageText>
-            <a href="https://wellcome.org/who-we-are/privacy-and-terms#cookies">
+            <a href="https://wellcome.org/wellcome-collection-cookie-policy">
               Read our policy
             </a>
           </CookieMessage>
