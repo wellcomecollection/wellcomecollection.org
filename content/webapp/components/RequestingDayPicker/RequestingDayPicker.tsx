@@ -1,31 +1,22 @@
-import { DayOfWeek } from '@weco/common/utils/format-date';
 import { FunctionComponent } from 'react';
 import CalendarSelect from '../CalendarSelect/CalendarSelect';
+import { AvailabilitySlot } from '@weco/content/services/wellcome/catalogue/types';
 
 type Props = {
-  startDate?: Date;
-  endDate?: Date;
-  exceptionalClosedDates: Date[];
-  regularClosedDays: DayOfWeek[];
+  availableDates: AvailabilitySlot[];
   pickUpDate?: string;
   setPickUpDate: (date: string) => void;
 };
 
 const RequestingDayPicker: FunctionComponent<Props> = ({
-  startDate,
-  endDate,
-  exceptionalClosedDates,
-  regularClosedDays,
+  availableDates,
   pickUpDate,
   setPickUpDate,
 }: Props) => {
   return (
     <div style={{ position: 'relative' }}>
       <CalendarSelect
-        startDate={startDate}
-        endDate={endDate}
-        excludedDates={exceptionalClosedDates}
-        excludedDays={regularClosedDays}
+        availableDates={availableDates}
         chosenDate={pickUpDate}
         setChosenDate={setPickUpDate}
       />
