@@ -39,6 +39,7 @@ import {
   getDownloadOptionsFromCanvasRenderingAndSupplementing,
 } from '@weco/content/utils/iiif/v3';
 import { usePathname } from 'next/navigation';
+import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   work: Work;
@@ -49,10 +50,11 @@ const WorkDetails: FunctionComponent<Props> = ({
   work,
   shouldShowItemLink,
 }: Props) => {
+  const { showBornDigital } = useToggles();
   const isArchive = useContext(IsArchiveContext);
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
   const transformedIIIFManifest = useTransformedManifest(work);
-  const { canvases, rendering } = {
+  const { canvases, rendering, bornDigitalStatus } = {
     ...transformedIIIFManifest,
   };
   const pathname = usePathname();
@@ -152,9 +154,14 @@ const WorkDetails: FunctionComponent<Props> = ({
   const hasVideo = hasItemType(canvases, 'Video');
   const hasSound =
     hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
+  const hasBornDigital =
+    bornDigitalStatus && bornDigitalStatus !== 'noBornDigital';
 
   const showAvailableOnlineSection =
-    (digitalLocation && shouldShowItemLink) || hasVideo || hasSound;
+    (digitalLocation && shouldShowItemLink) ||
+    hasVideo ||
+    hasSound ||
+    (hasBornDigital && showBornDigital);
 
   const renderContent = () => (
     <>
