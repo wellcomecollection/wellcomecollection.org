@@ -12,12 +12,11 @@ import {
 } from '@weco/content/components/Body/GridFactory';
 
 export type Props = {
-  // TODO
-  number: any;
-  title: any;
-  audio: any;
-  video: any;
-  type: any;
+  number: number;
+  title: string;
+  audio: string;
+  video: string;
+  type: string;
 };
 
 const GuideMediaStop: FunctionComponent<Props> = ({

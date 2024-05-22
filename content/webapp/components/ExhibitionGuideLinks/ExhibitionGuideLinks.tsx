@@ -98,7 +98,7 @@ export const ExhibitionGuideLinks: FunctionComponent<Props> = ({
 };
 
 type ResourceProps = {
-  textPathname: string | undefined; // TODO make these more specifid=c?
+  textPathname: string | undefined;
   audioPathname: string | undefined;
   videoPathname: string | undefined;
 };

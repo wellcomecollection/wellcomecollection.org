@@ -2,7 +2,6 @@ import { CustomType } from './types/CustomType';
 import title from './parts/title';
 import { documentLink } from './parts/link';
 import list from './parts/list';
-// import image from './parts/image'; // TODO is this needed?
 import { multiLineText } from './parts/text';
 
 const exhibitionTexts: CustomType = {
@@ -34,7 +33,6 @@ const exhibitionTexts: CustomType = {
         // https://wellcome.slack.com/archives/CUA669WHH/p1658396258859169
         tombstone: multiLineText('Tombstone'),
         caption: multiLineText('Caption'),
-        // image: image('image'), // TODO is this needed?
       }),
     },
   },
