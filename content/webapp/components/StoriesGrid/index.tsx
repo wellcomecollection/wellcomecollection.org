@@ -126,6 +126,7 @@ const StoriesGrid: FunctionComponent<Props> = ({
             as="a"
             href={linkResolver({ id: article.id, type: 'articles' })}
             $isDetailed={isDetailed}
+            data-testid="story-search-result"
           >
             {croppedImage && (
               <ImageWrapper $isDetailed={isDetailed}>
