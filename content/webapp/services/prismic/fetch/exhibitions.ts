@@ -11,6 +11,8 @@ import {
 import { fetchPages } from './pages';
 import { fetchVisualStories } from './visual-stories';
 import { fetchExhibitionGuides } from '@weco/content/services/prismic/fetch/exhibition-guides';
+import { fetchExhibitionTexts } from '@weco/content/services/prismic/fetch/exhibition-texts';
+import { fetchExhibitionHighlightTours } from '@weco/content/services/prismic/fetch/exhibition-highlight-tours';
 import * as prismic from '@prismicio/client';
 import { PagePrismicDocument } from '../types/pages';
 import { VisualStoryDocument } from '../types/visual-stories';
@@ -21,7 +23,6 @@ import {
   Exhibition,
   ExhibitionRelatedContent,
 } from '../../../types/exhibitions';
-import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
 import {
   articleFormatsFetchLinks,
   contributorFetchLinks,
@@ -30,6 +31,7 @@ import {
   exhibitionsFetchLinks,
   seasonsFetchLinks,
 } from '../types';
+import { isFilledLinkToDocument } from '@weco/common/services/prismic/types';
 import { placesFetchLinks } from '../types/places';
 import { teamsFetchLinks } from '../types/teams';
 import {
@@ -58,11 +60,29 @@ const exhibitionsFetcher = fetcher<ExhibitionPrismicDocument>(
   fetchLinks
 );
 
+function returnEmptyResults() {
+  return {
+    page: 1,
+    results_per_page: 20,
+    results_size: 0,
+    total_results_size: 0,
+    total_pages: 0,
+    next_page: null,
+    prev_page: null,
+    results: [],
+    version: '',
+    license: '',
+  };
+}
+
 export type FetchExhibitionResult = {
   exhibition?: ExhibitionPrismicDocument;
   pages: prismic.Query<PagePrismicDocument>;
   visualStories: prismic.Query<VisualStoryDocument>;
-  exhibitionGuides: prismic.Query<ExhibitionGuidePrismicDocument>;
+  allGuides: {
+    id: string;
+    type: string;
+  }[];
 };
 
 export async function fetchExhibition(
@@ -78,22 +98,70 @@ export async function fetchExhibition(
     filters: [prismic.filter.at('my.visual-stories.relatedDocument', id)],
   });
   const exhibitionGuidesQueryPromise = fetchExhibitionGuides(client, {
-    filters: [prismic.filter.at('my.exhibition-guides.related-exhibition', id)], // TODO consider renaming field to follow naming convention
+    filters: [prismic.filter.at('my.exhibition-guides.related-exhibition', id)],
   });
 
-  const [exhibition, pages, visualStories, exhibitionGuides] =
-    await Promise.all([
-      exhibitionPromise,
-      pageQueryPromise,
-      visualStoriesQueryPromise,
-      exhibitionGuidesQueryPromise,
-    ]);
+  const exhibitionTextsQueryPromise = fetchExhibitionTexts(client, {
+    filters: [prismic.filter.at('my.exhibition-texts.related_exhibition', id)],
+  }).catch(returnEmptyResults);
+
+  const exhibitionHighlightToursQueryPromise = fetchExhibitionHighlightTours(
+    client,
+    {
+      filters: [
+        prismic.filter.at(
+          'my.exhibition-highlight-tours.related_exhibition',
+          id
+        ),
+      ],
+    }
+  ).catch(returnEmptyResults);
+
+  const [
+    exhibition,
+    pages,
+    visualStories,
+    exhibitionGuidesQuery,
+    exhibitionTextsQuery,
+    exhibitionHighlightToursQuery,
+  ] = await Promise.all([
+    exhibitionPromise,
+    pageQueryPromise,
+    visualStoriesQueryPromise,
+    exhibitionGuidesQueryPromise,
+    exhibitionTextsQueryPromise,
+    exhibitionHighlightToursQueryPromise,
+  ]);
+
+  // The exhibitionTexts and exhibitionHighlightTours can belong to the same
+  // exhibition, but we only want to provide one link to the guide index page,
+  // so we merge the ones with the same related_exhibition id.
+  // We also want to include the deprecated ExhibitionGuides.
+  const allGuides = [
+    ...new Map(
+      [
+        ...exhibitionTextsQuery.results,
+        ...exhibitionHighlightToursQuery.results,
+      ].map(item => {
+        const relatedExhibition = isFilledLinkToDocument(
+          item.data.related_exhibition
+        )
+          ? item.data.related_exhibition
+          : undefined;
+        return [relatedExhibition?.id, item];
+      })
+    ).values(),
+    ...exhibitionGuidesQuery.results,
+  ].map(guide => ({
+    id: guide.id,
+    type: guide.type,
+  }));
 
   return {
     exhibition,
     pages,
     visualStories,
-    exhibitionGuides,
+    allGuides,
   };
 }
 
