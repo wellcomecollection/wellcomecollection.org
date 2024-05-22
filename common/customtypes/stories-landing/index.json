@@ -3,6 +3,7 @@
   "label": "Stories landing",
   "repeatable": false,
   "status": true,
+  "format": "custom",
   "json": {
     "Main": {
       "introText": {
@@ -40,7 +41,7 @@
               "config": {
                 "label": "story/series",
                 "select": "document",
-                "customtypes": ["articles", "series"]
+                "customtypes": ["articles", "series", "webcomics"]
               }
             }
           }
@@ -80,6 +81,5 @@
         }
       }
     }
-  },
-  "format": "custom"
+  }
 }
