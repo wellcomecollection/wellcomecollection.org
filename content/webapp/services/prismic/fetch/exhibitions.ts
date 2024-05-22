@@ -60,6 +60,21 @@ const exhibitionsFetcher = fetcher<ExhibitionPrismicDocument>(
   fetchLinks
 );
 
+function returnEmptyResults() {
+  return {
+    page: 1,
+    results_per_page: 20,
+    results_size: 0,
+    total_results_size: 0,
+    total_pages: 0,
+    next_page: null,
+    prev_page: null,
+    results: [],
+    version: '',
+    license: '',
+  };
+}
+
 export type FetchExhibitionResult = {
   exhibition?: ExhibitionPrismicDocument;
   pages: prismic.Query<PagePrismicDocument>;
@@ -88,7 +103,7 @@ export async function fetchExhibition(
 
   const exhibitionTextsQueryPromise = fetchExhibitionTexts(client, {
     filters: [prismic.filter.at('my.exhibition-texts.related_exhibition', id)],
-  });
+  }).catch(returnEmptyResults);
 
   const exhibitionHighlightToursQueryPromise = fetchExhibitionHighlightTours(
     client,
@@ -100,7 +115,7 @@ export async function fetchExhibition(
         ),
       ],
     }
-  );
+  ).catch(returnEmptyResults);
 
   const [
     exhibition,
