@@ -7,6 +7,7 @@
 import { test } from '@playwright/test';
 import { newSearch } from './helpers/contexts';
 import {
+  locateAndConfirmContributorInfoMatchesStory,
   navigateToStoryResultAndConfirmTitleMatches,
   searchQuerySubmitAndWait,
   selectAndWaitForFilter,
@@ -29,3 +30,20 @@ test('(1) | The user can search for instances of a topic and format their result
   await testIfFilterIsApplied('Alice White', page);
   await navigateToStoryResultAndConfirmTitleMatches(1, page);
 });
+
+// Test that contributors are displayed
+test(`(2) | The user can see the correct contributor's name below the story title in search results`, async ({
+  page,
+  context,
+}) => {
+  await newSearch(context, page, 'stories');
+  await searchQuerySubmitAndWait('medieval doodles', page);
+  await selectAndWaitForFilter('Contributors', 'XIp1ExAAAPyQB4NN', page);
+  // Contributor (JW)
+  // In case of similarly titled article
+  await locateAndConfirmContributorInfoMatchesStory('Litchfield', page);
+});
+
+// Test pagination
+// Test sorting by date works and makes sense
+// Series breadcrumb?
