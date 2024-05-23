@@ -8,6 +8,17 @@ const graphQuery = `{
     storiesDescription
     stories {
       story {
+        ... on series {
+          title
+          promo {
+            ... on editorialImage {
+              non-repeat {
+                caption
+                image
+              }
+            }
+          }
+        }
         ... on webcomics {
           title
           format {
