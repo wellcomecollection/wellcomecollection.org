@@ -126,3 +126,15 @@ export const navigateToStoryResultAndConfirmTitleMatches = async (
   const title = await page.locator('h1');
   await slowExpect(title).toContainText(String(searchResultTitle));
 };
+
+export const locateAndConfirmContributorInfoMatchesStory = async (
+  contributor: string,
+  page: Page
+) => {
+  await page
+    .getByTestId('story-search-result')
+    .getByText(`${contributor}`)
+    .click();
+  const topContributorInfo = await page.getByTestId('contributor-name');
+  await slowExpect(topContributorInfo).toContainText(`${contributor}`);
+};
