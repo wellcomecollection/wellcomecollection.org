@@ -1,9 +1,3 @@
-// filters
-// - test by type
-// - test by contributor
-// no results test?
-// multiple contributors test
-
 import { test, expect } from '@playwright/test';
 import { newSearch } from './helpers/contexts';
 import {
