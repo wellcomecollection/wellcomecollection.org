@@ -49,6 +49,7 @@ const CookiePolicy: FunctionComponent<page.Props> = (props: page.Props) => {
     .filter(isNotUndefined);
 
   return (
+    // TODO do we want this to come from Prismic as well or do we just want to return the body from getServerSideProps?
     <PageLayout
       title="Cookie policy"
       description="This policy contains information on cookies used on the Wellcome Collection website and how to manage your cookie preferences."
