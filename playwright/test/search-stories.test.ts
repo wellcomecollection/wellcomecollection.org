@@ -46,7 +46,7 @@ test(`(2) | The user can see the correct contributor's name below the story titl
 });
 
 // Test pagination
-test.only(`(3) | The user can paginate through their search results`, async ({
+test(`(3) | The user can paginate through their search results`, async ({
   page,
   context,
 }) => {
