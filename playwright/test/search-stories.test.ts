@@ -41,12 +41,15 @@ test(`(2) | The user can see the correct contributor's name below the story titl
   await searchQuerySubmitAndWait('medieval doodles', page);
   // In case of similarly titled article
   await selectAndWaitForFilter('Contributors', 'XIp1ExAAAPyQB4NN', page);
-  // Contributor (JW)
+  // Contributor (JL)
   await locateAndConfirmContributorInfoMatchesStory('Litchfield', page);
+  await expect(page.getByTestId('contributor-name')).toHaveText(
+    'Words by Jack Litchfield'
+  );
 });
 
 // Test pagination
-test.only(`(3) | The user can paginate through their search results`, async ({
+test(`(3) | The user can paginate through their search results`, async ({
   page,
   context,
 }) => {
