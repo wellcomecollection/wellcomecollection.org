@@ -11,7 +11,6 @@ import {
 
 test.describe.configure({ mode: 'parallel' });
 
-// Test that filters work (mobile and desktop)
 test('(1) | The user can search for instances of a topic and format their results by type and contributor', async ({
   page,
   context,
@@ -26,7 +25,6 @@ test('(1) | The user can search for instances of a topic and format their result
   await navigateToStoryResultAndConfirmTitleMatches(1, page);
 });
 
-// Test that contributors are displayed
 test(`(2) | The user can see the correct contributor's name below the story title in search results`, async ({
   page,
   context,
@@ -42,7 +40,6 @@ test(`(2) | The user can see the correct contributor's name below the story titl
   );
 });
 
-// Test pagination
 test(`(3) | The user can paginate through their search results`, async ({
   page,
   context,
@@ -56,7 +53,6 @@ test(`(3) | The user can paginate through their search results`, async ({
   ).toHaveText('3');
 });
 
-// Test sorting by date works and makes sense
 test(`(4) | The user can sort their story search results by oldest and most recent`, async ({
   page,
   context,
