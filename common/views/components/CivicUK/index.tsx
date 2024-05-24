@@ -72,8 +72,19 @@ const necessaryCookies = () => {
   // Digirati auth related
   const digiratiCookies = ['dlcs-*'];
 
-  return [...wcCookies, ...prismicPreview, ...featureFlags, ...digiratiCookies];
+  // Auth0 related
+  const auth0 = ['wecoIdentitySession*'];
+
+  return [
+    ...wcCookies,
+    ...featureFlags,
+    ...prismicPreview,
+    ...digiratiCookies,
+    ...auth0,
+  ];
 };
+
+const analyticsCookies = ['_gid', '_gat', '_ga*', 'ajs_anonymous_id'];
 
 type Props = {
   apiKey: string;
@@ -106,6 +117,7 @@ const CivicUK = (props: Props) => (
                 label: '<h2 ${headingStyles}>Measure website use</h2>',
                 description:
                   '<ul><li>We use these cookies to recognise you, to count your visits to the website, and to see how you move around it.</li><li>They help us to provide you with a good experience while you browse, for example by helping to make sure you can find what you need.</li><li>They also allows us to improve the way the website works.</li></ul>',
+                cookies: ${JSON.stringify(analyticsCookies)}, 
                 onAccept: function () {
                   const event = new CustomEvent('analyticsConsentChanged', { detail: { analyticsConsent: 'granted' }});
                   window.dispatchEvent(event);
