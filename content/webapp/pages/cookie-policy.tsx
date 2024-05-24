@@ -9,34 +9,12 @@ import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import Table from '@weco/content/components/Table';
 import { policyUpdatedDate } from '@weco/common/views/components/CivicUK';
+import { cookiesTableCopy } from '@weco/common/data/cookies';
 
-const CookieTable = () => {
+const CookieTable = ({ rows }: { rows: string[][] }) => {
   return (
     <Table
-      rows={[
-        [
-          'Cookie name',
-          'Provider',
-          'Purpose',
-          'Type (1st/3rd Party)',
-          'Duration',
-        ],
-        [
-          'lorem ipsum',
-          'dolor sit amet',
-          'lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
-          '1st',
-          '90 days',
-        ],
-        [
-          'lorem ipsum',
-          'dolor sit amet',
-          'lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
-          '1st',
-          '90 days',
-        ],
-        ['', '', '', '', ''],
-      ]}
+      rows={[['Provider', 'Cookie name', 'Purpose', 'Duration'], ...rows]}
       withBorder={true}
     ></Table>
   );
@@ -201,7 +179,7 @@ const CookiePolicy: FunctionComponent = () => {
                 remembering your privacy settings, or information that you enter
                 into an online form.
               </p>
-              <CookieTable />
+              <CookieTable rows={cookiesTableCopy.strictlyNecessaryCookies} />
 
               <h4>Cookies that measure website use</h4>
               <p>
@@ -212,7 +190,7 @@ const CookiePolicy: FunctionComponent = () => {
                 us improve the website. We use the following analytics cookies
                 on our websites:
               </p>
-              <CookieTable />
+              <CookieTable rows={cookiesTableCopy.analyticsCookies} />
 
               <h4>Cookies that help with our communications and marketing</h4>
               <p>
@@ -231,7 +209,7 @@ const CookiePolicy: FunctionComponent = () => {
                 enable us to reach a diverse and wide ranging audience.
               </p>
               <p>We use the following marketing cookies on our websites:</p>
-              <CookieTable />
+              <CookieTable rows={cookiesTableCopy.marketingCookies} />
 
               <h3>Controlling all cookies</h3>
               <p>
