@@ -57,3 +57,21 @@ test(`(3) | The user can paginate through their search results`, async ({
 });
 
 // Test sorting by date works and makes sense
+test(`(4) | The user can sort their story search results by oldest and most recent`, async ({
+  page,
+  context,
+}) => {
+  await newSearch(context, page, 'stories');
+  await searchQuerySubmitAndWait('cats', page);
+
+  const select = page.locator('select[name="sortOrder"]');
+
+  await select.selectOption({ index: 2 });
+  await expect(select).toHaveValue('publicationDate.desc');
+
+  await select.selectOption({ index: 1 });
+  await expect(select).toHaveValue('publicationDate.asc');
+  await expect(page.getByTestId('story-search-result').first()).toContainText(
+    'Eels'
+  );
+});
