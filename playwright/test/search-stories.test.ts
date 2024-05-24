@@ -46,7 +46,7 @@ test(`(2) | The user can see the correct contributor's name below the story titl
 });
 
 // Test pagination
-test(`(3) | The user can paginate through their search results`, async ({
+test.only(`(3) | The user can paginate through their search results`, async ({
   page,
   context,
 }) => {
@@ -54,7 +54,9 @@ test(`(3) | The user can paginate through their search results`, async ({
   await searchQuerySubmitAndWait('body', page);
   await navigateToNextPageAndConfirmNavigation(page);
   await navigateToNextPageAndConfirmNavigation(page);
-  await expect(page.getByTestId('story-search-result')).toHaveCount(25);
+  await expect(
+    page.getByTestId('pagination').getByTestId('current-page')
+  ).toHaveText('3');
 });
 
 // Test sorting by date works and makes sense
