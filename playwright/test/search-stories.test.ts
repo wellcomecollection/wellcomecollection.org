@@ -4,10 +4,11 @@
 // no results test?
 // multiple contributors test
 
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { newSearch } from './helpers/contexts';
 import {
   locateAndConfirmContributorInfoMatchesStory,
+  navigateToNextPageAndConfirmNavigation,
   navigateToStoryResultAndConfirmTitleMatches,
   searchQuerySubmitAndWait,
   selectAndWaitForFilter,
@@ -38,12 +39,22 @@ test(`(2) | The user can see the correct contributor's name below the story titl
 }) => {
   await newSearch(context, page, 'stories');
   await searchQuerySubmitAndWait('medieval doodles', page);
+  // In case of similarly titled article
   await selectAndWaitForFilter('Contributors', 'XIp1ExAAAPyQB4NN', page);
   // Contributor (JW)
-  // In case of similarly titled article
   await locateAndConfirmContributorInfoMatchesStory('Litchfield', page);
 });
 
 // Test pagination
+test.only(`(3) | The user can paginate through their search results`, async ({
+  page,
+  context,
+}) => {
+  await newSearch(context, page, 'stories');
+  await searchQuerySubmitAndWait('body', page);
+  await navigateToNextPageAndConfirmNavigation(page);
+  await navigateToNextPageAndConfirmNavigation(page);
+  await expect(page.getByTestId('story-search-result')).toHaveCount(25);
+});
+
 // Test sorting by date works and makes sense
-// Series breadcrumb?
