@@ -643,3 +643,9 @@ export function getStructures(manifest: Manifest | Collection): Range[] {
     return manifest.structures || [];
   }
 }
+
+export function isAllOriginalPdfs(canvases: TransformedCanvas[]): boolean {
+  return canvases?.every(canvas =>
+    canvas.original.find(original => original.format === 'application/pdf')
+  );
+}
