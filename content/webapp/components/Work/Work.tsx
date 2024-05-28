@@ -13,7 +13,7 @@ import {
   getDigitalLocationOfType,
   getDigitalLocationInfo,
 } from '@weco/content/utils/works';
-import { hasItemType } from '@weco/content/utils/iiif/v3';
+import { hasItemType, isAllOriginalPdfs } from '@weco/content/utils/iiif/v3';
 import { removeIdiomaticTextTags } from '@weco/content/utils/string';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '../CataloguePageLayout/CataloguePageLayout';
@@ -58,11 +58,13 @@ function showItemLink({
   accessCondition,
   canvases,
   bornDigitalStatus,
+  allOriginalPdfs,
 }: {
   digitalLocation: DigitalLocation | undefined;
   accessCondition: string | undefined;
   canvases: TransformedCanvas[] | undefined;
   bornDigitalStatus: BornDigitalStatus | undefined;
+  allOriginalPdfs: boolean;
 }): boolean {
   // In general we don't show the item link if there are born digital items present, i.e. canvases with a behavior of placeholder, because we display download links on the page instead.
   // The exception to this is if ALL the items are born digital and they are ALL pdfs, as we know we can show them on the items page.
@@ -73,9 +75,6 @@ function showItemLink({
   const hasVideo = hasItemType(canvases, 'Video');
   const hasSound =
     hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
-  const allOriginalPdfs = !!canvases?.every(canvas =>
-    canvas.original.find(original => original.format === 'application/pdf')
-  );
   if (accessCondition === 'closed' || accessCondition === 'restricted') {
     return false;
   } else if (
@@ -83,10 +82,6 @@ function showItemLink({
     !hasVideo &&
     !hasSound &&
     (bornDigitalStatus === 'noBornDigital' || allOriginalPdfs)
-    // we should always show link if
-    // allBornDigital and allPdf
-    // how do we determine if allPdf
-    // what happens with non bornDigital PDFs
   ) {
     return true;
   } else {
@@ -159,11 +154,14 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
     ...transformedIIIFManifest,
   };
 
+  const allOriginalPdfs = isAllOriginalPdfs(canvases || []);
+
   const shouldShowItemLink = showItemLink({
     digitalLocation,
     accessCondition: digitalLocationInfo?.accessCondition,
     canvases,
     bornDigitalStatus,
+    allOriginalPdfs,
   });
 
   const imageUrl =
