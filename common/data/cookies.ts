@@ -60,7 +60,7 @@ export const cookiesTableCopy = {
     ],
     [
       `Auth0`,
-      `auth0_compart`,
+      `auth0_compat`,
       `Fallback for single sign-on on browsers that don't support the sameSite=None attribute`,
       `Session`,
     ],
