@@ -4943,7 +4943,7 @@ export interface StoriesLandingDocumentDataStoriesItem {
    * - **API ID Path**: stories-landing.stories[].story
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  story: prismic.ContentRelationshipField<'articles' | 'series'>;
+  story: prismic.ContentRelationshipField<'articles' | 'series' | 'webcomics'>;
 }
 
 /**
