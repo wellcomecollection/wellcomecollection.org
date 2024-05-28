@@ -5,6 +5,7 @@
   "description": "GifVideo",
   "legacyPaths": {
     "articles::body::gifVideo": "default",
+    "books::body::gifVideo": "default",
     "event-series::body::gifVideo": "default",
     "events::body::gifVideo": "default",
     "exhibitions::body::gifVideo": "default",

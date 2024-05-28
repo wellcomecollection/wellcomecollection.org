@@ -5,6 +5,7 @@
   "description": "InfoBlock",
   "legacyPaths": {
     "articles::body::infoBlock": "default",
+    "books::body::infoBlock": "default",
     "event-series::body::infoBlock": "default",
     "events::body::infoBlock": "default",
     "exhibitions::body::infoBlock": "default",

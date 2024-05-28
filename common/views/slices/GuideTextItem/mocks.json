@@ -1,0 +1,52 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"number": {
+				"__TYPE__": "FieldContent",
+				"value": "98",
+				"type": "Number"
+			},
+			"title": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading2",
+						"content": {
+							"text": "Cream"
+						}
+					}
+				]
+			},
+			"tombstone": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Minim sint dolore elit veniam consectetur ullamco laborum. Ea reprehenderit minim et amet consequat culpa adipisicing anim est eu Lorem. Adipisicing proident nostrud qui esse consequat Lorem labore commodo minim ullamco."
+						}
+					}
+				]
+			},
+			"caption": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Et ut enim nisi ullamco qui mollit tempor sunt culpa. In dolore ullamco Lorem ad consequat nisi irure ipsum ex."
+						}
+					}
+				]
+			}
+		},
+		"items": [
+			{
+				"__TYPE__": "GroupItemContent",
+				"value": []
+			}
+		]
+	}
+]

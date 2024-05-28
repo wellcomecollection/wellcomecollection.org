@@ -45,8 +45,7 @@ const text = {
 };
 
 // This format is required by Civic UK
-// TODO confirm this date as part of https://github.com/wellcomecollection/wellcomecollection.org/issues/10706
-export const policyUpdatedDate = '25/05/2018';
+export const policyUpdatedDate = '17/04/2024';
 
 // Should your privacy policy change after a user gives consent,
 // Cookie Control will invalidate prior records of consent and seek the user's preferences using the latest information available.
@@ -64,17 +63,28 @@ const necessaryCookies = () => {
   // View @weco/common/data/cookies for details on each
   const wcCookies = Object.values(cookies).map(c => c);
 
-  // Allows Prismic previews
-  const prismicPreview = ['io.prismic.preview', 'isPreview'];
-
   // See @weco/toggles/webapp/toggles for details on each
   const featureFlags = ['toggle_*'];
+
+  // Allows Prismic previews
+  const prismicPreview = ['io.prismic.preview', 'isPreview'];
 
   // Digirati auth related
   const digiratiCookies = ['dlcs-*'];
 
-  return [...wcCookies, ...prismicPreview, ...featureFlags, ...digiratiCookies];
+  // Auth0 related
+  const auth0 = ['wecoIdentitySession*'];
+
+  return [
+    ...wcCookies,
+    ...featureFlags,
+    ...prismicPreview,
+    ...digiratiCookies,
+    ...auth0,
+  ];
 };
+
+const analyticsCookies = ['_gid', '_gat', '_ga*', 'ajs_anonymous_id'];
 
 type Props = {
   apiKey: string;
@@ -107,26 +117,56 @@ const CivicUK = (props: Props) => (
                 label: '<h2 ${headingStyles}>Measure website use</h2>',
                 description:
                   '<ul><li>We use these cookies to recognise you, to count your visits to the website, and to see how you move around it.</li><li>They help us to provide you with a good experience while you browse, for example by helping to make sure you can find what you need.</li><li>They also allows us to improve the way the website works.</li></ul>',
-                cookies: [
-                  '_ga',
-                  '_ga*',
-                  '_gid',
-                  '_gat',
-                  '__utma',
-                  '__utmt',
-                  '__utmb',
-                  '__utmc',
-                  '__utmz',
-                  '__utmv',
-                ],
+                cookies: ${JSON.stringify(analyticsCookies)}, 
                 onAccept: function () {
-                  const event = new CustomEvent('analyticsConsentChanged', { detail: { consent: 'granted' }});
+                  const event = new CustomEvent('analyticsConsentChanged', { detail: { analyticsConsent: 'granted' }});
                   window.dispatchEvent(event);
                 },
                 onRevoke: function () {
-                  const event = new CustomEvent('analyticsConsentChanged', { detail: { consent: 'denied' } });
+                  const event = new CustomEvent('analyticsConsentChanged', { detail: { analyticsConsent: 'denied' } });
                   window.dispatchEvent(event);
                 },
+                thirdPartyCookies: [
+                  {
+                    name: 'Youtube',
+                    optOutLink: 'https://www.youtube.com/intl/ALL_uk/howyoutubeworks/user-settings/privacy/',
+                  },
+                  {
+                    name: 'Segment', optOutLink: '/'
+                  },
+                  {
+                    name: 'Google', optOutLink: '/'
+                  },
+                  {
+                    name: 'HotJar', optOutLink: '/'
+                  }
+                ],
+              },
+              {
+                name: 'marketing',
+                label: '<h2 ${headingStyles}>Cookies for communications and marketing</h2>',
+                description:
+                  'We will use these to measure how you are interacting with our marketing and advertising materials, and the effectiveness of our campaigns.',
+                onAccept: function () {
+                  const event = new CustomEvent('analyticsConsentChanged', { detail: { marketingConsent: 'granted' }});
+                  window.dispatchEvent(event);
+                },
+                onRevoke: function () {
+                  const event = new CustomEvent('analyticsConsentChanged', { detail: { marketingConsent: 'denied' } });
+                  window.dispatchEvent(event);
+                },
+                thirdPartyCookies: [
+                  {
+                    name: 'Youtube',
+                    optOutLink: 'https://www.youtube.com/intl/ALL_uk/howyoutubeworks/user-settings/privacy/',
+                  },
+                  {
+                    name: 'Segment', optOutLink: '/'
+                  },
+                  {
+                    name: 'Google', optOutLink: '/'
+                  }
+                ],
               },
             ],   
             statement: ${JSON.stringify(statement)},

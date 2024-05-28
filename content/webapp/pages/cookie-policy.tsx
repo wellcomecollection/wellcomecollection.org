@@ -1,5 +1,4 @@
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
@@ -10,41 +9,12 @@ import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import Table from '@weco/content/components/Table';
 import { policyUpdatedDate } from '@weco/common/views/components/CivicUK';
+import { cookiesTableCopy } from '@weco/common/data/cookies';
 
-const Note = styled.p`
-  background-color: red;
-  color: white;
-  font-size: 20px;
-  padding: 5px;
-`;
-
-const CookieTable = () => {
+const CookieTable = ({ rows }: { rows: string[][] }) => {
   return (
     <Table
-      rows={[
-        [
-          'Cookie name',
-          'Provider',
-          'Purpose',
-          'Type (1st/3rd Party)',
-          'Duration',
-        ],
-        [
-          'lorem ipsum',
-          'dolor sit amet',
-          'lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
-          '1st',
-          '90 days',
-        ],
-        [
-          'lorem ipsum',
-          'dolor sit amet',
-          'lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
-          '1st',
-          '90 days',
-        ],
-        ['', '', '', '', ''],
-      ]}
+      rows={[['Provider', 'Cookie name', 'Purpose', 'Duration'], ...rows]}
       withBorder={true}
     ></Table>
   );
@@ -71,7 +41,7 @@ const CookiePolicy: FunctionComponent = () => {
   return (
     <PageLayout
       title="Cookie policy"
-      description="" // TODO
+      description="This policy contains information on cookies used on the Wellcome Collection website and how to manage your cookie preferences."
       hideNewsletterPromo={true}
       url={{ pathname: '/cookie-policy' }}
       jsonLd={{ '@type': 'WebPage' }}
@@ -89,41 +59,39 @@ const CookiePolicy: FunctionComponent = () => {
         <Space $v={{ size: 'xl', properties: ['padding-bottom'] }}>
           <Layout gridSizes={gridSize8()}>
             <div className="body-text spaced-text">
-              <Note>7. We need a metadescription for this page</Note>
               <h2>Cookies</h2>
-              <Note>
-                5. I changed this from the og document to only talk about wc.org
-                as this is our own policy, is that correct?
-              </Note>
               <h3>Our websites</h3>
               <p>
-                This Cookie Policy relates to your use of our website: Wellcome
-                Collection (
-                <a href="https://wellcome.org" target="_blank" rel="noreferrer">
+                This Cookie Policy relates to your use of the Wellcome
+                Collection websites (
+                <a
+                  href="https://wellcomecollection.org"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   https://wellcomecollection.org
                 </a>
-                )
+                ).
               </p>
               <p>
-                When you choose to accept or reject Cookies on one of our
+                When you choose to accept or reject cookies on one of our
                 websites, your choices are valid for that website only. If you
-                click through to another website, whether operated by us or a
-                third party you will need to make separate choices in relation
-                to the Cookies that you would like to accept or reject on that
-                other website. These websites will set cookies in accordance
-                with their own policies, which are separate from ours. Please
-                consult these separate policies as appropriate.
+                click through to another website, whether operated by us
+                (including Wellcome Trust or Wellcome Funding) or a third party
+                you will need to make separate choices in relation to the
+                cookies that you would like to accept or reject on that other
+                website.
               </p>
               <p>
                 For more information as to how Wellcome uses your information,
                 please see our Privacy Policy.
               </p>
-              <h3>What are Cookies?</h3>
+              <h3>What are cookies?</h3>
               <p>
-                Like most organisations, Wellcome uses Cookies, and similar
+                Like most organisations, Wellcome uses cookies, and similar
                 technologies such as tracking pixels (referred to in this policy
-                together as &quot;Cookies&quot;), to capture information about
-                our website users (referred to as &quot;you&quot;). A Cookie is
+                together as &quot;cookies&quot;), to capture information about
+                our website users (referred to as &quot;you&quot;). A cookie is
                 a small file of letters and numbers that is downloaded onto your
                 computer or device by a website, stored and used to send
                 information back to that website.
@@ -184,21 +152,17 @@ const CookiePolicy: FunctionComponent = () => {
 
               <h3>Cookies consent and changing preferences</h3>
               <p>
-                We will ask for your consent to place Cookies on your computer
+                We will ask for your consent to place cookies on your computer
                 or device, except where they are essential to make our website
                 work.
               </p>
-              <Note>
-                1. The section below doesn&apos;t work for us and needs
-                rewriting
-              </Note>
               <p>
-                You can withdraw your consent to the use of Cookies or manage
-                any other Cookie preferences by changing your Cookie settings.
-                This page can also be accessed by clicking on &quot;Cookie
-                settings&quot; in the footer of our websites. You can then
-                adjust the radio buttons to &quot;on&quot; or &quot;off &quot;
-                and save. You may need to refresh your page for your settings to
+                You can withdraw your consent to the use of cookies or manage
+                any other cookie preferences by changing your cookie settings.
+                This page can also be accessed by clicking on &quot;Manage
+                cookies&quot; in the footer of our websites. You can then adjust
+                the slider buttons to &quot;on&quot; or &quot;off&quot; and
+                save. You may need to refresh your page for your settings to
                 take effect.
               </p>
               <p>
@@ -215,23 +179,19 @@ const CookiePolicy: FunctionComponent = () => {
                 remembering your privacy settings, or information that you enter
                 into an online form.
               </p>
-              <CookieTable />
+              <CookieTable rows={cookiesTableCopy.strictlyNecessaryCookies} />
 
               <h4>Cookies that measure website use</h4>
               <p>
-                We use Google Analytics on our websites. Google Analytics
-                Cookies collect information related to the number of visitors to
-                the website, where visitors have come to the website from, and
-                the pages they visited. We use the information to compile
-                reports and to help us improve the website.
+                We use analytics cookies on our websites. These collect
+                information related to the number of visitors to the website,
+                where visitors have come to the website from, and the pages they
+                visited. We use the information to compile reports and to help
+                us improve the website. We use the following analytics cookies
+                on our websites:
               </p>
-              <p>
-                We use the following Google Analytics Cookies on our websites:
-                We also use the following analytics Cookies on our websites:
-              </p>
-              <CookieTable />
+              <CookieTable rows={cookiesTableCopy.analyticsCookies} />
 
-              <Note>3. Is section below necessary for us? To confirm</Note>
               <h4>Cookies that help with our communications and marketing</h4>
               <p>
                 We will use these to measure how you are interacting with our
@@ -241,41 +201,39 @@ const CookiePolicy: FunctionComponent = () => {
               <p>
                 We may use targeting cookies to understand your interests and
                 show you relevant adverts about us on other websites you visit.
-                This includes social networks, such as Facebook, Instagram,
-                LinkedIn and Research Gate. You can control what adverts you see
-                on these sites by logging into your settings on the relevant
-                service.
+                You can control what adverts you see on these sites by logging
+                into your settings on the relevant service.
               </p>
               <p>
                 Targeting our adverts means they&apos;re more effective and
                 enable us to reach a diverse and wide ranging audience.
               </p>
               <p>We use the following marketing cookies on our websites:</p>
-              <CookieTable />
+              <CookieTable rows={cookiesTableCopy.marketingCookies} />
 
-              <h3>Controlling all Cookies</h3>
+              <h3>Controlling all cookies</h3>
               <p>
-                In addition to the Cookie choices presented within our websites,
-                you can also use your web browser to manage your Cookies. For
+                In addition to the cookie choices presented within our websites,
+                you can also use your web browser to manage your cookies. For
                 example, your web browser will enable you to:
               </p>
               <ul>
-                <li>delete all or selected Cookies</li>
-                <li>block all Cookies</li>
-                <li>allow all Cookies</li>
-                <li>block &quot;third party&quot; Cookies</li>
-                <li>clear all Cookies when you close the browser</li>
+                <li>delete all or selected cookies</li>
+                <li>block all cookies</li>
+                <li>allow all cookies</li>
+                <li>block &quot;third party&quot; cookies</li>
+                <li>clear all cookies when you close the browser</li>
                 <li>
                   open a &quot;private browsing&quot;/ &quot;incognito&quot;
                   session, which allows you to browse the web without recording
-                  your browsing history or storing local data such as Cookies.
+                  your browsing history or storing local data such as cookies.
                 </li>
               </ul>
               <p>
-                If you do choose to block Cookies, please be aware that you may
+                If you do choose to block cookies, please be aware that you may
                 lose some of the functionality of our websites.
               </p>
-              <p>Find out more about managing Cookies on browsers:</p>
+              <p>Find out more about managing cookies on browsers:</p>
               <ul>
                 <li>
                   <a
@@ -358,107 +316,8 @@ const CookiePolicy: FunctionComponent = () => {
                 </a>
                 .
               </p>
-              <Note>6. What should the date be here?</Note>
               <p>
-                <em>This policy was last updated on [{policyUpdatedDate}].</em>
-              </p>
-
-              <Note>
-                2. References to the Wellcome site here, can we remove some?
-              </Note>
-              <h2>Disclaimer</h2>
-              <p>
-                The Wellcome website is operated by The Wellcome Trust Limited
-                (as trustee of the Wellcome Trust) (Wellcome). Content on the
-                Wellcome website is provided for general and research purposes
-                only. Wellcome accepts no responsibility for losses arising from
-                reliance on information contained on the Wellcome website, or
-                other sites that we may link to from time to time. In
-                particular, Wellcome accepts no responsibility for losses
-                arising from re-use of content on the Wellcome website without
-                conducting your own due diligence.
-              </p>
-              <p>
-                Unless otherwise stated, content on the Wellcome website is ©
-                The Wellcome Trust and is licensed under a Creative Commons
-                Attribution 4.0 International (CC-BY 4.0) licence.
-              </p>
-              <p>
-                This means you can share the content on the Wellcome website by
-                copying and distributing it, but you must comply with the terms
-                of the CC-BY-4.0 licence, which includes acknowledging Wellcome
-                as the copyright owner and providing a link to the source page
-                on the Wellcome website. Please see{' '}
-                <a
-                  href="https://creativecommons.org/licenses"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  https://creativecommons.org/licenses
-                </a>{' '}
-                for more information.
-              </p>
-              <p>
-                The Wellcome Collection website is operated by Wellcome.
-                Wellcome Collection is a free museum and library that is
-                committed to the long-term preservation of and access to its
-                collections online and on-premises, to ensure they can be used
-                by researchers and the wider public for generations to come.
-              </p>
-              <p>
-                The copyright status of content made available on the Wellcome
-                Collection website will vary. We publish a range of material
-                which is still in copyright and in certain circumstances, take a
-                risk-managed approach towards the publication of material in
-                which the copyright position is less clear. Please refer to
-                copyright information provided on the relevant pages on the
-                Wellcome Collection website for further information.
-              </p>
-              <Note>
-                4. Access policy links to a document marked 2018-2023, should it
-                say 2024?
-              </Note>
-              <p>
-                If you use and/or share content from our collections, you must
-                do so in compliance with the law. In order to comply with UK
-                Data Protection Law, in some cases, we may redact the names
-                and/or ages of individuals that feature in our collections for
-                sensitivity purposes. In other circumstances, alternative
-                actions may be required. Please see our{' '}
-                <a
-                  href="https://wellcomecollection.cdn.prismic.io/wellcomecollection/d4817da5-c71a-4151-81c4-83e39ad4f5b3_Wellcome+Collection_Access+Policy_Aug+2020.pdf"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Access Policy
-                </a>{' '}
-                and{' '}
-                <a
-                  href="https://wellcomecollection.cdn.prismic.io/wellcomecollection/9a529367-ccc0-46bc-becc-70d299f9592a_Wellcome+Collection+Access+Procedures+Aug+2020.pdf"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Access to personal and sensitive information within our
-                  collections
-                </a>{' '}
-                for further information.
-              </p>
-              <p>
-                Despite the measures we take, there may be objections to the
-                presence of specific information or the material being made
-                available online. Please see our &quot;
-                <a
-                  href="/pages/YGSEhxAAACgAXL4E"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Copyright clearance and takedown guidelines for digitised
-                  content
-                </a>
-                &quot; for further information about our copyright clearance
-                process, the circumstances under which we would consider
-                removing material from our website, and how to contact us
-                regarding the removal of material.
+                <em>This policy was last updated on {policyUpdatedDate}.</em>
               </p>
             </div>
           </Layout>

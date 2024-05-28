@@ -1,12 +1,19 @@
 import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibitionGuides } from '@weco/content/services/prismic/fetch/exhibition-guides';
-import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
+import { fetchExhibitionTexts } from '@weco/content/services/prismic/fetch/exhibition-texts';
+import { fetchExhibitionHighlightTours } from '@weco/content/services/prismic/fetch/exhibition-highlight-tours';
 import {
   transformExhibitionGuide,
   transformExhibitionGuideToExhibitionGuideBasic,
 } from '@weco/content/services/prismic/transformers/exhibition-guides';
+import {
+  transformExhibitionTexts,
+  transformToBasic,
+} from '@weco/content/services/prismic/transformers/exhibition-texts';
+import { transformExhibitionHighlightTours } from '@weco/content/services/prismic/transformers/exhibition-highlight-tours';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
@@ -27,6 +34,82 @@ type Props = {
   jsonLd: JsonLdObj[];
 };
 
+// We want a list of all the exhibition guides,
+// including the deprecated ExhibitionGuides
+// and the combined exhibitionTexts and exhibitionHiglightTours,
+// which relate to a single exhibition
+export function allGuides({
+  exhibitionGuides,
+  exhibitionTexts,
+  exhibitionHighlightTours,
+}: {
+  exhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
+  exhibitionTexts: PaginatedResults<ExhibitionGuideBasic>;
+  exhibitionHighlightTours: PaginatedResults<ExhibitionGuideBasic>;
+}): PaginatedResults<ExhibitionGuideBasic> {
+  // exhibitionTexts and exhibitionHighlightTours may have the same related exhibition
+  // in that case we only keep one of them
+  // for the purpose of rendering links to the exhibition guide page.
+
+  const uniqueExhibitionsWithGuides = [
+    ...new Map(
+      [
+        ...exhibitionTexts.results.map(transformToBasic),
+        ...exhibitionHighlightTours.results.map(transformToBasic),
+      ].map(item => [item.relatedExhibition?.id, item])
+    ).values(),
+  ];
+
+  const allResults = [
+    ...uniqueExhibitionsWithGuides.map(guide => {
+      const matchingExhibitionText = exhibitionTexts.results.find(
+        et => et.relatedExhibition?.id === guide.relatedExhibition?.id
+      );
+      const matchingExhibitionHighlightTour =
+        exhibitionHighlightTours.results.find(
+          eht => eht.relatedExhibition?.id === guide.relatedExhibition?.id
+        );
+      return {
+        ...guide,
+        exhibitionTextId: matchingExhibitionText?.id,
+        exhibitionHighlightTourId: matchingExhibitionHighlightTour?.id,
+        availableTypes: {
+          BSLVideo:
+            matchingExhibitionText?.availableTypes.BSLVideo ||
+            matchingExhibitionHighlightTour?.availableTypes.BSLVideo ||
+            false,
+          audioWithDescriptions:
+            matchingExhibitionText?.availableTypes.audioWithDescriptions ||
+            matchingExhibitionHighlightTour?.availableTypes
+              .audioWithDescriptions ||
+            false,
+          audioWithoutDescriptions:
+            matchingExhibitionText?.availableTypes.audioWithoutDescriptions ||
+            matchingExhibitionHighlightTour?.availableTypes
+              .audioWithoutDescriptions ||
+            false,
+          captionsOrTranscripts:
+            matchingExhibitionText?.availableTypes.captionsOrTranscripts ||
+            matchingExhibitionHighlightTour?.availableTypes
+              .captionsOrTranscripts ||
+            false,
+        },
+      };
+    }),
+    ...exhibitionGuides.results.map(
+      transformExhibitionGuideToExhibitionGuideBasic
+    ),
+  ];
+
+  return {
+    currentPage: 1,
+    pageSize: allResults.length,
+    totalResults: allResults.length,
+    totalPages: 1,
+    results: allResults,
+  };
+}
+
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
@@ -39,25 +122,53 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   const client = createClient(context);
-  const exhibitionGuidesQuery = await fetchExhibitionGuides(client, { page });
+  // ExhibitionGuides are deprecated in Prismic, we fetch them for the old content
+  const exhibitionGuidesQueryPromise = fetchExhibitionGuides(client, { page });
+  // What was ExhibitionGuides is now split into ExhibitionTexts and ExhibitionHighlightTours
+  // We look for both of these and later combine any that share the same related exhibition
+  // for the purpose of rendering links to the exhibition guide index page.
+  const exhibitionTextsQueryPromise = fetchExhibitionTexts(client, { page });
+  const exhibitionHighlightsToursQueryPromise = fetchExhibitionHighlightTours(
+    client,
+    { page }
+  );
+
+  const [
+    exhibitionGuidesQuery,
+    exhibitionTextsQuery,
+    exhibitionHighlightsToursQuery,
+  ] = await Promise.all([
+    exhibitionGuidesQueryPromise,
+    exhibitionTextsQueryPromise,
+    exhibitionHighlightsToursQueryPromise,
+  ]);
 
   const exhibitionGuides = transformQuery(
     exhibitionGuidesQuery,
     transformExhibitionGuide
   );
 
-  const basicExhibitionGuides = {
-    ...exhibitionGuides,
-    results: exhibitionGuides.results.map(
-      transformExhibitionGuideToExhibitionGuideBasic
-    ),
-  };
+  const exhibitionTexts = transformQuery(
+    exhibitionTextsQuery,
+    transformExhibitionTexts
+  );
 
-  const jsonLd = exhibitionGuides.results.map(exhibitionGuideLd);
+  const exhibitionHighlightTours = transformQuery(
+    exhibitionHighlightsToursQuery,
+    transformExhibitionHighlightTours
+  );
+
+  const guides = allGuides({
+    exhibitionTexts,
+    exhibitionHighlightTours,
+    exhibitionGuides,
+  });
+
+  const jsonLd = guides.results.map(exhibitionGuideLd);
 
   return {
     props: serialiseProps({
-      exhibitionGuides: basicExhibitionGuides,
+      exhibitionGuides: guides,
       jsonLd,
       serverData,
     }),

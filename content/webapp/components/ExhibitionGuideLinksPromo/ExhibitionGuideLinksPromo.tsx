@@ -41,25 +41,33 @@ const ExhibitionGuideLinksPromo: FunctionComponent<Props> = ({
   const links: { url: string; text: string }[] = [];
   if (exhibitionGuide.availableTypes.audioWithoutDescriptions) {
     links.push({
-      url: `/guides/exhibitions/${exhibitionGuide.id}/audio-without-descriptions`,
+      url: `/guides/exhibitions/${
+        exhibitionGuide.exhibitionHighlightTourId || exhibitionGuide.id
+      }/audio-without-descriptions`,
       text: 'Listen to audio',
     });
   }
   if (exhibitionGuide.availableTypes.audioWithDescriptions) {
     links.push({
-      url: `/guides/exhibitions/${exhibitionGuide.id}/audio-with-descriptions`,
+      url: `/guides/exhibitions/${
+        exhibitionGuide.exhibitionHighlightTourId || exhibitionGuide.id
+      }/audio-with-descriptions`,
       text: 'Listen to audio with wayfinding',
     });
   }
   if (exhibitionGuide.availableTypes.captionsOrTranscripts) {
     links.push({
-      url: `/guides/exhibitions/${exhibitionGuide.id}/captions-and-transcripts`,
+      url: `/guides/exhibitions/${
+        exhibitionGuide.exhibitionTextId || exhibitionGuide.id
+      }/captions-and-transcripts`,
       text: 'Read captions and transcriptions',
     });
   }
   if (exhibitionGuide.availableTypes.BSLVideo) {
     links.push({
-      url: `/guides/exhibitions/${exhibitionGuide.id}/bsl`,
+      url: `/guides/exhibitions/${
+        exhibitionGuide.exhibitionHighlightTourId || exhibitionGuide.id
+      }/bsl`,
       text: 'Watch British Sign Language videos',
     });
   }

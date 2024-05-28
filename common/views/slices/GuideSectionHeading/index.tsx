@@ -1,26 +1,25 @@
 import { Content } from '@prismicio/client';
+import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
-
-/**
- * Props for `GuideSectionHeading`.
- */
+import { transformGuideSectionHeadingSlice } from '@weco/content/services/prismic/transformers/exhibition-texts';
+import SectionHeading from '@weco/content/components/GuideSectionHeading/GuideSectionHeading';
 export type GuideSectionHeadingProps =
   SliceComponentProps<Content.GuideSectionHeadingSlice>;
 
-/**
- * Component for "GuideSectionHeading" Slices.
- */
-const GuideSectionHeading = ({
+const GuideSectionHeading: FunctionComponent<GuideSectionHeadingProps> = ({
   slice,
-}: GuideSectionHeadingProps): JSX.Element => {
+  index,
+}) => {
+  const transformedSlice = transformGuideSectionHeadingSlice(slice);
   return (
-    <section
-      data-slice-type={slice.slice_type}
-      data-slice-variation={slice.variation}
-    >
-      Placeholder component for guide_section_heading (variation:{' '}
-      {slice.variation}) Slices
-    </section>
+    <SectionHeading
+      key={index}
+      index={index}
+      number={transformedSlice.number}
+      title={transformedSlice.title}
+      subtitle={transformedSlice.subtitle}
+      text={transformedSlice.text}
+    />
   );
 };
 

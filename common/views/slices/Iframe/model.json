@@ -5,6 +5,7 @@
   "description": "Iframe",
   "legacyPaths": {
     "articles::body::iframe": "default",
+    "books::body::iframe": "default",
     "event-series::body::iframe": "default",
     "events::body::iframe": "default",
     "exhibitions::body::iframe": "default",

@@ -87,12 +87,23 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   useMaintainPageHeight();
 
+  type ConsentType = 'granted' | 'denied';
   const onAnalyticsConsentChanged = (
-    event: CustomEvent<{ consent: 'granted' | 'denied' }>
+    event: CustomEvent<{
+      analyticsConsent?: ConsentType;
+      marketingConsent?: ConsentType;
+    }>
   ) => {
     // Update datalayer config with consent value
     gtag('consent', 'update', {
-      analytics_storage: event.detail.consent,
+      ...(event.detail.analyticsConsent && {
+        analytics_storage: event.detail.analyticsConsent,
+      }),
+      ...(event.detail.marketingConsent && {
+        ad_storage: event.detail.marketingConsent,
+        ad_personalization: event.detail.marketingConsent,
+        ad_user_data: event.detail.marketingConsent,
+      }),
     });
   };
 

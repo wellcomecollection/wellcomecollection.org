@@ -5,6 +5,7 @@
   "description": "TagList",
   "legacyPaths": {
     "articles::body::tagList": "default",
+    "books::body::tagList": "default",
     "event-series::body::tagList": "default",
     "events::body::tagList": "default",
     "exhibitions::body::tagList": "default",
