@@ -64,21 +64,29 @@ function showItemLink({
   canvases: TransformedCanvas[] | undefined;
   bornDigitalStatus: BornDigitalStatus | undefined;
 }): boolean {
-  // We don't show the item link if there are bornDigital items present because we display download links on the page instead.
-  // We don't show the item link if there are video or sound items present because we display the players on the page instead.
-  // This means that for the video and sound files, we rely on there only being one type of thing in a manifest, otherwise non video/sound items will be hidden from the user.
+  // In general we don't show the item link if there are born digital items present, i.e. canvases with a behavior of placeholder, because we display download links on the page instead.
+  // The exception to this is if ALL the items are born digital and they are ALL pdfs, as we know we can show them on the items page.
+  // We also don't show the item link if there are video or sound items present because we display the players on the page instead.
+  // This means we rely on there only being one type of thing in a manifest, otherwise non video/sound items will be hidden from the user.
   // This is usually the case, except for manifests with 'Born digital' items.
-  // But since we display links to all files when there are 'Born digital' items present then this should not matter.
+  // But since we display links to all files when there are 'Born digital' items present, then this should not matter.
   const hasVideo = hasItemType(canvases, 'Video');
   const hasSound =
     hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
+  const allOriginalPdfs = !!canvases?.every(canvas =>
+    canvas.original.find(original => original.format === 'application/pdf')
+  );
   if (accessCondition === 'closed' || accessCondition === 'restricted') {
     return false;
   } else if (
     digitalLocation &&
     !hasVideo &&
     !hasSound &&
-    bornDigitalStatus === 'noBornDigital'
+    (bornDigitalStatus === 'noBornDigital' || allOriginalPdfs)
+    // we should always show link if
+    // allBornDigital and allPdf
+    // how do we determine if allPdf
+    // what happens with non bornDigital PDFs
   ) {
     return true;
   } else {
