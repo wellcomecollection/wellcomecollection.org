@@ -49,15 +49,14 @@ const CookiePolicy: FunctionComponent<page.Props> = (props: page.Props) => {
     .filter(isNotUndefined);
 
   return (
-    // TODO do we want this to come from Prismic as well or do we just want to return the body from getServerSideProps?
     <PageLayout
-      title="Cookie policy"
-      description="This policy contains information on cookies used on the Wellcome Collection website and how to manage your cookie preferences."
+      title={props.page.title}
+      description={props.page.metadataDescription || ''}
       hideNewsletterPromo={true}
       url={{ pathname: '/cookie-policy' }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
-      siteSection="about-us"
+      siteSection={props.page.siteSection}
     >
       <PageHeader
         breadcrumbs={{ items: [] }}
@@ -67,7 +66,6 @@ const CookiePolicy: FunctionComponent<page.Props> = (props: page.Props) => {
       />
       <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
         <Space $v={{ size: 'xl', properties: ['padding-bottom'] }}>
-          {/* TODO Do we care about transformedBody? */}
           {props.page.untransformedBody.map((slice, index) => {
             return tablesPosition.includes(index) ? (
               <CookieTable
