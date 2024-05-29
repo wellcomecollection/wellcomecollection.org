@@ -1,9 +1,9 @@
 import TextAndImageOrIcons from '@weco/content/components/TextAndImageOrIcons';
 import Readme from '@weco/content/components/TextAndImageOrIcons/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import { mockImage } from '@weco/common/test/fixtures/components/compact-card';
 import { smallText } from '@weco/cardigan/stories/data/text';
 import { mockIcons } from '@weco/common/test/fixtures/components/text-and-icons';
+import { image as genericImage } from '@weco/cardigan/stories/data/images';
 
 const Template = args => (
   <ReadmeDecorator
@@ -27,7 +27,7 @@ export const image = Template.bind({});
 image.args = {
   item: {
     type: 'image',
-    image: mockImage,
+    image: genericImage(),
     isZoomable: true,
     text: smallText(),
   },

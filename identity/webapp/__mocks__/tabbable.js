@@ -1,3 +1,4 @@
+// This is required to use FocusLock in tests
 const lib = jest.requireActual('tabbable');
 
 const tabbable = {
