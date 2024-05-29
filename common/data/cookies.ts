@@ -9,7 +9,7 @@
  */
 
 // **** IF MODIFYING ANY OF THESE *****
-// Remember to modify `cookiesTableCopy below as well`.
+// Remember to modify cookiesTableCopy below as well.
 const cookies = {
   // This is the cookie used in the exhibition guides to remember what
   // sort of guide a user prefers.  e.g. if somebody picks a BSL guide,
