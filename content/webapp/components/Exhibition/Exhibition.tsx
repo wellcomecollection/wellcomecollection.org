@@ -278,7 +278,6 @@ const Exhibition: FunctionComponent<Props> = ({
       Body={
         <Body
           untransformedBody={exhibition.untransformedBody}
-          body={exhibition.body}
           pageId={exhibition.id}
         />
       }
