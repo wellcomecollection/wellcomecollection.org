@@ -32,6 +32,7 @@ export type Props = {
   vAlign?: 'top' | 'middle' | 'bottom';
   plain?: boolean;
   withBorder?: boolean;
+  hasSmallerCopy?: boolean;
 };
 
 type TableRowProps = {
@@ -86,6 +87,7 @@ const Table: FunctionComponent<Props> = ({
   vAlign = 'top',
   plain = false,
   withBorder = true,
+  hasSmallerCopy = false,
 }: Props): ReactElement<Props> => {
   const leftButtonRef = useRef<HTMLDivElement>(null);
   const rightButtonRef = useRef<HTMLDivElement>(null);
@@ -206,7 +208,11 @@ const Table: FunctionComponent<Props> = ({
         </ScrollButtons>
 
         <TableWrap ref={tableWrapRef}>
-          <TableTable id="table" ref={tableRef}>
+          <TableTable
+            id="table"
+            ref={tableRef}
+            $hasSmallerCopy={hasSmallerCopy}
+          >
             {caption && <TableCaption>{caption}</TableCaption>}
 
             {headerRow && (
