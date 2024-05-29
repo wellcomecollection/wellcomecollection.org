@@ -40,7 +40,7 @@ const cookies = {
 };
 
 export const cookiesTableCopy = {
-  strictlyNecessaryCookies: [
+  '[necessary_cookies_table]': [
     [
       `CivicUK`,
       `CookieControl`,
@@ -139,7 +139,7 @@ export const cookiesTableCopy = {
       `180 days`,
     ],
   ],
-  analyticsCookies: [
+  '[analytics_cookies_table]': [
     [
       `Google Analytics`,
       `_ga`,
@@ -267,7 +267,7 @@ export const cookiesTableCopy = {
       `180 days`,
     ],
   ],
-  marketingCookies: [
+  '[marketing_cookies_table]': [
     [
       `YouTube`,
       `YSC`,
