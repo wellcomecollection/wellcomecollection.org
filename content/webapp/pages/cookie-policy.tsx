@@ -60,7 +60,7 @@ const CookiePolicy: FunctionComponent<page.Props> = (props: page.Props) => {
     >
       <PageHeader
         breadcrumbs={{ items: [] }}
-        title="Cookie policy"
+        title={props.page.title}
         backgroundTexture={landingHeaderBackgroundLs}
         highlightHeading={true}
       />
