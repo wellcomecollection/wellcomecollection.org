@@ -5,6 +5,7 @@ import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
 import { isContentList } from '../../../types/body';
 import { FacilityPromo as FacilityPromoType } from '../../../types/facility-promo';
 import { Page as PageType } from '../../../types/pages';
+import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 
 /** The What's On page in Prismic includes a content list which is used to pick
  * items for the 'Try these too' promo section.
@@ -17,8 +18,10 @@ import { Page as PageType } from '../../../types/pages';
 export function getTryTheseTooPromos(
   whatsOnPage: PageType
 ): FacilityPromoType[] {
-  return whatsOnPage.body
+  const contentLists = whatsOnPage.untransformedBody
     .filter(isContentList)
+    .map(transformContentListSlice);
+  return contentLists
     .filter(slice => slice.value.title === 'Try these too')
     .flatMap(slice => slice.value.items)
     .map(item =>
