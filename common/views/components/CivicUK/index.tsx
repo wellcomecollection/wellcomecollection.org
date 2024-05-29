@@ -84,7 +84,16 @@ const necessaryCookies = () => {
   ];
 };
 
-const analyticsCookies = ['_gid', '_gat', '_ga*', 'ajs_anonymous_id'];
+const analyticsCookies = [
+  '_gid',
+  '_gat',
+  '_ga*',
+  'ajs_anonymous_id',
+  'PREF',
+  'VISITOR_INFO1_LIVE',
+  'VISITOR_PRIVACY_METADATA',
+  'YSC',
+];
 
 type Props = {
   apiKey: string;
