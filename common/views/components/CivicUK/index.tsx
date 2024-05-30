@@ -128,7 +128,7 @@ const CivicUK = (props: Props) => (
                 },
                 thirdPartyCookies: [
                   {
-                    name: 'Google Analytics', optOutLink: 'https://support.google.com/analytics/answer/6004245'
+                    name: 'Google Analytics', optOutLink: 'http://tools.google.com/dlpage/gaoptout'
                   },
                   {
                     name: 'Twilio Segment', optOutLink: 'https://www.twilio.com/en-us/legal/privacy'
