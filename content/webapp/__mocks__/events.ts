@@ -49,7 +49,6 @@ const baseEvent: Event = {
     title: 'Gallery tour',
     description: undefined,
   },
-  body: [],
   untransformedBody: [],
   image,
   hasEarlyRegistration: false,
