@@ -1,63 +1,39 @@
-import dynamic from 'next/dynamic';
 import {
   ReactElement,
   FunctionComponent,
   Fragment,
   PropsWithChildren,
 } from 'react';
+import { ContentListSlice } from '@weco/common/prismicio-types';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { Link } from '../../types/link';
-import {
-  defaultSerializer,
-  dropCapSerializer,
-} from '../HTMLSerializers/HTMLSerializers';
-import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import CaptionedImage from '../CaptionedImage/CaptionedImage';
+import { defaultSerializer } from '../HTMLSerializers/HTMLSerializers';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
 import Space from '@weco/common/views/components/styled/Space';
-import Quote from '../Quote/Quote';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '../FeaturedText/FeaturedText';
-import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import GifVideo from '../GifVideo/GifVideo';
-import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
-import Contact from '@weco/content/components/Contact/Contact';
-import Iframe from '@weco/common/views/components/Iframe/Iframe';
 import Layout, {
   gridSize12,
   gridSize10,
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import OnThisPageAnchors from '../OnThisPageAnchors/OnThisPageAnchors';
-import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
-import InfoBlock from '@weco/content/components/InfoBlock/InfoBlock';
-import TitledTextList from '../TitledTextList/TitledTextList';
-import TagsGroup from '@weco/content/components/TagsGroup/TagsGroup';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import GridFactory, { sectionLevelPageGrid } from './GridFactory';
 import Card from '../Card/Card';
 import { convertItemToCardProps } from '../../types/card';
-import { BodySlice, isContentList } from '../../types/body';
-import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
-import SearchResults from '../SearchResults/SearchResults';
-import VenueHours from '../VenueHours/VenueHours';
+import { isContentList } from '../../types/body';
 import FeaturedCard, {
   convertItemToFeaturedCardProps,
   convertCardToFeaturedCardProps,
 } from '../FeaturedCard/FeaturedCard';
-import ImageGallery from '@weco/content/components/ImageGallery';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
-import SoundCloudEmbed from '../SoundCloudEmbed/SoundCloudEmbed';
 import * as prismic from '@prismicio/client';
 import { Props as ComicPreviousNextProps } from '../ComicPreviousNext/ComicPreviousNext';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import TextAndImageOrIcons from '../TextAndImageOrIcons';
 import { SliceZone } from '@prismicio/react';
 import { components } from '@weco/common/views/slices';
-import { useToggles } from '@weco/common/server-data/Context';
-import { Slice } from '@weco/content/types/body';
+import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 
 const BodyWrapper = styled.div<{ $splitBackground: boolean }>`
   ${props =>
@@ -70,10 +46,6 @@ const BodyWrapper = styled.div<{ $splitBackground: boolean }>`
   }
 `}
 `;
-
-const Map = dynamic(import('../Map/Map'), {
-  ssr: false,
-});
 
 type LayoutWidthProps = PropsWithChildren<{
   width: 8 | 10 | 12;
@@ -95,8 +67,7 @@ export const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
   }
 };
 
-type Props = {
-  body: BodySlice[];
+export type Props = {
   untransformedBody: prismic.Slice[];
   onThisPage?: Link[];
   showOnThisPage?: boolean;
@@ -116,8 +87,6 @@ type SectionTheme = {
   featuredCardBackground: PaletteColor;
   featuredCardText: PaletteColor;
 };
-
-type ContentListSlice = BodySlice & { type: 'contentList' };
 
 type WrapperProps = {
   $cardBackgroundColor: PaletteColor;
@@ -161,7 +130,6 @@ export const defaultContext: SliceZoneContext = {
 };
 
 const Body: FunctionComponent<Props> = ({
-  body,
   untransformedBody,
   onThisPage,
   showOnThisPage,
@@ -174,25 +142,12 @@ const Body: FunctionComponent<Props> = ({
   comicPreviousNext,
   contentType,
 }: Props) => {
-  const isFirstFeaturedTextSliceFromBody = (slice, i) =>
-    i === 0 && slice.type === 'text' && slice.weight === 'featured';
   const isFirstFeaturedTextSliceFromUntransformedBody = (slice, i) =>
     i === 0 && slice.slice_type === 'text' && slice.slice_label === 'featured';
 
-  const { sliceMachine } = useToggles();
-  const featuredTextFromBody = body.find(
-    isFirstFeaturedTextSliceFromBody
-  ) as Slice<'text', prismic.RichTextField>;
   const featuredTextFromUntransformedBody = untransformedBody.find(
     isFirstFeaturedTextSliceFromUntransformedBody
   ) as prismic.Slice<'text', { text: prismic.RichTextField }>;
-
-  const filteredBody = body
-    .filter((slice, i) => !isFirstFeaturedTextSliceFromBody(slice, i))
-    .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
-    // The standfirst is now put into the header
-    // and used exclusively by articles / article series
-    .filter(slice => slice.type !== 'standfirst');
 
   const filteredUntransformedBody = untransformedBody
     .filter(
@@ -207,12 +162,11 @@ const Body: FunctionComponent<Props> = ({
     )
     .filter(slice => slice.slice_type !== 'standfirst');
 
-  const firstTextSliceIndex = filteredBody
-    .map(slice => slice.type)
+  const firstTextSliceIndex = filteredUntransformedBody
+    .map(slice => slice.slice_type)
     .indexOf('text');
-  let imageGalleryIdCount = 1;
 
-  const sections: ContentListSlice[] = body.filter(isContentList);
+  const sections: ContentListSlice[] = untransformedBody.filter(isContentList);
 
   const sectionThemes: SectionTheme[] = [
     {
@@ -245,7 +199,8 @@ const Body: FunctionComponent<Props> = ({
     sections: ContentListSlice[];
   }> = ({ sections = [] }) => (
     <>
-      {sections.map((section, index) => {
+      {sections.map((untransformedSection, index) => {
+        const section = transformContentListSlice(untransformedSection);
         const isFirst = index === 0;
         const isLast = index === sections.length - 1;
         const sectionTheme = sectionThemes[index % sectionThemes.length];
@@ -335,14 +290,13 @@ const Body: FunctionComponent<Props> = ({
 
   const isShortFilm = contentType === 'short-film';
   const isVisualStory = contentType === 'visual-story';
-  const isStandaloneImageGallery = contentType === 'standalone-image-gallery';
 
   return (
     <BodyWrapper
       className={`content-type-${contentType}`}
       $splitBackground={isShortFilm}
     >
-      {featuredTextFromBody && featuredTextFromUntransformedBody && (
+      {featuredTextFromUntransformedBody && (
         <Layout gridSizes={gridSize8(!sectionLevelPage)}>
           <div className="body-text spaced-text">
             <Space
@@ -352,11 +306,7 @@ const Body: FunctionComponent<Props> = ({
               }}
             >
               <FeaturedText
-                html={
-                  sliceMachine
-                    ? featuredTextFromUntransformedBody.primary.text
-                    : featuredTextFromBody.value
-                }
+                html={featuredTextFromUntransformedBody.primary.text}
                 htmlSerializer={defaultSerializer}
               />
             </Space>
@@ -376,264 +326,20 @@ const Body: FunctionComponent<Props> = ({
 
       {isLanding && <LandingPageSections sections={sections} />}
 
-      {sliceMachine && (
-        <SliceZone
-          slices={filteredUntransformedBody}
-          components={components}
-          context={{
-            minWidth,
-            firstTextSliceIndex,
-            isVisualStory,
-            comicPreviousNext,
-            pageId,
-            isLanding,
-            isDropCapped,
-            contentType,
-          }}
-        />
-      )}
-
-      {!sliceMachine &&
-        filteredBody.map((slice, i) => (
-          <Fragment key={i}>
-            {slice.type === 'text' && (
-              <SpacingComponent $sliceType={slice.type}>
-                <LayoutWidth width={minWidth}>
-                  <div
-                    className={classNames({
-                      'body-text spaced-text': true,
-                      'first-text-slice': firstTextSliceIndex === i,
-                    })}
-                  >
-                    {slice.weight !== 'featured' &&
-                      (firstTextSliceIndex === i && isDropCapped ? (
-                        <>
-                          {/*
-                                The featured text slice can contain multiple paragraphs,
-                                e.g. https://wellcomecollection.org/articles/XcMBBREAACUAtBoV
-
-                                The drop cap serializer will see them as two separate paragraphs,
-                                so we have to split out the first paragraph here.
-                              */}
-                          <PrismicHtmlBlock
-                            html={[slice.value[0]] as prismic.RichTextField}
-                            htmlSerializer={dropCapSerializer}
-                          />
-                          <PrismicHtmlBlock
-                            html={slice.value.slice(1) as prismic.RichTextField}
-                            htmlSerializer={defaultSerializer}
-                          />
-                        </>
-                      ) : (
-                        <PrismicHtmlBlock
-                          html={slice.value}
-                          htmlSerializer={defaultSerializer}
-                        />
-                      ))}
-                  </div>
-                </LayoutWidth>
-              </SpacingComponent>
-            )}
-
-            {slice.type === 'textAndImage' && (
-              <SpacingComponent $sliceType={slice.type}>
-                <Layout gridSizes={gridSize8()}>
-                  <TextAndImageOrIcons item={slice.value} />
-                </Layout>
-              </SpacingComponent>
-            )}
-
-            {slice.type === 'textAndIcons' && (
-              <SpacingComponent $sliceType={slice.type}>
-                <Layout gridSizes={gridSize8()}>
-                  <TextAndImageOrIcons item={slice.value} />
-                </Layout>
-              </SpacingComponent>
-            )}
-
-            {/* TODO: use one layout for all image weights if/when it's established
-              that width isn't an adequate means to illustrate a difference */}
-            {slice.type === 'picture' && slice.weight === 'default' && (
-              <SpacingComponent $sliceType={slice.type}>
-                <LayoutWidth width={isVisualStory ? 8 : 10}>
-                  <CaptionedImage {...slice.value} />
-                </LayoutWidth>
-              </SpacingComponent>
-            )}
-            {slice.type === 'picture' && slice.weight === 'standalone' && (
-              <SpacingComponent $sliceType={slice.type}>
-                <Layout gridSizes={gridSize12()}>
-                  <CaptionedImage {...slice.value} />
-                </Layout>
-              </SpacingComponent>
-            )}
-            {slice.type === 'picture' && slice.weight === 'supporting' && (
-              <SpacingComponent $sliceType={slice.type}>
-                <LayoutWidth width={minWidth}>
-                  <CaptionedImage {...slice.value} />
-                </LayoutWidth>
-              </SpacingComponent>
-            )}
-            {slice.type === 'imageGallery' && (
-              <SpacingComponent $sliceType={slice.type}>
-                <ImageGallery
-                  {...slice.value}
-                  isStandalone={isStandaloneImageGallery}
-                  id={imageGalleryIdCount++}
-                  comicPreviousNext={comicPreviousNext}
-                />
-              </SpacingComponent>
-            )}
-            {slice.type === 'quote' && (
-              <SpacingComponent $sliceType={slice.type}>
-                <LayoutWidth width={minWidth}>
-                  <Quote {...slice.value} />
-                </LayoutWidth>
-              </SpacingComponent>
-            )}
-            {slice.type === 'titledTextList' && (
-              <SpacingComponent $sliceType={slice.type}>
-                <LayoutWidth width={minWidth}>
-                  <TitledTextList {...slice.value} />
-                </LayoutWidth>
-              </SpacingComponent>
-            )}
-            {slice.type === 'contentList' && !isLanding && (
-              <SpacingComponent $sliceType={slice.type}>
-                <LayoutWidth width={minWidth}>
-                  {/* FIXME: this makes what-we-do contentLists synchronous, but it's hacky. */}
-                  {pageId === prismicPageIds.whatWeDo ? (
-                    <SearchResults
-                      title={slice.value.title}
-                      items={slice.value.items}
-                    />
-                  ) : (
-                    <AsyncSearchResults
-                      title={slice.value.title}
-                      query={slice.value.items
-                        .map(item =>
-                          'id' in item ? `id:${item.id}` : undefined
-                        )
-                        .filter(isNotUndefined)
-                        .join(' ')}
-                    />
-                  )}
-                </LayoutWidth>
-              </SpacingComponent>
-            )}
-            {slice.type === 'searchResults' && (
-              <SpacingComponent $sliceType={slice.type}>
-                <LayoutWidth width={minWidth}>
-                  <AsyncSearchResults {...slice.value} />
-                </LayoutWidth>
-              </SpacingComponent>
-            )}
-            {slice.type === 'videoEmbed' && (
-              <SpacingComponent $sliceType={slice.type}>
-                <LayoutWidth width={isShortFilm ? 12 : minWidth}>
-                  <VideoEmbed
-                    {...slice.value}
-                    hasFullSizePoster={isShortFilm}
-                  />
-                </LayoutWidth>
-              </SpacingComponent>
-            )}
-            {slice.type === 'soundcloudEmbed' && (
-              <SpacingComponent $sliceType={slice.type}>
-                <LayoutWidth width={minWidth}>
-                  <SoundCloudEmbed {...slice.value} id={i} />
-                </LayoutWidth>
-              </SpacingComponent>
-            )}
-            {slice.type === 'map' && (
-              <SpacingComponent $sliceType={slice.type}>
-                <LayoutWidth width={minWidth}>
-                  <Map {...slice.value} />
-                </LayoutWidth>
-              </SpacingComponent>
-            )}
-            {slice.type === 'gifVideo' && (
-              <SpacingComponent $sliceType={slice.type}>
-                <Layout gridSizes={gridSize10()}>
-                  <GifVideo {...slice.value} />
-                </Layout>
-              </SpacingComponent>
-            )}
-            {slice.type === 'iframe' && (
-              <SpacingComponent $sliceType={slice.type}>
-                <Layout gridSizes={gridSize10()}>
-                  <Iframe {...slice.value} />
-                </Layout>
-              </SpacingComponent>
-            )}
-            {slice.type === 'contact' && (
-              <SpacingComponent $sliceType={slice.type}>
-                <LayoutWidth width={minWidth}>
-                  <Contact {...slice.value} />
-                </LayoutWidth>
-              </SpacingComponent>
-            )}
-            {slice.type === 'collectionVenue' && (
-              <SpacingComponent $sliceType={slice.type}>
-                {slice.value.showClosingTimes ? (
-                  <LayoutWidth width={minWidth}>
-                    <VenueClosedPeriods venue={slice.value.content} />
-                  </LayoutWidth>
-                ) : (
-                  <Layout
-                    gridSizes={
-                      slice.weight === 'featured' ||
-                      slice.value.content.isFeatured // TODO: remove weight check after migration
-                        ? {
-                            s: 12,
-                            m: 12,
-                            l: 11,
-                            shiftL: 1,
-                            xl: 10,
-                            shiftXL: 2,
-                          }
-                        : {
-                            s: 12,
-                            m: 10,
-                            shiftM: 1,
-                            l: 8,
-                            shiftL: 2,
-                            xl: 8,
-                            shiftXL: 2,
-                          }
-                    }
-                  >
-                    <VenueHours
-                      venue={slice.value.content}
-                      weight={slice.weight || 'default'}
-                    />
-                  </Layout>
-                )}
-              </SpacingComponent>
-            )}
-            {slice.type === 'infoBlock' && (
-              <SpacingComponent $sliceType={slice.type}>
-                <LayoutWidth width={minWidth}>
-                  <InfoBlock {...slice.value} />
-                </LayoutWidth>
-              </SpacingComponent>
-            )}
-            {slice.type === 'tagList' && (
-              <SpacingComponent $sliceType={slice.type}>
-                <LayoutWidth width={minWidth}>
-                  <TagsGroup {...slice.value} />
-                </LayoutWidth>
-              </SpacingComponent>
-            )}
-            {slice.type === 'audioPlayer' && (
-              <SpacingComponent $sliceType={slice.type}>
-                <LayoutWidth width={minWidth}>
-                  <AudioPlayer {...slice.value} />
-                </LayoutWidth>
-              </SpacingComponent>
-            )}
-          </Fragment>
-        ))}
+      <SliceZone
+        slices={filteredUntransformedBody}
+        components={components}
+        context={{
+          minWidth,
+          firstTextSliceIndex,
+          isVisualStory,
+          comicPreviousNext,
+          pageId,
+          isLanding,
+          isDropCapped,
+          contentType,
+        }}
+      />
     </BodyWrapper>
   );
 };
