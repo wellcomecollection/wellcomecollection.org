@@ -46,10 +46,16 @@ export const getAllConsentStates = (
 // and need workarounds to behave like normal pages.
 export const getErrorPageConsent = ({ req, res }) => {
   const cookies = getCookies({ req, res });
-  const civicUKCookie = JSON.parse(cookies.CookieControl || '');
 
-  return {
-    analytics: civicUKCookie?.optionalCookies?.analytics === 'accepted',
-    marketing: civicUKCookie?.optionalCookies?.marketing === 'accepted',
-  };
+  if (cookies.CookieControl !== undefined) {
+    const civicUKCookie = JSON.parse(cookies.CookieControl);
+
+    return {
+      analytics: civicUKCookie?.optionalCookies?.analytics === 'accepted',
+      marketing: civicUKCookie?.optionalCookies?.marketing === 'accepted',
+    };
+  }
+
+  // If not found, it's because consent has not yet been given.
+  return { analytics: false, marketing: false };
 };
