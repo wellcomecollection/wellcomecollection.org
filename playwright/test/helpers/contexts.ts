@@ -54,17 +54,24 @@ export const gotoWithoutCache = async (
   }
 };
 
-const createCookie = (name: string) => {
+const createCookie = ({ name, value }: { name: string; value: string }) => {
   return {
     name,
-    value: 'true',
+    value,
     path: '/',
     domain: new URL(baseUrl).host,
   };
 };
 
-const acceptCookieCookie = createCookie('WC_cookiesAccepted');
-const stageApiToggleCookie = createCookie('toggle_stagingApi');
+const acceptCookieCookie = createCookie({
+  name: 'CookieControl',
+  value:
+    '{"necessaryCookies":["WC_userPreferenceGuideType","WC_PopupDialog","WC_globalAlert","WC_siteIssueBanner","WC_wellcomeImagesRedirect","WC_apiToolbarMini","WC_analyticsDebug","toggle_*","io.prismic.preview","isPreview","dlcs-*","wecoIdentitySession*"],"optionalCookies":{"analytics":"revoked","marketing":"revoked"},"statement":{"shown":true,"updated":"17/04/2024"},"consentDate":1717075279128,"consentExpiry":182,"interactedWith":true,"user":""}',
+});
+const stageApiToggleCookie = createCookie({
+  name: 'toggle_stagingApi',
+  value: 'true',
+});
 
 // TODO: context.addCookies should run for the first test of a suite (even on beforeAll/beforeEach)
 
