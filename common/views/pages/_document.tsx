@@ -38,7 +38,10 @@ export function renderSegmentSnippet() {
 type DocumentInitialPropsWithTogglesAndGa = DocumentInitialProps & {
   toggles: Toggles;
   gaDimensions?: GaDimensions;
-  hasAnalyticsConsent: boolean;
+  consentStatus: {
+    analytics: boolean;
+    marketing: boolean;
+  };
 };
 class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
   static async getInitialProps(
@@ -62,7 +65,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
         ...initialProps,
         toggles: pageProps.serverData?.toggles,
         gaDimensions: pageProps.gaDimensions,
-        hasAnalyticsConsent: pageProps.serverData?.hasAnalyticsConsent,
+        consentStatus: pageProps.serverData?.consentStatus,
         styles: (
           <>
             {initialProps.styles}
@@ -79,7 +82,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
     const cookiesWork = this.props.toggles?.cookiesWork?.value;
 
     const shouldRenderAnalytics =
-      !cookiesWork || (cookiesWork && this.props.hasAnalyticsConsent);
+      !cookiesWork || (cookiesWork && this.props.consentStatus.analytics);
 
     return (
       <Html lang="en">
@@ -87,7 +90,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
           <>
             {/* Adding toggles etc. to the datalayer so they are available to events in Google Tag Manager */}
             <Ga4DataLayer
-              hasAnalyticsConsent={this.props.hasAnalyticsConsent}
+              hasAnalyticsConsent={this.props.consentStatus.analytics}
               data={{ toggles: this.props.toggles }}
             />
 
