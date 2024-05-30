@@ -66,7 +66,7 @@ const createCookie = ({ name, value }: { name: string; value: string }) => {
 const acceptCookieCookie = createCookie({
   name: 'CookieControl',
   value:
-    '{"necessaryCookies":["WC_userPreferenceGuideType","WC_PopupDialog","WC_globalAlert","WC_siteIssueBanner","WC_wellcomeImagesRedirect","WC_apiToolbarMini","WC_analyticsDebug","toggle_*","io.prismic.preview","isPreview","dlcs-*","wecoIdentitySession*"],"optionalCookies":{"analytics":"revoked","marketing":"revoked"},"statement":{"shown":true,"updated":"17/04/2024"},"consentDate":1717075279128,"consentExpiry":182,"interactedWith":true,"user":""}',
+    '{"necessaryCookies":["WC_userPreferenceGuideType","WC_PopupDialog","WC_globalAlert","WC_siteIssueBanner","WC_wellcomeImagesRedirect","WC_apiToolbarMini","WC_analyticsDebug","toggle_*","io.prismic.preview","isPreview","dlcs-*","wecoIdentitySession*"],"optionalCookies":{"analytics":"revoked","marketing":"revoked"},"statement":{"shown":true,"updated":"17/04/2024"},"consentDate":1717075279128,"consentExpiry":3000,"interactedWith":true,"user":""}',
 });
 const stageApiToggleCookie = createCookie({
   name: 'toggle_stagingApi',
