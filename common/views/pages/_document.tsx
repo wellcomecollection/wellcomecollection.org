@@ -82,7 +82,8 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
   }
 
   render(): ReactElement<DocumentInitialProps> {
-    const shouldRenderAnalytics = this.props.consentStatus?.analytics;
+    const shouldRenderAnalytics = this.props.consentStatus.analytics;
+
     return (
       <Html lang="en">
         <Head>
