@@ -31,9 +31,6 @@ const cookies = {
   // you've been redirected from Wellcome Images.
   wellcomeImagesRedirect: 'WC_wellcomeImagesRedirect',
 
-  // Records whether a user has dismissed our cookie banner.
-  cookiesAccepted: 'WC_cookiesAccepted',
-
   // Remembers whether somebody is using the "mini" version of the API toolbar.
   apiToolbarMini: 'WC_apiToolbarMini',
 

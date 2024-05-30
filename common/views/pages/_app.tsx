@@ -158,10 +158,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                   />
                   <LoadingIndicator />
 
-                  {civicUkApiKey &&
-                    pageProps.serverData?.toggles?.cookiesWork?.value && (
-                      <CivicUK apiKey={civicUkApiKey} />
-                    )}
+                  {civicUkApiKey && <CivicUK apiKey={civicUkApiKey} />}
 
                   {!pageProps.err &&
                     getLayout(<Component {...deserialiseProps(pageProps)} />)}

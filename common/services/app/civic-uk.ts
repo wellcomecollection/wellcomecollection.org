@@ -1,5 +1,6 @@
 import { getCookies } from 'cookies-next';
 import { GetServerSidePropsContext } from 'next';
+import { ConsentStatusProps } from 'server-data/types';
 
 type CivicUKCookie = {
   optionalCookies?: {
@@ -19,25 +20,36 @@ export const getConsentState = (
   context?: GetServerSidePropsContext
 ): boolean => {
   const cookies = getCookies(context);
-  const isCookiesWorkToggleOn = cookies.toggle_cookiesWork === 'true';
   const consentCookie = cookies.CookieControl;
 
-  // Ensures this returns true for regular users
-  // that don't have the "Cookie works" toggle on
-  if (isCookiesWorkToggleOn) {
-    // If the feature flag is ON and consent has been defined,
-    // return its value
-    if (consentCookie !== undefined) {
-      const civicUKCookie: CivicUKCookie = JSON.parse(
-        decodeURIComponent(consentCookie)
-      );
+  // If consent has been defined, return its value
+  if (consentCookie !== undefined) {
+    const civicUKCookie: CivicUKCookie = JSON.parse(
+      decodeURIComponent(consentCookie)
+    );
 
-      return civicUKCookie.optionalCookies?.[type] === 'accepted';
-    } else {
-      // If the feature flag is ON but consent has yet to be defined
-      return false;
-    }
+    return civicUKCookie.optionalCookies?.[type] === 'accepted';
   } else {
-    return true;
+    // Otherwise assume consent has not been given
+    return false;
   }
+};
+
+export const getAllConsentStates = (
+  context?: GetServerSidePropsContext
+): ConsentStatusProps => ({
+  analytics: getConsentState('analytics', context),
+  marketing: getConsentState('marketing', context),
+});
+
+// Pages like error pages don't have access to server data
+// and need workarounds to behave like normal pages.
+export const getErrorPageConsent = ({ req, res }) => {
+  const cookies = getCookies({ req, res });
+  const civicUKCookie = JSON.parse(cookies.CookieControl || '');
+
+  return {
+    analytics: civicUKCookie?.optionalCookies?.analytics === 'accepted',
+    marketing: civicUKCookie?.optionalCookies?.marketing === 'accepted',
+  };
 };

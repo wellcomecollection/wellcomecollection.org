@@ -20,7 +20,7 @@ import togglesHandler, { getTogglesFromContext } from './toggles';
 import prismicHandler from './prismic';
 import { simplifyServerData } from '../services/prismic/transformers/server-data';
 import { SimplifiedServerData } from './types';
-import { getConsentState } from '@weco/common/services/app/civic-uk';
+import { getAllConsentStates } from '@weco/common/services/app/civic-uk';
 
 export type Handler<DefaultData, FetchedData> = {
   defaultValue: DefaultData;
@@ -133,10 +133,7 @@ export const getServerData = async (
     toggles[enableToggle].value = true;
   }
 
-  const consentStatus = {
-    analytics: getConsentState('analytics', context),
-    marketing: getConsentState('marketing', context),
-  };
+  const consentStatus = getAllConsentStates(context);
 
   const serverData = { toggles, prismic, consentStatus };
 

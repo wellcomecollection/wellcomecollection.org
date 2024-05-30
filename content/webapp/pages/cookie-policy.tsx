@@ -4,7 +4,6 @@ import { SliceZone } from '@prismicio/react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
-import { getServerData } from '@weco/common/server-data';
 import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
@@ -93,13 +92,6 @@ export const getServerSideProps: GetServerSideProps<
   page.Props | AppErrorProps
 > = async context => {
   setCacheControl(context.res);
-  const serverData = await getServerData(context);
-
-  const { cookiesWork } = serverData?.toggles;
-
-  if (!cookiesWork.value) {
-    return { notFound: true };
-  }
 
   return page.getServerSideProps({
     ...context,

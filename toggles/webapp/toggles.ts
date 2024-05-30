@@ -77,14 +77,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'cookiesWork',
-      title: 'Various consent/cookies work allowances',
-      initialValue: false,
-      description:
-        'This will allow various pieces of work around consent, tracking and cookies to happen; e.g. testing in production.',
-      type: 'experimental',
-    },
-    {
       id: 'sliceMachine',
       title: 'Prismic Slice Machine',
       initialValue: false,
