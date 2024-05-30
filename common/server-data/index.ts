@@ -133,9 +133,12 @@ export const getServerData = async (
     toggles[enableToggle].value = true;
   }
 
-  const hasAnalyticsConsent = getConsentState('analytics', context);
+  const consentStatus = {
+    analytics: getConsentState('analytics', context),
+    marketing: getConsentState('marketing', context),
+  };
 
-  const serverData = { toggles, prismic, hasAnalyticsConsent };
+  const serverData = { toggles, prismic, consentStatus };
 
   return simplifyServerData(serverData);
 };
