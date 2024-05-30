@@ -71,3 +71,17 @@ test(`(4) | The user can sort their story search results by oldest and most rece
     'Eels'
   );
 });
+
+test(`(5) | Stories with an overriden date should display and reflect the chronology of that date`, async ({
+  page,
+  context,
+}) => {
+  await newSearch(context, page, 'stories');
+  await searchQuerySubmitAndWait(`ken's`, page);
+  const select = page.locator('select[name="sortOrder"]');
+  await select.selectOption({ index: 1 });
+  await expect(select).toHaveValue('publicationDate.asc');
+  await expect(
+    page.getByTestId('story-search-result').first().locator('time')
+  ).toContainText('8 August 2017');
+});
