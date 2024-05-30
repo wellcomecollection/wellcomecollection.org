@@ -76,7 +76,6 @@ export const urlChecker =
       {
         name: 'CookieControl',
         value: '{}',
-        path: '/',
       },
     ]);
     const page = await context.newPage();
