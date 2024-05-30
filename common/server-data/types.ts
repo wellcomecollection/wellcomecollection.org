@@ -13,19 +13,18 @@ import {
 export type ServerData = {
   toggles: Toggles;
   prismic: PrismicData;
-  consentStatus: {
-    analytics: boolean;
-    marketing: boolean;
-  };
+  consentStatus: ConsentStatusProps;
 };
 
 export type SimplifiedServerData = {
   toggles: Toggles;
   prismic: SimplifiedPrismicData;
-  consentStatus: {
-    analytics: boolean;
-    marketing: boolean;
-  };
+  consentStatus: ConsentStatusProps;
+};
+
+export type ConsentStatusProps = {
+  analytics: boolean;
+  marketing: boolean;
 };
 
 export const defaultServerData: SimplifiedServerData = {
