@@ -12,7 +12,6 @@ import { ArticleBasic } from '@weco/content/types/articles';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
 import SimpleCardGrid from '@weco/content/components/SimpleCardGrid/SimpleCardGrid';
-import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import {
   orderEventsByNextAvailableDate,
   filterEventsForNext7Days,
@@ -33,6 +32,7 @@ import {
   transformArticle,
   transformArticleToArticleBasic,
 } from '@weco/content/services/prismic/transformers/articles';
+import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 import { homepageId } from '@weco/common/data/hardcoded-ids';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
@@ -44,16 +44,15 @@ import { transformExhibitionsQuery } from '@weco/content/services/prismic/transf
 import { ImageType } from '@weco/common/model/image';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import {
-  BodySlice,
   isContentList,
-  isStandfirst,
+  ContentListProps,
+  Slice,
 } from '@weco/content/types/body';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import Standfirst from '@weco/common/views/slices/Standfirst';
 import { StandfirstSlice } from '@weco/common/prismicio-types';
-import { useToggles } from '@weco/common/server-data/Context';
 
 const CreamBox = styled(Space).attrs({
   $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
@@ -67,10 +66,9 @@ type Props = {
   nextSevenDaysEvents: EventBasic[];
   articles: ArticleBasic[];
   jsonLd: JsonLdObj[];
-  standfirst?: BodySlice & { type: 'standfirst' };
   untransformedStandfirst?: StandfirstSlice;
-  headerList: (BodySlice & { type: 'contentList' }) | null;
-  contentList: BodySlice & { type: 'contentList' };
+  transformedHeaderList: Slice<'contentList', ContentListProps> | null;
+  transformedContentList: Slice<'contentList', ContentListProps>;
 };
 
 const pageImage: ImageType = {
@@ -122,21 +120,25 @@ export const getServerSideProps: GetServerSideProps<
 
   const exhibitions = transformExhibitionsQuery(exhibitionsQuery).results;
 
-  const standfirst = page.body.find(isStandfirst);
   const untransformedBody = pageDocument?.data.body || [];
   const untransformedStandfirst = untransformedBody.find(
     (slice: prismic.Slice) => slice.slice_type === 'standfirst'
   ) as StandfirstSlice | undefined;
-  const contentLists = page.body.filter(isContentList);
+  const contentLists = page.untransformedBody.filter(isContentList);
 
   const headerList = contentLists.length === 2 ? contentLists[0] : null;
-
-  const headerListIds: Set<string> = headerList
-    ? new Set(headerList.value.items.map(v => v.id).filter(isNotUndefined))
+  const transformedHeaderList =
+    headerList && transformContentListSlice(headerList);
+  const headerListIds: Set<string> = transformedHeaderList
+    ? new Set(
+        transformedHeaderList.value.items.map(v => v.id).filter(isNotUndefined)
+      )
     : new Set();
 
   const contentList =
     contentLists.length === 2 ? contentLists[1] : contentLists[0];
+  const transformedContentList =
+    contentList && transformContentListSlice(contentList);
 
   if (events && exhibitions && articles && page) {
     return {
@@ -144,10 +146,9 @@ export const getServerSideProps: GetServerSideProps<
         articles: basicArticles,
         serverData,
         jsonLd,
-        standfirst,
         untransformedStandfirst,
-        headerList,
-        contentList,
+        transformedHeaderList,
+        transformedContentList,
         // If an exhibition or event appears in the header, we don't want
         // to display it a second time in the list of what's on.
         exhibitions: exhibitions.filter(ex => !headerListIds.has(ex.id)),
@@ -166,12 +167,10 @@ const Homepage: FunctionComponent<Props> = ({
   exhibitions,
   articles,
   jsonLd,
-  standfirst,
   untransformedStandfirst,
-  headerList,
-  contentList,
+  transformedHeaderList,
+  transformedContentList,
 }) => {
-  const { sliceMachine } = useToggles();
   return (
     <>
       <Head>
@@ -219,12 +218,7 @@ const Homepage: FunctionComponent<Props> = ({
               </Space>
             </Space>
 
-            {standfirst && !sliceMachine && (
-              <CreamBox>
-                <PageHeaderStandfirst html={standfirst.value} />
-              </CreamBox>
-            )}
-            {untransformedStandfirst && sliceMachine && (
+            {untransformedStandfirst && (
               <CreamBox>
                 <Standfirst
                   slice={untransformedStandfirst}
@@ -236,18 +230,18 @@ const Homepage: FunctionComponent<Props> = ({
             )}
           </SpacingSection>
         </Layout>
-        {headerList && (
+        {transformedHeaderList && (
           <SpacingSection>
-            {headerList.value.title && (
+            {transformedHeaderList.value.title && (
               <SpacingComponent>
-                <SectionHeader title={headerList.value.title} />
+                <SectionHeader title={transformedHeaderList.value.title} />
               </SpacingComponent>
             )}
             <SpacingComponent>
               <SimpleCardGrid
                 items={
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  headerList.value.items as any[]
+                  transformedHeaderList.value.items as any[]
                 }
                 isFeaturedFirst={true}
               />
@@ -272,15 +266,15 @@ const Homepage: FunctionComponent<Props> = ({
           </SpacingSection>
         )}
 
-        {contentList && (
+        {transformedContentList && (
           <SpacingSection>
             <SpacingComponent>
-              <SectionHeader title={contentList.value.title || ''} />
+              <SectionHeader title={transformedContentList.value.title || ''} />
             </SpacingComponent>
             <SpacingComponent>
               <SimpleCardGrid
                 items={
-                  contentList.value.items.map(
+                  transformedContentList.value.items.map(
                     item =>
                       item.type === 'seasons'
                         ? convertItemToCardProps(item)
