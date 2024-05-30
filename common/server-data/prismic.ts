@@ -3,6 +3,7 @@ import {
   PopupDialogPrismicDocument,
   GlobalAlertPrismicDocument,
 } from '../services/prismic/documents';
+import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
 import { Handler } from './';
 import * as prismic from '@prismicio/client';
 import { InferDataInterface } from '../services/prismic/types';
@@ -65,7 +66,14 @@ async function fetchPrismicValues(): Promise<PrismicData> {
   const client = createPrismicClient();
 
   const collectionVenuesResultPromise = client.get({
-    filters: [prismic.filter.any('document.type', ['collection-venue'])],
+    filters: [
+      prismic.filter.in('document.id', [
+        collectionVenueId.galleries.id,
+        collectionVenueId.libraries.id,
+        collectionVenueId.shop.id,
+        collectionVenueId.café.id,
+      ]),
+    ],
   });
   const globalAlertResultPromise = client.getSingle('global-alert');
   const popupDialogResultPromise = client.getSingle('popup-dialog');
