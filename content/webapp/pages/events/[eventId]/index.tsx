@@ -74,6 +74,7 @@ import {
 } from '@weco/content/components/styled/AccessResources';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
+import { isVideoEmbed } from '@weco/content/types/body';
 
 const DateWrapper = styled.div.attrs({
   className: 'body-text',
@@ -167,10 +168,8 @@ const EventPage: NextPage<EventProps> = ({
 
   const maybeFeaturedMedia = getFeaturedMedia(event);
   const hasFeaturedVideo =
-    event.body.length > 0 && event.body[0].type === 'videoEmbed';
-  const body = hasFeaturedVideo
-    ? event.body.slice(1, event.body.length)
-    : event.body;
+    event.untransformedBody.length > 0 &&
+    isVideoEmbed(event.untransformedBody[0]);
   const untransformedBody = hasFeaturedVideo
     ? event.untransformedBody.slice(1, event.untransformedBody.length)
     : event.untransformedBody;
@@ -264,13 +263,7 @@ const EventPage: NextPage<EventProps> = ({
       <ContentPage
         id={event.id}
         Header={Header}
-        Body={
-          <Body
-            untransformedBody={untransformedBody}
-            body={body}
-            pageId={event.id}
-          />
-        }
+        Body={<Body untransformedBody={untransformedBody} pageId={event.id} />}
         seasons={event.seasons}
         // We hide contributors as we render them higher up the page on events
         hideContributors={true}
