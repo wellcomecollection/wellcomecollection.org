@@ -1,6 +1,6 @@
 import { getCookies } from 'cookies-next';
 import { GetServerSidePropsContext } from 'next';
-import { ConsentStatusProps } from 'server-data/types';
+import { ConsentStatusProps } from '@weco/common/server-data/types';
 
 type CivicUKCookie = {
   optionalCookies?: {
