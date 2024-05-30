@@ -61,10 +61,11 @@ const VideoEmbed: FunctionComponent<Props> = ({
   const [isActive, setIsActive] = useState(false);
   const id = embedUrl.match(/embed\/(.*)\?/)?.[1];
   const hasAnalyticsConsent = getConsentState('analytics');
+  const isYouTube = embedUrl.indexOf('youtube') >= 0;
 
   useEffect(() => {
-    if (hasAnalyticsConsent) {
-      // GA4 automatically tracks youtube engagment, but requires the iframe api
+    if (isYouTube && hasAnalyticsConsent) {
+      // GA4 automatically tracks YouTube engagement, but requires the iframe api
       // script to have been loaded on the page. Since we're lazyloading youtube
       // videos, we have to add the script ourselves (and check that we haven't
       // done so already). The following is a version of 'option 3' from this article:
