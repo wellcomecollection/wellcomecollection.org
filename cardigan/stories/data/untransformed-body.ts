@@ -1,3 +1,5 @@
+import * as prismic from '@prismicio/client';
+
 const untransformedbody = [
   {
     variation: 'default',
@@ -39,6 +41,7 @@ const untransformedbody = [
     },
     id: 'text$d17bc68e-9b8f-4247-bcb5-914fb8a90279',
     slice_type: 'text',
+    slice_label: null,
   },
   {
     variation: 'default',
@@ -55,6 +58,7 @@ const untransformedbody = [
     },
     id: 'text$1a312e97-47ec-4099-b222-b04ab3f56d87',
     slice_type: 'text',
+    slice_label: null,
   },
   {
     variation: 'default',
@@ -71,6 +75,7 @@ const untransformedbody = [
     },
     id: 'text$1df95ec9-5fc9-46ba-be24-b3b9533f9ac3',
     slice_type: 'text',
+    slice_label: null,
   },
   {
     variation: 'default',
@@ -156,6 +161,7 @@ const untransformedbody = [
     },
     id: 'editorialImage$faf454c2-fccb-44d0-808a-aaa2059870b6',
     slice_type: 'editorialImage',
+    slice_label: null,
   },
   {
     variation: 'default',
@@ -200,6 +206,7 @@ const untransformedbody = [
     },
     id: 'text$d470ecf0-ebfb-4c50-81df-0b5f40f45527',
     slice_type: 'text',
+    slice_label: null,
   },
   {
     variation: 'default',
@@ -216,6 +223,7 @@ const untransformedbody = [
     },
     id: 'text$96b2369f-a6f5-4709-8098-70f69799b90e',
     slice_type: 'text',
+    slice_label: null,
   },
   {
     variation: 'default',
@@ -232,6 +240,7 @@ const untransformedbody = [
     },
     id: 'text$02619a30-ad88-4dc1-bd62-475230f7c1a7',
     slice_type: 'text',
+    slice_label: null,
   },
   {
     variation: 'default',
@@ -248,6 +257,7 @@ const untransformedbody = [
     },
     id: 'text$834a0407-cc61-4e4b-ab2f-568947b54934',
     slice_type: 'text',
+    slice_label: null,
   },
   {
     variation: 'default',
@@ -266,6 +276,7 @@ const untransformedbody = [
     },
     id: 'quote$708ec09e-5ae9-4b5b-b74b-eb0ba4ac9d51',
     slice_type: 'quote',
+    slice_label: null,
   },
   {
     variation: 'default',
@@ -282,6 +293,7 @@ const untransformedbody = [
     },
     id: 'text$775ea87b-d892-481e-a4d1-09c6566ec25c',
     slice_type: 'text',
+    slice_label: null,
   },
   {
     variation: 'default',
@@ -308,6 +320,7 @@ const untransformedbody = [
     },
     id: 'text$825ccf87-d448-4625-8a28-245b2a642e50',
     slice_type: 'text',
+    slice_label: null,
   },
   {
     variation: 'default',
@@ -324,6 +337,7 @@ const untransformedbody = [
     },
     id: 'text$71850120-20f8-4d61-952c-60f5d904bae6',
     slice_type: 'text',
+    slice_label: null,
   },
   {
     variation: 'default',
@@ -340,6 +354,7 @@ const untransformedbody = [
     },
     id: 'text$fe011576-8967-4055-9f94-4d0728cc3d03',
     slice_type: 'text',
+    slice_label: null,
   },
   {
     variation: 'default',
@@ -364,6 +379,7 @@ const untransformedbody = [
     },
     id: 'quote$4c032577-05d5-4dc9-9818-4fd2d7661669',
     slice_type: 'quote',
+    slice_label: null,
   },
   {
     variation: 'default',
@@ -380,6 +396,7 @@ const untransformedbody = [
     },
     id: 'text$52891476-3428-4e12-bd9d-79d5b1a78d71',
     slice_type: 'text',
+    slice_label: null,
   },
   {
     variation: 'default',
@@ -396,6 +413,7 @@ const untransformedbody = [
     },
     id: 'text$adff5625-0280-44b6-bd43-90e28aa960d5',
     slice_type: 'text',
+    slice_label: null,
   },
   {
     variation: 'default',
@@ -481,7 +499,8 @@ const untransformedbody = [
     },
     id: 'editorialImage$78a0c681-d014-4bec-9109-77e2b7998946',
     slice_type: 'editorialImage',
+    slice_label: null,
   },
-];
+] as unknown as prismic.Slice[];
 
 export default untransformedbody;
