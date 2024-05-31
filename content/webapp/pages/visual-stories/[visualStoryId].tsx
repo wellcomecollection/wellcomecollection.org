@@ -14,11 +14,11 @@ import { visualStoryLd } from '@weco/content/services/prismic/transformers/json-
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { Pageview } from '@weco/common/services/conversion/track';
 import Body from '@weco/content/components/Body/Body';
-import { VisualStoryDocument } from '@weco/content/services/prismic/types/visual-stories';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { capitalize } from '@weco/common/utils/grammar';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Standfirst from '@weco/common/views/slices/Standfirst';
+import { VisualStoriesDocument } from '@weco/common/prismicio-types';
 
 type Props = {
   visualStory: VisualStoryProps;
@@ -30,7 +30,7 @@ export const returnVisualStoryProps = ({
   visualStoryDocument,
   serverData,
 }: {
-  visualStoryDocument?: VisualStoryDocument;
+  visualStoryDocument?: VisualStoriesDocument;
   serverData: SimplifiedServerData;
 }) => {
   if (isNotUndefined(visualStoryDocument)) {
