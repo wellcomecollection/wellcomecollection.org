@@ -128,18 +128,18 @@ const CivicUK = (props: Props) => (
                 },
                 thirdPartyCookies: [
                   {
-                    name: 'Youtube',
-                    optOutLink: 'https://www.youtube.com/intl/ALL_uk/howyoutubeworks/user-settings/privacy/',
+                    name: 'Google Analytics', optOutLink: 'http://tools.google.com/dlpage/gaoptout'
                   },
                   {
-                    name: 'Segment', optOutLink: '/'
+                    name: 'Twilio Segment', optOutLink: 'https://www.twilio.com/en-us/legal/privacy'
                   },
                   {
-                    name: 'Google', optOutLink: '/'
+                    name: 'Hotjar', optOutLink: 'https://help.hotjar.com/hc/en-us/articles/360002735873-How-to-Stop-Hotjar-From-Collecting-your-Data'
                   },
                   {
-                    name: 'HotJar', optOutLink: '/'
-                  }
+                    name: 'YouTube',
+                    optOutLink: 'https://myaccount.google.com/yourdata/youtube?hl=en&pli=1',
+                  },
                 ],
               },
               {
@@ -157,15 +157,15 @@ const CivicUK = (props: Props) => (
                 },
                 thirdPartyCookies: [
                   {
-                    name: 'Youtube',
-                    optOutLink: 'https://www.youtube.com/intl/ALL_uk/howyoutubeworks/user-settings/privacy/',
+                    name: 'GoogleAds', optOutLink: 'https://policies.google.com/technologies/ads?hl=en-US'
                   },
                   {
-                    name: 'Segment', optOutLink: '/'
+                    name: 'Meta',
+                    optOutLink: 'https://www.facebook.com/privacy/policies/cookies',
                   },
                   {
-                    name: 'Google', optOutLink: '/'
-                  }
+                    name: 'TikTok', optOutLink: 'https://www.tiktok.com/privacy/ads-and-your-data/en-GB'
+                  },
                 ],
               },
             ],   

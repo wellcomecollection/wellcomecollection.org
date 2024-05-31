@@ -22,10 +22,7 @@ const CookieTable = ({ rows }: { rows: string[][] }) => {
   return (
     <SpacingComponent>
       <Layout gridSizes={gridSize8()}>
-        <Table
-          rows={[['Provider', 'Cookie name', 'Purpose', 'Duration'], ...rows]}
-          withBorder={true}
-        ></Table>
+        <Table rows={rows} withBorder={true} hasSmallerCopy></Table>
       </Layout>
     </SpacingComponent>
   );
