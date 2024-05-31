@@ -72,14 +72,6 @@ export const urlChecker =
   (browser: Browser) =>
   async (url: string, expectedStatus: number): Promise<Result> => {
     const context = await browser.newContext();
-    await context.addCookies([
-      {
-        name: 'CookieControl',
-        value:
-          '{"necessaryCookies":["WC_userPreferenceGuideType","WC_PopupDialog","WC_globalAlert","WC_siteIssueBanner","WC_wellcomeImagesRedirect","WC_apiToolbarMini","WC_analyticsDebug","toggle_*","io.prismic.preview","isPreview","dlcs-*","wecoIdentitySession*"],"optionalCookies":{"analytics":"revoked","marketing":"revoked"},"statement":{"shown":true,"updated":"17/04/2024"},"consentDate":1717076065470,"consentExpiry":999999999}',
-        url,
-      },
-    ]);
     const page = await context.newPage();
     const failures: Failure[] = [];
 
