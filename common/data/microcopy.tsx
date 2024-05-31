@@ -154,7 +154,7 @@ export const pastExhibitionsStrapline =
 // search in the global nav and on the categories in wc.org/search
 // TODO review this copy https://github.com/wellcomecollection/wellcomecollection.org/issues/10777
 export const searchLabelText = {
-  overview: 'Search our stories, images, catalogue and events',
+  overview: 'Please search our stories, images, catalogue and events',
   stories: 'Search for stories',
   images: 'Search for images',
   works: 'Search the catalogue',
