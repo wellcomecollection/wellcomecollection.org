@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import cookies from '@weco/common/data/cookies';
 import theme from '@weco/common/views/themes/default';
 import { font } from '@weco/common/utils/classnames';
@@ -90,15 +91,24 @@ type Props = {
   apiKey: string;
 };
 
-const CivicUK = (props: Props) => (
-  <>
-    <script
-      src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js"
-      type="text/javascript"
-    ></script>
-    <script
-      dangerouslySetInnerHTML={{
-        __html: `CookieControl.load({
+const CivicUK = (props: Props) => {
+  const [hasScript, setHasScript] = useState(false);
+
+  useEffect(() => {
+    if (!hasScript) {
+      setHasScript(true);
+    }
+  }, []);
+
+  return !hasScript ? (
+    <>
+      <script
+        src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js"
+        type="text/javascript"
+      ></script>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `CookieControl.load({
             product: 'COMMUNITY',
             apiKey: '${props.apiKey}',
             product: 'pro',
@@ -173,9 +183,10 @@ const CivicUK = (props: Props) => (
             branding: ${JSON.stringify(branding)},
             text: ${JSON.stringify(text)}
           });`,
-      }}
-    />
-  </>
-);
+        }}
+      />
+    </>
+  ) : null;
+};
 
 export default CivicUK;
