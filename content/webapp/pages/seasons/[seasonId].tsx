@@ -100,7 +100,6 @@ const SeasonPage = ({
         Body={
           <Body
             untransformedBody={season.untransformedBody}
-            body={season.body}
             pageId={season.id}
           />
         }
