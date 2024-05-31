@@ -10,7 +10,6 @@ import { transformVisualStory } from '@weco/content/services/prismic/transformer
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import { VisualStory as VisualStoryProps } from '@weco/content/types/visual-stories';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import { visualStoryLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { Pageview } from '@weco/common/services/conversion/track';
@@ -19,7 +18,6 @@ import { VisualStoryDocument } from '@weco/content/services/prismic/types/visual
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { capitalize } from '@weco/common/utils/grammar';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { useToggles } from '@weco/common/server-data/Context';
 import Standfirst from '@weco/common/views/slices/Standfirst';
 
 type Props = {
@@ -71,20 +69,16 @@ export const getServerSideProps = async context => {
 };
 
 const VisualStory: FunctionComponent<Props> = ({ visualStory, jsonLd }) => {
-  const { sliceMachine } = useToggles();
   const { relatedDocument } = visualStory;
 
-  const ContentTypeInfo =
-    visualStory.standfirst && !sliceMachine ? (
-      <PageHeaderStandfirst html={visualStory.standfirst} />
-    ) : visualStory.untransformedStandfirst && sliceMachine ? (
-      <Standfirst
-        slice={visualStory.untransformedStandfirst}
-        index={0}
-        context={{}}
-        slices={[]}
-      />
-    ) : null;
+  const ContentTypeInfo = visualStory.untransformedStandfirst ? (
+    <Standfirst
+      slice={visualStory.untransformedStandfirst}
+      index={0}
+      context={{}}
+      slices={[]}
+    />
+  ) : null;
 
   const Header = (
     <PageHeader
@@ -131,7 +125,6 @@ const VisualStory: FunctionComponent<Props> = ({ visualStory, jsonLd }) => {
         Body={
           <Body
             untransformedBody={visualStory.untransformedBody}
-            body={visualStory.body}
             pageId={visualStory.id}
             onThisPage={visualStory.onThisPage}
             showOnThisPage={visualStory.showOnThisPage}
