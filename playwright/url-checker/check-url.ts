@@ -72,13 +72,6 @@ export const urlChecker =
   (browser: Browser) =>
   async (url: string, expectedStatus: number): Promise<Result> => {
     const context = await browser.newContext();
-    await context.addCookies([
-      {
-        name: 'CookieControl',
-        value: '{}',
-        path: '/',
-      },
-    ]);
     const page = await context.newPage();
     const failures: Failure[] = [];
 
