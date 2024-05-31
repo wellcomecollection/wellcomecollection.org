@@ -72,6 +72,14 @@ export const urlChecker =
   (browser: Browser) =>
   async (url: string, expectedStatus: number): Promise<Result> => {
     const context = await browser.newContext();
+    await context.addCookies([
+      {
+        name: 'toggle_cookiesWork',
+        value: 'true',
+        url,
+      },
+    ]);
+    console.log('--->', context.cookies());
     const page = await context.newPage();
     const failures: Failure[] = [];
 
