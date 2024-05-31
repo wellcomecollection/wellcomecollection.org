@@ -60,16 +60,16 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({
               
             gtag('consent', 'default', {
               'analytics_storage': ${
-                consentStatus.analytics ? '"granted"' : '"denied"'
+                consentStatus?.analytics ? '"granted"' : '"denied"'
               },
               'ad_storage': ${
-                consentStatus.marketing ? '"granted"' : '"denied"'
+                consentStatus?.marketing ? '"granted"' : '"denied"'
               },
               'ad_user_data':  ${
-                consentStatus.marketing ? '"granted"' : '"denied"'
+                consentStatus?.marketing ? '"granted"' : '"denied"'
               },
               'ad_personalization':  ${
-                consentStatus.marketing ? '"granted"' : '"denied"'
+                consentStatus?.marketing ? '"granted"' : '"denied"'
               },
             });
 

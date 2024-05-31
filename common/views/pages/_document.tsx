@@ -16,7 +16,6 @@ import {
   GaDimensions,
 } from '@weco/common/services/app/google-analytics';
 import { ConsentStatusProps } from '@weco/common/server-data/types';
-import { getErrorPageConsent } from '@weco/common/services/app/civic-uk';
 
 // Don't attempt to destructure the process object
 // https://github.com/vercel/next.js/pull/20869/files
@@ -60,15 +59,15 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
 
       const initialProps = await Document.getInitialProps(ctx);
 
-      const consentStatus = pageProps.serverData
-        ? pageProps.serverData?.consentStatus
-        : getErrorPageConsent({ req: ctx.req, res: ctx.res });
+      // const consentStatus = pageProps.serverData
+      //   ? pageProps.serverData?.consentStatus
+      //   : getErrorPageConsent({ req: ctx.req, res: ctx.res });
 
       return {
         ...initialProps,
         toggles: pageProps.serverData?.toggles,
         gaDimensions: pageProps.gaDimensions,
-        consentStatus,
+        consentStatus: pageProps?.serverData?.consentStatus,
         styles: (
           <>
             {initialProps.styles}
@@ -82,7 +81,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
   }
 
   render(): ReactElement<DocumentInitialProps> {
-    const shouldRenderAnalytics = this.props.consentStatus.analytics;
+    const shouldRenderAnalytics = !!this.props.consentStatus?.analytics;
 
     return (
       <Html lang="en">
