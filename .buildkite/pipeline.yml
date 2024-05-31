@@ -17,10 +17,15 @@
         role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
+    - wellcomecollection/aws-sm#v2.3.2:
+        env:
+          NEXT_PUBLIC_CIVICUK_API_KEY: civicuk/api_key
     - docker-compose#v3.5.0:
         build:
           - content
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
+        env:
+          - NEXT_PUBLIC_CIVICUK_API_KEY
 
 - label: ':docker: build edge_lambdas'
   key: 'build_edge_lambdas'
@@ -41,10 +46,15 @@
         role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
+    - wellcomecollection/aws-sm#v2.3.2:
+        env:
+          NEXT_PUBLIC_CIVICUK_API_KEY: civicuk/api_key
     - docker-compose#v3.5.0:
         build:
           - identity
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
+        env:
+          - NEXT_PUBLIC_CIVICUK_API_KEY
 
 - label: ':docker: build dash'
   branches: 'main'
