@@ -17,7 +17,7 @@
         role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
-    - wellcomecollection/aws-sm#v2.3.2:
+    - wellcomecollection/aws-sm:
         env:
           NEXT_PUBLIC_CIVICUK_API_KEY: civicuk/api_key
     - docker-compose#v3.5.0:
@@ -46,7 +46,7 @@
         role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
-    - wellcomecollection/aws-sm#v2.3.2:
+    - wellcomecollection/aws-sm:
         env:
           NEXT_PUBLIC_CIVICUK_API_KEY: civicuk/api_key
     - docker-compose#v3.5.0:
