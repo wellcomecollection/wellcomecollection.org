@@ -5,7 +5,7 @@
 // We should probably move out the pieces that are troublesome, and check the rest
 
 import { useEffect, useState } from 'react';
-import { getAnalyticsConsentState } from '@weco/common/services/app/civic-uk';
+import { getConsentState } from '@weco/common/services/app/civic-uk';
 
 declare global {
   interface Window {
@@ -46,7 +46,7 @@ const heatMapTrigger = (triggerName: string): void => {
 
 const useHotjar = (shouldRender: boolean, triggerName?: string) => {
   const [rendered, setRendered] = useState(false);
-  const hasAnalyticsConsent = getAnalyticsConsentState();
+  const hasAnalyticsConsent = getConsentState('analytics');
 
   useEffect(() => {
     if (!hasAnalyticsConsent) return;

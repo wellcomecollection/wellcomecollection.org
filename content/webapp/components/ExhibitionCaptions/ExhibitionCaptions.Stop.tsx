@@ -19,7 +19,7 @@ import {
 import { Container } from '@weco/common/views/components/styled/Container';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 
-const StandaloneTitle = styled(Space).attrs({
+export const StandaloneTitle = styled(Space).attrs({
   as: 'h2',
   className: `${font('wb', 2)}`,
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
@@ -35,7 +35,7 @@ const StandaloneTitle = styled(Space).attrs({
 
 type LevelProps = { $level: number };
 
-const ContextTitle = styled(Space).attrs<LevelProps>(props => ({
+export const ContextTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.$level}` as KnownTarget,
   className: font('wb', 3),
   $v: { size: 'm', properties: ['margin-bottom'] },
@@ -51,21 +51,24 @@ type ContextContainerProps = {
   $hasPadding: boolean;
   $backgroundColor: PaletteColor;
 };
-const ContextContainer = styled(Space).attrs<ContextContainerProps>(props => ({
-  $v: props.$hasPadding
-    ? { size: 'xl', properties: ['padding-top', 'padding-bottom'] }
-    : undefined,
-}))<ContextContainerProps>`
+
+export const ContextContainer = styled(Space).attrs<ContextContainerProps>(
+  props => ({
+    $v: props.$hasPadding
+      ? { size: 'xl', properties: ['padding-top', 'padding-bottom'] }
+      : undefined,
+  })
+)<ContextContainerProps>`
   background: ${props => props.theme.color(props.$backgroundColor)};
 `;
 
-const TombstoneTitle = styled(Space).attrs<LevelProps>(props => ({
+export const TombstoneTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.$level}` as KnownTarget,
   className: font('wb', 3),
   $v: { size: 's', properties: ['margin-bottom'] },
 }))<LevelProps>``;
 
-const Tombstone = styled(Space).attrs({
+export const Tombstone = styled(Space).attrs({
   className: font('intr', 4),
   $h: { size: 'l', properties: ['padding-right'] },
 })`
@@ -86,7 +89,7 @@ const Tombstone = styled(Space).attrs({
   }
 `;
 
-const CaptionTranscription = styled.div`
+export const CaptionTranscription = styled.div`
   flex-basis: 100%;
   max-width: 45em;
 
@@ -99,7 +102,7 @@ const CaptionTranscription = styled.div`
     `}
 `;
 
-const Caption = styled(Space).attrs({
+export const Caption = styled(Space).attrs({
   className: `spaced-text ${font('intr', 5)}`,
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`

@@ -14,7 +14,7 @@ import GridFactory, {
 } from '@weco/content/components/Body/GridFactory';
 import { font } from '@weco/common/utils/classnames';
 
-const Stop = styled(Space).attrs({
+export const Stop = styled(Space).attrs({
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
@@ -32,7 +32,7 @@ type VideoPlayerProps = {
   titleProps: { role: string; 'aria-level': number };
 };
 
-const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
+export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   title,
   videoUrl,
   titleProps,
@@ -50,10 +50,9 @@ const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
 type Props = {
   stops: ExhibitionGuideComponent[];
   type: ExhibitionGuideType;
-  id?: number;
 };
 
-const Stops: FunctionComponent<Props> = ({ stops, type }) => {
+export const Stops: FunctionComponent<Props> = ({ stops, type }) => {
   return (
     <GridFactory
       overrideGridSizes={

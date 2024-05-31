@@ -96,4 +96,4 @@ export type CustomSpecificationBehaviors =
 
 export type CustomContentResource = ContentResource & {
   behavior: 'original';
-} & { type?: string };
+} & { type?: string; format?: string };

@@ -197,7 +197,13 @@ const EventScheduleItem: FunctionComponent<Props> = ({
               !event.bookingEnquiryTeam &&
               !(event.schedule && event.schedule.length > 1) && (
                 <Space $v={{ size: 'm', properties: ['margin-top'] }}>
-                  <Message text="Just turn up" />
+                  <Message
+                    text={`${
+                      event.hasEarlyRegistration
+                        ? 'Arrive early to register'
+                        : 'Just turn up'
+                    }`}
+                  />
                 </Space>
               )}
 

@@ -4,10 +4,18 @@ import { GetServerSidePropsContext } from 'next';
 type CivicUKCookie = {
   optionalCookies?: {
     analytics: 'accepted' | 'revoked';
+    marketing: 'accepted' | 'revoked';
   };
 };
 
-export const getAnalyticsConsentState = (
+/**
+ * Gets the current status of a specific consent category, passing the context in if server-side.
+ *
+ * @param {'analytics' | 'marketing'} type - Name of the category
+ * @param {GetServerSidePropsContext | undefined} context - Server-side context
+ */
+export const getConsentState = (
+  type: 'analytics' | 'marketing',
   context?: GetServerSidePropsContext
 ): boolean => {
   const cookies = getCookies(context);
@@ -24,7 +32,7 @@ export const getAnalyticsConsentState = (
         decodeURIComponent(consentCookie)
       );
 
-      return civicUKCookie.optionalCookies?.analytics === 'accepted';
+      return civicUKCookie.optionalCookies?.[type] === 'accepted';
     } else {
       // If the feature flag is ON but consent has yet to be defined
       return false;

@@ -18,7 +18,11 @@ import { UiTree } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers
 import IIIFItemList from '@weco/content/components/IIIFItemList/IIIFItemList';
 import DownloadLink from '@weco/content/components/DownloadLink/DownloadLink';
 import Download from '@weco/content/components/Download/Download';
-import { getLabelString, getFormatString } from '@weco/content/utils/iiif/v3';
+import {
+  getLabelString,
+  getFormatString,
+  isAllOriginalPdfs,
+} from '@weco/content/utils/iiif/v3';
 import { InternationalString, ContentResource } from '@iiif/presentation-3';
 import { useToggles } from '@weco/common/server-data/Context';
 import {
@@ -188,6 +192,7 @@ const WorkDetailsAvailableOnline = ({
       bornDigitalStatus === 'allBornDigital');
   const [tabbableId, setTabbableId] = useState<string>();
   const [archiveTree, setArchiveTree] = useState<UiTree>([]);
+  const allOriginalPdfs = isAllOriginalPdfs(canvases || []);
 
   useEffect(() => {
     const downloads = createDownloadTree(structures, canvases);
@@ -220,7 +225,8 @@ const WorkDetailsAvailableOnline = ({
       >
         {showBornDigital &&
           (bornDigitalStatus === 'mixedBornDigital' ||
-            bornDigitalStatus === 'allBornDigital') && (
+            bornDigitalStatus === 'allBornDigital') &&
+          !allOriginalPdfs && (
             <>
               {Number(canvases?.length) > 0 && (
                 <p className={font('lr', 6)}>
@@ -276,7 +282,8 @@ const WorkDetailsAvailableOnline = ({
           )}
 
         {(!showBornDigital ||
-          (showBornDigital && bornDigitalStatus === 'noBornDigital')) && (
+          (showBornDigital && bornDigitalStatus === 'noBornDigital') ||
+          (showBornDigital && allOriginalPdfs)) && (
           <>
             {!shouldShowItemLink && (
               <>
