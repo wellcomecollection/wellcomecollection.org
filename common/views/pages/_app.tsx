@@ -158,7 +158,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                   />
                   <LoadingIndicator />
 
-                  {civicUkApiKey && <CivicUK apiKey={civicUkApiKey} />}
+                  <CivicUK apiKey={civicUkApiKey || ''} />
 
                   {!pageProps.err &&
                     getLayout(<Component {...deserialiseProps(pageProps)} />)}
