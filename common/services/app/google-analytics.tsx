@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react';
 import { Toggles } from '@weco/toggles';
+import { ConsentStatusProps } from '@weco/common/server-data/types';
 
 export type GaDimensions = {
   partOf: string[];
@@ -11,7 +12,7 @@ type Props = {
   data: {
     toggles?: Toggles;
   };
-  hasAnalyticsConsent: boolean;
+  consentStatus: ConsentStatusProps;
 };
 
 // We send toggles as an event parameter to GA4 so we can determine the condition in which a particular event took place.
@@ -45,7 +46,7 @@ function createABToggleString(toggles: Toggles | undefined): string | null {
 
 export const Ga4DataLayer: FunctionComponent<Props> = ({
   data,
-  hasAnalyticsConsent,
+  consentStatus,
 }) => {
   const abTestsToggleString = createABToggleString(data.toggles);
 
@@ -61,11 +62,17 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({
               
               gtag('consent', 'default', {
                 'analytics_storage': ${
-                  hasAnalyticsConsent ? '"granted"' : '"denied"'
+                  consentStatus.analytics ? '"granted"' : '"denied"'
                 },
-                'ad_storage': 'denied',
-                'ad_user_data': 'denied',
-                'ad_personalization': 'denied'
+                'ad_storage': ${
+                  consentStatus.marketing ? '"granted"' : '"denied"'
+                },
+                'ad_user_data':  ${
+                  consentStatus.marketing ? '"granted"' : '"denied"'
+                },
+                'ad_personalization':  ${
+                  consentStatus.marketing ? '"granted"' : '"denied"'
+                },
               });`
                 : ``
             }

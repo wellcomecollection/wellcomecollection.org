@@ -22,6 +22,9 @@ export async function getServerData(): Promise<ServerData> {
       popupDialog: emptyPopupDialog(),
       collectionVenues: emptyPrismicQuery<CollectionVenuePrismicDocument>(),
     },
-    hasAnalyticsConsent: false,
+    consentStatus: {
+      analytics: false,
+      marketing: false,
+    },
   };
 }

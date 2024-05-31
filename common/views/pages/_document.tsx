@@ -15,6 +15,7 @@ import {
   GoogleTagManager,
   GaDimensions,
 } from '@weco/common/services/app/google-analytics';
+import { ConsentStatusProps } from '@weco/common/server-data/types';
 
 // Don't attempt to destructure the process object
 // https://github.com/vercel/next.js/pull/20869/files
@@ -38,7 +39,7 @@ export function renderSegmentSnippet() {
 type DocumentInitialPropsWithTogglesAndGa = DocumentInitialProps & {
   toggles: Toggles;
   gaDimensions?: GaDimensions;
-  hasAnalyticsConsent: boolean;
+  consentStatus: ConsentStatusProps;
 };
 class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
   static async getInitialProps(
@@ -62,7 +63,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
         ...initialProps,
         toggles: pageProps.serverData?.toggles,
         gaDimensions: pageProps.gaDimensions,
-        hasAnalyticsConsent: pageProps.serverData?.hasAnalyticsConsent,
+        consentStatus: pageProps.serverData?.consentStatus,
         styles: (
           <>
             {initialProps.styles}
@@ -79,7 +80,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
     const cookiesWork = this.props.toggles?.cookiesWork?.value;
 
     const shouldRenderAnalytics =
-      !cookiesWork || (cookiesWork && this.props.hasAnalyticsConsent);
+      !cookiesWork || (cookiesWork && this.props.consentStatus.analytics);
 
     return (
       <Html lang="en">
@@ -87,7 +88,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
           <>
             {/* Adding toggles etc. to the datalayer so they are available to events in Google Tag Manager */}
             <Ga4DataLayer
-              hasAnalyticsConsent={this.props.hasAnalyticsConsent}
+              consentStatus={this.props.consentStatus}
               data={{ toggles: this.props.toggles }}
             />
 
