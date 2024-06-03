@@ -6,7 +6,7 @@ export const prismicEnv = async (
   /* eslint-disable @typescript-eslint/no-explicit-any */
 ): Promise<any> => {
   const isPrismicStage = ctx.cookies.get('toggle_prismicStage');
-  const noisyUrl =
+  const noisyUrl = // These aren't of interest but get hit a lot when running locally. Can be filtered out.
     ctx.request.url === '/account/api/auth/me' ||
     ctx.request.url.match(/_next.*/);
 
