@@ -69,6 +69,14 @@ const toggles = {
       type: 'permanent',
     },
     {
+      id: 'prismicStage',
+      title: 'Use Prismic stage environment content',
+      initialValue: false,
+      description:
+        "Makes all content queries to the Prismic stage environment instead of production. Useful for testing model changes or previewing landing page changes that wouldn't be possible with standard Prismic preview.",
+      type: 'permanent',
+    },
+    {
       id: 'showBornDigital',
       title: 'Display born digital files',
       initialValue: false,
