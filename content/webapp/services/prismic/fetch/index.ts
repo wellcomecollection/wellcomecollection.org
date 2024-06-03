@@ -56,22 +56,12 @@ const clientMemo: { prod?: prismic.Client; stage?: prismic.Client } = {
   prod: undefined,
 };
 
-function getClient(isPrismicStage: boolean): prismic.Client {
-  if (isPrismicStage) {
-    if (clientMemo.stage) {
-      return clientMemo.stage;
-    } else {
-      const stageClient = createPrismicClient(true);
-      clientMemo.stage = stageClient;
-      return stageClient;
-    }
-  } else if (clientMemo.prod) {
-    return clientMemo.prod;
-  } else {
-    const prodClient = createPrismicClient(false);
-    clientMemo.prod = prodClient;
-    return prodClient;
+function getClient(env: 'stage' | 'prod'): prismic.Client {
+  if (clientMemo[env] === undefined) {
+    clientMemo[env] = createPrismicClient(env === 'stage');
   }
+
+  return clientMemo[env] as prismic.Client;
 }
 
 export function createClient({
@@ -81,7 +71,7 @@ export function createClient({
   | { req: NextApiRequest }): GetServerSidePropsPrismicClient {
   const isPrismicStage = req.cookies?.toggle_prismicStage === 'true';
 
-  const client = getClient(isPrismicStage);
+  const client = getClient(isPrismicStage ? 'stage' : 'prod');
 
   client.enableAutoPreviewsFromReq(req);
   return {
