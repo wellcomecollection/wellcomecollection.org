@@ -26,6 +26,7 @@ import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import { deserialiseProps } from '@weco/common/utils/json';
 import { SearchContextProvider } from '@weco/common/views/components/SearchContext/SearchContext';
 import CivicUK from '@weco/common/views/components/CivicUK';
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
@@ -144,6 +145,10 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   const getLayout = Component.getLayout || (page => <>{page}</>);
 
+  // Banner should not load on cookie policy page to allow user to interact with the page content.
+  const displayCookieBanner =
+    civicUkApiKey && pageProps['page']?.id !== prismicPageIds.cookiePolicy; // eslint-disable-line dot-notation
+
   return (
     <>
       <ApmContextProvider>
@@ -158,7 +163,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                   />
                   <LoadingIndicator />
 
-                  <CivicUK apiKey={civicUkApiKey || ''} />
+                  {displayCookieBanner && <CivicUK apiKey={civicUkApiKey} />}
 
                   {!pageProps.err &&
                     getLayout(<Component {...deserialiseProps(pageProps)} />)}
