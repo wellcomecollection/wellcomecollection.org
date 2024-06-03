@@ -15,3 +15,17 @@ test('(1) Website includes the Meta domain verification tag', async ({
     'gl52uu0zshpy3yqv1ohxo3zq39mb0w'
   );
 });
+
+test('(2) | Cookie banner displays on first visit from anywhere, except the cookie policy page.', async ({
+  page,
+}) => {
+  await gotoWithoutCache(baseUrl, page);
+  const cookieBanner = await page.getByLabel('Our website uses cookies');
+  await expect(cookieBanner).toBeAttached();
+
+  await gotoWithoutCache(`${baseUrl}/visit-us`, page);
+  await expect(cookieBanner).toBeAttached();
+
+  await gotoWithoutCache(`${baseUrl}/cookie-policy`, page);
+  await expect(cookieBanner).not.toBeAttached();
+});
