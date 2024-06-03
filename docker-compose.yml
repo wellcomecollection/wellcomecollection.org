@@ -10,11 +10,15 @@ services:
     build:
       context: .
       dockerfile: content/Dockerfile
+    environment:
+      - NEXT_PUBLIC_CIVICUK_API_KEY=${NEXT_PUBLIC_CIVICUK_API_KEY?error}
   identity:
     image: uk.ac.wellcome/identity_webapp:${CONTAINER_TAG:-test}
     build:
       context: .
       dockerfile: identity/Dockerfile
+    environment:
+      - NEXT_PUBLIC_CIVICUK_API_KEY=${NEXT_PUBLIC_CIVICUK_API_KEY?error}
   dash:
     build:
       context: ./dash
