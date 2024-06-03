@@ -80,3 +80,36 @@ export const imageGallery = (): ImageGalleryProps & { id: number } => {
     isFrames: false,
   };
 };
+
+export const imageWithCrops = {
+  contentUrl: florenceWinterfloodImageUrl('1600x900'),
+  width: 1600,
+  height: 900,
+  alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
+  tasl: {
+    title: "Alzheimer's disease",
+    author: 'Florence Winterflood',
+    sourceName: 'Wellcome Collection',
+    sourceLink: 'CC-BY-NC',
+    license: undefined,
+    copyrightHolder: undefined,
+    copyrightLink: undefined,
+  },
+  simpleCrops: {
+    '32:15': {
+      contentUrl: florenceWinterfloodImageUrl('3200x1500'),
+      width: 3200,
+      height: 1500,
+    },
+    '16:9': {
+      contentUrl: florenceWinterfloodImageUrl('3200x1800'),
+      width: 3200,
+      height: 1800,
+    },
+    square: {
+      contentUrl: florenceWinterfloodImageUrl('3200x3200'),
+      width: 3200,
+      height: 3200,
+    },
+  },
+};

@@ -5,6 +5,19 @@ import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import { plainListStyles } from '@weco/common/views/components/styled/PlainList';
+
+export const TypeList = styled(Space).attrs({
+  $v: { size: 'l', properties: ['row-gap'] },
+  $h: { size: 'l', properties: ['column-gap'] },
+})`
+  ${plainListStyles};
+  display: grid;
+
+  ${props => props.theme.media('medium')`
+    grid-template-columns: 1fr 1fr;
+  `}
+`;
 
 const TypeItem = styled.li`
   flex: 0 0 100%;

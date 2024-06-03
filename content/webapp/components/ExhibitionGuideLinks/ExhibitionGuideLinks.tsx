@@ -1,27 +1,12 @@
 import { setCookie } from 'cookies-next';
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
 import {
   britishSignLanguage,
   audioDescribed,
   speechToText,
 } from '@weco/common/icons';
-import TypeOption from './TypeOption';
+import TypeOption, { TypeList } from './TypeOption';
 import cookies from '@weco/common/data/cookies';
-import { plainListStyles } from '@weco/common/views/components/styled/PlainList';
-import Space from '@weco/common/views/components/styled/Space';
-
-const TypeList = styled(Space).attrs({
-  $v: { size: 'l', properties: ['row-gap'] },
-  $h: { size: 'l', properties: ['column-gap'] },
-})`
-  ${plainListStyles};
-  display: grid;
-
-  ${props => props.theme.media('medium')`
-    grid-template-columns: 1fr 1fr;
-  `}
-`;
 
 type Props = {
   pathname: string;
@@ -44,7 +29,7 @@ function cookieHandler(key: string, data: string) {
   setCookie(key, data, options);
 }
 
-const ExhibitionGuideLinks: FunctionComponent<Props> = ({
+export const ExhibitionGuideLinks: FunctionComponent<Props> = ({
   pathname,
   availableTypes,
 }) => {
@@ -112,4 +97,61 @@ const ExhibitionGuideLinks: FunctionComponent<Props> = ({
   );
 };
 
-export default ExhibitionGuideLinks;
+type ResourceProps = {
+  textPathname: string | undefined;
+  audioPathname: string | undefined;
+  videoPathname: string | undefined;
+};
+
+export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
+  textPathname,
+  audioPathname,
+  videoPathname,
+}) => {
+  return (
+    <TypeList>
+      {audioPathname && (
+        <TypeOption
+          url={`/${audioPathname}`}
+          title="Listen to audio"
+          text="Find out more about the exhibition with short audio tracks."
+          backgroundColor="accent.lightSalmon"
+          icon={audioDescribed}
+          onClick={() => {
+            cookieHandler(
+              cookies.exhibitionGuideType,
+              'audio-without-descriptions'
+            );
+          }}
+        />
+      )}
+      {textPathname && (
+        <TypeOption
+          url={`/${textPathname}`}
+          title="Read captions and transcripts"
+          text="All the wall and label texts from the gallery, plus audio transcripts – great for those without headphones."
+          backgroundColor="accent.lightGreen"
+          icon={speechToText}
+          onClick={() => {
+            cookieHandler(
+              cookies.exhibitionGuideType,
+              'captions-and-transcripts'
+            );
+          }}
+        />
+      )}
+      {videoPathname && (
+        <TypeOption
+          url={`/${videoPathname}`}
+          title="Watch British Sign Language videos"
+          text="Commentary about the exhibition in British Sign Language videos."
+          backgroundColor="accent.lightBlue"
+          icon={britishSignLanguage}
+          onClick={() => {
+            cookieHandler(cookies.exhibitionGuideType, 'bsl');
+          }}
+        />
+      )}
+    </TypeList>
+  );
+};
