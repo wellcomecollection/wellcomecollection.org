@@ -57,7 +57,7 @@ const clientMemo: { prod?: prismic.Client; stage?: prismic.Client } = {
 };
 
 function getClient(env: 'stage' | 'prod'): prismic.Client {
-  if (clientMemo[env] === undefined) {
+  if (!clientMemo[env]) {
     clientMemo[env] = createPrismicClient(env === 'stage');
   }
 
