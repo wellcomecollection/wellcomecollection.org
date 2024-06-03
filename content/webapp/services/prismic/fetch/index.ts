@@ -51,18 +51,37 @@ export const delistFilter = prismic.filter.not('document.tags', ['delist']);
  * }
  */
 
-const prismicProdClient = createPrismicClient(false);
-const prismicStageClient = createPrismicClient(true);
+const clientMemo: { prod?: prismic.Client; stage?: prismic.Client } = {
+  stage: undefined,
+  prod: undefined,
+};
+
+function getClient(isPrismicStage: boolean): prismic.Client {
+  if (isPrismicStage) {
+    if (clientMemo.stage) {
+      return clientMemo.stage;
+    } else {
+      const stageClient = createPrismicClient(true);
+      clientMemo.stage = stageClient;
+      return stageClient;
+    }
+  } else if (clientMemo.prod) {
+    return clientMemo.prod;
+  } else {
+    const prodClient = createPrismicClient(false);
+    clientMemo.prod = prodClient;
+    return prodClient;
+  }
+}
 
 export function createClient({
   req,
 }:
   | GetServerSidePropsContext
   | { req: NextApiRequest }): GetServerSidePropsPrismicClient {
-  const client =
-    req.cookies?.toggle_prismicStage === 'true'
-      ? prismicStageClient
-      : prismicProdClient;
+  const isPrismicStage = req.cookies?.toggle_prismicStage === 'true';
+
+  const client = getClient(isPrismicStage);
 
   client.enableAutoPreviewsFromReq(req);
   return {
