@@ -10,7 +10,6 @@ import {
   withCachedValues,
   handleAllRoute,
 } from '@weco/common/koa-middleware/withCachedValues';
-import { prismicEnv } from '@weco/common/koa-middleware/prismicEnv';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 import * as prismic from '@prismicio/client';
@@ -44,7 +43,6 @@ const appPromise = nextApp
       sensitive: true,
     });
 
-    koaApp.use(prismicEnv);
     koaApp.use(apmErrorMiddleware);
     koaApp.use(withCachedValues);
 

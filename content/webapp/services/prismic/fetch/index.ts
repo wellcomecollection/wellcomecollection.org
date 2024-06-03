@@ -7,8 +7,6 @@ import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 import { deserialiseDates as deserialiseJsonDates } from '@weco/common/utils/json';
 
-const client = createPrismicClient();
-
 export type GetServerSidePropsPrismicClient = {
   type: 'GetServerSidePropsPrismicClient';
   client: prismic.Client;
@@ -52,13 +50,25 @@ export const delistFilter = prismic.filter.not('document.tags', ['delist']);
  *    const events = await getEvents(context)
  * }
  */
+
+const prismicProdClient = createPrismicClient(false);
+const prismicStageClient = createPrismicClient(true);
+
 export function createClient({
   req,
 }:
   | GetServerSidePropsContext
   | { req: NextApiRequest }): GetServerSidePropsPrismicClient {
+  const client =
+    req.cookies?.toggle_prismicStage === 'true'
+      ? prismicStageClient
+      : prismicProdClient;
+
   client.enableAutoPreviewsFromReq(req);
-  return { type: 'GetServerSidePropsPrismicClient', client };
+  return {
+    type: 'GetServerSidePropsPrismicClient',
+    client,
+  };
 }
 
 export type GetByTypeParams = Parameters<
