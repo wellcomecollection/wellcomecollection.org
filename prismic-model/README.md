@@ -113,3 +113,24 @@ If you have a locally running content app (`yarn content` in the repo root), you
 ```console
 $ yarn tryAllContentPages
 ```
+
+
+## Migrating content using the migration API
+
+The [migration API](https://prismic.io/docs/migration-api-technical-reference) allows you to `PUT` changes to existing Prismic documents, or `POST` new documents. The data format follows the response format of the [document API](https://prismic.io/docs/rest-api-technical-reference).
+
+The `migrate.ts` script expects an `--type` parameter for a custom type, and will migrate all documents of this type as you please (e.g. to mutate the shape of the body slices in order to work with Slice Machine).
+
+You will need to create a `.env` file with values for the variables listed in `.env_example` if one doesn't exist. 
+
+### Usage
+
+```console
+$ yarn migrate --type articles
+```
+
+### Note
+
+This will only migrate _published_ documents. In order to migrate documents in draft, you will first have to find the Prismic `ref` of the document and include this as an option to `createClient`. Once a draft document is in a migration release, it is important _not_ to publish it, otherwise it will indeed be published on the front-end. Instead, it should be archived and then re-saved to draft from the archive. In order to test that the migration will do what you expect, strongly consider running it against the Prismic stage environment and deploying the migration release from there first.
+
+Finding a `ref` is not straightforward. One method is to preview a draft document and inspect the network tab in dev tools filtered to Fetch/XHR to find a request called `predict`. This contains the `ref` as a query param.
