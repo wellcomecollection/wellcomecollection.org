@@ -1,6 +1,8 @@
 # This image should be built with the parent directory as context
 FROM public.ecr.aws/docker/library/node:16-slim
 
+ARG NEXT_PUBLIC_CIVICUK_API_KEY
+
 WORKDIR /app
 
 COPY package.json yarn.lock ./
