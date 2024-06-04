@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { baseUrl } from './helpers/utils';
-import { gotoWithoutCache } from './helpers/contexts';
+import { gotoWithoutCache, mediaOffice } from './helpers/contexts';
 
 // See the comment in content/webapp/pages/index.tsx about why this is important
 test('(1) Website includes the Meta domain verification tag', async ({
@@ -27,5 +27,17 @@ test('(2) | Cookie banner displays on first visit from anywhere, except the cook
   await expect(cookieBanner).toBeAttached();
 
   await gotoWithoutCache(`${baseUrl}/cookie-policy`, page);
+  await expect(cookieBanner).not.toBeAttached();
+});
+
+test('(3) | Cookie banner only displays if CookieControl cookie has not already been set', async ({
+  context,
+  page,
+}) => {
+  await gotoWithoutCache(`${baseUrl}/pages/WuxrKCIAAP9h3hmw`, page);
+  const cookieBanner = await page.getByLabel('Our website uses cookies');
+  await expect(cookieBanner).toBeAttached();
+
+  await mediaOffice(context, page);
   await expect(cookieBanner).not.toBeAttached();
 });
