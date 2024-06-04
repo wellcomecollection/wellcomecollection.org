@@ -7,8 +7,6 @@ import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 import { deserialiseDates as deserialiseJsonDates } from '@weco/common/utils/json';
 
-const client = createPrismicClient();
-
 export type GetServerSidePropsPrismicClient = {
   type: 'GetServerSidePropsPrismicClient';
   client: prismic.Client;
@@ -52,13 +50,34 @@ export const delistFilter = prismic.filter.not('document.tags', ['delist']);
  *    const events = await getEvents(context)
  * }
  */
+
+const clientMemo: { prod?: prismic.Client; stage?: prismic.Client } = {
+  stage: undefined,
+  prod: undefined,
+};
+
+function getClient(env: 'stage' | 'prod'): prismic.Client {
+  if (!clientMemo[env]) {
+    clientMemo[env] = createPrismicClient(env === 'stage');
+  }
+
+  return clientMemo[env] as prismic.Client;
+}
+
 export function createClient({
   req,
 }:
   | GetServerSidePropsContext
   | { req: NextApiRequest }): GetServerSidePropsPrismicClient {
+  const isPrismicStage = req.cookies?.toggle_prismicStage === 'true';
+
+  const client = getClient(isPrismicStage ? 'stage' : 'prod');
+
   client.enableAutoPreviewsFromReq(req);
-  return { type: 'GetServerSidePropsPrismicClient', client };
+  return {
+    type: 'GetServerSidePropsPrismicClient',
+    client,
+  };
 }
 
 export type GetByTypeParams = Parameters<
