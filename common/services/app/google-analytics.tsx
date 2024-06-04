@@ -50,32 +50,28 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({
 }) => {
   const abTestsToggleString = createABToggleString(data.toggles);
 
-  return data.toggles?.cookiesWork?.value || abTestsToggleString ? (
+  return (
     <script
       dangerouslySetInnerHTML={{
         __html: `
             window.dataLayer = window.dataLayer || [];
 
-            ${
-              data.toggles?.cookiesWork?.value
-                ? `function gtag(){window.dataLayer.push(arguments);}
+            function gtag(){window.dataLayer.push(arguments);}
               
-              gtag('consent', 'default', {
-                'analytics_storage': ${
-                  consentStatus.analytics ? '"granted"' : '"denied"'
-                },
-                'ad_storage': ${
-                  consentStatus.marketing ? '"granted"' : '"denied"'
-                },
-                'ad_user_data':  ${
-                  consentStatus.marketing ? '"granted"' : '"denied"'
-                },
-                'ad_personalization':  ${
-                  consentStatus.marketing ? '"granted"' : '"denied"'
-                },
-              });`
-                : ``
-            }
+            gtag('consent', 'default', {
+              'analytics_storage': ${
+                consentStatus.analytics ? '"granted"' : '"denied"'
+              },
+              'ad_storage': ${
+                consentStatus.marketing ? '"granted"' : '"denied"'
+              },
+              'ad_user_data':  ${
+                consentStatus.marketing ? '"granted"' : '"denied"'
+              },
+              'ad_personalization':  ${
+                consentStatus.marketing ? '"granted"' : '"denied"'
+              },
+            });
 
             ${
               abTestsToggleString &&
@@ -86,7 +82,7 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({
           `,
       }}
     />
-  ) : null;
+  );
 };
 
 export const GoogleTagManager: FunctionComponent = () => (

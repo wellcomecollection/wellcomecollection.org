@@ -54,17 +54,20 @@ export const gotoWithoutCache = async (
   }
 };
 
-const createCookie = (name: string) => {
+const createCookie = ({ name, value }: { name: string; value: string }) => {
   return {
     name,
-    value: 'true',
+    value,
     path: '/',
     domain: new URL(baseUrl).host,
   };
 };
 
-const acceptCookieCookie = createCookie('WC_cookiesAccepted');
-const stageApiToggleCookie = createCookie('toggle_stagingApi');
+const acceptCookieCookie = createCookie({ name: 'CookieControl', value: '{}' });
+const stageApiToggleCookie = createCookie({
+  name: 'toggle_stagingApi',
+  value: 'true',
+});
 
 // TODO: context.addCookies should run for the first test of a suite (even on beforeAll/beforeEach)
 

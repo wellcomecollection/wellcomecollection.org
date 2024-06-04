@@ -147,9 +147,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   // Banner should not load on cookie policy page to allow user to interact with the page content.
   const displayCookieBanner =
-    civicUkApiKey &&
-    pageProps['page']?.id !== prismicPageIds.cookiePolicy && // eslint-disable-line dot-notation
-    pageProps.serverData?.toggles?.cookiesWork?.value;
+    civicUkApiKey && pageProps['page']?.id !== prismicPageIds.cookiePolicy; // eslint-disable-line dot-notation
 
   return (
     <>
