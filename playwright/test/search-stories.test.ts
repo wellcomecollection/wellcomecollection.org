@@ -11,7 +11,7 @@ import {
 
 test.describe.configure({ mode: 'parallel' });
 
-test('(1) | The user can search for instances of a topic and format their results by type and contributor', async ({
+test('(1) | The user can search for instances of a topic and filter their results by type and contributor', async ({
   page,
   context,
 }) => {
@@ -30,10 +30,7 @@ test(`(2) | The user can see the correct contributor's name below the story titl
   context,
 }) => {
   await newSearch(context, page, 'stories');
-  await searchQuerySubmitAndWait('medieval doodles', page);
-  // In case of similarly titled article
-  await selectAndWaitForFilter('Contributors', 'XIp1ExAAAPyQB4NN', page);
-  // Contributor (JL)
+  await searchQuerySubmitAndWait('XLRmEBEAABp4vDEG', page);
   await locateAndConfirmContributorInfoMatchesStory('Litchfield', page);
   await expect(page.getByTestId('contributor-name')).toHaveText(
     'Words by Jack Litchfield'
@@ -67,8 +64,10 @@ test(`(4) | The user can sort their story search results by oldest and most rece
 
   await select.selectOption({ index: 1 });
   await expect(select).toHaveValue('publicationDate.asc');
+  // As this is the oldest result, it should always be the first
+  // story returned unless we change our relevancy formula
   await expect(page.getByTestId('story-search-result').first()).toContainText(
-    'Eels'
+    'Eels and feels'
   );
 });
 
@@ -77,11 +76,14 @@ test(`(5) | Stories with an overriden date should display and reflect the chrono
   context,
 }) => {
   await newSearch(context, page, 'stories');
-  await searchQuerySubmitAndWait(`ken's`, page);
+  await searchQuerySubmitAndWait(`ken's ten`, page);
   const select = page.locator('select[name="sortOrder"]');
   await select.selectOption({ index: 1 });
   await expect(select).toHaveValue('publicationDate.asc');
   await expect(
     page.getByTestId('story-search-result').first().locator('time')
   ).toContainText('8 August 2017');
+  await expect(page.getByTestId('story-search-result').first()).toContainText(
+    `Ken’s ten: looking back at ten years of Wellcome Collection`
+  );
 });
