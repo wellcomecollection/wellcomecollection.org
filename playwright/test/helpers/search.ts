@@ -131,10 +131,7 @@ export const locateAndConfirmContributorInfoMatchesStory = async (
   contributor: string,
   page: Page
 ) => {
-  await page
-    .getByTestId('story-search-result')
-    .getByText(`${contributor}`)
-    .click();
+  await page.getByTestId('story-search-result').getByText(contributor).click();
   const topContributorInfo = await page.getByTestId('contributor-name');
-  await slowExpect(topContributorInfo).toContainText(`${contributor}`);
+  await slowExpect(topContributorInfo).toContainText(contributor);
 };
