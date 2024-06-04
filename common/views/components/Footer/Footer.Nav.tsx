@@ -5,7 +5,6 @@ import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { NavLink, links } from '@weco/common/views/components/Header/Header';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import { useToggles } from '@weco/common/server-data/Context';
 
 const NavList = styled.ul<{ $isInline?: boolean }>`
   list-style-type: none;
@@ -75,24 +74,6 @@ const PoliciesNavigation: NavLink[] = [
     href: 'https://wellcome.org/who-we-are/privacy-and-terms',
     title: 'Privacy and terms',
   },
-  {
-    href: 'https://wellcome.org/who-we-are/modern-slavery-statement',
-    title: 'Modern slavery statement',
-  },
-];
-
-// This is for the cookiesWork toggle, once it's for everyone, then officialise this new list.
-const PoliciesNavigationWithCookieWork: NavLink[] = [
-  { href: 'https://wellcome.org/jobs', title: 'Jobs' },
-  { href: '/press', title: 'Media office' },
-  {
-    href: 'https://developers.wellcomecollection.org',
-    title: 'Developers',
-  },
-  {
-    href: 'https://wellcome.org/who-we-are/privacy-and-terms',
-    title: 'Privacy and terms',
-  },
 
   {
     href: '/cookie-policy',
@@ -117,14 +98,8 @@ const FooterNav = ({
   ariaLabel: string;
   isInline?: boolean;
 }): ReactElement => {
-  const { cookiesWork } = useToggles();
-
-  // This is for the cookiesWork toggle, once it's for everyone, then officialise this new list.
-  const tempPolicyList = cookiesWork
-    ? PoliciesNavigationWithCookieWork
-    : PoliciesNavigation;
   const itemsList =
-    type === 'PoliciesNavigation' ? tempPolicyList : InternalNavigation;
+    type === 'PoliciesNavigation' ? PoliciesNavigation : InternalNavigation;
 
   return (
     <nav aria-label={ariaLabel}>
@@ -144,10 +119,7 @@ const FooterNav = ({
                 }}
                 style={{ display: 'block' }}
               >
-                {/* TODO remove trigger in GTM as well once we move everything over */}
-                <NavLinkElement data-gtm-trigger="consent_test_btn">
-                  {link.title}
-                </NavLinkElement>
+                <NavLinkElement>{link.title}</NavLinkElement>
               </Link>
             </li>
           ) : (

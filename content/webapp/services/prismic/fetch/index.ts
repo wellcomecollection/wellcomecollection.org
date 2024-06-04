@@ -70,14 +70,11 @@ export function createClient({
   | GetServerSidePropsContext
   | { req: NextApiRequest }): GetServerSidePropsPrismicClient {
   const isPrismicStage = req.cookies?.toggle_prismicStage === 'true';
-
   const client = getClient(isPrismicStage ? 'stage' : 'prod');
 
   client.enableAutoPreviewsFromReq(req);
-  return {
-    type: 'GetServerSidePropsPrismicClient',
-    client,
-  };
+
+  return { type: 'GetServerSidePropsPrismicClient', client };
 }
 
 export type GetByTypeParams = Parameters<
