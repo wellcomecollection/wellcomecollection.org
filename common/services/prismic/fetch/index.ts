@@ -3,7 +3,7 @@ import * as prismic from '@prismicio/client';
 import { isUndefined } from '@weco/common/utils/type-guards';
 import sliceMachineConfig from '@weco/common/slicemachine.config.json';
 
-export function createClient(isPrismicStage?: boolean): prismic.Client {
+export function createClient(): prismic.Client {
   // We use an access token for Prismic in prod to avoid certain classes of
   // intermittent error.  In particular, we'd see an occasional 500 response
   // with an error from Prismic:
@@ -21,13 +21,14 @@ export function createClient(isPrismicStage?: boolean): prismic.Client {
   // See also: https://github.com/wellcomecollection/wellcomecollection.org/issues/8309
   //
   const accessToken = process.env.PRISMIC_ACCESS_TOKEN;
+  const prismicEnv = process.env.PRISMIC_ENV || 'prod';
 
   if (isUndefined(accessToken) && process.env.NODE_ENV === 'production') {
     console.warn('No access token specified for Prismic client');
   }
 
   const endpoint = prismic.getRepositoryEndpoint(
-    `wellcomecollection${isPrismicStage ? '-stage' : ''}`
+    `wellcomecollection${prismicEnv === 'stage' ? '-stage' : ''}`
   );
   const client = prismic.createClient(endpoint, {
     fetch,
