@@ -63,17 +63,28 @@ const necessaryCookies = () => {
   // View @weco/common/data/cookies for details on each
   const wcCookies = Object.values(cookies).map(c => c);
 
-  // Allows Prismic previews
-  const prismicPreview = ['io.prismic.preview', 'isPreview'];
-
   // See @weco/toggles/webapp/toggles for details on each
   const featureFlags = ['toggle_*'];
+
+  // Allows Prismic previews
+  const prismicPreview = ['io.prismic.preview', 'isPreview'];
 
   // Digirati auth related
   const digiratiCookies = ['dlcs-*'];
 
-  return [...wcCookies, ...prismicPreview, ...featureFlags, ...digiratiCookies];
+  // Auth0 related
+  const auth0 = ['wecoIdentitySession*'];
+
+  return [
+    ...wcCookies,
+    ...featureFlags,
+    ...prismicPreview,
+    ...digiratiCookies,
+    ...auth0,
+  ];
 };
+
+const analyticsCookies = ['_gid', '_gat', '_ga*', 'ajs_anonymous_id'];
 
 type Props = {
   apiKey: string;
@@ -106,26 +117,56 @@ const CivicUK = (props: Props) => (
                 label: '<h2 ${headingStyles}>Measure website use</h2>',
                 description:
                   '<ul><li>We use these cookies to recognise you, to count your visits to the website, and to see how you move around it.</li><li>They help us to provide you with a good experience while you browse, for example by helping to make sure you can find what you need.</li><li>They also allows us to improve the way the website works.</li></ul>',
-                cookies: [
-                  '_ga',
-                  '_ga*',
-                  '_gid',
-                  '_gat',
-                  '__utma',
-                  '__utmt',
-                  '__utmb',
-                  '__utmc',
-                  '__utmz',
-                  '__utmv',
-                ],
+                cookies: ${JSON.stringify(analyticsCookies)}, 
                 onAccept: function () {
-                  const event = new CustomEvent('analyticsConsentChanged', { detail: { consent: 'granted' }});
+                  const event = new CustomEvent('analyticsConsentChanged', { detail: { analyticsConsent: 'granted' }});
                   window.dispatchEvent(event);
                 },
                 onRevoke: function () {
-                  const event = new CustomEvent('analyticsConsentChanged', { detail: { consent: 'denied' } });
+                  const event = new CustomEvent('analyticsConsentChanged', { detail: { analyticsConsent: 'denied' } });
                   window.dispatchEvent(event);
                 },
+                thirdPartyCookies: [
+                  {
+                    name: 'Google Analytics', optOutLink: 'http://tools.google.com/dlpage/gaoptout'
+                  },
+                  {
+                    name: 'Twilio Segment', optOutLink: 'https://www.twilio.com/en-us/legal/privacy'
+                  },
+                  {
+                    name: 'Hotjar', optOutLink: 'https://help.hotjar.com/hc/en-us/articles/360002735873-How-to-Stop-Hotjar-From-Collecting-your-Data'
+                  },
+                  {
+                    name: 'YouTube',
+                    optOutLink: 'https://myaccount.google.com/yourdata/youtube?hl=en&pli=1',
+                  },
+                ],
+              },
+              {
+                name: 'marketing',
+                label: '<h2 ${headingStyles}>Cookies for communications and marketing</h2>',
+                description:
+                  'We will use these to measure how you are interacting with our marketing and advertising materials, and the effectiveness of our campaigns.',
+                onAccept: function () {
+                  const event = new CustomEvent('analyticsConsentChanged', { detail: { marketingConsent: 'granted' }});
+                  window.dispatchEvent(event);
+                },
+                onRevoke: function () {
+                  const event = new CustomEvent('analyticsConsentChanged', { detail: { marketingConsent: 'denied' } });
+                  window.dispatchEvent(event);
+                },
+                thirdPartyCookies: [
+                  {
+                    name: 'GoogleAds', optOutLink: 'https://policies.google.com/technologies/ads?hl=en-US'
+                  },
+                  {
+                    name: 'Meta',
+                    optOutLink: 'https://www.facebook.com/privacy/policies/cookies',
+                  },
+                  {
+                    name: 'TikTok', optOutLink: 'https://www.tiktok.com/privacy/ads-and-your-data/en-GB'
+                  },
+                ],
               },
             ],   
             statement: ${JSON.stringify(statement)},

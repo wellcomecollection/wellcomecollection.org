@@ -28,12 +28,21 @@
             "multi": "heading2"
           }
         },
-        "context": {
+        "subtitle": {
           "type": "StructuredText",
           "config": {
-            "label": "Context",
-            "placeholder": "Optional context for a group of related items",
-            "allowTargetBlank": false,
+            "label": "Subtitle",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "heading2"
+          }
+        },
+        "text": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Text",
+            "placeholder": "",
+            "allowTargetBlank": true,
             "multi": "paragraph,strong,em,hyperlink"
           }
         }

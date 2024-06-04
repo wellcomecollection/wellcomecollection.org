@@ -21,12 +21,15 @@ export function createClient(): prismic.Client {
   // See also: https://github.com/wellcomecollection/wellcomecollection.org/issues/8309
   //
   const accessToken = process.env.PRISMIC_ACCESS_TOKEN;
+  const prismicEnv = process.env.PRISMIC_ENV || 'prod';
 
   if (isUndefined(accessToken) && process.env.NODE_ENV === 'production') {
     console.warn('No access token specified for Prismic client');
   }
 
-  const endpoint = prismic.getRepositoryEndpoint('wellcomecollection');
+  const endpoint = prismic.getRepositoryEndpoint(
+    `wellcomecollection${prismicEnv === 'stage' ? '-stage' : ''}`
+  );
   const client = prismic.createClient(endpoint, {
     fetch,
     accessToken,

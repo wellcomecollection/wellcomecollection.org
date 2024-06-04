@@ -85,9 +85,11 @@ export const TableWrap = styled.div`
   background-attachment: local, local, scroll, scroll;
 `;
 
-export const TableTable = styled.table.attrs({
-  className: font('intr', 5),
-})`
+export const TableTable = styled.table.attrs<{ $hasSmallerCopy?: boolean }>(
+  props => ({
+    className: font('intr', props.$hasSmallerCopy ? 6 : 5),
+  })
+)`
   width: 100%;
   border-collapse: collapse;
 `;

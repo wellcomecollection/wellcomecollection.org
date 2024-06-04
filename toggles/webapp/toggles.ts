@@ -69,6 +69,14 @@ const toggles = {
       type: 'permanent',
     },
     {
+      id: 'prismicStage',
+      title: 'Use Prismic stage environment content',
+      initialValue: false,
+      description:
+        "Makes all content queries to the Prismic stage environment instead of production. Useful for testing model changes or previewing landing page changes that wouldn't be possible with standard Prismic preview.",
+      type: 'permanent',
+    },
+    {
       id: 'showBornDigital',
       title: 'Display born digital files',
       initialValue: false,
@@ -77,27 +85,11 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'cookiesWork',
-      title: 'Various consent/cookies work allowances',
-      initialValue: false,
-      description:
-        'This will allow various pieces of work around consent, tracking and cookies to happen; e.g. testing in production.',
-      type: 'experimental',
-    },
-    {
       id: 'sliceMachine',
       title: 'Prismic Slice Machine',
       initialValue: false,
       description:
         'This will render content using Prismic Slice Machine slices instead of legacy slices',
-      type: 'experimental',
-    },
-    {
-      id: 'offsiteRequesting',
-      title: 'Get item availability slots from itemsAPI',
-      initialValue: false,
-      description:
-        "This will get the item's availability from itemsAPI when online-requesting an item",
       type: 'experimental',
     },
   ] as const,

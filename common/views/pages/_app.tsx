@@ -26,6 +26,7 @@ import { GaDimensions } from '@weco/common/services/app/google-analytics';
 import { deserialiseProps } from '@weco/common/utils/json';
 import { SearchContextProvider } from '@weco/common/views/components/SearchContext/SearchContext';
 import CivicUK from '@weco/common/views/components/CivicUK';
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
@@ -87,12 +88,23 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   useMaintainPageHeight();
 
+  type ConsentType = 'granted' | 'denied';
   const onAnalyticsConsentChanged = (
-    event: CustomEvent<{ consent: 'granted' | 'denied' }>
+    event: CustomEvent<{
+      analyticsConsent?: ConsentType;
+      marketingConsent?: ConsentType;
+    }>
   ) => {
     // Update datalayer config with consent value
     gtag('consent', 'update', {
-      analytics_storage: event.detail.consent,
+      ...(event.detail.analyticsConsent && {
+        analytics_storage: event.detail.analyticsConsent,
+      }),
+      ...(event.detail.marketingConsent && {
+        ad_storage: event.detail.marketingConsent,
+        ad_personalization: event.detail.marketingConsent,
+        ad_user_data: event.detail.marketingConsent,
+      }),
     });
   };
 
@@ -133,6 +145,10 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   const getLayout = Component.getLayout || (page => <>{page}</>);
 
+  // Banner should not load on cookie policy page to allow user to interact with the page content.
+  const displayCookieBanner =
+    civicUkApiKey && pageProps['page']?.id !== prismicPageIds.cookiePolicy; // eslint-disable-line dot-notation
+
   return (
     <>
       <ApmContextProvider>
@@ -147,10 +163,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                   />
                   <LoadingIndicator />
 
-                  {civicUkApiKey &&
-                    pageProps.serverData?.toggles?.cookiesWork?.value && (
-                      <CivicUK apiKey={civicUkApiKey} />
-                    )}
+                  {displayCookieBanner && <CivicUK apiKey={civicUkApiKey} />}
 
                   {!pageProps.err &&
                     getLayout(<Component {...deserialiseProps(pageProps)} />)}

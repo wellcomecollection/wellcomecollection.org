@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
+    "migrate": "ts-node migrate",
     "contentAnalysis": "ts-node contentAnalysis",
     "sliceAnalysis": "ts-node sliceAnalysis",
     "diffCustomTypes": "ts-node diffCustomTypes",
@@ -25,6 +26,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "chalk": "^4.1.2",
+    "dotenv": "^16.4.5",
     "json-diff": "^0.9.0",
     "tqdm": "^2.0.3",
     "ts-node": "^10.4.0",

@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react';
 import { Toggles } from '@weco/toggles';
+import { ConsentStatusProps } from '@weco/common/server-data/types';
 
 export type GaDimensions = {
   partOf: string[];
@@ -11,7 +12,7 @@ type Props = {
   data: {
     toggles?: Toggles;
   };
-  hasAnalyticsConsent: boolean;
+  consentStatus: ConsentStatusProps;
 };
 
 // We send toggles as an event parameter to GA4 so we can determine the condition in which a particular event took place.
@@ -45,30 +46,32 @@ function createABToggleString(toggles: Toggles | undefined): string | null {
 
 export const Ga4DataLayer: FunctionComponent<Props> = ({
   data,
-  hasAnalyticsConsent,
+  consentStatus,
 }) => {
   const abTestsToggleString = createABToggleString(data.toggles);
 
-  return data.toggles?.cookiesWork?.value || abTestsToggleString ? (
+  return (
     <script
       dangerouslySetInnerHTML={{
         __html: `
             window.dataLayer = window.dataLayer || [];
 
-            ${
-              data.toggles?.cookiesWork?.value
-                ? `function gtag(){window.dataLayer.push(arguments);}
+            function gtag(){window.dataLayer.push(arguments);}
               
-              gtag('consent', 'default', {
-                'analytics_storage': ${
-                  hasAnalyticsConsent ? '"granted"' : '"denied"'
-                },
-                'ad_storage': 'denied',
-                'ad_user_data': 'denied',
-                'ad_personalization': 'denied'
-              });`
-                : ``
-            }
+            gtag('consent', 'default', {
+              'analytics_storage': ${
+                consentStatus.analytics ? '"granted"' : '"denied"'
+              },
+              'ad_storage': ${
+                consentStatus.marketing ? '"granted"' : '"denied"'
+              },
+              'ad_user_data':  ${
+                consentStatus.marketing ? '"granted"' : '"denied"'
+              },
+              'ad_personalization':  ${
+                consentStatus.marketing ? '"granted"' : '"denied"'
+              },
+            });
 
             ${
               abTestsToggleString &&
@@ -79,7 +82,7 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({
           `,
       }}
     />
-  ) : null;
+  );
 };
 
 export const GoogleTagManager: FunctionComponent = () => (

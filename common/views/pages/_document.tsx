@@ -15,6 +15,8 @@ import {
   GoogleTagManager,
   GaDimensions,
 } from '@weco/common/services/app/google-analytics';
+import { ConsentStatusProps } from '@weco/common/server-data/types';
+import { getErrorPageConsent } from '@weco/common/services/app/civic-uk';
 
 // Don't attempt to destructure the process object
 // https://github.com/vercel/next.js/pull/20869/files
@@ -38,7 +40,7 @@ export function renderSegmentSnippet() {
 type DocumentInitialPropsWithTogglesAndGa = DocumentInitialProps & {
   toggles: Toggles;
   gaDimensions?: GaDimensions;
-  hasAnalyticsConsent: boolean;
+  consentStatus: ConsentStatusProps;
 };
 class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
   static async getInitialProps(
@@ -58,11 +60,15 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
 
       const initialProps = await Document.getInitialProps(ctx);
 
+      const consentStatus = pageProps.serverData
+        ? pageProps.serverData?.consentStatus
+        : getErrorPageConsent({ req: ctx.req, res: ctx.res });
+
       return {
         ...initialProps,
         toggles: pageProps.serverData?.toggles,
         gaDimensions: pageProps.gaDimensions,
-        hasAnalyticsConsent: pageProps.serverData?.hasAnalyticsConsent,
+        consentStatus,
         styles: (
           <>
             {initialProps.styles}
@@ -76,10 +82,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
   }
 
   render(): ReactElement<DocumentInitialProps> {
-    const cookiesWork = this.props.toggles?.cookiesWork?.value;
-
-    const shouldRenderAnalytics =
-      !cookiesWork || (cookiesWork && this.props.hasAnalyticsConsent);
+    const shouldRenderAnalytics = this.props.consentStatus.analytics;
 
     return (
       <Html lang="en">
@@ -87,7 +90,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
           <>
             {/* Adding toggles etc. to the datalayer so they are available to events in Google Tag Manager */}
             <Ga4DataLayer
-              hasAnalyticsConsent={this.props.hasAnalyticsConsent}
+              consentStatus={this.props.consentStatus}
               data={{ toggles: this.props.toggles }}
             />
 

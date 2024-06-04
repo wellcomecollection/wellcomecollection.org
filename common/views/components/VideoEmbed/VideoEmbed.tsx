@@ -6,6 +6,7 @@ import Caption from '../Caption/Caption';
 import { IframeContainer } from '../Iframe/Iframe';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import { getConsentState } from '@weco/common/services/app/civic-uk';
 
 export type Props = {
   embedUrl: string;
@@ -59,26 +60,30 @@ const VideoEmbed: FunctionComponent<Props> = ({
 }: Props) => {
   const [isActive, setIsActive] = useState(false);
   const id = embedUrl.match(/embed\/(.*)\?/)?.[1];
+  const hasAnalyticsConsent = getConsentState('analytics');
+  const isYouTube = embedUrl.indexOf('youtube') >= 0;
 
   useEffect(() => {
-    // GA4 automatically tracks youtube engagment, but requires the iframe api
-    // script to have been loaded on the page. Since we're lazyloading youtube
-    // videos, we have to add the script ourselves (and check that we haven't
-    // done so already). The following is a version of 'option 3' from this article:
-    // https://www.analyticsmania.com/post/youtube-tracking-google-tag-manager-solved/
-    const scriptId = 'youtube-iframe-api';
-    const youtubeIframeApi = document.getElementById(scriptId);
+    if (isYouTube && hasAnalyticsConsent) {
+      // GA4 automatically tracks YouTube engagement, but requires the iframe api
+      // script to have been loaded on the page. Since we're lazyloading youtube
+      // videos, we have to add the script ourselves (and check that we haven't
+      // done so already). The following is a version of 'option 3' from this article:
+      // https://www.analyticsmania.com/post/youtube-tracking-google-tag-manager-solved/
+      const scriptId = 'youtube-iframe-api';
+      const youtubeIframeApi = document.getElementById(scriptId);
 
-    if (youtubeIframeApi) return;
+      if (youtubeIframeApi) return;
 
-    const s = document.createElement('script');
-    s.id = scriptId;
-    s.type = 'text/javascript';
-    s.async = true;
-    s.src = '//www.youtube.com/iframe_api';
+      const s = document.createElement('script');
+      s.id = scriptId;
+      s.type = 'text/javascript';
+      s.async = true;
+      s.src = '//www.youtube.com/iframe_api';
 
-    const firstScript = document.getElementsByTagName('script')[0];
-    firstScript.parentNode?.insertBefore(s, firstScript);
+      const firstScript = document.getElementsByTagName('script')[0];
+      firstScript.parentNode?.insertBefore(s, firstScript);
+    }
   }, []);
 
   return (
@@ -92,7 +97,7 @@ const VideoEmbed: FunctionComponent<Props> = ({
               allowFullScreen={true}
               allow="autoplay; picture-in-picture"
               src={`${embedUrl}&enablejsapi=1&autoplay=1`}
-              frameBorder="0"
+              style={{ border: 0 }}
             />
           ) : (
             <VideoTrigger

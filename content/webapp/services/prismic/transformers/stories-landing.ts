@@ -14,7 +14,7 @@ import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/ty
 import { asRichText, asText } from '.';
 
 function transformStoryOrSeries(storyOrSeries) {
-  if (storyOrSeries.type === 'articles') {
+  if (storyOrSeries.type === 'articles' || storyOrSeries.type === 'webcomics') {
     return transformArticleToArticleBasic(transformArticle(storyOrSeries));
   } else {
     return transformSeriesToSeriesBasic(transformSeries(storyOrSeries));
