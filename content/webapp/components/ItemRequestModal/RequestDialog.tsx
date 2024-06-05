@@ -86,7 +86,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
     item.availableDates && dateAsValue(new Date(item.availableDates[0].from))
   );
 
-  // the RequestingDayPicker's state sometimes get set as undefined before the availableDates have been fetched
+  // the pickUpDate's state sometimes get set as undefined before the availableDates have been fetched
   // as a result the user can't confirm the request unless they interact with the RequestingDayPicker in some way to trigger a state update
   // here we set pickUpDate when item.availableDates becomes defined
   useEffect(() => {
