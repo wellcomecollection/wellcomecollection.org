@@ -86,11 +86,12 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
   }, []);
 
   useEffect(() => {
-    // Checks if the cookie banner is active: the CookieControl cookie has never been set AND
-    // We check if it's displaying - in its banner or modal form - by looking for #ccc-overlay
-    // Because if that is in the DOM, it means it's actively displaying.
     if (
+      // Cookie has already been set
       !hasAcknowledgedCookieBanner &&
+      // CivicUK script has loaded
+      document.getElementById('ccc') &&
+      // Banner or popup is actively displaying
       document.getElementById('ccc-overlay')
     ) {
       // Only once has it gone from the DOM can we consider the cookie banner acknowledged
