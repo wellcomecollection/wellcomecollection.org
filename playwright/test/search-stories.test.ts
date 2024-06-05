@@ -71,19 +71,24 @@ test(`(4) | The user can sort their story search results by oldest and most rece
   );
 });
 
-test(`(5) | Stories with an overriden date should display and reflect the chronology of that date`, async ({
+test(`(5) | Stories with an overridden date should display and reflect the chronology of that date`, async ({
   page,
   context,
 }) => {
   await newSearch(context, page, 'stories');
   await searchQuerySubmitAndWait(`ken's ten`, page);
+
   const select = page.locator('select[name="sortOrder"]');
   await select.selectOption({ index: 1 });
   await expect(select).toHaveValue('publicationDate.asc');
-  await expect(
-    page.getByTestId('story-search-result').first().locator('time')
-  ).toContainText('8 August 2017');
-  await expect(page.getByTestId('story-search-result').first()).toContainText(
+
+  const firstResult = page.getByTestId('story-search-result').first();
+
+  await expect(firstResult.getByRole('heading')).toContainText(
     `Ken’s ten: looking back at ten years of Wellcome Collection`
   );
+
+  const publicationDate = firstResult.locator('time');
+
+  await expect(publicationDate).toContainText('8 August 2017');
 });
