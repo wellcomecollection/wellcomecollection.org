@@ -1,15 +1,31 @@
 import { emptyDocument } from '@weco/common/services/prismic/documents';
-import { PagePrismicDocument } from '../types/pages';
 import { transformPage } from './pages';
+import { PagesDocument, TextSlice } from '@weco/common/prismicio-types';
 
-export const pageWithoutBody: PagePrismicDocument = {
-  ...emptyDocument<PagePrismicDocument>({
+const exampleTextSlice = {
+  variation: 'default',
+  version: 'initial',
+  items: [],
+  primary: {
+    text: [
+      {
+        type: 'paragraph',
+        text: 'A very short sentence',
+        spans: [],
+      },
+    ],
+  },
+  id: 'standfirst$cdd0c06c-a8e0-4390-89fb-a1c54a35a335',
+  slice_type: 'text',
+  slice_label: null,
+} as TextSlice;
+
+export const pageWithoutBody: PagesDocument = {
+  ...emptyDocument<PagesDocument>({
     title: [],
     datePublished: null,
     showOnThisPage: false,
-    metadataDescription: '',
-    availableOnline: false,
-    isOnline: false,
+    metadataDescription: exampleTextSlice.primary.text,
     format: {
       link_type: 'Document',
     },

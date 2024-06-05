@@ -68,9 +68,9 @@ export function emptyPrismicQuery<
   };
 }
 
-export function emptyDocument<T extends prismic.PrismicDocument>(
+export function emptyDocument<T extends prismic.PrismicDocumentWithoutUID>(
   data: T['data']
-): prismic.PrismicDocument<T['data']> {
+): prismic.PrismicDocumentWithoutUID<T['data']> {
   return {
     id: '',
     uid: null,
