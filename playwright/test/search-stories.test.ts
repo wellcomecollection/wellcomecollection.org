@@ -17,6 +17,7 @@ test('(1) | The user can search for instances of a topic and filter their result
 }) => {
   await newSearch(context, page, 'stories');
   await searchQuerySubmitAndWait('milk', page);
+
   await selectAndWaitForFilter('Formats', 'W7TfJRAAAJ1D0eLK', page); // Articles
   await testIfFilterIsApplied('Article', page);
   await selectAndWaitForFilter('Contributors', 'WfLM2yoAAKKpVrxD', page);
@@ -30,8 +31,11 @@ test(`(2) | The user can see the correct contributor's name below the story titl
   context,
 }) => {
   await newSearch(context, page, 'stories');
+  // Article ID search
   await searchQuerySubmitAndWait('XLRmEBEAABp4vDEG', page);
+
   await locateAndConfirmContributorInfoMatchesStory('Litchfield', page);
+
   await expect(page.getByTestId('contributor-name')).toHaveText(
     'Words by Jack Litchfield'
   );
@@ -43,8 +47,10 @@ test(`(3) | The user can paginate through their search results`, async ({
 }) => {
   await newSearch(context, page, 'stories');
   await searchQuerySubmitAndWait('body', page);
+
   await navigateToNextPageAndConfirmNavigation(page);
   await navigateToNextPageAndConfirmNavigation(page);
+
   await expect(
     page.getByTestId('pagination').getByTestId('current-page')
   ).toHaveText('3');
