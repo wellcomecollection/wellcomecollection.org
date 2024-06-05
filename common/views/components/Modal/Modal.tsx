@@ -5,6 +5,7 @@ import {
   RefObject,
   MutableRefObject,
   PropsWithChildren,
+  useContext,
 } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
@@ -12,6 +13,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import { CSSTransition } from 'react-transition-group';
 import { cross } from '@weco/common/icons';
 import FocusTrap from 'focus-trap-react';
+import { AppContext } from '../AppContext/AppContext';
 
 type BaseModalProps = {
   $width?: string | null;
@@ -199,15 +201,16 @@ const Modal: FunctionComponent<Props> = ({
   const ModalWindow = determineModal(modalStyle);
   const initialLoad = useRef(true);
   const nodeRef = useRef(null);
+  const { hasAcknowledgedCookieBanner } = useContext(AppContext);
 
   useEffect(() => {
-    if (isActive) {
+    if (isActive && hasAcknowledgedCookieBanner) {
       closeButtonRef?.current?.focus();
     } else if (!initialLoad.current) {
       openButtonRef && openButtonRef.current && openButtonRef.current.focus();
     }
     initialLoad.current = false;
-  }, [isActive]);
+  }, [isActive, hasAcknowledgedCookieBanner]);
 
   useEffect(() => {
     function closeOnEscape(event: KeyboardEvent) {
@@ -224,7 +227,7 @@ const Modal: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (document && document.documentElement) {
-      if (isActive) {
+      if (isActive && hasAcknowledgedCookieBanner) {
         document.documentElement.classList.add('is-scroll-locked');
       } else {
         document.documentElement.classList.remove('is-scroll-locked');
@@ -234,10 +237,12 @@ const Modal: FunctionComponent<Props> = ({
     return () => {
       document.documentElement.classList.remove('is-scroll-locked');
     };
-  }, [isActive]);
+  }, [isActive, hasAcknowledgedCookieBanner]);
+
+  const shouldLock = isActive && hasAcknowledgedCookieBanner;
 
   return (
-    <FocusTrap active={isActive} focusTrapOptions={{ preventScroll: true }}>
+    <FocusTrap active={shouldLock} focusTrapOptions={{ preventScroll: true }}>
       <div>
         {isActive && showOverlay && (
           <Overlay
