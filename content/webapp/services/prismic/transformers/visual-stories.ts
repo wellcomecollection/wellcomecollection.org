@@ -1,14 +1,13 @@
 import { VisualStory } from '@weco/content/types/visual-stories';
-import { VisualStoryDocument } from '../types/visual-stories';
 import { asText, transformGenericFields } from '.';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
 import { transformOnThisPage } from './pages';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
-import { transformContributors } from './contributors';
 import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
+import { VisualStoriesDocument } from '@weco/common/prismicio-types';
 
 export function transformVisualStory(
-  document: VisualStoryDocument
+  document: VisualStoriesDocument
 ): VisualStory {
   const { data } = document;
   const genericFields = transformGenericFields(document);
@@ -16,14 +15,12 @@ export function transformVisualStory(
   const siteSection = document.tags.find(tag =>
     siteSections.includes(tag as SiteSection)
   ) as SiteSection;
-  const contributors = transformContributors(document);
   const promo = genericFields.promo;
   const { relatedDocument } = data;
 
   return {
     type: 'visual-stories',
     ...genericFields,
-    contributors,
     onThisPage: data.body ? transformOnThisPage(data.body) : [],
     showOnThisPage: data.showOnThisPage || false,
     promo: promo && promo.image ? promo : undefined,
