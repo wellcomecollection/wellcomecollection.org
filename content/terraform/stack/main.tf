@@ -41,6 +41,7 @@ module "content-service-17092020" {
     NEXT_PUBLIC_CIVICUK_API_KEY = "civicuk/api_key"
 
     PRISMIC_ACCESS_TOKEN = "prismic-model/prod/access-token"
+    PRISMIC_ACCESS_TOKEN_STAGE = "prismic-model/stage/access-token"
   }
 
   vpc_id  = local.vpc_id
