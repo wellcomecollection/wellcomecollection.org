@@ -1,4 +1,4 @@
-import { FunctionComponent, FormEvent, useState } from 'react';
+import { FunctionComponent, FormEvent, useState, useEffect } from 'react';
 import { allowedRequests } from '@weco/common/values/requests';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -82,12 +82,18 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
   setIsActive,
   currentHoldNumber,
 }) => {
-  const firstAvailableDate = item.availableDates
-    ? item.availableDates[0]
-    : undefined;
   const [pickUpDate, setPickUpDate] = useState<string | undefined>(
-    firstAvailableDate && dateAsValue(new Date(firstAvailableDate.from))
+    item.availableDates && dateAsValue(new Date(item.availableDates[0].from))
   );
+
+  // the RequestingDayPicker's state sometimes get set as undefined before the availableDates have been fetched
+  // as a result the user can't confirm the request unless they interact with the RequestingDayPicker in some way to trigger a state update
+  // here we set pickUpDate when item.availableDates becomes defined
+  useEffect(() => {
+    if (!pickUpDate && item.availableDates) {
+      setPickUpDate(dateAsValue(new Date(item.availableDates[0].from)));
+    }
+  }, [item.availableDates]);
 
   function handleConfirmRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
