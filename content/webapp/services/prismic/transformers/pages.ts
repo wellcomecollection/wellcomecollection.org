@@ -105,12 +105,3 @@ export function transformPage(document: PagePrismicDocument): Page {
     siteSection,
   };
 }
-
-export const getPageFeaturedText = (page: Page): FeaturedText | undefined => {
-  const filteredFeaturedText = page.body.filter(
-    slice => slice.weight === 'featured'
-  );
-  if (filteredFeaturedText.length) {
-    return filteredFeaturedText[0] as FeaturedText;
-  }
-};
