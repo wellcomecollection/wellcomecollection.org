@@ -87,11 +87,11 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
 
   useEffect(() => {
     if (
-      // Cookie has already been set
+      // Cookie has already been set;
       !hasAcknowledgedCookieBanner &&
-      // CivicUK script has loaded
+      // CivicUK script has loaded;
       document.getElementById('ccc') &&
-      // Banner or popup is actively displaying
+      // Banner or popup is actively displaying.
       document.getElementById('ccc-overlay')
     ) {
       // Only once has it gone from the DOM can we consider the cookie banner acknowledged
