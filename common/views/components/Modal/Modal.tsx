@@ -6,6 +6,7 @@ import {
   MutableRefObject,
   PropsWithChildren,
   useContext,
+  useState,
 } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
@@ -202,6 +203,7 @@ const Modal: FunctionComponent<Props> = ({
   const initialLoad = useRef(true);
   const nodeRef = useRef(null);
   const { hasAcknowledgedCookieBanner } = useContext(AppContext);
+  const [shouldLock, setShouldLock] = useState(false);
 
   useEffect(() => {
     if (isActive) {
@@ -228,8 +230,10 @@ const Modal: FunctionComponent<Props> = ({
   useEffect(() => {
     if (document && document.documentElement) {
       if (isActive && hasAcknowledgedCookieBanner) {
+        setShouldLock(true);
         document.documentElement.classList.add('is-scroll-locked');
       } else {
+        setShouldLock(false);
         document.documentElement.classList.remove('is-scroll-locked');
       }
     }
@@ -238,8 +242,6 @@ const Modal: FunctionComponent<Props> = ({
       document.documentElement.classList.remove('is-scroll-locked');
     };
   }, [isActive, hasAcknowledgedCookieBanner]);
-
-  const shouldLock = isActive && hasAcknowledgedCookieBanner;
 
   return (
     <FocusTrap active={shouldLock} focusTrapOptions={{ preventScroll: true }}>

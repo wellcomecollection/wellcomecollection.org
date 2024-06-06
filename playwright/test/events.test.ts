@@ -16,7 +16,7 @@ test('single event pages include the scheduled events', async ({
   });
   // Heart n Soul Radio occured twice, once in November, once in December
   const eventNameLocator = page
-    .getByRole('heading', { name: 'Powerful Portraits' })
+    .getByRole('headings', { name: 'Powerful Portraits' })
     .first();
   await expect(pastEventsLocator).toBeVisible();
   await expect(dateLocator).toBeVisible();
