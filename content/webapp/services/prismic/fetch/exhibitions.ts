@@ -22,27 +22,25 @@ import { getExhibitionPeriodFilters } from '../types/filters';
 import {
   Exhibition,
   ExhibitionRelatedContent,
-} from '../../../types/exhibitions';
+} from '@weco/content/types/exhibitions';
 import {
   articleFormatsFetchLinks,
+  audienceFetchLinks,
   contributorFetchLinks,
   eventSeriesFetchLinks,
   exhibitionFormatsFetchLinks,
   exhibitionsFetchLinks,
   seasonsFetchLinks,
-} from '../types';
-import { isFilledLinkToDocument } from '@weco/common/services/prismic/types';
-import { placesFetchLinks } from '../types/places';
-import { teamsFetchLinks } from '../types/teams';
-import {
-  audienceFetchLinks,
+  articlesFetchLinks,
+  seriesFetchLinks,
   eventFormatFetchLinks,
   eventPolicyFetchLinks,
   eventsFetchLinks,
   interpretationTypeFetchLinks,
-} from '../types/events';
-import { seriesFetchLinks } from '../types/series';
-import { articlesFetchLinks } from '../types/articles';
+  teamsFetchLinks,
+  placesFetchLinks,
+} from '../types';
+import { isFilledLinkToDocument } from '@weco/common/services/prismic/types';
 
 const fetchLinks = [
   ...exhibitionFormatsFetchLinks,

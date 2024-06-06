@@ -6,21 +6,21 @@ import {
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import * as prismic from '@prismicio/client';
 import {
+  audienceFetchLinks,
   contributorFetchLinks,
   exhibitionFormatsFetchLinks,
   exhibitionsFetchLinks,
-} from '../types';
-import { placesFetchLinks } from '../types/places';
-import { teamsFetchLinks } from '../types/teams';
-import {
-  audienceFetchLinks,
   eventFormatFetchLinks,
   eventPolicyFetchLinks,
   interpretationTypeFetchLinks,
-} from '../types/events';
-import { pagesFetchLinks } from '../types/pages';
-import { seriesFetchLinks } from '../types/series';
-import { articlesFetchLinks } from '../types/articles';
+  articlesFetchLinks,
+  pagesFetchLinks,
+  seriesFetchLinks,
+  teamsFetchLinks,
+  placesFetchLinks,
+  MultiContentPrismicDocument,
+  StructuredSearchQuery,
+} from '@weco/content/services/prismic/types';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { MultiContent } from '@weco/content/types/multi-content';
 

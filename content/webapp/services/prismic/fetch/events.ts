@@ -3,28 +3,26 @@ import {
   EventsDocument,
   VisualStoriesDocument,
 } from '@weco/common/prismicio-types';
+import { getEventFilters } from '../types/filters';
+import * as prismic from '@prismicio/client';
+import { EventBasic } from '@weco/content/types/events';
+import { fetchVisualStories } from '@weco/content/services/prismic/fetch/visual-stories';
 import {
   audienceFetchLinks,
   eventFormatFetchLinks,
   eventPolicyFetchLinks,
-  eventsFetchLinks,
   interpretationTypeFetchLinks,
   teamFetchLinks,
-} from '../types/events';
-import { getEventFilters } from '../types/filters';
-import * as prismic from '@prismicio/client';
-import { EventBasic } from '../../../types/events';
-import {
+  backgroundTexturesFetchLinks,
+  cardFetchLinks,
   commonPrismicFieldsFetchLinks,
   contributorFetchLinks,
+  eventsFetchLinks,
   eventSeriesFetchLinks,
   exhibitionsFetchLinks,
   seasonsFetchLinks,
-} from '../types';
-import { cardFetchLinks } from '../types/card';
-import { placesFetchLinks } from '../types/places';
-import { backgroundTexturesFetchLink } from '../types/background-textures';
-import { fetchVisualStories } from './visual-stories';
+  placesFetchLinks,
+} from '@weco/content/services/prismic/types';
 
 const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,
@@ -37,7 +35,7 @@ const fetchLinks = [
   ...eventPolicyFetchLinks,
   ...placesFetchLinks,
   ...teamFetchLinks,
-  ...backgroundTexturesFetchLink,
+  ...backgroundTexturesFetchLinks,
   ...seasonsFetchLinks,
   ...eventsFetchLinks,
   ...cardFetchLinks,

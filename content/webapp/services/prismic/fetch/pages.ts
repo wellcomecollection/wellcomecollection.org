@@ -2,28 +2,28 @@ import * as prismic from '@prismicio/client';
 import { fetcher, GetServerSidePropsPrismicClient } from '.';
 import {
   pageFormatsFetchLinks,
-  pagesFetchLinks,
-} from '../types/pages';
-import { labelsFields } from '../fetch-links';
-import { Page } from '../../../types/pages';
-import { SiblingsGroup } from '../../../types/siblings-group';
-import {
   articleFormatsFetchLinks,
+  bookFetchLinks,
+  cardFetchLinks,
+  collectionVenuesFetchLinks,
   contributorFetchLinks,
+  eventsFetchLinks,
+  eventFormatFetchLinks,
   eventSeriesFetchLinks,
   exhibitionFormatsFetchLinks,
   exhibitionsFetchLinks,
+  guideFetchLinks,
+  guideFormatsFetchLinks,
+  pagesFetchLinks,
   projectFormatsFetchLinks,
   seasonsFetchLinks,
-} from '../types';
-import { teamsFetchLinks } from '../types/teams';
-import { eventFormatFetchLinks, eventsFetchLinks } from '../types/events';
-import { collectionVenuesFetchLinks } from '../types/collection-venues';
-import { bookFetchLinks } from '../types/books';
-import { seriesFetchLinks } from '../types/series';
-import { cardFetchLinks } from '../types/card';
-import { guideFetchLinks, guideFormatsFetchLinks } from '../types/guides';
+  seriesFetchLinks,
+  teamsFetchLinks,
+} from '@weco/content/services/prismic/types';
 import { PagesDocument } from '@weco/common/prismicio-types';
+import { labelsFields } from '../fetch-links';
+import { Page } from '../../../types/pages';
+import { SiblingsGroup } from '../../../types/siblings-group';
 
 export const fetchLinks = [
   ...pagesFetchLinks,
