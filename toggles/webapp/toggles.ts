@@ -85,11 +85,11 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'sliceMachine',
-      title: 'Prismic Slice Machine',
+      id: 'cookiesWork',
+      title: 'Various consent/cookies work allowances',
       initialValue: false,
       description:
-        'This will render content using Prismic Slice Machine slices instead of legacy slices',
+        'This will allow various pieces of work around consent, tracking and cookies to happen; e.g. testing in production.',
       type: 'experimental',
     },
   ] as const,
