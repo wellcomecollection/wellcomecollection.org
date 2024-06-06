@@ -1,4 +1,4 @@
-import { Event } from '../types/events';
+import { Event } from '@weco/content/types/events';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import * as prismic from '@prismicio/client';
 
