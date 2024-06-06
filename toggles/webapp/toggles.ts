@@ -84,14 +84,6 @@ const toggles = {
         'If there are born digital items in the iiif-manifest, then links to all the files in the manifest are shown on the works page.',
       type: 'experimental',
     },
-    {
-      id: 'cookiesWork',
-      title: 'Various consent/cookies work allowances',
-      initialValue: false,
-      description:
-        'This will allow various pieces of work around consent, tracking and cookies to happen; e.g. testing in production.',
-      type: 'experimental',
-    },
   ] as const,
   tests: [] as ABTest[],
 };
