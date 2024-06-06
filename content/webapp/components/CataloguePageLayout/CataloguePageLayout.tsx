@@ -31,7 +31,7 @@ const CataloguePageLayout: FunctionComponent<Props> = ({
             <InfoBanner
               document={{
                 data: {
-                  isShown: null,
+                  isShown: 'hide',
                   routeRegex: null,
                   text: [
                     {

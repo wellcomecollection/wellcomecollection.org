@@ -5,7 +5,7 @@ import {
   fetcher,
   clientSideFetcher,
 } from '.';
-import { ArticlePrismicDocument } from '../types/articles';
+import { ArticlesDocument } from '@weco/common/prismicio-types';
 import { ContentType } from '@weco/common/services/prismic/content-types';
 import { ArticleBasic } from '@weco/content/types/articles';
 import {
@@ -26,10 +26,7 @@ const fetchLinks = [
   ...eventsFetchLinks,
 ];
 
-const articlesFetcher = fetcher<ArticlePrismicDocument>(
-  contentTypes,
-  fetchLinks
-);
+const articlesFetcher = fetcher<ArticlesDocument>(contentTypes, fetchLinks);
 
 export const fetchArticle = articlesFetcher.getById;
 
@@ -98,7 +95,7 @@ const graphQuery = `{
 export const fetchArticles = (
   client: GetServerSidePropsPrismicClient,
   params: GetByTypeParams = {}
-): Promise<prismic.Query<ArticlePrismicDocument>> => {
+): Promise<prismic.Query<ArticlesDocument>> => {
   return articlesFetcher.getByType(client, {
     ...params,
     orderings: [

@@ -1,11 +1,11 @@
-import { CardPrismicDocument } from '../types/card';
+import { CardDocument } from '@weco/common/prismicio-types';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { Card } from '@weco/content/types/card';
 import { asText, asTitle, transformFormat } from '.';
 import { transformLink } from '@weco/common/services/prismic/transformers';
 import { isFilledLinkToDocument } from '@weco/common/services/prismic/types';
 
-export function transformCard(document: CardPrismicDocument): Card {
+export function transformCard(document: CardDocument): Card {
   const { title, description, image, link } = document.data;
 
   return {

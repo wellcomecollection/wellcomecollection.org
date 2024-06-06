@@ -1,3 +1,4 @@
+import * as prismic from '@prismicio/client';
 import { VisualStory } from '@weco/content/types/visual-stories';
 import { asText, transformGenericFields } from '.';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
@@ -5,6 +6,7 @@ import { transformOnThisPage } from './pages';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 import { VisualStoriesDocument } from '@weco/common/prismicio-types';
+import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 
 export function transformVisualStory(
   document: VisualStoriesDocument
@@ -27,14 +29,13 @@ export function transformVisualStory(
     datePublished: data.datePublished
       ? transformTimestamp(data.datePublished)
       : undefined,
-    relatedDocument:
-      relatedDocument && 'id' in relatedDocument
-        ? {
-            title: asText(relatedDocument.data?.title || ''),
-            id: relatedDocument.id,
-            type: relatedDocument.type,
-          }
-        : undefined,
+    relatedDocument: isFilledLinkToDocumentWithData(relatedDocument)
+      ? {
+          title: asText(relatedDocument.data?.title as prismic.RichTextField),
+          id: relatedDocument.id,
+          type: relatedDocument.type,
+        }
+      : undefined,
     siteSection,
   };
 }

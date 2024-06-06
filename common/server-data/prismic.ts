@@ -1,9 +1,9 @@
-import {
-  CollectionVenuePrismicDocument,
-  PopupDialogPrismicDocument,
-  GlobalAlertPrismicDocument,
-} from '../services/prismic/documents';
 import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
+import {
+  CollectionVenueDocument,
+  PopupDialogDocument,
+  GlobalAlertDocument,
+} from '@weco/common/prismicio-types';
 import { Handler } from './';
 import * as prismic from '@prismicio/client';
 import { InferDataInterface } from '../services/prismic/types';
@@ -13,7 +13,7 @@ export type CollectionVenuePrismicDocumentLite = {
   id: string;
 } & {
   data: Omit<
-    InferDataInterface<CollectionVenuePrismicDocument>,
+    InferDataInterface<CollectionVenueDocument>,
     'link' | 'linkText' | 'image'
   >;
 };
@@ -25,7 +25,7 @@ export type ResultsLite = {
 export const defaultValue = {
   globalAlert: {
     data: {
-      isShown: null,
+      isShown: 'hide' as 'hide' | 'show',
       routeRegex: null,
       text: [] as prismic.RichTextField,
     },
@@ -46,14 +46,14 @@ export const defaultValue = {
 };
 
 export type PrismicData = {
-  globalAlert: GlobalAlertPrismicDocument;
-  popupDialog: PopupDialogPrismicDocument;
-  collectionVenues: prismic.Query<CollectionVenuePrismicDocument>;
+  globalAlert: GlobalAlertDocument;
+  popupDialog: PopupDialogDocument;
+  collectionVenues: prismic.Query<CollectionVenueDocument>;
 };
 
 export type SimplifiedPrismicData = {
-  globalAlert: { data: InferDataInterface<GlobalAlertPrismicDocument> };
-  popupDialog: { data: InferDataInterface<PopupDialogPrismicDocument> };
+  globalAlert: { data: InferDataInterface<GlobalAlertDocument> };
+  popupDialog: { data: InferDataInterface<PopupDialogDocument> };
   collectionVenues: ResultsLite;
 };
 

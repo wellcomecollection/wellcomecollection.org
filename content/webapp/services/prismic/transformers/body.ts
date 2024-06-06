@@ -1,5 +1,6 @@
 import {
   CollectionVenueSlice,
+  ContactSlice,
   ContentListSlice,
   EditorialImageSlice,
   EditorialImageGallerySlice,
@@ -11,23 +12,25 @@ import {
   SearchResultsSlice,
   StandfirstSlice,
   TagListSlice,
-  TextSlice,
   TitledTextListSlice,
   GifVideoSlice,
   AudioPlayerSlice,
   TextAndImageSlice,
   TextAndIconsSlice,
+  PagesDocument,
+  ArticlesDocument,
+  CardDocument,
+  EventsDocument,
+  ExhibitionsDocument,
+  GuidesDocument,
+  EventSeriesDocument,
+  SeasonsDocument,
 } from '@weco/common/prismicio-types';
-import {
-  Body,
-  Contact as ContactSlice, // TODO Get this from prismicio-types (currently this causes typescript errors)
-} from '@weco/content/services/prismic/types/body'; // TODO remove once we've moved to using SliceZone component
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   isFilledLinkToDocumentWithData,
   isFilledLinkToMediaField,
 } from '@weco/common/services/prismic/types';
-import { TeamPrismicDocument } from '../types/teams';
 import { transformCaptionedImage } from './images';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { asRichText, asTitle, asText } from '.';
@@ -36,12 +39,7 @@ import {
   transformTaslFromString,
 } from '@weco/common/services/prismic/transformers';
 import * as prismic from '@prismicio/client';
-import {
-  BodySlice,
-  ContentListProps,
-  Slice,
-  Weight,
-} from '@weco/content/types/body';
+import { ContentListProps, Slice, Weight } from '@weco/content/types/body';
 import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
 import { transformPage } from './pages';
 import { transformGuide } from './guides';
@@ -75,6 +73,7 @@ import { Props as TitledTextListProps } from '@weco/content/components/TitledTex
 import { Props as AsyncSearchResultsProps } from '@weco/content/components/SearchResults/AsyncSearchResults';
 import { Venue } from '@weco/common/model/opening-hours';
 
+// TODO all the TODOs in this file
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
     case 'featured':
@@ -95,16 +94,6 @@ export function transformStandfirstSlice(
 ): Slice<'standfirst', prismic.RichTextField> {
   return {
     type: 'standfirst',
-    weight: getWeight(slice.slice_label),
-    value: slice.primary.text,
-  };
-}
-
-function transformTextSlice(
-  slice: TextSlice
-): Slice<'text', prismic.RichTextField> {
-  return {
-    type: 'text',
     weight: getWeight(slice.slice_label),
     value: slice.primary.text,
   };
@@ -150,7 +139,7 @@ export function transformMapSlice(slice: MapSlice): Slice<'map', MapProps> {
   };
 }
 
-function transformTeamToContact(team: TeamPrismicDocument): ContactProps {
+function transformTeamToContact(team): ContactProps {
   const {
     data: { title, subtitle, email, phone },
   } = team;
@@ -418,11 +407,7 @@ export function transformEmbedSlice(
 export function transformContentListSlice(
   slice: ContentListSlice
 ): Slice<'contentList', ContentListProps> {
-  // Tech debt, remove the as any and return it to a correct prismic type
-  // will require a better understanding of how prismic types work
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const contents: any[] = slice.items
+  const contents = slice.items
     .map(item => item.content)
     .filter(isFilledLinkToDocumentWithData);
 
@@ -439,21 +424,25 @@ export function transformContentListSlice(
         .map(content => {
           switch (content.type) {
             case 'pages':
-              return transformPage(content);
+              return transformPage(content as unknown as PagesDocument);
             case 'guides':
-              return transformGuide(content);
+              return transformGuide(content as unknown as GuidesDocument);
             case 'event-series':
-              return transformEventSeries(content);
+              return transformEventSeries(
+                content as unknown as EventSeriesDocument
+              );
             case 'exhibitions':
-              return transformExhibition(content);
+              return transformExhibition(
+                content as unknown as ExhibitionsDocument
+              );
             case 'articles':
-              return transformArticle(content);
+              return transformArticle(content as unknown as ArticlesDocument);
             case 'events':
-              return transformEventBasic(content);
+              return transformEventBasic(content as unknown as EventsDocument);
             case 'seasons':
-              return transformSeason(content);
+              return transformSeason(content as unknown as SeasonsDocument);
             case 'card':
-              return transformCard(content);
+              return transformCard(content as unknown as CardDocument);
             default:
               return undefined;
           }
@@ -461,72 +450,4 @@ export function transformContentListSlice(
         .filter(isNotUndefined),
     },
   };
-}
-
-// TODO remove once we've moved to using SliceZone component
-export function transformBody(body: Body): BodySlice[] {
-  return body
-    .map(slice => {
-      switch (slice.slice_type) {
-        case 'textAndImage':
-          return transformTextAndImage(slice);
-        case 'textAndIcons':
-          return transformTextAndIcons(slice);
-        case 'standfirst':
-          return transformStandfirstSlice(slice);
-
-        case 'text':
-          return transformTextSlice(slice);
-
-        case 'map':
-          return transformMapSlice(slice);
-
-        case 'editorialImage':
-          return transformEditorialImageSlice(slice);
-
-        case 'editorialImageGallery':
-          return transformEditorialImageGallerySlice(slice);
-
-        case 'titledTextList':
-          return transformTitledTextListSlice(slice);
-
-        case 'contentList':
-          return transformContentListSlice(slice);
-
-        case 'collectionVenue':
-          return transformCollectionVenueSlice(slice);
-
-        case 'searchResults':
-          return transformSearchResultsSlice(slice);
-
-        case 'quote':
-        case 'quoteV2': // TODO: remove this after migration
-          return transformQuoteSlice(slice);
-
-        case 'iframe':
-          return transformIframeSlice(slice);
-
-        case 'gifVideo':
-          return transformGifVideoSlice(slice);
-
-        case 'contact':
-          return transformContactSlice(slice);
-
-        case 'embed':
-          return transformEmbedSlice(slice);
-
-        case 'infoBlock':
-          return transformInfoBlockSlice(slice);
-
-        case 'tagList':
-          return transformTagListSlice(slice);
-
-        case 'audioPlayer':
-          return transformAudioPlayerSlice(slice);
-
-        default:
-          return undefined;
-      }
-    })
-    .filter(isNotUndefined);
 }

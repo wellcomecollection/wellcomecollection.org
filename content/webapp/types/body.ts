@@ -1,3 +1,9 @@
+import {
+  ContentListSlice,
+  EditorialImageSlice,
+  EmbedSlice,
+  StandfirstSlice,
+} from '@weco/common/prismicio-types';
 import { Props as ContactProps } from '@weco/content/components/Contact/Contact';
 import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
 import { Props as InfoBlockProps } from '@weco/content/components/InfoBlock/InfoBlock';
@@ -43,29 +49,23 @@ export type Slice<TypeName extends string, Value> = {
   value: Value;
 };
 
-export function isContentList(
-  slice: BodySlice
-): slice is BodySlice & { type: 'contentList' } {
-  return slice.type === 'contentList';
+export function isContentList(slice: prismic.Slice): slice is ContentListSlice {
+  return slice.slice_type === 'contentList';
 }
 
-export function isVideoEmbed(
-  slice: BodySlice
-): slice is BodySlice & { type: 'videoEmbed' } {
-  return slice.type === 'videoEmbed';
+export function isVideoEmbed(slice: prismic.Slice): slice is EmbedSlice {
+  return slice.primary.provider_name === 'youtube';
 }
 
-export function isPicture(
-  slice: BodySlice
-): slice is BodySlice & { type: 'picture' } {
-  return slice.type === 'picture';
+export function isEditorialImage(
+  slice: prismic.Slice
+): slice is EditorialImageSlice {
+  return slice.slice_type === 'picture';
 }
 
-export function isStandfirst(
-  slice: BodySlice
-): slice is BodySlice & { type: 'standfirst' } {
-  return slice.type === 'standfirst';
-}
+// export function isStandfirst(slice: prismic.Slice): slice is StandfirstSlice {
+//   return slice.slice_type === 'standfirst';
+// } // TODO is this used?
 
 export type ContentListItems =
   | Page
@@ -85,25 +85,3 @@ export type ContentListProps = {
   items: (ContentListItems | Card)[];
   showPosition?: boolean | undefined;
 };
-
-export type BodySlice =
-  | Slice<'standfirst', prismic.RichTextField>
-  | Slice<'textAndImage', TextAndImageItem>
-  | Slice<'textAndIcons', TextAndIconsItem>
-  | Slice<'text', prismic.RichTextField>
-  | Slice<'map', MapProps>
-  | Slice<'contact', ContactProps>
-  | Slice<'picture', CaptionedImage>
-  | Slice<'imageGallery', ImageGalleryProps>
-  | Slice<'gifVideo', GifVideoProps>
-  | Slice<'titledTextList', TitledTextListProps>
-  | Slice<'infoBlock', InfoBlockProps>
-  | Slice<'iframe', IframeProps>
-  | Slice<'quote', QuoteProps>
-  | Slice<'tagList', TagsGroupProps>
-  | Slice<'searchResults', AsyncSearchResultsProps>
-  | Slice<'collectionVenue', { content: Venue; showClosingTimes: boolean }>
-  | Slice<'videoEmbed', EmbedProps>
-  | Slice<'soundcloudEmbed', EmbedProps>
-  | Slice<'contentList', ContentListProps>
-  | Slice<'audioPlayer', AudioPlayerProps>;

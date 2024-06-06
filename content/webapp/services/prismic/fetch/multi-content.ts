@@ -4,13 +4,7 @@ import {
   fetchFromClientSide,
 } from '.';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import {
-  MultiContentPrismicDocument,
-  StructuredSearchQuery,
-} from '../types/multi-content';
 import * as prismic from '@prismicio/client';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
-import { MultiContent } from '../../../types/multi-content';
 import {
   contributorFetchLinks,
   exhibitionFormatsFetchLinks,
@@ -27,6 +21,8 @@ import {
 import { pagesFetchLinks } from '../types/pages';
 import { seriesFetchLinks } from '../types/series';
 import { articlesFetchLinks } from '../types/articles';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
+import { MultiContent } from '@weco/content/types/multi-content';
 
 export const fetchMultiContent = async (
   { client }: GetServerSidePropsPrismicClient,

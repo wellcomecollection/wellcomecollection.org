@@ -1,8 +1,8 @@
 import * as prismic from '@prismicio/client';
 import { fetcher, GetServerSidePropsPrismicClient, GetByTypeParams } from '.';
 import { commonPrismicFieldsFetchLinks, contributorFetchLinks } from '../types';
-import { BookPrismicDocument } from '../types/books';
 import { eventsFetchLinks } from '../types/events';
+import { BooksDocument } from '@weco/common/prismicio-types';
 
 const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,
@@ -10,14 +10,14 @@ const fetchLinks = [
   ...eventsFetchLinks,
 ];
 
-const booksFetcher = fetcher<BookPrismicDocument>('books', fetchLinks);
+const booksFetcher = fetcher<BooksDocument>('books', fetchLinks);
 
 export const fetchBook = booksFetcher.getById;
 
 export const fetchBooks = (
   client: GetServerSidePropsPrismicClient,
   params: GetByTypeParams
-): Promise<prismic.Query<BookPrismicDocument>> => {
+): Promise<prismic.Query<BooksDocument>> => {
   return booksFetcher.getByType(client, {
     ...params,
     orderings: [

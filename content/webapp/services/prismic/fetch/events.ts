@@ -1,9 +1,12 @@
 import { clientSideFetcher, fetcher, GetServerSidePropsPrismicClient } from '.';
 import {
+  EventsDocument,
+  VisualStoriesDocument,
+} from '@weco/common/prismicio-types';
+import {
   audienceFetchLinks,
   eventFormatFetchLinks,
   eventPolicyFetchLinks,
-  EventPrismicDocument,
   eventsFetchLinks,
   interpretationTypeFetchLinks,
   teamFetchLinks,
@@ -22,7 +25,6 @@ import { cardFetchLinks } from '../types/card';
 import { placesFetchLinks } from '../types/places';
 import { backgroundTexturesFetchLink } from '../types/background-textures';
 import { fetchVisualStories } from './visual-stories';
-import { VisualStoryDocument } from '../types/visual-stories';
 
 const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,
@@ -39,13 +41,13 @@ const fetchLinks = [
   ...seasonsFetchLinks,
   ...eventsFetchLinks,
   ...cardFetchLinks,
-];
+] as string[];
 
-const eventsFetcher = fetcher<EventPrismicDocument>('events', fetchLinks);
+const eventsFetcher = fetcher<EventsDocument>('events', fetchLinks);
 
 type FetchEventResult = {
-  event?: EventPrismicDocument;
-  visualStories: prismic.Query<VisualStoryDocument>;
+  event?: EventsDocument;
+  visualStories: prismic.Query<VisualStoriesDocument>;
 };
 export async function fetchEvent(
   client: GetServerSidePropsPrismicClient,
@@ -69,7 +71,7 @@ export async function fetchEvent(
 export const fetchEventScheduleItems = async (
   { client }: GetServerSidePropsPrismicClient,
   scheduleIds: string[]
-): Promise<prismic.Query<EventPrismicDocument>> => {
+): Promise<prismic.Query<EventsDocument>> => {
   return client.getByIDs(scheduleIds, {
     fetchLinks,
     pageSize: 40,
@@ -165,7 +167,7 @@ export const fetchEvents = (
     pageSize,
     orderings = [],
   }: FetchEventsQueryParams
-): Promise<prismic.Query<EventPrismicDocument>> => {
+): Promise<prismic.Query<EventsDocument>> => {
   const order = period === 'past' ? 'desc' : 'asc';
   const startTimeOrderings =
     order === 'desc'

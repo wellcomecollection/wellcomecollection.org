@@ -1,17 +1,19 @@
 import * as prismic from '@prismicio/client';
 import { Series, SeriesBasic } from '../../../types/series';
-import { SeriesPrismicDocument } from '../types/series';
-import { StandfirstSlice } from '@weco/common/prismicio-types';
+import {
+  StandfirstSlice,
+  SeriesDocument,
+  SeasonsDocument,
+} from '@weco/common/prismicio-types';
 import { asTitle, transformGenericFields, transformSingleLevelGroup } from '.';
 import { transformSeason } from './seasons';
 import { ArticleScheduleItem } from '../../../types/article-schedule-items';
-import { SeasonPrismicDocument } from '../types/seasons';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { transformContributors } from './contributors';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { getSeriesColor } from '@weco/content/utils/colors';
 
-export function transformSeries(document: SeriesPrismicDocument): Series {
+export function transformSeries(document: SeriesDocument): Series {
   const { data } = document;
   const genericFields = transformGenericFields(document);
   const standfirst = genericFields.standfirst || undefined;
@@ -40,7 +42,7 @@ export function transformSeries(document: SeriesPrismicDocument): Series {
     : [];
   const labels = [{ text: schedule.length > 0 ? 'Serial' : 'Series' }];
   const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
-    season => transformSeason(season as SeasonPrismicDocument)
+    season => transformSeason(season as SeasonsDocument)
   );
   const contributors = transformContributors(document);
 

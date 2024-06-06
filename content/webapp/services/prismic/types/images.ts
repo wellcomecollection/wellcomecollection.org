@@ -9,7 +9,7 @@ type Params = {
 };
 
 export function getImageUrlAtSize(
-  image: Image | Picture,
+  image: Image | Omit<Image, '32:15' | '16:9' | 'square'> | Picture,
   params: Params
 ): string | undefined {
   // There are a few pieces of content that don't have 16:9 crops due to them being published

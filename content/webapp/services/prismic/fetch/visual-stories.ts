@@ -1,8 +1,11 @@
 import { GetServerSidePropsPrismicClient, fetcher } from '.';
-import { commonPrismicFieldsFetchLinks, contributorFetchLinks } from '../types';
-import { VisualStoryDocument } from '../types/visual-stories';
-import { teamsFetchLinks } from '../types/teams';
+import {
+  commonPrismicFieldsFetchLinks,
+  contributorFetchLinks,
+  teamsFetchLinks,
+} from '@weco/content/services/prismic/types';
 import * as prismic from '@prismicio/client';
+import { VisualStoriesDocument } from '@weco/common/prismicio-types';
 
 const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,
@@ -10,7 +13,7 @@ const fetchLinks = [
   ...contributorFetchLinks,
 ];
 
-const visualStoriesFetcher = fetcher<VisualStoryDocument>(
+const visualStoriesFetcher = fetcher<VisualStoriesDocument>(
   'visual-stories',
   fetchLinks
 );
@@ -22,7 +25,7 @@ type GetVisualStoriesProps = {
 export const fetchVisualStories = (
   client: GetServerSidePropsPrismicClient,
   { filters = [], hasDelistFilter = true }: GetVisualStoriesProps = {}
-): Promise<prismic.Query<VisualStoryDocument>> => {
+): Promise<prismic.Query<VisualStoriesDocument>> => {
   return visualStoriesFetcher.getByType(
     client,
     {

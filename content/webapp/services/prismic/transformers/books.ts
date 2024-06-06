@@ -1,5 +1,5 @@
 import { Book, BookBasic } from '../../../types/books';
-import { BookPrismicDocument } from '../types/books';
+import { BooksDocument, SeasonsDocument } from '@weco/common/prismicio-types';
 import {
   transformGenericFields,
   asRichText,
@@ -9,7 +9,6 @@ import {
 import { isFilledLinkToWebField } from '@weco/common/services/prismic/types';
 import { transformSeason } from './seasons';
 import { transformPromoToCaptionedImage } from './images';
-import { SeasonPrismicDocument } from '../types/seasons';
 import { transformContributors } from './contributors';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 
@@ -26,7 +25,7 @@ export function transformBookToBookBasic(book: Book): BookBasic {
   }))(book);
 }
 
-export function transformBook(document: BookPrismicDocument): Book {
+export function transformBook(document: BooksDocument): Book {
   const { data } = document;
 
   const genericFields = transformGenericFields(document);
@@ -37,7 +36,7 @@ export function transformBook(document: BookPrismicDocument): Book {
       ? transformPromoToCaptionedImage(data.promo)
       : undefined);
   const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
-    season => transformSeason(season as SeasonPrismicDocument)
+    season => transformSeason(season as SeasonsDocument)
   );
   const contributors = transformContributors(document);
 

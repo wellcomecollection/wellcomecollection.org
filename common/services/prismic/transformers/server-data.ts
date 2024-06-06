@@ -2,10 +2,10 @@ import * as prismic from '@prismicio/client';
 import { ServerData, SimplifiedServerData } from '../../../server-data/types';
 import { InferDataInterface } from '../types';
 import {
-  PopupDialogPrismicDocument,
-  GlobalAlertPrismicDocument,
-  CollectionVenuePrismicDocument,
-} from '../documents';
+  PopupDialogDocument,
+  GlobalAlertDocument,
+  CollectionVenueDocument,
+} from '@weco/common/prismicio-types';
 import { ResultsLite } from '../../../server-data/prismic';
 
 // We don't want to add the raw prismic data to the ServerDataContext
@@ -25,14 +25,14 @@ export function simplifyServerData(
   };
 }
 
-function simplifyGlobalAlert(doc: GlobalAlertPrismicDocument): {
-  data: InferDataInterface<GlobalAlertPrismicDocument>;
+function simplifyGlobalAlert(doc: GlobalAlertDocument): {
+  data: InferDataInterface<GlobalAlertDocument>;
 } {
   return { data: doc.data };
 }
 
-function simplifyPopupDialog(doc: PopupDialogPrismicDocument): {
-  data: InferDataInterface<PopupDialogPrismicDocument>;
+function simplifyPopupDialog(doc: PopupDialogDocument): {
+  data: InferDataInterface<PopupDialogDocument>;
 } {
   return {
     data: doc.data,
@@ -40,7 +40,7 @@ function simplifyPopupDialog(doc: PopupDialogPrismicDocument): {
 }
 
 function simplifyCollectionVenues(
-  doc: prismic.Query<CollectionVenuePrismicDocument>
+  doc: prismic.Query<CollectionVenueDocument>
 ): ResultsLite {
   return {
     results: doc.results.map(doc => {

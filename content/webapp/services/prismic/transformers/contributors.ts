@@ -9,11 +9,18 @@ import {
   InferDataInterface,
 } from '@weco/common/services/prismic/types';
 
-import { Contributor, ContributorBasic } from '../../../types/contributors';
+import {
+  Contributor,
+  ContributorBasic,
+} from '@weco/content/types/contributors';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { asRichText, asText } from '.';
 import { ImageType } from '@weco/common/model/image';
-import { Organisation, Person } from '../types/contributors';
+import {
+  OrganisationsDocument,
+  PeopleDocument,
+} from '@weco/common/prismicio-types';
+
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 
 const defaultContributorImage: ImageType = {
@@ -29,13 +36,13 @@ function transformCommonFields(
     | (prismic.FilledContentRelationshipField<
         'people',
         'en-gb',
-        InferDataInterface<Person>
-      > & { data: Person })
+        InferDataInterface<PeopleDocument>
+      > & { data: PeopleDocument })
     | (prismic.FilledContentRelationshipField<
         'organisations',
         'en-gb',
-        InferDataInterface<Organisation>
-      > & { data: Organisation })
+        InferDataInterface<OrganisationsDocument>
+      > & { data: OrganisationsDocument })
 ) {
   return {
     id: agent.id,

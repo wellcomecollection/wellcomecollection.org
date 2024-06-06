@@ -12,7 +12,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
-import { PopupDialogPrismicDocument } from '../../../services/prismic/documents';
+import { PopupDialogDocument } from '@weco/common/prismicio-types';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { chat, clear } from '@weco/common/icons';
 import { InferDataInterface } from '../../../services/prismic/types';
@@ -152,7 +152,7 @@ const PopupDialogCTA = styled(Space).attrs({
 `;
 
 type Props = {
-  document: { data: InferDataInterface<PopupDialogPrismicDocument> };
+  document: { data: InferDataInterface<PopupDialogDocument> };
 };
 
 const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {

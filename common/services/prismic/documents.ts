@@ -3,6 +3,10 @@
  * i.e opening times, global alert, and the popup dialog, we have them in common
  */
 import * as prismic from '@prismicio/client';
+import {
+  GlobalAlertDocument,
+  PopupDialogDocument,
+} from '@weco/common/prismicio-types';
 
 export type DayField = prismic.GroupField<{
   startDateTime: prismic.TimestampField;
@@ -21,37 +25,6 @@ export type ModifiedDayOpeningTime = {
   startDateTime: prismic.TimestampField;
   endDateTime: prismic.TimestampField;
 };
-
-export type CollectionVenuePrismicDocument = prismic.PrismicDocument<{
-  title: prismic.KeyTextField;
-  order: prismic.NumberField;
-  image: prismic.ImageField;
-  link: prismic.LinkField;
-  linkText: prismic.RichTextField;
-  monday: DayField;
-  tuesday: DayField;
-  wednesday: DayField;
-  thursday: DayField;
-  friday: DayField;
-  saturday: DayField;
-  sunday: DayField;
-  modifiedDayOpeningTimes: prismic.GroupField<ModifiedDayOpeningTime>;
-}>;
-
-export type GlobalAlertPrismicDocument = prismic.PrismicDocument<{
-  text: prismic.RichTextField;
-  isShown: prismic.SelectField<'hide' | 'show'>;
-  routeRegex: prismic.KeyTextField;
-}>;
-
-export type PopupDialogPrismicDocument = prismic.PrismicDocument<{
-  openButtonText: prismic.KeyTextField;
-  title: prismic.KeyTextField;
-  text: prismic.RichTextField;
-  linkText: prismic.KeyTextField;
-  link: prismic.LinkField;
-  isShown: prismic.BooleanField;
-}>;
 
 export function emptyPrismicQuery<
   T extends prismic.PrismicDocument,
@@ -89,23 +62,23 @@ export function emptyDocument<T extends prismic.PrismicDocumentWithoutUID>(
 }
 
 export function emptyGlobalAlert(
-  overrides: Partial<GlobalAlertPrismicDocument['data']> = {}
-): GlobalAlertPrismicDocument {
-  return emptyDocument<GlobalAlertPrismicDocument>({
-    isShown: null,
+  overrides: Partial<GlobalAlertDocument['data']> = {}
+): GlobalAlertDocument {
+  return emptyDocument<GlobalAlertDocument>({
+    isShown: 'hide',
     routeRegex: null,
     text: [],
     ...overrides,
-  });
+  }) as GlobalAlertDocument;
 }
 
-export function emptyPopupDialog(): PopupDialogPrismicDocument {
-  return emptyDocument<PopupDialogPrismicDocument>({
+export function emptyPopupDialog(): PopupDialogDocument {
+  return emptyDocument<PopupDialogDocument>({
     isShown: false,
     link: { link_type: 'Web' },
     linkText: null,
     openButtonText: null,
     text: [],
     title: null,
-  });
+  }) as PopupDialogDocument;
 }

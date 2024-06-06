@@ -2,7 +2,6 @@ import * as prismic from '@prismicio/client';
 import { fetcher, GetServerSidePropsPrismicClient } from '.';
 import {
   pageFormatsFetchLinks,
-  PagePrismicDocument,
   pagesFetchLinks,
 } from '../types/pages';
 import { labelsFields } from '../fetch-links';
@@ -24,6 +23,7 @@ import { bookFetchLinks } from '../types/books';
 import { seriesFetchLinks } from '../types/series';
 import { cardFetchLinks } from '../types/card';
 import { guideFetchLinks, guideFormatsFetchLinks } from '../types/guides';
+import { PagesDocument } from '@weco/common/prismicio-types';
 
 export const fetchLinks = [
   ...pagesFetchLinks,
@@ -50,7 +50,7 @@ export const fetchLinks = [
 /** Although these are three different document types in Prismic, they all get
  * rendered (and fetched) by the same component.
  */
-const pagesFetcher = fetcher<PagePrismicDocument>(
+const pagesFetcher = fetcher<PagesDocument>(
   ['pages', 'guides', 'projects'],
   fetchLinks
 );
@@ -61,7 +61,7 @@ export const fetchPages = pagesFetcher.getByType;
 export const fetchChildren = async (
   client: GetServerSidePropsPrismicClient,
   page: Page
-): Promise<PagePrismicDocument[]> => {
+): Promise<PagesDocument[]> => {
   const filters = [prismic.filter.at('my.pages.parents.parent', page.id)];
 
   try {
@@ -76,7 +76,7 @@ export const fetchChildren = async (
 export const fetchSiblings = async (
   client: GetServerSidePropsPrismicClient,
   page: Page
-): Promise<SiblingsGroup<PagePrismicDocument>[]> => {
+): Promise<SiblingsGroup<PagesDocument>[]> => {
   const relatedPagePromises = page.parentPages?.map(parentPage =>
     fetchChildren(client, parentPage)
   );

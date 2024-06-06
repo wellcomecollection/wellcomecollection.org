@@ -1,16 +1,16 @@
 import { Guide } from '@weco/content/types/guides';
 import { Format } from '@weco/content/types/format';
 import {
-  GuidePrismicDocument,
-  GuideFormatPrismicDocument,
-} from '../types/guides';
+  GuidesDocument,
+  GuideFormatsDocument,
+} from '@weco/common/prismicio-types';
 import { asHtml, asTitle, transformFormat, transformGenericFields } from '.';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
 import { transformOnThisPage } from './pages';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 
-export function transformGuide(document: GuidePrismicDocument): Guide {
+export function transformGuide(document: GuidesDocument): Guide {
   const { data } = document;
   const genericFields = transformGenericFields(document);
 
@@ -36,9 +36,7 @@ export function transformGuide(document: GuidePrismicDocument): Guide {
   };
 }
 
-export function transformGuideFormat(
-  document: GuideFormatPrismicDocument
-): Format {
+export function transformGuideFormat(document: GuideFormatsDocument): Format {
   return {
     id: document.id,
     title: asTitle(document.data.title),

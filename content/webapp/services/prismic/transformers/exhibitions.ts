@@ -7,10 +7,11 @@ import {
   AccessPDF,
 } from '@weco/content/types/exhibitions';
 import {
-  ExhibitionPrismicDocument,
-  ExhibitionRelatedContentPrismicDocument,
-  ExhibitionFormat as ExhibitionFormatPrismicDocument,
-} from '../types/exhibitions';
+  ExhibitionFormatsDocument,
+  ExhibitionsDocument,
+  SeasonsDocument,
+} from '@weco/common/prismicio-types';
+import { ExhibitionRelatedContentPrismicDocument } from '@weco/content/services/prismic/types';
 import {
   PaginatedResults,
   isFilledLinkToDocumentWithData,
@@ -30,7 +31,6 @@ import {
 } from '.';
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
-import { SeasonPrismicDocument } from '../types/seasons';
 import {
   transformContributors,
   transformContributorToContributorBasic,
@@ -39,7 +39,7 @@ import * as prismic from '@prismicio/client';
 import { noAltTextBecausePromo } from './images';
 
 function transformExhibitionFormat(
-  format: ExhibitionFormatPrismicDocument
+  format: ExhibitionFormatsDocument
 ): ExhibitionFormat {
   return {
     id: format.id,
@@ -48,9 +48,7 @@ function transformExhibitionFormat(
   };
 }
 
-export function transformExhibition(
-  document: ExhibitionPrismicDocument
-): Exhibition {
+export function transformExhibition(document: ExhibitionsDocument): Exhibition {
   const genericFields = transformGenericFields(document);
   const data = document.data;
   const exhibitIds = data.exhibits
@@ -99,7 +97,7 @@ export function transformExhibition(
   const statusOverride = asText(data.statusOverride);
 
   const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
-    season => transformSeason(season as SeasonPrismicDocument)
+    season => transformSeason(season as SeasonsDocument)
   );
 
   const exhibits: Exhibit[] = transformSingleLevelGroup(
@@ -107,7 +105,7 @@ export function transformExhibition(
     'item'
   ).map(exhibit => {
     return {
-      item: transformExhibition(exhibit as ExhibitionPrismicDocument),
+      item: transformExhibition(exhibit as ExhibitionsDocument),
     };
   });
 
@@ -191,7 +189,7 @@ export function transformExhibitionToExhibitionBasic(
 }
 
 export function transformExhibitionsQuery(
-  query: prismic.Query<ExhibitionPrismicDocument>
+  query: prismic.Query<ExhibitionsDocument>
 ): PaginatedResults<ExhibitionBasic> {
   const paginatedResult = transformQuery(query, exhibition =>
     transformExhibitionToExhibitionBasic(transformExhibition(exhibition))

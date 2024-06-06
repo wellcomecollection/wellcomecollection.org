@@ -3,8 +3,9 @@ import {
   commonPrismicFieldsFetchLinks,
   contributorFetchLinks,
   seasonsFetchLinks,
+  seriesFetchLinks,
 } from '../types';
-import { SeriesPrismicDocument, seriesFetchLinks } from '../types/series';
+import { SeriesDocument } from '@weco/common/prismicio-types';
 
 const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,
@@ -13,7 +14,7 @@ const fetchLinks = [
   ...seriesFetchLinks,
 ];
 
-const seriesFetcher = fetcher<SeriesPrismicDocument>('series', fetchLinks);
+const seriesFetcher = fetcher<SeriesDocument>('series', fetchLinks);
 
 export const fetchSeriesById = seriesFetcher.getById;
 export const fetchSeries = seriesFetcher.getByType;
