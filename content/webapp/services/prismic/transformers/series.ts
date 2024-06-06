@@ -16,7 +16,6 @@ import { getSeriesColor } from '@weco/content/utils/colors';
 export function transformSeries(document: SeriesDocument): Series {
   const { data } = document;
   const genericFields = transformGenericFields(document);
-  const standfirst = genericFields.standfirst || undefined;
   const untransformedBody = data.body || [];
   const untransformedStandfirst = untransformedBody.find(
     (slice: prismic.Slice) => slice.slice_type === 'standfirst'
@@ -51,7 +50,6 @@ export function transformSeries(document: SeriesDocument): Series {
     type: 'series',
     labels,
     schedule,
-    standfirst,
     untransformedStandfirst,
     color,
     items: [],
