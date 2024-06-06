@@ -32,11 +32,11 @@ export function transformOnThisPage(body): Link[] {
 export function transformPage(document: PagesDocument): Page {
   const { data } = document;
   const genericFields = transformGenericFields(document);
-  const seasons =
-    data?.seasons &&
-    transformSingleLevelGroup(data.seasons, 'season').map(season =>
-      transformSeason(season as SeasonsDocument)
-    );
+  const seasons = data?.seasons
+    ? transformSingleLevelGroup(data.seasons, 'season').map(season =>
+        transformSeason(season as SeasonsDocument)
+      )
+    : [];
   const parentPages = data?.parents
     ? transformSingleLevelGroup(data.parents, 'parent').map((parent, index) => {
         return {
