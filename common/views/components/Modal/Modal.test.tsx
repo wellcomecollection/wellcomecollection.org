@@ -4,6 +4,8 @@ import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 import userEvent from '@testing-library/user-event';
+import { act } from 'react-dom/test-utils';
+import { AppContextProvider } from '../AppContext/AppContext';
 
 const renderComponent = () => {
   const ModalExample = () => {
@@ -12,19 +14,21 @@ const renderComponent = () => {
 
     return (
       <ThemeProvider theme={theme}>
-        <div>
-          <button ref={openButtonRef} onClick={() => setIsActive(true)}>
-            Open modal window
-          </button>
-          <Modal
-            id="modal-example"
-            isActive={isActive}
-            setIsActive={setIsActive}
-            openButtonRef={openButtonRef}
-          >
-            <p>This is a modal window.</p>
-          </Modal>
-        </div>
+        <AppContextProvider>
+          <div>
+            <button ref={openButtonRef} onClick={() => setIsActive(true)}>
+              Open modal window
+            </button>
+            <Modal
+              id="modal-example"
+              isActive={isActive}
+              setIsActive={setIsActive}
+              openButtonRef={openButtonRef}
+            >
+              <p>This is a modal window.</p>
+            </Modal>
+          </div>
+        </AppContextProvider>
       </ThemeProvider>
     );
   };
@@ -41,7 +45,9 @@ describe('Modal', () => {
   it('should focus the close button when opened', async () => {
     renderComponent();
     const openButton = screen.getByText(/^Open modal window$/i);
-    await userEvent.click(openButton);
+    await act(async () => {
+      await userEvent.click(openButton);
+    });
     const closeButton = screen.getByTestId('close-modal-button');
     await expect(document.activeElement).toEqual(closeButton);
   });
@@ -49,9 +55,13 @@ describe('Modal', () => {
   it('should focus the open button when closed', async () => {
     renderComponent();
     const openButton = screen.getByText(/^Open modal window$/i);
-    await userEvent.click(openButton);
+    await act(async () => {
+      await userEvent.click(openButton);
+    });
     const closeButton = screen.getByTestId('close-modal-button');
-    await userEvent.click(closeButton);
+    await act(async () => {
+      await userEvent.click(closeButton);
+    });
     await expect(document.activeElement).toEqual(openButton);
   });
 });
