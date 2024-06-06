@@ -233,9 +233,9 @@ const Modal: FunctionComponent<Props> = ({
         setShouldLock(true);
         document.documentElement.classList.add('is-scroll-locked');
       } else {
-        setShouldLock(false);
         document.documentElement.classList.remove('is-scroll-locked');
       }
+      setShouldLock(false);
     }
 
     return () => {
@@ -251,6 +251,7 @@ const Modal: FunctionComponent<Props> = ({
             onClick={() => {
               if (!removeCloseButton) {
                 setIsActive(false);
+                setShouldLock(false);
               }
             }}
           />
@@ -275,6 +276,7 @@ const Modal: FunctionComponent<Props> = ({
                 ref={closeButtonRef}
                 onClick={() => {
                   setIsActive(false);
+                  setShouldLock(false);
                 }}
               >
                 <span className="visually-hidden">Close modal window</span>
