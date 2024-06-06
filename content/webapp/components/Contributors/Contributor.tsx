@@ -1,7 +1,7 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import { font, grid } from '@weco/common/utils/classnames';
-import { Contributor as ContributorType } from '../../types/contributors';
+import { Contributor as ContributorType } from '@weco/content/types/contributors';
 import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';

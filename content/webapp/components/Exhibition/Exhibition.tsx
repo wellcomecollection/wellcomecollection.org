@@ -36,7 +36,7 @@ import {
   ExhibitionAbout,
 } from '../../types/exhibitions';
 import { Link } from '../../types/link';
-import { EventBasic } from '../../types/events';
+import { EventBasic } from '@weco/content/types/events';
 import * as prismic from '@prismicio/client';
 import styled from 'styled-components';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';

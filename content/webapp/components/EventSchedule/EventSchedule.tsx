@@ -2,7 +2,7 @@ import { Fragment, FunctionComponent } from 'react';
 import type {
   EventSchedule as EventScheduleType,
   Event as EventType,
-} from '../../types/events';
+} from '@weco/content/types/events';
 import EventScheduleItem from './EventScheduleItem';
 import { EventsGroup, groupEventsByDay } from '../../services/prismic/events';
 import Space from '@weco/common/views/components/styled/Space';

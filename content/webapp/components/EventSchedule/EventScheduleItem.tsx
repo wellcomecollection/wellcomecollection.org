@@ -5,7 +5,7 @@ import EventbriteButtons from '../EventbriteButtons/EventbriteButtons';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Message from '@weco/content/components/Message/Message';
 import { formatTime, formatDayDate } from '@weco/common/utils/format-date';
-import { Event } from '../../types/events';
+import { Event } from '@weco/content/types/events';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import { isEventPast } from '../../services/prismic/events';

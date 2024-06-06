@@ -1,7 +1,10 @@
 import * as prismic from '@prismicio/client';
 import { fetcher, GetServerSidePropsPrismicClient, GetByTypeParams } from '.';
-import { commonPrismicFieldsFetchLinks, contributorFetchLinks } from '../types';
-import { eventsFetchLinks } from '../types/events';
+import {
+  commonPrismicFieldsFetchLinks,
+  contributorFetchLinks,
+  eventsFetchLinks,
+} from '@weco/content/services/prismic/types';
 import { BooksDocument } from '@weco/common/prismicio-types';
 
 const fetchLinks = [

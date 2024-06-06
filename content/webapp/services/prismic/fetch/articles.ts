@@ -12,9 +12,9 @@ import {
   articleFormatsFetchLinks,
   commonPrismicFieldsFetchLinks,
   contributorFetchLinks,
-} from '../types';
-import { seriesFetchLinks } from '../types/series';
-import { eventsFetchLinks } from '../types/events';
+  seriesFetchLinks,
+  eventsFetchLinks,
+} from '@weco/content/services/prismic/types';
 
 const contentTypes: ContentType[] = ['articles', 'webcomics'];
 
