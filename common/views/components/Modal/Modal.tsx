@@ -204,13 +204,13 @@ const Modal: FunctionComponent<Props> = ({
   const { hasAcknowledgedCookieBanner } = useContext(AppContext);
 
   useEffect(() => {
-    if (isActive && hasAcknowledgedCookieBanner) {
+    if (isActive) {
       closeButtonRef?.current?.focus();
     } else if (!initialLoad.current) {
       openButtonRef && openButtonRef.current && openButtonRef.current.focus();
     }
     initialLoad.current = false;
-  }, [isActive, hasAcknowledgedCookieBanner]);
+  }, [isActive]);
 
   useEffect(() => {
     function closeOnEscape(event: KeyboardEvent) {
