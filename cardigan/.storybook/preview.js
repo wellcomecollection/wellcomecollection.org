@@ -6,11 +6,13 @@ import { ContextDecorator } from '@weco/cardigan/config/decorators';
 import wellcomeTheme from './wellcome-theme';
 import { grid } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
 
 export const decorators = [
   (Story, context) => {
     return (
       <ContextDecorator>
+        <AppContextProvider>
         <ConditionalWrapper
           condition={context?.parameters?.gridSizes}
           wrapper={children => (
@@ -19,6 +21,7 @@ export const decorators = [
         >
           <Story {...context} />
         </ConditionalWrapper>
+        </AppContextProvider>
       </ContextDecorator>
     );
   },
