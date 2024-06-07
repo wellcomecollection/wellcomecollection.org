@@ -25,7 +25,7 @@
  * see: https://prismic.io/docs/core-concepts/slices
  */
 import yargs from 'yargs';
-import { body, articleBody, visualStoryBody } from './src/parts/bodies';
+import { components } from '@weco/common/views/slices';
 import {
   downloadPrismicSnapshot,
   getPrismicDocuments,
@@ -42,10 +42,7 @@ const { type, report } = yargs(process.argv.slice(2))
   .parseSync();
 
 async function main() {
-  const sliceNames = Object.keys(articleBody.config.choices).concat(
-    Object.keys(body.config.choices),
-    Object.keys(visualStoryBody.config.choices)
-  );
+  const sliceNames = Object.keys(components);
 
   const sliceCounter = new Map(sliceNames.map(sliceName => [sliceName, 0]));
   // Create list made of the content type where the slice is used
