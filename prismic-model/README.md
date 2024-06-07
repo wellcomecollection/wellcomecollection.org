@@ -36,7 +36,7 @@ We make changes to our prismic models, and deploy them, using slice machine.
 
 Run slice machine with the following command `yarn slicemachine` in the route of the project and access it at localhost:9999
 
-When deploying changes, slicemachine will only tell you which files have changed but not what those changes are. If you want more detail you can run `yarn diffCustomTypes` from inside the /prismic-model. N.B. at present this script only compares custom types, not changes to slices - there is an open github issue to address this.
+When deploying changes, slicemachine will only tell you which files have changed but not what those changes are. If you want more detail you can run `yarn diffCustomTypes` from inside the /prismic-model. N.B. at present this script only compares custom types, not changes to slices - [there is an open github issue to address this](https://github.com/wellcomecollection/wellcomecollection.org/issues/10936).
 
 **WARNING:**
 If you are **removing fields from a custom type**, if those are referenced in a query, you must remove any reference to those fields from the content app queries and **deploy the changes to the content app first**, before deploying the changes to Prismic.
