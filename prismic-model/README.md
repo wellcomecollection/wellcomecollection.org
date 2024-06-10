@@ -6,7 +6,7 @@ We use [Slice Machine](https://prismic.io/slice-machine) to deploy types into Pr
 
 As these deploys could potentially take the website down, we deploy locally and not through CI.
 
-We can test changes to Prismic types in our [staging environment](https://prismic.io/docs/environments)
+We can test changes to Prismic types in our [staging environment](https://prismic.io/docs/environments) and view the changes by switching on the relevant toggle on [our toggle dashboard](https://dash.wellcomecollection.org/toggles/index.html)
 
 **Actions**
 
@@ -32,7 +32,11 @@ to get a very basic report listing how often each type is used. You might want t
 
 ## Updating an existing custom type
 
-Use slice machine - description to come
+We make changes to our prismic models, and deploy them, using slice machine.
+
+Run slice machine with the following command `yarn slicemachine` in the root of the project and access it at localhost:9999
+
+When deploying changes, slicemachine will only tell you which files have changed but not what those changes are. If you want more detail you can run `yarn diffCustomTypes` from inside the /prismic-model. N.B. at present this script only compares custom types, not changes to slices - [there is an open github issue to address this](https://github.com/wellcomecollection/wellcomecollection.org/issues/10936).
 
 **WARNING:**
 If you are **removing fields from a custom type**, if those are referenced in a query, you must remove any reference to those fields from the content app queries and **deploy the changes to the content app first**, before deploying the changes to Prismic.
@@ -67,13 +71,9 @@ If a model change has caused the site to error. The quickest fix is to revert th
 
 ## Adding or deleting a custom type
 
-### Adding a new custom type
+Adding/deleting/modifying custom types and slices is done in the slicemachine interface.
 
-Use slice machine - description to come
-
-### Deleting a custom type
-
-Use slice machine - description to come
+Run slice machine with the following command `yarn slicemachine` in the route of the project and access it at localhost:9999
 
 ---
 
@@ -121,7 +121,7 @@ The [migration API](https://prismic.io/docs/migration-api-technical-reference) a
 
 The `migrate.ts` script expects an `--type` parameter for a custom type, and will migrate all documents of this type as you please (e.g. to mutate the shape of the body slices in order to work with Slice Machine).
 
-You will need to create a `.env` file with values for the variables listed in `.env_example` if one doesn't exist. 
+You will need to create a `.env` file with values for the variables listed in `.env_example` if one doesn't exist.
 
 ### Usage
 
