@@ -34,7 +34,7 @@ to get a very basic report listing how often each type is used. You might want t
 
 We make changes to our prismic models, and deploy them, using slice machine.
 
-Run slice machine with the following command `yarn slicemachine` in the route of the project and access it at localhost:9999
+Run slice machine with the following command `yarn slicemachine` in the root of the project and access it at localhost:9999
 
 When deploying changes, slicemachine will only tell you which files have changed but not what those changes are. If you want more detail you can run `yarn diffCustomTypes` from inside the /prismic-model. N.B. at present this script only compares custom types, not changes to slices - [there is an open github issue to address this](https://github.com/wellcomecollection/wellcomecollection.org/issues/10936).
 
