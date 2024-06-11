@@ -16,6 +16,7 @@ import {
   itemIsTemporarilyUnavailable,
 } from '../../utils/requesting';
 import { getWorkItemsClientSide } from '@weco/content/services/wellcome/catalogue/works';
+import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   work: Work;
@@ -24,13 +25,19 @@ type Props = {
 
 type ItemsState = 'stale' | 'up-to-date';
 
-const getItemsState = (items: PhysicalItem[]): ItemsState =>
-  items.some(itemIsTemporarilyUnavailable) || items.some(itemIsRequestable)
+const getItemsState = (
+  items: PhysicalItem[],
+  offsiteRequesting: boolean
+): ItemsState => {
+  return items.some(itemIsTemporarilyUnavailable) ||
+    items.some(item => itemIsRequestable(item, offsiteRequesting))
     ? 'stale'
     : 'up-to-date';
+};
 
 const useItemsState = (
-  items: PhysicalItem[]
+  items: PhysicalItem[],
+  offsiteRequesting = false
 ): [ItemsState, (s: ItemsState) => void] => {
   /* https://github.com/wellcomecollection/wellcomecollection.org/issues/7120#issuecomment-938035546
    *
@@ -53,7 +60,7 @@ const useItemsState = (
    * In all other cases the items API would be a no-op.
    */
   const [itemsState, setItemsState] = useState<ItemsState>(
-    getItemsState(items)
+    getItemsState(items, offsiteRequesting)
   );
 
   useEffect(() => {
@@ -67,10 +74,14 @@ const PhysicalItems: FunctionComponent<Props> = ({
   work,
   items: workItems,
 }: Props) => {
+  const { offsiteRequesting } = useToggles();
   const { state: userState } = useUser();
   const [userHolds, setUserHolds] = useState<Set<string>>();
   const [physicalItems, setPhysicalItems] = useState(workItems);
-  const [itemsState, setItemsState] = useItemsState(workItems);
+  const [itemsState, setItemsState] = useItemsState(
+    workItems,
+    offsiteRequesting
+  );
 
   useAbortSignalEffect(
     signal => {
