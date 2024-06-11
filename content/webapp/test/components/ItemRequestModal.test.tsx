@@ -1,7 +1,10 @@
 import { useState, useRef, FunctionComponent } from 'react';
 import { act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { workWithPartOf } from '@weco/content/test/fixtures/catalogueApi/work';
+import {
+  workFixture,
+  workWithPartOf,
+} from '@weco/content/test/fixtures/catalogueApi/work';
 import prismicData from '@weco/common/test/fixtures/prismicData/prismic-data';
 import ItemRequestModal from '../../components/ItemRequestModal/ItemRequestModal';
 import { getItemsWithPhysicalLocation } from '../../utils/works';
@@ -10,16 +13,23 @@ import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 
 jest.spyOn(Context, 'usePrismicData').mockImplementation(() => prismicData);
 
-const RequestModal: FunctionComponent = () => {
+type Props = {
+  deepstoreLocationType?: boolean | undefined;
+};
+
+const RequestModal: FunctionComponent<Props> = ({ deepstoreLocationType }) => {
   const [requestModalIsActive, setRequestModalIsActive] = useState(true);
   const item = getItemsWithPhysicalLocation(workWithPartOf.items ?? [])[0];
+  const deepstoreItem = getItemsWithPhysicalLocation(
+    workFixture.items ?? []
+  )[0];
   const openButtonRef = useRef(null);
 
   return (
     <ItemRequestModal
       isActive={requestModalIsActive}
       setIsActive={setRequestModalIsActive}
-      item={item}
+      item={deepstoreLocationType ? deepstoreItem : item}
       work={workWithPartOf}
       initialHoldNumber={2}
       onSuccess={() => {
@@ -38,5 +48,23 @@ describe('ItemRequestModal', () => {
       await userEvent.selectOptions(select, '23-05-2022');
     });
     expect(select.value).toBe('23-05-2022');
+  });
+
+  it('shows the correct lead time for onsite items', async () => {
+    const { getByTestId } = renderWithTheme(<RequestModal />);
+    const message = getByTestId('pickup-deadline');
+    expect(message).toHaveTextContent(
+      'Item requests need to be placed by 10am on the working day before your visit'
+    );
+  });
+
+  it('shows the correct lead time for offsite/deepstore items', async () => {
+    const { getByTestId } = renderWithTheme(
+      <RequestModal deepstoreLocationType />
+    );
+    const message = getByTestId('pickup-deadline');
+    expect(message).toHaveTextContent(
+      'Item requests for offsite material need to be placed by 10am, 10 working days before your visit'
+    );
   });
 });

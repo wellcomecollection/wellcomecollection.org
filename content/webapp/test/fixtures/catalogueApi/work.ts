@@ -239,11 +239,11 @@ export const workFixture: Work = {
       locations: [
         {
           locationType: {
-            id: 'sicon',
-            label: 'Closed stores Iconographic',
+            id: 'offsite-deepstore',
+            label: 'Offsite',
             type: 'LocationType',
           },
-          label: 'Closed stores Iconographic',
+          label: 'Offsite',
           accessConditions: [],
           type: 'PhysicalLocation',
         },

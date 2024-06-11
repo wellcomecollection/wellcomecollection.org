@@ -85,6 +85,11 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
   const [pickUpDate, setPickUpDate] = useState<string | undefined>(
     item.availableDates && dateAsValue(new Date(item.availableDates[0].from))
   );
+  const pickupDeadline = item.locations[0].locationType.id
+    .toLowerCase()
+    .includes('deepstore')
+    ? 'Item requests for offsite material need to be placed by 10am, 10 working days before your visit'
+    : 'Item requests need to be placed by 10am on the working day before your visit';
 
   // the pickUpDate's state sometimes get set as undefined before the availableDates have been fetched
   // as a result the user can't confirm the request unless they interact with the RequestingDayPicker in some way to trigger a state update
@@ -139,8 +144,9 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
               </p>
             </Space>
             <PickupDeadline>
-              Item requests need to be placed by 10am on the working day before
-              your visit. Please bear in mind the library is closed on Sundays.
+              <p data-testid="pickup-deadline">
+                {`${pickupDeadline}. Please bear in mind the library is closed on Sundays.`}
+              </p>
             </PickupDeadline>
           </PickUpDateDescription>
           <PickUpDateInputWrapper>
