@@ -2,13 +2,19 @@ import { FunctionComponent } from 'react';
 import { getServerData } from '@weco/common/server-data';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { createClient } from '@weco/content/services/prismic/fetch';
-import { fetchVisualStory } from '@weco/content/services/prismic/fetch/visual-stories';
+import {
+  fetchVisualStory,
+  fetchVisualStories,
+} from '@weco/content/services/prismic/fetch/visual-stories';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { transformVisualStory } from '@weco/content/services/prismic/transformers/visual-stories';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
-import { VisualStory as VisualStoryProps } from '@weco/content/types/visual-stories';
+import {
+  VisualStory as VisualStoryProps,
+  VisualStoryBasic,
+} from '@weco/content/types/visual-stories';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { visualStoryLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
@@ -18,7 +24,15 @@ import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { capitalize } from '@weco/common/utils/grammar';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Standfirst from '@weco/common/views/slices/Standfirst';
-import { VisualStoriesDocument } from '@weco/common/prismicio-types';
+import CardGrid from '@weco/content/components/CardGrid/CardGrid';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import Space from '@weco/common/views/components/styled/Space';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import { font } from '@weco/common/utils/classnames';
+import {
+  VisualStoriesDocument,
+  EventsDocumentData,
+} from '@weco/common/prismicio-types';
 import { isPast } from '@weco/common/utils/dates';
 import {
   transformEventTimes,
@@ -80,24 +94,44 @@ export const getOtherVisualStories = ({
 
 type Props = {
   visualStory: VisualStoryProps;
+  visualStories: VisualStoryBasic[];
   jsonLd: JsonLdObj;
   pageview: Pageview;
 };
 
 export const returnVisualStoryProps = ({
   visualStoryDocument,
+  otherCurrentVisualStories,
   serverData,
 }: {
   visualStoryDocument?: VisualStoriesDocument;
+  otherCurrentVisualStories?: VisualStoriesDocument[];
   serverData: SimplifiedServerData;
 }) => {
   if (isNotUndefined(visualStoryDocument)) {
     const visualStory = transformVisualStory(visualStoryDocument);
+    const visualStories = (
+      (otherCurrentVisualStories &&
+        otherCurrentVisualStories.map(transformVisualStory)) ||
+      []
+    ).map(story => {
+      return {
+        type: story.type,
+        id: story.id,
+        title: story.title,
+        promo: story.promo,
+        image: story.image,
+        relatedDocument: story.relatedDocument,
+      };
+    });
+
+
     const jsonLd = visualStoryLd(visualStory);
 
     return {
       props: serialiseProps({
         visualStory,
+        visualStories,
         serverData,
         jsonLd,
         pageview: {
@@ -121,12 +155,33 @@ export const getServerSideProps = async context => {
 
   const serverData = await getServerData(context);
   const client = createClient(context);
-  const visualStoryDocument = await fetchVisualStory(client, visualStoryId);
+  const visualStoryQueryPromise = fetchVisualStory(client, visualStoryId);
+  const visualStoriesQueryPromise = fetchVisualStories(client, {
+    hasDelistFilter: false,
+  });
 
-  return returnVisualStoryProps({ visualStoryDocument, serverData });
+  const [visualStoryQuery, visualStoriesQuery] = await Promise.all([
+    visualStoryQueryPromise,
+    visualStoriesQueryPromise,
+  ]);
+
+  const otherCurrentVisualStories = getOtherVisualStories({
+    documentId: visualStoryId,
+    visualStories: visualStoriesQuery.results,
+  });
+
+  return returnVisualStoryProps({
+    visualStoryDocument: visualStoryQuery,
+    otherCurrentVisualStories,
+    serverData,
+  });
 };
 
-const VisualStory: FunctionComponent<Props> = ({ visualStory, jsonLd }) => {
+const VisualStory: FunctionComponent<Props> = ({
+  visualStory,
+  visualStories,
+  jsonLd,
+}) => {
   const { relatedDocument } = visualStory;
 
   const ContentTypeInfo = visualStory.untransformedStandfirst ? (
@@ -162,7 +217,6 @@ const VisualStory: FunctionComponent<Props> = ({ visualStory, jsonLd }) => {
     />
   );
 
-  // Ensures the canonical link points the the desired URL should there be a related Event or Exhibition
   const visualStoryPath = visualStory.relatedDocument?.id
     ? `/${visualStory.relatedDocument.type}/${visualStory.relatedDocument.id}/visual-stories`
     : `/visual-stories/${visualStory.id}`;
