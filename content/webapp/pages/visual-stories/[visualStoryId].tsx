@@ -114,16 +114,23 @@ export const returnVisualStoryProps = ({
       (otherCurrentVisualStories &&
         otherCurrentVisualStories.map(transformVisualStory)) ||
       []
-    ).map(story => {
-      return {
-        type: story.type,
-        id: story.id,
-        title: story.title,
-        promo: story.promo,
-        image: story.image,
-        relatedDocument: story.relatedDocument,
-      };
-    });
+    )
+      .map(story => {
+        return {
+          type: story.type,
+          id: story.id,
+          title: story.title,
+          promo: story.promo,
+          image: story.image,
+          relatedDocument: story.relatedDocument,
+        };
+      })
+      // put the things that aren't linked to events or exhibitions at the front
+      .sort(
+        (a, b) =>
+          (a.relatedDocument ? Number.MAX_VALUE : 1) -
+          (b.relatedDocument ? Number.MAX_VALUE : 1)
+      );
 
     const jsonLd = visualStoryLd(visualStory);
 
