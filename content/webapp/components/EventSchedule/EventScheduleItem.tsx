@@ -15,6 +15,7 @@ import { Place } from '@weco/content/types/places';
 
 type Props = {
   event: Event;
+  parentEvent: Event;
   isNotLinked: boolean;
 };
 
@@ -97,6 +98,7 @@ const eventLocations = (locations: Place[], isHybridEvent: boolean) => {
 
 const EventScheduleItem: FunctionComponent<Props> = ({
   event,
+  parentEvent,
   isNotLinked,
 }) => {
   const waitForTicketSales =
