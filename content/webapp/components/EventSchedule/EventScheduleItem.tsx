@@ -96,6 +96,22 @@ const eventLocations = (locations: Place[], isHybridEvent: boolean) => {
   );
 };
 
+function shouldShowMessage({
+  event,
+  parentEvent,
+}: {
+  event: Event;
+  parentEvent: Event;
+}): boolean {
+  return (
+    !isEventPast(event) &&
+    !event.eventbriteId &&
+    !event.bookingEnquiryTeam &&
+    !(event.schedule && event.schedule.length > 1) &&
+    !(parentEvent.bookingType === 'Ticketed' && !event.hasEarlyRegistration)
+  );
+}
+
 const EventScheduleItem: FunctionComponent<Props> = ({
   event,
   parentEvent,
@@ -193,21 +209,17 @@ const EventScheduleItem: FunctionComponent<Props> = ({
                   <EventBookingButton event={event} />
                 </Space>
               )}
-
-            {!isEventPast(event) &&
-              !event.eventbriteId &&
-              !event.bookingEnquiryTeam &&
-              !(event.schedule && event.schedule.length > 1) && (
-                <Space $v={{ size: 'm', properties: ['margin-top'] }}>
-                  <Message
-                    text={`${
-                      event.hasEarlyRegistration
-                        ? 'Arrive early to register'
-                        : 'Just turn up'
-                    }`}
-                  />
-                </Space>
-              )}
+            {shouldShowMessage({ event, parentEvent }) && (
+              <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+                <Message
+                  text={`${
+                    event.hasEarlyRegistration
+                      ? 'Arrive early to register'
+                      : 'Just turn up'
+                  }`}
+                />
+              </Space>
+            )}
 
             {event.secondaryLabels.length > 0 && (
               <Space $v={{ size: 'm', properties: ['margin-top'] }}>
