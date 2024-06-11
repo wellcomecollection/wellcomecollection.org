@@ -64,7 +64,7 @@ const useItemsState = (
   );
 
   useEffect(() => {
-    setItemsState(getItemsState(items));
+    setItemsState(getItemsState(items, offsiteRequesting));
   }, []);
 
   return [itemsState, setItemsState];
