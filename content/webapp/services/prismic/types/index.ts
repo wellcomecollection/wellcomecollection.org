@@ -309,6 +309,7 @@ export const exhibitionsFetchLinks: FetchLinks<ExhibitionsDocument> = [
   'exhibitions.promo',
   'exhibitions.shortTitle',
   'exhibitions.format',
+  'exhibitions.end',
 ];
 
 type Contributor =
