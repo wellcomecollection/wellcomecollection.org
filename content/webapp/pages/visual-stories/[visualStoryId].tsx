@@ -125,7 +125,6 @@ export const returnVisualStoryProps = ({
       };
     });
 
-
     const jsonLd = visualStoryLd(visualStory);
 
     return {

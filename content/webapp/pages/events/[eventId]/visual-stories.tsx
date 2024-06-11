@@ -1,24 +1,18 @@
-import * as prismic from '@prismicio/client';
 import VisualStory, {
   returnVisualStoryProps,
+  getOtherVisualStories,
 } from '@weco/content/pages/visual-stories/[visualStoryId]';
 import { getServerData } from '@weco/common/server-data';
-import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchVisualStories } from '@weco/content/services/prismic/fetch/visual-stories';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import { isFilledLinkToDocument } from '@weco/common/services/prismic/types';
 
 export const getServerSideProps = async context => {
   setCacheControl(context.res);
   const client = createClient(context);
 
   const visualStoriesQuery = await fetchVisualStories(client, {
-    filters: [
-      prismic.filter.at(
-        'my.visual-stories.relatedDocument',
-        context.query.eventId
-      ),
-    ],
     hasDelistFilter: false,
   });
 
@@ -26,15 +20,27 @@ export const getServerSideProps = async context => {
     return { notFound: true };
   }
 
-  // We are assuming for now that there is only one VS per event
-  if (!looksLikePrismicId(visualStoriesQuery.results[0].id)) {
+  const visualStoryDocument = visualStoriesQuery.results.find(result => {
+    return (
+      isFilledLinkToDocument(result.data.relatedDocument) &&
+      result.data.relatedDocument.id === context.query.eventId
+    );
+  });
+
+  if (!visualStoryDocument) {
     return { notFound: true };
   }
+
+  const otherCurrentVisualStories = getOtherVisualStories({
+    documentId: context.query.eventId,
+    visualStories: visualStoriesQuery.results,
+  });
 
   const serverData = await getServerData(context);
 
   return returnVisualStoryProps({
-    visualStoryDocument: visualStoriesQuery.results[0],
+    visualStoryDocument,
+    otherCurrentVisualStories,
     serverData,
   });
 };
