@@ -1,6 +1,8 @@
 import { GenericContentFields } from './generic-content-fields';
 import { Link } from './link';
 import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
+import { ImagePromo } from '@weco/content/types/image-promo';
+import { ImageType } from '@weco/common/model/image';
 
 export type VisualStory = GenericContentFields & {
   type: 'visual-stories';
@@ -13,4 +15,17 @@ export type VisualStory = GenericContentFields & {
   };
   siteSection?: SiteSection;
   showOnThisPage: boolean;
+};
+
+export type VisualStoryBasic = {
+  type: 'visual-stories';
+  id: string;
+  title: string;
+  promo?: ImagePromo | undefined;
+  image?: ImageType | undefined;
+  relatedDocument?: {
+    title?: string;
+    id: string;
+    type: 'exhibitions' | 'events';
+  };
 };
