@@ -19,6 +19,64 @@ import { capitalize } from '@weco/common/utils/grammar';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Standfirst from '@weco/common/views/slices/Standfirst';
 import { VisualStoriesDocument } from '@weco/common/prismicio-types';
+import { isPast } from '@weco/common/utils/dates';
+import {
+  transformEventTimes,
+  getLastEndTime,
+} from '@weco/content/services/prismic/transformers/events';
+import { isFilledLinkToDocument } from '@weco/common/services/prismic/types';
+
+export const getOtherVisualStories = ({
+  documentId,
+  visualStories,
+}: {
+  documentId: string;
+  visualStories: VisualStoriesDocument[];
+}): VisualStoriesDocument[] => {
+  return visualStories.filter(
+    // We want to remove any visual stories that satisfy any of the following:
+    // 1) is the same visualStory that is being displayed based on its id
+    // 2) is linked to the same exhibition or event as the visualStory being displayed (we infer it is the same visual story)
+    // 3) is linked to either a past exhibition or a past event
+    result => {
+      const relatedDocumentId =
+        isFilledLinkToDocument(result.data.relatedDocument) &&
+        result.data.relatedDocument.id;
+      const exhibitionEndTime =
+        isFilledLinkToDocument(result.data.relatedDocument) &&
+        result.data.relatedDocument.data?.end
+          ? result.data.relatedDocument.data?.end
+          : undefined;
+      const eventTimes =
+        isFilledLinkToDocument(result.data.relatedDocument) &&
+        result.data.relatedDocument.data?.times
+          ? result.data.relatedDocument.data?.times
+          : undefined;
+      const transformedEventTimes =
+        eventTimes && relatedDocumentId
+          ? transformEventTimes(
+              relatedDocumentId,
+              eventTimes as EventsDocumentData['times']
+            )
+          : undefined;
+      const lastEventEndTime = transformedEventTimes
+        ? getLastEndTime(transformedEventTimes)
+        : '';
+      const endDateToUse = exhibitionEndTime || lastEventEndTime;
+
+      const relatedIsPast = endDateToUse
+        ? isPast(new Date(endDateToUse as string))
+        : false;
+      return (
+        (!isFilledLinkToDocument(result.data.relatedDocument) &&
+          documentId !== result.id) ||
+        (isFilledLinkToDocument(result.data.relatedDocument) &&
+          result.data.relatedDocument.id !== documentId &&
+          !relatedIsPast)
+      );
+    }
+  );
+};
 
 type Props = {
   visualStory: VisualStoryProps;
