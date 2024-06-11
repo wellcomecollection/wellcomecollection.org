@@ -244,6 +244,23 @@ const VisualStory: FunctionComponent<Props> = ({
           />
         }
       />
+      {visualStories.length > 0 && (
+        <Layout gridSizes={gridSize12()}>
+          <Space
+            $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
+          >
+            <Divider lineColor="neutral.400" />
+            <Space
+              $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+            >
+              <h2 className={font('wb', 2)} id="more-visual-stories">
+                More Visual Stories
+              </h2>
+            </Space>
+            <CardGrid items={visualStories} itemsPerRow={3} />
+          </Space>
+        </Layout>
+      )}
     </PageLayout>
   );
 };
