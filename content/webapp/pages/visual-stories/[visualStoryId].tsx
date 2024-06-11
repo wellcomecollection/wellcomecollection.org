@@ -221,6 +221,17 @@ const VisualStory: FunctionComponent<Props> = ({
     ? `/${visualStory.relatedDocument.type}/${visualStory.relatedDocument.id}/visual-stories`
     : `/visual-stories/${visualStory.id}`;
 
+  const onThisPageLinks =
+    visualStories.length > 0
+      ? [
+          ...visualStory.onThisPage,
+          {
+            text: 'More visual stories',
+            url: '#more-visual-stories',
+          },
+        ]
+      : visualStory.onThisPage;
+
   return (
     <PageLayout
       title={visualStory.title}
@@ -238,7 +249,7 @@ const VisualStory: FunctionComponent<Props> = ({
           <Body
             untransformedBody={visualStory.untransformedBody}
             pageId={visualStory.id}
-            onThisPage={visualStory.onThisPage}
+            onThisPage={onThisPageLinks}
             showOnThisPage={visualStory.showOnThisPage}
             contentType="visual-story"
           />
