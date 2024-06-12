@@ -115,7 +115,7 @@ function shouldShowMessage({
     !event.eventbriteId &&
     !event.bookingEnquiryTeam &&
     !(event.schedule && event.schedule.length > 1) &&
-    !(parentEvent.bookingType === 'Ticketed')
+    parentEvent.bookingType !== 'Ticketed'
   );
 }
 
