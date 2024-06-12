@@ -32,7 +32,8 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
         events,
       };
     })
-    .slice(0, 4); // never show more than 4 months
+    .slice(0, 4) // never show more than 4 months
+    .filter(month => month.events.length > 0); // only include months that have events
 
   // We assume that there will always be some upcoming events scheduled,
   // which means there will be at least one month in `monthsWithEvents`
