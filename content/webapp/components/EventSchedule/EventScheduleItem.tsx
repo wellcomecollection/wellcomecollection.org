@@ -101,9 +101,8 @@ const eventLocations = (locations: Place[], isHybridEvent: boolean) => {
 // We only show this message if:
 // - the event isn't past AND
 // - it doesn't require booking (either through Eventbrite or by contacting the booking enquiry team) AND
-// - it doesn't have it's own event schedule
-// We also don't show it if the parent event is Ticketed, unless it will display 'Arrive early to register'
-// as we don't want to show 'Just turn up' when the parent event is ticketed
+// - it doesn't have it's own event schedule AND
+// - the parent event isn't Ticketed
 function shouldShowMessage({
   event,
   parentEvent,
@@ -116,7 +115,7 @@ function shouldShowMessage({
     !event.eventbriteId &&
     !event.bookingEnquiryTeam &&
     !(event.schedule && event.schedule.length > 1) &&
-    !(parentEvent.bookingType === 'Ticketed' && !event.hasEarlyRegistration)
+    parentEvent.bookingType !== 'Ticketed'
   );
 }
 
