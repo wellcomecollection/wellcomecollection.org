@@ -13,6 +13,10 @@ import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 
 jest.spyOn(Context, 'usePrismicData').mockImplementation(() => prismicData);
 
+const mockDateNow = (dateToMock: string) => {
+  jest.useFakeTimers().setSystemTime(new Date(dateToMock));
+};
+
 type Props = {
   deepstoreLocationType?: boolean | undefined;
 };
@@ -51,6 +55,7 @@ describe('ItemRequestModal', () => {
   });
 
   it('shows the correct lead time for onsite items', async () => {
+    mockDateNow('2024-03-21T19:00:00.000Z');
     const { getByTestId } = renderWithTheme(<RequestModal />);
     const message = getByTestId('pickup-deadline');
     expect(message).toHaveTextContent(
@@ -59,6 +64,7 @@ describe('ItemRequestModal', () => {
   });
 
   it('shows the correct lead time for offsite/deepstore items', async () => {
+    mockDateNow('2022-05-09T19:00:00.000Z');
     const { getByTestId } = renderWithTheme(
       <RequestModal deepstoreLocationType />
     );

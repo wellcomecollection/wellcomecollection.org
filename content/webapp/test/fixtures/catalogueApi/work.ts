@@ -239,11 +239,11 @@ export const workFixture: Work = {
       locations: [
         {
           locationType: {
-            id: 'offsite-deepstore',
-            label: 'Offsite',
+            id: 'sicon',
+            label: 'Closed stores Iconographic',
             type: 'LocationType',
           },
-          label: 'Offsite',
+          label: 'Closed stores Iconographic',
           accessConditions: [],
           type: 'PhysicalLocation',
         },
@@ -289,6 +289,10 @@ export const workFixture: Work = {
           accessConditions: [],
           type: 'DigitalLocation',
         },
+      ],
+      availableDates: [
+        { from: '2022-05-23T09:00:00.000Z', to: '2022-05-23T09:00:00.000Z' },
+        { from: '2022-05-24T09:00:00.000Z', to: '2022-05-24T09:00:00.000Z' },
       ],
       type: 'Item',
     },

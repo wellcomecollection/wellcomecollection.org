@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import { CTAs, CurrentRequests, Header } from './common';
 import { themeValues } from '@weco/common/views/themes/config';
 import { dateAsValue, dateFromValue } from './format-date';
+import { today, addDays } from '@weco/common/utils/dates';
 
 const PickUpDate = styled(Space).attrs({
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
@@ -85,9 +86,13 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
   const [pickUpDate, setPickUpDate] = useState<string | undefined>(
     item.availableDates && dateAsValue(new Date(item.availableDates[0].from))
   );
-  const pickupDeadline = item.locations[0].locationType.id
-    .toLowerCase()
-    .includes('deepstore')
+
+  // we know an item is offsite/deepstore if its 1st available date is more than 3 days in the future
+  const isOffsiteDeepstoreItem =
+    item.availableDates &&
+    new Date(item.availableDates[0].from) > addDays(today(), 3);
+
+  const pickupDeadline = isOffsiteDeepstoreItem
     ? 'Item requests for offsite material need to be placed by 10am, 10 working days before your visit'
     : 'Item requests need to be placed by 10am on the working day before your visit';
 
@@ -144,9 +149,9 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
               </p>
             </Space>
             <PickupDeadline>
-              <p data-testid="pickup-deadline">
+              <span data-testid="pickup-deadline">
                 {`${pickupDeadline}. Please bear in mind the library is closed on Sundays.`}
-              </p>
+              </span>
             </PickupDeadline>
           </PickUpDateDescription>
           <PickUpDateInputWrapper>
