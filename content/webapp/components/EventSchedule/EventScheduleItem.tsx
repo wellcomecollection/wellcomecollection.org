@@ -96,6 +96,14 @@ const eventLocations = (locations: Place[], isHybridEvent: boolean) => {
   );
 };
 
+// We have a message block on scheduled events which either displays
+// 'Just turn up' or 'Arrive early to register'
+// We only show this message if:
+// - the event isn't past AND
+// - it doesn't require booking (either through Eventbrite or by contacting the booking enquiry team) AND
+// - it doesn't have it's own event schedule
+// We also don't show it if the parent event is Ticketed, unless it will display 'Arrive early to register'
+// as we don't want to show 'Just turn up' when the parent event is ticketed
 function shouldShowMessage({
   event,
   parentEvent,
