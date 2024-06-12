@@ -15,6 +15,7 @@ import { Place } from '@weco/content/types/places';
 
 type Props = {
   event: Event;
+  parentEvent: Event;
   isNotLinked: boolean;
 };
 
@@ -95,8 +96,33 @@ const eventLocations = (locations: Place[], isHybridEvent: boolean) => {
   );
 };
 
+// We have a message block on scheduled events which either displays
+// 'Just turn up' or 'Arrive early to register'
+// We only show this message if:
+// - the event isn't past AND
+// - it doesn't require booking (either through Eventbrite or by contacting the booking enquiry team) AND
+// - it doesn't have it's own event schedule
+// We also don't show it if the parent event is Ticketed, unless it will display 'Arrive early to register'
+// as we don't want to show 'Just turn up' when the parent event is ticketed
+function shouldShowMessage({
+  event,
+  parentEvent,
+}: {
+  event: Event;
+  parentEvent: Event;
+}): boolean {
+  return (
+    !isEventPast(event) &&
+    !event.eventbriteId &&
+    !event.bookingEnquiryTeam &&
+    !(event.schedule && event.schedule.length > 1) &&
+    !(parentEvent.bookingType === 'Ticketed' && !event.hasEarlyRegistration)
+  );
+}
+
 const EventScheduleItem: FunctionComponent<Props> = ({
   event,
+  parentEvent,
   isNotLinked,
 }) => {
   const waitForTicketSales =
@@ -191,21 +217,17 @@ const EventScheduleItem: FunctionComponent<Props> = ({
                   <EventBookingButton event={event} />
                 </Space>
               )}
-
-            {!isEventPast(event) &&
-              !event.eventbriteId &&
-              !event.bookingEnquiryTeam &&
-              !(event.schedule && event.schedule.length > 1) && (
-                <Space $v={{ size: 'm', properties: ['margin-top'] }}>
-                  <Message
-                    text={`${
-                      event.hasEarlyRegistration
-                        ? 'Arrive early to register'
-                        : 'Just turn up'
-                    }`}
-                  />
-                </Space>
-              )}
+            {shouldShowMessage({ event, parentEvent }) && (
+              <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+                <Message
+                  text={`${
+                    event.hasEarlyRegistration
+                      ? 'Arrive early to register'
+                      : 'Just turn up'
+                  }`}
+                />
+              </Space>
+            )}
 
             {event.secondaryLabels.length > 0 && (
               <Space $v={{ size: 'm', properties: ['margin-top'] }}>
