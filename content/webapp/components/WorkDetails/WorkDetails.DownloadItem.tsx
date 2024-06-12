@@ -92,7 +92,7 @@ const DownloadItem: FunctionComponent<{
         {/* <thead className="visually-hidden">
           <tr>
             <th>Name</th>
-            <th>Kind</th>
+            <th>File format</th>
             <th>Size</th>
             <th>Download</th>
           </tr>

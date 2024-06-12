@@ -20,8 +20,8 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
   const { isEnhanced } = useContext(AppContext);
   // Group the events into the per-month tabs that we render on the
   // What's On page, e.g. a group for May, June, July, ...
-  const monthsWithEvents = groupEventsByMonth(events).map(
-    ({ month, events }) => {
+  const monthsWithEvents = groupEventsByMonth(events)
+    .map(({ month, events }) => {
       const id = `${month.month}-${month.year}`.toLowerCase();
 
       return {
@@ -31,8 +31,9 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
         month,
         events,
       };
-    }
-  );
+    })
+    .slice(0, 4) // never show more than 4 months
+    .filter(month => month.events.length > 0); // only include months that have events
 
   // We assume that there will always be some upcoming events scheduled,
   // which means there will be at least one month in `monthsWithEvents`
