@@ -106,7 +106,7 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
         const observer = new MutationObserver(callback);
         observer.observe(document.body, { childList: true, subtree: true });
         return () => observer.disconnect();
-      } else if (!document.getElementById('ccc')) {
+      } else if (document && !document.getElementById('ccc')) {
         // If the CivicUK script failed to load for any reason, we should consider it acknowledged by default.
         // We need this for our tests and Cardigan as well.
         console.log('no banner');
