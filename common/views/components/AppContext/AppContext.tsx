@@ -58,7 +58,7 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
   );
   const [hasAcknowledgedCookieBanner, setHasAcknowledgedCookieBanner] =
     useState(Boolean(getCookies().CookieControl));
-  console.log('getcookies', getCookies().CookieControl);
+
   useEffect(() => {
     setIsEnhanced(true);
   }, []);
@@ -86,9 +86,13 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
   }, []);
 
   useEffect(() => {
-    // Cookie has not been set yet;
+    // If CookieControl has not been set yet;
     if (!hasAcknowledgedCookieBanner) {
-      // Banner or popup is actively displaying.
+      // If the CivicUK script failed to load for any reason, we should consider it acknowledged by default.
+      // We need this for our tests and Cardigan as well.
+      setHasAcknowledgedCookieBanner(true);
+
+      // If banner or popup is actively displaying on load;
       if (
         document.getElementById('ccc') &&
         document.getElementById('ccc-overlay')
@@ -106,11 +110,6 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
         const observer = new MutationObserver(callback);
         observer.observe(document.body, { childList: true, subtree: true });
         return () => observer.disconnect();
-      } else if (document && !document.getElementById('ccc')) {
-        // If the CivicUK script failed to load for any reason, we should consider it acknowledged by default.
-        // We need this for our tests and Cardigan as well.
-        console.log('no banner');
-        setHasAcknowledgedCookieBanner(true);
       }
     }
   }, []);
