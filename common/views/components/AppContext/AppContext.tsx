@@ -57,8 +57,8 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
     appContextDefaults.audioPlaybackRate
   );
   const [hasAcknowledgedCookieBanner, setHasAcknowledgedCookieBanner] =
-    useState(Boolean(getCookies().CookieControl) || false);
-
+    useState(Boolean(getCookies().CookieControl));
+  console.log('getcookies', getCookies().CookieControl);
   useEffect(() => {
     setIsEnhanced(true);
   }, []);
@@ -86,34 +86,32 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
   }, []);
 
   useEffect(() => {
-    if (
-      // Cookie has already been set;
-      !hasAcknowledgedCookieBanner &&
-      // CivicUK script has loaded;
-      document.getElementById('ccc') &&
+    // Cookie has not been set yet;
+    if (!hasAcknowledgedCookieBanner) {
       // Banner or popup is actively displaying.
-      document.getElementById('ccc-overlay')
-    ) {
-      // Only once has it gone from the DOM can we consider the cookie banner acknowledged
-      const callback = mutationList => {
-        for (const mutation of mutationList) {
-          if (mutation.type === 'childList') {
-            setHasAcknowledgedCookieBanner(
-              document.getElementById('ccc')?.childElementCount === 0
-            );
+      if (
+        document.getElementById('ccc') &&
+        document.getElementById('ccc-overlay')
+      ) {
+        // Only once has it gone from the DOM can we consider the cookie banner acknowledged
+        const callback = mutationList => {
+          for (const mutation of mutationList) {
+            if (mutation.type === 'childList') {
+              setHasAcknowledgedCookieBanner(
+                document.getElementById('ccc')?.childElementCount === 0
+              );
+            }
           }
-        }
-      };
-      const observer = new MutationObserver(callback);
-      observer.observe(document.body, { childList: true, subtree: true });
-      return () => observer.disconnect();
-    } else if (
-      !document.getElementById('ccc') &&
-      !hasAcknowledgedCookieBanner
-    ) {
-      // If the CivicUK script failed to load for any reason, we should consider it acknowledged by default.
-      // We need this for our tests and Cardigan as well.
-      setHasAcknowledgedCookieBanner(true);
+        };
+        const observer = new MutationObserver(callback);
+        observer.observe(document.body, { childList: true, subtree: true });
+        return () => observer.disconnect();
+      } else if (!document.getElementById('ccc')) {
+        // If the CivicUK script failed to load for any reason, we should consider it acknowledged by default.
+        // We need this for our tests and Cardigan as well.
+        console.log('no banner');
+        setHasAcknowledgedCookieBanner(true);
+      }
     }
   }, []);
 
