@@ -57,7 +57,7 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
     appContextDefaults.audioPlaybackRate
   );
   const [hasAcknowledgedCookieBanner, setHasAcknowledgedCookieBanner] =
-    useState(Boolean(getCookies().CookieControl));
+    useState(Boolean(getCookies().CookieControl) || false);
 
   useEffect(() => {
     setIsEnhanced(true);
@@ -107,7 +107,10 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
       const observer = new MutationObserver(callback);
       observer.observe(document.body, { childList: true, subtree: true });
       return () => observer.disconnect();
-    } else if (!document.getElementById('ccc')) {
+    } else if (
+      !document.getElementById('ccc') &&
+      !hasAcknowledgedCookieBanner
+    ) {
       // If the CivicUK script failed to load for any reason, we should consider it acknowledged by default.
       // We need this for our tests and Cardigan as well.
       setHasAcknowledgedCookieBanner(true);
