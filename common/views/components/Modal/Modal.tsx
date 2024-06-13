@@ -227,6 +227,7 @@ const Modal: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (document && document.documentElement) {
+      console.log({ isActive, hasAcknowledgedCookieBanner });
       if (isActive && hasAcknowledgedCookieBanner) {
         document.documentElement.classList.add('is-scroll-locked');
       } else {
