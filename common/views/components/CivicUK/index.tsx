@@ -86,16 +86,15 @@ const necessaryCookies = () => {
 
 const analyticsCookies = ['_gid', '_gat', '_ga*', 'ajs_anonymous_id'];
 
-const CivicUK = ({ apiKey }: { apiKey: string }) => {
-  return (
-    <>
-      <script
-        src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js"
-        type="text/javascript"
-      ></script>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `CookieControl.load({
+const CivicUK = ({ apiKey }: { apiKey: string }) => (
+  <>
+    <script
+      src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js"
+      type="text/javascript"
+    ></script>
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `CookieControl.load({
             product: 'COMMUNITY',
             apiKey: '${apiKey}',
             product: 'pro',
@@ -170,10 +169,9 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => {
             branding: ${JSON.stringify(branding)},
             text: ${JSON.stringify(text)}
           });`,
-        }}
-      />
-    </>
-  );
-};
+      }}
+    />
+  </>
+);
 
 export default CivicUK;

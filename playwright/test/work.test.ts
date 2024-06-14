@@ -43,7 +43,7 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
 
     await expect(whereToFindIt).toBeVisible();
 
-    await expect(loginLink.or(unavailableBanner)).not.toBeVisible(); // TODO: Revert before merge. Fail test in order to have access to e2e environment
+    await expect(loginLink.or(unavailableBanner)).toBeVisible();
   });
 
   test(`works with only a physical location don't display an 'Available online' section`, async ({
