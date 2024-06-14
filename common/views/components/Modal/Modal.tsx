@@ -201,11 +201,17 @@ const Modal: FunctionComponent<Props> = ({
   const ModalWindow = determineModal(modalStyle);
   const initialLoad = useRef(true);
   const nodeRef = useRef(null);
-  const { hasAcknowledgedCookieBanner } = useContext(AppContext);
-  console.log('modal', { hasAcknowledgedCookieBanner });
+  const { hasAcknowledgedCookieBanner, setHasAcknowledgedCookieBanner } =
+    useContext(AppContext);
+
   useEffect(() => {
     if (isActive) {
-      closeButtonRef?.current?.focus();
+      if (document.getElementById('ccc-overlay')) {
+        console.log('modal check of ACB sets it to false');
+        setHasAcknowledgedCookieBanner(false);
+      } else {
+        closeButtonRef?.current?.focus();
+      }
     } else if (!initialLoad.current) {
       openButtonRef && openButtonRef.current && openButtonRef.current.focus();
     }
