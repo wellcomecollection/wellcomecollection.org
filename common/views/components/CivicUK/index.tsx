@@ -126,7 +126,7 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => {
         console.log('set ACB to true because there is no script loading');
       }
     }
-  }, []);
+  }, [hasAcknowledgedCookieBanner]);
 
   return (
     <>
