@@ -88,11 +88,7 @@ const necessaryCookies = () => {
 
 const analyticsCookies = ['_gid', '_gat', '_ga*', 'ajs_anonymous_id'];
 
-type Props = {
-  apiKey: string;
-};
-
-const CivicUK = (props: Props) => {
+const CivicUK = ({ apiKey }: { apiKey: string }) => {
   const { hasAcknowledgedCookieBanner, setHasAcknowledgedCookieBanner } =
     useContext(AppContext);
 
@@ -100,11 +96,6 @@ const CivicUK = (props: Props) => {
     console.log('Civic UK loads');
     // If CookieControl has not been set yet;
     if (!hasAcknowledgedCookieBanner) {
-      // If the CivicUK script failed to load for any reason, we should consider it acknowledged by default.
-      // We need this for our tests and Cardigan as well.
-      setHasAcknowledgedCookieBanner(true);
-      console.log('set ACB to true by default');
-
       // If banner or popup is actively displaying on load;
       if (
         document.getElementById('ccc') &&
@@ -128,6 +119,11 @@ const CivicUK = (props: Props) => {
         const observer = new MutationObserver(callback);
         observer.observe(document.body, { childList: true, subtree: true });
         return () => observer.disconnect();
+      } else if (!document.getElementById('ccc')) {
+        // If the CivicUK script failed to load for any reason, we should consider it acknowledged by default.
+        // We need this for our tests and Cardigan as well.
+        setHasAcknowledgedCookieBanner(true);
+        console.log('set ACB to true because there is no script loading');
       }
     }
   }, []);
@@ -142,7 +138,7 @@ const CivicUK = (props: Props) => {
         dangerouslySetInnerHTML={{
           __html: `CookieControl.load({
             product: 'COMMUNITY',
-            apiKey: '${props.apiKey}',
+            apiKey: '${apiKey}',
             product: 'pro',
             initialState: 'notify',
             consentCookieExpiry: 182,
