@@ -1,6 +1,8 @@
 import cookies from '@weco/common/data/cookies';
 import theme from '@weco/common/views/themes/default';
 import { font } from '@weco/common/utils/classnames';
+import { useContext, useEffect } from 'react';
+import { AppContext } from '../AppContext/AppContext';
 
 const headingStyles =
   'style="font-weight: 500; font-family: Inter, sans-serif;"';
@@ -90,15 +92,48 @@ type Props = {
   apiKey: string;
 };
 
-const CivicUK = (props: Props) => (
-  <>
-    <script
-      src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js"
-      type="text/javascript"
-    ></script>
-    <script
-      dangerouslySetInnerHTML={{
-        __html: `CookieControl.load({
+const CivicUK = (props: Props) => {
+  const { hasAcknowledgedCookieBanner, setHasAcknowledgedCookieBanner } =
+    useContext(AppContext);
+
+  useEffect(() => {
+    // If CookieControl has not been set yet;
+    if (!hasAcknowledgedCookieBanner) {
+      // If the CivicUK script failed to load for any reason, we should consider it acknowledged by default.
+      // We need this for our tests and Cardigan as well.
+      setHasAcknowledgedCookieBanner(true);
+
+      // If banner or popup is actively displaying on load;
+      if (
+        document.getElementById('ccc') &&
+        document.getElementById('ccc-overlay')
+      ) {
+        // Only once has the overlay gone from the DOM can we consider the cookie banner acknowledged
+        const callback = mutationList => {
+          for (const mutation of mutationList) {
+            if (mutation.type === 'childList') {
+              setHasAcknowledgedCookieBanner(
+                document.getElementById('ccc')?.childElementCount === 0
+              );
+            }
+          }
+        };
+        const observer = new MutationObserver(callback);
+        observer.observe(document.body, { childList: true, subtree: true });
+        return () => observer.disconnect();
+      }
+    }
+  }, []);
+
+  return (
+    <>
+      <script
+        src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js"
+        type="text/javascript"
+      ></script>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `CookieControl.load({
             product: 'COMMUNITY',
             apiKey: '${props.apiKey}',
             product: 'pro',
@@ -173,9 +208,10 @@ const CivicUK = (props: Props) => (
             branding: ${JSON.stringify(branding)},
             text: ${JSON.stringify(text)}
           });`,
-      }}
-    />
-  </>
-);
+        }}
+      />
+    </>
+  );
+};
 
 export default CivicUK;

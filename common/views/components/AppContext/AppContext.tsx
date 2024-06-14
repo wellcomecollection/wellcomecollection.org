@@ -17,6 +17,7 @@ type AppContextProps = {
   audioPlaybackRate: number;
   setAudioPlaybackRate: (rate: number) => void;
   hasAcknowledgedCookieBanner: boolean;
+  setHasAcknowledgedCookieBanner: (isAcknowledged: boolean) => void;
 };
 
 const appContextDefaults = {
@@ -26,6 +27,7 @@ const appContextDefaults = {
   audioPlaybackRate: 1,
   setAudioPlaybackRate: () => null,
   hasAcknowledgedCookieBanner: false,
+  setHasAcknowledgedCookieBanner: () => null,
 };
 
 export const AppContext = createContext<AppContextProps>(appContextDefaults);
@@ -85,35 +87,6 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
     setIsFullSupportBrowser('IntersectionObserver' in window);
   }, []);
 
-  useEffect(() => {
-    // If CookieControl has not been set yet;
-    if (!hasAcknowledgedCookieBanner) {
-      // If the CivicUK script failed to load for any reason, we should consider it acknowledged by default.
-      // We need this for our tests and Cardigan as well.
-      setHasAcknowledgedCookieBanner(true);
-
-      // If banner or popup is actively displaying on load;
-      if (
-        document.getElementById('ccc') &&
-        document.getElementById('ccc-overlay')
-      ) {
-        // Only once has it gone from the DOM can we consider the cookie banner acknowledged
-        const callback = mutationList => {
-          for (const mutation of mutationList) {
-            if (mutation.type === 'childList') {
-              setHasAcknowledgedCookieBanner(
-                document.getElementById('ccc')?.childElementCount === 0
-              );
-            }
-          }
-        };
-        const observer = new MutationObserver(callback);
-        observer.observe(document.body, { childList: true, subtree: true });
-        return () => observer.disconnect();
-      }
-    }
-  }, []);
-
   return (
     <AppContext.Provider
       value={{
@@ -123,6 +96,7 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
         audioPlaybackRate,
         setAudioPlaybackRate,
         hasAcknowledgedCookieBanner,
+        setHasAcknowledgedCookieBanner,
       }}
     >
       {children}
