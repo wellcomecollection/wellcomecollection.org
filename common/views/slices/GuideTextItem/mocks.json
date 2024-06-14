@@ -40,6 +40,17 @@
 						}
 					}
 				]
+			},
+			"additional_notes": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "In mollit sunt mollit voluptate ipsum tempor. Voluptate minim fugiat eiusmod nisi ipsum sit reprehenderit proident aute aliqua."
+						}
+					}
+				]
 			}
 		},
 		"items": [

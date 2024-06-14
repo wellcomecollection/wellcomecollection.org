@@ -45,6 +45,15 @@
             "allowTargetBlank": true,
             "multi": "paragraph,strong,em,hyperlink"
           }
+        },
+        "additional_notes": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Additional notes",
+            "placeholder": "e.g. Please do not touch the sculpture.",
+            "allowTargetBlank": false,
+            "multi": "paragraph,strong,em,hyperlink"
+          }
         }
       },
       "items": {}
