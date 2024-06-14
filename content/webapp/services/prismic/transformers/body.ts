@@ -73,7 +73,6 @@ import { Props as TitledTextListProps } from '@weco/content/components/TitledTex
 import { Props as AsyncSearchResultsProps } from '@weco/content/components/SearchResults/AsyncSearchResults';
 import { Venue } from '@weco/common/model/opening-hours';
 
-// TODO all the TODOs in this file
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
     case 'featured':
