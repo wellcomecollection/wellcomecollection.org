@@ -1,8 +1,6 @@
 import cookies from '@weco/common/data/cookies';
 import theme from '@weco/common/views/themes/default';
 import { font } from '@weco/common/utils/classnames';
-import { useContext, useEffect } from 'react';
-import { AppContext } from '../AppContext/AppContext';
 
 const headingStyles =
   'style="font-weight: 500; font-family: Inter, sans-serif;"';
@@ -89,36 +87,6 @@ const necessaryCookies = () => {
 const analyticsCookies = ['_gid', '_gat', '_ga*', 'ajs_anonymous_id'];
 
 const CivicUK = ({ apiKey }: { apiKey: string }) => {
-  const { hasAcknowledgedCookieBanner, setHasAcknowledgedCookieBanner } =
-    useContext(AppContext);
-
-  useEffect(() => {
-    // If CookieControl has not been set yet;
-    if (!hasAcknowledgedCookieBanner) {
-      // If banner or popup is actively displaying
-      if (document.getElementById('ccc-overlay')) {
-        // Only once has the overlay gone from the DOM can we consider the cookie banner acknowledged
-        // The parent element (#ccc) is always in the DOM, but if it has no children then it's inactive.
-        const callback = mutationList => {
-          for (const mutation of mutationList) {
-            if (mutation.type === 'childList') {
-              setHasAcknowledgedCookieBanner(
-                document.getElementById('ccc')?.childElementCount === 0
-              );
-            }
-          }
-        };
-        const observer = new MutationObserver(callback);
-        observer.observe(document.body, { childList: true, subtree: true });
-        return () => observer.disconnect();
-      } else if (!document.getElementById('ccc')) {
-        // If the CivicUK script failed to load for any reason, we should consider it acknowledged by default.
-        // We need this for our tests and Cardigan as well.
-        setHasAcknowledgedCookieBanner(true);
-      }
-    }
-  }, [hasAcknowledgedCookieBanner]);
-
   return (
     <>
       <script
