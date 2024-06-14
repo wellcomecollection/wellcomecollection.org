@@ -25,7 +25,7 @@ export type ResultsLite = {
 export const defaultValue = {
   globalAlert: {
     data: {
-      isShown: 'hide' as 'hide' | 'show',
+      isShown: 'hide' as const,
       routeRegex: null,
       text: [] as prismic.RichTextField,
     },
