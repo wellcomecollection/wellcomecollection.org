@@ -88,6 +88,7 @@ type GuideTextItem = {
   title: string;
   caption: prismic.RichTextField | undefined;
   tombstone: prismic.RichTextField | undefined;
+  additional_notes: prismic.RichTextField | undefined;
 };
 
 export function transformGuideTextItemSlice(
@@ -101,6 +102,9 @@ export function transformGuideTextItemSlice(
     tombstone: asRichText(slice.primary.tombstone),
     caption: slice.primary.caption
       ? asRichText(slice.primary.caption)
+      : undefined,
+    additional_notes: slice.primary.additional_notes
+      ? asRichText(slice.primary.additional_notes)
       : undefined,
   };
 }

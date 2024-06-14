@@ -7,7 +7,7 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import {
   TombstoneTitle,
   Tombstone,
-  CaptionTranscription as CaptionWrapper,
+  CaptionTranscription as Wrapper,
   Caption,
 } from '@weco/content/components/ExhibitionCaptions/ExhibitionCaptions.Stop';
 
@@ -16,7 +16,8 @@ const GuideTextItem: FunctionComponent<{
   title: string;
   tombstone?: prismic.RichTextField;
   caption?: prismic.RichTextField;
-}> = ({ number, title, tombstone, caption }) => {
+  additionalNotes?: prismic.RichTextField;
+}> = ({ number, title, tombstone, caption, additionalNotes }) => {
   return (
     <Space
       id={number ? `stop-${number}` : undefined}
@@ -33,12 +34,15 @@ const GuideTextItem: FunctionComponent<{
           )}
         </Tombstone>
 
-        {caption && (
-          <CaptionWrapper>
-            <Caption>
-              <PrismicHtmlBlock html={caption} />
-            </Caption>
-          </CaptionWrapper>
+        {(caption || additionalNotes) && (
+          <Wrapper>
+            {additionalNotes && <PrismicHtmlBlock html={additionalNotes} />}
+            {caption && (
+              <Caption>
+                <PrismicHtmlBlock html={caption} />
+              </Caption>
+            )}
+          </Wrapper>
         )}
       </Container>
     </Space>
