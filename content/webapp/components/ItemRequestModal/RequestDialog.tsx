@@ -87,10 +87,10 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
     item.availableDates && dateAsValue(new Date(item.availableDates[0].from))
   );
 
-  // we know an item is offsite/deepstore if its 1st available date is more than 3 days in the future
+  // we know an item is offsite/deepstore if its 1st available date is more than 9 days in the future
   const isOffsiteDeepstoreItem =
     item.availableDates &&
-    new Date(item.availableDates[0].from) > addDays(today(), 3);
+    new Date(item.availableDates[0].from) > addDays(today(), 9);
 
   const pickupDeadline = isOffsiteDeepstoreItem
     ? 'Item requests for offsite material need to be placed by 10am, 10 working days before your visit'

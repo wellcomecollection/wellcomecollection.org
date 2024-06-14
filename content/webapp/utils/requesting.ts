@@ -25,10 +25,6 @@ export const itemIsRequestable = (
 ): boolean => {
   // ok because there is only one physical location in reality
   const physicalLocation = getFirstPhysicalLocation(item);
-  // we know an item is offsite/deepstore if its 1st available date is more than 3 days in the future
-  const isOffsiteDeepstoreItem =
-    item.availableDates &&
-    new Date(item.availableDates[0].from) > addDays(today(), 3);
 
   if (offsiteRequesting) {
     return !!physicalLocation && locationIsRequestable(physicalLocation);
@@ -36,7 +32,11 @@ export const itemIsRequestable = (
     return (
       !!physicalLocation &&
       locationIsRequestable(physicalLocation) &&
-      !isOffsiteDeepstoreItem
+      // when the toggle is OFF we don't want items with a long lead time to be requestable
+      !(
+        item.availableDates &&
+        new Date(item.availableDates[0].from) > addDays(today(), 9)
+      )
     );
   }
 };
