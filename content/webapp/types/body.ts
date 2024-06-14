@@ -2,24 +2,7 @@ import {
   ContentListSlice,
   EditorialImageSlice,
   EmbedSlice,
-  StandfirstSlice,
 } from '@weco/common/prismicio-types';
-import { Props as ContactProps } from '@weco/content/components/Contact/Contact';
-import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
-import { Props as InfoBlockProps } from '@weco/content/components/InfoBlock/InfoBlock';
-import { Props as AsyncSearchResultsProps } from '../components/SearchResults/AsyncSearchResults';
-import { Props as QuoteProps } from '../components/Quote/Quote';
-import { Props as ImageGalleryProps } from '../components/ImageGallery';
-import { Props as GifVideoProps } from '../components/GifVideo/GifVideo';
-import { Props as TitledTextListProps } from '../components/TitledTextList/TitledTextList';
-import { Props as TagsGroupProps } from '@weco/content/components/TagsGroup/TagsGroup';
-import { Props as MapProps } from '../components/Map/Map';
-import { Props as EmbedProps } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import {
-  TextAndIconsItem,
-  TextAndImageItem,
-} from '../components/TextAndImageOrIcons';
-import { AudioPlayerProps } from '@weco/content/components/AudioPlayer/AudioPlayer';
 
 import { ArticleBasic } from './articles';
 import { Book } from './books';
@@ -33,8 +16,6 @@ import { Season } from './seasons';
 import { Card } from './card';
 
 import * as prismic from '@prismicio/client';
-import { CaptionedImage } from '@weco/common/model/captioned-image';
-import { Venue } from '@weco/common/model/opening-hours';
 
 export type Weight =
   | 'default'
@@ -62,10 +43,6 @@ export function isEditorialImage(
 ): slice is EditorialImageSlice {
   return slice.slice_type === 'picture';
 }
-
-// export function isStandfirst(slice: prismic.Slice): slice is StandfirstSlice {
-//   return slice.slice_type === 'standfirst';
-// } // TODO is this used?
 
 export type ContentListItems =
   | Page
