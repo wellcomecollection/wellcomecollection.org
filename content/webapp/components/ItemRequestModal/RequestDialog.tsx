@@ -150,7 +150,8 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
             </Space>
             <PickupDeadline>
               <span data-testid="pickup-deadline">
-                {`${pickupDeadline}. Please bear in mind the library is closed on Sundays.`}
+                {pickupDeadline}. Please bear in mind the library is closed on
+                Sundays.
               </span>
             </PickupDeadline>
           </PickUpDateDescription>
