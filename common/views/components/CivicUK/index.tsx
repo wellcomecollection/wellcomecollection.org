@@ -93,23 +93,15 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => {
     useContext(AppContext);
 
   useEffect(() => {
-    console.log('Civic UK loads');
     // If CookieControl has not been set yet;
     if (!hasAcknowledgedCookieBanner) {
-      // If banner or popup is actively displaying on load;
-      if (
-        document.getElementById('ccc') &&
-        document.getElementById('ccc-overlay')
-      ) {
-        console.log('open banner is detected');
+      // If banner or popup is actively displaying
+      if (document.getElementById('ccc-overlay')) {
         // Only once has the overlay gone from the DOM can we consider the cookie banner acknowledged
+        // The parent element (#ccc) is always in the DOM, but if it has no children then it's inactive.
         const callback = mutationList => {
           for (const mutation of mutationList) {
             if (mutation.type === 'childList') {
-              console.log(
-                'mutation happening, setting it to',
-                document.getElementById('ccc')?.childElementCount === 0
-              );
               setHasAcknowledgedCookieBanner(
                 document.getElementById('ccc')?.childElementCount === 0
               );
@@ -123,7 +115,6 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => {
         // If the CivicUK script failed to load for any reason, we should consider it acknowledged by default.
         // We need this for our tests and Cardigan as well.
         setHasAcknowledgedCookieBanner(true);
-        console.log('set ACB to true because there is no script loading');
       }
     }
   }, [hasAcknowledgedCookieBanner]);

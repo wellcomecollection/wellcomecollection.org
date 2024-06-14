@@ -206,8 +206,10 @@ const Modal: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (isActive) {
+      // There can be a sort of race condition between modals and the cookie banner,
+      // so we need to check here too if it is active.
+      // The overlay element is visible if the banner or the popup is actively showing.
       if (document.getElementById('ccc-overlay')) {
-        console.log('modal check of ACB sets it to false');
         setHasAcknowledgedCookieBanner(false);
       } else {
         closeButtonRef?.current?.focus();
@@ -233,18 +235,14 @@ const Modal: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (document && document.documentElement) {
-      console.log({ isActive, hasAcknowledgedCookieBanner });
       if (isActive && hasAcknowledgedCookieBanner) {
-        console.log('scroll lock');
         document.documentElement.classList.add('is-scroll-locked');
       } else {
-        console.log('scroll unlock');
         document.documentElement.classList.remove('is-scroll-locked');
       }
     }
 
     return () => {
-      console.log('scroll unlock');
       document.documentElement.classList.remove('is-scroll-locked');
     };
   }, [isActive, hasAcknowledgedCookieBanner]);
