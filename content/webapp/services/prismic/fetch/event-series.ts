@@ -4,7 +4,7 @@ import {
   commonPrismicFieldsFetchLinks,
   contributorFetchLinks,
 } from '@weco/content/services/prismic/types';
-import { EventSeriesDocument } from '@weco/common/prismicio-types';
+import { EventSeriesDocument as RawEventSeriesDocument } from '@weco/common/prismicio-types';
 
 const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,
@@ -12,7 +12,7 @@ const fetchLinks = [
   ...cardFetchLinks,
 ] as string[];
 
-const eventSeriesFetcher = fetcher<EventSeriesDocument>(
+const eventSeriesFetcher = fetcher<RawEventSeriesDocument>(
   'event-series',
   fetchLinks
 );

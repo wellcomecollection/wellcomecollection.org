@@ -12,9 +12,9 @@ import {
 } from '@weco/content/services/prismic/types';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import {
-  StandfirstSlice,
-  ArticlesDocumentData,
-  WebcomicsDocumentData,
+  StandfirstSlice as RawStandfirstSlice,
+  ArticlesDocumentData as RawArticlesDocumentData,
+  WebcomicsDocumentData as RawWebcomicsDocumentData,
 } from '@weco/common/prismicio-types';
 import { GenericContentFields } from '@weco/content/types/generic-content-fields';
 import { ImageType } from '@weco/common/model/image';
@@ -106,7 +106,7 @@ export function transformSingleLevelGroup(
 }
 
 export function transformLabelType(
-  format: ArticlesDocumentData['format'] | WebcomicsDocumentData['format']
+  format: RawArticlesDocumentData['format'] | RawWebcomicsDocumentData['format']
 ): LabelField {
   if (isFilledLinkToDocumentWithData(format)) {
     return {
@@ -154,7 +154,7 @@ export function transformGenericFields(
   const untransformedBody = data?.body || [];
   const untransformedStandfirst = untransformedBody.find(
     (slice: prismic.Slice) => slice.slice_type === 'standfirst'
-  ) as StandfirstSlice | undefined;
+  ) as RawStandfirstSlice | undefined;
   const metadataDescription = isGenericDocWithMetaDescription(doc)
     ? asText(doc.data.metadataDescription)
     : undefined;

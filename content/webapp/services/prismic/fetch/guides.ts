@@ -2,14 +2,17 @@ import { fetcher, GetByTypeParams, GetServerSidePropsPrismicClient } from '.';
 import * as prismic from '@prismicio/client';
 import { pagesFetchLinks } from '@weco/content/services/prismic/types';
 import {
-  GuidesDocument,
-  GuideFormatsDocument,
+  GuidesDocument as RawGuidesDocument,
+  GuideFormatsDocument as RawGuideFormatsDocument,
 } from '@weco/common/prismicio-types';
 
 const fetchLinks = [];
 
-const guidesFetcher = fetcher<GuidesDocument>('guides', fetchLinks);
-const guideFormatsFetcher = fetcher<GuideFormatsDocument>('guide-formats', []);
+const guidesFetcher = fetcher<RawGuidesDocument>('guides', fetchLinks);
+const guideFormatsFetcher = fetcher<RawGuideFormatsDocument>(
+  'guide-formats',
+  []
+);
 
 type GuidesQueryProps = GetByTypeParams & {
   format?: string;
@@ -18,7 +21,7 @@ type GuidesQueryProps = GetByTypeParams & {
 export const fetchGuides = (
   client: GetServerSidePropsPrismicClient,
   { format, ...opts }: GuidesQueryProps
-): Promise<prismic.Query<GuidesDocument>> => {
+): Promise<prismic.Query<RawGuidesDocument>> => {
   const formatFilters = format
     ? [prismic.filter.at('my.guides.format', format)]
     : [];

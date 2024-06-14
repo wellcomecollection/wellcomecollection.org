@@ -1,9 +1,9 @@
 import { Article, ArticleBasic } from '../../../types/articles';
 import {
-  ArticlesDocument,
-  SeriesDocument,
-  SeasonsDocument,
-  WebcomicsDocument,
+  ArticlesDocument as RawArticlesDocument,
+  SeriesDocument as RawSeriesDocument,
+  SeasonsDocument as RawSeasonsDocument,
+  WebcomicsDocument as RawWebcomicsDocument,
 } from '@weco/common/prismicio-types';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import {
@@ -73,13 +73,13 @@ export function transformArticleToArticleBasic(article: Article): ArticleBasic {
 }
 
 export const isArticle = (
-  doc: ArticlesDocument | WebcomicsDocument
-): doc is ArticlesDocument => {
+  doc: RawArticlesDocument | RawWebcomicsDocument
+): doc is RawArticlesDocument => {
   return 'seasons' in doc.data;
 };
 
 export function transformArticle(
-  document: ArticlesDocument | WebcomicsDocument
+  document: RawArticlesDocument | RawWebcomicsDocument
 ): Article {
   const { data } = document;
   const genericFields = transformGenericFields(document);
@@ -94,7 +94,7 @@ export function transformArticle(
     : undefined;
 
   const series: Series[] = transformSingleLevelGroup(data.series, 'series').map(
-    series => transformSeries(series as SeriesDocument)
+    series => transformSeries(series as RawSeriesDocument)
   );
 
   const labels: Label[] = [
@@ -117,7 +117,7 @@ export function transformArticle(
     datePublished: new Date(datePublished),
     seasons: isArticle(document)
       ? transformSingleLevelGroup(document.data.seasons, 'season').map(season =>
-          transformSeason(season as SeasonsDocument)
+          transformSeason(season as RawSeasonsDocument)
         )
       : [],
   };

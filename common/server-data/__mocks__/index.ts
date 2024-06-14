@@ -4,7 +4,7 @@ import {
   emptyPrismicQuery,
 } from '../../services/prismic/documents';
 import { ServerData } from '../types';
-import { CollectionVenueDocument } from '@weco/common/prismicio-types';
+import { CollectionVenueDocument as RawCollectionVenueDocument } from '@weco/common/prismicio-types';
 
 export async function init(): Promise<void> {
   // we avoid writing to the filesystem so we can run this in CI
@@ -20,7 +20,7 @@ export async function getServerData(): Promise<ServerData> {
     prismic: {
       globalAlert: emptyGlobalAlert(),
       popupDialog: emptyPopupDialog(),
-      collectionVenues: emptyPrismicQuery<CollectionVenueDocument>(),
+      collectionVenues: emptyPrismicQuery<RawCollectionVenueDocument>(),
     },
     consentStatus: {
       analytics: false,

@@ -9,13 +9,13 @@ import {
   ThirdPartyBooking,
 } from '@weco/content/types/events';
 import {
-  EventsDocument,
-  EventsDocumentData,
-  EventPoliciesDocument,
-  EventSeriesDocument,
-  PlacesDocument,
-  SeasonsDocument,
-  TeamsDocument,
+  EventsDocument as RawEventsDocument,
+  EventsDocumentData as RawEventsDocumentData,
+  EventPoliciesDocument as RawEventPoliciesDocument,
+  EventSeriesDocument as RawEventSeriesDocument,
+  PlacesDocument as RawPlacesDocument,
+  SeasonsDocument as RawSeasonsDocument,
+  TeamsDocument as RawTeamsDocument,
 } from '@weco/common/prismicio-types';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
@@ -53,7 +53,7 @@ import { noAltTextBecausePromo } from './images';
 import { ContentApiTimeField } from '@weco/content/services/wellcome/content/types/api';
 
 function transformEventBookingType(
-  eventDoc: EventsDocument
+  eventDoc: RawEventsDocument
 ): string | undefined {
   return !isEmptyObj(eventDoc.data.eventbriteEvent)
     ? 'Ticketed'
@@ -78,7 +78,7 @@ export function transformEventPolicyLabels(
     policy: prismic.ContentRelationshipField<
       'event-policy',
       'en-gb',
-      InferDataInterface<EventPoliciesDocument>
+      InferDataInterface<RawEventPoliciesDocument>
     >;
   }>,
   labelKey: string
@@ -109,7 +109,7 @@ function transformBookingEnquiryTeam(
   team: prismic.ContentRelationshipField<
     'teams',
     'en-gb',
-    InferDataInterface<TeamsDocument>
+    InferDataInterface<RawTeamsDocument>
   >
 ): Team | undefined {
   return isFilledLinkToDocumentWithData(team)
@@ -139,7 +139,7 @@ function transformThirdPartyBooking(
 
 export function transformEventTimes(
   id: string,
-  times: EventsDocumentData['times'] | ContentApiTimeField[]
+  times: RawEventsDocumentData['times'] | ContentApiTimeField[]
 ): EventTime[] {
   return times
     .map(
@@ -181,8 +181,8 @@ export function transformEventTimes(
 }
 
 export function transformEvent(
-  document: EventsDocument,
-  scheduleQuery?: prismic.Query<EventsDocument>
+  document: RawEventsDocument,
+  scheduleQuery?: prismic.Query<RawEventsDocument>
 ): Event {
   const data = document.data;
   const genericFields = transformGenericFields(document);
@@ -240,11 +240,11 @@ export function transformEvent(
     data.thirdPartyBookingName
   );
   const series = transformSingleLevelGroup(data.series, 'series')
-    .map(series => transformEventSeries(series as EventSeriesDocument))
+    .map(series => transformEventSeries(series as RawEventSeriesDocument))
     .map(transformEventSeriesToEventSeriesBasic);
 
   const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
-    season => transformSeason(season as SeasonsDocument)
+    season => transformSeason(season as RawSeasonsDocument)
   );
 
   const times: EventTime[] = transformEventTimes(document.id, data.times || []);
@@ -261,7 +261,7 @@ export function transformEvent(
   });
 
   const locations = transformSingleLevelGroup(data.locations, 'location').map(
-    location => transformPlace(location as PlacesDocument)
+    location => transformPlace(location as RawPlacesDocument)
   );
 
   const contributors = transformContributors(document);
@@ -383,7 +383,7 @@ export function transformEvent(
  */
 export function transformEventBasicTimes(
   summaryTimes: EventTime[],
-  document: EventsDocument
+  document: RawEventsDocument
 ): EventTime[] {
   // When the content team want to represent an event that repeats on multiple days
   // (e.g. the Lights Up events that accompanied In Plain Sight), they create
@@ -472,7 +472,7 @@ export function transformEventBasicTimes(
  * Note: unlike our other types, this transforms the Prismic document directly,
  * because EventBasic isn't a strict subset of Event.
  */
-export function transformEventBasic(document: EventsDocument): EventBasic {
+export function transformEventBasic(document: RawEventsDocument): EventBasic {
   const event = transformEvent(document);
 
   const {
@@ -519,7 +519,7 @@ export function transformEventBasic(document: EventsDocument): EventBasic {
   };
 }
 
-export const getScheduleIds = (eventDocument: EventsDocument): string[] => {
+export const getScheduleIds = (eventDocument: RawEventsDocument): string[] => {
   return eventDocument.data.schedule
     .map(linkField =>
       prismic.isFilled.link(linkField.event) ? linkField.event.id : undefined

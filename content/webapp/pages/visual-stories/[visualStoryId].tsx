@@ -18,7 +18,7 @@ import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { capitalize } from '@weco/common/utils/grammar';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Standfirst from '@weco/common/views/slices/Standfirst';
-import { VisualStoriesDocument } from '@weco/common/prismicio-types';
+import { VisualStoriesDocument as RawVisualStoriesDocument } from '@weco/common/prismicio-types';
 
 type Props = {
   visualStory: VisualStoryProps;
@@ -30,7 +30,7 @@ export const returnVisualStoryProps = ({
   visualStoryDocument,
   serverData,
 }: {
-  visualStoryDocument?: VisualStoriesDocument;
+  visualStoryDocument?: RawVisualStoriesDocument;
   serverData: SimplifiedServerData;
 }) => {
   if (isNotUndefined(visualStoryDocument)) {

@@ -7,7 +7,7 @@ import {
   ExhibitionText,
   ExhibitionHighlightTour,
 } from '@weco/content/types/exhibition-guides';
-import { GuideStopSlice } from '@weco/common/prismicio-types';
+import { GuideStopSlice as RawGuideStopSlice } from '@weco/common/prismicio-types';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   fetchExhibitionGuide,
@@ -276,13 +276,13 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
   const hasVideo =
     exhibitionHighlightTour?.id &&
     highlightStops?.some(
-      (stop: GuideStopSlice) => stop.primary.bsl_video.provider_url
+      (stop: RawGuideStopSlice) => stop.primary.bsl_video.provider_url
     );
 
   const hasAudio =
     exhibitionHighlightTour?.id &&
     highlightStops?.some(
-      (stop: GuideStopSlice) =>
+      (stop: RawGuideStopSlice) =>
         isFilledLinkToMediaField(stop.primary.audio_with_description) &&
         stop.primary.audio_with_description.url
     );

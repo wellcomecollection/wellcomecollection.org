@@ -1,30 +1,30 @@
 import {
-  CollectionVenueSlice,
-  ContactSlice,
-  ContentListSlice,
-  EditorialImageSlice,
-  EditorialImageGallerySlice,
-  EmbedSlice,
-  IframeSlice,
-  InfoBlockSlice,
-  MapSlice,
-  QuoteSlice,
-  SearchResultsSlice,
-  StandfirstSlice,
-  TagListSlice,
-  TitledTextListSlice,
-  GifVideoSlice,
-  AudioPlayerSlice,
-  TextAndImageSlice,
-  TextAndIconsSlice,
-  PagesDocument,
-  ArticlesDocument,
-  CardDocument,
-  EventsDocument,
-  ExhibitionsDocument,
-  GuidesDocument,
-  EventSeriesDocument,
-  SeasonsDocument,
+  CollectionVenueSlice as RawCollectionVenueSlice,
+  ContactSlice as RawContactSlice,
+  ContentListSlice as RawContentListSlice,
+  EditorialImageSlice as RawEditorialImageSlice,
+  EditorialImageGallerySlice as RawEditorialImageGallerySlice,
+  EmbedSlice as RawEmbedSlice,
+  IframeSlice as RawIframeSlice,
+  InfoBlockSlice as RawInfoBlockSlice,
+  MapSlice as RawMapSlice,
+  QuoteSlice as RawQuoteSlice,
+  SearchResultsSlice as RawSearchResultsSlice,
+  StandfirstSlice as RawStandfirstSlice,
+  TagListSlice as RawTagListSlice,
+  TitledTextListSlice as RawTitledTextListSlice,
+  GifVideoSlice as RawGifVideoSlice,
+  AudioPlayerSlice as RawAudioPlayerSlice,
+  TextAndIconsSlice as RawTextAndIconsSlice,
+  TextAndImageSlice as RawTextAndImageSlice,
+  PagesDocument as RawPagesDocument,
+  ArticlesDocument as RawArticlesDocument,
+  CardDocument as RawCardDocument,
+  EventsDocument as RawEventsDocument,
+  ExhibitionsDocument as RawExhibitionsDocument,
+  GuidesDocument as RawGuidesDocument,
+  EventSeriesDocument as RawEventSeriesDocument,
+  SeasonsDocument as RawSeasonsDocument,
 } from '@weco/common/prismicio-types';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
@@ -89,7 +89,7 @@ export function getWeight(weight: string | null): Weight {
 }
 
 export function transformStandfirstSlice(
-  slice: StandfirstSlice
+  slice: RawStandfirstSlice
 ): Slice<'standfirst', prismic.RichTextField> {
   return {
     type: 'standfirst',
@@ -99,7 +99,7 @@ export function transformStandfirstSlice(
 }
 
 export function transformTextAndImage(
-  slice: TextAndImageSlice
+  slice: RawTextAndImageSlice
 ): Slice<'textAndImage', TextAndImageItem> {
   return {
     type: 'textAndImage',
@@ -114,7 +114,7 @@ export function transformTextAndImage(
 }
 
 export function transformTextAndIcons(
-  slice: TextAndIconsSlice
+  slice: RawTextAndIconsSlice
 ): Slice<'textAndIcons', TextAndIconsItem> {
   return {
     type: 'textAndIcons',
@@ -127,7 +127,7 @@ export function transformTextAndIcons(
   };
 }
 
-export function transformMapSlice(slice: MapSlice): Slice<'map', MapProps> {
+export function transformMapSlice(slice: RawMapSlice): Slice<'map', MapProps> {
   return {
     type: 'map',
     value: {
@@ -152,7 +152,7 @@ function transformTeamToContact(team): ContactProps {
 }
 
 export function transformContactSlice(
-  slice: ContactSlice
+  slice: RawContactSlice
 ): Slice<'contact', ContactProps> | undefined {
   return isFilledLinkToDocumentWithData(slice.primary.content)
     ? {
@@ -163,7 +163,7 @@ export function transformContactSlice(
 }
 
 export function transformEditorialImageSlice(
-  slice: EditorialImageSlice
+  slice: RawEditorialImageSlice
 ): Slice<'picture', CaptionedImageProps> {
   return {
     weight: getWeight(slice.slice_label),
@@ -173,7 +173,7 @@ export function transformEditorialImageSlice(
 }
 
 export function transformEditorialImageGallerySlice(
-  slice: EditorialImageGallerySlice,
+  slice: RawEditorialImageGallerySlice,
   isStandalone?: boolean
 ): Slice<'imageGallery', ImageGalleryProps> {
   return {
@@ -190,7 +190,7 @@ export function transformEditorialImageGallerySlice(
 }
 
 export function transformGifVideoSlice(
-  slice: GifVideoSlice
+  slice: RawGifVideoSlice
 ): Slice<'gifVideo', GifVideoProps> | undefined {
   const playbackRate = slice.primary.playbackRate
     ? parseFloat(slice.primary.playbackRate)
@@ -234,7 +234,7 @@ function transformTitledTextItem({
 }
 
 export function transformTitledTextListSlice(
-  slice: TitledTextListSlice
+  slice: RawTitledTextListSlice
 ): Slice<'titledTextList', TitledTextListProps> {
   return {
     type: 'titledTextList',
@@ -245,7 +245,7 @@ export function transformTitledTextListSlice(
 }
 
 export function transformInfoBlockSlice(
-  slice: InfoBlockSlice
+  slice: RawInfoBlockSlice
 ): Slice<'infoBlock', InfoBlockProps> {
   return {
     type: 'infoBlock',
@@ -262,7 +262,7 @@ export function transformInfoBlockSlice(
 }
 
 export function transformIframeSlice(
-  slice: IframeSlice
+  slice: RawIframeSlice
 ): Slice<'iframe', IframeProps> {
   return {
     type: 'iframe',
@@ -277,7 +277,7 @@ export function transformIframeSlice(
 }
 
 export function transformQuoteSlice(
-  slice: QuoteSlice
+  slice: RawQuoteSlice
 ): Slice<'quote', QuoteProps> {
   return {
     type: 'quote',
@@ -294,7 +294,7 @@ export function transformQuoteSlice(
 }
 
 export function transformTagListSlice(
-  slice: TagListSlice
+  slice: RawTagListSlice
 ): Slice<'tagList', TagListProps> {
   return {
     type: 'tagList',
@@ -312,7 +312,7 @@ export function transformTagListSlice(
 }
 
 export function transformAudioPlayerSlice(
-  slice: AudioPlayerSlice
+  slice: RawAudioPlayerSlice
 ): Slice<'audioPlayer', AudioPlayerProps> {
   return {
     type: 'audioPlayer',
@@ -325,7 +325,7 @@ export function transformAudioPlayerSlice(
 }
 
 export function transformSearchResultsSlice(
-  slice: SearchResultsSlice
+  slice: RawSearchResultsSlice
 ): Slice<'searchResults', AsyncSearchResultsProps> {
   return {
     type: 'searchResults',
@@ -338,7 +338,7 @@ export function transformSearchResultsSlice(
 }
 
 export function transformCollectionVenueSlice(
-  slice: CollectionVenueSlice
+  slice: RawCollectionVenueSlice
 ):
   | Slice<'collectionVenue', { content: Venue; showClosingTimes: boolean }>
   | undefined {
@@ -359,7 +359,7 @@ export function transformCollectionVenueSlice(
 }
 
 export function transformEmbedSlice(
-  slice: EmbedSlice
+  slice: RawEmbedSlice
 ):
   | Slice<'videoEmbed', EmbedProps>
   | Slice<'soundcloudEmbed', EmbedProps>
@@ -404,7 +404,7 @@ export function transformEmbedSlice(
 }
 
 export function transformContentListSlice(
-  slice: ContentListSlice
+  slice: RawContentListSlice
 ): Slice<'contentList', ContentListProps> {
   const contents = slice.items
     .map(item => item.content)
@@ -423,25 +423,29 @@ export function transformContentListSlice(
         .map(content => {
           switch (content.type) {
             case 'pages':
-              return transformPage(content as unknown as PagesDocument);
+              return transformPage(content as unknown as RawPagesDocument);
             case 'guides':
-              return transformGuide(content as unknown as GuidesDocument);
+              return transformGuide(content as unknown as RawGuidesDocument);
             case 'event-series':
               return transformEventSeries(
-                content as unknown as EventSeriesDocument
+                content as unknown as RawEventSeriesDocument
               );
             case 'exhibitions':
               return transformExhibition(
-                content as unknown as ExhibitionsDocument
+                content as unknown as RawExhibitionsDocument
               );
             case 'articles':
-              return transformArticle(content as unknown as ArticlesDocument);
+              return transformArticle(
+                content as unknown as RawArticlesDocument
+              );
             case 'events':
-              return transformEventBasic(content as unknown as EventsDocument);
+              return transformEventBasic(
+                content as unknown as RawEventsDocument
+              );
             case 'seasons':
-              return transformSeason(content as unknown as SeasonsDocument);
+              return transformSeason(content as unknown as RawSeasonsDocument);
             case 'card':
-              return transformCard(content as unknown as CardDocument);
+              return transformCard(content as unknown as RawCardDocument);
             default:
               return undefined;
           }

@@ -1,6 +1,9 @@
 import { emptyDocument } from '@weco/common/services/prismic/documents';
 import { transformPage } from './pages';
-import { PagesDocument, TextSlice } from '@weco/common/prismicio-types';
+import {
+  PagesDocument as RawPagesDocument,
+  TextSlice as RawTextSlice,
+} from '@weco/common/prismicio-types';
 
 const exampleTextSlice = {
   variation: 'default',
@@ -18,10 +21,10 @@ const exampleTextSlice = {
   id: 'standfirst$cdd0c06c-a8e0-4390-89fb-a1c54a35a335',
   slice_type: 'text',
   slice_label: null,
-} as TextSlice;
+} as RawTextSlice;
 
-export const pageWithoutBody: PagesDocument = {
-  ...emptyDocument<PagesDocument>({
+export const pageWithoutBody: RawPagesDocument = {
+  ...emptyDocument<RawPagesDocument>({
     title: [],
     datePublished: null,
     showOnThisPage: false,

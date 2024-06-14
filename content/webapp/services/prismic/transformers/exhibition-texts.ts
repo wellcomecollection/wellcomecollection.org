@@ -8,9 +8,9 @@ import {
   ExhibitionGuideBasic,
 } from '@weco/content/types/exhibition-guides';
 import {
-  ExhibitionTextsDocument,
-  GuideTextItemSlice,
-  GuideSectionHeadingSlice,
+  ExhibitionTextsDocument as RawExhibitionTextsDocument,
+  GuideTextItemSlice as RawGuideTextItemSlice,
+  GuideSectionHeadingSlice as RawGuideSectionHeadingSlice,
 } from '@weco/common/prismicio-types';
 import { asRichText, asTitle } from '.';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
@@ -41,7 +41,7 @@ export function transformToBasic(
 }
 
 export function transformExhibitionTexts(
-  document: ExhibitionTextsDocument
+  document: RawExhibitionTextsDocument
 ): ExhibitionText {
   const { data } = document;
   const introText = (data.intro_text && asRichText(data.intro_text)) || [];
@@ -74,7 +74,7 @@ export function transformExhibitionTexts(
 }
 
 export function transformExhibitionTextsQuery(
-  query: prismic.Query<ExhibitionTextsDocument>
+  query: prismic.Query<RawExhibitionTextsDocument>
 ): PaginatedResults<ExhibitionText> {
   const paginatedResult = transformQuery(query, exhibitionTexts =>
     transformExhibitionTexts(exhibitionTexts)
@@ -91,7 +91,7 @@ type GuideTextItem = {
 };
 
 export function transformGuideTextItemSlice(
-  slice: GuideTextItemSlice
+  slice: RawGuideTextItemSlice
 ): GuideTextItem {
   const title = asTitle(slice.primary.title);
 
@@ -113,7 +113,7 @@ type GuideSectionHeading = {
 };
 
 export function transformGuideSectionHeadingSlice(
-  slice: GuideSectionHeadingSlice
+  slice: RawGuideSectionHeadingSlice
 ): GuideSectionHeading {
   const title = asTitle(slice.primary.title);
   return {

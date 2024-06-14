@@ -5,11 +5,11 @@ import { links as headerLinks } from '@weco/common/views/components/Header/Heade
 import { transformOnThisPage } from './pages';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
-import { VisualStoriesDocument } from '@weco/common/prismicio-types';
+import { VisualStoriesDocument as RawVisualStoriesDocument } from '@weco/common/prismicio-types';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 
 export function transformVisualStory(
-  document: VisualStoriesDocument
+  document: RawVisualStoriesDocument
 ): VisualStory {
   const { data } = document;
   const genericFields = transformGenericFields(document);

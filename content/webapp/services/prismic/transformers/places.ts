@@ -1,8 +1,8 @@
 import { Place } from '../../../types/places';
 import { transformGenericFields } from '.';
-import { PlacesDocument } from '@weco/common/prismicio-types';
+import { PlacesDocument as RawPlacesDocument } from '@weco/common/prismicio-types';
 
-export function transformPlace(doc: PlacesDocument): Place {
+export function transformPlace(doc: RawPlacesDocument): Place {
   const genericFields = transformGenericFields(doc);
   return {
     ...genericFields,

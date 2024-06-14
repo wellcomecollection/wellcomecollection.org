@@ -1,5 +1,8 @@
 import { Book, BookBasic } from '../../../types/books';
-import { BooksDocument, SeasonsDocument } from '@weco/common/prismicio-types';
+import {
+  BooksDocument as RawBooksDocument,
+  SeasonsDocument as RawSeasonsDocument,
+} from '@weco/common/prismicio-types';
 import {
   transformGenericFields,
   asRichText,
@@ -25,7 +28,7 @@ export function transformBookToBookBasic(book: Book): BookBasic {
   }))(book);
 }
 
-export function transformBook(document: BooksDocument): Book {
+export function transformBook(document: RawBooksDocument): Book {
   const { data } = document;
 
   const genericFields = transformGenericFields(document);
@@ -36,7 +39,7 @@ export function transformBook(document: BooksDocument): Book {
       ? transformPromoToCaptionedImage(data.promo)
       : undefined);
   const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
-    season => transformSeason(season as SeasonsDocument)
+    season => transformSeason(season as RawSeasonsDocument)
   );
   const contributors = transformContributors(document);
 

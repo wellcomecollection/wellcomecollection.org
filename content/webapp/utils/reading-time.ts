@@ -4,7 +4,10 @@ import * as prismic from '@prismicio/client';
 import { Format } from '@weco/content/types/format';
 import { Label } from '@weco/common/model/labels';
 import { pluralize } from '@weco/common/utils/grammar';
-import { TextSlice, QuoteSlice } from '@weco/common/prismicio-types';
+import {
+  TextSlice as RawTextSlice,
+  QuoteSlice as RawQuoteSlice,
+} from '@weco/common/prismicio-types';
 
 // Calculating the full reading time of the article by getting all article text
 function allArticleText(genericBody: prismic.Slice[]) {
@@ -12,9 +15,9 @@ function allArticleText(genericBody: prismic.Slice[]) {
     .map(slice => {
       switch (slice.slice_type) {
         case 'text':
-          return asText(slice.primary.text as TextSlice['primary']['text']);
+          return asText(slice.primary.text as RawTextSlice['primary']['text']);
         case 'quote':
-          return asText(slice.primary.text as QuoteSlice['primary']['text']);
+          return asText(slice.primary.text as RawQuoteSlice['primary']['text']);
         default:
           return '';
       }

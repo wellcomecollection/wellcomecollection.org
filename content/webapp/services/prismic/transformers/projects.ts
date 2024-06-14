@@ -6,16 +6,16 @@ import {
 } from '.';
 import { transformSeason } from './seasons';
 import {
-  SeasonsDocument,
-  ProjectsDocument,
+  SeasonsDocument as RawSeasonsDocument,
+  ProjectsDocument as RawProjectsDocument,
 } from '@weco/common/prismicio-types';
 
-export function transformProject(document: ProjectsDocument): Project {
+export function transformProject(document: RawProjectsDocument): Project {
   const { data } = document;
   const genericFields = transformGenericFields(document);
   const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
     season => {
-      return transformSeason(season as SeasonsDocument);
+      return transformSeason(season as RawSeasonsDocument);
     }
   );
 

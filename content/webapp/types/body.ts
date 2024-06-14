@@ -1,7 +1,7 @@
 import {
-  ContentListSlice,
-  EditorialImageSlice,
-  EmbedSlice,
+  ContentListSlice as RawContentListSlice,
+  EditorialImageSlice as RawEditorialImageSlice,
+  EmbedSlice as RawEmbedSlice,
 } from '@weco/common/prismicio-types';
 
 import { ArticleBasic } from './articles';
@@ -30,17 +30,19 @@ export type Slice<TypeName extends string, Value> = {
   value: Value;
 };
 
-export function isContentList(slice: prismic.Slice): slice is ContentListSlice {
+export function isContentList(
+  slice: prismic.Slice
+): slice is RawContentListSlice {
   return slice.slice_type === 'contentList';
 }
 
-export function isVideoEmbed(slice: prismic.Slice): slice is EmbedSlice {
+export function isVideoEmbed(slice: prismic.Slice): slice is RawEmbedSlice {
   return slice.primary.provider_name === 'youtube';
 }
 
 export function isEditorialImage(
   slice: prismic.Slice
-): slice is EditorialImageSlice {
+): slice is RawEditorialImageSlice {
   return slice.slice_type === 'picture';
 }
 

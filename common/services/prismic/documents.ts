@@ -4,8 +4,8 @@
  */
 import * as prismic from '@prismicio/client';
 import {
-  GlobalAlertDocument,
-  PopupDialogDocument,
+  GlobalAlertDocument as RawGlobalAlertDocument,
+  PopupDialogDocument as RawPopupDialogDocument,
 } from '@weco/common/prismicio-types';
 
 export type DayField = prismic.GroupField<{
@@ -62,23 +62,23 @@ export function emptyDocument<T extends prismic.PrismicDocumentWithoutUID>(
 }
 
 export function emptyGlobalAlert(
-  overrides: Partial<GlobalAlertDocument['data']> = {}
-): GlobalAlertDocument {
-  return emptyDocument<GlobalAlertDocument>({
+  overrides: Partial<RawGlobalAlertDocument['data']> = {}
+): RawGlobalAlertDocument {
+  return emptyDocument<RawGlobalAlertDocument>({
     isShown: 'hide',
     routeRegex: null,
     text: [],
     ...overrides,
-  }) as GlobalAlertDocument;
+  }) as RawGlobalAlertDocument;
 }
 
-export function emptyPopupDialog(): PopupDialogDocument {
-  return emptyDocument<PopupDialogDocument>({
+export function emptyPopupDialog(): RawPopupDialogDocument {
+  return emptyDocument<RawPopupDialogDocument>({
     isShown: false,
     link: { link_type: 'Web' },
     linkText: null,
     openButtonText: null,
     text: [],
     title: null,
-  }) as PopupDialogDocument;
+  }) as RawPopupDialogDocument;
 }

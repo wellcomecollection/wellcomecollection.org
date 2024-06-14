@@ -6,9 +6,9 @@ import {
 } from '.';
 import { ExhibitionRelatedContentPrismicDocument } from '@weco/content/services/prismic/types';
 import {
-  ExhibitionsDocument,
-  PagesDocument,
-  VisualStoriesDocument,
+  ExhibitionsDocument as RawExhibitionsDocument,
+  PagesDocument as RawPagesDocument,
+  VisualStoriesDocument as RawVisualStoriesDocument,
 } from '@weco/common/prismicio-types';
 import { fetchPages } from './pages';
 import { fetchVisualStories } from './visual-stories';
@@ -53,7 +53,7 @@ const fetchLinks = [
   ...seasonsFetchLinks,
 ] as string[];
 
-const exhibitionsFetcher = fetcher<ExhibitionsDocument>(
+const exhibitionsFetcher = fetcher<RawExhibitionsDocument>(
   'exhibitions',
   fetchLinks
 );
@@ -74,9 +74,9 @@ function returnEmptyResults() {
 }
 
 export type FetchExhibitionResult = {
-  exhibition?: ExhibitionsDocument;
-  pages: prismic.Query<PagesDocument>;
-  visualStories: prismic.Query<VisualStoriesDocument>;
+  exhibition?: RawExhibitionsDocument;
+  pages: prismic.Query<RawPagesDocument>;
+  visualStories: prismic.Query<RawVisualStoriesDocument>;
   allGuides: {
     id: string;
     type: string;
@@ -177,7 +177,7 @@ type GetExhibitionsProps = {
 export const fetchExhibitions = (
   client: GetServerSidePropsPrismicClient,
   { filters = [], order = 'desc', period, page = 1 }: GetExhibitionsProps = {}
-): Promise<prismic.Query<ExhibitionsDocument>> => {
+): Promise<prismic.Query<RawExhibitionsDocument>> => {
   const orderings: prismic.Ordering[] = [
     { field: 'my.exhibitions.isPermanent', direction: 'desc' },
     { field: endField, direction: order },

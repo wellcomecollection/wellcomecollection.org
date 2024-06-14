@@ -20,7 +20,7 @@ import {
   bookImageUrl,
   florenceWinterfloodImageUrl,
 } from '@weco/cardigan/stories/data/images';
-import { EmbedSlice } from '@weco/common/prismicio-types';
+import { EmbedSlice as RawEmbedSlice } from '@weco/common/prismicio-types';
 
 const Date = styled.span.attrs({ className: font('intr', 6) })`
   color: ${props => props.theme.color('neutral.600')};
@@ -288,7 +288,7 @@ shortFilm.args = {
           id: 'embed$b78e29a9-2dcc-4633-b923-7c01475cd647',
           slice_type: 'embed',
           slice_label: null,
-        } as EmbedSlice,
+        } as RawEmbedSlice,
       ]}
       pageId="test"
     />

@@ -7,9 +7,9 @@ import {
   AccessPDF,
 } from '@weco/content/types/exhibitions';
 import {
-  ExhibitionFormatsDocument,
-  ExhibitionsDocument,
-  SeasonsDocument,
+  ExhibitionFormatsDocument as RawExhibitionFormatsDocument,
+  ExhibitionsDocument as RawExhibitionsDocument,
+  SeasonsDocument as RawSeasonsDocument,
 } from '@weco/common/prismicio-types';
 import { ExhibitionRelatedContentPrismicDocument } from '@weco/content/services/prismic/types';
 import {
@@ -39,7 +39,7 @@ import * as prismic from '@prismicio/client';
 import { noAltTextBecausePromo } from './images';
 
 function transformExhibitionFormat(
-  format: ExhibitionFormatsDocument
+  format: RawExhibitionFormatsDocument
 ): ExhibitionFormat {
   return {
     id: format.id,
@@ -48,7 +48,9 @@ function transformExhibitionFormat(
   };
 }
 
-export function transformExhibition(document: ExhibitionsDocument): Exhibition {
+export function transformExhibition(
+  document: RawExhibitionsDocument
+): Exhibition {
   const genericFields = transformGenericFields(document);
   const data = document.data;
   const exhibitIds = data.exhibits
@@ -97,7 +99,7 @@ export function transformExhibition(document: ExhibitionsDocument): Exhibition {
   const statusOverride = asText(data.statusOverride);
 
   const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
-    season => transformSeason(season as SeasonsDocument)
+    season => transformSeason(season as RawSeasonsDocument)
   );
 
   const exhibits: Exhibit[] = transformSingleLevelGroup(
@@ -105,7 +107,7 @@ export function transformExhibition(document: ExhibitionsDocument): Exhibition {
     'item'
   ).map(exhibit => {
     return {
-      item: transformExhibition(exhibit as ExhibitionsDocument),
+      item: transformExhibition(exhibit as RawExhibitionsDocument),
     };
   });
 
@@ -189,7 +191,7 @@ export function transformExhibitionToExhibitionBasic(
 }
 
 export function transformExhibitionsQuery(
-  query: prismic.Query<ExhibitionsDocument>
+  query: prismic.Query<RawExhibitionsDocument>
 ): PaginatedResults<ExhibitionBasic> {
   const paginatedResult = transformQuery(query, exhibition =>
     transformExhibitionToExhibitionBasic(transformExhibition(exhibition))

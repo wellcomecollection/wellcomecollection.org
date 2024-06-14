@@ -1,4 +1,4 @@
-import { CollectionVenueSlice as SliceType } from '@weco/common/prismicio-types';
+import { CollectionVenueSlice as RawCollectionVenueSlice } from '@weco/common/prismicio-types';
 import { SliceComponentProps } from '@prismicio/react';
 import SpacingComponent from '../../components/styled/SpacingComponent';
 import {
@@ -11,7 +11,7 @@ import VenueHours from '@weco/content/components/VenueHours/VenueHours';
 import VenueClosedPeriods from '@weco/content/components/VenueClosedPeriods/VenueClosedPeriods';
 
 export type CollectionVenueProps = SliceComponentProps<
-  SliceType,
+  RawCollectionVenueSlice,
   SliceZoneContext
 >;
 

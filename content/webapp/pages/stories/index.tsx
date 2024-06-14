@@ -33,7 +33,7 @@ import {
 import { transformStoriesLanding } from '@weco/content/services/prismic/transformers/stories-landing';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { StoriesLanding } from '@weco/content/types/stories-landing';
-import { StoriesLandingDocument } from '@weco/common/prismicio-types';
+import { StoriesLandingDocument as RawStoriesLandingDocument } from '@weco/common/prismicio-types';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
@@ -139,7 +139,7 @@ export const getServerSideProps: GetServerSideProps<
   const basicArticles = articles.results.map(transformArticleToArticleBasic);
   const storiesLanding =
     storiesLandingDoc &&
-    transformStoriesLanding(storiesLandingDoc as StoriesLandingDocument);
+    transformStoriesLanding(storiesLandingDoc as RawStoriesLandingDocument);
 
   if (articles && articles.results) {
     return {
