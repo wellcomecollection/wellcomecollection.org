@@ -202,7 +202,7 @@ const Modal: FunctionComponent<Props> = ({
   const initialLoad = useRef(true);
   const nodeRef = useRef(null);
   const { hasAcknowledgedCookieBanner } = useContext(AppContext);
-
+  console.log('modal', { hasAcknowledgedCookieBanner });
   useEffect(() => {
     if (isActive) {
       closeButtonRef?.current?.focus();
@@ -229,13 +229,16 @@ const Modal: FunctionComponent<Props> = ({
     if (document && document.documentElement) {
       console.log({ isActive, hasAcknowledgedCookieBanner });
       if (isActive && hasAcknowledgedCookieBanner) {
+        console.log('scroll lock');
         document.documentElement.classList.add('is-scroll-locked');
       } else {
+        console.log('scroll unlock');
         document.documentElement.classList.remove('is-scroll-locked');
       }
     }
 
     return () => {
+      console.log('scroll unlock');
       document.documentElement.classList.remove('is-scroll-locked');
     };
   }, [isActive, hasAcknowledgedCookieBanner]);
