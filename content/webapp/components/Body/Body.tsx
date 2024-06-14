@@ -338,6 +338,7 @@ const Body: FunctionComponent<Props> = ({
           isLanding,
           isDropCapped,
           contentType,
+          isShortFilm,
         }}
       />
     </BodyWrapper>
