@@ -14,6 +14,7 @@ import { CSSTransition } from 'react-transition-group';
 import { cross } from '@weco/common/icons';
 import FocusTrap from 'focus-trap-react';
 import { AppContext } from '../AppContext/AppContext';
+import { ACTIVE_COOKIE_BANNER_ID } from '@weco/common/services/app/civic-uk';
 
 type BaseModalProps = {
   $width?: string | null;
@@ -201,11 +202,19 @@ const Modal: FunctionComponent<Props> = ({
   const ModalWindow = determineModal(modalStyle);
   const initialLoad = useRef(true);
   const nodeRef = useRef(null);
-  const { hasAcknowledgedCookieBanner } = useContext(AppContext);
+  const { hasAcknowledgedCookieBanner, setHasAcknowledgedCookieBanner } =
+    useContext(AppContext);
 
   useEffect(() => {
     if (isActive) {
-      closeButtonRef?.current?.focus();
+      // There can be a sort of race condition between modals and the cookie banner,
+      // so we need to check here too if it is active.
+      // The overlay element is visible if the banner or the popup is actively showing.
+      if (document.getElementById(ACTIVE_COOKIE_BANNER_ID)) {
+        setHasAcknowledgedCookieBanner(false);
+      } else {
+        closeButtonRef?.current?.focus();
+      }
     } else if (!initialLoad.current) {
       openButtonRef && openButtonRef.current && openButtonRef.current.focus();
     }
@@ -239,10 +248,11 @@ const Modal: FunctionComponent<Props> = ({
     };
   }, [isActive, hasAcknowledgedCookieBanner]);
 
-  const shouldLock = isActive && hasAcknowledgedCookieBanner;
-
   return (
-    <FocusTrap active={shouldLock} focusTrapOptions={{ preventScroll: true }}>
+    <FocusTrap
+      active={isActive && hasAcknowledgedCookieBanner}
+      focusTrapOptions={{ preventScroll: true }}
+    >
       <div>
         {isActive && showOverlay && (
           <Overlay
