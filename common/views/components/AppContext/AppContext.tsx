@@ -9,6 +9,10 @@ import {
 import { getCookies } from 'cookies-next';
 import theme from '@weco/common/views/themes/default';
 import { Size } from '@weco/common/views/themes/config';
+import {
+  ACTIVE_COOKIE_BANNER_ID,
+  COOKIE_BANNER_PARENT_ID,
+} from '@weco/common/services/app/civic-uk';
 
 type AppContextProps = {
   isEnhanced: boolean;
@@ -91,14 +95,15 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
     // If CookieControl has not been set yet;
     if (!hasAcknowledgedCookieBanner) {
       // If banner or popup is actively displaying
-      if (document.getElementById('ccc-overlay')) {
+      if (document.getElementById(ACTIVE_COOKIE_BANNER_ID)) {
         // Only once has the overlay gone from the DOM can we consider the cookie banner acknowledged
-        // The parent element (#ccc) is always in the DOM, but if it has no children then it's inactive.
+        // The parent element is always in the DOM, but if it has no children then it's inactive.
         const callback = mutationList => {
           for (const mutation of mutationList) {
             if (mutation.type === 'childList') {
               setHasAcknowledgedCookieBanner(
-                document.getElementById('ccc')?.childElementCount === 0
+                document.getElementById(COOKIE_BANNER_PARENT_ID)
+                  ?.childElementCount === 0
               );
             }
           }
@@ -106,7 +111,7 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
         const observer = new MutationObserver(callback);
         observer.observe(document.body, { childList: true, subtree: true });
         return () => observer.disconnect();
-      } else if (!document.getElementById('ccc')) {
+      } else if (!document.getElementById(COOKIE_BANNER_PARENT_ID)) {
         // If the CivicUK script failed to load for any reason, we should consider it acknowledged by default.
         // We need this for our tests and Cardigan as well.
         setHasAcknowledgedCookieBanner(true);

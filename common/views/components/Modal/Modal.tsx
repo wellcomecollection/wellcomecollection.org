@@ -14,6 +14,7 @@ import { CSSTransition } from 'react-transition-group';
 import { cross } from '@weco/common/icons';
 import FocusTrap from 'focus-trap-react';
 import { AppContext } from '../AppContext/AppContext';
+import { ACTIVE_COOKIE_BANNER_ID } from '@weco/common/services/app/civic-uk';
 
 type BaseModalProps = {
   $width?: string | null;
@@ -209,7 +210,7 @@ const Modal: FunctionComponent<Props> = ({
       // There can be a sort of race condition between modals and the cookie banner,
       // so we need to check here too if it is active.
       // The overlay element is visible if the banner or the popup is actively showing.
-      if (document.getElementById('ccc-overlay')) {
+      if (document.getElementById(ACTIVE_COOKIE_BANNER_ID)) {
         setHasAcknowledgedCookieBanner(false);
       } else {
         closeButtonRef?.current?.focus();
