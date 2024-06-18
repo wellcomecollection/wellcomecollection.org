@@ -19,7 +19,7 @@ import {
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps } from '@weco/common/services/app';
-import { GaDimensions } from '@weco/common/services/app/google-analytics';
+import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
