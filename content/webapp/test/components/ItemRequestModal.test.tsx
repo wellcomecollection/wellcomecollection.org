@@ -7,6 +7,7 @@ import ItemRequestModal from '../../components/ItemRequestModal/ItemRequestModal
 import { getItemsWithPhysicalLocation } from '../../utils/works';
 import * as Context from '@weco/common/server-data/Context';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
+import { itemRequestDialog } from '@weco/common/data/microcopy';
 
 jest.spyOn(Context, 'usePrismicData').mockImplementation(() => prismicData);
 
@@ -50,7 +51,7 @@ describe('ItemRequestModal', () => {
     const { getByTestId } = renderWithTheme(<RequestModal />);
     const message = getByTestId('pickup-deadline');
     expect(message).toHaveTextContent(
-      'Item requests need to be placed by 10am on the working day before your visit'
+      `${itemRequestDialog.pickupItemOn} Monday 23 May.`
     );
   });
 
@@ -60,7 +61,7 @@ describe('ItemRequestModal', () => {
     const { getByTestId } = renderWithTheme(<RequestModal />);
     const message = getByTestId('pickup-deadline');
     expect(message).toHaveTextContent(
-      'Item requests for offsite material need to be placed by 10am, 10 working days before your visit'
+      `${itemRequestDialog.pickupItemOn} Monday 23 May.`
     );
   });
 });

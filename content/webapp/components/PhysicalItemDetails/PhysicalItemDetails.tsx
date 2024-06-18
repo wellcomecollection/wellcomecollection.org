@@ -84,7 +84,6 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const { disableRequesting, offsiteRequesting } = useToggles();
   const isArchive = useContext(IsArchiveContext);
   const requestButtonRef = useRef<HTMLButtonElement | null>(null);
-
   const [requestModalIsActive, setRequestModalIsActive] = useState(false);
 
   // Immediately after a request is made, we can't see any evidence of it in either
@@ -111,6 +110,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
     wasJustRequested(item) || (item.id && userHeldItems?.has(item.id));
 
   const physicalLocation = getFirstPhysicalLocation(item); // ok to assume items only have a single physicalLocation
+
   const accessCondition = getFirstAccessCondition(physicalLocation);
 
   const accessNote = accessCondition?.note;

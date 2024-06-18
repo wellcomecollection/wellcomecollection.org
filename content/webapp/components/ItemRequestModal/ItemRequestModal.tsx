@@ -13,7 +13,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import RequestDialog from './RequestDialog';
 import ConfirmedDialog from './ConfirmedDialog';
 import ErrorDialog from './ErrorDialog';
-import { formatDateForRequestsAPI } from './format-date';
+import { formatDateForRequestsAPI, dateAsValue } from './format-date';
 import { WellcomeApiError } from '@weco/content/services/wellcome';
 
 type Props = {
@@ -41,6 +41,10 @@ const ItemRequestModal: FunctionComponent<Props> = ({
     useState<RequestingState>('initial');
   const [requestingErrorMessage, setRequestingError] = useState<string>();
   const [currentHoldNumber, setCurrentHoldNumber] = useState(initialHoldNumber);
+  const [pickUpDate, setPickUpDate] = useState<string | undefined>(
+    item.availableDates && dateAsValue(new Date(item.availableDates[0].from))
+  );
+
   function innerSetIsActive(value: boolean) {
     if (requestingState === 'requesting') return; // we don't want the modal to close during an api call
     if (value) {
@@ -100,7 +104,12 @@ const ItemRequestModal: FunctionComponent<Props> = ({
           />
         );
       case 'confirmed':
-        return <ConfirmedDialog currentHoldNumber={currentHoldNumber} />;
+        return (
+          <ConfirmedDialog
+            currentHoldNumber={currentHoldNumber}
+            pickUpDate={pickUpDate}
+          />
+        );
       case 'initial':
         return (
           <RequestDialog
@@ -109,6 +118,8 @@ const ItemRequestModal: FunctionComponent<Props> = ({
             confirmRequest={confirmRequest}
             setIsActive={innerSetIsActive}
             currentHoldNumber={currentHoldNumber}
+            pickUpDate={pickUpDate}
+            setPickUpDate={setPickUpDate}
           />
         );
     }
