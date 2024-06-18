@@ -5130,6 +5130,7 @@ export type TeamsDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithoutUID<Simplify<TeamsDocumentData>, 'teams', Lang>;
 
 type VisualStoriesDocumentDataBodySlice =
+  | InfoBlockSlice
   | TextAndIconsSlice
   | TextAndImageSlice
   | EmbedSlice

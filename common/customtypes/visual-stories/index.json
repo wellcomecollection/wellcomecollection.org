@@ -40,6 +40,9 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
+            "infoBlock": {
+              "type": "SharedSlice"
+            },
             "textAndIcons": {
               "type": "SharedSlice"
             },
