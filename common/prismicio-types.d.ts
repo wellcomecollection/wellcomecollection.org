@@ -6617,26 +6617,6 @@ export interface InfoBlockSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   text: prismic.RichTextField;
-
-  /**
-   * Button link field in *InfoBlock → Primary*
-   *
-   * - **Field Type**: Link
-   * - **Placeholder**: *None*
-   * - **API ID Path**: infoBlock.primary.link
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-   */
-  link: prismic.LinkField;
-
-  /**
-   * Button text field in *InfoBlock → Primary*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: infoBlock.primary.linkText
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  linkText: prismic.KeyTextField;
 }
 
 /**

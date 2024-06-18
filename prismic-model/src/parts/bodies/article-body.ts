@@ -110,8 +110,6 @@ export default {
           text: multiLineText('Text', {
             extraTextOptions: ['heading3', 'list-item'],
           }),
-          link: webLink('Button link'),
-          linkText: keyword('Button text'),
         },
       }),
       standfirst: {

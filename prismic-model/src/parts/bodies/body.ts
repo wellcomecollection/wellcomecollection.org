@@ -119,8 +119,6 @@ export default {
           text: multiLineText('Text', {
             extraTextOptions: ['heading3', 'list-item'],
           }),
-          link: webLink('Button link'),
-          linkText: text('Button text'),
         },
       }),
       titledTextList: slice('Descriptive links list', {

@@ -139,8 +139,6 @@ export type InfoBlock = prismic.Slice<
   {
     title: prismic.RichTextField;
     text: prismic.RichTextField;
-    link: prismic.LinkField;
-    linkText: prismic.KeyTextField;
   }
 >;
 

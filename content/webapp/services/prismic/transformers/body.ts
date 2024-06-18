@@ -118,7 +118,7 @@ export function transformTextAndImage(
     value: {
       type: 'image',
       text: slice.primary.text,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
       image: transformImage(slice.primary.image)!,
       isZoomable: slice.primary.isZoomable,
     },
@@ -133,7 +133,7 @@ export function transformTextAndIcons(
     value: {
       type: 'icons',
       text: slice.primary.text,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
       icons: slice.items.map(({ icon }) => transformImage(icon)!),
     },
   };
@@ -264,11 +264,6 @@ export function transformInfoBlockSlice(
     value: {
       title: asTitle(slice.primary.title),
       text: slice.primary.text,
-      linkText: slice.primary.linkText,
-      link:
-        'url' in slice.primary.link
-          ? transformLink(slice.primary.link)
-          : undefined,
     },
   };
 }
@@ -280,9 +275,8 @@ export function transformIframeSlice(
     type: 'iframe',
     weight: getWeight(slice.slice_label),
     value: {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       src: slice.primary.iframeSrc!,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
       image: transformImage(slice.primary.previewImage)!,
     },
   };
