@@ -169,7 +169,6 @@ const EventSeriesPage: FunctionComponent<Props> = ({
           page === 1 ? (
             <Body
               untransformedBody={series.untransformedBody}
-              body={series.body}
               pageId={series.id}
             />
           ) : undefined

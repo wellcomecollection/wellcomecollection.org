@@ -3,7 +3,7 @@ import { transformSeries } from './series';
 import {
   MultiContentPrismicDocument,
   StructuredSearchQuery,
-} from '../types/multi-content';
+} from '@weco/content/services/prismic/types';
 import { transformArticle } from './articles';
 import { transformBook } from './books';
 import { transformEventSeries } from './event-series';

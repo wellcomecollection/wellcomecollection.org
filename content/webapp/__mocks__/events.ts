@@ -1,4 +1,4 @@
-import { Event } from '../types/events';
+import { Event } from '@weco/content/types/events';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import * as prismic from '@prismicio/client';
 
@@ -49,7 +49,6 @@ const baseEvent: Event = {
     title: 'Gallery tour',
     description: undefined,
   },
-  body: [],
   untransformedBody: [],
   image,
   hasEarlyRegistration: false,

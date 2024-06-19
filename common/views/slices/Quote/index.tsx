@@ -1,4 +1,4 @@
-import { QuoteSlice as SliceType } from '@weco/common/prismicio-types';
+import { QuoteSlice as RawQuoteSlice } from '@weco/common/prismicio-types';
 import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
 import Quote from '@weco/content/components/Quote/Quote';
@@ -10,7 +10,10 @@ import {
 } from '@weco/content/components/Body/Body';
 import { transformQuoteSlice } from '@weco/content/services/prismic/transformers/body';
 
-export type QuoteSliceProps = SliceComponentProps<SliceType, SliceZoneContext>;
+export type QuoteSliceProps = SliceComponentProps<
+  RawQuoteSlice,
+  SliceZoneContext
+>;
 
 const QuoteSlice: FunctionComponent<QuoteSliceProps> = ({ slice, context }) => {
   const transformedSlice = transformQuoteSlice(slice);

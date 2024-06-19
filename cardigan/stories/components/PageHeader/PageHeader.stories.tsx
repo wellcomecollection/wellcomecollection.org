@@ -15,12 +15,12 @@ import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { LicenseType } from '@weco/common/model/license';
 import Body from '@weco/content/components/Body/Body';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
-import { videoEmbed } from '@weco/cardigan/stories/data/content';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import {
   bookImageUrl,
   florenceWinterfloodImageUrl,
 } from '@weco/cardigan/stories/data/images';
+import { EmbedSlice as RawEmbedSlice } from '@weco/common/prismicio-types';
 
 const Date = styled.span.attrs({ className: font('intr', 6) })`
   color: ${props => props.theme.color('neutral.600')};
@@ -259,12 +259,36 @@ shortFilm.args = {
   Body: (
     <Body
       contentType="short-film"
-      untransformedBody={[]}
-      body={[
+      untransformedBody={[
         {
-          type: 'videoEmbed',
-          value: videoEmbed,
-        },
+          variation: 'default',
+          version: 'initial',
+          items: [],
+          primary: {
+            embed: {
+              embed_url:
+                'https://www.youtube.com/embed/l0A8-DmX0Z0?feature=oembed',
+              provider_name: 'YouTube',
+              provider_url: 'https://www.youtube.com/',
+              title: 'Archiving Audrey Amiss',
+              author_name: 'Wellcome Collection',
+              author_url: 'https://www.youtube.com/@WellcomeCollection',
+              type: 'video',
+              height: 315,
+              width: 560,
+              version: '1.0',
+              thumbnail_height: 360,
+              thumbnail_width: 480,
+              thumbnail_url: 'https://i.ytimg.com/vi/l0A8-DmX0Z0/hqdefault.jpg',
+              html: '<iframe width="200" height="113" src="https://www.youtube.com/embed/l0A8-DmX0Z0?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen title="Archiving Audrey Amiss"></iframe>',
+            },
+            caption: [],
+            transcript: [],
+          },
+          id: 'embed$b78e29a9-2dcc-4633-b923-7c01475cd647',
+          slice_type: 'embed',
+          slice_label: null,
+        } as RawEmbedSlice,
       ]}
       pageId="test"
     />

@@ -6,10 +6,7 @@ import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { EventBasic } from '@weco/content/types/events';
 import { Period, isOfTypePeriod } from '@weco/common/types/periods';
 import { font, grid, cssGrid } from '@weco/common/utils/classnames';
-import {
-  getPageFeaturedText,
-  transformPage,
-} from '@weco/content/services/prismic/transformers/pages';
+import { transformPage } from '@weco/content/services/prismic/transformers/pages';
 import {
   filterEventsForToday,
   filterEventsForWeekend,
@@ -39,8 +36,6 @@ import {
   collectionVenueId,
   prismicPageIds,
 } from '@weco/common/data/hardcoded-ids';
-import FeaturedText from '@weco/content/components/FeaturedText/FeaturedText';
-import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
 import { FeaturedText as FeaturedTextType } from '@weco/content/types/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
@@ -230,7 +225,6 @@ type HeaderProps = {
 const Header: FunctionComponent<HeaderProps> = ({
   activeId,
   todaysOpeningHours,
-  featuredText,
 }) => {
   return (
     <Space $v={{ size: 'l', properties: ['padding-top'] }}>
@@ -287,17 +281,6 @@ const Header: FunctionComponent<HeaderProps> = ({
               </OpeningTimes>
             </OpeningTimesWrapper>
           </div>
-          {featuredText && featuredText.value && (
-            <Space
-              className={grid({ s: 12, m: 10, l: 8, xl: 8 })}
-              $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
-            >
-              <FeaturedText
-                html={featuredText.value}
-                htmlSerializer={defaultSerializer}
-              />
-            </Space>
-          )}
           <Space
             className={grid({ s: 12, m: 10, l: 7, xl: 7 })}
             $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
@@ -369,7 +352,6 @@ export const getServerSideProps: GetServerSideProps<
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const whatsOnPage = transformPage(whatsOnPageDocument!);
 
-  const featuredText = getPageFeaturedText(whatsOnPage);
   const tryTheseToo = getTryTheseTooPromos(whatsOnPage);
 
   const dateRange = getRangeForPeriod(period);
@@ -397,7 +379,6 @@ export const getServerSideProps: GetServerSideProps<
         availableOnlineEvents,
         dateRange,
         jsonLd,
-        featuredText,
         tryTheseToo,
         serverData,
       }),

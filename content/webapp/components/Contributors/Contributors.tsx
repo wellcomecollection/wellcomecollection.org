@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Space from '@weco/common/views/components/styled/Space';
 import Contributor from './Contributor';
-import { Contributor as ContributorType } from '../../types/contributors';
+import { Contributor as ContributorType } from '@weco/content/types/contributors';
 import { font } from '@weco/common/utils/classnames';
 
 export type Props = {

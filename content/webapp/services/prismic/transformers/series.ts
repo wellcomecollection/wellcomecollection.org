@@ -1,24 +1,25 @@
 import * as prismic from '@prismicio/client';
 import { Series, SeriesBasic } from '../../../types/series';
-import { SeriesPrismicDocument } from '../types/series';
-import { StandfirstSlice } from '@weco/common/prismicio-types';
+import {
+  StandfirstSlice as RawStandfirstSlice,
+  SeriesDocument as RawSeriesDocument,
+  SeasonsDocument as RawSeasonsDocument,
+} from '@weco/common/prismicio-types';
 import { asTitle, transformGenericFields, transformSingleLevelGroup } from '.';
 import { transformSeason } from './seasons';
 import { ArticleScheduleItem } from '../../../types/article-schedule-items';
-import { SeasonPrismicDocument } from '../types/seasons';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { transformContributors } from './contributors';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { getSeriesColor } from '@weco/content/utils/colors';
 
-export function transformSeries(document: SeriesPrismicDocument): Series {
+export function transformSeries(document: RawSeriesDocument): Series {
   const { data } = document;
   const genericFields = transformGenericFields(document);
-  const standfirst = genericFields.standfirst || undefined;
   const untransformedBody = data.body || [];
   const untransformedStandfirst = untransformedBody.find(
     (slice: prismic.Slice) => slice.slice_type === 'standfirst'
-  ) as StandfirstSlice | undefined;
+  ) as RawStandfirstSlice | undefined;
   const color = getSeriesColor(data.color || undefined);
   const schedule: ArticleScheduleItem[] = data.schedule
     ? (data.schedule
@@ -40,7 +41,7 @@ export function transformSeries(document: SeriesPrismicDocument): Series {
     : [];
   const labels = [{ text: schedule.length > 0 ? 'Serial' : 'Series' }];
   const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
-    season => transformSeason(season as SeasonPrismicDocument)
+    season => transformSeason(season as RawSeasonsDocument)
   );
   const contributors = transformContributors(document);
 
@@ -49,7 +50,6 @@ export function transformSeries(document: SeriesPrismicDocument): Series {
     type: 'series',
     labels,
     schedule,
-    standfirst,
     untransformedStandfirst,
     color,
     items: [],

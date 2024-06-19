@@ -1,12 +1,36 @@
 import * as prismic from '@prismicio/client';
-import { ArticleFormat } from './article-format';
-import { ExhibitionFormat } from './exhibition-format';
-import { ProjectFormat } from './project-format';
-import { Body } from './body';
-import { EditorialContributorRole, Organisation, Person } from './contributors';
-import { EventSeriesPrismicDocument } from './event-series';
-import { ExhibitionPrismicDocument } from './exhibitions';
-import { SeasonPrismicDocument } from './seasons';
+import {
+  ArticlesDocument as RawArticlesDocument,
+  ArticleFormatsDocument as RawArticleFormatsDocument,
+  AudiencesDocument as RawAudiencesDocument,
+  BackgroundTexturesDocument as RawBackgroundTexturesDocument,
+  BooksDocument as RawBooksDocument,
+  CardDocument as RawCardDocument,
+  CollectionVenueDocument as RawCollectionVenueDocument,
+  EventFormatsDocument as RawEventFormatsDocument,
+  EventsDocument as RawEventsDocument,
+  EventPoliciesDocument as RawEventPoliciesDocument,
+  ExhibitionFormatsDocument as RawExhibitionFormatsDocument,
+  ExhibitionsDocument as RawExhibitionsDocument,
+  GuidesDocument as RawGuidesDocument,
+  GuideFormatsDocument as RawGuideFormatsDocument,
+  PagesDocument as RawPagesDocument,
+  PageFormatsDocument as RawPageFormatsDocument,
+  ProjectsDocument as RawProjectsDocument,
+  ProjectFormatsDocument as RawProjectFormatsDocument,
+  EditorialContributorRolesDocument as RawEditorialContributorRolesDocument,
+  OrganisationsDocument as RawOrganisationsDocument,
+  PeopleDocument as RawPeopleDocument,
+  PlacesDocument as RawPlacesDocument,
+  EventSeriesDocument as RawEventSeriesDocument,
+  SeasonsDocument as RawSeasonsDocument,
+  SeriesDocument as RawSeriesDocument,
+  TeamsDocument as RawTeamsDocument,
+  InterpretationTypesDocument as RawInterpretationTypesDocument,
+  WebcomicsDocument as RawWebcomicsDocument,
+  VisualStoriesDocument as RawVisualStoriesDocument,
+  PagesDocumentData as RawPagesDocumentData,
+} from '@weco/common/prismicio-types';
 import {
   isFilledLinkToDocumentWithData,
   InferDataInterface,
@@ -77,12 +101,64 @@ export type PromoSliceZone = prismic.SliceZone<
   prismic.Slice<'editorialImage', Promo>
 >;
 
-export type CommonPrismicFields = {
-  title: prismic.RichTextField;
-  body: Body;
-  promo: PromoSliceZone;
-  metadataDescription: prismic.KeyTextField;
+export type GenericDocWithPromo =
+  | RawArticlesDocument
+  | RawBooksDocument
+  | RawExhibitionsDocument
+  | RawEventsDocument
+  | RawEventSeriesDocument
+  | RawGuidesDocument
+  | RawPagesDocument;
+
+export type GenericDoc =
+  | GenericDocWithPromo
+  | RawPlacesDocument
+  | RawProjectsDocument
+  | RawSeasonsDocument
+  | RawSeriesDocument
+  | RawVisualStoriesDocument
+  | RawWebcomicsDocument;
+
+export type GenericDocWithMetaDescription =
+  | GenericDocWithPromo
+  | RawProjectsDocument
+  | RawSeriesDocument
+  | RawWebcomicsDocument;
+
+export type RelatedGenericDoc = prismic.FilledContentRelationshipField<
+  | 'articles'
+  | 'books'
+  | 'exhibitions'
+  | 'events'
+  | 'event-series'
+  | 'guides'
+  | 'pages',
+  string,
+  RawPagesDocumentData
+>;
+
+export const isPage = (
+  doc: prismic.FilledContentRelationshipField<
+    | 'pages'
+    | 'event-series'
+    | 'books'
+    | 'events'
+    | 'articles'
+    | 'exhibitions'
+    | 'card'
+    | 'seasons'
+    | 'guides',
+    'en-gb',
+    RawPagesDocumentData
+  >
+): doc is prismic.FilledContentRelationshipField<
+  'pages',
+  'en-gb',
+  RawPagesDocumentData
+> => {
+  return doc.type === 'pages';
 };
+
 // We need these for links in the `contentList` slice
 export const commonPrismicFieldsFetchLinks = [
   'pages',
@@ -103,11 +179,11 @@ export type WithEventSeries = {
     series: prismic.ContentRelationshipField<
       'series',
       'en-gb',
-      InferDataInterface<EventSeriesPrismicDocument>
+      InferDataInterface<RawEventSeriesDocument>
     >;
   }>;
 };
-export const eventSeriesFetchLinks: FetchLinks<EventSeriesPrismicDocument> = [
+export const eventSeriesFetchLinks: FetchLinks<RawEventSeriesDocument> = [
   'event-series.title',
   'event-series.backgroundTexture',
   'event-series.promo',
@@ -118,35 +194,89 @@ export type WithSeasons = {
     season: prismic.ContentRelationshipField<
       'seasons',
       'en-gb',
-      InferDataInterface<SeasonPrismicDocument>
+      InferDataInterface<RawSeasonsDocument>
     >;
   }>;
 };
-export const seasonsFetchLinks: FetchLinks<SeasonPrismicDocument> = [
+
+export const seasonsFetchLinks: FetchLinks<RawSeasonsDocument> = [
   'seasons.title',
   'seasons.start',
   'seasons.end',
   'seasons.promo',
 ];
 
-export type WithArticleFormat = {
-  format: prismic.ContentRelationshipField<
-    'article-formats',
-    'en-gb',
-    InferDataInterface<ArticleFormat>
-  >;
-};
-export const articleFormatsFetchLinks: FetchLinks<ArticleFormat> = [
+export const articleFormatsFetchLinks: FetchLinks<RawArticleFormatsDocument> = [
   'article-formats.title',
   'article-formats.description',
 ];
 
-export const exhibitionFormatsFetchLinks: FetchLinks<ExhibitionFormat> = [
-  'exhibition-formats.title',
+export const cardFetchLinks: FetchLinks<RawCardDocument> = [
+  'card.title',
+  'card.format',
+  'card.description',
+  'card.image',
+  'card.link',
 ];
 
-export const projectFormatsFetchLinks: FetchLinks<ProjectFormat> = [
+export const collectionVenuesFetchLinks: FetchLinks<RawCollectionVenueDocument> =
+  [
+    'collection-venue.title',
+    'collection-venue.image',
+    'collection-venue.link',
+    'collection-venue.linkText',
+    'collection-venue.order',
+    'collection-venue.monday',
+    'collection-venue.tuesday',
+    'collection-venue.wednesday',
+    'collection-venue.thursday',
+    'collection-venue.friday',
+    'collection-venue.saturday',
+    'collection-venue.sunday',
+    'collection-venue.modifiedDayOpeningTimes',
+  ];
+
+export const eventsFetchLinks: FetchLinks<RawEventsDocument> = [
+  'events.title',
+  'events.audiences',
+  'events.schedule',
+  'events.interpretations',
+  'events.series',
+  'events.times',
+  'events.locations',
+];
+
+export const exhibitionFormatsFetchLinks: FetchLinks<RawExhibitionFormatsDocument> =
+  ['exhibition-formats.title'];
+
+export const eventPolicyFetchLinks: FetchLinks<RawEventPoliciesDocument> = [
+  'event-policies.title',
+  'event-policies.description',
+];
+
+export const projectFormatsFetchLinks: FetchLinks<RawProjectFormatsDocument> = [
   'project-formats.title',
+];
+
+export const eventFormatFetchLinks: FetchLinks<RawEventFormatsDocument> = [
+  'event-formats.title',
+  'event-formats.description',
+];
+
+export const interpretationTypeFetchLinks: FetchLinks<RawInterpretationTypesDocument> =
+  [
+    'interpretation-types.title',
+    'interpretation-types.abbreviation',
+    'interpretation-types.description',
+    'interpretation-types.primaryDescription',
+  ];
+
+export const teamFetchLinks: FetchLinks<RawTeamsDocument> = [
+  'teams.title',
+  'teams.subtitle',
+  'teams.email',
+  'teams.phone',
+  'teams.url',
 ];
 
 export type WithExhibitionParents = {
@@ -154,7 +284,7 @@ export type WithExhibitionParents = {
     order: prismic.NumberField;
     parent: prismic.ContentRelationshipField<
       'exhibitions',
-      // We know this is an ExhibitionPrismicDocument, but the type checker gets
+      // We know this is an ExhibitionsDocument, but the type checker gets
       // unhappy about the circular reference:
       //
       //    'event' is referenced directly or indirectly in its own type annotation.
@@ -166,7 +296,15 @@ export type WithExhibitionParents = {
     >;
   }>;
 };
-export const exhibitionsFetchLinks: FetchLinks<ExhibitionPrismicDocument> = [
+
+export const seriesFetchLinks: FetchLinks<RawSeriesDocument> = [
+  'series.title',
+  'series.promo',
+  'series.schedule',
+  'series.color',
+];
+
+export const exhibitionsFetchLinks: FetchLinks<RawExhibitionsDocument> = [
   'exhibitions.title',
   'exhibitions.promo',
   'exhibitions.shortTitle',
@@ -178,12 +316,12 @@ type Contributor =
   | prismic.FilledContentRelationshipField<
       'people',
       'en-gb',
-      InferDataInterface<Person>
+      InferDataInterface<RawPeopleDocument>
     >
   | prismic.FilledContentRelationshipField<
       'organisations',
       'en-gb',
-      InferDataInterface<Organisation>
+      InferDataInterface<RawOrganisationsDocument>
     >;
 
 export type WithContributors = {
@@ -192,19 +330,42 @@ export type WithContributors = {
     role: prismic.ContentRelationshipField<
       'editorial-contributor-roles',
       'en-gb',
-      InferDataInterface<EditorialContributorRole>
+      InferDataInterface<RawEditorialContributorRolesDocument>
     >;
     contributor: Contributor;
     description: prismic.RichTextField;
   }>;
 };
 
-const contributionRoleFetchLinks: FetchLinks<EditorialContributorRole> = [
-  'editorial-contributor-roles.title',
-  'editorial-contributor-roles.describedBy',
+export const audienceFetchLinks: FetchLinks<RawAudiencesDocument> = [
+  'audiences.title',
+  'audiences.description',
 ];
 
-const personFetchLinks: FetchLinks<Person> = [
+export const articlesFetchLinks: FetchLinks<RawArticlesDocument> = [
+  'articles.title',
+];
+
+export const backgroundTexturesFetchLinks: FetchLinks<RawBackgroundTexturesDocument> =
+  ['background-textures.name', 'background-textures.image'];
+
+const contributionRoleFetchLinks: FetchLinks<RawEditorialContributorRolesDocument> =
+  [
+    'editorial-contributor-roles.title',
+    'editorial-contributor-roles.describedBy',
+  ];
+
+export const guideFormatsFetchLinks: FetchLinks<RawGuideFormatsDocument> = [
+  'guide-formats.title',
+  'guide-formats.description',
+];
+
+export const guideFetchLinks: FetchLinks<RawGuidesDocument> = [
+  'guides.title',
+  'guides.promo',
+];
+
+const personFetchLinks: FetchLinks<RawPeopleDocument> = [
   'people.name',
   'people.description',
   'people.pronouns',
@@ -212,11 +373,18 @@ const personFetchLinks: FetchLinks<Person> = [
   'people.sameAs',
 ];
 
-const organisationFetchLinks: FetchLinks<Organisation> = [
+const organisationFetchLinks: FetchLinks<RawOrganisationsDocument> = [
   'organisations.name',
   'organisations.description',
   'organisations.image',
   'organisations.sameAs',
+];
+
+export const bookFetchLinks: FetchLinks<RawBooksDocument> = ['books.title'];
+
+export const pagesFetchLinks: FetchLinks<RawPagesDocument> = [
+  'pages.title',
+  'pages.promo',
 ];
 
 export const contributorFetchLinks = [
@@ -225,14 +393,35 @@ export const contributorFetchLinks = [
   ...organisationFetchLinks,
 ];
 
+export const teamsFetchLinks: FetchLinks<RawTeamsDocument> = [
+  'teams.title',
+  'teams.subtitle',
+  'teams.email',
+  'teams.phone',
+  'teams.url',
+];
+
+export const pageFormatsFetchLinks: FetchLinks<RawPageFormatsDocument> = [
+  'page-formats.title',
+  'page-formats.description',
+];
+
+export const placesFetchLinks: FetchLinks<RawPlacesDocument> = [
+  'places.title',
+  'places.geolocation',
+  'places.level',
+  'places.capacity',
+  'places.locationInformation',
+];
+
 // Guards
 export function isFilledLinkToPersonField(
   field: Contributor
 ): field is prismic.FilledContentRelationshipField<
   'people',
   'en-gb',
-  InferDataInterface<Person>
-> & { data: Person } {
+  InferDataInterface<RawPeopleDocument>
+> & { data: RawPeopleDocument } {
   return isFilledLinkToDocumentWithData(field) && field.type === 'people';
 }
 
@@ -241,9 +430,95 @@ export function isFilledLinkToOrganisationField(
 ): field is prismic.FilledContentRelationshipField<
   'organisations',
   'en-gb',
-  InferDataInterface<Organisation>
-> & { data: Organisation } {
+  InferDataInterface<RawOrganisationsDocument>
+> & { data: RawOrganisationsDocument } {
   return (
     isFilledLinkToDocumentWithData(field) && field.type === 'organisations'
   );
 }
+
+export type MultiContentPrismicDocument =
+  | RawPagesDocument
+  | RawEventSeriesDocument
+  | RawBooksDocument
+  | RawEventsDocument
+  | RawArticlesDocument
+  | RawExhibitionsDocument
+  | RawSeriesDocument
+  | RawCardDocument
+  | RawWebcomicsDocument;
+
+export type StructuredSearchQuery = {
+  types: string[];
+  type: string[];
+  ids: string[];
+  id: string[];
+  tags: string[];
+  tag: string[];
+  pageSize: number;
+  orderings: string[];
+  // content type specific
+  'article-series': string[];
+};
+
+type Label = {
+  title: prismic.RichTextField;
+  description: prismic.RichTextField;
+};
+
+export type WithCardFormat = {
+  format:
+    | prismic.ContentRelationshipField<
+        'article-formats',
+        'en-gb',
+        InferDataInterface<RawArticleFormatsDocument>
+      >
+    | prismic.ContentRelationshipField<
+        'event-formats',
+        'en-gb',
+        InferDataInterface<RawEventFormatsDocument>
+      >
+    | prismic.ContentRelationshipField<
+        'labels',
+        'en-gb',
+        InferDataInterface<Label>
+      >;
+};
+
+export type ExhibitionRelatedContentPrismicDocument =
+  | RawExhibitionsDocument
+  | RawEventsDocument
+  | RawArticlesDocument
+  | RawBooksDocument;
+
+export type WithArticleFormat = {
+  format: prismic.ContentRelationshipField<
+    'article-formats',
+    'en-gb',
+    InferDataInterface<RawArticleFormatsDocument>
+  >;
+};
+
+export type WithGuideFormat = {
+  format: prismic.ContentRelationshipField<
+    'guide-formats',
+    'en-gb',
+    InferDataInterface<RawGuideFormatsDocument>
+  >;
+};
+
+export type WithPageFormat = {
+  format: prismic.ContentRelationshipField<
+    'page-formats',
+    'en-gb',
+    InferDataInterface<RawPageFormatsDocument>
+  >;
+};
+
+export type WithEventFormat = {
+  format: prismic.ContentRelationshipField<
+    'event-formats',
+    'en-gb',
+    InferDataInterface<RawEventFormatsDocument>
+  >;
+};

@@ -1,4 +1,4 @@
-import { Event } from '../../types/events';
+import { Event } from '@weco/content/types/events';
 import { FunctionComponent } from 'react';
 import Button from '@weco/common/views/components/Buttons';
 import Message from '@weco/content/components/Message/Message';

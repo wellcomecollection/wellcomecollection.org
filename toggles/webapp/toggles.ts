@@ -85,14 +85,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'sliceMachine',
-      title: 'Prismic Slice Machine',
-      initialValue: false,
-      description:
-        'This will render content using Prismic Slice Machine slices instead of legacy slices',
-      type: 'experimental',
-    },
-    {
       id: 'offsiteRequesting',
       title: 'Request items from offsite locations',
       initialValue: false,

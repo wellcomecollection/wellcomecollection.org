@@ -2,7 +2,8 @@
   "compilerOptions": {
     // This is for lodash
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "jsx": "preserve"
   },
   // This is for https://github.com/wellcomecollection/ts-aws
   "ts-node": {

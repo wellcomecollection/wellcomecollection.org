@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { EventBasic } from '../../types/events';
+import { EventBasic } from '@weco/content/types/events';
 import CompactCard from '../CompactCard/CompactCard';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';

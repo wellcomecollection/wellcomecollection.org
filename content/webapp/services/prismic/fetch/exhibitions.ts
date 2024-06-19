@@ -4,45 +4,43 @@ import {
   fetchFromClientSide,
   GetServerSidePropsPrismicClient,
 } from '.';
+import { ExhibitionRelatedContentPrismicDocument } from '@weco/content/services/prismic/types';
 import {
-  ExhibitionPrismicDocument,
-  ExhibitionRelatedContentPrismicDocument,
-} from '../types/exhibitions';
+  ExhibitionsDocument as RawExhibitionsDocument,
+  PagesDocument as RawPagesDocument,
+  VisualStoriesDocument as RawVisualStoriesDocument,
+} from '@weco/common/prismicio-types';
 import { fetchPages } from './pages';
 import { fetchVisualStories } from './visual-stories';
 import { fetchExhibitionGuides } from '@weco/content/services/prismic/fetch/exhibition-guides';
 import { fetchExhibitionTexts } from '@weco/content/services/prismic/fetch/exhibition-texts';
 import { fetchExhibitionHighlightTours } from '@weco/content/services/prismic/fetch/exhibition-highlight-tours';
 import * as prismic from '@prismicio/client';
-import { PagePrismicDocument } from '../types/pages';
-import { VisualStoryDocument } from '../types/visual-stories';
 import { eventAccessOptionsFields } from '../fetch-links';
 import { Period } from '@weco/common/types/periods';
 import { getExhibitionPeriodFilters } from '../types/filters';
 import {
   Exhibition,
   ExhibitionRelatedContent,
-} from '../../../types/exhibitions';
+} from '@weco/content/types/exhibitions';
 import {
   articleFormatsFetchLinks,
+  audienceFetchLinks,
   contributorFetchLinks,
   eventSeriesFetchLinks,
   exhibitionFormatsFetchLinks,
   exhibitionsFetchLinks,
   seasonsFetchLinks,
-} from '../types';
-import { isFilledLinkToDocument } from '@weco/common/services/prismic/types';
-import { placesFetchLinks } from '../types/places';
-import { teamsFetchLinks } from '../types/teams';
-import {
-  audienceFetchLinks,
+  articlesFetchLinks,
+  seriesFetchLinks,
   eventFormatFetchLinks,
   eventPolicyFetchLinks,
   eventsFetchLinks,
   interpretationTypeFetchLinks,
-} from '../types/events';
-import { seriesFetchLinks } from '../types/series';
-import { articlesFetchLinks } from '../types/articles';
+  teamsFetchLinks,
+  placesFetchLinks,
+} from '../types';
+import { isFilledLinkToDocument } from '@weco/common/services/prismic/types';
 
 const fetchLinks = [
   ...exhibitionFormatsFetchLinks,
@@ -53,9 +51,9 @@ const fetchLinks = [
   ...articlesFetchLinks,
   ...eventsFetchLinks,
   ...seasonsFetchLinks,
-];
+] as string[];
 
-const exhibitionsFetcher = fetcher<ExhibitionPrismicDocument>(
+const exhibitionsFetcher = fetcher<RawExhibitionsDocument>(
   'exhibitions',
   fetchLinks
 );
@@ -76,9 +74,9 @@ function returnEmptyResults() {
 }
 
 export type FetchExhibitionResult = {
-  exhibition?: ExhibitionPrismicDocument;
-  pages: prismic.Query<PagePrismicDocument>;
-  visualStories: prismic.Query<VisualStoryDocument>;
+  exhibition?: RawExhibitionsDocument;
+  pages: prismic.Query<RawPagesDocument>;
+  visualStories: prismic.Query<RawVisualStoriesDocument>;
   allGuides: {
     id: string;
     type: string;
@@ -179,7 +177,7 @@ type GetExhibitionsProps = {
 export const fetchExhibitions = (
   client: GetServerSidePropsPrismicClient,
   { filters = [], order = 'desc', period, page = 1 }: GetExhibitionsProps = {}
-): Promise<prismic.Query<ExhibitionPrismicDocument>> => {
+): Promise<prismic.Query<RawExhibitionsDocument>> => {
   const orderings: prismic.Ordering[] = [
     { field: 'my.exhibitions.isPermanent', direction: 'desc' },
     { field: endField, direction: order },
@@ -232,7 +230,7 @@ export const fetchExhibitionRelatedContent = async (
     ...exhibitionFormatsFetchLinks,
     ...exhibitionsFetchLinks,
     ...articlesFetchLinks,
-  ];
+  ] as string[];
 
   return client.getByIDs<ExhibitionRelatedContentPrismicDocument>(ids, {
     fetchLinks,

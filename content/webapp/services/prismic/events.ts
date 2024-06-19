@@ -9,7 +9,7 @@ import {
   minDate,
   startOfDay,
 } from '@weco/common/utils/dates';
-import { EventTime, HasTimes } from '../../types/events';
+import { EventTime, HasTimes } from '@weco/content/types/events';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 function getNextDateInFuture(event: HasTimes): Date | undefined {

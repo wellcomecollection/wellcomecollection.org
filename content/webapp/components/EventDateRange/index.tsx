@@ -2,7 +2,7 @@ import { DateRange as DateRangeType } from '@weco/common/model/date-range';
 import { isSameDayOrBefore, today } from '@weco/common/utils/dates';
 import DateRange from '@weco/content/components/DateRange/DateRange';
 import { FunctionComponent } from 'react';
-import { EventTime } from '../../types/events';
+import { EventTime } from '@weco/content/types/events';
 
 type Props = {
   eventTimes: EventTime[];
