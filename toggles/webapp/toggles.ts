@@ -84,14 +84,6 @@ const toggles = {
         'If there are born digital items in the iiif-manifest, then links to all the files in the manifest are shown on the works page.',
       type: 'experimental',
     },
-    {
-      id: 'sliceMachine',
-      title: 'Prismic Slice Machine',
-      initialValue: false,
-      description:
-        'This will render content using Prismic Slice Machine slices instead of legacy slices',
-      type: 'experimental',
-    },
   ] as const,
   tests: [] as ABTest[],
 };

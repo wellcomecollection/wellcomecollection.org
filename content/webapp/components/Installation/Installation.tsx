@@ -84,7 +84,6 @@ const Installation: FunctionComponent<Props> = ({ installation }) => {
       Body={
         <Body
           untransformedBody={installation.untransformedBody}
-          body={installation.body}
           pageId={installation.id}
         />
       }

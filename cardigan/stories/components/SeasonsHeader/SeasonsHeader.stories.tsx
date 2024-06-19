@@ -16,17 +16,27 @@ const image: ImageType = {
 
 const season: Season = {
   id: 'X84FvhIAACUAqiqp',
-  labels: [{ text: 'Article' }],
+  labels: [{ text: 'Season' }],
   title: 'What does it mean to be human, now?',
   start: new Date('2021-01-05T00:00:00.000Z'),
   end: new Date('2021-01-26T00:00:00.000Z'),
-  standfirst: [
-    {
-      type: 'paragraph',
-      text: 'Throughout history, pandemics have been powerful engines of change, exposing structural inequalities in the distribution of health and wealth.',
-      spans: [],
+  untransformedStandfirst: {
+    variation: 'default',
+    version: 'initial',
+    items: [],
+    primary: {
+      text: [
+        {
+          type: 'paragraph',
+          text: 'How can we care for ourselves and for each other during extraordinary cultural, social and political shifts? Our programme brings multiple perspectives and voices into the building when we reopen, and across our digital platforms, based on our collecting and commissioning activities during the coronavirus pandemic.',
+          spans: [],
+        },
+      ],
     },
-  ],
+    id: 'standfirst$53064ce6-03a9-44ca-a435-2c020922ff86',
+    slice_type: 'standfirst',
+    slice_label: null,
+  },
   image: {
     width: image.width,
     height: image.height,
@@ -36,7 +46,6 @@ const season: Season = {
       '32:15': image,
     },
   },
-  body: [],
   untransformedBody: [],
   type: 'seasons',
 };

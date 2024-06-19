@@ -1,3 +1,4 @@
+import { EditorialImageSlice as RawEditorialImageSlice } from '@weco/common/prismicio-types';
 import { FunctionComponent, ReactElement } from 'react';
 import PageLayout, {
   SiteSection,
@@ -41,12 +42,16 @@ import {
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
 import { getCrop } from '@weco/common/model/image';
-import { isPicture, isVideoEmbed, BodySlice } from '@weco/content/types/body';
+import { isEditorialImage, isVideoEmbed } from '@weco/content/types/body';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import {
+  transformEditorialImageSlice,
+  transformEmbedSlice,
+} from '@weco/content/services/prismic/transformers/body';
 
 export type Props = {
   page: PageType;
@@ -90,9 +95,8 @@ function isVanityUrl(pageId: string, url: string): boolean {
   return !containsPageId && looksLikeVanityUrl;
 }
 
-function getFeaturedPictureWithTasl(
-  featuredPicture: BodySlice & { type: 'picture' }
-) {
+function getFeaturedPictureWithTasl(editorialImage: RawEditorialImageSlice) {
+  const featuredPicture = transformEditorialImageSlice(editorialImage);
   const image =
     getCrop(featuredPicture.value.image, '16:9') || featuredPicture.value.image;
 
@@ -213,27 +217,30 @@ export const Page: FunctionComponent<Props> = ({
     : headerBackgroundLs;
 
   const featuredPicture =
-    page.body.length > 1 && isPicture(page.body[0]) ? page.body[0] : undefined;
+    page.untransformedBody.length > 1 &&
+    isEditorialImage(page.untransformedBody[0])
+      ? page.untransformedBody[0]
+      : undefined;
 
   const featuredVideo =
-    page.body.length > 1 && isVideoEmbed(page.body[0])
-      ? page.body[0]
+    page.untransformedBody.length > 1 && isVideoEmbed(page.untransformedBody[0])
+      ? page.untransformedBody[0]
       : undefined;
+
+  const transformFeaturedVideo =
+    featuredVideo && transformEmbedSlice(featuredVideo);
 
   const hasFeaturedMedia =
     isNotUndefined(featuredPicture) || isNotUndefined(featuredVideo);
 
-  const body = hasFeaturedMedia
-    ? page.body.slice(1, page.body.length)
-    : page.body;
   const untransformedBody = hasFeaturedMedia
     ? page.untransformedBody.slice(1, page.untransformedBody.length)
     : page.untransformedBody;
 
   const featuredMedia = featuredPicture ? (
     getFeaturedPictureWithTasl(featuredPicture)
-  ) : featuredVideo ? (
-    <VideoEmbed {...featuredVideo.value} />
+  ) : transformFeaturedVideo ? (
+    <VideoEmbed {...transformFeaturedVideo.value} />
   ) : undefined;
 
   const hiddenBreadcrumbPages = [prismicPageIds.covidWelcomeBack];
@@ -368,7 +375,6 @@ export const Page: FunctionComponent<Props> = ({
         Body={
           <Body
             untransformedBody={untransformedBody}
-            body={body}
             pageId={page.id}
             onThisPage={page.onThisPage}
             showOnThisPage={page.showOnThisPage}

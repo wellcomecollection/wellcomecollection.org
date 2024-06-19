@@ -1,5 +1,5 @@
 import { ExhibitionBasic } from '../../types/exhibitions';
-import { EventBasic } from '../../types/events';
+import { EventBasic } from '@weco/content/types/events';
 import { Link } from '../../types/link';
 import CardGrid from '../CardGrid/CardGrid';
 import { FunctionComponent } from 'react';

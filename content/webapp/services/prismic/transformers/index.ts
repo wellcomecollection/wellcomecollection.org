@@ -1,28 +1,29 @@
 import * as prismic from '@prismicio/client';
-import { CommonPrismicFields, WithArticleFormat } from '../types';
 import {
-  InferDataInterface,
-  isFilledLinkToDocumentWithData,
-} from '@weco/common/services/prismic/types';
-import { StandfirstSlice } from '@weco/common/prismicio-types';
-import { GenericContentFields } from '../../../types/generic-content-fields';
+  WithArticleFormat,
+  WithPageFormat,
+  WithEventFormat,
+  WithCardFormat,
+  WithGuideFormat,
+  GenericDoc,
+  GenericDocWithPromo,
+  GenericDocWithMetaDescription,
+  RelatedGenericDoc,
+} from '@weco/content/services/prismic/types';
+import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
+import {
+  StandfirstSlice as RawStandfirstSlice,
+  ArticlesDocumentData as RawArticlesDocumentData,
+  WebcomicsDocumentData as RawWebcomicsDocumentData,
+} from '@weco/common/prismicio-types';
+import { GenericContentFields } from '@weco/content/types/generic-content-fields';
 import { ImageType } from '@weco/common/model/image';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
-import { WithGuideFormat } from '../types/guides';
-import { WithCardFormat } from '../types/card';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { transformImagePromo } from './images';
-import { WithPageFormat } from '../types/pages';
-import { WithEventFormat } from '../types/events';
-import { Format } from '../../../types/format';
+import { Format } from '@weco/content/types/format';
 import { LabelField } from '@weco/content/model/label-field';
-import { ArticleFormat } from '../types/article-format';
 import { ArticleFormatId } from '@weco/content/data/content-format-ids';
-
-import { transformBody } from './body';
-import { isStandfirst } from '../../../types/body';
-
-type Doc = prismic.PrismicDocument<CommonPrismicFields>;
 
 export function transformFormat(document: {
   data:
@@ -105,26 +106,43 @@ export function transformSingleLevelGroup(
 }
 
 export function transformLabelType(
-  format: prismic.FilledContentRelationshipField<
-    'article-formats',
-    'en-gb',
-    InferDataInterface<ArticleFormat>
-  > & { data: InferDataInterface<ArticleFormat> }
+  format: RawArticlesDocumentData['format'] | RawWebcomicsDocumentData['format']
 ): LabelField {
-  return {
-    id: format.id as ArticleFormatId,
-    title: asText(format.data.title),
-    description: format.data.description ? format.data.description : undefined,
-  };
+  if (isFilledLinkToDocumentWithData(format)) {
+    return {
+      id: format.id as ArticleFormatId,
+      title: asText(format.data.title as prismic.TitleField),
+      description: format.data.description
+        ? (format.data.description as prismic.RichTextField)
+        : undefined,
+    };
+  }
+  return {};
 }
 
-export function transformGenericFields(doc: Doc): GenericContentFields {
+const isGenericDocWithPromo = (
+  doc: GenericDoc | RelatedGenericDoc
+): doc is GenericDocWithPromo => {
+  return Boolean(doc.data && 'promo' in doc.data);
+};
+
+const isGenericDocWithMetaDescription = (
+  doc: GenericDoc | RelatedGenericDoc
+): doc is GenericDocWithMetaDescription => {
+  return Boolean(doc.data && 'metaDescription' in doc.data);
+};
+
+export function transformGenericFields(
+  doc: GenericDoc | RelatedGenericDoc
+): GenericContentFields {
   const { data } = doc;
-  const promo = data.promo && transformImagePromo(data.promo);
+  const promo = isGenericDocWithPromo(doc)
+    ? transformImagePromo(doc.data.promo)
+    : undefined;
 
   const primaryPromo =
-    data.promo && data.promo.length > 0
-      ? data.promo
+    isGenericDocWithPromo(doc) && doc.data.promo.length > 0
+      ? doc.data.promo
           .filter((slice: prismic.Slice) => slice.primary.image)
           .find(_ => _)
       : undefined;
@@ -133,20 +151,18 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
     ? transformImage(primaryPromo.primary.image)
     : undefined;
 
-  const body = data.body ? transformBody(data.body) : [];
-  const untransformedBody = data.body || [];
-  const standfirst = body.find(isStandfirst);
+  const untransformedBody = data?.body || [];
   const untransformedStandfirst = untransformedBody.find(
     (slice: prismic.Slice) => slice.slice_type === 'standfirst'
-  ) as StandfirstSlice | undefined;
-  const metadataDescription = asText(data.metadataDescription);
+  ) as RawStandfirstSlice | undefined;
+  const metadataDescription = isGenericDocWithMetaDescription(doc)
+    ? asText(doc.data.metadataDescription)
+    : undefined;
 
   return {
     id: doc.id,
-    title: asTitle(data.title),
-    body,
+    title: data?.title ? asTitle(data.title) : '',
     untransformedBody,
-    standfirst: standfirst?.value,
     untransformedStandfirst,
     promo,
     image,

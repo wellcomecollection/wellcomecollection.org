@@ -8,19 +8,24 @@ import Picture from '@weco/common/views/components/Picture/Picture';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { isVideoEmbed } from '@weco/content/types/body';
 import { GenericContentFields } from '../types/generic-content-fields';
+import { transformEmbedSlice } from '@weco/content/services/prismic/transformers/body';
 
 export function getFeaturedMedia(
   fields: GenericContentFields
 ): FeaturedMedia | undefined {
   const image = fields.promo && fields.promo.image;
   const widescreenImage = getCrop(fields.image, '16:9');
-  const { body } = fields;
+  const { untransformedBody } = fields;
 
   const featuredVideo =
-    body.length > 0 && isVideoEmbed(body[0]) ? body[0] : undefined;
+    untransformedBody.length > 0 && isVideoEmbed(untransformedBody[0])
+      ? untransformedBody[0]
+      : undefined;
+  const transformedFeaturedVideoSlice =
+    featuredVideo && transformEmbedSlice(featuredVideo);
 
-  const featuredMedia = featuredVideo ? (
-    <VideoEmbed {...featuredVideo.value} />
+  const featuredMedia = transformedFeaturedVideoSlice ? (
+    <VideoEmbed {...transformedFeaturedVideoSlice?.value} />
   ) : widescreenImage ? (
     <ImageWithTasl
       Image={

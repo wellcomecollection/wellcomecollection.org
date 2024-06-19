@@ -1,5 +1,10 @@
 import { Article, ArticleBasic } from '../../../types/articles';
-import { ArticlePrismicDocument } from '../types/articles';
+import {
+  ArticlesDocument as RawArticlesDocument,
+  SeriesDocument as RawSeriesDocument,
+  SeasonsDocument as RawSeasonsDocument,
+  WebcomicsDocument as RawWebcomicsDocument,
+} from '@weco/common/prismicio-types';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import {
   transformGenericFields,
@@ -11,8 +16,6 @@ import { Label } from '@weco/common/model/labels';
 import { Series } from '../../../types/series';
 import { transformSeason } from './seasons';
 import { transformSeries, transformSeriesToSeriesBasic } from './series';
-import { SeriesPrismicDocument } from '../types/series';
-import { SeasonPrismicDocument } from '../types/seasons';
 import { Format } from '../../../types/format';
 import { ArticleFormatId } from '@weco/content/data/content-format-ids';
 import { transformContributors } from './contributors';
@@ -69,7 +72,15 @@ export function transformArticleToArticleBasic(article: Article): ArticleBasic {
   }))(article);
 }
 
-export function transformArticle(document: ArticlePrismicDocument): Article {
+export const isArticle = (
+  doc: RawArticlesDocument | RawWebcomicsDocument
+): doc is RawArticlesDocument => {
+  return 'seasons' in doc.data;
+};
+
+export function transformArticle(
+  document: RawArticlesDocument | RawWebcomicsDocument
+): Article {
   const { data } = document;
   const genericFields = transformGenericFields(document);
 
@@ -83,7 +94,7 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     : undefined;
 
   const series: Series[] = transformSingleLevelGroup(data.series, 'series').map(
-    series => transformSeries(series as SeriesPrismicDocument)
+    series => transformSeries(series as RawSeriesDocument)
   );
 
   const labels: Label[] = [
@@ -101,11 +112,13 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     series,
     contributors,
     readingTime: showReadingTime(format, labels)
-      ? calculateReadingTime(genericFields.body)
+      ? calculateReadingTime(genericFields.untransformedBody)
       : undefined,
     datePublished: new Date(datePublished),
-    seasons: transformSingleLevelGroup(data.seasons, 'season').map(season =>
-      transformSeason(season as SeasonPrismicDocument)
-    ),
+    seasons: isArticle(document)
+      ? transformSingleLevelGroup(document.data.seasons, 'season').map(season =>
+          transformSeason(season as RawSeasonsDocument)
+        )
+      : [],
   };
 }
