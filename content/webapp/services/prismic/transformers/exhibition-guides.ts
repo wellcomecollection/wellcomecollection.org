@@ -69,10 +69,6 @@ export function transformExhibitionGuide(
 
       const displayTitle = title || standaloneTitle;
       const anchorId = `${dasherizeShorten(displayTitle)}-${index}`;
-      console.log({ component });
-      console.log(
-        isFilledLinkToDocumentWithData(component['audio-without-description'])
-      );
       return {
         number: component.number || undefined,
         displayTitle,
