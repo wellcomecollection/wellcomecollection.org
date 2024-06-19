@@ -15,10 +15,7 @@ const AnalyticsScripts = () => (
     {/* https://github.com/wellcomecollection/wellcomecollection.org/issues/10796 */}
     <SegmentScript />
 
-    {/* These still don't trigger on consent change */}
-    {/* We need to load them on consent added... */}
-    {/* If we want these on first page load then we need page reload, but that might faked data since it's been cached at that point */}
-    {/* TODO add a what and why? Or a link? */}
+    {/* https://github.com/wellcomecollection/wellcomecollection.org/issues/10090 */}
     <PerformanceTimingTrackingScript />
 
     {/* https://github.com/wellcomecollection/wellcomecollection.org/issues/9286 */}

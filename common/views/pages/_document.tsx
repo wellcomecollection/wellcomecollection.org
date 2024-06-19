@@ -80,6 +80,9 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
             Let's keep an eye on this issue and consider moving it next to the Segment script when it's fixed */}
             <GoogleTagManager />
 
+            {/* If we want these on to be added on the first page load after consent is given, then we would need page reload.
+            Since we don't like the UX that gives out, and the fact that the page having been cached at this point would skew
+            performance results, we're ok with it only loading on the subsequent page load. */}
             {shouldRenderAnalytics && <AnalyticsScripts />}
           </>
         </Head>
