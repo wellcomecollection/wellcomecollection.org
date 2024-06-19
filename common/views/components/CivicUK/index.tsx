@@ -86,11 +86,7 @@ const necessaryCookies = () => {
 
 const analyticsCookies = ['_gid', '_gat', '_ga*', 'ajs_anonymous_id'];
 
-type Props = {
-  apiKey: string;
-};
-
-const CivicUK = (props: Props) => (
+const CivicUK = ({ apiKey }: { apiKey: string }) => (
   <>
     <script
       src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js"
@@ -100,7 +96,7 @@ const CivicUK = (props: Props) => (
       dangerouslySetInnerHTML={{
         __html: `CookieControl.load({
             product: 'COMMUNITY',
-            apiKey: '${props.apiKey}',
+            apiKey: '${apiKey}',
             product: 'pro',
             initialState: 'notify',
             consentCookieExpiry: 182,
