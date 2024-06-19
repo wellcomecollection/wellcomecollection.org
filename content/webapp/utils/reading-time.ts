@@ -1,20 +1,23 @@
 import readingTime from 'reading-time';
 import { asText } from '@weco/content/services/prismic/transformers';
-
-import { BodySlice } from '@weco/content/types/body';
+import * as prismic from '@prismicio/client';
 import { Format } from '@weco/content/types/format';
 import { Label } from '@weco/common/model/labels';
 import { pluralize } from '@weco/common/utils/grammar';
+import {
+  TextSlice as RawTextSlice,
+  QuoteSlice as RawQuoteSlice,
+} from '@weco/common/prismicio-types';
 
 // Calculating the full reading time of the article by getting all article text
-function allArticleText(genericBody: BodySlice[]) {
+function allArticleText(genericBody: prismic.Slice[]) {
   return genericBody
     .map(slice => {
-      switch (slice.type) {
+      switch (slice.slice_type) {
         case 'text':
-          return asText(slice.value);
+          return asText(slice.primary.text as RawTextSlice['primary']['text']);
         case 'quote':
-          return asText(slice.value.text);
+          return asText(slice.primary.text as RawQuoteSlice['primary']['text']);
         default:
           return '';
       }
@@ -22,7 +25,9 @@ function allArticleText(genericBody: BodySlice[]) {
     .join(' ');
 }
 
-export function calculateReadingTime(body: BodySlice[]): string | undefined {
+export function calculateReadingTime(
+  body: prismic.Slice[]
+): string | undefined {
   const articleText = allArticleText(body);
 
   const minutes = Math.ceil(readingTime(articleText).minutes);

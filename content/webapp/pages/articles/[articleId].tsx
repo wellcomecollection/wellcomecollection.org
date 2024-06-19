@@ -22,7 +22,6 @@ import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import SeriesNavigation from '@weco/content/components/SeriesNavigation/SeriesNavigation';
 import Body from '@weco/content/components/Body/Body';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
@@ -41,7 +40,6 @@ import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { useToggles } from '@weco/common/server-data/Context';
 import Standfirst from '@weco/common/views/slices/Standfirst';
 
 const ContentTypeWrapper = styled.div`
@@ -165,7 +163,6 @@ const HTMLDateWrapper = styled.span.attrs({ className: font('intr', 6) })`
 
 const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
-  const { sliceMachine } = useToggles();
 
   useEffect(() => {
     async function setSeries() {
@@ -235,10 +232,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
 
   const ContentTypeInfo = (
     <>
-      {article.standfirst && !sliceMachine && (
-        <PageHeaderStandfirst html={article.standfirst} />
-      )}
-      {article.untransformedStandfirst && sliceMachine && (
+      {article.untransformedStandfirst && (
         <Standfirst
           slice={article.untransformedStandfirst}
           index={0}
@@ -349,7 +343,6 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
         Body={
           <Body
             untransformedBody={article.untransformedBody}
-            body={article.body}
             comicPreviousNext={
               isComicFormat ? getComicPreviousNext() : undefined
             }

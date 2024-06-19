@@ -41,11 +41,12 @@ Digital Platform:
  Raphaëlle Cantin
  Georgia E Whitney
  Agnès Garoux
- Jason Jaworski
  Lauren Baily
  Robert Kenny
  Jonathan Cates
  Kasia Bruzda
+ Štěpán Brychta
+ Dana Chan
 
 /* ALUMNI - WE MISS YOU ALL ! */
 
@@ -94,6 +95,7 @@ Digital Platform:
  Tomi Lahdesmaki
  Chloe Guest
  Dave Thompson
+ Jason Jaworski
 
 /* THANKS */
 

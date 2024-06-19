@@ -6,7 +6,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import Space from '@weco/common/views/components/styled/Space';
 import usePrevious from '@weco/common/hooks/usePrevious';
 import { cross, information } from '@weco/common/icons';
-import { GlobalAlertPrismicDocument } from '@weco/common/services/prismic/documents';
+import { GlobalAlertDocument as RawGlobalAlertDocument } from '@weco/common/prismicio-types';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
 import {
   BannerContainer,
@@ -18,7 +18,7 @@ import {
 
 type Props = {
   cookieName: string;
-  document: { data: InferDataInterface<GlobalAlertPrismicDocument> };
+  document: { data: InferDataInterface<RawGlobalAlertDocument> };
   onVisibilityChange?: (isVisible: boolean) => void;
 };
 

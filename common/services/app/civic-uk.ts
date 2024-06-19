@@ -2,6 +2,9 @@ import { getCookies } from 'cookies-next';
 import { GetServerSidePropsContext } from 'next';
 import { ConsentStatusProps } from '@weco/common/server-data/types';
 
+export const ACTIVE_COOKIE_BANNER_ID = 'ccc-overlay';
+export const COOKIE_BANNER_PARENT_ID = 'ccc';
+
 type CivicUKCookie = {
   optionalCookies?: {
     analytics: 'accepted' | 'revoked';

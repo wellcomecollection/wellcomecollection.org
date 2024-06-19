@@ -7,9 +7,10 @@ import {
 } from '../../../types/exhibition-guides';
 import { asRichText, asTitle } from '.';
 import {
-  ExhibitionGuideComponentPrismicDocument,
-  ExhibitionGuidePrismicDocument,
-} from '../types/exhibition-guides';
+  ExhibitionGuidesDocument as RawExhibitionGuidesDocument,
+  ExhibitionGuidesDocumentDataComponentsItem as RawExhibitionGuidesDocumentDataComponentsItem,
+} from '@weco/common/prismicio-types';
+import { PromoSliceZone } from '@weco/content/services/prismic/types';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { transformImagePromo } from './images';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
@@ -54,12 +55,12 @@ export function transformRelatedExhibition(exhibition): RelatedExhibition {
 }
 
 export function transformExhibitionGuide(
-  document: ExhibitionGuidePrismicDocument
+  document: RawExhibitionGuidesDocument
 ): ExhibitionGuide {
   const { data } = document;
 
   const components: ExhibitionGuideComponent[] = data.components?.map(
-    (component: ExhibitionGuideComponentPrismicDocument, index) => {
+    (component: RawExhibitionGuidesDocumentDataComponentsItem, index) => {
       const title = asTitle(component.title);
       const standaloneTitle = asTitle(component.standaloneTitle);
 
@@ -85,13 +86,17 @@ export function transformExhibitionGuide(
             : undefined,
           tombstone: asRichText(component.tombstone),
         },
-        // TODO make these both the same as other audio transforms
-        audioWithDescription: component['audio-with-description'].url
-          ? { url: component['audio-with-description'].url }
-          : undefined,
-        audioWithoutDescription: component['audio-without-description'].url
-          ? { url: component['audio-without-description'].url }
-          : undefined,
+        audioWithDescription:
+          isFilledLinkToDocumentWithData(component['audio-with-description']) &&
+          component['audio-with-description'].url
+            ? { url: component['audio-with-description'].url }
+            : undefined,
+        audioWithoutDescription:
+          isFilledLinkToDocumentWithData(
+            component['audio-without-description']
+          ) && component['audio-without-description'].url
+            ? { url: component['audio-without-description'].url }
+            : undefined,
         bsl:
           component['bsl-video'].provider_name === 'YouTube'
             ? { embedUrl: getYouTubeEmbedUrl(component['bsl-video']) }
@@ -101,8 +106,10 @@ export function transformExhibitionGuide(
   );
 
   const introText = (data.introText && asRichText(data.introText)) || [];
-  const promo = isFilledLinkToDocumentWithData(data['related-exhibition'])
-    ? transformImagePromo(data['related-exhibition'].data.promo)
+
+  const relatedExhibitionField = data['related-exhibition'];
+  const promo = isFilledLinkToDocumentWithData(relatedExhibitionField)
+    ? transformImagePromo(relatedExhibitionField.data.promo as PromoSliceZone)
     : undefined;
 
   const relatedExhibition = isFilledLinkToDocumentWithData(

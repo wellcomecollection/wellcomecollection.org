@@ -1,6 +1,8 @@
-import { FeaturedText } from '../../../types/text';
-import { Page } from '../../../types/pages';
-import { PagePrismicDocument } from '../types/pages';
+import { Page } from '@weco/content/types/pages';
+import {
+  PagesDocument as RawPagesDocument,
+  SeasonsDocument as RawSeasonsDocument,
+} from '@weco/common/prismicio-types';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
 import {
   asText,
@@ -12,14 +14,12 @@ import { transformSeason } from './seasons';
 import { dasherize } from '@weco/common/utils/grammar';
 import flattenDeep from 'lodash.flattendeep';
 import { Link } from '../../../types/link';
-import { Body } from '../types/body';
-import { SeasonPrismicDocument } from '../types/seasons';
 import { transformContributors } from './contributors';
 import { isNotUndefined, isUndefined } from '@weco/common/utils/type-guards';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 
-export function transformOnThisPage(body: Body): Link[] {
+export function transformOnThisPage(body): Link[] {
   return flattenDeep(
     body.map(slice => slice.primary.title || slice.primary.text || [])
   )
@@ -32,23 +32,25 @@ export function transformOnThisPage(body: Body): Link[] {
     });
 }
 
-export function transformPage(document: PagePrismicDocument): Page {
+export function transformPage(document: RawPagesDocument): Page {
   const { data } = document;
   const genericFields = transformGenericFields(document);
-  const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
-    season => transformSeason(season as SeasonPrismicDocument)
-  );
-  const parentPages = transformSingleLevelGroup(data.parents, 'parent').map(
-    (parent, index) => {
-      return {
-        ...transformPage(parent as PagePrismicDocument),
-        /* eslint-disable @typescript-eslint/no-non-null-assertion */
-        order: data.parents[index].order!,
-        /* eslint-enable @typescript-eslint/no-non-null-assertion */
-        type: parent.type,
-      };
-    }
-  );
+  const seasons = data?.seasons
+    ? transformSingleLevelGroup(data.seasons, 'season').map(season =>
+        transformSeason(season as RawSeasonsDocument)
+      )
+    : [];
+  const parentPages = data?.parents
+    ? transformSingleLevelGroup(data.parents, 'parent').map((parent, index) => {
+        return {
+          ...transformPage(parent as RawPagesDocument),
+          /* eslint-disable @typescript-eslint/no-non-null-assertion */
+          order: data.parents[index].order!,
+          /* eslint-enable @typescript-eslint/no-non-null-assertion */
+          type: parent.type,
+        };
+      })
+    : [];
   // TODO (tagging): This is just for now, we will be implementing a proper site tagging
   // strategy for this later
   const siteSections = headerLinks.map(link => link.siteSection);
@@ -96,7 +98,7 @@ export function transformPage(document: PagePrismicDocument): Page {
     seasons,
     contributors,
     parentPages,
-    onThisPage: data.body ? transformOnThisPage(data.body) : [],
+    onThisPage: data.body ? transformOnThisPage(data.body) : [], // TODO?
     showOnThisPage: data.showOnThisPage || false,
     promo,
     datePublished: data.datePublished
@@ -105,12 +107,3 @@ export function transformPage(document: PagePrismicDocument): Page {
     siteSection,
   };
 }
-
-export const getPageFeaturedText = (page: Page): FeaturedText | undefined => {
-  const filteredFeaturedText = page.body.filter(
-    slice => slice.weight === 'featured'
-  );
-  if (filteredFeaturedText.length) {
-    return filteredFeaturedText[0] as FeaturedText;
-  }
-};

@@ -1,4 +1,4 @@
-import { EventBasic } from '../../types/events';
+import { EventBasic } from '@weco/content/types/events';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import EventPromo from '../EventPromo/EventPromo';
 import { FunctionComponent } from 'react';

@@ -122,6 +122,12 @@ export const sierraStatusCodeToLabel = {
   t: 'In transit',
 };
 
+export const itemRequestDialog = {
+  pickupItemOn: 'The earliest available date to view this item is on',
+  libraryClosedOnSunday:
+    'Please bear in mind the library is closed on Sundays.',
+};
+
 export const defaultRequestErrorMessage =
   'There was a problem requesting this item. Please contact Library Enquiries (library@wellcomecollection.org).';
 

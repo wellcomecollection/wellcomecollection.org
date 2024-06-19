@@ -5,7 +5,7 @@ import {
   transformEventBasicTimes,
 } from './events';
 import { data as uiEventData } from '../../../components/CardGrid/DailyTourPromo';
-import { EventTime } from '../../../types/events';
+import { EventTime } from '@weco/content/types/events';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 
 const eventTimes: EventTime[] = [

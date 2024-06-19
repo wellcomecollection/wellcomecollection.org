@@ -1,8 +1,8 @@
 import { fetcher } from '.';
-import { ProjectPrismicDocument } from '../types/projects';
+import { ProjectsDocument as RawProjectsDocument } from '@weco/common/prismicio-types';
 import { projectFormatsFetchLinks as fetchLinks } from '../types';
 
-const projectsFetcher = fetcher<ProjectPrismicDocument>('projects', fetchLinks);
+const projectsFetcher = fetcher<RawProjectsDocument>('projects', fetchLinks);
 
 export const fetchProject = projectsFetcher.getById;
 export const fetchProjects = projectsFetcher.getByType;

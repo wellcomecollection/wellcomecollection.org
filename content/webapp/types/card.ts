@@ -1,17 +1,21 @@
 import { getCrop, ImageType } from '@weco/common/model/image';
-import { Format } from './format';
-import { EventBasic } from './events';
-import { ArticleBasic } from './articles';
-import { Season } from './seasons';
-import { Page, ParentPage } from './pages';
-import { Series, SeriesBasic } from './series';
+import { Format } from '@weco/content/types/format';
+import { EventBasic } from '@weco/content/types/events';
+import { ArticleBasic } from '@weco/content/types/articles';
+import { Season } from '@weco/content/types/seasons';
+import { Page, ParentPage } from '@weco/content/types/pages';
+import { Series, SeriesBasic } from '@weco/content/types/series';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { EventSeries } from './event-series';
-import { Book } from './books';
-import { ExhibitionBasic } from './exhibitions';
-import { Guide } from './guides';
-import { Project } from './projects';
-import { ExhibitionGuide, ExhibitionGuideBasic } from './exhibition-guides';
+import { EventSeries } from '@weco/content/types/event-series';
+import { Book } from '@weco/content/types/books';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
+import { Guide } from '@weco/content/types/guides';
+import { Project } from '@weco/content/types/projects';
+import {
+  ExhibitionGuide,
+  ExhibitionGuideBasic,
+} from '@weco/content/types/exhibition-guides';
+import { VisualStoryBasic } from '@weco/content/types/visual-stories';
 
 export type Card = {
   type: 'card';
@@ -40,6 +44,7 @@ export function convertItemToCardProps(
     | Project
     | ExhibitionGuide
     | ExhibitionGuideBasic
+    | VisualStoryBasic
 ): Card {
   const format =
     'format' in item
@@ -49,6 +54,17 @@ export function convertItemToCardProps(
         // getting this from prismic, that'll do
         { title: 'Serial', id: '' }
       : undefined;
+  const linkData =
+    'relatedDocument' in item
+      ? {
+          id: item.id,
+          type: item.type,
+          data: { relatedDocument: item.relatedDocument },
+        }
+      : {
+          id: item.id,
+          type: item.type,
+        };
   return {
     type: 'card',
     format: format as never, // TODO: This is now warning for use of any, need to specify type correctly
@@ -77,8 +93,6 @@ export function convertItemToCardProps(
             },
           }
         : undefined,
-    link:
-      (item.promo && item.promo.link) ||
-      linkResolver({ id: item.id, type: item.type }),
+    link: (item.promo && item.promo.link) || linkResolver(linkData),
   };
 }

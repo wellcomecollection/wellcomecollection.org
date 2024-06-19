@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { Event } from '../../types/events';
+import { Event } from '@weco/content/types/events';
 import Button from '@weco/common/views/components/Buttons';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';

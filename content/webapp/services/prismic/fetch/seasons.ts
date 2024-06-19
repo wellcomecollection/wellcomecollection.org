@@ -1,9 +1,9 @@
 import { fetcher } from '.';
-import { SeasonPrismicDocument } from '../types/seasons';
+import { SeasonsDocument as RawSeasonsDocument } from '@weco/common/prismicio-types';
 
 const fetchLinks = [];
 
-const seasonsFetcher = fetcher<SeasonPrismicDocument>('seasons', fetchLinks);
+const seasonsFetcher = fetcher<RawSeasonsDocument>('seasons', fetchLinks);
 
 export const fetchSeason = seasonsFetcher.getById;
 export const fetchSeasons = seasonsFetcher.getByType;

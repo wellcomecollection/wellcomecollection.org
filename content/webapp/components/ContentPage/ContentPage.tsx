@@ -16,6 +16,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import BannerCard from '@weco/content/components/BannerCard/BannerCard';
 import Contributors from '../Contributors/Contributors';
 import { Contributor } from '@weco/content/types/contributors';
+import { Props as BodyProps } from '@weco/content/components/Body/Body';
 
 export const PageBackgroundContext = createContext<'warmNeutral.300' | 'white'>(
   'white'
@@ -25,7 +26,7 @@ type Props = {
   id: string;
   isCreamy?: boolean;
   Header: ElementFromComponent<typeof PageHeader>;
-  Body?: ReactElement<{ body: { type: string }[] }>;
+  Body?: ReactElement<BodyProps>;
   // This is used for content type specific components e.g. InfoBox
   children?: ReactNode;
   RelatedContent?: ReactNode[];
@@ -62,11 +63,11 @@ const ContentPage = ({
     if (!Body) return false;
 
     if (
-      Body.props.body.length === 1 &&
-      Body.props.body[0].type === 'standfirst'
+      Body.props.untransformedBody.length === 1 &&
+      Body.props.untransformedBody[0].slice_type === 'standfirst'
     )
       return false;
-    if (Body.props.body.length > 0) return true;
+    if (Body.props.untransformedBody.length > 0) return true;
   }
 
   return (

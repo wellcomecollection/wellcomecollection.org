@@ -5,7 +5,7 @@ import {
   maxDate,
   minDate,
 } from '@weco/common/utils/dates';
-import { HasTimeRanges } from '../../types/events';
+import { HasTimeRanges } from '@weco/content/types/events';
 
 export type YearMonth = {
   year: number;

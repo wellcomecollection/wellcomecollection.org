@@ -1,7 +1,15 @@
 import { setEnvsFromSecrets } from '@weco/ts-aws';
-import { CustomType } from '../src/types/CustomType';
 import { secrets } from '../config';
 import fetch from 'node-fetch';
+
+type CustomType = {
+  id: string;
+  label: string;
+  repeatable: boolean;
+  status: boolean;
+  json: unknown;
+  format: 'custom';
+};
 
 export type Credentials = {
   accessKeyId: string;
