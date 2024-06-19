@@ -48,10 +48,15 @@ export const getOtherVisualStories = ({
   visualStories: VisualStoriesDocument[];
 }): VisualStoriesDocument[] => {
   return visualStories.filter(
-    // We want to remove any visual stories that satisfy any of the following:
-    // 1) is the same visualStory that is being displayed based on its id
-    // 2) is linked to the same exhibition or event as the visualStory being displayed (we infer it is the same visual story)
-    // 3) is linked to either a past exhibition or a past event
+    // We don't want to include a visual story among the related visual stories, if it is the one being displayed.
+    // How do we know if it is the one being displayed?
+    // Visual stories can be displayed at one of three urls
+    // 1) https://wellcomecollection.org/visual-stories/{visual story id}
+    // 2) https://wellcomecollection.org/exhibitions/{exhibition id}/visual-stories
+    // 3) https://wellcomecollection.org/events/{event id}/visual-stories
+    // We filter out a visual story if its id matches the visual story id in the url
+    // OR if it is linked to the same exhibition id or event id in the url (we infer it is the same visual story)
+    // We also filter our anything that is linked to a past exhibition or a past event
     result => {
       const relatedDocumentId =
         isFilledLinkToDocument(result.data.relatedDocument) &&
