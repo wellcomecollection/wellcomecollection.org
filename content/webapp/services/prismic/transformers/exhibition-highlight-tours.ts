@@ -1,8 +1,8 @@
 import * as prismic from '@prismicio/client';
 import { PromoSliceZone } from '@weco/content/services/prismic/types';
 import {
-  GuideStopSlice,
-  ExhibitionHighlightToursDocument,
+  GuideStopSlice as RawGuideStopSlice,
+  ExhibitionHighlightToursDocument as RawExhibitionHighlightToursDocument,
 } from '@weco/common/prismicio-types';
 import {
   PaginatedResults,
@@ -17,7 +17,7 @@ import { transformRelatedExhibition } from '@weco/content/services/prismic/trans
 import { getYouTubeEmbedUrl } from '@weco/content/services/prismic/transformers/embeds';
 
 export function transformExhibitionHighlightTours(
-  document: ExhibitionHighlightToursDocument
+  document: RawExhibitionHighlightToursDocument
 ): ExhibitionHighlightTour {
   const { data } = document;
   const introText = (data.intro_text && asRichText(data.intro_text)) || [];
@@ -32,7 +32,7 @@ export function transformExhibitionHighlightTours(
     ? transformRelatedExhibition(relatedExhibitionField)
     : undefined;
 
-  const slices: GuideStopSlice[] = document.data.slices;
+  const slices: RawGuideStopSlice[] = document.data.slices;
   const hasBSLVideo = slices.some(
     slice => slice.primary.bsl_video.provider_url
   );
@@ -61,7 +61,7 @@ export function transformExhibitionHighlightTours(
 }
 
 export function transformExhibitionHighlightToursQuery(
-  query: prismic.Query<ExhibitionHighlightToursDocument>
+  query: prismic.Query<RawExhibitionHighlightToursDocument>
 ): PaginatedResults<ExhibitionHighlightTour> {
   const paginatedResult = transformQuery(query, exhibitionTexts =>
     transformExhibitionHighlightTours(exhibitionTexts)
@@ -79,7 +79,7 @@ type GuideHighlightTour = {
 };
 
 export function transformGuideStopSlice(
-  slice: GuideStopSlice
+  slice: RawGuideStopSlice
 ): GuideHighlightTour {
   const title = asTitle(slice.primary.title);
   return {

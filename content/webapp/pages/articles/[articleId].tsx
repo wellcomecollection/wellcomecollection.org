@@ -245,7 +245,10 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
           <ContentTypeText>
             {article.contributors.length > 0 &&
               article.contributors.map(({ contributor, role }, i) => (
-                <ContentTypeInfoSection key={contributor.id}>
+                <ContentTypeInfoSection
+                  data-testid="contributor-name"
+                  key={contributor.id}
+                >
                   {role && role.describedBy && (
                     <span>
                       {i === 0

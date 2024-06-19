@@ -246,7 +246,7 @@ const WorkDetailsAvailableOnline = ({
                       <thead>
                         <tr>
                           <th>Name</th>
-                          <th>Kind</th>
+                          <th>File format</th>
                           <th>Size</th>
                           <th>Download</th>
                         </tr>

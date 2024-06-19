@@ -1,5 +1,5 @@
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { StoriesLandingDocument } from '@weco/common/prismicio-types';
+import { StoriesLandingDocument as RawStoriesLandingDocument } from '@weco/common/prismicio-types';
 import { StoriesLanding } from '@weco/content/types/stories-landing';
 import { transformBook, transformBookToBookBasic } from '../transformers/books';
 import {
@@ -21,7 +21,7 @@ function transformStoryOrSeries(storyOrSeries) {
   }
 }
 export function transformStoriesLanding(
-  storiesLandingDoc: StoriesLandingDocument
+  storiesLandingDoc: RawStoriesLandingDocument
 ): StoriesLanding {
   const {
     introText,

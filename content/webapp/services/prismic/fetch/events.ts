@@ -1,7 +1,7 @@
 import { clientSideFetcher, fetcher, GetServerSidePropsPrismicClient } from '.';
 import {
-  EventsDocument,
-  VisualStoriesDocument,
+  EventsDocument as RawEventsDocument,
+  VisualStoriesDocument as RawVisualStoriesDocument,
 } from '@weco/common/prismicio-types';
 import { getEventFilters } from '../types/filters';
 import * as prismic from '@prismicio/client';
@@ -41,11 +41,11 @@ const fetchLinks = [
   ...cardFetchLinks,
 ] as string[];
 
-const eventsFetcher = fetcher<EventsDocument>('events', fetchLinks);
+const eventsFetcher = fetcher<RawEventsDocument>('events', fetchLinks);
 
 type FetchEventResult = {
-  event?: EventsDocument;
-  visualStories: prismic.Query<VisualStoriesDocument>;
+  event?: RawEventsDocument;
+  visualStories: prismic.Query<RawVisualStoriesDocument>;
 };
 export async function fetchEvent(
   client: GetServerSidePropsPrismicClient,
@@ -69,7 +69,7 @@ export async function fetchEvent(
 export const fetchEventScheduleItems = async (
   { client }: GetServerSidePropsPrismicClient,
   scheduleIds: string[]
-): Promise<prismic.Query<EventsDocument>> => {
+): Promise<prismic.Query<RawEventsDocument>> => {
   return client.getByIDs(scheduleIds, {
     fetchLinks,
     pageSize: 40,
@@ -165,7 +165,7 @@ export const fetchEvents = (
     pageSize,
     orderings = [],
   }: FetchEventsQueryParams
-): Promise<prismic.Query<EventsDocument>> => {
+): Promise<prismic.Query<RawEventsDocument>> => {
   const order = period === 'past' ? 'desc' : 'asc';
   const startTimeOrderings =
     order === 'desc'

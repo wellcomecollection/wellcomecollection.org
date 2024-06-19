@@ -4,7 +4,7 @@ import {
   Fragment,
   PropsWithChildren,
 } from 'react';
-import { ContentListSlice } from '@weco/common/prismicio-types';
+import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { Link } from '../../types/link';
@@ -166,7 +166,8 @@ const Body: FunctionComponent<Props> = ({
     .map(slice => slice.slice_type)
     .indexOf('text');
 
-  const sections: ContentListSlice[] = untransformedBody.filter(isContentList);
+  const sections: RawContentListSlice[] =
+    untransformedBody.filter(isContentList);
 
   const sectionThemes: SectionTheme[] = [
     {
@@ -196,7 +197,7 @@ const Body: FunctionComponent<Props> = ({
   ];
 
   const LandingPageSections: FunctionComponent<{
-    sections: ContentListSlice[];
+    sections: RawContentListSlice[];
   }> = ({ sections = [] }) => (
     <>
       {sections.map((untransformedSection, index) => {
@@ -338,6 +339,7 @@ const Body: FunctionComponent<Props> = ({
           isLanding,
           isDropCapped,
           contentType,
+          isShortFilm,
         }}
       />
     </BodyWrapper>

@@ -30,7 +30,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { font } from '@weco/common/utils/classnames';
 import {
-  VisualStoriesDocument,
+  VisualStoriesDocument as RawVisualStoriesDocument,
   EventsDocumentData,
 } from '@weco/common/prismicio-types';
 import { isPast } from '@weco/common/utils/dates';
@@ -45,8 +45,8 @@ export const getOtherVisualStories = ({
   visualStories,
 }: {
   documentId: string;
-  visualStories: VisualStoriesDocument[];
-}): VisualStoriesDocument[] => {
+  visualStories: RawVisualStoriesDocument[];
+}): RawVisualStoriesDocument[] => {
   return visualStories.filter(
     // We don't want to include a visual story among the related visual stories, if it is the one being displayed.
     // How do we know if it is the one being displayed?
@@ -109,8 +109,9 @@ export const returnVisualStoryProps = ({
   otherCurrentVisualStories,
   serverData,
 }: {
-  visualStoryDocument?: VisualStoriesDocument;
-  otherCurrentVisualStories?: VisualStoriesDocument[];
+  visualStoryDocument?: RawVisualStoriesDocument;
+  otherCurrentVisualStories?: RawVisualStoriesDocument[];
+
   serverData: SimplifiedServerData;
 }) => {
   if (isNotUndefined(visualStoryDocument)) {

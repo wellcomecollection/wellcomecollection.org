@@ -8,9 +8,9 @@ import {
   ExhibitionGuideBasic,
 } from '@weco/content/types/exhibition-guides';
 import {
-  ExhibitionTextsDocument,
-  GuideTextItemSlice,
-  GuideSectionHeadingSlice,
+  ExhibitionTextsDocument as RawExhibitionTextsDocument,
+  GuideTextItemSlice as RawGuideTextItemSlice,
+  GuideSectionHeadingSlice as RawGuideSectionHeadingSlice,
 } from '@weco/common/prismicio-types';
 import { asRichText, asTitle } from '.';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
@@ -41,7 +41,7 @@ export function transformToBasic(
 }
 
 export function transformExhibitionTexts(
-  document: ExhibitionTextsDocument
+  document: RawExhibitionTextsDocument
 ): ExhibitionText {
   const { data } = document;
   const introText = (data.intro_text && asRichText(data.intro_text)) || [];
@@ -74,7 +74,7 @@ export function transformExhibitionTexts(
 }
 
 export function transformExhibitionTextsQuery(
-  query: prismic.Query<ExhibitionTextsDocument>
+  query: prismic.Query<RawExhibitionTextsDocument>
 ): PaginatedResults<ExhibitionText> {
   const paginatedResult = transformQuery(query, exhibitionTexts =>
     transformExhibitionTexts(exhibitionTexts)
@@ -88,10 +88,11 @@ type GuideTextItem = {
   title: string;
   caption: prismic.RichTextField | undefined;
   tombstone: prismic.RichTextField | undefined;
+  additional_notes: prismic.RichTextField | undefined;
 };
 
 export function transformGuideTextItemSlice(
-  slice: GuideTextItemSlice
+  slice: RawGuideTextItemSlice
 ): GuideTextItem {
   const title = asTitle(slice.primary.title);
 
@@ -101,6 +102,9 @@ export function transformGuideTextItemSlice(
     tombstone: asRichText(slice.primary.tombstone),
     caption: slice.primary.caption
       ? asRichText(slice.primary.caption)
+      : undefined,
+    additional_notes: slice.primary.additional_notes
+      ? asRichText(slice.primary.additional_notes)
       : undefined,
   };
 }
@@ -113,7 +117,7 @@ type GuideSectionHeading = {
 };
 
 export function transformGuideSectionHeadingSlice(
-  slice: GuideSectionHeadingSlice
+  slice: RawGuideSectionHeadingSlice
 ): GuideSectionHeading {
   const title = asTitle(slice.primary.title);
   return {

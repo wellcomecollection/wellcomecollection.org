@@ -20,6 +20,7 @@ const GuideTextItem: FunctionComponent<GuideTextItemProps> = ({
       title={transformedSlice.title}
       tombstone={transformedSlice.tombstone}
       caption={transformedSlice.caption}
+      additionalNotes={transformedSlice.additional_notes}
     />
   );
 };

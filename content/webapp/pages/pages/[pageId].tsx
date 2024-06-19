@@ -1,4 +1,4 @@
-import { EditorialImageSlice } from '@weco/common/prismicio-types';
+import { EditorialImageSlice as RawEditorialImageSlice } from '@weco/common/prismicio-types';
 import { FunctionComponent, ReactElement } from 'react';
 import PageLayout, {
   SiteSection,
@@ -95,7 +95,7 @@ function isVanityUrl(pageId: string, url: string): boolean {
   return !containsPageId && looksLikeVanityUrl;
 }
 
-function getFeaturedPictureWithTasl(editorialImage: EditorialImageSlice) {
+function getFeaturedPictureWithTasl(editorialImage: RawEditorialImageSlice) {
   const featuredPicture = transformEditorialImageSlice(editorialImage);
   const image =
     getCrop(featuredPicture.value.image, '16:9') || featuredPicture.value.image;

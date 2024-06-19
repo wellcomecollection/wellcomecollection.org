@@ -1,5 +1,5 @@
 import { GetServerSidePropsPrismicClient } from '.';
-import { StoriesLandingDocument } from '@weco/common/prismicio-types';
+import { StoriesLandingDocument as RawStoriesLandingDocument } from '@weco/common/prismicio-types';
 
 const graphQuery = `{
   stories-landing {
@@ -84,7 +84,7 @@ const graphQuery = `{
 
 export const fetchStoriesLanding = ({
   client,
-}: GetServerSidePropsPrismicClient): Promise<StoriesLandingDocument> =>
-  client.getSingle<StoriesLandingDocument>('stories-landing', {
+}: GetServerSidePropsPrismicClient): Promise<RawStoriesLandingDocument> =>
+  client.getSingle<RawStoriesLandingDocument>('stories-landing', {
     graphQuery,
   });

@@ -6499,6 +6499,16 @@ export interface GuideTextItemSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   caption: prismic.RichTextField;
+
+  /**
+   * Additional notes field in *GuideTextItem → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: e.g. Please do not touch the sculpture.
+   * - **API ID Path**: guide_text_item.primary.additional_notes
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  additional_notes: prismic.RichTextField;
 }
 
 /**

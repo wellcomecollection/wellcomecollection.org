@@ -9,11 +9,11 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import * as prismic from '@prismicio/client';
 import { transformImage } from './images';
 import { transformTimestamp } from '.';
-import { CollectionVenueDocument } from '@weco/common/prismicio-types';
+import { CollectionVenueDocument as RawCollectionVenueDocument } from '@weco/common/prismicio-types';
 
 export function createRegularDay(
   day: DayOfWeek,
-  venue: CollectionVenueDocument | CollectionVenuePrismicDocumentLite
+  venue: RawCollectionVenueDocument | CollectionVenuePrismicDocumentLite
 ): OpeningHoursDay {
   const { data } = venue;
   const lowercaseDay = day.toLowerCase();
@@ -40,7 +40,7 @@ export function createRegularDay(
 }
 
 export function transformCollectionVenue(
-  venue: CollectionVenueDocument | CollectionVenuePrismicDocumentLite
+  venue: RawCollectionVenueDocument | CollectionVenuePrismicDocumentLite
 ): Venue {
   const data = venue.data;
   const exceptionalOpeningHours = data.modifiedDayOpeningTimes

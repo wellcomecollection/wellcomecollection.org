@@ -1,12 +1,12 @@
 import { FunctionComponent } from 'react';
-import { TextAndIconsSlice as SliceType } from '@weco/common/prismicio-types';
+import { TextAndIconsSlice as RawTextAndIconsSlice } from '@weco/common/prismicio-types';
 import { SliceComponentProps } from '@prismicio/react';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import TextAndImageOrIcons from '@weco/content/components/TextAndImageOrIcons';
 import { transformTextAndIcons } from '@weco/content/services/prismic/transformers/body';
 
-export type TextAndIconsProps = SliceComponentProps<SliceType>;
+export type TextAndIconsProps = SliceComponentProps<RawTextAndIconsSlice>;
 
 const TextAndIconsSlice: FunctionComponent<TextAndIconsProps> = ({ slice }) => {
   const transformedSlice = transformTextAndIcons(slice);

@@ -1,5 +1,8 @@
 import { Page } from '@weco/content/types/pages';
-import { PagesDocument, SeasonsDocument } from '@weco/common/prismicio-types';
+import {
+  PagesDocument as RawPagesDocument,
+  SeasonsDocument as RawSeasonsDocument,
+} from '@weco/common/prismicio-types';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
 import {
   asText,
@@ -29,18 +32,18 @@ export function transformOnThisPage(body): Link[] {
     });
 }
 
-export function transformPage(document: PagesDocument): Page {
+export function transformPage(document: RawPagesDocument): Page {
   const { data } = document;
   const genericFields = transformGenericFields(document);
   const seasons = data?.seasons
     ? transformSingleLevelGroup(data.seasons, 'season').map(season =>
-        transformSeason(season as SeasonsDocument)
+        transformSeason(season as RawSeasonsDocument)
       )
     : [];
   const parentPages = data?.parents
     ? transformSingleLevelGroup(data.parents, 'parent').map((parent, index) => {
         return {
-          ...transformPage(parent as PagesDocument),
+          ...transformPage(parent as RawPagesDocument),
           /* eslint-disable @typescript-eslint/no-non-null-assertion */
           order: data.parents[index].order!,
           /* eslint-enable @typescript-eslint/no-non-null-assertion */

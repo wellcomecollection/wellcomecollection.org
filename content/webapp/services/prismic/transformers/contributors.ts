@@ -17,8 +17,8 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { asRichText, asText } from '.';
 import { ImageType } from '@weco/common/model/image';
 import {
-  OrganisationsDocument,
-  PeopleDocument,
+  OrganisationsDocument as RawOrganisationsDocument,
+  PeopleDocument as RawPeopleDocument,
 } from '@weco/common/prismicio-types';
 
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
@@ -36,13 +36,13 @@ function transformCommonFields(
     | (prismic.FilledContentRelationshipField<
         'people',
         'en-gb',
-        InferDataInterface<PeopleDocument>
-      > & { data: PeopleDocument })
+        InferDataInterface<RawPeopleDocument>
+      > & { data: RawPeopleDocument })
     | (prismic.FilledContentRelationshipField<
         'organisations',
         'en-gb',
-        InferDataInterface<OrganisationsDocument>
-      > & { data: OrganisationsDocument })
+        InferDataInterface<RawOrganisationsDocument>
+      > & { data: RawOrganisationsDocument })
 ) {
   return {
     id: agent.id,

@@ -7,8 +7,8 @@ import {
 } from '../../../types/exhibition-guides';
 import { asRichText, asTitle } from '.';
 import {
-  ExhibitionGuidesDocument,
-  ExhibitionGuidesDocumentDataComponentsItem,
+  ExhibitionGuidesDocument as RawExhibitionGuidesDocument,
+  ExhibitionGuidesDocumentDataComponentsItem as RawExhibitionGuidesDocumentDataComponentsItem,
 } from '@weco/common/prismicio-types';
 import { PromoSliceZone } from '@weco/content/services/prismic/types';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
@@ -55,12 +55,12 @@ export function transformRelatedExhibition(exhibition): RelatedExhibition {
 }
 
 export function transformExhibitionGuide(
-  document: ExhibitionGuidesDocument
+  document: RawExhibitionGuidesDocument
 ): ExhibitionGuide {
   const { data } = document;
 
   const components: ExhibitionGuideComponent[] = data.components?.map(
-    (component: ExhibitionGuidesDocumentDataComponentsItem, index) => {
+    (component: RawExhibitionGuidesDocumentDataComponentsItem, index) => {
       const title = asTitle(component.title);
       const standaloneTitle = asTitle(component.standaloneTitle);
 

@@ -1,5 +1,5 @@
 import { calculateReadingTime } from './reading-time';
-import { TextSlice } from '@weco/common/prismicio-types';
+import { TextSlice as RawTextSlice } from '@weco/common/prismicio-types';
 
 const exampleTextSlice = {
   variation: 'default',
@@ -17,7 +17,7 @@ const exampleTextSlice = {
   id: 'standfirst$cdd0c06c-a8e0-4390-89fb-a1c54a35a335',
   slice_type: 'text',
   slice_label: null,
-} as TextSlice;
+} as RawTextSlice;
 
 it('rounds up the reading time to the next minute', () => {
   const result = calculateReadingTime([exampleTextSlice]);

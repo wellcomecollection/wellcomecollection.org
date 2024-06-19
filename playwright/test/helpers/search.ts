@@ -113,3 +113,25 @@ export const selectAndWaitForColourFilter = async (page: Page) => {
     await page.getByRole('button', { name: 'Colours' }).click();
   }
 };
+
+// Stories specific
+export const navigateToStoryResultAndConfirmTitleMatches = async (
+  n = 1,
+  page: Page
+) => {
+  const result = `main div:nth-of-type(${n}) a`;
+  const searchResultTitle = await page.textContent(`${result} h3`);
+  await page.click(result);
+
+  const title = await page.locator('h1');
+  await slowExpect(title).toContainText(String(searchResultTitle));
+};
+
+export const locateAndConfirmContributorInfoMatchesStory = async (
+  contributor: string,
+  page: Page
+) => {
+  await page.getByTestId('story-search-result').getByText(contributor).click();
+  const topContributorInfo = await page.getByTestId('contributor-name');
+  await slowExpect(topContributorInfo).toContainText(contributor);
+};

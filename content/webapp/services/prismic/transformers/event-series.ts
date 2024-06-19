@@ -1,5 +1,5 @@
 import { EventSeries, EventSeriesBasic } from '../../../types/event-series';
-import { EventSeriesDocument } from '@weco/common/prismicio-types';
+import { EventSeriesDocument as RawEventSeriesDocument } from '@weco/common/prismicio-types';
 import { transformGenericFields /*, asText */ } from '.';
 // import { BackgroundTexture } from '@weco/common/model/background-texture';
 // import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
@@ -22,7 +22,7 @@ import { transformContributors } from './contributors';
 // }
 
 export function transformEventSeries(
-  document: EventSeriesDocument
+  document: RawEventSeriesDocument
 ): EventSeries {
   const genericFields = transformGenericFields(document);
 
