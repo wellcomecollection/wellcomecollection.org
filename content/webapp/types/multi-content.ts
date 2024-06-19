@@ -1,16 +1,20 @@
-import { EventSeries } from './event-series';
-import { ArticleBasic } from './articles';
-import { BookBasic } from './books';
-import { EventBasic } from './events';
-import { ExhibitionBasic } from './exhibitions';
-import { Page } from './pages';
-import { Series, SeriesBasic } from './series';
-import { Guide } from './guides';
-import { Weblink } from './weblinks';
-import { Project } from './projects';
-import { Season } from './seasons';
-import { ExhibitionGuide, ExhibitionGuideBasic } from './exhibition-guides';
-import { Card } from './card';
+import { EventSeries } from '@weco/content/types/event-series';
+import { ArticleBasic } from '@weco/content/types/articles';
+import { BookBasic } from '@weco/content/types/books';
+import { EventBasic } from '@weco/content/types/events';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
+import { Page } from '@weco/content/types/pages';
+import { Series, SeriesBasic } from '@weco/content/types/series';
+import { Guide } from '@weco/content/types/guides';
+import { Weblink } from '@weco/content/types/weblinks';
+import { Project } from '@weco/content/types/projects';
+import { Season } from '@weco/content/types/seasons';
+import {
+  ExhibitionGuide,
+  ExhibitionGuideBasic,
+} from '@weco/content/types/exhibition-guides';
+import { Card } from '@weco/content/types/card';
+import { VisualStoryBasic } from '@weco/content/types/visual-stories';
 
 export type MultiContent =
   | Page
@@ -27,4 +31,5 @@ export type MultiContent =
   | Season
   | ExhibitionGuide
   | ExhibitionGuideBasic
-  | Card;
+  | Card
+  | VisualStoryBasic;

@@ -1,4 +1,4 @@
-import { FunctionComponent, FormEvent, useState, useEffect } from 'react';
+import { FunctionComponent, FormEvent, useEffect } from 'react';
 import { allowedRequests } from '@weco/common/values/requests';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -12,6 +12,8 @@ import styled from 'styled-components';
 import { CTAs, CurrentRequests, Header } from './common';
 import { themeValues } from '@weco/common/views/themes/config';
 import { dateAsValue, dateFromValue } from './format-date';
+import { formatDayName, formatDayMonth } from '@weco/common/utils/format-date';
+import { itemRequestDialog } from '@weco/common/data/microcopy';
 
 const PickUpDate = styled(Space).attrs({
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
@@ -73,6 +75,8 @@ type RequestDialogProps = {
   confirmRequest: (date: Date) => void;
   setIsActive: (value: boolean) => void;
   currentHoldNumber?: number;
+  pickUpDate?: string;
+  setPickUpDate: (date: string) => void;
 };
 
 const RequestDialog: FunctionComponent<RequestDialogProps> = ({
@@ -81,10 +85,14 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
   confirmRequest,
   setIsActive,
   currentHoldNumber,
+  pickUpDate,
+  setPickUpDate,
 }) => {
-  const [pickUpDate, setPickUpDate] = useState<string | undefined>(
-    item.availableDates && dateAsValue(new Date(item.availableDates[0].from))
-  );
+  const firstAvailableDate =
+    item.availableDates &&
+    `${formatDayName(new Date(item.availableDates[0].from))} ${formatDayMonth(
+      new Date(item.availableDates[0].from)
+    )}`;
 
   // the pickUpDate's state sometimes get set as undefined before the availableDates have been fetched
   // as a result the user can't confirm the request unless they interact with the RequestingDayPicker in some way to trigger a state update
@@ -139,8 +147,11 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
               </p>
             </Space>
             <PickupDeadline>
-              Item requests need to be placed by 10am on the working day before
-              your visit. Please bear in mind the library is closed on Sundays.
+              <span data-testid="pickup-deadline">
+                {itemRequestDialog.pickupItemOn} <b>{firstAvailableDate}</b>.
+                <br />
+              </span>
+              {itemRequestDialog.libraryClosedOnSunday}
             </PickupDeadline>
           </PickUpDateDescription>
           <PickUpDateInputWrapper>

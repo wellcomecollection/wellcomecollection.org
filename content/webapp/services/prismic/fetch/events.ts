@@ -1,28 +1,28 @@
 import { clientSideFetcher, fetcher, GetServerSidePropsPrismicClient } from '.';
 import {
+  EventsDocument as RawEventsDocument,
+  VisualStoriesDocument as RawVisualStoriesDocument,
+} from '@weco/common/prismicio-types';
+import { getEventFilters } from '../types/filters';
+import * as prismic from '@prismicio/client';
+import { EventBasic } from '@weco/content/types/events';
+import { fetchVisualStories } from '@weco/content/services/prismic/fetch/visual-stories';
+import {
   audienceFetchLinks,
   eventFormatFetchLinks,
   eventPolicyFetchLinks,
-  EventPrismicDocument,
-  eventsFetchLinks,
   interpretationTypeFetchLinks,
   teamFetchLinks,
-} from '../types/events';
-import { getEventFilters } from '../types/filters';
-import * as prismic from '@prismicio/client';
-import { EventBasic } from '../../../types/events';
-import {
+  backgroundTexturesFetchLinks,
+  cardFetchLinks,
   commonPrismicFieldsFetchLinks,
   contributorFetchLinks,
+  eventsFetchLinks,
   eventSeriesFetchLinks,
   exhibitionsFetchLinks,
   seasonsFetchLinks,
-} from '../types';
-import { cardFetchLinks } from '../types/card';
-import { placesFetchLinks } from '../types/places';
-import { backgroundTexturesFetchLink } from '../types/background-textures';
-import { fetchVisualStories } from './visual-stories';
-import { VisualStoryDocument } from '../types/visual-stories';
+  placesFetchLinks,
+} from '@weco/content/services/prismic/types';
 
 const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,
@@ -35,17 +35,17 @@ const fetchLinks = [
   ...eventPolicyFetchLinks,
   ...placesFetchLinks,
   ...teamFetchLinks,
-  ...backgroundTexturesFetchLink,
+  ...backgroundTexturesFetchLinks,
   ...seasonsFetchLinks,
   ...eventsFetchLinks,
   ...cardFetchLinks,
-];
+] as string[];
 
-const eventsFetcher = fetcher<EventPrismicDocument>('events', fetchLinks);
+const eventsFetcher = fetcher<RawEventsDocument>('events', fetchLinks);
 
 type FetchEventResult = {
-  event?: EventPrismicDocument;
-  visualStories: prismic.Query<VisualStoryDocument>;
+  event?: RawEventsDocument;
+  visualStories: prismic.Query<RawVisualStoriesDocument>;
 };
 export async function fetchEvent(
   client: GetServerSidePropsPrismicClient,
@@ -69,7 +69,7 @@ export async function fetchEvent(
 export const fetchEventScheduleItems = async (
   { client }: GetServerSidePropsPrismicClient,
   scheduleIds: string[]
-): Promise<prismic.Query<EventPrismicDocument>> => {
+): Promise<prismic.Query<RawEventsDocument>> => {
   return client.getByIDs(scheduleIds, {
     fetchLinks,
     pageSize: 40,
@@ -165,7 +165,7 @@ export const fetchEvents = (
     pageSize,
     orderings = [],
   }: FetchEventsQueryParams
-): Promise<prismic.Query<EventPrismicDocument>> => {
+): Promise<prismic.Query<RawEventsDocument>> => {
   const order = period === 'past' ? 'desc' : 'asc';
   const startTimeOrderings =
     order === 'desc'

@@ -2,8 +2,8 @@ import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
 import * as prismic from '@prismicio/client';
 import {
-  ExhibitionTextsDocumentData,
-  ExhibitionHighlightToursDocumentData,
+  ExhibitionTextsDocumentData as RawExhibitionTextsDocumentData,
+  ExhibitionHighlightToursDocumentData as RawExhibitionHighlightToursDocumentData,
 } from '@weco/common/prismicio-types';
 
 type CaptionsOrTranscripts = {
@@ -77,9 +77,9 @@ export function isValidType(
 }
 
 export type ExhibitionText = ExhibitionGuideBasic & {
-  textItems: ExhibitionTextsDocumentData['slices'];
+  textItems: RawExhibitionTextsDocumentData['slices'];
 };
 
 export type ExhibitionHighlightTour = ExhibitionGuideBasic & {
-  stops: ExhibitionHighlightToursDocumentData['slices'];
+  stops: RawExhibitionHighlightToursDocumentData['slices'];
 };

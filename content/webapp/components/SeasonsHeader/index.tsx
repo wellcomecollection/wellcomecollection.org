@@ -4,7 +4,6 @@ import styled from 'styled-components';
 // Helpers/Utils
 import { font } from '@weco/common/utils/classnames';
 import { getCrop } from '@weco/common/model/image';
-import { useToggles } from '@weco/common/server-data/Context';
 
 // Components
 import DateRange from '@weco/content/components/DateRange/DateRange';
@@ -13,7 +12,6 @@ import Layout, {
   gridSize12,
   gridSize10,
 } from '@weco/common/views/components/Layout';
-import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import { WobblyBottom } from '@weco/common/views/components/WobblyEdge';
@@ -35,9 +33,7 @@ type Props = {
 };
 
 const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
-  const { title, standfirst, start, end, labels, untransformedStandfirst } =
-    season;
-  const { sliceMachine } = useToggles();
+  const { title, start, end, labels, untransformedStandfirst } = season;
   const superWidescreenImage = getCrop(season.image, '32:15');
 
   return (
@@ -80,10 +76,8 @@ const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
                           <DateRange start={start} end={end} />
                         </div>
                       )}
-                      {standfirst && !sliceMachine && (
-                        <PageHeaderStandfirst html={standfirst} />
-                      )}
-                      {untransformedStandfirst && sliceMachine && (
+
+                      {untransformedStandfirst && (
                         <Standfirst
                           slice={untransformedStandfirst}
                           index={0}

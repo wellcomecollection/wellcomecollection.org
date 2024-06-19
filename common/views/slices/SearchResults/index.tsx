@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { SearchResultsSlice as SliceType } from '@weco/common/prismicio-types';
+import { SearchResultsSlice as RawSearchResultsSlice } from '@weco/common/prismicio-types';
 import { SliceComponentProps } from '@prismicio/react';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
@@ -11,7 +11,7 @@ import AsyncSearchResults from '@weco/content/components/SearchResults/AsyncSear
 import { transformSearchResultsSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type SearchResultsProps = SliceComponentProps<
-  SliceType,
+  RawSearchResultsSlice,
   SliceZoneContext
 >;
 

@@ -14,13 +14,13 @@ import {
   Organisation as OrganisationType,
 } from '@weco/content/types/contributors';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
+import untransformedBody from '@weco/cardigan/stories/data/untransformed-body';
 
 faker.seed(123);
 
 export const bannerCardItem: Season = {
   type: 'seasons',
   id: 'bannerCardItem',
-  body: [],
   untransformedBody: [],
   labels: [],
   title: 'What does it mean to be human, now?',
@@ -90,7 +90,6 @@ export const event: Event = {
   title: 'Event title',
   audiences: [],
   availableOnline: true,
-  body: [],
   untransformedBody: [],
   bookingInformation: null,
   bookingType: 'First come, first served',
@@ -134,7 +133,6 @@ export const event: Event = {
     {
       id: 'WoLtUioAACkANrUM',
       title: 'Viewing Room',
-      body: [],
       untransformedBody: [],
       labels: [],
       level: 2,
@@ -301,50 +299,7 @@ export const article: Article = {
       description: null,
     },
   ],
-  body: [
-    {
-      type: 'imageGallery',
-      weight: 'standalone',
-      value: {
-        title: '',
-        isStandalone: false,
-        isFrames: false,
-        items: [
-          {
-            image: {
-              contentUrl: darkCloudImageUrl('1600x900'),
-              width: 1600,
-              height: 900,
-              alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
-              tasl: {
-                title: 'Weewaaz',
-              },
-              simpleCrops: {
-                '32:15': {
-                  contentUrl: darkCloudImageUrl('3200x1500'),
-                  width: 3200,
-                  height: 1500,
-                },
-                '16:9': {
-                  contentUrl: darkCloudImageUrl('3200x1800'),
-                  width: 3200,
-                  height: 1800,
-                },
-                square: {
-                  contentUrl: darkCloudImageUrl('3200x3200'),
-                  width: 3200,
-                  height: 3200,
-                },
-              },
-            },
-            hasRoundedCorners: false,
-            caption: [],
-          },
-        ],
-      },
-    },
-  ],
-  untransformedBody: [],
+  untransformedBody,
   promo: {
     caption: 'Do you have any dark clouds following you?',
     image: {
@@ -436,9 +391,7 @@ export const article: Article = {
           description: null,
         },
       ],
-      body: [],
       untransformedBody: [],
-      standfirst: null,
       promo: {
         caption: '',
         image: {

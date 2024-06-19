@@ -3,7 +3,6 @@ import { FunctionComponent } from 'react';
 
 import * as prismic from '@prismicio/client';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
@@ -41,7 +40,6 @@ import styled from 'styled-components';
 import ArticleCard from '@weco/content/components/ArticleCard/ArticleCard';
 import ArticleScheduleItemCard from '@weco/content/components/ArticleScheduleItemCard';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import { useToggles } from '@weco/common/server-data/Context';
 import Standfirst from '@weco/common/views/slices/Standfirst';
 
 const SeriesItem = styled.div<{ $isFirst: boolean }>`
@@ -127,7 +125,7 @@ export const getServerSideProps: GetServerSideProps<
 
   // We know that `articles` is non-empty, and because we queried for articles in
   // this series, we know these articles have a series defined.
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
   const series = articles.results[0].series.find(
     series => series.id === seriesId
   )!;
@@ -162,7 +160,6 @@ export const getServerSideProps: GetServerSideProps<
 
 const ArticleSeriesPage: FunctionComponent<Props> = props => {
   const { series, articles, scheduledItems } = props;
-  const { sliceMachine } = useToggles();
   const breadcrumbs = {
     items: [
       {
@@ -177,17 +174,14 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
     ],
   };
 
-  const ContentTypeInfo =
-    series.standfirst && !sliceMachine ? (
-      <PageHeaderStandfirst html={series.standfirst} />
-    ) : series.untransformedStandfirst && sliceMachine ? (
-      <Standfirst
-        slice={series.untransformedStandfirst}
-        index={0}
-        context={{}}
-        slices={[]}
-      />
-    ) : null;
+  const ContentTypeInfo = series.untransformedStandfirst ? (
+    <Standfirst
+      slice={series.untransformedStandfirst}
+      index={0}
+      context={{}}
+      slices={[]}
+    />
+  ) : null;
 
   const FeaturedMedia = getFeaturedMedia(series);
   const Header = (
@@ -226,7 +220,6 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
         Body={
           <Body
             untransformedBody={series.untransformedBody}
-            body={series.body}
             pageId={series.id}
           />
         }

@@ -85,11 +85,11 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'sliceMachine',
-      title: 'Prismic Slice Machine',
+      id: 'offsiteRequesting',
+      title: 'Request items from offsite locations',
       initialValue: false,
       description:
-        'This will render content using Prismic Slice Machine slices instead of legacy slices',
+        'This enables online requesting of items that are held at the offsite Deepstore location',
       type: 'experimental',
     },
   ] as const,
