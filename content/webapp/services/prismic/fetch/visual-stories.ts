@@ -2,6 +2,8 @@ import { GetServerSidePropsPrismicClient, fetcher } from '.';
 import {
   commonPrismicFieldsFetchLinks,
   contributorFetchLinks,
+  eventsFetchLinks,
+  exhibitionsFetchLinks,
   teamsFetchLinks,
 } from '@weco/content/services/prismic/types';
 import * as prismic from '@prismicio/client';
@@ -11,6 +13,8 @@ const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,
   ...teamsFetchLinks,
   ...contributorFetchLinks,
+  ...exhibitionsFetchLinks,
+  ...eventsFetchLinks,
 ];
 
 const visualStoriesFetcher = fetcher<RawVisualStoriesDocument>(
