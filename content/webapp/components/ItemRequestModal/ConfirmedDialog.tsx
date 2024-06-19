@@ -24,7 +24,8 @@ const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
       </Header>
       <p>
         It will be available to pick up from the library (Rare Materials Room,
-        level&nbsp;3) for one week from {pickUpDate}.
+        level&nbsp;3) for one week from{' '}
+        {pickUpDate || 'your selected pickup date'}.
       </p>
       <CTAs>
         <Button
