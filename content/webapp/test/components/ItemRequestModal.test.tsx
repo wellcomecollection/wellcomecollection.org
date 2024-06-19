@@ -7,8 +7,13 @@ import ItemRequestModal from '../../components/ItemRequestModal/ItemRequestModal
 import { getItemsWithPhysicalLocation } from '../../utils/works';
 import * as Context from '@weco/common/server-data/Context';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
+import { itemRequestDialog } from '@weco/common/data/microcopy';
 
 jest.spyOn(Context, 'usePrismicData').mockImplementation(() => prismicData);
+
+const mockDateNow = (dateToMock: string) => {
+  jest.useFakeTimers().setSystemTime(new Date(dateToMock));
+};
 
 const RequestModal: FunctionComponent = () => {
   const [requestModalIsActive, setRequestModalIsActive] = useState(true);
@@ -38,5 +43,25 @@ describe('ItemRequestModal', () => {
       await userEvent.selectOptions(select, '23-05-2022');
     });
     expect(select.value).toBe('23-05-2022');
+  });
+
+  it('shows the correct lead time for onsite items', async () => {
+    mockDateNow('2024-03-21T19:00:00.000Z');
+
+    const { getByTestId } = renderWithTheme(<RequestModal />);
+    const message = getByTestId('pickup-deadline');
+    expect(message).toHaveTextContent(
+      `${itemRequestDialog.pickupItemOn} Monday 23 May.`
+    );
+  });
+
+  it('shows the correct lead time for offsite/deepstore items', async () => {
+    mockDateNow('2022-05-09T19:00:00.000Z');
+
+    const { getByTestId } = renderWithTheme(<RequestModal />);
+    const message = getByTestId('pickup-deadline');
+    expect(message).toHaveTextContent(
+      `${itemRequestDialog.pickupItemOn} Monday 23 May.`
+    );
   });
 });

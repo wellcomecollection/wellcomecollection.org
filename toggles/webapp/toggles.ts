@@ -84,6 +84,14 @@ const toggles = {
         'If there are born digital items in the iiif-manifest, then links to all the files in the manifest are shown on the works page.',
       type: 'experimental',
     },
+    {
+      id: 'offsiteRequesting',
+      title: 'Request items from offsite locations',
+      initialValue: false,
+      description:
+        'This enables online requesting of items that are held at the offsite Deepstore location',
+      type: 'experimental',
+    },
   ] as const,
   tests: [] as ABTest[],
 };
