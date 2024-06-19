@@ -321,7 +321,6 @@ export const Page: FunctionComponent<Props> = ({
     const orderedItems: PageType[] = groupWithOrder
       .filter(s => Boolean(s.order))
       .sort((a, b) => a.order! - b.order!);
-    /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
     const unorderedItems: PageType[] = groupWithOrder.filter(s => !s.order);
 

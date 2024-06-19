@@ -190,7 +190,6 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
 
             We could get this working in the type system, but it's a more invasive change.
           */}
-          {}
           <time dateTime={formatDate(end!)}>{formatDayName(end!)}</time>
         </>
       )}

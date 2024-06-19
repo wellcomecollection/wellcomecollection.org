@@ -30,9 +30,7 @@ export function getTryTheseTooPromos(
             id: item.id,
             url: `/pages/${item.id}`,
             title: item.title,
-
             image: item.promo!.image!,
-
             description: item.promo!.caption!,
           }
         : undefined

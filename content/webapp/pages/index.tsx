@@ -106,7 +106,6 @@ export const getServerSideProps: GetServerSideProps<
     ]);
 
   // The homepage should always exist in Prismic.
-
   const page = transformPage(pageDocument!);
 
   const articles = transformQuery(articlesQuery, transformArticle);

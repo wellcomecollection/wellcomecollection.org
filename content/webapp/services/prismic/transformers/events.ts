@@ -116,11 +116,9 @@ function transformBookingEnquiryTeam(
     ? {
         id: team.id,
         title: asText(team.data?.title) || '',
-
         email: team.data!.email!,
         phone: team.data!.phone!,
         url: team.data!.url!,
-        /* eslint-enable @typescript-eslint/no-non-null-assertion */
       }
     : undefined;
 }

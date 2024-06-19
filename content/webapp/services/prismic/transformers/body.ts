@@ -106,7 +106,6 @@ export function transformTextAndImage(
     value: {
       type: 'image',
       text: slice.primary.text,
-
       image: transformImage(slice.primary.image)!,
       isZoomable: slice.primary.isZoomable,
     },
@@ -121,7 +120,6 @@ export function transformTextAndIcons(
     value: {
       type: 'icons',
       text: slice.primary.text,
-
       icons: slice.items.map(({ icon }) => transformImage(icon)!),
     },
   };
@@ -264,7 +262,6 @@ export function transformIframeSlice(
     weight: getWeight(slice.slice_label),
     value: {
       src: slice.primary.iframeSrc!,
-
       image: transformImage(slice.primary.previewImage)!,
     },
   };
