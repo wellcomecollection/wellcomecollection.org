@@ -23,7 +23,6 @@ import {
   OpeningHoursDay,
   Venue,
 } from '@weco/common/model/opening-hours';
-import { Weight } from '../../types/body';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 
 const VenueHoursImage = styled(Space)`
@@ -151,10 +150,9 @@ export const UnusualOpeningHours: FunctionComponent<
 
 type Props = {
   venue: Venue;
-  weight: Weight;
 };
 
-const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
+const VenueHours: FunctionComponent<Props> = ({ venue }) => {
   const { collectionVenues } = usePrismicData();
   const venues = transformCollectionVenues(collectionVenues);
   const allOverrideDates = getOverrideDatesForAllVenues(venues);
@@ -169,7 +167,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
   const upcomingExceptionalOpeningHours =
     exceptionalOpeningHours &&
     getUpcomingExceptionalOpeningHours(exceptionalOpeningHours);
-  const isFeatured = weight === 'featured' || venue.isFeatured; // TODO: remove weight check after migration
+  const isFeatured = venue.isFeatured;
   return (
     <>
       {isFeatured && (
