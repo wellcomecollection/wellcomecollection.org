@@ -1,6 +1,6 @@
 import {
   ResultsLite,
-  CollectionVenuePrismicDocumentLite,
+  RawCollectionVenueDocumentLite,
 } from '../../../server-data/prismic';
 import { DayOfWeek, formatTime } from '@weco/common/utils/format-date';
 import { Venue, OpeningHoursDay } from '@weco/common/model/opening-hours';
@@ -13,7 +13,7 @@ import { CollectionVenueDocument as RawCollectionVenueDocument } from '@weco/com
 
 export function createRegularDay(
   day: DayOfWeek,
-  venue: RawCollectionVenueDocument | CollectionVenuePrismicDocumentLite
+  venue: RawCollectionVenueDocument | RawCollectionVenueDocumentLite
 ): OpeningHoursDay {
   const { data } = venue;
   const lowercaseDay = day.toLowerCase();
@@ -40,7 +40,7 @@ export function createRegularDay(
 }
 
 export function transformCollectionVenue(
-  venue: RawCollectionVenueDocument | CollectionVenuePrismicDocumentLite
+  venue: RawCollectionVenueDocument | RawCollectionVenueDocumentLite
 ): Venue {
   const data = venue.data;
   const exceptionalOpeningHours = data.modifiedDayOpeningTimes
