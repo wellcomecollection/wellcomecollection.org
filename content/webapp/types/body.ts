@@ -17,16 +17,8 @@ import { Card } from './card';
 
 import * as prismic from '@prismicio/client';
 
-export type Weight =
-  | 'default'
-  | 'featured'
-  | 'standalone'
-  | 'supporting'
-  | 'frames';
-
 export type Slice<TypeName extends string, Value> = {
   type: TypeName;
-  weight?: Weight;
   value: Value;
 };
 
