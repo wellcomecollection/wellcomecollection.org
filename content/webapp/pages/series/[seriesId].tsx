@@ -125,7 +125,6 @@ export const getServerSideProps: GetServerSideProps<
 
   // We know that `articles` is non-empty, and because we queried for articles in
   // this series, we know these articles have a series defined.
-
   const series = articles.results[0].series.find(
     series => series.id === seriesId
   )!;
