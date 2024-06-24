@@ -15,7 +15,8 @@ import {
   Ga4DataLayer,
   GoogleTagManager,
   GaDimensions,
-  AnalyticsScripts,
+  PerformanceTimingTrackingScript,
+  CoreWebVitalsScript,
 } from '@weco/common/services/app/analytics-scripts';
 
 type DocumentInitialPropsWithTogglesAndGa = DocumentInitialProps & {
@@ -63,8 +64,6 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
   }
 
   render(): ReactElement<DocumentInitialProps> {
-    const shouldRenderAnalytics = this.props.consentStatus.analytics;
-
     return (
       <Html lang="en">
         <Head>
@@ -80,10 +79,11 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
             Let's keep an eye on this issue and consider moving it next to the Segment script when it's fixed */}
             <GoogleTagManager />
 
-            {/* If we want these on to be added on the first page load after consent is given, then we would need page reload.
-            Since we don't like the UX that gives out, and the fact that the page having been cached at this point would skew
-            performance results, we're ok with it only loading on the subsequent page load. */}
-            {shouldRenderAnalytics && <AnalyticsScripts />}
+            {/* https://github.com/wellcomecollection/wellcomecollection.org/issues/10090 */}
+            <PerformanceTimingTrackingScript />
+
+            {/* https://github.com/wellcomecollection/wellcomecollection.org/issues/9286 */}
+            <CoreWebVitalsScript />
           </>
         </Head>
         <body>
