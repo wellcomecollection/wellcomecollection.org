@@ -12,11 +12,11 @@ import { Toggles } from '@weco/toggles';
 import { ConsentStatusProps } from '@weco/common/server-data/types';
 import { getErrorPageConsent } from '@weco/common/services/app/civic-uk';
 import {
+  CoreWebVitalsScript,
+  PerformanceTimingTrackingScript,
   Ga4DataLayer,
   GoogleTagManager,
   GaDimensions,
-  PerformanceTimingTrackingScript,
-  CoreWebVitalsScript,
 } from '@weco/common/services/app/analytics-scripts';
 
 type DocumentInitialPropsWithTogglesAndGa = DocumentInitialProps & {

@@ -11,7 +11,10 @@ import {
   ExhibitionGuidesDocumentDataComponentsItem as RawExhibitionGuidesDocumentDataComponentsItem,
 } from '@weco/common/prismicio-types';
 import { PromoSliceZone } from '@weco/content/services/prismic/types';
-import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
+import {
+  isFilledLinkToMediaField,
+  isFilledLinkToDocumentWithData,
+} from '@weco/common/services/prismic/types';
 import { transformImagePromo } from './images';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
@@ -66,7 +69,6 @@ export function transformExhibitionGuide(
 
       const displayTitle = title || standaloneTitle;
       const anchorId = `${dasherizeShorten(displayTitle)}-${index}`;
-
       return {
         number: component.number || undefined,
         displayTitle,
@@ -87,14 +89,13 @@ export function transformExhibitionGuide(
           tombstone: asRichText(component.tombstone),
         },
         audioWithDescription:
-          isFilledLinkToDocumentWithData(component['audio-with-description']) &&
+          isFilledLinkToMediaField(component['audio-with-description']) &&
           component['audio-with-description'].url
             ? { url: component['audio-with-description'].url }
             : undefined,
         audioWithoutDescription:
-          isFilledLinkToDocumentWithData(
-            component['audio-without-description']
-          ) && component['audio-without-description'].url
+          isFilledLinkToMediaField(component['audio-without-description']) &&
+          component['audio-without-description'].url
             ? { url: component['audio-without-description'].url }
             : undefined,
         bsl:
@@ -127,6 +128,7 @@ export function transformExhibitionGuide(
   const hasAudioWithoutDescriptions = components.some(
     component => component.audioWithoutDescription?.url
   );
+
   const hasAudioWithDescriptions = components.some(
     component => component.audioWithDescription?.url
   );

@@ -2,6 +2,7 @@ import { Page } from '@weco/content/types/pages';
 import {
   PagesDocument as RawPagesDocument,
   SeasonsDocument as RawSeasonsDocument,
+  PagesDocumentData as RawPagesDocumentData,
 } from '@weco/common/prismicio-types';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
 import {
@@ -19,7 +20,9 @@ import { isNotUndefined, isUndefined } from '@weco/common/utils/type-guards';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 
-export function transformOnThisPage(body): Link[] {
+export function transformOnThisPage(
+  body: RawPagesDocumentData['body']
+): Link[] {
   return flattenDeep(
     body.map(slice => slice.primary.title || slice.primary.text || [])
   )
@@ -44,7 +47,7 @@ export function transformPage(document: RawPagesDocument): Page {
     ? transformSingleLevelGroup(data.parents, 'parent').map((parent, index) => {
         return {
           ...transformPage(parent as RawPagesDocument),
-          /* eslint-disable @typescript-eslint/no-non-null-assertion */
+
           order: data.parents[index].order!,
           /* eslint-enable @typescript-eslint/no-non-null-assertion */
           type: parent.type,
@@ -98,7 +101,7 @@ export function transformPage(document: RawPagesDocument): Page {
     seasons,
     contributors,
     parentPages,
-    onThisPage: data.body ? transformOnThisPage(data.body) : [], // TODO?
+    onThisPage: data.body ? transformOnThisPage(data.body) : [],
     showOnThisPage: data.showOnThisPage || false,
     promo,
     datePublished: data.datePublished

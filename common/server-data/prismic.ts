@@ -9,7 +9,7 @@ import * as prismic from '@prismicio/client';
 import { InferDataInterface } from '../services/prismic/types';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 
-export type CollectionVenuePrismicDocumentLite = {
+export type RawCollectionVenueDocumentLite = {
   id: string;
 } & {
   data: Omit<
@@ -19,7 +19,7 @@ export type CollectionVenuePrismicDocumentLite = {
 };
 
 export type ResultsLite = {
-  results: CollectionVenuePrismicDocumentLite[];
+  results: RawCollectionVenueDocumentLite[];
 };
 
 export const defaultValue = {
