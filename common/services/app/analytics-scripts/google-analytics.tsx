@@ -52,6 +52,7 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({
 
   return (
     <script
+      id="google-analytics-data-layer"
       dangerouslySetInnerHTML={{
         __html: `
             window.dataLayer = window.dataLayer || [];
@@ -87,6 +88,7 @@ export const Ga4DataLayer: FunctionComponent<Props> = ({
 
 export const GoogleTagManager: FunctionComponent = () => (
   <script
+    id="google-tag-manager"
     dangerouslySetInnerHTML={{
       __html: `
           (function(w,d,s,l,i){w[l] = w[l] || [];w[l].push({'gtm.start':

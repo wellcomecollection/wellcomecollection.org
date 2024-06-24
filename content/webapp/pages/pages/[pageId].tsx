@@ -26,7 +26,7 @@ import { PageFormatIds } from '@weco/content/data/content-format-ids';
 import { links } from '@weco/common/views/components/Header/Header';
 import { Props as LabelsListProps } from '@weco/common/views/components/LabelsList/LabelsList';
 import { AppErrorProps } from '@weco/common/services/app';
-import { GaDimensions } from '@weco/common/services/app/google-analytics';
+import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { GetServerSideProps } from 'next';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
@@ -318,7 +318,6 @@ export const Page: FunctionComponent<Props> = ({
       };
     });
 
-    /* eslint-disable @typescript-eslint/no-non-null-assertion */
     const orderedItems: PageType[] = groupWithOrder
       .filter(s => Boolean(s.order))
       .sort((a, b) => a.order! - b.order!);
