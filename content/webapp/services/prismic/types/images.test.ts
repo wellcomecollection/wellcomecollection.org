@@ -1,7 +1,7 @@
 import { getImageUrlAtSize } from './images';
 import { imageWithCrops } from './images.mocks';
 import {
-  urlWithoutCrop as assetUrlWithoutCrop,
+  urlWithoutCrop,
   urlOverridesPresetSearchParams,
   urlRemovesHParam,
 } from './images.tests.assets';
@@ -16,7 +16,6 @@ describe('getImageUrlAtSize', () => {
     );
 
     const expectedUrlWithoutCrop = new URL(imageWithCrops.url);
-    const urlWithoutCrop = assetUrlWithoutCrop;
 
     // Prismic attaches a rect=x,y,w,h to crops
     expect(urlWithCrop.searchParams.get('rect')).toEqual(

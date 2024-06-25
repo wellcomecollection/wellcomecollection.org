@@ -2,8 +2,12 @@
 // @ts-nocheck
 // Moved this here so it could be isolated "ts-nochecks"
 // As we expect these image links to NOT match their types in order to test them properly
+
+import { getImageUrlAtSize } from './images';
+import { imageWithoutCrops } from './images.mocks';
+
 export const urlWithoutCrop = new URL(
-  getImageUrlAtSize(imageWithoutCrops, { w: 600 }) as string
+  getImageUrlAtSize(imageWithoutCrops, { w: 600 })
 );
 
 export const urlOverridesPresetSearchParams = new URL(
