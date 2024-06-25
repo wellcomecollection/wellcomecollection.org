@@ -17,20 +17,42 @@ async function init() {
   const email = process.env.PRISMIC_EMAIL;
   const password = process.env.PRISMIC_PASSWORD;
 
+  if (!repository) {
+    console.error('no repository key found');
+    process.exit(1);
+  }
+  if (!apiKey) {
+    console.error('no api key found');
+    process.exit(1);
+  }
+
   // fetch documents
   const client = createClient(repository, {
     fetch,
     // ref: process.env.PRISMIC_REF, // required to migrate _draft_ content
     // accessToken: process.env.PRISMIC_ACCESS_TOKEN, // also required for _draft_ content
   });
-  const allDocs = await client.getAllByType(type);
+
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  const allDocs = await client.getAllByType(type as any);
+  /* eslint-enable @typescript-eslint/no-explicit-any */
 
   fs.writeFile('migration.log', '', err => {
     if (err) {
       console.error(err);
     }
   });
+
   async function migrateDoc(doc, token) {
+    if (!repository) {
+      console.error('no repository key found');
+      process.exit(1);
+    }
+    if (!apiKey) {
+      console.error('no api key found');
+      process.exit(1);
+    }
+
     const body = doc.data.body.map(slice => {
       // mutate slice
       return slice;
