@@ -1,6 +1,6 @@
+name: "Typescript"
 on:
   push:
-  pull_request:
 
 jobs:
   tsc:
