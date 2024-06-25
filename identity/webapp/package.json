@@ -19,7 +19,8 @@
     "build-storybook": "build-storybook",
     "test": "jest",
     "lint:next": "next lint",
-    "deployBundleAnalysis": "aws s3 sync .dist s3://dash.wellcomecollection.org/bundles --only-show-errors --acl public-read"
+    "deployBundleAnalysis": "aws s3 sync .dist s3://dash.wellcomecollection.org/bundles --only-show-errors --acl public-read",
+    "tsc": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.2.0",

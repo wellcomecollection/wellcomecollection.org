@@ -5,7 +5,8 @@
   "scripts": {
     "test": "jest",
     "test:watch": "yarn test -- --watchAll",
-    "test:updateSnapshots": "yarn test -- --updateSnapshot"
+    "test:updateSnapshots": "yarn test -- --updateSnapshot",
+    "tsc": "tsc --noEmit --skipLibCheck"
   },
   "license": "MIT",
   "dependencies": {
