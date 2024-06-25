@@ -129,8 +129,8 @@ article.args = {
   HeroPicture: (
     <Picture
       images={[
-        image(florenceWinterfloodImageUrl('3200x1800')),
-        image(florenceWinterfloodImageUrl('3200x3200')),
+        image(florenceWinterfloodImageUrl('3200x1800'), 3200, 1800),
+        image(florenceWinterfloodImageUrl('3200x3200'), 3200, 3200),
       ]}
       isFull={true}
     />
@@ -225,8 +225,8 @@ exhibition.args = {
   HeroPicture: (
     <Picture
       images={[
-        image(florenceWinterfloodImageUrl('3200x1800')),
-        image(florenceWinterfloodImageUrl('3200x3200')),
+        image(florenceWinterfloodImageUrl('3200x1800'), 3200, 1800),
+        image(florenceWinterfloodImageUrl('3200x3200'), 3200, 3200),
       ]}
       isFull={true}
     />
