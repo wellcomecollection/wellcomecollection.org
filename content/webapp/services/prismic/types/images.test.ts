@@ -1,5 +1,10 @@
 import { getImageUrlAtSize } from './images';
-import { imageWithCrops, imageWithoutCrops } from './images.mocks';
+import { imageWithCrops } from './images.mocks';
+import {
+  urlWithoutCrop as assetUrlWithoutCrop,
+  urlOverridesPresetSearchParams,
+  urlRemovesHParam,
+} from './images.tests.assets';
 
 describe('getImageUrlAtSize', () => {
   // Some images don't have the crops as the documents they were
@@ -11,9 +16,7 @@ describe('getImageUrlAtSize', () => {
     );
 
     const expectedUrlWithoutCrop = new URL(imageWithCrops.url);
-    const urlWithoutCrop = new URL(
-      getImageUrlAtSize(imageWithoutCrops, { w: 600 }) as string
-    );
+    const urlWithoutCrop = assetUrlWithoutCrop;
 
     // Prismic attaches a rect=x,y,w,h to crops
     expect(urlWithCrop.searchParams.get('rect')).toEqual(
@@ -42,28 +45,12 @@ describe('getImageUrlAtSize', () => {
   });
 
   it('overrides preset search params', () => {
-    const urlWithCrop = new URL(
-      getImageUrlAtSize(
-        {
-          ...imageWithoutCrops,
-          url: `${imageWithoutCrops.url}&width=123`,
-        },
-        { w: 1338 }
-      ) as string
-    );
+    const urlWithCrop = urlOverridesPresetSearchParams;
     expect(urlWithCrop.searchParams.get('w')).toEqual('1338');
   });
 
   it('removes the `h` param from the search params', () => {
-    const urlWithCrop = new URL(
-      getImageUrlAtSize(
-        {
-          ...imageWithoutCrops,
-          url: `${imageWithoutCrops.url}&h=123`,
-        },
-        { w: 1338 }
-      ) as string
-    );
+    const urlWithCrop = urlRemovesHParam;
     expect(urlWithCrop.searchParams.get('h')).toBeNull();
   });
 });
