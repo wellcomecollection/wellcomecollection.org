@@ -116,9 +116,6 @@
       "eslint --fix --max-warnings=0 --report-unused-disable-directives",
       "stylelint --max-warnings=0",
       "git add"
-    ],
-    "*": [
-      "yarn tsc"
     ]
   },
   "husky": {
