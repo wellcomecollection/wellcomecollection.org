@@ -30,9 +30,7 @@ export function getTryTheseTooPromos(
             id: item.id,
             url: `/pages/${item.id}`,
             title: item.title,
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             image: item.promo!.image!,
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             description: item.promo!.caption!,
           }
         : undefined
