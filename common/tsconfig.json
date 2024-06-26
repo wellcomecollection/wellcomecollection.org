@@ -1,25 +1,5 @@
 {
-  "compilerOptions": {
-    "composite": true,
-    "outDir": "lib",
-    "rootDir": ".",
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "baseUrl": ".",
-    "paths": {},
-    "allowJs": false,
-    "skipLibCheck": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "strictNullChecks": true,
-    "downlevelIteration": true
-  },
-  "exclude": ["node_modules", "lib"],
+  "extends": "../config/tsconfig-base",
+  "exclude": ["node_modules"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }

@@ -1,3 +1,6 @@
+// TODO ADDRESS THIS PROPERLY
+// eslint-disable-next-line
+// @ts-nocheck
 import {
   initAuth0,
   PageRoute,

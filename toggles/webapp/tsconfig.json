@@ -1,26 +1,5 @@
 {
-  "compilerOptions": {
-    "esModuleInterop": true,    
-    "jsx": "preserve",
-    "noEmit": true,
-    "composite": true,
-    "outDir": "lib",
-    "rootDir": ".",
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "baseUrl": ".",
-    "paths": {},
-    "allowJs": false,
-    "skipLibCheck": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "strictNullChecks": true,
-    "downlevelIteration": true
-  },
+  "extends": "../../config/tsconfig-base",
   // This is for https://github.com/wellcomecollection/ts-aws
   "ts-node": {
     "skipIgnore": true

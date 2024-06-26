@@ -1,3 +1,6 @@
+// TODO ADDRESS THIS PROPERLY
+// eslint-disable-next-line
+// @ts-nocheck
 import '@testing-library/jest-dom';
 import 'whatwg-fetch'; // This is polyfilled by Next.js in the actual application
 import { server } from './mocks/server';

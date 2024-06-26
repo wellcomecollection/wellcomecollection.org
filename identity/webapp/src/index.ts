@@ -5,6 +5,10 @@ async function main() {
   if (process.env.NODE_ENV === 'development') {
     console.log(`Running in dev environment, using secrets from AWS`);
 
+    if (!process.env.CREDENTIALS) {
+      throw new Error('no credentials');
+    }
+
     // We get a string like
     //
     //  {

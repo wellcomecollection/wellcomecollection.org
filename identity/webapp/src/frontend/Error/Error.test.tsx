@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import ErrorPage from '../../../pages/error';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
+import { defaultServerData } from '@weco/common/server-data/types';
 
 jest.mock('@weco/common/server-data', () => ({
   __esModule: true,
@@ -13,11 +14,14 @@ jest.mock('next/router', () => require('next-router-mock'));
 
 const renderComponent = (location: string) => {
   const url = new URL(`https://localhost:3000/${location}`);
-  const errorDescription = url.searchParams.get('error_description');
+  const errorDescription = url.searchParams.get('error_description') || '';
 
   render(
     <ThemeProvider theme={theme}>
-      <ErrorPage errorDescription={errorDescription} serverData={null} />
+      <ErrorPage
+        errorDescription={errorDescription}
+        serverData={defaultServerData}
+      />
     </ThemeProvider>
   );
 };
