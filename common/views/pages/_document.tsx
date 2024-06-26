@@ -8,34 +8,17 @@ import Document, {
 } from 'next/document';
 import { ReactElement } from 'react';
 import { ServerStyleSheet } from 'styled-components';
-import * as snippet from '@segment/snippet';
 import { Toggles } from '@weco/toggles';
+import { ConsentStatusProps } from '@weco/common/server-data/types';
+import { getErrorPageConsent } from '@weco/common/services/app/civic-uk';
 import {
+  CoreWebVitalsScript,
+  PerformanceTimingTrackingScript,
+  SegmentScript,
   Ga4DataLayer,
   GoogleTagManager,
   GaDimensions,
-} from '@weco/common/services/app/google-analytics';
-import { ConsentStatusProps } from '@weco/common/server-data/types';
-import { getErrorPageConsent } from '@weco/common/services/app/civic-uk';
-
-// Don't attempt to destructure the process object
-// https://github.com/vercel/next.js/pull/20869/files
-const ANALYTICS_WRITE_KEY =
-  process.env.ANALYTICS_WRITE_KEY || '78Czn5jNSaMSVrBq2J9K4yJjWxh6fyRI';
-const NODE_ENV = process.env.NODE_ENV || 'development';
-
-export function renderSegmentSnippet() {
-  const opts = {
-    apiKey: ANALYTICS_WRITE_KEY,
-    page: false,
-  };
-
-  if (NODE_ENV === 'development') {
-    return snippet.max(opts);
-  }
-
-  return snippet.min(opts);
-}
+} from '@weco/common/services/app/analytics-scripts';
 
 type DocumentInitialPropsWithTogglesAndGa = DocumentInitialProps & {
   toggles: Toggles;
@@ -99,11 +82,13 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
             Let's keep an eye on this issue and consider moving it next to the Segment script when it's fixed */}
             <GoogleTagManager />
 
-            {shouldRenderAnalytics && (
-              <script
-                dangerouslySetInnerHTML={{ __html: renderSegmentSnippet() }}
-              />
-            )}
+            {/* https://github.com/wellcomecollection/wellcomecollection.org/issues/10090 */}
+            <PerformanceTimingTrackingScript />
+
+            {/* https://github.com/wellcomecollection/wellcomecollection.org/issues/9286 */}
+            <CoreWebVitalsScript />
+
+            {shouldRenderAnalytics && <SegmentScript />}
           </>
         </Head>
         <body>

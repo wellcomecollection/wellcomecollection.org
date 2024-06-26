@@ -10,7 +10,7 @@ import { getFeaturedMedia } from '@weco/content/utils/page-header';
 import { Series } from '@weco/content/types/series';
 import { ArticleBasic } from '@weco/content/types/articles';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import { GaDimensions } from '@weco/common/services/app/google-analytics';
+import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
@@ -125,7 +125,6 @@ export const getServerSideProps: GetServerSideProps<
 
   // We know that `articles` is non-empty, and because we queried for articles in
   // this series, we know these articles have a series defined.
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const series = articles.results[0].series.find(
     series => series.id === seriesId
   )!;

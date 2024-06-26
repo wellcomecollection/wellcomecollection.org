@@ -21,7 +21,7 @@ import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events'
 import EventDatesLink from '@weco/content/components/EventDatesLink/EventDatesLink';
 import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/content/model/label-field';
-import { GaDimensions } from '@weco/common/services/app/google-analytics';
+import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import {
   audioDescribed,
   britishSignLanguage,

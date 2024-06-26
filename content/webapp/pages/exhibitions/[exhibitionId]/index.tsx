@@ -5,7 +5,7 @@ import Exhibition from '@weco/content/components/Exhibition/Exhibition';
 import { Exhibition as ExhibitionType } from '@weco/content/types/exhibitions';
 import Installation from '@weco/content/components/Installation/Installation';
 import { AppErrorProps } from '@weco/common/services/app';
-import { GaDimensions } from '@weco/common/services/app/google-analytics';
+import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { createClient } from '@weco/content/services/prismic/fetch';
