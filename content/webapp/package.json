@@ -8,8 +8,7 @@
     "start": "NODE_ENV=production ts-node-transpile-only --project tsconfig.server.json server",
     "test": "NODE_ENV=test jest --no-cache",
     "test:watch": "yarn test -- --watchAll",
-    "deployBundleAnalysis": "aws s3 sync .dist s3://dash.wellcomecollection.org/bundles --only-show-errors --acl public-read",
-    "tsc": "tsc --noEmit --skipLibCheck"
+    "deployBundleAnalysis": "aws s3 sync .dist s3://dash.wellcomecollection.org/bundles --only-show-errors --acl public-read"
   },
   "dependencies": {
     "@iiif/presentation-3": "^2.1.3",

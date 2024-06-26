@@ -9,8 +9,7 @@
     "diffCustomTypes": "ts-node diffCustomTypes",
     "downloadSnapshot": "ts-node downloadSnapshot",
     "lintPrismicData": "ts-node lintPrismicData",
-    "tryAllContentPages": "ts-node tryAllContentPages",
-    "tsc": "tsc --noEmit --skipLibCheck"
+    "tryAllContentPages": "ts-node tryAllContentPages"
   },
   "dependencies": {
     "@aws-sdk/client-cloudfront": "^3.40.0",

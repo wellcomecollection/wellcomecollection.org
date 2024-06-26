@@ -6,8 +6,7 @@
   "scripts": {
     "test": "jest",
     "deploy": "ts-node ./scripts/deploy",
-    "setDefaultValueFor": "ts-node ./scripts/setDefaultValueFor",
-    "tsc": "tsc --noEmit --skipLibCheck"
+    "setDefaultValueFor": "ts-node ./scripts/setDefaultValueFor"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.115",
