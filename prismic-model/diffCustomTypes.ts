@@ -3,14 +3,15 @@ import { error, success } from './console';
 import { isCi } from './config';
 import { diffString } from 'json-diff';
 import { removeUndefinedProps, printDelta } from './utils';
-import { getContentTypes, Credentials } from './utils/prismic';
+import { getContentTypes, getSharedSlices, Credentials } from './utils/prismic';
 
 export default async function diffContentTypes(
   credentials?: Credentials
 ): Promise<void> {
   const contentTypes = await getContentTypes(credentials);
+  const sharedSlices = await getSharedSlices(credentials);
 
-  const deltas = contentTypes
+  const typesDeltas = contentTypes
     .filter(({ local }) => typeof local !== 'undefined')
     .map(({ id, local, remote }) => {
       const delta = diffString(
@@ -29,12 +30,34 @@ export default async function diffContentTypes(
     })
     .filter(d => d);
 
-  if (deltas.length > 0) {
-    error(`Diffs found on ${deltas.map(delta => delta.id).join(', ')}`);
+  const sliceDeltas = sharedSlices
+    .filter(({ local }) => typeof local !== 'undefined')
+    .map(({ id, local, remote }) => {
+      const delta = diffString(
+        remote,
+        removeUndefinedProps(local), // we'll never get undefined props from Prismic, so we don't want them locally
+        {
+          keepUnchangedValues: true,
+        }
+      );
+
+      if (delta.length > 0) {
+        printDelta(id, delta);
+        return { id };
+      }
+      return null;
+    })
+    .filter(d => d);
+
+  if (typesDeltas.length > 0 || sliceDeltas.length > 0) {
+    typesDeltas.length > 0 &&
+      error(`Diffs found on ${typesDeltas.map(delta => delta.id).join(', ')}`);
+    sliceDeltas.length > 0 &&
+      error(`Diffs found on ${sliceDeltas.map(delta => delta.id).join(', ')}`);
     process.exit(1);
   }
 
-  success('No diffs found on custom types');
+  success('No diffs found on custom types or slices');
 }
 
 async function run() {
