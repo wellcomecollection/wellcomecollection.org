@@ -1,6 +1,11 @@
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
-import React, { useEffect, FunctionComponent, ReactElement } from 'react';
+import React, {
+  useEffect,
+  FunctionComponent,
+  ReactElement,
+  useState,
+} from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '@weco/common/views/themes/default';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator/LoadingIndicator';
@@ -22,11 +27,15 @@ import { ApmContextProvider } from '@weco/common/views/components/ApmContext/Apm
 import { AppErrorProps } from '@weco/common/services/app';
 import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
 import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
-import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
+import {
+  SegmentScript,
+  GaDimensions,
+} from '@weco/common/services/app/analytics-scripts';
 import { deserialiseProps } from '@weco/common/utils/json';
 import { SearchContextProvider } from '@weco/common/views/components/SearchContext/SearchContext';
 import CivicUK from '@weco/common/views/components/CivicUK';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
+import { getConsentState } from '@weco/common/services/app/civic-uk';
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
@@ -86,6 +95,10 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   const serverData = isServerDataSet ? pageProps.serverData : defaultServerData;
 
+  const [hasAnalyticsConsent, setHasAnalyticsConsent] = useState(
+    serverData.consentStatus.analytics
+  );
+
   useMaintainPageHeight();
 
   type ConsentType = 'granted' | 'denied';
@@ -106,10 +119,18 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
         ad_user_data: event.detail.marketingConsent,
       }),
     });
+
+    // Update state of consent for Segment script
+    setHasAnalyticsConsent(
+      event.detail.analyticsConsent !== undefined &&
+        event.detail.analyticsConsent === 'granted'
+    );
   };
 
   useEffect(() => {
     document.documentElement.classList.add('enhanced');
+
+    setHasAnalyticsConsent(getConsentState('analytics'));
 
     window.addEventListener(
       'analyticsConsentChanged',
@@ -161,6 +182,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                     toggles={serverData.toggles}
                     isFontsLoaded={useIsFontsLoaded()}
                   />
+
                   <LoadingIndicator />
 
                   {displayCookieBanner && <CivicUK apiKey={civicUkApiKey} />}
@@ -173,6 +195,8 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                       title={pageProps.err.message}
                     />
                   )}
+
+                  <SegmentScript hasAnalyticsConsent={hasAnalyticsConsent} />
                 </ThemeProvider>
               </SearchContextProvider>
             </AppContextProvider>

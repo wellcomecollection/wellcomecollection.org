@@ -47,7 +47,7 @@ export function transformPage(document: RawPagesDocument): Page {
     ? transformSingleLevelGroup(data.parents, 'parent').map((parent, index) => {
         return {
           ...transformPage(parent as RawPagesDocument),
-          /* eslint-disable @typescript-eslint/no-non-null-assertion */
+
           order: data.parents[index].order!,
           /* eslint-enable @typescript-eslint/no-non-null-assertion */
           type: parent.type,
