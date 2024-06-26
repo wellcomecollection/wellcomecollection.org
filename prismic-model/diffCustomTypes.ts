@@ -4,6 +4,7 @@ import { isCi } from './config';
 import { diffString } from 'json-diff';
 import { removeUndefinedProps, printDelta } from './utils';
 import { getContentTypes, getSharedSlices, Credentials } from './utils/prismic';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 export default async function diffContentTypes(
   credentials?: Credentials
@@ -26,9 +27,9 @@ export default async function diffContentTypes(
         printDelta(id, delta);
         return { id };
       }
-      return null;
+      return undefined;
     })
-    .filter(d => d);
+    .filter(isNotUndefined);
 
   const sliceDeltas = sharedSlices
     .filter(({ local }) => typeof local !== 'undefined')
@@ -45,9 +46,9 @@ export default async function diffContentTypes(
         printDelta(id, delta);
         return { id };
       }
-      return null;
+      return undefined;
     })
-    .filter(d => d);
+    .filter(isNotUndefined);
 
   if (typesDeltas.length > 0 || sliceDeltas.length > 0) {
     typesDeltas.length > 0 &&
