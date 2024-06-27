@@ -3,10 +3,6 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 8 * * *'
-  # TODO: Remove this before merge
-  push:
-    branches:
-      - rk/prismic-linting-gha
 
 permissions:
   id-token: write
