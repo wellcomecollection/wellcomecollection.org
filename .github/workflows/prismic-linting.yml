@@ -8,6 +8,9 @@ on:
     branches:
       - rk/prismic-linting-gha
 
+permissions:
+  id-token: write
+
 jobs:
   prismic_linting:
     runs-on: ubuntu-latest
