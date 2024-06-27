@@ -1,9 +1,12 @@
-# create a scheduled workflow that runs once a day 
 name: Prismic Linting
 on:
   workflow_dispatch:
   schedule:
     - cron: '0 8 * * *'
+  # TODO: Remove this before merge
+  push:
+    branches:
+      - rk/prismic-linting-gha
 
 jobs:
   prismic_linting:
