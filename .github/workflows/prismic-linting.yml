@@ -21,6 +21,8 @@ jobs:
           aws-region: eu-west-1
           role-to-assume: ${{ secrets.EXPERIENCE_GHA_ROLE_ARN }}
       - uses: aws-actions/amazon-ecr-login@v2
+        env:
+          AWS_REGION: us-east-1
         with:
           registry-type: public
       - name: Run Prismic linting
