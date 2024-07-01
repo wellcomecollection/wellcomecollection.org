@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { getCookie, setCookie } from 'cookies-next';
 import cookies from '@weco/common/data/cookies';
 import Icon from '@weco/common/views/components/Icon/Icon';

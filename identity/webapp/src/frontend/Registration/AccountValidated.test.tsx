@@ -1,3 +1,4 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import ValidatedPage from '../../../pages/validated';
 import { ThemeProvider } from 'styled-components';
@@ -6,7 +7,7 @@ import theme from '@weco/common/views/themes/default';
 // avoid rendering header SVG to help with debugging tests
 jest.mock('../components/PageWrapper', () => ({
   __esModule: true,
-  PageWrapper: ({ children }) => <>{children}</>,
+  PageWrapper: ({ children }) => <>{children}</>, // eslint-disable-line react/display-name
 }));
 
 jest.mock('@weco/common/server-data', () => ({

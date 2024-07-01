@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import React, { FunctionComponent } from 'react';
 import { RulesListItem, RulesListWrapper } from './PasswordInput.style';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
@@ -43,7 +43,7 @@ type Props = {
   hasNumbers: boolean;
 };
 
-export const PasswordRules: FunctionComponent<Props> = ({
+export const PasswordRules: React.FunctionComponent<Props> = ({
   isAtLeast8Characters,
   hasLowercaseLetters,
   hasUppercaseLetters,

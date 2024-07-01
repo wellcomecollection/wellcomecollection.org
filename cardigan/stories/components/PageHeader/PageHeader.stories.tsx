@@ -12,13 +12,13 @@ import BookImage from '@weco/content/components/BookImage/BookImage';
 import PageHeaderReadme from '@weco/common/views/components/PageHeader/README.md';
 import ShortFilmPageHeaderReadme from '@weco/common/views/components/PageHeader/ShortFilm_README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { LicenseType } from '@weco/common/model/license';
 import Body from '@weco/content/components/Body/Body';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import {
   bookImageUrl,
   florenceWinterfloodImageUrl,
-  image,
 } from '@weco/cardigan/stories/data/images';
 import { EmbedSlice as RawEmbedSlice } from '@weco/common/prismicio-types';
 
@@ -65,6 +65,77 @@ const ContentTypeInfo = (
   </>
 );
 
+const articlePictureImages = [
+  {
+    contentUrl: florenceWinterfloodImageUrl('3200x1800'),
+    width: 3200,
+    height: 1800,
+    alt: '',
+    tasl: {
+      title: "Naomi Paxton as the magician's assistant",
+      author: 'Thomas SG Farnetti',
+      sourceName: 'Wellcome Collection',
+      sourceLink: null,
+      license: 'CC-BY-NC' as LicenseType,
+      copyrightHolder: null,
+      copyrightLink: null,
+    },
+    crops: {},
+    minWidth: '600px',
+  },
+  {
+    contentUrl: florenceWinterfloodImageUrl('3200x3200'),
+    width: 3200,
+    height: 3200,
+    alt: '',
+    tasl: {
+      title: 'Florence Winterflood Image',
+      author: 'Thomas SG Farnetti',
+      sourceName: 'Wellcome Collection',
+      sourceLink: null,
+      license: 'CC-BY-NC' as LicenseType,
+      copyrightHolder: null,
+      copyrightLink: null,
+    },
+    crops: {},
+    minWidth: null,
+  },
+];
+
+const exhibitionPictureImages = [
+  {
+    contentUrl: florenceWinterfloodImageUrl('3200x1800'),
+    width: 3200,
+    height: 1800,
+    alt: 'Photograph of an exhibition gallery space, with a blue stained wood wall in the background, in front of which a young man looks at a life-size artwork of a figure resembling an astronaut. In the foreground a young woman sits on a wooden bench holding an audio speaker to her ear.',
+    tasl: {
+      title: 'Being Human gallery',
+      author: 'Steven Pocock',
+      sourceName: 'Wellcome Collection',
+      sourceLink: null,
+      license: 'CC-BY-NC' as LicenseType,
+      copyrightHolder: null,
+      copyrightLink: null,
+    },
+    minWidth: '600px',
+  },
+  {
+    contentUrl: florenceWinterfloodImageUrl('3200x3200'),
+    width: 3200,
+    height: 3200,
+    alt: 'Photograph of an exhibition gallery space, with a blue stained wood wall in the background, in front of which a young man looks at a life-size artwork of a figure resembling an astronaut. In the foreground a young woman sits on a wooden bench holding an audio speaker to her ear.',
+    tasl: {
+      title: 'Being Human gallery',
+      author: 'Steven Pocock',
+      sourceName: 'Wellcome Collection',
+      sourceLink: null,
+      license: 'CC-BY-NC' as LicenseType,
+      copyrightHolder: null,
+      copyrightLink: null,
+    },
+  },
+];
+
 const EventContentTypeInfo = () => (
   <>
     <Space
@@ -102,11 +173,43 @@ const BookContentTypeInfo = () => (
   </p>
 );
 
+const eventImage = {
+  contentUrl: florenceWinterfloodImageUrl('3200x1800'),
+  width: 3200,
+  height: 1800,
+  alt: null,
+  tasl: {
+    title: 'Ezra Miles',
+    author: 'Benjamin Gilbert',
+    sourceName: 'Wellcome Collection',
+    sourceLink: null,
+    license: 'CC-BY-NC' as LicenseType,
+    copyrightHolder: null,
+    copyrightLink: null,
+  },
+  crops: {},
+};
+
+const bookImage = {
+  contentUrl: bookImageUrl,
+  width: 1080,
+  height: 1659,
+  alt: 'Book cover featuring the word ‘Together’, multicoloured and in joined-up text',
+  tasl: {
+    title: null,
+    author: null,
+    sourceName: null,
+    sourceLink: null,
+    license: null,
+    copyrightHolder: null,
+    copyrightLink: null,
+  },
+  crops: {},
+  sizesQueries: '',
+};
+
 const EventFeaturedMedia = () => (
-  <PrismicImage
-    image={image(florenceWinterfloodImageUrl('3200x1800'))}
-    quality="low"
-  />
+  <PrismicImage image={eventImage} quality="low" />
 );
 
 const Template = args => (
@@ -126,17 +229,7 @@ article.args = {
   title: 'How the magician’s assistant creates the illusion',
   breadcrumbs: { items: breadcrumbItems },
   labels: { labels: [{ text: 'Article' }] },
-  HeroPicture: (
-    <Picture
-      images={[
-        image(florenceWinterfloodImageUrl('3200x1800'), 3200, 1800, {
-          minWidth: '600px',
-        }),
-        image(florenceWinterfloodImageUrl('3200x3200'), 3200, 3200),
-      ]}
-      isFull={true}
-    />
-  ),
+  HeroPicture: <Picture images={articlePictureImages} isFull={true} />,
   ContentTypeInfo,
   isContentTypeInfoBeforeMedia: true,
 };
@@ -224,17 +317,7 @@ exhibition.args = {
   title: 'Being Human',
   breadcrumbs: { items: [{ text: 'Exhibitions', url: '#' }] },
   labels: { labels: [{ text: 'Permanent exhibition' }] },
-  HeroPicture: (
-    <Picture
-      images={[
-        image(florenceWinterfloodImageUrl('3200x1800'), 3200, 1800, {
-          minWidth: '600px',
-        }),
-        image(florenceWinterfloodImageUrl('3200x3200'), 3200, 3200),
-      ]}
-      isFull={true}
-    />
-  ),
+  HeroPicture: <Picture images={exhibitionPictureImages} isFull={true} />,
   ContentTypeInfo: <ExhibitionContentTypeInfo />,
   isContentTypeInfoBeforeMedia: true,
 };
@@ -270,7 +353,7 @@ book.args = {
     <Space $v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
       <Layout gridSizes={gridSize8()}>
         <BookImage
-          image={image(bookImageUrl, 1659, 1800)}
+          image={bookImage}
           sizes={{ xlarge: 1 / 3, large: 1 / 3, medium: 1 / 3, small: 1 }}
           quality="low"
         />

@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement, useRef, useState } from 'react';
+import React, { ReactElement, useRef, useState } from 'react';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import Button from '@weco/common/views/components/Buttons';
 import { UpdateUserSchema } from '../../types/schemas/update-user';
@@ -20,12 +20,9 @@ type ChangeDetailsModalProps = {
   render: (props: ChangeDetailsModalContentProps) => ReactElement;
 };
 
-export const ChangeDetailsModal: FunctionComponent<ChangeDetailsModalProps> = ({
-  id,
-  buttonText,
-  onComplete,
-  render,
-}) => {
+export const ChangeDetailsModal: React.FunctionComponent<
+  ChangeDetailsModalProps
+> = ({ id, buttonText, onComplete, render }) => {
   const [isActive, setIsActive] = useState(false);
   const [isModalLoading, setIsModalLoading] = useState(false);
   const openButton = useRef(null);

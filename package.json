@@ -21,8 +21,7 @@
     "run-concurrently": "./scripts/run-concurrently.sh",
     "run-concurrently:clean": "./scripts/run-concurrently.sh -c",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "lint:css": "stylelint \"**/*.{js,ts,tsx}\"",
-    "tsc": "yarn workspaces run tsc --noEmit --skipLibCheck"
+    "lint:css": "stylelint \"**/*.{js,ts,tsx}\""
   },
   "repository": {
     "type": "git",

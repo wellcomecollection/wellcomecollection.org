@@ -1,3 +1,4 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import ErrorPage from '../../../pages/error';
 import { ThemeProvider } from 'styled-components';
