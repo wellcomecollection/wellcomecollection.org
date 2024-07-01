@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  useRef,
-  FunctionComponent,
-  ReactElement,
-} from 'react';
+import { useState, useRef, FunctionComponent, ReactElement } from 'react';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
