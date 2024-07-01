@@ -1,3 +1,4 @@
+import React from 'react';
 import { act, render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';

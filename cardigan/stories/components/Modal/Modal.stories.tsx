@@ -4,10 +4,10 @@ import { useState, useRef, useEffect } from 'react';
 
 const Template = () => {
   const [isActive, setIsActive] = useState(false);
-  const openButtonRef = useRef<HTMLButtonElement>(null);
+  const openButtonRef = useRef(null);
 
   useEffect(() => {
-    if (!isActive && openButtonRef.current) {
+    if (!isActive) {
       openButtonRef.current.click();
     }
   }, []);

@@ -1,4 +1,4 @@
-import { useEffect, useState, useLayoutEffect } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { useRouter } from 'next/router';
 
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';

@@ -1,8 +1,8 @@
-import { FunctionComponent } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import LL from '@weco/common/views/components/styled/LL';
 
-export const Loading: FunctionComponent = () => (
+export const Loading: React.FunctionComponent = () => (
   <>
     <LL $lighten={false} />
     <span className="visually-hidden" role="status" aria-label="loading">
@@ -17,7 +17,7 @@ const InlineWrapper = styled.div`
   position: relative;
 `;
 
-export const InlineLoading: FunctionComponent = () => (
+export const InlineLoading: React.FunctionComponent = () => (
   <InlineWrapper>
     <LL $small={true} $lighten={true} />
     <span className="visually-hidden">Loading</span>

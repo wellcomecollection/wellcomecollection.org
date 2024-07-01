@@ -44,6 +44,7 @@ export const bannerCardItem: Season = {
         copyrightLink: undefined,
       },
     },
+    link: null,
   },
   image: {
     contentUrl: florenceWinterfloodImageUrl('1600x900'),
@@ -90,10 +91,12 @@ export const event: Event = {
   audiences: [],
   availableOnline: true,
   untransformedBody: [],
+  bookingInformation: null,
   bookingType: 'First come, first served',
   contributors: [],
+  cost: null,
   eventbriteId: '',
-  format: { id: 'WlYVBiQAACcAWcu9', title: 'Seminar' },
+  format: { id: 'WlYVBiQAACcAWcu9', title: 'Seminar', description: null },
   hasEarlyRegistration: false,
   image: {
     contentUrl: darkCloudImageUrl('1600x900'),
@@ -170,7 +173,9 @@ export const event: Event = {
         title: 'Weewaaz',
       },
     },
+    link: null,
   },
+  ticketSalesStart: null,
   times: [
     {
       range: {
@@ -291,6 +296,7 @@ export const article: Article = {
           },
         ],
       },
+      description: null,
     },
   ],
   untransformedBody,
@@ -305,6 +311,7 @@ export const article: Article = {
         title: 'Weewaaz',
       },
     },
+    link: null,
   },
   image: {
     contentUrl: darkCloudImageUrl('1600x900'),
@@ -381,6 +388,7 @@ export const article: Article = {
               },
             ],
           },
+          description: null,
         },
       ],
       untransformedBody: [],
@@ -395,6 +403,7 @@ export const article: Article = {
             title: 'Weewaaz',
           },
         },
+        link: null,
       },
       image: {
         contentUrl: darkCloudImageUrl('1600x900'),
@@ -456,7 +465,7 @@ export const exhibitionBasic: ExhibitionBasic = {
   },
   start: new Date('2021-05-17T23:00:00+0000'),
   end: new Date('2021-09-29T23:00:00+0000'),
-  isPermanent: false,
+  isPermanent: null,
   contributors: [],
   labels: [],
 };

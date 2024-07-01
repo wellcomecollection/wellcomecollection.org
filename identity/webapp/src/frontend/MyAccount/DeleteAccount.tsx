@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { font } from '@weco/common/utils/classnames';
 import { ErrorMessage } from '@hookform/error-message';
@@ -24,7 +24,7 @@ type DeleteAccountInputs = {
   password: string;
 };
 
-export const DeleteAccount: FunctionComponent<
+export const DeleteAccount: React.FunctionComponent<
   ChangeDetailsModalContentProps
 > = ({ onComplete, onCancel, isActive, setIsModalLoading }) => {
   const defaultValues: DeleteAccountInputs = useMemo(

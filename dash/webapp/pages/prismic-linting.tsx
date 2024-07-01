@@ -1,4 +1,4 @@
-import { useState, useEffect, FunctionComponent } from 'react';
+import React, { useState, useEffect, FunctionComponent } from 'react';
 import Head from 'next/head';
 import Header from '../components/Header';
 import Issue from '../components/Issue';

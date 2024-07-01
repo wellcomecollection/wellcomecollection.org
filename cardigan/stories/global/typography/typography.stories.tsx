@@ -1,4 +1,3 @@
-import { ReactElement } from 'react';
 import Table from '@weco/content/components/Table';
 import { fontSizesAtBreakpoints } from '@weco/common/views/themes/typography';
 import styled from 'styled-components';
@@ -36,22 +35,18 @@ const TypographyScale = ({ fontFamily }) => {
   });
 
   const rows = transpose(cols);
-  const rowsWithScaleNumbers: (string | ReactElement)[][] = rows
-    .map((row, index) => {
-      return [
-        <strong key={index} style={{ fontSize: '22px' }}>
-          {index}
-        </strong>,
-        ...row,
-      ];
-    })
-    .filter(Boolean);
-  const firstRow: (string | ReactElement)[][] = [
-    ['', 'Small', 'Medium', 'Large'],
-  ];
+  const rowsWithScaleNumbers = rows.map((row, index) => {
+    return [
+      <strong key={index} style={{ fontSize: '22px' }}>
+        {index}
+      </strong>,
+      ...row,
+    ];
+  });
+  const firstRow = [[null, 'Small', 'Medium', 'Large']];
   const rowsWithHeadings = firstRow.concat(rowsWithScaleNumbers);
 
-  return <Table hasRowHeaders={false} rows={rowsWithHeadings} />;
+  return <Table caption={null} hasRowHeaders={false} rows={rowsWithHeadings} />;
 };
 
 const TypographyScaleSimple = () => {
@@ -82,7 +77,7 @@ const TypographyScaleSimple = () => {
   const firstRow = [['Font size unit', 'BP Large', 'BP Medium', 'BP Small']];
   const rowsWithHeadings = firstRow.concat(rowsWithScaleNumbers);
 
-  return <Table hasRowHeaders={false} rows={rowsWithHeadings} />;
+  return <Table caption={null} hasRowHeaders={false} rows={rowsWithHeadings} />;
 };
 
 const sizes = [0, 1, 2, 3, 4, 5, 6];

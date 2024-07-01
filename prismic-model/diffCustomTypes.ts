@@ -4,7 +4,6 @@ import { isCi } from './config';
 import { diffString } from 'json-diff';
 import { removeUndefinedProps, printDelta } from './utils';
 import { getContentTypes, Credentials } from './utils/prismic';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 export default async function diffContentTypes(
   credentials?: Credentials
@@ -26,9 +25,9 @@ export default async function diffContentTypes(
         printDelta(id, delta);
         return { id };
       }
-      return undefined;
+      return null;
     })
-    .filter(isNotUndefined);
+    .filter(d => d);
 
   if (deltas.length > 0) {
     error(`Diffs found on ${deltas.map(delta => delta.id).join(', ')}`);

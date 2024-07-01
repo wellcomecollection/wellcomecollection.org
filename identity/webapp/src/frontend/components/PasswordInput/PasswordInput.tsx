@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useController, UseControllerProps } from 'react-hook-form';
 import styled from 'styled-components';
 import { ShowPasswordButton } from './PasswordInput.style';
@@ -25,7 +25,9 @@ export type PasswordInputProps = UseControllerProps<any> & {
   updateInput?: (value: string) => void;
 };
 
-export const PasswordInput: FunctionComponent<PasswordInputProps> = props => {
+export const PasswordInput: React.FunctionComponent<
+  PasswordInputProps
+> = props => {
   const { updateInput } = props;
   const [isVisible, setIsVisible] = useState(false);
   const { field, fieldState } = useController(props);
