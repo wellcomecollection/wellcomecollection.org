@@ -41,26 +41,32 @@ const { type, report } = yargs(process.argv.slice(2))
   })
   .parseSync();
 
+type MatchesProps = {
+  id: string;
+  type: string;
+  title: string;
+  url: string;
+  sliceCount?: number;
+}[];
+
 async function main() {
   const sliceNames = Object.keys(components);
 
   const sliceCounter = new Map(sliceNames.map(sliceName => [sliceName, 0]));
   // Create list made of the content type where the slice is used
-  const contentTypeMatches = [];
+  const contentTypeMatches: MatchesProps = [];
   // How often is the slice used in total on the website
   let slicesMatches = 0;
   // Get all the types where the slice is used
-  const contentTypes = [];
+  const contentTypes: string[] = [];
 
   const snapshotDir = await downloadPrismicSnapshot();
 
   for (const result of getPrismicDocuments(snapshotDir)) {
     if (result.data.body) {
       for (const slice of result.data.body) {
-        sliceCounter.set(
-          slice.slice_type,
-          sliceCounter.get(slice.slice_type) + 1
-        );
+        const currentValue = sliceCounter.get(slice.slice_type);
+        if (currentValue) sliceCounter.set(slice.slice_type, currentValue + 1);
       }
 
       const isWithType: boolean = type

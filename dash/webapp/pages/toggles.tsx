@@ -1,8 +1,10 @@
-import React, {
+import {
   useState,
   useEffect,
   useCallback,
   FunctionComponent,
+  Dispatch,
+  SetStateAction,
 } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
@@ -48,7 +50,7 @@ const TextBox = styled.p`
 type ListOfTogglesProps = {
   toggles: Toggle[];
   toggleStates: ToggleStates;
-  setToggleStates: React.Dispatch<React.SetStateAction<ToggleStates>>;
+  setToggleStates: Dispatch<SetStateAction<ToggleStates>>;
 };
 
 const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({

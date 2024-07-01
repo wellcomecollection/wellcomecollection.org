@@ -26,10 +26,17 @@ async function getContentTypes(): Promise<string[]> {
   return contentTypes;
 }
 
+type MatchesProps = {
+  id: string;
+  type: string;
+  title: string;
+  printUrl?: string;
+}[];
+
 async function main() {
   const contentTypesList = await getContentTypes();
-  const snapshotDir = await downloadPrismicSnapshot();
-  const matches = [];
+  const snapshotDir: string = await downloadPrismicSnapshot();
+  const matches: MatchesProps = [];
 
   const contentTypeCounter = new Map(
     contentTypesList.map(contentTypeName => [contentTypeName, 0])
@@ -37,10 +44,8 @@ async function main() {
 
   for (const result of getPrismicDocuments(snapshotDir)) {
     if (result.type) {
-      contentTypeCounter.set(
-        result.type,
-        contentTypeCounter.get(result.type) + 1
-      );
+      const currentValue = contentTypeCounter.get(result.type);
+      if (currentValue) contentTypeCounter.set(result.type, currentValue + 1);
 
       const isWithType: boolean = type ? result.type === type : true;
 
