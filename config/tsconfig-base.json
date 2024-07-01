@@ -9,6 +9,7 @@
     "jsx": "preserve",
     "lib": ["esnext"], 
     "moduleResolution": "node",
+    "node": "esnext",
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
