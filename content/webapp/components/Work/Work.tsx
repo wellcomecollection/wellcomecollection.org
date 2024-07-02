@@ -232,7 +232,9 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
               <Grid>
                 <WorkHeader
                   work={toWorkBasic(work)}
-                  collectionManifestsCount={collectionManifestsCount}
+                  collectionManifestsCount={
+                    shouldShowItemLink ? collectionManifestsCount : undefined
+                  }
                 />
               </Grid>
             </Container>
@@ -256,7 +258,9 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
               <Grid>
                 <WorkHeader
                   work={toWorkBasic(work)}
-                  collectionManifestsCount={collectionManifestsCount}
+                  collectionManifestsCount={
+                    shouldShowItemLink ? collectionManifestsCount : undefined
+                  }
                 />
               </Grid>
             </Container>
