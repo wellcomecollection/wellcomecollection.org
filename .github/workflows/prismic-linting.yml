@@ -2,7 +2,7 @@ name: Prismic Linting
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 8 * * *'
+    - cron: '0 4 * * MON-FRI'
 
 permissions:
   id-token: write
@@ -11,7 +11,7 @@ jobs:
   prismic_linting:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: eu-west-1
