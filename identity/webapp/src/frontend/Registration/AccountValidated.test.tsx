@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import ValidatedPage from '../../../pages/validated';
+import ValidatedPage from '@weco/identity/pages/validated';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
+import { defaultServerData } from '@weco/common/server-data/types';
 
 // avoid rendering header SVG to help with debugging tests
 jest.mock('../components/PageWrapper', () => ({
@@ -35,7 +36,7 @@ jest.mock('next/config', () => () => ({
 const renderPage = (location: string) => {
   const url = new URL(`https://test.host/${location}`);
   const success = url.searchParams.get('success') === 'true';
-  const message = url.searchParams.get('message');
+  const message = url.searchParams.get('message') || '';
   const isNewSignUp = url.searchParams.get('supportSignUp') === 'true';
 
   render(
@@ -44,7 +45,7 @@ const renderPage = (location: string) => {
         success={success}
         message={message}
         isNewSignUp={isNewSignUp}
-        serverData={null}
+        serverData={defaultServerData}
       />
     </ThemeProvider>
   );

@@ -65,8 +65,8 @@ async function main() {
   for (const result of getPrismicDocuments(snapshotDir)) {
     if (result.data.body) {
       for (const slice of result.data.body) {
-        const currentValue = sliceCounter.get(slice.slice_type);
-        if (currentValue) sliceCounter.set(slice.slice_type, currentValue + 1);
+        const currentValue = sliceCounter.get(slice.slice_type) || 0;
+        sliceCounter.set(slice.slice_type, currentValue + 1);
       }
 
       const isWithType: boolean = type

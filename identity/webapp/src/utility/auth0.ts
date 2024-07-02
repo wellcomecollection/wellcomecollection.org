@@ -1,3 +1,6 @@
+// TODO ADDRESS THIS PROPERLY https://github.com/wellcomecollection/wellcomecollection.org/issues/10980
+// eslint-disable-next-line
+// @ts-nocheck
 import {
   initAuth0,
   PageRoute,

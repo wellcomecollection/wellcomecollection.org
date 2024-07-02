@@ -1,39 +1,9 @@
 {
+  "extends": "../../config/tsconfig-base",
   "compilerOptions": {
-    "composite": true,
-    "baseUrl": ".",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "es2020"
-    ],
-    "target": "es2018",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
     "module": "commonjs",
-    "declaration": true,
-    "moduleResolution": "node",
-    "noEmit": true,
-    "strict": false,
-    "skipLibCheck": true,
-    "jsx": "preserve",
-    "resolveJsonModule": true,
-    "noImplicitAny": false,
-    "downlevelIteration": true,
-    "noFallthroughCasesInSwitch": true,
-    "allowJs": false,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "incremental": true
+    "moduleResolution": "node" // Forced by NextJs on build
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
   "ts-node": {
     "preferTsExts": true
   }

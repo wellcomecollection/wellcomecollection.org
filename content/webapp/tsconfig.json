@@ -1,36 +1,9 @@
 {
+  "extends": "../../config/tsconfig-base",
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "baseUrl": ".",
-    "allowJs": false,
-    "skipLibCheck": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "strictNullChecks": true,
-    "downlevelIteration": true,
-    "paths": {},
-    "noEmit": true,
-    "incremental": true
+    "moduleResolution": "node" // Forced by NextJs on build
   },
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
   "ts-node": {
     "preferTsExts": true
   }

@@ -59,7 +59,7 @@ export const getServerSideProps: GetServerSideProps<
   return {
     props: serialiseProps({
       serverData,
-      errorDescription,
+      errorDescription: errorDescription || 'Error',
     }),
   };
 };

@@ -31,7 +31,7 @@ import TextWithDot from '@weco/content/components/TextWithDot';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import { Label } from '@weco/common/model/labels';
-import { upcomingDatesFullyBooked } from 'services/prismic/events';
+import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
 
 type Props = {
   events: EventDocument[];

@@ -1,6 +1,6 @@
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { AppErrorProps } from '@weco/common/services/app';
-import CollectionsStaticContent from 'components/Body/CollectionsStaticContent';
+import CollectionsStaticContent from '@weco/content/components/Body/CollectionsStaticContent';
 import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 import * as page from './pages/[pageId]';
