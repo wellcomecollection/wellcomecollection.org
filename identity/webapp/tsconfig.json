@@ -1,6 +1,9 @@
 {
   "extends": "../../config/tsconfig-base",
-  "include": ["**/*.ts", "**/*.tsx"],
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "node" // Forced by NextJs on build
+  },
   "ts-node": {
     "preferTsExts": true
   }

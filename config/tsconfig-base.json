@@ -8,8 +8,6 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "lib": ["esnext"], 
-    "module": "esnext",
-    "moduleResolution": "bundler",
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
@@ -18,5 +16,6 @@
     "strictNullChecks": true,
     "target": "es6",
   },
-  "exclude": ["**/node_modules"]
+  "exclude": ["/**/node_modules"],
+  "include": ["/**/*.ts", "/**/*.tsx"],
 }

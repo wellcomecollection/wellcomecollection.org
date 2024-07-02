@@ -1,5 +1,9 @@
 {
   "extends": "../../config/tsconfig-base",
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "bundler",
+  },
   // This is for https://github.com/wellcomecollection/ts-aws
   "ts-node": {
     "skipIgnore": true
