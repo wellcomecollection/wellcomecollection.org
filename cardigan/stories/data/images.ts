@@ -20,42 +20,40 @@ export const readingRoomClockImageUrl = `${imagesBaseUrl}/reading-room-clock-320
 export const image = (
   contentUrl = readingRoomImageUrl,
   width = 640,
-  height = 360
-): Picture => {
-  return {
-    contentUrl,
-    width,
-    height,
-    alt: 'an image with some alt text',
-    tasl: {
-      title: 'The title of the image',
-      author: 'The author',
-      sourceName: 'Wellcome Collection',
-      sourceLink: 'https://wellcomecollection.org/works',
-      license: 'CC-BY-NC' as LicenseType,
-    },
-  };
-};
+  height = 360,
+  extraProps = {}
+): Picture => ({
+  contentUrl,
+  width,
+  height,
+  alt: 'an image with some alt text',
+  tasl: {
+    title: 'The title of the image',
+    author: 'The author',
+    sourceName: 'Wellcome Collection',
+    sourceLink: 'https://wellcomecollection.org/works',
+    license: 'CC-BY-NC' as LicenseType,
+  },
+  ...extraProps,
+});
 
 export const squareImage = (
   contentUrl = readingRoomClockImageUrl,
   width = 300,
   height = 300
-): ImageType => {
-  return {
-    contentUrl,
-    width,
-    height,
-    alt: '',
-    tasl: {
-      title: 'The title of the image',
-      author: 'The author',
-      sourceName: 'Wellcome Collection',
-      sourceLink: 'https://wellcomecollection.org/works',
-      license: 'CC-BY-NC' as LicenseType,
-    },
-  };
-};
+): ImageType => ({
+  contentUrl,
+  width,
+  height,
+  alt: '',
+  tasl: {
+    title: 'The title of the image',
+    author: 'The author',
+    sourceName: 'Wellcome Collection',
+    sourceLink: 'https://wellcomecollection.org/works',
+    license: 'CC-BY-NC' as LicenseType,
+  },
+});
 
 export const captionedImage = (): CaptionedImageProps => ({
   image: image(),

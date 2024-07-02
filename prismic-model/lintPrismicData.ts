@@ -20,6 +20,13 @@ import {
   CreateInvalidationCommand,
 } from '@aws-sdk/client-cloudfront';
 
+type ErrorProps = {
+  id: string;
+  type: string;
+  title: string;
+  errors: string[];
+};
+
 // Look for eur01 safelinks.  These occur when somebody has copied
 // a URL directly from Outlook and isn't using the original URL.
 //
@@ -172,7 +179,7 @@ async function run() {
   const snapshotFile = await downloadPrismicSnapshot();
 
   let totalErrors = 0;
-  const allErrors = [];
+  const allErrors: ErrorProps[] = [];
 
   for (const doc of getPrismicDocuments(snapshotFile)) {
     const errors = [

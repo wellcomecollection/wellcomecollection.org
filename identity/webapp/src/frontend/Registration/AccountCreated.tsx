@@ -1,4 +1,4 @@
-import React from 'react';
+import { FunctionComponent } from 'react';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { PageWrapper } from '../components/PageWrapper';
@@ -8,7 +8,7 @@ import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { info2 } from '@weco/common/icons';
 
-export const AccountCreated: React.FunctionComponent = () => {
+export const AccountCreated: FunctionComponent = () => {
   return (
     <PageWrapper title="Account created">
       <Layout gridSizes={gridSize10()}>

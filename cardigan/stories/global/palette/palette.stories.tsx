@@ -194,7 +194,7 @@ export const Palette: FunctionComponent = () => (
           {paletteColors[category].description}
         </SectionDescription>
         <PaletteSection>
-          {Object.entries(paletteColors[category].colors).map(
+          {Object.entries(paletteColors[category].colors!).map(
             ([colorName, colorValues]) => (
               <PaletteBlock key={colorName}>
                 <PaletteName>{colorName}</PaletteName>

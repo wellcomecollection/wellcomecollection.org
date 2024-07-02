@@ -44,7 +44,7 @@ const SpacingScale = () => {
   const firstRow = [['Size', 'BP Large', 'BP Medium', 'BP Small']];
   const rowsWithHeadings = firstRow.concat(rowsWithScaleColumn);
 
-  return <Table caption={null} hasRowHeaders={false} rows={rowsWithHeadings} />;
+  return <Table hasRowHeaders={false} rows={rowsWithHeadings} />;
 };
 
 const ScaleTemplate = () => <SpacingScale />;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { FieldMargin } from '../components/Form.style';
@@ -21,9 +21,11 @@ type ChangeEmailInputs = {
   password: string;
 };
 
-export const ChangeEmail: React.FunctionComponent<
-  ChangeDetailsModalContentProps
-> = ({ onComplete, isActive, setIsModalLoading }) => {
+export const ChangeEmail: FunctionComponent<ChangeDetailsModalContentProps> = ({
+  onComplete,
+  isActive,
+  setIsModalLoading,
+}) => {
   const [initialEmail, setInitialEmail] = useState<string>('');
   const { user, state: userState } = useUser();
   const { updateUser, state: updateState, error } = useUpdateUser();

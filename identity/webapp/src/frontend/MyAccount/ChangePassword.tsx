@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import { ErrorMessage } from '@hookform/error-message';
 import usePasswordRules from '../hooks/usePasswordRules';
 import { PasswordInput, PasswordRules } from '../components/PasswordInput';
@@ -22,7 +22,7 @@ type ChangePasswordInputs = {
   confirmation: string;
 };
 
-export const ChangePassword: React.FunctionComponent<
+export const ChangePassword: FunctionComponent<
   ChangeDetailsModalContentProps
 > = ({ onComplete, isActive, setIsModalLoading }) => {
   const defaultValues: ChangePasswordInputs = useMemo(
