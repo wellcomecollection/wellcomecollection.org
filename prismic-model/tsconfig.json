@@ -1,8 +1,5 @@
 {
   "extends": "../config/tsconfig-base",
-  "compilerOptions": {
-    "module": "commonjs",
-  },
   // This is for https://github.com/wellcomecollection/ts-aws
   "ts-node": {
     "skipIgnore": true

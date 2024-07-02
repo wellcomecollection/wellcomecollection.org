@@ -1,9 +1,6 @@
 {
   "extends": "../../config/tsconfig-base",
-  "compilerOptions": {
-    "module": "commonjs"
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx"],
   "ts-node": {
     "preferTsExts": true
   }

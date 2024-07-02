@@ -1,6 +1,6 @@
 {
   "extends": "../../config/tsconfig-base",
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx"],
   "ts-node": {
     "preferTsExts": true
   }
