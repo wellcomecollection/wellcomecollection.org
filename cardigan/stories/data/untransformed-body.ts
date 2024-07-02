@@ -1,4 +1,5 @@
 import * as prismic from '@prismicio/client';
+import { darkCloudImageUrl, florenceWinterfloodImageUrl } from './images';
 
 const untransformedbody = [
   {
@@ -90,7 +91,7 @@ const untransformedbody = [
         alt: 'An illustration of two young black girls looking at each other while holding hands. Both are wearing head scarves and skirts with patterns of biological cells and structures. In the background are representations of DNA strands and chromosomes.',
         copyright:
           'Equality in Genetics | | | | | Tinuke Fagborun for Wellcome Collection |',
-        url: 'https://images.prismic.io/wellcomecollection/8fce9852-f58e-46f1-9898-715fb7d5af7b_Tinuke_+Fagborun_Equality_Genetics_0002.jpg?auto=format,compress',
+        url: florenceWinterfloodImageUrl('3200x3200'),
         id: 'ZcISLRAAAPpnKr1h',
         edit: {
           x: 0,
@@ -106,7 +107,7 @@ const untransformedbody = [
           alt: 'An illustration of two young black girls looking at each other while holding hands. Both are wearing head scarves and skirts with patterns of biological cells and structures. In the background are representations of DNA strands and chromosomes.',
           copyright:
             'Equality in Genetics | | | | | Tinuke Fagborun for Wellcome Collection |',
-          url: 'https://images.prismic.io/wellcomecollection/8fce9852-f58e-46f1-9898-715fb7d5af7b_Tinuke_+Fagborun_Equality_Genetics_0002.jpg?auto=format,compress',
+          url: florenceWinterfloodImageUrl('3200x1500'),
           id: 'ZcISLRAAAPpnKr1h',
           edit: {
             x: 0,
@@ -123,7 +124,7 @@ const untransformedbody = [
           alt: 'An illustration of two young black girls looking at each other while holding hands. Both are wearing head scarves and skirts with patterns of biological cells and structures. In the background are representations of DNA strands and chromosomes.',
           copyright:
             'Equality in Genetics | | | | | Tinuke Fagborun for Wellcome Collection |',
-          url: 'https://images.prismic.io/wellcomecollection/8fce9852-f58e-46f1-9898-715fb7d5af7b_Tinuke_+Fagborun_Equality_Genetics_0002.jpg?auto=format,compress',
+          url: florenceWinterfloodImageUrl('3200x1800'),
           id: 'ZcISLRAAAPpnKr1h',
           edit: {
             x: 0,
@@ -140,7 +141,7 @@ const untransformedbody = [
           alt: 'An illustration of two young black girls looking at each other while holding hands. Both are wearing head scarves and skirts with patterns of biological cells and structures. In the background are representations of DNA strands and chromosomes.',
           copyright:
             'Equality in Genetics | | | | | Tinuke Fagborun for Wellcome Collection |',
-          url: 'https://images.prismic.io/wellcomecollection/8fce9852-f58e-46f1-9898-715fb7d5af7b_Tinuke_+Fagborun_Equality_Genetics_0002.jpg?auto=format,compress',
+          url: florenceWinterfloodImageUrl('3200x3200'),
           id: 'ZcISLRAAAPpnKr1h',
           edit: {
             x: -533,
@@ -428,7 +429,7 @@ const untransformedbody = [
         alt: 'An illustration of a therapy session in progress. A Therapist sit’s in a chair across from a couple having a discussion. In the room are large plants and in the background a strand of DNA is depicted. ',
         copyright:
           'Equality in Genetics | | | | | Tinuke Fagborun for Wellcome Collection |',
-        url: 'https://images.prismic.io/wellcomecollection/1f1e654b-591f-470b-913f-05cf0d97163f_Tinuke_+Fagborun_Equality_Genetics_0003.jpg?auto=format,compress',
+        url: darkCloudImageUrl('3200x3200'),
         id: 'ZcISNBAAACAAKr1u',
         edit: {
           x: 0,
@@ -444,7 +445,7 @@ const untransformedbody = [
           alt: 'An illustration of a therapy session in progress. A Therapist sit’s in a chair across from a couple having a discussion. In the room are large plants and in the background a strand of DNA is depicted. ',
           copyright:
             'Equality in Genetics | | | | | Tinuke Fagborun for Wellcome Collection |',
-          url: 'https://images.prismic.io/wellcomecollection/1f1e654b-591f-470b-913f-05cf0d97163f_Tinuke_+Fagborun_Equality_Genetics_0003.jpg?auto=format,compress',
+          url: darkCloudImageUrl('3200x1500'),
           id: 'ZcISNBAAACAAKr1u',
           edit: {
             x: 0,
@@ -461,7 +462,7 @@ const untransformedbody = [
           alt: 'An illustration of a therapy session in progress. A Therapist sit’s in a chair across from a couple having a discussion. In the room are large plants and in the background a strand of DNA is depicted. ',
           copyright:
             'Equality in Genetics | | | | | Tinuke Fagborun for Wellcome Collection |',
-          url: 'https://images.prismic.io/wellcomecollection/1f1e654b-591f-470b-913f-05cf0d97163f_Tinuke_+Fagborun_Equality_Genetics_0003.jpg?auto=format,compress',
+          url: darkCloudImageUrl('3200x1800'),
           id: 'ZcISNBAAACAAKr1u',
           edit: {
             x: 0,
@@ -478,7 +479,7 @@ const untransformedbody = [
           alt: 'An illustration of a therapy session in progress. A Therapist sit’s in a chair across from a couple having a discussion. In the room are large plants and in the background a strand of DNA is depicted. ',
           copyright:
             'Equality in Genetics | | | | | Tinuke Fagborun for Wellcome Collection |',
-          url: 'https://images.prismic.io/wellcomecollection/1f1e654b-591f-470b-913f-05cf0d97163f_Tinuke_+Fagborun_Equality_Genetics_0003.jpg?auto=format,compress',
+          url: darkCloudImageUrl('3200x3200'),
           id: 'ZcISNBAAACAAKr1u',
           edit: {
             x: -533,

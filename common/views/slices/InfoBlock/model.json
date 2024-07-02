@@ -39,22 +39,9 @@
             "multi": "paragraph,hyperlink,strong,em,heading3,list-item",
             "label": "Text"
           }
-        },
-        "link": {
-          "type": "Link",
-          "config": {
-            "label": "Button link",
-            "select": "web",
-            "customtypes": []
-          }
-        },
-        "linkText": {
-          "type": "Text",
-          "config": {
-            "label": "Button text"
-          }
         }
-      }
+      },
+      "items": {}
     }
   ]
 }

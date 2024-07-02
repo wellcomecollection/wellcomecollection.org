@@ -31,7 +31,6 @@ const CollectionVenue = ({
         ) : (
           <Layout
             gridSizes={
-              transformedSlice.weight === 'featured' || // TODO: remove after Slice Machine migration
               transformedSlice.value.content.isFeatured
                 ? {
                     s: 12,
@@ -52,10 +51,7 @@ const CollectionVenue = ({
                   }
             }
           >
-            <VenueHours
-              venue={transformedSlice.value.content}
-              weight={transformedSlice.weight || 'default'}
-            />
+            <VenueHours venue={transformedSlice.value.content} />
           </Layout>
         )}
       </SpacingComponent>

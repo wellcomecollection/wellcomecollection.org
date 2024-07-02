@@ -11,14 +11,14 @@ services:
       context: .
       dockerfile: content/Dockerfile
       args:
-        - NEXT_PUBLIC_CIVICUK_API_KEY=${NEXT_PUBLIC_CIVICUK_API_KEY}
+        - NEXT_PUBLIC_CIVICUK_API_KEY
   identity:
     image: uk.ac.wellcome/identity_webapp:${CONTAINER_TAG:-test}
     build:
       context: .
       dockerfile: identity/Dockerfile
       args:
-        - NEXT_PUBLIC_CIVICUK_API_KEY=${NEXT_PUBLIC_CIVICUK_API_KEY}
+        - NEXT_PUBLIC_CIVICUK_API_KEY
   dash:
     build:
       context: ./dash
@@ -45,3 +45,7 @@ services:
     build:
       context: .
       dockerfile: prismic-model/Dockerfile
+    environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_SESSION_TOKEN

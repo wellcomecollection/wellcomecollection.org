@@ -93,7 +93,6 @@ export function transformExhibition(
       transformExhibitionFormat(data.format as any)
     : undefined;
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const start = transformTimestamp(data.start)!;
   const end = data.end ? transformTimestamp(data.end) : undefined;
   const statusOverride = asText(data.statusOverride);

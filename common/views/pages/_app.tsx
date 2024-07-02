@@ -22,7 +22,7 @@ import { ApmContextProvider } from '@weco/common/views/components/ApmContext/Apm
 import { AppErrorProps } from '@weco/common/services/app';
 import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
 import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
-import { GaDimensions } from '@weco/common/services/app/google-analytics';
+import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { deserialiseProps } from '@weco/common/utils/json';
 import { SearchContextProvider } from '@weco/common/views/components/SearchContext/SearchContext';
 import CivicUK from '@weco/common/views/components/CivicUK';

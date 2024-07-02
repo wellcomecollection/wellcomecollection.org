@@ -6,7 +6,7 @@ import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 const Template = () => (
   <ReadmeDecorator
     WrappedComponent={VenueHours}
-    args={{ venue: galleriesVenue, weight: 'featured' }}
+    args={{ venue: galleriesVenue }}
     Readme={Readme}
   />
 );

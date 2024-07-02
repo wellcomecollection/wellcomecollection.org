@@ -136,4 +136,5 @@ export const galleriesVenue: Venue = {
   },
   url: 'https://wellcomecollection.org/whats-on',
   linkText: 'See what’s on',
+  isFeatured: true,
 };
