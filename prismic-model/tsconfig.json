@@ -2,6 +2,7 @@
   "extends": "../config/tsconfig-base",
   "compilerOptions": {
     "module": "commonjs",
+    "moduleResolution": "node"
   },
   // This is for https://github.com/wellcomecollection/ts-aws
   "ts-node": {
