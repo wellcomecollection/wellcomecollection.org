@@ -83,7 +83,7 @@ export const getServerSideProps: GetServerSideProps<
     props: serialiseProps({
       serverData,
       success: didSucceed,
-      message: message || null,
+      message: message || '',
       isNewSignUp: supportSignUp === 'true',
     }),
   };
