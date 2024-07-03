@@ -1,6 +1,8 @@
 {
+  "extends": "../../config/tsconfig-base",
   "compilerOptions": {
-    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
   },
   // This is for https://github.com/wellcomecollection/ts-aws
   "ts-node": {

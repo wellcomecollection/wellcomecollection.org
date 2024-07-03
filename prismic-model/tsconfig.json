@@ -1,9 +1,8 @@
 {
+  "extends": "../config/tsconfig-base",
   "compilerOptions": {
-    // This is for lodash
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "jsx": "preserve"
+    "module": "commonjs",
+    "moduleResolution": "node"
   },
   // This is for https://github.com/wellcomecollection/ts-aws
   "ts-node": {
