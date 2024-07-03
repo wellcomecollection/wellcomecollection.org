@@ -190,7 +190,6 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
 
             We could get this working in the type system, but it's a more invasive change.
           */}
-          {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
           <time dateTime={formatDate(end!)}>{formatDayName(end!)}</time>
         </>
       )}
@@ -349,7 +348,6 @@ export const getServerSideProps: GetServerSideProps<
     whatsOnPagePromise,
   ]);
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const whatsOnPage = transformPage(whatsOnPageDocument!);
 
   const tryTheseToo = getTryTheseTooPromos(whatsOnPage);

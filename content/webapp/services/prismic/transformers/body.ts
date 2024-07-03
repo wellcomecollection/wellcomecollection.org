@@ -39,7 +39,7 @@ import {
   transformTaslFromString,
 } from '@weco/common/services/prismic/transformers';
 import * as prismic from '@prismicio/client';
-import { ContentListProps, Slice, Weight } from '@weco/content/types/body';
+import { ContentListProps, Slice } from '@weco/content/types/body';
 import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
 import { transformPage } from './pages';
 import { transformGuide } from './guides';
@@ -73,27 +73,11 @@ import { Props as TitledTextListProps } from '@weco/content/components/TitledTex
 import { Props as AsyncSearchResultsProps } from '@weco/content/components/SearchResults/AsyncSearchResults';
 import { Venue } from '@weco/common/model/opening-hours';
 
-export function getWeight(weight: string | null): Weight {
-  switch (weight) {
-    case 'featured':
-      return weight;
-    case 'standalone':
-      return weight;
-    case 'supporting':
-      return weight;
-    case 'frames':
-      return weight;
-    default:
-      return 'default';
-  }
-}
-
 export function transformStandfirstSlice(
   slice: RawStandfirstSlice
 ): Slice<'standfirst', prismic.RichTextField> {
   return {
     type: 'standfirst',
-    weight: getWeight(slice.slice_label),
     value: slice.primary.text,
   };
 }
@@ -106,7 +90,6 @@ export function transformTextAndImage(
     value: {
       type: 'image',
       text: slice.primary.text,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       image: transformImage(slice.primary.image)!,
       isZoomable: slice.primary.isZoomable,
     },
@@ -121,7 +104,6 @@ export function transformTextAndIcons(
     value: {
       type: 'icons',
       text: slice.primary.text,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       icons: slice.items.map(({ icon }) => transformImage(icon)!),
     },
   };
@@ -166,7 +148,6 @@ export function transformEditorialImageSlice(
   slice: RawEditorialImageSlice
 ): Slice<'picture', CaptionedImageProps> {
   return {
-    weight: getWeight(slice.slice_label),
     type: 'picture',
     value: transformCaptionedImage(slice.primary),
   };
@@ -181,10 +162,8 @@ export function transformEditorialImageGallerySlice(
     value: {
       title: asText(slice.primary.title),
       items: slice.items.map(item => transformCaptionedImage(item)),
-      isStandalone:
-        isStandalone || getWeight(slice.slice_label) === 'standalone', // TODO: remove the getWeight() part when migration's complete
-      isFrames:
-        slice.primary.isFrames || getWeight(slice.slice_label) === 'frames',
+      isStandalone: isStandalone || false,
+      isFrames: slice.primary.isFrames,
     },
   };
 }
@@ -198,7 +177,6 @@ export function transformGifVideoSlice(
   return isFilledLinkToMediaField(slice.primary.video)
     ? {
         type: 'gifVideo',
-        weight: getWeight(slice.slice_label),
         value: {
           caption: asRichText(slice.primary.caption),
           videoUrl: slice.primary.video.url,
@@ -252,11 +230,6 @@ export function transformInfoBlockSlice(
     value: {
       title: asTitle(slice.primary.title),
       text: slice.primary.text,
-      linkText: slice.primary.linkText,
-      link:
-        'url' in slice.primary.link
-          ? transformLink(slice.primary.link)
-          : undefined,
     },
   };
 }
@@ -266,11 +239,8 @@ export function transformIframeSlice(
 ): Slice<'iframe', IframeProps> {
   return {
     type: 'iframe',
-    weight: getWeight(slice.slice_label),
     value: {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       src: slice.primary.iframeSrc!,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       image: transformImage(slice.primary.previewImage)!,
     },
   };
@@ -281,14 +251,10 @@ export function transformQuoteSlice(
 ): Slice<'quote', QuoteProps> {
   return {
     type: 'quote',
-    weight: getWeight(slice.slice_label),
     value: {
       text: slice.primary.text,
       citation: slice.primary.citation,
-      isPullOrReview:
-        slice.primary.isPullOrReview ||
-        slice.slice_label === 'pull' ||
-        slice.slice_label === 'review', // TODO: tidy after migration
+      isPullOrReview: slice.primary.isPullOrReview,
     },
   };
 }
@@ -329,7 +295,6 @@ export function transformSearchResultsSlice(
 ): Slice<'searchResults', AsyncSearchResultsProps> {
   return {
     type: 'searchResults',
-    weight: getWeight(slice.slice_label),
     value: {
       title: asText(slice.primary.title),
       query: slice.primary.query || '',
@@ -345,7 +310,6 @@ export function transformCollectionVenueSlice(
   return isFilledLinkToDocumentWithData(slice.primary.content)
     ? {
         type: 'collectionVenue',
-        weight: getWeight(slice.slice_label),
         value: {
           content: {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -369,7 +333,6 @@ export function transformEmbedSlice(
   if (embed.provider_name === 'Vimeo') {
     return {
       type: 'videoEmbed',
-      weight: getWeight(slice.slice_label),
       value: {
         embedUrl: getVimeoEmbedUrl(embed),
         caption: slice.primary.caption,
@@ -381,7 +344,6 @@ export function transformEmbedSlice(
   if (embed.provider_name === 'SoundCloud') {
     return {
       type: 'soundcloudEmbed',
-      weight: getWeight(slice.slice_label),
       value: {
         embedUrl: getSoundCloudEmbedUrl(embed),
         caption: slice.primary.caption,
@@ -393,7 +355,6 @@ export function transformEmbedSlice(
   if (embed.provider_name === 'YouTube') {
     return {
       type: 'videoEmbed',
-      weight: getWeight(slice.slice_label),
       value: {
         embedUrl: getYouTubeEmbedUrl(embed),
         caption: slice.primary.caption,
@@ -412,7 +373,6 @@ export function transformContentListSlice(
 
   return {
     type: 'contentList',
-    weight: getWeight(slice.slice_label),
     value: {
       title: asText(slice.primary.title),
       // TODO: The old code would look up a `hasFeatured` field on `slice.primary`,

@@ -47,13 +47,12 @@ export function transformPage(document: RawPagesDocument): Page {
     ? transformSingleLevelGroup(data.parents, 'parent').map((parent, index) => {
         return {
           ...transformPage(parent as RawPagesDocument),
-
           order: data.parents[index].order!,
-          /* eslint-enable @typescript-eslint/no-non-null-assertion */
           type: parent.type,
         };
       })
     : [];
+
   // TODO (tagging): This is just for now, we will be implementing a proper site tagging
   // strategy for this later
   const siteSections = headerLinks.map(link => link.siteSection);
