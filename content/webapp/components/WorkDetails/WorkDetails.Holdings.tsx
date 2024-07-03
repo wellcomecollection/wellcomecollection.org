@@ -22,6 +22,7 @@ const WorkDetailsHoldings = ({ holdings }: { holdings: Holding[] }) => {
               holding.location && getLocationShelfmark(holding.location);
             const locationLink =
               holding.location && getLocationLink(holding.location);
+
             return (
               <Space
                 key={i}
@@ -32,20 +33,14 @@ const WorkDetailsHoldings = ({ holdings }: { holdings: Holding[] }) => {
                 }
               >
                 {holding.enumeration.length > 0 && (
-                  <Space
-                    key={i}
-                    $v={{ size: 's', properties: ['margin-bottom'] }}
-                  >
+                  <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
                     <ExpandableList
                       listItems={holding.enumeration}
                       initialItems={10}
                     />
                   </Space>
                 )}
-                <Space
-                  key={i}
-                  $v={{ size: 's', properties: ['margin-bottom'] }}
-                >
+                <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
                   {locationLink && (
                     <a className={font('intr', 5)} href={locationLink.url}>
                       {locationLink.linkText}
