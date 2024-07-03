@@ -1,6 +1,11 @@
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
-import React, { useEffect, FunctionComponent, ReactElement } from 'react';
+import React, {
+  useEffect,
+  FunctionComponent,
+  ReactElement,
+  useState,
+} from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '@weco/common/views/themes/default';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator/LoadingIndicator';
@@ -71,6 +76,9 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   // e.g. for error pages
   const isServerDataSet = isServerData(pageProps.serverData);
 
+  // Expected origin for cookie banner to display
+  const [isExpectedOrigin, setIsExpectedOrigin] = useState(true);
+
   // We allow error pages through as they don't need, and can't set
   // serverData as they don't have data fetching methods.exi
   if (
@@ -111,6 +119,8 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   useEffect(() => {
     document.documentElement.classList.add('enhanced');
 
+    setIsExpectedOrigin(window.location === window.parent.location);
+
     window.addEventListener(
       'analyticsConsentChanged',
       onAnalyticsConsentChanged
@@ -123,6 +133,13 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
       );
     };
   }, []);
+
+  useEffect(() => {
+    if (!isExpectedOrigin) {
+      // This needs triggering as it displays it by default
+      window.CookieControl.hide();
+    }
+  }, [isExpectedOrigin]);
 
   useEffect(() => {
     if (pageProps.pageview) {
@@ -145,9 +162,17 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   const getLayout = Component.getLayout || (page => <>{page}</>);
 
-  // Banner should not load on cookie policy page to allow user to interact with the page content.
-  const displayCookieBanner =
-    civicUkApiKey && pageProps['page']?.id !== prismicPageIds.cookiePolicy; // eslint-disable-line dot-notation
+  const isCookieBannerException = () => {
+    // Banner should not load on cookie policy page to allow user to interact with the page content.
+    if (pageProps['page']?.id === prismicPageIds.cookiePolicy) return true; // eslint-disable-line dot-notation
+
+    // Banner should not load when document is an iframe, which can happen with Slice simulator/page builder
+    if (!isExpectedOrigin) return true;
+
+    return false;
+  };
+
+  const displayCookieBanner = civicUkApiKey && !isCookieBannerException();
 
   return (
     <>
