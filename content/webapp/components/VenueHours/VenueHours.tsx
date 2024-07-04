@@ -255,7 +255,6 @@ const VenueHours: FunctionComponent<Props> = ({ venue }) => {
                 {upcomingExceptionalPeriod.map(exceptional => {
                   // We have regular opening hours for each day of the week, so we'll
                   // always find something here.
-
                   const regular = venue.openingHours.regular
                     .filter(
                       ({ dayOfWeek }) =>

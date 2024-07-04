@@ -1,4 +1,4 @@
-import React, { useContext, FunctionComponent, PropsWithChildren } from 'react';
+import { useContext, FunctionComponent, PropsWithChildren } from 'react';
 import Script from 'next/script';
 import Head from 'next/head';
 import { Url } from '@weco/common/model/link-props';
