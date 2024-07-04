@@ -13,6 +13,7 @@ import {
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 import * as prismic from '@prismicio/client';
+import { buildStoriesRss } from '@weco/content/utils/rss';
 
 const dev = process.env.NODE_ENV !== 'production';
 const nextApp = next({ dev });
@@ -51,6 +52,11 @@ const appPromise = nextApp
       ctx.body = {
         status: 'ok',
       };
+    });
+
+    router.get('/rss', async ctx => {
+      ctx.type = 'application/xml';
+      ctx.body = await buildStoriesRss(ctx);
     });
 
     router.get('/preview', async ctx => {
