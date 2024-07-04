@@ -83,6 +83,10 @@ const PhysicalItems: FunctionComponent<Props> = ({
     offsiteRequesting
   );
 
+  useEffect(() => {
+    setItemsState('stale');
+  }, [workItems]);
+
   useAbortSignalEffect(
     signal => {
       const fetchUserHolds = async () => {
