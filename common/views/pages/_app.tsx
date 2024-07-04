@@ -150,7 +150,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
         eventGroup: pageProps.pageview.eventGroup,
       });
     }
-  }, [pageProps.pageview]);
+  }, [pageProps.pageview, hasAnalyticsConsent]);
   // pageProps.pageview is updated by getServerSideProps
   // getServerSideProps is run when the page is requested directly
   // or when requested client-side through next/link or next/router
