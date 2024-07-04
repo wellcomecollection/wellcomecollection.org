@@ -28,14 +28,14 @@ import { AppErrorProps } from '@weco/common/services/app';
 import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
 import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
 import {
-  SegmentScript,
   GaDimensions,
+  SegmentScript,
 } from '@weco/common/services/app/analytics-scripts';
 import { deserialiseProps } from '@weco/common/utils/json';
 import { SearchContextProvider } from '@weco/common/views/components/SearchContext/SearchContext';
 import CivicUK from '@weco/common/views/components/CivicUK';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import { getConsentState } from '@weco/common/services/app/civic-uk';
+import { getConsentState } from '../../services/app/civic-uk';
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
@@ -80,6 +80,11 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   // e.g. for error pages
   const isServerDataSet = isServerData(pageProps.serverData);
 
+  // On first load, needs to get current state of consent
+  const [hasAnalyticsConsent, setHasAnalyticsConsent] = useState(
+    pageProps.serverData.consentStatus.analytics
+  );
+
   // We allow error pages through as they don't need, and can't set
   // serverData as they don't have data fetching methods.exi
   if (
@@ -95,14 +100,10 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   const serverData = isServerDataSet ? pageProps.serverData : defaultServerData;
 
-  const [hasAnalyticsConsent, setHasAnalyticsConsent] = useState(
-    serverData.consentStatus.analytics
-  );
-
   useMaintainPageHeight();
 
   type ConsentType = 'granted' | 'denied';
-  const onAnalyticsConsentChanged = (
+  const onConsentChanged = (
     event: CustomEvent<{
       analyticsConsent?: ConsentType;
       marketingConsent?: ConsentType;
@@ -120,11 +121,10 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
       }),
     });
 
-    // Update state of consent for Segment script
-    setHasAnalyticsConsent(
-      event.detail.analyticsConsent !== undefined &&
-        event.detail.analyticsConsent === 'granted'
-    );
+    // Ensures relevant scripts are updated based on user preferences
+    if (event.detail.analyticsConsent !== undefined) {
+      setHasAnalyticsConsent(event.detail.analyticsConsent === 'granted');
+    }
   };
 
   useEffect(() => {
@@ -132,16 +132,10 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
     setHasAnalyticsConsent(getConsentState('analytics'));
 
-    window.addEventListener(
-      'analyticsConsentChanged',
-      onAnalyticsConsentChanged
-    );
+    window.addEventListener('consentChanged', onConsentChanged);
 
     return () => {
-      window.removeEventListener(
-        'analyticsConsentChanged',
-        onAnalyticsConsentChanged
-      );
+      window.removeEventListener('consentChanged', onConsentChanged);
     };
   }, []);
 
