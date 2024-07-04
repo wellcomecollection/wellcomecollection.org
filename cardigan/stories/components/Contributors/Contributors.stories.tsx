@@ -15,9 +15,9 @@ basic.args = {
   contributors: [
     {
       contributor: {
+        ...person,
         type: 'people',
         id: 'xxx',
-        ...person,
       },
       role: {
         id: 'xxx',
@@ -27,9 +27,9 @@ basic.args = {
     },
     {
       contributor: {
-        type: 'organisations',
-        id: 'xxx',
         ...organisation,
+        type: 'organisations',
+        id: '123',
       },
       role: {
         id: 'xxx',

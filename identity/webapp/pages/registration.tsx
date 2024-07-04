@@ -25,7 +25,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import { getServerData } from '@weco/common/server-data';
-import { AppErrorProps } from '@weco/common/services/app';
+import { AppErrorProps, appError } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import {
@@ -62,6 +62,10 @@ export const getServerSideProps: GetServerSideProps<
   const sessionToken = isString(context.query.session_token)
     ? context.query.session_token
     : context.query.session_token?.join('');
+
+  if (!sessionToken || !auth0State) {
+    return appError(context, 500, 'Error connecting to auth');
+  }
 
   let token: string | JwtPayload = '';
   let email = '';

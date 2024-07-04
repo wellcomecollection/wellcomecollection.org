@@ -1,11 +1,6 @@
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
-import React, {
-  useEffect,
-  FunctionComponent,
-  ReactElement,
-  useState,
-} from 'react';
+import { useEffect, FunctionComponent, ReactElement, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '@weco/common/views/themes/default';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator/LoadingIndicator';

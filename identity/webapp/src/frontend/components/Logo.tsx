@@ -1,11 +1,11 @@
-import React from 'react';
+import { FunctionComponent } from 'react';
 
 type LogoProps = {
   width?: number;
   height?: number;
 };
 
-export const Logo: React.FunctionComponent<LogoProps> = ({
+export const Logo: FunctionComponent<LogoProps> = ({
   width = 128,
   height = 42,
 }) => {

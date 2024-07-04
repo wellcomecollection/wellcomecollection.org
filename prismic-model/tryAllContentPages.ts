@@ -69,7 +69,7 @@ async function run() {
     .filter(({ type }) => !nonVisibleTypes.has(type))
     .map(doc => createUrl(prefix, doc));
 
-  const pageErrors = [];
+  const pageErrors: string[] = [];
 
   for await (const u of tqdm(urls)) {
     const resp = await fetch(u);

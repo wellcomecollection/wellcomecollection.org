@@ -19,6 +19,9 @@ export const decodeToken = (
   secret?: string
 ): JwtPayload | string => {
   try {
+    if (!token || !secret) {
+      throw new Error('no token or secret detected');
+    }
     const decoded = verify(token, secret);
     return decoded;
   } catch (e) {

@@ -1,4 +1,4 @@
-import React, {
+import {
   FunctionComponent,
   useState,
   ComponentPropsWithoutRef,
@@ -133,6 +133,20 @@ const AccountStatus: FunctionComponent<PropsWithChildren<StatusAlertProps>> = ({
   );
 };
 
+const NoRequestedItems = () => (
+  <Space
+    as="p"
+    className={font('intr', 5)}
+    $v={{
+      size: 's',
+      properties: ['margin-bottom'],
+      overrides: { small: 1 },
+    }}
+  >
+    Any item requests you make will appear here.
+  </Space>
+);
+
 type Props = {
   serverData: SimplifiedServerData;
   user?: Claims;
@@ -169,6 +183,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       // [2]: https://auth0.com/docs/manage-users/user-accounts/user-profiles#caching-user-profiles
       //
       const session = await auth0.getSession(context.req, context.res);
+
+      if (!session)
+        return {
+          props: serialiseProps({
+            serverData,
+          }),
+        };
 
       if (session.user.family_name === 'Auth0_Registration_tempLastName') {
         const successParams = new URLSearchParams();
@@ -289,118 +310,122 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
           </SectionHeading>
           <Container>
             <Wrapper>
-              {(() => {
-                switch (requestedItemsState) {
-                  case 'initial':
-                  case 'loading':
-                    return (
-                      <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
-                        <InlineLoading />
-                      </Space>
-                    );
-                  case 'failed':
-                    return <RequestsFailed retry={fetchRequests} />;
-                  case 'success':
-                    if (requestedItems.totalResults === 0) {
-                      return (
-                        <Space
-                          as="p"
-                          className={font('intr', 5)}
-                          $v={{
-                            size: 's',
-                            properties: ['margin-bottom'],
-                            overrides: { small: 1 },
-                          }}
-                        >
-                          Any item requests you make will appear here.
-                        </Space>
-                      );
-                    } else {
-                      return (
-                        <>
+              {!requestedItems ? (
+                <NoRequestedItems />
+              ) : (
+                <>
+                  {(() => {
+                    switch (requestedItemsState) {
+                      case 'initial':
+                      case 'loading':
+                        return (
                           <Space
-                            as="p"
-                            className={font('intb', 5)}
-                            $v={{ size: 's', properties: ['margin-bottom'] }}
-                          >{`You have requested ${requestedItems.totalResults} out of ${allowedRequests} items`}</Space>
-                          <ProgressBar>
-                            <ProgressIndicator
-                              $percentage={
-                                (requestedItems.totalResults /
-                                  allowedRequests) *
-                                100
-                              }
-                            />
-                          </ProgressBar>
-                          <StackingTable
-                            maxWidth={1180}
-                            rows={[
-                              [
-                                'Title',
-                                'Status',
-                                'Pickup date requested',
-                                'Pickup location',
-                              ].filter(Boolean),
-                              ...requestedItems.results.map(result =>
-                                [
-                                  <>
-                                    <ItemTitle
-                                      as="a"
-                                      href={`/works/${result.workId}`}
-                                    >
-                                      {result.workTitle || 'Unknown title'}
-                                    </ItemTitle>
-                                    {result.item.title && (
-                                      <Space
-                                        $v={{
-                                          size: 's',
-                                          properties: ['margin-top'],
-                                        }}
-                                      >
-                                        <ItemTitle>
-                                          {result.item.title}
-                                        </ItemTitle>
-                                      </Space>
-                                    )}
-                                  </>,
-                                  <ItemStatus key={`${result.item.id}-status`}>
-                                    {sierraStatusCodeToLabel[
-                                      result.status.id
-                                    ] ?? result.status.label}
-                                  </ItemStatus>,
-                                  result.pickupDate ? (
-                                    <HTMLDate
-                                      date={new Date(result.pickupDate)}
-                                    />
-                                  ) : (
-                                    <p>n/a</p>
-                                  ),
-                                  <ItemPickup key={`${result.item.id}-pickup`}>
-                                    {result.pickupLocation.label}
-                                  </ItemPickup>,
-                                ].filter(Boolean)
-                              ),
-                            ]}
-                          />
-                          <Space
-                            className={font('intr', 5)}
-                            $v={{
-                              size: 'l',
-                              properties: ['margin-top'],
-                            }}
+                            $v={{ size: 'l', properties: ['padding-bottom'] }}
                           >
-                            Requests made will be available to pick up from the
-                            library for one week from your selected pickup date.
-                            If you wish to cancel a request, please{' '}
-                            <a href="mailto:library@wellcomecollection.org">
-                              contact the library team.
-                            </a>
+                            <InlineLoading />
                           </Space>
-                        </>
-                      );
+                        );
+                      case 'failed':
+                        return <RequestsFailed retry={fetchRequests} />;
+                      case 'success':
+                        if (requestedItems.totalResults === 0) {
+                          return <NoRequestedItems />;
+                        } else {
+                          return (
+                            <>
+                              <Space
+                                as="p"
+                                className={font('intb', 5)}
+                                $v={{
+                                  size: 's',
+                                  properties: ['margin-bottom'],
+                                }}
+                              >{`You have requested ${requestedItems.totalResults} out of ${allowedRequests} items`}</Space>
+                              <ProgressBar>
+                                <ProgressIndicator
+                                  $percentage={
+                                    (requestedItems.totalResults /
+                                      allowedRequests) *
+                                    100
+                                  }
+                                />
+                              </ProgressBar>
+                              <StackingTable
+                                maxWidth={1180}
+                                rows={[
+                                  [
+                                    'Title',
+                                    'Status',
+                                    'Pickup date requested',
+                                    'Pickup location',
+                                  ].filter(Boolean),
+                                  ...requestedItems.results.map(result =>
+                                    [
+                                      <>
+                                        <ItemTitle
+                                          as="a"
+                                          href={`/works/${result.workId}`}
+                                        >
+                                          {result.workTitle || 'Unknown title'}
+                                        </ItemTitle>
+                                        {result.item.title && (
+                                          <Space
+                                            $v={{
+                                              size: 's',
+                                              properties: ['margin-top'],
+                                            }}
+                                          >
+                                            <ItemTitle>
+                                              {result.item.title}
+                                            </ItemTitle>
+                                          </Space>
+                                        )}
+                                      </>,
+                                      <ItemStatus
+                                        key={`${result.item.id}-status`}
+                                      >
+                                        {sierraStatusCodeToLabel[
+                                          result.status.id
+                                        ] ?? result.status.label}
+                                      </ItemStatus>,
+                                      result.pickupDate ? (
+                                        <HTMLDate
+                                          date={new Date(result.pickupDate)}
+                                        />
+                                      ) : (
+                                        <p>n/a</p>
+                                      ),
+                                      <ItemPickup
+                                        key={`${result.item.id}-pickup`}
+                                      >
+                                        {result.pickupLocation.label}
+                                      </ItemPickup>,
+                                    ].filter(Boolean)
+                                  ),
+                                ]}
+                              />
+                              <Space
+                                className={font('intr', 5)}
+                                $v={{
+                                  size: 'l',
+                                  properties: ['margin-top'],
+                                }}
+                              >
+                                Requests made will be available to pick up from
+                                the library for one week from your selected
+                                pickup date. If you wish to cancel a request,
+                                please{' '}
+                                <a href="mailto:library@wellcomecollection.org">
+                                  contact the library team.
+                                </a>
+                              </Space>
+                            </>
+                          );
+                        }
                     }
-                }
-              })()}
+                  })()}
+                </>
+              )}
             </Wrapper>
           </Container>
 

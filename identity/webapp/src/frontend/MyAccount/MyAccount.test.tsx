@@ -1,4 +1,3 @@
-import React from 'react';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import AccountPage from '../../../pages';
 import {
@@ -105,7 +104,7 @@ describe('MyAccount', () => {
   it("shows the user's item requests", async () => {
     renderComponent();
     const requestTitle = await screen.findByText(
-      mockItemRequests.results[0].item.title
+      mockItemRequests.results[0].item.title!
     );
     expect(requestTitle).toBeInTheDocument();
   });
