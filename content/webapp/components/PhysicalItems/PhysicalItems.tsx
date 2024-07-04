@@ -86,7 +86,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
   // This ensures we update an items availability
   // if the user navigates between items using the archive tree
   useEffect(() => {
-    setItemsState('stale');
+    setItemsState(getItemsState(workItems, offsiteRequesting || false));
   }, [workItems]);
 
   useAbortSignalEffect(
