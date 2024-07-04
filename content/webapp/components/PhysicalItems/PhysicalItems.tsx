@@ -23,6 +23,15 @@ type Props = {
   items: PhysicalItem[];
 };
 
+/**
+ * We need to know two things for an item: if it is requestable and if it is available (e.g. someone could have them on hold). The ItemsState type refers to their availability status.
+ *
+ * Non-requestable items are never available. Therefore, their availability status is considered to be "up-to-date"; it'll never change.
+ *
+ * Requestable items may or may not be available, so we have to confirm their availability status every time. Therefore, their availability status is considered "stale"; meaning it needs to be renewed/refetched.
+ * @stale Requestable items
+ * @up-to-date Non-requestable items
+ */
 type ItemsState = 'stale' | 'up-to-date';
 
 const getItemsState = (
