@@ -82,7 +82,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   // On first load, needs to get current state of consent
   const [hasAnalyticsConsent, setHasAnalyticsConsent] = useState(
-    pageProps.serverData.consentStatus.analytics
+    pageProps.serverData?.consentStatus?.analytics
   );
 
   // We allow error pages through as they don't need, and can't set
