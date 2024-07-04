@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
-import { useEffect, FunctionComponent, ReactElement, useState } from 'react';
+import { useEffect, FunctionComponent, ReactElement } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '@weco/common/views/themes/default';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator/LoadingIndicator';
@@ -71,9 +71,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   // e.g. for error pages
   const isServerDataSet = isServerData(pageProps.serverData);
 
-  // Expected origin for cookie banner to display
-  const [isExpectedOrigin, setIsExpectedOrigin] = useState(true);
-
   // We allow error pages through as they don't need, and can't set
   // serverData as they don't have data fetching methods.exi
   if (
@@ -114,8 +111,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   useEffect(() => {
     document.documentElement.classList.add('enhanced');
 
-    setIsExpectedOrigin(window.location === window.parent.location);
-
     window.addEventListener(
       'analyticsConsentChanged',
       onAnalyticsConsentChanged
@@ -128,13 +123,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
       );
     };
   }, []);
-
-  useEffect(() => {
-    if (!isExpectedOrigin) {
-      // This needs triggering as it displays it by default
-      window.CookieControl.hide();
-    }
-  }, [isExpectedOrigin]);
 
   useEffect(() => {
     if (pageProps.pageview) {
@@ -161,8 +149,8 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     // Banner should not load on cookie policy page to allow user to interact with the page content.
     if (pageProps['page']?.id === prismicPageIds.cookiePolicy) return true; // eslint-disable-line dot-notation
 
-    // Banner should not load when document is an iframe, which can happen with Slice simulator/page builder
-    if (!isExpectedOrigin) return true;
+    // Banner shouldn't appear in Prismic's Slice Simulator (or Page Builder)
+    if (router.route === '/slice-simulator') return true;
 
     return false;
   };
