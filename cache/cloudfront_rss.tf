@@ -5,7 +5,7 @@
 // 
 // This service has been migrated to CloudFront to allow for stats to be
 // gathered on usage. There is no staging environment for this service.
-resource "aws_cloudfront_distribution" "wc_org" {
+resource "aws_cloudfront_distribution" "rss_wc_org" {
   enabled          = true
   retain_on_delete = false
   is_ipv6_enabled  = true
@@ -14,7 +14,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
   ]
 
   origin {
-    domain_name = data.terraform_remote_state.experience.outputs.e2e["alb_dns_name"]
+    domain_name = data.terraform_remote_state.experience.outputs.prod["alb_dns_name"]
     origin_id   = "origin"
 
     custom_origin_config {
@@ -61,13 +61,13 @@ resource "aws_cloudfront_distribution" "wc_org" {
 
     function_association {
       event_type = "viewer-request"
-      function_arn = aws_cloudfront_function.rss_url_rewrite.arn
+      function_arn = aws_cloudfront_function.rss_stories_url_rewrite.arn
     }
   }
 }
 
-resource "aws_cloudfront_function" "rss_url_rewrite" {
-  name    = "rss-url-rewrite"
+resource "aws_cloudfront_function" "rss_stories_url_rewrite" {
+  name    = "rss-stories-url-rewrite"
   runtime = "cloudfront-js-2.0"
   comment = "Rewrites /stories to /rss for rss.wellcomecollection.org"
   publish = true
