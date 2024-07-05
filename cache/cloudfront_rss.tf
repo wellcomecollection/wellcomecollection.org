@@ -1,3 +1,10 @@
+// This file provisions infrastructure for the RSS CloudFront distribution, 
+// it routes requests to the content service at /rss. 
+//
+// https://rss.wellcomecollection.org/stories -> https://wellcomecollection.org/rss
+// 
+// This service has been migrated to CloudFront to allow for stats to be
+// gathered on usage. There is no staging environment for this service.
 resource "aws_cloudfront_distribution" "wc_org" {
   enabled          = true
   retain_on_delete = false
