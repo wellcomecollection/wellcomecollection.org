@@ -57,7 +57,7 @@
           - NEXT_PUBLIC_CIVICUK_API_KEY
 
 - label: ':docker: build dash'
-  # branches: 'main'
+  branches: 'main'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
