@@ -14,7 +14,6 @@ import { getErrorPageConsent } from '@weco/common/services/app/civic-uk';
 import {
   CoreWebVitalsScript,
   PerformanceTimingTrackingScript,
-  SegmentScript,
   Ga4DataLayer,
   GoogleTagManager,
   GaDimensions,
@@ -65,8 +64,6 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
   }
 
   render(): ReactElement<DocumentInitialProps> {
-    const shouldRenderAnalytics = this.props.consentStatus.analytics;
-
     return (
       <Html lang="en">
         <Head>
@@ -87,8 +84,6 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
 
             {/* https://github.com/wellcomecollection/wellcomecollection.org/issues/9286 */}
             <CoreWebVitalsScript />
-
-            {shouldRenderAnalytics && <SegmentScript />}
           </>
         </Head>
         <body>
