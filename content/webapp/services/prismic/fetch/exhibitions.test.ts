@@ -52,6 +52,10 @@ describe('fetchExhibitions', () => {
         { id: 'ZAW0PxQAACcG-pX8', title: 'Genetic Automata' },
         { id: 'ZJ1zCxAAACMAczPA', title: 'The Cult of Beauty' },
         { id: 'ZZP8BxAAALeD00jo', title: 'Jason and the Adventure of 254' },
+        {
+          id: 'ZmmnMhEAACAAF5Rm',
+          title: 'The Kola Nut Cannot Be Contained',
+        },
       ]);
 
       mockToday({ as: new Date('2023-04-24T12:00:00Z') });
@@ -73,6 +77,10 @@ describe('fetchExhibitions', () => {
         { id: 'ZAW0PxQAACcG-pX8', title: 'Genetic Automata' },
         { id: 'ZJ1zCxAAACMAczPA', title: 'The Cult of Beauty' },
         { id: 'ZZP8BxAAALeD00jo', title: 'Jason and the Adventure of 254' },
+        {
+          id: 'ZmmnMhEAACAAF5Rm',
+          title: 'The Kola Nut Cannot Be Contained',
+        },
       ]);
     },
     timeout
