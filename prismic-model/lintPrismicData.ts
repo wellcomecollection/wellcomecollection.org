@@ -152,13 +152,11 @@ function detectNonPromoImageStories(doc: any): string[] {
 function detectIncompleteContributorSameAs(doc: any): string[] {
   if (doc.type === 'people' || doc.type === 'organisations') {
     return doc.data.sameAs
-
       .filter(
         // Remove any instances where there's an entry but no data,
         // i.e. { link: null, title: [] }
         sameAs => !(sameAs.link === null && sameAs.title.length === 0)
       )
-
       .filter(
         // Remove any instances where both the link and title are populated
         // e.g. [ { link: 'http://www.blueprinttheatre.co.uk/', title: [ [Object] ] } ]

@@ -14,8 +14,21 @@ export function getPrismicLintingReport(): Promise<any> {
   return fetch(reportUrl).then(resp => resp.json());
 }
 
+// Taken from lintPrismicData script but tweaked title to be more specific
+type ErrorProps = {
+  id: string;
+  type: string;
+  title: { text: string }[];
+  errors: string[];
+};
+
 const Index: FunctionComponent = () => {
-  const [resultsList, setResultsList] = useState(null);
+  const [resultsList, setResultsList] = useState<{
+    totalErrors: number;
+    errors: ErrorProps[];
+    ref: string;
+    createdDate: string;
+  } | null>(null);
 
   useEffect(() => {
     getPrismicLintingReport().then(json => setResultsList(json));
