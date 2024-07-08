@@ -5,7 +5,6 @@ WORKDIR /usr/src/app/webapp
 RUN apt-get update && apt-get install -y awscli 
 
 ADD ./webapp /usr/src/app/webapp
-COPY config/tsconfig-base.json ./config/
 
 # `less` isn't installed on the image and so we're disabling it as per
 # https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-pagination.html#cli-usage-pagination-clientside 
