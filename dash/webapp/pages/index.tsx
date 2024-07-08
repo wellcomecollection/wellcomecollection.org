@@ -7,7 +7,9 @@ import { getPrismicLintingReport } from './prismic-linting';
 const fontFamily = 'Gadget, sans-serif';
 
 const IndexPage: FunctionComponent = () => {
-  const [prismicLintResults, setPrismicLintResults] = useState(null);
+  const [prismicLintResults, setPrismicLintResults] = useState<{
+    totalErrors: number;
+  } | null>(null);
 
   useEffect(() => {
     getPrismicLintingReport().then(json => setPrismicLintResults(json));

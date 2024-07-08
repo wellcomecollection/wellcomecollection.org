@@ -21,13 +21,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0      
-      # TODO: Remove this line when we can safely upgrade all our packages
-      # to versions that support Node 16.
-      # See https://github.com/wellcomecollection/wellcomecollection.org/pull/9324
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
       - name: Install dependencies
         run: yarn
       - name: Publish to Chromatic
