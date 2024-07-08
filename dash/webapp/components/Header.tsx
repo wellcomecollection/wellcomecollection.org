@@ -1,4 +1,3 @@
-import { FunctionComponent } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 
@@ -28,9 +27,7 @@ const StyledLink = styled(Link)`
   font-weight: bold;
 `;
 
-type Props = { title: string };
-
-const Header: FunctionComponent<Props> = ({ title }) => {
+const Header = ({ title }: { title: string }) => {
   return (
     <Wrapper>
       <h1 style={{ margin: 0, padding: 0 }}>
