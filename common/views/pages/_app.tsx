@@ -1,6 +1,11 @@
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
-import { useEffect, FunctionComponent, ReactElement } from 'react';
+import React, {
+  useEffect,
+  FunctionComponent,
+  ReactElement,
+  useState,
+} from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '@weco/common/views/themes/default';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator/LoadingIndicator';
@@ -22,11 +27,15 @@ import { ApmContextProvider } from '@weco/common/views/components/ApmContext/Apm
 import { AppErrorProps } from '@weco/common/services/app';
 import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
 import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
-import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
+import {
+  GaDimensions,
+  SegmentScript,
+} from '@weco/common/services/app/analytics-scripts';
 import { deserialiseProps } from '@weco/common/utils/json';
 import { SearchContextProvider } from '@weco/common/views/components/SearchContext/SearchContext';
 import CivicUK from '@weco/common/views/components/CivicUK';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
+import { getConsentState } from '../../services/app/civic-uk';
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
@@ -71,6 +80,11 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   // e.g. for error pages
   const isServerDataSet = isServerData(pageProps.serverData);
 
+  // On first load, needs to get current state of consent
+  const [hasAnalyticsConsent, setHasAnalyticsConsent] = useState(
+    pageProps.serverData?.consentStatus?.analytics
+  );
+
   // We allow error pages through as they don't need, and can't set
   // serverData as they don't have data fetching methods.exi
   if (
@@ -89,7 +103,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   useMaintainPageHeight();
 
   type ConsentType = 'granted' | 'denied';
-  const onAnalyticsConsentChanged = (
+  const onConsentChanged = (
     event: CustomEvent<{
       analyticsConsent?: ConsentType;
       marketingConsent?: ConsentType;
@@ -106,21 +120,22 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
         ad_user_data: event.detail.marketingConsent,
       }),
     });
+
+    // Ensures relevant scripts are updated based on user preferences
+    if (event.detail.analyticsConsent !== undefined) {
+      setHasAnalyticsConsent(event.detail.analyticsConsent === 'granted');
+    }
   };
 
   useEffect(() => {
     document.documentElement.classList.add('enhanced');
 
-    window.addEventListener(
-      'analyticsConsentChanged',
-      onAnalyticsConsentChanged
-    );
+    setHasAnalyticsConsent(getConsentState('analytics'));
+
+    window.addEventListener('consentChanged', onConsentChanged);
 
     return () => {
-      window.removeEventListener(
-        'analyticsConsentChanged',
-        onAnalyticsConsentChanged
-      );
+      window.removeEventListener('consentChanged', onConsentChanged);
     };
   }, []);
 
@@ -135,7 +150,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
         eventGroup: pageProps.pageview.eventGroup,
       });
     }
-  }, [pageProps.pageview]);
+  }, [pageProps.pageview, hasAnalyticsConsent]);
   // pageProps.pageview is updated by getServerSideProps
   // getServerSideProps is run when the page is requested directly
   // or when requested client-side through next/link or next/router
@@ -169,6 +184,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                     toggles={serverData.toggles}
                     isFontsLoaded={useIsFontsLoaded()}
                   />
+
                   <LoadingIndicator />
 
                   {displayCookieBanner && <CivicUK apiKey={civicUkApiKey} />}
@@ -181,6 +197,8 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                       title={pageProps.err.message}
                     />
                   )}
+
+                  <SegmentScript hasAnalyticsConsent={hasAnalyticsConsent} />
                 </ThemeProvider>
               </SearchContextProvider>
             </AppContextProvider>

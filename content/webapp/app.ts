@@ -54,6 +54,8 @@ const appPromise = nextApp
       };
     });
 
+    // This content is served from rss.wellcomecollection.org/stories
+    // See cache/cloudfront_rss.tf for the CloudFront distribution.
     router.get('/rss', async ctx => {
       ctx.type = 'application/xml';
       ctx.body = await buildStoriesRss(ctx);
