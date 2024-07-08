@@ -17,7 +17,6 @@ declare global {
 
     CookieControl: {
       open: () => void;
-      hide: () => void;
     };
   }
 }
