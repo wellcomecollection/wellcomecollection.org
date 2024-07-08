@@ -145,9 +145,17 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   const getLayout = Component.getLayout || (page => <>{page}</>);
 
-  // Banner should not load on cookie policy page to allow user to interact with the page content.
-  const displayCookieBanner =
-    civicUkApiKey && pageProps['page']?.id !== prismicPageIds.cookiePolicy; // eslint-disable-line dot-notation
+  const isCookieBannerException = () => {
+    // Banner should not load on cookie policy page to allow user to interact with the page content.
+    if (pageProps['page']?.id === prismicPageIds.cookiePolicy) return true; // eslint-disable-line dot-notation
+
+    // Banner shouldn't appear in Prismic's Slice Simulator (or Page Builder)
+    if (router.route === '/slice-simulator') return true;
+
+    return false;
+  };
+
+  const displayCookieBanner = civicUkApiKey && !isCookieBannerException();
 
   return (
     <>
