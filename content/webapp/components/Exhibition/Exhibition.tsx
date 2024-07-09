@@ -272,7 +272,7 @@ const Exhibition: FunctionComponent<Props> = ({
   );
 
   const exhibitionFormat =
-    !exhibition.format || exhibition.format?.title === 'Permanent Exhibition'
+    !exhibition.format || exhibition.format?.title === 'Permanent exhibition'
       ? 'Exhibition'
       : exhibition.format.title;
 
