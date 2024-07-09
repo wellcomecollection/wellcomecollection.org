@@ -21,7 +21,8 @@ services:
         - NEXT_PUBLIC_CIVICUK_API_KEY
   dash:
     build:
-      context: ./dash
+      context: .
+      dockerfile: dash/Dockerfile
   edge_lambdas:
     build:
       context: .

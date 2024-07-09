@@ -1,6 +1,7 @@
 {
   "extends": "../../config/tsconfig-base",
   "compilerOptions": {
+    "composite": true,
     "module": "esnext",
     "moduleResolution": "node" // Forced by NextJs on build
   },
