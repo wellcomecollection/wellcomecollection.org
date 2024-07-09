@@ -1,7 +1,6 @@
 {
   "extends": "../../config/tsconfig-base",
   "compilerOptions": {
-    "composite": false,
     "lib": ["dom", "dom.iterable", "esnext"],  // Dom ones needed in this subrepo for Docker build
     "module": "esnext",
     "moduleResolution": "node" // Forced by NextJs on build
