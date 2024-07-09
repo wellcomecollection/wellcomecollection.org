@@ -61,6 +61,7 @@ export default [
     name: 'Works search',
     emailAlerts: true,
     slackAlerts: ['platform-channel', 'alerts-channel'],
+    apdexThreshold: 1.0, // We expect this to be a slower page
   },
   {
     url: 'https://content.wellcomecollection.org/works/e7vav3ss',
@@ -87,6 +88,7 @@ export default [
     url: 'https://content.wellcomecollection.org/concepts/v3m7uhy9',
     name: 'Concept',
     slackAlerts: ['alerts-channel'],
+    apdexThreshold: 1.0, // We expect this to be a slower page
   },
   {
     url: 'https://api.wellcomecollection.org/catalogue/v2/images?query=medicine',
@@ -109,6 +111,7 @@ export default [
     url: 'https://api.wellcomecollection.org/catalogue/v2/works/tp3rer3n',
     name: 'Works API: Work',
     slackAlerts: ['alerts-channel'],
+    apdexThreshold: 1.0, // We expect this to be slower
   },
   {
     url: 'https://i.wellcomecollection.org/assets/icons/favicon-16x16.png',
