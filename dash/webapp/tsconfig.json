@@ -1,25 +1,10 @@
 {
-  "compilerOptions": {    
-    "allowJs": false,
-    "composite": false, // Not part of the workspace
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "incremental": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
+  "extends": "../../config/tsconfig-base",
+  "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],  // Dom ones needed in this subrepo for Docker build
     "module": "esnext",
-    "moduleResolution": "node", // Forced by NextJs on build
-    "noEmit": true,
-    "noFallthroughCasesInSwitch": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "strictNullChecks": true,
-    "target": "es6",
+    "moduleResolution": "node" // Forced by NextJs on build
   },
-  "exclude": ["/**/node_modules"],
-  "include": ["/**/*.ts", "/**/*.tsx"],
   "ts-node": {
     "preferTsExts": true
   }
