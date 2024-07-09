@@ -271,6 +271,11 @@ const Exhibition: FunctionComponent<Props> = ({
     />
   );
 
+  const exhibitionFormat =
+    !exhibition.format || exhibition.format?.title === 'Permanent exhibition'
+      ? 'Exhibition'
+      : exhibition.format.title;
+
   return (
     <ContentPage
       id={exhibition.id}
@@ -287,7 +292,9 @@ const Exhibition: FunctionComponent<Props> = ({
     >
       {hasResources && (
         <>
-          <h2 className={font('wb', 3)}>Exhibition access content</h2>
+          <h2
+            className={font('wb', 3)}
+          >{`${exhibitionFormat} access content`}</h2>
           {(accessResourceLinks.length > 0 ||
             exhibition.accessResourcesPdfs.length > 0) && (
             <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
@@ -359,7 +366,7 @@ const Exhibition: FunctionComponent<Props> = ({
       {(exhibitionOfs.length > 0 || pages.length > 0) && (
         <SearchResults
           items={[...exhibitionOfs, ...pages]}
-          title="In this exhibition"
+          title={`In this ${exhibitionFormat.toLowerCase()}`}
         />
       )}
 
