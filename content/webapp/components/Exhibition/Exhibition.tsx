@@ -273,10 +273,10 @@ const Exhibition: FunctionComponent<Props> = ({
 
   const exhibitionFormat =
     exhibition.format?.title === 'Permanent exhibition'
-      ? [{ text: 'Exhibition' }]
+      ? 'Exhibition'
       : exhibition.format?.title
-      ? [{ text: exhibition.format.title }]
-      : [{ text: 'Exhibition' }];
+      ? exhibition.format.title
+      : 'Exhibition';
 
   return (
     <ContentPage
@@ -296,7 +296,7 @@ const Exhibition: FunctionComponent<Props> = ({
         <>
           <h2
             className={font('wb', 3)}
-          >{`${exhibitionFormat[0].text} access content`}</h2>
+          >{`${exhibitionFormat} access content`}</h2>
           {(accessResourceLinks.length > 0 ||
             exhibition.accessResourcesPdfs.length > 0) && (
             <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
@@ -312,7 +312,7 @@ const Exhibition: FunctionComponent<Props> = ({
                       >
                         {link.type === 'exhibition-guide' && (
                           <h3 className={font('intb', 4)}>
-                            Digital exhibition guide
+                            Digital display guide
                           </h3>
                         )}
                         {link.type === 'visual-story' && (
@@ -368,7 +368,7 @@ const Exhibition: FunctionComponent<Props> = ({
       {(exhibitionOfs.length > 0 || pages.length > 0) && (
         <SearchResults
           items={[...exhibitionOfs, ...pages]}
-          title={`In this ${exhibitionFormat[0].text.toLowerCase()}`}
+          title={`In this ${exhibitionFormat.toLowerCase()}`}
         />
       )}
 
