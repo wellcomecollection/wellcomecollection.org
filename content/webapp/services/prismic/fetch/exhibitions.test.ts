@@ -11,7 +11,6 @@ const client: GetServerSidePropsPrismicClient = {
 
 const timeout = 15 * 1000;
 
-// TODO this test will fail when a new Exhibition is published, we should see if we can stop that from happening.
 describe('fetchExhibitions', () => {
   // Implementation note: this test queries Prismic directly.
   //
@@ -39,7 +38,8 @@ describe('fetchExhibitions', () => {
           id: e.id,
           title: asText(e.data.title),
         }))
-        .sort((a, b) => (a.id > b.id ? 1 : -1));
+        .sort((a, b) => (a.id > b.id ? 1 : -1))
+        .slice(0, 6); // Slicing so we don't have to keep adding new exhibitions.
 
       // Of these exhibitions, three closed on 23 April 2023:
       // Objects in Stereo, The Archive of an Unseen, and the Healing Pavilion
@@ -50,12 +50,6 @@ describe('fetchExhibitions', () => {
         { id: 'Y8VNbhEAAPJM-oki', title: 'Milk' },
         { id: 'Yzv9ChEAABfUrkVp', title: 'The Healing Pavilion' },
         { id: 'ZAW0PxQAACcG-pX8', title: 'Genetic Automata' },
-        { id: 'ZJ1zCxAAACMAczPA', title: 'The Cult of Beauty' },
-        { id: 'ZZP8BxAAALeD00jo', title: 'Jason and the Adventure of 254' },
-        {
-          id: 'ZmmnMhEAACAAF5Rm',
-          title: 'The Kola Nut Cannot Be Contained',
-        },
       ]);
 
       mockToday({ as: new Date('2023-04-24T12:00:00Z') });
@@ -69,18 +63,13 @@ describe('fetchExhibitions', () => {
           id: e.id,
           title: asText(e.data.title),
         }))
-        .sort((a, b) => (a.id > b.id ? 1 : -1));
+        .sort((a, b) => (a.id > b.id ? 1 : -1))
+        .slice(0, 3); // Slicing so we don't have to keep adding new exhibitions.
 
       expect(nextDayExhibitions).toStrictEqual([
         { id: 'XNFfsxAAANwqbNWD', title: 'Being Human' },
         { id: 'Y8VNbhEAAPJM-oki', title: 'Milk' },
         { id: 'ZAW0PxQAACcG-pX8', title: 'Genetic Automata' },
-        { id: 'ZJ1zCxAAACMAczPA', title: 'The Cult of Beauty' },
-        { id: 'ZZP8BxAAALeD00jo', title: 'Jason and the Adventure of 254' },
-        {
-          id: 'ZmmnMhEAACAAF5Rm',
-          title: 'The Kola Nut Cannot Be Contained',
-        },
       ]);
     },
     timeout
