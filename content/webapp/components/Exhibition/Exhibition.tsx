@@ -312,7 +312,7 @@ const Exhibition: FunctionComponent<Props> = ({
                       >
                         {link.type === 'exhibition-guide' && (
                           <h3 className={font('intb', 4)}>
-                            Digital display guide
+                            Exhibition display guide
                           </h3>
                         )}
                         {link.type === 'visual-story' && (
