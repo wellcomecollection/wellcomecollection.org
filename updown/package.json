@@ -6,6 +6,7 @@
     "apply": "ts-node ./deploy.ts"
   },
   "devDependencies": {
+    "@tsconfig/node20": "^20.1.4",
     "@types/node": "^20.10.4",
     "ts-node": "^10.9.1"
   },
