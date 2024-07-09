@@ -272,11 +272,9 @@ const Exhibition: FunctionComponent<Props> = ({
   );
 
   const exhibitionFormat =
-    exhibition.format?.title === 'Permanent exhibition'
+    !exhibition.format || exhibition.format?.title === 'Permanent Exhibition'
       ? 'Exhibition'
-      : exhibition.format?.title
-      ? exhibition.format.title
-      : 'Exhibition';
+      : exhibition.format.title;
 
   return (
     <ContentPage
@@ -312,7 +310,7 @@ const Exhibition: FunctionComponent<Props> = ({
                       >
                         {link.type === 'exhibition-guide' && (
                           <h3 className={font('intb', 4)}>
-                            Exhibition display guide
+                            Digital exhibition guide
                           </h3>
                         )}
                         {link.type === 'visual-story' && (
