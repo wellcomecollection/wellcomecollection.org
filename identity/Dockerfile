@@ -1,6 +1,9 @@
 # This image should be built with the parent directory as context
 FROM public.ecr.aws/docker/library/node:20-bookworm-slim
 
+RUN apt-get update
+RUN apt-get -y install awscli
+
 ARG NEXT_PUBLIC_CIVICUK_API_KEY
 
 WORKDIR /app
