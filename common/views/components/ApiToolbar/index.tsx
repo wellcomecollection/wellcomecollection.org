@@ -78,7 +78,7 @@ export function createPrismicLink(prismicId: string): ApiToolbarLink {
   return {
     id: 'prismic',
     label: 'Edit in Prismic',
-    link: `https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/${prismicId}/`,
+    link: `https://wellcomecollection.prismic.io/builder/pages/${prismicId}?s=published`,
   };
 }
 
