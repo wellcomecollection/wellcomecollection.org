@@ -3,6 +3,7 @@
   "label": "Exhibition guide",
   "repeatable": true,
   "status": false,
+  "format": "custom",
   "json": {
     "Guide": {
       "title": {
@@ -27,6 +28,13 @@
           "multi": "paragraph,hyperlink,strong,em",
           "label": "Introductory text",
           "placeholder": "This will fallback to the related exhibition's promo text if not filled in"
+        }
+      },
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "uid",
+          "placeholder": ""
         }
       }
     },
@@ -137,6 +145,5 @@
         }
       }
     }
-  },
-  "format": "custom"
+  }
 }
