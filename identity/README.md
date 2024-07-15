@@ -25,6 +25,8 @@ volumes:
   - ~/.aws:/root/.aws
 ```
 
+(this assumes you have aws credentials stored in `~/.aws`)
+
 Then run:
 
 ```console
