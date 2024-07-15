@@ -17,3 +17,17 @@ $ yarn start:dev
 ```
 
 then the app will start using credentials fetched from Secrets Manager.
+
+In order to test the app with Docker locally, you will need to make aws credentials available by adding the following to the `identity` block in the [docker-compose.yml](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/docker-compose.yml#L15-L21), at the same level as the `image` and `build` keys:
+
+```
+volumes:
+  - ~/.aws:/root/.aws
+```
+
+Then run:
+
+```console
+$ docker-compose build identity
+$ docker-compose run -p 3000:3000 identity yarn start:dev
+```
