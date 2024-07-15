@@ -101,24 +101,27 @@ it('updates existing toggles leaving defaultValue unmodified', () => {
 
   const newRemote = withDefaultValuesUnmodified(remote, definitions);
 
-  const expected = [
+  const expected: PublishedToggle[] = [
     {
       id: 'id-1',
       title: 'updated title1',
       description: 'updated description1',
       defaultValue: true,
+      type: 'permanent',
     },
     {
       id: 'id-2',
       title: 'updated title2',
       description: 'updated description2',
       defaultValue: true,
+      type: 'permanent',
     },
     {
       id: 'id-3',
       title: 'title3',
       description: 'description3',
       defaultValue: true,
+      type: 'permanent',
     },
   ];
 
