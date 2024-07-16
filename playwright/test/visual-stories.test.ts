@@ -23,7 +23,6 @@ test('A visual story with a related document provides navigation between them bo
     exact: true,
   });
   await expect(visualStoryBlock).toBeVisible();
-  // TODO modify ID, we need a non-delisted visual story
   await expect(visualStoryBlock).toHaveAttribute(
     'href',
     '/exhibitions/ZAW0PxQAACcG-pX8/visual-stories'
