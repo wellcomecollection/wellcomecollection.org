@@ -8,7 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: install node v16
+    - name: install Node
+      # https://github.com/actions/setup-node?tab=readme-ov-file#usage
+      # The node-version input is optional. If not supplied, the node version from PATH will be used.
+      # However, it is recommended to always specify Node.js version and don't rely on the system one.
       uses: actions/setup-node@v4
       with:
         node-version: 20
