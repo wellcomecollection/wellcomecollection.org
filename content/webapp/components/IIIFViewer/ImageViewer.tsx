@@ -170,7 +170,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
         src={imageSrc}
         height={height}
         srcSet={imageSrcSet}
-        sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
+        sizes="(min-width: 860px) 800px, calc(92.59vw + 22px)"
         lang={work.languageId}
         alt={alt}
         clickHandler={() => {

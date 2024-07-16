@@ -80,7 +80,7 @@ const IIIFImage: FunctionComponent<Props> = ({
       <StyledImageContainer $background={background}>
         <img
           src={convertIiifImageUri(image.contentUrl, width)}
-          srcSet={''}
+          srcSet=""
           sizes={sizesString}
           alt={image.alt || ''}
         />

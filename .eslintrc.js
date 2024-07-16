@@ -22,6 +22,7 @@ const sharedRules = {
   'no-mixed-operators': 'off',
   'no-return-assign': 'off',
   'react/react-in-jsx-scope': 'off',
+  'react/jsx-curly-brace-presence': 'warn',
   'react-hooks/rules-of-hooks': 'error',
   'prettier/prettier': 'error',
   'no-restricted-syntax': [
