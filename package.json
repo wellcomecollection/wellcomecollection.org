@@ -114,8 +114,7 @@
   "lint-staged": {
     "*.{js,ts,tsx}": [
       "eslint --fix --max-warnings=0 --report-unused-disable-directives",
-      "stylelint --max-warnings=0",
-      "git add"
+      "stylelint --max-warnings=0"
     ]
   },
   "husky": {
