@@ -27,7 +27,6 @@ const NoScriptLoadingWrapper = styled.div`
 `;
 
 export const NoScriptImage = ({ urlTemplate, canvasOcr }) => {
-  // TODO type
   const { work, query, transformedManifest } = useContext(ItemViewerContext);
   const { canvases } = { ...transformedManifest };
   const pageSize = 4;
