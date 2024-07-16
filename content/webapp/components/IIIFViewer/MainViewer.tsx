@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import LL from '@weco/common/views/components/styled/LL';
 import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { convertRequestUriToInfoUri } from '@weco/content/utils/convert-iiif-uri';
+import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
 import { missingAltTextMessage } from '@weco/content/services/wellcome/catalogue/works';
 import { font } from '@weco/common/utils/classnames';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
