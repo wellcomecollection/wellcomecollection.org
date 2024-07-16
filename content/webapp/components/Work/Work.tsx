@@ -59,12 +59,14 @@ function showItemLink({
   canvases,
   bornDigitalStatus,
   allOriginalPdfs,
+  hasIIIFManifest,
 }: {
   digitalLocation: DigitalLocation | undefined;
   accessCondition: string | undefined;
   canvases: TransformedCanvas[] | undefined;
   bornDigitalStatus: BornDigitalStatus | undefined;
   allOriginalPdfs: boolean;
+  hasIIIFManifest: boolean;
 }): boolean {
   // In general we don't show the item link if there are born digital items present, i.e. canvases with a behavior of placeholder, because we display download links on the page instead.
   // The exception to this is if ALL the items are born digital and they are ALL pdfs, as we know we can show them on the items page.
@@ -75,9 +77,11 @@ function showItemLink({
   const hasVideo = hasItemType(canvases, 'Video');
   const hasSound =
     hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
+
   if (accessCondition === 'closed' || accessCondition === 'restricted') {
     return false;
   } else if (
+    hasIIIFManifest &&
     digitalLocation &&
     !hasVideo &&
     !hasSound &&
@@ -128,9 +132,10 @@ function createApiToolbarLinks(
 type Props = {
   work: WorkType;
   apiUrl: string;
+  hasIIIFManifest: boolean;
 };
 
-const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
+const Work: FunctionComponent<Props> = ({ work, apiUrl, hasIIIFManifest }) => {
   const transformedIIIFManifest = useTransformedManifest(work);
 
   const isArchive = !!(
@@ -162,6 +167,7 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl }) => {
     canvases,
     bornDigitalStatus,
     allOriginalPdfs,
+    hasIIIFManifest,
   });
 
   const imageUrl =

@@ -8,17 +8,29 @@ import Work from '@weco/content/components/Work/Work';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import { getDigitalLocationOfType } from '@weco/content/utils/works';
+import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
+import { WorkContextProvider } from '@weco/content/contexts/WorkContext';
 
 type Props = {
   work: WorkType;
   apiUrl: string;
+  hasIIIFManifest: boolean;
   pageview: Pageview;
 };
 
-export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
+export const WorkPage: NextPage<Props> = ({
+  work,
+  apiUrl,
+  hasIIIFManifest,
+}) => {
   // TODO: remove the <Work> component and move the JSX in here.
   // It was abstracted as we did error handling in the page, and it made it a little clearer.
-  return <Work work={work} apiUrl={apiUrl} />;
+  return (
+    <WorkContextProvider>
+      <Work work={work} apiUrl={apiUrl} hasIIIFManifest={hasIIIFManifest} />
+    </WorkContextProvider>
+  );
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -55,9 +67,18 @@ export const getServerSideProps: GetServerSideProps<
 
   const { url, ...work } = workResponse;
 
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
+  const iiifManifest =
+    iiifPresentationLocation &&
+    (await fetchIIIFPresentationManifest(iiifPresentationLocation.url));
+
   return {
     props: serialiseProps({
       work,
+      hasIIIFManifest: !!iiifManifest,
       apiUrl: url,
       serverData,
       pageview: {

@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Work } from '@weco/content/services/wellcome/catalogue/types';
 import { Manifest } from '@iiif/presentation-3';
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { TransformedManifest } from '@weco/content/types/manifest';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
+import { WorkContext } from '@weco/content/contexts/WorkContext';
 
 const manifestPromises: Map<string, Promise<Manifest | undefined>> = new Map();
 const cachedTransformedManifest: Map<string, TransformedManifest> = new Map();
@@ -14,6 +15,7 @@ const useTransformedManifest = (
   const [transformedManifest, setTransformedManifest] = useState<
     TransformedManifest | undefined
   >(undefined);
+  const { setIsFetchingIIIFManifest } = useContext(WorkContext);
 
   function transformAndUpdate(manifest: Manifest, id: string) {
     const transformedManifest = transformManifest(manifest);
@@ -36,18 +38,27 @@ const useTransformedManifest = (
           work,
           'iiif-presentation'
         );
+
         if (!iiifPresentationLocation) {
           setTransformedManifest(undefined);
           return;
         }
+
         manifestPromises.set(
           work.id,
           fetchIIIFPresentationManifest(iiifPresentationLocation.url)
         );
+
         const iiifManifest = await manifestPromises.get(work.id);
-        iiifManifest && transformAndUpdate(iiifManifest, work.id);
+
+        if (iiifManifest) {
+          transformAndUpdate(iiifManifest, work.id);
+        } else {
+          return undefined;
+        }
       }
     }
+    setIsFetchingIIIFManifest(false);
   }
 
   useEffect(() => {

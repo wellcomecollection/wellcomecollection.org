@@ -1,4 +1,5 @@
 import { FunctionComponent, useContext } from 'react';
+import { usePathname } from 'next/navigation';
 import { font } from '@weco/common/utils/classnames';
 import { toLink as worksLink } from '../SearchPagesLink/Works';
 import { toLink as imagesLink } from '../SearchPagesLink/Images';
@@ -8,7 +9,7 @@ import {
   getDownloadOptionsFromImageUrl,
   getHoldings,
   getItemsWithPhysicalLocation,
-} from '../../utils/works';
+} from '@weco/content/utils/works';
 import Space from '@weco/common/views/components/styled/Space';
 import WorkDetailsSection from './WorkDetails.Section';
 import WorkDetailsText from './WorkDetails.Text';
@@ -25,8 +26,8 @@ import {
   Work,
   toWorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
-import useTransformedManifest from '../../hooks/useTransformedManifest';
-import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
+import useTransformedManifest from '@weco/content/hooks/useTransformedManifest';
+import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
 import OnlineResources from './WorkDetails.OnlineResources';
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
@@ -38,8 +39,11 @@ import {
   getDownloadOptionsFromManifestRendering,
   getDownloadOptionsFromCanvasRenderingAndSupplementing,
 } from '@weco/content/utils/iiif/v3';
-import { usePathname } from 'next/navigation';
 import { useToggles } from '@weco/common/server-data/Context';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import LL from '@weco/common/views/components/styled/LL';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import { WorkContext } from '@weco/content/contexts/WorkContext';
 
 type Props = {
   work: Work;
@@ -52,6 +56,8 @@ const WorkDetails: FunctionComponent<Props> = ({
 }: Props) => {
   const { showBornDigital } = useToggles();
   const isArchive = useContext(IsArchiveContext);
+  const { isEnhanced } = useContext(AppContext);
+  const { isFetchingIIIFManifest } = useContext(WorkContext);
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
   const transformedIIIFManifest = useTransformedManifest(work);
   const { canvases, rendering, bornDigitalStatus } = {
@@ -166,23 +172,38 @@ const WorkDetails: FunctionComponent<Props> = ({
   const renderContent = () => (
     <>
       {showAvailableOnlineSection && (
-        <WorkDetailsAvailableOnline
-          work={work}
-          downloadOptions={[
-            ...manifestDownloadOptions,
-            ...iiifImageDownloadOptions,
-            ...canvasDownloadOptions,
-          ]}
-          itemUrl={itemLink({
-            workId: work.id,
-            source: `work_${pathname}`,
-            props: {},
-          })}
-          shouldShowItemLink={shouldShowItemLink}
-          digitalLocationInfo={digitalLocationInfo}
-          digitalLocation={digitalLocation}
-          locationOfWork={locationOfWork}
-        />
+        <>
+          {isEnhanced && isFetchingIIIFManifest ? (
+            <div style={{ position: 'relative', height: '100px' }}>
+              <LL $small={true} />
+            </div>
+          ) : (
+            <>
+              <ConditionalWrapper
+                condition={!isEnhanced}
+                wrapper={children => <noscript>{children}</noscript>}
+              >
+                <WorkDetailsAvailableOnline
+                  work={work}
+                  downloadOptions={[
+                    ...manifestDownloadOptions,
+                    ...iiifImageDownloadOptions,
+                    ...canvasDownloadOptions,
+                  ]}
+                  itemUrl={itemLink({
+                    workId: work.id,
+                    source: `work_${pathname}`,
+                    props: {},
+                  })}
+                  shouldShowItemLink={shouldShowItemLink}
+                  digitalLocationInfo={digitalLocationInfo}
+                  digitalLocation={digitalLocation}
+                  locationOfWork={locationOfWork}
+                />
+              </ConditionalWrapper>
+            </>
+          )}
+        </>
       )}
 
       <OnlineResources work={work} />
