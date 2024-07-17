@@ -180,12 +180,10 @@ export const bornDigitalMessage = (
     <h2>This contains born-digital items</h2>
     <p>
       Born-digital items are materials created in a digital format, including
-      websites, email, digital photographs, electronic records, and more.
-      Born-digital items are different from analogue items (such as paper
-      manuscripts or photographs) that have later been digitised.
+      digital images, documents, websites, audio, video, email, and more.
     </p>
     <p>
-      Our Born-digital items cover many file formats, some of which modern
+      Our born-digital items cover many file formats, some of which modern
       computer software may no longer support.{' '}
       <strong>
         We cannot guarantee that you can view the item once you have downloaded
