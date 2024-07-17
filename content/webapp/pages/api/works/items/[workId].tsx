@@ -1,6 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ItemsList } from '@weco/content/services/wellcome/catalogue/types';
-import { rootUris } from '@weco/content/services/wellcome/catalogue';
+import {
+  looksLikeCanonicalId,
+  rootUris,
+} from '@weco/content/services/wellcome/catalogue';
 import { Toggles, TogglesResp } from '@weco/toggles';
 import { getTogglesFromContext } from '@weco/common/server-data/toggles';
 import { isString, isUndefined } from '@weco/common/utils/type-guards';
@@ -71,7 +74,8 @@ const ItemsApi = async (
   };
   const toggles = getTogglesFromContext(togglesResp, { req });
   const { workId } = req.query;
-  if (!isString(workId)) {
+
+  if (!isString(workId) || !looksLikeCanonicalId(workId)) {
     res.status(404);
     return;
   }

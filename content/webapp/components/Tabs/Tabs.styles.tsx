@@ -115,8 +115,6 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
     transition: width 200ms ease;
   }
 
-  /* TODO: check if we still want hover transition behaviour */
-
   &:hover,
   &:focus {
     &::after {

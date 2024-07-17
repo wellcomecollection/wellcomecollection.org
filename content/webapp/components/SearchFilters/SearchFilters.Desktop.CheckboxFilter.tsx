@@ -24,12 +24,9 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
       hasNoOptions={f.options.length === 0}
     >
       <PlainList className={font('intr', 5)}>
-        {f.options.map(({ id, label, value, count, selected }, i) => {
+        {f.options.map(({ id, label, value, count, selected }) => {
           return (
-            // TODO remove index from key once we resolve the doubled IDs issue
-            // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
-            // as we now sometimes get "Warning: Encountered two children with the same key" console errors
-            <li key={`${id}-${i}`}>
+            <li key={id}>
               <CheckboxRadio
                 id={id}
                 type="checkbox"
