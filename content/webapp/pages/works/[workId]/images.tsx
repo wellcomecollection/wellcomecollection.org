@@ -61,7 +61,7 @@ const ImagePage: FunctionComponent<Props> = ({
   return (
     <CataloguePageLayout
       title={title}
-      description={''}
+      description=""
       url={{
         pathname: `/works/${work.id}/images`,
         query: { id: image.id },
@@ -166,7 +166,7 @@ export const getServerSideProps: GetServerSideProps<
         {
           id: 'json',
           label: 'JSON',
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
           link: catalogueApiUrl!,
         },
         createTzitzitImageLink(work, image),

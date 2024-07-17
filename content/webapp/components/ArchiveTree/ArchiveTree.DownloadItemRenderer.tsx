@@ -47,7 +47,7 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
             <Icon
               icon={item.openStatus ? openFolder : closedFolder}
               matchText={true}
-              sizeOverride={'height: 14px; width:16px;'}
+              sizeOverride="height: 14px; width:16px;"
             />
           </span>
           {item.work.title}
