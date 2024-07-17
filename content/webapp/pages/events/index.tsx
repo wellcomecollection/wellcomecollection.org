@@ -114,7 +114,7 @@ const EventsPage: FunctionComponent<Props> = props => {
         {period === 'current-and-coming-up' && (
           <Layout gridSizes={gridSize12()}>
             <Space $v={{ size: 'm', properties: ['margin-top'] }}>
-              <MoreLink url={'/events/past'} name="View past events" />
+              <MoreLink url="/events/past" name="View past events" />
             </Space>
           </Layout>
         )}

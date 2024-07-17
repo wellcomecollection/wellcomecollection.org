@@ -135,7 +135,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
               properties: ['margin-bottom'],
             }}
             as="iframe"
-            title={`PDF`}
+            title="PDF"
             src={item.id}
           />
         );

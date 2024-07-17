@@ -1,3 +1,5 @@
+/* eslint-disable no-multi-spaces */
+// Useful for aligned dates and readability
 import {
   renderWithTheme,
   withMarkup,
