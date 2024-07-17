@@ -2,7 +2,7 @@ const path = require('path');
 
 function indexTemplate(filePaths) {
   const iconExports = filePaths
-    .map(filePath => {
+    .map(({ path: filePath }) => {
       const { name } = path.parse(filePath);
       const iconName = name.charAt(0).toLowerCase() + name.slice(1);
 
