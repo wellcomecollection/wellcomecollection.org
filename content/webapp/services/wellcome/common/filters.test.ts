@@ -35,11 +35,11 @@ describe('filter options', () => {
     ).toEqual(['map', 'niu']);
 
     expect(
-      workTypeFilter.options.find(option => option.id === 'c')
+      workTypeFilter.options.find(option => option.id === 'format-c')
     ).toBeTruthy();
 
     expect(
-      workTypeFilter.options.find(option => option.id === 'u')
+      workTypeFilter.options.find(option => option.id === 'format-u')
     ).toBeFalsy();
   });
 
