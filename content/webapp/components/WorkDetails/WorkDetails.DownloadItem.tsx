@@ -129,7 +129,9 @@ const DownloadItem: FunctionComponent<{
               )}
             </td>
             <td width="100">
-              <a href={displayItem.id}>Download</a>
+              <a data-gtm-trigger="download_table_link" href={displayItem.id}>
+                Download
+              </a>
             </td>
           </tr>
         </tbody>
