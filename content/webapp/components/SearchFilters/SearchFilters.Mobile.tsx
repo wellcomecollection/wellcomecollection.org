@@ -111,15 +111,12 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
   return (
     <>
       <PlainList>
-        {f.options.map(({ id, label, value, count, selected }, i) => {
+        {f.options.map(({ id, label, value, count, selected }) => {
           return (
             <Space
               as="li"
               $v={{ size: 'l', properties: ['margin-bottom'] }}
-              // TODO remove index from key once we resolve the doubled IDs issue
-              // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
-              // as we now sometimes get "Warning: Encountered two children with the same key" console errors
-              key={`mobile-${id}-${i}`}
+              key={`mobile-${id}`}
             >
               <CheckboxRadio
                 id={`mobile-${id}`}
@@ -237,7 +234,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
           </FiltersHeader>
 
           <FiltersBody>
-            {filters.map((f, i) => {
+            {filters.map(f => {
               // We need to have the excluded filters still in the form so their values gets retained in the URL
               // when more filtering is done (e.g. partOf.title)
               // Only checkbox types are excluded at the moment
@@ -250,10 +247,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                   />
                 </div>
               ) : (
-                // TODO remove index from key once we resolve the doubled IDs issue
-                // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
-                // as we now sometimes get "Warning: Encountered two children with the same key" console errors
-                <FilterSection key={`${f.id}-${i}`}>
+                <FilterSection key={f.id}>
                   {getFilterLabel(f.type, f.label)}
 
                   {f.type === 'checkbox' && (

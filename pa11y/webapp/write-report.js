@@ -1,5 +1,4 @@
 const fs = require('fs');
-const mkdirp = require('mkdirp-promise');
 const pa11y = require('pa11y');
 const { promisify } = require('util');
 const writeFile = promisify(fs.writeFile);
@@ -63,7 +62,7 @@ const promises = urls.map(url =>
 
 Promise.all(promises)
   .then(async results => {
-    await mkdirp('./.dist');
+    await fs.promises.mkdir('./.dist', { recursive: true });
     await writeFile('./.dist/report.json', JSON.stringify({ results }));
     console.info('Reporting done!');
   })

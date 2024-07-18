@@ -16,12 +16,16 @@ const sharedExtends = [
 ];
 
 const sharedRules = {
-  'no-multi-spaces': 'off',
+  'no-multi-spaces': 'warn',
   'eol-last': 'error',
   'no-multi-str': 'off',
-  'no-mixed-operators': 'off',
+  'no-mixed-operators': 'warn',
   'no-return-assign': 'off',
   'react/react-in-jsx-scope': 'off',
+  'react/jsx-curly-brace-presence': [
+    'warn',
+    { props: 'never', children: 'never', propElementValues: 'always' },
+  ],
   'react-hooks/rules-of-hooks': 'error',
   'prettier/prettier': 'error',
   'no-restricted-syntax': [

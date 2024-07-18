@@ -119,16 +119,13 @@ type CheckboxFilterProps = {
 const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
   return (
     <List>
-      {f.options.map(({ id, label, value, count, selected }, i) => {
+      {f.options.map(({ id, label, value, count, selected }) => {
         return (
           <Space
             as="li"
             $v={{ size: 'm', properties: ['margin-bottom'] }}
             $h={{ size: 'l', properties: ['margin-right'] }}
-            // TODO remove index from key once we resolve the doubled IDs issue
-            // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
-            // as we now sometimes get "Warning: Encountered two children with the same key" console errors
-            key={`desktop-${f.id}-${i}`}
+            key={`desktop-${id}`}
           >
             <CheckboxRadio
               id={`desktop-${id}`}
@@ -175,11 +172,8 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
     <>
       {filters
         .filter(f => !f.excludeFromMoreFilters)
-        .map((f, i) => (
-          // TODO remove index from key once we resolve the doubled IDs issue
-          // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
-          // as we now sometimes get "Warning: Encountered two children with the same key" console errors
-          <FilterSection key={`${f.id}-${i}`}>
+        .map(f => (
+          <FilterSection key={f.id}>
             {getFilterLabel(f.type, f.label)}
 
             {(f.type !== 'checkbox' ||

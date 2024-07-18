@@ -21,12 +21,12 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
-      # TODO: Remove this line when we can safely upgrade all our packages
-      # to versions that support Node 16.
-      # See https://github.com/wellcomecollection/wellcomecollection.org/pull/9324
+      # https://github.com/actions/setup-node?tab=readme-ov-file#usage
+      # The node-version input is optional. If not supplied, the node version from PATH will be used.
+      # However, it is recommended to always specify Node.js version and don't rely on the system one.
       - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
       - uses: preactjs/compressed-size-action@v2
         with:
           build-script: "build-webapps"

@@ -145,11 +145,11 @@ export const inOurBuilding = 'In our building';
 
 export const requestingDisabled = (
   <>
-    {'Requesting is temporarily unavailable while we perform maintenance work.'}
+    Requesting is temporarily unavailable while we perform maintenance work.
     <br />
-    {
-      'In the meantime, email library@wellcomecollection.org the details of your request and when you would like to consult it and we can retrieve the items for you.'
-    }
+    In the meantime, email library@wellcomecollection.org the details of your
+    request and when you would like to consult it and we can retrieve the items
+    for you.
   </>
 );
 
@@ -158,7 +158,6 @@ export const pastExhibitionsStrapline =
 
 // This is the label used in the search box, both for the
 // search in the global nav and on the categories in wc.org/search
-// TODO review this copy https://github.com/wellcomecollection/wellcomecollection.org/issues/10777
 export const searchLabelText = {
   overview: 'Search our stories, images, catalogue and events',
   stories: 'Search for stories',
@@ -181,12 +180,10 @@ export const bornDigitalMessage = (
     <h2>This contains born-digital items</h2>
     <p>
       Born-digital items are materials created in a digital format, including
-      websites, email, digital photographs, electronic records, and more.
-      Born-digital items are different from analogue items (such as paper
-      manuscripts or photographs) that have later been digitised.
+      digital images, documents, websites, audio, video, email, and more.
     </p>
     <p>
-      Our Born-digital items cover many file formats, some of which modern
+      Our born-digital items cover many file formats, some of which modern
       computer software may no longer support.{' '}
       <strong>
         We cannot guarantee that you can view the item once you have downloaded

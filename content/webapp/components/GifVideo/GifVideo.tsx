@@ -182,7 +182,7 @@ const GifVideo: FunctionComponent<Props> = ({
           playsInline
         >
           <source src={`${videoUrl}#t=0.1`} type="video/mp4" />
-          <p>{"Your browser doesn't support video"}</p>
+          <p>Your browser doesn&apos;t support video</p>
         </Video>
         {canPlay && !showControls && (
           <PlayPause onClick={manualControlGif}>

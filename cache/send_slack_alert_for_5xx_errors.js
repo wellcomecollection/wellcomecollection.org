@@ -357,7 +357,8 @@ function isInterestingError(hit) {
   // avoid dropping errors from legitimate queries.
   if (
     hit.status === 503 &&
-    (hit.query.split('%C3').length > 80 || hit.query.split('%25C2').length > 80)
+    (hit.query?.split('%C3').length > 80 ||
+      hit.query?.split('%25C2').length > 80)
   ) {
     return false;
   }

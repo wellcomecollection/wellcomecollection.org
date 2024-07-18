@@ -7,7 +7,6 @@
   },
   "dependencies": {
     "aws-sdk": "^2.1655.0",
-    "mkdirp-promise": "^5.0.1",
     "pa11y": "8.0.0",
     "puppeteer": "22.12.1"
   }

@@ -34,7 +34,7 @@ const DynamicFilterArray = ({
     }
   };
 
-  const renderDynamicFilter = (f: Filter, i: number) => {
+  const renderDynamicFilter = (f: Filter) => {
     const isHidden = hasCalculatedFilters
       ? !dynamicFilters.map(f => f.id).includes(f.id)
       : false;
@@ -70,11 +70,8 @@ const DynamicFilterArray = ({
         )}
       </div>
     ) : (
-      // TODO remove index from key once we resolve the doubled IDs issue
-      // (https://github.com/wellcomecollection/wellcomecollection.org/issues/9109)
-      // as we now sometimes get "Warning: Encountered two children with the same key" console errors
       <Space
-        key={`${f.id}-${i}`}
+        key={f.id}
         data-is-filter // Needed in useLayoutEffect
         $h={{ size: 'm', properties: ['margin-right'] }}
       >
