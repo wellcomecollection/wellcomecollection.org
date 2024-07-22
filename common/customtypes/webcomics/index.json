@@ -28,6 +28,13 @@
           "label": "Webcomic"
         }
       },
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "uid",
+          "placeholder": ""
+        }
+      },
       "body": {
         "type": "Slices",
         "fieldset": "Slice Zone",
