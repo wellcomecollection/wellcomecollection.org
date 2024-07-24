@@ -3,6 +3,7 @@ import {
   Location,
   PhysicalLocation,
   AccessCondition,
+  Location as LocationType,
 } from '@weco/common/model/catalogue';
 import {
   Item,
@@ -10,6 +11,7 @@ import {
   Holding,
   PhysicalItem,
   RelatedWork,
+  Work as WorkType,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { DownloadOption } from '../types/manifest';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
@@ -18,6 +20,13 @@ import {
   getCatalogueLicenseData,
   LicenseData,
 } from '@weco/common/utils/licenses';
+
+import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
+import {
+  BornDigitalStatus,
+  TransformedCanvas,
+} from '@weco/content/types/manifest';
+import { hasItemType } from '@weco/content/utils/iiif/v3';
 
 export function getProductionDates(work: Work): string[] {
   return work.production
@@ -348,4 +357,80 @@ export function getFirstAccessCondition(
   location?: Location
 ): AccessCondition | undefined {
   return location?.accessConditions?.[0];
+}
+
+export function showItemLink({
+  allOriginalPdfs,
+  hasIIIFManifest,
+  digitalLocation,
+  accessCondition,
+  canvases,
+  bornDigitalStatus,
+}: {
+  allOriginalPdfs: boolean;
+  hasIIIFManifest: boolean;
+  digitalLocation?: DigitalLocation;
+  accessCondition?: string;
+  canvases?: TransformedCanvas[];
+  bornDigitalStatus?: BornDigitalStatus;
+}): boolean {
+  // In general we don't show the item link if there are born digital items present, i.e. canvases with a behavior of placeholder, because we display download links on the page instead.
+  // The exception to this is if ALL the items are born digital and they are ALL pdfs, as we know we can show them on the items page.
+  // We also don't show the item link if there are video or sound items present because we display the players on the page instead.
+  // This means we rely on there only being one type of thing in a manifest, otherwise non video/sound items will be hidden from the user.
+  // This is usually the case, except for manifests with 'Born digital' items.
+  // But since we display links to all files when there are 'Born digital' items present, then this should not matter.
+  const hasVideo = hasItemType(canvases, 'Video');
+  const hasSound =
+    hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
+
+  if (accessCondition === 'closed' || accessCondition === 'restricted') {
+    return false;
+  } else if (
+    hasIIIFManifest &&
+    digitalLocation &&
+    !hasVideo &&
+    !hasSound &&
+    (bornDigitalStatus === 'noBornDigital' || allOriginalPdfs)
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export function createApiToolbarLinks(
+  work: WorkType,
+  apiUrl: string
+): ApiToolbarLink[] {
+  const apiLink = {
+    id: 'json',
+    label: 'JSON',
+    link: apiUrl,
+  };
+
+  const iiifItem = work.items
+    ?.reduce((acc, item) => {
+      return acc.concat(item.locations);
+    }, [] as LocationType[])
+    ?.find(location => location.locationType.id.startsWith('iiif'));
+
+  const iiifLink = iiifItem &&
+    iiifItem.type === 'DigitalLocation' && {
+      id: 'iiif',
+      label: 'IIIF',
+      link: iiifItem.url.replace('/v2/', '/v3/'),
+    };
+
+  const links = [
+    apiLink,
+    iiifLink,
+    ...work.identifiers.map(id => ({
+      id: id.value,
+      label: id.identifierType.label,
+      value: id.value,
+    })),
+  ].filter(Boolean) as ApiToolbarLink[];
+
+  return links;
 }
