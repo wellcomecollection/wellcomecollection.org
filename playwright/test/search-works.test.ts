@@ -13,6 +13,7 @@ import {
   selectAndWaitForFilter,
   testIfFilterIsApplied,
 } from './helpers/search';
+import { slowExpect } from './helpers/utils';
 
 test.describe.configure({ mode: 'parallel' });
 
@@ -127,4 +128,32 @@ test('(5) | The user is coming from a prefiltered series search; they should be 
 
   await testIfFilterIsApplied('Medical Heritage LIbrary', page);
   await testIfFilterIsApplied('Books', page);
+});
+
+// https://github.com/wellcomecollection/wellcomecollection.org/issues/10952
+test('(6) | Two options in two different filters have the same label/value; they should be uniquely identified', async ({
+  context,
+  page,
+}) => {
+  await newSearch(context, page, 'works');
+  await searchQuerySubmitAndWait('Leonardo da Vinci', page);
+
+  await openFilterDropdown('Contributors', page);
+  const contributorCheckbox = page.locator(
+    `input[name="contributors.agent.label"][form="search-page-form"][value='"Leonardo, da Vinci, 1452-1519"']`
+  );
+
+  await contributorCheckbox.click();
+  if (isMobile(page)) {
+    await page.getByRole('button', { name: 'Show results' }).click();
+  } else {
+    await slowExpect(contributorCheckbox).toBeChecked();
+  }
+
+  await openFilterDropdown('Subjects', page);
+  const subjectCheckbox = page.locator(
+    `input[name="subjects.label"][form="search-page-form"][value='"Leonardo, da Vinci, 1452-1519"']`
+  );
+
+  await expect(subjectCheckbox).toBeChecked({ checked: false });
 });
