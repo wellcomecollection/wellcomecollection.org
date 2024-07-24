@@ -3,6 +3,7 @@
   "label": "[Deprecated] Webcomic series",
   "repeatable": true,
   "status": false,
+  "format": "custom",
   "json": {
     "[Deprecated] Webcomic series": {
       "title": {
@@ -18,6 +19,13 @@
         "config": {
           "multi": "paragraph,hyperlink,strong,em",
           "label": "Description"
+        }
+      },
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "uid",
+          "placeholder": ""
         }
       }
     },
@@ -64,8 +72,8 @@
     "Promo": {
       "promo": {
         "type": "Slices",
+        "fieldset": "Slice Zone",
         "config": {
-          "label": "Promo",
           "choices": {
             "editorialImage": {
               "type": "Slice",
@@ -125,6 +133,5 @@
         }
       }
     }
-  },
-  "format": "custom"
+  }
 }
