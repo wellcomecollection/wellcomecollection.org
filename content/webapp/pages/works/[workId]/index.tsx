@@ -11,7 +11,7 @@ import {
   getDigitalLocationOfType,
   getDigitalLocationInfo,
   showItemLink,
-  createApiToolbarLinks,
+  createApiToolbarWorkLinks,
 } from '@weco/content/utils/works';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
@@ -127,7 +127,7 @@ export const WorkPage: NextPage<Props> = ({
         jsonLd={workLd(work)}
         siteSection="collections"
         image={image}
-        apiToolbarLinks={createApiToolbarLinks(work, apiUrl)}
+        apiToolbarLinks={createApiToolbarWorkLinks(work, apiUrl)}
         hideNewsletterPromo={true}
       >
         <Container>

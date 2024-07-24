@@ -399,7 +399,7 @@ export function showItemLink({
   }
 }
 
-export function createApiToolbarLinks(
+export function createApiToolbarWorkLinks(
   work: WorkType,
   apiUrl: string
 ): ApiToolbarLink[] {
