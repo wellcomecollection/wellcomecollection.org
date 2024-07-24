@@ -86,7 +86,7 @@ type Props = {
   digitalLocation?: DigitalLocation;
   digitalLocationInfo?: DigitalLocationInfo;
   locationOfWork?: Note;
-  transformedIIIFManifest?: TransformedManifest;
+  transformedManifest?: TransformedManifest;
 };
 
 const ItemPageLink = ({
@@ -175,7 +175,7 @@ const WorkDetailsAvailableOnline = ({
   digitalLocationInfo,
   digitalLocation,
   locationOfWork,
-  transformedIIIFManifest,
+  transformedManifest,
 }: Props) => {
   const { showBornDigital } = useToggles();
   const {
@@ -188,11 +188,13 @@ const WorkDetailsAvailableOnline = ({
     canvases,
     placeholderId,
     rendering,
-  } = { ...transformedIIIFManifest };
+  } = { ...transformedManifest };
+
   const isBornDigital =
     showBornDigital &&
     (bornDigitalStatus === 'mixedBornDigital' ||
       bornDigitalStatus === 'allBornDigital');
+
   const [tabbableId, setTabbableId] = useState<string>();
   const [archiveTree, setArchiveTree] = useState<UiTree>([]);
   const allOriginalPdfs = isAllOriginalPdfs(canvases || []);
@@ -209,6 +211,7 @@ const WorkDetailsAvailableOnline = ({
     }
   }, [archiveTree, tabbableId]);
   const { isEnhanced } = useContext(AppContext);
+
   return (
     <WorkDetailsSection
       headingText={`Available ${isBornDigital ? 'to download' : 'online'}`}

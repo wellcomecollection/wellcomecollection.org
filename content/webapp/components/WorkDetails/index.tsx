@@ -38,10 +38,6 @@ import {
   getDownloadOptionsFromCanvasRenderingAndSupplementing,
 } from '@weco/content/utils/iiif/v3';
 import { useToggles } from '@weco/common/server-data/Context';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import LL from '@weco/common/views/components/styled/LL';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
-import { WorkContext } from '@weco/content/contexts/WorkContext';
 import { TransformedManifest } from '@weco/content/types/manifest';
 
 type Props = {
@@ -50,7 +46,7 @@ type Props = {
   iiifImageLocation?: DigitalLocation;
   digitalLocation?: DigitalLocation;
   digitalLocationInfo?: DigitalLocationInfo;
-  transformedIIIFManifest?: TransformedManifest;
+  transformedManifest?: TransformedManifest;
 };
 
 const WorkDetails: FunctionComponent<Props> = ({
@@ -59,15 +55,13 @@ const WorkDetails: FunctionComponent<Props> = ({
   iiifImageLocation,
   digitalLocation,
   digitalLocationInfo,
-  transformedIIIFManifest,
+  transformedManifest,
 }: Props) => {
   const { showBornDigital } = useToggles();
   const isArchive = useContext(IsArchiveContext);
-  const { isEnhanced } = useContext(AppContext);
-  const { isFetchingIIIFManifest } = useContext(WorkContext);
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
   const { canvases, rendering, bornDigitalStatus } = {
-    ...transformedIIIFManifest,
+    ...transformedManifest,
   };
   const pathname = usePathname();
 
@@ -166,39 +160,24 @@ const WorkDetails: FunctionComponent<Props> = ({
   const renderContent = () => (
     <>
       {showAvailableOnlineSection && (
-        <>
-          {isEnhanced && isFetchingIIIFManifest ? (
-            <div style={{ position: 'relative', height: '100px' }}>
-              <LL $small={true} />
-            </div>
-          ) : (
-            <>
-              <ConditionalWrapper
-                condition={!isEnhanced}
-                wrapper={children => <noscript>{children}</noscript>}
-              >
-                <WorkDetailsAvailableOnline
-                  work={work}
-                  downloadOptions={[
-                    ...manifestDownloadOptions,
-                    ...iiifImageDownloadOptions,
-                    ...canvasDownloadOptions,
-                  ]}
-                  itemUrl={itemLink({
-                    workId: work.id,
-                    source: `work_${pathname}`,
-                    props: {},
-                  })}
-                  shouldShowItemLink={shouldShowItemLink}
-                  digitalLocationInfo={digitalLocationInfo}
-                  digitalLocation={digitalLocation}
-                  locationOfWork={locationOfWork}
-                  transformedIIIFManifest={transformedIIIFManifest}
-                />
-              </ConditionalWrapper>
-            </>
-          )}
-        </>
+        <WorkDetailsAvailableOnline
+          work={work}
+          downloadOptions={[
+            ...manifestDownloadOptions,
+            ...iiifImageDownloadOptions,
+            ...canvasDownloadOptions,
+          ]}
+          itemUrl={itemLink({
+            workId: work.id,
+            source: `work_${pathname}`,
+            props: {},
+          })}
+          shouldShowItemLink={shouldShowItemLink}
+          digitalLocationInfo={digitalLocationInfo}
+          digitalLocation={digitalLocation}
+          locationOfWork={locationOfWork}
+          transformedManifest={transformedManifest}
+        />
       )}
 
       <OnlineResources work={work} />

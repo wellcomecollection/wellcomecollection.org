@@ -1,5 +1,4 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { Manifest } from '@iiif/presentation-3';
 import { Work as WorkType } from '@weco/content/services/wellcome/catalogue/types';
 import { serialiseProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
@@ -11,22 +10,29 @@ import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue'
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
-import { WorkContextProvider } from '@weco/content/contexts/WorkContext';
+import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
+import { TransformedManifest } from '@weco/content/types/manifest';
 
 type Props = {
   work: WorkType;
   apiUrl: string;
-  iiifManifest?: Manifest;
+  transformedManifest?: TransformedManifest;
   pageview: Pageview;
 };
 
-export const WorkPage: NextPage<Props> = ({ work, apiUrl, iiifManifest }) => {
+export const WorkPage: NextPage<Props> = ({
+  work,
+  apiUrl,
+  transformedManifest,
+}) => {
   // TODO: remove the <Work> component and move the JSX in here.
   // It was abstracted as we did error handling in the page, and it made it a little clearer.
   return (
-    <WorkContextProvider>
-      <Work work={work} apiUrl={apiUrl} iiifManifest={iiifManifest} />
-    </WorkContextProvider>
+    <Work
+      work={work}
+      apiUrl={apiUrl}
+      transformedManifest={transformedManifest}
+    />
   );
 };
 
@@ -72,10 +78,12 @@ export const getServerSideProps: GetServerSideProps<
     iiifPresentationLocation &&
     (await fetchIIIFPresentationManifest(iiifPresentationLocation.url));
 
+  const transformedManifest = iiifManifest && transformManifest(iiifManifest);
+
   return {
     props: serialiseProps({
       work,
-      iiifManifest,
+      transformedManifest,
       apiUrl: url,
       serverData,
       pageview: {

@@ -1,6 +1,5 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { Manifest } from '@iiif/presentation-3';
 import {
   Work as WorkType,
   toWorkBasic,
@@ -28,12 +27,12 @@ import ArchiveTree from '../ArchiveTree';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
-import useTransformedManifest from '@weco/content/hooks/useTransformedManifest';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
 import {
   TransformedCanvas,
   BornDigitalStatus,
+  TransformedManifest,
 } from '@weco/content/types/manifest';
 
 const ArchiveDetailsContainer = styled.div`
@@ -133,12 +132,14 @@ function createApiToolbarLinks(
 type Props = {
   work: WorkType;
   apiUrl: string;
-  iiifManifest?: Manifest;
+  transformedManifest?: TransformedManifest;
 };
 
-const Work: FunctionComponent<Props> = ({ work, apiUrl, iiifManifest }) => {
-  const transformedIIIFManifest = useTransformedManifest(work);
-
+const Work: FunctionComponent<Props> = ({
+  work,
+  apiUrl,
+  transformedManifest,
+}) => {
   const isArchive = !!(
     work.parts.length ||
     (work.partOf.length > 0 && work.partOf[0].totalParts)
@@ -157,14 +158,14 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl, iiifManifest }) => {
   const digitalLocationInfo =
     digitalLocation && getDigitalLocationInfo(digitalLocation);
   const { collectionManifestsCount, canvases, bornDigitalStatus } = {
-    ...transformedIIIFManifest,
+    ...transformedManifest,
   };
 
   const allOriginalPdfs = isAllOriginalPdfs(canvases || []);
 
   const shouldShowItemLink = showItemLink({
     allOriginalPdfs,
-    hasIIIFManifest: !!iiifManifest,
+    hasIIIFManifest: !!transformedManifest,
     digitalLocation,
     accessCondition: digitalLocationInfo?.accessCondition,
     canvases,
@@ -257,7 +258,7 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl, iiifManifest }) => {
                     iiifImageLocation={iiifImageLocation}
                     digitalLocation={digitalLocation}
                     digitalLocationInfo={digitalLocationInfo}
-                    transformedIIIFManifest={transformedIIIFManifest}
+                    transformedManifest={transformedManifest}
                   />
                 </WorkDetailsWrapper>
               </ArchiveDetailsContainer>
@@ -281,7 +282,7 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl, iiifManifest }) => {
               iiifImageLocation={iiifImageLocation}
               digitalLocation={digitalLocation}
               digitalLocationInfo={digitalLocationInfo}
-              transformedIIIFManifest={transformedIIIFManifest}
+              transformedManifest={transformedManifest}
             />
           </>
         )}
