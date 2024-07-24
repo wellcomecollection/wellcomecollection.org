@@ -3,6 +3,7 @@
   "label": "Guide",
   "repeatable": true,
   "status": true,
+  "format": "custom",
   "json": {
     "Guide": {
       "title": {
@@ -32,6 +33,13 @@
         "config": {
           "default_value": false,
           "label": "Show 'On this page' anchor links. This will only appear if there are more than 2 H2s in the body"
+        }
+      },
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "uid",
+          "placeholder": ""
         }
       },
       "body": {
@@ -103,8 +111,8 @@
     "Promo": {
       "promo": {
         "type": "Slices",
+        "fieldset": "Slice Zone",
         "config": {
-          "label": "Promo",
           "choices": {
             "editorialImage": {
               "type": "Slice",
@@ -164,6 +172,5 @@
         }
       }
     }
-  },
-  "format": "custom"
+  }
 }

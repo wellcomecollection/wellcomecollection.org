@@ -239,7 +239,7 @@ const workTypeFilter = ({
   label: 'Formats',
   options: filterOptionsWithNonAggregates({
     options: works?.aggregations?.workType.buckets.map(bucket => ({
-      id: bucket.data.id,
+      id: `format-${bucket.data.id}`,
       value: bucket.data.id,
       count: bucket.count,
       label: bucket.data.label,
@@ -258,7 +258,7 @@ const subjectsFilter = ({
   label: 'Subjects',
   options: filterOptionsWithNonAggregates({
     options: works?.aggregations?.['subjects.label']?.buckets.map(bucket => ({
-      id: toHtmlId(bucket.data.label),
+      id: toHtmlId(`subject-${bucket.data.label}`),
       value: quoteVal(bucket.data.label),
       count: bucket.count,
       label: bucket.data.label,
@@ -280,7 +280,7 @@ const genresFilter = ({
   label: 'Types/Techniques',
   options: filterOptionsWithNonAggregates({
     options: works?.aggregations?.['genres.label']?.buckets.map(bucket => ({
-      id: toHtmlId(bucket.data.label),
+      id: toHtmlId(`type-${bucket.data.label}`),
       value: quoteVal(bucket.data.label),
       count: bucket.count,
       label: bucket.data.label,
@@ -296,30 +296,26 @@ const genresFilter = ({
 const contributorsAgentFilter = ({
   works,
   props,
-}: WorksFilterProps): CheckboxFilter<keyof WorksProps> => {
-  return {
-    type: 'checkbox',
-    id: 'contributors.agent.label',
-    label: 'Contributors',
-    options: filterOptionsWithNonAggregates({
-      options: works?.aggregations?.['contributors.agent.label']?.buckets.map(
-        bucket => ({
-          id: toHtmlId(bucket.data.label),
-          value: quoteVal(bucket.data.label),
-          count: bucket.count,
-          label: bucket.data.label,
-          selected: props['contributors.agent.label'].includes(
-            bucket.data.label
-          ),
-        })
-      ),
-      selectedValues: props['contributors.agent.label'].map(label => ({
-        value: quoteVal(label),
-        label,
-      })),
-    }),
-  };
-};
+}: WorksFilterProps): CheckboxFilter<keyof WorksProps> => ({
+  type: 'checkbox',
+  id: 'contributors.agent.label',
+  label: 'Contributors',
+  options: filterOptionsWithNonAggregates({
+    options: works?.aggregations?.['contributors.agent.label']?.buckets.map(
+      bucket => ({
+        id: toHtmlId(`contributor-${bucket.data.label}`),
+        value: quoteVal(bucket.data.label),
+        count: bucket.count,
+        label: bucket.data.label,
+        selected: props['contributors.agent.label'].includes(bucket.data.label),
+      })
+    ),
+    selectedValues: props['contributors.agent.label'].map(label => ({
+      value: quoteVal(label),
+      label,
+    })),
+  }),
+});
 
 const languagesFilter = ({
   works,
@@ -330,7 +326,7 @@ const languagesFilter = ({
   label: 'Languages',
   options: filterOptionsWithNonAggregates({
     options: works?.aggregations?.languages?.buckets.map(bucket => ({
-      id: bucket.data.id,
+      id: `lang-${bucket.data.id}`,
       value: bucket.data.id,
       count: bucket.count,
       label: bucket.data.label,
@@ -384,7 +380,7 @@ const availabilitiesFilter = ({
   label: 'Locations',
   options: filterOptionsWithNonAggregates({
     options: works?.aggregations?.availabilities?.buckets.map(bucket => ({
-      id: bucket.data.id,
+      id: `loc-${bucket.data.id}`,
       value: bucket.data.id,
       count: bucket.count,
       label: bucket.data.label,
@@ -448,7 +444,7 @@ const licensesFilter = ({
   label: 'Licences', // UK spelling for UI
   options: filterOptionsWithNonAggregates({
     options: images.aggregations?.license?.buckets.map(bucket => ({
-      id: bucket.data.id,
+      id: `licence-${bucket.data.id}`,
       value: bucket.data.id,
       count: bucket.count,
       label: licenseLabels[bucket.data.id] || bucket.data.label,
@@ -485,7 +481,7 @@ const sourceGenresFilter = ({
   options: filterOptionsWithNonAggregates({
     options: images?.aggregations?.['source.genres.label']?.buckets.map(
       bucket => ({
-        id: toHtmlId(bucket.data.label),
+        id: toHtmlId(`type-${bucket.data.label}`),
         value: quoteVal(bucket.data.label),
         count: bucket.count,
         label: bucket.data.label,
@@ -509,7 +505,7 @@ const sourceSubjectsFilter = ({
   options: filterOptionsWithNonAggregates({
     options: images?.aggregations?.['source.subjects.label']?.buckets.map(
       bucket => ({
-        id: toHtmlId(bucket.data.label),
+        id: toHtmlId(`subject-${bucket.data.label}`),
         value: quoteVal(bucket.data.label),
         count: bucket.count,
         label: bucket.data.label,
@@ -534,7 +530,7 @@ const sourceContributorAgentsFilter = ({
     options: images?.aggregations?.[
       'source.contributors.agent.label'
     ]?.buckets.map(bucket => ({
-      id: toHtmlId(bucket.data.label),
+      id: toHtmlId(`contributor-${bucket.data.label}`),
       value: quoteVal(bucket.data.label),
       count: bucket.count,
       label: bucket.data.label,
@@ -558,7 +554,7 @@ const storiesFormatFilter = ({
   label: 'Formats',
   options: filterOptionsWithNonAggregates({
     options: stories?.aggregations?.format?.buckets.map(bucket => ({
-      id: bucket.data.id,
+      id: `format-${bucket.data.id}`,
       value: bucket.data.id,
       count: bucket.count,
       label: bucket.data.label,
@@ -578,7 +574,7 @@ const storiesContributorFilter = ({
   options: filterOptionsWithNonAggregates({
     options: stories?.aggregations?.['contributors.contributor'].buckets.map(
       bucket => ({
-        id: bucket.data.id,
+        id: `contributor-${bucket.data.id}`,
         value: bucket.data.id,
         count: bucket.count,
         label: bucket.data.label,
@@ -598,7 +594,7 @@ const eventsFormatFilter = ({
   label: 'Event types',
   options: filterOptionsWithNonAggregates({
     options: events?.aggregations?.format?.buckets.map(bucket => ({
-      id: bucket.data.id,
+      id: `format-${bucket.data.id}`,
       value: bucket.data.id,
       count: bucket.count,
       label: bucket.data.label,
@@ -617,7 +613,7 @@ const eventsAudienceFilter = ({
   label: 'Audiences',
   options: filterOptionsWithNonAggregates({
     options: events?.aggregations?.audience?.buckets.map(bucket => ({
-      id: bucket.data.id,
+      id: `audience-${bucket.data.id}`,
       value: bucket.data.id,
       count: bucket.count,
       label: bucket.data.label,
@@ -636,7 +632,7 @@ const eventsLocationFilter = ({
   label: 'Locations',
   options: filterOptionsWithNonAggregates({
     options: events?.aggregations?.location?.buckets.map(bucket => ({
-      id: bucket.data.id,
+      id: `loc-${bucket.data.id}`,
       value: bucket.data.id,
       count: bucket.count,
       label: bucket.data.label,
@@ -674,7 +670,7 @@ const eventsIsAvailableOnlineFilter = ({
 //     options: filterOptionsWithNonAggregates({
 //       options: events?.aggregations?.interpretation?.buckets.map(bucket => {
 //         return {
-//           id: bucket.data.id,
+//           id: `a11y-${bucket.data.id}`,
 //           value: bucket.data.id,
 //           count: bucket.count,
 //           label: bucket.data.label,

@@ -335,7 +335,7 @@ interface ArticlesDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type ArticlesDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
+  prismic.PrismicDocumentWithUID<
     Simplify<ArticlesDocumentData>,
     'articles',
     Lang
@@ -777,7 +777,7 @@ interface BooksDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type BooksDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<Simplify<BooksDocumentData>, 'books', Lang>;
+  prismic.PrismicDocumentWithUID<Simplify<BooksDocumentData>, 'books', Lang>;
 
 /**
  * Content for Card documents
@@ -1435,11 +1435,11 @@ export interface EventSeriesDocumentDataContributorsItem {
 }
 
 /**
- * Primary content in *Event series → Promo → Editorial image → Primary*
+ * Primary content in *Event series → Slice Zone → Editorial image → Primary*
  */
 export interface EventSeriesDocumentDataPromoEditorialImageSlicePrimary {
   /**
-   * Promo text field in *Event series → Promo → Editorial image → Primary*
+   * Promo text field in *Event series → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -1449,7 +1449,7 @@ export interface EventSeriesDocumentDataPromoEditorialImageSlicePrimary {
   caption: prismic.RichTextField;
 
   /**
-   * Promo image field in *Event series → Promo → Editorial image → Primary*
+   * Promo image field in *Event series → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -1459,7 +1459,7 @@ export interface EventSeriesDocumentDataPromoEditorialImageSlicePrimary {
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
   /**
-   * Link override field in *Event series → Promo → Editorial image → Primary*
+   * Link override field in *Event series → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
@@ -1470,7 +1470,7 @@ export interface EventSeriesDocumentDataPromoEditorialImageSlicePrimary {
 }
 
 /**
- * Slice for *Event series → Promo*
+ * Slice for *Event series → Slice Zone*
  */
 export type EventSeriesDocumentDataPromoEditorialImageSlice = prismic.Slice<
   'editorialImage',
@@ -1539,7 +1539,7 @@ interface EventSeriesDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   contributorsTitle: prismic.TitleField /**
-   * Promo field in *Event series*
+   * Slice Zone field in *Event series*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
@@ -1569,7 +1569,7 @@ interface EventSeriesDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type EventSeriesDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
+  prismic.PrismicDocumentWithUID<
     Simplify<EventSeriesDocumentData>,
     'event-series',
     Lang
@@ -1797,11 +1797,11 @@ export interface EventsDocumentDataContributorsItem {
 }
 
 /**
- * Primary content in *Event → Promo → Editorial image → Primary*
+ * Primary content in *Event → Slice Zone → Editorial image → Primary*
  */
 export interface EventsDocumentDataPromoEditorialImageSlicePrimary {
   /**
-   * Promo text field in *Event → Promo → Editorial image → Primary*
+   * Promo text field in *Event → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -1811,7 +1811,7 @@ export interface EventsDocumentDataPromoEditorialImageSlicePrimary {
   caption: prismic.RichTextField;
 
   /**
-   * Promo image field in *Event → Promo → Editorial image → Primary*
+   * Promo image field in *Event → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -1821,7 +1821,7 @@ export interface EventsDocumentDataPromoEditorialImageSlicePrimary {
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
   /**
-   * Link override field in *Event → Promo → Editorial image → Primary*
+   * Link override field in *Event → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
@@ -1832,7 +1832,7 @@ export interface EventsDocumentDataPromoEditorialImageSlicePrimary {
 }
 
 /**
- * Slice for *Event → Promo*
+ * Slice for *Event → Slice Zone*
  */
 export type EventsDocumentDataPromoEditorialImageSlice = prismic.Slice<
   'editorialImage',
@@ -2239,7 +2239,7 @@ interface EventsDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   contributorsTitle: prismic.TitleField /**
-   * Promo field in *Event*
+   * Slice Zone field in *Event*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
@@ -2300,11 +2300,7 @@ interface EventsDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type EventsDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
-    Simplify<EventsDocumentData>,
-    'events',
-    Lang
-  >;
+  prismic.PrismicDocumentWithUID<Simplify<EventsDocumentData>, 'events', Lang>;
 
 /**
  * Content for Exhibition format documents
@@ -2523,7 +2519,7 @@ interface ExhibitionGuidesDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type ExhibitionGuidesDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
+  prismic.PrismicDocumentWithUID<
     Simplify<ExhibitionGuidesDocumentData>,
     'exhibition-guides',
     Lang
@@ -2590,7 +2586,7 @@ interface ExhibitionHighlightToursDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type ExhibitionHighlightToursDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
+  prismic.PrismicDocumentWithUID<
     Simplify<ExhibitionHighlightToursDocumentData>,
     'exhibition-highlight-tours',
     Lang
@@ -2713,7 +2709,7 @@ interface ExhibitionTextsDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type ExhibitionTextsDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
+  prismic.PrismicDocumentWithUID<
     Simplify<ExhibitionTextsDocumentData>,
     'exhibition-texts',
     Lang
@@ -2846,11 +2842,11 @@ export interface ExhibitionsDocumentDataContributorsItem {
 }
 
 /**
- * Primary content in *Exhibition → Promo → Editorial image → Primary*
+ * Primary content in *Exhibition → Slice Zone → Editorial image → Primary*
  */
 export interface ExhibitionsDocumentDataPromoEditorialImageSlicePrimary {
   /**
-   * Promo text field in *Exhibition → Promo → Editorial image → Primary*
+   * Promo text field in *Exhibition → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -2860,7 +2856,7 @@ export interface ExhibitionsDocumentDataPromoEditorialImageSlicePrimary {
   caption: prismic.RichTextField;
 
   /**
-   * Promo image field in *Exhibition → Promo → Editorial image → Primary*
+   * Promo image field in *Exhibition → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -2870,7 +2866,7 @@ export interface ExhibitionsDocumentDataPromoEditorialImageSlicePrimary {
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
   /**
-   * Link override field in *Exhibition → Promo → Editorial image → Primary*
+   * Link override field in *Exhibition → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
@@ -2881,7 +2877,7 @@ export interface ExhibitionsDocumentDataPromoEditorialImageSlicePrimary {
 }
 
 /**
- * Slice for *Exhibition → Promo*
+ * Slice for *Exhibition → Slice Zone*
  */
 export type ExhibitionsDocumentDataPromoEditorialImageSlice = prismic.Slice<
   'editorialImage',
@@ -2970,17 +2966,6 @@ interface ExhibitionsDocumentData {
   shortTitle: prismic.RichTextField;
 
   /**
-   * Slice Zone field in *Exhibition*
-   *
-   * - **Field Type**: Slice Zone
-   * - **Placeholder**: *None*
-   * - **API ID Path**: exhibitions.body[]
-   * - **Tab**: Exhibition
-   * - **Documentation**: https://prismic.io/docs/field#slices
-   */
-  body: prismic.SliceZone<ExhibitionsDocumentDataBodySlice>;
-
-  /**
    * Start date field in *Exhibition*
    *
    * - **Field Type**: Timestamp
@@ -3033,7 +3018,18 @@ interface ExhibitionsDocumentData {
    * - **Tab**: Exhibition
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  place: prismic.ContentRelationshipField<'places'> /**
+  place: prismic.ContentRelationshipField<'places'>;
+
+  /**
+   * Slice Zone field in *Exhibition*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.body[]
+   * - **Tab**: Exhibition
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  body: prismic.SliceZone<ExhibitionsDocumentDataBodySlice> /**
    * Exhibits field in *Exhibition*
    *
    * - **Field Type**: Group
@@ -3109,7 +3105,7 @@ interface ExhibitionsDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   contributorsTitle: prismic.TitleField /**
-   * Promo field in *Exhibition*
+   * Slice Zone field in *Exhibition*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
@@ -3159,7 +3155,7 @@ interface ExhibitionsDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type ExhibitionsDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
+  prismic.PrismicDocumentWithUID<
     Simplify<ExhibitionsDocumentData>,
     'exhibitions',
     Lang
@@ -3285,11 +3281,11 @@ type GuidesDocumentDataBodySlice =
   | AudioPlayerSlice;
 
 /**
- * Primary content in *Guide → Promo → Editorial image → Primary*
+ * Primary content in *Guide → Slice Zone → Editorial image → Primary*
  */
 export interface GuidesDocumentDataPromoEditorialImageSlicePrimary {
   /**
-   * Promo text field in *Guide → Promo → Editorial image → Primary*
+   * Promo text field in *Guide → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -3299,7 +3295,7 @@ export interface GuidesDocumentDataPromoEditorialImageSlicePrimary {
   caption: prismic.RichTextField;
 
   /**
-   * Promo image field in *Guide → Promo → Editorial image → Primary*
+   * Promo image field in *Guide → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -3309,7 +3305,7 @@ export interface GuidesDocumentDataPromoEditorialImageSlicePrimary {
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
   /**
-   * Link override field in *Guide → Promo → Editorial image → Primary*
+   * Link override field in *Guide → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
@@ -3320,7 +3316,7 @@ export interface GuidesDocumentDataPromoEditorialImageSlicePrimary {
 }
 
 /**
- * Slice for *Guide → Promo*
+ * Slice for *Guide → Slice Zone*
  */
 export type GuidesDocumentDataPromoEditorialImageSlice = prismic.Slice<
   'editorialImage',
@@ -3389,7 +3385,7 @@ interface GuidesDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#slices
    */
   body: prismic.SliceZone<GuidesDocumentDataBodySlice> /**
-   * Promo field in *Guide*
+   * Slice Zone field in *Guide*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
@@ -3419,11 +3415,7 @@ interface GuidesDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type GuidesDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
-    Simplify<GuidesDocumentData>,
-    'guides',
-    Lang
-  >;
+  prismic.PrismicDocumentWithUID<Simplify<GuidesDocumentData>, 'guides', Lang>;
 
 /**
  * Content for Interpretation type documents
@@ -3937,7 +3929,7 @@ interface PagesDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type PagesDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<Simplify<PagesDocumentData>, 'pages', Lang>;
+  prismic.PrismicDocumentWithUID<Simplify<PagesDocumentData>, 'pages', Lang>;
 
 /**
  * Item in *Person → Same as*
@@ -4336,11 +4328,11 @@ export interface ProjectsDocumentDataContributorsItem {
 }
 
 /**
- * Primary content in *Project → Promo → Editorial image → Primary*
+ * Primary content in *Project → Slice Zone → Editorial image → Primary*
  */
 export interface ProjectsDocumentDataPromoEditorialImageSlicePrimary {
   /**
-   * Promo text field in *Project → Promo → Editorial image → Primary*
+   * Promo text field in *Project → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -4350,7 +4342,7 @@ export interface ProjectsDocumentDataPromoEditorialImageSlicePrimary {
   caption: prismic.RichTextField;
 
   /**
-   * Promo image field in *Project → Promo → Editorial image → Primary*
+   * Promo image field in *Project → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -4360,7 +4352,7 @@ export interface ProjectsDocumentDataPromoEditorialImageSlicePrimary {
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
   /**
-   * Link override field in *Project → Promo → Editorial image → Primary*
+   * Link override field in *Project → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
@@ -4371,7 +4363,7 @@ export interface ProjectsDocumentDataPromoEditorialImageSlicePrimary {
 }
 
 /**
- * Slice for *Project → Promo*
+ * Slice for *Project → Slice Zone*
  */
 export type ProjectsDocumentDataPromoEditorialImageSlice = prismic.Slice<
   'editorialImage',
@@ -4477,7 +4469,7 @@ interface ProjectsDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   contributorsTitle: prismic.TitleField /**
-   * Promo field in *Project*
+   * Slice Zone field in *Project*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
@@ -4516,7 +4508,7 @@ interface ProjectsDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type ProjectsDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
+  prismic.PrismicDocumentWithUID<
     Simplify<ProjectsDocumentData>,
     'projects',
     Lang
@@ -4544,11 +4536,11 @@ type SeasonsDocumentDataBodySlice =
   | AudioPlayerSlice;
 
 /**
- * Primary content in *Season → Promo → Editorial image → Primary*
+ * Primary content in *Season → Slice Zone → Editorial image → Primary*
  */
 export interface SeasonsDocumentDataPromoEditorialImageSlicePrimary {
   /**
-   * Promo text field in *Season → Promo → Editorial image → Primary*
+   * Promo text field in *Season → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -4558,7 +4550,7 @@ export interface SeasonsDocumentDataPromoEditorialImageSlicePrimary {
   caption: prismic.RichTextField;
 
   /**
-   * Promo image field in *Season → Promo → Editorial image → Primary*
+   * Promo image field in *Season → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -4568,7 +4560,7 @@ export interface SeasonsDocumentDataPromoEditorialImageSlicePrimary {
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
   /**
-   * Link override field in *Season → Promo → Editorial image → Primary*
+   * Link override field in *Season → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
@@ -4579,7 +4571,7 @@ export interface SeasonsDocumentDataPromoEditorialImageSlicePrimary {
 }
 
 /**
- * Slice for *Season → Promo*
+ * Slice for *Season → Slice Zone*
  */
 export type SeasonsDocumentDataPromoEditorialImageSlice = prismic.Slice<
   'editorialImage',
@@ -4637,7 +4629,7 @@ interface SeasonsDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#slices
    */
   body: prismic.SliceZone<SeasonsDocumentDataBodySlice> /**
-   * Promo field in *Season*
+   * Slice Zone field in *Season*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
@@ -4658,7 +4650,7 @@ interface SeasonsDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type SeasonsDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
+  prismic.PrismicDocumentWithUID<
     Simplify<SeasonsDocumentData>,
     'seasons',
     Lang
@@ -4746,11 +4738,11 @@ export interface SeriesDocumentDataContributorsItem {
 }
 
 /**
- * Primary content in *Story series → Promo → Editorial image → Primary*
+ * Primary content in *Story series → Slice Zone → Editorial image → Primary*
  */
 export interface SeriesDocumentDataPromoEditorialImageSlicePrimary {
   /**
-   * Promo text field in *Story series → Promo → Editorial image → Primary*
+   * Promo text field in *Story series → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -4760,7 +4752,7 @@ export interface SeriesDocumentDataPromoEditorialImageSlicePrimary {
   caption: prismic.RichTextField;
 
   /**
-   * Promo image field in *Story series → Promo → Editorial image → Primary*
+   * Promo image field in *Story series → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -4770,7 +4762,7 @@ export interface SeriesDocumentDataPromoEditorialImageSlicePrimary {
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
   /**
-   * Link override field in *Story series → Promo → Editorial image → Primary*
+   * Link override field in *Story series → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
@@ -4781,7 +4773,7 @@ export interface SeriesDocumentDataPromoEditorialImageSlicePrimary {
 }
 
 /**
- * Slice for *Story series → Promo*
+ * Slice for *Story series → Slice Zone*
  */
 export type SeriesDocumentDataPromoEditorialImageSlice = prismic.Slice<
   'editorialImage',
@@ -4886,7 +4878,7 @@ interface SeriesDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   contributorsTitle: prismic.TitleField /**
-   * Promo field in *Story series*
+   * Slice Zone field in *Story series*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
@@ -4925,11 +4917,7 @@ interface SeriesDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type SeriesDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
-    Simplify<SeriesDocumentData>,
-    'series',
-    Lang
-  >;
+  prismic.PrismicDocumentWithUID<Simplify<SeriesDocumentData>, 'series', Lang>;
 
 /**
  * Item in *Stories landing → stories*
@@ -5266,7 +5254,7 @@ interface VisualStoriesDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type VisualStoriesDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
+  prismic.PrismicDocumentWithUID<
     Simplify<VisualStoriesDocumentData>,
     'visual-stories',
     Lang
@@ -5308,11 +5296,11 @@ export interface WebcomicSeriesDocumentDataContributorsItem {
 }
 
 /**
- * Primary content in *[Deprecated] Webcomic series → Promo → Editorial image → Primary*
+ * Primary content in *[Deprecated] Webcomic series → Slice Zone → Editorial image → Primary*
  */
 export interface WebcomicSeriesDocumentDataPromoEditorialImageSlicePrimary {
   /**
-   * Promo text field in *[Deprecated] Webcomic series → Promo → Editorial image → Primary*
+   * Promo text field in *[Deprecated] Webcomic series → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -5322,7 +5310,7 @@ export interface WebcomicSeriesDocumentDataPromoEditorialImageSlicePrimary {
   caption: prismic.RichTextField;
 
   /**
-   * Promo image field in *[Deprecated] Webcomic series → Promo → Editorial image → Primary*
+   * Promo image field in *[Deprecated] Webcomic series → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
@@ -5332,7 +5320,7 @@ export interface WebcomicSeriesDocumentDataPromoEditorialImageSlicePrimary {
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
   /**
-   * Link override field in *[Deprecated] Webcomic series → Promo → Editorial image → Primary*
+   * Link override field in *[Deprecated] Webcomic series → Slice Zone → Editorial image → Primary*
    *
    * - **Field Type**: Text
    * - **Placeholder**: *None*
@@ -5343,7 +5331,7 @@ export interface WebcomicSeriesDocumentDataPromoEditorialImageSlicePrimary {
 }
 
 /**
- * Slice for *[Deprecated] Webcomic series → Promo*
+ * Slice for *[Deprecated] Webcomic series → Slice Zone*
  */
 export type WebcomicSeriesDocumentDataPromoEditorialImageSlice = prismic.Slice<
   'editorialImage',
@@ -5401,7 +5389,7 @@ interface WebcomicSeriesDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   contributorsTitle: prismic.TitleField /**
-   * Promo field in *[Deprecated] Webcomic series*
+   * Slice Zone field in *[Deprecated] Webcomic series*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
@@ -5431,7 +5419,7 @@ interface WebcomicSeriesDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type WebcomicSeriesDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
+  prismic.PrismicDocumentWithUID<
     Simplify<WebcomicSeriesDocumentData>,
     'webcomic-series',
     Lang
@@ -5664,7 +5652,7 @@ interface WebcomicsDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type WebcomicsDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
+  prismic.PrismicDocumentWithUID<
     Simplify<WebcomicsDocumentData>,
     'webcomics',
     Lang
