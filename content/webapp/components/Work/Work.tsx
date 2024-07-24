@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
+import { Manifest } from '@iiif/presentation-3';
 import {
   Work as WorkType,
   toWorkBasic,
@@ -54,19 +55,19 @@ export const Grid = styled.div.attrs({
 })``;
 
 function showItemLink({
+  allOriginalPdfs,
+  hasIIIFManifest,
   digitalLocation,
   accessCondition,
   canvases,
   bornDigitalStatus,
-  allOriginalPdfs,
-  hasIIIFManifest,
 }: {
-  digitalLocation: DigitalLocation | undefined;
-  accessCondition: string | undefined;
-  canvases: TransformedCanvas[] | undefined;
-  bornDigitalStatus: BornDigitalStatus | undefined;
   allOriginalPdfs: boolean;
   hasIIIFManifest: boolean;
+  digitalLocation?: DigitalLocation;
+  accessCondition?: string;
+  canvases?: TransformedCanvas[];
+  bornDigitalStatus?: BornDigitalStatus;
 }): boolean {
   // In general we don't show the item link if there are born digital items present, i.e. canvases with a behavior of placeholder, because we display download links on the page instead.
   // The exception to this is if ALL the items are born digital and they are ALL pdfs, as we know we can show them on the items page.
@@ -132,10 +133,10 @@ function createApiToolbarLinks(
 type Props = {
   work: WorkType;
   apiUrl: string;
-  hasIIIFManifest: boolean;
+  iiifManifest?: Manifest;
 };
 
-const Work: FunctionComponent<Props> = ({ work, apiUrl, hasIIIFManifest }) => {
+const Work: FunctionComponent<Props> = ({ work, apiUrl, iiifManifest }) => {
   const transformedIIIFManifest = useTransformedManifest(work);
 
   const isArchive = !!(
@@ -162,12 +163,12 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl, hasIIIFManifest }) => {
   const allOriginalPdfs = isAllOriginalPdfs(canvases || []);
 
   const shouldShowItemLink = showItemLink({
+    allOriginalPdfs,
+    hasIIIFManifest: !!iiifManifest,
     digitalLocation,
     accessCondition: digitalLocationInfo?.accessCondition,
     canvases,
     bornDigitalStatus,
-    allOriginalPdfs,
-    hasIIIFManifest,
   });
 
   const imageUrl =
@@ -253,6 +254,10 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl, hasIIIFManifest }) => {
                   <WorkDetails
                     work={work}
                     shouldShowItemLink={shouldShowItemLink}
+                    iiifImageLocation={iiifImageLocation}
+                    digitalLocation={digitalLocation}
+                    digitalLocationInfo={digitalLocationInfo}
+                    transformedIIIFManifest={transformedIIIFManifest}
                   />
                 </WorkDetailsWrapper>
               </ArchiveDetailsContainer>
@@ -270,7 +275,14 @@ const Work: FunctionComponent<Props> = ({ work, apiUrl, hasIIIFManifest }) => {
                 />
               </Grid>
             </Container>
-            <WorkDetails work={work} shouldShowItemLink={shouldShowItemLink} />
+            <WorkDetails
+              work={work}
+              shouldShowItemLink={shouldShowItemLink}
+              iiifImageLocation={iiifImageLocation}
+              digitalLocation={digitalLocation}
+              digitalLocationInfo={digitalLocationInfo}
+              transformedIIIFManifest={transformedIIIFManifest}
+            />
           </>
         )}
       </CataloguePageLayout>

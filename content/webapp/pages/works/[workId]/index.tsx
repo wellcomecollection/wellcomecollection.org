@@ -1,4 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
+import { Manifest } from '@iiif/presentation-3';
 import { Work as WorkType } from '@weco/content/services/wellcome/catalogue/types';
 import { serialiseProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
@@ -15,20 +16,16 @@ import { WorkContextProvider } from '@weco/content/contexts/WorkContext';
 type Props = {
   work: WorkType;
   apiUrl: string;
-  hasIIIFManifest: boolean;
+  iiifManifest?: Manifest;
   pageview: Pageview;
 };
 
-export const WorkPage: NextPage<Props> = ({
-  work,
-  apiUrl,
-  hasIIIFManifest,
-}) => {
+export const WorkPage: NextPage<Props> = ({ work, apiUrl, iiifManifest }) => {
   // TODO: remove the <Work> component and move the JSX in here.
   // It was abstracted as we did error handling in the page, and it made it a little clearer.
   return (
     <WorkContextProvider>
-      <Work work={work} apiUrl={apiUrl} hasIIIFManifest={hasIIIFManifest} />
+      <Work work={work} apiUrl={apiUrl} iiifManifest={iiifManifest} />
     </WorkContextProvider>
   );
 };
@@ -78,7 +75,7 @@ export const getServerSideProps: GetServerSideProps<
   return {
     props: serialiseProps({
       work,
-      hasIIIFManifest: !!iiifManifest,
+      iiifManifest,
       apiUrl: url,
       serverData,
       pageview: {

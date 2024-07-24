@@ -9,8 +9,10 @@ import WorkDetailsLicence from './WorkDetails.Licence';
 import { eye } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { LinkProps } from '@weco/common/model/link-props';
-import { DownloadOption } from '@weco/content/types/manifest';
-import useTransformedManifest from '@weco/content/hooks/useTransformedManifest';
+import {
+  DownloadOption,
+  TransformedManifest,
+} from '@weco/content/types/manifest';
 import { Note, Work } from '@weco/content/services/wellcome/catalogue/types';
 import { DigitalLocationInfo } from '@weco/content/utils/works';
 import { DigitalLocation } from '@weco/common/model/catalogue';
@@ -81,9 +83,10 @@ type Props = {
   downloadOptions: DownloadOption[];
   itemUrl: LinkProps;
   shouldShowItemLink: boolean;
-  digitalLocation: DigitalLocation | undefined;
+  digitalLocation?: DigitalLocation;
   digitalLocationInfo?: DigitalLocationInfo;
   locationOfWork?: Note;
+  transformedIIIFManifest?: TransformedManifest;
 };
 
 const ItemPageLink = ({
@@ -172,9 +175,9 @@ const WorkDetailsAvailableOnline = ({
   digitalLocationInfo,
   digitalLocation,
   locationOfWork,
+  transformedIIIFManifest,
 }: Props) => {
   const { showBornDigital } = useToggles();
-  const transformedIIIFManifest = useTransformedManifest(work);
   const {
     collectionManifestsCount,
     canvasCount,

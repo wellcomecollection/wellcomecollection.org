@@ -4,8 +4,7 @@ import { font } from '@weco/common/utils/classnames';
 import { toLink as worksLink } from '../SearchPagesLink/Works';
 import { toLink as imagesLink } from '../SearchPagesLink/Images';
 import {
-  getDigitalLocationInfo,
-  getDigitalLocationOfType,
+  DigitalLocationInfo,
   getDownloadOptionsFromImageUrl,
   getHoldings,
   getItemsWithPhysicalLocation,
@@ -26,7 +25,6 @@ import {
   Work,
   toWorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
-import useTransformedManifest from '@weco/content/hooks/useTransformedManifest';
 import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
 import OnlineResources from './WorkDetails.OnlineResources';
 import { themeValues } from '@weco/common/views/themes/config';
@@ -44,31 +42,34 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import LL from '@weco/common/views/components/styled/LL';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import { WorkContext } from '@weco/content/contexts/WorkContext';
+import { TransformedManifest } from '@weco/content/types/manifest';
 
 type Props = {
   work: Work;
   shouldShowItemLink: boolean;
+  iiifImageLocation?: DigitalLocation;
+  digitalLocation?: DigitalLocation;
+  digitalLocationInfo?: DigitalLocationInfo;
+  transformedIIIFManifest?: TransformedManifest;
 };
 
 const WorkDetails: FunctionComponent<Props> = ({
   work,
   shouldShowItemLink,
+  iiifImageLocation,
+  digitalLocation,
+  digitalLocationInfo,
+  transformedIIIFManifest,
 }: Props) => {
   const { showBornDigital } = useToggles();
   const isArchive = useContext(IsArchiveContext);
   const { isEnhanced } = useContext(AppContext);
   const { isFetchingIIIFManifest } = useContext(WorkContext);
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
-  const transformedIIIFManifest = useTransformedManifest(work);
   const { canvases, rendering, bornDigitalStatus } = {
     ...transformedIIIFManifest,
   };
   const pathname = usePathname();
-  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
-  const iiifPresentationLocation = getDigitalLocationOfType(
-    work,
-    'iiif-presentation'
-  );
 
   // Works can have a DigitalLocation of type iiif-presentation and/or iiif-image.
   // For a iiif-presentation DigitalLocation we get the download options from the manifest to which it points.
@@ -96,13 +97,6 @@ const WorkDetails: FunctionComponent<Props> = ({
         getDownloadOptionsFromCanvasRenderingAndSupplementing(canvas)
       )
       .flat() || [];
-
-  // Determine digital location. If the work has a iiif-presentation location and a iiif-image location
-  // we use the former
-  const digitalLocation: DigitalLocation | undefined =
-    iiifPresentationLocation || iiifImageLocation;
-  const digitalLocationInfo =
-    digitalLocation && getDigitalLocationInfo(digitalLocation);
 
   // 'About this work' data
   const duration = work.duration && formatDuration(work.duration);
@@ -199,6 +193,7 @@ const WorkDetails: FunctionComponent<Props> = ({
                   digitalLocationInfo={digitalLocationInfo}
                   digitalLocation={digitalLocation}
                   locationOfWork={locationOfWork}
+                  transformedIIIFManifest={transformedIIIFManifest}
                 />
               </ConditionalWrapper>
             </>
