@@ -1,4 +1,4 @@
-import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
+import { convertRequestUriToInfoUri } from '../../utils/convert-iiif-uri';
 
 describe('convertRequestUriToInfoUri', () => {
   it('finds the info.json for a IIIF URI', () => {

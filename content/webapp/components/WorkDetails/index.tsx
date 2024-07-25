@@ -1,14 +1,14 @@
 import { FunctionComponent, useContext } from 'react';
-import { usePathname } from 'next/navigation';
 import { font } from '@weco/common/utils/classnames';
 import { toLink as worksLink } from '../SearchPagesLink/Works';
 import { toLink as imagesLink } from '../SearchPagesLink/Images';
 import {
-  DigitalLocationInfo,
+  getDigitalLocationInfo,
+  getDigitalLocationOfType,
   getDownloadOptionsFromImageUrl,
   getHoldings,
   getItemsWithPhysicalLocation,
-} from '@weco/content/utils/works';
+} from '../../utils/works';
 import Space from '@weco/common/views/components/styled/Space';
 import WorkDetailsSection from './WorkDetails.Section';
 import WorkDetailsText from './WorkDetails.Text';
@@ -25,7 +25,8 @@ import {
   Work,
   toWorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
-import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
+import useTransformedManifest from '../../hooks/useTransformedManifest';
+import useTransformedIIIFImage from '../../hooks/useTransformedIIIFImage';
 import OnlineResources from './WorkDetails.OnlineResources';
 import { themeValues } from '@weco/common/views/themes/config';
 import { formatDuration } from '@weco/common/utils/format-date';
@@ -37,33 +38,31 @@ import {
   getDownloadOptionsFromManifestRendering,
   getDownloadOptionsFromCanvasRenderingAndSupplementing,
 } from '@weco/content/utils/iiif/v3';
+import { usePathname } from 'next/navigation';
 import { useToggles } from '@weco/common/server-data/Context';
-import { TransformedManifest } from '@weco/content/types/manifest';
 
 type Props = {
   work: Work;
   shouldShowItemLink: boolean;
-  iiifImageLocation?: DigitalLocation;
-  digitalLocation?: DigitalLocation;
-  digitalLocationInfo?: DigitalLocationInfo;
-  transformedManifest?: TransformedManifest;
 };
 
 const WorkDetails: FunctionComponent<Props> = ({
   work,
   shouldShowItemLink,
-  iiifImageLocation,
-  digitalLocation,
-  digitalLocationInfo,
-  transformedManifest,
 }: Props) => {
   const { showBornDigital } = useToggles();
   const isArchive = useContext(IsArchiveContext);
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
+  const transformedIIIFManifest = useTransformedManifest(work);
   const { canvases, rendering, bornDigitalStatus } = {
-    ...transformedManifest,
+    ...transformedIIIFManifest,
   };
   const pathname = usePathname();
+  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
 
   // Works can have a DigitalLocation of type iiif-presentation and/or iiif-image.
   // For a iiif-presentation DigitalLocation we get the download options from the manifest to which it points.
@@ -91,6 +90,13 @@ const WorkDetails: FunctionComponent<Props> = ({
         getDownloadOptionsFromCanvasRenderingAndSupplementing(canvas)
       )
       .flat() || [];
+
+  // Determine digital location. If the work has a iiif-presentation location and a iiif-image location
+  // we use the former
+  const digitalLocation: DigitalLocation | undefined =
+    iiifPresentationLocation || iiifImageLocation;
+  const digitalLocationInfo =
+    digitalLocation && getDigitalLocationInfo(digitalLocation);
 
   // 'About this work' data
   const duration = work.duration && formatDuration(work.duration);
@@ -176,7 +182,6 @@ const WorkDetails: FunctionComponent<Props> = ({
           digitalLocationInfo={digitalLocationInfo}
           digitalLocation={digitalLocation}
           locationOfWork={locationOfWork}
-          transformedManifest={transformedManifest}
         />
       )}
 

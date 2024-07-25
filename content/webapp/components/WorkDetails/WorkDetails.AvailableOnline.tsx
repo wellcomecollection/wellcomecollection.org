@@ -9,10 +9,8 @@ import WorkDetailsLicence from './WorkDetails.Licence';
 import { eye } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { LinkProps } from '@weco/common/model/link-props';
-import {
-  DownloadOption,
-  TransformedManifest,
-} from '@weco/content/types/manifest';
+import { DownloadOption } from '@weco/content/types/manifest';
+import useTransformedManifest from '@weco/content/hooks/useTransformedManifest';
 import { Note, Work } from '@weco/content/services/wellcome/catalogue/types';
 import { DigitalLocationInfo } from '@weco/content/utils/works';
 import { DigitalLocation } from '@weco/common/model/catalogue';
@@ -83,10 +81,9 @@ type Props = {
   downloadOptions: DownloadOption[];
   itemUrl: LinkProps;
   shouldShowItemLink: boolean;
-  digitalLocation?: DigitalLocation;
+  digitalLocation: DigitalLocation | undefined;
   digitalLocationInfo?: DigitalLocationInfo;
   locationOfWork?: Note;
-  transformedManifest?: TransformedManifest;
 };
 
 const ItemPageLink = ({
@@ -175,9 +172,9 @@ const WorkDetailsAvailableOnline = ({
   digitalLocationInfo,
   digitalLocation,
   locationOfWork,
-  transformedManifest,
 }: Props) => {
   const { showBornDigital } = useToggles();
+  const transformedIIIFManifest = useTransformedManifest(work);
   const {
     collectionManifestsCount,
     canvasCount,
@@ -188,13 +185,11 @@ const WorkDetailsAvailableOnline = ({
     canvases,
     placeholderId,
     rendering,
-  } = { ...transformedManifest };
-
+  } = { ...transformedIIIFManifest };
   const isBornDigital =
     showBornDigital &&
     (bornDigitalStatus === 'mixedBornDigital' ||
       bornDigitalStatus === 'allBornDigital');
-
   const [tabbableId, setTabbableId] = useState<string>();
   const [archiveTree, setArchiveTree] = useState<UiTree>([]);
   const allOriginalPdfs = isAllOriginalPdfs(canvases || []);
@@ -211,7 +206,6 @@ const WorkDetailsAvailableOnline = ({
     }
   }, [archiveTree, tabbableId]);
   const { isEnhanced } = useContext(AppContext);
-
   return (
     <WorkDetailsSection
       headingText={`Available ${isBornDigital ? 'to download' : 'online'}`}
