@@ -2,8 +2,6 @@ import { FunctionComponent } from 'react';
 import { ExhibitionGuideComponent } from '@weco/content/types/exhibition-guides';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Stop, { getTypeColor } from './ExhibitionCaptions.Stop';
-import NewStop from './ExhibitionCaptions.Stop.New';
-import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   stops: ExhibitionGuideComponent[];
@@ -16,8 +14,6 @@ function includesStandaloneTitle(stop: ExhibitionGuideComponent): boolean {
 }
 
 const ExhibitionCaptions: FunctionComponent<Props> = ({ stops }) => {
-  const { egWork } = useToggles();
-
   const titlesUsed = {
     standalone: false,
     context: false,
@@ -38,16 +34,7 @@ const ExhibitionCaptions: FunctionComponent<Props> = ({ stops }) => {
             stop.captionsOrTranscripts?.context
           );
         }
-        return egWork ? (
-          <NewStop
-            key={index}
-            index={index}
-            stop={stop}
-            isFirstStop={index === 0}
-            titlesUsed={titlesUsed}
-            hasStandaloneTitle={hasStandaloneTitle}
-          />
-        ) : (
+        return (
           <Stop
             key={index}
             index={index}

@@ -26,13 +26,6 @@ import { components } from '@weco/common/views/slices';
 import { Container } from '@weco/common/views/components/styled/Container';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 
-// const ButtonWrapper = styled(Space).attrs({
-//   $v: { size: 's', properties: ['margin-bottom'] },
-//   $h: { size: 's', properties: ['margin-right'] },
-// })`
-//   display: inline-block;
-// `;
-
 const isExhibitionGuide = (
   item: ExhibitionGuide | ExhibitionText | ExhibitionHighlightTour
 ): item is ExhibitionGuide => {
@@ -135,16 +128,14 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
         isSlim
       />
       <Layout gridSizes={gridSize8(false)}>
-        <>
-          <h2 className={font('wb', 2)}>{getTypeTitle(type)}</h2>
-          {exhibitionGuide.introText?.length > 0 ? (
-            <PrismicHtmlBlock html={exhibitionGuide.introText} />
-          ) : (
-            exhibitionGuide.relatedExhibition?.description && (
-              <p>{exhibitionGuide.relatedExhibition.description}</p>
-            )
-          )}
-        </>
+        <h2 className={font('wb', 3)}>{getTypeTitle(type)}</h2>
+        {exhibitionGuide.introText?.length > 0 ? (
+          <PrismicHtmlBlock html={exhibitionGuide.introText} />
+        ) : (
+          exhibitionGuide.relatedExhibition?.description && (
+            <p>{exhibitionGuide.relatedExhibition.description}</p>
+          )
+        )}
       </Layout>
 
       <Space $v={{ size: 'l', properties: ['margin-top'] }}>
@@ -174,6 +165,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
           )}
         </Layout>
       </Space>
+
       {/* For deprecated ExhibitionGuides */}
       {isExhibitionGuide(exhibitionGuide) &&
         exhibitionGuide.components?.length > 0 && (
