@@ -132,7 +132,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
           ],
           noHomeLink: true,
         }}
-        // noWobblyEdge TODO?
+        isSlim
       />
       <Layout gridSizes={gridSize8(false)}>
         <>
