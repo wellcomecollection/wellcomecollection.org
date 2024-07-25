@@ -1,6 +1,7 @@
 import { getCookie, deleteCookie } from 'cookies-next';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
+import { GetServerSideProps } from 'next';
 import {
   ExhibitionGuide,
   ExhibitionText,
@@ -23,7 +24,6 @@ import { getServerData } from '@weco/common/server-data';
 import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
-import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/services/app';
 import cookies from '@weco/common/data/cookies';
 import useHotjar from '@weco/content/hooks/useHotjar';
@@ -50,6 +50,8 @@ import { components } from '@weco/common/views/slices';
 import { Container } from '@weco/common/views/components/styled/Container';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { speechToText } from '@weco/common/icons';
 
 const ButtonWrapper = styled(Space).attrs({
   $v: { size: 's', properties: ['margin-bottom'] },
@@ -307,33 +309,33 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
       apiToolbarLinks={[createPrismicLink(exhibitionGuide.id)]}
       skipToContentLinks={skipToContentLinks}
     >
-      {egWork && (
-        <PageHeader
-          title={exhibitionGuide.title}
-          breadcrumbs={{
-            items: [
-              {
-                text: 'Digital Guides',
-                url: `/guides/exhibitions`,
-              },
-              {
-                text: `${exhibitionGuide.relatedExhibition?.title} Digital Guides`,
-                url: `/guides/exhibitions/${exhibitionGuide.id}`,
-                isHidden: !exhibitionGuide.relatedExhibition,
-              },
-            ],
-            noHomeLink: true,
-          }}
-          isSlim
-        />
-      )}
-
       <ConditionalWrapper
         condition={!egWork}
         wrapper={children => (
           <Header $backgroundColor={typeColor}>{children}</Header>
         )}
       >
+        {egWork && (
+          <PageHeader
+            title={exhibitionGuide.title}
+            breadcrumbs={{
+              items: [
+                {
+                  text: 'Digital Guides',
+                  url: `/guides/exhibitions`,
+                },
+                {
+                  text: `${exhibitionGuide.relatedExhibition?.title} Digital Guides`,
+                  url: `/guides/exhibitions/${exhibitionGuide.id}`,
+                  isHidden: !exhibitionGuide.relatedExhibition,
+                },
+              ],
+              noHomeLink: true,
+            }}
+            isSlim
+          />
+        )}
+
         <Layout gridSizes={gridSize8(false)}>
           {egWork ? (
             <h2 className={font('wb', 3)}>{getTypeTitle(type)}</h2>
@@ -352,7 +354,12 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             )
           )}
 
-          {!egWork && (
+          {egWork ? (
+            <Icon
+              icon={speechToText}
+              sizeOverride="height: 32px; width: 32px;"
+            />
+          ) : (
             <>
               <ButtonWrapper>
                 <Button
