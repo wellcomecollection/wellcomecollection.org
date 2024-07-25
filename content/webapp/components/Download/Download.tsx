@@ -45,39 +45,43 @@ const Download: FunctionComponent<Props> = ({
 
   return (
     <Wrapper $isEnhanced={isEnhanced} ref={downloadsContainer}>
-      <Button
-        variant="DropdownButton"
-        label="Downloads"
-        buttonType={isInline ? 'inline' : 'outlined'}
-        isOnDark={useDarkControl}
-        id={ariaControlsId}
-      >
-        <DownloadOptions className={font('intb', 5)}>
-          <SpacingComponent>
-            <PlainList>
-              {downloadOptions.map(option => {
-                const format = getFormatString(option.format);
+      {downloadOptions.length > 0 && (
+        <>
+          <Button
+            variant="DropdownButton"
+            label="Downloads"
+            buttonType={isInline ? 'inline' : 'outlined'}
+            isOnDark={useDarkControl}
+            id={ariaControlsId}
+          >
+            <DownloadOptions className={font('intb', 5)}>
+              <SpacingComponent>
+                <PlainList>
+                  {downloadOptions.map(option => {
+                    const format = getFormatString(option.format);
 
-                return (
-                  <li key={option.id}>
-                    <DownloadLink
-                      href={option.id}
-                      linkText={
-                        option.format === 'application/pdf'
-                          ? 'Whole item'
-                          : option.label
-                      }
-                      format={format}
-                      width={option.width}
-                      mimeType={option.format}
-                    />
-                  </li>
-                );
-              })}
-            </PlainList>
-          </SpacingComponent>
-        </DownloadOptions>
-      </Button>
+                    return (
+                      <li key={option.id}>
+                        <DownloadLink
+                          href={option.id}
+                          linkText={
+                            option.format === 'application/pdf'
+                              ? 'Whole item'
+                              : option.label
+                          }
+                          format={format}
+                          width={option.width}
+                          mimeType={option.format}
+                        />
+                      </li>
+                    );
+                  })}
+                </PlainList>
+              </SpacingComponent>
+            </DownloadOptions>
+          </Button>
+        </>
+      )}
     </Wrapper>
   );
 };

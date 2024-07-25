@@ -13,7 +13,7 @@ import Control from '@weco/common/views/components/Control';
 import Space from '@weco/common/views/components/styled/Space';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { cross, minus, plus, rotateRight } from '@weco/common/icons';
-import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
+import { convertRequestUriToInfoUri } from '@weco/content/utils/convert-iiif-uri';
 import { queryParamToArrayIndex } from '.';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 
