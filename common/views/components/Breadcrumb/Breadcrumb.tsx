@@ -1,38 +1,43 @@
+import { FunctionComponent } from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { breadcrumbsLd } from '@weco/common/utils/json-ld';
 import Space from '@weco/common/views/components/styled/Space';
-import { FunctionComponent } from 'react';
-import styled from 'styled-components';
-import { BreadcrumbItems } from '../../../model/breadcrumbs';
+import { BreadcrumbItems } from '@weco/common/model/breadcrumbs';
 
-const BreadcrumbWrapper = styled.div`
-  display: flex;
-`;
-
-const ItemWrapper = styled(Space).attrs({
-  className: font('intr', 6),
-})``;
-
-const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({ items }) => {
+const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
+  items,
+  noHomeLink,
+}) => {
   // We prepend a 'Home' breadcrumb at the start of every chain, so every page
-  // will always have a visible breadcrumb.
-  const visibleItems = [
+  // will ideally always have a visible breadcrumb.
+  const allItems = [
     {
       text: 'Home',
       url: '/',
+      isHidden: noHomeLink,
     },
-    ...items.filter(({ isHidden }) => !isHidden),
+    ...items,
   ];
+
+  const visibleItems = allItems.filter(({ isHidden }) => !isHidden);
+
+  if (visibleItems.length === 0) return null;
 
   return (
     // TODO remove is-hidden-print class once we've made the breadcrumbs more useful
-    <BreadcrumbWrapper className="is-hidden-print" data-testid="breadcrumbs">
+    <div
+      className="is-hidden-print"
+      data-testid="breadcrumbs"
+      style={{ display: 'flex' }}
+    >
       {visibleItems.map(({ text, url, prefix }, i) => {
         const LinkOrSpanTag = url ? 'a' : 'span';
+
         return (
-          <ItemWrapper
+          <Space
             key={prefix ? `${prefix}-${text}` : text}
             as={prefix ? 'b' : 'span'}
+            className={font('intr', 6)}
           >
             {i > 0 && (
               <Space
@@ -53,17 +58,16 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({ items }) => {
             >
               {text}
             </LinkOrSpanTag>
-          </ItemWrapper>
+          </Space>
         );
       })}
-      {/* Because we always insert a 'Home' breadcrumb, we know it will be non-empty. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbsLd({ items })),
+          __html: JSON.stringify(breadcrumbsLd({ items: visibleItems })),
         }}
       />
-    </BreadcrumbWrapper>
+    </div>
   );
 };
 export default Breadcrumb;

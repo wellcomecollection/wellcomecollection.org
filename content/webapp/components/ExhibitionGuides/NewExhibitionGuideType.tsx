@@ -119,7 +119,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
       <PageHeader
         title={exhibitionGuide.title}
         breadcrumbs={{
-          // TODO do we want to remove Home?
           items: [
             {
               text: 'Digital Guides',
@@ -131,6 +130,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               isHidden: !exhibitionGuide.relatedExhibition,
             },
           ],
+          noHomeLink: true,
         }}
         // noWobblyEdge TODO?
       />
@@ -144,24 +144,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               <p>{exhibitionGuide.relatedExhibition.description}</p>
             )
           )}
-          {/* TODO remove? */}
-          {/* <ButtonWrapper>
-              <Button
-                variant="ButtonSolidLink"
-                colors={themeValues.buttonColors.charcoalWhiteCharcoal}
-                text="Change guide type"
-                link={`/guides/exhibitions/${exhibitionGuide.id}`}
-                clickHandler={() => {
-                  deleteCookie(cookies.exhibitionGuideType);
-                }}
-              />
-            </ButtonWrapper>
-            <Button
-              variant="ButtonSolidLink"
-              colors={themeValues.buttonColors.charcoalWhiteCharcoal}
-              text="Change exhibition"
-              link="/guides/exhibitions"
-            /> */}
         </>
       </Layout>
 
