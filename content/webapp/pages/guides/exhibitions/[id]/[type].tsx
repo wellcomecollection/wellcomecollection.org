@@ -51,7 +51,11 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { speechToText } from '@weco/common/icons';
+import {
+  audioDescribed,
+  britishSignLanguage,
+  speechToText,
+} from '@weco/common/icons';
 
 const ButtonWrapper = styled(Space).attrs({
   $v: { size: 's', properties: ['margin-bottom'] },
@@ -99,6 +103,58 @@ function getTypeTitle(type: ExhibitionGuideType): string {
       return 'Captions and transcripts';
   }
 }
+
+const RelevantIcons = ({ type }: { type: ExhibitionGuideType }) => {
+  // TODO: Eventually will be useful when we've modified all Exhibition guide types, so commenting until that's done.
+  // const hasMultiple = [
+  //   'audio-with-descriptions',
+  //   'audio-without-descriptions',
+  //   'bsl',
+  // ].includes(type);
+  // return (
+  //   <>
+  //     {hasMultiple && (
+  //       <Icon
+  //         icon={type === 'bsl' ? britishSignLanguage : audioDescribed}
+  //         sizeOverride="height: 32px; width: 32px;"
+  //       />
+  //     )}
+  //     <ConditionalWrapper
+  //       condition={hasMultiple}
+  //       wrapper={children => (
+  //         <Space
+  //           $h={{ size: 's', properties: ['margin-left'] }}
+  //           style={{ display: 'inline' }}
+  //         >
+  //           {children}
+  //         </Space>
+  //       )}
+  //     >
+  //       <Icon icon={speechToText} sizeOverride="height: 32px; width: 32px;" />
+  //     </ConditionalWrapper>
+  //   </>
+  // );
+
+  // TODO: Remove all below when the above is valid again
+  const getRelevantIcon = type => {
+    switch (type) {
+      case 'bsl':
+        return britishSignLanguage;
+      case 'audio-with-descriptions':
+      case 'audio-without-descriptions':
+        return audioDescribed;
+      case 'captions-and-transcripts':
+        return speechToText;
+      default:
+        return undefined;
+    }
+  };
+  const relevantIcon = getRelevantIcon(type);
+
+  return !relevantIcon ? null : (
+    <Icon icon={relevantIcon} sizeOverride="height: 32px; width: 32px;" />
+  );
+};
 
 type Props = {
   exhibitionGuide: ExhibitionGuide | ExhibitionText | ExhibitionHighlightTour;
@@ -355,10 +411,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
           )}
 
           {egWork ? (
-            <Icon
-              icon={speechToText}
-              sizeOverride="height: 32px; width: 32px;"
-            />
+            <RelevantIcons type={type} />
           ) : (
             <>
               <ButtonWrapper>
