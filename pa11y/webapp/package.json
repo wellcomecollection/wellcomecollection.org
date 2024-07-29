@@ -6,8 +6,8 @@
     "deploy": "node deploy.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.1655.0",
+    "aws-sdk": "^2.1659.0",
     "pa11y": "8.0.0",
-    "puppeteer": "22.12.1"
+    "puppeteer": "22.13.1"
   }
 }
