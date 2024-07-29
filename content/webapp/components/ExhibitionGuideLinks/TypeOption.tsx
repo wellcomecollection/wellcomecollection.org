@@ -30,11 +30,15 @@ const TypeItem = styled.li<{ $egWork?: boolean }>`
       `}
 `;
 
-const TypeLink = styled.a<{ $backgroundColor: PaletteColor }>`
+const TypeLink = styled.a<{
+  $backgroundColor: PaletteColor;
+  $egWork?: boolean;
+}>`
   display: block;
   height: 100%;
   width: 100%;
   text-decoration: none;
+  ${props => (props.$egWork ? 'border-radius: 6px;' : '')}
   background: ${props => props.theme.color(props.$backgroundColor)};
 
   /** TODO confirm behaviour **/
@@ -72,7 +76,12 @@ const TypeOption: FunctionComponent<Props> = ({
 
   return egWork ? (
     <TypeItem $egWork={egWork}>
-      <TypeLink href={url} $backgroundColor="warmNeutral.300" onClick={onClick}>
+      <TypeLink
+        href={url}
+        $backgroundColor="warmNeutral.300"
+        $egWork
+        onClick={onClick}
+      >
         <Space
           $v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
           $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
