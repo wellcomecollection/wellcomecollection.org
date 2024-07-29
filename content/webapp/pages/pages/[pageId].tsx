@@ -140,7 +140,7 @@ export const getServerSideProps: GetServerSideProps<
   const pageLookupByUid = await fetchGuideByUID(client, pageId);
   const page =
     (pageLookupById && transformPage(pageLookupById)) ||
-    (pageLookupByUid && transformPage(pageLookupByUid));
+    (pageLookupByUid && transformPage(pageLookupByUid)); // TODO once redirects are in place we should only fetch by uid
 
   if (isNotUndefined(page)) {
     const serverData = await getServerData(context);
