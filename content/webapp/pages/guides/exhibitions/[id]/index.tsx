@@ -54,6 +54,8 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { allGuides } from '@weco/content/pages/guides/exhibitions';
+import { useToggles } from '@weco/common/server-data/Context';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 
 // N.B. There are quite a lot of requests to Prismic for this page, which are necessary in order to maintain the url structure
 // while supporting both the deprecated ExhibitionGuide type and new custom types
@@ -264,6 +266,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
   jsonLd,
   otherExhibitionGuides,
 }) => {
+  const { egWork } = useToggles();
+
   const pageId =
     exhibitionGuide?.id || exhibitionText?.id || exhibitionHighlightTour?.id;
   const pageTitle =
@@ -313,18 +317,35 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
       apiToolbarLinks={[createPrismicLink(pageId || '')]}
       hideNewsletterPromo={true}
     >
+      {egWork && (
+        <PageHeader
+          title={`${pageTitle} digital guide`}
+          breadcrumbs={{
+            items: [
+              {
+                text: 'Digital Guides',
+                url: `/guides/exhibitions`,
+              },
+            ],
+            noHomeLink: true,
+          }}
+          isSlim
+        />
+      )}
       <Layout gridSizes={gridSize10(false)}>
         <SpacingSection>
-          <Space
-            $v={{ size: 'l', properties: ['margin-top'] }}
-            className={font('wb', 1)}
-          >
-            <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-              <h1
-                className={font('wb', 0)}
-              >{`Choose the ${pageTitle} guide for you`}</h1>
+          {!egWork && (
+            <Space
+              $v={{ size: 'l', properties: ['margin-top'] }}
+              className={font('wb', 1)}
+            >
+              <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+                <h1 className={font('wb', 0)}>
+                  {`Choose the ${pageTitle} guide for you`}
+                </h1>
+              </Space>
             </Space>
-          </Space>
+          )}
           <Space $v={{ size: 'l', properties: ['margin-top'] }}>
             {/* Links to ExhibitionTexts and ExhibitionHighlightTours */}
             {Boolean(textPathname || audioPathname || videoPathname) && (

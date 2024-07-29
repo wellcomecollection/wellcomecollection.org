@@ -1,8 +1,9 @@
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import styled from 'styled-components';
 import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 
 const YellowBox = styled.div`
   display: inline-block;
@@ -34,17 +35,27 @@ const Title = styled.span`
 
 type Props = {
   title: string;
+  hasIndent?: boolean;
 };
 
-const SectionHeader: FunctionComponent<Props> = ({ title }) => {
+const SectionHeader: FunctionComponent<Props> = ({
+  title,
+  // TODO confirm we want to change the component this way
+  hasIndent = true,
+}) => {
   return (
     <div className={font('wb', 2)}>
-      <Layout gridSizes={gridSize12()}>
+      <ConditionalWrapper
+        condition={hasIndent}
+        wrapper={children => (
+          <Layout gridSizes={gridSize12()}>{children}</Layout>
+        )}
+      >
         <YellowBox />
         <TitleWrapper as="h2">
           <Title>{title}</Title>
         </TitleWrapper>
-      </Layout>
+      </ConditionalWrapper>
     </div>
   );
 };
