@@ -33,7 +33,7 @@ import {
 } from '@weco/common/services/app/analytics-scripts';
 import {
   MetaScript,
-  TikTokScript,
+  // TikTokScript,
 } from '@weco/common/services/app/marketing-scripts';
 import { deserialiseProps } from '@weco/common/utils/json';
 import { SearchContextProvider } from '@weco/common/views/components/SearchContext/SearchContext';
@@ -213,7 +213,9 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                   <SegmentScript hasAnalyticsConsent={hasAnalyticsConsent} />
 
                   <MetaScript hasMarketingConsent={hasMarketingConsent} />
-                  <TikTokScript hasMarketingConsent={hasMarketingConsent} />
+                  {/* TODO: Uncomment when we have means to test
+                  https://github.com/wellcomecollection/wellcomecollection.org/pull/11047 */}
+                  {/* <TikTokScript hasMarketingConsent={hasMarketingConsent} /> */}
                 </ThemeProvider>
               </SearchContextProvider>
             </AppContextProvider>
