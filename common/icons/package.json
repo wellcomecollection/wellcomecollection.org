@@ -5,10 +5,10 @@
   "sideEffects": false,
   "scripts": {
     "compile": "yarn run-svgr && yarn move-index",
-    "move-index": "mv components/index.tsx ./index.ts",
+    "move-index": "mv components/index.ts ./index.ts",
     "run-svgr": "svgr svgs --out-dir components --no-svgo --typescript --template template.js --index-template index-template.js"
   },
   "devDependencies": {
-    "@svgr/cli": "^5.5.0"
+    "@svgr/cli": "^8.1.0"
   }
 }

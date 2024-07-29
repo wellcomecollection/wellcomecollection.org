@@ -41,12 +41,32 @@ export function emptyPrismicQuery<
   };
 }
 
-export function emptyDocument<T extends prismic.PrismicDocumentWithoutUID>(
-  data: T['data']
-): prismic.PrismicDocumentWithoutUID<T['data']> {
+export function emptyDocumentWithoutUid<
+  T extends prismic.PrismicDocumentWithoutUID,
+>(data: T['data']): prismic.PrismicDocumentWithoutUID<T['data']> {
   return {
-    id: '',
     uid: null,
+    id: '',
+    url: null,
+    type: '',
+    href: '',
+    tags: [],
+    first_publication_date: '2020-06-29T15:13:27+0000',
+    last_publication_date: '2020-06-29T15:13:27+0000',
+    slugs: [],
+    linked_documents: [],
+    lang: 'en-gb',
+    alternate_languages: [],
+    data,
+  };
+}
+
+export function emptyDocumentWithUid<T extends prismic.PrismicDocumentWithUID>(
+  data: T['data']
+): prismic.PrismicDocumentWithUID<T['data']> {
+  return {
+    uid: '',
+    id: '',
     url: null,
     type: '',
     href: '',
@@ -64,7 +84,7 @@ export function emptyDocument<T extends prismic.PrismicDocumentWithoutUID>(
 export function emptyGlobalAlert(
   overrides: Partial<RawGlobalAlertDocument['data']> = {}
 ): RawGlobalAlertDocument {
-  return emptyDocument<RawGlobalAlertDocument>({
+  return emptyDocumentWithoutUid<RawGlobalAlertDocument>({
     isShown: 'hide',
     routeRegex: null,
     text: [],
@@ -73,7 +93,7 @@ export function emptyGlobalAlert(
 }
 
 export function emptyPopupDialog(): RawPopupDialogDocument {
-  return emptyDocument<RawPopupDialogDocument>({
+  return emptyDocumentWithoutUid<RawPopupDialogDocument>({
     isShown: false,
     link: { link_type: 'Web' },
     linkText: null,

@@ -3,6 +3,7 @@
   "label": "Event series",
   "repeatable": true,
   "status": true,
+  "format": "custom",
   "json": {
     "Event series": {
       "title": {
@@ -19,6 +20,13 @@
           "label": "Background texture",
           "select": "document",
           "customtypes": ["background-textures"]
+        }
+      },
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "uid",
+          "placeholder": ""
         }
       },
       "body": {
@@ -130,8 +138,8 @@
     "Promo": {
       "promo": {
         "type": "Slices",
+        "fieldset": "Slice Zone",
         "config": {
-          "label": "Promo",
           "choices": {
             "editorialImage": {
               "type": "Slice",
@@ -191,6 +199,5 @@
         }
       }
     }
-  },
-  "format": "custom"
+  }
 }

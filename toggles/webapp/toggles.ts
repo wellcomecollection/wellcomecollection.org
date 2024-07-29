@@ -92,6 +92,14 @@ const toggles = {
         'This enables online requesting of items that are held at the offsite Deepstore location',
       type: 'experimental',
     },
+    {
+      id: 'egWork',
+      title: 'Exhibition Guides redesign/restructure work',
+      initialValue: false,
+      description:
+        'With this actived, you will be able to see the new (and work in progress) versions of exhibition guides',
+      type: 'experimental',
+    },
   ] as const,
   tests: [] as ABTest[],
 };

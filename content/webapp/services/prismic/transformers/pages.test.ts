@@ -1,4 +1,4 @@
-import { emptyDocument } from '@weco/common/services/prismic/documents';
+import { emptyDocumentWithUid } from '@weco/common/services/prismic/documents';
 import { transformPage } from './pages';
 import {
   PagesDocument as RawPagesDocument,
@@ -24,7 +24,7 @@ const exampleTextSlice = {
 } as RawTextSlice;
 
 export const pageWithoutBody: RawPagesDocument = {
-  ...emptyDocument<RawPagesDocument>({
+  ...emptyDocumentWithUid<RawPagesDocument>({
     title: [],
     datePublished: null,
     showOnThisPage: false,
