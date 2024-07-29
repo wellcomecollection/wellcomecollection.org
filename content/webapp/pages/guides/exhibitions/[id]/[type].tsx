@@ -348,7 +348,10 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
 
   return (
     <PageLayout
-      title={`${exhibitionGuide.title} ${type ? getTypeTitle(type) : ''}` || ''}
+      title={
+        `${exhibitionGuide.title} ${type ? getTypeTitle(type, egWork) : ''}` ||
+        ''
+      }
       description={pageDescriptions.exhibitionGuides}
       url={{ pathname }}
       jsonLd={jsonLd}
@@ -392,11 +395,11 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
 
         <Layout gridSizes={gridSize8(false)}>
           {egWork ? (
-            <h2 className={font('wb', 3)}>{getTypeTitle(type)}</h2>
+            <h2 className={font('wb', 3)}>{getTypeTitle(type, egWork)}</h2>
           ) : (
             <h1 className={font('wb', 1)}>
               {exhibitionGuide.title}{' '}
-              <div className={font('wb', 2)}>{getTypeTitle(type)}</div>
+              <div className={font('wb', 2)}>{getTypeTitle(type, egWork)}</div>
             </h1>
           )}
 
