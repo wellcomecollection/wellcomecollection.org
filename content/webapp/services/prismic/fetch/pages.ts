@@ -55,8 +55,17 @@ const pagesFetcher = fetcher<RawPagesDocument>(
   fetchLinks
 );
 
+// Get by uid can't take an array as the type
+const guidesUidFetcher = fetcher<RawPagesDocument>('guides', fetchLinks);
+// const pagesUidFetcher = fetcher<RawPagesDocument>('pages', fetchLinks);
+// const projectsUidFetcher = fetcher<RawPagesDocument>('projects', fetchLinks);
+
 export const fetchPage = pagesFetcher.getById;
 export const fetchPages = pagesFetcher.getByType;
+
+export const fetchGuideByUID = guidesUidFetcher.getByUid; // TODO type
+// export const fetchPageByUID = pagesUidFetcher.getByUid;
+// export const fetchprojectByUID = projectsUidFetcher.getByUid;
 
 export const fetchChildren = async (
   client: GetServerSidePropsPrismicClient,
