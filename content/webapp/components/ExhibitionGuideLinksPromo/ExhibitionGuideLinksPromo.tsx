@@ -47,14 +47,6 @@ const ExhibitionGuideLinksPromo: FunctionComponent<Props> = ({
       text: 'Listen to audio',
     });
   }
-  if (exhibitionGuide.availableTypes.audioWithDescriptions) {
-    links.push({
-      url: `/guides/exhibitions/${
-        exhibitionGuide.exhibitionHighlightTourId || exhibitionGuide.id
-      }/audio-with-descriptions`,
-      text: 'Listen to audio with wayfinding',
-    });
-  }
   if (exhibitionGuide.availableTypes.captionsOrTranscripts) {
     links.push({
       url: `/guides/exhibitions/${

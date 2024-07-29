@@ -10,7 +10,7 @@ const GuideStop: FunctionComponent<GuideStopProps> = ({ slice, context }) => {
   const transformedSlice = transformGuideStopSlice(slice);
   const { number, title, audio, video } = transformedSlice;
   const { type } = context as {
-    type: 'bsl' | 'audio-without-descriptions' | 'audio-with-descriptions';
+    type: 'bsl' | 'audio-without-descriptions';
   };
 
   return (

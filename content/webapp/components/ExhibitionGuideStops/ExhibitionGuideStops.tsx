@@ -63,15 +63,12 @@ export const Stops: FunctionComponent<Props> = ({ stops, type }) => {
           .map((stop, index) => {
             const {
               number,
-              audioWithDescription,
               audioWithoutDescription,
               bsl,
               displayTitle,
               anchorId,
             } = stop;
             const hasContentOfDesiredType =
-              (type === 'audio-with-descriptions' &&
-                audioWithDescription?.url) ||
               (type === 'audio-without-descriptions' &&
                 audioWithoutDescription?.url) ||
               (type === 'bsl' && bsl?.embedUrl);
@@ -97,14 +94,6 @@ export const Stops: FunctionComponent<Props> = ({ stops, type }) => {
                 // See e.g. https://accessibility.oit.ncsu.edu/it-accessibility-at-nc-state/developers/accessibility-handbook/mouse-and-keyboard-events/skip-to-main-content/
                 tabIndex={-1}
               >
-                {type === 'audio-with-descriptions' &&
-                  audioWithDescription?.url && (
-                    <AudioPlayer
-                      title={stopTitle}
-                      titleProps={titleProps}
-                      audioFile={audioWithDescription.url}
-                    />
-                  )}
                 {type === 'audio-without-descriptions' &&
                   audioWithoutDescription?.url && (
                     <AudioPlayer
@@ -133,7 +122,6 @@ const ExhibitionGuideStops: FunctionComponent<Props> = ({ stops, type }) => {
   const numberedStops = stops.filter(c => c.number);
   switch (type) {
     case 'bsl':
-    case 'audio-with-descriptions':
     case 'audio-without-descriptions':
       return <Stops stops={numberedStops} type={type} />;
     case 'captions-and-transcripts':

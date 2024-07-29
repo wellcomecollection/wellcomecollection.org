@@ -78,11 +78,6 @@ export function allGuides({
             matchingExhibitionText?.availableTypes.BSLVideo ||
             matchingExhibitionHighlightTour?.availableTypes.BSLVideo ||
             false,
-          audioWithDescriptions:
-            matchingExhibitionText?.availableTypes.audioWithDescriptions ||
-            matchingExhibitionHighlightTour?.availableTypes
-              .audioWithDescriptions ||
-            false,
           audioWithoutDescriptions:
             matchingExhibitionText?.availableTypes.audioWithoutDescriptions ||
             matchingExhibitionHighlightTour?.availableTypes

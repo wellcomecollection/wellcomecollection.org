@@ -17,7 +17,6 @@ type Props = {
     BSLVideo: boolean;
     captionsOrTranscripts: boolean;
     audioWithoutDescriptions: boolean;
-    audioWithDescriptions: boolean;
   };
 };
 

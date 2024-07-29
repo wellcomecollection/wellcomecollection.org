@@ -54,7 +54,6 @@ export function transformExhibitionHighlightTours(
     availableTypes: {
       captionsOrTranscripts: false,
       BSLVideo: hasBSLVideo,
-      audioWithDescriptions: false,
       audioWithoutDescriptions: hasAudioWithoutDescriptions,
     },
   };
