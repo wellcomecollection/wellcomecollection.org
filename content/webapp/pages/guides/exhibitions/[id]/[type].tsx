@@ -91,14 +91,14 @@ const isExhibitionText = (
   return 'textItems' in item;
 };
 
-function getTypeTitle(type: ExhibitionGuideType): string {
+function getTypeTitle(type: ExhibitionGuideType, egWork?: boolean): string {
   switch (type) {
     case 'bsl':
-      return 'British Sign Language videos';
-    case 'audio-with-descriptions':
-      return 'Audio with wayfinding';
+      return egWork
+        ? 'British Sign Language tour with subtitles'
+        : 'British Sign Language videos';
     case 'audio-without-descriptions':
-      return 'Audio';
+      return egWork ? 'Audio highlight tour with transcripts' : 'Audio';
     case 'captions-and-transcripts':
       return 'Captions and transcripts';
   }
@@ -107,7 +107,6 @@ function getTypeTitle(type: ExhibitionGuideType): string {
 const RelevantIcons = ({ type }: { type: ExhibitionGuideType }) => {
   // TODO: Eventually will be useful when we've modified all Exhibition guide types, so commenting until that's done.
   // const hasMultiple = [
-  //   'audio-with-descriptions',
   //   'audio-without-descriptions',
   //   'bsl',
   // ].includes(type);
@@ -140,7 +139,6 @@ const RelevantIcons = ({ type }: { type: ExhibitionGuideType }) => {
     switch (type) {
       case 'bsl':
         return britishSignLanguage;
-      case 'audio-with-descriptions':
       case 'audio-without-descriptions':
         return audioDescribed;
       case 'captions-and-transcripts':
