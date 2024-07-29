@@ -21,7 +21,6 @@ export type ExhibitionGuideComponent = {
   anchorId: string;
   image?: ImageType;
   captionsOrTranscripts?: CaptionsOrTranscripts;
-  audioWithDescription?: { url: string };
   audioWithoutDescription?: { url: string };
   bsl?: {
     embedUrl: string;
@@ -52,7 +51,6 @@ export type ExhibitionGuideBasic = {
     BSLVideo: boolean;
     captionsOrTranscripts: boolean;
     audioWithoutDescriptions: boolean;
-    audioWithDescriptions: boolean;
   };
 };
 
@@ -62,7 +60,6 @@ export type ExhibitionGuide = ExhibitionGuideBasic & {
 
 const typeNames = [
   'bsl',
-  'audio-with-descriptions',
   'audio-without-descriptions',
   'captions-and-transcripts',
 ] as const;
