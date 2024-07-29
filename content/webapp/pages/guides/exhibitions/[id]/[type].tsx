@@ -105,52 +105,30 @@ function getTypeTitle(type: ExhibitionGuideType, egWork?: boolean): string {
 }
 
 const RelevantIcons = ({ type }: { type: ExhibitionGuideType }) => {
-  // TODO: Eventually will be useful when we've modified all Exhibition guide types, so commenting until that's done.
-  // const hasMultiple = [
-  //   'audio-without-descriptions',
-  //   'bsl',
-  // ].includes(type);
-  // return (
-  //   <>
-  //     {hasMultiple && (
-  //       <Icon
-  //         icon={type === 'bsl' ? britishSignLanguage : audioDescribed}
-  //         sizeOverride="height: 32px; width: 32px;"
-  //       />
-  //     )}
-  //     <ConditionalWrapper
-  //       condition={hasMultiple}
-  //       wrapper={children => (
-  //         <Space
-  //           $h={{ size: 's', properties: ['margin-left'] }}
-  //           style={{ display: 'inline' }}
-  //         >
-  //           {children}
-  //         </Space>
-  //       )}
-  //     >
-  //       <Icon icon={speechToText} sizeOverride="height: 32px; width: 32px;" />
-  //     </ConditionalWrapper>
-  //   </>
-  // );
+  const hasMultiple = ['audio-without-descriptions', 'bsl'].includes(type);
 
-  // TODO: Remove all below when the above is valid again
-  const getRelevantIcon = type => {
-    switch (type) {
-      case 'bsl':
-        return britishSignLanguage;
-      case 'audio-without-descriptions':
-        return audioDescribed;
-      case 'captions-and-transcripts':
-        return speechToText;
-      default:
-        return undefined;
-    }
-  };
-  const relevantIcon = getRelevantIcon(type);
-
-  return !relevantIcon ? null : (
-    <Icon icon={relevantIcon} sizeOverride="height: 32px; width: 32px;" />
+  return (
+    <>
+      {hasMultiple && (
+        <Icon
+          icon={type === 'bsl' ? britishSignLanguage : audioDescribed}
+          sizeOverride="height: 32px; width: 32px;"
+        />
+      )}
+      <ConditionalWrapper
+        condition={hasMultiple}
+        wrapper={children => (
+          <Space
+            $h={{ size: 's', properties: ['margin-left'] }}
+            style={{ display: 'inline' }}
+          >
+            {children}
+          </Space>
+        )}
+      >
+        <Icon icon={speechToText} sizeOverride="height: 32px; width: 32px;" />
+      </ConditionalWrapper>
+    </>
   );
 };
 
