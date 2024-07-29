@@ -134,7 +134,7 @@ const ExhibitionsPage: FunctionComponent<ExhibitionsProps> = props => {
       {partitionedExhibitionItems.currentAndUpcoming.length > 0 && (
         <>
           <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <SectionHeader title="Current exhibitions" />
+            <SectionHeader title="Current exhibitions" isGridSize12 />
           </Space>
           <SpacingSection>
             <CardGrid
@@ -149,7 +149,7 @@ const ExhibitionsPage: FunctionComponent<ExhibitionsProps> = props => {
         <>
           {!period && (
             <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-              <SectionHeader title="Past Exhibitions" />
+              <SectionHeader title="Past Exhibitions" isGridSize12 />
               <Layout gridSizes={gridSize12()}>
                 <Space $v={{ size: 'm', properties: ['margin-top'] }}>
                   <p style={{ marginBottom: 0 }}>{pastExhibitionsStrapline}</p>

@@ -12,5 +12,6 @@ const Template = args => (
 export const basic = Template.bind({});
 basic.args = {
   title: 'You may have missed',
+  isGridSize12: false,
 };
 basic.storyName = 'SectionHeader';

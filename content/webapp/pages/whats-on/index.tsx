@@ -453,7 +453,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
               <Space $v={{ size: 'm', properties: ['padding-top'] }}>
                 <SpacingSection>
                   <SpacingComponent>
-                    <SectionHeader title="Exhibitions" />
+                    <SectionHeader title="Exhibitions" isGridSize12 />
                   </SpacingComponent>
                   <SpacingComponent>
                     <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
@@ -486,7 +486,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
 
                 <SpacingSection>
                   <SpacingComponent>
-                    <SectionHeader title="Events" />
+                    <SectionHeader title="Events" isGridSize12 />
                   </SpacingComponent>
                   <SpacingComponent>
                     {events.length > 0 ? (
@@ -504,7 +504,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
 
                 <SpacingSection>
                   <SpacingComponent>
-                    <SectionHeader title="Catch up" />
+                    <SectionHeader title="Catch up" isGridSize12 />
                   </SpacingComponent>
                   <SpacingComponent>
                     {availableOnlineEvents.length > 0 ? (
@@ -564,7 +564,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
 
         <SpacingSection>
           <SpacingComponent>
-            <SectionHeader title="Try these too" />
+            <SectionHeader title="Try these too" isGridSize12 />
           </SpacingComponent>
           <SpacingComponent>
             <CssGridContainer>

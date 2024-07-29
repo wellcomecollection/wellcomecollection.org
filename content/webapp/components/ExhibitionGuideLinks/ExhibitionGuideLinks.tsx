@@ -8,7 +8,7 @@ import {
 import TypeOption, { TypeList } from './TypeOption';
 import cookies from '@weco/common/data/cookies';
 import { useToggles } from '@weco/common/server-data/Context';
-import SectionHeader from '../SectionHeader/SectionHeader';
+import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
 import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {
@@ -46,7 +46,7 @@ export const ExhibitionGuideLinks: FunctionComponent<Props> = ({
             availableTypes.BSLVideo) && (
             <>
               <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-                <SectionHeader title="Highlights tour" hasIndent={false} />
+                <SectionHeader title="Highlights tour" />
               </Space>
               <p>
                 Find out more about the exhibition with our highlights tour,
@@ -90,7 +90,7 @@ export const ExhibitionGuideLinks: FunctionComponent<Props> = ({
           {availableTypes.captionsOrTranscripts && (
             <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
               <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-                <SectionHeader title="Exhibition text" hasIndent={false} />
+                <SectionHeader title="Exhibition text" />
               </Space>
               <p>All the wall and label text from the exhibition.</p>
               <TypeList>
@@ -181,7 +181,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
           {(audioPathname || videoPathname) && (
             <>
               <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-                <SectionHeader title="Highlights tour" hasIndent={false} />
+                <SectionHeader title="Highlights tour" />
               </Space>
               <p>
                 Find out more about the exhibition with our highlights tour,
@@ -224,7 +224,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
           {textPathname && (
             <>
               <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-                <SectionHeader title="Exhibition text" hasIndent={false} />
+                <SectionHeader title="Exhibition text" />
               </Space>
               <p>All the wall and label text from the exhibition.</p>
               <TypeList>

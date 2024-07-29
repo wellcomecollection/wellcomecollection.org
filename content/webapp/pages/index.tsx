@@ -233,7 +233,10 @@ const Homepage: FunctionComponent<Props> = ({
           <SpacingSection>
             {transformedHeaderList.value.title && (
               <SpacingComponent>
-                <SectionHeader title={transformedHeaderList.value.title} />
+                <SectionHeader
+                  title={transformedHeaderList.value.title}
+                  isGridSize12
+                />
               </SpacingComponent>
             )}
             <SpacingComponent>
@@ -251,7 +254,7 @@ const Homepage: FunctionComponent<Props> = ({
         {nextSevenDaysEvents.length + exhibitions.length > 0 && (
           <SpacingSection>
             <SpacingComponent>
-              <SectionHeader title="This week" />
+              <SectionHeader title="This week" isGridSize12 />
             </SpacingComponent>
             <SpacingComponent>
               <ExhibitionsAndEvents
@@ -268,7 +271,10 @@ const Homepage: FunctionComponent<Props> = ({
         {transformedContentList && (
           <SpacingSection>
             <SpacingComponent>
-              <SectionHeader title={transformedContentList.value.title || ''} />
+              <SectionHeader
+                title={transformedContentList.value.title || ''}
+                isGridSize12
+              />
             </SpacingComponent>
             <SpacingComponent>
               <SimpleCardGrid
@@ -288,7 +294,7 @@ const Homepage: FunctionComponent<Props> = ({
 
         <SpacingSection>
           <SpacingComponent>
-            <SectionHeader title="Latest stories" />
+            <SectionHeader title="Latest stories" isGridSize12 />
           </SpacingComponent>
           <SpacingComponent>
             <CardGrid

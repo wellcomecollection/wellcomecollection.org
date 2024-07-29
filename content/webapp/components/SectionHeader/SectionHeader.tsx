@@ -35,18 +35,14 @@ const Title = styled.span`
 
 type Props = {
   title: string;
-  hasIndent?: boolean;
+  isGridSize12?: boolean;
 };
 
-const SectionHeader: FunctionComponent<Props> = ({
-  title,
-  // TODO confirm we want to change the component this way
-  hasIndent = true,
-}) => {
+const SectionHeader: FunctionComponent<Props> = ({ title, isGridSize12 }) => {
   return (
     <div className={font('wb', 2)}>
       <ConditionalWrapper
-        condition={hasIndent}
+        condition={!!isGridSize12}
         wrapper={children => (
           <Layout gridSizes={gridSize12()}>{children}</Layout>
         )}
