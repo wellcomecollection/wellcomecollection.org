@@ -91,68 +91,50 @@ const isExhibitionText = (
   return 'textItems' in item;
 };
 
-function getTypeTitle(type: ExhibitionGuideType): string {
+function getTypeTitle(type: ExhibitionGuideType, egWork?: boolean): string {
   switch (type) {
     case 'bsl':
-      return 'British Sign Language videos';
+      return egWork
+        ? 'British Sign Language tour with subtitles'
+        : 'British Sign Language videos';
     case 'audio-with-descriptions':
       return 'Audio with wayfinding';
     case 'audio-without-descriptions':
-      return 'Audio';
+      return egWork ? 'Audio highlight tour with transcripts' : 'Audio';
     case 'captions-and-transcripts':
       return 'Captions and transcripts';
   }
 }
 
 const RelevantIcons = ({ type }: { type: ExhibitionGuideType }) => {
-  // TODO: Eventually will be useful when we've modified all Exhibition guide types, so commenting until that's done.
-  // const hasMultiple = [
-  //   'audio-with-descriptions',
-  //   'audio-without-descriptions',
-  //   'bsl',
-  // ].includes(type);
-  // return (
-  //   <>
-  //     {hasMultiple && (
-  //       <Icon
-  //         icon={type === 'bsl' ? britishSignLanguage : audioDescribed}
-  //         sizeOverride="height: 32px; width: 32px;"
-  //       />
-  //     )}
-  //     <ConditionalWrapper
-  //       condition={hasMultiple}
-  //       wrapper={children => (
-  //         <Space
-  //           $h={{ size: 's', properties: ['margin-left'] }}
-  //           style={{ display: 'inline' }}
-  //         >
-  //           {children}
-  //         </Space>
-  //       )}
-  //     >
-  //       <Icon icon={speechToText} sizeOverride="height: 32px; width: 32px;" />
-  //     </ConditionalWrapper>
-  //   </>
-  // );
+  const hasMultiple = [
+    'audio-with-descriptions',
+    'audio-without-descriptions',
+    'bsl',
+  ].includes(type);
 
-  // TODO: Remove all below when the above is valid again
-  const getRelevantIcon = type => {
-    switch (type) {
-      case 'bsl':
-        return britishSignLanguage;
-      case 'audio-with-descriptions':
-      case 'audio-without-descriptions':
-        return audioDescribed;
-      case 'captions-and-transcripts':
-        return speechToText;
-      default:
-        return undefined;
-    }
-  };
-  const relevantIcon = getRelevantIcon(type);
-
-  return !relevantIcon ? null : (
-    <Icon icon={relevantIcon} sizeOverride="height: 32px; width: 32px;" />
+  return (
+    <>
+      {hasMultiple && (
+        <Icon
+          icon={type === 'bsl' ? britishSignLanguage : audioDescribed}
+          sizeOverride="height: 32px; width: 32px;"
+        />
+      )}
+      <ConditionalWrapper
+        condition={hasMultiple}
+        wrapper={children => (
+          <Space
+            $h={{ size: 's', properties: ['margin-left'] }}
+            style={{ display: 'inline' }}
+          >
+            {children}
+          </Space>
+        )}
+      >
+        <Icon icon={speechToText} sizeOverride="height: 32px; width: 32px;" />
+      </ConditionalWrapper>
+    </>
   );
 };
 
@@ -350,7 +332,10 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
 
   return (
     <PageLayout
-      title={`${exhibitionGuide.title} ${type ? getTypeTitle(type) : ''}` || ''}
+      title={
+        `${exhibitionGuide.title} ${type ? getTypeTitle(type, egWork) : ''}` ||
+        ''
+      }
       description={pageDescriptions.exhibitionGuides}
       url={{ pathname }}
       jsonLd={jsonLd}
@@ -394,11 +379,11 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
 
         <Layout gridSizes={gridSize8(false)}>
           {egWork ? (
-            <h2 className={font('wb', 3)}>{getTypeTitle(type)}</h2>
+            <h2 className={font('wb', 3)}>{getTypeTitle(type, egWork)}</h2>
           ) : (
             <h1 className={font('wb', 1)}>
               {exhibitionGuide.title}{' '}
-              <div className={font('wb', 2)}>{getTypeTitle(type)}</div>
+              <div className={font('wb', 2)}>{getTypeTitle(type, egWork)}</div>
             </h1>
           )}
 
