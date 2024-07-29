@@ -37,6 +37,7 @@ import { contentLd } from '@weco/content/services/prismic/transformers/json-ld';
 import {
   fetchChildren,
   fetchPage,
+  fetchGuideByUID,
   fetchSiblings,
 } from '@weco/content/services/prismic/fetch/pages';
 import { createClient } from '@weco/content/services/prismic/fetch';
@@ -135,8 +136,11 @@ export const getServerSideProps: GetServerSideProps<
     ? context.resolvedUrl
     : undefined;
 
-  const pageLookup = await fetchPage(client, pageId);
-  const page = pageLookup && transformPage(pageLookup);
+  const pageLookupById = await fetchPage(client, pageId);
+  const pageLookupByUid = await fetchGuideByUID(client, pageId);
+  const page =
+    (pageLookupById && transformPage(pageLookupById)) ||
+    (pageLookupByUid && transformPage(pageLookupByUid));
 
   if (isNotUndefined(page)) {
     const serverData = await getServerData(context);
