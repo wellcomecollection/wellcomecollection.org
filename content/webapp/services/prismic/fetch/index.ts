@@ -145,6 +145,17 @@ export function fetcher<Document extends prismic.PrismicDocument>(
 
       return response;
     },
+    getByUid: async (
+      { client }: GetServerSidePropsPrismicClient,
+      uid: string
+    ): Promise<Document | undefined> => {
+      try {
+        return await client.getByUID<Document>(contentType, uid, {
+          // TODO fix type error
+          fetchLinks,
+        });
+      } catch {}
+    },
   };
 }
 
