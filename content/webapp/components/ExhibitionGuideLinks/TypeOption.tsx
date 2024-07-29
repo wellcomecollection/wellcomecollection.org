@@ -41,9 +41,11 @@ const TypeLink = styled.a<{
   ${props => (props.$egWork ? 'border-radius: 6px;' : '')}
   background: ${props => props.theme.color(props.$backgroundColor)};
 
-  /** TODO confirm behaviour **/
   &:hover {
-    background: ${props => props.theme.color('neutral.400')};
+    ${props =>
+      props.$egWork
+        ? 'text-decoration: underline;'
+        : `background: ${props.theme.color('neutral.400')};`}
   }
 `;
 
