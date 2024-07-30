@@ -231,7 +231,7 @@ const StoriesPage: FunctionComponent<Props> = ({
           <SpacingComponent>
             <SectionHeader
               title={`${storiesLanding.storiesTitle}`}
-              isGridSize12
+              gridSize={gridSize12()}
             />
           </SpacingComponent>
         )}
@@ -253,7 +253,7 @@ const StoriesPage: FunctionComponent<Props> = ({
 
       <SpacingSection>
         <SpacingComponent>
-          <SectionHeader title="Comics" isGridSize12 />
+          <SectionHeader title="Comics" gridSize={gridSize12()} />
         </SpacingComponent>
 
         <SpacingComponent>
@@ -277,7 +277,7 @@ const StoriesPage: FunctionComponent<Props> = ({
           <SpacingComponent>
             <SectionHeader
               title={`${storiesLanding.booksTitle}`}
-              isGridSize12
+              gridSize={gridSize12()}
             />
           </SpacingComponent>
         )}
@@ -299,7 +299,7 @@ const StoriesPage: FunctionComponent<Props> = ({
 
       <SpacingSection>
         <SpacingComponent>
-          <SectionHeader title="You may have missed" isGridSize12 />
+          <SectionHeader title="You may have missed" gridSize={gridSize12()} />
         </SpacingComponent>
         <SpacingComponent>
           <CardGrid

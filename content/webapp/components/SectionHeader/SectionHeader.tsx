@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { font } from '@weco/common/utils/classnames';
+import { SizeMap, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
@@ -35,14 +35,14 @@ const Title = styled.span`
 
 type Props = {
   title: string;
-  isGridSize12?: boolean;
+  gridSize?: SizeMap;
 };
 
-const SectionHeader: FunctionComponent<Props> = ({ title, isGridSize12 }) => {
+const SectionHeader: FunctionComponent<Props> = ({ title, gridSize }) => {
   return (
     <div className={font('wb', 2)}>
       <ConditionalWrapper
-        condition={!!isGridSize12}
+        condition={!!gridSize}
         wrapper={children => (
           <Layout gridSizes={gridSize12()}>{children}</Layout>
         )}

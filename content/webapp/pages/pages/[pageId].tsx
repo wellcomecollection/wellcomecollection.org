@@ -52,6 +52,7 @@ import {
   transformEditorialImageSlice,
   transformEmbedSlice,
 } from '@weco/content/services/prismic/transformers/body';
+import { gridSize12 } from '@weco/common/views/components/Layout';
 
 export type Props = {
   page: PageType;
@@ -333,7 +334,7 @@ export const Page: FunctionComponent<Props> = ({
         <SpacingComponent>
           <SectionHeader
             title={`More from ${siblingGroup.title}`}
-            isGridSize12
+            gridSize={gridSize12()}
           />
         </SpacingComponent>
         <SpacingComponent>

@@ -10,7 +10,10 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { ArticleBasic } from '@weco/content/types/articles';
 import Space from '@weco/common/views/components/styled/Space';
-import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
+import Layout, {
+  gridSize10,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import SimpleCardGrid from '@weco/content/components/SimpleCardGrid/SimpleCardGrid';
 import {
   orderEventsByNextAvailableDate,
@@ -235,7 +238,7 @@ const Homepage: FunctionComponent<Props> = ({
               <SpacingComponent>
                 <SectionHeader
                   title={transformedHeaderList.value.title}
-                  isGridSize12
+                  gridSize={gridSize12()}
                 />
               </SpacingComponent>
             )}
@@ -254,7 +257,7 @@ const Homepage: FunctionComponent<Props> = ({
         {nextSevenDaysEvents.length + exhibitions.length > 0 && (
           <SpacingSection>
             <SpacingComponent>
-              <SectionHeader title="This week" isGridSize12 />
+              <SectionHeader title="This week" gridSize={gridSize12()} />
             </SpacingComponent>
             <SpacingComponent>
               <ExhibitionsAndEvents
@@ -273,7 +276,7 @@ const Homepage: FunctionComponent<Props> = ({
             <SpacingComponent>
               <SectionHeader
                 title={transformedContentList.value.title || ''}
-                isGridSize12
+                gridSize={gridSize12()}
               />
             </SpacingComponent>
             <SpacingComponent>
@@ -294,7 +297,7 @@ const Homepage: FunctionComponent<Props> = ({
 
         <SpacingSection>
           <SpacingComponent>
-            <SectionHeader title="Latest stories" isGridSize12 />
+            <SectionHeader title="Latest stories" gridSize={gridSize12()} />
           </SpacingComponent>
           <SpacingComponent>
             <CardGrid

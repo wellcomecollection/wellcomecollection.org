@@ -265,7 +265,10 @@ const Body: FunctionComponent<Props> = ({
             >
               {section.value.title && (
                 <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-                  <SectionHeader title={section.value.title} isGridSize12 />
+                  <SectionHeader
+                    title={section.value.title}
+                    gridSize={gridSize12()}
+                  />
                 </Space>
               )}
               {featuredItem && (
