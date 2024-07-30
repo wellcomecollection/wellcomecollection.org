@@ -145,6 +145,8 @@ const PageHeader: FunctionComponent<Props> = ({
 
   const hasMedia = FeaturedMedia || HeroPicture;
   const amendedLabels = isFree ? addFreeLabel(labels) : labels;
+  const hasBreadcrumbItems =
+    breadcrumbs.items.length > 0 && !breadcrumbs.noHomeLink;
 
   return (
     <>
@@ -164,7 +166,7 @@ const PageHeader: FunctionComponent<Props> = ({
                   : ['margin-bottom', 'padding-bottom'],
             }}
           >
-            {!sectionLevelPage && (
+            {!sectionLevelPage && hasBreadcrumbItems && (
               // We need to keep some space below the breadcrumbs to prevent
               // 'highlighted' headings from being partially concealed
               <Space
@@ -178,7 +180,7 @@ const PageHeader: FunctionComponent<Props> = ({
               </Space>
             )}
             <ConditionalWrapper
-              condition={sectionLevelPage ?? false}
+              condition={sectionLevelPage || !hasBreadcrumbItems}
               wrapper={children => (
                 <Space $v={{ size: 'l', properties: ['margin-top'] }}>
                   {children}
