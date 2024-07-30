@@ -279,6 +279,7 @@ const WorkDetailsAvailableOnline = ({
                         firstItemTabbable={true}
                         showFirstLevelGuideline={true}
                         ItemRenderer={DownloadItemRenderer}
+                        shouldFetchChildren={false}
                       />
                     </Tree>
                   </TreeContainer>
