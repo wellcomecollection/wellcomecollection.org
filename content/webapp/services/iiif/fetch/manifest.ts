@@ -29,7 +29,10 @@ async function getIIIFManifest(url: string): Promise<Manifest | undefined> {
     const manifest = await resp.json();
     return manifest;
   } catch (e) {
-    console.error(`Something went wrong fetching ${url}`);
+    console.error(
+      `Something went wrong fetching ${url}` +
+        `${e.message ? `: ${e.message}` : ''}`
+    );
     throw e;
   }
 }
