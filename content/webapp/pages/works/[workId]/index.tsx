@@ -1,24 +1,222 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { Work as WorkType } from '@weco/content/services/wellcome/catalogue/types';
+import styled from 'styled-components';
 import { serialiseProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { getServerData } from '@weco/common/server-data';
-import Work from '@weco/content/components/Work/Work';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import {
+  getDigitalLocationOfType,
+  getDigitalLocationInfo,
+  showItemLink,
+  createApiToolbarWorkLinks,
+} from '@weco/content/utils/works';
+import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
+import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
+import { TransformedManifest } from '@weco/content/types/manifest';
+import { Container } from '@weco/common/views/components/styled/Container';
+import {
+  Work as WorkType,
+  toWorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
+import { DigitalLocation } from '@weco/common/model/catalogue';
+import { grid } from '@weco/common/utils/classnames';
+import { isAllOriginalPdfs } from '@weco/content/utils/iiif/v3';
+import { removeIdiomaticTextTags } from '@weco/content/utils/string';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
+import { workLd } from '@weco/content/utils/json-ld';
+import BackToResults from '@weco/content/components/BackToResults/BackToResults';
+import WorkHeader from '@weco/content/components/WorkHeader/WorkHeader';
+import ArchiveBreadcrumb from '@weco/content/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
+import Space from '@weco/common/views/components/styled/Space';
+import WorkDetails from '@weco/content/components/WorkDetails';
+import ArchiveTree from '@weco/content/components/ArchiveTree';
+import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
+
+const ArchiveDetailsContainer = styled.div`
+  display: block;
+  ${props => props.theme.media('medium')`
+    display: flex;
+  `}
+`;
+
+const WorkDetailsWrapper = styled(Space).attrs({
+  $v: { size: 'xl', properties: ['padding-top'] },
+})`
+  flex: 1;
+  min-width: 0; /* prevent item overflowing its container */
+`;
+
+export const Grid = styled.div.attrs({
+  className: 'grid',
+})``;
 
 type Props = {
   work: WorkType;
   apiUrl: string;
+  transformedManifest?: TransformedManifest;
   pageview: Pageview;
 };
 
-export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
-  // TODO: remove the <Work> component and move the JSX in here.
-  // It was abstracted as we did error handling in the page, and it made it a little clearer.
-  return <Work work={work} apiUrl={apiUrl} />;
+export const WorkPage: NextPage<Props> = ({
+  work,
+  apiUrl,
+  transformedManifest,
+}) => {
+  const isArchive = !!(
+    work.parts.length ||
+    (work.partOf.length > 0 && work.partOf[0].totalParts)
+  );
+
+  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
+
+  // Determine digital location. If the work has a iiif-presentation location and a iiif-image location
+  // we use the former
+  const digitalLocation: DigitalLocation | undefined =
+    iiifPresentationLocation || iiifImageLocation;
+  const digitalLocationInfo =
+    digitalLocation && getDigitalLocationInfo(digitalLocation);
+  const { collectionManifestsCount, canvases, bornDigitalStatus } = {
+    ...transformedManifest,
+  };
+
+  const allOriginalPdfs = isAllOriginalPdfs(canvases || []);
+
+  const shouldShowItemLink = showItemLink({
+    allOriginalPdfs,
+    hasIIIFManifest: !!transformedManifest,
+    digitalLocation,
+    accessCondition: digitalLocationInfo?.accessCondition,
+    canvases,
+    bornDigitalStatus,
+  });
+
+  const imageUrl =
+    iiifImageLocation && iiifImageLocation.url
+      ? iiifImageTemplate(iiifImageLocation.url)({ size: `800,` })
+      : undefined;
+
+  const title = removeIdiomaticTextTags(work.title);
+
+  const image = imageUrl
+    ? {
+        contentUrl: imageUrl,
+        alt: title,
+        width: 0,
+        height: 0,
+        crops: {},
+      }
+    : undefined;
+
+  return (
+    <IsArchiveContext.Provider value={isArchive}>
+      <CataloguePageLayout
+        title={title}
+        description={work.description || title}
+        url={{ pathname: `/works/${work.id}` }}
+        openGraphType="website"
+        jsonLd={workLd(work)}
+        siteSection="collections"
+        image={image}
+        apiToolbarLinks={createApiToolbarWorkLinks(work, apiUrl)}
+        hideNewsletterPromo={true}
+      >
+        <Container>
+          <Grid>
+            <Space
+              className={grid({ s: 12 })}
+              $v={{ size: 'l', properties: ['padding-top'] }}
+            >
+              <SearchForm searchCategory="works" location="page" />
+            </Space>
+          </Grid>
+          <Grid>
+            <Space
+              className={grid({ s: 12 })}
+              $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
+            >
+              <BackToResults />
+            </Space>
+          </Grid>
+        </Container>
+
+        {isArchive ? (
+          <>
+            <Container>
+              <Grid>
+                <Space
+                  className={grid({ s: 12 })}
+                  $v={{
+                    size: 's',
+                    properties: ['padding-top', 'padding-bottom'],
+                  }}
+                >
+                  <ArchiveBreadcrumb work={work} />
+                </Space>
+              </Grid>
+            </Container>
+            <Container>
+              <Grid>
+                <WorkHeader
+                  work={toWorkBasic(work)}
+                  collectionManifestsCount={
+                    shouldShowItemLink ? collectionManifestsCount : undefined
+                  }
+                />
+              </Grid>
+            </Container>
+
+            <Container>
+              <Divider />
+              <ArchiveDetailsContainer>
+                <ArchiveTree work={work} />
+                <WorkDetailsWrapper>
+                  <WorkDetails
+                    work={work}
+                    shouldShowItemLink={shouldShowItemLink}
+                    iiifImageLocation={iiifImageLocation}
+                    digitalLocation={digitalLocation}
+                    digitalLocationInfo={digitalLocationInfo}
+                    transformedManifest={transformedManifest}
+                  />
+                </WorkDetailsWrapper>
+              </ArchiveDetailsContainer>
+            </Container>
+          </>
+        ) : (
+          <>
+            <Container>
+              <Grid>
+                <WorkHeader
+                  work={toWorkBasic(work)}
+                  collectionManifestsCount={
+                    shouldShowItemLink ? collectionManifestsCount : undefined
+                  }
+                />
+              </Grid>
+            </Container>
+            <WorkDetails
+              work={work}
+              shouldShowItemLink={shouldShowItemLink}
+              iiifImageLocation={iiifImageLocation}
+              digitalLocation={digitalLocation}
+              digitalLocationInfo={digitalLocationInfo}
+              transformedManifest={transformedManifest}
+            />
+          </>
+        )}
+      </CataloguePageLayout>
+    </IsArchiveContext.Provider>
+  );
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -55,9 +253,20 @@ export const getServerSideProps: GetServerSideProps<
 
   const { url, ...work } = workResponse;
 
+  const iiifPresentationLocation = getDigitalLocationOfType(
+    work,
+    'iiif-presentation'
+  );
+  const iiifManifest =
+    iiifPresentationLocation &&
+    (await fetchIIIFPresentationManifest(iiifPresentationLocation.url));
+
+  const transformedManifest = iiifManifest && transformManifest(iiifManifest);
+
   return {
     props: serialiseProps({
       work,
+      transformedManifest,
       apiUrl: url,
       serverData,
       pageview: {
