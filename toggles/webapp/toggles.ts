@@ -77,6 +77,14 @@ const toggles = {
       type: 'permanent',
     },
     {
+      id: 'showRestrictedLogin',
+      title: 'Give staff the opportunity to login to see restricted items',
+      initialValue: false,
+      description:
+        'If there are restricted items, staff members will be able to login and to them.',
+      type: 'permanent',
+    },
+    {
       id: 'showBornDigital',
       title: 'Display born digital files',
       initialValue: false,

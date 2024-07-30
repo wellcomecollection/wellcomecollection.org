@@ -88,6 +88,8 @@ export type TransformedManifest = {
   tokenService: AuthAccessTokenService | undefined;
   placeholderId: string | undefined;
   rendering: ContentResource[];
+  hasAuthFlow: boolean;
+  externalAccessService: AuthExternalService | undefined;
 };
 
 export type CustomSpecificationBehaviors =

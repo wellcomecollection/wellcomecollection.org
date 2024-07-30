@@ -77,10 +77,15 @@ const DownloadItem: FunctionComponent<{
     format?: string;
   };
 }> = ({ canvas, item }) => {
+  console.log({ item });
+  console.log({ canvas });
   // If there is a choice then we only show the first one
   const displayItem = (isChoiceBody(item) ? item.items[0] : item) as Body & {
     format?: string;
   };
+  // TODO always use rendering/original
+  // TODO why is original not populated for non BD things?
+  // TODO why are some items missing?
   const itemLabel = getLabel(displayItem);
   const fileSize = canvas && getFileSize(canvas);
   const format = displayItem.format;

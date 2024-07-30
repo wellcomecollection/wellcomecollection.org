@@ -37,6 +37,7 @@ import ArchiveTree from '@weco/content/components/ArchiveTree';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
+import { useToggles } from '@weco/common/server-data/Context';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -68,6 +69,8 @@ export const WorkPage: NextPage<Props> = ({
   apiUrl,
   transformedManifest,
 }) => {
+  // const { showRestrictedLogin } = useToggles();
+  const showRestrictedLogin = true; // on item page
   const isArchive = !!(
     work.parts.length ||
     (work.partOf.length > 0 && work.partOf[0].totalParts)
@@ -85,7 +88,13 @@ export const WorkPage: NextPage<Props> = ({
     iiifPresentationLocation || iiifImageLocation;
   const digitalLocationInfo =
     digitalLocation && getDigitalLocationInfo(digitalLocation);
-  const { collectionManifestsCount, canvases, bornDigitalStatus } = {
+  const {
+    collectionManifestsCount,
+    canvases,
+    bornDigitalStatus,
+    hasAuthFlow,
+    externalAccessService,
+  } = {
     ...transformedManifest,
   };
 
@@ -131,6 +140,10 @@ export const WorkPage: NextPage<Props> = ({
         hideNewsletterPromo={true}
       >
         <Container>
+          {disableRequesting?.toString()}
+          {hasAuthFlow?.toString()}
+          <pre>{JSON.stringify(externalAccessService, null, 2)}</pre>
+          // TODO on item page
           <Grid>
             <Space
               className={grid({ s: 12 })}

@@ -649,3 +649,31 @@ export function isAllOriginalPdfs(canvases: TransformedCanvas[]): boolean {
     canvas.original.find(original => original.format === 'application/pdf')
   );
 }
+
+// TODO typing for functions
+
+// https://iiif.io/api/auth/2.0/#access-service-description
+export function getAuthAccessServices(manifest) {
+  const services = manifest.services || [];
+  return services.filter(s => s.type === 'AuthAccessService2');
+}
+
+// https://iiif.io/api/auth/2.0/#external-interaction-pattern
+export function getExternalAuthAccessService(services) {
+  return services.find(s => s.profile === 'external');
+}
+
+// https://iiif.io/api/auth/2.0/#active-interaction-pattern
+export function getActiveAuthAccessService(services) {
+  return services.find(
+    s => s.profile === 'active' || s.profile === 'interactive'
+  ); // docs say value should be active, but we have values of interactive
+}
+
+export function getV2TokenService(activeAccessService) {
+  if (!activeAccessService) return;
+  const authServiceArray = Array.isArray(activeAccessService?.service)
+    ? activeAccessService?.service
+    : [activeAccessService?.service];
+  return authServiceArray.find(s => s?.type === 'AuthAccessTokenService2');
+}

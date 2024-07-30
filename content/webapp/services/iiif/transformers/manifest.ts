@@ -19,6 +19,10 @@ import {
   getDisplayData,
   isCollection,
   getStructures,
+  getAuthAccessServices,
+  getExternalAuthAccessService,
+  // getActiveAuthAccessService,
+  // getV2TokenService,
 } from '@weco/content/utils/iiif/v3';
 
 export function transformManifest(
@@ -34,11 +38,31 @@ export function transformManifest(
   const transformedCanvases = getTransformedCanvases(manifestV3);
   const canvasCount = transformedCanvases.length;
   const isAnyImageOpen = checkIsAnyImageOpen(transformedCanvases);
+  // Our manifests reference both the v1 and v2 Auth services.
+  // This is to make it easier to switch from the current Auth implementation to the new one.
+  // We are currently using v1 for everything (except logging in for restricted items).
+  // The following are taken from the v1 services:
   const restrictedService = getRestrictedLoginService(manifestV3);
   const clickThroughService = getClickThroughService(manifestV3);
   const tokenService = getTokenService(
     clickThroughService || restrictedService
   );
+  // We should migrate everything to using v2*.
+  // At the moment we will only use v2 to login to see restricted items.
+  // *When we do shift to v2 for everything
+  // we may need to try using v2 but fall back to v1.
+  // This is because it seems not all manifests have the v2 services present yet.
+  // see https://wellcome.slack.com/archives/CBT40CMKQ/p1721912291057799 where a manifest needed to be regenerated to start including the v2 services (This needs clarification)
+  // The following are taken from the v2 services:
+  const authAccessServices = getAuthAccessServices(manifestV3);
+  // equivalent of restrictedService
+  const externalAccessService =
+    getExternalAuthAccessService(authAccessServices);
+  // equivalent of clickThroughService
+  // const activeAccessService = getActiveAuthAccessService(authAccessServices);
+  // equivalent of tokenService
+  // const v2TokenService = getV2TokenService(activeAccessService); // TODO or external service?
+
   const firstCollectionManifestLocation =
     getFirstCollectionManifestLocation(manifestV3);
   const isTotallyRestricted = checkIsTotallyRestricted(
@@ -84,6 +108,13 @@ export function transformManifest(
   // We use this to provide a transcript for audio files for example.
   const rendering = manifestV3.rendering || [];
 
+  const contextArray = Array.isArray(manifestV3?.['@context'])
+    ? manifestV3?.['@context']
+    : [manifestV3?.['@context']];
+  const hasAuthFlow = contextArray.some(
+    item => item === 'http://iiif.io/api/auth/2/context.json'
+  );
+
   return {
     bornDigitalStatus,
     id,
@@ -100,12 +131,18 @@ export function transformManifest(
     structures: groupedStructures,
     isCollectionManifest: isCollection(manifestV3),
     searchService,
-    clickThroughService,
-    tokenService,
-    restrictedService,
-    isTotallyRestricted,
+    clickThroughService, // TODO redo this - where used - keep but for now but favour new and fallback to this?
+    tokenService, // TODO redo this - where used - keep but for now but favour new and fallback to this?
+    restrictedService, // TODO redo this - where used - keep but for now but favour new and fallback to this?
+    isTotallyRestricted, // TODO redo this - may not need to? - where used - keep but for now but favour new and fallback to this?
     needsModal,
     placeholderId: firstPlaceholderId,
     rendering,
+    hasAuthFlow, // TODO not needed now have externalAccessService
+    externalAccessService,
+    // TODO need probe services etc. on Canvas?
+    // AuthServices - interactive, active
+    // TODO If more than one access service is available, the client should interact with them in the order external, (kiosk - not needed for us), active - this will need to interact with the toggle?
+    // TODO does this mean we have to redo everything to use v2?
   };
 }
