@@ -104,30 +104,46 @@ function getTypeTitle(type: ExhibitionGuideType, egWork?: boolean): string {
   }
 }
 
-const RelevantIcons = ({ type }: { type: ExhibitionGuideType }) => {
-  const hasMultiple = ['audio-without-descriptions', 'bsl'].includes(type);
+export const RelevantIcons = ({ types }: { types: ExhibitionGuideType[] }) => {
+  // The captions icon will be on every Guide moving forward
+  // We're ordering icons alphabetically
+  const sortedTypes = [
+    ...new Set([...types, 'captions-and-transcripts'].sort()),
+  ];
 
   return (
     <>
-      {hasMultiple && (
-        <Icon
-          icon={type === 'bsl' ? britishSignLanguage : audioDescribed}
-          sizeOverride="height: 32px; width: 32px;"
-        />
-      )}
-      <ConditionalWrapper
-        condition={hasMultiple}
-        wrapper={children => (
-          <Space
-            $h={{ size: 's', properties: ['margin-left'] }}
-            style={{ display: 'inline' }}
+      {sortedTypes.map((type, i) => {
+        const getIcon = () => {
+          switch (type) {
+            case 'bsl':
+              return britishSignLanguage;
+            case 'audio-without-descriptions':
+              return audioDescribed;
+            case 'captions-and-transcripts':
+              return speechToText;
+          }
+        };
+
+        const icon = getIcon();
+
+        return icon ? (
+          <ConditionalWrapper
+            key={type}
+            condition={i > 0}
+            wrapper={children => (
+              <Space
+                $h={{ size: 's', properties: ['margin-left'] }}
+                style={{ display: 'inline' }}
+              >
+                {children}
+              </Space>
+            )}
           >
-            {children}
-          </Space>
-        )}
-      >
-        <Icon icon={speechToText} sizeOverride="height: 32px; width: 32px;" />
-      </ConditionalWrapper>
+            <Icon icon={icon} sizeOverride="height: 32px; width: 32px;" />
+          </ConditionalWrapper>
+        ) : undefined;
+      })}
     </>
   );
 };
@@ -390,7 +406,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
           )}
 
           {egWork ? (
-            <RelevantIcons type={type} />
+            <RelevantIcons types={[type]} />
           ) : (
             <>
               <ButtonWrapper>
