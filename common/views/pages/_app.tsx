@@ -31,6 +31,10 @@ import {
   GaDimensions,
   SegmentScript,
 } from '@weco/common/services/app/analytics-scripts';
+import {
+  MetaScript,
+  // TikTokScript,
+} from '@weco/common/services/app/marketing-scripts';
 import { deserialiseProps } from '@weco/common/utils/json';
 import { SearchContextProvider } from '@weco/common/views/components/SearchContext/SearchContext';
 import CivicUK from '@weco/common/views/components/CivicUK';
@@ -84,6 +88,9 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   const [hasAnalyticsConsent, setHasAnalyticsConsent] = useState(
     pageProps.serverData?.consentStatus?.analytics
   );
+  const [hasMarketingConsent, setHasMarketingConsent] = useState(
+    pageProps.serverData?.consentStatus?.marketing
+  );
 
   // We allow error pages through as they don't need, and can't set
   // serverData as they don't have data fetching methods.exi
@@ -125,12 +132,17 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     if (event.detail.analyticsConsent !== undefined) {
       setHasAnalyticsConsent(event.detail.analyticsConsent === 'granted');
     }
+
+    if (event.detail.marketingConsent !== undefined) {
+      setHasMarketingConsent(event.detail.marketingConsent === 'granted');
+    }
   };
 
   useEffect(() => {
     document.documentElement.classList.add('enhanced');
 
     setHasAnalyticsConsent(getConsentState('analytics'));
+    setHasMarketingConsent(getConsentState('marketing'));
 
     window.addEventListener('consentChanged', onConsentChanged);
 
@@ -199,6 +211,11 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                   )}
 
                   <SegmentScript hasAnalyticsConsent={hasAnalyticsConsent} />
+
+                  <MetaScript hasMarketingConsent={hasMarketingConsent} />
+                  {/* TODO: Uncomment when we have means to test
+                  https://github.com/wellcomecollection/wellcomecollection.org/pull/11047 */}
+                  {/* <TikTokScript hasMarketingConsent={hasMarketingConsent} /> */}
                 </ThemeProvider>
               </SearchContextProvider>
             </AppContextProvider>

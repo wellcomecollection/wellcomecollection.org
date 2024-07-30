@@ -15,8 +15,17 @@ declare global {
     // eslint-disable-next-line
     dataLayer: Record<string, any>[] | undefined;
 
+    // CivicUK
     CookieControl: {
       open: () => void;
+    };
+
+    // Meta pixel
+    fbq: (action: 'consent', status: 'grant' | 'revoke') => void;
+    // TikTok pixel
+    ttq: {
+      grantConsent: () => void;
+      revokeConsent: () => void;
     };
   }
 }
