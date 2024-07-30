@@ -289,7 +289,19 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         }
       }}
       onClick={event => {
-        event.stopPropagation();
+        // We had previously used event.stopPropagation() to stop the clicking
+        // of an inner TreeItem from bubbling up to any outer TreeItems, but
+        // this prevented a GTM trigger that we have set on download links from
+        // firing. Instead, we now check that we only fire the click event on
+        // the _original_ target of the click by comparing `target` (original)
+        // with `currentTarget` (whatever is currently being evaluated in the
+        // bubbling phase)
+        if (
+          event.currentTarget !==
+          (event.target as HTMLElement)?.closest('[role="treeitem"]')
+        )
+          return;
+
         if (level > 0) {
           toggleBranch();
           setTabbableId(item.work.id);
