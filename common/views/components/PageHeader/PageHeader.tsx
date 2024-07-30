@@ -145,8 +145,12 @@ const PageHeader: FunctionComponent<Props> = ({
 
   const hasMedia = FeaturedMedia || HeroPicture;
   const amendedLabels = isFree ? addFreeLabel(labels) : labels;
+
+  // As <Breadcrumb> will automatically add "Home" as the first breadcrumb unless "noHomeLink" is true
+  // This checks whether or not there are actually any items.
   const hasBreadcrumbItems =
-    breadcrumbs.items.length > 0 && !breadcrumbs.noHomeLink;
+    breadcrumbs.items.length > 0 ||
+    !(breadcrumbs.items.length === 0 && breadcrumbs.noHomeLink);
 
   return (
     <>
