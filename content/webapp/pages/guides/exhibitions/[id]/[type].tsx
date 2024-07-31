@@ -1,3 +1,7 @@
+import { getCookie, deleteCookie } from 'cookies-next';
+import { FunctionComponent } from 'react';
+import styled from 'styled-components';
+import { GetServerSideProps } from 'next';
 import {
   ExhibitionGuide,
   ExhibitionText,
@@ -5,8 +9,6 @@ import {
   ExhibitionGuideType,
   isValidType,
 } from '@weco/content/types/exhibition-guides';
-import { deleteCookie, getCookie } from 'cookies-next';
-import { FunctionComponent } from 'react';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibitionGuide } from '@weco/content/services/prismic/fetch/exhibition-guides';
 import { fetchExhibitionText } from '@weco/content/services/prismic/fetch/exhibition-texts';
@@ -17,36 +19,43 @@ import {
 } from '@weco/content/services/prismic/transformers/exhibition-guides';
 import { transformExhibitionTexts } from '@weco/content/services/prismic/transformers/exhibition-texts';
 import { transformExhibitionHighlightTours } from '@weco/content/services/prismic/transformers/exhibition-highlight-tours';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/json-ld';
-import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
+import { AppErrorProps } from '@weco/common/services/app';
+import cookies from '@weco/common/data/cookies';
+import useHotjar from '@weco/content/hooks/useHotjar';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { useToggles } from '@weco/common/server-data/Context';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 import Layout, {
   gridSize10,
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import { GetServerSideProps } from 'next';
-import { AppErrorProps } from '@weco/common/services/app';
-import styled from 'styled-components';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import Button from '@weco/common/views/components/Buttons';
 import { themeValues, PaletteColor } from '@weco/common/views/themes/config';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import cookies from '@weco/common/data/cookies';
 import ExhibitionGuideStops from '@weco/content/components/ExhibitionGuideStops/ExhibitionGuideStops';
 import { getTypeColor } from '@weco/content/components/ExhibitionCaptions/ExhibitionCaptions';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { font } from '@weco/common/utils/classnames';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { SliceZone } from '@prismicio/react';
 import { components } from '@weco/common/views/slices';
 import { Container } from '@weco/common/views/components/styled/Container';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import {
+  audioDescribed,
+  britishSignLanguage,
+  speechToText,
+} from '@weco/common/icons';
 
 const ButtonWrapper = styled(Space).attrs({
   $v: { size: 's', properties: ['margin-bottom'] },
@@ -82,6 +91,53 @@ const isExhibitionText = (
   return 'textItems' in item;
 };
 
+function getTypeTitle(type: ExhibitionGuideType, egWork?: boolean): string {
+  switch (type) {
+    case 'bsl':
+      return egWork
+        ? 'British Sign Language tour with subtitles'
+        : 'British Sign Language videos';
+    case 'audio-with-descriptions':
+      return 'Audio with wayfinding';
+    case 'audio-without-descriptions':
+      return egWork ? 'Audio highlight tour with transcripts' : 'Audio';
+    case 'captions-and-transcripts':
+      return 'Captions and transcripts';
+  }
+}
+
+const RelevantIcons = ({ type }: { type: ExhibitionGuideType }) => {
+  const hasMultiple = [
+    'audio-with-descriptions',
+    'audio-without-descriptions',
+    'bsl',
+  ].includes(type);
+
+  return (
+    <>
+      {hasMultiple && (
+        <Icon
+          icon={type === 'bsl' ? britishSignLanguage : audioDescribed}
+          sizeOverride="height: 32px; width: 32px;"
+        />
+      )}
+      <ConditionalWrapper
+        condition={hasMultiple}
+        wrapper={children => (
+          <Space
+            $h={{ size: 's', properties: ['margin-left'] }}
+            style={{ display: 'inline' }}
+          >
+            {children}
+          </Space>
+        )}
+      >
+        <Icon icon={speechToText} sizeOverride="height: 32px; width: 32px;" />
+      </ConditionalWrapper>
+    </>
+  );
+};
+
 type Props = {
   exhibitionGuide: ExhibitionGuide | ExhibitionText | ExhibitionHighlightTour;
   jsonLd: JsonLdObj;
@@ -89,19 +145,6 @@ type Props = {
   userPreferenceSet?: string | string[];
   stopId?: string;
 };
-
-function getTypeTitle(type: ExhibitionGuideType): string {
-  switch (type) {
-    case 'bsl':
-      return 'British Sign Language videos';
-    case 'audio-with-descriptions':
-      return 'Audio with wayfinding';
-    case 'audio-without-descriptions':
-      return 'Audio';
-    case 'captions-and-transcripts':
-      return 'Captions and transcripts';
-  }
-}
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
@@ -261,6 +304,7 @@ export const getServerSideProps: GetServerSideProps<
 const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   useHotjar(true);
 
+  const { egWork } = useToggles();
   const { exhibitionGuide, jsonLd, type, userPreferenceSet } = props;
   const pathname = `guides/exhibitions/${exhibitionGuide.id}/${type}`;
   const typeColor = getTypeColor(type);
@@ -288,7 +332,10 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
 
   return (
     <PageLayout
-      title={`${exhibitionGuide.title} ${type ? getTypeTitle(type) : ''}` || ''}
+      title={
+        `${exhibitionGuide.title} ${type ? getTypeTitle(type, egWork) : ''}` ||
+        ''
+      }
       description={pageDescriptions.exhibitionGuides}
       url={{ pathname }}
       jsonLd={jsonLd}
@@ -303,41 +350,77 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
       apiToolbarLinks={[createPrismicLink(exhibitionGuide.id)]}
       skipToContentLinks={skipToContentLinks}
     >
-      <Header $backgroundColor={typeColor}>
+      <ConditionalWrapper
+        condition={!egWork}
+        wrapper={children => (
+          <Header $backgroundColor={typeColor}>{children}</Header>
+        )}
+      >
+        {egWork && (
+          <PageHeader
+            title={exhibitionGuide.title}
+            breadcrumbs={{
+              items: [
+                {
+                  text: 'Digital Guides',
+                  url: `/guides/exhibitions`,
+                },
+                {
+                  text: `${exhibitionGuide.relatedExhibition?.title} Digital Guides`,
+                  url: `/guides/exhibitions/${exhibitionGuide.id}`,
+                  isHidden: !exhibitionGuide.relatedExhibition,
+                },
+              ],
+              noHomeLink: true,
+            }}
+            isSlim
+          />
+        )}
+
         <Layout gridSizes={gridSize8(false)}>
-          <>
+          {egWork ? (
+            <h2 className={font('wb', 3)}>{getTypeTitle(type, egWork)}</h2>
+          ) : (
             <h1 className={font('wb', 1)}>
               {exhibitionGuide.title}{' '}
-              <div className={font('wb', 2)}>{getTypeTitle(type)}</div>
+              <div className={font('wb', 2)}>{getTypeTitle(type, egWork)}</div>
             </h1>
+          )}
 
-            {exhibitionGuide.introText?.length > 0 ? (
-              <PrismicHtmlBlock html={exhibitionGuide.introText} />
-            ) : (
-              exhibitionGuide.relatedExhibition?.description && (
-                <p>{exhibitionGuide.relatedExhibition.description}</p>
-              )
-            )}
-            <ButtonWrapper>
+          {exhibitionGuide.introText?.length > 0 ? (
+            <PrismicHtmlBlock html={exhibitionGuide.introText} />
+          ) : (
+            exhibitionGuide.relatedExhibition?.description && (
+              <p>{exhibitionGuide.relatedExhibition.description}</p>
+            )
+          )}
+
+          {egWork ? (
+            <RelevantIcons type={type} />
+          ) : (
+            <>
+              <ButtonWrapper>
+                <Button
+                  variant="ButtonSolidLink"
+                  colors={themeValues.buttonColors.charcoalWhiteCharcoal}
+                  text="Change guide type"
+                  link={`/guides/exhibitions/${exhibitionGuide.id}`}
+                  clickHandler={() => {
+                    deleteCookie(cookies.exhibitionGuideType);
+                  }}
+                />
+              </ButtonWrapper>
               <Button
                 variant="ButtonSolidLink"
                 colors={themeValues.buttonColors.charcoalWhiteCharcoal}
-                text="Change guide type"
-                link={`/guides/exhibitions/${exhibitionGuide.id}`}
-                clickHandler={() => {
-                  deleteCookie(cookies.exhibitionGuideType);
-                }}
+                text="Change exhibition"
+                link="/guides/exhibitions"
               />
-            </ButtonWrapper>
-            <Button
-              variant="ButtonSolidLink"
-              colors={themeValues.buttonColors.charcoalWhiteCharcoal}
-              text="Change exhibition"
-              link="/guides/exhibitions"
-            />
-          </>
+            </>
+          )}
         </Layout>
-      </Header>
+      </ConditionalWrapper>
+
       <Space $v={{ size: 'l', properties: ['margin-top'] }}>
         <Layout gridSizes={gridSize10(false)}>
           {userPreferenceSet ? (
@@ -365,6 +448,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
           )}
         </Layout>
       </Space>
+
       {/* For deprecated ExhibitionGuides */}
       {isExhibitionGuide(exhibitionGuide) &&
         exhibitionGuide.components?.length > 0 && (

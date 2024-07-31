@@ -69,7 +69,7 @@ const TypeOption: FunctionComponent<Props> = ({
       >
         <h2 className={font('wb', 3)}>{title}</h2>
         <p className={font('intr', 5)}>{text}</p>
-        {icon && <Icon icon={icon} />}
+        {icon && <Icon icon={icon} sizeOverride="height: 32px; width: 32px;" />}
       </Space>
     </TypeLink>
   </TypeItem>

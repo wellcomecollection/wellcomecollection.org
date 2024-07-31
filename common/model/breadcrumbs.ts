@@ -7,4 +7,5 @@ type Breadcrumbs = {
 
 export type BreadcrumbItems = {
   items: Breadcrumbs;
+  noHomeLink?: boolean;
 };

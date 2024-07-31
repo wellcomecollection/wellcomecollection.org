@@ -111,6 +111,7 @@ type Props = {
   isContentTypeInfoBeforeMedia?: boolean;
   SerialPartNumber?: ReactNode;
   sectionLevelPage?: boolean;
+  isSlim?: boolean;
 };
 
 const sectionLevelPageGridLayout = { s: 12, m: 12, l: 10, xl: 10 };
@@ -131,6 +132,7 @@ const PageHeader: FunctionComponent<Props> = ({
   highlightHeading,
   SerialPartNumber,
   sectionLevelPage,
+  isSlim,
 }) => {
   const Heading =
     highlightHeading && !sectionLevelPage ? (
@@ -155,7 +157,7 @@ const PageHeader: FunctionComponent<Props> = ({
         >
           <Wrapper
             $v={{
-              size: 'l',
+              size: isSlim ? 'm' : 'l',
               properties:
                 isContentTypeInfoBeforeMedia || hasMedia || sectionLevelPage
                   ? ['margin-bottom']
@@ -219,16 +221,16 @@ const PageHeader: FunctionComponent<Props> = ({
           </div>
         )}
       </Container>
-      {!hasMedia && !isContentTypeInfoBeforeMedia && !sectionLevelPage && (
-        <WobblyEdge backgroundColor="white" />
-      )}
+
+      {!hasMedia &&
+        !isContentTypeInfoBeforeMedia &&
+        !sectionLevelPage &&
+        !isSlim && <WobblyEdge backgroundColor="white" />}
+
       {!isContentTypeInfoBeforeMedia && ContentTypeInfo && (
         <Layout gridSizes={sectionLevelPageGridLayout}>
           <Space
-            $v={{
-              size: 'l',
-              properties: ['margin-top'],
-            }}
+            $v={{ size: 'l', properties: ['margin-top'] }}
             className={font('intb', 4)}
           >
             {ContentTypeInfo}
