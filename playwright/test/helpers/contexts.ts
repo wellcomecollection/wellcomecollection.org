@@ -188,7 +188,7 @@ const workWithBornDigitalDownloads = async (
   await context.addCookies(
     requiredCookies.concat(
       createCookie({
-        name: 'toggle_showBornDigital',
+        name: 'toggle_showBornDigital', // TODO: remove this when born digital work isn't behind a toggle anymore
         value: 'true',
       })
     )
