@@ -100,7 +100,7 @@ function getTypeTitle(type: ExhibitionGuideType, egWork?: boolean): string {
     case 'audio-without-descriptions':
       return egWork ? 'Audio highlight tour with transcripts' : 'Audio';
     case 'captions-and-transcripts':
-      return 'Captions and transcripts';
+      return egWork ? 'Exhibition text' : 'Captions and transcripts';
   }
 }
 
