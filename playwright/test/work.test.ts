@@ -7,6 +7,12 @@ import {
 } from './helpers/contexts';
 import { Page } from 'playwright';
 
+declare global {
+  interface Window {
+    dataLayer: { [key: string]: string }[];
+  }
+}
+
 const getAllStates = async (page: Page) => {
   const whereToFindIt = page.getByRole('heading', {
     name: 'Where to find it',
@@ -83,8 +89,10 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
     const { whereToFindIt } = await getAllStates(page);
     await expect(whereToFindIt).toBeVisible();
   });
+});
 
-  test(`Download ArchiveTree.ListItems stays open when inner item is clicked`, async ({
+test.describe(`Scenario 2: A user downloading 'born digital' items`, () => {
+  test(`ArchiveTree.ListItems stays open when inner item is clicked`, async ({
     page,
     context,
   }) => {
@@ -102,9 +110,37 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
       .click();
 
     await expect(innerTreeItem).toBeVisible();
-
-    innerTreeItem.click();
-
+    await innerTreeItem.click();
     await expect(innerTreeItem).toBeVisible();
+  });
+
+  test(`ArchiveTree.ListItems Download link fires GTM trigger`, async ({
+    page,
+    context,
+  }) => {
+    await workWithBornDigitalDownloads(context, page);
+
+    await page
+      .getByRole('treeitem', {
+        name: 'objects',
+      })
+      .click();
+
+    await page
+      .getByRole('link', {
+        name: 'Download',
+      })
+      .first()
+      .click();
+    const dataLayer = await page.evaluate(() => window.dataLayer);
+    const clickEvent = dataLayer.find(
+      (item: { [x: string]: string }) =>
+        item?.['gtm.elementText'] === 'Download'
+    );
+    const gtmTriggers = clickEvent?.['gtm.triggers'].split(',');
+    const DOWNLOAD_TABLE_LINK_TRIGGER = '31009043_218'; // ID that is discoverable through GTM preview
+    expect(gtmTriggers).toEqual(
+      expect.arrayContaining([DOWNLOAD_TABLE_LINK_TRIGGER])
+    );
   });
 });
