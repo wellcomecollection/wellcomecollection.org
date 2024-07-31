@@ -10,7 +10,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import { plainListStyles } from '@weco/common/views/components/styled/PlainList';
 import { useToggles } from '@weco/common/server-data/Context';
 import { arrow } from '@weco/common/icons';
-import { RelevantIcons } from '@weco/content/pages/guides/exhibitions/[id]/[type]';
+import RelevantGuideIcons from '@weco/content/components/ExhibitionGuideRelevantIcons';
 import { ExhibitionGuideType } from '@weco/content/types/exhibition-guides';
 
 export const TypeList = styled(Space).attrs({
@@ -107,7 +107,7 @@ const TypeOption: FunctionComponent<Props> = ({
         >
           <h2 className={font('wb', 3)}>{title}</h2>
 
-          <RelevantIcons types={[type]} />
+          <RelevantGuideIcons types={[type]} />
 
           <div style={{ position: 'absolute', bottom: '10px', right: '15px' }}>
             <Icon icon={arrow} sizeOverride="height: 32px; width: 32px;" />

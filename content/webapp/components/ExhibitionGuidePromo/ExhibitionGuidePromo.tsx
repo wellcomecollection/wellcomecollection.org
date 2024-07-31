@@ -8,7 +8,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody, CardImageWrapper, CardTitle } from '../Card/Card';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { useToggles } from '@weco/common/server-data/Context';
-import { RelevantIcons } from '@weco/content/pages/guides/exhibitions/[id]/[type]';
+import RelevantGuideIcons from '@weco/content/components/ExhibitionGuideRelevantIcons';
 
 type Props = {
   exhibitionGuide: ExhibitionGuideBasic;
@@ -72,7 +72,7 @@ const ExhibitionGuidePromo: FunctionComponent<Props> = ({
           )}
           {egWork && (
             <Space $v={{ size: 'm', properties: ['margin-top'] }}>
-              <RelevantIcons
+              <RelevantGuideIcons
                 types={getAvailableTypes(exhibitionGuide.availableTypes)}
               />
             </Space>
