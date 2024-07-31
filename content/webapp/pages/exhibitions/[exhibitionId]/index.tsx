@@ -22,6 +22,8 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { Link } from '@weco/content/types/link';
+import useHotjar from '@weco/content/hooks/useHotjar';
+
 import {
   visualStoryLinkText,
   exhibitionGuideLinkText,
@@ -47,30 +49,35 @@ const ExhibitionPage: FunctionComponent<ExhibitionProps> = ({
   pages,
   accessResourceLinks,
   jsonLd,
-}) => (
-  <PageLayout
-    title={exhibition.title}
-    description={
-      exhibition.metadataDescription || exhibition.promo?.caption || ''
-    }
-    url={{ pathname: `/exhibitions/${exhibition.id}` }}
-    jsonLd={jsonLd}
-    openGraphType="website"
-    siteSection="whats-on"
-    image={exhibition.image}
-    apiToolbarLinks={[createPrismicLink(exhibition.id)]}
-  >
-    {exhibition.format && exhibition.format.title === 'Installation' ? (
-      <Installation installation={exhibition} />
-    ) : (
-      <Exhibition
-        exhibition={exhibition}
-        pages={pages}
-        accessResourceLinks={accessResourceLinks}
-      />
-    )}
-  </PageLayout>
-);
+}) => {
+  useHotjar(true);
+  console.log('yo');
+
+  return (
+    <PageLayout
+      title={exhibition.title}
+      description={
+        exhibition.metadataDescription || exhibition.promo?.caption || ''
+      }
+      url={{ pathname: `/exhibitions/${exhibition.id}` }}
+      jsonLd={jsonLd}
+      openGraphType="website"
+      siteSection="whats-on"
+      image={exhibition.image}
+      apiToolbarLinks={[createPrismicLink(exhibition.id)]}
+    >
+      {exhibition.format && exhibition.format.title === 'Installation' ? (
+        <Installation installation={exhibition} />
+      ) : (
+        <Exhibition
+          exhibition={exhibition}
+          pages={pages}
+          accessResourceLinks={accessResourceLinks}
+        />
+      )}
+    </PageLayout>
+  );
+};
 
 export const getServerSideProps: GetServerSideProps<
   ExhibitionProps | AppErrorProps
