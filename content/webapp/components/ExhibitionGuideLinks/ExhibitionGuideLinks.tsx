@@ -7,6 +7,9 @@ import {
 } from '@weco/common/icons';
 import TypeOption, { TypeList } from './TypeOption';
 import cookies from '@weco/common/data/cookies';
+import { useToggles } from '@weco/common/server-data/Context';
+import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {
   pathname: string;
@@ -32,58 +35,135 @@ export const ExhibitionGuideLinks: FunctionComponent<Props> = ({
   pathname,
   availableTypes,
 }) => {
+  const { egWork } = useToggles();
+
   return (
-    <TypeList>
-      {availableTypes.audioWithoutDescriptions && (
-        <TypeOption
-          url={`/${pathname}/audio-without-descriptions`}
-          title="Listen to audio"
-          text="Find out more about the exhibition with short audio tracks."
-          backgroundColor="accent.lightSalmon"
-          icon={audioDescribed}
-          onClick={() => {
-            cookieHandler(
-              cookies.exhibitionGuideType,
-              'audio-without-descriptions'
-            );
-          }}
-        />
+    <>
+      {egWork ? (
+        <>
+          {(availableTypes.audioWithoutDescriptions ||
+            availableTypes.BSLVideo) && (
+            <>
+              <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <SectionHeader title="Highlights tour" />
+              </Space>
+              <p>
+                Find out more about the exhibition with our highlights tour,
+                available in short audio clips with transcripts or as British
+                Sign Language videos.
+              </p>
+              <TypeList>
+                {availableTypes.audioWithoutDescriptions && (
+                  <TypeOption
+                    url={`/${pathname}/audio-without-descriptions`}
+                    title="Audio descriptive tour with transcripts"
+                    text="Find out more about the exhibition with short audio tracks."
+                    backgroundColor="accent.lightSalmon"
+                    icon={audioDescribed}
+                    hasTranscripts
+                    onClick={() => {
+                      cookieHandler(
+                        cookies.exhibitionGuideType,
+                        'audio-without-descriptions'
+                      );
+                    }}
+                  />
+                )}
+                {availableTypes.BSLVideo && (
+                  <TypeOption
+                    url={`/${pathname}/bsl`}
+                    title="British Sign Language tour with transcripts"
+                    text="Commentary about the exhibition in British Sign Language videos."
+                    backgroundColor="accent.lightBlue"
+                    icon={britishSignLanguage}
+                    hasTranscripts
+                    onClick={() => {
+                      cookieHandler(cookies.exhibitionGuideType, 'bsl');
+                    }}
+                  />
+                )}
+              </TypeList>
+            </>
+          )}
+
+          {availableTypes.captionsOrTranscripts && (
+            <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+              <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <SectionHeader title="Exhibition text" />
+              </Space>
+              <p>All the wall and label text from the exhibition.</p>
+              <TypeList>
+                <TypeOption
+                  url={`/${pathname}/captions-and-transcripts`}
+                  title="Exhibition text"
+                  text="All the wall and label texts from the gallery, plus audio transcripts – great for those without headphones."
+                  backgroundColor="accent.lightGreen"
+                  icon={speechToText}
+                  onClick={() => {
+                    cookieHandler(
+                      cookies.exhibitionGuideType,
+                      'captions-and-transcripts'
+                    );
+                  }}
+                />
+              </TypeList>
+            </Space>
+          )}
+        </>
+      ) : (
+        <TypeList>
+          {availableTypes.audioWithoutDescriptions && (
+            <TypeOption
+              url={`/${pathname}/audio-without-descriptions`}
+              title="Listen to audio"
+              text="Find out more about the exhibition with short audio tracks."
+              backgroundColor="accent.lightSalmon"
+              icon={audioDescribed}
+              onClick={() => {
+                cookieHandler(
+                  cookies.exhibitionGuideType,
+                  'audio-without-descriptions'
+                );
+              }}
+            />
+          )}
+          {availableTypes.captionsOrTranscripts && (
+            <TypeOption
+              url={`/${pathname}/captions-and-transcripts`}
+              title="Read captions and transcripts"
+              text="All the wall and label texts from the gallery, plus audio transcripts – great for those without headphones."
+              backgroundColor="accent.lightGreen"
+              icon={speechToText}
+              onClick={() => {
+                cookieHandler(
+                  cookies.exhibitionGuideType,
+                  'captions-and-transcripts'
+                );
+              }}
+            />
+          )}
+          {availableTypes.BSLVideo && (
+            <TypeOption
+              url={`/${pathname}/bsl`}
+              title="Watch British Sign Language videos"
+              text="Commentary about the exhibition in British Sign Language videos."
+              backgroundColor="accent.lightBlue"
+              icon={britishSignLanguage}
+              onClick={() => {
+                cookieHandler(cookies.exhibitionGuideType, 'bsl');
+              }}
+            />
+          )}
+        </TypeList>
       )}
-      {availableTypes.captionsOrTranscripts && (
-        <TypeOption
-          url={`/${pathname}/captions-and-transcripts`}
-          title="Read captions and transcripts"
-          text="All the wall and label texts from the gallery, plus audio transcripts – great for those without headphones."
-          backgroundColor="accent.lightGreen"
-          icon={speechToText}
-          onClick={() => {
-            cookieHandler(
-              cookies.exhibitionGuideType,
-              'captions-and-transcripts'
-            );
-          }}
-        />
-      )}
-      {availableTypes.BSLVideo && (
-        <TypeOption
-          url={`/${pathname}/bsl`}
-          title="Watch British Sign Language videos"
-          text="Commentary about the exhibition in British Sign Language videos."
-          backgroundColor="accent.lightBlue"
-          icon={britishSignLanguage}
-          onClick={() => {
-            cookieHandler(cookies.exhibitionGuideType, 'bsl');
-          }}
-        />
-      )}
-    </TypeList>
+    </>
   );
 };
 
 type ResourceProps = {
-  textPathname: string | undefined;
-  audioPathname: string | undefined;
-  videoPathname: string | undefined;
+  textPathname?: string;
+  audioPathname?: string;
+  videoPathname?: string;
 };
 
 export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
@@ -91,50 +171,125 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
   audioPathname,
   videoPathname,
 }) => {
+  const { egWork } = useToggles();
+
   return (
-    <TypeList>
-      {audioPathname && (
-        <TypeOption
-          url={`/${audioPathname}`}
-          title="Listen to audio"
-          text="Find out more about the exhibition with short audio tracks."
-          backgroundColor="accent.lightSalmon"
-          icon={audioDescribed}
-          onClick={() => {
-            cookieHandler(
-              cookies.exhibitionGuideType,
-              'audio-without-descriptions'
-            );
-          }}
-        />
+    <>
+      {egWork ? (
+        <>
+          {(audioPathname || videoPathname) && (
+            <>
+              <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <SectionHeader title="Highlights tour" />
+              </Space>
+              <p>
+                Find out more about the exhibition with our highlights tour,
+                available in short audio clips with transcripts or as British
+                Sign Language videos.
+              </p>
+              <TypeList>
+                {audioPathname && (
+                  <TypeOption
+                    url={`/${audioPathname}`}
+                    title="Audio descriptive tour with transcripts"
+                    text="Find out more about the exhibition with short audio tracks."
+                    backgroundColor="accent.lightSalmon"
+                    icon={audioDescribed}
+                    hasTranscripts
+                    onClick={() => {
+                      cookieHandler(
+                        cookies.exhibitionGuideType,
+                        'audio-without-descriptions'
+                      );
+                    }}
+                  />
+                )}
+                {videoPathname && (
+                  <TypeOption
+                    url={`/${videoPathname}`}
+                    title="British Sign Language tour with transcripts"
+                    text="Commentary about the exhibition in British Sign Language videos."
+                    backgroundColor="accent.lightBlue"
+                    icon={britishSignLanguage}
+                    hasTranscripts
+                    onClick={() => {
+                      cookieHandler(cookies.exhibitionGuideType, 'bsl');
+                    }}
+                  />
+                )}
+              </TypeList>
+            </>
+          )}
+          {textPathname && (
+            <>
+              <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <SectionHeader title="Exhibition text" />
+              </Space>
+              <p>All the wall and label text from the exhibition.</p>
+              <TypeList>
+                <TypeOption
+                  url={`/${textPathname}`}
+                  title="Exhibition text"
+                  text="All the wall and label texts from the gallery, plus audio transcripts – great for those without headphones."
+                  backgroundColor="accent.lightGreen"
+                  icon={speechToText}
+                  onClick={() => {
+                    cookieHandler(
+                      cookies.exhibitionGuideType,
+                      'captions-and-transcripts'
+                    );
+                  }}
+                />
+              </TypeList>
+            </>
+          )}
+        </>
+      ) : (
+        <TypeList>
+          {audioPathname && (
+            <TypeOption
+              url={`/${audioPathname}`}
+              title="Listen to audio"
+              text="Find out more about the exhibition with short audio tracks."
+              backgroundColor="accent.lightSalmon"
+              icon={audioDescribed}
+              onClick={() => {
+                cookieHandler(
+                  cookies.exhibitionGuideType,
+                  'audio-without-descriptions'
+                );
+              }}
+            />
+          )}
+          {textPathname && (
+            <TypeOption
+              url={`/${textPathname}`}
+              title="Read captions and transcripts"
+              text="All the wall and label texts from the gallery, plus audio transcripts – great for those without headphones."
+              backgroundColor="accent.lightGreen"
+              icon={speechToText}
+              onClick={() => {
+                cookieHandler(
+                  cookies.exhibitionGuideType,
+                  'captions-and-transcripts'
+                );
+              }}
+            />
+          )}
+          {videoPathname && (
+            <TypeOption
+              url={`/${videoPathname}`}
+              title="Watch British Sign Language videos"
+              text="Commentary about the exhibition in British Sign Language videos."
+              backgroundColor="accent.lightBlue"
+              icon={britishSignLanguage}
+              onClick={() => {
+                cookieHandler(cookies.exhibitionGuideType, 'bsl');
+              }}
+            />
+          )}
+        </TypeList>
       )}
-      {textPathname && (
-        <TypeOption
-          url={`/${textPathname}`}
-          title="Read captions and transcripts"
-          text="All the wall and label texts from the gallery, plus audio transcripts – great for those without headphones."
-          backgroundColor="accent.lightGreen"
-          icon={speechToText}
-          onClick={() => {
-            cookieHandler(
-              cookies.exhibitionGuideType,
-              'captions-and-transcripts'
-            );
-          }}
-        />
-      )}
-      {videoPathname && (
-        <TypeOption
-          url={`/${videoPathname}`}
-          title="Watch British Sign Language videos"
-          text="Commentary about the exhibition in British Sign Language videos."
-          backgroundColor="accent.lightBlue"
-          icon={britishSignLanguage}
-          onClick={() => {
-            cookieHandler(cookies.exhibitionGuideType, 'bsl');
-          }}
-        />
-      )}
-    </TypeList>
+    </>
   );
 };

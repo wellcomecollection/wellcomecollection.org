@@ -10,7 +10,10 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { ArticleBasic } from '@weco/content/types/articles';
 import Space from '@weco/common/views/components/styled/Space';
-import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
+import Layout, {
+  gridSize10,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import SimpleCardGrid from '@weco/content/components/SimpleCardGrid/SimpleCardGrid';
 import {
   orderEventsByNextAvailableDate,
@@ -233,7 +236,10 @@ const Homepage: FunctionComponent<Props> = ({
           <SpacingSection>
             {transformedHeaderList.value.title && (
               <SpacingComponent>
-                <SectionHeader title={transformedHeaderList.value.title} />
+                <SectionHeader
+                  title={transformedHeaderList.value.title}
+                  gridSize={gridSize12()}
+                />
               </SpacingComponent>
             )}
             <SpacingComponent>
@@ -251,7 +257,7 @@ const Homepage: FunctionComponent<Props> = ({
         {nextSevenDaysEvents.length + exhibitions.length > 0 && (
           <SpacingSection>
             <SpacingComponent>
-              <SectionHeader title="This week" />
+              <SectionHeader title="This week" gridSize={gridSize12()} />
             </SpacingComponent>
             <SpacingComponent>
               <ExhibitionsAndEvents
@@ -268,7 +274,10 @@ const Homepage: FunctionComponent<Props> = ({
         {transformedContentList && (
           <SpacingSection>
             <SpacingComponent>
-              <SectionHeader title={transformedContentList.value.title || ''} />
+              <SectionHeader
+                title={transformedContentList.value.title || ''}
+                gridSize={gridSize12()}
+              />
             </SpacingComponent>
             <SpacingComponent>
               <SimpleCardGrid
@@ -288,7 +297,7 @@ const Homepage: FunctionComponent<Props> = ({
 
         <SpacingSection>
           <SpacingComponent>
-            <SectionHeader title="Latest stories" />
+            <SectionHeader title="Latest stories" gridSize={gridSize12()} />
           </SpacingComponent>
           <SpacingComponent>
             <CardGrid

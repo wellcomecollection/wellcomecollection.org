@@ -163,7 +163,6 @@ const Stop: FunctionComponent<{
 
   // We know the captions-or-transcripts data will be defined, because the
   // Prismic transformer filters out any stops which don't have this data.
-
   const captionsOrTranscripts = stop.captionsOrTranscripts!;
 
   const { title, standaloneTitle, tombstone, caption, context, transcription } =
