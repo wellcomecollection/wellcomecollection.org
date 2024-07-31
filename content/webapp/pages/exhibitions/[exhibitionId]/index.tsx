@@ -50,8 +50,7 @@ const ExhibitionPage: FunctionComponent<ExhibitionProps> = ({
   accessResourceLinks,
   jsonLd,
 }) => {
-  useHotjar(true);
-  console.log('yo');
+  useHotjar(exhibition.id === 'ZZP8BxAAALeD00jo'); // Only on Jason and the Adventure of 254
 
   return (
     <PageLayout
