@@ -60,7 +60,7 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbsLd({ items: visibleItems })),
+          __html: JSON.stringify(breadcrumbsLd({ items })),
         }}
       />
     </div>
