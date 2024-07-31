@@ -91,7 +91,7 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
   });
 });
 
-test.describe(`Scenario 2: A user downloading 'born digital' items`, () => {
+test.describe(`Scenario 2: A user viewing/downloading 'born digital' items`, () => {
   test(`ArchiveTree.ListItems stays open when inner item is clicked`, async ({
     page,
     context,
