@@ -14,7 +14,6 @@ type Props = {
     BSLVideo: boolean;
     captionsOrTranscripts: boolean;
     audioWithoutDescriptions: boolean;
-    audioWithDescriptions: boolean;
   };
 };
 
@@ -46,22 +45,6 @@ export const ExhibitionGuideLinks: FunctionComponent<Props> = ({
             cookieHandler(
               cookies.exhibitionGuideType,
               'audio-without-descriptions'
-            );
-          }}
-        />
-      )}
-      {availableTypes.audioWithDescriptions && (
-        <TypeOption
-          url={`/${pathname}/audio-with-descriptions`}
-          title="Listen to audio with wayfinding"
-          text="Find out more about the exhibition with short audio tracks,
-            including descriptions of the objects."
-          backgroundColor="accent.lightPurple"
-          icon={audioDescribed}
-          onClick={() => {
-            cookieHandler(
-              cookies.exhibitionGuideType,
-              'audio-with-descriptions'
             );
           }}
         />

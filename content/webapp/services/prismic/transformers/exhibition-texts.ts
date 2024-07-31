@@ -67,7 +67,6 @@ export function transformExhibitionTexts(
     availableTypes: {
       captionsOrTranscripts: document.data.slices.length > 0,
       BSLVideo: false,
-      audioWithDescriptions: false,
       audioWithoutDescriptions: false,
     },
   };

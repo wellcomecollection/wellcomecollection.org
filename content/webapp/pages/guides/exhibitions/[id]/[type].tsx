@@ -97,8 +97,6 @@ function getTypeTitle(type: ExhibitionGuideType, egWork?: boolean): string {
       return egWork
         ? 'British Sign Language tour with subtitles'
         : 'British Sign Language videos';
-    case 'audio-with-descriptions':
-      return 'Audio with wayfinding';
     case 'audio-without-descriptions':
       return egWork ? 'Audio highlight tour with transcripts' : 'Audio';
     case 'captions-and-transcripts':
@@ -107,11 +105,7 @@ function getTypeTitle(type: ExhibitionGuideType, egWork?: boolean): string {
 }
 
 const RelevantIcons = ({ type }: { type: ExhibitionGuideType }) => {
-  const hasMultiple = [
-    'audio-with-descriptions',
-    'audio-without-descriptions',
-    'bsl',
-  ].includes(type);
+  const hasMultiple = ['audio-without-descriptions', 'bsl'].includes(type);
 
   return (
     <>
