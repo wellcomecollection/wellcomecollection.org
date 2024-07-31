@@ -181,6 +181,21 @@ const workWithDigitalLocationAndLocationNote = async (
   await gotoWithoutCache(`${baseUrl}/works/a235xn8e`, page);
 };
 
+const workWithBornDigitalDownloads = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(
+    requiredCookies.concat(
+      createCookie({
+        name: 'toggle_showBornDigital',
+        value: 'true',
+      })
+    )
+  );
+  await gotoWithoutCache(`${baseUrl}/works/htzhunbw`, page);
+};
+
 const newSearch = async (
   context: BrowserContext,
   page: Page,
@@ -276,6 +291,7 @@ export {
   workWithPhysicalLocationOnly,
   workWithDigitalLocationOnly,
   workWithDigitalLocationAndLocationNote,
+  workWithBornDigitalDownloads,
   itemWithOnlyOpenAccess,
   itemWithOnlyRestrictedAccess,
   itemWithRestrictedAndOpenAccess,

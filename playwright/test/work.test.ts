@@ -3,6 +3,7 @@ import {
   workWithPhysicalLocationOnly,
   workWithDigitalLocationOnly,
   workWithDigitalLocationAndLocationNote,
+  workWithBornDigitalDownloads,
 } from './helpers/contexts';
 import { Page } from 'playwright';
 
@@ -81,5 +82,29 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
     await workWithDigitalLocationAndLocationNote(context, page);
     const { whereToFindIt } = await getAllStates(page);
     await expect(whereToFindIt).toBeVisible();
+  });
+
+  test(`Download ArchiveTree.ListItems stays open when inner item is clicked`, async ({
+    page,
+    context,
+  }) => {
+    await workWithBornDigitalDownloads(context, page);
+    const innerTreeItem = page.getByRole('treeitem', {
+      name: 'A_Camels.psd vnd.adobe.photoshop 6.1 MB Download',
+    });
+
+    await expect(innerTreeItem).not.toBeVisible();
+
+    await page
+      .getByRole('treeitem', {
+        name: 'objects',
+      })
+      .click();
+
+    await expect(innerTreeItem).toBeVisible();
+
+    innerTreeItem.click();
+
+    await expect(innerTreeItem).toBeVisible();
   });
 });
