@@ -44,7 +44,7 @@ const SectionHeader: FunctionComponent<Props> = ({ title, gridSize }) => {
       <ConditionalWrapper
         condition={!!gridSize}
         wrapper={children => (
-          <Layout gridSizes={gridSize12()}>{children}</Layout>
+          <Layout gridSizes={gridSize || gridSize12()}>{children}</Layout>
         )}
       >
         <YellowBox />
