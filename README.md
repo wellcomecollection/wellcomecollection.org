@@ -16,7 +16,7 @@ We build products that **deliver value**, **solve real problems**, and are a **d
 
 ## Visual design
 
-Visual design for the experience is created in [Sketch](https://www.sketch.com/) and shared via [Zeplin](https://app.zeplin.io/).
+Visual designs for the experience are created and shared in [Figma](https://figma.com).
 
 To get a login, ask a friendly experience team member near you.
 
