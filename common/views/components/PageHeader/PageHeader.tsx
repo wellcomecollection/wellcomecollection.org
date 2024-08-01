@@ -163,7 +163,7 @@ const PageHeader: FunctionComponent<Props> = ({
         >
           <Wrapper
             $v={{
-              size: isSlim ? 'm' : 'l',
+              size: isSlim ? 'xs' : 'l',
               properties:
                 isContentTypeInfoBeforeMedia || hasMedia || sectionLevelPage
                   ? ['margin-bottom']

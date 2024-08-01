@@ -95,7 +95,7 @@ function getTypeTitle(type: ExhibitionGuideType, egWork?: boolean): string {
     case 'audio-without-descriptions':
       return egWork ? 'Audio highlight tour with transcripts' : 'Audio';
     case 'captions-and-transcripts':
-      return 'Captions and transcripts';
+      return egWork ? 'Exhibition text' : 'Captions and transcripts';
   }
 }
 
@@ -340,7 +340,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
 
         <Layout gridSizes={gridSize8(false)}>
           {egWork ? (
-            <h2 className={font('wb', 3)}>{getTypeTitle(type, egWork)}</h2>
+            <h2 className={font('intsb', 3)}>{getTypeTitle(type, egWork)}</h2>
           ) : (
             <h1 className={font('wb', 1)}>
               {exhibitionGuide.title}{' '}
