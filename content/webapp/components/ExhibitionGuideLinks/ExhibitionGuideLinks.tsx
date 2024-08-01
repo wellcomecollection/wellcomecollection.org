@@ -1,4 +1,3 @@
-import { setCookie } from 'cookies-next';
 import { FunctionComponent } from 'react';
 import {
   britishSignLanguage,
@@ -6,7 +5,6 @@ import {
   speechToText,
 } from '@weco/common/icons';
 import TypeOption, { TypeList } from './TypeOption';
-import cookies from '@weco/common/data/cookies';
 import { useToggles } from '@weco/common/server-data/Context';
 import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
 import Space from '@weco/common/views/components/styled/Space';
@@ -19,17 +17,6 @@ type Props = {
     audioWithoutDescriptions: boolean;
   };
 };
-
-function cookieHandler(key: string, data: string) {
-  // We set the cookie to expire in 8 hours (the maximum length of
-  // time the galleries are open in a day)
-  const options = {
-    maxAge: 8 * 60 * 60,
-    path: '/',
-    secure: true,
-  };
-  setCookie(key, data, options);
-}
 
 export const ExhibitionGuideLinks: FunctionComponent<Props> = ({
   pathname,
@@ -60,13 +47,7 @@ export const ExhibitionGuideLinks: FunctionComponent<Props> = ({
                     text="Find out more about the exhibition with short audio tracks."
                     backgroundColor="accent.lightSalmon"
                     icon={audioDescribed}
-                    hasTranscripts
-                    onClick={() => {
-                      cookieHandler(
-                        cookies.exhibitionGuideType,
-                        'audio-without-descriptions'
-                      );
-                    }}
+                    type="audio-without-descriptions"
                   />
                 )}
                 {availableTypes.BSLVideo && (
@@ -76,10 +57,7 @@ export const ExhibitionGuideLinks: FunctionComponent<Props> = ({
                     text="Commentary about the exhibition in British Sign Language videos."
                     backgroundColor="accent.lightBlue"
                     icon={britishSignLanguage}
-                    hasTranscripts
-                    onClick={() => {
-                      cookieHandler(cookies.exhibitionGuideType, 'bsl');
-                    }}
+                    type="bsl"
                   />
                 )}
               </TypeList>
@@ -99,12 +77,7 @@ export const ExhibitionGuideLinks: FunctionComponent<Props> = ({
                   text="All the wall and label texts from the gallery, plus audio transcripts – great for those without headphones."
                   backgroundColor="accent.lightGreen"
                   icon={speechToText}
-                  onClick={() => {
-                    cookieHandler(
-                      cookies.exhibitionGuideType,
-                      'captions-and-transcripts'
-                    );
-                  }}
+                  type="captions-and-transcripts"
                 />
               </TypeList>
             </Space>
@@ -119,12 +92,7 @@ export const ExhibitionGuideLinks: FunctionComponent<Props> = ({
               text="Find out more about the exhibition with short audio tracks."
               backgroundColor="accent.lightSalmon"
               icon={audioDescribed}
-              onClick={() => {
-                cookieHandler(
-                  cookies.exhibitionGuideType,
-                  'audio-without-descriptions'
-                );
-              }}
+              type="audio-without-descriptions"
             />
           )}
           {availableTypes.captionsOrTranscripts && (
@@ -134,12 +102,7 @@ export const ExhibitionGuideLinks: FunctionComponent<Props> = ({
               text="All the wall and label texts from the gallery, plus audio transcripts – great for those without headphones."
               backgroundColor="accent.lightGreen"
               icon={speechToText}
-              onClick={() => {
-                cookieHandler(
-                  cookies.exhibitionGuideType,
-                  'captions-and-transcripts'
-                );
-              }}
+              type="captions-and-transcripts"
             />
           )}
           {availableTypes.BSLVideo && (
@@ -149,9 +112,7 @@ export const ExhibitionGuideLinks: FunctionComponent<Props> = ({
               text="Commentary about the exhibition in British Sign Language videos."
               backgroundColor="accent.lightBlue"
               icon={britishSignLanguage}
-              onClick={() => {
-                cookieHandler(cookies.exhibitionGuideType, 'bsl');
-              }}
+              type="bsl"
             />
           )}
         </TypeList>
@@ -195,13 +156,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
                     text="Find out more about the exhibition with short audio tracks."
                     backgroundColor="accent.lightSalmon"
                     icon={audioDescribed}
-                    hasTranscripts
-                    onClick={() => {
-                      cookieHandler(
-                        cookies.exhibitionGuideType,
-                        'audio-without-descriptions'
-                      );
-                    }}
+                    type="audio-without-descriptions"
                   />
                 )}
                 {videoPathname && (
@@ -211,10 +166,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
                     text="Commentary about the exhibition in British Sign Language videos."
                     backgroundColor="accent.lightBlue"
                     icon={britishSignLanguage}
-                    hasTranscripts
-                    onClick={() => {
-                      cookieHandler(cookies.exhibitionGuideType, 'bsl');
-                    }}
+                    type="bsl"
                   />
                 )}
               </TypeList>
@@ -233,12 +185,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
                   text="All the wall and label texts from the gallery, plus audio transcripts – great for those without headphones."
                   backgroundColor="accent.lightGreen"
                   icon={speechToText}
-                  onClick={() => {
-                    cookieHandler(
-                      cookies.exhibitionGuideType,
-                      'captions-and-transcripts'
-                    );
-                  }}
+                  type="captions-and-transcripts"
                 />
               </TypeList>
             </>
@@ -253,12 +200,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
               text="Find out more about the exhibition with short audio tracks."
               backgroundColor="accent.lightSalmon"
               icon={audioDescribed}
-              onClick={() => {
-                cookieHandler(
-                  cookies.exhibitionGuideType,
-                  'audio-without-descriptions'
-                );
-              }}
+              type="audio-without-descriptions"
             />
           )}
           {textPathname && (
@@ -268,12 +210,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
               text="All the wall and label texts from the gallery, plus audio transcripts – great for those without headphones."
               backgroundColor="accent.lightGreen"
               icon={speechToText}
-              onClick={() => {
-                cookieHandler(
-                  cookies.exhibitionGuideType,
-                  'captions-and-transcripts'
-                );
-              }}
+              type="captions-and-transcripts"
             />
           )}
           {videoPathname && (
@@ -283,9 +220,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
               text="Commentary about the exhibition in British Sign Language videos."
               backgroundColor="accent.lightBlue"
               icon={britishSignLanguage}
-              onClick={() => {
-                cookieHandler(cookies.exhibitionGuideType, 'bsl');
-              }}
+              type="bsl"
             />
           )}
         </TypeList>

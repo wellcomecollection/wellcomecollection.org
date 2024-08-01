@@ -50,12 +50,7 @@ import { components } from '@weco/common/views/slices';
 import { Container } from '@weco/common/views/components/styled/Container';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import {
-  audioDescribed,
-  britishSignLanguage,
-  speechToText,
-} from '@weco/common/icons';
+import RelevantGuideIcons from '@weco/content/components/ExhibitionGuideRelevantIcons';
 
 const ButtonWrapper = styled(Space).attrs({
   $v: { size: 's', properties: ['margin-bottom'] },
@@ -103,34 +98,6 @@ function getTypeTitle(type: ExhibitionGuideType, egWork?: boolean): string {
       return 'Captions and transcripts';
   }
 }
-
-const RelevantIcons = ({ type }: { type: ExhibitionGuideType }) => {
-  const hasMultiple = ['audio-without-descriptions', 'bsl'].includes(type);
-
-  return (
-    <>
-      {hasMultiple && (
-        <Icon
-          icon={type === 'bsl' ? britishSignLanguage : audioDescribed}
-          sizeOverride="height: 32px; width: 32px;"
-        />
-      )}
-      <ConditionalWrapper
-        condition={hasMultiple}
-        wrapper={children => (
-          <Space
-            $h={{ size: 's', properties: ['margin-left'] }}
-            style={{ display: 'inline' }}
-          >
-            {children}
-          </Space>
-        )}
-      >
-        <Icon icon={speechToText} sizeOverride="height: 32px; width: 32px;" />
-      </ConditionalWrapper>
-    </>
-  );
-};
 
 type Props = {
   exhibitionGuide: ExhibitionGuide | ExhibitionText | ExhibitionHighlightTour;
@@ -390,7 +357,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
           )}
 
           {egWork ? (
-            <RelevantIcons type={type} />
+            <RelevantGuideIcons types={[type]} />
           ) : (
             <>
               <ButtonWrapper>

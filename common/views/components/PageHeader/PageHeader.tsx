@@ -146,6 +146,12 @@ const PageHeader: FunctionComponent<Props> = ({
   const hasMedia = FeaturedMedia || HeroPicture;
   const amendedLabels = isFree ? addFreeLabel(labels) : labels;
 
+  // As <Breadcrumb> will automatically add "Home" as the first breadcrumb unless "noHomeLink" is true
+  // This checks whether or not there are actually any items.
+  const hasBreadcrumbItems =
+    breadcrumbs.items.length > 0 ||
+    !(breadcrumbs.items.length === 0 && breadcrumbs.noHomeLink);
+
   return (
     <>
       <Container $backgroundTexture={backgroundTexture}>
@@ -164,7 +170,7 @@ const PageHeader: FunctionComponent<Props> = ({
                   : ['margin-bottom', 'padding-bottom'],
             }}
           >
-            {!sectionLevelPage && (
+            {!sectionLevelPage && hasBreadcrumbItems && (
               // We need to keep some space below the breadcrumbs to prevent
               // 'highlighted' headings from being partially concealed
               <Space
@@ -178,7 +184,7 @@ const PageHeader: FunctionComponent<Props> = ({
               </Space>
             )}
             <ConditionalWrapper
-              condition={sectionLevelPage ?? false}
+              condition={sectionLevelPage || !hasBreadcrumbItems}
               wrapper={children => (
                 <Space $v={{ size: 'l', properties: ['margin-top'] }}>
                   {children}
