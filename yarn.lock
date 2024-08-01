@@ -3110,13 +3110,6 @@
     tslib "^2.5.0"
     uuid "^9.0.0"
 
-"@prismicio/client@7.6.0":
-  version "7.6.0"
-  resolved "https://registry.yarnpkg.com/@prismicio/client/-/client-7.6.0.tgz#78603bc273d3168c7762cee1fb11be097cf4770f"
-  integrity sha512-+OVIDGMhCs/EOkRmgqEvGD5LFaNSSob40ob1NS6vm0nl1mnOoNzu5wjYb9YQtz7BJo30pImxnwkxZQLsquIyUg==
-  dependencies:
-    imgix-url-builder "^0.0.4"
-
 "@prismicio/client@^7.1.0", "@prismicio/client@^7.6.0":
   version "7.7.4"
   resolved "https://registry.yarnpkg.com/@prismicio/client/-/client-7.7.4.tgz#fd2cf6e228a13d9fe5426cdf229e116721d2aec8"
@@ -3135,6 +3128,13 @@
     unist-util-remove "^4.0.0"
     unist-util-visit "^5.0.0"
     vfile "^6.0.2"
+
+"@prismicio/client@^7.8.0":
+  version "7.8.0"
+  resolved "https://registry.yarnpkg.com/@prismicio/client/-/client-7.8.0.tgz#0a7fb6abd3e1eb6b81f2d8f9a28670d9cd953c53"
+  integrity sha512-Jv0F5+GCq5ADgdDTZNO6aw/WQp6bkGbg20YuAwSFfihEoG6gAnrMsv2VwSGdW/2QT7TFfa+ezJ+9u2+2Y1mXoQ==
+  dependencies:
+    imgix-url-builder "^0.0.5"
 
 "@prismicio/custom-types-client@^1.1.0", "@prismicio/custom-types-client@^1.2.0":
   version "1.3.1"
