@@ -6413,6 +6413,16 @@ export interface GuideStopSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   transcript: prismic.RichTextField;
+
+  /**
+   * Image field in *GuideStop → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guide_stop.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 }
 
 /**
