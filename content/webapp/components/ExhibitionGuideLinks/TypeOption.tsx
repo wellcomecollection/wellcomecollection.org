@@ -53,6 +53,12 @@ const TypeLink = styled.a<{
   }
 `;
 
+const TypeIconsWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+`;
+
 function cookieHandler(key: string, data: string) {
   // We set the cookie to expire in 8 hours (the maximum length of
   // time the galleries are open in a day)
@@ -107,11 +113,11 @@ const TypeOption: FunctionComponent<Props> = ({
         >
           <h2 className={font('wb', 3)}>{title}</h2>
 
-          <RelevantGuideIcons types={[type]} />
+          <TypeIconsWrapper>
+            <RelevantGuideIcons types={[type]} />
 
-          <div style={{ position: 'absolute', bottom: '10px', right: '15px' }}>
             <Icon icon={arrow} sizeOverride="height: 32px; width: 32px;" />
-          </div>
+          </TypeIconsWrapper>
         </Space>
       </TypeLink>
     </TypeItem>

@@ -21,14 +21,6 @@ const ExhibitionTitleLink = styled.a`
   text-decoration: none;
 `;
 
-const TypeListItem = ({ url, text }) => {
-  return (
-    <Type>
-      <a href={url}>{text}</a>
-    </Type>
-  );
-};
-
 type Props = {
   exhibitionGuide: ExhibitionGuideBasic;
 };
@@ -88,10 +80,7 @@ const ExhibitionGuideLinksPromo: FunctionComponent<Props> = ({
         )}
 
         <Space
-          $v={{
-            size: 'm',
-            properties: ['margin-top', 'margin-bottom'],
-          }}
+          $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
           as="h3"
           className={font('wb', 3)}
         >
@@ -101,7 +90,9 @@ const ExhibitionGuideLinksPromo: FunctionComponent<Props> = ({
       <Space $v={{ size: 's', properties: ['margin-top'] }}>
         <PlainList className={font('intr', 5)}>
           {links.map((link, i) => (
-            <TypeListItem key={i} url={link.url} text={link.text} />
+            <Type key={i}>
+              <a href={link.url}>{link.text}</a>
+            </Type>
           ))}
         </PlainList>
       </Space>
