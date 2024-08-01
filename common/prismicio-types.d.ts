@@ -6405,10 +6405,10 @@ export interface GuideStopSliceDefaultPrimary {
   bsl_video: prismic.EmbedField;
 
   /**
-   * Transcript field in *GuideStop → Primary*
+   * Audio transcript field in *GuideStop → Primary*
    *
    * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
+   * - **Placeholder**: Transcript of the audio file
    * - **API ID Path**: guide_stop.primary.transcript
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
@@ -6423,6 +6423,16 @@ export interface GuideStopSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
+
+  /**
+   * Video subtitles field in *GuideStop → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Transcript of the BSL video
+   * - **API ID Path**: guide_stop.primary.subtitles
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  subtitles: prismic.RichTextField;
 }
 
 /**
