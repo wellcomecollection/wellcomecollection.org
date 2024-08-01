@@ -36,6 +36,15 @@
             "select": "media"
           }
         },
+        "transcript": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Audio transcript",
+            "placeholder": "Transcript of the audio file",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        },
         "bsl_video": {
           "type": "Embed",
           "config": {
@@ -43,11 +52,11 @@
             "placeholder": ""
           }
         },
-        "transcript": {
+        "subtitles": {
           "type": "StructuredText",
           "config": {
-            "label": "Audio transcript",
-            "placeholder": "Transcript of the audio file",
+            "label": "Video subtitles",
+            "placeholder": "Transcript of the BSL video",
             "allowTargetBlank": true,
             "multi": "paragraph,strong,em,hyperlink"
           }
@@ -73,15 +82,6 @@
                 "height": 3200
               }
             ]
-          }
-        },
-        "subtitles": {
-          "type": "StructuredText",
-          "config": {
-            "label": "Video subtitles",
-            "placeholder": "Transcript of the BSL video",
-            "allowTargetBlank": true,
-            "multi": "paragraph,strong,em,hyperlink"
           }
         }
       },
