@@ -1,17 +1,36 @@
 import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
-import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
+import {
+  ExhibitionGuideBasic,
+  ExhibitionGuideType,
+} from '@weco/content/types/exhibition-guides';
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody, CardImageWrapper, CardTitle } from '../Card/Card';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { useToggles } from '@weco/common/server-data/Context';
+import RelevantGuideIcons from '@weco/content/components/ExhibitionGuideRelevantIcons';
 
 type Props = {
   exhibitionGuide: ExhibitionGuideBasic;
 };
 
+const getAvailableTypes = availableTypes => {
+  const availableTypesArray: ExhibitionGuideType[] = [];
+
+  if (availableTypes.audioWithoutDescriptions)
+    availableTypesArray.push('audio-without-descriptions');
+  if (availableTypes.BSLVideo) availableTypesArray.push('bsl');
+  if (availableTypes.captionsOrTranscripts)
+    availableTypesArray.push('captions-and-transcripts');
+
+  return availableTypesArray;
+};
+
 const ExhibitionGuidePromo: FunctionComponent<Props> = ({
   exhibitionGuide,
 }) => {
+  const { egWork } = useToggles();
+
   return (
     <CardOuter
       data-component="ExhibitionGuidePromo"
@@ -49,6 +68,13 @@ const ExhibitionGuidePromo: FunctionComponent<Props> = ({
               <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
                 {exhibitionGuide.promo.caption}
               </p>
+            </Space>
+          )}
+          {egWork && (
+            <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+              <RelevantGuideIcons
+                types={getAvailableTypes(exhibitionGuide.availableTypes)}
+              />
             </Space>
           )}
         </div>
