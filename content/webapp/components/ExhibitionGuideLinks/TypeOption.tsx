@@ -53,6 +53,16 @@ const TypeLink = styled.a<{
   }
 `;
 
+const Wrapper = styled(Space).attrs({
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+})`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
 const TypeIconsWrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -107,10 +117,7 @@ const TypeOption: FunctionComponent<Props> = ({
         $egWork
         onClick={onClick}
       >
-        <Space
-          $v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-          $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-        >
+        <Wrapper>
           <h2 className={font('wb', 3)}>{title}</h2>
 
           <TypeIconsWrapper>
@@ -118,7 +125,7 @@ const TypeOption: FunctionComponent<Props> = ({
 
             <Icon icon={arrow} sizeOverride="height: 32px; width: 32px;" />
           </TypeIconsWrapper>
-        </Space>
+        </Wrapper>
       </TypeLink>
     </TypeItem>
   ) : (
