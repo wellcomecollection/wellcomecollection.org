@@ -446,9 +446,6 @@ export function groupRanges(
         acc.previousLastCanvasIndex &&
         firstCanvasIndex === acc.previousLastCanvasIndex + 1
       ) {
-        // We know this is okay because we'll only enter this branch if
-        // `previousLastCanvasIndex` is defined
-
         acc.groupedArray[acc.groupedArray.length - 1].items!.push(
           lastCanvasInRange
         );
