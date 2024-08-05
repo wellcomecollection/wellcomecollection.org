@@ -3,10 +3,6 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 4 * * MON-FRI'
-  # Remove before merge
-  push:
-    branches:
-      - docker-compose-ci
 
 permissions:
   id-token: write
