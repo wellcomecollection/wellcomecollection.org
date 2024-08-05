@@ -3,6 +3,10 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 4 * * MON-FRI'
+  # Remove before merge
+  push:
+    branches:
+      - docker-compose-ci
 
 permissions:
   id-token: write
@@ -22,4 +26,4 @@ jobs:
         with:
           registry-type: public
       - name: Run Prismic linting
-        run: docker-compose run prismic_model yarn lintPrismicData
+        run: docker compose run prismic_model yarn lintPrismicData

@@ -123,11 +123,11 @@ services:
 
 You will need to add a `command`, `volumes` and `environment` block to specify the required command and mount your AWS credentials in the running container.
 
-You can then run `docker compose` commands as would occur in the CI environment.
+You can then run `docker-compose` commands as would occur in the CI environment.
 
 ```shell script
-docker compose edge_lambdas build
-docker compose edge_lambdas run
+docker-compose edge_lambdas build
+docker-compose edge_lambdas run
 ```
 
 ## Linting
