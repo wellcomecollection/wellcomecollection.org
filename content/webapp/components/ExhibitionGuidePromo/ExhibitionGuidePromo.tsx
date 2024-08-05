@@ -71,7 +71,13 @@ const ExhibitionGuidePromo: FunctionComponent<Props> = ({
             </Space>
           )}
           {egWork && (
-            <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+            <Space
+              $v={{
+                size: 'l',
+                properties: ['margin-top'],
+                overrides: { small: 4, medium: 4, large: 5 },
+              }}
+            >
               <RelevantGuideIcons
                 types={getAvailableTypes(exhibitionGuide.availableTypes)}
               />

@@ -1,3 +1,4 @@
+import styled from 'styled-components';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import {
@@ -8,6 +9,12 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import { ExhibitionGuideType } from '@weco/content/types/exhibition-guides';
 
+// Gets rid of unwanted vertical spacing
+const IconsWrapper = styled.div`
+  line-height: 1;
+  font-size: 0;
+`;
+
 const RelevantGuideIcons = ({ types }: { types: ExhibitionGuideType[] }) => {
   // The captions icon will be on every Guide moving forward
   // We're ordering icons alphabetically
@@ -16,7 +23,7 @@ const RelevantGuideIcons = ({ types }: { types: ExhibitionGuideType[] }) => {
   ];
 
   return (
-    <>
+    <IconsWrapper>
       {sortedTypes.map((type, i) => {
         const getIcon = () => {
           switch (type) {
@@ -48,7 +55,7 @@ const RelevantGuideIcons = ({ types }: { types: ExhibitionGuideType[] }) => {
           </ConditionalWrapper>
         ) : undefined;
       })}
-    </>
+    </IconsWrapper>
   );
 };
 

@@ -53,6 +53,22 @@ const TypeLink = styled.a<{
   }
 `;
 
+const Wrapper = styled(Space).attrs({
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+})`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const TypeIconsWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+`;
+
 function cookieHandler(key: string, data: string) {
   // We set the cookie to expire in 8 hours (the maximum length of
   // time the galleries are open in a day)
@@ -101,18 +117,15 @@ const TypeOption: FunctionComponent<Props> = ({
         $egWork
         onClick={onClick}
       >
-        <Space
-          $v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-          $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-        >
+        <Wrapper>
           <h2 className={font('wb', 3)}>{title}</h2>
 
-          <RelevantGuideIcons types={[type]} />
+          <TypeIconsWrapper>
+            <RelevantGuideIcons types={[type]} />
 
-          <div style={{ position: 'absolute', bottom: '10px', right: '15px' }}>
             <Icon icon={arrow} sizeOverride="height: 32px; width: 32px;" />
-          </div>
-        </Space>
+          </TypeIconsWrapper>
+        </Wrapper>
       </TypeLink>
     </TypeItem>
   ) : (
