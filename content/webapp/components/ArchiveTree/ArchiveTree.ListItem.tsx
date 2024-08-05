@@ -105,6 +105,7 @@ type ListItemProps = ListProps & {
   setSize: number;
   posInSet: number;
   index: number;
+  shouldFetchChildren: boolean;
 };
 
 function getTabIndex({
@@ -140,6 +141,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   firstItemTabbable,
   showFirstLevelGuideline,
   ItemRenderer,
+  shouldFetchChildren,
 }: ListItemProps) => {
   const { isEnhanced } = useContext(AppContext);
   const isEndNode = item.work.totalParts === 0;
@@ -166,7 +168,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
     (level > 1 || showFirstLevelGuideline);
 
   function toggleBranch() {
-    if (item.children === undefined) {
+    if (item.children === undefined && shouldFetchChildren) {
       expandTree({
         item,
         setArchiveTree,
@@ -333,6 +335,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           firstItemTabbable={firstItemTabbable}
           showFirstLevelGuideline={showFirstLevelGuideline}
           ItemRenderer={ItemRenderer}
+          shouldFetchChildren={shouldFetchChildren}
         />
       )}
     </TreeItem>
