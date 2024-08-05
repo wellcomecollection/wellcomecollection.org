@@ -22,4 +22,4 @@ jobs:
         with:
           registry-type: public
       - name: Run Prismic linting
-        run: docker-compose run prismic_model yarn lintPrismicData
+        run: docker compose run prismic_model yarn lintPrismicData
