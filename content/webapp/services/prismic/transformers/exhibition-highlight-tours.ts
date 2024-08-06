@@ -12,7 +12,7 @@ import {
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import { ExhibitionHighlightTour } from '@weco/content/types/exhibition-guides';
 import { asRichText, asTitle } from '.';
-import { transformImagePromo } from './images';
+import { transformImagePromo, transformImage } from './images';
 import { transformRelatedExhibition } from '@weco/content/services/prismic/transformers/exhibition-guides';
 import { getYouTubeEmbedUrl } from '@weco/content/services/prismic/transformers/embeds';
 
@@ -87,12 +87,18 @@ export function transformGuideStopSlice(
     audio: isFilledLinkToMediaField(slice.primary.audio_with_description)
       ? slice.primary.audio_with_description.url
       : undefined,
+    transcript: slice.primary.transcript
+      ? asRichText(slice.primary.transcript)
+      : undefined,
     video:
       slice.primary.bsl_video.provider_name === 'YouTube'
         ? getYouTubeEmbedUrl(slice.primary.bsl_video)
         : undefined,
-    transcript: slice.primary.transcript
-      ? asRichText(slice.primary.transcript)
+    subtitles: slice.primary.subtitles
+      ? asRichText(slice.primary.subtitles)
+      : undefined,
+    image: slice.primary.image
+      ? transformImage(slice.primary.image)
       : undefined,
   };
 }
