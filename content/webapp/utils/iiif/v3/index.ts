@@ -210,8 +210,8 @@ function getImageAuthCookieService(
   return Array.isArray(imageService?.service)
     ? imageService?.service?.find(s => s['@type'] === 'AuthCookieService1')
     : imageService?.service?.['@type'] === 'AuthCookieService1'
-    ? imageService?.service
-    : undefined;
+      ? imageService?.service
+      : undefined;
 }
 
 // We don't know at the top-level of a manifest whether any of the canvases contain images that are open access.
@@ -446,9 +446,6 @@ export function groupRanges(
         acc.previousLastCanvasIndex &&
         firstCanvasIndex === acc.previousLastCanvasIndex + 1
       ) {
-        // We know this is okay because we'll only enter this branch if
-        // `previousLastCanvasIndex` is defined
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         acc.groupedArray[acc.groupedArray.length - 1].items!.push(
           lastCanvasInRange
         );
@@ -550,8 +547,8 @@ export function getOriginalFiles(
     canvas.original.length > 0
       ? canvas.original
       : canvas.painting.length > 0
-      ? canvas.painting
-      : canvas.supplementing;
+        ? canvas.painting
+        : canvas.supplementing;
   return downloadData || [];
 }
 
@@ -581,7 +578,7 @@ export function getCollectionManifests(
           return getCollectionManifests(item);
         }
       })
-      .flat(Infinity);
+      .flat(Infinity) as CollectionItems[];
   } else {
     return [];
   }
