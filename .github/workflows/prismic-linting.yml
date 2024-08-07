@@ -44,6 +44,7 @@ jobs:
           {
             "action_name": "Prismic linting action",
             "message": "Action has ${{ needs.prismic_linting.result }}"
+            "link": "https://github.com/wellcomecollection/wellcomecollection.org/actions/workflows/prismic-linting.yml"
           }
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
