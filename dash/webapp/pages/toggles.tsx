@@ -232,19 +232,6 @@ const IndexPage: FunctionComponent = () => {
             margin: '0 auto',
           }}
         >
-          <div
-            style={{
-              display: 'flex',
-            }}
-          >
-            <h2 style={{ flexGrow: 1 }}>Feature toggles</h2>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            />
-          </div>
           <TextBox>
             You can turn on a toggle on (👍) or off (👎), which will only be
             active on the browser you are currently using, so feel free to
@@ -255,7 +242,7 @@ const IndexPage: FunctionComponent = () => {
             🗑&nbsp;&nbsp;Reset all toggles to default&nbsp;&nbsp;🔄
           </ResetButton>
 
-          <h2>General use</h2>
+          <h2>Toggles for general use</h2>
 
           <ListOfToggles
             toggles={generalToggles}
@@ -266,7 +253,6 @@ const IndexPage: FunctionComponent = () => {
           <hr style={{ margin: '3em' }} />
 
           <h2>Toggles for Digital team</h2>
-
           <h3>Permanent</h3>
 
           <ListOfToggles
@@ -277,7 +263,7 @@ const IndexPage: FunctionComponent = () => {
 
           <hr style={{ margin: '3em' }} />
 
-          <h3>Experiments</h3>
+          <h3>Temporary</h3>
 
           <ListOfToggles
             toggles={toggles.filter(t => t.type === 'experimental')}
@@ -287,7 +273,7 @@ const IndexPage: FunctionComponent = () => {
 
           <hr style={{ margin: '3em' }} />
 
-          <h3>Stage</h3>
+          <h3>Staging</h3>
 
           <ListOfToggles
             toggles={toggles.filter(t => t.type === 'stage')}
@@ -297,7 +283,7 @@ const IndexPage: FunctionComponent = () => {
 
           <hr style={{ margin: '3em' }} />
 
-          <h3>A/B tests</h3>
+          <h2>A/B tests</h2>
           <TextBox>
             You can opt-in to a test (👍), explicitly opt-out (👎), or have us
             forget your choice. If you choose for use to forget, you will be put
