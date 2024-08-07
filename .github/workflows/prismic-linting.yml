@@ -3,6 +3,10 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 4 * * MON-FRI'
+  # Remove before merge
+  push:
+    branches:
+      - github-action-slack
 
 permissions:
   id-token: write
@@ -23,3 +27,14 @@ jobs:
           registry-type: public
       - name: Run Prismic linting
         run: docker compose run prismic_model yarn lintPrismicData
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ always() && (needs.prismic_linting.result == 'failure' || needs.prismic_linting.result == 'timed_out') }}
+    needs:
+      - prismic_linting
+    steps:
+    - name: Send GitHub Action trigger data to Slack workflow
+      id: slack
+      uses: slackapi/slack-github-action@v1.26.0
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
