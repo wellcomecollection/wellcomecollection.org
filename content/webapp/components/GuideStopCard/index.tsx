@@ -5,6 +5,8 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { grid } from '@weco/common/utils/classnames';
 import { threeUpGridSizesMap } from '@weco/content/components/Body/GridFactory';
+import ImagePlaceholder from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
+import type { ColorSelection } from '@weco/content/types/color-selections';
 
 import {
   map,
@@ -51,6 +53,19 @@ const GuideStopCard: FunctionComponent<Props> = ({
     ? secondsToMinutesAndSeconds(durationInSeconds)
     : undefined;
   const croppedImage = getCrop(image, '16:9');
+  const placeholderBackgroundColor = (stopNumber: number): ColorSelection => {
+    switch (stopNumber % 4) {
+      case 0:
+        return 'accent.salmon';
+      case 1:
+        return 'accent.blue';
+      case 2:
+        return 'accent.green';
+      case 3:
+      default:
+        return 'accent.green';
+    }
+  };
 
   return (
     <Space
@@ -59,7 +74,7 @@ const GuideStopCard: FunctionComponent<Props> = ({
     >
       <CardOuter href={link} style={{ minHeight: '0' }}>
         <CardImageWrapper>
-          {croppedImage && (
+          {croppedImage ? (
             <PrismicImage
               // We intentionally omit the alt text on promos, so screen reader
               // users don't have to listen to the alt text before hearing the
@@ -73,6 +88,12 @@ const GuideStopCard: FunctionComponent<Props> = ({
               }}
               quality="low"
             />
+          ) : (
+            <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
+              <ImagePlaceholder
+                backgroundColor={placeholderBackgroundColor(number || 1)}
+              />
+            </div>
           )}
         </CardImageWrapper>
         <CardBody style={{ display: 'block' }}>
