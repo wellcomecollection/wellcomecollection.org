@@ -47,4 +47,4 @@ jobs:
             "link": "https://github.com/wellcomecollection/wellcomecollection.org/actions/workflows/prismic-linting.yml"
           }
       env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_GA_ACTION_URL }}
