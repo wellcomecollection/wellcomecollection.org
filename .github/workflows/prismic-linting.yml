@@ -3,10 +3,6 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 4 * * MON-FRI'
-  # Remove before merge
-  push:
-    branches:
-      - github-action-slack
 
 permissions:
   id-token: write
@@ -15,20 +11,18 @@ jobs:
   prismic_linting:
     runs-on: ubuntu-latest
     steps:
-      - name: failing step
-        run: exit 1
-      # - uses: actions/checkout@v4
-      # - uses: aws-actions/configure-aws-credentials@v4
-      #   with:
-      #     aws-region: eu-west-1
-      #     role-to-assume: ${{ secrets.EXPERIENCE_GHA_ROLE_ARN }}
-      # - uses: aws-actions/amazon-ecr-login@v2
-      #   env:
-      #     AWS_REGION: us-east-1
-      #   with:
-      #     registry-type: public
-      # - name: Run Prismic linting
-      #   run: docker compose run prismic_model yarn lintPrismicData
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-west-1
+          role-to-assume: ${{ secrets.EXPERIENCE_GHA_ROLE_ARN }}
+      - uses: aws-actions/amazon-ecr-login@v2
+        env:
+          AWS_REGION: us-east-1
+        with:
+          registry-type: public
+      - name: Run Prismic linting
+        run: docker compose run prismic_model yarn lintPrismicData
   on-failure:
     runs-on: ubuntu-latest
     if: ${{ always() && (needs.prismic_linting.result == 'failure' || needs.prismic_linting.result == 'timed_out') }}
