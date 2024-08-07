@@ -68,24 +68,29 @@ const TogglesMessage: FunctionComponent = () => {
   }, []);
 
   return toggles.length > 0 ? (
-    <Layout gridSizes={gridSize8()}>
-      <MessageBar>
-        <Space $h={{ size: 's', properties: ['margin-right'] }}>
-          <Icon icon={underConstruction} />
-        </Space>
-        <Space $h={{ size: 's', properties: ['margin-right'] }}>
-          You have the following{' '}
-          <a href="https://dash.wellcomecollection.org/toggles">toggles</a>{' '}
-          enabled:{' '}
-          {toggles.map((t, i) => (
-            <Fragment key={t}>
-              <strong>{t}</strong>
-              {i !== toggles.length - 1 && <>, </>}
-            </Fragment>
-          ))}
-        </Space>
-      </MessageBar>
-    </Layout>
+    <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+      <Layout gridSizes={gridSize8()}>
+        <MessageBar>
+          <Space $h={{ size: 's', properties: ['margin-right'] }}>
+            <Icon icon={underConstruction} />
+          </Space>
+          <Space $h={{ size: 's', properties: ['margin-right'] }}>
+            You have the following toggles enabled:{' '}
+            {toggles.map((t, i) => (
+              <Fragment key={t}>
+                <strong>{t}</strong>
+                {i !== toggles.length - 1 && <>, </>}
+              </Fragment>
+            ))}
+            , this could be what is causing this page to error.{' '}
+            <a href="https://dash.wellcomecollection.org/toggles">
+              Please try resetting your toggles
+            </a>
+            .
+          </Space>
+        </MessageBar>
+      </Layout>
+    </Space>
   ) : null;
 };
 
@@ -139,8 +144,8 @@ const ErrorPage: FunctionComponent<Props> = ({ statusCode = 500, title }) => {
   const errorMessage = isNotUndefined(title)
     ? title
     : statusCode in errorMessages
-    ? errorMessages[statusCode]
-    : errorMessages[500];
+      ? errorMessages[statusCode]
+      : errorMessages[500];
 
   return (
     <PageLayout
@@ -162,8 +167,8 @@ const ErrorPage: FunctionComponent<Props> = ({ statusCode = 500, title }) => {
         <SpacingSection>
           <SpacingComponent>
             <SafariPreviewMessage />
-            {getErrorMessage(statusCode)}
             <TogglesMessage />
+            {getErrorMessage(statusCode)}
           </SpacingComponent>
         </SpacingSection>
       </Space>
