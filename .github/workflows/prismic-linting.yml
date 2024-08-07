@@ -38,5 +38,12 @@ jobs:
     - name: Send GitHub Action trigger data to Slack workflow
       id: slack
       uses: slackapi/slack-github-action@v1.26.0
+      with:
+        # This data can be any valid JSON from a previous step in the GitHub Action
+        payload: |
+          {
+            "action_name": "Prismic linting action",
+            "message": "Action has ${{ needs.prismic_linting.result }}"
+          }
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
