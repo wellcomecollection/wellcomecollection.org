@@ -181,10 +181,10 @@ export function filterExhibitionGuideComponents(
       guideType === 'captions-and-transcripts'
         ? isNotUndefined(c.captionsOrTranscripts)
         : guideType === 'audio-without-descriptions'
-        ? isNotUndefined(c.audioWithoutDescription)
-        : guideType === 'bsl'
-        ? isNotUndefined(c.bsl)
-        : false
+          ? isNotUndefined(c.audioWithoutDescription)
+          : guideType === 'bsl'
+            ? isNotUndefined(c.bsl)
+            : false
     );
 
   return {

@@ -210,10 +210,10 @@ const Tasl: FunctionComponent<Props> = ({
   const id = title
     ? dasherizeShorten(title)
     : sourceName
-    ? dasherizeShorten(sourceName)
-    : copyrightHolder
-    ? dasherizeShorten(copyrightHolder)
-    : '';
+      ? dasherizeShorten(sourceName)
+      : copyrightHolder
+        ? dasherizeShorten(copyrightHolder)
+        : '';
   const idWithSuffix = `${id}${idSuffix}`;
 
   return [title, sourceName, copyrightHolder].some(_ => _) ? (

@@ -120,8 +120,8 @@ export function fetcher<Document extends prismic.PrismicDocument>(
       const paramsFilters = isString(params.filters)
         ? [params.filters]
         : Array.isArray(params.filters)
-        ? params.filters
-        : [];
+          ? params.filters
+          : [];
 
       const filters = [
         ...paramsFilters,

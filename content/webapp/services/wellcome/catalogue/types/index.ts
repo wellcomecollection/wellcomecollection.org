@@ -234,10 +234,10 @@ export type ResultType = Work | Image | Concept;
 type CatalogueAggregations<Result extends ResultType> = Result extends Work
   ? WorkAggregations
   : Result extends Image
-  ? ImageAggregations
-  : Result extends Concept
-  ? ConceptAggregations
-  : null;
+    ? ImageAggregations
+    : Result extends Concept
+      ? ConceptAggregations
+      : null;
 
 export type CatalogueResultsList<Result extends ResultType> =
   WellcomeResultList<Result, CatalogueAggregations<Result>>;

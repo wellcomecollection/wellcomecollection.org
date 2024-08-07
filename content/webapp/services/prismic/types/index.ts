@@ -36,14 +36,15 @@ import {
   InferDataInterface,
 } from '@weco/common/services/prismic/types';
 import { ImageDimensions } from '@weco/common/model/image';
-export type InferCustomType<T> = T extends prismic.PrismicDocument<
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  any,
-  /* eslint-enable @typescript-eslint/no-explicit-any */
-  infer CustomType
->
-  ? CustomType
-  : never;
+export type InferCustomType<T> =
+  T extends prismic.PrismicDocument<
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    any,
+    /* eslint-enable @typescript-eslint/no-explicit-any */
+    infer CustomType
+  >
+    ? CustomType
+    : never;
 
 /** This gives us type checking on fetch links.  e.g. if you have a type
  *

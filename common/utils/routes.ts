@@ -35,10 +35,10 @@ function paramParser<T>(
   return param === ''
     ? fs.empty(param)
     : typeof param === 'string'
-    ? fs.string(param)
-    : Array.isArray(param)
-    ? fs.array(param)
-    : fs.nodef();
+      ? fs.string(param)
+      : Array.isArray(param)
+        ? fs.array(param)
+        : fs.nodef();
 }
 
 export function toCsv(param: QueryParam): string[] {
