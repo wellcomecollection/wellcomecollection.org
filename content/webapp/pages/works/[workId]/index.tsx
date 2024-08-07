@@ -52,7 +52,7 @@ const WorkDetailsWrapper = styled(Space).attrs({
   min-width: 0; /* prevent item overflowing its container */
 `;
 
-export const Grid = styled.div.attrs({
+const Grid = styled.div.attrs({
   className: 'grid',
 })``;
 

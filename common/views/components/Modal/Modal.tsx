@@ -47,12 +47,12 @@ const Overlay = styled.div`
   `}
 `;
 
-const CloseButton = styled(Space).attrs<{ type: string }>({
+const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
   as: 'button',
-  type: 'button',
+  type: props.type || 'button',
   $v: { size: 'm', properties: ['top'] },
   $h: { size: 'm', properties: ['left'] },
-})`
+}))`
   position: fixed;
   width: 28px;
   height: 28px;
