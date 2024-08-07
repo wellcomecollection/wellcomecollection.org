@@ -6,6 +6,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { grid } from '@weco/common/utils/classnames';
 import { threeUpGridSizesMap } from '@weco/content/components/Body/GridFactory';
 import ImagePlaceholder from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
+import { secondsToHoursMinutesAndSeconds } from '@weco/common/utils/format-time';
 import type { ColorSelection } from '@weco/content/types/color-selections';
 
 import {
@@ -19,15 +20,6 @@ import {
   CardBody,
   CardImageWrapper,
 } from '@weco/content/components/Card/Card';
-
-function secondsToMinutesAndSeconds(s: number): string {
-  const minutes = Math.floor(s / 60);
-  const seconds = s % 60;
-  const padSeconds = seconds < 10 ? `0${seconds}` : seconds;
-  const padMinutes = minutes < 10 ? `0${minutes}` : minutes;
-
-  return `${padMinutes}:${padSeconds}`;
-}
 
 type Props = {
   link?: string;
@@ -50,7 +42,7 @@ const GuideStopCard: FunctionComponent<Props> = ({
 }) => {
   const durationInSeconds = duration && Math.round(duration * 60);
   const durationInMinutesAndSeconds = durationInSeconds
-    ? secondsToMinutesAndSeconds(durationInSeconds)
+    ? secondsToHoursMinutesAndSeconds(durationInSeconds)
     : undefined;
   const croppedImage = getCrop(image, '16:9');
   const placeholderBackgroundColor = (stopNumber: number): ColorSelection => {
