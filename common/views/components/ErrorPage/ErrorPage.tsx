@@ -139,8 +139,8 @@ const ErrorPage: FunctionComponent<Props> = ({ statusCode = 500, title }) => {
   const errorMessage = isNotUndefined(title)
     ? title
     : statusCode in errorMessages
-    ? errorMessages[statusCode]
-    : errorMessages[500];
+      ? errorMessages[statusCode]
+      : errorMessages[500];
 
   return (
     <PageLayout

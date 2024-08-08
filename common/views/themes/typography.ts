@@ -376,8 +376,8 @@ export function makeFontSizeOverrideClasses(): string {
         bp === 'small'
           ? ['small', 'medium']
           : bp === 'medium'
-          ? ['medium', 'large']
-          : ['large'];
+            ? ['medium', 'large']
+            : ['large'];
 
       if (minMax.length === 2) {
         return `@media (min-width: ${

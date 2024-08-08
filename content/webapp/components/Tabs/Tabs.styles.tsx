@@ -60,8 +60,8 @@ export const Tab = styled.div.attrs({
           props.$hideBorder
             ? 'transparent'
             : props.$isWhite
-            ? 'neutral.600'
-            : 'neutral.300'
+              ? 'neutral.600'
+              : 'neutral.300'
         )}`};
 
   a {

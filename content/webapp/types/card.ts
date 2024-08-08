@@ -50,10 +50,10 @@ export function convertItemToCardProps(
     'format' in item
       ? item.format
       : item.type === 'series'
-      ? // `id` needs to be something here, but as we're not
-        // getting this from prismic, that'll do
-        { title: 'Serial', id: '' }
-      : undefined;
+        ? // `id` needs to be something here, but as we're not
+          // getting this from prismic, that'll do
+          { title: 'Serial', id: '' }
+        : undefined;
   const linkData =
     'relatedDocument' in item
       ? {

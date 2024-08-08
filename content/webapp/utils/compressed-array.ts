@@ -31,8 +31,8 @@ function commonPrefix(s1: string, s2: string): string {
   return firstMismatch === 0
     ? ''
     : firstMismatch
-    ? s1.slice(0, firstMismatch)
-    : s1;
+      ? s1.slice(0, firstMismatch)
+      : s1;
 }
 
 function longestCommonPrefix(strings: string[]): string {

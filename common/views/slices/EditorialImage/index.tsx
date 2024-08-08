@@ -47,8 +47,8 @@ const EditorialImageSlice: FunctionComponent<EditorialImageSliceProps> = ({
     options.isVisualStory || aspectRatio() === 'portrait'
       ? 8
       : aspectRatio() === 'square'
-      ? 10
-      : 12; // landscape
+        ? 10
+        : 12; // landscape
 
   return (
     <SpacingComponent $sliceType={transformedSlice.type}>

@@ -257,8 +257,8 @@ const Body: FunctionComponent<Props> = ({
                   isLast && sectionTheme.rowBackground === 'white'
                     ? ['padding-top']
                     : isFirst && sectionTheme.rowBackground === 'white'
-                    ? ['padding-bottom']
-                    : ['padding-top', 'padding-bottom'],
+                      ? ['padding-bottom']
+                      : ['padding-top', 'padding-bottom'],
               }}
               $cardBackgroundColor={sectionTheme.cardBackground}
               $rowBackgroundColor={sectionTheme.rowBackground}
