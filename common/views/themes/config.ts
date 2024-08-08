@@ -147,7 +147,7 @@ export const sizes = {
 
 export const cardSizes = {
   small: 0,
-  medium: 400,
+  medium: 380,
   large: 550,
 };
 
