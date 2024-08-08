@@ -12,6 +12,7 @@ import { useToggles } from '@weco/common/server-data/Context';
 import { arrow } from '@weco/common/icons';
 import RelevantGuideIcons from '@weco/content/components/ExhibitionGuideRelevantIcons';
 import { ExhibitionGuideType } from '@weco/content/types/exhibition-guides';
+import { CardBody } from '@weco/content/components/Card/Card';
 
 export const TypeList = styled(Space).attrs({
   $v: { size: 'l', properties: ['row-gap'] },
@@ -51,16 +52,6 @@ const TypeLink = styled.a<{
         ? 'text-decoration: underline;'
         : `background: ${props.theme.color('neutral.400')};`}
   }
-`;
-
-const Wrapper = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-})`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 `;
 
 const TypeIconsWrapper = styled.div`
@@ -117,7 +108,7 @@ const TypeOption: FunctionComponent<Props> = ({
         $egWork
         onClick={onClick}
       >
-        <Wrapper>
+        <CardBody style={{ height: '100%' }}>
           <h2 className={font('wb', 3)}>{title}</h2>
 
           <TypeIconsWrapper>
@@ -125,7 +116,7 @@ const TypeOption: FunctionComponent<Props> = ({
 
             <Icon icon={arrow} sizeOverride="height: 32px; width: 32px;" />
           </TypeIconsWrapper>
-        </Wrapper>
+        </CardBody>
       </TypeLink>
     </TypeItem>
   ) : (
