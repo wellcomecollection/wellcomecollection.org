@@ -125,6 +125,20 @@ guideStopCard.args = {
 guideStopCard.parameters = {
   ...sharedParameters,
 };
+guideStopCard.argTypes = {
+  type: {
+    options: ['audio', 'video'],
+    control: { type: 'radio' },
+  },
+  link: {
+    table: {
+      disable: true,
+    },
+  },
+  image: {
+    control: 'boolean',
+  },
+};
 guideStopCard.storyName = 'GuideStopCard';
 
 const StoryPromoTemplate = args => <StoryPromo {...args} />;
