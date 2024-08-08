@@ -145,6 +145,12 @@ export const sizes = {
   headerLarge: 1040,
 };
 
+export const cardSizes = {
+  small: 0,
+  medium: 400,
+  large: 550,
+};
+
 const defaultButtonColors: ButtonColors = {
   border: 'accent.green',
   background: 'accent.green',
@@ -240,6 +246,7 @@ export const themeValues = {
     xlarge: 60,
   },
   sizes,
+  cardSizes,
   gutter: {
     small: 18,
     medium: 24,

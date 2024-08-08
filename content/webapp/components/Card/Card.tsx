@@ -20,6 +20,7 @@ type Props = {
 export const CardOuter = styled.a.attrs<{ 'data-gtm-trigger'?: 'card_link' }>({
   'data-gtm-trigger': 'card_link',
 })`
+  container: card / inline-size;
   height: 100%;
   display: block; /* IE */
 

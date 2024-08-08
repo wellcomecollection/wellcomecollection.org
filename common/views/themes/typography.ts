@@ -350,13 +350,23 @@ export const typography = css<GlobalStyleProps>`
 export function makeFontSizeClasses(): string {
   return breakpointNames
     .map(bp => {
-      return `@media (min-width: ${themeValues.sizes[bp]}px) {
-      ${Object.entries(fontSizesAtBreakpoints[bp])
-        .map(([key, value]) => {
-          return `.font-size-${key} {font-size: ${value}rem}`;
-        })
-        .join(' ')}
-    }`;
+      return `
+        @media (min-width: ${themeValues.sizes[bp]}px) {
+          ${Object.entries(fontSizesAtBreakpoints[bp])
+            .map(([key, value]) => {
+              return `.font-size-${key} {font-size: ${value}rem;}`;
+            })
+            .join(' ')}
+        }
+
+        @container card (min-width: ${themeValues.cardSizes[bp]}px) {
+          ${Object.entries(fontSizesAtBreakpoints[bp])
+            .map(([key, value]) => {
+              return `.font-size-${key} {font-size: ${value}rem !important;}`;
+            })
+            .join(' ')}
+        }
+      `;
     })
     .join(' ');
 }
