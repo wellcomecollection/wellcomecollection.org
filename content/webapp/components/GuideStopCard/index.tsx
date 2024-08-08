@@ -52,7 +52,7 @@ const GuideStopCard: FunctionComponent<Props> = ({
       case 1:
         return 'accent.blue';
       case 2:
-        return 'accent.green';
+        return 'accent.purple';
       case 3:
       default:
         return 'accent.green';
@@ -90,21 +90,19 @@ const GuideStopCard: FunctionComponent<Props> = ({
         </CardImageWrapper>
         <CardBody style={{ display: 'block' }}>
           <CardTitle>{title}</CardTitle>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            {number && (
-              <>
-                <Space
-                  style={{ display: 'flex' }}
-                  $h={{ size: 's', properties: ['margin-right'] }}
-                >
-                  <Icon icon={map} matchText={true} />
-                </Space>
-                <span>
-                  Stop {number}/{totalStops}
-                </span>
-              </>
-            )}
-          </div>
+          {number && (
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Space
+                style={{ display: 'flex' }}
+                $h={{ size: 's', properties: ['margin-right'] }}
+              >
+                <Icon icon={map} matchText={true} />
+              </Space>
+              <span>
+                Stop {number}/{totalStops}
+              </span>
+            </div>
+          )}
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Space
               style={{ display: 'flex' }}
