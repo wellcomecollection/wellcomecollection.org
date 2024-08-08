@@ -29,6 +29,7 @@ const ResetButton = styled(Button)`
   padding: 8px 12px;
   margin: 10px 0;
   font-size: 1.03rem;
+  cursor: pointer;
 `;
 
 const Status = styled.div<{ $active?: boolean }>`
@@ -76,12 +77,12 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
               paddingTop: '6px',
             }}
           >
-            <h3
+            <h4
               style={{ marginRight: '6px', marginBottom: '5px' }}
               id={`toggle-${toggle.id}`}
             >
               {toggle.title}
-            </h3>
+            </h4>
             <div
               style={{
                 display: 'flex',
@@ -93,7 +94,21 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
               Public status: <Status $active={toggle.defaultValue} />{' '}
               {toggle.defaultValue === true ? 'on' : 'off'}
             </div>
-            <p>{toggle.description}</p>
+            <p>{toggle.description} </p>
+
+            {toggle.documentationLink && (
+              <p>
+                <a
+                  href={toggle.documentationLink}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Read documentation
+                </a>
+                .
+              </p>
+            )}
+
             <Button
               onClick={() => {
                 setCookie(toggle.id, 'true');
@@ -146,6 +161,7 @@ type Toggle = {
   defaultValue: boolean;
   description: string;
   type: 'permanent' | 'experimental' | 'test' | 'stage';
+  documentationLink?: string;
 };
 
 type ToggleStates = { [id: string]: boolean | undefined };
@@ -197,6 +213,12 @@ const IndexPage: FunctionComponent = () => {
     [toggles]
   );
 
+  const generalToggleIds = ['apiToolbar'];
+  const generalToggles = toggles.filter(t => generalToggleIds.includes(t.id));
+  const restOfPermanentToggles = toggles
+    .filter(t => t.type === 'permanent')
+    .filter(t => !generalToggleIds.includes(t.id));
+
   return (
     <>
       <Head>
@@ -210,19 +232,6 @@ const IndexPage: FunctionComponent = () => {
             margin: '0 auto',
           }}
         >
-          <div
-            style={{
-              display: 'flex',
-            }}
-          >
-            <h2 style={{ flexGrow: 1 }}>Feature toggles</h2>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            />
-          </div>
           <TextBox>
             You can turn on a toggle on (👍) or off (👎), which will only be
             active on the browser you are currently using, so feel free to
@@ -233,19 +242,28 @@ const IndexPage: FunctionComponent = () => {
             🗑&nbsp;&nbsp;Reset all toggles to default&nbsp;&nbsp;🔄
           </ResetButton>
 
-          <hr style={{ margin: '3em' }} />
-
-          <h2>Permanent toggles</h2>
+          <h2>Toggles for general use</h2>
 
           <ListOfToggles
-            toggles={toggles.filter(t => t.type === 'permanent')}
+            toggles={generalToggles}
             toggleStates={toggleStates}
             setToggleStates={setToggleStates}
           />
 
           <hr style={{ margin: '3em' }} />
 
-          <h2>Experiments</h2>
+          <h2>Toggles for Digital team</h2>
+          <h3>Permanent</h3>
+
+          <ListOfToggles
+            toggles={restOfPermanentToggles}
+            toggleStates={toggleStates}
+            setToggleStates={setToggleStates}
+          />
+
+          <hr style={{ margin: '3em' }} />
+
+          <h3>Temporary</h3>
 
           <ListOfToggles
             toggles={toggles.filter(t => t.type === 'experimental')}
@@ -255,7 +273,7 @@ const IndexPage: FunctionComponent = () => {
 
           <hr style={{ margin: '3em' }} />
 
-          <h2>Stage</h2>
+          <h3>Staging</h3>
 
           <ListOfToggles
             toggles={toggles.filter(t => t.type === 'stage')}

@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent, useState, useEffect } from 'react';
+import { FunctionComponent, useState, useEffect } from 'react';
 import { getCookies } from 'cookies-next';
 import styled from 'styled-components';
 
@@ -19,14 +19,14 @@ import SpacingComponent from '../styled/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import { dangerouslyGetEnabledToggles } from '@weco/common/utils/cookies';
 import Layout, { gridSize8 } from '../Layout';
+import togglesList from '@weco/toggles/toggles';
 
 const MessageBar = styled(Space).attrs({
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
   background: ${props => props.theme.color('yellow')};
   display: flex;
-  align-items: center;
   position: relative;
 
   .icon {
@@ -60,32 +60,54 @@ const TogglesMessage: FunctionComponent = () => {
   const [toggles, setToggles] = useState<string[]>([]);
 
   useEffect(() => {
-    setToggles(
+    setToggles(() => {
       // dangerouslyGetEnabledToggles returns a list with of all toggle cookies that are set.
       // Those prefixed with a ! have a false value and we only need to show the toggles with a value of true here
-      dangerouslyGetEnabledToggles(getCookies()).filter(v => !v.startsWith('!'))
-    );
+      const activeTogglesInBrowser = dangerouslyGetEnabledToggles(
+        getCookies()
+      ).filter(v => !v.startsWith('!'));
+
+      // Get the readable name
+      if (activeTogglesInBrowser.length > 0) {
+        const allToggles = [...togglesList.toggles, ...togglesList.tests];
+        const activeToggleNames = activeTogglesInBrowser
+          .map(
+            id =>
+              Object.values(allToggles).find(toggle => toggle.id === id)?.title
+          )
+          .filter(f => f);
+        return activeToggleNames as string[];
+      } else {
+        return [];
+      }
+    });
   }, []);
 
   return toggles.length > 0 ? (
-    <Layout gridSizes={gridSize8()}>
-      <MessageBar>
-        <Space $h={{ size: 's', properties: ['margin-right'] }}>
-          <Icon icon={underConstruction} />
-        </Space>
-        <Space $h={{ size: 's', properties: ['margin-right'] }}>
-          You have the following{' '}
-          <a href="https://dash.wellcomecollection.org/toggles">toggles</a>{' '}
-          enabled:{' '}
-          {toggles.map((t, i) => (
-            <Fragment key={t}>
-              <strong>{t}</strong>
-              {i !== toggles.length - 1 && <>, </>}
-            </Fragment>
-          ))}
-        </Space>
-      </MessageBar>
-    </Layout>
+    <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+      <Layout gridSizes={gridSize8()}>
+        <MessageBar>
+          <Space $h={{ size: 's', properties: ['margin-right'] }}>
+            <Icon icon={underConstruction} />
+          </Space>
+          <Space $h={{ size: 's', properties: ['margin-right'] }}>
+            You have the following toggles enabled:
+            <ul>
+              {toggles.map(t => (
+                <li key={t}>
+                  <strong>{t}</strong>
+                </li>
+              ))}
+            </ul>
+            This could be what is causing this page to error,{' '}
+            <a href="https://dash.wellcomecollection.org/toggles">
+              please try resetting your toggles
+            </a>
+            .
+          </Space>
+        </MessageBar>
+      </Layout>
+    </Space>
   ) : null;
 };
 
@@ -162,8 +184,8 @@ const ErrorPage: FunctionComponent<Props> = ({ statusCode = 500, title }) => {
         <SpacingSection>
           <SpacingComponent>
             <SafariPreviewMessage />
-            {getErrorMessage(statusCode)}
             <TogglesMessage />
+            {getErrorMessage(statusCode)}
           </SpacingComponent>
         </SpacingSection>
       </Space>
