@@ -136,7 +136,12 @@ guideStopCard.argTypes = {
     },
   },
   image: {
-    control: 'boolean',
+    control: 'radio',
+    options: ['content image', 'placeholder image'],
+    mapping: {
+      'content image': imageWithCrops,
+      'placeholder image': false,
+    },
   },
 };
 guideStopCard.storyName = 'GuideStopCard';
