@@ -210,8 +210,8 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
           !isValid && showValidity
             ? 'error'
             : isValid && showValidity
-            ? 'success'
-            : undefined
+              ? 'success'
+              : undefined
         }
       >
         <TextInputInput

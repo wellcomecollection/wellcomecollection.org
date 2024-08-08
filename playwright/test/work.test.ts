@@ -45,9 +45,8 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
     context,
   }) => {
     await workWithPhysicalLocationOnly(context, page);
-    const { whereToFindIt, loginLink, unavailableBanner } = await getAllStates(
-      page
-    );
+    const { whereToFindIt, loginLink, unavailableBanner } =
+      await getAllStates(page);
 
     await expect(whereToFindIt).toBeVisible();
 

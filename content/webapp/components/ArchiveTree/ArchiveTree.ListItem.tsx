@@ -154,8 +154,8 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   const highlightCondition = item.openStatus
     ? 'primary'
     : descendentIsSelected
-    ? 'secondary'
-    : undefined;
+      ? 'secondary'
+      : undefined;
 
   const hasControl = Boolean(
     item?.work?.totalParts && item?.work?.totalParts > 0

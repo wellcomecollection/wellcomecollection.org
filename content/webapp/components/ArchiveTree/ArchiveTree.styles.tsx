@@ -135,8 +135,8 @@ export const TreeControl = styled.span<{ $highlightCondition?: string }>`
         props.$highlightCondition === 'primary'
           ? 'yellow'
           : props.$highlightCondition === 'secondary'
-          ? 'lightYellow'
-          : 'neutral.300'
+            ? 'lightYellow'
+            : 'neutral.300'
       )};
     border: ${props =>
       props.$highlightCondition === 'secondary'
@@ -185,8 +185,8 @@ export const StyledLink = styled.a<StyledLinkProps>`
     props.$hasControl
       ? `${controlDimensions.circleWidth / 2 + props.theme.spacingUnit}px`
       : props.$isCurrent
-      ? `${props.theme.spacingUnit}px`
-      : 0};
+        ? `${props.theme.spacingUnit}px`
+        : 0};
   padding-right: ${props => `${props.theme.spacingUnit * 2}px`};
   /* stylelint-enable declaration-block-no-redundant-longhand-properties */
 

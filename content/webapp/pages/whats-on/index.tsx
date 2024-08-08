@@ -416,8 +416,8 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
     period === 'today'
       ? filterEventsForToday(events)
       : period === 'this-weekend'
-      ? filterEventsForWeekend(events)
-      : events;
+        ? filterEventsForWeekend(events)
+        : events;
 
   // When the galleries are closed, we shouldn't be displaying exhibitions
   const exhibitionsToShow =

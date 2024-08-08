@@ -141,12 +141,12 @@ export function transformExhibition(
         },
       ]
     : exhibition.format
-    ? [
-        {
-          text: exhibition.format.title,
-        },
-      ]
-    : [{ text: 'Exhibition' }];
+      ? [
+          {
+            text: exhibition.format.title,
+          },
+        ]
+      : [{ text: 'Exhibition' }];
 
   return { ...exhibition, type: 'exhibitions', labels };
 }

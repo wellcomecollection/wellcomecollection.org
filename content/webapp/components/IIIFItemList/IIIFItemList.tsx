@@ -35,8 +35,8 @@ const IIIFItemList: FunctionComponent<Props> = ({
           originalPdfs.length > 0
             ? originalPdfs
             : canvas.painting.length > 0
-            ? canvas.painting
-            : canvas.supplementing;
+              ? canvas.painting
+              : canvas.supplementing;
         return displayItems.map(item => {
           return (
             <li key={item.id}>

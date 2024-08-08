@@ -48,7 +48,9 @@ const ArticleCard: FunctionComponent<Props> = ({
       partNumberColor={getArticleColor(article)}
       primaryLabels={!isPodcast && isUndefined(partNumber) ? labels : []}
       secondaryLabels={[]}
-      description={!isPodcast ? article.promo?.caption ?? undefined : undefined}
+      description={
+        !isPodcast ? (article.promo?.caption ?? undefined) : undefined
+      }
       Image={
         image && (
           <PrismicImage
