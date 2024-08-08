@@ -429,7 +429,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             <SliceZone
               slices={exhibitionGuide.stops}
               components={components}
-              context={{ type }}
+              context={{ type, id: exhibitionGuide.id }}
             />
           </div>
         </Container>

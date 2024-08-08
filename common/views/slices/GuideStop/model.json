@@ -45,6 +45,13 @@
             "multi": "paragraph,strong,em,hyperlink"
           }
         },
+        "audio_duration": {
+          "type": "Number",
+          "config": {
+            "label": "Audio duration (in minutes)",
+            "placeholder": "approximate time in minutes, e.g. 3.5"
+          }
+        },
         "bsl_video": {
           "type": "Embed",
           "config": {
@@ -59,6 +66,13 @@
             "placeholder": "Transcript of the BSL video",
             "allowTargetBlank": true,
             "multi": "paragraph,strong,em,hyperlink"
+          }
+        },
+        "video_duration": {
+          "type": "Number",
+          "config": {
+            "label": "Video duration (in minutes)",
+            "placeholder": "approximate time in minutes, e.g. 3.5"
           }
         },
         "image": {

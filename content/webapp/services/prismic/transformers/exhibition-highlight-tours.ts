@@ -13,8 +13,10 @@ import { transformQuery } from '@weco/content/services/prismic/transformers/pagi
 import { ExhibitionHighlightTour } from '@weco/content/types/exhibition-guides';
 import { asRichText, asTitle } from '.';
 import { transformImagePromo } from './images';
+import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { transformRelatedExhibition } from '@weco/content/services/prismic/transformers/exhibition-guides';
 import { getYouTubeEmbedUrl } from '@weco/content/services/prismic/transformers/embeds';
+import { ImageType } from '@weco/common/model/image';
 
 export function transformExhibitionHighlightTours(
   document: RawExhibitionHighlightToursDocument
@@ -73,8 +75,12 @@ type GuideHighlightTour = {
   number: number | undefined;
   title: string;
   audio: string | undefined;
-  video: string | undefined;
   transcript: prismic.RichTextField | undefined;
+  audioDuration: number | undefined;
+  video: string | undefined;
+  subtitles: prismic.RichTextField | undefined;
+  videoDuration: number | undefined;
+  image: ImageType | undefined;
 };
 
 export function transformGuideStopSlice(
@@ -87,12 +93,20 @@ export function transformGuideStopSlice(
     audio: isFilledLinkToMediaField(slice.primary.audio_with_description)
       ? slice.primary.audio_with_description.url
       : undefined,
+    transcript: slice.primary.transcript
+      ? asRichText(slice.primary.transcript)
+      : undefined,
+    audioDuration: slice.primary.audio_duration || undefined,
     video:
       slice.primary.bsl_video.provider_name === 'YouTube'
         ? getYouTubeEmbedUrl(slice.primary.bsl_video)
         : undefined,
-    transcript: slice.primary.transcript
-      ? asRichText(slice.primary.transcript)
+    subtitles: slice.primary.subtitles
+      ? asRichText(slice.primary.subtitles)
+      : undefined,
+    videoDuration: slice.primary.video_duration || undefined,
+    image: slice.primary.image
+      ? transformImage(slice.primary.image)
       : undefined,
   };
 }
