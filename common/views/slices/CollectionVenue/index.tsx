@@ -25,7 +25,9 @@ const CollectionVenue: FunctionComponent<CollectionVenueProps> = ({
   if (transformedSlice) {
     return (
       <SpacingComponent $sliceType={transformedSlice.type}>
-        {transformedSlice.value.showClosingTimes ? ( // TODO
+        {/* TODO, create variation or consider removing
+        https://github.com/wellcomecollection/wellcomecollection.org/issues/11098 */}
+        {transformedSlice.value.showClosingTimes ? (
           <LayoutWidth width={context.minWidth}>
             <VenueClosedPeriods venue={transformedSlice.value.content} />
           </LayoutWidth>
@@ -36,10 +38,9 @@ const CollectionVenue: FunctionComponent<CollectionVenueProps> = ({
                 ? {
                     s: 12,
                     m: 12,
-                    l: 11,
-                    shiftL: 1,
+                    l: 12,
                     xl: 10,
-                    shiftXL: 2,
+                    shiftXL: 1,
                   }
                 : {
                     s: 12,

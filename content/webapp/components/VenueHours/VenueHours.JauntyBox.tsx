@@ -30,7 +30,10 @@ const VenueHoursJauntyBox = ({
 
   return (
     <JauntyBox
-      $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
+      $v={{
+        size: 'l',
+        properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
+      }}
       $topLeft={randomPx()}
       $topRight={randomPx()}
       $bottomRight={randomPx()}
