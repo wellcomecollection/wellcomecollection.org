@@ -32,9 +32,6 @@ const VenueHours: FunctionComponent<Props> = ({ venue }) => {
   const { collectionVenues } = usePrismicData();
   const venues = transformCollectionVenues(collectionVenues);
 
-  // TODO, this should be done at a higher level since it's the same for all venues
-  // But there is no real higher level...
-  // I'd love to only run this one per page load, how?
   const getExceptionalHours = (overrideDates: OverrideDate[]) => {
     const exceptionalPeriods = groupOverrideDates(overrideDates);
     const completeExceptionalPeriods =
@@ -50,15 +47,10 @@ const VenueHours: FunctionComponent<Props> = ({ venue }) => {
     );
   };
 
-  // This filters out dates of type "other" as they are specific to their venue
-  const upcomingGroupedExceptionalOpeningHours = getExceptionalHours(
-    getOverrideDatesForAllVenues(venues)
-  );
-
-  // This takes care of "other" exceptional hours
-  const upcomingVenueExceptionalOpeningHours = getExceptionalHours(
-    getOverrideDatesForSpecificVenue(venue)
-  );
+  const upcomingExceptionalOpeningHours = {
+    grouped: getExceptionalHours(getOverrideDatesForAllVenues(venues)),
+    venueSpecific: getExceptionalHours(getOverrideDatesForSpecificVenue(venue)),
+  };
 
   const isFeatured = venue.isFeatured;
 
@@ -113,7 +105,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue }) => {
         </OpeningHours>
       </VenueHoursTimes>
 
-      {upcomingGroupedExceptionalOpeningHours.map(
+      {upcomingExceptionalOpeningHours.grouped.map(
         upcomingGroupedExceptionalPeriod => (
           <VenueHoursJauntyBox
             key={upcomingGroupedExceptionalPeriod[0].overrideDate.toString()}
@@ -123,7 +115,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue }) => {
         )
       )}
 
-      {upcomingVenueExceptionalOpeningHours.map(
+      {upcomingExceptionalOpeningHours.venueSpecific.map(
         upcomingVenueExceptionalPeriod => (
           <VenueHoursJauntyBox
             key={upcomingVenueExceptionalPeriod[0].overrideDate.toString()}
