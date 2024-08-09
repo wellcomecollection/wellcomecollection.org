@@ -135,6 +135,7 @@ describe('opening-times', () => {
         new Date('2003-03-04'),
       ]);
 
+      // Should return an ordered list of "other" types
       const specificResult = getOverrideDatesForSpecificVenue(venue);
       expect(specificResult.map(d => d.overrideDate)).toEqual([
         new Date('2003-03-03'),
