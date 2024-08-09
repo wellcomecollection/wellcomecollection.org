@@ -45,10 +45,10 @@ const EXCEPTIONAL_OPENING_DATES_ADVANCE_NOTICE_PERIOD = 6 * ONE_WEEK;
  * always have the same overrideType.
  *
  */
-export function getOverrideDatesForAllVenues(venues: Venue[]): OverrideDate[] {
-  return venues
-    .flatMap(venue => venue.openingHours.exceptional)
-    .filter(exceptional => exceptional.overrideType !== 'other')
+const sortOverrideDatesForVenues = (
+  exceptionalHours: ExceptionalOpeningHoursDay[]
+): OverrideDate[] => {
+  return exceptionalHours
     .map(({ overrideDate, overrideType }) => ({ overrideDate, overrideType }))
     .sort((a, b) => Number(a.overrideDate) - Number(b.overrideDate))
     .reduce((result: OverrideDate[], thisOverride: OverrideDate) => {
@@ -62,24 +62,20 @@ export function getOverrideDatesForAllVenues(venues: Venue[]): OverrideDate[] {
 
       return result;
     }, []);
+};
+
+export function getOverrideDatesForAllVenues(venues: Venue[]): OverrideDate[] {
+  return sortOverrideDatesForVenues(
+    venues
+      .flatMap(venue => venue.openingHours.exceptional)
+      .filter(exceptional => exceptional.overrideType !== 'other')
+  );
 }
 
 export function getOverrideDatesForSpecificVenue(venue: Venue): OverrideDate[] {
-  return venue.openingHours.exceptional
-    .filter(e => e.overrideType === 'other')
-    .map(({ overrideDate, overrideType }) => ({ overrideDate, overrideType }))
-    .sort((a, b) => Number(a.overrideDate) - Number(b.overrideDate))
-    .reduce((result: OverrideDate[], thisOverride: OverrideDate) => {
-      const isAlreadyInResult = result.some(t =>
-        isSameDay(t.overrideDate, thisOverride.overrideDate)
-      );
-
-      if (!isAlreadyInResult) {
-        result.push(thisOverride);
-      }
-
-      return result;
-    }, []);
+  return sortOverrideDatesForVenues(
+    venue.openingHours.exceptional.filter(e => e.overrideType === 'other')
+  );
 }
 
 /** Groups the list of OverrideDates based on:
