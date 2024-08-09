@@ -1,6 +1,7 @@
-import { CollectionVenueSlice as RawCollectionVenueSlice } from '@weco/common/prismicio-types';
+import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
-import SpacingComponent from '../../components/styled/SpacingComponent';
+import { CollectionVenueSlice as RawCollectionVenueSlice } from '@weco/common/prismicio-types';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
   LayoutWidth,
   SliceZoneContext,
@@ -15,12 +16,12 @@ export type CollectionVenueProps = SliceComponentProps<
   SliceZoneContext
 >;
 
-// TODO change types to use FunctionComponent
-const CollectionVenue = ({
+const CollectionVenue: FunctionComponent<CollectionVenueProps> = ({
   slice,
   context,
-}: CollectionVenueProps): JSX.Element | null => {
+}) => {
   const transformedSlice = transformCollectionVenueSlice(slice);
+
   if (transformedSlice) {
     return (
       <SpacingComponent $sliceType={transformedSlice.type}>
