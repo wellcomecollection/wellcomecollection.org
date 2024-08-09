@@ -1,4 +1,4 @@
-import { UnusualOpeningHours } from './VenueHours';
+import UnusualOpeningHours from './VenueHours.UnusualOpeningHours';
 import {
   ExceptionalOpeningHoursDay,
   OpeningHoursDay,

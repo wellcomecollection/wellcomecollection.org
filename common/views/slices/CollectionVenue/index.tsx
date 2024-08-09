@@ -1,13 +1,14 @@
-import { CollectionVenueSlice as RawCollectionVenueSlice } from '@weco/common/prismicio-types';
+import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
-import SpacingComponent from '../../components/styled/SpacingComponent';
+import { CollectionVenueSlice as RawCollectionVenueSlice } from '@weco/common/prismicio-types';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
   LayoutWidth,
   SliceZoneContext,
 } from '@weco/content/components/Body/Body';
 import Layout from '@weco/common/views/components/Layout';
 import { transformCollectionVenueSlice } from '@weco/content/services/prismic/transformers/body';
-import VenueHours from '@weco/content/components/VenueHours/VenueHours';
+import VenueHours from '@weco/content/components/VenueHours';
 import VenueClosedPeriods from '@weco/content/components/VenueClosedPeriods/VenueClosedPeriods';
 
 export type CollectionVenueProps = SliceComponentProps<
@@ -15,16 +16,18 @@ export type CollectionVenueProps = SliceComponentProps<
   SliceZoneContext
 >;
 
-// TODO change types to use FunctionComponent
-const CollectionVenue = ({
+const CollectionVenue: FunctionComponent<CollectionVenueProps> = ({
   slice,
   context,
-}: CollectionVenueProps): JSX.Element | null => {
+}) => {
   const transformedSlice = transformCollectionVenueSlice(slice);
+
   if (transformedSlice) {
     return (
       <SpacingComponent $sliceType={transformedSlice.type}>
-        {transformedSlice.value.showClosingTimes ? ( // TODO
+        {/* TODO, create variation or consider removing
+        https://github.com/wellcomecollection/wellcomecollection.org/issues/11098 */}
+        {transformedSlice.value.showClosingTimes ? (
           <LayoutWidth width={context.minWidth}>
             <VenueClosedPeriods venue={transformedSlice.value.content} />
           </LayoutWidth>
@@ -35,10 +38,9 @@ const CollectionVenue = ({
                 ? {
                     s: 12,
                     m: 12,
-                    l: 11,
-                    shiftL: 1,
+                    l: 12,
                     xl: 10,
-                    shiftXL: 2,
+                    shiftXL: 1,
                   }
                 : {
                     s: 12,
