@@ -48,6 +48,7 @@ const EXCEPTIONAL_OPENING_DATES_ADVANCE_NOTICE_PERIOD = 6 * ONE_WEEK;
 export function getOverrideDatesForAllVenues(venues: Venue[]): OverrideDate[] {
   return venues
     .flatMap(venue => venue.openingHours.exceptional)
+    .filter(exceptional => exceptional.overrideType !== 'other')
     .map(({ overrideDate, overrideType }) => ({ overrideDate, overrideType }))
     .sort((a, b) => Number(a.overrideDate) - Number(b.overrideDate))
     .reduce((result: OverrideDate[], thisOverride: OverrideDate) => {
