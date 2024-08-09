@@ -64,6 +64,24 @@ export function getOverrideDatesForAllVenues(venues: Venue[]): OverrideDate[] {
     }, []);
 }
 
+export function getOverrideDatesForSpecificVenue(venue: Venue): OverrideDate[] {
+  return venue.openingHours.exceptional
+    .filter(e => e.overrideType === 'other')
+    .map(({ overrideDate, overrideType }) => ({ overrideDate, overrideType }))
+    .sort((a, b) => Number(a.overrideDate) - Number(b.overrideDate))
+    .reduce((result: OverrideDate[], thisOverride: OverrideDate) => {
+      const isAlreadyInResult = result.some(t =>
+        isSameDay(t.overrideDate, thisOverride.overrideDate)
+      );
+
+      if (!isAlreadyInResult) {
+        result.push(thisOverride);
+      }
+
+      return result;
+    }, []);
+}
+
 /** Groups the list of OverrideDates based on:
  *
  *    - whether they fall on dates that are within a week of each other

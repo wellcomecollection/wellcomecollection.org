@@ -10,6 +10,7 @@ import {
   getOverrideDatesForAllVenues,
   groupOverrideDates,
   completeDateRangeForExceptionalPeriods,
+  getOverrideDatesForSpecificVenue,
 } from '@weco/common/services/prismic/opening-times';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import Space from '@weco/common/views/components/styled/Space';
@@ -56,7 +57,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue }) => {
 
   // This takes care of "other" exceptional hours
   const upcomingVenueExceptionalOpeningHours = getExceptionalHours(
-    venue.openingHours.exceptional.filter(e => e.overrideType === 'other')
+    getOverrideDatesForSpecificVenue(venue)
   );
 
   const isFeatured = venue.isFeatured;
