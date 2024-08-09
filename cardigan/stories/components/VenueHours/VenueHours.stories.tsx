@@ -1,4 +1,4 @@
-import VenueHours from '@weco/content/components/VenueHours/VenueHours';
+import VenueHours from '@weco/content/components/VenueHours';
 import { galleriesVenue } from '@weco/common/test/fixtures/components/galleries-venue';
 import Readme from '@weco/content/components/VenueHours/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';

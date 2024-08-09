@@ -7,7 +7,7 @@ import {
 } from '@weco/content/components/Body/Body';
 import Layout from '@weco/common/views/components/Layout';
 import { transformCollectionVenueSlice } from '@weco/content/services/prismic/transformers/body';
-import VenueHours from '@weco/content/components/VenueHours/VenueHours';
+import VenueHours from '@weco/content/components/VenueHours';
 import VenueClosedPeriods from '@weco/content/components/VenueClosedPeriods/VenueClosedPeriods';
 
 export type CollectionVenueProps = SliceComponentProps<
