@@ -688,7 +688,6 @@ export function getActiveAuthAccessService(
 export function getV2TokenService(
   accessService: AuthAccessService2 | undefined
 ): AuthAccessTokenService2 | undefined {
-  if (!accessService) return;
   const authServiceArray = Array.isArray(accessService?.service)
     ? accessService?.service
     : [accessService?.service];
