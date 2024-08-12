@@ -50,7 +50,7 @@ const GuideStopCard: FunctionComponent<Props> = ({
       $v={{ size: 'l', properties: ['margin-bottom'] }}
       className={grid(threeUpGridSizesMap.default[0])}
     >
-      <CardOuter href={link} style={{ minHeight: '0' }}>
+      <CardOuter href={link} style={{ minHeight: '0' }} id={`${number}`}>
         <CardImageWrapper>
           {croppedImage ? (
             <PrismicImage

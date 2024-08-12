@@ -152,7 +152,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             </div>
           </div>
           <span>
-            <a href={guideTypeUrl}>X</a>
+            <a href={`${guideTypeUrl}#${stopNumber}`}>X</a>
           </span>
         </div>
 
@@ -175,12 +175,20 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
         ) : (
           <AudioPlayer title="" audioFile={currentStop.audio} />
         )}
-        {stopNumber > 1 && (
-          <a href={`${guideTypeUrl}/${stopNumber - 1}`}>previous</a>
-        )}
-        {stopNumber < totalStops && (
-          <a href={`${guideTypeUrl}/${stopNumber + 1}`}>next</a>
-        )}
+
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          {stopNumber > 1 && (
+            <a href={`${guideTypeUrl}/${stopNumber - 1}`}>previous</a>
+          )}
+          {stopNumber < totalStops && (
+            <a href={`${guideTypeUrl}/${stopNumber + 1}`}>next</a>
+          )}
+        </div>
       </Container>
     </PageLayout>
   );
