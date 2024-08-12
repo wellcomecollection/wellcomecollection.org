@@ -65,12 +65,6 @@ const VenueHoursJauntyBox = ({
             )
             .find(_ => _)!;
 
-          const isUnusual =
-            (!exceptional.isClosed && regular.isClosed) ||
-            (exceptional.isClosed && !regular.isClosed);
-
-          if (!isUnusual && overrideType === 'Unusual') return null;
-
           return (
             <li key={exceptional.overrideDate.toString()}>
               <UnusualOpeningHours
