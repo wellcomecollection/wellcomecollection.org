@@ -71,7 +71,7 @@ export function transformExhibitionHighlightToursQuery(
   return paginatedResult;
 }
 
-type GuideHighlightTour = {
+export type GuideHighlightTour = {
   number: number | undefined;
   title: string;
   audio: string | undefined;
