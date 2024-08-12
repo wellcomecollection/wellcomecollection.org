@@ -2,7 +2,7 @@ import * as prismic from '@prismicio/client';
 import { BrowserContext, Page, errors as playwrightErrors } from 'playwright';
 import { baseUrl, useStageApis } from './utils';
 import { devices } from '@playwright/test';
-import { ArticlePrismicDocument } from '@weco/content/services/prismic/types/articles';
+import { ArticlesDocument as RawArticlesDocument } from '@weco/common/prismicio-types';
 
 export const gotoWithoutCache = async (
   url: string,
@@ -225,7 +225,7 @@ const article = async (
 
 const articleWithMockSiblings = async (
   id: string,
-  response: prismic.Query<ArticlePrismicDocument>,
+  response: prismic.Query<RawArticlesDocument>,
   context: BrowserContext,
   page: Page
 ): Promise<void> => {

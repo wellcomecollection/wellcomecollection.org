@@ -1,7 +1,7 @@
 import * as prismic from '@prismicio/client';
-import { ArticlePrismicDocument } from '@weco/content/services/prismic/types/articles';
+import { ArticlesDocument as RawArticlesDocument } from '@weco/common/prismicio-types';
 
-export const oneScheduleItem: prismic.Query<ArticlePrismicDocument> = {
+export const oneScheduleItem: prismic.Query<RawArticlesDocument> = {
   page: 1,
   results_per_page: 20,
   results_size: 1,
@@ -12,7 +12,7 @@ export const oneScheduleItem: prismic.Query<ArticlePrismicDocument> = {
   results: [
     {
       id: 'YeUumhAAAJMQMtKc',
-      uid: null,
+      uid: '12345',
       url: null,
       type: 'articles',
       href: 'https://wellcomecollection.cdn.prismic.io/api/v2/documents/search?ref=YfFSxxEAACQAnD2t&q=%5B%5B%3Ad+%3D+at%28document.id%2C+%22YeUumhAAAJMQMtKc%22%29+%5D%5D',
@@ -40,6 +40,8 @@ export const oneScheduleItem: prismic.Query<ArticlePrismicDocument> = {
             slice_type: 'standfirst',
             slice_label: null,
             items: [],
+            variation: 'default',
+            version: '',
             primary: {
               text: [
                 {
@@ -51,7 +53,13 @@ export const oneScheduleItem: prismic.Query<ArticlePrismicDocument> = {
             },
           },
         ],
-        metadataDescription: null,
+        metadataDescription: [
+          {
+            type: 'paragraph',
+            text: 'For centuries, humans have anticipated their own extinction. Although the Christian apocalypse brings life on Earth to a close, other cultures, such as the Maya, have included a new beginning in the end, creating cyclical rather than linear calendars. Historian Charlotte Sleigh examines why the end, periodically, seems nigh, and what we can learn from past predictions.',
+            spans: [],
+          },
+        ],
         contributors: [
           {
             role: {
@@ -229,6 +237,7 @@ export const oneScheduleItem: prismic.Query<ArticlePrismicDocument> = {
         ],
         series: [
           {
+            positionInSeries: 1,
             series: {
               id: 'YeUt6xAAAIAWMs9o',
               type: 'series',
