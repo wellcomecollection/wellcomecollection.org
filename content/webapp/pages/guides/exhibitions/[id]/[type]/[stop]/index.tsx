@@ -4,13 +4,13 @@ import {
   ExhibitionHighlightTour,
   ExhibitionGuideType,
   isValidType,
+  GuideHighlightTour,
 } from '@weco/content/types/exhibition-guides';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibitionHighlightTour } from '@weco/content/services/prismic/fetch/exhibition-highlight-tours';
 import {
   transformExhibitionHighlightTours,
   transformGuideStopSlice,
-  GuideHighlightTour,
 } from '@weco/content/services/prismic/transformers/exhibition-highlight-tours';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
@@ -22,12 +22,13 @@ import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { getCrop } from '@weco/common/model/image';
-import ImagePlaceholder from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
+import ImagePlaceholder, {
+  placeholderBackgroundColor,
+} from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
 import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 type Props = {
@@ -54,7 +55,7 @@ export const getServerSideProps: GetServerSideProps<
 
   const client = createClient(context);
 
-  // Get exhibitionHighlightTourQuery from localStorage if possible
+  // TODO: get exhibitionHighlightTourQuery from localStorage if possible
 
   const exhibitionHighlightTourQuery = await fetchExhibitionHighlightTour(
     client,
@@ -124,10 +125,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
       openGraphType="website"
       siteSection="exhibition-guides"
       image={currentStop.image}
-      headerProps={{
-        customNavLinks: exhibitionGuidesLinks,
-        isMinimalHeader: true,
-      }}
+      hideHeader={true}
+      hideFooter={true}
       hideNewsletterPromo={true}
       apiToolbarLinks={[createPrismicLink(exhibitionGuideId)]}
     >
@@ -163,7 +162,9 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               <PrismicImage quality="low" image={croppedImage} />
             ) : (
               <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
-                <ImagePlaceholder backgroundColor="accent.blue" />
+                <ImagePlaceholder
+                  backgroundColor={placeholderBackgroundColor(stopNumber)}
+                />
               </div>
             )}
           </>
