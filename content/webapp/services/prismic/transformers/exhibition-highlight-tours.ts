@@ -10,13 +10,15 @@ import {
   isFilledLinkToDocumentWithData,
 } from '@weco/common/services/prismic/types';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
-import { ExhibitionHighlightTour } from '@weco/content/types/exhibition-guides';
+import {
+  ExhibitionHighlightTour,
+  GuideHighlightTour,
+} from '@weco/content/types/exhibition-guides';
 import { asRichText, asTitle } from '.';
 import { transformImagePromo } from './images';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { transformRelatedExhibition } from '@weco/content/services/prismic/transformers/exhibition-guides';
 import { getYouTubeEmbedUrl } from '@weco/content/services/prismic/transformers/embeds';
-import { ImageType } from '@weco/common/model/image';
 
 export function transformExhibitionHighlightTours(
   document: RawExhibitionHighlightToursDocument
@@ -70,18 +72,6 @@ export function transformExhibitionHighlightToursQuery(
 
   return paginatedResult;
 }
-
-export type GuideHighlightTour = {
-  number: number | undefined;
-  title: string;
-  audio: string | undefined;
-  transcript: prismic.RichTextField | undefined;
-  audioDuration: number | undefined;
-  video: string | undefined;
-  subtitles: prismic.RichTextField | undefined;
-  videoDuration: number | undefined;
-  image: ImageType | undefined;
-};
 
 export function transformGuideStopSlice(
   slice: RawGuideStopSlice

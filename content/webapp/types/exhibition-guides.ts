@@ -15,6 +15,18 @@ type CaptionsOrTranscripts = {
   context?: prismic.RichTextField;
 };
 
+export type GuideHighlightTour = {
+  number: number | undefined;
+  title: string;
+  audio: string | undefined;
+  transcript: prismic.RichTextField | undefined;
+  audioDuration: number | undefined;
+  video: string | undefined;
+  subtitles: prismic.RichTextField | undefined;
+  videoDuration: number | undefined;
+  image: ImageType | undefined;
+};
+
 export type ExhibitionGuideComponent = {
   number?: number;
   displayTitle: string;
