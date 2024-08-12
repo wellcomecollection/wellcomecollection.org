@@ -62,6 +62,7 @@ export type Props = PropsWithChildren<{
   rssUrl?: string;
   hideNewsletterPromo?: boolean;
   hideFooter?: boolean;
+  hideHeader?: boolean;
   excludeRoleMain?: boolean;
   headerProps?: HeaderProps;
   apiToolbarLinks?: (ApiToolbarLink | undefined)[];
@@ -80,6 +81,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   children,
   hideNewsletterPromo = false,
   hideFooter = false,
+  hideHeader = false,
   excludeRoleMain = false,
   headerProps,
   apiToolbarLinks = [],
@@ -330,7 +332,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         <a className="visually-hidden visually-hidden-focusable" href="#main">
           Skip to main content
         </a>
-        <Header siteSection={siteSection} {...headerProps} />
+        {!hideHeader && <Header siteSection={siteSection} {...headerProps} />}
         {issuesBanner && <WebsiteIssuesBanner />}
         {globalAlert.data.isShown === 'show' &&
           (!globalAlert.data.routeRegex ||
