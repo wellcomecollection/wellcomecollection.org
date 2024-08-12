@@ -8,7 +8,7 @@ import {
 } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
-import { getCookies } from 'cookies-next';
+import { deleteCookie, getCookies, setCookie } from 'cookies-next';
 import Header from '../components/Header';
 
 const fontFamily = 'Gadget, sans-serif';
@@ -47,6 +47,21 @@ const TextBox = styled.p`
   padding: 6px 12px;
   margin: 0;
 `;
+
+const setCookieCustom = (key, value) => {
+  const nowPlusOneYear = new Date();
+  nowPlusOneYear.setFullYear(nowPlusOneYear.getFullYear() + 1);
+
+  setCookie(`toggle_${key}`, value, {
+    path: '/',
+    expires: nowPlusOneYear,
+    secure: true,
+  });
+};
+
+const deleteCookieCustom = key => {
+  deleteCookie(`toggle_${key}`, { path: '/' });
+};
 
 type ListOfTogglesProps = {
   toggles: Toggle[];
@@ -111,7 +126,7 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
 
             <Button
               onClick={() => {
-                setCookie(toggle.id, 'true');
+                setCookieCustom(toggle.id, 'true');
                 setToggleStates(() => ({
                   ...toggleStates,
                   [toggle.id]: true,
@@ -125,7 +140,7 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
             </Button>
             <Button
               onClick={() => {
-                setCookie(toggle.id, 'false');
+                setCookieCustom(toggle.id, 'false');
                 setToggleStates(() => ({
                   ...toggleStates,
                   [toggle.id]: false,
@@ -144,16 +159,6 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
     {toggles.length === 0 && <p>None for now, check back later…</p>}
   </>
 );
-
-const aYear = 31536000;
-function setCookie(name, value) {
-  const expiration = value
-    ? ` Max-Age=${aYear}`
-    : `Expires=${new Date(0).toString()}`;
-  document.cookie = `toggle_${name}=${
-    value || ''
-  }; Path=/; Domain=wellcomecollection.org; ${expiration}; Secure`;
-}
 
 type Toggle = {
   id: string;
@@ -180,8 +185,7 @@ const IndexPage: FunctionComponent = () => {
   const [toggles, setToggles] = useState<Toggle[]>([]);
   const [abTests, setAbTests] = useState<AbTest[]>([]);
 
-  // We use this over getInitialProps as it's ineffectual when an app is
-  // exported.
+  // We use this over getInitialProps as it's ineffectual when an app is exported.
   useEffect(() => {
     fetch('https://toggles.wellcomecollection.org/toggles.json')
       .then(resp => resp.json())
@@ -205,7 +209,7 @@ const IndexPage: FunctionComponent = () => {
     () =>
       setToggleStates(
         toggles.reduce((state, { id, defaultValue }) => {
-          setCookie(id, null);
+          deleteCookieCustom(id);
           state[id] = defaultValue;
           return state;
         }, {})
@@ -318,7 +322,7 @@ const IndexPage: FunctionComponent = () => {
                   <p>{toggle.description}</p>
                   <Button
                     onClick={() => {
-                      setCookie(toggle.id, 'true');
+                      setCookieCustom(toggle.id, 'true');
                       setToggleStates({
                         ...toggleStates,
                         [toggle.id]: true,
@@ -332,7 +336,7 @@ const IndexPage: FunctionComponent = () => {
                   </Button>
                   <Button
                     onClick={() => {
-                      setCookie(toggle.id, 'false');
+                      setCookieCustom(toggle.id, 'false');
                       setToggleStates({
                         ...toggleStates,
                         [toggle.id]: false,
@@ -347,7 +351,7 @@ const IndexPage: FunctionComponent = () => {
                   <Button
                     $opaque
                     onClick={() => {
-                      setCookie(toggle.id, null);
+                      deleteCookieCustom(toggle.id);
                       setToggleStates({
                         ...toggleStates,
                         [toggle.id]: undefined,
