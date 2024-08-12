@@ -8,7 +8,7 @@ import {
 } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
-import { deleteCookie, getCookies, setCookie } from 'cookies-next';
+import { deleteCookie, getCookie, getCookies, setCookie } from 'cookies-next';
 import Header from '../components/Header';
 
 const fontFamily = 'Gadget, sans-serif';
@@ -48,34 +48,49 @@ const TextBox = styled.p`
   margin: 0;
 `;
 
-const setCookieCustom = (key, value) => {
+const setCookieCustom = (
+  key: string,
+  value: 'true' | 'false',
+  setLocally: boolean = false
+) => {
   const nowPlusOneYear = new Date();
   nowPlusOneYear.setFullYear(nowPlusOneYear.getFullYear() + 1);
 
   setCookie(`toggle_${key}`, value, {
-    path: '/',
+    domain: 'wellcomecollection.org',
     expires: nowPlusOneYear,
     secure: true,
   });
+
+  if (setLocally)
+    setCookie(`toggle_${key}`, value, {
+      domain: 'localhost',
+      expires: nowPlusOneYear,
+      secure: true,
+    });
 };
 
-const deleteCookieCustom = key => {
-  deleteCookie(`toggle_${key}`, { path: '/' });
+const deleteCookieCustom = (key: string, deleteLocally: boolean = false) => {
+  deleteCookie(`toggle_${key}`, { domain: 'wellcomecollection.org' });
+
+  if (deleteLocally) deleteCookie(`toggle_${key}`, { domain: 'localhost' });
 };
 
 type ListOfTogglesProps = {
   toggles: Toggle[];
   toggleStates: ToggleStates;
   setToggleStates: Dispatch<SetStateAction<ToggleStates>>;
+  hasLocalToggles: boolean;
 };
 
 const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
   toggles,
   toggleStates,
   setToggleStates,
+  hasLocalToggles,
 }) => (
   <>
-    {toggles.length > 0 && (
+    {toggles.length > 0 ? (
       <ul
         style={{
           listStyle: 'none',
@@ -126,7 +141,7 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
 
             <Button
               onClick={() => {
-                setCookieCustom(toggle.id, 'true');
+                setCookieCustom(toggle.id, 'true', hasLocalToggles);
                 setToggleStates(() => ({
                   ...toggleStates,
                   [toggle.id]: true,
@@ -140,7 +155,7 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
             </Button>
             <Button
               onClick={() => {
-                setCookieCustom(toggle.id, 'false');
+                setCookieCustom(toggle.id, 'false', hasLocalToggles);
                 setToggleStates(() => ({
                   ...toggleStates,
                   [toggle.id]: false,
@@ -155,8 +170,9 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
           </li>
         ))}
       </ul>
+    ) : (
+      <p>None for now, check back later…</p>
     )}
-    {toggles.length === 0 && <p>None for now, check back later…</p>}
   </>
 );
 
@@ -184,6 +200,9 @@ const IndexPage: FunctionComponent = () => {
   const [toggleStates, setToggleStates] = useState<ToggleStates>({});
   const [toggles, setToggles] = useState<Toggle[]>([]);
   const [abTests, setAbTests] = useState<AbTest[]>([]);
+  const [hasLocalToggles, setHasLocalToggles] = useState(
+    !!getCookie('toggle_localPreference')
+  );
 
   // We use this over getInitialProps as it's ineffectual when an app is exported.
   useEffect(() => {
@@ -209,7 +228,7 @@ const IndexPage: FunctionComponent = () => {
     () =>
       setToggleStates(
         toggles.reduce((state, { id, defaultValue }) => {
-          deleteCookieCustom(id);
+          deleteCookieCustom(id, hasLocalToggles);
           state[id] = defaultValue;
           return state;
         }, {})
@@ -252,17 +271,20 @@ const IndexPage: FunctionComponent = () => {
             toggles={generalToggles}
             toggleStates={toggleStates}
             setToggleStates={setToggleStates}
+            hasLocalToggles={hasLocalToggles}
           />
 
           <hr style={{ margin: '3em' }} />
 
           <h2>Toggles for Digital team</h2>
+
           <h3>Permanent</h3>
 
           <ListOfToggles
             toggles={restOfPermanentToggles}
             toggleStates={toggleStates}
             setToggleStates={setToggleStates}
+            hasLocalToggles={hasLocalToggles}
           />
 
           <hr style={{ margin: '3em' }} />
@@ -273,6 +295,7 @@ const IndexPage: FunctionComponent = () => {
             toggles={toggles.filter(t => t.type === 'experimental')}
             toggleStates={toggleStates}
             setToggleStates={setToggleStates}
+            hasLocalToggles={hasLocalToggles}
           />
 
           <hr style={{ margin: '3em' }} />
@@ -283,6 +306,7 @@ const IndexPage: FunctionComponent = () => {
             toggles={toggles.filter(t => t.type === 'stage')}
             toggleStates={toggleStates}
             setToggleStates={setToggleStates}
+            hasLocalToggles={hasLocalToggles}
           />
 
           <hr style={{ margin: '3em' }} />
@@ -293,7 +317,8 @@ const IndexPage: FunctionComponent = () => {
             forget your choice. If you choose for use to forget, you will be put
             in to either group randomly according to our A/B decision rules.
           </TextBox>
-          {abTests.length > 0 && (
+
+          {abTests.length > 0 ? (
             <ul
               style={{
                 listStyle: 'none',
@@ -322,7 +347,7 @@ const IndexPage: FunctionComponent = () => {
                   <p>{toggle.description}</p>
                   <Button
                     onClick={() => {
-                      setCookieCustom(toggle.id, 'true');
+                      setCookieCustom(toggle.id, 'true', hasLocalToggles);
                       setToggleStates({
                         ...toggleStates,
                         [toggle.id]: true,
@@ -336,7 +361,7 @@ const IndexPage: FunctionComponent = () => {
                   </Button>
                   <Button
                     onClick={() => {
-                      setCookieCustom(toggle.id, 'false');
+                      setCookieCustom(toggle.id, 'false', hasLocalToggles);
                       setToggleStates({
                         ...toggleStates,
                         [toggle.id]: false,
@@ -351,7 +376,7 @@ const IndexPage: FunctionComponent = () => {
                   <Button
                     $opaque
                     onClick={() => {
-                      deleteCookieCustom(toggle.id);
+                      deleteCookieCustom(toggle.id, hasLocalToggles);
                       setToggleStates({
                         ...toggleStates,
                         [toggle.id]: undefined,
@@ -363,9 +388,35 @@ const IndexPage: FunctionComponent = () => {
                 </li>
               ))}
             </ul>
+          ) : (
+            <p>None for now, check back later…</p>
           )}
 
-          {abTests.length === 0 && <p>None for now, check back later…</p>}
+          <hr style={{ margin: '3em' }} />
+
+          <h2>Custom settings</h2>
+          <div style={{ marginBottom: '3em' }}>
+            <label htmlFor="hasLocalToggles">
+              <input
+                id="hasLocalToggles"
+                type="checkbox"
+                checked={hasLocalToggles}
+                onChange={() => {
+                  setHasLocalToggles(currentState => {
+                    const newState = !currentState;
+                    newState
+                      ? setCookie('toggle_localPreference', 'true', {
+                          path: '/',
+                        })
+                      : deleteCookie('toggle_localPreference', { path: '/' });
+
+                    return newState;
+                  });
+                }}
+              />
+              Set toggles on localhost as well as on the wc.org domain.
+            </label>
+          </div>
         </div>
       </div>
     </>
