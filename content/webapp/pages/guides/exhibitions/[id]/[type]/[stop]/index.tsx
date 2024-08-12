@@ -1,7 +1,8 @@
 import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
+import Space from '@weco/common/views/components/styled/Space';
+import styled from 'styled-components';
 import {
-  ExhibitionHighlightTour,
   ExhibitionGuideType,
   isValidType,
   GuideHighlightTour,
@@ -31,11 +32,18 @@ import ImagePlaceholder, {
 } from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
 import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import {
+  map,
+  audioDescribed,
+  britishSignLanguage,
+  cross,
+  arrow,
+} from '@weco/common/icons';
+
 type Props = {
-  exhibitionGuide: ExhibitionHighlightTour;
   jsonLd: JsonLdObj;
   type: ExhibitionGuideType;
-  userPreferenceSet?: string | string[];
   currentStop: GuideHighlightTour;
   exhibitionGuideId: string;
   exhibitionTitle: string;
@@ -116,6 +124,44 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     (currentStop.image && getCrop(currentStop.image, '16:9')) ||
     currentStop.image;
 
+  const Page = styled.div`
+    background-color: ${props => props.theme.color('black')};
+    color: ${props => props.theme.color('white')};
+    min-height: 100vh;
+  `;
+
+  const Header = styled.header`
+    background-color: ${props => props.theme.color('neutral.700')};
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  `;
+
+  const HeaderInner = styled(Space).attrs({
+    $v: {
+      size: 's',
+      properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
+    },
+  })`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  `;
+
+  const PrevNext = styled(Space).attrs({
+    $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  })`
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: ${props => props.theme.color('neutral.700')};
+  `;
+
+  const AlignCenter = styled.div`
+    display: flex;
+    align-items: center;
+  `;
+
   return (
     <PageLayout
       title={currentStop.title}
@@ -130,66 +176,119 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
       hideNewsletterPromo={true}
       apiToolbarLinks={[createPrismicLink(exhibitionGuideId)]}
     >
-      <Container>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'space-between',
-            flex: 1,
-            width: '100%',
-          }}
-        >
-          <div style={{ width: '100%' }}>
-            <div style={{ display: 'flex', flex: 1, width: '100%' }}>
-              <span>icon</span> <span>{exhibitionTitle}</span>
-            </div>
-            <div style={{ display: 'flex', flex: 1, width: '100%' }}>
-              <span>icon</span>{' '}
-              <h1>
-                Stop {stopNumber}/{totalStops}:{' '}
-                <strong>{currentStop.title}</strong>
-              </h1>
-            </div>
-          </div>
-          <span>
-            <a href={`${guideTypeUrl}#${stopNumber}`}>X</a>
-          </span>
-        </div>
-
-        {type !== 'bsl' && (
-          <>
-            {croppedImage ? (
-              <PrismicImage quality="low" image={croppedImage} />
-            ) : (
-              <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
-                <ImagePlaceholder
-                  backgroundColor={placeholderBackgroundColor(stopNumber)}
-                />
+      <Page>
+        <Header>
+          <Container>
+            <HeaderInner>
+              <div>
+                <AlignCenter>
+                  <Space
+                    $h={{ size: 's', properties: ['margin-right'] }}
+                    style={{ display: 'flex' }}
+                  >
+                    <Icon
+                      matchText={true}
+                      icon={
+                        type === 'bsl' ? britishSignLanguage : audioDescribed
+                      }
+                    />
+                  </Space>
+                  <span>{exhibitionTitle}</span>
+                </AlignCenter>
+                <AlignCenter>
+                  <Space
+                    $h={{ size: 's', properties: ['margin-right'] }}
+                    style={{ display: 'flex' }}
+                  >
+                    <Icon matchText={true} icon={map} />
+                  </Space>
+                  <AlignCenter>
+                    <Space
+                      $h={{ size: 's', properties: ['margin-right'] }}
+                      style={{ display: 'inline-block' }}
+                    >
+                      Stop {stopNumber}/{totalStops}:
+                    </Space>
+                    <h1 style={{ display: 'inline-block', marginBottom: '0' }}>
+                      {currentStop.title}
+                    </h1>
+                  </AlignCenter>
+                </AlignCenter>
               </div>
-            )}
-          </>
-        )}
-
-        {type === 'bsl' ? (
-          <VideoEmbed embedUrl={currentStop.video} />
-        ) : (
-          <AudioPlayer title="" audioFile={currentStop.audio} />
-        )}
-
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-          }}
-        >
-          {stopNumber > 1 && (
-            <a href={`${guideTypeUrl}/${stopNumber - 1}`}>previous</a>
+              <span>
+                <a href={`${guideTypeUrl}#${stopNumber}`}>
+                  <Icon icon={cross} />
+                  <span className="visually-hidden">Back to list of stops</span>
+                </a>
+              </span>
+            </HeaderInner>
+          </Container>
+        </Header>
+        <Container>
+          {type !== 'bsl' && (
+            <>
+              {croppedImage ? (
+                <PrismicImage quality="low" image={croppedImage} />
+              ) : (
+                <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
+                  <ImagePlaceholder
+                    backgroundColor={placeholderBackgroundColor(stopNumber)}
+                  />
+                </div>
+              )}
+            </>
           )}
-          {stopNumber < totalStops && (
-            <a href={`${guideTypeUrl}/${stopNumber + 1}`}>next</a>
+
+          {type === 'bsl' ? (
+            <>
+              {currentStop.video && <VideoEmbed embedUrl={currentStop.video} />}
+            </>
+          ) : (
+            <>
+              {currentStop.audio && (
+                <AudioPlayer title="" audioFile={currentStop.audio} />
+              )}
+            </>
           )}
-        </div>
-      </Container>
+        </Container>
+        <PrevNext>
+          <Container>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+              }}
+            >
+              <div>
+                {stopNumber > 1 && (
+                  <AlignCenter>
+                    <Icon icon={arrow} rotate={180} />
+                    <a
+                      style={{ textDecoration: 'none' }}
+                      href={`${guideTypeUrl}/${stopNumber - 1}`}
+                    >
+                      Previous
+                    </a>
+                  </AlignCenter>
+                )}
+              </div>
+              <div>
+                {stopNumber < totalStops && (
+                  <AlignCenter>
+                    <a
+                      style={{ textDecoration: 'none' }}
+                      href={`${guideTypeUrl}/${stopNumber + 1}`}
+                    >
+                      Next
+                    </a>
+                    <Icon icon={arrow} />
+                  </AlignCenter>
+                )}
+              </div>
+            </div>
+          </Container>
+        </PrevNext>
+      </Page>
     </PageLayout>
   );
 };
