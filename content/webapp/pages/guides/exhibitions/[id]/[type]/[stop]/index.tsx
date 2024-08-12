@@ -25,14 +25,21 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
-
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { getCrop } from '@weco/common/model/image';
+import ImagePlaceholder from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
+import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
+import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 type Props = {
   exhibitionGuide: ExhibitionHighlightTour;
   jsonLd: JsonLdObj;
   type: ExhibitionGuideType;
   userPreferenceSet?: string | string[];
   currentStop: GuideHighlightTour;
-  exhibitionId: string;
+  exhibitionGuideId: string;
+  exhibitionTitle: string;
+  stopNumber: number;
+  totalStops: number;
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -47,6 +54,8 @@ export const getServerSideProps: GetServerSideProps<
 
   const client = createClient(context);
 
+  // Get exhibitionHighlightTourQuery from localStorage if possible
+
   const exhibitionHighlightTourQuery = await fetchExhibitionHighlightTour(
     client,
     id
@@ -59,10 +68,13 @@ export const getServerSideProps: GetServerSideProps<
       const exhibitionHighlightTour = transformExhibitionHighlightTours(
         exhibitionHighlightTourQuery
       );
+      const exhibitionTitle = exhibitionHighlightTour.title;
       const jsonLd = exhibitionGuideLd(exhibitionHighlightTour);
+      const stopNumber = Number(stop);
       const rawCurrentStop = exhibitionHighlightTour.stops.find(
-        s => s.primary.number === Number(stop)
+        s => s.primary.number === stopNumber
       );
+      const totalStops = exhibitionHighlightTour.stops.length;
       const currentStop = transformGuideStopSlice(rawCurrentStop!);
 
       if (!currentStop) {
@@ -75,7 +87,10 @@ export const getServerSideProps: GetServerSideProps<
           jsonLd,
           serverData,
           type,
-          exhibitionId: id,
+          stopNumber,
+          totalStops,
+          exhibitionTitle,
+          exhibitionGuideId: id,
         }),
       };
     }
@@ -85,8 +100,20 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const ExhibitionGuidePage: FunctionComponent<Props> = props => {
-  const { jsonLd, type, currentStop, exhibitionId } = props;
-  const pathname = `guides/exhibitions/${exhibitionId}/${type}`;
+  const {
+    jsonLd,
+    type,
+    currentStop,
+    exhibitionGuideId,
+    exhibitionTitle,
+    stopNumber,
+    totalStops,
+  } = props;
+  const guideTypeUrl = `/guides/exhibitions/${exhibitionGuideId}/${type}`;
+  const pathname = `${guideTypeUrl}/${stopNumber}`;
+  const croppedImage =
+    (currentStop.image && getCrop(currentStop.image, '16:9')) ||
+    currentStop.image;
 
   return (
     <PageLayout
@@ -102,11 +129,57 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
         isMinimalHeader: true,
       }}
       hideNewsletterPromo={true}
-      apiToolbarLinks={[createPrismicLink(exhibitionId)]}
+      apiToolbarLinks={[createPrismicLink(exhibitionGuideId)]}
     >
       <Container>
-        {currentStop.title}
-        {type === 'bsl' ? <p>Video player</p> : <p>Audio Player</p>}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'space-between',
+            flex: 1,
+            width: '100%',
+          }}
+        >
+          <div style={{ width: '100%' }}>
+            <div style={{ display: 'flex', flex: 1, width: '100%' }}>
+              <span>icon</span> <span>{exhibitionTitle}</span>
+            </div>
+            <div style={{ display: 'flex', flex: 1, width: '100%' }}>
+              <span>icon</span>{' '}
+              <h1>
+                Stop {stopNumber}/{totalStops}:{' '}
+                <strong>{currentStop.title}</strong>
+              </h1>
+            </div>
+          </div>
+          <span>
+            <a href={guideTypeUrl}>X</a>
+          </span>
+        </div>
+
+        {type !== 'bsl' && (
+          <>
+            {croppedImage ? (
+              <PrismicImage quality="low" image={croppedImage} />
+            ) : (
+              <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
+                <ImagePlaceholder backgroundColor="accent.blue" />
+              </div>
+            )}
+          </>
+        )}
+
+        {type === 'bsl' ? (
+          <VideoEmbed embedUrl={currentStop.video} />
+        ) : (
+          <AudioPlayer title="" audioFile={currentStop.audio} />
+        )}
+        {stopNumber > 1 && (
+          <a href={`${guideTypeUrl}/${stopNumber - 1}`}>previous</a>
+        )}
+        {stopNumber < totalStops && (
+          <a href={`${guideTypeUrl}/${stopNumber + 1}`}>next</a>
+        )}
       </Container>
     </PageLayout>
   );
