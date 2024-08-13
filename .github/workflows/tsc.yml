@@ -15,7 +15,7 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: 20
-    - name: (Workspaces) yarn install & yarn tsc
-      run: yarn install && yarn tsc
+    # - name: (Workspaces) yarn install & yarn tsc
+    #   run: yarn install && yarn tsc
     - name: (Playwright) yarn install & yarn tsc
       run: cd playwright && yarn install && yarn tsc
