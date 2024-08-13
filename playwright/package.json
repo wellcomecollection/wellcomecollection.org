@@ -7,7 +7,7 @@
     "test:debug:mobile": "NODE_ENV=test debug=true platform=mobile yarn test",
     "test:debug": "NODE_ENV=test debug=true yarn test",
     "test:debug:all": "NODE_ENV=test debug=true browsers=all yarn test",
-    "url-checker": "ts-node url-checker/cli.ts"
+    "url-checker": "tsx url-checker/cli.ts"
   },
   "dependencies": {
     "@playwright/test": "^1.46.0",
@@ -20,7 +20,7 @@
     "log-update": "4",
     "p-limit": "3.1.0",
     "playwright": "^1.46.0",
-    "ts-node": "^10.9.2",
+    "tsx": "^3.14.0",
     "typescript": "^5.5.4"
   }
 }
