@@ -394,7 +394,7 @@ const IndexPage: FunctionComponent = () => {
 
           <hr style={{ margin: '3em' }} />
 
-          <h2>Custom settings</h2>
+          <h2>Developer settings</h2>
           <div style={{ marginBottom: '3em' }}>
             <label htmlFor="hasLocalToggles">
               <input
