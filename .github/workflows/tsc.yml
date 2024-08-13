@@ -16,8 +16,6 @@ jobs:
       with:
         node-version: 20
     - name: (Workspaces) yarn install & yarn tsc
-      run: yarn install
-      run: yarn tsc
+      run: yarn install && yarn tsc
     - name: (Playwright) yarn install & yarn tsc
-      run: cd playwright && yarn install
-      run: yarn tsc
+      run: cd playwright && yarn install && yarn tsc
