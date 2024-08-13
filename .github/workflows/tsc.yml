@@ -19,3 +19,5 @@ jobs:
       run: yarn install
     - name: yarn tsc
       run: yarn tsc
+    - name: (Playwright) tsc
+      run: cd playwright && yarn install && yarn tsc
