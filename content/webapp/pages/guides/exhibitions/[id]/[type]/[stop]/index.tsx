@@ -1,4 +1,5 @@
 import { FunctionComponent } from 'react';
+import * as prismic from '@prismicio/client';
 import { GetServerSideProps } from 'next';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
@@ -80,9 +81,14 @@ export const getServerSideProps: GetServerSideProps<
       const exhibitionTitle = exhibitionHighlightTour.title;
       const jsonLd = exhibitionGuideLd(exhibitionHighlightTour);
       const stopNumber = Number(stop);
-      const rawCurrentStop = exhibitionHighlightTour.stops.find(
-        s => s.primary.number === stopNumber
-      );
+
+      const rawCurrentStop = prismic.isFilled.sliceZone(
+        exhibitionHighlightTour.stops
+      )
+        ? exhibitionHighlightTour.stops.find(
+            s => s.primary.number === stopNumber
+          )
+        : undefined;
       const totalStops = exhibitionHighlightTour.stops.length;
       const currentStop = transformGuideStopSlice(rawCurrentStop!);
 
