@@ -237,7 +237,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             </HeaderInner>
           </Container>
         </Header>
-        <Container>
+        {/* Make sure we can scroll content into view if it's behind the fixed position footer (paddingBottom: 100px) */}
+        <Container style={{ paddingBottom: '100px' }}>
           {type !== 'bsl' && (
             <>
               {croppedImage ? (
