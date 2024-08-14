@@ -1,4 +1,5 @@
 import { FunctionComponent } from 'react';
+import NextLink from 'next/link';
 import { isFilledSliceZone } from '@weco/common/services/prismic/types';
 import { GetServerSideProps } from 'next';
 import Space from '@weco/common/views/components/styled/Space';
@@ -220,10 +221,10 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                 </AlignCenter>
               </div>
               <span>
-                <a href={`${guideTypeUrl}#${stopNumber}`}>
+                <NextLink href={`${guideTypeUrl}#${stopNumber}`} shallow={true}>
                   <Icon icon={cross} />
                   <span className="visually-hidden">Back to list of stops</span>
-                </a>
+                </NextLink>
               </span>
             </HeaderInner>
           </Container>
