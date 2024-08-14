@@ -15,10 +15,11 @@ export type DataInterface = Record<
  * type DataInterface = InferDataInterface<Doc> // { title: prismic.RichTextField }
  * prismic.ContentRelationshipField<'formats', 'en-gb', DataInterface>
  */
-export type InferDataInterface<T> =
-  T extends prismic.PrismicDocument<infer DataInterface>
-    ? DataInterface
-    : never;
+export type InferDataInterface<T> = T extends prismic.PrismicDocument<
+  infer DataInterface
+>
+  ? DataInterface
+  : never;
 
 // This is the type we want to convert prismic
 // to as it mirrors the catalogue API
@@ -61,4 +62,10 @@ export function isFilledLinkToMediaField(
     field.link_type === 'Media' &&
     'url' in field
   );
+}
+
+export function isFilledSliceZone(
+  sliceZone: prismic.SliceZone
+): sliceZone is prismic.SliceZone<prismic.SharedSlice, 'filled'> {
+  return prismic.isFilled.sliceZone(sliceZone);
 }
