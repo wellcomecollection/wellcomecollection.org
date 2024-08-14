@@ -167,6 +167,14 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     align-items: center;
   `;
 
+  const AudioPlayerWrapper = styled(Space).attrs({
+    $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+    $v: { size: 'm', properties: ['padding-bottom', 'padding-top'] },
+  })`
+    color: ${props => props.theme.color('black')};
+    background-color: ${props => props.theme.color('neutral.200')};
+  `;
+
   return (
     <PageLayout
       title={currentStop.title}
@@ -251,7 +259,9 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
           ) : (
             <>
               {currentStop.audio && (
-                <AudioPlayer title="" audioFile={currentStop.audio} />
+                <AudioPlayerWrapper>
+                  <AudioPlayer title="" audioFile={currentStop.audio} />
+                </AudioPlayerWrapper>
               )}
             </>
           )}
