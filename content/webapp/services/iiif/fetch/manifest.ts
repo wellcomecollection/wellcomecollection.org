@@ -18,7 +18,7 @@ async function getIIIFManifest(url: string): Promise<Manifest | undefined> {
       if (bnumber) {
         const dashboardUrl = `https://iiif.wellcomecollection.org/dash/Manifestation/${bnumber}`;
 
-        throw new Error(
+        console.error(
           `Tried to retrieve IIIF Manifest at ${url}, but it's 404-ing. To fix, try running the "Rebuild IIIF" task in the iiif-builder dashboard. ${dashboardUrl}`
         );
       }
