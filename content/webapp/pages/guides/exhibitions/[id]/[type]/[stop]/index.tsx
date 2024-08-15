@@ -182,6 +182,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
   })`
     position: fixed;
+    z-index: 2;
     bottom: 0;
     width: 100%;
     background: ${props => props.theme.color('neutral.700')};
