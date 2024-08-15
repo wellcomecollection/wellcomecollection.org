@@ -35,6 +35,7 @@ import ImagePlaceholder, {
 import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import {
   map,
   audioDescribed,
@@ -42,6 +43,7 @@ import {
   cross,
   arrow,
 } from '@weco/common/icons';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 
 type Props = {
   jsonLd: JsonLdObj;
@@ -147,6 +149,11 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
 
   const guideTypeUrl = `/guides/exhibitions/${exhibitionGuideId}/${type}`;
   const pathname = `${guideTypeUrl}/${stopNumber}`;
+  const controlText = {
+    defaultText: type === 'bsl' ? 'Read subtitles' : 'Read audio transcript',
+    contentShowingText:
+      type === 'bsl' ? 'Hide subtitles' : 'Hide audio transcript',
+  };
   const croppedImage =
     (currentStop.image && getCrop(currentStop.image, '16:9')) ||
     currentStop.image;
@@ -161,7 +168,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     background-color: ${props => props.theme.color('neutral.700')};
     position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: 2;
   `;
 
   const HeaderInner = styled(Space).attrs({
@@ -189,11 +196,12 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     align-items: center;
   `;
 
-  const StickyPlayer = styled.div`
-    position: sticky;
+  const StickyPlayer = styled.div<{ $sticky: boolean }>`
+    position: ${props => (props.$sticky ? 'sticky' : undefined)};
 
     /* Fallback to 60px if there's no js */
     top: var(--stop-header-height, 60px);
+    z-index: 1;
   `;
 
   const AudioPlayerWrapper = styled(Space).attrs({
@@ -258,7 +266,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                 </AlignCenter>
               </div>
               <span>
-                <NextLink href={`${guideTypeUrl}#${stopNumber}`} shallow={true}>
+                <NextLink href={`${guideTypeUrl}#${stopNumber}`}>
                   <Icon icon={cross} />
                   <span className="visually-hidden">Back to list of stops</span>
                 </NextLink>
@@ -281,7 +289,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               )}
             </>
           )}
-          <StickyPlayer>
+          <StickyPlayer $sticky={type !== 'bsl'}>
             {type === 'bsl' ? (
               <>
                 {currentStop.video && (
@@ -298,6 +306,21 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               </>
             )}
           </StickyPlayer>
+          <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+            <CollapsibleContent
+              controlText={controlText}
+              id="stop-transcript"
+              darkTheme={true}
+            >
+              <PrismicHtmlBlock
+                html={
+                  type === 'bsl'
+                    ? currentStop.subtitles!
+                    : currentStop.transcript!
+                }
+              />
+            </CollapsibleContent>
+          </Space>
         </Container>
         <PrevNext>
           <Container>
@@ -309,28 +332,28 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             >
               <div>
                 {stopNumber > 1 && (
-                  <AlignCenter>
-                    <Icon icon={arrow} rotate={180} />
-                    <a
-                      style={{ textDecoration: 'none' }}
-                      href={`${guideTypeUrl}/${stopNumber - 1}`}
-                    >
-                      Previous
-                    </a>
-                  </AlignCenter>
+                  <NextLink
+                    style={{ textDecoration: 'none' }}
+                    href={`${guideTypeUrl}/${stopNumber - 1}`}
+                  >
+                    <AlignCenter>
+                      <Icon icon={arrow} rotate={180} />
+                      <span>Previous</span>
+                    </AlignCenter>
+                  </NextLink>
                 )}
               </div>
               <div>
                 {stopNumber < totalStops && (
-                  <AlignCenter>
-                    <a
-                      style={{ textDecoration: 'none' }}
-                      href={`${guideTypeUrl}/${stopNumber + 1}`}
-                    >
-                      Next
-                    </a>
-                    <Icon icon={arrow} />
-                  </AlignCenter>
+                  <NextLink
+                    style={{ textDecoration: 'none' }}
+                    href={`${guideTypeUrl}/${stopNumber + 1}`}
+                  >
+                    <AlignCenter>
+                      <span>Next</span>
+                      <Icon icon={arrow} />
+                    </AlignCenter>
+                  </NextLink>
                 )}
               </div>
             </div>
