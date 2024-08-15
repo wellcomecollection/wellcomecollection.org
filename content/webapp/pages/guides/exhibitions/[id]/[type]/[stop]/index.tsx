@@ -74,40 +74,36 @@ export const getServerSideProps: GetServerSideProps<
 
   if (isNotUndefined(exhibitionHighlightTourQuery)) {
     const serverData = await getServerData(context);
+    const exhibitionHighlightTour = transformExhibitionHighlightTours(
+      exhibitionHighlightTourQuery
+    );
+    const exhibitionTitle = exhibitionHighlightTour.title;
+    const jsonLd = exhibitionGuideLd(exhibitionHighlightTour);
+    const stopNumber = Number(stop);
 
-    if (isNotUndefined(exhibitionHighlightTourQuery)) {
-      const exhibitionHighlightTour = transformExhibitionHighlightTours(
-        exhibitionHighlightTourQuery
-      );
-      const exhibitionTitle = exhibitionHighlightTour.title;
-      const jsonLd = exhibitionGuideLd(exhibitionHighlightTour);
-      const stopNumber = Number(stop);
+    const rawCurrentStop = isFilledSliceZone(exhibitionHighlightTour.stops)
+      ? exhibitionHighlightTour.stops.find(s => s.primary.number === stopNumber)
+      : undefined;
+    const totalStops = exhibitionHighlightTour.stops.length;
+    const currentStop =
+      rawCurrentStop && transformGuideStopSlice(rawCurrentStop);
 
-      const rawCurrentStop = isFilledSliceZone(exhibitionHighlightTour.stops)
-        ? exhibitionHighlightTour.stops.find(
-            s => s.primary.number === stopNumber
-          )
-        : undefined;
-      const totalStops = exhibitionHighlightTour.stops.length;
-      const currentStop = transformGuideStopSlice(rawCurrentStop!);
-
-      if (!currentStop) {
-        return { notFound: true };
-      }
-
-      return {
-        props: serialiseProps({
-          currentStop,
-          jsonLd,
-          serverData,
-          type,
-          stopNumber,
-          totalStops,
-          exhibitionTitle,
-          exhibitionGuideId: id,
-        }),
-      };
+    if (!currentStop) {
+      return { notFound: true };
     }
+
+    return {
+      props: serialiseProps({
+        currentStop,
+        jsonLd,
+        serverData,
+        type,
+        stopNumber,
+        totalStops,
+        exhibitionTitle,
+        exhibitionGuideId: id,
+      }),
+    };
   }
 
   return { notFound: true };
