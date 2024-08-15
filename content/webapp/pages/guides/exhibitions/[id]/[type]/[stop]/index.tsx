@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useRef, useEffect } from 'react';
 import NextLink from 'next/link';
 import { isFilledSliceZone } from '@weco/common/services/prismic/types';
 import { GetServerSideProps } from 'next';
@@ -123,6 +123,28 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     stopNumber,
     totalStops,
   } = props;
+  const headerRef = useRef(null);
+
+  useEffect(() => {
+    // We measure the height of the Header element with a ResizeObserver and
+    // update the sticky top position of the StickyPlayer element any time it
+    // changes
+    const resizeObserver = new ResizeObserver(([entry]) => {
+      document.documentElement.style.setProperty(
+        '--stop-header-height',
+        `${entry.contentRect.height}px`
+      );
+    });
+
+    if (headerRef.current) {
+      resizeObserver.observe(headerRef?.current);
+    }
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [headerRef.current]);
+
   const guideTypeUrl = `/guides/exhibitions/${exhibitionGuideId}/${type}`;
   const pathname = `${guideTypeUrl}/${stopNumber}`;
   const croppedImage =
@@ -167,6 +189,13 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     align-items: center;
   `;
 
+  const StickyPlayer = styled.div`
+    position: sticky;
+
+    /* Fallback to 60px if there's no js */
+    top: var(--stop-header-height, 60px);
+  `;
+
   const AudioPlayerWrapper = styled(Space).attrs({
     $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
     $v: { size: 'm', properties: ['padding-bottom', 'padding-top'] },
@@ -190,7 +219,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
       apiToolbarLinks={[createPrismicLink(exhibitionGuideId)]}
     >
       <Page>
-        <Header>
+        <Header ref={headerRef}>
           <Container>
             <HeaderInner>
               <div>
@@ -252,20 +281,23 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               )}
             </>
           )}
-
-          {type === 'bsl' ? (
-            <>
-              {currentStop.video && <VideoEmbed embedUrl={currentStop.video} />}
-            </>
-          ) : (
-            <>
-              {currentStop.audio && (
-                <AudioPlayerWrapper>
-                  <AudioPlayer title="" audioFile={currentStop.audio} />
-                </AudioPlayerWrapper>
-              )}
-            </>
-          )}
+          <StickyPlayer>
+            {type === 'bsl' ? (
+              <>
+                {currentStop.video && (
+                  <VideoEmbed embedUrl={currentStop.video} />
+                )}
+              </>
+            ) : (
+              <>
+                {currentStop.audio && (
+                  <AudioPlayerWrapper>
+                    <AudioPlayer title="" audioFile={currentStop.audio} />
+                  </AudioPlayerWrapper>
+                )}
+              </>
+            )}
+          </StickyPlayer>
         </Container>
         <PrevNext>
           <Container>
