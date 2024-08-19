@@ -1,4 +1,5 @@
-import { FunctionComponent, useCallback } from 'react';
+import { FunctionComponent, useEffect, useCallback, useState } from 'react';
+import { useRouter } from 'next/router';
 import NextLink from 'next/link';
 import { isFilledSliceZone } from '@weco/common/services/prismic/types';
 import { GetServerSideProps } from 'next';
@@ -48,12 +49,67 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 type Props = {
   jsonLd: JsonLdObj;
   type: ExhibitionGuideType;
-  currentStop: GuideHighlightTour;
+  currentStopServerSide: GuideHighlightTour;
   exhibitionGuideId: string;
   exhibitionTitle: string;
-  stopNumber: number;
-  totalStops: number;
+  stopNumberServerSide: number;
+  allStops: GuideHighlightTour[];
 };
+
+const Page = styled.div`
+  background-color: ${props => props.theme.color('black')};
+  color: ${props => props.theme.color('white')};
+  min-height: 100vh;
+`;
+
+const Header = styled.header`
+  background-color: ${props => props.theme.color('neutral.700')};
+  position: sticky;
+  top: 0;
+  z-index: 2;
+`;
+
+const HeaderInner = styled(Space).attrs({
+  $v: {
+    size: 's',
+    properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
+  },
+})`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const PrevNext = styled(Space).attrs({
+  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+})`
+  position: fixed;
+  z-index: 2;
+  bottom: 0;
+  width: 100%;
+  background: ${props => props.theme.color('neutral.700')};
+`;
+
+const AlignCenter = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const StickyPlayer = styled.div<{ $sticky: boolean }>`
+  position: ${props => (props.$sticky ? 'sticky' : undefined)};
+
+  /* Fallback to 60px if there's no js */
+  top: var(--stop-header-height, 60px);
+  z-index: 1;
+`;
+
+const AudioPlayerWrapper = styled(Space).attrs({
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'm', properties: ['padding-bottom', 'padding-top'] },
+})`
+  color: ${props => props.theme.color('black')};
+  background-color: ${props => props.theme.color('neutral.200')};
+`;
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
@@ -81,29 +137,33 @@ export const getServerSideProps: GetServerSideProps<
     );
     const exhibitionTitle = exhibitionHighlightTour.title;
     const jsonLd = exhibitionGuideLd(exhibitionHighlightTour);
-    const stopNumber = Number(stop);
+    const stopNumberServerSide = Number(stop);
 
-    const rawCurrentStop = isFilledSliceZone(exhibitionHighlightTour.stops)
-      ? exhibitionHighlightTour.stops.find(s => s.primary.number === stopNumber)
+    const allStops = isFilledSliceZone(exhibitionHighlightTour.stops)
+      ? exhibitionHighlightTour.stops.map(transformGuideStopSlice)
       : undefined;
-    const totalStops = exhibitionHighlightTour.stops.length;
-    const currentStop =
+    const rawCurrentStop = isFilledSliceZone(exhibitionHighlightTour.stops)
+      ? exhibitionHighlightTour.stops.find(
+          s => s.primary.number === stopNumberServerSide
+        )
+      : undefined;
+    const currentStopServerSide =
       rawCurrentStop && transformGuideStopSlice(rawCurrentStop);
 
-    if (!currentStop) {
+    if (!currentStopServerSide || !allStops) {
       return { notFound: true };
     }
 
     return {
       props: serialiseProps({
-        currentStop,
+        currentStopServerSide,
         jsonLd,
         serverData,
         type,
-        stopNumber,
-        totalStops,
+        stopNumberServerSide,
         exhibitionTitle,
         exhibitionGuideId: id,
+        allStops,
       }),
     };
   }
@@ -115,12 +175,27 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   const {
     jsonLd,
     type,
-    currentStop,
+    currentStopServerSide,
     exhibitionGuideId,
     exhibitionTitle,
-    stopNumber,
-    totalStops,
+    stopNumberServerSide,
+    allStops,
   } = props;
+
+  // We use the `shallow` prop with NextLinks to avoid doing an unnecessary
+  // `getServerSideProps` using the Previous/Next links, because we already have
+  // all the data we need and can work it out client side
+  const router = useRouter();
+  const [stopNumber, setStopNumber] = useState(stopNumberServerSide);
+  const [currentStop, setCurrentStop] = useState(currentStopServerSide);
+
+  useEffect(() => {
+    setStopNumber(Number(router.query.stop));
+    const newStop = allStops.find(s => s.number === Number(router.query.stop));
+    if (newStop) {
+      setCurrentStop(newStop);
+    }
+  }, [router.query.stop]);
 
   const headerRef = useCallback((node: HTMLElement) => {
     if (node) {
@@ -133,7 +208,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
           `${entry.contentRect.height}px`
         );
       });
-
       resizeObserver.observe(node);
     }
   }, []);
@@ -148,61 +222,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   const croppedImage =
     (currentStop.image && getCrop(currentStop.image, '16:9')) ||
     currentStop.image;
-
-  const Page = styled.div`
-    background-color: ${props => props.theme.color('black')};
-    color: ${props => props.theme.color('white')};
-    min-height: 100vh;
-  `;
-
-  const Header = styled.header`
-    background-color: ${props => props.theme.color('neutral.700')};
-    position: sticky;
-    top: 0;
-    z-index: 2;
-  `;
-
-  const HeaderInner = styled(Space).attrs({
-    $v: {
-      size: 's',
-      properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
-    },
-  })`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  `;
-
-  const PrevNext = styled(Space).attrs({
-    $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  })`
-    position: fixed;
-    z-index: 2;
-    bottom: 0;
-    width: 100%;
-    background: ${props => props.theme.color('neutral.700')};
-  `;
-
-  const AlignCenter = styled.div`
-    display: flex;
-    align-items: center;
-  `;
-
-  const StickyPlayer = styled.div<{ $sticky: boolean }>`
-    position: ${props => (props.$sticky ? 'sticky' : undefined)};
-
-    /* Fallback to 60px if there's no js */
-    top: var(--stop-header-height, 60px);
-    z-index: 1;
-  `;
-
-  const AudioPlayerWrapper = styled(Space).attrs({
-    $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-    $v: { size: 'm', properties: ['padding-bottom', 'padding-top'] },
-  })`
-    color: ${props => props.theme.color('black')};
-    background-color: ${props => props.theme.color('neutral.200')};
-  `;
 
   return (
     <PageLayout
@@ -249,7 +268,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                       $h={{ size: 's', properties: ['margin-right'] }}
                       style={{ display: 'inline-block' }}
                     >
-                      Stop {stopNumber}/{totalStops}:
+                      Stop {stopNumber}/{allStops.length}:
                     </Space>
                     <h1 style={{ display: 'inline-block', marginBottom: '0' }}>
                       {currentStop.title}
@@ -327,6 +346,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                   <NextLink
                     style={{ textDecoration: 'none' }}
                     href={`${guideTypeUrl}/${stopNumber - 1}`}
+                    shallow={true}
                   >
                     <AlignCenter>
                       <Icon icon={arrow} rotate={180} />
@@ -336,10 +356,11 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                 )}
               </div>
               <div>
-                {stopNumber < totalStops && (
+                {stopNumber < allStops.length && (
                   <NextLink
                     style={{ textDecoration: 'none' }}
                     href={`${guideTypeUrl}/${stopNumber + 1}`}
+                    shallow={true}
                   >
                     <AlignCenter>
                       <span>Next</span>
