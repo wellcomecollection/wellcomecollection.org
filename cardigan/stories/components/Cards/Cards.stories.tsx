@@ -25,9 +25,6 @@ import { singleLineOfText } from '@weco/cardigan/stories/data/text';
 const primaryLabelList = [{ text: 'Study day' }, { text: 'Schools' }];
 const secondaryLabelList = [{ text: 'Speech-to-text' }];
 const imageProps = squareImage();
-const sharedParameters = {
-  chromatic: { diffThreshold: 0.2, delay: 1000 },
-};
 
 const CompactCardTemplate = args => <CompactCard {...args} />;
 
@@ -45,7 +42,6 @@ compactCard.args = {
 };
 compactCard.storyName = 'CompactCard';
 compactCard.parameters = {
-  ...sharedParameters,
   gridSizes: { s: 12, m: 10, l: 8, xl: 8 },
 };
 
@@ -55,7 +51,6 @@ bannerCard.args = {
   item: bannerCardItem,
 };
 bannerCard.storyName = 'BannerCard';
-bannerCard.parameters = sharedParameters;
 
 const FeaturedCardTemplate = args => {
   return (
@@ -88,7 +83,6 @@ featuredCard.args = {
   isReversed: false,
 };
 featuredCard.storyName = 'FeaturedCard';
-featuredCard.parameters = sharedParameters;
 
 const EventPromoTemplate = args => <EventPromo {...args} />;
 export const eventPromo = EventPromoTemplate.bind({});
@@ -97,7 +91,6 @@ eventPromo.args = {
   event,
 };
 eventPromo.parameters = {
-  ...sharedParameters,
   gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
 };
 eventPromo.storyName = 'EventPromo';
@@ -106,7 +99,6 @@ const ExhibitionPromoTemplate = args => <ExhibitionPromo {...args} />;
 export const exhibitionPromo = ExhibitionPromoTemplate.bind({});
 exhibitionPromo.args = { exhibition: exhibitionBasic };
 exhibitionPromo.parameters = {
-  ...sharedParameters,
   gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
 };
 exhibitionPromo.storyName = 'ExhibitionPromo';
@@ -121,9 +113,6 @@ guideStopCard.args = {
   title: 'Exhibition guide stop',
   type: 'audio',
   image: imageWithCrops,
-};
-guideStopCard.parameters = {
-  ...sharedParameters,
 };
 guideStopCard.argTypes = {
   type: {
@@ -153,7 +142,6 @@ storyPromo.args = {
   position: 0,
 };
 storyPromo.parameters = {
-  ...sharedParameters,
   gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
 };
 storyPromo.storyName = 'StoryPromo';

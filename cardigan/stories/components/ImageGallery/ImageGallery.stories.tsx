@@ -34,6 +34,3 @@ frames.args = {
   ...sharedArgs,
   isFrames: true,
 };
-frames.parameters = {
-  chromatic: { diffThreshold: 0.2, delay: 1000 },
-};

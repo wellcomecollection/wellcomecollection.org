@@ -12,7 +12,10 @@ import {
   ResourceType,
   Manifest,
   MetadataItem,
+  AuthAccessService2_External as AuthAccessService2External,
+  AuthAccessTokenService2,
 } from '@iiif/presentation-3';
+import { AuthAccessService2WithInteractiveProfile } from '@weco/content/utils/iiif/v3';
 
 export type ThumbnailImage = { url: string; width: number };
 
@@ -88,6 +91,9 @@ export type TransformedManifest = {
   tokenService: AuthAccessTokenService | undefined;
   placeholderId: string | undefined;
   rendering: ContentResource[];
+  externalAccessService: AuthAccessService2External | undefined;
+  activeAccessService: AuthAccessService2WithInteractiveProfile | undefined;
+  v2TokenService: AuthAccessTokenService2 | undefined;
 };
 
 export type CustomSpecificationBehaviors =
