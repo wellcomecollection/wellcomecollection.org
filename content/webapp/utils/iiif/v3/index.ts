@@ -26,6 +26,7 @@ import {
   AuthAccessService2,
   AuthAccessService2_External as AuthAccessService2External,
   AuthAccessTokenService2,
+  AuthProbeService2,
 } from '@iiif/presentation-3';
 import { isString } from '@weco/common/utils/type-guards';
 import { getThumbnailImage, getOriginal } from './canvas';
@@ -206,6 +207,10 @@ type BodyService = {
   '@type': string;
   service: Service | Service[];
 };
+type BodyService2 = {
+  type: string;
+  service: Service | Service[];
+};
 
 function getImageAuthCookieService(
   imageService: BodyService | undefined
@@ -214,6 +219,16 @@ function getImageAuthCookieService(
     ? imageService?.service?.find(s => s['@type'] === 'AuthCookieService1')
     : imageService?.service?.['@type'] === 'AuthCookieService1'
     ? imageService?.service
+    : undefined;
+}
+
+function getImageAuthProbeService(
+  service: BodyService2 | undefined
+): AuthProbeService2 | undefined {
+  return Array.isArray(service)
+    ? service?.find(s => s.type === 'AuthProbeService2')
+    : service?.type === 'AuthProbeService2'
+    ? service
     : undefined;
 }
 
@@ -278,11 +293,25 @@ const restrictedAuthServiceUrls = [
   'https://iiif-test.wellcomecollection.org/auth/restrictedlogin',
 ];
 
+// The image services can contain auth v1 and auth v2 services, or just auth v1 services
+// We want to move to using v2, but can't guarantee all manifests will include them (they need to be recently generated to have the v2 services).
+// Therefore we check for both. When all manifests have V2 we can remove the V1 code.
 function isImageRestricted(canvas: Canvas): boolean {
   const imageService = getImageService(canvas);
-  const imageAuthCookieService = getImageAuthCookieService(imageService);
-  return restrictedAuthServiceUrls.some(
-    url => imageAuthCookieService?.['@id'] === url
+  const imageAuthCookieService = getImageAuthCookieService(imageService); // V1 service
+  const v2Services = imageService?.service as BodyService2;
+  const imageAuthProbeService = getImageAuthProbeService(v2Services || []); // V2 service
+  return (
+    imageAuthProbeService?.service.some(
+      s =>
+        s?.id ===
+          'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin' ||
+        false
+    ) ||
+    restrictedAuthServiceUrls.some(
+      url => imageAuthCookieService?.['@id'] === url
+    ) ||
+    false
   );
 }
 
@@ -335,6 +364,13 @@ export function checkIsTotallyRestricted(
   return Boolean(restrictedAuthService && !isAnyImageOpen);
 }
 
+export function checkIsTotallyRestrictedV2(
+  externalAuthService: AuthAccessService2External | undefined,
+  isAnyImageOpen: boolean
+): boolean {
+  return Boolean(externalAuthService && !isAnyImageOpen);
+}
+
 export function getAnnotationsOfMotivation(
   items: Canvas['items'],
   motivation: TechnicalProperties['motivation']
@@ -377,7 +413,7 @@ export function getDisplayData(
 }
 export function transformCanvas(canvas: Canvas): TransformedCanvas {
   const imageService = getImageService(canvas);
-  const imageServiceId = getImageServiceId(imageService); // TODO if/when we use IIIFItem to render images we should get this from the painting - shouldn't really be at canvas level
+  const imageServiceId = getImageServiceId(imageService);
   const hasRestrictedImage = isImageRestricted(canvas);
   const label = getCanvasLabel(canvas);
   const textServiceId = getCanvasTextServiceId(canvas);

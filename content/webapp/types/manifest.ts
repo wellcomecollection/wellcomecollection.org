@@ -94,6 +94,7 @@ export type TransformedManifest = {
   externalAccessService: AuthAccessService2External | undefined;
   activeAccessService: AuthAccessService2WithInteractiveProfile | undefined;
   v2TokenService: AuthAccessTokenService2 | undefined;
+  isTotallyRestrictedV2: boolean;
 };
 
 export type CustomSpecificationBehaviors =

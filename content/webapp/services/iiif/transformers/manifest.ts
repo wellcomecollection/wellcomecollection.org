@@ -23,6 +23,7 @@ import {
   getExternalAuthAccessService,
   getActiveAuthAccessService,
   getV2TokenService,
+  checkIsTotallyRestrictedV2,
 } from '@weco/content/utils/iiif/v3';
 
 export function transformManifest(
@@ -66,6 +67,11 @@ export function transformManifest(
     restrictedService,
     isAnyImageOpen
   );
+  const isTotallyRestrictedV2 = checkIsTotallyRestrictedV2(
+    externalAccessService,
+    isAnyImageOpen
+  );
+
   const needsModal = checkModalRequired({
     clickThroughService,
     restrictedService,
@@ -131,5 +137,6 @@ export function transformManifest(
     externalAccessService,
     activeAccessService,
     v2TokenService,
+    isTotallyRestrictedV2,
   };
 }
