@@ -135,7 +135,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     });
 
     if (headerRef.current) {
-      resizeObserver.observe(headerRef?.current);
+      resizeObserver.observe(headerRef.current);
     }
 
     return () => {
