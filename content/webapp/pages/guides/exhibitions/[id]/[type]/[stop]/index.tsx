@@ -1,4 +1,4 @@
-import { FunctionComponent, useRef, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
 import { isFilledSliceZone } from '@weco/common/services/prismic/types';
@@ -55,6 +55,61 @@ type Props = {
   stopNumberServerSide: number;
   allStops: GuideHighlightTour[];
 };
+
+const Page = styled.div`
+  background-color: ${props => props.theme.color('black')};
+  color: ${props => props.theme.color('white')};
+  min-height: 100vh;
+`;
+
+const Header = styled.header`
+  background-color: ${props => props.theme.color('neutral.700')};
+  position: sticky;
+  top: 0;
+  z-index: 2;
+`;
+
+const HeaderInner = styled(Space).attrs({
+  $v: {
+    size: 's',
+    properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
+  },
+})`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const PrevNext = styled(Space).attrs({
+  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+})`
+  position: fixed;
+  z-index: 2;
+  bottom: 0;
+  width: 100%;
+  background: ${props => props.theme.color('neutral.700')};
+`;
+
+const AlignCenter = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const StickyPlayer = styled.div<{ $sticky: boolean }>`
+  position: ${props => (props.$sticky ? 'sticky' : undefined)};
+
+  /* Fallback to 60px if there's no js */
+  top: var(--stop-header-height, 60px);
+  z-index: 1;
+`;
+
+const AudioPlayerWrapper = styled(Space).attrs({
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'm', properties: ['padding-bottom', 'padding-top'] },
+})`
+  color: ${props => props.theme.color('black')};
+  background-color: ${props => props.theme.color('neutral.200')};
+`;
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
@@ -126,7 +181,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     stopNumberServerSide,
     allStops,
   } = props;
-  const headerRef = useRef(null);
 
   // We use the `shallow` prop with NextLinks to avoid doing an unnecessary
   // `getServerSideProps` using the Previous/Next links, because we already have
@@ -143,25 +197,20 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     }
   }, [router.query.stop]);
 
-  useEffect(() => {
-    // We measure the height of the Header element with a ResizeObserver and
-    // update the sticky top position of the StickyPlayer element any time it
-    // changes
-    const resizeObserver = new ResizeObserver(([entry]) => {
-      document.documentElement.style.setProperty(
-        '--stop-header-height',
-        `${entry.contentRect.height}px`
-      );
-    });
-
-    if (headerRef.current) {
-      resizeObserver.observe(headerRef?.current);
+  const headerRef = useCallback((node: HTMLElement) => {
+    if (node) {
+      // We measure the height of the Header element with a ResizeObserver and
+      // update the sticky top position of the StickyPlayer element any time it
+      // changes
+      const resizeObserver = new ResizeObserver(([entry]) => {
+        document.documentElement.style.setProperty(
+          '--stop-header-height',
+          `${entry.contentRect.height}px`
+        );
+      });
+      resizeObserver.observe(node);
     }
-
-    return () => {
-      resizeObserver.disconnect();
-    };
-  }, [headerRef.current]);
+  }, []);
 
   const guideTypeUrl = `/guides/exhibitions/${exhibitionGuideId}/${type}`;
   const pathname = `${guideTypeUrl}/${stopNumber}`;
@@ -173,60 +222,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   const croppedImage =
     (currentStop.image && getCrop(currentStop.image, '16:9')) ||
     currentStop.image;
-
-  const Page = styled.div`
-    background-color: ${props => props.theme.color('black')};
-    color: ${props => props.theme.color('white')};
-    min-height: 100vh;
-  `;
-
-  const Header = styled.header`
-    background-color: ${props => props.theme.color('neutral.700')};
-    position: sticky;
-    top: 0;
-    z-index: 2;
-  `;
-
-  const HeaderInner = styled(Space).attrs({
-    $v: {
-      size: 's',
-      properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
-    },
-  })`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  `;
-
-  const PrevNext = styled(Space).attrs({
-    $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  })`
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background: ${props => props.theme.color('neutral.700')};
-  `;
-
-  const AlignCenter = styled.div`
-    display: flex;
-    align-items: center;
-  `;
-
-  const StickyPlayer = styled.div<{ $sticky: boolean }>`
-    position: ${props => (props.$sticky ? 'sticky' : undefined)};
-
-    /* Fallback to 60px if there's no js */
-    top: var(--stop-header-height, 60px);
-    z-index: 1;
-  `;
-
-  const AudioPlayerWrapper = styled(Space).attrs({
-    $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-    $v: { size: 'm', properties: ['padding-bottom', 'padding-top'] },
-  })`
-    color: ${props => props.theme.color('black')};
-    background-color: ${props => props.theme.color('neutral.200')};
-  `;
 
   return (
     <PageLayout
