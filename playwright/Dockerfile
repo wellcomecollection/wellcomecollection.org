@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/playwright:v1.41.2
+FROM mcr.microsoft.com/playwright:v1.46.0
 
 ADD ./playwright /usr/src/app/webapp/playwright
 WORKDIR /usr/src/app/webapp/playwright

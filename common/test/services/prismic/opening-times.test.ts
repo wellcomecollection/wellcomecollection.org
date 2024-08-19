@@ -8,6 +8,7 @@ import {
   getUpcomingExceptionalOpeningHours,
   getTodaysVenueHours,
   groupConsecutiveExceptionalDays,
+  getOverrideDatesForSpecificVenue,
 } from '@weco/common/services/prismic/opening-times';
 import { venues } from '@weco/common/test/fixtures/components/venues';
 import { OverrideType, Venue } from '@weco/common/model/opening-hours';
@@ -96,7 +97,7 @@ describe('opening-times', () => {
       );
       expect(result.length).toEqual(uniqueDates.size);
     });
-    it('sorts the list of returned dates', () => {
+    it('sorts the list of returned dates, with dates of type "other" being returned separately', () => {
       const venue = {
         ...libraryVenue,
         openingHours: {
@@ -104,19 +105,39 @@ describe('opening-times', () => {
           exceptional: [
             new Date('2003-03-03'),
             new Date('2001-01-01'),
+            new Date('2003-03-04'),
             new Date('2002-02-02'),
-          ].map(overrideDate => ({
-            overrideDate,
-            overrideType: 'other' as OverrideType,
-            opens: '00:00',
-            closes: '00:00',
-          })),
+          ].map((overrideDate, i) => {
+            if (i === 0) {
+              return {
+                overrideDate,
+                overrideType: 'other' as OverrideType,
+                opens: '00:00',
+                closes: '00:00',
+              };
+            } else {
+              return {
+                overrideDate,
+                overrideType: 'Bank Holiday' as OverrideType,
+                opens: '00:00',
+                closes: '00:00',
+              };
+            }
+          }),
         },
       };
-      const result = getOverrideDatesForAllVenues([venue]);
-      expect(result.map(d => d.overrideDate)).toEqual([
+
+      // Should return an ordered list of non-"other" types
+      const commonResult = getOverrideDatesForAllVenues([venue]);
+      expect(commonResult.map(d => d.overrideDate)).toEqual([
         new Date('2001-01-01'),
         new Date('2002-02-02'),
+        new Date('2003-03-04'),
+      ]);
+
+      // Should return an ordered list of "other" types
+      const specificResult = getOverrideDatesForSpecificVenue(venue);
+      expect(specificResult.map(d => d.overrideDate)).toEqual([
         new Date('2003-03-03'),
       ]);
     });
