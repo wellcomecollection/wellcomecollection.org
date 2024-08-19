@@ -5,10 +5,10 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { grid } from '@weco/common/utils/classnames';
 import { threeUpGridSizesMap } from '@weco/content/components/Body/GridFactory';
-import ImagePlaceholder from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
+import ImagePlaceholder, {
+  placeholderBackgroundColor,
+} from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
 import { secondsToHoursMinutesAndSeconds } from '@weco/common/utils/format-time';
-import type { ColorSelection } from '@weco/content/types/color-selections';
-
 import {
   map,
   audio as audioIcon,
@@ -45,26 +45,12 @@ const GuideStopCard: FunctionComponent<Props> = ({
     ? secondsToHoursMinutesAndSeconds(durationInSeconds)
     : undefined;
   const croppedImage = getCrop(image, '16:9');
-  const placeholderBackgroundColor = (stopNumber: number): ColorSelection => {
-    switch (stopNumber % 4) {
-      case 0:
-        return 'accent.salmon';
-      case 1:
-        return 'accent.blue';
-      case 2:
-        return 'accent.purple';
-      case 3:
-      default:
-        return 'accent.green';
-    }
-  };
-
   return (
     <Space
       $v={{ size: 'l', properties: ['margin-bottom'] }}
       className={grid(threeUpGridSizesMap.default[0])}
     >
-      <CardOuter href={link} style={{ minHeight: '0' }}>
+      <CardOuter href={link} style={{ minHeight: '0' }} id={`${number}`}>
         <CardImageWrapper>
           {croppedImage ? (
             <PrismicImage

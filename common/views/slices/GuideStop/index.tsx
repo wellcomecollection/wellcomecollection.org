@@ -23,7 +23,7 @@ const GuideStopSlice: FunctionComponent<GuideStopProps> = ({
     id: string;
   };
   const link = number
-    ? `/guides/exhibitions/${id}/${type}/stop-${number}`
+    ? `/guides/exhibitions/${id}/${type}/${number}`
     : undefined;
 
   const duration = type === 'bsl' ? videoDuration : audioDuration;

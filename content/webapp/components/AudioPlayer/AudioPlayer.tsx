@@ -164,11 +164,13 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   return (
     <>
       <AudioPlayerWrapper>
-        <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-          <figcaption className={font('intb', 5)} {...titleProps}>
-            {title}
-          </figcaption>
-        </Space>
+        {title && (
+          <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+            <figcaption className={font('intb', 5)} {...titleProps}>
+              {title}
+            </figcaption>
+          </Space>
+        )}
 
         <AudioPlayerGrid>
           <PlayPauseButton onClick={onTogglePlay} $isPlaying={isPlaying}>
