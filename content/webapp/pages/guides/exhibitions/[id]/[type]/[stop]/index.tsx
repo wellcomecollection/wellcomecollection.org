@@ -127,7 +127,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   const headerRef = useRef(null);
 
   // We use the `shallow` prop with NextLinks to avoid doing an unnecessary
-  // `getServerSideProps` using the Previous/Next liks, because we already have
+  // `getServerSideProps` using the Previous/Next links, because we already have
   // all the data we need and can work it out client side
   const router = useRouter();
   const [stopNumberClientSide, setStopNumberClientSide] = useState(stopNumber);
