@@ -55,9 +55,7 @@ export const basic = Template.bind({});
 basic.args = { season };
 basic.parameters = {
   chromatic: {
-    diffThreshold: 0.2,
     viewports: [375, 1200],
-    delay: 500, // The image loads slowly
   },
 };
 basic.storyName = 'SeasonsHeader';
