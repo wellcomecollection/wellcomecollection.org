@@ -1,4 +1,4 @@
-import { FunctionComponent, useRef, useEffect } from 'react';
+import { FunctionComponent, useCallback } from 'react';
 import NextLink from 'next/link';
 import { isFilledSliceZone } from '@weco/common/services/prismic/types';
 import { GetServerSideProps } from 'next';
@@ -121,27 +121,22 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     stopNumber,
     totalStops,
   } = props;
-  const headerRef = useRef(null);
 
-  useEffect(() => {
-    // We measure the height of the Header element with a ResizeObserver and
-    // update the sticky top position of the StickyPlayer element any time it
-    // changes
-    const resizeObserver = new ResizeObserver(([entry]) => {
-      document.documentElement.style.setProperty(
-        '--stop-header-height',
-        `${entry.contentRect.height}px`
-      );
-    });
+  const headerRef = useCallback((node: HTMLElement) => {
+    if (node) {
+      // We measure the height of the Header element with a ResizeObserver and
+      // update the sticky top position of the StickyPlayer element any time it
+      // changes
+      const resizeObserver = new ResizeObserver(([entry]) => {
+        document.documentElement.style.setProperty(
+          '--stop-header-height',
+          `${entry.contentRect.height}px`
+        );
+      });
 
-    if (headerRef.current) {
-      resizeObserver.observe(headerRef.current);
+      resizeObserver.observe(node);
     }
-
-    return () => {
-      resizeObserver.disconnect();
-    };
-  }, [headerRef.current]);
+  }, []);
 
   const guideTypeUrl = `/guides/exhibitions/${exhibitionGuideId}/${type}`;
   const pathname = `${guideTypeUrl}/${stopNumber}`;
