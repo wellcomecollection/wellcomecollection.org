@@ -19,6 +19,10 @@ import {
   getDisplayData,
   isCollection,
   getStructures,
+  getAuthAccessServices,
+  getExternalAuthAccessService,
+  getActiveAuthAccessService,
+  getV2TokenService,
 } from '@weco/content/utils/iiif/v3';
 
 export function transformManifest(
@@ -34,11 +38,28 @@ export function transformManifest(
   const transformedCanvases = getTransformedCanvases(manifestV3);
   const canvasCount = transformedCanvases.length;
   const isAnyImageOpen = checkIsAnyImageOpen(transformedCanvases);
+  // Our manifests reference both the v1 and v2 Auth services.
+  // This is to make it easier to switch from the current Auth implementation to the new one.
+  // The following are taken from the v1 services:
   const restrictedService = getRestrictedLoginService(manifestV3);
   const clickThroughService = getClickThroughService(manifestV3);
   const tokenService = getTokenService(
     clickThroughService || restrictedService
   );
+  // The following are taken from the v2 services:
+  const authAccessServices = getAuthAccessServices(manifestV3);
+  const externalAccessService =
+    getExternalAuthAccessService(authAccessServices); // equivalent of restrictedService
+  const activeAccessService = getActiveAuthAccessService(authAccessServices); // equivalent of clickThroughService
+  const v2TokenService = getV2TokenService(
+    externalAccessService || externalAccessService
+  ); // equivalent of tokenService
+  // We should default to using the v2 services (TODO work in progress).
+  // However, we need to fallback to v1 services if v2 services aren't available.
+  // This is because not all manifests have the v2 services present yet.
+  // see https://wellcome.slack.com/archives/CBT40CMKQ/p1721912291057799 where a manifest needed to be regenerated to start including the v2 services.
+  // TODO We need to see if we can regenerate all manifests on mass.
+
   const firstCollectionManifestLocation =
     getFirstCollectionManifestLocation(manifestV3);
   const isTotallyRestricted = checkIsTotallyRestricted(
@@ -107,5 +128,8 @@ export function transformManifest(
     needsModal,
     placeholderId: firstPlaceholderId,
     rendering,
+    externalAccessService,
+    activeAccessService,
+    v2TokenService,
   };
 }
