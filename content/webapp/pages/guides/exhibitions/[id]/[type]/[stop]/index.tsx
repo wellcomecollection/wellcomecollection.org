@@ -49,10 +49,10 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 type Props = {
   jsonLd: JsonLdObj;
   type: ExhibitionGuideType;
-  currentStop: GuideHighlightTour;
+  currentStopServerSide: GuideHighlightTour;
   exhibitionGuideId: string;
   exhibitionTitle: string;
-  stopNumber: number;
+  stopNumberServerSide: number;
   allStops: GuideHighlightTour[];
 };
 
@@ -82,28 +82,30 @@ export const getServerSideProps: GetServerSideProps<
     );
     const exhibitionTitle = exhibitionHighlightTour.title;
     const jsonLd = exhibitionGuideLd(exhibitionHighlightTour);
-    const stopNumber = Number(stop);
+    const stopNumberServerSide = Number(stop);
 
     const allStops = isFilledSliceZone(exhibitionHighlightTour.stops)
       ? exhibitionHighlightTour.stops.map(transformGuideStopSlice)
       : undefined;
     const rawCurrentStop = isFilledSliceZone(exhibitionHighlightTour.stops)
-      ? exhibitionHighlightTour.stops.find(s => s.primary.number === stopNumber)
+      ? exhibitionHighlightTour.stops.find(
+          s => s.primary.number === stopNumberServerSide
+        )
       : undefined;
-    const currentStop =
+    const currentStopServerSide =
       rawCurrentStop && transformGuideStopSlice(rawCurrentStop);
 
-    if (!currentStop || !allStops) {
+    if (!currentStopServerSide || !allStops) {
       return { notFound: true };
     }
 
     return {
       props: serialiseProps({
-        currentStop,
+        currentStopServerSide,
         jsonLd,
         serverData,
         type,
-        stopNumber,
+        stopNumberServerSide,
         exhibitionTitle,
         exhibitionGuideId: id,
         allStops,
@@ -118,10 +120,10 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   const {
     jsonLd,
     type,
-    currentStop,
+    currentStopServerSide,
     exhibitionGuideId,
     exhibitionTitle,
-    stopNumber,
+    stopNumberServerSide,
     allStops,
   } = props;
   const headerRef = useRef(null);
@@ -130,15 +132,14 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   // `getServerSideProps` using the Previous/Next links, because we already have
   // all the data we need and can work it out client side
   const router = useRouter();
-  const [stopNumberClientSide, setStopNumberClientSide] = useState(stopNumber);
-  const [currentStopClientSide, setCurrentStopClientSide] =
-    useState(currentStop);
+  const [stopNumber, setStopNumber] = useState(stopNumberServerSide);
+  const [currentStop, setCurrentStop] = useState(currentStopServerSide);
 
   useEffect(() => {
-    setStopNumberClientSide(Number(router.query.stop));
+    setStopNumber(Number(router.query.stop));
     const newStop = allStops.find(s => s.number === Number(router.query.stop));
     if (newStop) {
-      setCurrentStopClientSide(newStop);
+      setCurrentStop(newStop);
     }
   }, [router.query.stop]);
 
@@ -163,16 +164,15 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   }, [headerRef.current]);
 
   const guideTypeUrl = `/guides/exhibitions/${exhibitionGuideId}/${type}`;
-  const pathname = `${guideTypeUrl}/${stopNumberClientSide}`;
+  const pathname = `${guideTypeUrl}/${stopNumber}`;
   const controlText = {
     defaultText: type === 'bsl' ? 'Read subtitles' : 'Read audio transcript',
     contentShowingText:
       type === 'bsl' ? 'Hide subtitles' : 'Hide audio transcript',
   };
   const croppedImage =
-    (currentStopClientSide.image &&
-      getCrop(currentStopClientSide.image, '16:9')) ||
-    currentStopClientSide.image;
+    (currentStop.image && getCrop(currentStop.image, '16:9')) ||
+    currentStop.image;
 
   const Page = styled.div`
     background-color: ${props => props.theme.color('black')};
@@ -230,13 +230,13 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
 
   return (
     <PageLayout
-      title={currentStopClientSide.title}
+      title={currentStop.title}
       description={pageDescriptions.exhibitionGuides}
       url={{ pathname }}
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection="exhibition-guides"
-      image={currentStopClientSide.image}
+      image={currentStop.image}
       hideHeader={true}
       hideFooter={true}
       hideNewsletterPromo={true}
@@ -273,16 +273,16 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                       $h={{ size: 's', properties: ['margin-right'] }}
                       style={{ display: 'inline-block' }}
                     >
-                      Stop {stopNumberClientSide}/{allStops.length}:
+                      Stop {stopNumber}/{allStops.length}:
                     </Space>
                     <h1 style={{ display: 'inline-block', marginBottom: '0' }}>
-                      {currentStopClientSide.title}
+                      {currentStop.title}
                     </h1>
                   </AlignCenter>
                 </AlignCenter>
               </div>
               <span>
-                <NextLink href={`${guideTypeUrl}#${stopNumberClientSide}`}>
+                <NextLink href={`${guideTypeUrl}#${stopNumber}`}>
                   <Icon icon={cross} />
                   <span className="visually-hidden">Back to list of stops</span>
                 </NextLink>
@@ -299,9 +299,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               ) : (
                 <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
                   <ImagePlaceholder
-                    backgroundColor={placeholderBackgroundColor(
-                      stopNumberClientSide
-                    )}
+                    backgroundColor={placeholderBackgroundColor(stopNumber)}
                   />
                 </div>
               )}
@@ -310,18 +308,15 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
           <StickyPlayer $sticky={type !== 'bsl'}>
             {type === 'bsl' ? (
               <>
-                {currentStopClientSide.video && (
-                  <VideoEmbed embedUrl={currentStopClientSide.video} />
+                {currentStop.video && (
+                  <VideoEmbed embedUrl={currentStop.video} />
                 )}
               </>
             ) : (
               <>
-                {currentStopClientSide.audio && (
+                {currentStop.audio && (
                   <AudioPlayerWrapper>
-                    <AudioPlayer
-                      title=""
-                      audioFile={currentStopClientSide.audio}
-                    />
+                    <AudioPlayer title="" audioFile={currentStop.audio} />
                   </AudioPlayerWrapper>
                 )}
               </>
@@ -336,8 +331,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               <PrismicHtmlBlock
                 html={
                   type === 'bsl'
-                    ? currentStopClientSide.subtitles!
-                    : currentStopClientSide.transcript!
+                    ? currentStop.subtitles!
+                    : currentStop.transcript!
                 }
               />
             </CollapsibleContent>
@@ -352,10 +347,10 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               }}
             >
               <div>
-                {stopNumberClientSide > 1 && (
+                {stopNumber > 1 && (
                   <NextLink
                     style={{ textDecoration: 'none' }}
-                    href={`${guideTypeUrl}/${stopNumberClientSide - 1}`}
+                    href={`${guideTypeUrl}/${stopNumber - 1}`}
                     shallow={true}
                   >
                     <AlignCenter>
@@ -366,10 +361,10 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                 )}
               </div>
               <div>
-                {stopNumberClientSide < allStops.length && (
+                {stopNumber < allStops.length && (
                   <NextLink
                     style={{ textDecoration: 'none' }}
-                    href={`${guideTypeUrl}/${stopNumberClientSide + 1}`}
+                    href={`${guideTypeUrl}/${stopNumber + 1}`}
                     shallow={true}
                   >
                     <AlignCenter>
