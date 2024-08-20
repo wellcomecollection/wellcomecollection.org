@@ -188,6 +188,25 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   const router = useRouter();
   const [stopNumber, setStopNumber] = useState(stopNumberServerSide);
   const [currentStop, setCurrentStop] = useState(currentStopServerSide);
+  const [headerEl, setHeaderEl] = useState<HTMLElement>();
+
+  const headerRef = useCallback((node: HTMLElement) => {
+    if (node) setHeaderEl(node);
+  }, []);
+
+  useEffect(() => {
+    if (!headerEl) return;
+
+    const resizeObserver = new ResizeObserver(([entry]) => {
+      document.documentElement.style.setProperty(
+        '--stop-header-height',
+        `${entry.contentRect.height}px`
+      );
+    });
+    resizeObserver.observe(headerEl);
+
+    return () => resizeObserver.disconnect();
+  }, [headerEl]);
 
   useEffect(() => {
     setStopNumber(Number(router.query.stop));
@@ -196,21 +215,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
       setCurrentStop(newStop);
     }
   }, [router.query.stop]);
-
-  const headerRef = useCallback((node: HTMLElement) => {
-    if (node) {
-      // We measure the height of the Header element with a ResizeObserver and
-      // update the sticky top position of the StickyPlayer element any time it
-      // changes
-      const resizeObserver = new ResizeObserver(([entry]) => {
-        document.documentElement.style.setProperty(
-          '--stop-header-height',
-          `${entry.contentRect.height}px`
-        );
-      });
-      resizeObserver.observe(node);
-    }
-  }, []);
 
   const guideTypeUrl = `/guides/exhibitions/${exhibitionGuideId}/${type}`;
   const pathname = `${guideTypeUrl}/${stopNumber}`;
