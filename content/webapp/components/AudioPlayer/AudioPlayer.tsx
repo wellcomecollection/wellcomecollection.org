@@ -1,4 +1,11 @@
-import { useEffect, useRef, useState, FunctionComponent } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+  useContext,
+  FunctionComponent,
+} from 'react';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import styled from 'styled-components';
 import * as prismic from '@prismicio/client';
 import { dasherize } from '@weco/common/utils/grammar';
@@ -50,8 +57,8 @@ const AudioPlayerGrid = styled(Space).attrs({
     properties: ['row-gap'],
     overrides: { medium: 2, large: 2 },
   },
-})`
-  display: grid;
+})<{ $isEnhanced: boolean }>`
+  display: ${props => (props.$isEnhanced ? 'grid' : 'none')};
   grid-template-columns: auto 1fr auto;
   align-items: center;
 `;
@@ -75,6 +82,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   idPrefix,
   titleProps = {},
 }) => {
+  const { isEnhanced } = useContext(AppContext);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -172,7 +180,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
           </Space>
         )}
 
-        <AudioPlayerGrid>
+        <AudioPlayerGrid $isEnhanced={isEnhanced}>
           <PlayPauseButton onClick={onTogglePlay} $isPlaying={isPlaying}>
             <PlayPauseInner>
               <span className="visually-hidden">
@@ -238,6 +246,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
         </AudioPlayerGrid>
 
         <audio
+          controls={!isEnhanced}
           onLoadedMetadata={onLoadedMetadata}
           onPlay={event => {
             trackPlay(event);
