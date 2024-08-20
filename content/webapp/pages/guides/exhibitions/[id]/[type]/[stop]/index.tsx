@@ -196,7 +196,9 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
 
   useEffect(() => {
     if (!headerEl) return;
-
+    // We measure the height of the Header element with a ResizeObserver and
+    // update the sticky top position of the StickyPlayer element any time it
+    // changes
     const resizeObserver = new ResizeObserver(([entry]) => {
       document.documentElement.style.setProperty(
         '--stop-header-height',
