@@ -732,3 +732,72 @@ export function getV2TokenService(
     | AuthAccessTokenService2
     | undefined;
 }
+
+export type TransformedAuthService = {
+  id: string;
+  label?: string;
+  description?: string;
+};
+export function transformRestrictedService(
+  service: AuthExternalService | undefined
+): TransformedAuthService | undefined {
+  if (!service) return;
+  return {
+    id: service['@id'],
+    label: service.label,
+    description: service.description,
+  };
+}
+
+export function transformClickThroughService(
+  service: AuthClickThroughServiceWithPossibleServiceArray | undefined
+): TransformedAuthService | undefined {
+  if (!service) return;
+  return {
+    id: service['@id'],
+    label: service.label,
+    description: service.description,
+  };
+}
+
+export function transformTokenService(
+  service: AuthAccessTokenService | undefined
+): TransformedAuthService | undefined {
+  if (!service) return;
+  return {
+    id: service['@id'],
+  };
+}
+
+export function transformExternalAccessService(
+  service:
+    | (AuthAccessService2External & { note?: InternationalString }) // We can have a note on this type in the manifest
+    | undefined
+): TransformedAuthService | undefined {
+  if (!service) return;
+  return {
+    id: service.id,
+    label: getLabelString(service.label),
+    description: getLabelString(service.note),
+  };
+}
+
+export function transformActiveAccessService(
+  service: AuthAccessService2WithInteractiveProfile | undefined
+): TransformedAuthService | undefined {
+  if (!service) return;
+  return {
+    id: service.id,
+    label: getLabelString(service.label),
+    description: getLabelString(service.note),
+  };
+}
+
+export function transformV2TokenService(
+  service: AuthAccessTokenService2 | undefined
+): TransformedAuthService | undefined {
+  if (!service) return;
+  return {
+    id: service.id,
+  };
+}
