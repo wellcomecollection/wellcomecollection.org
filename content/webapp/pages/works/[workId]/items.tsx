@@ -154,7 +154,7 @@ const ItemPage: NextPage<Props> = ({
   useEffect(() => {
     function receiveMessage(event: MessageEvent) {
       const data = event.data;
-      const serviceOrigin = tokenService && new URL(tokenService['@id']);
+      const serviceOrigin = tokenService && new URL(tokenService.id);
       if (
         serviceOrigin &&
         `${serviceOrigin.protocol}//${serviceOrigin.hostname}` === event.origin
@@ -195,7 +195,7 @@ const ItemPage: NextPage<Props> = ({
       {tokenService && origin && (
         <IframeAuthMessage
           id={iframeId}
-          src={`${tokenService['@id']}?messageId=1&origin=${origin}`}
+          src={`${tokenService.id}?messageId=1&origin=${origin}`}
         />
       )}
 
@@ -252,7 +252,7 @@ const ItemPage: NextPage<Props> = ({
                 text="Show the content"
                 clickHandler={() => {
                   const authServiceWindow = window.open(
-                    `${authService?.['@id'] || ''}?origin=${origin}`
+                    `${authService?.id || ''}?origin=${origin}`
                   );
                   authServiceWindow &&
                     authServiceWindow.addEventListener('unload', function () {

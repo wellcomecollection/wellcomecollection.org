@@ -4,13 +4,12 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { AuthClickThroughServiceWithPossibleServiceArray } from '../../../webapp/types/manifest';
-import { AuthAccessTokenService } from '@iiif/presentation-3';
 import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import useShowClickthrough from '../../hooks/useShowClickthrough';
+import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -25,10 +24,8 @@ function reloadAuthIframe(document: Document, id: string) {
 }
 
 type Props = PropsWithChildren<{
-  clickThroughService:
-    | AuthClickThroughServiceWithPossibleServiceArray
-    | undefined;
-  tokenService: AuthAccessTokenService | undefined;
+  clickThroughService: TransformedAuthService | undefined;
+  tokenService: TransformedAuthService | undefined;
 }>;
 
 const IIIFClickthrough: FunctionComponent<Props> = ({
@@ -51,7 +48,7 @@ const IIIFClickthrough: FunctionComponent<Props> = ({
         <IframeAuthMessage
           id={iframeId}
           title="IIIF Authentication iframe for cross-domain messaging"
-          src={`${tokenService['@id']}?messageId=1&origin=${origin}`}
+          src={`${tokenService.id}?messageId=1&origin=${origin}`}
         />
       )}
       {showClickthroughMessage ? (
@@ -66,7 +63,7 @@ const IIIFClickthrough: FunctionComponent<Props> = ({
               }}
             />
           )}
-          {clickThroughService?.['@id'] && origin && (
+          {clickThroughService?.id && origin && (
             <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
               <Button
                 variant="ButtonSolid"
@@ -74,7 +71,7 @@ const IIIFClickthrough: FunctionComponent<Props> = ({
                 text="Show the content"
                 clickHandler={() => {
                   const authServiceWindow = window.open(
-                    `${clickThroughService?.['@id'] || ''}?origin=${origin}`
+                    `${clickThroughService?.id || ''}?origin=${origin}`
                   );
                   authServiceWindow &&
                     authServiceWindow.addEventListener('unload', function () {
