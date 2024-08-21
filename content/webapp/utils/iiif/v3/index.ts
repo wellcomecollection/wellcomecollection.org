@@ -24,6 +24,7 @@ import {
   TechnicalProperties,
   CollectionItems,
   AuthAccessService2,
+  AuthAccessService2_Active as AuthAccessService2Active,
   AuthAccessService2_External as AuthAccessService2External,
   AuthAccessTokenService2,
   AuthProbeService2,
@@ -703,7 +704,7 @@ export function getExternalAuthAccessService(
 
 // Docs (https://iiif.io/api/auth/2.0/#profile) say the profile value should be active, but before the Auth 2 spec was finalised the value was interactive and we have still have manifests with this value. N.B. the values will update if the manifest is regenerated.
 export type AuthAccessService2WithInteractiveProfile = Omit<
-  AuthAccessService2,
+  AuthAccessService2Active,
   'profile'
 > & {
   profile: AuthAccessService2['profile'] | 'interactive';
