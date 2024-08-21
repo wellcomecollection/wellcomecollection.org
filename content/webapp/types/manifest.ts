@@ -1,6 +1,5 @@
 import {
   Service,
-  AuthExternalService,
   Range,
   AuthClickThroughService,
   AuthAccessTokenService,
@@ -12,10 +11,8 @@ import {
   ResourceType,
   Manifest,
   MetadataItem,
-  AuthAccessService2_External as AuthAccessService2External,
-  AuthAccessTokenService2,
 } from '@iiif/presentation-3';
-import { AuthAccessService2WithInteractiveProfile } from '@weco/content/utils/iiif/v3';
+import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 
 export type ThumbnailImage = { url: string; width: number };
 
@@ -81,19 +78,17 @@ export type TransformedManifest = {
   isCollectionManifest: boolean;
   parentManifestUrl: string | undefined;
   needsModal: boolean;
-  restrictedService: AuthExternalService | undefined;
+  restrictedService: TransformedAuthService | undefined;
   searchService: Service | undefined;
   structures: Manifest['structures'];
   manifests: CollectionItems[];
-  clickThroughService:
-    | AuthClickThroughServiceWithPossibleServiceArray
-    | undefined;
-  tokenService: AuthAccessTokenService | undefined;
+  clickThroughService: TransformedAuthService | undefined;
+  tokenService: TransformedAuthService | undefined;
   placeholderId: string | undefined;
   rendering: ContentResource[];
-  externalAccessService: AuthAccessService2External | undefined;
-  activeAccessService: AuthAccessService2WithInteractiveProfile | undefined;
-  v2TokenService: AuthAccessTokenService2 | undefined;
+  externalAccessService: TransformedAuthService | undefined;
+  activeAccessService: TransformedAuthService | undefined;
+  v2TokenService: TransformedAuthService | undefined;
   isTotallyRestrictedV2: boolean;
 };
 
