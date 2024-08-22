@@ -121,6 +121,14 @@ const AlignCenter = styled.div`
 const StickyPlayer = styled.div<{ $sticky: boolean }>`
   position: ${props => (props.$sticky ? 'sticky' : undefined)};
 
+  margin-left: -${props => props.theme.gutter.small}px;
+  margin-right: -${props => props.theme.gutter.small}px;
+
+  ${props => props.theme.media('medium')`
+    margin-left: 0;
+    margin-right: 0;
+  `}
+
   /* Fallback to 60px if there's no js */
   top: var(--stop-header-height, 60px);
   z-index: 1;
@@ -330,26 +338,26 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                 )}
               </>
             )}
-            <StickyPlayer $sticky={type !== 'bsl'}>
-              {type === 'bsl' ? (
-                <>
-                  {currentStop.video && (
-                    <VideoEmbed embedUrl={currentStop.video} />
-                  )}
-                </>
-              ) : (
-                <>
-                  {currentStop.audio && (
-                    <AudioPlayerWrapper>
-                      <AudioPlayer title="" audioFile={currentStop.audio} />
-                    </AudioPlayerWrapper>
-                  )}
-                </>
-              )}
-            </StickyPlayer>
           </Layout>
         </LayoutWrap>
         <Layout gridSizes={gridSize8()}>
+          <StickyPlayer $sticky={type !== 'bsl'}>
+            {type === 'bsl' ? (
+              <>
+                {currentStop.video && (
+                  <VideoEmbed embedUrl={currentStop.video} />
+                )}
+              </>
+            ) : (
+              <>
+                {currentStop.audio && (
+                  <AudioPlayerWrapper>
+                    <AudioPlayer title="" audioFile={currentStop.audio} />
+                  </AudioPlayerWrapper>
+                )}
+              </>
+            )}
+          </StickyPlayer>
           <Space $v={{ size: 'l', properties: ['padding-top'] }}>
             <CollapsibleContent
               controlText={controlText}
