@@ -7,7 +7,7 @@ import {
   PropsWithChildren,
 } from 'react';
 import styled from 'styled-components';
-import { plus, minus } from '@weco/common/icons';
+import { plus } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -19,6 +19,7 @@ const IconContainer = styled.div<{ $darkTheme?: boolean }>`
       ${props => props.theme.color(props.$darkTheme ? 'yellow' : 'black')};
     width: 20px;
     height: 20px;
+    transition: transform ${props => props.theme.transitionProperties};
   }
 `;
 
@@ -90,7 +91,8 @@ const CollapsibleContent: FunctionComponent<Props> = ({
             <IconContainer $darkTheme={darkTheme}>
               <Icon
                 iconColor={darkTheme ? 'yellow' : undefined}
-                icon={showContent ? minus : plus}
+                icon={plus}
+                rotate={showContent ? 45 : undefined}
               />
             </IconContainer>
           </Space>
