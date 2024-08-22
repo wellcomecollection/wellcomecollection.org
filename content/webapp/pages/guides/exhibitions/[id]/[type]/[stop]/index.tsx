@@ -94,7 +94,9 @@ const HeaderInner = styled(Space).attrs({
   align-items: center;
 `;
 
-const PrevNext = styled.div`
+const PrevNext = styled.div.attrs({
+  className: font('intr', 6),
+})`
   position: fixed;
   z-index: 2;
   bottom: 0;
@@ -387,7 +389,12 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                       }}
                     >
                       <AlignCenter>
-                        <Icon icon={arrow} rotate={180} />
+                        <Space
+                          $h={{ size: 'm', properties: ['margin-right'] }}
+                          style={{ display: 'flex' }}
+                        >
+                          <Icon icon={arrow} rotate={180} />
+                        </Space>
                         <span>Previous</span>
                       </AlignCenter>
                     </Space>
@@ -409,7 +416,12 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                       }}
                     >
                       <AlignCenter>
-                        <span>Next</span>
+                        <Space
+                          $h={{ size: 'm', properties: ['margin-right'] }}
+                          style={{ display: 'flex' }}
+                        >
+                          <span>Next</span>
+                        </Space>
                         <Icon icon={arrow} />
                       </AlignCenter>
                     </Space>
