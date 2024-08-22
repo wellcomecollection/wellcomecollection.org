@@ -7,7 +7,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import {
   ExhibitionGuideType,
-  isValidType,
+  isValidExhibitionGuideType,
   GuideHighlightTour,
 } from '@weco/content/types/exhibition-guides';
 import { createClient } from '@weco/content/services/prismic/fetch';
@@ -117,7 +117,7 @@ export const getServerSideProps: GetServerSideProps<
   setCacheControl(context.res);
   const { id, type, stop } = context.query;
 
-  if (!looksLikePrismicId(id) || !isValidType(type)) {
+  if (!looksLikePrismicId(id) || !isValidExhibitionGuideType(type)) {
     return { notFound: true };
   }
 

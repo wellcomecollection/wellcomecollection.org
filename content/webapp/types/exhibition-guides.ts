@@ -70,6 +70,8 @@ export type ExhibitionGuide = ExhibitionGuideBasic & {
   components: ExhibitionGuideComponent[];
 };
 
+// TODO remove 'captions-and-transcripts' once we close Jason/migrate it
+// as we no longer set a cookie for that type.
 const typeNames = [
   'bsl',
   'audio-without-descriptions',
@@ -77,7 +79,7 @@ const typeNames = [
 ] as const;
 export type ExhibitionGuideType = (typeof typeNames)[number];
 
-export function isValidType(
+export function isValidExhibitionGuideType(
   type: string | string[] | undefined
 ): type is ExhibitionGuideType {
   /* eslint-disable @typescript-eslint/no-explicit-any */

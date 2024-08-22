@@ -125,12 +125,14 @@ type ResourceProps = {
   textPathname?: string;
   audioPathname?: string;
   videoPathname?: string;
+  stopNumber?: string;
 };
 
 export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
   textPathname,
   audioPathname,
   videoPathname,
+  stopNumber,
 }) => {
   const { egWork } = useToggles();
 
@@ -151,7 +153,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
               <TypeList>
                 {audioPathname && (
                   <TypeOption
-                    url={`/${audioPathname}`}
+                    url={`/${audioPathname}${stopNumber ? `/${stopNumber}` : ''}`}
                     title="Audio descriptive tour with transcripts"
                     text="Find out more about the exhibition with short audio tracks."
                     backgroundColor="accent.lightSalmon"
@@ -161,7 +163,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
                 )}
                 {videoPathname && (
                   <TypeOption
-                    url={`/${videoPathname}`}
+                    url={`/${videoPathname}${stopNumber ? `/${stopNumber}` : ''}`}
                     title="British Sign Language tour with transcripts"
                     text="Commentary about the exhibition in British Sign Language videos."
                     backgroundColor="accent.lightBlue"
