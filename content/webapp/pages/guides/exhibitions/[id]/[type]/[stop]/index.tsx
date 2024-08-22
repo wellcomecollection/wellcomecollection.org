@@ -330,26 +330,26 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                 )}
               </>
             )}
+            <StickyPlayer $sticky={type !== 'bsl'}>
+              {type === 'bsl' ? (
+                <>
+                  {currentStop.video && (
+                    <VideoEmbed embedUrl={currentStop.video} />
+                  )}
+                </>
+              ) : (
+                <>
+                  {currentStop.audio && (
+                    <AudioPlayerWrapper>
+                      <AudioPlayer title="" audioFile={currentStop.audio} />
+                    </AudioPlayerWrapper>
+                  )}
+                </>
+              )}
+            </StickyPlayer>
           </Layout>
         </LayoutWrap>
         <Layout gridSizes={gridSize8()}>
-          <StickyPlayer $sticky={type !== 'bsl'}>
-            {type === 'bsl' ? (
-              <>
-                {currentStop.video && (
-                  <VideoEmbed embedUrl={currentStop.video} />
-                )}
-              </>
-            ) : (
-              <>
-                {currentStop.audio && (
-                  <AudioPlayerWrapper>
-                    <AudioPlayer title="" audioFile={currentStop.audio} />
-                  </AudioPlayerWrapper>
-                )}
-              </>
-            )}
-          </StickyPlayer>
           <Space $v={{ size: 'l', properties: ['padding-top'] }}>
             <CollapsibleContent
               controlText={controlText}
