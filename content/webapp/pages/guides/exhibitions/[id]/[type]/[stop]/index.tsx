@@ -91,9 +91,7 @@ const HeaderInner = styled(Space).attrs({
   align-items: center;
 `;
 
-const PrevNext = styled(Space).attrs({
-  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-})`
+const PrevNext = styled.div`
   position: fixed;
   z-index: 2;
   bottom: 0;
@@ -378,10 +376,18 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                     href={`${guideTypeUrl}/${stopNumber - 1}`}
                     shallow={true}
                   >
-                    <AlignCenter>
-                      <Icon icon={arrow} rotate={180} />
-                      <span>Previous</span>
-                    </AlignCenter>
+                    <Space
+                      $v={{
+                        size: 'm',
+                        properties: ['padding-top', 'padding-bottom'],
+                        overrides: { small: 4 },
+                      }}
+                    >
+                      <AlignCenter>
+                        <Icon icon={arrow} rotate={180} />
+                        <span>Previous</span>
+                      </AlignCenter>
+                    </Space>
                   </NextLink>
                 )}
               </div>
@@ -392,10 +398,18 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                     href={`${guideTypeUrl}/${stopNumber + 1}`}
                     shallow={true}
                   >
-                    <AlignCenter>
-                      <span>Next</span>
-                      <Icon icon={arrow} />
-                    </AlignCenter>
+                    <Space
+                      $v={{
+                        size: 'm',
+                        properties: ['padding-top', 'padding-bottom'],
+                        overrides: { small: 4 },
+                      }}
+                    >
+                      <AlignCenter>
+                        <span>Next</span>
+                        <Icon icon={arrow} />
+                      </AlignCenter>
+                    </Space>
                   </NextLink>
                 )}
               </div>
