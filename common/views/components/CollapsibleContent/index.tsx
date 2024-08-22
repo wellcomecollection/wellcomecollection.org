@@ -22,6 +22,10 @@ const IconContainer = styled.div<{ $darkTheme?: boolean }>`
     transition: transform ${props => props.theme.transitionProperties};
   }
 `;
+const IconSizeShim = styled.div`
+  /* Matches .icon width above */
+  width: 20px;
+`;
 
 const Control = styled.button.attrs({
   className: font('intb', 5),
@@ -41,13 +45,7 @@ const ControlText = styled.span<{ $darkTheme?: boolean }>`
   margin: 0;
 `;
 
-const Content = styled(Space).attrs({
-  className: 'body-text spaced-text',
-  $h: {
-    size: 'l',
-    properties: ['padding-left', 'padding-right'],
-  },
-})<{
+const Content = styled.div<{
   $hidden: boolean;
   $darkTheme?: boolean;
 }>`
@@ -109,7 +107,15 @@ const CollapsibleContent: FunctionComponent<Props> = ({
         $hidden={!showContent}
         $darkTheme={darkTheme}
       >
-        <Space $v={{ size: 'l', properties: ['margin-top'] }}>{children}</Space>
+        <Space
+          $v={{ size: 'l', properties: ['margin-top'] }}
+          style={{ display: 'flex' }}
+        >
+          <Space as="span" $h={{ size: 's', properties: ['margin-right'] }}>
+            <IconSizeShim />
+          </Space>
+          <div className="body-text spaced-text">{children}</div>
+        </Space>
       </Content>
     </div>
   );
