@@ -57,6 +57,16 @@ type Props = {
   allStops: GuideHighlightTour[];
 };
 
+const LayoutWrap = styled.div`
+  margin-left: -${props => props.theme.gutter.small}px;
+  margin-right: -${props => props.theme.gutter.small}px;
+
+  ${props => props.theme.media('medium')`
+    margin-left: 0;
+    margin-right: 0;
+  `}
+`;
+
 const Page = styled.div`
   background-color: ${props => props.theme.color('black')};
   color: ${props => props.theme.color('white')};
@@ -293,20 +303,24 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
           </Container>
         </Header>
         {/* Make sure we can scroll content into view if it's behind the fixed position footer (paddingBottom: 100px) */}
+        <LayoutWrap>
+          <Layout gridSizes={gridSize8()}>
+            {type !== 'bsl' && (
+              <>
+                {croppedImage ? (
+                  <PrismicImage quality="low" image={croppedImage} />
+                ) : (
+                  <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
+                    <ImagePlaceholder
+                      backgroundColor={placeholderBackgroundColor(stopNumber)}
+                    />
+                  </div>
+                )}
+              </>
+            )}
+          </Layout>
+        </LayoutWrap>
         <Layout gridSizes={gridSize8()}>
-          {type !== 'bsl' && (
-            <>
-              {croppedImage ? (
-                <PrismicImage quality="low" image={croppedImage} />
-              ) : (
-                <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
-                  <ImagePlaceholder
-                    backgroundColor={placeholderBackgroundColor(stopNumber)}
-                  />
-                </div>
-              )}
-            </>
-          )}
           <StickyPlayer $sticky={type !== 'bsl'}>
             {type === 'bsl' ? (
               <>
