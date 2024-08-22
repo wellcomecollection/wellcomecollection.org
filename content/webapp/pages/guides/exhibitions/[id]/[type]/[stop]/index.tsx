@@ -1,5 +1,6 @@
 import { FunctionComponent, useEffect, useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
+import { font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
 import { isFilledSliceZone } from '@weco/common/services/prismic/types';
 import { GetServerSideProps } from 'next';
@@ -73,7 +74,9 @@ const Page = styled.div`
   min-height: 100vh;
 `;
 
-const Header = styled.header`
+const Header = styled.header.attrs({
+  className: font('intr', 6),
+})`
   background-color: ${props => props.theme.color('neutral.700')};
   position: sticky;
   top: 0;
