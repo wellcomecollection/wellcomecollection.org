@@ -101,6 +101,15 @@ const PrevNext = styled(Space).attrs({
   background: ${props => props.theme.color('neutral.700')};
 `;
 
+const AlignIconFirstLineCenter = styled.div`
+  display: flex;
+  align-items: start;
+
+  .icon {
+    height: 1lh;
+  }
+`;
+
 const AlignCenter = styled.div`
   display: flex;
   align-items: center;
@@ -259,7 +268,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
           <Container>
             <HeaderInner>
               <div>
-                <AlignCenter>
+                <AlignIconFirstLineCenter>
                   <Space
                     $h={{ size: 's', properties: ['margin-right'] }}
                     style={{ display: 'flex' }}
@@ -272,8 +281,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                     />
                   </Space>
                   <span>{exhibitionTitle}</span>
-                </AlignCenter>
-                <AlignCenter>
+                </AlignIconFirstLineCenter>
+                <AlignIconFirstLineCenter>
                   <Space
                     $h={{ size: 's', properties: ['margin-right'] }}
                     style={{ display: 'flex' }}
@@ -291,7 +300,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                       {currentStop.title}
                     </h1>
                   </AlignCenter>
-                </AlignCenter>
+                </AlignIconFirstLineCenter>
               </div>
               <span>
                 <NextLink href={`${guideTypeUrl}#${stopNumber}`}>
