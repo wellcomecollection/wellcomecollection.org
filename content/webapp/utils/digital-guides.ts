@@ -53,6 +53,7 @@ export const getGuidesRedirections = (
 ) => {
   const { req, res, resolvedUrl } = context;
   const { id: guideId, stopNumber, stopId, type, usingQRCode } = context.query;
+  const hasEgWorkCookie = getCookie('toggle_egWork', { req, res }) === 'true';
 
   if (!usingQRCode) return;
 
@@ -94,7 +95,8 @@ export const getGuidesRedirections = (
 
   // The first stop's link is an exception, in that it should link to
   // the [exhibitionId]/[type] page, and not directly on the stop's page.
-  if (hasValidUserPreference && hasValidStopNumber) {
+  // TODO remove hasEgWorkCookie check once toggle is removed
+  if (hasEgWorkCookie && hasValidUserPreference && hasValidStopNumber) {
     // We do a simple replace on the URL so we preserve all other URL information
     // (e.g. UTM tracking parameters).
     return {
