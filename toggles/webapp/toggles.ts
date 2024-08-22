@@ -87,14 +87,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'offsiteRequesting',
-      title: 'Request items from offsite locations',
-      initialValue: false,
-      description:
-        'This enables online requesting of items that are held at the offsite Deepstore location',
-      type: 'experimental',
-    },
-    {
       id: 'egWork',
       title: 'Exhibition Guides redesign/restructure work',
       initialValue: false,

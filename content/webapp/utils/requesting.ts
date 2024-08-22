@@ -1,7 +1,6 @@
 import { PhysicalItem } from '@weco/content/services/wellcome/catalogue/types';
 import { PhysicalLocation } from '@weco/common/model/catalogue';
 import { getFirstAccessCondition, getFirstPhysicalLocation } from './works';
-import { today, addDays } from '@weco/common/utils/dates';
 
 const requestableStatusIds = ['open', 'open-with-advisory', 'restricted'];
 const requestableMethodIds = ['online-request'];
@@ -19,26 +18,11 @@ const locationIsRequestable = (location: PhysicalLocation): boolean => {
   );
 };
 
-export const itemIsRequestable = (
-  item: PhysicalItem,
-  offsiteRequesting = false
-): boolean => {
+export const itemIsRequestable = (item: PhysicalItem): boolean => {
   // ok because there is only one physical location in reality
   const physicalLocation = getFirstPhysicalLocation(item);
 
-  if (offsiteRequesting) {
-    return !!physicalLocation && locationIsRequestable(physicalLocation);
-  } else {
-    return (
-      !!physicalLocation &&
-      locationIsRequestable(physicalLocation) &&
-      // when the toggle is OFF we don't want items with a long lead time to be requestable
-      !(
-        item.availableDates &&
-        new Date(item.availableDates[0].from) > addDays(today(), 9)
-      )
-    );
-  }
+  return !!physicalLocation && locationIsRequestable(physicalLocation);
 };
 
 export const itemIsTemporarilyUnavailable = (item: PhysicalItem): boolean => {
