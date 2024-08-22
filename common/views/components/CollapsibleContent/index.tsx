@@ -19,6 +19,7 @@ const IconContainer = styled.div<{ $darkTheme?: boolean }>`
       ${props => props.theme.color(props.$darkTheme ? 'yellow' : 'black')};
     width: 20px;
     height: 20px;
+    transition: transform ${props => props.theme.transitionProperties};
   }
 `;
 
@@ -90,7 +91,8 @@ const CollapsibleContent: FunctionComponent<Props> = ({
             <IconContainer $darkTheme={darkTheme}>
               <Icon
                 iconColor={darkTheme ? 'yellow' : undefined}
-                icon={showContent ? minus : plus}
+                icon={plus}
+                rotate={showContent ? 45 : undefined}
               />
             </IconContainer>
           </Space>
