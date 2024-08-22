@@ -3,6 +3,7 @@ import { GetServerSidePropsContext, PreviewData } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import cookies from '@weco/common/data/cookies';
 import { isValidExhibitionGuideType } from '@weco/content/types/exhibition-guides';
+import { toMaybeString } from '@weco/common/utils/routes';
 
 /** When a user opens an exhibition guide on their smartphone, they can
  * choose which guide to read.  To avoid somebody having to repeatedly select
@@ -35,6 +36,18 @@ import { isValidExhibitionGuideType } from '@weco/content/types/exhibition-guide
  *
  */
 
+const legacyGuides = [
+  'Y2omihEAAKLNfLar',
+  'ZHXyDBQAAMCZbr6n',
+  'YvJ4UhAAAPgZztMl',
+  'YvUALRAAACMA2h8V',
+  'Zdcs4BEAACMA6abC',
+  'ZD01LBQAAC4ZiY95',
+  'YzwsAREAAHylrxau',
+  'ZSaiohAAACMAlJbK',
+  'Y2JgxREAACcJWckj',
+];
+
 export const getGuidesRedirections = (
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>
 ) => {
@@ -56,7 +69,7 @@ export const getGuidesRedirections = (
   // Supporting Jason exhibition
   // TODO remove when it closes/we adapt the QR codes
   if (
-    guideId === 'Zdcs4BEAACMA6abC' &&
+    legacyGuides.includes(toMaybeString(guideId) || '') &&
     hasValidUserPreference &&
     type &&
     typeof stopId === 'string'
