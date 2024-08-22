@@ -28,6 +28,7 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
+import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { getCrop } from '@weco/common/model/image';
 import ImagePlaceholder, {
@@ -292,7 +293,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
           </Container>
         </Header>
         {/* Make sure we can scroll content into view if it's behind the fixed position footer (paddingBottom: 100px) */}
-        <Container style={{ paddingBottom: '100px' }}>
+        <Layout gridSizes={gridSize8()}>
           {type !== 'bsl' && (
             <>
               {croppedImage ? (
@@ -338,7 +339,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               />
             </CollapsibleContent>
           </Space>
-        </Container>
+        </Layout>
         <PrevNext>
           <Container>
             <div
