@@ -23,6 +23,9 @@ import {
   RangeItems,
   TechnicalProperties,
   CollectionItems,
+  AuthAccessService2,
+  AuthAccessService2_External as AuthAccessService2External,
+  AuthAccessTokenService2,
 } from '@iiif/presentation-3';
 import { isString } from '@weco/common/utils/type-guards';
 import { getThumbnailImage, getOriginal } from './canvas';
@@ -446,9 +449,6 @@ export function groupRanges(
         acc.previousLastCanvasIndex &&
         firstCanvasIndex === acc.previousLastCanvasIndex + 1
       ) {
-        // We know this is okay because we'll only enter this branch if
-        // `previousLastCanvasIndex` is defined
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         acc.groupedArray[acc.groupedArray.length - 1].items!.push(
           lastCanvasInRange
         );
@@ -581,7 +581,7 @@ export function getCollectionManifests(
           return getCollectionManifests(item);
         }
       })
-      .flat(Infinity);
+      .flat(Infinity) as CollectionItems[];
   } else {
     return [];
   }
@@ -648,4 +648,50 @@ export function isAllOriginalPdfs(canvases: TransformedCanvas[]): boolean {
   return canvases?.every(canvas =>
     canvas.original.find(original => original.format === 'application/pdf')
   );
+}
+
+// https://iiif.io/api/auth/2.0/#access-service-description
+export function getAuthAccessServices(manifest): AuthAccessService2[] {
+  const services = manifest.services || [];
+  return services.filter(s => s.type === 'AuthAccessService2');
+}
+
+// https://iiif.io/api/auth/2.0/#external-interaction-pattern
+export function getExternalAuthAccessService(
+  services: AuthAccessService2[]
+): AuthAccessService2External | undefined {
+  return services.find(s => s.profile === 'external') as
+    | AuthAccessService2External
+    | undefined;
+}
+
+// Docs (https://iiif.io/api/auth/2.0/#profile) say the profile value should be active, but before the Auth 2 spec was finalised the value was interactive and we have still have manifests with this value. N.B. the values will update if the manifest is regenerated.
+export type AuthAccessService2WithInteractiveProfile = Omit<
+  AuthAccessService2,
+  'profile'
+> & {
+  profile: AuthAccessService2['profile'] | 'interactive';
+};
+
+// https://iiif.io/api/auth/2.0/#active-interaction-pattern
+export function getActiveAuthAccessService(
+  services: AuthAccessService2WithInteractiveProfile[]
+): AuthAccessService2WithInteractiveProfile | undefined {
+  return services.find(
+    s => s.profile === 'active' || s.profile === 'interactive'
+  ) as AuthAccessService2WithInteractiveProfile | undefined;
+}
+
+// https://iiif.io/api/auth/2.0/#access-token-service-description
+// not sure if the service can be an object or an array,
+// but we do this check for v1 token services, so putting it in to be safe
+export function getV2TokenService(
+  accessService: AuthAccessService2 | undefined
+): AuthAccessTokenService2 | undefined {
+  const authServiceArray = Array.isArray(accessService?.service)
+    ? accessService?.service
+    : [accessService?.service];
+  return authServiceArray.find(s => s?.type === 'AuthAccessTokenService2') as
+    | AuthAccessTokenService2
+    | undefined;
 }

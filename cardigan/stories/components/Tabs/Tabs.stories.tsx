@@ -87,4 +87,8 @@ basic.args = {
   ],
 };
 
+basic.parameters = {
+  chromatic: { delay: 1000 },
+};
+
 basic.storyName = 'Tabs';

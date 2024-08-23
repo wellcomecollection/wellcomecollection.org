@@ -17,7 +17,6 @@ const deploy = async (options: Options) => {
 
   for (const updownCheck of configuredChecks.data) {
     if (desiredChecks.has(updownCheck.url)) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const desiredCheck = desiredChecks.get(updownCheck.url)!;
       if (!options.dryRun) {
         await client.put(`/checks/${updownCheck.token}`, {
@@ -52,9 +51,8 @@ const deploy = async (options: Options) => {
   }
 
   // Make sure the status page has all the checks
-  const statusPages = await client.get<{ token: string; name: string }[]>(
-    'status_pages'
-  );
+  const statusPages =
+    await client.get<{ token: string; name: string }[]>('status_pages');
   const statusPage = statusPages.data.find(
     page => page.name === 'Wellcome Collection'
   );

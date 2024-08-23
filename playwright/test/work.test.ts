@@ -3,8 +3,16 @@ import {
   workWithPhysicalLocationOnly,
   workWithDigitalLocationOnly,
   workWithDigitalLocationAndLocationNote,
+  isMobile,
+  workWithBornDigitalDownloads,
 } from './helpers/contexts';
 import { Page } from 'playwright';
+
+declare global {
+  interface Window {
+    dataLayer: { [key: string]: string }[];
+  }
+}
 
 const getAllStates = async (page: Page) => {
   const whereToFindIt = page.getByRole('heading', {
@@ -37,9 +45,8 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
     context,
   }) => {
     await workWithPhysicalLocationOnly(context, page);
-    const { whereToFindIt, loginLink, unavailableBanner } = await getAllStates(
-      page
-    );
+    const { whereToFindIt, loginLink, unavailableBanner } =
+      await getAllStates(page);
 
     await expect(whereToFindIt).toBeVisible();
 
@@ -81,5 +88,62 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
     await workWithDigitalLocationAndLocationNote(context, page);
     const { whereToFindIt } = await getAllStates(page);
     await expect(whereToFindIt).toBeVisible();
+  });
+});
+
+test.describe(`Scenario 2: A user viewing/downloading 'born digital' items`, () => {
+  test(`ArchiveTree.ListItems stays open when inner item is clicked`, async ({
+    page,
+    context,
+  }) => {
+    await workWithBornDigitalDownloads(context, page);
+    const innerTreeItem = page.getByRole('treeitem', {
+      name: 'A_Camels.psd vnd.adobe.photoshop 6.1 MB Download',
+    });
+
+    await expect(innerTreeItem).not.toBeVisible();
+
+    await page
+      .getByRole('treeitem', {
+        name: 'objects',
+      })
+      .click();
+
+    await expect(innerTreeItem).toBeVisible();
+    await innerTreeItem.click();
+    await expect(innerTreeItem).toBeVisible();
+  });
+
+  test(`ArchiveTree.ListItems Download link fires GTM trigger`, async ({
+    page,
+    context,
+  }) => {
+    if (!isMobile(page)) {
+      await workWithBornDigitalDownloads(context, page);
+
+      await page
+        .getByRole('treeitem', {
+          name: 'objects',
+        })
+        .click();
+
+      await page
+        .getByRole('link', {
+          name: 'Download',
+        })
+        .first()
+        .click();
+
+      const dataLayer = await page.evaluate(() => window.dataLayer);
+      const clickEvent = dataLayer.find(
+        (item: { [x: string]: string }) =>
+          item?.['gtm.elementText'] === 'Download'
+      );
+      const gtmTriggers = clickEvent?.['gtm.triggers'].split(',');
+      const DOWNLOAD_TABLE_LINK_TRIGGER = '31009043_218'; // ID that is discoverable through GTM preview
+      expect(gtmTriggers).toEqual(
+        expect.arrayContaining([DOWNLOAD_TABLE_LINK_TRIGGER])
+      );
+    }
   });
 });

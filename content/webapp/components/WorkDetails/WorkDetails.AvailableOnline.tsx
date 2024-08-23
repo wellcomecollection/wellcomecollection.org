@@ -158,8 +158,8 @@ const ItemPageLink = ({
                   collectionManifestsCount === 1 ? 'volume' : 'volumes'
                 }`
               : canvasCount && canvasCount > 0
-              ? `${canvasCount} ${canvasCount === 1 ? 'image' : 'images'}`
-              : ''}
+                ? `${canvasCount} ${canvasCount === 1 ? 'image' : 'images'}`
+                : ''}
           </p>
         </Space>
       )}
@@ -279,6 +279,7 @@ const WorkDetailsAvailableOnline = ({
                         firstItemTabbable={true}
                         showFirstLevelGuideline={true}
                         ItemRenderer={DownloadItemRenderer}
+                        shouldFetchChildren={false}
                       />
                     </Tree>
                   </TreeContainer>

@@ -84,11 +84,11 @@ export function transformPage(document: RawPagesDocument): Page {
   const metadataDescription = isNotUndefined(genericFields.metadataDescription)
     ? genericFields.metadataDescription
     : isUndefined(genericFields.metadataDescription) &&
-      isUndefined(promo) &&
-      isNotUndefined(promoField?.caption) &&
-      promoField?.caption
-    ? asText(promoField?.caption)
-    : undefined;
+        isUndefined(promo) &&
+        isNotUndefined(promoField?.caption) &&
+        promoField?.caption
+      ? asText(promoField?.caption)
+      : undefined;
 
   const contributors = transformContributors(document);
 

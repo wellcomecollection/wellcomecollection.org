@@ -6,6 +6,7 @@ import { ListProps, UiTree } from './ArchiveTree.helpers';
 
 type NestedListProps = Omit<ListProps, 'item'> & {
   archiveTree: UiTree;
+  shouldFetchChildren: boolean;
 };
 
 const NestedList: FunctionComponent<NestedListProps> = ({
@@ -20,6 +21,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
   firstItemTabbable,
   showFirstLevelGuideline,
   ItemRenderer,
+  shouldFetchChildren,
 }: NestedListProps) => {
   const { isEnhanced } = useContext(AppContext);
   return (
@@ -51,6 +53,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
                 firstItemTabbable={firstItemTabbable}
                 showFirstLevelGuideline={showFirstLevelGuideline}
                 ItemRenderer={ItemRenderer}
+                shouldFetchChildren={shouldFetchChildren}
               />
             )
           );

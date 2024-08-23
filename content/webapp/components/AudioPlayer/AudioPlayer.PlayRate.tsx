@@ -33,6 +33,7 @@ const PlayRateLabel = styled.label<{ $isActive: boolean }>`
   text-align: center;
   background: ${props =>
     props.$isActive ? props.theme.color('yellow') : undefined};
+  font-weight: ${props => (props.$isActive ? 'bold' : 'normal')};
 `;
 
 type PlayRateProps = {

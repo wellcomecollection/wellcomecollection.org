@@ -29,9 +29,10 @@ export const getUpdownClient = async (): Promise<AxiosInstance> => {
 export const getAlertRecipients = async (
   client: Awaited<ReturnType<typeof getUpdownClient>>
 ) => {
-  const recipients = await client.get<
-    { id: string; type: string; name: string }[]
-  >('/recipients');
+  const recipients =
+    await client.get<{ id: string; type: string; name: string }[]>(
+      '/recipients'
+    );
   const email = recipients.data.find(r => r.type === 'email')?.id;
   const platformChannel = recipients.data.find(
     r => r.type === 'slack' && r.name.endsWith('#digital-platform')

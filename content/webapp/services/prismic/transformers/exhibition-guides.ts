@@ -88,11 +88,6 @@ export function transformExhibitionGuide(
             : undefined,
           tombstone: asRichText(component.tombstone),
         },
-        audioWithDescription:
-          isFilledLinkToMediaField(component['audio-with-description']) &&
-          component['audio-with-description'].url
-            ? { url: component['audio-with-description'].url }
-            : undefined,
         audioWithoutDescription:
           isFilledLinkToMediaField(component['audio-without-description']) &&
           component['audio-without-description'].url
@@ -129,10 +124,6 @@ export function transformExhibitionGuide(
     component => component.audioWithoutDescription?.url
   );
 
-  const hasAudioWithDescriptions = components.some(
-    component => component.audioWithDescription?.url
-  );
-
   return {
     title: relatedExhibition?.title || '',
     introText,
@@ -145,7 +136,6 @@ export function transformExhibitionGuide(
       BSLVideo: hasBSLVideo,
       captionsOrTranscripts: hasCaptionsOrTranscripts,
       audioWithoutDescriptions: hasAudioWithoutDescriptions,
-      audioWithDescriptions: hasAudioWithDescriptions,
     },
   };
 }
@@ -181,10 +171,6 @@ export function filterExhibitionGuideComponents(
         guideType === 'captions-and-transcripts'
           ? c.captionsOrTranscripts
           : undefined,
-      audioWithDescription:
-        guideType === 'audio-with-descriptions'
-          ? c.audioWithDescription
-          : undefined,
       audioWithoutDescription:
         guideType === 'audio-without-descriptions'
           ? c.audioWithoutDescription
@@ -194,13 +180,11 @@ export function filterExhibitionGuideComponents(
     .filter(c =>
       guideType === 'captions-and-transcripts'
         ? isNotUndefined(c.captionsOrTranscripts)
-        : guideType === 'audio-with-descriptions'
-        ? isNotUndefined(c.audioWithDescription)
         : guideType === 'audio-without-descriptions'
-        ? isNotUndefined(c.audioWithoutDescription)
-        : guideType === 'bsl'
-        ? isNotUndefined(c.bsl)
-        : false
+          ? isNotUndefined(c.audioWithoutDescription)
+          : guideType === 'bsl'
+            ? isNotUndefined(c.bsl)
+            : false
     );
 
   return {

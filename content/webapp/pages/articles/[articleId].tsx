@@ -353,8 +353,8 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
               isShortFilmFormat
                 ? 'short-film'
                 : isStandaloneImageGallery
-                ? 'standalone-image-gallery'
-                : undefined
+                  ? 'standalone-image-gallery'
+                  : undefined
             }
           />
         }

@@ -7,6 +7,7 @@ type ToggleBase = {
   title: string;
   description: string;
   type: ToggleTypes;
+  documentationLink?: string;
 };
 
 export type ToggleDefinition = ToggleBase & {
@@ -30,11 +31,19 @@ const toggles = {
   // Toggles of type 'stage' will only be applied on stage
   toggles: [
     {
+      id: 'apiToolbar',
+      title: 'API toolbar',
+      initialValue: false,
+      description: 'A toolbar to help us navigate the secret depths of the API',
+      type: 'permanent',
+    },
+    {
       id: 'disableRequesting',
       title: 'Disables requesting functionality',
       description:
-        'Replaces the "sign into your library account to request items" message, with "requesting is currently unavailable". Adds a note to say when requesting will be available again.' +
-        'See documentation link (tbc).',
+        'Replaces the "sign into your library account to request items" message, with "requesting is currently unavailable". Adds a note to say when requesting will be available again.',
+      documentationLink:
+        'https://app.gitbook.com/o/-LumfFcEMKx4gYXKAZTQ/s/mNeKBZYcfnVQtLDYvJ5T/turn-off-requesting',
       initialValue: false,
       type: 'permanent',
     },
@@ -43,13 +52,6 @@ const toggles = {
       title: 'Staging API',
       initialValue: false,
       description: 'Use the staging Wellcome APIs',
-      type: 'permanent',
-    },
-    {
-      id: 'apiToolbar',
-      title: 'API toolbar',
-      initialValue: false,
-      description: 'A toolbar to help us navigate the secret depths of the API',
       type: 'permanent',
     },
     {

@@ -10,9 +10,13 @@ import {
   isFilledLinkToDocumentWithData,
 } from '@weco/common/services/prismic/types';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
-import { ExhibitionHighlightTour } from '@weco/content/types/exhibition-guides';
+import {
+  ExhibitionHighlightTour,
+  GuideHighlightTour,
+} from '@weco/content/types/exhibition-guides';
 import { asRichText, asTitle } from '.';
 import { transformImagePromo } from './images';
+import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { transformRelatedExhibition } from '@weco/content/services/prismic/transformers/exhibition-guides';
 import { getYouTubeEmbedUrl } from '@weco/content/services/prismic/transformers/embeds';
 
@@ -54,7 +58,6 @@ export function transformExhibitionHighlightTours(
     availableTypes: {
       captionsOrTranscripts: false,
       BSLVideo: hasBSLVideo,
-      audioWithDescriptions: false,
       audioWithoutDescriptions: hasAudioWithoutDescriptions,
     },
   };
@@ -70,14 +73,6 @@ export function transformExhibitionHighlightToursQuery(
   return paginatedResult;
 }
 
-type GuideHighlightTour = {
-  number: number | undefined;
-  title: string;
-  audio: string | undefined;
-  video: string | undefined;
-  transcript: prismic.RichTextField | undefined;
-};
-
 export function transformGuideStopSlice(
   slice: RawGuideStopSlice
 ): GuideHighlightTour {
@@ -88,12 +83,20 @@ export function transformGuideStopSlice(
     audio: isFilledLinkToMediaField(slice.primary.audio_with_description)
       ? slice.primary.audio_with_description.url
       : undefined,
+    transcript: slice.primary.transcript
+      ? asRichText(slice.primary.transcript)
+      : undefined,
+    audioDuration: slice.primary.audio_duration || undefined,
     video:
       slice.primary.bsl_video.provider_name === 'YouTube'
         ? getYouTubeEmbedUrl(slice.primary.bsl_video)
         : undefined,
-    transcript: slice.primary.transcript
-      ? asRichText(slice.primary.transcript)
+    subtitles: slice.primary.subtitles
+      ? asRichText(slice.primary.subtitles)
+      : undefined,
+    videoDuration: slice.primary.video_duration || undefined,
+    image: slice.primary.image
+      ? transformImage(slice.primary.image)
       : undefined,
   };
 }

@@ -229,7 +229,10 @@ const StoriesPage: FunctionComponent<Props> = ({
       <SpacingSection>
         {storiesLanding.storiesTitle && (
           <SpacingComponent>
-            <SectionHeader title={`${storiesLanding.storiesTitle}`} />
+            <SectionHeader
+              title={`${storiesLanding.storiesTitle}`}
+              gridSize={gridSize12()}
+            />
           </SpacingComponent>
         )}
         {storiesLanding.storiesDescription && (
@@ -250,7 +253,7 @@ const StoriesPage: FunctionComponent<Props> = ({
 
       <SpacingSection>
         <SpacingComponent>
-          <SectionHeader title="Comics" />
+          <SectionHeader title="Comics" gridSize={gridSize12()} />
         </SpacingComponent>
 
         <SpacingComponent>
@@ -272,7 +275,10 @@ const StoriesPage: FunctionComponent<Props> = ({
       <SpacingSection>
         {storiesLanding.booksTitle && (
           <SpacingComponent>
-            <SectionHeader title={`${storiesLanding.booksTitle}`} />
+            <SectionHeader
+              title={`${storiesLanding.booksTitle}`}
+              gridSize={gridSize12()}
+            />
           </SpacingComponent>
         )}
         {storiesLanding.booksDescription && (
@@ -293,7 +299,7 @@ const StoriesPage: FunctionComponent<Props> = ({
 
       <SpacingSection>
         <SpacingComponent>
-          <SectionHeader title="You may have missed" />
+          <SectionHeader title="You may have missed" gridSize={gridSize12()} />
         </SpacingComponent>
         <SpacingComponent>
           <CardGrid

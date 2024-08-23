@@ -12,10 +12,11 @@ import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
-const IconContainer = styled.div`
+const IconContainer = styled.div<{ $darkTheme?: boolean }>`
   .icon {
     border-radius: 50%;
-    border: 2px solid black;
+    border: 2px solid
+      ${props => props.theme.color(props.$darkTheme ? 'yellow' : 'black')};
     width: 20px;
     height: 20px;
   }
@@ -31,7 +32,9 @@ const Control = styled.button.attrs({
   padding: 0;
 `;
 
-const ControlText = styled.span`
+const ControlText = styled.span<{ $darkTheme?: boolean }>`
+  color: ${props =>
+    props.$darkTheme ? props.theme.color('white') : undefined};
   text-decoration: underline;
   font-weight: normal;
   margin: 0;
@@ -45,12 +48,16 @@ const Content = styled(Space).attrs({
   },
 })<{
   $hidden: boolean;
+  $darkTheme?: boolean;
 }>`
+  color: ${props =>
+    props.$darkTheme ? props.theme.color('white') : undefined};
   display: ${props => (props.$hidden ? 'none' : 'block')};
 `;
 
 type Props = PropsWithChildren<{
   id: string;
+  darkTheme?: boolean;
   controlText: {
     defaultText: string;
     contentShowingText?: string;
@@ -59,6 +66,7 @@ type Props = PropsWithChildren<{
 
 const CollapsibleContent: FunctionComponent<Props> = ({
   id,
+  darkTheme,
   controlText,
   children,
 }: Props) => {
@@ -79,18 +87,26 @@ const CollapsibleContent: FunctionComponent<Props> = ({
           }}
         >
           <Space as="span" $h={{ size: 's', properties: ['margin-right'] }}>
-            <IconContainer>
-              <Icon icon={showContent ? minus : plus} />
+            <IconContainer $darkTheme={darkTheme}>
+              <Icon
+                iconColor={darkTheme ? 'yellow' : undefined}
+                icon={showContent ? minus : plus}
+              />
             </IconContainer>
           </Space>
-          <ControlText>
+          <ControlText $darkTheme={darkTheme}>
             {showContent
               ? controlText.contentShowingText || controlText.defaultText
               : controlText.defaultText}
           </ControlText>
         </Control>
       )}
-      <Content id={id} aria-hidden={!showContent} $hidden={!showContent}>
+      <Content
+        id={id}
+        aria-hidden={!showContent}
+        $hidden={!showContent}
+        $darkTheme={darkTheme}
+      >
         <Space $v={{ size: 'l', properties: ['margin-top'] }}>{children}</Space>
       </Content>
     </div>

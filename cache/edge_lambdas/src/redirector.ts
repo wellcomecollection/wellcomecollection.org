@@ -75,9 +75,9 @@ export const getRedirect = (
     requestHost.indexOf('www-stage.wellcomecollection.org') !== -1
       ? 'www-stage.wellcomecollection.org'
       : requestHost &&
-        requestHost.indexOf('www-e2e.wellcomecollection.org') !== -1
-      ? 'www-e2e.wellcomecollection.org'
-      : 'wellcomecollection.org';
+          requestHost.indexOf('www-e2e.wellcomecollection.org') !== -1
+        ? 'www-e2e.wellcomecollection.org'
+        : 'wellcomecollection.org';
 
   if (literalRedirects[uriSansSlash]) {
     return redirect301(host, literalRedirects[uriSansSlash]);

@@ -63,3 +63,9 @@ export function isFilledLinkToMediaField(
     'url' in field
   );
 }
+
+export function isFilledSliceZone(
+  sliceZone: prismic.SliceZone
+): sliceZone is prismic.SliceZone<prismic.SharedSlice, 'filled'> {
+  return prismic.isFilled.sliceZone(sliceZone);
+}

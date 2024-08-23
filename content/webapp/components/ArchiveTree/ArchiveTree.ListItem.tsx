@@ -105,6 +105,7 @@ type ListItemProps = ListProps & {
   setSize: number;
   posInSet: number;
   index: number;
+  shouldFetchChildren: boolean;
 };
 
 function getTabIndex({
@@ -140,6 +141,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   firstItemTabbable,
   showFirstLevelGuideline,
   ItemRenderer,
+  shouldFetchChildren,
 }: ListItemProps) => {
   const { isEnhanced } = useContext(AppContext);
   const isEndNode = item.work.totalParts === 0;
@@ -152,8 +154,8 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   const highlightCondition = item.openStatus
     ? 'primary'
     : descendentIsSelected
-    ? 'secondary'
-    : undefined;
+      ? 'secondary'
+      : undefined;
 
   const hasControl = Boolean(
     item?.work?.totalParts && item?.work?.totalParts > 0
@@ -166,7 +168,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
     (level > 1 || showFirstLevelGuideline);
 
   function toggleBranch() {
-    if (item.children === undefined) {
+    if (item.children === undefined && shouldFetchChildren) {
       expandTree({
         item,
         setArchiveTree,
@@ -289,7 +291,19 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         }
       }}
       onClick={event => {
-        event.stopPropagation();
+        // We had previously used event.stopPropagation() to stop the clicking
+        // of an inner TreeItem from bubbling up to any outer TreeItems, but
+        // this prevented a GTM trigger that we have set on download links from
+        // firing. Instead, we now check that we only fire the click event on
+        // the _original_ target of the click by comparing `target` (original)
+        // with `currentTarget` (whatever is currently being evaluated in the
+        // bubbling phase)
+        if (
+          event.currentTarget !==
+          (event.target as HTMLElement)?.closest('[role="treeitem"]')
+        )
+          return;
+
         if (level > 0) {
           toggleBranch();
           setTabbableId(item.work.id);
@@ -321,6 +335,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           firstItemTabbable={firstItemTabbable}
           showFirstLevelGuideline={showFirstLevelGuideline}
           ItemRenderer={ItemRenderer}
+          shouldFetchChildren={shouldFetchChildren}
         />
       )}
     </TreeItem>

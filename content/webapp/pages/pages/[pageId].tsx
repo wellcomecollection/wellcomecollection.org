@@ -53,6 +53,7 @@ import {
   transformEditorialImageSlice,
   transformEmbedSlice,
 } from '@weco/content/services/prismic/transformers/body';
+import { gridSize12 } from '@weco/common/views/components/Layout';
 
 export type Props = {
   page: PageType;
@@ -335,7 +336,10 @@ export const Page: FunctionComponent<Props> = ({
     siblingGroup.siblings.length > 0 ? (
       <SpacingSection key={i}>
         <SpacingComponent>
-          <SectionHeader title={`More from ${siblingGroup.title}`} />
+          <SectionHeader
+            title={`More from ${siblingGroup.title}`}
+            gridSize={gridSize12()}
+          />
         </SpacingComponent>
         <SpacingComponent>
           <CardGrid items={orderItems(siblingGroup)} itemsPerRow={3} />

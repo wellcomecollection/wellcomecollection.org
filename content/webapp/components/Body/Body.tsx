@@ -257,15 +257,18 @@ const Body: FunctionComponent<Props> = ({
                   isLast && sectionTheme.rowBackground === 'white'
                     ? ['padding-top']
                     : isFirst && sectionTheme.rowBackground === 'white'
-                    ? ['padding-bottom']
-                    : ['padding-top', 'padding-bottom'],
+                      ? ['padding-bottom']
+                      : ['padding-top', 'padding-bottom'],
               }}
               $cardBackgroundColor={sectionTheme.cardBackground}
               $rowBackgroundColor={sectionTheme.rowBackground}
             >
               {section.value.title && (
                 <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-                  <SectionHeader title={section.value.title} />
+                  <SectionHeader
+                    title={section.value.title}
+                    gridSize={gridSize12()}
+                  />
                 </Space>
               )}
               {featuredItem && (

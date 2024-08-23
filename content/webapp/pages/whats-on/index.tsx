@@ -416,8 +416,8 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
     period === 'today'
       ? filterEventsForToday(events)
       : period === 'this-weekend'
-      ? filterEventsForWeekend(events)
-      : events;
+        ? filterEventsForWeekend(events)
+        : events;
 
   // When the galleries are closed, we shouldn't be displaying exhibitions
   const exhibitionsToShow =
@@ -453,7 +453,10 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
               <Space $v={{ size: 'm', properties: ['padding-top'] }}>
                 <SpacingSection>
                   <SpacingComponent>
-                    <SectionHeader title="Exhibitions" />
+                    <SectionHeader
+                      title="Exhibitions"
+                      gridSize={gridSize12()}
+                    />
                   </SpacingComponent>
                   <SpacingComponent>
                     <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
@@ -486,7 +489,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
 
                 <SpacingSection>
                   <SpacingComponent>
-                    <SectionHeader title="Events" />
+                    <SectionHeader title="Events" gridSize={gridSize12()} />
                   </SpacingComponent>
                   <SpacingComponent>
                     {events.length > 0 ? (
@@ -504,7 +507,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
 
                 <SpacingSection>
                   <SpacingComponent>
-                    <SectionHeader title="Catch up" />
+                    <SectionHeader title="Catch up" gridSize={gridSize12()} />
                   </SpacingComponent>
                   <SpacingComponent>
                     {availableOnlineEvents.length > 0 ? (
@@ -564,7 +567,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
 
         <SpacingSection>
           <SpacingComponent>
-            <SectionHeader title="Try these too" />
+            <SectionHeader title="Try these too" gridSize={gridSize12()} />
           </SpacingComponent>
           <SpacingComponent>
             <CssGridContainer>

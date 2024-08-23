@@ -8,7 +8,7 @@ import {
 } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
-import { getCookies } from 'cookies-next';
+import { deleteCookie, getCookies, setCookie } from 'cookies-next';
 import Header from '../components/Header';
 
 const fontFamily = 'Gadget, sans-serif';
@@ -29,6 +29,7 @@ const ResetButton = styled(Button)`
   padding: 8px 12px;
   margin: 10px 0;
   font-size: 1.03rem;
+  cursor: pointer;
 `;
 
 const Status = styled.div<{ $active?: boolean }>`
@@ -47,6 +48,21 @@ const TextBox = styled.p`
   margin: 0;
 `;
 
+const setCookieCustom = (key: string, value: 'true' | 'false') => {
+  const nowPlusOneYear = new Date();
+  nowPlusOneYear.setFullYear(nowPlusOneYear.getFullYear() + 1);
+
+  setCookie(`toggle_${key}`, value, {
+    domain: 'wellcomecollection.org',
+    expires: nowPlusOneYear,
+    secure: true,
+  });
+};
+
+const deleteCookieCustom = (key: string) => {
+  deleteCookie(`toggle_${key}`, { domain: 'wellcomecollection.org' });
+};
+
 type ListOfTogglesProps = {
   toggles: Toggle[];
   toggleStates: ToggleStates;
@@ -59,7 +75,7 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
   setToggleStates,
 }) => (
   <>
-    {toggles.length > 0 && (
+    {toggles.length > 0 ? (
       <ul
         style={{
           listStyle: 'none',
@@ -76,12 +92,12 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
               paddingTop: '6px',
             }}
           >
-            <h3
+            <h4
               style={{ marginRight: '6px', marginBottom: '5px' }}
               id={`toggle-${toggle.id}`}
             >
               {toggle.title}
-            </h3>
+            </h4>
             <div
               style={{
                 display: 'flex',
@@ -93,10 +109,24 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
               Public status: <Status $active={toggle.defaultValue} />{' '}
               {toggle.defaultValue === true ? 'on' : 'off'}
             </div>
-            <p>{toggle.description}</p>
+            <p>{toggle.description} </p>
+
+            {toggle.documentationLink && (
+              <p>
+                <a
+                  href={toggle.documentationLink}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Read documentation
+                </a>
+                .
+              </p>
+            )}
+
             <Button
               onClick={() => {
-                setCookie(toggle.id, 'true');
+                setCookieCustom(toggle.id, 'true');
                 setToggleStates(() => ({
                   ...toggleStates,
                   [toggle.id]: true,
@@ -110,7 +140,7 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
             </Button>
             <Button
               onClick={() => {
-                setCookie(toggle.id, 'false');
+                setCookieCustom(toggle.id, 'false');
                 setToggleStates(() => ({
                   ...toggleStates,
                   [toggle.id]: false,
@@ -125,20 +155,11 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
           </li>
         ))}
       </ul>
+    ) : (
+      <p>None for now, check back later…</p>
     )}
-    {toggles.length === 0 && <p>None for now, check back later…</p>}
   </>
 );
-
-const aYear = 31536000;
-function setCookie(name, value) {
-  const expiration = value
-    ? ` Max-Age=${aYear}`
-    : `Expires=${new Date(0).toString()}`;
-  document.cookie = `toggle_${name}=${
-    value || ''
-  }; Path=/; Domain=wellcomecollection.org; ${expiration}; Secure`;
-}
 
 type Toggle = {
   id: string;
@@ -146,6 +167,7 @@ type Toggle = {
   defaultValue: boolean;
   description: string;
   type: 'permanent' | 'experimental' | 'test' | 'stage';
+  documentationLink?: string;
 };
 
 type ToggleStates = { [id: string]: boolean | undefined };
@@ -164,8 +186,7 @@ const IndexPage: FunctionComponent = () => {
   const [toggles, setToggles] = useState<Toggle[]>([]);
   const [abTests, setAbTests] = useState<AbTest[]>([]);
 
-  // We use this over getInitialProps as it's ineffectual when an app is
-  // exported.
+  // We use this over getInitialProps as it's ineffectual when an app is exported.
   useEffect(() => {
     fetch('https://toggles.wellcomecollection.org/toggles.json')
       .then(resp => resp.json())
@@ -189,13 +210,19 @@ const IndexPage: FunctionComponent = () => {
     () =>
       setToggleStates(
         toggles.reduce((state, { id, defaultValue }) => {
-          setCookie(id, null);
+          deleteCookieCustom(id);
           state[id] = defaultValue;
           return state;
         }, {})
       ),
     [toggles]
   );
+
+  const generalToggleIds = ['apiToolbar'];
+  const generalToggles = toggles.filter(t => generalToggleIds.includes(t.id));
+  const restOfPermanentToggles = toggles
+    .filter(t => t.type === 'permanent')
+    .filter(t => !generalToggleIds.includes(t.id));
 
   return (
     <>
@@ -210,19 +237,6 @@ const IndexPage: FunctionComponent = () => {
             margin: '0 auto',
           }}
         >
-          <div
-            style={{
-              display: 'flex',
-            }}
-          >
-            <h2 style={{ flexGrow: 1 }}>Feature toggles</h2>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            />
-          </div>
           <TextBox>
             You can turn on a toggle on (👍) or off (👎), which will only be
             active on the browser you are currently using, so feel free to
@@ -233,19 +247,29 @@ const IndexPage: FunctionComponent = () => {
             🗑&nbsp;&nbsp;Reset all toggles to default&nbsp;&nbsp;🔄
           </ResetButton>
 
-          <hr style={{ margin: '3em' }} />
-
-          <h2>Permanent toggles</h2>
+          <h2>Toggles for general use</h2>
 
           <ListOfToggles
-            toggles={toggles.filter(t => t.type === 'permanent')}
+            toggles={generalToggles}
             toggleStates={toggleStates}
             setToggleStates={setToggleStates}
           />
 
           <hr style={{ margin: '3em' }} />
 
-          <h2>Experiments</h2>
+          <h2>Toggles for Digital team</h2>
+
+          <h3>Permanent</h3>
+
+          <ListOfToggles
+            toggles={restOfPermanentToggles}
+            toggleStates={toggleStates}
+            setToggleStates={setToggleStates}
+          />
+
+          <hr style={{ margin: '3em' }} />
+
+          <h3>Temporary</h3>
 
           <ListOfToggles
             toggles={toggles.filter(t => t.type === 'experimental')}
@@ -255,7 +279,7 @@ const IndexPage: FunctionComponent = () => {
 
           <hr style={{ margin: '3em' }} />
 
-          <h2>Stage</h2>
+          <h3>Staging</h3>
 
           <ListOfToggles
             toggles={toggles.filter(t => t.type === 'stage')}
@@ -271,7 +295,8 @@ const IndexPage: FunctionComponent = () => {
             forget your choice. If you choose for use to forget, you will be put
             in to either group randomly according to our A/B decision rules.
           </TextBox>
-          {abTests.length > 0 && (
+
+          {abTests.length > 0 ? (
             <ul
               style={{
                 listStyle: 'none',
@@ -300,7 +325,7 @@ const IndexPage: FunctionComponent = () => {
                   <p>{toggle.description}</p>
                   <Button
                     onClick={() => {
-                      setCookie(toggle.id, 'true');
+                      setCookieCustom(toggle.id, 'true');
                       setToggleStates({
                         ...toggleStates,
                         [toggle.id]: true,
@@ -314,7 +339,7 @@ const IndexPage: FunctionComponent = () => {
                   </Button>
                   <Button
                     onClick={() => {
-                      setCookie(toggle.id, 'false');
+                      setCookieCustom(toggle.id, 'false');
                       setToggleStates({
                         ...toggleStates,
                         [toggle.id]: false,
@@ -329,7 +354,7 @@ const IndexPage: FunctionComponent = () => {
                   <Button
                     $opaque
                     onClick={() => {
-                      setCookie(toggle.id, null);
+                      deleteCookieCustom(toggle.id);
                       setToggleStates({
                         ...toggleStates,
                         [toggle.id]: undefined,
@@ -341,9 +366,9 @@ const IndexPage: FunctionComponent = () => {
                 </li>
               ))}
             </ul>
+          ) : (
+            <p>None for now, check back later…</p>
           )}
-
-          {abTests.length === 0 && <p>None for now, check back later…</p>}
         </div>
       </div>
     </>

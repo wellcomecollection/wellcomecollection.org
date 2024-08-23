@@ -1,3 +1,5 @@
+import { FunctionComponent } from 'react';
+import { GetServerSideProps } from 'next';
 import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
@@ -15,8 +17,6 @@ import {
 } from '@weco/content/services/prismic/transformers/exhibition-texts';
 import { transformExhibitionHighlightTours } from '@weco/content/services/prismic/transformers/exhibition-highlight-tours';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { FunctionComponent } from 'react';
-import { GetServerSideProps } from 'next';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
@@ -28,6 +28,7 @@ import SpacingSection from '@weco/common/views/components/styled/SpacingSection'
 import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   exhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
@@ -77,11 +78,6 @@ export function allGuides({
           BSLVideo:
             matchingExhibitionText?.availableTypes.BSLVideo ||
             matchingExhibitionHighlightTour?.availableTypes.BSLVideo ||
-            false,
-          audioWithDescriptions:
-            matchingExhibitionText?.availableTypes.audioWithDescriptions ||
-            matchingExhibitionHighlightTour?.availableTypes
-              .audioWithDescriptions ||
             false,
           audioWithoutDescriptions:
             matchingExhibitionText?.availableTypes.audioWithoutDescriptions ||
@@ -177,11 +173,13 @@ export const getServerSideProps: GetServerSideProps<
 
 const ExhibitionGuidesPage: FunctionComponent<Props> = props => {
   const { exhibitionGuides } = props;
+  const { egWork } = useToggles();
+
   const image = exhibitionGuides.results[0]?.image;
 
   return (
     <PageLayout
-      title="Exhibition Guides"
+      title={egWork ? 'Digital Guides' : 'Exhibition Guides'}
       description={pageDescriptions.exhibitionGuides}
       url={{ pathname: '/guides/exhibitions' }}
       jsonLd={{ '@type': 'WebPage' }}
@@ -196,8 +194,9 @@ const ExhibitionGuidesPage: FunctionComponent<Props> = props => {
     >
       <SpacingSection>
         <LayoutPaginatedResults
-          title="Exhibition guides"
+          title={egWork ? 'Digital Guides' : 'Exhibition Guides'}
           paginatedResults={exhibitionGuides}
+          breadcrumbs={{ items: [], noHomeLink: egWork }}
         />
       </SpacingSection>
     </PageLayout>

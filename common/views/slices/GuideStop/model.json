@@ -36,6 +36,22 @@
             "select": "media"
           }
         },
+        "transcript": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Audio transcript",
+            "placeholder": "Transcript of the audio file",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        },
+        "audio_duration": {
+          "type": "Number",
+          "config": {
+            "label": "Audio duration (in minutes)",
+            "placeholder": "approximate time in minutes, e.g. 3.5"
+          }
+        },
         "bsl_video": {
           "type": "Embed",
           "config": {
@@ -43,13 +59,43 @@
             "placeholder": ""
           }
         },
-        "transcript": {
+        "subtitles": {
           "type": "StructuredText",
           "config": {
-            "label": "Transcript",
-            "placeholder": "",
+            "label": "Video subtitles",
+            "placeholder": "Transcript of the BSL video",
             "allowTargetBlank": true,
             "multi": "paragraph,strong,em,hyperlink"
+          }
+        },
+        "video_duration": {
+          "type": "Number",
+          "config": {
+            "label": "Video duration (in minutes)",
+            "placeholder": "approximate time in minutes, e.g. 3.5"
+          }
+        },
+        "image": {
+          "type": "Image",
+          "config": {
+            "label": "Image",
+            "thumbnails": [
+              {
+                "name": "32:15",
+                "width": 3200,
+                "height": 1500
+              },
+              {
+                "name": "16:9",
+                "width": 3200,
+                "height": 1800
+              },
+              {
+                "name": "square",
+                "width": 3200,
+                "height": 3200
+              }
+            ]
           }
         }
       },

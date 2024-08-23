@@ -15,13 +15,24 @@ type CaptionsOrTranscripts = {
   context?: prismic.RichTextField;
 };
 
+export type GuideHighlightTour = {
+  number?: number;
+  title: string;
+  audio?: string;
+  transcript?: prismic.RichTextField;
+  audioDuration?: number;
+  video?: string;
+  subtitles?: prismic.RichTextField;
+  videoDuration?: number;
+  image?: ImageType;
+};
+
 export type ExhibitionGuideComponent = {
   number?: number;
   displayTitle: string;
   anchorId: string;
   image?: ImageType;
   captionsOrTranscripts?: CaptionsOrTranscripts;
-  audioWithDescription?: { url: string };
   audioWithoutDescription?: { url: string };
   bsl?: {
     embedUrl: string;
@@ -52,7 +63,6 @@ export type ExhibitionGuideBasic = {
     BSLVideo: boolean;
     captionsOrTranscripts: boolean;
     audioWithoutDescriptions: boolean;
-    audioWithDescriptions: boolean;
   };
 };
 
@@ -62,7 +72,6 @@ export type ExhibitionGuide = ExhibitionGuideBasic & {
 
 const typeNames = [
   'bsl',
-  'audio-with-descriptions',
   'audio-without-descriptions',
   'captions-and-transcripts',
 ] as const;

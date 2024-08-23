@@ -168,10 +168,10 @@ export function groupEventsByMonth<T extends HasTimeRanges>(
         return rangeA.startDateTime > rangeB.startDateTime
           ? 1
           : rangeA.startDateTime < rangeB.startDateTime
-          ? -1
-          : rangeA.endDateTime > rangeB.endDateTime
-          ? 1
-          : -1;
+            ? -1
+            : rangeA.endDateTime > rangeB.endDateTime
+              ? 1
+              : -1;
       })
       .map(ev => ev.event);
 
