@@ -22,10 +22,6 @@ const IconContainer = styled.div<{ $darkTheme?: boolean }>`
     transition: transform ${props => props.theme.transitionProperties};
   }
 `;
-const IconSizeShim = styled.div`
-  /* Matches .icon width above */
-  width: 20px;
-`;
 
 const Control = styled.button.attrs({
   className: font('intb', 5),
@@ -45,13 +41,18 @@ const ControlText = styled.span<{ $darkTheme?: boolean }>`
   margin: 0;
 `;
 
-const Content = styled.div<{
+const Content = styled(Space).attrs({
+  $h: { size: 's', properties: ['padding-left'] },
+})<{
   $hidden: boolean;
   $darkTheme?: boolean;
 }>`
   color: ${props =>
     props.$darkTheme ? props.theme.color('white') : undefined};
   display: ${props => (props.$hidden ? 'none' : 'block')};
+
+  /* 20px to match the width of the .icon above */
+  transform: translateX(20px);
 `;
 
 type Props = PropsWithChildren<{
@@ -109,11 +110,9 @@ const CollapsibleContent: FunctionComponent<Props> = ({
       >
         <Space
           $v={{ size: 'l', properties: ['margin-top'] }}
+          $h={{ size: 's', properties: ['padding-right'] }}
           style={{ display: 'flex' }}
         >
-          <Space as="span" $h={{ size: 's', properties: ['margin-right'] }}>
-            <IconSizeShim />
-          </Space>
           <div className="body-text spaced-text">{children}</div>
         </Space>
       </Content>
