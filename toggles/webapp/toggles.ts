@@ -99,7 +99,15 @@ const toggles = {
       title: 'Exhibition Guides redesign/restructure work',
       initialValue: false,
       description:
-        'With this actived, you will be able to see the new (and work in progress) versions of exhibition guides',
+        'With this activated, you will be able to see the new (and work in progress) versions of exhibition guides',
+      type: 'experimental',
+    },
+    {
+      id: 'authV2',
+      title: 'IIIF Auth V2',
+      initialValue: false,
+      description:
+        'Will make use of the V2 auth services in the IIIF Presentation manifest, if they are available',
       type: 'experimental',
     },
   ] as const,
