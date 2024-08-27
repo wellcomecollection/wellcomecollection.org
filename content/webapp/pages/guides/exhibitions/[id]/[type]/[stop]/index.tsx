@@ -215,6 +215,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     const newStop = allStops.find(s => s.number === Number(router.query.stop));
     if (newStop) {
       setCurrentStop(newStop);
+      window.scrollTo(0, 0);
     }
   }, [router.query.stop]);
 
