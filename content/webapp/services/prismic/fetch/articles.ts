@@ -37,7 +37,7 @@ const articlesFetcher = fetcher<RawArticlesDocument | RawWebcomicsDocument>(
 export const fetchArticle = articlesFetcher.getById;
 
 // Includes Articles and Webcomics
-export const fetchArticlesDocumentByUID = ({
+export const fetchArticleDocumentByUID = ({
   contentType,
   client,
   uid,

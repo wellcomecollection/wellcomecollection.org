@@ -43,7 +43,7 @@ import {
   fetchChildren,
   fetchPage,
   fetchSiblings,
-  fetchPagesDocumentByUID,
+  fetchPageDocumentByUID,
 } from '@weco/content/services/prismic/fetch/pages';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
@@ -145,44 +145,46 @@ export const getServerSideProps: GetServerSideProps<
     ? context.resolvedUrl
     : undefined;
 
-  const pageLookupById = await fetchPage(client, pageId);
+  const pageDocumentById = await fetchPage(client, pageId);
 
   // If there is no result, fetch by UID
   // TODO figure out if there is a nicer way to differentiate ID from UID...
-  let transformedUidPage;
-  if (!pageLookupById) {
+  let transformedPageDocumentByUID;
+  if (!pageDocumentById) {
     const contentType = context.resolvedUrl.split('/')[1];
 
-    const pageLookupByUid = await fetchPagesDocumentByUID({
+    const pageDocumentByUID = await fetchPageDocumentByUID({
       contentType: contentType as ContentType,
       client,
       uid: pageId,
     });
 
-    if (pageLookupByUid) {
+    if (pageDocumentByUID) {
       switch (contentType) {
         case 'guides':
-          transformedUidPage = transformGuide(
-            pageLookupByUid as unknown as RawGuidesDocument
+          transformedPageDocumentByUID = transformGuide(
+            pageDocumentByUID as unknown as RawGuidesDocument
           );
           break;
         case 'projects':
-          transformedUidPage = transformProject(
-            pageLookupByUid as unknown as RawProjectsDocument
+          transformedPageDocumentByUID = transformProject(
+            pageDocumentByUID as unknown as RawProjectsDocument
           );
           break;
         case 'pages':
         default:
-          transformedUidPage = transformPage(
-            pageLookupByUid as unknown as RawPagesDocument
+          transformedPageDocumentByUID = transformPage(
+            pageDocumentByUID as unknown as RawPagesDocument
           );
           break;
       }
     }
   }
 
+  // TODO once redirects are in place we should only fetch by uid
   const page =
-    (pageLookupById && transformPage(pageLookupById)) || transformedUidPage; // TODO once redirects are in place we should only fetch by uid
+    (pageDocumentById && transformPage(pageDocumentById)) ||
+    transformedPageDocumentByUID;
 
   if (isNotUndefined(page)) {
     const serverData = await getServerData(context);

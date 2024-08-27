@@ -64,7 +64,7 @@ export const fetchPage = pagesFetcher.getById;
 export const fetchPages = pagesFetcher.getByType;
 
 // Includes Pages, Projects and Guides
-export const fetchPagesDocumentByUID = ({
+export const fetchPageDocumentByUID = ({
   contentType,
   client,
   uid,

@@ -29,7 +29,7 @@ import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   fetchArticle,
   fetchArticlesClientSide,
-  fetchArticlesDocumentByUID,
+  fetchArticleDocumentByUID,
 } from '@weco/content/services/prismic/fetch/articles';
 import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
@@ -78,16 +78,16 @@ export const getServerSideProps: GetServerSideProps<
   // How do we do it for webcomics as they use the same prefix (`/articles`) as Articles.
   // So how do we pass the correct content type in?
   // It's awful to just try it twice...
-  let articleDocumentByUid;
+  let articleDocumentByUID;
   if (!articleDocumentById) {
-    articleDocumentByUid = await fetchArticlesDocumentByUID({
+    articleDocumentByUID = await fetchArticleDocumentByUID({
       contentType: 'articles',
       client,
       uid: articleId,
     });
 
-    if (!articleDocumentByUid) {
-      articleDocumentByUid = await fetchArticlesDocumentByUID({
+    if (!articleDocumentByUID) {
+      articleDocumentByUID = await fetchArticleDocumentByUID({
         contentType: 'webcomics',
         client,
         uid: articleId,
@@ -95,7 +95,8 @@ export const getServerSideProps: GetServerSideProps<
     }
   }
 
-  const articleDocument = articleDocumentById || articleDocumentByUid; // TODO once redirects are in place we should only fetch by uid
+  // TODO once redirects are in place we should only fetch by uid
+  const articleDocument = articleDocumentById || articleDocumentByUID;
 
   if (isNotUndefined(articleDocument)) {
     const serverData = await getServerData(context);
