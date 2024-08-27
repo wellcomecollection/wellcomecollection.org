@@ -41,6 +41,7 @@ import { eventLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   fetchEvent,
+  fetchEventDocumentByUID,
   fetchEventScheduleItems,
   fetchEventsClientSide,
 } from '@weco/content/services/prismic/fetch/events';
@@ -484,7 +485,20 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   const client = createClient(context);
-  const { event, visualStories } = await fetchEvent(client, eventId as string);
+  const eventDocumentById = await fetchEvent(client, eventId as string);
+
+  let eventDocumentByUID;
+  if (!eventDocumentById?.event) {
+    eventDocumentByUID = await fetchEventDocumentByUID({
+      client,
+      uid: eventId,
+    });
+  }
+
+  // TODO once redirects are in place we should only fetch by uid
+  const event = eventDocumentById?.event || eventDocumentByUID?.event;
+  const visualStories =
+    eventDocumentById?.visualStories || eventDocumentByUID?.visualStories;
 
   if (isNotUndefined(event)) {
     const serverData = await getServerData(context);

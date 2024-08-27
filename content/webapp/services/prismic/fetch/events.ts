@@ -66,6 +66,31 @@ export async function fetchEvent(
   };
 }
 
+export const fetchEventDocumentByUID = async ({
+  client,
+  uid,
+}: {
+  client: GetServerSidePropsPrismicClient;
+  uid: string;
+}): Promise<FetchEventResult | undefined> => {
+  const event = await fetcher<RawEventsDocument>('events', fetchLinks).getByUid(
+    client,
+    uid
+  );
+
+  // TODO this better?
+  if (!event) return;
+
+  const visualStories = await fetchVisualStories(client, {
+    filters: [prismic.filter.at('my.visual-stories.relatedDocument', event.id)],
+  });
+
+  return {
+    event,
+    visualStories,
+  };
+};
+
 export const fetchEventScheduleItems = async (
   { client }: GetServerSidePropsPrismicClient,
   scheduleIds: string[]
