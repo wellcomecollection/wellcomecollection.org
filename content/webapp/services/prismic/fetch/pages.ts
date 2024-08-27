@@ -20,10 +20,15 @@ import {
   seriesFetchLinks,
   teamsFetchLinks,
 } from '@weco/content/services/prismic/types';
-import { PagesDocument as RawPagesDocument } from '@weco/common/prismicio-types';
-import { labelsFields } from '../fetch-links';
-import { Page } from '../../../types/pages';
-import { SiblingsGroup } from '../../../types/siblings-group';
+import {
+  GuidesDocument as RawGuidesDocument,
+  PagesDocument as RawPagesDocument,
+  ProjectsDocument as RawProjectsDocument,
+} from '@weco/common/prismicio-types';
+import { labelsFields } from '@weco/content/services/prismic/fetch-links';
+import { Page } from '@weco/content/types/pages';
+import { SiblingsGroup } from '@weco/content/types/siblings-group';
+import { ContentType } from '@weco/common/services/prismic/content-types';
 
 export const fetchLinks = [
   ...pagesFetchLinks,
@@ -55,17 +60,22 @@ const pagesFetcher = fetcher<RawPagesDocument>(
   fetchLinks
 );
 
-// Get by uid can't take an array as the type
-const guidesUidFetcher = fetcher<RawPagesDocument>('guides', fetchLinks);
-// const pagesUidFetcher = fetcher<RawPagesDocument>('pages', fetchLinks);
-// const projectsUidFetcher = fetcher<RawPagesDocument>('projects', fetchLinks);
-
 export const fetchPage = pagesFetcher.getById;
 export const fetchPages = pagesFetcher.getByType;
 
-export const fetchGuideByUID = guidesUidFetcher.getByUid; // TODO type
-// export const fetchPageByUID = pagesUidFetcher.getByUid;
-// export const fetchprojectByUID = projectsUidFetcher.getByUid;
+export const fetchPagesDocumentByUID = ({
+  contentType,
+  client,
+  uid,
+}: {
+  contentType: ContentType;
+  client: GetServerSidePropsPrismicClient;
+  uid: string;
+}) =>
+  fetcher<RawPagesDocument | RawProjectsDocument | RawGuidesDocument>(
+    contentType,
+    fetchLinks
+  ).getByUid(client, uid);
 
 export const fetchChildren = async (
   client: GetServerSidePropsPrismicClient,

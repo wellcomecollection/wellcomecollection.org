@@ -1,4 +1,9 @@
-import { EditorialImageSlice as RawEditorialImageSlice } from '@weco/common/prismicio-types';
+import {
+  PagesDocument as RawPagesDocument,
+  EditorialImageSlice as RawEditorialImageSlice,
+  ProjectsDocument as RawProjectsDocument,
+  GuidesDocument as RawGuidesDocument,
+} from '@weco/common/prismicio-types';
 import { FunctionComponent, ReactElement } from 'react';
 import PageLayout, {
   SiteSection,
@@ -37,8 +42,8 @@ import { contentLd } from '@weco/content/services/prismic/transformers/json-ld';
 import {
   fetchChildren,
   fetchPage,
-  fetchGuideByUID,
   fetchSiblings,
+  fetchPagesDocumentByUID,
 } from '@weco/content/services/prismic/fetch/pages';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
@@ -54,6 +59,9 @@ import {
   transformEmbedSlice,
 } from '@weco/content/services/prismic/transformers/body';
 import { gridSize12 } from '@weco/common/views/components/Layout';
+import { ContentType } from '@weco/common/services/prismic/content-types';
+import { transformProject } from '@weco/content/services/prismic/transformers/projects';
+import { transformGuide } from '@weco/content/services/prismic/transformers/guides';
 
 export type Props = {
   page: PageType;
@@ -138,10 +146,43 @@ export const getServerSideProps: GetServerSideProps<
     : undefined;
 
   const pageLookupById = await fetchPage(client, pageId);
-  const pageLookupByUid = await fetchGuideByUID(client, pageId);
+
+  // If there is no result, fetch by UID
+  // TODO figure out if there is a nicer way to differentiate ID from UID...
+  let transformedUidPage;
+  if (!pageLookupById) {
+    const contentType = context.resolvedUrl.split('/')[1];
+
+    const pageLookupByUid = await fetchPagesDocumentByUID({
+      contentType: contentType as ContentType,
+      client,
+      uid: pageId,
+    });
+
+    if (pageLookupByUid) {
+      switch (contentType) {
+        case 'guides':
+          transformedUidPage = transformGuide(
+            pageLookupByUid as unknown as RawGuidesDocument
+          );
+          break;
+        case 'projects':
+          transformedUidPage = transformProject(
+            pageLookupByUid as unknown as RawProjectsDocument
+          );
+          break;
+        case 'pages':
+        default:
+          transformedUidPage = transformPage(
+            pageLookupByUid as unknown as RawPagesDocument
+          );
+          break;
+      }
+    }
+  }
+
   const page =
-    (pageLookupById && transformPage(pageLookupById)) ||
-    (pageLookupByUid && transformPage(pageLookupByUid)); // TODO once redirects are in place we should only fetch by uid
+    (pageLookupById && transformPage(pageLookupById)) || transformedUidPage; // TODO once redirects are in place we should only fetch by uid
 
   if (isNotUndefined(page)) {
     const serverData = await getServerData(context);
@@ -154,7 +195,7 @@ export const getServerSideProps: GetServerSideProps<
       };
     });
     const ordersInParents: OrderInParent[] =
-      page.parentPages.map(p => {
+      page.parentPages?.map(p => {
         return {
           id: p.id,
           title: p.title,
@@ -185,7 +226,7 @@ export const getServerSideProps: GetServerSideProps<
         serverData,
         vanityUrl,
         gaDimensions: {
-          partOf: page.seasons.map(season => season.id),
+          partOf: page.seasons?.map(season => season.id),
         },
       }),
     };

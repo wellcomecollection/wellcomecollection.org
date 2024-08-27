@@ -6,6 +6,7 @@ import { isString } from '@weco/common/utils/type-guards';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 import { deserialiseDates as deserialiseJsonDates } from '@weco/common/utils/json';
+import { toMaybeString } from '@weco/common/utils/routes';
 
 export type GetServerSidePropsPrismicClient = {
   type: 'GetServerSidePropsPrismicClient';
@@ -145,16 +146,29 @@ export function fetcher<Document extends prismic.PrismicDocument>(
 
       return response;
     },
+
     getByUid: async (
       { client }: GetServerSidePropsPrismicClient,
       uid: string
     ): Promise<Document | undefined> => {
       try {
-        return await client.getByUID<Document>(contentType, uid, {
-          // TODO fix type error
-          fetchLinks,
-        });
-      } catch {}
+        const primaryContentType = toMaybeString(contentType);
+        // TODO throw error?
+        if (!primaryContentType) return;
+
+        const response = await client.getByUID<Document>(
+          primaryContentType,
+          uid,
+          {
+            fetchLinks,
+          }
+        );
+
+        return response;
+      } catch (e) {
+        // TODO
+        console.log('--->', { e });
+      }
     },
   };
 }
