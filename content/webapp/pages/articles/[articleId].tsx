@@ -29,6 +29,7 @@ import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   fetchArticle,
   fetchArticlesClientSide,
+  fetchArticlesDocumentByUID,
 } from '@weco/content/services/prismic/fetch/articles';
 import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
@@ -66,12 +67,38 @@ export const getServerSideProps: GetServerSideProps<
   setCacheControl(context.res);
   const { articleId } = context.query;
 
+  // TODO fix this.
+  // UIDs that have less than 9 characters do not pass this test, which is an issue.
+  // https://wellcome.slack.com/archives/CUA669WHH/p1724762631869259
   if (!looksLikePrismicId(articleId)) {
     return { notFound: true };
   }
 
   const client = createClient(context);
-  const articleDocument = await fetchArticle(client, articleId);
+  const articleDocumentById = await fetchArticle(client, articleId);
+
+  // TODO
+  // How do we do it for webcomics as they use the same prefix (`/articles`) as Articles.
+  // So how do we pass the correct content type in?
+  // It's awful to just try it twice...
+  let articleDocumentByUid;
+  if (!articleDocumentById) {
+    articleDocumentByUid = await fetchArticlesDocumentByUID({
+      contentType: 'articles',
+      client,
+      uid: articleId,
+    });
+
+    if (!articleDocumentByUid) {
+      articleDocumentByUid = await fetchArticlesDocumentByUID({
+        contentType: 'webcomics',
+        client,
+        uid: articleId,
+      });
+    }
+  }
+
+  const articleDocument = articleDocumentById || articleDocumentByUid; // TODO once redirects are in place we should only fetch by uid
 
   if (isNotUndefined(articleDocument)) {
     const serverData = await getServerData(context);

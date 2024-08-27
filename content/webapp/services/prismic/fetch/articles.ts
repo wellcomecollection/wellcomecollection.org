@@ -5,7 +5,10 @@ import {
   fetcher,
   clientSideFetcher,
 } from '.';
-import { ArticlesDocument as RawArticlesDocument } from '@weco/common/prismicio-types';
+import {
+  ArticlesDocument as RawArticlesDocument,
+  WebcomicsDocument as RawWebcomicsDocument,
+} from '@weco/common/prismicio-types';
 import { ContentType } from '@weco/common/services/prismic/content-types';
 import { ArticleBasic } from '@weco/content/types/articles';
 import {
@@ -29,6 +32,21 @@ const fetchLinks = [
 const articlesFetcher = fetcher<RawArticlesDocument>(contentTypes, fetchLinks);
 
 export const fetchArticle = articlesFetcher.getById;
+
+// Includes Articles and Webcomics
+export const fetchArticlesDocumentByUID = ({
+  contentType,
+  client,
+  uid,
+}: {
+  contentType: ContentType;
+  client: GetServerSidePropsPrismicClient;
+  uid: string;
+}) =>
+  fetcher<RawArticlesDocument | RawWebcomicsDocument>(
+    contentType,
+    fetchLinks
+  ).getByUid(client, uid);
 
 const graphQuery = `{
   webcomics {

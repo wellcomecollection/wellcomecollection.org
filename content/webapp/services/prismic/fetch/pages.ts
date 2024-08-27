@@ -63,6 +63,7 @@ const pagesFetcher = fetcher<RawPagesDocument>(
 export const fetchPage = pagesFetcher.getById;
 export const fetchPages = pagesFetcher.getByType;
 
+// Includes Pages, Projects and Guides
 export const fetchPagesDocumentByUID = ({
   contentType,
   client,
