@@ -1,7 +1,10 @@
 import * as prismic from '@prismicio/client';
 import fetch from 'node-fetch';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
-import { ContentType } from '@weco/common/services/prismic/content-types';
+import {
+  ContentType,
+  isContentType,
+} from '@weco/common/services/prismic/content-types';
 import { isString } from '@weco/common/utils/type-guards';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
@@ -153,9 +156,12 @@ export function fetcher<Document extends prismic.PrismicDocument>(
     ): Promise<Document | undefined> => {
       try {
         const primaryContentType = toMaybeString(contentType);
-        // TODO throw error?
-        if (!primaryContentType) return;
 
+        if (!isContentType(primaryContentType))
+          throw Error(`Faulty content type: ${contentType}`);
+
+        // TODO this throws an error if no document is found, which in the case of articles/webcomics,
+        // where we have to try twice, will always error.
         const response = await client.getByUID<Document>(
           primaryContentType,
           uid,
@@ -166,8 +172,7 @@ export function fetcher<Document extends prismic.PrismicDocument>(
 
         return response;
       } catch (e) {
-        // TODO
-        console.log('--->', { e });
+        console.warn('Error:', e.message);
       }
     },
   };

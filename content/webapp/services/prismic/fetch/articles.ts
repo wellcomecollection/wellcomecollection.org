@@ -29,7 +29,10 @@ const fetchLinks = [
   ...eventsFetchLinks,
 ];
 
-const articlesFetcher = fetcher<RawArticlesDocument>(contentTypes, fetchLinks);
+const articlesFetcher = fetcher<RawArticlesDocument | RawWebcomicsDocument>(
+  contentTypes,
+  fetchLinks
+);
 
 export const fetchArticle = articlesFetcher.getById;
 
@@ -113,7 +116,7 @@ const graphQuery = `{
 export const fetchArticles = (
   client: GetServerSidePropsPrismicClient,
   params: GetByTypeParams = {}
-): Promise<prismic.Query<RawArticlesDocument>> => {
+): Promise<prismic.Query<RawArticlesDocument | RawWebcomicsDocument>> => {
   return articlesFetcher.getByType(client, {
     ...params,
     orderings: [
