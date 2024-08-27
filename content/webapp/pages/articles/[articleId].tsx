@@ -67,9 +67,6 @@ export const getServerSideProps: GetServerSideProps<
   setCacheControl(context.res);
   const { articleId } = context.query;
 
-  // TODO fix this.
-  // UIDs that have less than 9 characters do not pass this test, which is an issue.
-  // https://wellcome.slack.com/archives/CUA669WHH/p1724762631869259
   if (!looksLikePrismicId(articleId)) {
     return { notFound: true };
   }
