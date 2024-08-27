@@ -100,7 +100,10 @@ const GuideStopCard: FunctionComponent<Props> = ({
               />
             </Space>
             {durationInMinutesAndSeconds && (
-              <span>Duration {durationInMinutesAndSeconds} minutes</span>
+              <span>
+                {durationInMinutesAndSeconds} minutes{' '}
+                {type === 'audio' ? 'listen' : 'watch'} time
+              </span>
             )}
           </div>
         </CardBody>

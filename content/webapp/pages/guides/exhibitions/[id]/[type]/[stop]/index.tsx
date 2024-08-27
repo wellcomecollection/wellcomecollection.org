@@ -1,5 +1,6 @@
 import { FunctionComponent, useEffect, useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
+import { font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
 import { isFilledSliceZone } from '@weco/common/services/prismic/types';
 import { GetServerSideProps } from 'next';
@@ -28,6 +29,7 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
+import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { getCrop } from '@weco/common/model/image';
 import ImagePlaceholder, {
@@ -56,13 +58,25 @@ type Props = {
   allStops: GuideHighlightTour[];
 };
 
+const LayoutWrap = styled.div`
+  margin-left: -${props => props.theme.gutter.small}px;
+  margin-right: -${props => props.theme.gutter.small}px;
+
+  ${props => props.theme.media('medium')`
+    margin-left: 0;
+    margin-right: 0;
+  `}
+`;
+
 const Page = styled.div`
   background-color: ${props => props.theme.color('black')};
   color: ${props => props.theme.color('white')};
   min-height: 100vh;
 `;
 
-const Header = styled.header`
+const Header = styled.header.attrs({
+  className: font('intr', 6),
+})`
   background-color: ${props => props.theme.color('neutral.700')};
   position: sticky;
   top: 0;
@@ -80,14 +94,23 @@ const HeaderInner = styled(Space).attrs({
   align-items: center;
 `;
 
-const PrevNext = styled(Space).attrs({
-  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+const PrevNext = styled.div.attrs({
+  className: font('intr', 6),
 })`
   position: fixed;
   z-index: 2;
   bottom: 0;
   width: 100%;
   background: ${props => props.theme.color('neutral.700')};
+`;
+
+const AlignIconFirstLineCenter = styled.div`
+  display: flex;
+  align-items: start;
+
+  .icon {
+    height: 1lh;
+  }
 `;
 
 const AlignCenter = styled.div`
@@ -97,6 +120,14 @@ const AlignCenter = styled.div`
 
 const StickyPlayer = styled.div<{ $sticky: boolean }>`
   position: ${props => (props.$sticky ? 'sticky' : undefined)};
+
+  margin-left: -${props => props.theme.gutter.small}px;
+  margin-right: -${props => props.theme.gutter.small}px;
+
+  ${props => props.theme.media('medium')`
+    margin-left: 0;
+    margin-right: 0;
+  `}
 
   /* Fallback to 60px if there's no js */
   top: var(--stop-header-height, 60px);
@@ -249,7 +280,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
           <Container>
             <HeaderInner>
               <div>
-                <AlignCenter>
+                <AlignIconFirstLineCenter>
                   <Space
                     $h={{ size: 's', properties: ['margin-right'] }}
                     style={{ display: 'flex' }}
@@ -262,8 +293,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                     />
                   </Space>
                   <span>{exhibitionTitle}</span>
-                </AlignCenter>
-                <AlignCenter>
+                </AlignIconFirstLineCenter>
+                <AlignIconFirstLineCenter>
                   <Space
                     $h={{ size: 's', properties: ['margin-right'] }}
                     style={{ display: 'flex' }}
@@ -281,7 +312,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                       {currentStop.title}
                     </h1>
                   </AlignCenter>
-                </AlignCenter>
+                </AlignIconFirstLineCenter>
               </div>
               <span>
                 <NextLink href={`${guideTypeUrl}#${stopNumber}`}>
@@ -293,20 +324,24 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
           </Container>
         </Header>
         {/* Make sure we can scroll content into view if it's behind the fixed position footer (paddingBottom: 100px) */}
-        <Container style={{ paddingBottom: '100px' }}>
-          {type !== 'bsl' && (
-            <>
-              {croppedImage ? (
-                <PrismicImage quality="low" image={croppedImage} />
-              ) : (
-                <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
-                  <ImagePlaceholder
-                    backgroundColor={placeholderBackgroundColor(stopNumber)}
-                  />
-                </div>
-              )}
-            </>
-          )}
+        <LayoutWrap>
+          <Layout gridSizes={gridSize8()}>
+            {type !== 'bsl' && (
+              <>
+                {croppedImage ? (
+                  <PrismicImage quality="low" image={croppedImage} />
+                ) : (
+                  <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
+                    <ImagePlaceholder
+                      backgroundColor={placeholderBackgroundColor(stopNumber)}
+                    />
+                  </div>
+                )}
+              </>
+            )}
+          </Layout>
+        </LayoutWrap>
+        <Layout gridSizes={gridSize8()}>
           <StickyPlayer $sticky={type !== 'bsl'}>
             {type === 'bsl' ? (
               <>
@@ -339,7 +374,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               />
             </CollapsibleContent>
           </Space>
-        </Container>
+        </Layout>
         <PrevNext>
           <Container>
             <div
@@ -355,10 +390,23 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                     href={`${guideTypeUrl}/${stopNumber - 1}`}
                     shallow={true}
                   >
-                    <AlignCenter>
-                      <Icon icon={arrow} rotate={180} />
-                      <span>Previous</span>
-                    </AlignCenter>
+                    <Space
+                      $v={{
+                        size: 'm',
+                        properties: ['padding-top', 'padding-bottom'],
+                        overrides: { small: 4 },
+                      }}
+                    >
+                      <AlignCenter>
+                        <Space
+                          $h={{ size: 'm', properties: ['margin-right'] }}
+                          style={{ display: 'flex' }}
+                        >
+                          <Icon icon={arrow} rotate={180} />
+                        </Space>
+                        <span>Previous</span>
+                      </AlignCenter>
+                    </Space>
                   </NextLink>
                 )}
               </div>
@@ -369,10 +417,23 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                     href={`${guideTypeUrl}/${stopNumber + 1}`}
                     shallow={true}
                   >
-                    <AlignCenter>
-                      <span>Next</span>
-                      <Icon icon={arrow} />
-                    </AlignCenter>
+                    <Space
+                      $v={{
+                        size: 'm',
+                        properties: ['padding-top', 'padding-bottom'],
+                        overrides: { small: 4 },
+                      }}
+                    >
+                      <AlignCenter>
+                        <Space
+                          $h={{ size: 'm', properties: ['margin-right'] }}
+                          style={{ display: 'flex' }}
+                        >
+                          <span>Next</span>
+                        </Space>
+                        <Icon icon={arrow} />
+                      </AlignCenter>
+                    </Space>
                   </NextLink>
                 )}
               </div>
