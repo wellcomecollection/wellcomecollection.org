@@ -7,7 +7,7 @@ import {
   PropsWithChildren,
 } from 'react';
 import styled from 'styled-components';
-import { plus, minus } from '@weco/common/icons';
+import { plus } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -19,6 +19,7 @@ const IconContainer = styled.div<{ $darkTheme?: boolean }>`
       ${props => props.theme.color(props.$darkTheme ? 'yellow' : 'black')};
     width: 20px;
     height: 20px;
+    transition: transform ${props => props.theme.transitionProperties};
   }
 `;
 
@@ -41,11 +42,7 @@ const ControlText = styled.span<{ $darkTheme?: boolean }>`
 `;
 
 const Content = styled(Space).attrs({
-  className: 'body-text spaced-text',
-  $h: {
-    size: 'l',
-    properties: ['padding-left', 'padding-right'],
-  },
+  $h: { size: 's', properties: ['padding-left'] },
 })<{
   $hidden: boolean;
   $darkTheme?: boolean;
@@ -53,6 +50,9 @@ const Content = styled(Space).attrs({
   color: ${props =>
     props.$darkTheme ? props.theme.color('white') : undefined};
   display: ${props => (props.$hidden ? 'none' : 'block')};
+
+  /* 20px to match the width of the .icon above */
+  transform: translateX(20px);
 `;
 
 type Props = PropsWithChildren<{
@@ -90,7 +90,8 @@ const CollapsibleContent: FunctionComponent<Props> = ({
             <IconContainer $darkTheme={darkTheme}>
               <Icon
                 iconColor={darkTheme ? 'yellow' : undefined}
-                icon={showContent ? minus : plus}
+                icon={plus}
+                rotate={showContent ? 45 : undefined}
               />
             </IconContainer>
           </Space>
@@ -107,7 +108,13 @@ const CollapsibleContent: FunctionComponent<Props> = ({
         $hidden={!showContent}
         $darkTheme={darkTheme}
       >
-        <Space $v={{ size: 'l', properties: ['margin-top'] }}>{children}</Space>
+        <Space
+          $v={{ size: 'l', properties: ['margin-top'] }}
+          $h={{ size: 's', properties: ['padding-right'] }}
+          style={{ display: 'flex' }}
+        >
+          <div className="body-text spaced-text">{children}</div>
+        </Space>
       </Content>
     </div>
   );

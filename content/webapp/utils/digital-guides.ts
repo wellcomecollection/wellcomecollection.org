@@ -48,6 +48,27 @@ const legacyGuides = [
   'Y2JgxREAACcJWckj',
 ];
 
+export const getCleanRedirectURL = (
+  resolvedURL: string,
+  userPreferenceGuideType: string
+): string => {
+  const splitResolvedURL = resolvedURL.split('?');
+  const relativeURL = splitResolvedURL[0];
+  const queryParams = new URLSearchParams(splitResolvedURL[1]);
+
+  // Get stop number
+  const urlStopNumber = queryParams.get('stopNumber');
+  // The first stop's link is an exception, in that it should link to
+  // the [exhibitionId]/[type] page, and not directly on the stop's page.
+  const stopNumber = urlStopNumber !== '1' ? `/${urlStopNumber}` : '';
+  // Delete from query params if we're redirecting to its page
+  if (stopNumber) {
+    queryParams.delete('stopNumber');
+  }
+
+  return `${relativeURL}/${userPreferenceGuideType + stopNumber}?${queryParams.toString()}`;
+};
+
 export const getGuidesRedirections = (
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>
 ) => {
@@ -93,22 +114,12 @@ export const getGuidesRedirections = (
   const hasValidStopNumber =
     typeof stopNumber === 'string' && !!Number(stopNumber);
 
-  // The first stop's link is an exception, in that it should link to
-  // the [exhibitionId]/[type] page, and not directly on the stop's page.
   // TODO remove hasEgWorkCookie check once toggle is removed
   if (hasEgWorkCookie && hasValidUserPreference && hasValidStopNumber) {
-    // We do a simple replace on the URL so we preserve all other URL information
-    // (e.g. UTM tracking parameters).
     return {
       redirect: {
         permanent: false,
-        destination: resolvedUrl
-          .replace(
-            '?',
-            `/${userPreferenceGuideType}/${stopNumber === '1' ? '' : stopNumber}?`
-          )
-          .replace(`&stopNumber=${stopNumber}`, '')
-          .replace(`?stopNumber=${stopNumber}`, ''),
+        destination: getCleanRedirectURL(resolvedUrl, userPreferenceGuideType),
       },
     };
   }
