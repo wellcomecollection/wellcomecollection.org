@@ -79,12 +79,14 @@ export const getServerSideProps: GetServerSideProps<
     pageSize: 20,
   });
 
-  const seriesDocument = await fetchEventSeriesById(client, eventSeriesId);
+  const seriesPromise = fetchEventSeriesById(client, eventSeriesId);
 
-  const [upcomingEventsQuery, pastEventsQuery] = await Promise.all([
-    upcomingEventsQueryPromise,
-    pastEventsQueryPromise,
-  ]);
+  const [upcomingEventsQuery, pastEventsQuery, seriesDocument] =
+    await Promise.all([
+      upcomingEventsQueryPromise,
+      pastEventsQueryPromise,
+      seriesPromise,
+    ]);
 
   if (isNotUndefined(seriesDocument)) {
     const series = transformEventSeries(seriesDocument);
