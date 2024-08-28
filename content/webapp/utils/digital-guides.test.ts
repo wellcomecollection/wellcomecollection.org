@@ -1,17 +1,26 @@
+import { IncomingMessage, ServerResponse } from 'http';
 import { getCleanRedirectURL, getGuidesRedirections } from './digital-guides';
 
 const baseUrl = '/guides/exhibitions/ZrHvtxEAACYAWmfc';
 const userPreferenceGuideType = 'bsl';
 
+const contextParams = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  req: undefined as any as IncomingMessage & {
+    cookies: Partial<{ [key: string]: string }>;
+  },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  res: undefined as any as ServerResponse<IncomingMessage>,
+};
+
 describe('getGuidesRedirections', () => {
   it('does not redirect if usingQRCode is missing', () => {
     // Mock userPreferenceGuideType cookie
-    document.cookie = 'WC_userPreferenceGuideType=bsl';
+    document.cookie = `WC_userPreferenceGuideType=${userPreferenceGuideType}`;
 
     const result = getGuidesRedirections({
+      ...contextParams,
       query: { stopNumber: '2' },
-      req: undefined,
-      res: undefined,
       resolvedUrl: `${baseUrl}?stopNumber=2`,
     });
 
@@ -23,9 +32,8 @@ describe('getGuidesRedirections', () => {
     document.cookie = 'WC_userPreferenceGuideType=';
 
     const result = getGuidesRedirections({
+      ...contextParams,
       query: { usingQRCode: 'true', stopNumber: '2' },
-      req: undefined,
-      res: undefined,
       resolvedUrl: `${baseUrl}?usingQRCode=true&stopNumber=2`,
     });
 
@@ -34,12 +42,11 @@ describe('getGuidesRedirections', () => {
 
   it('does not redirect if stopNumber query param is not a number', () => {
     // Mock userPreferenceGuideType cookie
-    document.cookie = 'WC_userPreferenceGuideType=bsl';
+    document.cookie = `WC_userPreferenceGuideType=${userPreferenceGuideType}`;
 
     const result = getGuidesRedirections({
+      ...contextParams,
       query: { usingQRCode: 'true', stopNumber: 'abc' },
-      req: undefined,
-      res: undefined,
       resolvedUrl: `${baseUrl}?usingQRCode=true&stopNumber=abc`,
     });
 
@@ -48,17 +55,16 @@ describe('getGuidesRedirections', () => {
 
   it('redirects legacy exhibition guides', () => {
     // Mock userPreferenceGuideType cookie
-    document.cookie = 'WC_userPreferenceGuideType=bsl';
+    document.cookie = `WC_userPreferenceGuideType=${userPreferenceGuideType}`;
 
     const result = getGuidesRedirections({
+      ...contextParams,
       query: {
         id: 'ZHXyDBQAAMCZbr6n',
         type: 'audio-without-descriptions',
         usingQRCode: 'true',
         stopId: 'abc',
       },
-      req: undefined,
-      res: undefined,
       resolvedUrl: `${baseUrl}/bsl?usingQRCode=true&stopNumber=abc`,
     });
 
