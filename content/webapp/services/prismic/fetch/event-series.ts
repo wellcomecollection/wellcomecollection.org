@@ -1,4 +1,4 @@
-import { fetcher } from '.';
+import { GetServerSidePropsPrismicClient, fetcher } from '.';
 import {
   cardFetchLinks,
   commonPrismicFieldsFetchLinks,
@@ -18,4 +18,17 @@ const eventSeriesFetcher = fetcher<RawEventSeriesDocument>(
 );
 
 export const fetchEventSeriesById = eventSeriesFetcher.getById;
+
+export const fetchEventSeriesDocumentByUID = ({
+  client,
+  uid,
+}: {
+  client: GetServerSidePropsPrismicClient;
+  uid: string;
+}) =>
+  fetcher<RawEventSeriesDocument>('event-series', fetchLinks).getByUid(
+    client,
+    uid
+  );
+
 export const fetchEventSeries = eventSeriesFetcher.getByType;
