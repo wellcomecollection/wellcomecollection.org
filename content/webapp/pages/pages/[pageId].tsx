@@ -43,7 +43,6 @@ import {
   fetchChildren,
   fetchPage,
   fetchSiblings,
-  fetchPageDocumentByUID,
 } from '@weco/content/services/prismic/fetch/pages';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
@@ -145,46 +144,28 @@ export const getServerSideProps: GetServerSideProps<
     ? context.resolvedUrl
     : undefined;
 
-  const pageDocumentById = await fetchPage(client, pageId);
-
-  // If there is no result, fetch by UID
   // TODO figure out if there is a nicer way to differentiate ID from UID...
-  let transformedPageDocumentByUID;
-  if (!pageDocumentById) {
-    const contentType = context.resolvedUrl.split('/')[1];
+  const contentType = context.resolvedUrl.split('/')[1];
 
-    const pageDocumentByUID = await fetchPageDocumentByUID({
-      contentType: contentType as ContentType,
-      client,
-      uid: pageId,
-    });
+  const pageDocument = await fetchPage(
+    client,
+    pageId,
+    contentType as ContentType
+  );
 
-    if (pageDocumentByUID) {
-      switch (contentType) {
-        case 'guides':
-          transformedPageDocumentByUID = transformGuide(
-            pageDocumentByUID as unknown as RawGuidesDocument
-          );
-          break;
-        case 'projects':
-          transformedPageDocumentByUID = transformProject(
-            pageDocumentByUID as unknown as RawProjectsDocument
-          );
-          break;
-        case 'pages':
-        default:
-          transformedPageDocumentByUID = transformPage(
-            pageDocumentByUID as unknown as RawPagesDocument
-          );
-          break;
-      }
-    }
+  let page;
+  switch (contentType) {
+    case 'guides':
+      page = transformGuide(pageDocument as unknown as RawGuidesDocument);
+      break;
+    case 'projects':
+      page = transformProject(pageDocument as unknown as RawProjectsDocument);
+      break;
+    case 'pages':
+    default:
+      page = transformPage(pageDocument as unknown as RawPagesDocument);
+      break;
   }
-
-  // TODO once redirects are in place we should only fetch by uid
-  const page =
-    (pageDocumentById && transformPage(pageDocumentById)) ||
-    transformedPageDocumentByUID;
 
   if (isNotUndefined(page)) {
     const serverData = await getServerData(context);

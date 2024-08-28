@@ -88,13 +88,9 @@ export async function fetchExhibition(
   id: string
 ): Promise<FetchExhibitionResult> {
   const exhibitionDocumentById = await exhibitionsFetcher.getById(client, id);
-  // TODO add a try catch?
-  // TODO I think I like the logic being moved here, maybe do the same for all other fetches?
-  const exhibitionDocumentByUID = await fetcher<RawExhibitionsDocument>(
-    'exhibitions',
-    fetchLinks
-  ).getByUid(client, id);
+  const exhibitionDocumentByUID = await exhibitionsFetcher.getByUid(client, id);
 
+  // TODO once redirects are in place we should only fetch by uid
   const exhibitionDocument = exhibitionDocumentById || exhibitionDocumentByUID;
 
   const pageQueryPromise = fetchPages(client, {

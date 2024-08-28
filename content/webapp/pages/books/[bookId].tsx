@@ -14,10 +14,7 @@ import { serialiseProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import Body from '@weco/content/components/Body/Body';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
-import {
-  fetchBook,
-  fetchBookDocumentByUID,
-} from '@weco/content/services/prismic/fetch/books';
+import { fetchBook } from '@weco/content/services/prismic/fetch/books';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { transformBook } from '@weco/content/services/prismic/transformers/books';
 import { Book } from '@weco/content/types/books';
@@ -96,18 +93,7 @@ export const getServerSideProps: GetServerSideProps<
     return { notFound: true };
   }
   const client = createClient(context);
-  const bookDocumentById = await fetchBook(client, bookId);
-
-  let bookDocumentByUID;
-  if (!bookDocumentById) {
-    bookDocumentByUID = await fetchBookDocumentByUID({
-      client,
-      uid: bookId,
-    });
-  }
-
-  // TODO once redirects are in place we should only fetch by uid
-  const bookDocument = bookDocumentById || bookDocumentByUID;
+  const bookDocument = await fetchBook(client, bookId);
 
   if (isNotUndefined(bookDocument)) {
     const serverData = await getServerData(context);

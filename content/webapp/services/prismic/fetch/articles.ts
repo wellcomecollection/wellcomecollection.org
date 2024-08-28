@@ -21,6 +21,8 @@ import {
 
 const contentTypes: ContentType[] = ['articles', 'webcomics'];
 
+type ArticleTypes = RawArticlesDocument | RawWebcomicsDocument;
+
 const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,
   ...articleFormatsFetchLinks,
@@ -29,27 +31,31 @@ const fetchLinks = [
   ...eventsFetchLinks,
 ];
 
-const articlesFetcher = fetcher<RawArticlesDocument | RawWebcomicsDocument>(
-  contentTypes,
-  fetchLinks
-);
+const articlesFetcher = fetcher<ArticleTypes>(contentTypes, fetchLinks);
 
-export const fetchArticle = articlesFetcher.getById;
+export const fetchArticle = async (
+  client: GetServerSidePropsPrismicClient,
+  id: string
+): Promise<ArticleTypes | undefined> => {
+  // TODO once redirects are in place we should only fetch by uid
+  const articleDocumentById = await articlesFetcher.getById(client, id);
 
-// Includes Articles and Webcomics
-export const fetchArticleDocumentByUID = ({
-  contentType,
-  client,
-  uid,
-}: {
-  contentType: ContentType;
-  client: GetServerSidePropsPrismicClient;
-  uid: string;
-}) =>
-  fetcher<RawArticlesDocument | RawWebcomicsDocument>(
-    contentType,
+  // TODO
+  // How do we do it for webcomics as they use the same prefix (`/articles`) as Articles.
+  // So how do we pass the correct content type in?
+  // It's awful to just try it twice...
+  const articleDocumentByUID = await fetcher<ArticleTypes>(
+    'articles',
     fetchLinks
-  ).getByUid(client, uid);
+  ).getByUid(client, id);
+
+  const webcomicDocumentByUID = await fetcher<ArticleTypes>(
+    'webcomics',
+    fetchLinks
+  ).getByUid(client, id);
+
+  return articleDocumentById || articleDocumentByUID || webcomicDocumentByUID;
+};
 
 const graphQuery = `{
   webcomics {
@@ -116,7 +122,7 @@ const graphQuery = `{
 export const fetchArticles = (
   client: GetServerSidePropsPrismicClient,
   params: GetByTypeParams = {}
-): Promise<prismic.Query<RawArticlesDocument | RawWebcomicsDocument>> => {
+): Promise<prismic.Query<ArticleTypes>> => {
   return articlesFetcher.getByType(client, {
     ...params,
     orderings: [

@@ -60,23 +60,26 @@ const pagesFetcher = fetcher<RawPagesDocument>(
   fetchLinks
 );
 
-export const fetchPage = pagesFetcher.getById;
-export const fetchPages = pagesFetcher.getByType;
+type PagesContentTypes =
+  | RawPagesDocument
+  | RawProjectsDocument
+  | RawGuidesDocument;
 
-// Includes Pages, Projects and Guides
-export const fetchPageDocumentByUID = ({
-  contentType,
-  client,
-  uid,
-}: {
-  contentType: ContentType;
-  client: GetServerSidePropsPrismicClient;
-  uid: string;
-}) =>
-  fetcher<RawPagesDocument | RawProjectsDocument | RawGuidesDocument>(
+export const fetchPages = pagesFetcher.getByType;
+export const fetchPage = async (
+  client: GetServerSidePropsPrismicClient,
+  id: string,
+  contentType: ContentType
+): Promise<PagesContentTypes | undefined> => {
+  // TODO once redirects are in place we should only fetch by uid
+  const pageDocumentById = await pagesFetcher.getById(client, id);
+  const pageDocumentByUID = await fetcher<PagesContentTypes>(
     contentType,
     fetchLinks
-  ).getByUid(client, uid);
+  ).getByUid(client, id);
+
+  return pageDocumentById || pageDocumentByUID;
+};
 
 export const fetchChildren = async (
   client: GetServerSidePropsPrismicClient,

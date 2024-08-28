@@ -51,45 +51,21 @@ export async function fetchEvent(
   client: GetServerSidePropsPrismicClient,
   id: string
 ): Promise<FetchEventResult> {
-  const eventPromise = eventsFetcher.getById(client, id);
-  const visualStoriesQueryPromise = fetchVisualStories(client, {
+  // TODO once redirects are in place we should only fetch by uid
+  const eventDocumentById = await eventsFetcher.getById(client, id);
+  const eventDocumentByUID = await eventsFetcher.getByUid(client, id);
+
+  const event = eventDocumentById || eventDocumentByUID;
+
+  const visualStories = await fetchVisualStories(client, {
     filters: [prismic.filter.at('my.visual-stories.relatedDocument', id)],
   });
-  const [event, visualStories] = await Promise.all([
-    eventPromise,
-    visualStoriesQueryPromise,
-  ]);
 
   return {
     event,
     visualStories,
   };
 }
-
-export const fetchEventDocumentByUID = async ({
-  client,
-  uid,
-}: {
-  client: GetServerSidePropsPrismicClient;
-  uid: string;
-}): Promise<FetchEventResult | undefined> => {
-  const event = await fetcher<RawEventsDocument>('events', fetchLinks).getByUid(
-    client,
-    uid
-  );
-
-  // TODO this better?
-  if (!event) return;
-
-  const visualStories = await fetchVisualStories(client, {
-    filters: [prismic.filter.at('my.visual-stories.relatedDocument', event.id)],
-  });
-
-  return {
-    event,
-    visualStories,
-  };
-};
 
 export const fetchEventScheduleItems = async (
   { client }: GetServerSidePropsPrismicClient,

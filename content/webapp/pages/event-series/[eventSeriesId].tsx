@@ -18,10 +18,7 @@ import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import * as prismic from '@prismicio/client';
-import {
-  fetchEventSeriesById,
-  fetchEventSeriesDocumentByUID,
-} from '@weco/content/services/prismic/fetch/event-series';
+import { fetchEventSeriesById } from '@weco/content/services/prismic/fetch/event-series';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { transformEventSeries } from '@weco/content/services/prismic/transformers/event-series';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
@@ -82,18 +79,7 @@ export const getServerSideProps: GetServerSideProps<
     pageSize: 20,
   });
 
-  const seriesDocumentById = await fetchEventSeriesById(client, eventSeriesId);
-
-  let seriesDocumentByUID;
-  if (!seriesDocumentById) {
-    seriesDocumentByUID = await fetchEventSeriesDocumentByUID({
-      client,
-      uid: eventSeriesId,
-    });
-  }
-
-  // TODO once redirects are in place we should only fetch by uid
-  const seriesDocument = seriesDocumentById || seriesDocumentByUID;
+  const seriesDocument = await fetchEventSeriesById(client, eventSeriesId);
 
   const [upcomingEventsQuery, pastEventsQuery] = await Promise.all([
     upcomingEventsQueryPromise,

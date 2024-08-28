@@ -17,18 +17,18 @@ const eventSeriesFetcher = fetcher<RawEventSeriesDocument>(
   fetchLinks
 );
 
-export const fetchEventSeriesById = eventSeriesFetcher.getById;
-
-export const fetchEventSeriesDocumentByUID = ({
-  client,
-  uid,
-}: {
-  client: GetServerSidePropsPrismicClient;
-  uid: string;
-}) =>
-  fetcher<RawEventSeriesDocument>('event-series', fetchLinks).getByUid(
+export const fetchEventSeriesById = async (
+  client: GetServerSidePropsPrismicClient,
+  id: string
+): Promise<RawEventSeriesDocument | undefined> => {
+  // TODO once redirects are in place we should only fetch by uid
+  const eventSeriesDocumentById = await eventSeriesFetcher.getById(client, id);
+  const eventSeriesDocumentByUID = await eventSeriesFetcher.getByUid(
     client,
-    uid
+    id
   );
+
+  return eventSeriesDocumentById || eventSeriesDocumentByUID;
+};
 
 export const fetchEventSeries = eventSeriesFetcher.getByType;

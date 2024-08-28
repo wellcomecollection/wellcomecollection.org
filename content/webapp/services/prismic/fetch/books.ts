@@ -15,7 +15,16 @@ const fetchLinks = [
 
 const booksFetcher = fetcher<RawBooksDocument>('books', fetchLinks);
 
-export const fetchBook = booksFetcher.getById;
+export const fetchBook = async (
+  client: GetServerSidePropsPrismicClient,
+  id: string
+): Promise<RawBooksDocument | undefined> => {
+  // TODO once redirects are in place we should only fetch by uid
+  const bookDocumentById = await booksFetcher.getById(client, id);
+  const bookDocumentByUID = await booksFetcher.getByUid(client, id);
+
+  return bookDocumentById || bookDocumentByUID;
+};
 
 export const fetchBookDocumentByUID = ({
   client,
