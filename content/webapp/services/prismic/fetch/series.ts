@@ -1,4 +1,4 @@
-import { fetcher } from '.';
+import { GetServerSidePropsPrismicClient, fetcher } from '.';
 import {
   commonPrismicFieldsFetchLinks,
   contributorFetchLinks,
@@ -16,5 +16,15 @@ const fetchLinks = [
 
 const seriesFetcher = fetcher<RawSeriesDocument>('series', fetchLinks);
 
-export const fetchSeriesById = seriesFetcher.getById;
 export const fetchSeries = seriesFetcher.getByType;
+
+export const fetchSeriesById = async (
+  client: GetServerSidePropsPrismicClient,
+  id: string
+): Promise<RawSeriesDocument | undefined> => {
+  // TODO once redirects are in place we should only fetch by uid
+  const seriesDocumentById = await seriesFetcher.getById(client, id);
+  const seriesDocumentByUID = await seriesFetcher.getByUid(client, id);
+
+  return seriesDocumentById || seriesDocumentByUID;
+};
