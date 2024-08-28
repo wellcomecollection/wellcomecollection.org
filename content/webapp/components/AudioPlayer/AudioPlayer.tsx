@@ -98,6 +98,12 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   const id = `${idPrefix || ''}${dasherize(title.slice(0, 15))}`;
 
   useEffect(() => {
+    // If we change the player dynamically, we need to reset the play/pause
+    // button to the appropriate state
+    setIsPlaying(false);
+  }, [audioFile]);
+
+  useEffect(() => {
     if (!audioPlayerRef.current) return;
     if (!progressBarRef.current) return;
 
