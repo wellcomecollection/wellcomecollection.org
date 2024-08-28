@@ -87,7 +87,16 @@ export async function fetchExhibition(
   client: GetServerSidePropsPrismicClient,
   id: string
 ): Promise<FetchExhibitionResult> {
-  const exhibitionPromise = exhibitionsFetcher.getById(client, id);
+  const exhibitionDocumentById = await exhibitionsFetcher.getById(client, id);
+  // TODO add a try catch?
+  // TODO I think I like the logic being moved here, maybe do the same for all other fetches?
+  const exhibitionDocumentByUID = await fetcher<RawExhibitionsDocument>(
+    'exhibitions',
+    fetchLinks
+  ).getByUid(client, id);
+
+  const exhibitionDocument = exhibitionDocumentById || exhibitionDocumentByUID;
+
   const pageQueryPromise = fetchPages(client, {
     filters: [prismic.filter.at('my.pages.parents.parent', id)],
   });
@@ -116,14 +125,12 @@ export async function fetchExhibition(
   ).catch(returnEmptyResults);
 
   const [
-    exhibition,
     pages,
     visualStories,
     exhibitionGuidesQuery,
     exhibitionTextsQuery,
     exhibitionHighlightToursQuery,
   ] = await Promise.all([
-    exhibitionPromise,
     pageQueryPromise,
     visualStoriesQueryPromise,
     exhibitionGuidesQueryPromise,
@@ -156,7 +163,7 @@ export async function fetchExhibition(
   }));
 
   return {
-    exhibition,
+    exhibition: exhibitionDocument,
     pages,
     visualStories,
     allGuides,
