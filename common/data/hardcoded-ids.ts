@@ -25,6 +25,10 @@ export const collectionVenueId = {
   },
 };
 
+// TODO covidWelcomeBack
+// https://wellcomecollection.prismic.io/builder/pages/X5amzBIAAB0Aq6Gm
+// was archived, do we still want it here?
+// And should we delete its related files?
 export const prismicPageIds = {
   aboutUs: 'Wuw2MSIAACtd3Stq',
   access: 'Wvm2uiAAAIYQ4FHP',

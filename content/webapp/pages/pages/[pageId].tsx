@@ -147,11 +147,24 @@ export const getServerSideProps: GetServerSideProps<
   // TODO figure out if there is a nicer way to differentiate ID from UID...
   const contentType = context.resolvedUrl.split('/')[1];
 
-  if (!isValidPagesContentType(contentType)) {
+  // TODO are there more? These aren't prefixed by /pages/...
+  // Feels very hacky
+  const isNoPrefixPage = [
+    'cookie-policy',
+    'visit-us',
+    'collections',
+    'newsletter',
+  ].includes(contentType);
+
+  if (!isValidPagesContentType(contentType) && !isNoPrefixPage) {
     return { notFound: true };
   }
 
-  const pageDocument = await fetchPage(client, pageId, contentType);
+  const pageDocument = await fetchPage(
+    client,
+    pageId,
+    isValidPagesContentType(contentType) ? contentType : 'pages'
+  );
 
   let page;
   switch (contentType) {
