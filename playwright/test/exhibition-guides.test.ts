@@ -25,6 +25,7 @@ const egWorkCookies = [
 test.describe.configure({ mode: 'parallel' });
 
 // TODO remove when we stop supporting legacy QRs
+// https://github.com/wellcomecollection/wellcomecollection.org/issues/11131
 test('(1) | Redirects to another format if we have an EG preference and come from a QR code', async ({
   context,
   page,
@@ -46,6 +47,7 @@ test('(1) | Redirects to another format if we have an EG preference and come fro
 
 test.describe('(2) | with egWork toggle: ', () => {
   // TODO remove this when we stop supporting legacy QRs
+  // https://github.com/wellcomecollection/wellcomecollection.org/issues/11131
   test('Legacy: Still redirects to another format if we have an EG preference and come from a QR code', async ({
     context,
     page,
@@ -119,76 +121,77 @@ test.describe('(2) | with egWork toggle: ', () => {
 
   // TODO uncomment this once we have content for it in production
   // Currently only works with Prismic staging content, but it is a good test to have.
-  // test.describe('New: If no type preference set, ', () => {
-  //   test('links to BSL and Audio now go straight to stop page instead of landing', async ({
-  //     context,
-  //     page,
-  //   }) => {
-  //     await context.addCookies([
-  //       {
-  //         name: 'toggle_egWork',
-  //         value: 'true',
-  //         path: '/',
-  //         domain: new URL(baseUrl).host,
-  //       },
-  //       {
-  //         name: 'CookieControl',
-  //         value: '{}',
-  //         path: '/',
-  //         domain: new URL(baseUrl).host,
-  //       }, // Civic UK banner
-  //     ]);
+  // https://github.com/wellcomecollection/wellcomecollection.org/issues/11131
+  test.describe.skip('New: If no type preference set, ', () => {
+    test('links to BSL and Audio now go straight to stop page instead of landing', async ({
+      context,
+      page,
+    }) => {
+      await context.addCookies([
+        {
+          name: 'toggle_egWork',
+          value: 'true',
+          path: '/',
+          domain: new URL(baseUrl).host,
+        },
+        {
+          name: 'CookieControl',
+          value: '{}',
+          path: '/',
+          domain: new URL(baseUrl).host,
+        }, // Civic UK banner
+      ]);
 
-  //     //  Kola Nuts with the QR code params and Stop #2
-  //     await gotoWithoutCache(
-  //       `${baseUrl}/guides/exhibitions/ZrHvtxEAACYAWmfc?usingQRCode=true&stopNumber=2`,
-  //       page
-  //     );
+      //  Kola Nuts with the QR code params and Stop #2
+      await gotoWithoutCache(
+        `${baseUrl}/guides/exhibitions/ZrHvtxEAACYAWmfc?usingQRCode=true&stopNumber=2`,
+        page
+      );
 
-  //     await expect(
-  //       page.getByRole('link', { name: 'Audio descriptive tour with' })
-  //     ).toHaveAttribute(
-  //       'href',
-  //       '/guides/exhibitions/ZrHvtxEAACYAWmfc/audio-without-descriptions/2'
-  //     );
+      await expect(
+        page.getByRole('link', { name: 'Audio descriptive tour with' })
+      ).toHaveAttribute(
+        'href',
+        '/guides/exhibitions/ZrHvtxEAACYAWmfc/audio-without-descriptions/2'
+      );
 
-  //     await expect(
-  //       page.getByRole('link', { name: 'British Sign Language tour' })
-  //     ).toHaveAttribute('href', '/guides/exhibitions/ZrHvtxEAACYAWmfc/bsl/2');
-  //   });
+      await expect(
+        page.getByRole('link', { name: 'British Sign Language tour' })
+      ).toHaveAttribute('href', '/guides/exhibitions/ZrHvtxEAACYAWmfc/bsl/2');
+    });
 
-  //   test('unless it is the first stop', async ({ context, page }) => {
-  //     await context.addCookies([
-  //       {
-  //         name: 'toggle_egWork',
-  //         value: 'true',
-  //         path: '/',
-  //         domain: new URL(baseUrl).host,
-  //       },
-  //       {
-  //         name: 'CookieControl',
-  //         value: '{}',
-  //         path: '/',
-  //         domain: new URL(baseUrl).host,
-  //       }, // Civic UK banner
-  //     ]);
+    test('unless it is the first stop', async ({ context, page }) => {
+      await context.addCookies([
+        {
+          name: 'toggle_egWork',
+          value: 'true',
+          path: '/',
+          domain: new URL(baseUrl).host,
+        },
+        {
+          name: 'CookieControl',
+          value: '{}',
+          path: '/',
+          domain: new URL(baseUrl).host,
+        }, // Civic UK banner
+      ]);
 
-  //     //  Kola Nuts with the QR code params and Stop #1
-  //     await gotoWithoutCache(
-  //       `${baseUrl}/guides/exhibitions/ZrHvtxEAACYAWmfc?usingQRCode=true&stopNumber=1`,
-  //       page
-  //     );
+      //  Kola Nuts with the QR code params and Stop #1
+      await gotoWithoutCache(
+        `${baseUrl}/guides/exhibitions/ZrHvtxEAACYAWmfc?usingQRCode=true&stopNumber=1`,
+        page
+      );
 
-  //     await expect(
-  //       page.getByRole('link', { name: 'Audio descriptive tour with' })
-  //     ).toHaveAttribute(
-  //       'href',
-  //       '/guides/exhibitions/ZrHvtxEAACYAWmfc/audio-without-descriptions'
-  //     );
+      await expect(
+        page.getByRole('link', { name: 'Audio descriptive tour with' })
+      ).toHaveAttribute(
+        'href',
+        '/guides/exhibitions/ZrHvtxEAACYAWmfc/audio-without-descriptions'
+      );
 
-  //     await expect(
-  //       page.getByRole('link', { name: 'British Sign Language tour' })
-  //     ).toHaveAttribute('href', '/guides/exhibitions/ZrHvtxEAACYAWmfc/bsl');
-  //   });
-  // });
+      await expect(
+        page.getByRole('link', { name: 'British Sign Language tour' })
+      ).toHaveAttribute('href', '/guides/exhibitions/ZrHvtxEAACYAWmfc/bsl');
+    });
+  });
 });
