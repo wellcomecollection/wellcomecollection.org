@@ -27,14 +27,6 @@ export const fetchBook = async (
   return bookDocument;
 };
 
-export const fetchBookDocumentByUID = ({
-  client,
-  uid,
-}: {
-  client: GetServerSidePropsPrismicClient;
-  uid: string;
-}) => fetcher<RawBooksDocument>('books', fetchLinks).getByUid(client, uid);
-
 export const fetchBooks = (
   client: GetServerSidePropsPrismicClient,
   params: GetByTypeParams
