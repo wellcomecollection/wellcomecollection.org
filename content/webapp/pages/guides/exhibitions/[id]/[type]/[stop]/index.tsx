@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
-import { font } from '@weco/common/utils/classnames';
+import { font, grid } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
 import { isFilledSliceZone } from '@weco/common/services/prismic/types';
 import { GetServerSideProps } from 'next';
@@ -58,20 +58,20 @@ type Props = {
   allStops: GuideHighlightTour[];
 };
 
-const LayoutWrap = styled.div`
-  margin-left: -${props => props.theme.gutter.small}px;
-  margin-right: -${props => props.theme.gutter.small}px;
-
-  ${props => props.theme.media('medium')`
-    margin-left: 0;
-    margin-right: 0;
-  `}
-`;
-
 const Page = styled.div`
   background-color: ${props => props.theme.color('black')};
   color: ${props => props.theme.color('white')};
   min-height: 100vh;
+`;
+
+const FlushContainer = styled(Container)`
+  ${props =>
+    props.theme.mediaBetween(
+      'small',
+      'medium'
+    )(`
+        padding: 0;
+    `)}
 `;
 
 const Header = styled.header.attrs({
@@ -323,24 +323,27 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             </HeaderInner>
           </Container>
         </Header>
-        {/* Make sure we can scroll content into view if it's behind the fixed position footer (paddingBottom: 100px) */}
-        <LayoutWrap>
-          <Layout gridSizes={gridSize8()}>
-            {type !== 'bsl' && (
-              <>
-                {croppedImage ? (
-                  <PrismicImage quality="low" image={croppedImage} />
-                ) : (
-                  <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
-                    <ImagePlaceholder
-                      backgroundColor={placeholderBackgroundColor(stopNumber)}
-                    />
-                  </div>
-                )}
-              </>
-            )}
-          </Layout>
-        </LayoutWrap>
+
+        <FlushContainer>
+          <div className="grid">
+            <div className={grid(gridSize8())}>
+              {type !== 'bsl' && (
+                <>
+                  {croppedImage ? (
+                    <PrismicImage quality="low" image={croppedImage} />
+                  ) : (
+                    <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
+                      <ImagePlaceholder
+                        backgroundColor={placeholderBackgroundColor(stopNumber)}
+                      />
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+        </FlushContainer>
+
         <Layout gridSizes={gridSize8()}>
           <StickyPlayer $sticky={type !== 'bsl'}>
             {type === 'bsl' ? (
@@ -359,20 +362,22 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               </>
             )}
           </StickyPlayer>
-          <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-            <CollapsibleContent
-              controlText={controlText}
-              id="stop-transcript"
-              darkTheme={true}
-            >
-              <PrismicHtmlBlock
-                html={
-                  type === 'bsl'
-                    ? currentStop.subtitles!
-                    : currentStop.transcript!
-                }
-              />
-            </CollapsibleContent>
+          <Space $v={{ size: 'xl', properties: ['padding-bottom'] }}>
+            <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+              <CollapsibleContent
+                controlText={controlText}
+                id="stop-transcript"
+                darkTheme={true}
+              >
+                <PrismicHtmlBlock
+                  html={
+                    type === 'bsl'
+                      ? currentStop.subtitles!
+                      : currentStop.transcript!
+                  }
+                />
+              </CollapsibleContent>
+            </Space>
           </Space>
         </Layout>
         <PrevNext>
