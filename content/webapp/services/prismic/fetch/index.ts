@@ -171,8 +171,10 @@ export function fetcher<Document extends prismic.PrismicDocument>(
         );
 
         return response;
-      } catch (e) {
-        console.warn('Error:', e.message);
+      } catch {
+        // Ideally we would send something to our dashboard that would flag
+        // if the same error came back again and again.
+        // But we don't need this to error every time as it can just be a randomly inputted URL.
       }
     },
   };

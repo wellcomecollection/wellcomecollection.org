@@ -52,10 +52,9 @@ export async function fetchEvent(
   id: string
 ): Promise<FetchEventResult> {
   // TODO once redirects are in place we should only fetch by uid
-  const eventDocumentById = await eventsFetcher.getById(client, id);
-  const eventDocumentByUID = await eventsFetcher.getByUid(client, id);
-
-  const event = eventDocumentById || eventDocumentByUID;
+  const event =
+    (await eventsFetcher.getById(client, id)) ||
+    (await eventsFetcher.getByUid(client, id));
 
   const visualStories = await fetchVisualStories(client, {
     filters: [prismic.filter.at('my.visual-stories.relatedDocument', id)],

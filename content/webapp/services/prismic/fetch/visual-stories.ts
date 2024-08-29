@@ -45,14 +45,9 @@ export const fetchVisualStory = async (
   id: string
 ): Promise<RawVisualStoriesDocument | undefined> => {
   // TODO once redirects are in place we should only fetch by uid
-  const visualStoryDocumentById = await visualStoriesFetcher.getById(
-    client,
-    id
-  );
-  const visualStoryDocumentByUID = await visualStoriesFetcher.getByUid(
-    client,
-    id
-  );
+  const visualStoryDocument =
+    (await visualStoriesFetcher.getById(client, id)) ||
+    (await visualStoriesFetcher.getByUid(client, id));
 
-  return visualStoryDocumentById || visualStoryDocumentByUID;
+  return visualStoryDocument;
 };

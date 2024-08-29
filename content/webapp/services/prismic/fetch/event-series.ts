@@ -22,13 +22,11 @@ export const fetchEventSeriesById = async (
   id: string
 ): Promise<RawEventSeriesDocument | undefined> => {
   // TODO once redirects are in place we should only fetch by uid
-  const eventSeriesDocumentById = await eventSeriesFetcher.getById(client, id);
-  const eventSeriesDocumentByUID = await eventSeriesFetcher.getByUid(
-    client,
-    id
-  );
+  const eventDocumentById =
+    (await eventSeriesFetcher.getById(client, id)) ||
+    (await eventSeriesFetcher.getByUid(client, id));
 
-  return eventSeriesDocumentById || eventSeriesDocumentByUID;
+  return eventDocumentById;
 };
 
 export const fetchEventSeries = eventSeriesFetcher.getByType;

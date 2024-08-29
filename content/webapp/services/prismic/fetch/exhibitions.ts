@@ -87,11 +87,10 @@ export async function fetchExhibition(
   client: GetServerSidePropsPrismicClient,
   id: string
 ): Promise<FetchExhibitionResult> {
-  const exhibitionDocumentById = await exhibitionsFetcher.getById(client, id);
-  const exhibitionDocumentByUID = await exhibitionsFetcher.getByUid(client, id);
-
   // TODO once redirects are in place we should only fetch by uid
-  const exhibitionDocument = exhibitionDocumentById || exhibitionDocumentByUID;
+  const exhibitionDocument =
+    (await exhibitionsFetcher.getById(client, id)) ||
+    (await exhibitionsFetcher.getByUid(client, id));
 
   const pageQueryPromise = fetchPages(client, {
     filters: [prismic.filter.at('my.pages.parents.parent', id)],

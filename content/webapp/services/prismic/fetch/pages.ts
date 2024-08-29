@@ -28,7 +28,6 @@ import {
 import { labelsFields } from '@weco/content/services/prismic/fetch-links';
 import { Page } from '@weco/content/types/pages';
 import { SiblingsGroup } from '@weco/content/types/siblings-group';
-import { ContentType } from '@weco/common/services/prismic/content-types';
 
 export const fetchLinks = [
   ...pagesFetchLinks,
@@ -69,16 +68,17 @@ export const fetchPages = pagesFetcher.getByType;
 export const fetchPage = async (
   client: GetServerSidePropsPrismicClient,
   id: string,
-  contentType: ContentType
+  contentType: 'pages' | 'guides' | 'projects'
 ): Promise<PagesContentTypes | undefined> => {
   // TODO once redirects are in place we should only fetch by uid
-  const pageDocumentById = await pagesFetcher.getById(client, id);
-  const pageDocumentByUID = await fetcher<PagesContentTypes>(
-    contentType,
-    fetchLinks
-  ).getByUid(client, id);
+  const pageDocument =
+    (await pagesFetcher.getById(client, id)) ||
+    (await fetcher<PagesContentTypes>(contentType, fetchLinks).getByUid(
+      client,
+      id
+    ));
 
-  return pageDocumentById || pageDocumentByUID;
+  return pageDocument;
 };
 
 export const fetchChildren = async (

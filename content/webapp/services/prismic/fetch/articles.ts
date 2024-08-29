@@ -40,21 +40,25 @@ export const fetchArticle = async (
   // TODO once redirects are in place we should only fetch by uid
   const articleDocumentById = await articlesFetcher.getById(client, id);
 
-  // TODO
-  // How do we do it for webcomics as they use the same prefix (`/articles`) as Articles.
-  // So how do we pass the correct content type in?
-  // It's awful to just try it twice...
-  const articleDocumentByUID = await fetcher<ArticleTypes>(
-    'articles',
-    fetchLinks
-  ).getByUid(client, id);
+  // As we have no way of identifiying whether an id is from a webcomic or an article, we have to try both.
+  if (!articleDocumentById) {
+    const articleDocumentByUID = await fetcher<ArticleTypes>(
+      'articles',
+      fetchLinks
+    ).getByUid(client, id);
 
-  const webcomicDocumentByUID = await fetcher<ArticleTypes>(
-    'webcomics',
-    fetchLinks
-  ).getByUid(client, id);
+    if (!articleDocumentByUID) {
+      const webcomicDocumentByUID = await fetcher<ArticleTypes>(
+        'webcomics',
+        fetchLinks
+      ).getByUid(client, id);
+      return webcomicDocumentByUID;
+    }
 
-  return articleDocumentById || articleDocumentByUID || webcomicDocumentByUID;
+    return articleDocumentByUID;
+  }
+
+  return articleDocumentById;
 };
 
 const graphQuery = `{
