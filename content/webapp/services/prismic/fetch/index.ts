@@ -157,11 +157,8 @@ export function fetcher<Document extends prismic.PrismicDocument>(
       try {
         const primaryContentType = toMaybeString(contentType);
 
-        if (!isContentType(primaryContentType))
-          throw Error(`Faulty content type: ${contentType}`);
+        if (!isContentType(primaryContentType)) return;
 
-        // TODO this throws an error if no document is found, which in the case of articles/webcomics,
-        // where we have to try twice, will always error.
         const response = await client.getByUID<Document>(
           primaryContentType,
           uid,
