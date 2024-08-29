@@ -340,7 +340,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
 
         <Layout gridSizes={gridSize8(false)}>
           {egWork ? (
-            <h2 className={font('intsb', 3)}>{getTypeTitle(type, egWork)}</h2>
+            <h2 className={font('intsb', 4)}>{getTypeTitle(type, egWork)}</h2>
           ) : (
             <h1 className={font('wb', 1)}>
               {exhibitionGuide.title}{' '}
