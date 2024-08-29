@@ -121,6 +121,7 @@ export const getServerSideProps: GetServerSideProps<
 
   // This is needed for the Jason QR codes
   // TODO remove from this page when it closes or if we change its QR codes
+  // https://github.com/wellcomecollection/wellcomecollection.org/issues/11131
   // Check if it needs to be redirected because of query params or cookie preferences
   // Will redirect here if needed
   const redirect = getGuidesRedirections(context);

@@ -90,6 +90,7 @@ export const getGuidesRedirections = (
 
   // Supporting Jason exhibition
   // TODO remove when it closes/we adapt the QR codes
+  // https://github.com/wellcomecollection/wellcomecollection.org/issues/11131
   if (
     legacyGuides.includes(toMaybeString(guideId) || '') &&
     hasValidUserPreference &&

@@ -50,6 +50,8 @@ const ExhibitionPage: FunctionComponent<ExhibitionProps> = ({
   accessResourceLinks,
   jsonLd,
 }) => {
+  // Switch over to new Jason exhibition guide ID
+  // https://github.com/wellcomecollection/wellcomecollection.org/issues/11131
   useHotjar(exhibition.id === 'ZZP8BxAAALeD00jo'); // Only on Jason and the Adventure of 254
 
   return (
