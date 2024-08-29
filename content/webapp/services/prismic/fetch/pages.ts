@@ -51,6 +51,15 @@ export const fetchLinks = [
   ...guideFetchLinks,
 ];
 
+export type ValidPagesContentTypes = 'pages' | 'guides' | 'projects';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export function isValidPagesContentType(
+  type: any
+): type is ValidPagesContentTypes {
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+  return typeof type && ['pages', 'guides', 'projects'].includes(type);
+}
+
 /** Although these are three different document types in Prismic, they all get
  * rendered (and fetched) by the same component.
  */
@@ -68,7 +77,7 @@ export const fetchPages = pagesFetcher.getByType;
 export const fetchPage = async (
   client: GetServerSidePropsPrismicClient,
   id: string,
-  contentType: 'pages' | 'guides' | 'projects'
+  contentType: ValidPagesContentTypes
 ): Promise<PagesContentTypes | undefined> => {
   // TODO once redirects are in place we should only fetch by uid
   const pageDocument =

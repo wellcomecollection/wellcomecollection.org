@@ -43,6 +43,7 @@ import {
   fetchChildren,
   fetchPage,
   fetchSiblings,
+  isValidPagesContentType,
 } from '@weco/content/services/prismic/fetch/pages';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
@@ -58,7 +59,6 @@ import {
   transformEmbedSlice,
 } from '@weco/content/services/prismic/transformers/body';
 import { gridSize12 } from '@weco/common/views/components/Layout';
-import { ContentType } from '@weco/common/services/prismic/content-types';
 import { transformProject } from '@weco/content/services/prismic/transformers/projects';
 import { transformGuide } from '@weco/content/services/prismic/transformers/guides';
 
@@ -147,11 +147,11 @@ export const getServerSideProps: GetServerSideProps<
   // TODO figure out if there is a nicer way to differentiate ID from UID...
   const contentType = context.resolvedUrl.split('/')[1];
 
-  const pageDocument = await fetchPage(
-    client,
-    pageId,
-    contentType as ContentType
-  );
+  if (!isValidPagesContentType(contentType)) {
+    return { notFound: true };
+  }
+
+  const pageDocument = await fetchPage(client, pageId, contentType);
 
   let page;
   switch (contentType) {
