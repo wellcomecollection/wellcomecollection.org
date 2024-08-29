@@ -149,14 +149,14 @@ export const getServerSideProps: GetServerSideProps<
 
   // TODO are there more? These aren't prefixed by /pages/...
   // Feels very hacky
-  const isNoPrefixPage = [
-    'cookie-policy',
-    'visit-us',
-    'collections',
-    'newsletter',
-  ].includes(contentType);
+  const isStaticNoPrefixPage = [
+    prismicPageIds.cookiePolicy,
+    prismicPageIds.visitUs,
+    prismicPageIds.collections,
+    prismicPageIds.covidWelcomeBack,
+  ].includes(pageId);
 
-  if (!isValidPagesContentType(contentType) && !isNoPrefixPage) {
+  if (!isValidPagesContentType(contentType) && !isStaticNoPrefixPage) {
     return { notFound: true };
   }
 
