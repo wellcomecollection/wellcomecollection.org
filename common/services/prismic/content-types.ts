@@ -17,6 +17,7 @@ const contentTypes = [
   'exhibition-highlight-tours',
   'stories-landing',
   'visual-stories',
+  'webcomic-series',
 ] as const;
 
 export type ContentType = (typeof contentTypes)[number];

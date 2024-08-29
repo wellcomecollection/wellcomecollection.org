@@ -5,7 +5,10 @@ import {
   seasonsFetchLinks,
   seriesFetchLinks,
 } from '../types';
-import { SeriesDocument as RawSeriesDocument } from '@weco/common/prismicio-types';
+import {
+  SeriesDocument as RawSeriesDocument,
+  WebcomicSeriesDocument as RawWebcomicSeriesDocument,
+} from '@weco/common/prismicio-types';
 
 const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,
@@ -14,17 +17,26 @@ const fetchLinks = [
   ...seriesFetchLinks,
 ];
 
-const seriesFetcher = fetcher<RawSeriesDocument>('series', fetchLinks);
+const seriesFetcher = (contentType: 'webcomic-series' | 'series') =>
+  fetcher<RawSeriesDocument>(contentType, fetchLinks);
 
-export const fetchSeries = seriesFetcher.getByType;
+export const fetchSeries = seriesFetcher('series').getByType;
 
 export const fetchSeriesById = async (
   client: GetServerSidePropsPrismicClient,
-  id: string
-): Promise<RawSeriesDocument | undefined> => {
+  id: string,
+  contentType: 'webcomic-series' | 'series'
+): Promise<RawSeriesDocument | RawWebcomicSeriesDocument | undefined> => {
   // TODO once redirects are in place we should only fetch by uid
-  const seriesDocumentById = await seriesFetcher.getById(client, id);
-  const seriesDocumentByUID = await seriesFetcher.getByUid(client, id);
+  const seriesDocumentById = await seriesFetcher(contentType).getById(
+    client,
+    id
+  );
+
+  const seriesDocumentByUID = await seriesFetcher(contentType).getByUid(
+    client,
+    id
+  );
 
   return seriesDocumentById || seriesDocumentByUID;
 };
