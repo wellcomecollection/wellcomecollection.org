@@ -74,6 +74,7 @@ export const getGuidesRedirections = (
 ) => {
   const { req, res, resolvedUrl } = context;
   const { id: guideId, stopNumber, stopId, type, usingQRCode } = context.query;
+  const hasEgWorkCookie = getCookie('toggle_egWork', { req, res }) === 'true';
 
   if (!usingQRCode) return;
 
@@ -89,6 +90,7 @@ export const getGuidesRedirections = (
 
   // Supporting Jason exhibition
   // TODO remove when it closes/we adapt the QR codes
+  // https://github.com/wellcomecollection/wellcomecollection.org/issues/11131
   if (
     legacyGuides.includes(toMaybeString(guideId) || '') &&
     hasValidUserPreference &&
@@ -113,7 +115,8 @@ export const getGuidesRedirections = (
   const hasValidStopNumber =
     typeof stopNumber === 'string' && !!Number(stopNumber);
 
-  if (hasValidUserPreference && hasValidStopNumber) {
+  // TODO remove hasEgWorkCookie check once toggle is removed
+  if (hasEgWorkCookie && hasValidUserPreference && hasValidStopNumber) {
     return {
       redirect: {
         permanent: false,

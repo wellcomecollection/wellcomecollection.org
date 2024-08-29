@@ -72,6 +72,7 @@ export type ExhibitionGuide = ExhibitionGuideBasic & {
 
 // TODO remove 'captions-and-transcripts' once we close Jason/migrate it
 // as we no longer set a cookie for that type.
+// https://github.com/wellcomecollection/wellcomecollection.org/issues/11131
 const typeNames = [
   'bsl',
   'audio-without-descriptions',
