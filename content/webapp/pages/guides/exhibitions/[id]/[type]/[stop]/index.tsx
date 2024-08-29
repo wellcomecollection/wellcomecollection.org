@@ -362,6 +362,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               </>
             )}
           </StickyPlayer>
+          {/* Make sure we can scroll content into view if it's behind the fixed position footer (paddingBottom: 100px) */}
+
           <Space $v={{ size: 'xl', properties: ['padding-bottom'] }}>
             <Space $v={{ size: 'l', properties: ['padding-top'] }}>
               <CollapsibleContent
