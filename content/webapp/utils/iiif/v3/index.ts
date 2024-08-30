@@ -5,6 +5,7 @@ import {
   AuthClickThroughServiceWithPossibleServiceArray,
   CustomSpecificationBehaviors,
   CustomContentResource,
+  Auth,
 } from '@weco/content/types/manifest';
 import {
   Annotation,
@@ -340,18 +341,23 @@ export function getTokenService(
 }
 
 type checkModalParams = {
-  clickThroughService:
-    | AuthClickThroughServiceWithPossibleServiceArray
-    | undefined;
-  restrictedService: AuthExternalService | undefined;
-  isAnyImageOpen: boolean;
+  auth?: Auth;
+  isAnyImageOpen?: boolean;
+  authV2?: boolean;
 };
 
 export function checkModalRequired(params: checkModalParams): boolean {
-  const { clickThroughService, restrictedService, isAnyImageOpen } = params;
-  if (clickThroughService) {
+  const { auth, isAnyImageOpen, authV2 } = params;
+  // If authV2 is true, We try to use the iiif auth V2 services and fallback to V1 in case the manifest doesn't contain V2
+  const externalAccessService = authV2
+    ? auth?.v2.externalAccessService || auth?.v1.externalAccessService
+    : auth?.v1.externalAccessService;
+  const activeAccessService = authV2
+    ? auth?.v2.activeAccessService || auth?.v1.activeAccessService
+    : auth?.v1.activeAccessService;
+  if (activeAccessService) {
     return true;
-  } else if (restrictedService) {
+  } else if (externalAccessService) {
     return !isAnyImageOpen;
   } else {
     return false;
