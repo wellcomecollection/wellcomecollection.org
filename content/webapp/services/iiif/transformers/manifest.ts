@@ -48,12 +48,14 @@ export function transformManifest(
   // Our manifests reference both the v1 and v2 Auth services.
   // This is to make it easier to switch from the current Auth implementation to the new one.
   // The following are taken from the v1 services:
+  // https://iiif.io/api/auth/1.0
   const restrictedService = getRestrictedLoginService(manifestV3);
   const clickThroughService = getClickThroughService(manifestV3);
   const tokenService = getTokenService(
     clickThroughService || restrictedService
   );
   // The following are taken from the v2 services:
+  // https://iiif.io/api/auth/2.0/
   const authAccessServices = getAuthAccessServices(manifestV3);
   const externalAccessService =
     getExternalAuthAccessService(authAccessServices); // equivalent of restrictedService
