@@ -63,6 +63,21 @@ export type TransformedRange = Omit<Range, 'items'> & {
   items: (TransformedRange | TransformedCanvas)[];
 };
 
+export type Auth = {
+  v1: {
+    externalAccessService: TransformedAuthService | undefined;
+    activeAccessService: TransformedAuthService | undefined;
+    tokenService: TransformedAuthService | undefined;
+    isTotallyRestricted: boolean;
+  };
+  v2: {
+    externalAccessService: TransformedAuthService | undefined;
+    activeAccessService: TransformedAuthService | undefined;
+    tokenService: TransformedAuthService | undefined;
+    isTotallyRestricted: boolean;
+  };
+};
+
 export type TransformedManifest = {
   firstCollectionManifestLocation?: string;
   bornDigitalStatus: BornDigitalStatus;
@@ -74,21 +89,14 @@ export type TransformedManifest = {
   collectionManifestsCount: number;
   iiifCredit?: string;
   isAnyImageOpen: boolean;
-  isTotallyRestricted: boolean;
   isCollectionManifest: boolean;
   parentManifestUrl: string | undefined;
-  restrictedService: TransformedAuthService | undefined;
   searchService: Service | undefined;
   structures: Manifest['structures'];
   manifests: CollectionItems[];
-  clickThroughService: TransformedAuthService | undefined;
-  tokenService: TransformedAuthService | undefined;
   placeholderId: string | undefined;
   rendering: ContentResource[];
-  externalAccessService: TransformedAuthService | undefined;
-  activeAccessService: TransformedAuthService | undefined;
-  v2TokenService: TransformedAuthService | undefined;
-  isTotallyRestrictedV2: boolean;
+  auth: Auth;
 };
 
 export type CustomSpecificationBehaviors =
