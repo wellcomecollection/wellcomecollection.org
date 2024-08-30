@@ -34,7 +34,7 @@ import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
-import { TransformedManifest } from '@weco/content/types/manifest';
+import { TransformedManifest, Auth } from '@weco/content/types/manifest';
 import {
   ApiToolbarLink,
   setTzitzitParams,
@@ -83,6 +83,53 @@ function createTzitzitWorkLink(work: Work): ApiToolbarLink | undefined {
   });
 }
 
+// We are currently using V1 iiif auth services from the manitest
+// If the authV2 toggle is set to true we try to use V2 services if they're available
+function getIframeAuthSrc({ workId, origin, auth, authV2 }) {
+  // TODO typing
+  if (authV2 && auth.v2.externalAccessService && auth.v2.tokenService) {
+    return `${auth.v2.tokenService.id}?messageId=${workId}&origin=${origin}`;
+  } else if (auth.v1.tokenService) {
+    return `${auth.v1.tokenService.id}?messageId=${workId}&origin=${origin}`;
+  } else {
+    return undefined;
+  }
+}
+
+// If more than one access service is available, the client should interact with them in the order external, kiosk, active. - https://iiif.io/api/auth/2.0/#33-interaction-patterns
+// For non logged in users/logged in non staff we clickThrough (i.e. active) first because we want users to be able to see the non restricted things
+function getAuthService({ auth, authV2 }) {
+  if (auth && authV2) {
+    return (
+      auth.v2.activeAccessService ||
+      auth.v1.activeAccessService ||
+      auth.v2.externalAccessService ||
+      auth.v1.externalAccessService
+    );
+  } else if (auth) {
+    return auth.v1.activeAccessService || auth.v1.externalAccessService;
+  }
+}
+
+export function getTokenService({ auth, authV2 }) {
+  const service = authV2
+    ? auth?.v2.tokenService || auth?.v1.tokenService
+    : auth?.v1.tokenService;
+  return service;
+}
+
+function getIsTotallyRestricted({
+  auth,
+  authV2,
+}: {
+  auth: Auth | undefined;
+  authV2: boolean | undefined;
+}) {
+  return authV2
+    ? auth?.v2.isTotallyRestricted || auth?.v1.isTotallyRestricted
+    : auth?.v1.isTotallyRestricted;
+}
+
 type Props = {
   compressedTransformedManifest?: CompressedTransformedManifest;
   work: WorkBasic;
@@ -107,6 +154,7 @@ const ItemPage: NextPage<Props> = ({
   serverSearchResults,
   parentManifest,
 }) => {
+  const { authV2 } = useToggles();
   const transformedManifest =
     compressedTransformedManifest &&
     fromCompressedManifest(compressedTransformedManifest);
@@ -115,19 +163,18 @@ const ItemPage: NextPage<Props> = ({
   const [origin, setOrigin] = useState<string>();
   const [showModal, setShowModal] = useState(false);
   const [showViewer, setShowViewer] = useState(true);
-  const {
-    title,
+  const { title, isAnyImageOpen, canvases, placeholderId, auth } = {
+    ...transformedManifest,
+  };
+
+  const needsModal = checkModalRequired({
+    auth,
     isAnyImageOpen,
-    clickThroughService,
-    tokenService,
-    restrictedService,
-    isTotallyRestricted,
-    canvases,
-    placeholderId,
-  } = { ...transformedManifest };
+    authV2,
+  });
 
   const [searchResults, setSearchResults] = useState(serverSearchResults);
-  const authService = clickThroughService || restrictedService;
+  const authService = getAuthService({ auth, authV2 });
   const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
 
   const displayTitle =
@@ -154,11 +201,13 @@ const ItemPage: NextPage<Props> = ({
   useEffect(() => {
     function receiveMessage(event: MessageEvent) {
       const data = event.data;
-      const serviceOrigin = tokenService && new URL(tokenService.id);
-      if (
-        serviceOrigin &&
-        `${serviceOrigin.protocol}//${serviceOrigin.hostname}` === event.origin
-      ) {
+      const tokenService = getTokenService({ auth, authV2 });
+      const service = tokenService && new URL(tokenService.id);
+      const isTotallyRestricted = getIsTotallyRestricted({ auth, authV2 });
+      // We check this is the event we are interested in
+      // N.B. locally react dev tools will create a lot of events
+
+      if (service.origin === event.origin) {
         if (Object.prototype.hasOwnProperty.call(data, 'accessToken')) {
           setShowModal(Boolean(isTotallyRestricted));
           setShowViewer(!isTotallyRestricted);
@@ -168,10 +217,8 @@ const ItemPage: NextPage<Props> = ({
         }
       }
     }
-
     if (needsModal) {
       window.addEventListener('message', receiveMessage);
-
       return () => window.removeEventListener('message', receiveMessage);
     } else {
       setShowModal(false);
@@ -192,10 +239,15 @@ const ItemPage: NextPage<Props> = ({
       hideFooter={true}
       hideTopContent={true}
     >
-      {tokenService && origin && (
+      {(auth?.v1.tokenService || auth?.v2.tokenService) && origin && (
         <IframeAuthMessage
           id={iframeId}
-          src={`${tokenService.id}?messageId=1&origin=${origin}`}
+          src={getIframeAuthSrc({
+            workId: work.id,
+            origin,
+            auth,
+            authV2,
+          })}
         />
       )}
 
