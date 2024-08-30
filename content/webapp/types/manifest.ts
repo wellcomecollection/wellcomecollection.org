@@ -77,7 +77,6 @@ export type TransformedManifest = {
   isTotallyRestricted: boolean;
   isCollectionManifest: boolean;
   parentManifestUrl: string | undefined;
-  needsModal: boolean;
   restrictedService: TransformedAuthService | undefined;
   searchService: Service | undefined;
   structures: Manifest['structures'];

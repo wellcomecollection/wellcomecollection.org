@@ -52,6 +52,7 @@ import {
   getCollectionManifests,
   hasItemType,
   hasOriginalPdf,
+  checkModalRequired,
 } from '@weco/content/utils/iiif/v3';
 import IIIFItemList from '@weco/content/components/IIIFItemList/IIIFItemList';
 import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
@@ -116,7 +117,6 @@ const ItemPage: NextPage<Props> = ({
   const [showViewer, setShowViewer] = useState(true);
   const {
     title,
-    needsModal,
     isAnyImageOpen,
     clickThroughService,
     tokenService,

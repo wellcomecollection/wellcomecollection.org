@@ -11,7 +11,6 @@ import {
   getClickThroughService,
   getTokenService,
   getCollectionManifests,
-  checkModalRequired,
   checkIsTotallyRestricted,
   getBornDigitalStatus,
   groupRanges,
@@ -96,11 +95,6 @@ export function transformManifest(
     isAnyImageOpen
   );
 
-  const needsModal = checkModalRequired({
-    clickThroughService,
-    restrictedService,
-    isAnyImageOpen,
-  });
   const searchService = getSearchService(manifestV3);
   const structures = getStructures(manifestV3);
   const groupedStructures = groupRanges(
