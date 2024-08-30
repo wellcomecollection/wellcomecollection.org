@@ -56,6 +56,7 @@ import {
 } from '@weco/content/utils/iiif/v3';
 import IIIFItemList from '@weco/content/components/IIIFItemList/IIIFItemList';
 import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import { useToggles } from '@weco/common/server-data/Context';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -195,7 +196,7 @@ const ItemPage: NextPage<Props> = ({
   }, []);
 
   useEffect(() => {
-    setOrigin(`${window.location.protocol}//${window.location.hostname}`);
+    setOrigin(`${window.origin}`);
   }, []);
 
   useEffect(() => {
