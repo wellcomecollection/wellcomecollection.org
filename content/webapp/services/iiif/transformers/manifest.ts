@@ -85,8 +85,6 @@ export function transformManifest(
     transformActiveAccessService(activeAccessService);
   const transformedV2TokenService = transformV2TokenService(v2TokenService);
 
-  // TODO We need to see if we can regenerate all manifests on mass.
-
   const firstCollectionManifestLocation =
     getFirstCollectionManifestLocation(manifestV3);
   const isTotallyRestricted = checkIsTotallyRestricted(
