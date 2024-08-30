@@ -145,16 +145,22 @@ export function transformManifest(
     structures: groupedStructures,
     isCollectionManifest: isCollection(manifestV3),
     searchService,
-    clickThroughService: transformedClickThroughService,
-    tokenService: transformedTokenService,
-    restrictedService: transformedRestrictedService,
-    isTotallyRestricted,
-    needsModal,
     placeholderId: firstPlaceholderId,
     rendering,
-    externalAccessService: transformedExternalAccessService,
-    activeAccessService: transformedActiveAccessService,
-    v2TokenService: transformedV2TokenService,
-    isTotallyRestrictedV2,
+    auth: {
+      v1: {
+        externalAccessService: transformedRestrictedService,
+        activeAccessService: transformedClickThroughService,
+        tokenService: transformedTokenService,
+        isTotallyRestricted,
+      },
+      v2: {
+        externalAccessService: transformedExternalAccessService,
+        activeAccessService: transformedActiveAccessService,
+        tokenService: transformedV2TokenService,
+        isTotallyRestricted: isTotallyRestrictedV2,
+      },
+    },
+    // TODO If more than one access service is available, the client should interact with them in the order external, (kiosk - not needed for us), active - but only if logged in staff, otherwise go straight to active
   };
 }
