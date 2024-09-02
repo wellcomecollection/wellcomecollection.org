@@ -386,7 +386,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
         <Layout gridSizes={gridSize10(false)}>
           {userPreferenceSet ? (
             <p>
-              {type !== 'captions-and-transcripts' && (
+              {type !== 'captions-and-transcripts' && !egWork && (
                 <>This exhibition has {numberOfStops} stops. </>
               )}
               You selected this type of guide previously, but you can also
@@ -402,7 +402,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             </p>
           ) : (
             <>
-              {type !== 'captions-and-transcripts' && (
+              {type !== 'captions-and-transcripts' && !egWork && (
                 <p>This exhibition has {numberOfStops} stops.</p>
               )}
             </>
