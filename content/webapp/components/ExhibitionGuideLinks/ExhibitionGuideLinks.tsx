@@ -1,5 +1,4 @@
 import { FunctionComponent } from 'react';
-import { font } from '@weco/common/utils/classnames';
 import {
   britishSignLanguage,
   audioDescribed,
@@ -138,7 +137,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
   return (
     <>
       {egWork ? (
-        <div className={font('intr', 5)}>
+        <>
           {(audioPathname || videoPathname) && (
             <>
               <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -191,7 +190,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
               </TypeList>
             </>
           )}
-        </div>
+        </>
       ) : (
         <TypeList>
           {audioPathname && (
