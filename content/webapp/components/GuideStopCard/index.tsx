@@ -3,18 +3,14 @@ import { getCrop, ImageType } from '@weco/common/model/image';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { grid } from '@weco/common/utils/classnames';
+import { grid, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import { threeUpGridSizesMap } from '@weco/content/components/Body/GridFactory';
 import ImagePlaceholder, {
   placeholderBackgroundColor,
 } from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
 import { secondsToHoursMinutesAndSeconds } from '@weco/common/utils/format-time';
-import {
-  map,
-  audio as audioIcon,
-  video as videoIcon,
-} from '@weco/common/icons';
+import { map, clock } from '@weco/common/icons';
 import {
   CardOuter,
   CardTitle,
@@ -22,7 +18,9 @@ import {
   CardImageWrapper,
 } from '@weco/content/components/Card/Card';
 
-const AlignIconFirstLineCenter = styled.div`
+const AlignIconFirstLineCenter = styled.div.attrs({
+  className: font('intr', 5),
+})`
   display: flex;
   align-items: start;
 
@@ -92,7 +90,7 @@ const GuideStopCard: FunctionComponent<Props> = ({
                 style={{ display: 'flex' }}
                 $h={{ size: 's', properties: ['margin-right'] }}
               >
-                <Icon icon={map} matchText={true} />
+                <Icon icon={map} sizeOverride="width: 16px;" />
               </Space>
               <span>
                 Stop {number}/{totalStops}
@@ -104,13 +102,10 @@ const GuideStopCard: FunctionComponent<Props> = ({
               style={{ display: 'flex' }}
               $h={{ size: 's', properties: ['margin-right'] }}
             >
-              <Icon
-                icon={type === 'video' ? videoIcon : audioIcon}
-                matchText={true}
-              />
+              <Icon icon={clock} sizeOverride="width: 16px;" />
             </Space>
             {durationInMinutesAndSeconds && (
-              <span>
+              <span className={font('intr', 5)}>
                 {durationInMinutesAndSeconds} minutes{' '}
                 {type === 'audio' ? 'listen' : 'watch'} time
               </span>
