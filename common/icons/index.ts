@@ -37,6 +37,7 @@ export { default as cross } from './components/Cross';
 export { default as digitalImage } from './components/DigitalImage';
 export { default as document } from './components/Document';
 export { default as download } from './components/Download';
+export { default as duration } from './components/Duration';
 export { default as edit } from './components/Edit';
 export { default as email } from './components/Email';
 export { default as embed } from './components/Embed';
