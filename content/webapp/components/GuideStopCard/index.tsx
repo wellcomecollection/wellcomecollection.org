@@ -4,6 +4,7 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { grid } from '@weco/common/utils/classnames';
+import styled from 'styled-components';
 import { threeUpGridSizesMap } from '@weco/content/components/Body/GridFactory';
 import ImagePlaceholder, {
   placeholderBackgroundColor,
@@ -20,6 +21,15 @@ import {
   CardBody,
   CardImageWrapper,
 } from '@weco/content/components/Card/Card';
+
+const AlignIconFirstLineCenter = styled.div`
+  display: flex;
+  align-items: start;
+
+  .icon {
+    height: 1lh;
+  }
+`;
 
 type Props = {
   link?: string;
@@ -77,7 +87,7 @@ const GuideStopCard: FunctionComponent<Props> = ({
         <CardBody style={{ display: 'block' }}>
           <CardTitle>{title}</CardTitle>
           {number && (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <AlignIconFirstLineCenter>
               <Space
                 style={{ display: 'flex' }}
                 $h={{ size: 's', properties: ['margin-right'] }}
@@ -87,9 +97,9 @@ const GuideStopCard: FunctionComponent<Props> = ({
               <span>
                 Stop {number}/{totalStops}
               </span>
-            </div>
+            </AlignIconFirstLineCenter>
           )}
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <AlignIconFirstLineCenter>
             <Space
               style={{ display: 'flex' }}
               $h={{ size: 's', properties: ['margin-right'] }}
@@ -105,7 +115,7 @@ const GuideStopCard: FunctionComponent<Props> = ({
                 {type === 'audio' ? 'listen' : 'watch'} time
               </span>
             )}
-          </div>
+          </AlignIconFirstLineCenter>
         </CardBody>
       </CardOuter>
     </Space>
