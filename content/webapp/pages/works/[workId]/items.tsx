@@ -187,6 +187,24 @@ const ItemPage: NextPage<Props> = ({
 
   const hasImage = hasItemType(canvases, 'Image');
   const hasPdf = hasOriginalPdf(canvases);
+  function receiveMessage(event: MessageEvent) {
+    const data = event.data;
+    const tokenService = getTokenService({ auth, authV2 });
+    const service = tokenService && new URL(tokenService.id);
+    const isTotallyRestricted = getIsTotallyRestricted({ auth, authV2 });
+    // We check this is the event we are interested in
+    // N.B. locally react dev tools will create a lot of events
+
+    if (service.origin === event.origin) {
+      if (Object.prototype.hasOwnProperty.call(data, 'accessToken')) {
+        setShowModal(Boolean(isTotallyRestricted));
+        setShowViewer(!isTotallyRestricted);
+      } else {
+        setShowModal(true);
+        setShowViewer(false);
+      }
+    }
+  }
 
   // showViewer is true by default, so the noScriptViewer is available without javascript
   // if javascript is available we set it to false and then determine whether the clickthrough modal is required
@@ -200,24 +218,6 @@ const ItemPage: NextPage<Props> = ({
   }, []);
 
   useEffect(() => {
-    function receiveMessage(event: MessageEvent) {
-      const data = event.data;
-      const tokenService = getTokenService({ auth, authV2 });
-      const service = tokenService && new URL(tokenService.id);
-      const isTotallyRestricted = getIsTotallyRestricted({ auth, authV2 });
-      // We check this is the event we are interested in
-      // N.B. locally react dev tools will create a lot of events
-
-      if (service.origin === event.origin) {
-        if (Object.prototype.hasOwnProperty.call(data, 'accessToken')) {
-          setShowModal(Boolean(isTotallyRestricted));
-          setShowViewer(!isTotallyRestricted);
-        } else {
-          setShowModal(true);
-          setShowViewer(false);
-        }
-      }
-    }
     if (needsModal) {
       window.addEventListener('message', receiveMessage);
       return () => window.removeEventListener('message', receiveMessage);
