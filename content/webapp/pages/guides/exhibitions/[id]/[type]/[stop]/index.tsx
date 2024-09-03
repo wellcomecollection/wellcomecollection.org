@@ -80,7 +80,7 @@ const Header = styled.header.attrs({
 const HeaderInner = styled(Space).attrs({
   $v: {
     size: 's',
-    properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
+    properties: ['padding-top', 'padding-bottom'],
   },
 })`
   display: flex;
