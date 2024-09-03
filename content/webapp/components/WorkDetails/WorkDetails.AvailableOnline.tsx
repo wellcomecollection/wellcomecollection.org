@@ -44,6 +44,7 @@ import {
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import DownloadItemRenderer from '@weco/content/components/ArchiveTree/ArchiveTree.DownloadItemRenderer';
 import { DownloadTable } from '@weco/content/components/WorkDetails/WorkDetails.DownloadItem';
+import { getTokenService } from '@weco/content/pages/works/[workId]/items'; // TODO move function to utils?
 
 const TreeHeadings = styled(Space).attrs({
   $v: { size: 'xl', properties: ['margin-top'] },
@@ -177,18 +178,21 @@ const WorkDetailsAvailableOnline = ({
   locationOfWork,
   transformedManifest,
 }: Props) => {
-  const { showBornDigital } = useToggles();
+  const { showBornDigital, authV2 } = useToggles();
   const {
     collectionManifestsCount,
     canvasCount,
-    clickThroughService,
-    tokenService,
+    auth,
     structures,
     bornDigitalStatus,
     canvases,
     placeholderId,
     rendering,
   } = { ...transformedManifest };
+  const tokenService = getTokenService({ auth, authV2 });
+  const activeAccessService = authV2
+    ? auth?.v2.activeAccessService || auth?.v1.activeAccessService
+    : auth?.v1.activeAccessService; // TODO should this include externalAccessSerice too?
 
   const isBornDigital =
     showBornDigital &&
@@ -221,7 +225,7 @@ const WorkDetailsAvailableOnline = ({
         wrapper={children =>
           itemUrl && (
             <IIIFClickthrough
-              clickThroughService={clickThroughService}
+              clickThroughService={activeAccessService}
               tokenService={tokenService}
             >
               {children}

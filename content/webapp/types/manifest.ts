@@ -1,6 +1,5 @@
 import {
   Service,
-  AuthExternalService,
   Range,
   AuthClickThroughService,
   AuthAccessTokenService,
@@ -12,10 +11,8 @@ import {
   ResourceType,
   Manifest,
   MetadataItem,
-  AuthAccessService2_External as AuthAccessService2External,
-  AuthAccessTokenService2,
 } from '@iiif/presentation-3';
-import { AuthAccessService2WithInteractiveProfile } from '@weco/content/utils/iiif/v3';
+import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 
 export type ThumbnailImage = { url: string; width: number };
 
@@ -66,6 +63,21 @@ export type TransformedRange = Omit<Range, 'items'> & {
   items: (TransformedRange | TransformedCanvas)[];
 };
 
+export type Auth = {
+  v1: {
+    externalAccessService: TransformedAuthService | undefined;
+    activeAccessService: TransformedAuthService | undefined;
+    tokenService: TransformedAuthService | undefined;
+    isTotallyRestricted: boolean;
+  };
+  v2: {
+    externalAccessService: TransformedAuthService | undefined;
+    activeAccessService: TransformedAuthService | undefined;
+    tokenService: TransformedAuthService | undefined;
+    isTotallyRestricted: boolean;
+  };
+};
+
 export type TransformedManifest = {
   firstCollectionManifestLocation?: string;
   bornDigitalStatus: BornDigitalStatus;
@@ -77,23 +89,14 @@ export type TransformedManifest = {
   collectionManifestsCount: number;
   iiifCredit?: string;
   isAnyImageOpen: boolean;
-  isTotallyRestricted: boolean;
   isCollectionManifest: boolean;
   parentManifestUrl: string | undefined;
-  needsModal: boolean;
-  restrictedService: AuthExternalService | undefined;
   searchService: Service | undefined;
   structures: Manifest['structures'];
   manifests: CollectionItems[];
-  clickThroughService:
-    | AuthClickThroughServiceWithPossibleServiceArray
-    | undefined;
-  tokenService: AuthAccessTokenService | undefined;
   placeholderId: string | undefined;
   rendering: ContentResource[];
-  externalAccessService: AuthAccessService2External | undefined;
-  activeAccessService: AuthAccessService2WithInteractiveProfile | undefined;
-  v2TokenService: AuthAccessTokenService2 | undefined;
+  auth: Auth;
 };
 
 export type CustomSpecificationBehaviors =
