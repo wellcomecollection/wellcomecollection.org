@@ -10,7 +10,7 @@ import ImagePlaceholder, {
   placeholderBackgroundColor,
 } from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
 import { secondsToHoursMinutesAndSeconds } from '@weco/common/utils/format-time';
-import { map, clock } from '@weco/common/icons';
+import { map, duration as durationIcon } from '@weco/common/icons';
 import {
   CardOuter,
   CardTitle,
@@ -102,7 +102,7 @@ const GuideStopCard: FunctionComponent<Props> = ({
               style={{ display: 'flex' }}
               $h={{ size: 's', properties: ['margin-right'] }}
             >
-              <Icon icon={clock} sizeOverride="width: 16px;" />
+              <Icon icon={durationIcon} sizeOverride="width: 16px;" />
             </Space>
             {durationInMinutesAndSeconds && (
               <span className={font('intr', 5)}>
