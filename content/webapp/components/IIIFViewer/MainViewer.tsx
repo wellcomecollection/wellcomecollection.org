@@ -24,8 +24,9 @@ import ImageViewer from './ImageViewer';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
-import { AuthExternalService } from '@iiif/presentation-3';
+import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 import { queryParamToArrayIndex } from '.';
+import { useToggles } from '@weco/common/server-data/Context';
 
 type OverlayPositionData = {
   canvasNumber: number;
@@ -80,7 +81,7 @@ type ItemRendererProps = {
     canvases: TransformedCanvas[];
     rotatedImages: RotatedImage[];
     errorHandler?: () => void;
-    restrictedService: AuthExternalService | undefined;
+    externalAccessService: TransformedAuthService | undefined;
   };
 };
 
@@ -207,7 +208,7 @@ function getPositionData({
   return highlightsPositioningData || [];
 }
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
-  const { scrollVelocity, canvases, restrictedService } = data;
+  const { scrollVelocity, canvases, externalAccessService } = data;
   const [mainLoaded, setMainLoaded] = useState(false);
   const currentCanvas = canvases[index];
   const mainImageService = { '@id': currentCanvas.imageServiceId };
@@ -274,11 +275,11 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
         </div>
       ) : isRestricted ? (
         <MessageContainer>
-          <h2 className={font('intb', 4)}>{restrictedService?.label}</h2>
+          <h2 className={font('intb', 4)}>{externalAccessService?.label}</h2>
           <p
             className={font('intr', 5)}
             dangerouslySetInnerHTML={{
-              __html: restrictedService?.description || '',
+              __html: externalAccessService?.description || '',
             }}
           />
         </MessageContainer>
@@ -378,6 +379,7 @@ const MainViewer: FunctionComponent = () => {
     setShowControls,
     errorHandler,
   } = useContext(ItemViewerContext);
+  const { authV2 } = useToggles();
   const { shouldScrollToCanvas, canvas } = query;
   const mainViewerRef = useRef<FixedSizeList>(null);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
@@ -389,7 +391,14 @@ const MainViewer: FunctionComponent = () => {
     debounce(handleOnItemsRendered, 500)
   );
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
-  const { canvases, restrictedService } = { ...transformedManifest };
+  const { canvases, auth } = {
+    ...transformedManifest,
+  };
+
+  // If authV2 toggle is true we try to use the iiif auth V2 services and fallback to V1, in case the manifest doesn't contain V2. Otherwise we just use the V1 services
+  const externalAccessService = authV2
+    ? auth?.v2.externalAccessService || auth?.v1.externalAccessService
+    : auth?.v1.externalAccessService;
 
   // We hide the zoom and rotation controls while the user is scrolling
   function handleOnScroll({ scrollOffset }) {
@@ -441,7 +450,7 @@ const MainViewer: FunctionComponent = () => {
           setShowZoomed,
           rotatedImages,
           errorHandler,
-          restrictedService,
+          externalAccessService,
           canvas,
         }}
         itemSize={mainAreaWidth}
