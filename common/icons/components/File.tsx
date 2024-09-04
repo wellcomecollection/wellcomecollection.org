@@ -3,7 +3,7 @@
 import { SVGProps } from 'react';
 function SvgFile(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg fill="none" viewBox="0 0 24 24" {...props}>
+    <svg viewBox="0 0 24 24" {...props}>
       <mask
         id="a"
         width={24}

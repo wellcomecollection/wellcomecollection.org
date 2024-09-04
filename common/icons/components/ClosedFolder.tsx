@@ -4,7 +4,6 @@ import { SVGProps } from 'react';
 function SvgClosedFolder(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
-      fill="none"
       viewBox="0 0 24 24"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       {...props}
