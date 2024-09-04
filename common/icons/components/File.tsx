@@ -3,32 +3,25 @@
 import { SVGProps } from 'react';
 function SvgFile(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
+    <svg fill="none" viewBox="0 0 24 24" {...props}>
       <mask
-        id="mask0_2291_744"
+        id="a"
+        width={24}
+        height={24}
+        x={0}
+        y={0}
+        maskUnits="userSpaceOnUse"
         style={{
           maskType: 'alpha',
         }}
-        maskUnits="userSpaceOnUse"
-        x={0}
-        y={0}
-        width={24}
-        height={24}
       >
-        <rect width={24} height={24} fill="currentColor" />
+        <path fill="currentColor" d="M0 0h24v24H0z" />
       </mask>
-      <g mask="url(#mask0_2291_744)">
+      <g mask="url(#a)">
         <path
-          className="icon__shape"
-          d="M5.33464 11.9999H10.668V10.6666H5.33464V11.9999ZM5.33464 9.33325H10.668V7.99992H5.33464V9.33325ZM4.0013 14.6666C3.63464 14.6666 3.32075 14.536 3.05964 14.2749C2.79852 14.0138 2.66797 13.6999 2.66797 13.3333V2.66659C2.66797 2.29992 2.79852 1.98603 3.05964 1.72492C3.32075 1.46381 3.63464 1.33325 4.0013 1.33325H9.33464L13.3346 5.33325V13.3333C13.3346 13.6999 13.2041 14.0138 12.943 14.2749C12.6819 14.536 12.368 14.6666 12.0013 14.6666H4.0013ZM8.66797 5.99992V2.66659H4.0013V13.3333H12.0013V5.99992H8.66797Z"
           fill="currentColor"
+          d="M5.335 12h5.333v-1.333H5.335zm0-2.667h5.333V8H5.335zM4 14.667q-.55 0-.941-.392a1.28 1.28 0 0 1-.392-.942V2.667q0-.55.392-.942.391-.392.941-.392h5.334l4 4v8q0 .55-.392.942a1.28 1.28 0 0 1-.942.392zM8.668 6V2.667H4.001v10.666h8V6z"
+          className="icon__shape"
         />
       </g>
     </svg>

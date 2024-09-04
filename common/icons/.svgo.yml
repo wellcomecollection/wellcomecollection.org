@@ -21,13 +21,13 @@ plugins:
   - removeComments
   - removeMetadata
   - removeXMLNS
+  - removeXlink
   - removeEditorsNSData
   - cleanupAttrs
   - inlineStyles
   - minifyStyles
   - convertStyleToAttrs
-  - cleanupIDs
-  - prefixIds
+  - cleanupIds
   - removeRasterImages
   - removeUselessDefs
   - cleanupNumericValues
@@ -36,13 +36,10 @@ plugins:
   - removeUnknownsAndDefaults
   - removeNonInheritableGroupAttrs
   - removeUselessStrokeAndFill
-  - removeViewBox
   - cleanupEnableBackground
   - removeHiddenElems
   - removeEmptyText
   - convertShapeToPath
-  - moveElemsAttrsToGroup
-  - moveGroupAttrsToElems
   - collapseGroups
   - convertPathData
   - convertTransform
@@ -54,13 +51,8 @@ plugins:
   - removeTitle
   - removeDesc
   - removeDimensions
-  - removeAttrs
-  - removeAttributesBySelector
-  - removeElementsByAttr
-  - addClassesToSVGElement
   - removeStyleElement
   - removeScriptElement
-  - addAttributesToSVGElement
   - removeOffCanvasPaths
   - reusePaths
 

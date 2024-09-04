@@ -6,7 +6,7 @@
   "scripts": {
     "compile": "yarn run-svgr && yarn move-index",
     "move-index": "mv components/index.ts ./index.ts",
-    "run-svgr": "svgr svgs --out-dir components --no-svgo --typescript --template template.js --index-template index-template.js"
+    "run-svgr": "svgr svgs --out-dir components --typescript --template template.js --index-template index-template.js"
   },
   "devDependencies": {
     "@svgr/cli": "^8.1.0"

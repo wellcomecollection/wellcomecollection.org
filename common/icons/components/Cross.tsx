@@ -3,12 +3,11 @@
 import { SVGProps } from 'react';
 function SvgCross(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
+    <svg viewBox="0 0 24 24" {...props}>
       <path
-        className="icon__shape"
         fill="currentColor"
-        fillRule="nonzero"
-        d="M18.7 17.3L13.4 12l5.3-5.3c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0L12 10.6 6.7 5.3c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l5.3 5.3-5.3 5.3c-.4.4-.4 1 0 1.4.4.4 1 .4 1.4 0l5.3-5.3 5.3 5.3c.4.4 1 .4 1.4 0 .4-.4.4-1 0-1.4z"
+        d="M18.7 17.3 13.4 12l5.3-5.3c.4-.4.4-1 0-1.4s-1-.4-1.4 0L12 10.6 6.7 5.3c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l5.3 5.3-5.3 5.3c-.4.4-.4 1 0 1.4s1 .4 1.4 0l5.3-5.3 5.3 5.3c.4.4 1 .4 1.4 0s.4-1 0-1.4"
+        className="icon__shape"
       />
     </svg>
   );
