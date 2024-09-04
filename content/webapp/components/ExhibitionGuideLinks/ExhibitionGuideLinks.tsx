@@ -8,6 +8,7 @@ import TypeOption, { TypeList } from './TypeOption';
 import { useToggles } from '@weco/common/server-data/Context';
 import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
 import Space from '@weco/common/views/components/styled/Space';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 
 type Props = {
   pathname: string;
@@ -136,11 +137,13 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
 }) => {
   const { egWork } = useToggles();
 
+  const hasAudioVideo = !!(audioPathname || videoPathname);
+
   return (
     <>
       {egWork ? (
         <>
-          {(audioPathname || videoPathname) && (
+          {hasAudioVideo && (
             <>
               <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
                 <SectionHeader title="Highlights tour" />
@@ -175,7 +178,14 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
             </>
           )}
           {textPathname && (
-            <>
+            <ConditionalWrapper
+              condition={hasAudioVideo}
+              wrapper={children => (
+                <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+                  {children}
+                </Space>
+              )}
+            >
               <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
                 <SectionHeader title="Exhibition text" />
               </Space>
@@ -190,7 +200,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
                   type="captions-and-transcripts"
                 />
               </TypeList>
-            </>
+            </ConditionalWrapper>
           )}
         </>
       ) : (
