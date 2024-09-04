@@ -349,7 +349,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               <div>
                 {stopNumber > 1 && (
                   <NextLink
-                    style={{ textDecoration: 'none' }}
+                    style={{ textDecoration: 'none', display: 'inline-block' }}
                     href={`${guideTypeUrl}/${stopNumber - 1}`}
                     shallow={true}
                   >
@@ -376,7 +376,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               <div>
                 {stopNumber < allStops.length && (
                   <NextLink
-                    style={{ textDecoration: 'none' }}
+                    style={{ textDecoration: 'none', display: 'inline-block' }}
                     href={`${guideTypeUrl}/${stopNumber + 1}`}
                     shallow={true}
                   >
