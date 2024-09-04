@@ -56,6 +56,8 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { allGuides } from '@weco/content/pages/guides/exhibitions';
 import { useToggles } from '@weco/common/server-data/Context';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import { getGuidesRedirections } from '@weco/content/utils/digital-guides';
+import { toMaybeString } from '@weco/common/utils/routes';
 
 // N.B. There are quite a lot of requests to Prismic for this page, which are necessary in order to maintain the url structure
 // while supporting both the deprecated ExhibitionGuide type and new custom types
@@ -68,18 +70,25 @@ type Props = {
   exhibitionHighlightTour?: ExhibitionHighlightTour;
   jsonLd: JsonLdObj;
   otherExhibitionGuides: ExhibitionGuideBasic[];
+  stopNumber?: string;
 };
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
   setCacheControl(context.res);
-  const { id } = context.query;
+  const { id, stopNumber } = context.query;
 
   if (!looksLikePrismicId(id)) {
     return { notFound: true };
   }
 
+  // Check if it needs to be redirected because of query params or cookie preferences
+  // Will redirect here if needed
+  const redirect = getGuidesRedirections(context);
+  if (redirect) return redirect;
+
+  // If not needed, then fetch everything required for this page
   const client = createClient(context);
 
   // We don't know exactly which type of document the id is for, so:
@@ -239,6 +248,17 @@ export const getServerSideProps: GetServerSideProps<
           ? exhibitionGuideLd(exhibitionTexts || exhibitionHighlightTours)
           : { '@type': 'Thing' };
 
+      // If the user has not yet have a guide preference cookie set
+      // The TypeOption links should contain the stop number, so we
+      // need to pass it in
+      //
+      // The first stop's link is an exception, in that it should link to
+      // the [exhibitionId]/[type] page, and not directly on the stop's page.
+      const validStopNumber =
+        Number(toMaybeString(stopNumber)) && toMaybeString(stopNumber) !== '1'
+          ? toMaybeString(stopNumber)
+          : undefined;
+
       return {
         props: serialiseProps({
           jsonLd,
@@ -251,6 +271,7 @@ export const getServerSideProps: GetServerSideProps<
               result.title !== exhibitionText?.title &&
               result.title !== exhibitionHighlightTour?.title
           ),
+          stopNumber: validStopNumber,
         }),
       };
     }
@@ -265,6 +286,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
   exhibitionHighlightTour,
   jsonLd,
   otherExhibitionGuides,
+  stopNumber,
 }) => {
   const { egWork } = useToggles();
 
@@ -348,11 +370,13 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
           )}
           <Space $v={{ size: 'l', properties: ['margin-top'] }}>
             {/* Links to ExhibitionTexts and ExhibitionHighlightTours */}
+            {/* Or, if there is a stopNumber in the URL, link straight to it */}
             {Boolean(textPathname || audioPathname || videoPathname) && (
               <ExhibitionResourceLinks
                 textPathname={textPathname}
                 audioPathname={audioPathname}
                 videoPathname={videoPathname}
+                stopNumber={stopNumber}
               />
             )}
             {/* Links to deprecated ExhibitionGuides */}

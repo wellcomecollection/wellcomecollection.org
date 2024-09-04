@@ -60,17 +60,6 @@ const TypeIconsWrapper = styled.div`
   align-items: flex-end;
 `;
 
-function cookieHandler(key: string, data: string) {
-  // We set the cookie to expire in 8 hours (the maximum length of
-  // time the galleries are open in a day)
-  const options = {
-    maxAge: 8 * 60 * 60,
-    path: '/',
-    secure: true,
-  };
-  setCookie(key, data, options);
-}
-
 // TODO Review how this can be streamlined when we move to the new EG models
 type Props = {
   url: string;
@@ -97,7 +86,13 @@ const TypeOption: FunctionComponent<Props> = ({
   const { egWork } = useToggles();
 
   const onClick = () => {
-    cookieHandler(cookies.exhibitionGuideType, type as string);
+    // We set the cookie to expire in 8 hours (the maximum length of
+    // time the galleries are open in a day)
+    setCookie(cookies.exhibitionGuideType, type, {
+      maxAge: 8 * 60 * 60,
+      path: '/',
+      secure: true,
+    });
   };
 
   return egWork ? (
