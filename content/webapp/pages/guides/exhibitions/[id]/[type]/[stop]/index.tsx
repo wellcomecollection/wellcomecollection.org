@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
-import { font } from '@weco/common/utils/classnames';
+import { font, grid } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
 import { isFilledSliceZone } from '@weco/common/services/prismic/types';
 import { GetServerSideProps } from 'next';
@@ -8,7 +8,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import {
   ExhibitionGuideType,
-  isValidType,
+  isValidExhibitionGuideType,
   GuideHighlightTour,
 } from '@weco/content/types/exhibition-guides';
 import { createClient } from '@weco/content/services/prismic/fetch';
@@ -58,20 +58,20 @@ type Props = {
   allStops: GuideHighlightTour[];
 };
 
-const LayoutWrap = styled.div`
-  margin-left: -${props => props.theme.gutter.small}px;
-  margin-right: -${props => props.theme.gutter.small}px;
-
-  ${props => props.theme.media('medium')`
-    margin-left: 0;
-    margin-right: 0;
-  `}
-`;
-
 const Page = styled.div`
   background-color: ${props => props.theme.color('black')};
   color: ${props => props.theme.color('white')};
   min-height: 100vh;
+`;
+
+const FlushContainer = styled(Container)`
+  ${props =>
+    props.theme.mediaBetween(
+      'small',
+      'medium'
+    )(`
+        padding: 0;
+    `)}
 `;
 
 const Header = styled.header.attrs({
@@ -148,7 +148,7 @@ export const getServerSideProps: GetServerSideProps<
   setCacheControl(context.res);
   const { id, type, stop } = context.query;
 
-  if (!looksLikePrismicId(id) || !isValidType(type)) {
+  if (!looksLikePrismicId(id) || !isValidExhibitionGuideType(type)) {
     return { notFound: true };
   }
 
@@ -261,6 +261,9 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     (currentStop.image && getCrop(currentStop.image, '16:9')) ||
     currentStop.image;
 
+  const relatedText =
+    type === 'bsl' ? currentStop.subtitles : currentStop.transcript;
+
   return (
     <PageLayout
       title={currentStop.title}
@@ -323,24 +326,27 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             </HeaderInner>
           </Container>
         </Header>
-        {/* Make sure we can scroll content into view if it's behind the fixed position footer (paddingBottom: 100px) */}
-        <LayoutWrap>
-          <Layout gridSizes={gridSize8()}>
-            {type !== 'bsl' && (
-              <>
-                {croppedImage ? (
-                  <PrismicImage quality="low" image={croppedImage} />
-                ) : (
-                  <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
-                    <ImagePlaceholder
-                      backgroundColor={placeholderBackgroundColor(stopNumber)}
-                    />
-                  </div>
-                )}
-              </>
-            )}
-          </Layout>
-        </LayoutWrap>
+
+        <FlushContainer>
+          <div className="grid">
+            <div className={grid(gridSize8())}>
+              {type !== 'bsl' && (
+                <>
+                  {croppedImage ? (
+                    <PrismicImage quality="low" image={croppedImage} />
+                  ) : (
+                    <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
+                      <ImagePlaceholder
+                        backgroundColor={placeholderBackgroundColor(stopNumber)}
+                      />
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+        </FlushContainer>
+
         <Layout gridSizes={gridSize8()}>
           <StickyPlayer $sticky={type !== 'bsl'}>
             {type === 'bsl' ? (
@@ -359,21 +365,26 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               </>
             )}
           </StickyPlayer>
-          <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-            <CollapsibleContent
-              controlText={controlText}
-              id="stop-transcript"
-              darkTheme={true}
+          {/* Make sure we can scroll content into view if it's behind the fixed position footer (paddingBottom: 100px) */}
+
+          {!!relatedText?.length && (
+            <Space
+              $v={{
+                size: 'xl',
+                properties: ['padding-bottom', 'margin-bottom'],
+              }}
             >
-              <PrismicHtmlBlock
-                html={
-                  type === 'bsl'
-                    ? currentStop.subtitles!
-                    : currentStop.transcript!
-                }
-              />
-            </CollapsibleContent>
-          </Space>
+              <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+                <CollapsibleContent
+                  controlText={controlText}
+                  id="stop-transcript"
+                  darkTheme={true}
+                >
+                  <PrismicHtmlBlock html={relatedText} />
+                </CollapsibleContent>
+              </Space>
+            </Space>
+          )}
         </Layout>
         <PrevNext>
           <Container>

@@ -8,6 +8,7 @@ import TypeOption, { TypeList } from './TypeOption';
 import { useToggles } from '@weco/common/server-data/Context';
 import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
 import Space from '@weco/common/views/components/styled/Space';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 
 type Props = {
   pathname: string;
@@ -125,20 +126,24 @@ type ResourceProps = {
   textPathname?: string;
   audioPathname?: string;
   videoPathname?: string;
+  stopNumber?: string;
 };
 
 export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
   textPathname,
   audioPathname,
   videoPathname,
+  stopNumber,
 }) => {
   const { egWork } = useToggles();
+
+  const hasAudioVideo = !!(audioPathname || videoPathname);
 
   return (
     <>
       {egWork ? (
         <>
-          {(audioPathname || videoPathname) && (
+          {hasAudioVideo && (
             <>
               <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
                 <SectionHeader title="Highlights tour" />
@@ -151,7 +156,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
               <TypeList>
                 {audioPathname && (
                   <TypeOption
-                    url={`/${audioPathname}`}
+                    url={`/${audioPathname}${stopNumber ? `/${stopNumber}` : ''}`}
                     title="Audio descriptive tour with transcripts"
                     text="Find out more about the exhibition with short audio tracks."
                     backgroundColor="accent.lightSalmon"
@@ -161,7 +166,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
                 )}
                 {videoPathname && (
                   <TypeOption
-                    url={`/${videoPathname}`}
+                    url={`/${videoPathname}${stopNumber ? `/${stopNumber}` : ''}`}
                     title="British Sign Language tour with transcripts"
                     text="Commentary about the exhibition in British Sign Language videos."
                     backgroundColor="accent.lightBlue"
@@ -173,7 +178,14 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
             </>
           )}
           {textPathname && (
-            <>
+            <ConditionalWrapper
+              condition={hasAudioVideo}
+              wrapper={children => (
+                <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+                  {children}
+                </Space>
+              )}
+            >
               <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
                 <SectionHeader title="Exhibition text" />
               </Space>
@@ -188,7 +200,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
                   type="captions-and-transcripts"
                 />
               </TypeList>
-            </>
+            </ConditionalWrapper>
           )}
         </>
       ) : (

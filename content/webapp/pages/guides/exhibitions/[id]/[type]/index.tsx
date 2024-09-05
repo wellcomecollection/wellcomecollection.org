@@ -1,4 +1,4 @@
-import { getCookie, deleteCookie } from 'cookies-next';
+import { deleteCookie } from 'cookies-next';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { GetServerSideProps } from 'next';
@@ -7,7 +7,7 @@ import {
   ExhibitionText,
   ExhibitionHighlightTour,
   ExhibitionGuideType,
-  isValidType,
+  isValidExhibitionGuideType,
 } from '@weco/content/types/exhibition-guides';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibitionGuide } from '@weco/content/services/prismic/fetch/exhibition-guides';
@@ -51,6 +51,8 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import RelevantGuideIcons from '@weco/content/components/ExhibitionGuideRelevantIcons';
+import { getGuidesRedirections } from '@weco/content/utils/digital-guides';
+import { toMaybeString } from '@weco/common/utils/routes';
 
 const ButtonWrapper = styled(Space).attrs({
   $v: { size: 's', properties: ['margin-bottom'] },
@@ -111,13 +113,21 @@ export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
   setCacheControl(context.res);
-  const { id, type, usingQRCode, userPreferenceSet, stopId } = context.query;
+  const { id, type, userPreferenceSet, stopId } = context.query;
 
-  if (!looksLikePrismicId(id) || !isValidType(type)) {
+  if (!looksLikePrismicId(id) || !isValidExhibitionGuideType(type)) {
     return { notFound: true };
   }
-  const { res, req } = context;
 
+  // This is needed for the Jason QR codes
+  // TODO remove from this page when it closes or if we change its QR codes
+  // https://github.com/wellcomecollection/wellcomecollection.org/issues/11131
+  // Check if it needs to be redirected because of query params or cookie preferences
+  // Will redirect here if needed
+  const redirect = getGuidesRedirections(context);
+  if (redirect) return redirect;
+
+  // If not needed, then fetch everything required for this page
   const client = createClient(context);
 
   // We don't know exactly which type of document the id is for, so:
@@ -139,61 +149,6 @@ export const getServerSideProps: GetServerSideProps<
     exhibitionTextQueryPromise,
     exhibitionHighlightTourQueryPromise,
   ]);
-
-  const userPreferenceGuideType = getCookie(cookies.exhibitionGuideType, {
-    req,
-    res,
-  });
-
-  /** When a user opens an exhibition guide on their smartphone, they can
-   * choose which guide to read.  To avoid somebody having to repeatedly select
-   * the same exhibition guide, we "remember" which guide they select in a cookie,
-   * and redirect them the next time they open the guide.
-   *
-   * This logic is deliberately conservative, to avoid causing more confusion:
-   *
-   *    - We only redirect users who've scanned a QR code in the gallery
-   *    - We only redirect users who've expressed an explicit preference for
-   *      a non-default guide type
-   *
-   * == Historical note ==
-   *
-   * The original implementation of this was more aggressive: in particular,
-   * it would redirect a user who landed on a guide page, even if they didn't
-   * come from scanning a QR code.
-   *
-   * We changed it after discovering it broke the "Back" button:
-   *
-   *    1.  A user goes to an exhibition guide overview page `/guides/exhibitions/[id]`
-   *    2.  They click to select a particular guide, say `/guides/exhibitions/[id]/audio`.
-   *        This sets a preference cookie telling us the user wants audio guides.
-   *    3.  They click the "Back" button in their browser because they want to see the
-   *        page they were just looking at. This takes them to `/guides/exhibitions/[id]`
-   *        … where we redirect them back to the guide they were just looking at.
-   *
-   * We only create QR codes that link to the audio guides, not the overview page, so
-   * this prevents somebody getting stuck in this sort of redirect loop.
-   *
-   */
-
-  if (
-    usingQRCode &&
-    typeof userPreferenceGuideType === 'string' &&
-    userPreferenceGuideType !== type &&
-    typeof stopId === 'string'
-  ) {
-    return {
-      redirect: {
-        permanent: false,
-        // We do a simple replace on the URL so we preserve all other URL information
-        // (e.g. UTM tracking parameters).
-        destination: context.resolvedUrl.replace(
-          `/${type}`,
-          `/${userPreferenceGuideType}`
-        ),
-      },
-    };
-  }
 
   if (
     isNotUndefined(exhibitionGuideQuery) ||
@@ -219,7 +174,7 @@ export const getServerSideProps: GetServerSideProps<
           serverData,
           type,
           userPreferenceSet,
-          stopId: stopId as string | undefined,
+          stopId: toMaybeString(stopId),
         }),
       };
     }
@@ -235,7 +190,7 @@ export const getServerSideProps: GetServerSideProps<
           serverData,
           type,
           userPreferenceSet,
-          stopId: stopId as string | undefined,
+          stopId: toMaybeString(stopId),
         }),
       };
     }
@@ -253,7 +208,7 @@ export const getServerSideProps: GetServerSideProps<
           serverData,
           type,
           userPreferenceSet,
-          stopId: stopId as string | undefined,
+          stopId: toMaybeString(stopId),
         }),
       };
     }
@@ -340,7 +295,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
 
         <Layout gridSizes={gridSize8(false)}>
           {egWork ? (
-            <h2 className={font('intsb', 3)}>{getTypeTitle(type, egWork)}</h2>
+            <h2 className={font('intsb', 4)}>{getTypeTitle(type, egWork)}</h2>
           ) : (
             <h1 className={font('wb', 1)}>
               {exhibitionGuide.title}{' '}
@@ -386,7 +341,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
         <Layout gridSizes={gridSize10(false)}>
           {userPreferenceSet ? (
             <p>
-              {type !== 'captions-and-transcripts' && (
+              {type !== 'captions-and-transcripts' && !egWork && (
                 <>This exhibition has {numberOfStops} stops. </>
               )}
               You selected this type of guide previously, but you can also
@@ -402,7 +357,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             </p>
           ) : (
             <>
-              {type !== 'captions-and-transcripts' && (
+              {type !== 'captions-and-transcripts' && !egWork && (
                 <p>This exhibition has {numberOfStops} stops.</p>
               )}
             </>

@@ -11,7 +11,6 @@ import {
   getClickThroughService,
   getTokenService,
   getCollectionManifests,
-  checkModalRequired,
   checkIsTotallyRestricted,
   getBornDigitalStatus,
   groupRanges,
@@ -23,6 +22,13 @@ import {
   getExternalAuthAccessService,
   getActiveAuthAccessService,
   getV2TokenService,
+  checkIsTotallyRestrictedV2,
+  transformRestrictedService,
+  transformClickThroughService,
+  transformTokenService,
+  transformActiveAccessService,
+  transformExternalAccessService,
+  transformV2TokenService,
 } from '@weco/content/utils/iiif/v3';
 
 export function transformManifest(
@@ -41,12 +47,14 @@ export function transformManifest(
   // Our manifests reference both the v1 and v2 Auth services.
   // This is to make it easier to switch from the current Auth implementation to the new one.
   // The following are taken from the v1 services:
+  // https://iiif.io/api/auth/1.0
   const restrictedService = getRestrictedLoginService(manifestV3);
   const clickThroughService = getClickThroughService(manifestV3);
   const tokenService = getTokenService(
     clickThroughService || restrictedService
   );
   // The following are taken from the v2 services:
+  // https://iiif.io/api/auth/2.0/
   const authAccessServices = getAuthAccessServices(manifestV3);
   const externalAccessService =
     getExternalAuthAccessService(authAccessServices); // equivalent of restrictedService
@@ -54,11 +62,27 @@ export function transformManifest(
   const v2TokenService = getV2TokenService(
     externalAccessService || externalAccessService
   ); // equivalent of tokenService
+
   // We should default to using the v2 services (TODO work in progress).
   // However, we need to fallback to v1 services if v2 services aren't available.
   // This is because not all manifests have the v2 services present yet.
   // see https://wellcome.slack.com/archives/CBT40CMKQ/p1721912291057799 where a manifest needed to be regenerated to start including the v2 services.
-  // TODO We need to see if we can regenerate all manifests on mass.
+
+  // We want to transform all the V1 and V2 auth services into the same shape.
+  // So that it is easy to fallback from V2 to V1
+  // V1:
+  const transformedRestrictedService =
+    transformRestrictedService(restrictedService);
+  const transformedClickThroughService =
+    transformClickThroughService(clickThroughService);
+  const transformedTokenService = transformTokenService(tokenService);
+  // V2:
+  const transformedExternalAccessService = transformExternalAccessService(
+    externalAccessService
+  );
+  const transformedActiveAccessService =
+    transformActiveAccessService(activeAccessService);
+  const transformedV2TokenService = transformV2TokenService(v2TokenService);
 
   const firstCollectionManifestLocation =
     getFirstCollectionManifestLocation(manifestV3);
@@ -66,11 +90,11 @@ export function transformManifest(
     restrictedService,
     isAnyImageOpen
   );
-  const needsModal = checkModalRequired({
-    clickThroughService,
-    restrictedService,
-    isAnyImageOpen,
-  });
+  const isTotallyRestrictedV2 = checkIsTotallyRestrictedV2(
+    externalAccessService,
+    isAnyImageOpen
+  );
+
   const searchService = getSearchService(manifestV3);
   const structures = getStructures(manifestV3);
   const groupedStructures = groupRanges(
@@ -121,15 +145,22 @@ export function transformManifest(
     structures: groupedStructures,
     isCollectionManifest: isCollection(manifestV3),
     searchService,
-    clickThroughService,
-    tokenService,
-    restrictedService,
-    isTotallyRestricted,
-    needsModal,
     placeholderId: firstPlaceholderId,
     rendering,
-    externalAccessService,
-    activeAccessService,
-    v2TokenService,
+    auth: {
+      v1: {
+        externalAccessService: transformedRestrictedService,
+        activeAccessService: transformedClickThroughService,
+        tokenService: transformedTokenService,
+        isTotallyRestricted,
+      },
+      v2: {
+        externalAccessService: transformedExternalAccessService,
+        activeAccessService: transformedActiveAccessService,
+        tokenService: transformedV2TokenService,
+        isTotallyRestricted: isTotallyRestrictedV2,
+      },
+    },
+    // TODO If more than one access service is available, the client should interact with them in the order external, (kiosk - not needed for us), active - but only if logged in staff, otherwise go straight to active
   };
 }
