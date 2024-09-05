@@ -145,10 +145,9 @@ export const getServerSideProps: GetServerSideProps<
     : undefined;
 
   // TODO figure out if there is a nicer way to differentiate ID from UID...
+  // A lot below gets tidied in
+  // https://github.com/wellcomecollection/wellcomecollection.org/pull/11148
   const contentType = context.resolvedUrl.split('/')[1];
-
-  // TODO are there more? These aren't prefixed by /pages/...
-  // Feels very hacky
   const isStaticNoPrefixPage = [
     prismicPageIds.cookiePolicy,
     prismicPageIds.visitUs,
