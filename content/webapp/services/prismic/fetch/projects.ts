@@ -4,12 +4,14 @@ import {
   contributorFetchLinks,
   projectFormatsFetchLinks,
   seasonsFetchLinks,
-} from '../types';
+} from '@weco/content/services/prismic/types';
+import { labelsFields } from '@weco/content/services/prismic/fetch-links';
 
 export const fetchLinks = [
   ...contributorFetchLinks,
   ...projectFormatsFetchLinks,
   ...seasonsFetchLinks,
+  ...labelsFields,
 ];
 
 const projectsFetcher = fetcher<RawProjectsDocument>('projects', fetchLinks);

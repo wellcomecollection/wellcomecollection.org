@@ -21,11 +21,11 @@ import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { transformEmbedSlice } from '@weco/content/services/prismic/transformers/body';
 import { isEditorialImage, isVideoEmbed } from '@weco/content/types/body';
 import { sectionLevelPages } from '@weco/common/data/hardcoded-ids';
-import { Props as LabelsListProps } from '@weco/common/views/components/LabelsList/LabelsList';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import Body from '@weco/content/components/Body/Body';
 import { fetchProject } from '@weco/content/services/prismic/fetch/projects';
 import { isVanityUrl } from '@weco/content/utils/urls';
+import { makeLabels } from '@weco/common/views/components/LabelsList/LabelsList';
 
 type ProjectProps = {
   project: ProjectType;
@@ -83,16 +83,6 @@ export const Project: FunctionComponent<ProjectProps> = ({
   vanityUrl,
   jsonLd,
 }) => {
-  function makeLabels(title?: string): LabelsListProps | undefined {
-    if (!title) return;
-
-    return { labels: [{ text: title }] };
-  }
-
-  const labels = !project.format?.title
-    ? makeLabels(project.format?.title)
-    : undefined;
-
   const featuredPicture =
     project.untransformedBody.length > 1 &&
     isEditorialImage(project.untransformedBody[0])
@@ -126,7 +116,7 @@ export const Project: FunctionComponent<ProjectProps> = ({
   const Header = (
     <PageHeader
       breadcrumbs={{ items: [] }}
-      labels={labels}
+      labels={makeLabels(project.format?.title)}
       title={project.title}
       FeaturedMedia={featuredMedia}
       backgroundTexture={

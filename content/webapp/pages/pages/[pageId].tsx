@@ -28,7 +28,6 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
 import { PageFormatIds } from '@weco/content/data/content-format-ids';
 import { links } from '@weco/common/views/components/Header/Header';
-import { Props as LabelsListProps } from '@weco/common/views/components/LabelsList/LabelsList';
 import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { GetServerSideProps } from 'next';
@@ -60,6 +59,7 @@ import {
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import { transformGuide } from '@weco/content/services/prismic/transformers/guides';
 import { isVanityUrl } from '@weco/content/utils/urls';
+import { makeLabels } from '@weco/common/views/components/LabelsList/LabelsList';
 
 export type Props = {
   page: PageType;
@@ -216,12 +216,6 @@ export const Page: FunctionComponent<Props> = ({
   vanityUrl,
   jsonLd,
 }) => {
-  function makeLabels(title?: string): LabelsListProps | undefined {
-    if (!title) return;
-
-    return { labels: [{ text: title }] };
-  }
-
   const DateInfo = page.datePublished && <HTMLDate date={page.datePublished} />;
   const isLanding = page.format && page.format.id === PageFormatIds.Landing;
   const labels =
