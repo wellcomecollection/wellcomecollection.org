@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { FunctionComponent, ReactElement } from 'react';
+import { FunctionComponent } from 'react';
 import PageLayout, {
   SiteSection,
 } from '@weco/common/views/components/PageLayout/PageLayout';
@@ -23,16 +23,15 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { transformEmbedSlice } from '@weco/content/services/prismic/transformers/body';
 import { transformGuide } from '@weco/content/services/prismic/transformers/guides';
-import { isVanityUrl } from '@weco/content/utils/urls';
 import { makeLabels } from '@weco/common/views/components/LabelsList/LabelsList';
 import { Guide as GuideType } from '@weco/content/types/guides';
 import { fetchGuide } from '@weco/content/services/prismic/fetch/guides';
 import { getFeaturedPictureWithTasl } from '../pages/[pageId]';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb/Breadcrumb';
+import { isVanityUrl } from '@weco/content/utils/urls';
 
 export type Props = {
   guide: GuideType;
-  staticContent: ReactElement | null;
   vanityUrl?: string;
   jsonLd: JsonLdObj;
 };
@@ -64,7 +63,6 @@ export const getServerSideProps: GetServerSideProps<
     return {
       props: serialiseProps({
         guide,
-        staticContent: null,
         jsonLd,
         serverData,
         vanityUrl,
@@ -77,7 +75,6 @@ export const getServerSideProps: GetServerSideProps<
 
 export const Guide: FunctionComponent<Props> = ({
   guide,
-  staticContent,
   vanityUrl,
   jsonLd,
 }) => {
@@ -156,7 +153,6 @@ export const Guide: FunctionComponent<Props> = ({
             pageId={guide.id}
             onThisPage={guide.onThisPage}
             showOnThisPage={guide.showOnThisPage}
-            staticContent={staticContent}
           />
         }
       />
