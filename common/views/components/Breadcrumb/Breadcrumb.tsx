@@ -3,6 +3,22 @@ import { font, classNames } from '@weco/common/utils/classnames';
 import { breadcrumbsLd } from '@weco/common/utils/json-ld';
 import Space from '@weco/common/views/components/styled/Space';
 import { BreadcrumbItems } from '@weco/common/model/breadcrumbs';
+import { links } from '@weco/common/views/components/Header/Header';
+
+export function getBreadcrumbItems(siteSection: string): BreadcrumbItems {
+  return {
+    items: siteSection
+      ? [
+          {
+            text:
+              links.find(link => link.siteSection === siteSection)?.title ||
+              siteSection,
+            url: siteSection ? `/${siteSection}` : '',
+          },
+        ]
+      : [],
+  };
+}
 
 const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
   items,

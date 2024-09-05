@@ -20,12 +20,12 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { transformEmbedSlice } from '@weco/content/services/prismic/transformers/body';
 import { isEditorialImage, isVideoEmbed } from '@weco/content/types/body';
-import { sectionLevelPages } from '@weco/common/data/hardcoded-ids';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import Body from '@weco/content/components/Body/Body';
 import { fetchProject } from '@weco/content/services/prismic/fetch/projects';
 import { isVanityUrl } from '@weco/content/utils/urls';
 import { makeLabels } from '@weco/common/views/components/LabelsList/LabelsList';
+import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb/Breadcrumb';
 
 type ProjectProps = {
   project: ProjectType;
@@ -111,20 +111,15 @@ export const Project: FunctionComponent<ProjectProps> = ({
     <VideoEmbed {...transformFeaturedVideo.value} />
   ) : undefined;
 
-  const sectionLevelPage = sectionLevelPages.includes(project.id);
-
   const Header = (
     <PageHeader
-      breadcrumbs={{ items: [] }}
+      breadcrumbs={getBreadcrumbItems(project.siteSection)}
       labels={makeLabels(project.format?.title)}
       title={project.title}
       FeaturedMedia={featuredMedia}
-      backgroundTexture={
-        !featuredMedia && !sectionLevelPage ? headerBackgroundLs : undefined
-      }
+      backgroundTexture={!featuredMedia ? headerBackgroundLs : undefined}
       highlightHeading={true}
       isContentTypeInfoBeforeMedia={false}
-      sectionLevelPage={sectionLevelPage}
     />
   );
 
@@ -150,7 +145,6 @@ export const Project: FunctionComponent<ProjectProps> = ({
           <Body
             untransformedBody={untransformedBody}
             pageId={project.id}
-            sectionLevelPage={sectionLevelPage}
             staticContent={staticContent}
           />
         }
