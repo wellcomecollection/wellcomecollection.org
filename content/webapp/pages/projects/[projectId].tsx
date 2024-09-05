@@ -23,9 +23,9 @@ import { isEditorialImage, isVideoEmbed } from '@weco/content/types/body';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import Body from '@weco/content/components/Body/Body';
 import { fetchProject } from '@weco/content/services/prismic/fetch/projects';
-import { isVanityUrl } from '@weco/content/utils/urls';
 import { makeLabels } from '@weco/common/views/components/LabelsList/LabelsList';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb/Breadcrumb';
+import { isVanityUrl } from '@weco/content/utils/urls';
 
 type ProjectProps = {
   project: ProjectType;
@@ -53,9 +53,9 @@ export const getServerSideProps: GetServerSideProps<
 
   const projectDocument = await fetchProject(client, projectId);
 
-  const project = transformProject(projectDocument);
+  if (isNotUndefined(projectDocument)) {
+    const project = transformProject(projectDocument);
 
-  if (isNotUndefined(project)) {
     const serverData = await getServerData(context);
 
     const jsonLd = contentLd(project);

@@ -5,7 +5,8 @@ import Space from '@weco/common/views/components/styled/Space';
 import { BreadcrumbItems } from '@weco/common/model/breadcrumbs';
 import { links } from '@weco/common/views/components/Header/Header';
 
-export function getBreadcrumbItems(siteSection: string): BreadcrumbItems {
+export function getBreadcrumbItems(siteSection?: string): BreadcrumbItems {
+  if (!siteSection) return { items: [] };
   return {
     items: siteSection
       ? [

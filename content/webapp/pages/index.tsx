@@ -97,7 +97,7 @@ export const getServerSideProps: GetServerSideProps<
   const eventsQueryPromise = fetchEvents(client, {
     period: 'current-and-coming-up',
   });
-  const pagePromise = fetchPage(client, homepageId, 'pages');
+  const pagePromise = fetchPage(client, homepageId);
   const exhibitionsQueryPromise = fetchExhibitions(client, {
     period: 'next-seven-days',
     order: 'asc',

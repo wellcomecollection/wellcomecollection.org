@@ -1,7 +1,4 @@
-import {
-  PagesDocument as RawPagesDocument,
-  EditorialImageSlice as RawEditorialImageSlice,
-} from '@weco/common/prismicio-types';
+import { EditorialImageSlice as RawEditorialImageSlice } from '@weco/common/prismicio-types';
 import { FunctionComponent, ReactElement } from 'react';
 import PageLayout, {
   SiteSection,
@@ -120,9 +117,8 @@ export const getServerSideProps: GetServerSideProps<
 
   const pageDocument = await fetchPage(client, pageId);
 
-  const page = transformPage(pageDocument as unknown as RawPagesDocument);
-
-  if (isNotUndefined(page)) {
+  if (isNotUndefined(pageDocument)) {
+    const page = transformPage(pageDocument);
     const serverData = await getServerData(context);
     const siblings: SiblingsGroup<PageType>[] = (
       await fetchSiblings(client, page)

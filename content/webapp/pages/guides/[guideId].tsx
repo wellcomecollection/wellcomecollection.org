@@ -53,11 +53,10 @@ export const getServerSideProps: GetServerSideProps<
     ? context.resolvedUrl
     : undefined;
 
-  const pageDocument = await fetchGuide(client, guideId);
+  const guideDocument = await fetchGuide(client, guideId);
 
-  const guide = transformGuide(pageDocument);
-
-  if (isNotUndefined(guide)) {
+  if (isNotUndefined(guideDocument)) {
+    const guide = transformGuide(guideDocument);
     const serverData = await getServerData(context);
 
     const jsonLd = contentLd(guide);
