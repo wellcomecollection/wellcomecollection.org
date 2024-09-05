@@ -1,7 +1,6 @@
 import {
   PagesDocument as RawPagesDocument,
   EditorialImageSlice as RawEditorialImageSlice,
-  GuidesDocument as RawGuidesDocument,
 } from '@weco/common/prismicio-types';
 import { FunctionComponent, ReactElement } from 'react';
 import PageLayout, {
@@ -41,7 +40,6 @@ import {
   fetchChildren,
   fetchPage,
   fetchSiblings,
-  isValidPagesContentType,
 } from '@weco/content/services/prismic/fetch/pages';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
@@ -57,7 +55,6 @@ import {
   transformEmbedSlice,
 } from '@weco/content/services/prismic/transformers/body';
 import { gridSize12 } from '@weco/common/views/components/Layout';
-import { transformGuide } from '@weco/content/services/prismic/transformers/guides';
 import { isVanityUrl } from '@weco/content/utils/urls';
 import { makeLabels } from '@weco/common/views/components/LabelsList/LabelsList';
 
@@ -115,45 +112,15 @@ export const getServerSideProps: GetServerSideProps<
   if (!looksLikePrismicId(pageId)) {
     return { notFound: true };
   }
-
   const client = createClient(context);
 
   const vanityUrl = isVanityUrl(pageId, context.resolvedUrl)
     ? context.resolvedUrl
     : undefined;
 
-  // TODO figure out if there is a nicer way to differentiate ID from UID...
-  const contentType = context.resolvedUrl.split('/')[1];
+  const pageDocument = await fetchPage(client, pageId);
 
-  // TODO are there more? These aren't prefixed by /pages/...
-  // Feels very hacky
-  const isStaticNoPrefixPage = [
-    prismicPageIds.cookiePolicy,
-    prismicPageIds.visitUs,
-    prismicPageIds.collections,
-    prismicPageIds.covidWelcomeBack,
-  ].includes(pageId);
-
-  if (!isValidPagesContentType(contentType) && !isStaticNoPrefixPage) {
-    return { notFound: true };
-  }
-
-  const pageDocument = await fetchPage(
-    client,
-    pageId,
-    isValidPagesContentType(contentType) ? contentType : 'pages'
-  );
-
-  let page;
-  switch (contentType) {
-    case 'guides':
-      page = transformGuide(pageDocument as unknown as RawGuidesDocument);
-      break;
-    case 'pages':
-    default:
-      page = transformPage(pageDocument as unknown as RawPagesDocument);
-      break;
-  }
+  const page = transformPage(pageDocument as unknown as RawPagesDocument);
 
   if (isNotUndefined(page)) {
     const serverData = await getServerData(context);

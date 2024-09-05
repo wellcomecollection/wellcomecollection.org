@@ -1,12 +1,16 @@
 import { fetcher, GetByTypeParams, GetServerSidePropsPrismicClient } from '.';
 import * as prismic from '@prismicio/client';
-import { pagesFetchLinks } from '@weco/content/services/prismic/types';
+import {
+  guideFetchLinks,
+  guideFormatsFetchLinks,
+  pagesFetchLinks,
+} from '@weco/content/services/prismic/types';
 import {
   GuidesDocument as RawGuidesDocument,
   GuideFormatsDocument as RawGuideFormatsDocument,
 } from '@weco/common/prismicio-types';
 
-const fetchLinks = [];
+const fetchLinks = [...guideFormatsFetchLinks, ...guideFetchLinks];
 
 const guidesFetcher = fetcher<RawGuidesDocument>('guides', fetchLinks);
 const guideFormatsFetcher = fetcher<RawGuideFormatsDocument>(
@@ -31,6 +35,17 @@ export const fetchGuides = (
     fetchLinks: pagesFetchLinks,
     ...opts,
   });
+};
+export const fetchGuide = async (
+  client: GetServerSidePropsPrismicClient,
+  id: string
+): Promise<RawGuidesDocument | undefined> => {
+  // TODO once redirects are in place we should only fetch by uid
+  const guideDocument =
+    (await guidesFetcher.getById(client, id)) ||
+    (await guidesFetcher.getByUid(client, id));
+
+  return guideDocument;
 };
 
 export const fetchGuideFormats = guideFormatsFetcher.getByType;
