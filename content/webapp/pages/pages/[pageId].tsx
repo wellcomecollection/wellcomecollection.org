@@ -1,7 +1,6 @@
 import {
   PagesDocument as RawPagesDocument,
   EditorialImageSlice as RawEditorialImageSlice,
-  ProjectsDocument as RawProjectsDocument,
   GuidesDocument as RawGuidesDocument,
 } from '@weco/common/prismicio-types';
 import { FunctionComponent, ReactElement } from 'react';
@@ -59,17 +58,17 @@ import {
   transformEmbedSlice,
 } from '@weco/content/services/prismic/transformers/body';
 import { gridSize12 } from '@weco/common/views/components/Layout';
-import { transformProject } from '@weco/content/services/prismic/transformers/projects';
 import { transformGuide } from '@weco/content/services/prismic/transformers/guides';
+import { isVanityUrl } from '@weco/content/utils/urls';
 
 export type Props = {
   page: PageType;
-  vanityUrl: string | undefined;
   siblings: SiblingsGroup<PageType>[];
   children: SiblingsGroup<PageType>;
   ordersInParents: OrderInParent[];
   staticContent: ReactElement | null;
   postOutroContent: ReactElement | null;
+  vanityUrl?: string;
   jsonLd: JsonLdObj;
   gaDimensions: GaDimensions;
 };
@@ -81,30 +80,9 @@ type OrderInParent = {
   type: 'pages' | 'exhibitions';
 };
 
-/** Is this URL a vanity URL?
- *
- * e.g. /visit-us instead of /pages/X8ZTSBIAACQAiDzY
- *
- * It's moderately fiddly to get all the defined vanity URLs out of the
- * app controller, so we use a heuristic instead.
- */
-function isVanityUrl(pageId: string, url: string): boolean {
-  // Does this URL contain a page ID?  We look for the page ID rather
-  // than a specific prefix, because this template is used for multiple
-  // types of Prismic content.
-  //
-  // e.g. /pages/X8ZTSBIAACQAiDzY, /projects/X_SRxhEAACQAPbwS
-  const containsPageId = url.includes(pageId);
-
-  // This should match a single alphanumeric slug directly after the /
-  //
-  // e.g. /visit-us, /collections
-  const looksLikeVanityUrl = url.match(/\/[a-z-]+/) !== null;
-
-  return !containsPageId && looksLikeVanityUrl;
-}
-
-function getFeaturedPictureWithTasl(editorialImage: RawEditorialImageSlice) {
+export function getFeaturedPictureWithTasl(
+  editorialImage: RawEditorialImageSlice
+) {
   const featuredPicture = transformEditorialImageSlice(editorialImage);
   const image =
     getCrop(featuredPicture.value.image, '16:9') || featuredPicture.value.image;
@@ -170,9 +148,6 @@ export const getServerSideProps: GetServerSideProps<
   switch (contentType) {
     case 'guides':
       page = transformGuide(pageDocument as unknown as RawGuidesDocument);
-      break;
-    case 'projects':
-      page = transformProject(pageDocument as unknown as RawProjectsDocument);
       break;
     case 'pages':
     default:

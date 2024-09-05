@@ -23,7 +23,6 @@ import {
 import {
   GuidesDocument as RawGuidesDocument,
   PagesDocument as RawPagesDocument,
-  ProjectsDocument as RawProjectsDocument,
 } from '@weco/common/prismicio-types';
 import { labelsFields } from '@weco/content/services/prismic/fetch-links';
 import { Page } from '@weco/content/types/pages';
@@ -68,10 +67,7 @@ const pagesFetcher = fetcher<RawPagesDocument>(
   fetchLinks
 );
 
-type PagesContentTypes =
-  | RawPagesDocument
-  | RawProjectsDocument
-  | RawGuidesDocument;
+type PagesContentTypes = RawPagesDocument | RawGuidesDocument;
 
 export const fetchPages = pagesFetcher.getByType;
 export const fetchPage = async (
