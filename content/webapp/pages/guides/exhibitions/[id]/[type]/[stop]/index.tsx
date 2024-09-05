@@ -261,6 +261,9 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     (currentStop.image && getCrop(currentStop.image, '16:9')) ||
     currentStop.image;
 
+  const relatedText =
+    type === 'bsl' ? currentStop.subtitles : currentStop.transcript;
+
   return (
     <PageLayout
       title={currentStop.title}
@@ -364,25 +367,24 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
           </StickyPlayer>
           {/* Make sure we can scroll content into view if it's behind the fixed position footer (paddingBottom: 100px) */}
 
-          <Space
-            $v={{ size: 'xl', properties: ['padding-bottom', 'margin-bottom'] }}
-          >
-            <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-              <CollapsibleContent
-                controlText={controlText}
-                id="stop-transcript"
-                darkTheme={true}
-              >
-                <PrismicHtmlBlock
-                  html={
-                    type === 'bsl'
-                      ? currentStop.subtitles!
-                      : currentStop.transcript!
-                  }
-                />
-              </CollapsibleContent>
+          {!!relatedText?.length && (
+            <Space
+              $v={{
+                size: 'xl',
+                properties: ['padding-bottom', 'margin-bottom'],
+              }}
+            >
+              <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+                <CollapsibleContent
+                  controlText={controlText}
+                  id="stop-transcript"
+                  darkTheme={true}
+                >
+                  <PrismicHtmlBlock html={relatedText} />
+                </CollapsibleContent>
+              </Space>
             </Space>
-          </Space>
+          )}
         </Layout>
         <PrevNext>
           <Container>
