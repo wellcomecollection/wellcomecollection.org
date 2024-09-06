@@ -6,6 +6,7 @@ import { Season } from './seasons';
 
 export type Project = GenericContentFields & {
   type: 'projects';
+  uid: string;
   format?: Format;
   seasons: Season[];
   contributors: Contributor[];

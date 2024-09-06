@@ -6,9 +6,11 @@ describe('getPartNumberInSeries', () => {
     const article: ArticleBasic = {
       type: 'articles',
       id: 'Y_iu0RQAACYAwp8A',
+      uid: 'cataloguing-audrey',
       series: [
         {
           id: 'Y_OGkRQAACgAq4ui',
+          uid: 'finding-audrey-amiss',
           type: 'series',
           title: 'Finding Audrey Amiss',
           labels: [{ text: 'Serial' }],
@@ -45,10 +47,12 @@ describe('getPartNumberInSeries', () => {
     const article: ArticleBasic = {
       type: 'articles',
       id: 'Y-0A1hQAACUAjrjg',
+      uid: 'stones-for-healing',
       series: [
         {
           id: 'WsSUrR8AAL3KGFPF',
           type: 'series',
+          uid: 'inside-our-collections',
           title: 'Inside Our Collections',
           labels: [{ text: 'Series' }],
           color: 'accent.blue',

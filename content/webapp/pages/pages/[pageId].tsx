@@ -118,8 +118,10 @@ export const getServerSideProps: GetServerSideProps<
   const pageDocument = await fetchPage(client, pageId);
 
   if (isNotUndefined(pageDocument)) {
-    const page = transformPage(pageDocument);
     const serverData = await getServerData(context);
+
+    const page = transformPage(pageDocument);
+
     const siblings: SiblingsGroup<PageType>[] = (
       await fetchSiblings(client, page)
     ).map(group => {

@@ -82,6 +82,7 @@ export type EventBasic = HasTimes & {
   // and is only what is required to render EventPromos and json-ld
   type: 'events';
   id: string;
+  uid: string;
   title: string;
   promo?: ImagePromo | undefined;
   image?: ImageType;
@@ -98,6 +99,7 @@ export type EventBasic = HasTimes & {
 
 export type Event = GenericContentFields & {
   type: 'events';
+  uid: string;
   format?: Format;
   hasEarlyRegistration: boolean;
   ticketSalesStart?: Date;

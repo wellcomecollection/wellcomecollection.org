@@ -49,6 +49,7 @@ export function transformExhibitionHighlightTours(
 
   return {
     id: document.id,
+    uid: document.uid,
     type: document.type,
     relatedExhibition,
     title: relatedExhibition?.title || asTitle(document.data.title),

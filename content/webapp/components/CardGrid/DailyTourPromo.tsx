@@ -14,6 +14,7 @@ const image = {
 
 export const data: EventBasic = {
   id: 'tours',
+  uid: 'daily-tours',
   title: 'Daily Guided Tours and Discussions',
   times: [],
   series: [],

@@ -31,6 +31,7 @@ export function transformArticleToArticleBasic(article: Article): ArticleBasic {
   return (({
     type,
     id,
+    uid,
     promo,
     series,
     title,
@@ -42,6 +43,7 @@ export function transformArticleToArticleBasic(article: Article): ArticleBasic {
   }) => ({
     type,
     id,
+    uid,
     promo: promo && {
       ...promo,
       image: promo.image && {
@@ -107,6 +109,7 @@ export function transformArticle(
   return {
     ...genericFields,
     type: 'articles',
+    uid: document.uid,
     labels: labels.length > 0 ? labels : [{ text: 'Story' }],
     format,
     series,

@@ -35,6 +35,7 @@ export function transformProject(document: RawProjectsDocument): Project {
 
   return {
     type: 'projects',
+    uid: document.uid,
     ...genericFields,
     format: transformFormat(document),
     seasons,

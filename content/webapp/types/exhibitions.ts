@@ -24,6 +24,7 @@ export type ExhibitionBasic = {
   // and is only what is required to render ExhibitionPromos and json-ld
   type: 'exhibitions';
   id: string;
+  uid: string;
   title: string;
   promo?: ImagePromo;
   image?: ImageType;
@@ -38,8 +39,9 @@ export type ExhibitionBasic = {
 };
 
 export type Exhibition = GenericContentFields & {
-  shortTitle?: string;
   type: 'exhibitions';
+  uid: string;
+  shortTitle?: string;
   format?: ExhibitionFormat;
   start: Date;
   end?: Date;

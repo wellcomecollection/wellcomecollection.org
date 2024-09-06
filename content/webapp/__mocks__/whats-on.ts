@@ -3,6 +3,7 @@ import { Props as WhatsOnProps } from '../pages/whats-on';
 
 const beingHuman: Exhibition = {
   id: 'XNFfsxAAANwqbNWD',
+  uid: 'being-human',
   title: 'Being Human',
   untransformedBody: [],
   promo: {
