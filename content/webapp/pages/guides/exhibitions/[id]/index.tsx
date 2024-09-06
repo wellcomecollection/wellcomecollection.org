@@ -314,13 +314,13 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
     );
 
   const textPathname = exhibitionText?.id
-    ? `guides/exhibitions/${exhibitionText.uid}/captions-and-transcripts`
+    ? `guides/exhibitions/${exhibitionText.id}/captions-and-transcripts`
     : undefined;
   const audioPathname = hasAudio
-    ? `guides/exhibitions/${exhibitionHighlightTour.uid}/audio-without-descriptions`
+    ? `guides/exhibitions/${exhibitionHighlightTour.id}/audio-without-descriptions`
     : undefined;
   const videoPathname = hasVideo
-    ? `guides/exhibitions/${exhibitionHighlightTour.uid}/bsl`
+    ? `guides/exhibitions/${exhibitionHighlightTour.id}/bsl`
     : undefined;
 
   return (
