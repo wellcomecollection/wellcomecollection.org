@@ -119,6 +119,7 @@ export function transformExhibition(
 
   const exhibition = {
     ...genericFields,
+    uid: document.uid,
     shortTitle: data.shortTitle && asText(data.shortTitle),
     format,
     start,
@@ -158,6 +159,7 @@ export function transformExhibitionToExhibitionBasic(
   return (({
     type,
     id,
+    uid,
     title,
     promo,
     format,
@@ -170,6 +172,7 @@ export function transformExhibitionToExhibitionBasic(
   }) => ({
     type,
     id,
+    uid,
     title,
     promo: promo && {
       ...promo,

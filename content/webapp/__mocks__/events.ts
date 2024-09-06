@@ -30,6 +30,7 @@ export const location = {
 const baseEvent: Event = {
   type: 'events',
   id: 'tours',
+  uid: 'daily-tours',
   title: 'Daily Guided Tours and Discussions',
   times: [],
   series: [],

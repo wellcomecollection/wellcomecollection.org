@@ -4,11 +4,13 @@ import { Contributor } from './contributors';
 
 export type EventSeries = GenericContentFields & {
   type: 'event-series';
+  uid: string;
   backgroundTexture?: BackgroundTexture;
   contributors: Contributor[];
 };
 
 export type EventSeriesBasic = {
   id: string;
+  uid: string;
   title: string;
 };

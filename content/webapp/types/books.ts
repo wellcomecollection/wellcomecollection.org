@@ -16,6 +16,7 @@ export type BookBasic = {
   // and is only what is required to render BookPromos and json-ld
   type: 'books';
   id: string;
+  uid: string;
   title: string;
   subtitle?: string;
   cover?: ImageType;
@@ -25,6 +26,7 @@ export type BookBasic = {
 
 export type Book = GenericContentFields & {
   type: 'books';
+  uid: string;
   subtitle?: string;
   orderLink?: string;
   price?: string;

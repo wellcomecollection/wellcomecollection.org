@@ -26,6 +26,7 @@ export function transformToBasic(
     introText,
     type,
     id,
+    uid,
     promo,
     relatedExhibition,
     availableTypes,
@@ -34,6 +35,7 @@ export function transformToBasic(
     introText,
     type,
     id,
+    uid,
     promo,
     relatedExhibition,
     availableTypes,
@@ -58,6 +60,7 @@ export function transformExhibitionTexts(
 
   return {
     id: document.id,
+    uid: document.uid,
     type: document.type,
     relatedExhibition,
     title: relatedExhibition?.title || asTitle(document.data.title),

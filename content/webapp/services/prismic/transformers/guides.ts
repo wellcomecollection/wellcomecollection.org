@@ -24,6 +24,7 @@ export function transformGuide(document: RawGuidesDocument): Guide {
   const promo = genericFields.promo;
   return {
     type: 'guides',
+    uid: document.uid,
     format: transformFormat(document),
     ...genericFields,
     onThisPage: data.body ? transformOnThisPage(data.body) : [],

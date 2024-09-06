@@ -94,6 +94,7 @@ export function transformPage(document: RawPagesDocument): Page {
 
   return {
     type: 'pages',
+    uid: document.uid,
     format: transformFormat(document),
     ...genericFields,
     metadataDescription,

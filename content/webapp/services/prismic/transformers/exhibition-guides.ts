@@ -30,6 +30,7 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
     introText,
     type,
     id,
+    uid,
     image,
     promo,
     relatedExhibition,
@@ -39,6 +40,7 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
     introText,
     type,
     id,
+    uid,
     image,
     promo,
     relatedExhibition,
@@ -52,6 +54,7 @@ export function transformRelatedExhibition(exhibition): RelatedExhibition {
 
   return {
     id: exhibition.id,
+    uid: exhibition.uid,
     title: asTitle(exhibition.data.title),
     description: promo?.caption,
   };
@@ -132,6 +135,7 @@ export function transformExhibitionGuide(
     relatedExhibition,
     components,
     id: document.id,
+    uid: document.uid,
     availableTypes: {
       BSLVideo: hasBSLVideo,
       captionsOrTranscripts: hasCaptionsOrTranscripts,
