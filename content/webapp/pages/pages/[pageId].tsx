@@ -165,22 +165,23 @@ export const getServerSideProps: GetServerSideProps<
     isValidPagesContentType(contentType) ? contentType : 'pages'
   );
 
-  let page;
-  switch (contentType) {
-    case 'guides':
-      page = transformGuide(pageDocument as unknown as RawGuidesDocument);
-      break;
-    case 'projects':
-      page = transformProject(pageDocument as unknown as RawProjectsDocument);
-      break;
-    case 'pages':
-    default:
-      page = transformPage(pageDocument as unknown as RawPagesDocument);
-      break;
-  }
-
-  if (isNotUndefined(page)) {
+  if (isNotUndefined(pageDocument)) {
     const serverData = await getServerData(context);
+
+    let page;
+    switch (contentType) {
+      case 'guides':
+        page = transformGuide(pageDocument as unknown as RawGuidesDocument);
+        break;
+      case 'projects':
+        page = transformProject(pageDocument as unknown as RawProjectsDocument);
+        break;
+      case 'pages':
+      default:
+        page = transformPage(pageDocument as unknown as RawPagesDocument);
+        break;
+    }
+
     const siblings: SiblingsGroup<PageType>[] = (
       await fetchSiblings(client, page)
     ).map(group => {
