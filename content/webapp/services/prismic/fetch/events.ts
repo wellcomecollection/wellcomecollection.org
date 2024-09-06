@@ -45,19 +45,21 @@ const eventsFetcher = fetcher<RawEventsDocument>('events', fetchLinks);
 
 type FetchEventResult = {
   event?: RawEventsDocument;
-  visualStories: prismic.Query<RawVisualStoriesDocument>;
+  visualStories?: prismic.Query<RawVisualStoriesDocument>;
 };
 export async function fetchEvent(
   client: GetServerSidePropsPrismicClient,
   id: string
-): Promise<FetchEventResult> {
+): Promise<FetchEventResult | undefined> {
   // TODO once redirects are in place we should only fetch by uid
   const event =
     (await eventsFetcher.getById(client, id)) ||
     (await eventsFetcher.getByUid(client, id));
 
+  if (!event) return;
+
   const visualStories = await fetchVisualStories(client, {
-    filters: [prismic.filter.at('my.visual-stories.relatedDocument', id)],
+    filters: [prismic.filter.at('my.visual-stories.relatedDocument', event.id)],
   });
 
   return {

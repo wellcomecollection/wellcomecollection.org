@@ -129,67 +129,81 @@ export const getServerSideProps: GetServerSideProps<
 
   const client = createClient(context);
 
-  const booksQueryPromise = fetchBooks(client, {
-    filters: [prismic.filter.at('my.books.seasons.season', seasonId)],
-  });
-  const articlesQueryPromise = fetchArticles(client, {
-    filters: [prismic.filter.at('my.articles.seasons.season', seasonId)],
-  });
-  const eventsQueryPromise = fetchEvents(client, {
-    filters: [prismic.filter.at('my.events.seasons.season', seasonId)],
-    orderings: [{ field: 'my.events.times.startDateTime', direction: 'desc' }],
-  });
-  const exhibitionsQueryPromise = fetchExhibitions(client, {
-    filters: [prismic.filter.at('my.exhibitions.seasons.season', seasonId)],
-    order: 'desc',
-  });
-  const pagesQueryPromise = fetchPages(client, {
-    filters: [prismic.filter.at('my.pages.seasons.season', seasonId)],
-  });
-  const projectsQueryPromise = fetchProjects(client, {
-    filters: [prismic.filter.at('my.projects.seasons.season', seasonId)],
-  });
-  const seriesQueryPromise = fetchSeries(client, {
-    filters: [prismic.filter.at('my.series.seasons.season', seasonId)],
-  });
+  const seasonDocument = await fetchSeason(client, seasonId);
 
-  const seasonDocPromise = fetchSeason(client, seasonId);
+  if (isNotUndefined(seasonDocument)) {
+    const booksQueryPromise = fetchBooks(client, {
+      filters: [
+        prismic.filter.at('my.books.seasons.season', seasonDocument.id),
+      ],
+    });
+    const articlesQueryPromise = fetchArticles(client, {
+      filters: [
+        prismic.filter.at('my.articles.seasons.season', seasonDocument.id),
+      ],
+    });
+    const eventsQueryPromise = fetchEvents(client, {
+      filters: [
+        prismic.filter.at('my.events.seasons.season', seasonDocument.id),
+      ],
+      orderings: [
+        { field: 'my.events.times.startDateTime', direction: 'desc' },
+      ],
+    });
+    const exhibitionsQueryPromise = fetchExhibitions(client, {
+      filters: [
+        prismic.filter.at('my.exhibitions.seasons.season', seasonDocument.id),
+      ],
+      order: 'desc',
+    });
+    const pagesQueryPromise = fetchPages(client, {
+      filters: [
+        prismic.filter.at('my.pages.seasons.season', seasonDocument.id),
+      ],
+    });
+    const projectsQueryPromise = fetchProjects(client, {
+      filters: [
+        prismic.filter.at('my.projects.seasons.season', seasonDocument.id),
+      ],
+    });
+    const seriesQueryPromise = fetchSeries(client, {
+      filters: [
+        prismic.filter.at('my.series.seasons.season', seasonDocument.id),
+      ],
+    });
 
-  const [
-    articlesQuery,
-    booksQuery,
-    eventsQuery,
-    exhibitionsQuery,
-    pagesQuery,
-    projectsQuery,
-    seriesQuery,
-    seasonDoc,
-  ] = await Promise.all([
-    articlesQueryPromise,
-    booksQueryPromise,
-    eventsQueryPromise,
-    exhibitionsQueryPromise,
-    pagesQueryPromise,
-    projectsQueryPromise,
-    seriesQueryPromise,
-    seasonDocPromise,
-  ]);
+    const [
+      articlesQuery,
+      booksQuery,
+      eventsQuery,
+      exhibitionsQuery,
+      pagesQuery,
+      projectsQuery,
+      seriesQuery,
+    ] = await Promise.all([
+      articlesQueryPromise,
+      booksQueryPromise,
+      eventsQueryPromise,
+      exhibitionsQueryPromise,
+      pagesQueryPromise,
+      projectsQueryPromise,
+      seriesQueryPromise,
+    ]);
 
-  const articles = transformQuery(articlesQuery, article =>
-    transformArticleToArticleBasic(transformArticle(article))
-  );
-  const books = transformQuery(booksQuery, book =>
-    transformBookToBookBasic(transformBook(book))
-  );
-  const events = transformQuery(eventsQuery, transformEventBasic);
-  const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
+    const articles = transformQuery(articlesQuery, article =>
+      transformArticleToArticleBasic(transformArticle(article))
+    );
+    const books = transformQuery(booksQuery, book =>
+      transformBookToBookBasic(transformBook(book))
+    );
+    const events = transformQuery(eventsQuery, transformEventBasic);
+    const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
 
-  const pages = transformQuery(pagesQuery, transformPage);
-  const projects = transformQuery(projectsQuery, transformProject);
-  const series = transformQuery(seriesQuery, transformSeries);
-  const season = seasonDoc && transformSeason(seasonDoc);
+    const pages = transformQuery(pagesQuery, transformPage);
+    const projects = transformQuery(projectsQuery, transformProject);
+    const series = transformQuery(seriesQuery, transformSeries);
+    const season = transformSeason(seasonDocument);
 
-  if (isNotUndefined(season)) {
     const serverData = await getServerData(context);
     const jsonLd = contentLd(season);
 

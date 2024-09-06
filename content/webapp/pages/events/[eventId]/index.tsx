@@ -99,7 +99,7 @@ const EmailTeamCopy = styled(Space).attrs({
 
 type EventProps = {
   event: Event;
-  accessResourceLinks: (Link & { type: string })[];
+  accessResourceLinks?: (Link & { type: string })[];
   jsonLd: JsonLdObj[];
   gaDimensions: GaDimensions;
   pageview: Pageview;
@@ -367,7 +367,7 @@ const EventPage: NextPage<EventProps> = ({
           </>
         )}
 
-        {accessResourceLinks.length > 0 && (
+        {accessResourceLinks && accessResourceLinks.length > 0 && (
           <>
             <h2 className={font('wb', 3)}>Event access content</h2>
             <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
@@ -484,9 +484,11 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   const client = createClient(context);
-  const { event, visualStories } = await fetchEvent(client, eventId as string);
+  const eventDocument = await fetchEvent(client, eventId as string);
 
-  if (isNotUndefined(event)) {
+  if (isNotUndefined(eventDocument?.event)) {
+    const { event, visualStories } = eventDocument;
+
     const serverData = await getServerData(context);
     const scheduleIds = getScheduleIds(event);
 
@@ -499,7 +501,7 @@ export const getServerSideProps: GetServerSideProps<
 
     const jsonLd = eventLd(eventDoc);
 
-    const visualStoriesLinks = visualStories.results.map(visualStory => {
+    const visualStoriesLinks = visualStories?.results.map(visualStory => {
       const url = linkResolver(visualStory);
       return {
         text: visualStoryLinkText,
