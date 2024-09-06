@@ -86,25 +86,38 @@ export type FetchExhibitionResult = {
 export async function fetchExhibition(
   client: GetServerSidePropsPrismicClient,
   id: string
-): Promise<FetchExhibitionResult> {
+): Promise<FetchExhibitionResult | undefined> {
   // TODO once redirects are in place we should only fetch by uid
   const exhibitionDocument =
     (await exhibitionsFetcher.getById(client, id)) ||
     (await exhibitionsFetcher.getByUid(client, id));
 
+  if (!exhibitionDocument) return;
+
+  const { id: exhibitionId } = exhibitionDocument;
+
   const pageQueryPromise = fetchPages(client, {
-    filters: [prismic.filter.at('my.pages.parents.parent', id)],
+    filters: [prismic.filter.at('my.pages.parents.parent', exhibitionId)],
   });
 
   const visualStoriesQueryPromise = fetchVisualStories(client, {
-    filters: [prismic.filter.at('my.visual-stories.relatedDocument', id)],
+    filters: [
+      prismic.filter.at('my.visual-stories.relatedDocument', exhibitionId),
+    ],
   });
   const exhibitionGuidesQueryPromise = fetchExhibitionGuides(client, {
-    filters: [prismic.filter.at('my.exhibition-guides.related-exhibition', id)],
+    filters: [
+      prismic.filter.at(
+        'my.exhibition-guides.related-exhibition',
+        exhibitionId
+      ),
+    ],
   });
 
   const exhibitionTextsQueryPromise = fetchExhibitionTexts(client, {
-    filters: [prismic.filter.at('my.exhibition-texts.related_exhibition', id)],
+    filters: [
+      prismic.filter.at('my.exhibition-texts.related_exhibition', exhibitionId),
+    ],
   }).catch(returnEmptyResults);
 
   const exhibitionHighlightToursQueryPromise = fetchExhibitionHighlightTours(
@@ -113,7 +126,7 @@ export async function fetchExhibition(
       filters: [
         prismic.filter.at(
           'my.exhibition-highlight-tours.related_exhibition',
-          id
+          exhibitionId
         ),
       ],
     }

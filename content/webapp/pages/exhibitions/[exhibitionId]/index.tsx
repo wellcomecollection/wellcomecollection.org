@@ -91,15 +91,15 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   const client = createClient(context);
-  const { exhibition, pages, visualStories, allGuides } = await fetchExhibition(
-    client,
-    exhibitionId
-  );
+  const exhibitionDocument = await fetchExhibition(client, exhibitionId);
 
-  if (isNotUndefined(exhibition)) {
+  if (isNotUndefined(exhibitionDocument?.exhibition)) {
+    const { exhibition, pages, visualStories, allGuides } = exhibitionDocument;
+
     const serverData = await getServerData(context);
     const exhibitionDoc = transformExhibition(exhibition);
     const relatedPages = transformQuery(pages, transformPage);
+
     const visualStoriesLinks = visualStories.results.map(visualStory => {
       const url = linkResolver(visualStory);
       return {
@@ -108,6 +108,7 @@ export const getServerSideProps: GetServerSideProps<
         type: 'visual-story',
       };
     });
+
     const exhibitionGuidesLinks = allGuides.map(exhibitionGuide => {
       const url = linkResolver(exhibitionGuide);
       return {
