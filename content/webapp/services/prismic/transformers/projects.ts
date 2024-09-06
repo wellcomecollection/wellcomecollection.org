@@ -22,6 +22,7 @@ export function transformProject(document: RawProjectsDocument): Project {
   const promo = genericFields.promo;
   return {
     type: 'projects',
+    uid: document.uid,
     ...genericFields,
     format: transformFormat(document),
     seasons,

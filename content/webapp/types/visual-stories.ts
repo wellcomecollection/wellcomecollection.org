@@ -6,6 +6,7 @@ import { ImageType } from '@weco/common/model/image';
 
 export type VisualStory = GenericContentFields & {
   type: 'visual-stories';
+  uid: string;
   onThisPage: Link[];
   datePublished?: Date;
   relatedDocument?: {
@@ -20,6 +21,7 @@ export type VisualStory = GenericContentFields & {
 export type VisualStoryBasic = {
   type: 'visual-stories';
   id: string;
+  uid: string;
   title: string;
   promo?: ImagePromo | undefined;
   image?: ImageType | undefined;

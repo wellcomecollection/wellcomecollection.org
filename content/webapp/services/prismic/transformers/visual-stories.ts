@@ -22,6 +22,7 @@ export function transformVisualStory(
 
   return {
     type: 'visual-stories',
+    uid: document.uid,
     ...genericFields,
     onThisPage: data.body ? transformOnThisPage(data.body) : [],
     showOnThisPage: data.showOnThisPage || false,

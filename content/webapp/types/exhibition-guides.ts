@@ -41,11 +41,14 @@ export type ExhibitionGuideComponent = {
 
 export type RelatedExhibition = {
   id: string;
+  uid: string;
   title: string;
   description?: string;
 };
 
 export type ExhibitionGuideBasic = {
+  id: string;
+  uid: string;
   title: string;
   introText: prismic.RichTextField;
   type:
@@ -53,7 +56,6 @@ export type ExhibitionGuideBasic = {
     | 'exhibition-guides-links'
     | 'exhibition-texts'
     | 'exhibition-highlight-tours';
-  id: string;
   exhibitionTextId?: string;
   exhibitionHighlightTourId?: string;
   image?: ImageType;
