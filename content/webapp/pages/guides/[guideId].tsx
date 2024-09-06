@@ -131,7 +131,7 @@ export const Guide: FunctionComponent<Props> = ({
   // If we have a vanity URL, we prefer that for the link rel="canonical"
   // in the page <head>; it means the canonical URL will match the links
   // we put elsewhere on the website, e.g. in the header.
-  const pathname = vanityUrl || `/guides/${guide.id}`;
+  const pathname = vanityUrl || `/guides/${guide.uid}`;
 
   return (
     <PageLayout
