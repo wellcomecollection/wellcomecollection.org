@@ -9,6 +9,7 @@ describe('sortSeriesItems', () => {
 
     const series: SeriesBasic = {
       id: 'YxnFmxEAAHzJngrE',
+      uid: 'the-hidden-side-of-violence',
       title: 'The Hidden Side of Violence',
       labels: [{ text: 'Serial' }],
       type: 'series',
@@ -63,6 +64,7 @@ describe('sortSeriesItems', () => {
       {
         type: 'articles',
         id: 'Y0-8rxEAAA1CBr3a',
+        uid: 'how-can-we-prevent-violence',
         title: 'How can we prevent violence?',
         series: [],
         datePublished: new Date('2022-10-27T09:00:00.000Z'),
@@ -71,6 +73,7 @@ describe('sortSeriesItems', () => {
       {
         type: 'articles',
         id: 'Y0Uv0REAAImM14IP',
+        uid: 'what-is-structural-violence',
         series: [],
         title: 'What is structural violence?',
         datePublished: new Date('2022-10-20T09:00:00.000Z'),
@@ -80,6 +83,7 @@ describe('sortSeriesItems', () => {
         type: 'articles',
         id: 'Yz1IdhEAABfUtA8u',
         series: [],
+        uid: 'why-do-victims-become-violent',
         title: 'Why do victims become violent?',
         datePublished: new Date('2022-10-13T09:00:01.000Z'),
         labels: [{ text: 'Serial' }],

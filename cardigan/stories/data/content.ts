@@ -21,6 +21,7 @@ faker.seed(123);
 export const bannerCardItem: Season = {
   type: 'seasons',
   id: 'bannerCardItem',
+  uid: 'what-does-it-mean',
   untransformedBody: [],
   labels: [],
   title: 'What does it mean to be human, now?',
@@ -86,6 +87,7 @@ export const videoEmbed = {
 export const event: Event = {
   type: 'events',
   id: 'x123',
+  uid: 'event-title',
   title: 'Event title',
   audiences: [],
   availableOnline: true,
@@ -256,6 +258,7 @@ export const organisation: OrganisationType = {
 export const article: Article = {
   type: 'articles',
   id: 'YLoCLhAAACEAfyuO',
+  uid: 'a-dark-cloud',
   title: 'A dark cloud',
   contributors: [
     {
@@ -346,6 +349,7 @@ export const article: Article = {
   series: [
     {
       id: 'YJ5KTBAAACEA_Yrk',
+      uid: 'weewaz',
       title: 'Weewaaz',
       contributors: [
         {
@@ -440,6 +444,7 @@ export const article: Article = {
 export const articleBasic: ArticleBasic = {
   type: 'articles',
   id: 'article-basic',
+  uid: 'article-basic',
   promo: article.promo,
   series: [],
   title: article.title,
@@ -450,6 +455,7 @@ export const articleBasic: ArticleBasic = {
 export const exhibitionBasic: ExhibitionBasic = {
   type: 'exhibitions',
   id: 'exhibition-basic',
+  uid: 'exhibition-basic',
   title: 'What does it mean to be human now? Four views by CYP x CALLY',
   promo: {
     image: image(florenceWinterfloodImageUrl('3200x1800'), 3200, 1800),

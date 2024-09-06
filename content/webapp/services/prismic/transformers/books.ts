@@ -17,9 +17,10 @@ import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 
 export function transformBookToBookBasic(book: Book): BookBasic {
   // returns what is required to render BookPromos and book JSON-LD
-  return (({ type, id, title, subtitle, cover, promo, labels }) => ({
+  return (({ type, id, uid, title, subtitle, cover, promo, labels }) => ({
     type,
     id,
+    uid,
     title,
     subtitle,
     cover,
@@ -45,6 +46,7 @@ export function transformBook(document: RawBooksDocument): Book {
 
   return {
     type: 'books',
+    uid: document.uid,
     ...genericFields,
     subtitle: asText(data.subtitle),
     orderLink: isFilledLinkToWebField(data.orderLink)

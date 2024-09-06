@@ -10,10 +10,11 @@ import { Label } from '@weco/common/model/labels';
 
 export type SeriesBasic = {
   type: 'series';
+  uid: string;
   id: string;
   title: string;
-  promo?: ImagePromo | undefined;
-  image?: ImageType | undefined;
+  promo?: ImagePromo;
+  image?: ImageType;
   color?: ColorSelection;
   schedule: ArticleScheduleItem[];
   labels: Label[];
@@ -21,6 +22,7 @@ export type SeriesBasic = {
 
 export type Series = GenericContentFields & {
   type: 'series';
+  uid: string;
   color?: ColorSelection;
   schedule: ArticleScheduleItem[];
   seasons: Season[];

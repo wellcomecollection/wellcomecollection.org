@@ -17,6 +17,7 @@ const image: ImageType = {
 const season: Season = {
   id: 'X84FvhIAACUAqiqp',
   labels: [{ text: 'Season' }],
+  uid: 'what-does-it-mean-to-be-human',
   title: 'What does it mean to be human, now?',
   start: new Date('2021-01-05T00:00:00.000Z'),
   end: new Date('2021-01-26T00:00:00.000Z'),

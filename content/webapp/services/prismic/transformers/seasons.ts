@@ -7,8 +7,10 @@ export function transformSeason(document: RawSeasonsDocument): Season {
   const { data } = document;
   const genericFields = transformGenericFields(document);
   const promo = genericFields.promo;
+
   return {
     type: 'seasons',
+    uid: document.uid,
     start: transformTimestamp(data.start),
     end: transformTimestamp(data.end),
     datePublished: document.first_publication_date

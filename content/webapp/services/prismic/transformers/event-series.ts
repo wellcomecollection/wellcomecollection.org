@@ -49,6 +49,7 @@ export function transformEventSeries(
   return {
     ...genericFields,
     type: 'event-series',
+    uid: document.uid,
     backgroundTexture,
     labels,
     contributors,
@@ -58,8 +59,9 @@ export function transformEventSeries(
 export function transformEventSeriesToEventSeriesBasic(
   eventSeries: EventSeries
 ): EventSeriesBasic {
-  return (({ id, title }) => ({
+  return (({ id, uid, title }) => ({
     id,
+    uid,
     title,
   }))(eventSeries);
 }

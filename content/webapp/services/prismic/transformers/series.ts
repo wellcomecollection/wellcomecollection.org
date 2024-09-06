@@ -48,6 +48,7 @@ export function transformSeries(document: RawSeriesDocument): Series {
   return {
     ...genericFields,
     type: 'series',
+    uid: document.uid,
     labels,
     schedule,
     untransformedStandfirst,
@@ -59,8 +60,19 @@ export function transformSeries(document: RawSeriesDocument): Series {
 }
 
 export function transformSeriesToSeriesBasic(series: Series): SeriesBasic {
-  return (({ id, type, title, labels, color, schedule, promo, image }) => ({
+  return (({
     id,
+    uid,
+    type,
+    title,
+    labels,
+    color,
+    schedule,
+    promo,
+    image,
+  }) => ({
+    id,
+    uid,
     type,
     title,
     labels,

@@ -12,6 +12,7 @@ export type ParentPage = Page & {
 
 export type Page = GenericContentFields & {
   type: 'pages';
+  uid: string;
   format: Format | undefined;
   seasons: Season[];
   parentPages: ParentPage[];

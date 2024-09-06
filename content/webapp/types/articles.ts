@@ -13,6 +13,7 @@ export type ArticleBasic = {
   // this is a mix of props from GenericContentFields and Article
   // and is only what is required to render ArticlePromos and json-ld
   type: 'articles';
+  uid: string;
   id: string;
   promo?: ImagePromo | undefined;
   series: SeriesBasic[];
@@ -26,6 +27,7 @@ export type ArticleBasic = {
 
 export type Article = GenericContentFields & {
   type: 'articles';
+  uid: string;
   format?: Format<ArticleFormatId>;
   readingTime?: string;
   datePublished: Date;
