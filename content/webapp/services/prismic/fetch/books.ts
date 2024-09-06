@@ -29,7 +29,7 @@ export const fetchBook = async (
 
 export const fetchBooks = (
   client: GetServerSidePropsPrismicClient,
-  params: GetByTypeParams
+  params: GetByTypeParams = {}
 ): Promise<prismic.Query<RawBooksDocument>> => {
   return booksFetcher.getByType(client, {
     ...params,
