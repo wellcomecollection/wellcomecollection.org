@@ -219,13 +219,11 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
     />
   );
 
-  const paginationRoot = `/series/${series.id}`;
-
   return (
     <PageLayout
       title={series.title}
       description={series.metadataDescription || series.promo?.caption || ''}
-      url={{ pathname: paginationRoot }}
+      url={{ pathname: `/series/${series.uid}` }}
       jsonLd={{ '@type': 'WebPage' }}
       siteSection="stories"
       openGraphType="website"

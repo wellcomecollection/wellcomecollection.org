@@ -60,7 +60,7 @@ const ExhibitionPage: FunctionComponent<ExhibitionProps> = ({
       description={
         exhibition.metadataDescription || exhibition.promo?.caption || ''
       }
-      url={{ pathname: `/exhibitions/${exhibition.id}` }}
+      url={{ pathname: `/exhibitions/${exhibition.uid}` }}
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection="whats-on"

@@ -333,7 +333,7 @@ export const Page: FunctionComponent<Props> = ({
   // If we have a vanity URL, we prefer that for the link rel="canonical"
   // in the page <head>; it means the canonical URL will match the links
   // we put elsewhere on the website, e.g. in the header.
-  const pathname = vanityUrl || `/pages/${page.id}`;
+  const pathname = vanityUrl || `/pages/${page.uid}`;
 
   return (
     <PageLayout
