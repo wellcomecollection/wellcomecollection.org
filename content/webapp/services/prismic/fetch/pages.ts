@@ -19,6 +19,7 @@ import {
   seasonsFetchLinks,
   seriesFetchLinks,
   teamsFetchLinks,
+  commonPrismicFieldsFetchLinks,
 } from '@weco/content/services/prismic/types';
 import { PagesDocument as RawPagesDocument } from '@weco/common/prismicio-types';
 import { labelsFields } from '@weco/content/services/prismic/fetch-links';
@@ -26,6 +27,7 @@ import { Page } from '@weco/content/types/pages';
 import { SiblingsGroup } from '@weco/content/types/siblings-group';
 
 export const fetchLinks = [
+  ...commonPrismicFieldsFetchLinks,
   ...pagesFetchLinks,
   ...seriesFetchLinks,
   ...eventSeriesFetchLinks,
