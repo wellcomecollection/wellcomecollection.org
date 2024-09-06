@@ -289,11 +289,9 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
   stopNumber,
 }) => {
   const { egWork } = useToggles();
-  console.log(
-    exhibitionGuide?.id || exhibitionText?.id || exhibitionHighlightTour?.id
-  );
+
   const pageId =
-    exhibitionGuide?.id || exhibitionText?.id || exhibitionHighlightTour?.id;
+    exhibitionGuide?.uid || exhibitionText?.uid || exhibitionHighlightTour?.uid;
   const pageTitle =
     exhibitionGuide?.title ||
     exhibitionText?.title ||
@@ -316,13 +314,13 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
     );
 
   const textPathname = exhibitionText?.id
-    ? `guides/exhibitions/${exhibitionText.id}/captions-and-transcripts`
+    ? `guides/exhibitions/${exhibitionText.uid}/captions-and-transcripts`
     : undefined;
   const audioPathname = hasAudio
-    ? `guides/exhibitions/${exhibitionHighlightTour.id}/audio-without-descriptions`
+    ? `guides/exhibitions/${exhibitionHighlightTour.uid}/audio-without-descriptions`
     : undefined;
   const videoPathname = hasVideo
-    ? `guides/exhibitions/${exhibitionHighlightTour.id}/bsl`
+    ? `guides/exhibitions/${exhibitionHighlightTour.uid}/bsl`
     : undefined;
 
   return (
