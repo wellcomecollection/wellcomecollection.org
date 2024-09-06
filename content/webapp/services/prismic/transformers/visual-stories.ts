@@ -34,6 +34,7 @@ export function transformVisualStory(
       ? {
           title: asText(relatedDocument.data?.title as prismic.RichTextField),
           id: relatedDocument.id,
+          uid: relatedDocument.uid,
           type: relatedDocument.type,
         }
       : undefined,

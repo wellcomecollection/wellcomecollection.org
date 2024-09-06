@@ -12,7 +12,7 @@ export type VisualStory = GenericContentFields & {
   relatedDocument?: {
     title?: string;
     id: string;
-    uid: string;
+    uid?: string;
     type: 'exhibitions' | 'events';
   };
   siteSection?: SiteSection;
@@ -29,7 +29,7 @@ export type VisualStoryBasic = {
   relatedDocument?: {
     title?: string;
     id: string;
-    uid: string;
+    uid?: string;
     type: 'exhibitions' | 'events';
   };
 };
