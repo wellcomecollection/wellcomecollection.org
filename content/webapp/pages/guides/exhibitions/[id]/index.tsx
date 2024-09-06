@@ -291,12 +291,13 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
   const { egWork } = useToggles();
 
   const pageId =
+    exhibitionGuide?.id || exhibitionText?.id || exhibitionHighlightTour?.id;
+  const pageUid =
     exhibitionGuide?.uid || exhibitionText?.uid || exhibitionHighlightTour?.uid;
   const pageTitle =
     exhibitionGuide?.title ||
     exhibitionText?.title ||
     exhibitionHighlightTour?.title;
-  const pathname = `guides/exhibitions/${pageId}`;
 
   const highlightStops = exhibitionHighlightTour?.stops;
   const hasVideo =
@@ -327,7 +328,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
     <PageLayout
       title={pageTitle || ''}
       description={pageDescriptions.exhibitionGuides}
-      url={{ pathname }}
+      url={{ pathname: `guides/exhibitions/${pageUid}` }}
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection="exhibition-guides"
@@ -383,7 +384,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
             {exhibitionGuide && (
               <ExhibitionGuideLinks
                 availableTypes={exhibitionGuide.availableTypes}
-                pathname={pathname}
+                pathname={`guides/exhibitions/${pageId}`}
               />
             )}
           </Space>
