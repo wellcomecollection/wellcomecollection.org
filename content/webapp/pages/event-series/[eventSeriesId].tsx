@@ -155,7 +155,7 @@ const EventSeriesPage: FunctionComponent<Props> = ({
     <PageLayout
       title={series.title}
       description={series.metadataDescription || series.promo?.caption || ''}
-      url={{ pathname: `/event-series/${series.id}` }}
+      url={{ pathname: `/event-series/${series.uid}` }}
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection="whats-on"

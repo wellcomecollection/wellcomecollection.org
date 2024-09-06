@@ -230,8 +230,8 @@ const VisualStory: FunctionComponent<Props> = ({
   );
 
   const visualStoryPath = visualStory.relatedDocument?.id
-    ? `/${visualStory.relatedDocument.type}/${visualStory.relatedDocument.id}/visual-stories`
-    : `/visual-stories/${visualStory.id}`;
+    ? `/${visualStory.relatedDocument.type}/${visualStory.relatedDocument.uid}/visual-stories`
+    : `/visual-stories/${visualStory.uid}`;
 
   const onThisPageLinks =
     visualStories.length > 0

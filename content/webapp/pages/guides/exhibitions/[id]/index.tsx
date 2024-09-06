@@ -289,7 +289,9 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
   stopNumber,
 }) => {
   const { egWork } = useToggles();
-
+  console.log(
+    exhibitionGuide?.id || exhibitionText?.id || exhibitionHighlightTour?.id
+  );
   const pageId =
     exhibitionGuide?.id || exhibitionText?.id || exhibitionHighlightTour?.id;
   const pageTitle =
