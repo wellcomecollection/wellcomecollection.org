@@ -39,13 +39,7 @@ import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
-import {
-  map,
-  audioDescribed,
-  britishSignLanguage,
-  cross,
-  arrow,
-} from '@weco/common/icons';
+import { cross, arrow } from '@weco/common/icons';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 
 type Props = {
@@ -75,7 +69,7 @@ const FlushContainer = styled(Container)`
 `;
 
 const Header = styled.header.attrs({
-  className: font('intr', 6),
+  className: font('intr', 5),
 })`
   background-color: ${props => props.theme.color('neutral.700')};
   position: sticky;
@@ -86,7 +80,7 @@ const Header = styled.header.attrs({
 const HeaderInner = styled(Space).attrs({
   $v: {
     size: 's',
-    properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
+    properties: ['padding-top', 'padding-bottom'],
   },
 })`
   display: flex;
@@ -95,22 +89,13 @@ const HeaderInner = styled(Space).attrs({
 `;
 
 const PrevNext = styled.div.attrs({
-  className: font('intr', 6),
+  className: font('intr', 5),
 })`
   position: fixed;
   z-index: 2;
   bottom: 0;
   width: 100%;
   background: ${props => props.theme.color('neutral.700')};
-`;
-
-const AlignIconFirstLineCenter = styled.div`
-  display: flex;
-  align-items: start;
-
-  .icon {
-    height: 1lh;
-  }
 `;
 
 const AlignCenter = styled.div`
@@ -283,39 +268,10 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
           <Container>
             <HeaderInner>
               <div>
-                <AlignIconFirstLineCenter>
-                  <Space
-                    $h={{ size: 's', properties: ['margin-right'] }}
-                    style={{ display: 'flex' }}
-                  >
-                    <Icon
-                      matchText={true}
-                      icon={
-                        type === 'bsl' ? britishSignLanguage : audioDescribed
-                      }
-                    />
-                  </Space>
-                  <span>{exhibitionTitle}</span>
-                </AlignIconFirstLineCenter>
-                <AlignIconFirstLineCenter>
-                  <Space
-                    $h={{ size: 's', properties: ['margin-right'] }}
-                    style={{ display: 'flex' }}
-                  >
-                    <Icon matchText={true} icon={map} />
-                  </Space>
-                  <AlignCenter>
-                    <Space
-                      $h={{ size: 's', properties: ['margin-right'] }}
-                      style={{ display: 'inline-block' }}
-                    >
-                      Stop {stopNumber}/{allStops.length}:
-                    </Space>
-                    <h1 style={{ display: 'inline-block', marginBottom: '0' }}>
-                      {currentStop.title}
-                    </h1>
-                  </AlignCenter>
-                </AlignIconFirstLineCenter>
+                <span>{exhibitionTitle}</span>
+                <h1 style={{ marginBottom: '0' }}>
+                  Stop {stopNumber}/{allStops.length}: {currentStop.title}
+                </h1>
               </div>
               <span>
                 <NextLink href={`${guideTypeUrl}#${stopNumber}`}>
@@ -397,7 +353,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               <div>
                 {stopNumber > 1 && (
                   <NextLink
-                    style={{ textDecoration: 'none' }}
+                    style={{ textDecoration: 'none', display: 'inline-block' }}
                     href={`${guideTypeUrl}/${stopNumber - 1}`}
                     shallow={true}
                   >
@@ -424,7 +380,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               <div>
                 {stopNumber < allStops.length && (
                   <NextLink
-                    style={{ textDecoration: 'none' }}
+                    style={{ textDecoration: 'none', display: 'inline-block' }}
                     href={`${guideTypeUrl}/${stopNumber + 1}`}
                     shallow={true}
                   >
