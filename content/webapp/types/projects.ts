@@ -4,6 +4,7 @@ import { Season } from './seasons';
 
 export type Project = GenericContentFields & {
   type: 'projects';
-  format: Format | undefined;
+  uid: string;
+  format?: Format;
   seasons: Season[];
 };

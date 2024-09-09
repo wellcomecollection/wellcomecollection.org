@@ -303,6 +303,7 @@ export function transformEvent(
 
   return {
     type: 'events',
+    uid: document.uid,
     ...genericFields,
     locations,
     audiences,
@@ -478,6 +479,7 @@ export function transformEventBasic(document: RawEventsDocument): EventBasic {
     promo,
     image,
     id,
+    uid,
     times,
     isPast,
     labels,
@@ -503,6 +505,7 @@ export function transformEventBasic(document: RawEventsDocument): EventBasic {
     },
     image,
     id,
+    uid,
     times: transformEventBasicTimes(times, document),
     isPast,
     labels,

@@ -11,6 +11,7 @@ describe('CardGrid', () => {
       start: new Date('2019-09-04T23:00:00.000Z'),
       end: new Date('2090-01-01T00:00:00.000Z'),
       id: 'XNFfsxAAANwqbNWD',
+      uid: 'being-human',
       title: 'Being Human',
       contributors: [],
       promo: {

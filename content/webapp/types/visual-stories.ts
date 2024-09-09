@@ -6,11 +6,13 @@ import { ImageType } from '@weco/common/model/image';
 
 export type VisualStory = GenericContentFields & {
   type: 'visual-stories';
+  uid: string;
   onThisPage: Link[];
   datePublished?: Date;
   relatedDocument?: {
     title?: string;
     id: string;
+    uid?: string;
     type: 'exhibitions' | 'events';
   };
   siteSection?: SiteSection;
@@ -20,12 +22,14 @@ export type VisualStory = GenericContentFields & {
 export type VisualStoryBasic = {
   type: 'visual-stories';
   id: string;
+  uid: string;
   title: string;
   promo?: ImagePromo | undefined;
   image?: ImageType | undefined;
   relatedDocument?: {
     title?: string;
     id: string;
+    uid?: string;
     type: 'exhibitions' | 'events';
   };
 };
