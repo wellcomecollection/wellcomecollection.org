@@ -25,8 +25,6 @@ export const collectionVenueId = {
   },
 };
 
-// TODO covidWelcomeBack removal
-// https://github.com/wellcomecollection/wellcomecollection.org/issues/11145
 export const prismicPageIds = {
   aboutUs: 'Wuw2MSIAACtd3Stq',
   access: 'Wvm2uiAAAIYQ4FHP',
@@ -35,7 +33,6 @@ export const prismicPageIds = {
   contactUs: 'YVMbEBAAAPaMBrz7',
   cookiePolicy: 'ZlCaVRAAACQAD2uX',
   copyrightClearance: 'YGSEhxAAACgAXL4E',
-  covidWelcomeBack: 'X5amzBIAAB0Aq6Gm',
   dailyGuidedTours: 'Wuw19yIAAK1Z3Sma',
   getInvolved: 'YDaZmxMAACIAT9u8',
   gettingHere: 'X0TZOhAAACkAPkxz',
