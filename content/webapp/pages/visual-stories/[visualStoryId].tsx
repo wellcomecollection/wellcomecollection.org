@@ -229,9 +229,10 @@ const VisualStory: FunctionComponent<Props> = ({
     />
   );
 
+  // Related document UIDs are optional, so if that's the case, use ID as plan B
   const visualStoryPath = visualStory.relatedDocument?.id
-    ? `/${visualStory.relatedDocument.type}/${visualStory.relatedDocument.id}/visual-stories`
-    : `/visual-stories/${visualStory.id}`;
+    ? `/${visualStory.relatedDocument.type}/${visualStory.relatedDocument.uid || visualStory.relatedDocument.id}/visual-stories`
+    : `/visual-stories/${visualStory.uid}`;
 
   const onThisPageLinks =
     visualStories.length > 0

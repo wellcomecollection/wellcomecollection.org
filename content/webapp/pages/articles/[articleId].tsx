@@ -329,7 +329,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
     <PageLayout
       title={article.title}
       description={article.metadataDescription || article.promo?.caption || ''}
-      url={{ pathname: `/articles/${article.id}` }}
+      url={{ pathname: `/articles/${article.uid}` }}
       jsonLd={jsonLd}
       openGraphType="article"
       siteSection="stories"

@@ -222,7 +222,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
 
   const { egWork } = useToggles();
   const { exhibitionGuide, jsonLd, type, userPreferenceSet } = props;
-  const pathname = `guides/exhibitions/${exhibitionGuide.id}/${type}`;
+  const pathname = `guides/exhibitions/${exhibitionGuide.uid}/${type}`;
   const typeColor = getTypeColor(type);
   const numberOfStops =
     (isExhibitionGuide(exhibitionGuide) &&
