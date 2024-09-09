@@ -36,49 +36,47 @@
 /works/d2mach47
 
 # https://wellcome.slack.com/archives/C8X9YKM5X/p1638456535135800
-/articles/W9m2QxcAAF8AFvE5
+/articles/a-brief-history-of-tattoos
 
 # https://wellcome.slack.com/archives/C8X9YKM5X/p1638800127140100
-/event-series/WlYT_SQAACcAWccj
-/articles/WpmW_yUAAKUUF6mV
+/event-series/saturday-studio
+/articles/race--religion-and-the-black-madonna
 
 # https://github.com/wellcomecollection/wellcomecollection.org/issues/7438
-/exhibitions/XOVfTREAAOJmx-Uw
+/exhibitions/heart-n-soul-s-wall-of-change
 
 # This is an article with a webcomics link in the "Try these next" section
-/articles/XLSV-BEAALNzvQVz
+/articles/how-your-hairdresser-could-save-your-life
 
 # This is an article with an event link in the "Try these next" section
-/articles/W_LXOxcAACwAxC5_
+/articles/the-unearthly-children-of-science-fiction-s-cold-war
 
 # This is an example of every content type in Prismic (as of November 2022)
-/articles/YbNRQBEAACMAZfvG
-/books/YRpf9xEAADVQ33g6
-/event-series/XLWcIBEAAGC6wYZr
-/events/YUMsAxAAACUASyMn
-/exhibitions/YLjGYhAAACMAed2Z
-/guides/YL9OAxIAAB8AHsyv
-/pages/YLnuVRAAACMAftOt
-/projects/YEIYwhAAACIANd6T
-/seasons/YEY3ZBAAACEASBjA
-/series/X8YMWBIAACUAhwAx
-/visual-stories/ZU4FRhIAACYAUvi8
+# This is an article which is the 'webcomics' type underneath
+/articles/the-mountain
+/books/harlots--whores---hackabouts
+/event-series/smoke-and-mirrors-live-performances
+/events/racial-difference-in-the-anglophone-caribbean
+/exhibitions/tranquillity
+/guides/archives-at-wellcome-collection
+/pages/the-history-and-context-of-our-collections
+/projects/regarding-forests-touring-exhibition
+/seasons/on-happiness
+/series/the-disabled-lockdown-experience
+/visual-stories/genetic-automata-visual-story
 
 # We should test the root exhibition guide page
 /guides/exhibitions
 
 # We should test one example of each exhibition guide format
-/guides/exhibitions/YzwsAREAAHylrxau/audio-without-descriptions
-/guides/exhibitions/YzwsAREAAHylrxau/captions-and-transcripts
-/guides/exhibitions/YzwsAREAAHylrxau/bsl
-
-# This is an article which is the 'webcomics' type underneath
-/articles/YbNRQBEAACMAZfvG
+/guides/exhibitions/in-plain-sight/audio-without-descriptions
+/guides/exhibitions/in-plain-sight/captions-and-transcripts
+/guides/exhibitions/in-plain-sight/bsl
 
 # This is the RawMinds page, which has an ID very similar to the
 # Schools page, but it shouldn't be redirected.  See the router in
 # the content app, where we enable case-sensitive routing.
-/pages/Wuw2MSIAACtd3Sts
+/pages/youth-projects
 
 # This page won't serve anything especially useful, but we want to
 # make sure it won't throw a 500 error

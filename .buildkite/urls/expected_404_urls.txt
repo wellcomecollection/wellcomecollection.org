@@ -26,3 +26,6 @@
 
 # Requesting a page beyond the end of an article series 
 /series/W-XBJxEAAKmng1TG?page=500
+
+# Uses a UID based URL
+/series/inside-our-books?page=500
