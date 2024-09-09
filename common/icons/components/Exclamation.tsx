@@ -3,24 +3,17 @@
 import { SVGProps } from 'react';
 function SvgExclamation(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 24 24" {...props}>
       <path
-        className="icon__shape"
         fill="currentColor"
-        fillRule="nonzero"
-        d="M13 18C13 18.5523 12.5523 19 12 19C11.4477 19 11 18.5523 11 18C11 17.4477 11.4477 17 12 17C12.5523 17 13 17.4477 13 18Z"
+        d="M13 18a1 1 0 1 1-2 0 1 1 0 0 1 2 0M12 5c-.816 0-1.466.683-1.425 1.498l.375 7.503a1.051 1.051 0 0 0 2.1 0l.375-7.503A1.427 1.427 0 0 0 12 5"
+        className="icon__shape"
       />
       <path
-        className="icon__shape"
-        fill="currentColor"
-        fillRule="nonzero"
-        d="M12 5C11.184 5 10.5342 5.68312 10.5749 6.49813L10.9501 14.0012C10.978 14.5607 11.4398 15 12 15C12.5602 15 13.022 14.5607 13.0499 14.0012L13.4251 6.49813C13.4658 5.68312 12.816 5 12 5Z"
-      />
-      <path
-        className="icon__shape"
         fill="currentColor"
         fillRule="evenodd"
-        d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24ZM12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+        d="M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12m0-2c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10"
+        className="icon__shape"
       />
     </svg>
   );
