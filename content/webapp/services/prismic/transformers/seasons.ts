@@ -1,6 +1,6 @@
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { transformGenericFields } from '.';
-import { Season } from '../../../types/seasons';
+import { Season } from '@weco/content/types/seasons';
 import { SeasonsDocument as RawSeasonsDocument } from '@weco/common/prismicio-types';
 
 export function transformSeason(document: RawSeasonsDocument): Season {

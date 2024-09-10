@@ -10,7 +10,7 @@ import { transformEventSeries } from './event-series';
 import { transformEventBasic } from './events';
 import { transformExhibition } from './exhibitions';
 import { transformPage } from './pages';
-import { MultiContent } from '../../../types/multi-content';
+import { MultiContent } from '@weco/content/types/multi-content';
 import { transformCard } from './card';
 
 export function parseQuery(query: string): StructuredSearchQuery {

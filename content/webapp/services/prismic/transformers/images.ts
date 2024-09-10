@@ -2,7 +2,7 @@ import { Image, PromoSliceZone } from '../types';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
 import isEmptyObj from '@weco/content/utils/is-empty-object';
 import { Crop, ImageType } from '@weco/common/model/image';
-import { ImagePromo } from '../../../types/image-promo';
+import { ImagePromo } from '@weco/content/types/image-promo';
 import { asRichText, asText } from '.';
 import * as prismic from '@prismicio/client';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
@@ -53,9 +53,8 @@ export function transformPromoToCaptionedImage(
 ): CaptionedImage | undefined {
   // We could do more complicated checking here, but this is what we always use.
   if (frag.length > 0) {
-    /* eslint-disable @typescript-eslint/no-non-null-assertion */
     const promo = frag[0]!;
-    /* eslint-enable @typescript-eslint/no-non-null-assertion */
+
     return transformCaptionedImage(promo.primary, crop);
   } else {
     return undefined;

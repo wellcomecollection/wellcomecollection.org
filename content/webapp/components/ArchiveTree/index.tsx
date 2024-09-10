@@ -9,7 +9,7 @@ import { font } from '@weco/common/utils/classnames';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Space from '@weco/common/views/components/styled/Space';
-import { getArchiveAncestorArray } from '../../utils/works';
+import { getArchiveAncestorArray } from '@weco/content/utils/works';
 import {
   RelatedWork,
   Work,

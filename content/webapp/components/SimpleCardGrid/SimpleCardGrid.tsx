@@ -1,5 +1,5 @@
 import { cssGrid, font } from '@weco/common/utils/classnames';
-import { Card as CardType } from '../../types/card';
+import { Card as CardType } from '@weco/content/types/card';
 import Card from '../Card/Card';
 import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';

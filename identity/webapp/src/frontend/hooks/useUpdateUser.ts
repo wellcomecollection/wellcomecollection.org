@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { UpdateUserSchema } from '../../types/schemas/update-user';
+import { UpdateUserSchema } from '@weco/identity/src/types/schemas/update-user';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { UserInfo } from '@weco/common/model/user';
 

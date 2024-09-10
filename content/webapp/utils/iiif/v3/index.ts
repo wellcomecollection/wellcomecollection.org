@@ -220,8 +220,8 @@ function getImageAuthCookieService(
   return Array.isArray(imageService?.service)
     ? imageService?.service?.find(s => s['@type'] === 'AuthCookieService1')
     : imageService?.service?.['@type'] === 'AuthCookieService1'
-    ? imageService?.service
-    : undefined;
+      ? imageService?.service
+      : undefined;
 }
 
 function getImageAuthProbeService(
@@ -230,8 +230,8 @@ function getImageAuthProbeService(
   return Array.isArray(service)
     ? service?.find(s => s.type === 'AuthProbeService2')
     : service?.type === 'AuthProbeService2'
-    ? service
-    : undefined;
+      ? service
+      : undefined;
 }
 
 // We don't know at the top-level of a manifest whether any of the canvases contain images that are open access.
@@ -593,8 +593,8 @@ export function getOriginalFiles(
     canvas.original.length > 0
       ? canvas.original
       : canvas.painting.length > 0
-      ? canvas.painting
-      : canvas.supplementing;
+        ? canvas.painting
+        : canvas.supplementing;
   return downloadData || [];
 }
 

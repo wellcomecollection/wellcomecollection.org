@@ -1,4 +1,4 @@
-import { getPage } from '../../utils/query-params';
+import { getPage } from '@weco/content/utils/query-params';
 
 it('returns 1 if no page parameter is supplied', () => {
   expect(getPage({})).toEqual(1);

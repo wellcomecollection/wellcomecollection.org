@@ -1,5 +1,5 @@
 import { act, render, screen, waitFor } from '@testing-library/react';
-import AccountPage from '../../../pages';
+import AccountPage from '@weco/identity/pages';
 import {
   mockAuth0Profile,
   mockItemRequests,

@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import type { ColorSelection } from '../../types/color-selections';
+import type { ColorSelection } from '@weco/content/types/color-selections';
 import { transparentGif, repeatingLs } from '@weco/common/utils/backgrounds';
 import styled from 'styled-components';
 

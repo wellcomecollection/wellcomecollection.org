@@ -1,5 +1,8 @@
 import { useEffect } from 'react';
-import { PrismicData, SimplifiedPrismicData } from '../../server-data/prismic';
+import {
+  PrismicData,
+  SimplifiedPrismicData,
+} from '@weco/common/server-data/prismic';
 
 declare global {
   interface Window {

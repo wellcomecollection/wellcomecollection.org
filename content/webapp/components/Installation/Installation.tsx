@@ -1,17 +1,17 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import DateAndStatusIndicator from '../DateAndStatusIndicator/DateAndStatusIndicator';
-import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
+import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import { getFeaturedMedia } from '../../utils/page-header';
-import { Exhibition as InstallationType } from '../../types/exhibitions';
+import { getFeaturedMedia } from '@weco/content/utils/page-header';
+import { Exhibition as InstallationType } from '@weco/content/types/exhibitions';
 import { AccessibilityServices, getInfoItems } from '../Exhibition/Exhibition';
 import InfoBox from '../InfoBox/InfoBox';
 import { isPast } from '@weco/common/utils/dates';
 import Body from '../Body/Body';
 import ContentPage from '../ContentPage/ContentPage';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { fetchExhibitExhibition } from '../../services/prismic/fetch/exhibitions';
+import { fetchExhibitExhibition } from '@weco/content/services/prismic/fetch/exhibitions';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 
 type Props = {

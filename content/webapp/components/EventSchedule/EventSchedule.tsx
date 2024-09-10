@@ -4,7 +4,10 @@ import type {
   Event as EventType,
 } from '@weco/content/types/events';
 import EventScheduleItem from './EventScheduleItem';
-import { EventsGroup, groupEventsByDay } from '../../services/prismic/events';
+import {
+  EventsGroup,
+  groupEventsByDay,
+} from '@weco/content/services/prismic/events';
 import Space from '@weco/common/views/components/styled/Space';
 import { isPast } from '@weco/common/utils/dates';
 import { font } from '@weco/common/utils/classnames';

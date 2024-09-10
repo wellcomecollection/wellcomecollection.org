@@ -14,7 +14,7 @@ import {
 import { transformSeason } from './seasons';
 import { dasherize } from '@weco/common/utils/grammar';
 import flattenDeep from 'lodash.flattendeep';
-import { Link } from '../../../types/link';
+import { Link } from '@weco/content/types/link';
 import { transformContributors } from './contributors';
 import { isNotUndefined, isUndefined } from '@weco/common/utils/type-guards';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';

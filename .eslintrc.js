@@ -28,6 +28,12 @@ const sharedRules = {
   ],
   'react-hooks/rules-of-hooks': 'error',
   'prettier/prettier': 'error',
+  'no-restricted-imports': [
+    'error',
+    {
+      patterns: ['^(?!\\.\\/)((?!.)[sS])*) ?$', '../.*'], // Allows same directory
+    },
+  ],
   'no-restricted-syntax': [
     'error',
     "JSXElement.children > [expression.callee.property.name='stringify']",

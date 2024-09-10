@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import { classNames, cssGrid } from '@weco/common/utils/classnames';
-import { Link } from '../../types/link';
-import { convertItemToCardProps } from '../../types/card';
+import { Link } from '@weco/content/types/link';
+import { convertItemToCardProps } from '@weco/content/types/card';
 import BookPromo from '../BookPromo/BookPromo';
 import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
@@ -12,7 +12,7 @@ import EventPromo from '../EventPromo/EventPromo';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import StoryPromo from '../StoryPromo/StoryPromo';
 import DailyTourPromo from './DailyTourPromo';
-import { MultiContent } from '../../types/multi-content';
+import { MultiContent } from '@weco/content/types/multi-content';
 import ExhibitionGuidePromo from '../ExhibitionGuidePromo/ExhibitionGuidePromo';
 import ExhibitionGuideLinksPromo from '../ExhibitionGuideLinksPromo/ExhibitionGuideLinksPromo';
 

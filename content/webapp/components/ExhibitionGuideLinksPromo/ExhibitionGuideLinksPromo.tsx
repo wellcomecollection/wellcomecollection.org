@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
-import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
+import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';

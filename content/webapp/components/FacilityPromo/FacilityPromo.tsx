@@ -3,7 +3,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';
-import { FacilityPromo as FacilityPromoType } from '../../types/facility-promo';
+import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility-promo';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 

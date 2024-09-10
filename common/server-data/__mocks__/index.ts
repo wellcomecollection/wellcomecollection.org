@@ -2,7 +2,7 @@ import {
   emptyGlobalAlert,
   emptyPopupDialog,
   emptyPrismicQuery,
-} from '../../services/prismic/documents';
+} from '@weco/common/services/prismic/documents';
 import { ServerData } from '../types';
 import { CollectionVenueDocument as RawCollectionVenueDocument } from '@weco/common/prismicio-types';
 

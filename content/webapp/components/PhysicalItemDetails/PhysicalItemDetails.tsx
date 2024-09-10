@@ -18,11 +18,11 @@ import {
   getLocationShelfmark,
   getFirstPhysicalLocation,
   getFirstAccessCondition,
-} from '../../utils/works';
+} from '@weco/content/utils/works';
 import ItemRequestModal from '../ItemRequestModal/ItemRequestModal';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
-import { itemIsRequestable } from '../../utils/requesting';
+import { itemIsRequestable } from '@weco/content/utils/requesting';
 import Placeholder from '@weco/content/components/Placeholder/Placeholder';
 import Button from '@weco/common/views/components/Buttons';
 import { sierraAccessMethodtoNewLabel } from '@weco/common/data/microcopy';

@@ -8,7 +8,7 @@ import { formatTime, formatDayDate } from '@weco/common/utils/format-date';
 import { Event } from '@weco/content/types/events';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
-import { isEventPast } from '../../services/prismic/events';
+import { isEventPast } from '@weco/content/services/prismic/events';
 import { isPast } from '@weco/common/utils/dates';
 import { HTMLTime } from '@weco/common/views/components/HTMLDateAndTime';
 import { Place } from '@weco/content/types/places';

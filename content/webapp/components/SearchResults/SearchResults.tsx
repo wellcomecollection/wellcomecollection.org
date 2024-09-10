@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { MultiContent } from '../../types/multi-content';
+import { MultiContent } from '@weco/content/types/multi-content';
 import { font, grid } from '@weco/common/utils/classnames';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import CompactCard from '../CompactCard/CompactCard';
@@ -8,7 +8,7 @@ import EventCard from '../EventCard/EventCard';
 import Space from '@weco/common/views/components/styled/Space';
 import ArticleCard from '../ArticleCard/ArticleCard';
 import { getCrop } from '@weco/common/model/image';
-import { Card } from '../../types/card';
+import { Card } from '@weco/content/types/card';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 
 const Result = styled.li`
@@ -64,9 +64,9 @@ const SearchResults: FunctionComponent<Props> = ({
                         // title of the item in the list.
                         //
                         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                        /* eslint-disable @typescript-eslint/no-non-null-assertion */
+
                         ...getCrop(item.image, 'square')!,
-                        /* eslint-enable @typescript-eslint/no-non-null-assertion */
+
                         alt: '',
                       }}
                       sizes={{
@@ -98,9 +98,9 @@ const SearchResults: FunctionComponent<Props> = ({
                         // title of the item in the list.
                         //
                         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                        /* eslint-disable @typescript-eslint/no-non-null-assertion */
+
                         ...getCrop(item.image, 'square')!,
-                        /* eslint-enable @typescript-eslint/no-non-null-assertion */
+
                         alt: '',
                       }}
                       sizes={{
@@ -133,9 +133,9 @@ const SearchResults: FunctionComponent<Props> = ({
                         // title of the item in the list.
                         //
                         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                        /* eslint-disable @typescript-eslint/no-non-null-assertion */
+
                         ...getCrop(item.image, 'square')!,
-                        /* eslint-enable @typescript-eslint/no-non-null-assertion */
+
                         alt: '',
                       }}
                       sizes={{
@@ -168,9 +168,9 @@ const SearchResults: FunctionComponent<Props> = ({
                         // title of the item in the list.
                         //
                         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                        /* eslint-disable @typescript-eslint/no-non-null-assertion */
+
                         ...getCrop(item.cover, 'square')!,
-                        /* eslint-enable @typescript-eslint/no-non-null-assertion */
+
                         alt: '',
                       }}
                       sizes={{
@@ -210,9 +210,9 @@ const SearchResults: FunctionComponent<Props> = ({
                         // title of the item in the list.
                         //
                         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                        /* eslint-disable @typescript-eslint/no-non-null-assertion */
+
                         ...getCrop(item.image, 'square')!,
-                        /* eslint-enable @typescript-eslint/no-non-null-assertion */
+
                         alt: '',
                       }}
                       sizes={{
@@ -250,9 +250,9 @@ const SearchResults: FunctionComponent<Props> = ({
                         // title of the item in the list.
                         //
                         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                        /* eslint-disable @typescript-eslint/no-non-null-assertion */
+
                         ...getCrop(item.image, 'square')!,
-                        /* eslint-enable @typescript-eslint/no-non-null-assertion */
+
                         alt: '',
                       }}
                       sizes={{

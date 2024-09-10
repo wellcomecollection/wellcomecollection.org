@@ -10,11 +10,11 @@ import {
   abortErrorHandler,
 } from '@weco/common/hooks/useAbortSignalEffect';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
-import { getItemsWithPhysicalLocation } from '../../utils/works';
+import { getItemsWithPhysicalLocation } from '@weco/content/utils/works';
 import {
   itemIsRequestable,
   itemIsTemporarilyUnavailable,
-} from '../../utils/requesting';
+} from '@weco/content/utils/requesting';
 import { getWorkItemsClientSide } from '@weco/content/services/wellcome/catalogue/works';
 import { useToggles } from '@weco/common/server-data/Context';
 

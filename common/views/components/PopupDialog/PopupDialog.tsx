@@ -15,8 +15,8 @@ import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { PopupDialogDocument as RawPopupDialogDocument } from '@weco/common/prismicio-types';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { chat, clear } from '@weco/common/icons';
-import { InferDataInterface } from '../../../services/prismic/types';
-import { transformLink } from '../../../services/prismic/transformers';
+import { InferDataInterface } from '@weco/common/services/prismic/types';
+import { transformLink } from '@weco/common/services/prismic/transformers';
 
 type PopupDialogOpenProps = {
   $shouldStartAnimation: boolean;

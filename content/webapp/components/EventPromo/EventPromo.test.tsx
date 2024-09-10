@@ -12,7 +12,7 @@ import {
   eventWithOneLocationOnline,
   eventWithMultipleLocations,
   eventFullyBooked,
-} from '../../__mocks__/events';
+} from '@weco/content/__mocks__/events';
 
 jest
   .spyOn(Context, 'usePrismicData')

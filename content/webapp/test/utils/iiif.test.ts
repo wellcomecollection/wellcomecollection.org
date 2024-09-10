@@ -7,7 +7,7 @@ import {
   getMultiVolumeLabel,
   getBornDigitalStatus,
   groupRanges,
-} from '../../utils/iiif/v3';
+} from '@weco/content/utils/iiif/v3';
 import {
   manifest,
   manifestWithTranscript,

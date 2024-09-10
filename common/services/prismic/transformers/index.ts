@@ -1,5 +1,5 @@
-import { Tasl } from '../../../model/tasl';
-import { licenseTypeArray } from '../../../model/license';
+import { Tasl } from '@weco/common/model/tasl';
+import { licenseTypeArray } from '@weco/common/model/license';
 import linkResolver from '../link-resolver';
 import {
   isFilledLinkToDocument,

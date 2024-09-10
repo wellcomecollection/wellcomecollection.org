@@ -7,7 +7,7 @@ import {
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { Link } from '../../types/link';
+import { Link } from '@weco/content/types/link';
 import { defaultSerializer } from '../HTMLSerializers/HTMLSerializers';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
@@ -22,8 +22,8 @@ import OnThisPageAnchors from '../OnThisPageAnchors/OnThisPageAnchors';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import GridFactory, { sectionLevelPageGrid } from './GridFactory';
 import Card from '../Card/Card';
-import { convertItemToCardProps } from '../../types/card';
-import { isContentList } from '../../types/body';
+import { convertItemToCardProps } from '@weco/content/types/card';
+import { isContentList } from '@weco/content/types/body';
 import FeaturedCard, {
   convertItemToFeaturedCardProps,
   convertCardToFeaturedCardProps,

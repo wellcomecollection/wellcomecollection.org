@@ -1,7 +1,7 @@
 import {
   ExhibitionGuideComponent,
   ExhibitionGuideType,
-} from '../../types/exhibition-guides';
+} from '@weco/content/types/exhibition-guides';
 import { ReactElement, FunctionComponent } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
 import ExhibitionCaptions from '../ExhibitionCaptions/ExhibitionCaptions';
