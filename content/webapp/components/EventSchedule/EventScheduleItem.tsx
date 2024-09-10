@@ -16,7 +16,6 @@ import { eventPolicyIds } from '@weco/common/data/hardcoded-ids';
 
 type Props = {
   event: Event;
-  parentEvent: Event;
   isNotLinked: boolean;
 };
 
@@ -97,7 +96,7 @@ const eventLocations = (locations: Place[], isHybridEvent: boolean) => {
   );
 };
 
-// We have a message block on scheduled events which can display either
+// We have a message block on scheduled events which either displays
 // 'Just turn up' or 'Arrive early to register'
 // N.B. If the criteria to display both messages is satisfied, we only show 'Arrive early to register' (see below)
 // We don't show either message if the following criteria aren't satisfied:
