@@ -61,34 +61,31 @@ export const getServerSideProps: GetServerSideProps<
   if (typeof page !== 'number') {
     return appError(context, 400, page.message);
   }
-
-  const upcomingEventsQueryPromise = fetchEvents(client, {
-    filters: [
-      prismic.filter.at('my.events.series.series', eventSeriesId),
-      prismic.filter.dateAfter('my.events.times.endDateTime', today()),
-    ],
-    pageSize: 100,
-  });
-
-  const pastEventsQueryPromise = fetchEvents(client, {
-    filters: [
-      prismic.filter.at('my.events.series.series', eventSeriesId),
-      prismic.filter.dateBefore('my.events.times.endDateTime', today()),
-    ],
-    page,
-    pageSize: 20,
-  });
-
-  const seriesPromise = fetchEventSeriesById(client, eventSeriesId);
-
-  const [upcomingEventsQuery, pastEventsQuery, seriesDocument] =
-    await Promise.all([
-      upcomingEventsQueryPromise,
-      pastEventsQueryPromise,
-      seriesPromise,
-    ]);
+  const seriesDocument = await fetchEventSeriesById(client, eventSeriesId);
 
   if (isNotUndefined(seriesDocument)) {
+    const upcomingEventsQueryPromise = fetchEvents(client, {
+      filters: [
+        prismic.filter.at('my.events.series.series', seriesDocument.id),
+        prismic.filter.dateAfter('my.events.times.endDateTime', today()),
+      ],
+      pageSize: 100,
+    });
+
+    const pastEventsQueryPromise = fetchEvents(client, {
+      filters: [
+        prismic.filter.at('my.events.series.series', seriesDocument.id),
+        prismic.filter.dateBefore('my.events.times.endDateTime', today()),
+      ],
+      page,
+      pageSize: 20,
+    });
+
+    const [upcomingEventsQuery, pastEventsQuery] = await Promise.all([
+      upcomingEventsQueryPromise,
+      pastEventsQueryPromise,
+    ]);
+
     const series = transformEventSeries(seriesDocument);
 
     const upcomingEventsFull = transformQuery(
@@ -155,7 +152,7 @@ const EventSeriesPage: FunctionComponent<Props> = ({
     <PageLayout
       title={series.title}
       description={series.metadataDescription || series.promo?.caption || ''}
-      url={{ pathname: `/event-series/${series.id}` }}
+      url={{ pathname: `/event-series/${series.uid}` }}
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection="whats-on"

@@ -18,7 +18,7 @@ import Body from '@weco/content/components/Body/Body';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { createClient } from '@weco/content/services/prismic/fetch';
-import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
+import { bodySquabblesSeries as bodySquabblesSeriesId } from '@weco/common/data/hardcoded-ids';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
 import {
   getScheduledItems,
@@ -41,6 +41,7 @@ import ArticleCard from '@weco/content/components/ArticleCard/ArticleCard';
 import ArticleScheduleItemCard from '@weco/content/components/ArticleScheduleItemCard';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import Standfirst from '@weco/common/views/slices/Standfirst';
+import { fetchSeriesById } from '../../services/prismic/fetch/series';
 
 const SeriesItem = styled.div<{ $isFirst: boolean }>`
   border-top: ${props =>
@@ -61,9 +62,9 @@ export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
   setCacheControl(context.res);
-  const { seriesId } = context.query;
+  const { seriesId: seriesQueryId } = context.query;
 
-  if (!looksLikePrismicId(seriesId)) {
+  if (!looksLikePrismicId(seriesQueryId)) {
     return { notFound: true };
   }
 
@@ -80,10 +81,26 @@ export const getServerSideProps: GetServerSideProps<
   // This will have to remain like this until we figure out how to migrate them.
   // We create new webcomics as an article with comic format, and add
   // an article-series to them.
-  const seriesField =
-    seriesId === bodySquabblesSeries
-      ? 'my.webcomics.series.series'
-      : 'my.articles.series.series';
+  const isWebcomics =
+    seriesQueryId === bodySquabblesSeriesId ||
+    seriesQueryId === 'body-squabbles';
+
+  const seriesDocument = await fetchSeriesById(
+    client,
+    seriesQueryId,
+    isWebcomics ? 'webcomic-series' : 'series'
+  );
+
+  if (!seriesDocument) {
+    return { notFound: true };
+  }
+
+  const seriesField = isWebcomics
+    ? 'my.webcomics.series.series'
+    : 'my.articles.series.series';
+
+  // We need the actual ID to fetch related documents
+  const seriesId = seriesDocument.id;
 
   const articlesQuery = await fetchArticles(client, {
     filters: [prismic.filter.at(seriesField, seriesId)],
@@ -126,7 +143,9 @@ export const getServerSideProps: GetServerSideProps<
   // We know that `articles` is non-empty, and because we queried for articles in
   // this series, we know these articles have a series defined.
   const series = articles.results[0].series.find(
-    series => series.id === seriesId
+    series =>
+      series.id ===
+      (seriesId === 'body-squabbles' ? bodySquabblesSeriesId : seriesId)
   )!;
 
   const scheduledItems = getScheduledItems({
@@ -200,13 +219,11 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
     />
   );
 
-  const paginationRoot = `/series/${series.id}`;
-
   return (
     <PageLayout
       title={series.title}
       description={series.metadataDescription || series.promo?.caption || ''}
-      url={{ pathname: paginationRoot }}
+      url={{ pathname: `/series/${series.uid}` }}
       jsonLd={{ '@type': 'WebPage' }}
       siteSection="stories"
       openGraphType="website"

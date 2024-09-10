@@ -25,6 +25,8 @@ export const collectionVenueId = {
   },
 };
 
+// TODO covidWelcomeBack removal
+// https://github.com/wellcomecollection/wellcomecollection.org/issues/11145
 export const prismicPageIds = {
   aboutUs: 'Wuw2MSIAACtd3Stq',
   access: 'Wvm2uiAAAIYQ4FHP',
@@ -69,5 +71,5 @@ export const sectionLevelPages = [
   prismicPageIds.getInvolved,
 ];
 
-// The only series that uses the `webcomics` type.
+// The only series ("webcomic series") that uses the `webcomics` type.
 export const bodySquabblesSeries = 'WleP3iQAACUAYEoN';

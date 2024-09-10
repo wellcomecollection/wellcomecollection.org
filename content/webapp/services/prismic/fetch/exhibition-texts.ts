@@ -8,7 +8,17 @@ const exhibitionTextsFetcher = fetcher<RawExhibitionTextsDocument>(
   exhibitionsFetchLinks
 );
 
-export const fetchExhibitionText = exhibitionTextsFetcher.getById;
+export const fetchExhibitionText = async (
+  client: GetServerSidePropsPrismicClient,
+  id: string
+): Promise<RawExhibitionTextsDocument | undefined> => {
+  // TODO once redirects are in place we should only fetch by uid
+  const exhibitionTextDocument =
+    (await exhibitionTextsFetcher.getById(client, id)) ||
+    (await exhibitionTextsFetcher.getByUid(client, id));
+
+  return exhibitionTextDocument;
+};
 
 export const fetchExhibitionTexts = (
   client: GetServerSidePropsPrismicClient,

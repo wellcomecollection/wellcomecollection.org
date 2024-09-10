@@ -55,7 +55,10 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import Standfirst from '@weco/common/views/slices/Standfirst';
-import { StandfirstSlice as RawStandfirstSlice } from '@weco/common/prismicio-types';
+import {
+  StandfirstSlice as RawStandfirstSlice,
+  PagesDocument as RawPagesDocument,
+} from '@weco/common/prismicio-types';
 
 const CreamBox = styled(Space).attrs({
   $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
@@ -94,7 +97,7 @@ export const getServerSideProps: GetServerSideProps<
   const eventsQueryPromise = fetchEvents(client, {
     period: 'current-and-coming-up',
   });
-  const pagePromise = fetchPage(client, homepageId);
+  const pagePromise = fetchPage(client, homepageId, 'pages');
   const exhibitionsQueryPromise = fetchExhibitions(client, {
     period: 'next-seven-days',
     order: 'asc',
@@ -109,7 +112,7 @@ export const getServerSideProps: GetServerSideProps<
     ]);
 
   // The homepage should always exist in Prismic.
-  const page = transformPage(pageDocument!);
+  const page = transformPage(pageDocument as RawPagesDocument);
 
   const articles = transformQuery(articlesQuery, transformArticle);
   const jsonLd = articles.results.map(articleLd);

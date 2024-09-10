@@ -1,11 +1,15 @@
 import * as prismic from '@prismicio/client';
 import fetch from 'node-fetch';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
-import { ContentType } from '@weco/common/services/prismic/content-types';
+import {
+  ContentType,
+  isContentType,
+} from '@weco/common/services/prismic/content-types';
 import { isString } from '@weco/common/utils/type-guards';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 import { deserialiseDates as deserialiseJsonDates } from '@weco/common/utils/json';
+import { toMaybeString } from '@weco/common/utils/routes';
 
 export type GetServerSidePropsPrismicClient = {
   type: 'GetServerSidePropsPrismicClient';
@@ -144,6 +148,31 @@ export function fetcher<Document extends prismic.PrismicDocument>(
           });
 
       return response;
+    },
+
+    getByUid: async (
+      { client }: GetServerSidePropsPrismicClient,
+      uid: string
+    ): Promise<Document | undefined> => {
+      try {
+        const primaryContentType = toMaybeString(contentType);
+
+        if (!isContentType(primaryContentType)) return;
+
+        const response = await client.getByUID<Document>(
+          primaryContentType,
+          uid,
+          {
+            fetchLinks,
+          }
+        );
+
+        return response;
+      } catch {
+        // Ideally we would send something to our dashboard that would flag
+        // if the same error came back again and again.
+        // But we don't need this to error every time as it can just be a randomly inputted URL.
+      }
     },
   };
 }

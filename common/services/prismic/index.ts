@@ -8,12 +8,14 @@
 //
 // This is useful for rejecting queries that are obviously malformed, which might
 // be attempts to inject malicious data into Prismic queries.
-//
-// Note: we use this to distinguish it from catalogue IDs, which are (as of May 2022)
-// eight characters long.
 
 import { isString } from '@weco/common/utils/type-guards';
 
+// \w: Matches any word character (alphanumeric & underscore).
+//     Only matches low-ascii characters (no accented or non-roman characters).
+//     Equivalent to [A-Za-z0-9_].
+// Added "-" to be matched as well.
+// + means empty strings will return false.
 export const looksLikePrismicId = (
   id: string | string[] | undefined
-): id is string => (isString(id) ? /^([A-Za-z0-9-_]{9,})$/.test(id) : false);
+): id is string => (isString(id) ? /^[\w-]+$/.test(id) : false);

@@ -40,4 +40,14 @@ export const fetchVisualStories = (
   );
 };
 
-export const fetchVisualStory = visualStoriesFetcher.getById;
+export const fetchVisualStory = async (
+  client: GetServerSidePropsPrismicClient,
+  id: string
+): Promise<RawVisualStoriesDocument | undefined> => {
+  // TODO once redirects are in place we should only fetch by uid
+  const visualStoryDocument =
+    (await visualStoriesFetcher.getById(client, id)) ||
+    (await visualStoriesFetcher.getByUid(client, id));
+
+  return visualStoryDocument;
+};

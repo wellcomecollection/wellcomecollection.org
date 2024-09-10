@@ -1,4 +1,9 @@
-import { EditorialImageSlice as RawEditorialImageSlice } from '@weco/common/prismicio-types';
+import {
+  PagesDocument as RawPagesDocument,
+  EditorialImageSlice as RawEditorialImageSlice,
+  ProjectsDocument as RawProjectsDocument,
+  GuidesDocument as RawGuidesDocument,
+} from '@weco/common/prismicio-types';
 import { FunctionComponent, ReactElement } from 'react';
 import PageLayout, {
   SiteSection,
@@ -38,6 +43,7 @@ import {
   fetchChildren,
   fetchPage,
   fetchSiblings,
+  isValidPagesContentType,
 } from '@weco/content/services/prismic/fetch/pages';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
@@ -53,6 +59,8 @@ import {
   transformEmbedSlice,
 } from '@weco/content/services/prismic/transformers/body';
 import { gridSize12 } from '@weco/common/views/components/Layout';
+import { transformProject } from '@weco/content/services/prismic/transformers/projects';
+import { transformGuide } from '@weco/content/services/prismic/transformers/guides';
 
 export type Props = {
   page: PageType;
@@ -136,11 +144,44 @@ export const getServerSideProps: GetServerSideProps<
     ? context.resolvedUrl
     : undefined;
 
-  const pageLookup = await fetchPage(client, pageId);
-  const page = pageLookup && transformPage(pageLookup);
+  // TODO figure out if there is a nicer way to differentiate ID from UID...
+  // A lot below gets tidied in
+  // https://github.com/wellcomecollection/wellcomecollection.org/pull/11148
+  const contentType = context.resolvedUrl.split('/')[1];
+  const isStaticNoPrefixPage = [
+    prismicPageIds.cookiePolicy,
+    prismicPageIds.visitUs,
+    prismicPageIds.collections,
+    prismicPageIds.covidWelcomeBack,
+  ].includes(pageId);
 
-  if (isNotUndefined(page)) {
+  if (!isValidPagesContentType(contentType) && !isStaticNoPrefixPage) {
+    return { notFound: true };
+  }
+
+  const pageDocument = await fetchPage(
+    client,
+    pageId,
+    isValidPagesContentType(contentType) ? contentType : 'pages'
+  );
+
+  if (isNotUndefined(pageDocument)) {
     const serverData = await getServerData(context);
+
+    let page;
+    switch (contentType) {
+      case 'guides':
+        page = transformGuide(pageDocument as unknown as RawGuidesDocument);
+        break;
+      case 'projects':
+        page = transformProject(pageDocument as unknown as RawProjectsDocument);
+        break;
+      case 'pages':
+      default:
+        page = transformPage(pageDocument as unknown as RawPagesDocument);
+        break;
+    }
+
     const siblings: SiblingsGroup<PageType>[] = (
       await fetchSiblings(client, page)
     ).map(group => {
@@ -150,7 +191,7 @@ export const getServerSideProps: GetServerSideProps<
       };
     });
     const ordersInParents: OrderInParent[] =
-      page.parentPages.map(p => {
+      page.parentPages?.map(p => {
         return {
           id: p.id,
           title: p.title,
@@ -181,7 +222,7 @@ export const getServerSideProps: GetServerSideProps<
         serverData,
         vanityUrl,
         gaDimensions: {
-          partOf: page.seasons.map(season => season.id),
+          partOf: page.seasons?.map(season => season.id),
         },
       }),
     };
@@ -358,7 +399,7 @@ export const Page: FunctionComponent<Props> = ({
   // If we have a vanity URL, we prefer that for the link rel="canonical"
   // in the page <head>; it means the canonical URL will match the links
   // we put elsewhere on the website, e.g. in the header.
-  const pathname = vanityUrl || `/pages/${page.id}`;
+  const pathname = vanityUrl || `/pages/${page.uid}`;
 
   return (
     <PageLayout

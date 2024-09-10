@@ -1,4 +1,4 @@
-import { fetcher } from '.';
+import { GetServerSidePropsPrismicClient, fetcher } from '.';
 import {
   cardFetchLinks,
   commonPrismicFieldsFetchLinks,
@@ -17,5 +17,16 @@ const eventSeriesFetcher = fetcher<RawEventSeriesDocument>(
   fetchLinks
 );
 
-export const fetchEventSeriesById = eventSeriesFetcher.getById;
+export const fetchEventSeriesById = async (
+  client: GetServerSidePropsPrismicClient,
+  id: string
+): Promise<RawEventSeriesDocument | undefined> => {
+  // TODO once redirects are in place we should only fetch by uid
+  const eventDocumentById =
+    (await eventSeriesFetcher.getById(client, id)) ||
+    (await eventSeriesFetcher.getByUid(client, id));
+
+  return eventDocumentById;
+};
+
 export const fetchEventSeries = eventSeriesFetcher.getByType;

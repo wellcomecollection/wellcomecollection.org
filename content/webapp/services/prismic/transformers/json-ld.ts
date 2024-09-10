@@ -216,7 +216,7 @@ function orgLd(org: Organization) {
 export function contentLd(content: Page | Season): JsonLdObj {
   const contributors = content.type === 'seasons' ? [] : content.contributors;
 
-  const author: Contributor = contributors.find(
+  const author: Contributor = contributors?.find(
     ({ role }) => role && role.title === 'Author'
   )?.[0];
 

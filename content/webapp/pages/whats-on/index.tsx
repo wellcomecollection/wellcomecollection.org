@@ -81,6 +81,7 @@ import InfoBox, {
 } from '@weco/content/components/InfoBox/InfoBox';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
 import theme from '@weco/common/views/themes/default';
+import { PagesDocument as RawPagesDocument } from '@weco/common/prismicio-types';
 
 const tabItems = [
   {
@@ -318,7 +319,7 @@ export const getServerSideProps: GetServerSideProps<
     period = 'current-and-coming-up';
   }
 
-  const whatsOnPagePromise = fetchPage(client, prismicPageIds.whatsOn);
+  const whatsOnPagePromise = fetchPage(client, prismicPageIds.whatsOn, 'pages');
 
   const exhibitionsQueryPromise = fetchExhibitions(client, {
     period,
@@ -348,7 +349,7 @@ export const getServerSideProps: GetServerSideProps<
     whatsOnPagePromise,
   ]);
 
-  const whatsOnPage = transformPage(whatsOnPageDocument!);
+  const whatsOnPage = transformPage(whatsOnPageDocument as RawPagesDocument);
 
   const tryTheseToo = getTryTheseTooPromos(whatsOnPage);
 

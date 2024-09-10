@@ -5,7 +5,10 @@ import {
   fetcher,
   clientSideFetcher,
 } from '.';
-import { ArticlesDocument as RawArticlesDocument } from '@weco/common/prismicio-types';
+import {
+  ArticlesDocument as RawArticlesDocument,
+  WebcomicsDocument as RawWebcomicsDocument,
+} from '@weco/common/prismicio-types';
 import { ContentType } from '@weco/common/services/prismic/content-types';
 import { ArticleBasic } from '@weco/content/types/articles';
 import {
@@ -18,6 +21,8 @@ import {
 
 const contentTypes: ContentType[] = ['articles', 'webcomics'];
 
+type ArticleTypes = RawArticlesDocument | RawWebcomicsDocument;
+
 const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,
   ...articleFormatsFetchLinks,
@@ -26,9 +31,35 @@ const fetchLinks = [
   ...eventsFetchLinks,
 ];
 
-const articlesFetcher = fetcher<RawArticlesDocument>(contentTypes, fetchLinks);
+const articlesFetcher = fetcher<ArticleTypes>(contentTypes, fetchLinks);
 
-export const fetchArticle = articlesFetcher.getById;
+export const fetchArticle = async (
+  client: GetServerSidePropsPrismicClient,
+  id: string
+): Promise<ArticleTypes | undefined> => {
+  // TODO once redirects are in place we should only fetch by uid
+  const articleDocumentById = await articlesFetcher.getById(client, id);
+
+  // As we have no way of identifiying whether an id is from a webcomic or an article, we have to try both.
+  if (!articleDocumentById) {
+    const articleDocumentByUID = await fetcher<ArticleTypes>(
+      'articles',
+      fetchLinks
+    ).getByUid(client, id);
+
+    if (!articleDocumentByUID) {
+      const webcomicDocumentByUID = await fetcher<ArticleTypes>(
+        'webcomics',
+        fetchLinks
+      ).getByUid(client, id);
+      return webcomicDocumentByUID;
+    }
+
+    return articleDocumentByUID;
+  }
+
+  return articleDocumentById;
+};
 
 const graphQuery = `{
   webcomics {
@@ -95,7 +126,7 @@ const graphQuery = `{
 export const fetchArticles = (
   client: GetServerSidePropsPrismicClient,
   params: GetByTypeParams = {}
-): Promise<prismic.Query<RawArticlesDocument>> => {
+): Promise<prismic.Query<ArticleTypes>> => {
   return articlesFetcher.getByType(client, {
     ...params,
     orderings: [
