@@ -52,7 +52,7 @@ const Content = styled(Space).attrs({
   display: ${props => (props.$hidden ? 'none' : 'block')};
 
   /* 20px to match the width of the .icon above */
-  transform: translateX(20px);
+  margin-left: 20px;
 `;
 
 type Props = PropsWithChildren<{
