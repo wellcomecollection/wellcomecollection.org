@@ -3,49 +3,12 @@
 import { SVGProps } from 'react';
 function SvgClosedFolder(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
-      {...props}
-    >
-      <defs>
-        <path fill="currentColor" d="M0 .5h24v24H0z" id="reuse-0" />
-      </defs>
-      <mask
-        id="a"
-        width={24}
-        height={24}
-        x={0}
-        y={0}
-        maskUnits="userSpaceOnUse"
-        style={{
-          maskType: 'alpha',
-        }}
-      >
-        <use xlinkHref="#reuse-0" />
-      </mask>
-      <g mask="url(#a)">
-        <mask
-          id="b"
-          width={24}
-          height={24}
-          x={0}
-          y={0}
-          maskUnits="userSpaceOnUse"
-          style={{
-            maskType: 'alpha',
-          }}
-        >
-          <use xlinkHref="#reuse-0" />
-        </mask>
-        <g mask="url(#b)">
-          <path
-            fill="currentColor"
-            d="M2.665 13.833q-.55 0-.941-.391a1.28 1.28 0 0 1-.392-.942v-8q0-.55.392-.942.391-.39.941-.391h4L8 4.5h5.333q.55 0 .942.392.39.391.391.941V12.5q0 .55-.391.942a1.28 1.28 0 0 1-.942.391z"
-            className="icon__shape"
-          />
-        </g>
-      </g>
+    <svg viewBox="0 0 24 24" {...props}>
+      <path
+        fill="currentColor"
+        d="M2.4 21.6c-.66 0-1.22-.23-1.69-.71C.24 20.42 0 19.86 0 19.2V4.8c0-.66.24-1.22.71-1.7.47-.47 1.03-.7 1.69-.7h7.2L12 4.8h9.6c.66 0 1.23.24 1.7.71s.71 1.03.71 1.69v12c0 .66-.24 1.22-.71 1.69s-1.03.71-1.7.71z"
+        className="icon__shape"
+      />
     </svg>
   );
 }

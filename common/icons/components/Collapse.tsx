@@ -6,7 +6,7 @@ function SvgCollapse(props: SVGProps<SVGSVGElement>) {
     <svg viewBox="0 0 24 24" {...props}>
       <path
         fill="currentColor"
-        d="M7.4 20.6h1.9v-5c0-.6-.4-1-1-1h-5v1.9h4zM8.4 9.3c.6 0 1-.4 1-1v-5h-2v4h-4v2zM16.6 20.6v-4h4v-2h-5c-.6 0-1 .4-1 1v5zM16.6 3.4h-1.9v5c0 .6.4 1 1 1h5v-2h-4z"
+        d="M5.66 24h2.62v-6.91c0-.83-.55-1.38-1.38-1.38H0v2.62h5.53l.14 5.66ZM6.91 8.29c.83 0 1.38-.55 1.38-1.38V0H5.53v5.53H0v2.76zM18.47 24v-5.53H24v-2.76h-6.91c-.83 0-1.38.55-1.38 1.38V24zM18.34 0h-2.62v6.91c0 .83.55 1.38 1.38 1.38h6.91V5.53h-5.53z"
         className="icon__shape"
       />
     </svg>

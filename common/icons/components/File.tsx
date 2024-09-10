@@ -4,26 +4,11 @@ import { SVGProps } from 'react';
 function SvgFile(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" {...props}>
-      <mask
-        id="a"
-        width={24}
-        height={24}
-        x={0}
-        y={0}
-        maskUnits="userSpaceOnUse"
-        style={{
-          maskType: 'alpha',
-        }}
-      >
-        <path fill="currentColor" d="M0 0h24v24H0z" />
-      </mask>
-      <g mask="url(#a)">
-        <path
-          fill="currentColor"
-          d="M5.335 12h5.333v-1.333H5.335zm0-2.667h5.333V8H5.335zM4 14.667q-.55 0-.941-.392a1.28 1.28 0 0 1-.392-.942V2.667q0-.55.392-.942.391-.392.941-.392h5.334l4 4v8q0 .55-.392.942a1.28 1.28 0 0 1-.942.392zM8.668 6V2.667H4.001v10.666h8V6z"
-          className="icon__shape"
-        />
-      </g>
+      <path
+        fill="currentColor"
+        d="M7.2 19.2h9.6v-2.4H7.2zm0-4.8h9.6V12H7.2zM4.8 24c-.66 0-1.22-.24-1.69-.71a2.32 2.32 0 0 1-.71-1.69V2.4c0-.66.23-1.23.71-1.7.47-.47 1.03-.71 1.69-.71h9.6l7.2 7.2v14.4c0 .66-.23 1.22-.7 1.69s-1.03.71-1.7.71H4.8Zm8.4-15.6v-6H4.8v19.2h14.4V8.4z"
+        className="icon__shape"
+      />
     </svg>
   );
 }
