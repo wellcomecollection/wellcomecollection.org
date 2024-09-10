@@ -51,6 +51,7 @@ export const prismicPageIds = {
 
 export const eventPolicyIds = {
   schoolBooking: 'W4Vx5h4AACIAehqz',
+  dropIn: 'W3RJeikAACIAF2Mw',
 };
 
 export const getNameFromCollectionVenue = id => {
