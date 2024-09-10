@@ -9,6 +9,7 @@ import {
   GenericDocWithPromo,
   GenericDocWithMetaDescription,
   RelatedGenericDoc,
+  WithProjectFormat,
 } from '@weco/content/services/prismic/types';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import {
@@ -31,7 +32,8 @@ export function transformFormat(document: {
     | WithCardFormat
     | WithEventFormat
     | WithGuideFormat
-    | WithPageFormat;
+    | WithPageFormat
+    | WithProjectFormat;
 }): Format | undefined {
   const { format } = document.data;
 

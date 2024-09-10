@@ -1,9 +1,4 @@
-import {
-  PagesDocument as RawPagesDocument,
-  EditorialImageSlice as RawEditorialImageSlice,
-  ProjectsDocument as RawProjectsDocument,
-  GuidesDocument as RawGuidesDocument,
-} from '@weco/common/prismicio-types';
+import { EditorialImageSlice as RawEditorialImageSlice } from '@weco/common/prismicio-types';
 import { FunctionComponent, ReactElement } from 'react';
 import PageLayout, {
   SiteSection,
@@ -29,7 +24,6 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
 import { PageFormatIds } from '@weco/content/data/content-format-ids';
 import { links } from '@weco/common/views/components/Header/Header';
-import { Props as LabelsListProps } from '@weco/common/views/components/LabelsList/LabelsList';
 import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { GetServerSideProps } from 'next';
@@ -43,7 +37,6 @@ import {
   fetchChildren,
   fetchPage,
   fetchSiblings,
-  isValidPagesContentType,
 } from '@weco/content/services/prismic/fetch/pages';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
@@ -59,17 +52,17 @@ import {
   transformEmbedSlice,
 } from '@weco/content/services/prismic/transformers/body';
 import { gridSize12 } from '@weco/common/views/components/Layout';
-import { transformProject } from '@weco/content/services/prismic/transformers/projects';
-import { transformGuide } from '@weco/content/services/prismic/transformers/guides';
+import { isVanityUrl } from '@weco/content/utils/urls';
+import { makeLabels } from '@weco/common/views/components/LabelsList/LabelsList';
 
 export type Props = {
   page: PageType;
-  vanityUrl: string | undefined;
   siblings: SiblingsGroup<PageType>[];
   children: SiblingsGroup<PageType>;
   ordersInParents: OrderInParent[];
   staticContent: ReactElement | null;
   postOutroContent: ReactElement | null;
+  vanityUrl?: string;
   jsonLd: JsonLdObj;
   gaDimensions: GaDimensions;
 };
@@ -81,30 +74,9 @@ type OrderInParent = {
   type: 'pages' | 'exhibitions';
 };
 
-/** Is this URL a vanity URL?
- *
- * e.g. /visit-us instead of /pages/X8ZTSBIAACQAiDzY
- *
- * It's moderately fiddly to get all the defined vanity URLs out of the
- * app controller, so we use a heuristic instead.
- */
-function isVanityUrl(pageId: string, url: string): boolean {
-  // Does this URL contain a page ID?  We look for the page ID rather
-  // than a specific prefix, because this template is used for multiple
-  // types of Prismic content.
-  //
-  // e.g. /pages/X8ZTSBIAACQAiDzY, /projects/X_SRxhEAACQAPbwS
-  const containsPageId = url.includes(pageId);
-
-  // This should match a single alphanumeric slug directly after the /
-  //
-  // e.g. /visit-us, /collections
-  const looksLikeVanityUrl = url.match(/\/[a-z-]+/) !== null;
-
-  return !containsPageId && looksLikeVanityUrl;
-}
-
-function getFeaturedPictureWithTasl(editorialImage: RawEditorialImageSlice) {
+export function getFeaturedPictureWithTasl(
+  editorialImage: RawEditorialImageSlice
+) {
   const featuredPicture = transformEditorialImageSlice(editorialImage);
   const image =
     getCrop(featuredPicture.value.image, '16:9') || featuredPicture.value.image;
@@ -137,50 +109,18 @@ export const getServerSideProps: GetServerSideProps<
   if (!looksLikePrismicId(pageId)) {
     return { notFound: true };
   }
-
   const client = createClient(context);
 
   const vanityUrl = isVanityUrl(pageId, context.resolvedUrl)
     ? context.resolvedUrl
     : undefined;
 
-  // TODO figure out if there is a nicer way to differentiate ID from UID...
-  // A lot below gets tidied in
-  // https://github.com/wellcomecollection/wellcomecollection.org/pull/11148
-  const contentType = context.resolvedUrl.split('/')[1];
-  const isStaticNoPrefixPage = [
-    prismicPageIds.cookiePolicy,
-    prismicPageIds.visitUs,
-    prismicPageIds.collections,
-    prismicPageIds.covidWelcomeBack,
-  ].includes(pageId);
-
-  if (!isValidPagesContentType(contentType) && !isStaticNoPrefixPage) {
-    return { notFound: true };
-  }
-
-  const pageDocument = await fetchPage(
-    client,
-    pageId,
-    isValidPagesContentType(contentType) ? contentType : 'pages'
-  );
+  const pageDocument = await fetchPage(client, pageId);
 
   if (isNotUndefined(pageDocument)) {
     const serverData = await getServerData(context);
 
-    let page;
-    switch (contentType) {
-      case 'guides':
-        page = transformGuide(pageDocument as unknown as RawGuidesDocument);
-        break;
-      case 'projects':
-        page = transformProject(pageDocument as unknown as RawProjectsDocument);
-        break;
-      case 'pages':
-      default:
-        page = transformPage(pageDocument as unknown as RawPagesDocument);
-        break;
-    }
+    const page = transformPage(pageDocument);
 
     const siblings: SiblingsGroup<PageType>[] = (
       await fetchSiblings(client, page)
@@ -241,12 +181,6 @@ export const Page: FunctionComponent<Props> = ({
   vanityUrl,
   jsonLd,
 }) => {
-  function makeLabels(title?: string): LabelsListProps | undefined {
-    if (!title) return;
-
-    return { labels: [{ text: title }] };
-  }
-
   const DateInfo = page.datePublished && <HTMLDate date={page.datePublished} />;
   const isLanding = page.format && page.format.id === PageFormatIds.Landing;
   const labels =

@@ -517,6 +517,14 @@ export type WithPageFormat = {
   >;
 };
 
+export type WithProjectFormat = {
+  format: prismic.ContentRelationshipField<
+    'project-formats',
+    'en-gb',
+    InferDataInterface<RawProjectFormatsDocument>
+  >;
+};
+
 export type WithEventFormat = {
   format: prismic.ContentRelationshipField<
     'event-formats',

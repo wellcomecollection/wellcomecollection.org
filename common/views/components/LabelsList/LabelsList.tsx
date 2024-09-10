@@ -20,6 +20,12 @@ export type Props = {
   defaultLabelColor?: LabelColor;
 };
 
+export function makeLabels(title?: string): Props | undefined {
+  if (!title) return;
+
+  return { labels: [{ text: title }] };
+}
+
 const LabelsList: FunctionComponent<Props> = ({
   labels,
   defaultLabelColor = 'yellow',

@@ -1,8 +1,30 @@
-import { fetcher } from '.';
+import { GetServerSidePropsPrismicClient, fetcher } from '.';
 import { ProjectsDocument as RawProjectsDocument } from '@weco/common/prismicio-types';
-import { projectFormatsFetchLinks as fetchLinks } from '../types';
+import {
+  commonPrismicFieldsFetchLinks,
+  contributorFetchLinks,
+  projectFormatsFetchLinks,
+  seasonsFetchLinks,
+} from '@weco/content/services/prismic/types';
+
+export const fetchLinks = [
+  ...commonPrismicFieldsFetchLinks,
+  ...contributorFetchLinks,
+  ...projectFormatsFetchLinks,
+  ...seasonsFetchLinks,
+];
 
 const projectsFetcher = fetcher<RawProjectsDocument>('projects', fetchLinks);
 
-export const fetchProject = projectsFetcher.getById;
 export const fetchProjects = projectsFetcher.getByType;
+export const fetchProject = async (
+  client: GetServerSidePropsPrismicClient,
+  id: string
+): Promise<RawProjectsDocument | undefined> => {
+  // TODO once redirects are in place we should only fetch by uid
+  const projectDocument =
+    (await projectsFetcher.getById(client, id)) ||
+    (await projectsFetcher.getByUid(client, id));
+
+  return projectDocument;
+};

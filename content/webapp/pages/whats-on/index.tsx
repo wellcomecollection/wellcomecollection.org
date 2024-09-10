@@ -319,7 +319,7 @@ export const getServerSideProps: GetServerSideProps<
     period = 'current-and-coming-up';
   }
 
-  const whatsOnPagePromise = fetchPage(client, prismicPageIds.whatsOn, 'pages');
+  const whatsOnPagePromise = fetchPage(client, prismicPageIds.whatsOn);
 
   const exhibitionsQueryPromise = fetchExhibitions(client, {
     period,

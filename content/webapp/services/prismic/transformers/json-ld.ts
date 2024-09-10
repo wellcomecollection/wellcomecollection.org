@@ -20,6 +20,8 @@ import {
 } from '@weco/content/types/exhibition-guides';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { Series } from '@weco/content/types/series';
+import { Guide } from '@weco/content/types/guides';
+import { Project } from '@weco/content/types/projects';
 
 // Guide from schema.org
 // https://schema.org/Thing
@@ -213,8 +215,11 @@ function orgLd(org: Organization) {
   );
 }
 
-export function contentLd(content: Page | Season): JsonLdObj {
-  const contributors = content.type === 'seasons' ? [] : content.contributors;
+export function contentLd(content: Page | Guide | Project | Season): JsonLdObj {
+  const contributors =
+    content.type === 'seasons' || content.type === 'guides'
+      ? []
+      : content.contributors;
 
   const author: Contributor = contributors?.find(
     ({ role }) => role && role.title === 'Author'
@@ -240,8 +245,10 @@ export function contentLd(content: Page | Season): JsonLdObj {
             )
           : undefined,
       image: promoImage ? getImageUrlAtSize(promoImage, { w: 600 }) : undefined,
-      datePublished: content.datePublished,
-      dateModified: content.datePublished,
+      datePublished:
+        content.type !== 'projects' ? content.datePublished : undefined,
+      dateModified:
+        content.type !== 'projects' ? content.datePublished : undefined,
       publisher: orgLd(wellcomeCollectionGallery),
       mainEntityOfPage: `https://wellcomecollection.org${url}`,
     },
