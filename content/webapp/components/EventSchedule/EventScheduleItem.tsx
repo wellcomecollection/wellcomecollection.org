@@ -122,11 +122,7 @@ function shouldShowJustTurnUpMessage(event: Event): boolean {
   const hasDropInPolicy = event.policies.some(
     p => p.id === eventPolicyIds.dropIn
   );
-  if (hasDropInPolicy) {
-    return true;
-  } else {
-    return false;
-  }
+  return hasDropInPolicy;
 }
 
 const HintText: FunctionComponent<{ event: Event }> = ({ event }) => {
