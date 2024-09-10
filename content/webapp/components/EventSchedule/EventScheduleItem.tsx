@@ -12,6 +12,7 @@ import { isEventPast } from '../../services/prismic/events';
 import { isPast } from '@weco/common/utils/dates';
 import { HTMLTime } from '@weco/common/views/components/HTMLDateAndTime';
 import { Place } from '@weco/content/types/places';
+import { eventPolicyIds } from '@weco/common/data/hardcoded-ids';
 
 type Props = {
   event: Event;
