@@ -12,8 +12,7 @@ import { font } from '@weco/common/utils/classnames';
 const EventScheduleList: FunctionComponent<{
   groupedEvents: EventsGroup<EventType>[];
   isNotLinkedIds: string[];
-  parentEvent: EventType;
-}> = ({ groupedEvents, isNotLinkedIds, parentEvent }) => (
+}> = ({ groupedEvents, isNotLinkedIds }) => (
   <>
     {groupedEvents.map(
       eventsGroup =>
@@ -31,7 +30,6 @@ const EventScheduleList: FunctionComponent<{
             {eventsGroup.events.map(event => (
               <EventScheduleItem
                 key={event.id}
-                parentEvent={parentEvent}
                 event={event}
                 isNotLinked={isNotLinkedIds.indexOf(event.id) > -1}
               />
@@ -43,7 +41,6 @@ const EventScheduleList: FunctionComponent<{
 );
 
 type Props = {
-  parentEvent: EventType;
   schedule: EventScheduleType;
 };
 
@@ -51,7 +48,7 @@ type Props = {
 // "Festival of Minds and Bodies" (XagmOxAAACIAo0v8), which is
 // a multi-day event with repeated schedule items.  Some of the items
 // span multiple days.
-const EventSchedule: FunctionComponent<Props> = ({ parentEvent, schedule }) => {
+const EventSchedule: FunctionComponent<Props> = ({ schedule }) => {
   const events = schedule.map(({ event }) => event);
   const groupedEvents = groupEventsByDay(events);
   const isNotLinkedIds = schedule
@@ -78,7 +75,6 @@ const EventSchedule: FunctionComponent<Props> = ({ parentEvent, schedule }) => {
           <EventScheduleList
             groupedEvents={futureEvents}
             isNotLinkedIds={isNotLinkedIds}
-            parentEvent={parentEvent}
           />
         </>
       )}
@@ -88,7 +84,6 @@ const EventSchedule: FunctionComponent<Props> = ({ parentEvent, schedule }) => {
           <EventScheduleList
             groupedEvents={pastEvents}
             isNotLinkedIds={isNotLinkedIds}
-            parentEvent={parentEvent}
           />
         </>
       )}

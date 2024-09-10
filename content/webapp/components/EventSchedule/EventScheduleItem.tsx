@@ -12,10 +12,10 @@ import { isEventPast } from '../../services/prismic/events';
 import { isPast } from '@weco/common/utils/dates';
 import { HTMLTime } from '@weco/common/views/components/HTMLDateAndTime';
 import { Place } from '@weco/content/types/places';
+import { eventPolicyIds } from '@weco/common/data/hardcoded-ids';
 
 type Props = {
   event: Event;
-  parentEvent: Event;
   isNotLinked: boolean;
 };
 
@@ -98,30 +98,54 @@ const eventLocations = (locations: Place[], isHybridEvent: boolean) => {
 
 // We have a message block on scheduled events which either displays
 // 'Just turn up' or 'Arrive early to register'
-// We only show this message if:
-// - the event isn't past AND
-// - it doesn't require booking (either through Eventbrite or by contacting the booking enquiry team) AND
-// - it doesn't have it's own event schedule AND
-// - the parent event isn't Ticketed
-function shouldShowMessage({
-  event,
-  parentEvent,
-}: {
-  event: Event;
-  parentEvent: Event;
-}): boolean {
+// N.B. If the criteria to display both messages is satisfied, we only show 'Arrive early to register' (see below)
+// We don't show either message if the following criteria aren't satisfied:
+function shouldShowMessage(event: Event): boolean {
   return (
     !isEventPast(event) &&
     !event.eventbriteId &&
     !event.bookingEnquiryTeam &&
-    !(event.schedule && event.schedule.length > 1) &&
-    parentEvent.bookingType !== 'Ticketed'
+    !(event.schedule && event.schedule.length > 1)
   );
 }
+// We should show the 'Arrive early to register' message if:
+// - event.hasEarlyRegistration is true AND
+// - the event isn't past AND
+// - it doesn't require booking (either through Eventbrite or by contacting the booking enquiry team) AND
+// - it doesn't have it's own event schedule
+function shouldShowEarlyRegistrationMessage(event: Event): boolean {
+  return event.hasEarlyRegistration;
+}
+
+// We should show the 'Just turn up' message if 'drop in at any time' policy is added to the event AND
+function shouldShowJustTurnUpMessage(event: Event): boolean {
+  const hasDropInPolicy = event.policies.some(
+    p => p.id === eventPolicyIds.dropIn
+  );
+  return hasDropInPolicy;
+}
+
+const HintText: FunctionComponent<{ event: Event }> = ({ event }) => {
+  const showMessage = shouldShowMessage(event);
+  const hasEarlyRegistration = shouldShowEarlyRegistrationMessage(event);
+  const hasDropInPolicy = shouldShowJustTurnUpMessage(event);
+  if (showMessage && (hasEarlyRegistration || hasDropInPolicy)) {
+    return (
+      <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+        <Message
+          text={`${
+            hasEarlyRegistration ? 'Arrive early to register' : 'Just turn up'
+          }`}
+        />
+      </Space>
+    );
+  } else {
+    return null;
+  }
+};
 
 const EventScheduleItem: FunctionComponent<Props> = ({
   event,
-  parentEvent,
   isNotLinked,
 }) => {
   const waitForTicketSales =
@@ -216,17 +240,8 @@ const EventScheduleItem: FunctionComponent<Props> = ({
                   <EventBookingButton event={event} />
                 </Space>
               )}
-            {shouldShowMessage({ event, parentEvent }) && (
-              <Space $v={{ size: 'm', properties: ['margin-top'] }}>
-                <Message
-                  text={`${
-                    event.hasEarlyRegistration
-                      ? 'Arrive early to register'
-                      : 'Just turn up'
-                  }`}
-                />
-              </Space>
-            )}
+
+            <HintText event={event} />
 
             {event.secondaryLabels.length > 0 && (
               <Space $v={{ size: 'm', properties: ['margin-top'] }}>

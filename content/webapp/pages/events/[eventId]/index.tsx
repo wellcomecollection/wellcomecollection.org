@@ -273,7 +273,7 @@ const EventPage: NextPage<EventProps> = ({
           <EventDateList event={event} />
         </DateWrapper>
         {event.schedule && event.schedule.length > 0 && (
-          <EventSchedule parentEvent={event} schedule={event.schedule} />
+          <EventSchedule schedule={event.schedule} />
         )}
         {event.ticketSalesStart &&
           showTicketSalesStart(event.ticketSalesStart) && (
