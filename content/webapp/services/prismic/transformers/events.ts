@@ -320,7 +320,7 @@ export function transformEvent(
     policies: Array.isArray(data.policies)
       ? transformEventPolicyLabels(data.policies, 'policy')
       : [],
-    hasEarlyRegistration: Boolean(data.hasEarlyRegistration === 'yes'),
+    hasEarlyRegistration: data.hasEarlyRegistration === 'yes',
     series,
     seasons,
     contributors,
