@@ -61,7 +61,6 @@ export type Props = {
   children: SiblingsGroup<PageType>;
   ordersInParents: OrderInParent[];
   staticContent: ReactElement | null;
-  postOutroContent: ReactElement | null;
   vanityUrl?: string;
   jsonLd: JsonLdObj;
   gaDimensions: GaDimensions;
@@ -157,7 +156,6 @@ export const getServerSideProps: GetServerSideProps<
         children,
         ordersInParents,
         staticContent: null,
-        postOutroContent: null,
         jsonLd,
         serverData,
         vanityUrl,
@@ -177,7 +175,6 @@ export const Page: FunctionComponent<Props> = ({
   children,
   ordersInParents,
   staticContent,
-  postOutroContent,
   vanityUrl,
   jsonLd,
 }) => {
@@ -219,12 +216,10 @@ export const Page: FunctionComponent<Props> = ({
     <VideoEmbed {...transformFeaturedVideo.value} />
   ) : undefined;
 
-  const hiddenBreadcrumbPages = [prismicPageIds.covidWelcomeBack];
-
   const sectionLevelPage = sectionLevelPages.includes(page.id);
 
   function getBreadcrumbText(siteSection: string): string {
-    return hiddenBreadcrumbPages.includes(page.id) || isLanding
+    return isLanding
       ? '\u200b'
       : links.find(link => link.siteSection === siteSection)?.title ||
           siteSection;
@@ -366,7 +361,6 @@ export const Page: FunctionComponent<Props> = ({
          * - Explore around a subject (siblings)
          */
         RelatedContent={[...Children, ...Siblings]}
-        postOutroContent={postOutroContent}
         contributors={page.contributors}
         seasons={page.seasons}
       />

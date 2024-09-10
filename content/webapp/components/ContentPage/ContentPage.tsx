@@ -30,7 +30,6 @@ type Props = {
   // This is used for content type specific components e.g. InfoBox
   children?: ReactNode;
   RelatedContent?: ReactNode[];
-  postOutroContent?: ReactNode;
   seasons?: Season[];
   contributors?: Contributor[];
   contributorTitle?: string;
@@ -51,7 +50,6 @@ const ContentPage = ({
   Body,
   children,
   RelatedContent = [],
-  postOutroContent,
   seasons = [],
   contributors,
   contributorTitle,
@@ -117,9 +115,6 @@ const ContentPage = ({
               <>{child}</>
             ))}
           </SpacingSection>
-        )}
-        {postOutroContent && (
-          <Layout gridSizes={gridSize8()}>{postOutroContent}</Layout>
         )}
         {seasons.length > 0 &&
           seasons.map(season => (
