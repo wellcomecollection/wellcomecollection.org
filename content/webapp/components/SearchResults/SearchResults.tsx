@@ -64,9 +64,7 @@ const SearchResults: FunctionComponent<Props> = ({
                         // title of the item in the list.
                         //
                         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-
                         ...getCrop(item.image, 'square')!,
-
                         alt: '',
                       }}
                       sizes={{
@@ -98,9 +96,7 @@ const SearchResults: FunctionComponent<Props> = ({
                         // title of the item in the list.
                         //
                         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-
                         ...getCrop(item.image, 'square')!,
-
                         alt: '',
                       }}
                       sizes={{
@@ -133,9 +129,7 @@ const SearchResults: FunctionComponent<Props> = ({
                         // title of the item in the list.
                         //
                         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-
                         ...getCrop(item.image, 'square')!,
-
                         alt: '',
                       }}
                       sizes={{
@@ -168,9 +162,7 @@ const SearchResults: FunctionComponent<Props> = ({
                         // title of the item in the list.
                         //
                         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-
                         ...getCrop(item.cover, 'square')!,
-
                         alt: '',
                       }}
                       sizes={{
@@ -210,9 +202,7 @@ const SearchResults: FunctionComponent<Props> = ({
                         // title of the item in the list.
                         //
                         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-
                         ...getCrop(item.image, 'square')!,
-
                         alt: '',
                       }}
                       sizes={{
@@ -250,9 +240,7 @@ const SearchResults: FunctionComponent<Props> = ({
                         // title of the item in the list.
                         //
                         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-
                         ...getCrop(item.image, 'square')!,
-
                         alt: '',
                       }}
                       sizes={{

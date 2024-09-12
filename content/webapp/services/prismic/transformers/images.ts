@@ -54,7 +54,6 @@ export function transformPromoToCaptionedImage(
   // We could do more complicated checking here, but this is what we always use.
   if (frag.length > 0) {
     const promo = frag[0]!;
-
     return transformCaptionedImage(promo.primary, crop);
   } else {
     return undefined;
