@@ -202,7 +202,7 @@ async function run() {
 
       console.log(
         chalk.blue(
-          `https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/${doc.id}/`
+          `https://wellcomecollection.prismic.io/builder/pages/${doc.id}`
         )
       );
       for (const msg of errors) {
