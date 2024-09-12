@@ -12,7 +12,6 @@ import {
   PhysicalItem,
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
-import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   work: Work;
@@ -21,13 +20,10 @@ type Props = {
 };
 
 const WhereToFindIt = ({ work, physicalItems, locationOfWork }: Props) => {
-  const { offsiteRequesting } = useToggles();
   return (
     <WorkDetailsSection headingText="Where to find it">
       {physicalItems.some(
-        item =>
-          itemIsRequestable(item, offsiteRequesting) ||
-          itemIsTemporarilyUnavailable(item)
+        item => itemIsRequestable(item) || itemIsTemporarilyUnavailable(item)
       ) && (
         <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
           <LibraryMembersBar />
