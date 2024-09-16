@@ -1,5 +1,5 @@
 import { createApp } from './app';
-import { port } from '../config';
+import { port } from '@weco/identity/config';
 
 async function main() {
   if (process.env.NODE_ENV === 'development') {

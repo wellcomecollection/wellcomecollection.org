@@ -1,8 +1,11 @@
 import { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import { ErrorMessage } from '@hookform/error-message';
-import usePasswordRules from '../hooks/usePasswordRules';
-import { PasswordInput, PasswordRules } from '../components/PasswordInput';
-import { FieldMargin } from '../components/Form.style';
+import usePasswordRules from '@weco/identity/src/frontend/hooks/usePasswordRules';
+import {
+  PasswordInput,
+  PasswordRules,
+} from '@weco/identity/src/frontend/components/PasswordInput';
+import { FieldMargin } from '@weco/identity/src/frontend/components/Form.style';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import { InputErrorMessage } from '@weco/common/views/components/TextInput';
 import { useForm, useWatch } from 'react-hook-form';
@@ -11,9 +14,9 @@ import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import {
   UpdatePasswordError,
   useUpdatePassword,
-} from '../hooks/useUpdatePassword';
+} from '@weco/identity/src/frontend/hooks/useUpdatePassword';
 import { Loading } from './Loading';
-import { validPasswordPattern } from '../components/ValidationPatterns';
+import { validPasswordPattern } from '@weco/identity/src/frontend/components/ValidationPatterns';
 import Space from '@weco/common/views/components/styled/Space';
 
 type ChangePasswordInputs = {

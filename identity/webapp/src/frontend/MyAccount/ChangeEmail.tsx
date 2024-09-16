@@ -1,15 +1,18 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { FieldMargin } from '../components/Form.style';
+import { FieldMargin } from '@weco/identity/src/frontend/components/Form.style';
 import TextInput, {
   InputErrorMessage,
 } from '@weco/common/views/components/TextInput';
-import { PasswordInput } from '../components/PasswordInput';
-import { validEmailPattern } from '../components/ValidationPatterns';
+import { PasswordInput } from '@weco/identity/src/frontend/components/PasswordInput';
+import { validEmailPattern } from '@weco/identity/src/frontend/components/ValidationPatterns';
 import { Loading } from './Loading';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
-import { UpdateUserError, useUpdateUser } from '../hooks/useUpdateUser';
+import {
+  UpdateUserError,
+  useUpdateUser,
+} from '@weco/identity/src/frontend/hooks/useUpdateUser';
 import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';

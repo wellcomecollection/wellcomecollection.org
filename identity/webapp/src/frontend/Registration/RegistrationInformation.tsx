@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import Divider from '@weco/common/views/components/Divider/Divider';
-import { SectionHeading } from '../components/Layout.style';
+import { SectionHeading } from '@weco/identity/src/frontend/components/Layout.style';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 

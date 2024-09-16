@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { font } from '@weco/common/utils/classnames';
 import { ErrorMessage } from '@hookform/error-message';
-import { FieldMargin } from '../components/Form.style';
+import { FieldMargin } from '@weco/identity/src/frontend/components/Form.style';
 import { InputErrorMessage } from '@weco/common/views/components/TextInput';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import {
@@ -11,12 +11,12 @@ import {
   StatusAlert,
   ButtonAlign,
 } from './MyAccount.style';
-import { PasswordInput } from '../components/PasswordInput';
+import { PasswordInput } from '@weco/identity/src/frontend/components/PasswordInput';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import {
   RequestDeleteError,
   useRequestDelete,
-} from '../hooks/useRequestDelete';
+} from '@weco/identity/src/frontend/hooks/useRequestDelete';
 import { Loading } from './Loading';
 import { themeValues } from '@weco/common/views/themes/config';
 
