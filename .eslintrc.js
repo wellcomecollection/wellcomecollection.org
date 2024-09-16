@@ -92,5 +92,13 @@ module.exports = {
         'react/prop-types': 'off',
       },
     },
+    // Some directories don't have an absolute import equivalent so ignoring
+    // import rules for them.
+    {
+      files: ['dash/**'],
+      rules: {
+        'no-restricted-imports': 'off',
+      },
+    },
   ],
 };
