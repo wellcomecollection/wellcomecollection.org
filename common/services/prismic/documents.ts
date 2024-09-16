@@ -3,6 +3,7 @@
  * i.e opening times, global alert, and the popup dialog, we have them in common
  */
 import * as prismic from '@prismicio/client';
+
 import {
   GlobalAlertDocument as RawGlobalAlertDocument,
   PopupDialogDocument as RawPopupDialogDocument,

@@ -1,19 +1,20 @@
-import { Book, BookBasic } from '@weco/content/types/books';
 import {
   BooksDocument as RawBooksDocument,
   SeasonsDocument as RawSeasonsDocument,
 } from '@weco/common/prismicio-types';
+import { transformTimestamp } from '@weco/common/services/prismic/transformers';
+import { isFilledLinkToWebField } from '@weco/common/services/prismic/types';
+import { Book, BookBasic } from '@weco/content/types/books';
+
 import {
-  transformGenericFields,
   asRichText,
   asText,
+  transformGenericFields,
   transformSingleLevelGroup,
 } from '.';
-import { isFilledLinkToWebField } from '@weco/common/services/prismic/types';
-import { transformSeason } from './seasons';
-import { transformPromoToCaptionedImage } from './images';
 import { transformContributors } from './contributors';
-import { transformTimestamp } from '@weco/common/services/prismic/transformers';
+import { transformPromoToCaptionedImage } from './images';
+import { transformSeason } from './seasons';
 
 export function transformBookToBookBasic(book: Book): BookBasic {
   // returns what is required to render BookPromos and book JSON-LD

@@ -1,14 +1,16 @@
 import { FunctionComponent } from 'react';
+
 import {
-  britishSignLanguage,
   audioDescribed,
+  britishSignLanguage,
   speechToText,
 } from '@weco/common/icons';
-import TypeOption, { TypeList } from './TypeOption';
 import { useToggles } from '@weco/common/server-data/Context';
-import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
-import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import Space from '@weco/common/views/components/styled/Space';
+import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
+
+import TypeOption, { TypeList } from './TypeOption';
 
 type Props = {
   pathname: string;

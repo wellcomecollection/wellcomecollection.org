@@ -1,18 +1,19 @@
-import useIsomorphicLayoutEffect from '@weco/common/hooks/useIsomorphicLayoutEffect';
+import { getCookies } from 'cookies-next';
 import {
   createContext,
-  useState,
-  useEffect,
   FunctionComponent,
   PropsWithChildren,
+  useEffect,
+  useState,
 } from 'react';
-import { getCookies } from 'cookies-next';
-import theme from '@weco/common/views/themes/default';
-import { Size } from '@weco/common/views/themes/config';
+
+import useIsomorphicLayoutEffect from '@weco/common/hooks/useIsomorphicLayoutEffect';
 import {
   ACTIVE_COOKIE_BANNER_ID,
   COOKIE_BANNER_PARENT_ID,
 } from '@weco/common/services/app/civic-uk';
+import { Size } from '@weco/common/views/themes/config';
+import theme from '@weco/common/views/themes/default';
 
 type AppContextProps = {
   isEnhanced: boolean;

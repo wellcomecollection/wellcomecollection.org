@@ -1,6 +1,7 @@
-import { test, expect } from '@playwright/test';
-import { baseUrl } from './helpers/utils';
+import { expect, test } from '@playwright/test';
+
 import { gotoWithoutCache } from './helpers/contexts';
+import { baseUrl } from './helpers/utils';
 
 const bslCookie = [
   {

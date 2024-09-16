@@ -1,26 +1,28 @@
 import {
-  useRef,
-  useEffect,
-  useState,
   Fragment,
-  isValidElement,
   FunctionComponent,
+  isValidElement,
   ReactElement,
+  useEffect,
+  useRef,
+  useState,
 } from 'react';
-import { font } from '@weco/common/utils/classnames';
-import Rotator from '@weco/common/views/components/styled/Rotator';
-import Control from '@weco/common/views/components/Control';
+
 import { arrow } from '@weco/common/icons';
+import { font } from '@weco/common/utils/classnames';
+import Control from '@weco/common/views/components/Control';
+import Rotator from '@weco/common/views/components/styled/Rotator';
+
 import {
   ControlsWrap,
-  ScrollButtonWrap,
   ScrollButtons,
+  ScrollButtonWrap,
   TableCaption,
   TableTable,
-  TableThead,
   TableTbody,
   TableTd,
   TableTh,
+  TableThead,
   TableTr,
   TableWrap,
 } from './Tables.styles';

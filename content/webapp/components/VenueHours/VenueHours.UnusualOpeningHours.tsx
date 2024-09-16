@@ -1,9 +1,11 @@
 import { FunctionComponent } from 'react';
-import { formatDayName, formatDayMonth } from '@weco/common/utils/format-date';
+
 import {
   ExceptionalOpeningHoursDay,
   OpeningHoursDay,
 } from '@weco/common/model/opening-hours';
+import { formatDayMonth, formatDayName } from '@weco/common/utils/format-date';
+
 import { DifferentToRegularTime, OverrideDay } from './VenueHours.styles';
 
 type UnusualOpeningHoursProps = {

@@ -1,16 +1,17 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { isString } from '@weco/common/utils/type-guards';
+
 import {
   isJson,
   serialiseDates as serialiseJsonDates,
 } from '@weco/common/utils/json';
+import { isString } from '@weco/common/utils/type-guards';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
-import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import {
   transformArticle,
   transformArticleToArticleBasic,
 } from '@weco/content/services/prismic/transformers/articles';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 
 type NotFound = { notFound: true };
 

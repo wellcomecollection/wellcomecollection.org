@@ -1,17 +1,18 @@
+import {
+  ProjectsDocument as RawProjectsDocument,
+  SeasonsDocument as RawSeasonsDocument,
+} from '@weco/common/prismicio-types';
+import { links as headerLinks } from '@weco/common/views/components/Header/Header';
+import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 import { Project } from '@weco/content/types/projects';
+
 import {
   transformFormat,
   transformGenericFields,
   transformSingleLevelGroup,
 } from '.';
-import { transformSeason } from './seasons';
-import {
-  SeasonsDocument as RawSeasonsDocument,
-  ProjectsDocument as RawProjectsDocument,
-} from '@weco/common/prismicio-types';
-import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
-import { links as headerLinks } from '@weco/common/views/components/Header/Header';
 import { transformContributors } from './contributors';
+import { transformSeason } from './seasons';
 
 export function transformProject(document: RawProjectsDocument): Project {
   const { data } = document;

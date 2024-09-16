@@ -1,13 +1,15 @@
 import { FunctionComponent } from 'react';
-import { TreeControl } from '@weco/content/components/ArchiveTree/ArchiveTree.styles';
-import { UiTreeNode } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import DownloadItem from '@weco/content/components/WorkDetails/WorkDetails.DownloadItem';
+import { styled } from 'styled-components';
+
 import { chevron, closedFolder, openFolder } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import { controlDimensions } from './ArchiveTree.helpers';
-import { styled } from 'styled-components';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { UiTreeNode } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
+import { TreeControl } from '@weco/content/components/ArchiveTree/ArchiveTree.styles';
+import DownloadItem from '@weco/content/components/WorkDetails/WorkDetails.DownloadItem';
 import { TransformedCanvas } from '@weco/content/types/manifest';
+
+import { controlDimensions } from './ArchiveTree.helpers';
 
 const ItemWrapper = styled.div.attrs({
   className: font('intr', 6),

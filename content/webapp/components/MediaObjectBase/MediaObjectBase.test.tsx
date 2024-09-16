@@ -1,15 +1,17 @@
-import MediaObjectBase, { HasImageProps } from './MediaObjectBase';
-import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
+import * as prismic from '@prismicio/client';
 import userEvent from '@testing-library/user-event';
+import styled from 'styled-components';
+
 import {
   mockData,
   mockDataWithPrismicText,
 } from '@weco/common/test/fixtures/components/compact-card';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
+import { font, grid } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import styled from 'styled-components';
-import { grid, font } from '@weco/common/utils/classnames';
-import * as prismic from '@prismicio/client';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+
+import MediaObjectBase, { HasImageProps } from './MediaObjectBase';
 
 const getBaseTitleClass = number => {
   return font('wb', number);

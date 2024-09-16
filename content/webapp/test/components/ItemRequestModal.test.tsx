@@ -1,13 +1,14 @@
-import { useState, useRef, FunctionComponent } from 'react';
 import { act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { workWithPartOf } from '@weco/content/test/fixtures/catalogueApi/work';
-import prismicData from '@weco/common/test/fixtures/prismicData/prismic-data';
-import ItemRequestModal from '@weco/content/components/ItemRequestModal/ItemRequestModal';
-import { getItemsWithPhysicalLocation } from '@weco/content/utils/works';
-import * as Context from '@weco/common/server-data/Context';
-import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
+import { FunctionComponent, useRef, useState } from 'react';
+
 import { itemRequestDialog } from '@weco/common/data/microcopy';
+import * as Context from '@weco/common/server-data/Context';
+import prismicData from '@weco/common/test/fixtures/prismicData/prismic-data';
+import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
+import ItemRequestModal from '@weco/content/components/ItemRequestModal/ItemRequestModal';
+import { workWithPartOf } from '@weco/content/test/fixtures/catalogueApi/work';
+import { getItemsWithPhysicalLocation } from '@weco/content/utils/works';
 
 jest.spyOn(Context, 'usePrismicData').mockImplementation(() => prismicData);
 

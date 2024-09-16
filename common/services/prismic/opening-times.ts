@@ -1,14 +1,12 @@
-import { formatDayName } from '@weco/common/utils/format-date';
 import {
-  OverrideType,
-  ExceptionalPeriod,
-  OverrideDate,
-  Venue,
-  OpeningHoursDay,
   ExceptionalOpeningHoursDay,
+  ExceptionalPeriod,
   HasOverrideDate,
+  OpeningHoursDay,
+  OverrideDate,
+  OverrideType,
+  Venue,
 } from '@weco/common/model/opening-hours';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   addDays,
   countDaysBetween,
@@ -17,6 +15,8 @@ import {
   isSameDayOrBefore,
   today,
 } from '@weco/common/utils/dates';
+import { formatDayName } from '@weco/common/utils/format-date';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 const ONE_WEEK = 7;
 

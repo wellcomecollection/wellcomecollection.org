@@ -1,6 +1,6 @@
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import ImagePlaceholder from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
 import Readme from '@weco/content/components/ImagePlaceholder/README.md';
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const Template = args => (
   <ReadmeDecorator

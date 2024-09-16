@@ -1,10 +1,11 @@
 import { FunctionComponent, MouseEvent, useContext, useState } from 'react';
 import styled from 'styled-components';
-import { font, classNames } from '@weco/common/utils/classnames';
+
+import { cross, information } from '@weco/common/icons';
+import { classNames, font } from '@weco/common/utils/classnames';
+import { dasherizeShorten } from '@weco/common/utils/grammar';
 import { getPrismicLicenseData } from '@weco/common/utils/licenses';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { cross, information } from '@weco/common/icons';
-import { dasherizeShorten } from '@weco/common/utils/grammar';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 

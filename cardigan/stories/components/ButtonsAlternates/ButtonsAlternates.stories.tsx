@@ -1,12 +1,13 @@
 import { useState } from 'react';
+
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { chevron, digitalImage, gridView } from '@weco/common/icons';
+import { linkResolver } from '@weco/common/utils/search';
 import Control from '@weco/common/views/components/Control';
 import ControlReadme from '@weco/common/views/components/Control/README.md';
-import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
-import { chevron, digitalImage, gridView } from '@weco/common/icons';
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import Download from '@weco/content/components/Download/Download';
 import SearchFilters from '@weco/content/components/SearchFilters';
-import { linkResolver } from '@weco/common/utils/search';
+import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
 
 const ControlTemplate = args => (
   <ReadmeDecorator

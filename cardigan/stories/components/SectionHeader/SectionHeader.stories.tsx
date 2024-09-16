@@ -1,7 +1,7 @@
-import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
-import Readme from '@weco/content/components/SectionHeader/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { gridSize12 } from '@weco/common/views/components/Layout';
+import Readme from '@weco/content/components/SectionHeader/README.md';
+import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
 
 const Template = args => {
   const { gridSize, ...rest } = args;

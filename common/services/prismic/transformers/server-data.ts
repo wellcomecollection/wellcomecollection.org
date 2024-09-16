@@ -1,15 +1,16 @@
 import * as prismic from '@prismicio/client';
+
+import {
+  CollectionVenueDocument as RawCollectionVenueDocument,
+  GlobalAlertDocument as RawGlobalAlertDocument,
+  PopupDialogDocument as RawPopupDialogDocument,
+} from '@weco/common/prismicio-types';
+import { ResultsLite } from '@weco/common/server-data/prismic';
 import {
   ServerData,
   SimplifiedServerData,
 } from '@weco/common/server-data/types';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
-import {
-  PopupDialogDocument as RawPopupDialogDocument,
-  GlobalAlertDocument as RawGlobalAlertDocument,
-  CollectionVenueDocument as RawCollectionVenueDocument,
-} from '@weco/common/prismicio-types';
-import { ResultsLite } from '@weco/common/server-data/prismic';
 
 // We don't want to add the raw prismic data to the ServerDataContext
 // It gets included in the __NEXT_DATA__ script tag and adds unnecessary page weight

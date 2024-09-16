@@ -1,8 +1,8 @@
-import { WobblyBottom } from '@weco/common/views/components/WobblyEdge';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { image as contentImage } from '@weco/cardigan/stories/data/images';
-import Readme from '@weco/common/views/components/WobblyEdge/README.md';
 import { ReadMeInfo } from '@weco/cardigan/config/decorators';
+import { image as contentImage } from '@weco/cardigan/stories/data/images';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { WobblyBottom } from '@weco/common/views/components/WobblyEdge';
+import Readme from '@weco/common/views/components/WobblyEdge/README.md';
 
 const Template = args => (
   <>

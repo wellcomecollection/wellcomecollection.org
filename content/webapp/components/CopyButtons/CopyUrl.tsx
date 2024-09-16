@@ -1,15 +1,16 @@
 import {
-  useState,
+  FunctionComponent,
+  ReactElement,
   useContext,
   useRef,
-  ReactElement,
-  FunctionComponent,
+  useState,
 } from 'react';
-import TextInput from '@weco/common/views/components/TextInput';
-import Space from '@weco/common/views/components/styled/Space';
+
+import { check } from '@weco/common/icons';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Button from '@weco/common/views/components/Buttons';
-import { check } from '@weco/common/icons';
+import Space from '@weco/common/views/components/styled/Space';
+import TextInput from '@weco/common/views/components/TextInput';
 import { themeValues } from '@weco/common/views/themes/config';
 
 type Props = {

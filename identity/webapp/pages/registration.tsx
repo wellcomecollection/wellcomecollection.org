@@ -1,46 +1,47 @@
-import { FormEvent } from 'react';
-import { NextPage, GetServerSideProps } from 'next';
-import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper';
+import { JwtPayload } from 'jsonwebtoken';
+import { GetServerSideProps, NextPage } from 'next';
+import getConfig from 'next/config';
+import { FormEvent } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+
+import { getServerData } from '@weco/common/server-data';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
+import { appError, AppErrorProps } from '@weco/common/services/app';
 import { font } from '@weco/common/utils/classnames';
-import {
-  CheckboxLabel,
-  FullWidthButton,
-  FlexStartCheckbox,
-} from '@weco/identity/src/frontend/Registration/Registration.style';
-import {
-  Container,
-  Wrapper,
-} from '@weco/identity/src/frontend/components/Layout.style';
-import TextInput, {
-  InputErrorMessage,
-} from '@weco/common/views/components/TextInput';
-import { usePageTitle } from '@weco/identity/src/frontend/hooks/usePageTitle';
+import { serialiseProps } from '@weco/common/utils/json';
+import { isString } from '@weco/common/utils/type-guards';
+import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import Layout, {
   gridSize10,
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
-import { getServerData } from '@weco/common/server-data';
-import { AppErrorProps, appError } from '@weco/common/services/app';
-import { serialiseProps } from '@weco/common/utils/json';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
+import TextInput, {
+  InputErrorMessage,
+} from '@weco/common/views/components/TextInput';
 import {
-  RegistrationInputs,
-  decodeToken,
-} from '@weco/identity/src/utility/jwt-codec';
-import RegistrationInformation from '@weco/identity/src/frontend/Registration/RegistrationInformation';
-import getConfig from 'next/config';
-import {
-  collectionsResearchAgreementTitle,
   collectionsResearchAgreementLabel,
+  collectionsResearchAgreementTitle,
 } from '@weco/identity/copy';
-import { JwtPayload } from 'jsonwebtoken';
-import { isString } from '@weco/common/utils/type-guards';
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+import {
+  Container,
+  Wrapper,
+} from '@weco/identity/src/frontend/components/Layout.style';
+import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper';
+import { usePageTitle } from '@weco/identity/src/frontend/hooks/usePageTitle';
+import {
+  CheckboxLabel,
+  FlexStartCheckbox,
+  FullWidthButton,
+} from '@weco/identity/src/frontend/Registration/Registration.style';
+import RegistrationInformation from '@weco/identity/src/frontend/Registration/RegistrationInformation';
+import {
+  decodeToken,
+  RegistrationInputs,
+} from '@weco/identity/src/utility/jwt-codec';
 
 const { serverRuntimeConfig: config } = getConfig();
 

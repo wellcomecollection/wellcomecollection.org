@@ -1,10 +1,10 @@
-import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   getDatesBetween,
   isFuture,
   maxDate,
   minDate,
 } from '@weco/common/utils/dates';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { HasTimeRanges } from '@weco/content/types/events';
 
 export type YearMonth = {

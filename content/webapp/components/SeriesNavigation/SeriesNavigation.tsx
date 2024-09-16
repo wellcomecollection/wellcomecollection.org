@@ -1,11 +1,12 @@
 import { FunctionComponent } from 'react';
-import MoreLink from '@weco/content/components/MoreLink/MoreLink';
-import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import { Series } from '@weco/content/types/series';
-import { ArticleBasic } from '@weco/content/types/articles';
-import Space from '@weco/common/views/components/styled/Space';
-import SearchResults from '@weco/content/components/SearchResults/SearchResults';
+
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import Space from '@weco/common/views/components/styled/Space';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import MoreLink from '@weco/content/components/MoreLink/MoreLink';
+import SearchResults from '@weco/content/components/SearchResults/SearchResults';
+import { ArticleBasic } from '@weco/content/types/articles';
+import { Series } from '@weco/content/types/series';
 
 type Props = {
   series: Series;

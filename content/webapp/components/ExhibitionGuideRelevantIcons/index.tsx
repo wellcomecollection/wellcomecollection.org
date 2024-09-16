@@ -1,11 +1,12 @@
 import styled from 'styled-components';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
-import Icon from '@weco/common/views/components/Icon/Icon';
+
 import {
   audioDescribed,
   britishSignLanguage,
   speechToText,
 } from '@weco/common/icons';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { ExhibitionGuideType } from '@weco/content/types/exhibition-guides';
 

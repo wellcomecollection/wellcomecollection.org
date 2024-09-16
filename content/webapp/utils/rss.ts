@@ -1,8 +1,8 @@
-import { createClient } from '@weco/content/services/prismic/fetch';
-import { asText } from '@weco/content/services/prismic/transformers';
-import { fetchStoriesRss } from '@weco/content/services/prismic/fetch/stories-rss';
-
 import RSS from 'rss';
+
+import { createClient } from '@weco/content/services/prismic/fetch';
+import { fetchStoriesRss } from '@weco/content/services/prismic/fetch/stories-rss';
+import { asText } from '@weco/content/services/prismic/transformers';
 
 export async function buildStoriesRss(req) {
   const client = createClient(req);

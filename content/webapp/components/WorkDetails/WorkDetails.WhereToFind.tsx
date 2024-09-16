@@ -1,18 +1,19 @@
+import { useToggles } from '@weco/common/server-data/Context';
 import Space from '@weco/common/views/components/styled/Space';
-import PhysicalItems from '@weco/content/components/PhysicalItems/PhysicalItems';
-import WorkDetailsSection from './WorkDetails.Section';
-import WorkDetailsText from './WorkDetails.Text';
 import LibraryMembersBar from '@weco/content/components/LibraryMembersBar/LibraryMembersBar';
-import {
-  itemIsRequestable,
-  itemIsTemporarilyUnavailable,
-} from '@weco/content/utils/requesting';
+import PhysicalItems from '@weco/content/components/PhysicalItems/PhysicalItems';
 import {
   Note,
   PhysicalItem,
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
-import { useToggles } from '@weco/common/server-data/Context';
+import {
+  itemIsRequestable,
+  itemIsTemporarilyUnavailable,
+} from '@weco/content/utils/requesting';
+
+import WorkDetailsSection from './WorkDetails.Section';
+import WorkDetailsText from './WorkDetails.Text';
 
 type Props = {
   work: Work;

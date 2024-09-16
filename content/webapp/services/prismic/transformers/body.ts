@@ -1,77 +1,79 @@
+import * as prismic from '@prismicio/client';
+
+import { Venue } from '@weco/common/model/opening-hours';
 import {
+  ArticlesDocument as RawArticlesDocument,
+  AudioPlayerSlice as RawAudioPlayerSlice,
+  CardDocument as RawCardDocument,
   CollectionVenueSlice as RawCollectionVenueSlice,
   ContactSlice as RawContactSlice,
   ContentListSlice as RawContentListSlice,
-  EditorialImageSlice as RawEditorialImageSlice,
   EditorialImageGallerySlice as RawEditorialImageGallerySlice,
+  EditorialImageSlice as RawEditorialImageSlice,
   EmbedSlice as RawEmbedSlice,
+  EventsDocument as RawEventsDocument,
+  EventSeriesDocument as RawEventSeriesDocument,
+  ExhibitionsDocument as RawExhibitionsDocument,
+  GifVideoSlice as RawGifVideoSlice,
+  GuidesDocument as RawGuidesDocument,
   IframeSlice as RawIframeSlice,
   InfoBlockSlice as RawInfoBlockSlice,
   MapSlice as RawMapSlice,
+  PagesDocument as RawPagesDocument,
   QuoteSlice as RawQuoteSlice,
   SearchResultsSlice as RawSearchResultsSlice,
+  SeasonsDocument as RawSeasonsDocument,
   StandfirstSlice as RawStandfirstSlice,
   TagListSlice as RawTagListSlice,
-  TitledTextListSlice as RawTitledTextListSlice,
-  GifVideoSlice as RawGifVideoSlice,
-  AudioPlayerSlice as RawAudioPlayerSlice,
   TextAndIconsSlice as RawTextAndIconsSlice,
   TextAndImageSlice as RawTextAndImageSlice,
-  PagesDocument as RawPagesDocument,
-  ArticlesDocument as RawArticlesDocument,
-  CardDocument as RawCardDocument,
-  EventsDocument as RawEventsDocument,
-  ExhibitionsDocument as RawExhibitionsDocument,
-  GuidesDocument as RawGuidesDocument,
-  EventSeriesDocument as RawEventSeriesDocument,
-  SeasonsDocument as RawSeasonsDocument,
+  TitledTextListSlice as RawTitledTextListSlice,
 } from '@weco/common/prismicio-types';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
-import {
-  isFilledLinkToDocumentWithData,
-  isFilledLinkToMediaField,
-} from '@weco/common/services/prismic/types';
-import { transformCaptionedImage } from './images';
-import { transformImage } from '@weco/common/services/prismic/transformers/images';
-import { asRichText, asTitle, asText } from '.';
 import {
   transformLink,
   transformTaslFromString,
 } from '@weco/common/services/prismic/transformers';
-import * as prismic from '@prismicio/client';
-import { ContentListProps, Slice } from '@weco/content/types/body';
 import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
-import { transformPage } from './pages';
-import { transformGuide } from './guides';
-import { transformEventSeries } from './event-series';
-import { transformExhibition } from './exhibitions';
+import { transformImage } from '@weco/common/services/prismic/transformers/images';
+import {
+  isFilledLinkToDocumentWithData,
+  isFilledLinkToMediaField,
+} from '@weco/common/services/prismic/types';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
+import { Props as EmbedProps } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
+import { AudioPlayerProps } from '@weco/content/components/AudioPlayer/AudioPlayer';
+import { CaptionedImageProps } from '@weco/content/components/CaptionedImage/CaptionedImage';
+import { Props as ContactProps } from '@weco/content/components/Contact/Contact';
+import { Props as GifVideoProps } from '@weco/content/components/GifVideo/GifVideo';
+import { Props as ImageGalleryProps } from '@weco/content/components/ImageGallery';
+import { Props as InfoBlockProps } from '@weco/content/components/InfoBlock/InfoBlock';
+import { Props as MapProps } from '@weco/content/components/Map/Map';
+import { Props as QuoteProps } from '@weco/content/components/Quote/Quote';
+import { Props as AsyncSearchResultsProps } from '@weco/content/components/SearchResults/AsyncSearchResults';
+import { Props as TagListProps } from '@weco/content/components/TagsGroup/TagsGroup';
+import {
+  TextAndIconsItem,
+  TextAndImageItem,
+} from '@weco/content/components/TextAndImageOrIcons';
+import { Props as TitledTextListProps } from '@weco/content/components/TitledTextList/TitledTextList';
+import { ContentListProps, Slice } from '@weco/content/types/body';
+
+import { asRichText, asText, asTitle } from '.';
 import { transformArticle } from './articles';
-import { transformEventBasic } from './events';
-import { transformSeason } from './seasons';
 import { transformCard } from './card';
 import {
   getSoundCloudEmbedUrl,
   getVimeoEmbedUrl,
   getYouTubeEmbedUrl,
 } from './embeds';
-import { AudioPlayerProps } from '@weco/content/components/AudioPlayer/AudioPlayer';
-import { Props as QuoteProps } from '@weco/content/components/Quote/Quote';
-import { CaptionedImageProps } from '@weco/content/components/CaptionedImage/CaptionedImage';
-import { Props as ImageGalleryProps } from '@weco/content/components/ImageGallery';
-import { Props as ContactProps } from '@weco/content/components/Contact/Contact';
-import { Props as MapProps } from '@weco/content/components/Map/Map';
-import { Props as GifVideoProps } from '@weco/content/components/GifVideo/GifVideo';
-import { Props as InfoBlockProps } from '@weco/content/components/InfoBlock/InfoBlock';
-import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
-import { Props as TagListProps } from '@weco/content/components/TagsGroup/TagsGroup';
-import { Props as EmbedProps } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import {
-  TextAndImageItem,
-  TextAndIconsItem,
-} from '@weco/content/components/TextAndImageOrIcons';
-import { Props as TitledTextListProps } from '@weco/content/components/TitledTextList/TitledTextList';
-import { Props as AsyncSearchResultsProps } from '@weco/content/components/SearchResults/AsyncSearchResults';
-import { Venue } from '@weco/common/model/opening-hours';
+import { transformEventSeries } from './event-series';
+import { transformEventBasic } from './events';
+import { transformExhibition } from './exhibitions';
+import { transformGuide } from './guides';
+import { transformCaptionedImage } from './images';
+import { transformPage } from './pages';
+import { transformSeason } from './seasons';
 
 export function transformStandfirstSlice(
   slice: RawStandfirstSlice

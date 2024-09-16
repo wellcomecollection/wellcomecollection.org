@@ -1,8 +1,10 @@
+import { devices } from '@playwright/test';
 import * as prismic from '@prismicio/client';
 import { BrowserContext, Page, errors as playwrightErrors } from 'playwright';
-import { baseUrl, useStageApis } from './utils';
-import { devices } from '@playwright/test';
+
 import { ArticlesDocument as RawArticlesDocument } from '@weco/common/prismicio-types';
+
+import { baseUrl, useStageApis } from './utils';
 
 export const gotoWithoutCache = async (
   url: string,

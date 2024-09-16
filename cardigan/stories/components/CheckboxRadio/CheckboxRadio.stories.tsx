@@ -1,5 +1,6 @@
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { useEffect, useState } from 'react';
+
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 
 const Template = args => {
   const [isSelected, setIsSelected] = useState(args.checked);

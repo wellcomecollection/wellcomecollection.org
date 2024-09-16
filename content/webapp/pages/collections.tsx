@@ -1,10 +1,12 @@
+import { GetServerSideProps } from 'next';
+import { FunctionComponent } from 'react';
+
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { AppErrorProps } from '@weco/common/services/app';
 import CollectionsStaticContent from '@weco/content/components/Body/CollectionsStaticContent';
-import { GetServerSideProps } from 'next';
-import { FunctionComponent } from 'react';
-import * as page from './pages/[pageId]';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+
+import * as page from './pages/[pageId]';
 
 export const getServerSideProps: GetServerSideProps<
   page.Props | AppErrorProps

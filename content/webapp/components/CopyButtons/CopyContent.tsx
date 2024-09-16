@@ -1,16 +1,17 @@
 import {
-  useState,
+  FunctionComponent,
+  ReactElement,
   useContext,
   useRef,
-  ReactElement,
-  FunctionComponent,
+  useState,
 } from 'react';
-import Space from '@weco/common/views/components/styled/Space';
+import styled from 'styled-components';
+
+import { check } from '@weco/common/icons';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Button from '@weco/common/views/components/Buttons';
-import { check } from '@weco/common/icons';
+import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
-import styled from 'styled-components';
 
 type Props = {
   CTA: string;

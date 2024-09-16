@@ -1,5 +1,6 @@
-import { FunctionComponent, useContext } from 'react';
 import NextLink from 'next/link';
+import { FunctionComponent, useContext } from 'react';
+
 import { font } from '@weco/common/utils/classnames';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 

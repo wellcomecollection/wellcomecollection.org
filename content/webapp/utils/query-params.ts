@@ -1,5 +1,6 @@
-import { isString, isUndefined } from '@weco/common/utils/type-guards';
 import { ParsedUrlQuery } from 'querystring';
+
+import { isString, isUndefined } from '@weco/common/utils/type-guards';
 
 /** Extracts the page from the query parameter.
  *

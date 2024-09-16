@@ -1,11 +1,12 @@
-import { useContext, FunctionComponent } from 'react';
+import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
+
+import { rotateRight, zoomIn } from '@weco/common/icons';
+import Control from '@weco/common/views/components/Control';
+import Space from '@weco/common/views/components/styled/Space';
 import ItemViewerContext, {
   RotatedImage,
 } from '@weco/content/components/ItemViewerContext/ItemViewerContext';
-import Space from '@weco/common/views/components/styled/Space';
-import Control from '@weco/common/views/components/Control';
-import { rotateRight, zoomIn } from '@weco/common/icons';
 
 const ImageViewerControlsEl = styled.div<{ $showControls?: boolean }>`
   position: absolute;

@@ -1,5 +1,6 @@
 import { CloudFrontRequestEvent, CloudFrontResponse } from 'aws-lambda';
 import { URLSearchParams } from 'url';
+
 import { literalRedirects, queryRedirects } from './redirects';
 
 export const redirect301 = (host: string, path: string) => ({

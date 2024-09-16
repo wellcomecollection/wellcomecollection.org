@@ -1,13 +1,14 @@
 import { FunctionComponent } from 'react';
-import { themeValues } from '@weco/common/views/themes/config';
 import styled from 'styled-components';
+
 import { font } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider/Divider';
+import { themeValues } from '@weco/common/views/themes/config';
 import Table from '@weco/content/components/Table';
 import {
-  RGB,
-  HSL,
   hexToRgb,
+  HSL,
+  RGB,
   rgbToHsl,
 } from '@weco/content/utils/convert-colors';
 

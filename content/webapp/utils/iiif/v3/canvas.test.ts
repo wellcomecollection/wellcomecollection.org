@@ -1,10 +1,12 @@
 import { Canvas } from '@iiif/presentation-3';
-import { getThumbnailImage } from './canvas';
+
 import {
   b21506115,
   b2178081x,
   b28462270,
 } from '@weco/content/test/fixtures/iiif/manifests';
+
+import { getThumbnailImage } from './canvas';
 
 describe('getThumbnailImage', () => {
   it('if there’s no thumbnail on the canvas', () => {

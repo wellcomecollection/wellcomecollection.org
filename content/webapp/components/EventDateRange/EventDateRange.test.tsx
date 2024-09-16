@@ -1,4 +1,5 @@
 import mockToday from '@weco/common/test/utils/date-mocks';
+
 import { getEarliestFutureDateRange } from '.';
 
 describe('getEarliestFutureDateRange', () => {

@@ -1,7 +1,8 @@
-import CardGrid from './CardGrid';
-import { MultiContent } from '@weco/content/types/multi-content';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 import { placeHolderImage } from '@weco/content/services/prismic/transformers/images';
+import { MultiContent } from '@weco/content/types/multi-content';
+
+import CardGrid from './CardGrid';
 import '@testing-library/jest-dom';
 
 describe('CardGrid', () => {

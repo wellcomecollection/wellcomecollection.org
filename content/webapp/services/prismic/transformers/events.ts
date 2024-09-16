@@ -1,23 +1,20 @@
+import * as prismic from '@prismicio/client';
+
 import {
-  Audience,
-  DateTimeRange,
-  EventTime,
-  Event,
-  EventBasic,
-  Interpretation,
-  Team,
-  ThirdPartyBooking,
-} from '@weco/content/types/events';
-import {
+  EventPoliciesDocument as RawEventPoliciesDocument,
   EventsDocument as RawEventsDocument,
   EventsDocumentData as RawEventsDocumentData,
-  EventPoliciesDocument as RawEventPoliciesDocument,
   EventSeriesDocument as RawEventSeriesDocument,
   PlacesDocument as RawPlacesDocument,
   SeasonsDocument as RawSeasonsDocument,
   TeamsDocument as RawTeamsDocument,
 } from '@weco/common/prismicio-types';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { transformTimestamp } from '@weco/common/services/prismic/transformers';
+import {
+  InferDataInterface,
+  isFilledLinkToDocumentWithData,
+  isFilledLinkToWebField,
+} from '@weco/common/services/prismic/types';
 import {
   getDatesBetween,
   isPast,
@@ -25,6 +22,21 @@ import {
   maxDate,
   minDate,
 } from '@weco/common/utils/dates';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { LabelField } from '@weco/content/model/label-field';
+import { ContentApiTimeField } from '@weco/content/services/wellcome/content/types/api';
+import {
+  Audience,
+  DateTimeRange,
+  Event,
+  EventBasic,
+  EventTime,
+  Interpretation,
+  Team,
+  ThirdPartyBooking,
+} from '@weco/content/types/events';
+import isEmptyObj from '@weco/content/utils/is-empty-object';
+
 import {
   asText,
   asTitle,
@@ -33,24 +45,14 @@ import {
   transformLabelType,
   transformSingleLevelGroup,
 } from '.';
-import { transformSeason } from './seasons';
+import { transformContributors } from './contributors';
 import {
   transformEventSeries,
   transformEventSeriesToEventSeriesBasic,
 } from './event-series';
-import { transformPlace } from './places';
-import isEmptyObj from '@weco/content/utils/is-empty-object';
-import { LabelField } from '@weco/content/model/label-field';
-import {
-  InferDataInterface,
-  isFilledLinkToWebField,
-  isFilledLinkToDocumentWithData,
-} from '@weco/common/services/prismic/types';
-import { transformContributors } from './contributors';
-import * as prismic from '@prismicio/client';
-import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { noAltTextBecausePromo } from './images';
-import { ContentApiTimeField } from '@weco/content/services/wellcome/content/types/api';
+import { transformPlace } from './places';
+import { transformSeason } from './seasons';
 
 function transformEventBookingType(
   eventDoc: RawEventsDocument

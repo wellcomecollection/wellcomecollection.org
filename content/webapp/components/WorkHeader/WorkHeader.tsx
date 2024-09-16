@@ -1,15 +1,16 @@
 import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
-import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+
 import { font, grid } from '@weco/common/utils/classnames';
-import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
+import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
 import Number from '@weco/content/components/Number/Number';
 import WorkTitle from '@weco/content/components/WorkTitle/WorkTitle';
-import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import Divider from '@weco/common/views/components/Divider/Divider';
-import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
+import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 
 const WorkHeaderContainer = styled.div`
   display: flex;

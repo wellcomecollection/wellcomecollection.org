@@ -1,8 +1,9 @@
+import { AccessTokenError } from '@auth0/nextjs-auth0';
+import axios, { AxiosInstance, Method as AxiosMethod } from 'axios';
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 import getConfig from 'next/config';
+
 import auth0 from '@weco/identity/src/utility/auth0';
-import axios, { AxiosInstance, Method as AxiosMethod } from 'axios';
-import { AccessTokenError } from '@auth0/nextjs-auth0';
 
 const { serverRuntimeConfig: config } = getConfig();
 

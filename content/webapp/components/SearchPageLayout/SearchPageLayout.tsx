@@ -1,20 +1,21 @@
 import { useRouter } from 'next/router';
 import {
-  JSX,
   FunctionComponent,
+  JSX,
   PropsWithChildren,
   ReactElement,
   useEffect,
   useState,
 } from 'react';
 
-import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import SearchNavigation from './SearchNavigation';
 import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 import { Container } from '@weco/common/views/components/styled/Container';
+import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
+
+import SearchNavigation from './SearchNavigation';
 
 type PageLayoutMetadata = {
   openGraphType: 'website';

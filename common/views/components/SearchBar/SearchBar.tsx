@@ -7,8 +7,8 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
-import TextInput from '@weco/common/views/components/TextInput';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
+import TextInput from '@weco/common/views/components/TextInput';
 import { themeValues } from '@weco/common/views/themes/config';
 
 const Container = styled.div`

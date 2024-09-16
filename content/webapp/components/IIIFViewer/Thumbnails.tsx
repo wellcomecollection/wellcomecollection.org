@@ -1,11 +1,13 @@
 import NextLink from 'next/link';
 import { useContext } from 'react';
 import styled from 'styled-components';
-import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
+
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
-import { thumbnailsPageSize } from './Paginators';
+import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
+
 import { queryParamToArrayIndex } from '.';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
+import { thumbnailsPageSize } from './Paginators';
 
 const ThumbnailsContainer = styled.div`
   display: flex;

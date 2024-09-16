@@ -1,39 +1,40 @@
+import FocusTrap from 'focus-trap-react';
+import NextLink from 'next/link';
 import {
   FunctionComponent,
+  useContext,
   useEffect,
   useRef,
   useState,
-  useContext,
 } from 'react';
-import FocusTrap from 'focus-trap-react';
-import NextLink from 'next/link';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { searchLabelText } from '@weco/common/data/microcopy';
+import { cross, search } from '@weco/common/icons';
 import WellcomeCollectionBlack from '@weco/common/icons/wellcome_collection_black';
-import { search, cross } from '@weco/common/icons';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import { font } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
+
+import DesktopSignIn from './DesktopSignIn';
 import {
-  Wrapper,
-  GridCell,
-  HeaderContainer,
   Burger,
   BurgerTrigger,
-  HeaderBrand,
-  HeaderItem,
-  HeaderList,
-  HeaderLink,
+  GridCell,
   HeaderActions,
+  HeaderBrand,
+  HeaderContainer,
+  HeaderItem,
+  HeaderLink,
+  HeaderList,
   HeaderNav,
   NavLoginWrapper,
   SearchButton,
+  Wrapper,
 } from './Header.styles';
-import DesktopSignIn from './DesktopSignIn';
-import MobileSignIn from './MobileSignIn';
 import HeaderSearch from './HeaderSearch';
-import { searchLabelText } from '@weco/common/data/microcopy';
-import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
+import MobileSignIn from './MobileSignIn';
 
 const NoJSIconWrapper = styled.div`
   padding: 5px 8px 0;

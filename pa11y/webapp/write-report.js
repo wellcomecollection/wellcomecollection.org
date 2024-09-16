@@ -1,8 +1,9 @@
+const events = require('events');
 const fs = require('fs');
 const pa11y = require('pa11y');
 const { promisify } = require('util');
+
 const writeFile = promisify(fs.writeFile);
-const events = require('events');
 
 events.EventEmitter.defaultMaxListeners = 25;
 

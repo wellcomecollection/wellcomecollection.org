@@ -1,6 +1,6 @@
-import { FunctionComponent, useEffect } from 'react';
-import NProgress from 'nprogress';
 import Router from 'next/router';
+import NProgress from 'nprogress';
+import { FunctionComponent, useEffect } from 'react';
 import styled from 'styled-components';
 
 const LoadingIndicatorWrapper = styled.div.attrs({

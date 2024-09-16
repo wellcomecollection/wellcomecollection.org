@@ -1,7 +1,8 @@
 import { FunctionComponent } from 'react';
+
 import { font } from '@weco/common/utils/classnames';
-import TextWithDot from '@weco/content/components/TextWithDot';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import TextWithDot from '@weco/content/components/TextWithDot';
 
 type EventStatusProps = {
   text: string;

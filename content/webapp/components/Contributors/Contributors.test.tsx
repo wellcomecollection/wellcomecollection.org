@@ -1,8 +1,9 @@
-import Contributors, {
-  dedupeAndPluraliseRoles,
-  Props as ContributorProps,
-} from './Contributors';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
+
+import Contributors, {
+  Props as ContributorProps,
+  dedupeAndPluraliseRoles,
+} from './Contributors';
 
 const facilitator = 'Facilitator';
 const guide = 'Guide';

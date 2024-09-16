@@ -1,4 +1,5 @@
 import { FunctionComponent } from 'react';
+
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import Tags, { TagType } from '@weco/content/components/Tags/Tags';

@@ -1,9 +1,11 @@
-import styled from 'styled-components';
 import { FunctionComponent, ReactElement } from 'react';
+import styled from 'styled-components';
+
+import { isString } from '@weco/common/utils/type-guards';
+
 import WorkDetailsProperty, {
   Props as BaseProps,
 } from './WorkDetails.Property';
-import { isString } from '@weco/common/utils/type-guards';
 
 const LimitWidth = styled.div.attrs({
   className: 'spaced-text',

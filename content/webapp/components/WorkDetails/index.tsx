@@ -1,44 +1,46 @@
-import { FunctionComponent, useContext } from 'react';
 import { usePathname } from 'next/navigation';
+import { FunctionComponent, useContext } from 'react';
+
+import { DigitalLocation } from '@weco/common/model/catalogue';
+import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
-import { toLink as worksLink } from '@weco/content/components/SearchPagesLink/Works';
+import { formatDuration } from '@weco/common/utils/format-date';
+import Button from '@weco/common/views/components/Buttons';
+import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
+import Space from '@weco/common/views/components/styled/Space';
+import { themeValues } from '@weco/common/views/themes/config';
+import { toLink as conceptLink } from '@weco/content/components/ConceptLink';
+import { CopyUrl } from '@weco/content/components/CopyButtons';
+import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
+import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import { toLink as imagesLink } from '@weco/content/components/SearchPagesLink/Images';
+import { toLink as worksLink } from '@weco/content/components/SearchPagesLink/Works';
+import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
+import {
+  toWorkBasic,
+  Work,
+} from '@weco/content/services/wellcome/catalogue/types';
+import { TransformedManifest } from '@weco/content/types/manifest';
+import {
+  getDownloadOptionsFromCanvasRenderingAndSupplementing,
+  getDownloadOptionsFromManifestRendering,
+  hasItemType,
+} from '@weco/content/utils/iiif/v3';
 import {
   DigitalLocationInfo,
   getDownloadOptionsFromImageUrl,
   getHoldings,
   getItemsWithPhysicalLocation,
 } from '@weco/content/utils/works';
-import Space from '@weco/common/views/components/styled/Space';
-import WorkDetailsSection from './WorkDetails.Section';
-import WorkDetailsText from './WorkDetails.Text';
-import WorkDetailsList from './WorkDetails.List';
-import WorkDetailsTags from './WorkDetails.Tags';
-import WhereToFindIt from './WorkDetails.WhereToFind';
-import WorkDetailsHoldings from './WorkDetails.Holdings';
-import Button from '@weco/common/views/components/Buttons';
-import { toLink as itemLink } from '@weco/content/components/ItemLink';
-import { toLink as conceptLink } from '@weco/content/components/ConceptLink';
-import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
-import { DigitalLocation } from '@weco/common/model/catalogue';
-import {
-  Work,
-  toWorkBasic,
-} from '@weco/content/services/wellcome/catalogue/types';
-import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
-import OnlineResources from './WorkDetails.OnlineResources';
-import { themeValues } from '@weco/common/views/themes/config';
-import { formatDuration } from '@weco/common/utils/format-date';
-import { CopyUrl } from '@weco/content/components/CopyButtons';
+
 import WorkDetailsAvailableOnline from './WorkDetails.AvailableOnline';
-import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
-import {
-  hasItemType,
-  getDownloadOptionsFromManifestRendering,
-  getDownloadOptionsFromCanvasRenderingAndSupplementing,
-} from '@weco/content/utils/iiif/v3';
-import { useToggles } from '@weco/common/server-data/Context';
-import { TransformedManifest } from '@weco/content/types/manifest';
+import WorkDetailsHoldings from './WorkDetails.Holdings';
+import WorkDetailsList from './WorkDetails.List';
+import OnlineResources from './WorkDetails.OnlineResources';
+import WorkDetailsSection from './WorkDetails.Section';
+import WorkDetailsTags from './WorkDetails.Tags';
+import WorkDetailsText from './WorkDetails.Text';
+import WhereToFindIt from './WorkDetails.WhereToFind';
 
 type Props = {
   work: Work;

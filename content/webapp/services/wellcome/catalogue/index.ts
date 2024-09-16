@@ -1,14 +1,15 @@
+import { propsToQuery } from '@weco/common/utils/routes';
+import { isString } from '@weco/common/utils/type-guards';
 import {
   CatalogueResultsList,
   ResultType,
 } from '@weco/content/services/wellcome/catalogue/types';
-import { propsToQuery } from '@weco/common/utils/routes';
-import { isString } from '@weco/common/utils/type-guards';
+
 import {
-  QueryProps,
   globalApiOptions,
-  wellcomeApiQuery,
+  QueryProps,
   WellcomeApiError,
+  wellcomeApiQuery,
 } from '..';
 
 export const rootUris = {

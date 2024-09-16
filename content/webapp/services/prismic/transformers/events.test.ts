@@ -1,12 +1,13 @@
+import { transformTimestamp } from '@weco/common/services/prismic/transformers';
+import { data as uiEventData } from '@weco/content/components/CardGrid/DailyTourPromo';
 import { groupEventsByDay } from '@weco/content/services/prismic/events';
+import { EventTime } from '@weco/content/types/events';
+
 import {
-  getLastEndTime,
   getEventbriteId,
+  getLastEndTime,
   transformEventBasicTimes,
 } from './events';
-import { data as uiEventData } from '@weco/content/components/CardGrid/DailyTourPromo';
-import { EventTime } from '@weco/content/types/events';
-import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 
 const eventTimes: EventTime[] = [
   {

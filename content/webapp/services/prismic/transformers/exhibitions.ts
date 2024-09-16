@@ -1,27 +1,28 @@
-import {
-  Exhibit,
-  ExhibitionFormat,
-  Exhibition,
-  ExhibitionBasic,
-  ExhibitionRelatedContent,
-  AccessPDF,
-} from '@weco/content/types/exhibitions';
+import * as prismic from '@prismicio/client';
+
 import {
   ExhibitionFormatsDocument as RawExhibitionFormatsDocument,
   ExhibitionsDocument as RawExhibitionsDocument,
   SeasonsDocument as RawSeasonsDocument,
 } from '@weco/common/prismicio-types';
-import { ExhibitionRelatedContentPrismicDocument } from '@weco/content/services/prismic/types';
-import {
-  PaginatedResults,
-  isFilledLinkToDocumentWithData,
-} from '@weco/common/services/prismic/types';
-import { transformQuery } from './paginated-results';
-import { transformMultiContent } from './multi-content';
 import {
   transformLink,
   transformTimestamp,
 } from '@weco/common/services/prismic/transformers';
+import {
+  isFilledLinkToDocumentWithData,
+  PaginatedResults,
+} from '@weco/common/services/prismic/types';
+import { ExhibitionRelatedContentPrismicDocument } from '@weco/content/services/prismic/types';
+import {
+  AccessPDF,
+  Exhibit,
+  Exhibition,
+  ExhibitionBasic,
+  ExhibitionFormat,
+  ExhibitionRelatedContent,
+} from '@weco/content/types/exhibitions';
+
 import {
   asHtml,
   asRichText,
@@ -29,14 +30,15 @@ import {
   transformGenericFields,
   transformSingleLevelGroup,
 } from '.';
-import { transformSeason } from './seasons';
-import { transformPlace } from './places';
 import {
   transformContributors,
   transformContributorToContributorBasic,
 } from './contributors';
-import * as prismic from '@prismicio/client';
 import { noAltTextBecausePromo } from './images';
+import { transformMultiContent } from './multi-content';
+import { transformQuery } from './paginated-results';
+import { transformPlace } from './places';
+import { transformSeason } from './seasons';
 
 function transformExhibitionFormat(
   format: RawExhibitionFormatsDocument

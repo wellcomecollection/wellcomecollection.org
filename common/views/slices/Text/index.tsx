@@ -1,19 +1,20 @@
 import * as prismic from '@prismicio/client';
-import { TextSlice as RawTextSlice } from '@weco/common/prismicio-types';
-import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
+import { FunctionComponent } from 'react';
+
+import { TextSlice as RawTextSlice } from '@weco/common/prismicio-types';
+import { classNames } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import {
+  defaultContext,
+  LayoutWidth,
+  SliceZoneContext,
+} from '@weco/content/components/Body/Body';
 import {
   defaultSerializer,
   dropCapSerializer,
 } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
-import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import {
-  LayoutWidth,
-  defaultContext,
-  SliceZoneContext,
-} from '@weco/content/components/Body/Body';
-import { classNames } from '@weco/common/utils/classnames';
 
 export type TextProps = SliceComponentProps<RawTextSlice, SliceZoneContext>;
 

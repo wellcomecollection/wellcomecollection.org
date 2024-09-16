@@ -1,18 +1,19 @@
-import { ReactElement, FunctionComponent } from 'react';
+import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
-import {
-  ExhibitionGuideComponent,
-  ExhibitionGuideType,
-} from '@weco/content/types/exhibition-guides';
+
+import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import ExhibitionCaptions from '@weco/content/components/ExhibitionCaptions/ExhibitionCaptions';
-import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
+import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
 import GridFactory, {
   threeUpGridSizesMap,
   twoUpGridSizesMap,
 } from '@weco/content/components/Body/GridFactory';
-import { font } from '@weco/common/utils/classnames';
+import ExhibitionCaptions from '@weco/content/components/ExhibitionCaptions/ExhibitionCaptions';
+import {
+  ExhibitionGuideComponent,
+  ExhibitionGuideType,
+} from '@weco/content/types/exhibition-guides';
 
 export const Stop = styled(Space).attrs({
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },

@@ -1,10 +1,11 @@
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
+
+import { email as emailIcon, phone as phoneIcon } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
-import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { phone as phoneIcon, email as emailIcon } from '@weco/common/icons';
+import Space from '@weco/common/views/components/styled/Space';
 
 const Wrapper = styled(Space).attrs({
   className: 'body-text',

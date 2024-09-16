@@ -24,14 +24,16 @@
  * †: https://prismic.io/docs/technologies/query-predicates-reference-rest-api
  * see: https://prismic.io/docs/core-concepts/slices
  */
+import fs from 'fs';
 import yargs from 'yargs';
+
 import { components } from '@weco/common/views/slices';
+
+import { success } from './console';
 import {
   downloadPrismicSnapshot,
   getPrismicDocuments,
 } from './downloadSnapshot';
-import fs from 'fs';
-import { success } from './console';
 
 const { type, report } = yargs(process.argv.slice(2))
   .usage('Usage: $0  --type [string] --report [boolean]')

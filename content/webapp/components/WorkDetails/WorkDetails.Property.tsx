@@ -1,9 +1,10 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
+
 import { font } from '@weco/common/utils/classnames';
-import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import Space from '@weco/common/views/components/styled/Space';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 
 type InlineHeadingProps = {
   $inlineHeading?: boolean;

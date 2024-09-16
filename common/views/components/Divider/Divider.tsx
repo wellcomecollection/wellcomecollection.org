@@ -1,5 +1,6 @@
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
+
 import { PaletteColor } from '@weco/common/views/themes/config';
 
 type Props = {

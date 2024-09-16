@@ -1,12 +1,13 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
+import { Page } from 'playwright';
+
 import {
-  workWithPhysicalLocationOnly,
-  workWithDigitalLocationOnly,
-  workWithDigitalLocationAndLocationNote,
   isMobile,
   workWithBornDigitalDownloads,
+  workWithDigitalLocationAndLocationNote,
+  workWithDigitalLocationOnly,
+  workWithPhysicalLocationOnly,
 } from './helpers/contexts';
-import { Page } from 'playwright';
 
 declare global {
   interface Window {

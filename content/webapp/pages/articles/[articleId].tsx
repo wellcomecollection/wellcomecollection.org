@@ -1,46 +1,47 @@
 import { GetServerSideProps } from 'next';
-import { FunctionComponent, useState, useEffect, ReactElement } from 'react';
+import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
+import styled from 'styled-components';
+
+import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
+import { getServerData } from '@weco/common/server-data';
+import { AppErrorProps } from '@weco/common/services/app';
+import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
+import { Pageview } from '@weco/common/services/conversion/track';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
+import { font } from '@weco/common/utils/classnames';
+import { capitalize } from '@weco/common/utils/grammar';
+import { serialiseProps } from '@weco/common/utils/json';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import Space from '@weco/common/views/components/styled/Space';
+import Standfirst from '@weco/common/views/slices/Standfirst';
+import Body from '@weco/content/components/Body/Body';
+import ContentPage from '@weco/content/components/ContentPage/ContentPage';
+import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
+import SeriesNavigation from '@weco/content/components/SeriesNavigation/SeriesNavigation';
+import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
+import { createClient } from '@weco/content/services/prismic/fetch';
+import {
+  fetchArticle,
+  fetchArticlesClientSide,
+} from '@weco/content/services/prismic/fetch/articles';
+import { transformArticle } from '@weco/content/services/prismic/transformers/articles';
+import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
 import {
   Article,
   ArticleBasic,
   getPartNumberInSeries,
 } from '@weco/content/types/articles';
 import { Series } from '@weco/content/types/series';
-import { font } from '@weco/common/utils/classnames';
-import { capitalize } from '@weco/common/utils/grammar';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
-import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import {
   getFeaturedMedia,
   getHeroPicture,
 } from '@weco/content/utils/page-header';
-import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
-import Space from '@weco/common/views/components/styled/Space';
-import { AppErrorProps } from '@weco/common/services/app';
-import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
-import { serialiseProps } from '@weco/common/utils/json';
-import { getServerData } from '@weco/common/server-data';
-import SeriesNavigation from '@weco/content/components/SeriesNavigation/SeriesNavigation';
-import Body from '@weco/content/components/Body/Body';
-import ContentPage from '@weco/content/components/ContentPage/ContentPage';
-import { createClient } from '@weco/content/services/prismic/fetch';
-import {
-  fetchArticle,
-  fetchArticlesClientSide,
-} from '@weco/content/services/prismic/fetch/articles';
-import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
-import { looksLikePrismicId } from '@weco/common/services/prismic';
-import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
-import { transformArticle } from '@weco/content/services/prismic/transformers/articles';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import styled from 'styled-components';
-import { Pageview } from '@weco/common/services/conversion/track';
-import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
-import Standfirst from '@weco/common/views/slices/Standfirst';
 
 const ContentTypeWrapper = styled.div`
   display: flex;

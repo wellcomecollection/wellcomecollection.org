@@ -1,10 +1,11 @@
 import { FunctionComponent, ReactNode } from 'react';
 import styled from 'styled-components';
-import Caption from '@weco/common/views/components/Caption/Caption';
+
 import { CaptionedImage as CaptionedImageType } from '@weco/common/model/captioned-image';
-import ImageWithTasl from '@weco/content/components/ImageWithTasl/ImageWithTasl';
-import HeightRestrictedPrismicImage from '@weco/content/components/HeightRestrictedPrismicImage/HeightRestrictedPrismicImage';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
+import Caption from '@weco/common/views/components/Caption/Caption';
+import HeightRestrictedPrismicImage from '@weco/content/components/HeightRestrictedPrismicImage/HeightRestrictedPrismicImage';
+import ImageWithTasl from '@weco/content/components/ImageWithTasl/ImageWithTasl';
 import ZoomedPrismicImage from '@weco/content/components/ZoomedPrismicImage/ZoomedPrismicImage';
 
 type CaptionedImageFigureProps = {

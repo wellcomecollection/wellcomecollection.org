@@ -1,7 +1,8 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { PaletteColor } from '@weco/common/views/themes/config';
+
 import { IconSvg } from '@weco/common/icons';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 type WrapperProps = {
   $rotate?: number;

@@ -1,6 +1,6 @@
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import EventDateRange from '@weco/content/components/EventDateRange';
 import Readme from '@weco/content/components/EventDateRange/README.md';
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const dateString = '2022-03-01T13:15:00Z';
 

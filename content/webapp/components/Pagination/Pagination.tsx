@@ -1,12 +1,12 @@
-import { useEffect, useState, FunctionComponent } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { chevron } from '@weco/common/icons';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import { font } from '@weco/common/utils/classnames';
 import { formatNumber } from '@weco/common/utils/grammar';
+import Icon from '@weco/common/views/components/Icon/Icon';
 
 export type Props = {
   totalPages: number;

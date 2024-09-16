@@ -1,8 +1,9 @@
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
+
+import { arrowSmall } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { arrowSmall } from '@weco/common/icons';
-import styled from 'styled-components';
 
 const Wrapper = styled.a.attrs({
   className: font('intb', 5),

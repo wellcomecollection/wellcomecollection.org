@@ -2,20 +2,19 @@ import { useRouter } from 'next/router';
 import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import SearchBar from '@weco/common/views/components/SearchBar/SearchBar';
-import Space from '@weco/common/views/components/styled/Space';
-import Tabs from '@weco/content/components/Tabs';
-
-import { formDataAsUrlQuery } from '@weco/common/utils/forms';
+import { searchLabelText } from '@weco/common/data/microcopy';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
+import { formDataAsUrlQuery } from '@weco/common/utils/forms';
+import { capitalize } from '@weco/common/utils/grammar';
 import {
-  getUrlQueryFromSortValue,
   getQueryPropertyValue,
+  getUrlQueryFromSortValue,
   linkResolver,
   SEARCH_PAGES_FORM_ID,
 } from '@weco/common/utils/search';
-import { capitalize } from '@weco/common/utils/grammar';
-import { searchLabelText } from '@weco/common/data/microcopy';
+import SearchBar from '@weco/common/views/components/SearchBar/SearchBar';
+import Space from '@weco/common/views/components/styled/Space';
+import Tabs from '@weco/content/components/Tabs';
 
 const SearchBarContainer = styled(Space)`
   ${props => props.theme.media('medium', 'max-width')`

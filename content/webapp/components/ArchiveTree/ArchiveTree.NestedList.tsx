@@ -1,8 +1,10 @@
 import { FunctionComponent, useContext } from 'react';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import ListItem from './ArchiveTree.ListItem';
+
 import { font } from '@weco/common/utils/classnames';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+
 import { ListProps, UiTree } from './ArchiveTree.helpers';
+import ListItem from './ArchiveTree.ListItem';
 
 type NestedListProps = Omit<ListProps, 'item'> & {
   archiveTree: UiTree;

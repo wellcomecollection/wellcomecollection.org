@@ -4,10 +4,11 @@ import {
   useEffect,
   useState,
 } from 'react';
+import styled from 'styled-components';
+
 import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
-import styled from 'styled-components';
 import useShowClickthrough from '@weco/content/hooks/useShowClickthrough';
 import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 

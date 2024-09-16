@@ -1,4 +1,5 @@
 import prismic from '@prismicio/client';
+
 import { GetServerSidePropsPrismicClient } from '.';
 
 const storyGraphQuery = `{

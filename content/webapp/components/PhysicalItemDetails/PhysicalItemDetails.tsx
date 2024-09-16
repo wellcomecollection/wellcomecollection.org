@@ -6,28 +6,29 @@ import {
   useState,
 } from 'react';
 import styled from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
+
+import { sierraAccessMethodtoNewLabel } from '@weco/common/data/microcopy';
+import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
+import Button from '@weco/common/views/components/Buttons';
+import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
+import Space from '@weco/common/views/components/styled/Space';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import { themeValues } from '@weco/common/views/themes/config';
 import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
+import ItemRequestModal from '@weco/content/components/ItemRequestModal/ItemRequestModal';
+import Placeholder from '@weco/content/components/Placeholder/Placeholder';
 import {
   PhysicalItem,
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
+import { itemIsRequestable } from '@weco/content/utils/requesting';
 import {
+  getFirstAccessCondition,
+  getFirstPhysicalLocation,
   getLocationLabel,
   getLocationShelfmark,
-  getFirstPhysicalLocation,
-  getFirstAccessCondition,
 } from '@weco/content/utils/works';
-import ItemRequestModal from '@weco/content/components/ItemRequestModal/ItemRequestModal';
-import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
-import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
-import { itemIsRequestable } from '@weco/content/utils/requesting';
-import Placeholder from '@weco/content/components/Placeholder/Placeholder';
-import Button from '@weco/common/views/components/Buttons';
-import { sierraAccessMethodtoNewLabel } from '@weco/common/data/microcopy';
-import { useToggles } from '@weco/common/server-data/Context';
-import { themeValues } from '@weco/common/views/themes/config';
 
 const Wrapper = styled(Space).attrs({
   $v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },

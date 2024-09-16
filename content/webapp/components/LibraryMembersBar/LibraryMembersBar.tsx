@@ -1,13 +1,14 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
-import { useLoginURLWithReturnToCurrent } from '@weco/content/utils/useLoginURLWithReturnToCurrent';
-import { font } from '@weco/common/utils/classnames';
+
+import { requestingDisabled } from '@weco/common/data/microcopy';
 import { memberCard } from '@weco/common/icons';
 import { useToggles } from '@weco/common/server-data/Context';
-import { requestingDisabled } from '@weco/common/data/microcopy';
+import { font } from '@weco/common/utils/classnames';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Space from '@weco/common/views/components/styled/Space';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import { useLoginURLWithReturnToCurrent } from '@weco/content/utils/useLoginURLWithReturnToCurrent';
 
 const StyledComponent = styled(Space).attrs({
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },

@@ -1,4 +1,5 @@
 import * as prismic from '@prismicio/client';
+
 import { ArticlesDocument as RawArticlesDocument } from '@weco/common/prismicio-types';
 
 export const oneScheduleItem: prismic.Query<RawArticlesDocument> = {

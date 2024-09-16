@@ -1,12 +1,13 @@
-import { FunctionComponent } from 'react';
 import Image, { ImageLoaderProps } from 'next/image';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
+
+import { ImageType } from '@weco/common/model/image';
+import { whiteBackgroundHalfOpacity } from '@weco/common/utils/backgrounds';
 import {
   Breakpoint,
   sizes as breakpointSizes,
 } from '@weco/common/views/themes/config';
-import { ImageType } from '@weco/common/model/image';
-import { whiteBackgroundHalfOpacity } from '@weco/common/utils/backgrounds';
 
 const StyledImage = styled(Image)<{ $desaturate: boolean }>`
   color: ${props => props.theme.color('white')};

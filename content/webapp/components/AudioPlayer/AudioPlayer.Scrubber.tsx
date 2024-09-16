@@ -1,4 +1,5 @@
 import { FunctionComponent, Ref } from 'react';
+
 import { formatPlayerTime } from './AudioPlayer.formatters';
 
 type ScrubberProps = {

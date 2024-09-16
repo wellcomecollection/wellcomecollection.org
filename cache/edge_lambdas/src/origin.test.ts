@@ -1,7 +1,8 @@
+import { Context } from 'aws-lambda';
+
 import * as origin from './origin';
 import testRequest from './test_event_request';
 import testResponse from './test_event_response';
-import { Context } from 'aws-lambda';
 
 test('request', () => {
   const requestCallback = jest.fn((_, request) => request);

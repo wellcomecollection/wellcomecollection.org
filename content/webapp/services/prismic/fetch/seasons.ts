@@ -1,5 +1,6 @@
-import { GetServerSidePropsPrismicClient, fetcher } from '.';
 import { SeasonsDocument as RawSeasonsDocument } from '@weco/common/prismicio-types';
+
+import { fetcher, GetServerSidePropsPrismicClient } from '.';
 
 const fetchLinks = [];
 

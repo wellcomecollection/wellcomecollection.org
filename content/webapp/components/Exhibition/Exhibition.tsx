@@ -1,56 +1,57 @@
-import { Fragment, useState, useEffect, FunctionComponent } from 'react';
-import { isPast, isFuture } from '@weco/common/utils/dates';
+import * as prismic from '@prismicio/client';
+import { Fragment, FunctionComponent, useEffect, useState } from 'react';
+import styled from 'styled-components';
+
+import { a11y } from '@weco/common/data/microcopy';
+import {
+  a11Y,
+  a11YVisual,
+  arrow,
+  calendar,
+  clock,
+  download,
+  IconSvg,
+  location,
+  ticket,
+} from '@weco/common/icons';
+import { font } from '@weco/common/utils/classnames';
+import { isFuture, isPast } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
+import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import Space from '@weco/common/views/components/styled/Space';
+import { PaletteColor } from '@weco/common/views/themes/config';
+import Body from '@weco/content/components/Body/Body';
+import ContentPage from '@weco/content/components/ContentPage/ContentPage';
+import Contributors from '@weco/content/components/Contributors/Contributors';
+import DateRange from '@weco/content/components/DateRange/DateRange';
+import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
+import InfoBox from '@weco/content/components/InfoBox/InfoBox';
+import SearchResults from '@weco/content/components/SearchResults/SearchResults';
+import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
+import {
+  ResourceLink,
+  ResourceLinkIconWrapper,
+  ResourcesItem,
+  ResourcesList,
+} from '@weco/content/components/styled/AccessResources';
+import { LabelField } from '@weco/content/model/label-field';
+import { fetchExhibitionRelatedContentClientSide } from '@weco/content/services/prismic/fetch/exhibitions';
+import { EventBasic } from '@weco/content/types/events';
+import {
+  ExhibitionAbout,
+  Exhibition as ExhibitionType,
+} from '@weco/content/types/exhibitions';
+import { Link } from '@weco/content/types/link';
+import { Page as PageType } from '@weco/content/types/pages';
 import {
   getFeaturedMedia,
   getHeroPicture,
 } from '@weco/content/utils/page-header';
-import DateRange from '@weco/content/components/DateRange/DateRange';
-import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
-import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
-import InfoBox from '@weco/content/components/InfoBox/InfoBox';
-import { font } from '@weco/common/utils/classnames';
-import { Page as PageType } from '@weco/content/types/pages';
-import Space from '@weco/common/views/components/styled/Space';
-import { LabelField } from '@weco/content/model/label-field';
-import {
-  calendar,
-  clock,
-  ticket,
-  location,
-  a11Y,
-  a11YVisual,
-  IconSvg,
-  download,
-  arrow,
-} from '@weco/common/icons';
-import Body from '@weco/content/components/Body/Body';
-import SearchResults from '@weco/content/components/SearchResults/SearchResults';
-import ContentPage from '@weco/content/components/ContentPage/ContentPage';
-import Contributors from '@weco/content/components/Contributors/Contributors';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { a11y } from '@weco/common/data/microcopy';
-import { fetchExhibitionRelatedContentClientSide } from '@weco/content/services/prismic/fetch/exhibitions';
-import {
-  Exhibition as ExhibitionType,
-  ExhibitionAbout,
-} from '@weco/content/types/exhibitions';
-import { Link } from '@weco/content/types/link';
-import { EventBasic } from '@weco/content/types/events';
-import * as prismic from '@prismicio/client';
-import styled from 'styled-components';
-import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
-import { PaletteColor } from '@weco/common/views/themes/config';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import {
-  ResourcesList,
-  ResourcesItem,
-  ResourceLink,
-  ResourceLinkIconWrapper,
-} from '@weco/content/components/styled/AccessResources';
 
 function getBorderColor({
   type,

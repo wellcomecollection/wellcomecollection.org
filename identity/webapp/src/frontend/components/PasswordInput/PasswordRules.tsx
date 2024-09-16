@@ -1,10 +1,12 @@
 import { FunctionComponent } from 'react';
-import { RulesListItem, RulesListWrapper } from './PasswordInput.style';
+import styled from 'styled-components';
+
+import { check } from '@weco/common/icons';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import { check } from '@weco/common/icons';
-import styled from 'styled-components';
+
+import { RulesListItem, RulesListWrapper } from './PasswordInput.style';
 
 type DotProps = {
   isValid: boolean;

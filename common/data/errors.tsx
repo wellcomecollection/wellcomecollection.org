@@ -1,7 +1,9 @@
 import { FunctionComponent } from 'react';
-import { prismicPageIds } from './hardcoded-ids';
-import Space from '@weco/common/views/components/styled/Space';
+
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import Space from '@weco/common/views/components/styled/Space';
+
+import { prismicPageIds } from './hardcoded-ids';
 
 export const errorMessages = {
   404: 'Not the Wellcome you were expecting?',

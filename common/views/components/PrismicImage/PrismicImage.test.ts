@@ -1,4 +1,5 @@
 import { sizes } from '@weco/common/views/themes/config';
+
 import { convertBreakpointSizesToSizes } from './PrismicImage';
 
 it('should return size in px values for xlarge breakpoint', () => {
