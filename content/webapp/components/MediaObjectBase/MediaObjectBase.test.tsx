@@ -157,9 +157,7 @@ describe('MediaObjectBase', () => {
         />
       );
       expect(
-        /* eslint-disable @typescript-eslint/no-non-null-assertion */
         component.container.textContent!.includes(
-          /* eslint-enable @typescript-eslint/no-non-null-assertion */
           'Keep your nose and mouth covered, unless you’re exempt'
         )
       );

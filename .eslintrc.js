@@ -46,6 +46,7 @@ module.exports = {
   },
   extends: sharedExtends,
   rules: sharedRules,
+  reportUnusedDisableDirectives: true,
   parserOptions: {
     ecmaFeatures: {
       jsx: true,

@@ -1,7 +1,6 @@
 import NextApp, { AppContext, AppProps } from 'next/app';
 import App from '@weco/common/views/pages/_app';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function IdentityApp(props: AppProps) {
   return <App {...props} />;
 }
