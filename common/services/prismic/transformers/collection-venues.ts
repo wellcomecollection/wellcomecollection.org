@@ -4,7 +4,10 @@ import {
 } from '@weco/common/server-data/prismic';
 import { DayOfWeek, formatTime } from '@weco/common/utils/format-date';
 import { Venue, OpeningHoursDay } from '@weco/common/model/opening-hours';
-import { DayField, ModifiedDayOpeningTime } from '../documents';
+import {
+  DayField,
+  ModifiedDayOpeningTime,
+} from '@weco/common/services/prismic/documents';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import * as prismic from '@prismicio/client';
 import { transformImage } from './images';

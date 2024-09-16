@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Container } from '@weco/common/views/components/styled/Container';
-import { BorderlessButton } from '../BorderlessClickable';
+import { BorderlessButton } from '@weco/common/views/components/BorderlessClickable';
 
 export const NavLoginWrapper = styled.div`
   display: flex;

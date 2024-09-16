@@ -3,7 +3,7 @@ import {
   defaultValue as prismicDefaultValue,
   PrismicData,
   SimplifiedPrismicData,
-} from '../server-data/prismic';
+} from '@weco/common/server-data/prismic';
 
 /**
  * The type is stored here rather than with the service because

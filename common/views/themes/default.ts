@@ -1,5 +1,6 @@
 import { css, createGlobalStyle } from 'styled-components';
-import { SpaceOverrides } from '../components/styled/Space';
+import { SpaceOverrides } from '@weco/common/views/components/styled/Space';
+import { Toggles } from '@weco/toggles';
 import {
   typography,
   makeFontSizeClasses,
@@ -14,7 +15,6 @@ import { inlineFonts } from './base/inline-fonts';
 import { fonts } from './base/fonts';
 import { themeValues, spacingUnits, Size } from './config';
 import { grid } from './grid';
-import { Toggles } from '@weco/toggles';
 
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 type SpaceProperty =

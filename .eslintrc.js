@@ -30,9 +30,7 @@ const sharedRules = {
   'prettier/prettier': 'error',
   'no-restricted-imports': [
     'error',
-    {
-      patterns: ['^(?!\\.\\/)((?!.)[sS])*) ?$', '../.*'], // Allows same directory
-    },
+    { patterns: ['../*'] }, // Should only import relatively from same directory
   ],
   'no-restricted-syntax': [
     'error',

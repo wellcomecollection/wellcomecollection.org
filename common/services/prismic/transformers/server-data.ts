@@ -3,7 +3,7 @@ import {
   ServerData,
   SimplifiedServerData,
 } from '@weco/common/server-data/types';
-import { InferDataInterface } from '../types';
+import { InferDataInterface } from '@weco/common/services/prismic/types';
 import {
   PopupDialogDocument as RawPopupDialogDocument,
   GlobalAlertDocument as RawGlobalAlertDocument,

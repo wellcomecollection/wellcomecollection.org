@@ -1,4 +1,4 @@
-import { themeValues } from '../config';
+import { themeValues } from '@weco/common/views/themes/config';
 
 export const row = `
 .row--has-wobbly-background {

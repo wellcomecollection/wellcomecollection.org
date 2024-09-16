@@ -11,8 +11,8 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import { exclamation, tickCircle } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import ClearInput from '@weco/common/views/components/TextInput/TextInput.Clear';
-import Space from '../styled/Space';
-import { AppContext } from '../AppContext/AppContext';
+import Space from '@weco/common/views/components/styled/Space';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 export const TextInputLabel = styled.label.attrs({
   className: font('intb', 5),

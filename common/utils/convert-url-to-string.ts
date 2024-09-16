@@ -1,4 +1,4 @@
-import { Url } from '../model/link-props';
+import { Url } from '@weco/common/model/link-props';
 
 export default function convertUrlToString(url: Url): string {
   const { query = {} } = url;

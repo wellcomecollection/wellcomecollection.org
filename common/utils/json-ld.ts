@@ -1,12 +1,12 @@
 import { convertImageUri } from './convert-image-uri';
-import { Organization } from '../model/organization';
-import { BreadcrumbItems } from '../model/breadcrumbs';
+import { Organization } from '@weco/common/model/organization';
+import { BreadcrumbItems } from '@weco/common/model/breadcrumbs';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import type {
   OpeningHours,
   OpeningHoursDay,
   SpecialOpeningHours,
-} from '../model/opening-hours';
+} from '@weco/common/model/opening-hours';
 import { formatDate } from './format-date';
 
 type ObjToJsonLdProps = { type: string; root?: boolean };
@@ -83,9 +83,8 @@ function imageLd(image: Image) {
     image &&
     objToJsonLd(
       {
-        /* eslint-disable @typescript-eslint/no-non-null-assertion */
         url: convertImageUri((image.contentUrl || image.url)!, 1200),
-        /* eslint-enable @typescript-eslint/no-non-null-assertion */
+
         width: image.width,
         height: image.height,
       },
