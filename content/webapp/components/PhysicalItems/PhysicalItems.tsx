@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import PhysicalItemDetails from '../PhysicalItemDetails/PhysicalItemDetails';
+import PhysicalItemDetails from '@weco/content/components/PhysicalItemDetails/PhysicalItemDetails';
 import {
   PhysicalItem,
   Work,

@@ -1,11 +1,11 @@
+import { ReactElement, FunctionComponent } from 'react';
+import styled from 'styled-components';
 import {
   ExhibitionGuideComponent,
   ExhibitionGuideType,
 } from '@weco/content/types/exhibition-guides';
-import { ReactElement, FunctionComponent } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
-import ExhibitionCaptions from '../ExhibitionCaptions/ExhibitionCaptions';
-import styled from 'styled-components';
+import ExhibitionCaptions from '@weco/content/components/ExhibitionCaptions/ExhibitionCaptions';
 import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import GridFactory, {

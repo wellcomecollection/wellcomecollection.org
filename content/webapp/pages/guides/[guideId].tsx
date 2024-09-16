@@ -26,7 +26,7 @@ import { transformGuide } from '@weco/content/services/prismic/transformers/guid
 import { makeLabels } from '@weco/common/views/components/LabelsList/LabelsList';
 import { Guide as GuideType } from '@weco/content/types/guides';
 import { fetchGuide } from '@weco/content/services/prismic/fetch/guides';
-import { getFeaturedPictureWithTasl } from '../pages/[pageId]';
+import { getFeaturedPictureWithTasl } from '@weco/content/pages/pages/[pageId]';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb/Breadcrumb';
 import { isVanityUrl } from '@weco/content/utils/urls';
 

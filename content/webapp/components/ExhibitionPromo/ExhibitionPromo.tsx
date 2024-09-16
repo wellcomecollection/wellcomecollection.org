@@ -9,7 +9,7 @@ import {
   CardLabels,
   CardImageWrapper,
   CardTitle,
-} from '../Card/Card';
+} from '@weco/content/components/Card/Card';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import linkResolver from '@weco/common/services/prismic/link-resolver';

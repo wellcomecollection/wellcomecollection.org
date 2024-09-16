@@ -3,7 +3,7 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import { cssGrid, classNames } from '@weco/common/utils/classnames';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import { groupEventsByMonth, startOf } from './group-event-utils';
-import CardGrid from '../CardGrid/CardGrid';
+import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import Space from '@weco/common/views/components/styled/Space';
 import { Container } from '@weco/common/views/components/styled/Container';

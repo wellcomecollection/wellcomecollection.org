@@ -16,7 +16,7 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import Button from '@weco/common/views/components/Buttons';
-import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
+import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
 import { tree } from '@weco/common/icons';
 import NestedList from './ArchiveTree.NestedList';
 import { UiTree, UiTreeNode, updateChildren } from './ArchiveTree.helpers';

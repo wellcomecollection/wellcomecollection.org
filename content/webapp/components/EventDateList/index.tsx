@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import DateRange from '@weco/content/components/DateRange/DateRange';
 import { HasTimes } from '@weco/content/types/events';
-import EventStatus from '../EventStatus';
+import EventStatus from '@weco/content/components/EventStatus';
 import Space from '@weco/common/views/components/styled/Space';
 import { isPast } from '@weco/common/utils/dates';
 

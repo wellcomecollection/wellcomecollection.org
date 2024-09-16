@@ -8,7 +8,7 @@ import {
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
-import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
+import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
 import {
   PhysicalItem,
   Work,
@@ -19,7 +19,7 @@ import {
   getFirstPhysicalLocation,
   getFirstAccessCondition,
 } from '@weco/content/utils/works';
-import ItemRequestModal from '../ItemRequestModal/ItemRequestModal';
+import ItemRequestModal from '@weco/content/components/ItemRequestModal/ItemRequestModal';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { itemIsRequestable } from '@weco/content/utils/requesting';

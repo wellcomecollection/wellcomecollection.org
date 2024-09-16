@@ -1,11 +1,11 @@
+import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
-import { CardOuter, CardBody } from '../Card/Card';
+import { CardOuter, CardBody } from '@weco/content/components/Card/Card';
 import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility-promo';
-import { FunctionComponent } from 'react';
-import styled from 'styled-components';
 
 const ImageWrapper = styled.div`
   border-radius: ${props => props.theme.borderRadiusUnit}px;

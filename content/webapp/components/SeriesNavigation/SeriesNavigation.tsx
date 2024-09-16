@@ -4,7 +4,7 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import { Series } from '@weco/content/types/series';
 import { ArticleBasic } from '@weco/content/types/articles';
 import Space from '@weco/common/views/components/styled/Space';
-import SearchResults from '../SearchResults/SearchResults';
+import SearchResults from '@weco/content/components/SearchResults/SearchResults';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 
 type Props = {

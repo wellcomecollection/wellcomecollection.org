@@ -1,5 +1,5 @@
-import CompactCard from '../CompactCard/CompactCard';
 import { FunctionComponent } from 'react';
+import CompactCard from '@weco/content/components/CompactCard/CompactCard';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import Space from '@weco/common/views/components/styled/Space';

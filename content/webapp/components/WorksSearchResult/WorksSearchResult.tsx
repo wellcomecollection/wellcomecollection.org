@@ -1,17 +1,11 @@
 import { FunctionComponent } from 'react';
-
-// Types
+import { usePathname } from 'next/navigation';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
-
-// Helpers/Utils
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
-import { usePathname } from 'next/navigation';
-
-// Components
 import Space from '@weco/common/views/components/styled/Space';
-import WorkTitle from '../WorkTitle/WorkTitle';
-import WorkLink from '../WorkLink';
+import WorkTitle from '@weco/content/components/WorkTitle/WorkTitle';
+import WorkLink from '@weco/content/components/WorkLink';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import {
   Container,

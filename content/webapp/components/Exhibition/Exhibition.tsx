@@ -11,7 +11,7 @@ import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
-import InfoBox from '../InfoBox/InfoBox';
+import InfoBox from '@weco/content/components/InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
 import { Page as PageType } from '@weco/content/types/pages';
 import Space from '@weco/common/views/components/styled/Space';
@@ -27,10 +27,10 @@ import {
   download,
   arrow,
 } from '@weco/common/icons';
-import Body from '../Body/Body';
-import SearchResults from '../SearchResults/SearchResults';
-import ContentPage from '../ContentPage/ContentPage';
-import Contributors from '../Contributors/Contributors';
+import Body from '@weco/content/components/Body/Body';
+import SearchResults from '@weco/content/components/SearchResults/SearchResults';
+import ContentPage from '@weco/content/components/ContentPage/ContentPage';
+import Contributors from '@weco/content/components/Contributors/Contributors';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { a11y } from '@weco/common/data/microcopy';
 import { fetchExhibitionRelatedContentClientSide } from '@weco/content/services/prismic/fetch/exhibitions';

@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { FunctionComponent, ReactElement } from 'react';
-import { getFeaturedPictureWithTasl } from '../pages/[pageId]';
+import { getFeaturedPictureWithTasl } from '@weco/content/pages/pages/[pageId]';
 import { AppErrorProps } from '@weco/common/services/app';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikePrismicId } from '@weco/common/services/prismic';

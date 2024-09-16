@@ -1,4 +1,4 @@
-import { WorkAggregations } from '../types';
+import { WorkAggregations } from '@weco/content/services/wellcome/catalogue/types';
 
 const aggregations: { aggregations?: WorkAggregations } = {
   aggregations: {

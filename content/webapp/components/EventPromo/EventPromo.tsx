@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import TextWithDot from '@weco/content/components/TextWithDot';
-import EventDateRange from '../EventDateRange';
+import EventDateRange from '@weco/content/components/EventDateRange';
 import { EventBasic } from '@weco/content/types/events';
 import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
 import Space from '@weco/common/views/components/styled/Space';
@@ -14,7 +14,7 @@ import {
   CardLabels,
   CardImageWrapper,
   CardTitle,
-} from '../Card/Card';
+} from '@weco/content/components/Card/Card';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import WatchLabel from '@weco/content/components/WatchLabel/WatchLabel';
 import Icon from '@weco/common/views/components/Icon/Icon';

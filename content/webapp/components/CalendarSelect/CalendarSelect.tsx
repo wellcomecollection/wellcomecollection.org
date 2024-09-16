@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import Select from '@weco/content/components/Select';
-import { dateAsValue } from '../ItemRequestModal/format-date';
+import { dateAsValue } from '@weco/content/components/ItemRequestModal/format-date';
 import { AvailabilitySlot } from '@weco/content/services/wellcome/catalogue/types';
 import { formatDayName, formatDayMonth } from '@weco/common/utils/format-date';
 

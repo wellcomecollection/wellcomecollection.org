@@ -1,13 +1,13 @@
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
+import * as prismic from '@prismicio/client';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import MediaObjectBase, {
   HasImageProps,
-} from '../MediaObjectBase/MediaObjectBase';
+} from '@weco/content/components/MediaObjectBase/MediaObjectBase';
 import { getCrop, ImageType } from '@weco/common/model/image';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import styled from 'styled-components';
 import { grid, font } from '@weco/common/utils/classnames';
-import * as prismic from '@prismicio/client';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 
 export type Props = {

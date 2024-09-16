@@ -1,10 +1,10 @@
-import { Image, PromoSliceZone } from '../types';
+import * as prismic from '@prismicio/client';
+import { Image, PromoSliceZone } from '@weco/content/services/prismic/types';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
 import isEmptyObj from '@weco/content/utils/is-empty-object';
 import { Crop, ImageType } from '@weco/common/model/image';
 import { ImagePromo } from '@weco/content/types/image-promo';
 import { asRichText, asText } from '.';
-import * as prismic from '@prismicio/client';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 
 export const placeHolderImage: ImageType = {

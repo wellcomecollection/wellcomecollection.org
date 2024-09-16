@@ -2,19 +2,19 @@ import { FunctionComponent } from 'react';
 import { classNames, cssGrid } from '@weco/common/utils/classnames';
 import { Link } from '@weco/content/types/link';
 import { convertItemToCardProps } from '@weco/content/types/card';
-import BookPromo from '../BookPromo/BookPromo';
+import BookPromo from '@weco/content/components/BookPromo/BookPromo';
 import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
-import Card from '../Card/Card';
-import EventPromo from '../EventPromo/EventPromo';
-import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
-import StoryPromo from '../StoryPromo/StoryPromo';
+import Card from '@weco/content/components/Card/Card';
+import EventPromo from '@weco/content/components/EventPromo/EventPromo';
+import ExhibitionPromo from '@weco/content/components/ExhibitionPromo/ExhibitionPromo';
+import StoryPromo from '@weco/content/components/StoryPromo/StoryPromo';
 import DailyTourPromo from './DailyTourPromo';
 import { MultiContent } from '@weco/content/types/multi-content';
-import ExhibitionGuidePromo from '../ExhibitionGuidePromo/ExhibitionGuidePromo';
-import ExhibitionGuideLinksPromo from '../ExhibitionGuideLinksPromo/ExhibitionGuideLinksPromo';
+import ExhibitionGuidePromo from '@weco/content/components/ExhibitionGuidePromo/ExhibitionGuidePromo';
+import ExhibitionGuideLinksPromo from '@weco/content/components/ExhibitionGuideLinksPromo/ExhibitionGuideLinksPromo';
 
 type Props = {
   items: readonly MultiContent[];

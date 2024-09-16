@@ -5,7 +5,7 @@ import {
   wellcomeCollectionGallery,
 } from '@weco/common/data/organization';
 import { Organization } from '@weco/common/model/organization';
-import { getImageUrlAtSize } from '../types/images';
+import { getImageUrlAtSize } from '@weco/content/services/prismic/types/images';
 import { Article } from '@weco/content/types/articles';
 import { Contributor } from '@weco/content/types/contributors';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';

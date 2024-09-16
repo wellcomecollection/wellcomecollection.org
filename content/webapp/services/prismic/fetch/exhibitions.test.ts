@@ -1,7 +1,7 @@
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 import { GetServerSidePropsPrismicClient } from '.';
 import { fetchExhibitions } from './exhibitions';
-import { asText } from '../transformers';
+import { asText } from '@weco/content/services/prismic/transformers';
 import mockToday from '@weco/common/test/utils/date-mocks';
 
 const client: GetServerSidePropsPrismicClient = {

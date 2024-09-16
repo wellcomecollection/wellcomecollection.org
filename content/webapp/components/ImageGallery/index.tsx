@@ -8,7 +8,7 @@ import {
 import { font } from '@weco/common/utils/classnames';
 import { CaptionedImage as CaptionedImageProps } from '@weco/common/model/captioned-image';
 import { repeatingLsBlack } from '@weco/common/utils/backgrounds';
-import CaptionedImage from '../CaptionedImage/CaptionedImage';
+import CaptionedImage from '@weco/content/components/CaptionedImage/CaptionedImage';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import Button from '@weco/common/views/components/Buttons';
 import Control from '@weco/common/views/components/Control';
@@ -20,11 +20,11 @@ import Layout, {
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { cross, gallery } from '@weco/common/icons';
-import { PageBackgroundContext } from '../ContentPage/ContentPage';
+import { PageBackgroundContext } from '@weco/content/components/ContentPage/ContentPage';
 import Tasl from '@weco/common/views/components/Tasl/Tasl';
 import ComicPreviousNext, {
   Props as ComicPreviousNextProps,
-} from '../ComicPreviousNext/ComicPreviousNext';
+} from '@weco/content/components/ComicPreviousNext/ComicPreviousNext';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { sizes } from '@weco/common/views/themes/config';
 import {

@@ -5,15 +5,15 @@ import {
   getArchiveAncestorArray,
   getDigitalLocationOfType,
   getAccessConditionForDigitalLocation,
-} from '../utils/works';
-import { getTabbableIds } from '../components/ArchiveTree/ArchiveTree.helpers';
+} from '@weco/content/utils/works';
+import { getTabbableIds } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
 import {
   workFixture,
   workWithPartOf,
   workWithLibrarySeriesPartOf,
   workWithMixedPartOf,
 } from '@weco/content/test/fixtures/catalogueApi/work';
-import { uiTree, idArray } from '../__mocks__/uiTree';
+import { uiTree, idArray } from '@weco/content/__mocks__/uiTree';
 
 describe('getProductionDates', () => {
   it('extracts date labels from a work', () => {

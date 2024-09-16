@@ -5,7 +5,12 @@ import {
   ExhibitionGuideType,
 } from '@weco/content/types/exhibition-guides';
 import Space from '@weco/common/views/components/styled/Space';
-import { CardOuter, CardBody, CardImageWrapper, CardTitle } from '../Card/Card';
+import {
+  CardOuter,
+  CardBody,
+  CardImageWrapper,
+  CardTitle,
+} from '@weco/content/components/Card/Card';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { useToggles } from '@weco/common/server-data/Context';
 import RelevantGuideIcons from '@weco/content/components/ExhibitionGuideRelevantIcons';

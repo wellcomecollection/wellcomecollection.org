@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
-import { TransformedImageJSON } from '../types/image';
-import { IIIFImage } from '../services/iiif/types/image/v2';
-import { fetchIIIFImageJson } from '../services/iiif/fetch/image';
-import { transformImageJSON } from '../services/iiif/transformers/image';
+import { TransformedImageJSON } from '@weco/content/types/image';
+import { IIIFImage } from '@weco/content/services/iiif/types/image/v2';
+import { fetchIIIFImageJson } from '@weco/content/services/iiif/fetch/image';
+import { transformImageJSON } from '@weco/content/services/iiif/transformers/image';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 
 const imagePromises: Map<string, Promise<IIIFImage | undefined>> = new Map();
