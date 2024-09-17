@@ -146,8 +146,9 @@
           value: "maybe-later"
 
 - label: "Add steps for e2e tests (if necessary)"
-  command: ".buildkite/e2e_on_pull_requests/react_to_user_choice_about_e2e_on_pull_request.sh"
   depends_on: "ask-user-if-should-run-e2es"
+  if: buildkite-agent meta-data get should-run-e2es == "yes"
+  command: buildkite-agent pipeline upload .buildkite/e2e_on_pull_requests/pipeline.e2e-pull-requests.yml
 
   agents:
     queue: nano
