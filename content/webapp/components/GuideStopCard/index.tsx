@@ -9,7 +9,6 @@ import { threeUpGridSizesMap } from '@weco/content/components/Body/GridFactory';
 import ImagePlaceholder, {
   placeholderBackgroundColor,
 } from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
-import { secondsToHoursMinutesAndSeconds } from '@weco/common/utils/format-time';
 import { map, duration as durationIcon } from '@weco/common/icons';
 import {
   CardOuter,
@@ -34,7 +33,7 @@ type Props = {
   number?: number;
   totalStops: number;
   title: string;
-  duration?: number;
+  duration?: string;
   type: 'audio' | 'video';
   image?: ImageType;
 };
@@ -48,10 +47,6 @@ const GuideStopCard: FunctionComponent<Props> = ({
   type,
   image,
 }) => {
-  const durationInSeconds = duration && Math.round(duration * 60);
-  const durationInMinutesAndSeconds = durationInSeconds
-    ? secondsToHoursMinutesAndSeconds(durationInSeconds)
-    : undefined;
   const croppedImage = getCrop(image, '16:9');
   return (
     <Space
@@ -97,20 +92,19 @@ const GuideStopCard: FunctionComponent<Props> = ({
               </span>
             </AlignIconFirstLineCenter>
           )}
-          <AlignIconFirstLineCenter>
-            <Space
-              style={{ display: 'flex' }}
-              $h={{ size: 's', properties: ['margin-right'] }}
-            >
-              <Icon icon={durationIcon} sizeOverride="width: 16px;" />
-            </Space>
-            {durationInMinutesAndSeconds && (
+          {duration && (
+            <AlignIconFirstLineCenter>
+              <Space
+                style={{ display: 'flex' }}
+                $h={{ size: 's', properties: ['margin-right'] }}
+              >
+                <Icon icon={durationIcon} sizeOverride="width: 16px;" />
+              </Space>
               <span className={font('intr', 5)}>
-                {durationInMinutesAndSeconds} minutes{' '}
-                {type === 'audio' ? 'listen' : 'watch'} time
+                {duration} minutes {type === 'audio' ? 'listen' : 'watch'} time
               </span>
-            )}
-          </AlignIconFirstLineCenter>
+            </AlignIconFirstLineCenter>
+          )}
         </CardBody>
       </CardOuter>
     </Space>
