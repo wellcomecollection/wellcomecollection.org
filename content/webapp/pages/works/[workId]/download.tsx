@@ -210,7 +210,7 @@ export const getServerSideProps: GetServerSideProps<
   const manifestLocation = getDigitalLocationOfType(work, 'iiif-presentation');
   const iiifManifest =
     manifestLocation &&
-    (await fetchIIIFPresentationManifest(manifestLocation.url));
+    (await fetchIIIFPresentationManifest({ location: manifestLocation.url }));
   const transformedManifest = iiifManifest && transformManifest(iiifManifest);
 
   return {
