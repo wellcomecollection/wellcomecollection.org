@@ -6405,14 +6405,14 @@ export interface GuideStopSliceDefaultPrimary {
   transcript: prismic.RichTextField;
 
   /**
-   * Audio duration (in minutes) field in *GuideStop → Primary*
+   * Audio duration (mm:ss) field in *GuideStop → Default → Primary*
    *
-   * - **Field Type**: Number
-   * - **Placeholder**: approximate time in minutes, e.g. 3.5
-   * - **API ID Path**: guide_stop.primary.audio_duration
-   * - **Documentation**: https://prismic.io/docs/field#number
+   * - **Field Type**: Text
+   * - **Placeholder**: e.g. 03:30
+   * - **API ID Path**: guide_stop.default.primary.audio_duration
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  audio_duration: prismic.NumberField;
+  audio_duration: prismic.KeyTextField;
 
   /**
    * BSL video (Youtube) field in *GuideStop → Primary*
@@ -6435,14 +6435,14 @@ export interface GuideStopSliceDefaultPrimary {
   subtitles: prismic.RichTextField;
 
   /**
-   * Video duration (in minutes) field in *GuideStop → Primary*
+   * Video duration (mm:ss) field in *GuideStop → Default → Primary*
    *
-   * - **Field Type**: Number
-   * - **Placeholder**: approximate time in minutes, e.g. 3.5
-   * - **API ID Path**: guide_stop.primary.video_duration
-   * - **Documentation**: https://prismic.io/docs/field#number
+   * - **Field Type**: Text
+   * - **Placeholder**: e.g. 03:30
+   * - **API ID Path**: guide_stop.default.primary.video_duration
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  video_duration: prismic.NumberField;
+  video_duration: prismic.KeyTextField;
 
   /**
    * Image field in *GuideStop → Primary*
