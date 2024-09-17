@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { baseUrl } from './helpers/utils';
-import { gotoWithoutCache } from './helpers/contexts';
+import { CookieProps, digitalGuide } from './helpers/contexts';
 
-const bslCookie = [
+const bslCookie: CookieProps[] = [
   {
     name: 'WC_userPreferenceGuideType',
     value: 'bsl',
@@ -22,6 +22,9 @@ const egWorkCookies = [
   },
 ];
 
+const newJasonGuideId = 'ZthrZRIAACQALvCC';
+const newJasonGuideRelativeURL = `/guides/exhibitions/${newJasonGuideId}`;
+
 test.describe.configure({ mode: 'parallel' });
 
 // TODO remove when we stop supporting legacy QRs
@@ -30,13 +33,12 @@ test('(1) | Redirects to another format if we have an EG preference and come fro
   context,
   page,
 }) => {
-  // Add cookie for BSL preference
-  await context.addCookies(bslCookie);
-
   // Go to In Plain Sight Audio exhibition guide with the QR code params
-  await gotoWithoutCache(
-    `${baseUrl}/guides/exhibitions/YzwsAREAAHylrxau/audio-without-descriptions?usingQRCode=true&stopId=witness#witness`,
-    page
+  await digitalGuide(
+    'YzwsAREAAHylrxau/audio-without-descriptions?usingQRCode=true&stopId=witness#witness',
+    context,
+    page,
+    egWorkCookies
   );
 
   // Check we've been redirected to the BSL guide and kept the extra params
@@ -52,13 +54,12 @@ test.describe('(2) | with egWork toggle: ', () => {
     context,
     page,
   }) => {
-    // Add cookie for BSL preference
-    await context.addCookies(egWorkCookies);
-
     // Go to In Plain Sight Audio exhibition guide with the QR code params
-    await gotoWithoutCache(
-      `${baseUrl}/guides/exhibitions/YzwsAREAAHylrxau/audio-without-descriptions?usingQRCode=true&stopId=witness#witness`,
-      page
+    await digitalGuide(
+      'YzwsAREAAHylrxau/audio-without-descriptions?usingQRCode=true&stopId=witness#witness',
+      context,
+      page,
+      egWorkCookies
     );
 
     // Check we've been redirected to the BSL guide and kept the extra params
@@ -71,12 +72,12 @@ test.describe('(2) | with egWork toggle: ', () => {
     context,
     page,
   }) => {
-    await context.addCookies(egWorkCookies);
-
-    // Kola Nuts with the QR code params and Stop #2
-    await gotoWithoutCache(
-      `${baseUrl}/guides/exhibitions/ZrHvtxEAACYAWmfc?usingQRCode=true&stopNumber=2`,
-      page
+    // Jason with the QR code params and Stop #2
+    await digitalGuide(
+      `${newJasonGuideId}?usingQRCode=true&stopNumber=2`,
+      context,
+      page,
+      egWorkCookies
     );
 
     // Check we've been redirected to the BSL guide's second stop, and kept the extra params
@@ -87,17 +88,17 @@ test.describe('(2) | with egWork toggle: ', () => {
     context,
     page,
   }) => {
-    await context.addCookies(egWorkCookies);
-
-    //  Kola Nuts with the QR code params and Stop #2
-    await gotoWithoutCache(
-      `${baseUrl}/guides/exhibitions/ZrHvtxEAACYAWmfc?stopNumber=2`,
-      page
+    // Jason with the QR code params and Stop #2
+    await digitalGuide(
+      `${newJasonGuideId}?stopNumber=2`,
+      context,
+      page,
+      egWorkCookies
     );
 
     // Nothing happens, URL is the same
     await expect(page).toHaveURL(
-      /\/guides\/exhibitions\/ZrHvtxEAACYAWmfc[?]stopNumber=2/
+      /\/guides\/exhibitions\/ZthrZRIAACQALvCC[?]stopNumber=2/
     );
   });
 
@@ -105,93 +106,90 @@ test.describe('(2) | with egWork toggle: ', () => {
     context,
     page,
   }) => {
-    await context.addCookies(egWorkCookies);
-
-    //  Kola Nuts with the QR code params and Stop #1
-    await gotoWithoutCache(
-      `${baseUrl}/guides/exhibitions/ZrHvtxEAACYAWmfc?usingQRCode=true&stopNumber=1`,
-      page
+    // Jason with the QR code params and Stop #1
+    await digitalGuide(
+      `${newJasonGuideId}?usingQRCode=true&stopNumber=1`,
+      context,
+      page,
+      egWorkCookies
     );
 
     // Nothing happens, URL is the same
     await expect(page).toHaveURL(
-      /\/guides\/exhibitions\/ZrHvtxEAACYAWmfc\/bsl/
+      /\/guides\/exhibitions\/ZthrZRIAACQALvCC\/bsl/
     );
   });
 
-  // TODO uncomment this once we have content for it in production
-  // Currently only works with Prismic staging content, but it is a good test to have.
-  // https://github.com/wellcomecollection/wellcomecollection.org/issues/11131
-  test.describe.skip('New: If no type preference set, ', () => {
-    test('links to BSL and Audio now go straight to stop page instead of landing', async ({
+  test.describe('New: If no type preference set, links to BSL and Audio on the EG landing page: ', () => {
+    test('go straight to stop page instead of listing page', async ({
       context,
       page,
     }) => {
-      await context.addCookies([
-        {
-          name: 'toggle_egWork',
-          value: 'true',
-          path: '/',
-          domain: new URL(baseUrl).host,
-        },
-        {
-          name: 'CookieControl',
-          value: '{}',
-          path: '/',
-          domain: new URL(baseUrl).host,
-        }, // Civic UK banner
-      ]);
-
-      //  Kola Nuts with the QR code params and Stop #2
-      await gotoWithoutCache(
-        `${baseUrl}/guides/exhibitions/ZrHvtxEAACYAWmfc?usingQRCode=true&stopNumber=2`,
-        page
+      // Jason with the QR code params and Stop #2
+      await digitalGuide(
+        `${newJasonGuideId}?usingQRCode=true&stopNumber=2`,
+        context,
+        page,
+        [
+          {
+            name: 'toggle_egWork',
+            value: 'true',
+            path: '/',
+            domain: new URL(baseUrl).host,
+          },
+          {
+            name: 'CookieControl',
+            value: '{}',
+            path: '/',
+            domain: new URL(baseUrl).host,
+          }, // Civic UK banner
+        ]
       );
 
       await expect(
-        page.getByRole('link', { name: 'Audio descriptive tour with' })
+        page.getByRole('link', { name: 'Listen to audio' }).first()
       ).toHaveAttribute(
         'href',
-        '/guides/exhibitions/ZrHvtxEAACYAWmfc/audio-without-descriptions/2'
+        `${newJasonGuideRelativeURL}/audio-without-descriptions/2`
       );
 
       await expect(
-        page.getByRole('link', { name: 'British Sign Language tour' })
-      ).toHaveAttribute('href', '/guides/exhibitions/ZrHvtxEAACYAWmfc/bsl/2');
+        page.getByRole('link', { name: 'Watch British Sign Language' }).first()
+      ).toHaveAttribute('href', `${newJasonGuideRelativeURL}/bsl/2`);
     });
 
     test('unless it is the first stop', async ({ context, page }) => {
-      await context.addCookies([
-        {
-          name: 'toggle_egWork',
-          value: 'true',
-          path: '/',
-          domain: new URL(baseUrl).host,
-        },
-        {
-          name: 'CookieControl',
-          value: '{}',
-          path: '/',
-          domain: new URL(baseUrl).host,
-        }, // Civic UK banner
-      ]);
-
-      //  Kola Nuts with the QR code params and Stop #1
-      await gotoWithoutCache(
-        `${baseUrl}/guides/exhibitions/ZrHvtxEAACYAWmfc?usingQRCode=true&stopNumber=1`,
-        page
+      // Jason with the QR code params and Stop #1
+      await digitalGuide(
+        `${newJasonGuideId}?usingQRCode=true&stopNumber=1`,
+        context,
+        page,
+        [
+          {
+            name: 'toggle_egWork',
+            value: 'true',
+            path: '/',
+            domain: new URL(baseUrl).host,
+          },
+          {
+            name: 'CookieControl',
+            value: '{}',
+            path: '/',
+            domain: new URL(baseUrl).host,
+          }, // Civic UK banner
+        ]
       );
 
       await expect(
-        page.getByRole('link', { name: 'Audio descriptive tour with' })
+        page.getByRole('link', { name: 'Listen to audio' }).first()
       ).toHaveAttribute(
         'href',
-        '/guides/exhibitions/ZrHvtxEAACYAWmfc/audio-without-descriptions'
+        `${newJasonGuideRelativeURL}/audio-without-descriptions`
       );
 
       await expect(
-        page.getByRole('link', { name: 'British Sign Language tour' })
-      ).toHaveAttribute('href', '/guides/exhibitions/ZrHvtxEAACYAWmfc/bsl');
+        page.getByRole('link', { name: 'Watch British Sign Language' }).first()
+      ).toHaveAttribute('href', `${newJasonGuideRelativeURL}/bsl`);
     });
   });
 });
