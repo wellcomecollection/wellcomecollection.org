@@ -74,9 +74,8 @@ export const getGuidesRedirections = (
 ) => {
   const { req, res, resolvedUrl } = context;
   const { id: guideId, stopNumber, stopId, type, usingQRCode } = context.query;
-  const hasEgWorkCookie = getCookie('toggle_egWork', { req, res }) === 'true';
 
-  if (!usingQRCode) return;
+  if (toMaybeString(usingQRCode) !== 'true') return;
 
   const userPreferenceGuideType = getCookie(cookies.exhibitionGuideType, {
     req,
@@ -115,8 +114,7 @@ export const getGuidesRedirections = (
   const hasValidStopNumber =
     typeof stopNumber === 'string' && !!Number(stopNumber);
 
-  // TODO remove hasEgWorkCookie check once toggle is removed
-  if (hasEgWorkCookie && hasValidUserPreference && hasValidStopNumber) {
+  if (hasValidUserPreference && hasValidStopNumber) {
     return {
       redirect: {
         permanent: false,
