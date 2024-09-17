@@ -46,10 +46,10 @@
           }
         },
         "audio_duration": {
-          "type": "Number",
+          "type": "Text",
           "config": {
-            "label": "Audio duration (in minutes)",
-            "placeholder": "approximate time in minutes, e.g. 3.5"
+            "label": "Audio duration (mm:ss)",
+            "placeholder": "e.g. 03:30"
           }
         },
         "bsl_video": {
@@ -69,10 +69,10 @@
           }
         },
         "video_duration": {
-          "type": "Number",
+          "type": "Text",
           "config": {
-            "label": "Video duration (in minutes)",
-            "placeholder": "approximate time in minutes, e.g. 3.5"
+            "label": "Video duration (mm:ss)",
+            "placeholder": "e.g. 03:30"
           }
         },
         "image": {
