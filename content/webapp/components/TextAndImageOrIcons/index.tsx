@@ -1,11 +1,11 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { ImageType } from '@weco/common/model/image';
-import CaptionedImage from '../CaptionedImage/CaptionedImage';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import * as prismic from '@prismicio/client';
+import { ImageType } from '@weco/common/model/image';
+import CaptionedImage from '@weco/content/components/CaptionedImage/CaptionedImage';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { defaultSerializer } from '../HTMLSerializers/HTMLSerializers';
+import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
 import Space from '@weco/common/views/components/styled/Space';
 
 const MediaAndTextWrap = styled(Space).attrs({

@@ -10,7 +10,7 @@
 //      able to edit it themselves, using the GitHub web interface.
 //
 
-import { createScreenreaderLabel } from '../utils/telephone-numbers';
+import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 
 export const pageDescriptions = {
   articles:

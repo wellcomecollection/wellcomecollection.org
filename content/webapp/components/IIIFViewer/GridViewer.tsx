@@ -8,6 +8,7 @@ import {
   FunctionComponent,
   CSSProperties,
 } from 'react';
+import NextLink from 'next/link';
 import { FixedSizeGrid, areEqual } from 'react-window';
 import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
@@ -16,10 +17,9 @@ import Space from '@weco/common/views/components/styled/Space';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import ItemViewerContext, {
   Query,
-} from '../ItemViewerContext/ItemViewerContext';
+} from '@weco/content/components/ItemViewerContext/ItemViewerContext';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { TransformedCanvas } from '@weco/content/types/manifest';
-import NextLink from 'next/link';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
 

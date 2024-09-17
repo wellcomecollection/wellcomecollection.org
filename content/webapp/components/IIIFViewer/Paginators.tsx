@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
 import Space from '@weco/common/views/components/styled/Space';
 import Rotator from '@weco/common/views/components/styled/Rotator';
 import Control from '@weco/common/views/components/Control';
@@ -61,7 +61,6 @@ const PaginatorButtons = ({
     </PaginatorWrapper>
   );
 };
-/* eslint-enable react/display-name */
 
 export const thumbnailsPageSize = 6;
 

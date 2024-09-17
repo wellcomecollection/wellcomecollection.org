@@ -10,13 +10,11 @@ import PhotoAlbum, {
   RenderRowContainer,
 } from 'react-photo-album';
 import styled from 'styled-components';
-
 import { hexToRgb } from '@weco/content/utils/convert-colors';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-
-import ExpandedImage from '../ExpandedImage/ExpandedImage';
-import ImageCard from '../ImageCard/ImageCard';
+import ExpandedImage from '@weco/content/components/ExpandedImage/ExpandedImage';
+import ImageCard from '@weco/content/components/ImageCard/ImageCard';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';

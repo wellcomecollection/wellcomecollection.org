@@ -1,14 +1,14 @@
 import { Fragment, FunctionComponent } from 'react';
+import styled from 'styled-components';
 import { grid, font } from '@weco/common/utils/classnames';
 import EventBookingButton from './EventBookingButton';
-import EventbriteButtons from '../EventbriteButtons/EventbriteButtons';
+import EventbriteButtons from '@weco/content/components/EventbriteButtons/EventbriteButtons';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Message from '@weco/content/components/Message/Message';
 import { formatTime, formatDayDate } from '@weco/common/utils/format-date';
 import { Event } from '@weco/content/types/events';
 import Space from '@weco/common/views/components/styled/Space';
-import styled from 'styled-components';
-import { isEventPast } from '../../services/prismic/events';
+import { isEventPast } from '@weco/content/services/prismic/events';
 import { isPast } from '@weco/common/utils/dates';
 import { HTMLTime } from '@weco/common/views/components/HTMLDateAndTime';
 import { Place } from '@weco/content/types/places';

@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import ErrorPage from '../../../pages/error';
+import ErrorPage from '@weco/identity/pages/error';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 import { defaultServerData } from '@weco/common/server-data/types';

@@ -4,7 +4,7 @@ import { Card as CardType } from '@weco/content/types/card';
 import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
-import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
+import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
 import { getCrop } from '@weco/common/model/image';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { Label as LabelType } from '@weco/common/model/labels';

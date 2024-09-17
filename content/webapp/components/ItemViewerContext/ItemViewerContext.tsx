@@ -5,7 +5,7 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { Canvas, Manifest } from '@iiif/presentation-3';
-import { TransformedManifest } from '../../types/manifest';
+import { TransformedManifest } from '@weco/content/types/manifest';
 
 export type RotatedImage = { canvas: number; rotation: number };
 

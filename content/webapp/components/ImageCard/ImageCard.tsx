@@ -2,12 +2,10 @@ import { FunctionComponent, SyntheticEvent, useContext } from 'react';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { usePathname } from 'next/navigation';
-
 import { ImageType } from '@weco/common/model/image';
-
-import IIIFImage from '../IIIFImage/IIIFImage';
+import IIIFImage from '@weco/content/components/IIIFImage/IIIFImage';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { toLink as imageLink } from '../ImageLink';
+import { toLink as imageLink } from '@weco/content/components/ImageLink';
 
 type Props = {
   id: string;

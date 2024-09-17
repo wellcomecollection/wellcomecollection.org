@@ -13,7 +13,7 @@ import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import ItemViewerContext, {
   results,
-} from '../ItemViewerContext/ItemViewerContext';
+} from '@weco/content/components/ItemViewerContext/ItemViewerContext';
 import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
 import { search } from '@weco/common/icons';

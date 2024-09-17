@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { ArticleBasic } from '../../types/articles';
+import { ArticleBasic } from '@weco/content/types/articles';
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { chevron } from '@weco/common/icons';

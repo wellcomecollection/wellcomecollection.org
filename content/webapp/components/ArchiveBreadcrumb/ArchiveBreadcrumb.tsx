@@ -1,12 +1,12 @@
-import { Work } from '@weco/content/services/wellcome/catalogue/types';
+import { FunctionComponent, PropsWithChildren, useContext } from 'react';
 import styled from 'styled-components';
+import { Work } from '@weco/content/services/wellcome/catalogue/types';
 import Button from '@weco/common/views/components/Buttons';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import WorkTitle from '../WorkTitle/WorkTitle';
+import WorkTitle from '@weco/content/components/WorkTitle/WorkTitle';
 import { getArchiveAncestorArray } from '@weco/content/utils/works';
-import { FunctionComponent, PropsWithChildren, useContext } from 'react';
-import WorkLink from '../WorkLink';
-import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
+import WorkLink from '@weco/content/components/WorkLink';
+import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
 import { archive, folder } from '@weco/common/icons';
 
 const ArchiveBreadcrumbNav = styled.nav`

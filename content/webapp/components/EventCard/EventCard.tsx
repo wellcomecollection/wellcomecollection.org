@@ -1,9 +1,9 @@
 import { FunctionComponent } from 'react';
 import { EventBasic } from '@weco/content/types/events';
-import CompactCard from '../CompactCard/CompactCard';
+import CompactCard from '@weco/content/components/CompactCard/CompactCard';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
-import EventDateRange from '../EventDateRange';
+import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
+import EventDateRange from '@weco/content/components/EventDateRange';
 import { font } from '@weco/common/utils/classnames';
 import { getCrop } from '@weco/common/model/image';
 import Space from '@weco/common/views/components/styled/Space';

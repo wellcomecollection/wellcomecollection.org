@@ -4,7 +4,7 @@ import {
   contributorFetchLinks,
   seasonsFetchLinks,
   seriesFetchLinks,
-} from '../types';
+} from '@weco/content/services/prismic/types';
 import {
   SeriesDocument as RawSeriesDocument,
   WebcomicSeriesDocument as RawWebcomicSeriesDocument,

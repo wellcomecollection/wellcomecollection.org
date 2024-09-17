@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
 import Divider from '@weco/common/views/components/Divider/Divider';
-import FindUs from '../FindUs/FindUs';
+import FindUs from '@weco/common/views/components/FindUs/FindUs';
 import FooterNav from './Footer.Nav';
 import FooterSocial from './Footer.Social';
 import FooterWellcomeLogo from './Footer.WellcomeLogo';

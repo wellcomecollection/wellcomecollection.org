@@ -2,15 +2,18 @@ import { Fragment, useState, useEffect, FunctionComponent } from 'react';
 import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import { getFeaturedMedia, getHeroPicture } from '../../utils/page-header';
+import {
+  getFeaturedMedia,
+  getHeroPicture,
+} from '@weco/content/utils/page-header';
 import DateRange from '@weco/content/components/DateRange/DateRange';
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
-import InfoBox from '../InfoBox/InfoBox';
+import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
+import InfoBox from '@weco/content/components/InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
-import { Page as PageType } from '../../types/pages';
+import { Page as PageType } from '@weco/content/types/pages';
 import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/content/model/label-field';
 import {
@@ -24,18 +27,18 @@ import {
   download,
   arrow,
 } from '@weco/common/icons';
-import Body from '../Body/Body';
-import SearchResults from '../SearchResults/SearchResults';
-import ContentPage from '../ContentPage/ContentPage';
-import Contributors from '../Contributors/Contributors';
+import Body from '@weco/content/components/Body/Body';
+import SearchResults from '@weco/content/components/SearchResults/SearchResults';
+import ContentPage from '@weco/content/components/ContentPage/ContentPage';
+import Contributors from '@weco/content/components/Contributors/Contributors';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { a11y } from '@weco/common/data/microcopy';
-import { fetchExhibitionRelatedContentClientSide } from '../../services/prismic/fetch/exhibitions';
+import { fetchExhibitionRelatedContentClientSide } from '@weco/content/services/prismic/fetch/exhibitions';
 import {
   Exhibition as ExhibitionType,
   ExhibitionAbout,
-} from '../../types/exhibitions';
-import { Link } from '../../types/link';
+} from '@weco/content/types/exhibitions';
+import { Link } from '@weco/content/types/link';
 import { EventBasic } from '@weco/content/types/events';
 import * as prismic from '@prismicio/client';
 import styled from 'styled-components';

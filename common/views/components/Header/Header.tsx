@@ -33,7 +33,7 @@ import DesktopSignIn from './DesktopSignIn';
 import MobileSignIn from './MobileSignIn';
 import HeaderSearch from './HeaderSearch';
 import { searchLabelText } from '@weco/common/data/microcopy';
-import { SiteSection } from '../PageLayout/PageLayout';
+import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 
 const NoJSIconWrapper = styled.div`
   padding: 5px 8px 0;

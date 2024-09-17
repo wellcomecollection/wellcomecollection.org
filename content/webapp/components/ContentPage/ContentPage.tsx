@@ -14,7 +14,7 @@ import SpacingSection from '@weco/common/views/components/styled/SpacingSection'
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import BannerCard from '@weco/content/components/BannerCard/BannerCard';
-import Contributors from '../Contributors/Contributors';
+import Contributors from '@weco/content/components/Contributors/Contributors';
 import { Contributor } from '@weco/content/types/contributors';
 import { Props as BodyProps } from '@weco/content/components/Body/Body';
 

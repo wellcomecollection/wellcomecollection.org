@@ -3,7 +3,10 @@ import {
   ImageAggregations,
   WorkAggregations,
 } from '@weco/content/services/wellcome/catalogue/types';
-import { ArticleAggregations } from '@weco/content/services/wellcome/content/types';
+import {
+  ArticleAggregations,
+  EventAggregations,
+} from '@weco/content/services/wellcome/content/types';
 import { quoteVal } from '@weco/common/utils/csv';
 import { toHtmlId } from '@weco/content/utils/string';
 import { ImagesProps } from '@weco/content/components/SearchPagesLink/Images';
@@ -12,7 +15,6 @@ import { StoriesProps } from '@weco/content/components/SearchPagesLink/Stories';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import { formatNumber } from '@weco/common/utils/grammar';
 import { EventsProps } from '@weco/content/components/SearchPagesLink/Events';
-import { EventAggregations } from '../content/types';
 
 export type DateRangeFilter<Ids extends string = string> = {
   type: 'dateRange';

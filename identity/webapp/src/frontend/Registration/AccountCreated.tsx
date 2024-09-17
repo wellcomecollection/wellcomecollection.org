@@ -1,9 +1,13 @@
 import { FunctionComponent } from 'react';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { PageWrapper } from '../components/PageWrapper';
+import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper';
 import { SuccessMessage } from './Registration.style';
-import { Container, Wrapper, SectionHeading } from '../components/Layout.style';
+import {
+  Container,
+  Wrapper,
+  SectionHeading,
+} from '@weco/identity/src/frontend/components/Layout.style';
 import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { info2 } from '@weco/common/icons';

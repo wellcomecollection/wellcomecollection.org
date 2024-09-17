@@ -8,7 +8,6 @@ export type UserInfo = {
 };
 
 // This is the type returned by the Auth0 profile endpoint
-/* eslint-disable camelcase */
 export type Auth0UserProfile = {
   sub: string;
   email: string;
@@ -21,7 +20,6 @@ export type Auth0UserProfile = {
   nickname: string;
   'https://wellcomecollection.org/patron_barcode': string;
 };
-/* eslint-enable camelcase */
 
 // Auth0 subject claims (aka user IDs) are prefixed with `auth0|`, plus
 // the `p` prefix for Sierra patrons.

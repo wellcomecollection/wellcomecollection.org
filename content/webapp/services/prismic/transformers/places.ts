@@ -1,4 +1,4 @@
-import { Place } from '../../../types/places';
+import { Place } from '@weco/content/types/places';
 import { transformGenericFields } from '.';
 import { PlacesDocument as RawPlacesDocument } from '@weco/common/prismicio-types';
 

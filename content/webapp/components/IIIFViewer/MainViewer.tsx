@@ -19,7 +19,7 @@ import { font } from '@weco/common/utils/classnames';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import ItemViewerContext, {
   RotatedImage,
-} from '../ItemViewerContext/ItemViewerContext';
+} from '@weco/content/components/ItemViewerContext/ItemViewerContext';
 import ImageViewer from './ImageViewer';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';

@@ -12,13 +12,15 @@ import {
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { underConstruction } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import PageHeader, { headerSpaceSize } from '../PageHeader/PageHeader';
-import PageLayout from '../PageLayout/PageLayout';
-import SpacingSection from '../styled/SpacingSection';
-import SpacingComponent from '../styled/SpacingComponent';
+import PageHeader, {
+  headerSpaceSize,
+} from '@weco/common/views/components/PageHeader/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import { dangerouslyGetEnabledToggles } from '@weco/common/utils/cookies';
-import Layout, { gridSize8 } from '../Layout';
+import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import togglesList from '@weco/toggles/toggles';
 
 const MessageBar = styled(Space).attrs({

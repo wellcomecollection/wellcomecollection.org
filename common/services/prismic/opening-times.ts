@@ -1,4 +1,4 @@
-import { formatDayName } from '../../utils/format-date';
+import { formatDayName } from '@weco/common/utils/format-date';
 import {
   OverrideType,
   ExceptionalPeriod,
@@ -7,7 +7,7 @@ import {
   OpeningHoursDay,
   ExceptionalOpeningHoursDay,
   HasOverrideDate,
-} from '../../model/opening-hours';
+} from '@weco/common/model/opening-hours';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   addDays,
@@ -16,7 +16,7 @@ import {
   isSameDay,
   isSameDayOrBefore,
   today,
-} from '../../utils/dates';
+} from '@weco/common/utils/dates';
 
 const ONE_WEEK = 7;
 

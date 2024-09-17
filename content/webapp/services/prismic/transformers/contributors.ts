@@ -3,7 +3,7 @@ import {
   WithContributors,
   isFilledLinkToOrganisationField,
   isFilledLinkToPersonField,
-} from '../types';
+} from '@weco/content/services/prismic/types';
 import {
   isFilledLinkToDocumentWithData,
   InferDataInterface,

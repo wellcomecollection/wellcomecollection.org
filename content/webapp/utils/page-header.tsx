@@ -1,13 +1,13 @@
 import { ReactElement } from 'react';
 import { getCrop } from '@weco/common/model/image';
 import { breakpoints } from '@weco/content/utils/breakpoints';
-import ImageWithTasl from '../components/ImageWithTasl/ImageWithTasl';
+import ImageWithTasl from '@weco/content/components/ImageWithTasl/ImageWithTasl';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { FeaturedMedia } from '@weco/common/views/components/PageHeader/PageHeader';
 import Picture from '@weco/common/views/components/Picture/Picture';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { isVideoEmbed } from '@weco/content/types/body';
-import { GenericContentFields } from '../types/generic-content-fields';
+import { GenericContentFields } from '@weco/content/types/generic-content-fields';
 import { transformEmbedSlice } from '@weco/content/services/prismic/transformers/body';
 
 export function getFeaturedMedia(

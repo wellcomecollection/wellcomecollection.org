@@ -1,29 +1,12 @@
+import * as prismic from '@prismicio/client';
 import {
   clientSideFetcher,
   fetcher,
   fetchFromClientSide,
   GetServerSidePropsPrismicClient,
 } from '.';
-import { ExhibitionRelatedContentPrismicDocument } from '@weco/content/services/prismic/types';
 import {
-  ExhibitionsDocument as RawExhibitionsDocument,
-  PagesDocument as RawPagesDocument,
-  VisualStoriesDocument as RawVisualStoriesDocument,
-} from '@weco/common/prismicio-types';
-import { fetchPages } from './pages';
-import { fetchVisualStories } from './visual-stories';
-import { fetchExhibitionGuides } from '@weco/content/services/prismic/fetch/exhibition-guides';
-import { fetchExhibitionTexts } from '@weco/content/services/prismic/fetch/exhibition-texts';
-import { fetchExhibitionHighlightTours } from '@weco/content/services/prismic/fetch/exhibition-highlight-tours';
-import * as prismic from '@prismicio/client';
-import { eventAccessOptionsFields } from '../fetch-links';
-import { Period } from '@weco/common/types/periods';
-import { getExhibitionPeriodFilters } from '../types/filters';
-import {
-  Exhibition,
-  ExhibitionRelatedContent,
-} from '@weco/content/types/exhibitions';
-import {
+  ExhibitionRelatedContentPrismicDocument,
   articleFormatsFetchLinks,
   audienceFetchLinks,
   contributorFetchLinks,
@@ -39,7 +22,24 @@ import {
   interpretationTypeFetchLinks,
   teamsFetchLinks,
   placesFetchLinks,
-} from '../types';
+} from '@weco/content/services/prismic/types';
+import {
+  ExhibitionsDocument as RawExhibitionsDocument,
+  PagesDocument as RawPagesDocument,
+  VisualStoriesDocument as RawVisualStoriesDocument,
+} from '@weco/common/prismicio-types';
+import { fetchPages } from './pages';
+import { fetchVisualStories } from './visual-stories';
+import { fetchExhibitionGuides } from '@weco/content/services/prismic/fetch/exhibition-guides';
+import { fetchExhibitionTexts } from '@weco/content/services/prismic/fetch/exhibition-texts';
+import { fetchExhibitionHighlightTours } from '@weco/content/services/prismic/fetch/exhibition-highlight-tours';
+import { eventAccessOptionsFields } from '@weco/content/services/prismic/fetch-links';
+import { Period } from '@weco/common/types/periods';
+import { getExhibitionPeriodFilters } from '@weco/content/services/prismic/types/filters';
+import {
+  Exhibition,
+  ExhibitionRelatedContent,
+} from '@weco/content/types/exhibitions';
 import { isFilledLinkToDocument } from '@weco/common/services/prismic/types';
 
 const fetchLinks = [

@@ -1,5 +1,5 @@
-import { gridCells } from '../mixins';
-import { themeValues, ColumnKey } from '../config';
+import { gridCells } from '@weco/common/views/themes/mixins';
+import { themeValues, ColumnKey } from '@weco/common/views/themes/config';
 
 export const gridSize = `
   ${Object.entries(themeValues.grid)

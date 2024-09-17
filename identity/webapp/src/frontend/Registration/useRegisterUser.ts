@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
-import { RegisterUserSchema } from '../../types/schemas/register-user';
+import { RegisterUserSchema } from '@weco/identity/src/types/schemas/register-user';
 
 export enum RegistrationError {
   EMAIL_ALREADY_EXISTS = 'EMAIL_ALREADY_EXISTS',

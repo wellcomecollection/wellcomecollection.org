@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
-import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
+import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
 import {
   CardOuter,
   CardBody,
@@ -9,7 +9,7 @@ import {
   CardLabels,
   CardImageWrapper,
   CardTitle,
-} from '../Card/Card';
+} from '@weco/content/components/Card/Card';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import {
   ArticleBasic,

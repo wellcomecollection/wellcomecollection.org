@@ -1,6 +1,7 @@
 import { useEffect, useState, FunctionComponent } from 'react';
 import styled from 'styled-components';
 import NextLink from 'next/link';
+import { usePathname } from 'next/navigation';
 import { font } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
@@ -21,10 +22,9 @@ import Button from '@weco/common/views/components/Buttons';
 import VisuallySimilarImagesFromApi from '@weco/content/components/VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
 import IIIFImage from '@weco/content/components/IIIFImage/IIIFImage';
 import LL from '@weco/common/views/components/styled/LL';
-import { toLink as itemLink } from '../ItemLink';
-import { toLink as imageLink } from '../ImageLink';
+import { toLink as itemLink } from '@weco/content/components/ItemLink';
+import { toLink as imageLink } from '@weco/content/components/ImageLink';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
-import { usePathname } from 'next/navigation';
 
 type Props = {
   image: ImageType | undefined;

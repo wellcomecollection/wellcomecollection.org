@@ -6,6 +6,8 @@ import {
   useContext,
 } from 'react';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import {
   Work,
@@ -17,11 +19,9 @@ import ViewerTopBar from './ViewerTopBar';
 import ItemViewerContext, {
   ParentManifest,
   RotatedImage,
-} from '../ItemViewerContext/ItemViewerContext';
-import { useRouter } from 'next/router';
+} from '@weco/content/components/ItemViewerContext/ItemViewerContext';
 import GridViewer from './GridViewer';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import dynamic from 'next/dynamic';
 import LL from '@weco/common/views/components/styled/LL';
 import ImageViewer from './ImageViewer';
 import ImageViewerControls from './ImageViewerControls';

@@ -17,7 +17,7 @@ import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { chevron, IconSvg } from '@weco/common/icons';
 import { themeValues } from '@weco/common/views/themes/config';
-import { BorderlessButton } from '../BorderlessClickable';
+import { BorderlessButton } from '@weco/common/views/components/BorderlessClickable';
 
 const DropdownWrapper = styled.div`
   display: inline-flex;

@@ -1,4 +1,4 @@
-import { Book, BookBasic } from '../../../types/books';
+import { Book, BookBasic } from '@weco/content/types/books';
 import {
   BooksDocument as RawBooksDocument,
   SeasonsDocument as RawSeasonsDocument,

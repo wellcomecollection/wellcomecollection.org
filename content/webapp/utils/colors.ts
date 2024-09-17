@@ -1,4 +1,4 @@
-import { ColorSelection } from '../types/color-selections';
+import { ColorSelection } from '@weco/content/types/color-selections';
 
 export const getSeriesColor = (
   prismicColor:

@@ -1,5 +1,5 @@
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { DownloadOption } from '../../types/manifest';
+import { DownloadOption } from '@weco/content/types/manifest';
 import { FunctionComponent, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';

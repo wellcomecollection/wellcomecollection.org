@@ -1,11 +1,11 @@
-import { Tasl } from '../../../model/tasl';
-import { licenseTypeArray } from '../../../model/license';
-import linkResolver from '../link-resolver';
+import { Tasl } from '@weco/common/model/tasl';
+import { licenseTypeArray } from '@weco/common/model/license';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import {
   isFilledLinkToDocument,
   isFilledLinkToMediaField,
   isFilledLinkToWebField,
-} from '../types';
+} from '@weco/common/services/prismic/types';
 import * as prismic from '@prismicio/client';
 
 export function transformTaslFromString(pipedString: string | null): Tasl {

@@ -8,7 +8,7 @@ import {
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
-import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
+import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
 import {
   PhysicalItem,
   Work,
@@ -18,11 +18,11 @@ import {
   getLocationShelfmark,
   getFirstPhysicalLocation,
   getFirstAccessCondition,
-} from '../../utils/works';
-import ItemRequestModal from '../ItemRequestModal/ItemRequestModal';
+} from '@weco/content/utils/works';
+import ItemRequestModal from '@weco/content/components/ItemRequestModal/ItemRequestModal';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
-import { itemIsRequestable } from '../../utils/requesting';
+import { itemIsRequestable } from '@weco/content/utils/requesting';
 import Placeholder from '@weco/content/components/Placeholder/Placeholder';
 import Button from '@weco/common/views/components/Buttons';
 import { sierraAccessMethodtoNewLabel } from '@weco/common/data/microcopy';
