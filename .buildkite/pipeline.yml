@@ -148,7 +148,7 @@
 - label: "Add steps for e2e tests (if necessary)"
   depends_on: "ask-user-if-should-run-e2es"
   command: |
-    if [[ "$$(buildkite-agent meta-data get should-run-e2es == "yes" ]]; then
+    if [[ "$$(buildkite-agent meta-data get should-run-e2es)" == "yes" ]]; then
       buildkite-agent pipeline upload .buildkite/e2e_on_pull_requests/pipeline.e2e-pull-requests.yml
     fi
   
