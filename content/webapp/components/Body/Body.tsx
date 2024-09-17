@@ -129,6 +129,7 @@ export const defaultContext: SliceZoneContext = {
   contentType: undefined,
 };
 
+// Small change, never to be merged
 const Body: FunctionComponent<Props> = ({
   untransformedBody,
   onThisPage,
