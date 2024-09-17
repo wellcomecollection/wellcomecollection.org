@@ -1,5 +1,5 @@
-import worksAggregations from '../catalogue/fixtures/works-aggregations';
-import imagesAggregations from '../catalogue/fixtures/images-aggregations';
+import worksAggregations from '@weco/content/services/wellcome/catalogue/fixtures/works-aggregations';
+import imagesAggregations from '@weco/content/services/wellcome/catalogue/fixtures/images-aggregations';
 import { CheckboxFilter, imagesFilters, worksFilters } from './filters';
 import { fromQuery as fromWorksQuery } from '@weco/content/components/SearchPagesLink/Works';
 import {

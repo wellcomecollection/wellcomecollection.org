@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
-import { RequestDeleteSchema } from '../../types/schemas/request-delete';
+import { RequestDeleteSchema } from '@weco/identity/src/types/schemas/request-delete';
 
 export enum RequestDeleteError {
   INCORRECT_PASSWORD,

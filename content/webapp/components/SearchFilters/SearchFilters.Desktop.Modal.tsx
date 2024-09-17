@@ -15,7 +15,7 @@ import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxR
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import { LinkProps } from '@weco/common/model/link-props';
 import DateRangeFilter from './SearchFilters.DateRangeFilter';
-import PaletteColorPicker from '../PaletteColorPicker';
+import PaletteColorPicker from '@weco/content/components/PaletteColorPicker';
 import { font } from '@weco/common/utils/classnames';
 import { BooleanFilter } from '@weco/content/components/SearchFilters/SearchFilters.BooleanFilter';
 

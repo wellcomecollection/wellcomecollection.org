@@ -7,7 +7,7 @@ import {
   RenderOptions,
   MatcherFunction,
 } from '@testing-library/react';
-import theme from '../../views/themes/default';
+import theme from '@weco/common/views/themes/default';
 
 const ProvidersWrapper: FunctionComponent<PropsWithChildren> = ({
   children,

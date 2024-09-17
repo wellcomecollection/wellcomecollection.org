@@ -1,14 +1,14 @@
 import { FunctionComponent, FormEvent, useEffect } from 'react';
+import styled from 'styled-components';
 import { allowedRequests } from '@weco/common/values/requests';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
+import RequestingDayPicker from '@weco/content/components/RequestingDayPicker/RequestingDayPicker';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import {
   PhysicalItem,
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
-import styled from 'styled-components';
 import { CTAs, CurrentRequests, Header } from './common';
 import { themeValues } from '@weco/common/views/themes/config';
 import { dateAsValue, dateFromValue } from './format-date';

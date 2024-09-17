@@ -5,8 +5,8 @@ import {
   UiTreeNode,
   isRelatedWork,
 } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
-import WorkTitle from '../WorkTitle/WorkTitle';
-import WorkLink from '../WorkLink';
+import WorkTitle from '@weco/content/components/WorkTitle/WorkTitle';
+import WorkLink from '@weco/content/components/WorkLink';
 import { StyledLink } from './ArchiveTree.styles';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { TreeControl } from '@weco/content/components/ArchiveTree/ArchiveTree.styles';

@@ -1,7 +1,7 @@
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
-import { Link } from '../../types/link';
+import { Link } from '@weco/content/types/link';
 import { font } from '@weco/common/utils/classnames';
 import { FunctionComponent } from 'react';
 

@@ -1,4 +1,4 @@
-import { Article, ArticleBasic } from '../../../types/articles';
+import { Article, ArticleBasic } from '@weco/content/types/articles';
 import {
   ArticlesDocument as RawArticlesDocument,
   SeriesDocument as RawSeriesDocument,
@@ -13,10 +13,10 @@ import {
 } from '.';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { Label } from '@weco/common/model/labels';
-import { Series } from '../../../types/series';
+import { Series } from '@weco/content/types/series';
 import { transformSeason } from './seasons';
 import { transformSeries, transformSeriesToSeriesBasic } from './series';
-import { Format } from '../../../types/format';
+import { Format } from '@weco/content/types/format';
 import { ArticleFormatId } from '@weco/content/data/content-format-ids';
 import { transformContributors } from './contributors';
 import { noAltTextBecausePromo } from './images';

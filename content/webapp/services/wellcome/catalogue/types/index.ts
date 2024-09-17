@@ -16,7 +16,7 @@ import {
   ImageAggregations,
   WorkAggregations,
 } from './aggregations';
-import { WellcomeResultList } from '../../index';
+import { WellcomeResultList } from '@weco/content/services/wellcome';
 import { WorkBasic, toWorkBasic } from './work';
 
 export type {

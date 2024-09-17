@@ -6,7 +6,7 @@ import {
 } from '@weco/common/prismicio-types';
 import { Handler } from './';
 import * as prismic from '@prismicio/client';
-import { InferDataInterface } from '../services/prismic/types';
+import { InferDataInterface } from '@weco/common/services/prismic/types';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
 
 export type RawCollectionVenueDocumentLite = {

@@ -1,7 +1,7 @@
 import * as prismic from '@prismicio/client';
 import { fetcher, GetByTypeParams, GetServerSidePropsPrismicClient } from '.';
 import { ExhibitionHighlightToursDocument as RawExhibitionHighlightToursDocument } from '@weco/common/prismicio-types';
-import { exhibitionsFetchLinks } from '../types';
+import { exhibitionsFetchLinks } from '@weco/content/services/prismic/types';
 
 const exhibitionHighlightToursFetcher =
   fetcher<RawExhibitionHighlightToursDocument>(

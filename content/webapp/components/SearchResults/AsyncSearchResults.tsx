@@ -2,8 +2,8 @@ import { Component, ReactElement } from 'react';
 import SearchResults from './SearchResults';
 import { font, grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import { fetchMultiContentClientSide } from '../../services/prismic/fetch/multi-content';
-import { MultiContent } from '../../types/multi-content';
+import { fetchMultiContentClientSide } from '@weco/content/services/prismic/fetch/multi-content';
+import { MultiContent } from '@weco/content/types/multi-content';
 
 export type Props = {
   title?: string;

@@ -9,8 +9,8 @@ import {
   auth0UserProfileToUserInfo,
   isFullAuth0Profile,
   UserInfo,
-} from '../../../model/user';
-import { useAbortSignalEffect } from '../../../hooks/useAbortSignalEffect';
+} from '@weco/common/model/user';
+import { useAbortSignalEffect } from '@weco/common/hooks/useAbortSignalEffect';
 
 export type State = 'initial' | 'loading' | 'signedin' | 'signedout' | 'failed';
 

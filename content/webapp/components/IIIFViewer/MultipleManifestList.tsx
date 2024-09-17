@@ -1,7 +1,7 @@
 import { useContext, FunctionComponent } from 'react';
 import NextLink from 'next/link';
-import { toLink as itemLink } from '../ItemLink';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import { toLink as itemLink } from '@weco/content/components/ItemLink';
+import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
 import { volumesNavigationLabel } from '@weco/content/text/aria-labels';
 import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
 import { queryParamToArrayIndex } from '.';

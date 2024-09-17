@@ -1,8 +1,8 @@
-import { ExhibitionBasic } from '../../types/exhibitions';
-import { EventBasic } from '@weco/content/types/events';
-import { Link } from '../../types/link';
-import CardGrid from '../CardGrid/CardGrid';
 import { FunctionComponent } from 'react';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
+import { EventBasic } from '@weco/content/types/events';
+import { Link } from '@weco/content/types/link';
+import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 
 type Props = {
   exhibitions: ExhibitionBasic[];

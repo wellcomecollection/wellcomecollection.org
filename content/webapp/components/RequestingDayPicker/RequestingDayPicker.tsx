@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import CalendarSelect from '../CalendarSelect/CalendarSelect';
+import CalendarSelect from '@weco/content/components/CalendarSelect/CalendarSelect';
 import { AvailabilitySlot } from '@weco/content/services/wellcome/catalogue/types';
 
 type Props = {

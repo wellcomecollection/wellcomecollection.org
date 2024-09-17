@@ -1,10 +1,9 @@
 import { clock } from '@weco/common/icons';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
-
-import { isContentList } from '../../../types/body';
-import { FacilityPromo as FacilityPromoType } from '../../../types/facility-promo';
-import { Page as PageType } from '../../../types/pages';
+import { isContentList } from '@weco/content/types/body';
+import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility-promo';
+import { Page as PageType } from '@weco/content/types/pages';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 
 /** The What's On page in Prismic includes a content list which is used to pick

@@ -39,7 +39,7 @@ import { deserialiseProps } from '@weco/common/utils/json';
 import { SearchContextProvider } from '@weco/common/views/components/SearchContext/SearchContext';
 import CivicUK from '@weco/common/views/components/CivicUK';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import { getConsentState } from '../../services/app/civic-uk';
+import { getConsentState } from '@weco/common/services/app/civic-uk';
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.

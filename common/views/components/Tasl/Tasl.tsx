@@ -5,7 +5,7 @@ import { getPrismicLicenseData } from '@weco/common/utils/licenses';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { cross, information } from '@weco/common/icons';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
-import Icon from '../Icon/Icon';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
 type StyledTaslProps = {

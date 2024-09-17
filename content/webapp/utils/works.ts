@@ -13,19 +13,18 @@ import {
   RelatedWork,
   Work as WorkType,
 } from '@weco/content/services/wellcome/catalogue/types';
-import { DownloadOption } from '../types/manifest';
+import {
+  DownloadOption,
+  BornDigitalStatus,
+  TransformedCanvas,
+} from '@weco/content/types/manifest';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import { Label } from '@weco/common/model/labels';
 import {
   getCatalogueLicenseData,
   LicenseData,
 } from '@weco/common/utils/licenses';
-
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import {
-  BornDigitalStatus,
-  TransformedCanvas,
-} from '@weco/content/types/manifest';
 import { hasItemType } from '@weco/content/utils/iiif/v3';
 
 export function getProductionDates(work: Work): string[] {

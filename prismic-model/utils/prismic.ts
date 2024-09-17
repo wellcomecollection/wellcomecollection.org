@@ -1,5 +1,5 @@
 import { setEnvsFromSecrets } from '@weco/ts-aws';
-import { secrets } from '../config';
+import { secrets } from '@weco/prismic-model/config';
 import fetch from 'node-fetch';
 
 type CustomType = {

@@ -1,5 +1,5 @@
 import * as prismic from '@prismicio/client';
-import { Series, SeriesBasic } from '../../../types/series';
+import { Series, SeriesBasic } from '@weco/content/types/series';
 import {
   StandfirstSlice as RawStandfirstSlice,
   SeriesDocument as RawSeriesDocument,
@@ -7,7 +7,7 @@ import {
 } from '@weco/common/prismicio-types';
 import { asTitle, transformGenericFields, transformSingleLevelGroup } from '.';
 import { transformSeason } from './seasons';
-import { ArticleScheduleItem } from '../../../types/article-schedule-items';
+import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { transformContributors } from './contributors';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';

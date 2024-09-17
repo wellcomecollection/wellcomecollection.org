@@ -5,7 +5,7 @@ import theme from '@weco/common/views/themes/default';
 import { defaultServerData } from '@weco/common/server-data/types';
 
 // avoid rendering header SVG to help with debugging tests
-jest.mock('../components/PageWrapper', () => ({
+jest.mock('@weco/identity/src/frontend/components/PageWrapper', () => ({
   __esModule: true,
   PageWrapper: ({ children }) => <>{children}</>,
 }));

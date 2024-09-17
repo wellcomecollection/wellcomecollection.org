@@ -2,13 +2,16 @@ import { useContext, FunctionComponent, PropsWithChildren } from 'react';
 import Script from 'next/script';
 import Head from 'next/head';
 import { Url } from '@weco/common/model/link-props';
-import { JsonLdObj } from '../JsonLd/JsonLd';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import Header, { NavLink } from '../Header/Header';
-import { InfoBanner, WebsiteIssuesBanner } from '../InfoBanners';
-import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
-import Footer from '../Footer';
-import PopupDialog from '../PopupDialog/PopupDialog';
+import Header, { NavLink } from '@weco/common/views/components/Header/Header';
+import {
+  InfoBanner,
+  WebsiteIssuesBanner,
+} from '@weco/common/views/components/InfoBanners';
+import NewsletterPromo from '@weco/common/views/components/NewsletterPromo/NewsletterPromo';
+import Footer from '@weco/common/views/components/Footer';
+import PopupDialog from '@weco/common/views/components/PopupDialog/PopupDialog';
 import {
   museumLd,
   libraryLd,
@@ -20,8 +23,10 @@ import { getVenueById } from '@weco/common/services/prismic/opening-times';
 import { wellcomeCollectionGallery } from '@weco/common/data/organization';
 import GlobalInfoBarContext, {
   GlobalInfoBarContextProvider,
-} from '../GlobalInfoBarContext/GlobalInfoBarContext';
-import ApiToolbar, { ApiToolbarLink } from '../ApiToolbar';
+} from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
+import ApiToolbar, {
+  ApiToolbarLink,
+} from '@weco/common/views/components/ApiToolbar';
 import { usePrismicData, useToggles } from '@weco/common/server-data/Context';
 import { defaultPageTitle } from '@weco/common/data/microcopy';
 import { getCrop, ImageType } from '@weco/common/model/image';

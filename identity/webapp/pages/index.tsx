@@ -4,8 +4,9 @@ import {
   ComponentPropsWithoutRef,
   PropsWithChildren,
 } from 'react';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import { GetServerSideProps, NextPage } from 'next';
+import { useRouter } from 'next/router';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import auth0, {
   withPageAuthRequiredSSR,
 } from '@weco/identity/src/utility/auth0';
@@ -17,7 +18,7 @@ import {
   Title,
   Header,
   SectionHeading,
-} from '../src/frontend/components/Layout.style';
+} from '@weco/identity/src/frontend/components/Layout.style';
 import {
   StatusAlert,
   StyledDl,
@@ -29,12 +30,12 @@ import {
   ItemPickup,
   ButtonWrapper,
   StatusAlertProps,
-} from '../src/frontend/MyAccount/MyAccount.style';
-import { InlineLoading } from '../src/frontend/MyAccount/Loading';
-import { ChangeEmail } from '../src/frontend/MyAccount/ChangeEmail';
-import { ChangePassword } from '../src/frontend/MyAccount/ChangePassword';
-import { DeleteAccount } from '../src/frontend/MyAccount/DeleteAccount';
-import { useRequestedItems } from '../src/frontend/hooks/useRequestedItems';
+} from '@weco/identity/src/frontend/MyAccount/MyAccount.style';
+import { InlineLoading } from '@weco/identity/src/frontend/MyAccount/Loading';
+import { ChangeEmail } from '@weco/identity/src/frontend/MyAccount/ChangeEmail';
+import { ChangePassword } from '@weco/identity/src/frontend/MyAccount/ChangePassword';
+import { DeleteAccount } from '@weco/identity/src/frontend/MyAccount/DeleteAccount';
+import { useRequestedItems } from '@weco/identity/src/frontend/hooks/useRequestedItems';
 import Layout, {
   gridSize10,
   gridSize12,
@@ -51,7 +52,6 @@ import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
-import { useRouter } from 'next/router';
 import {
   Auth0UserProfile,
   auth0UserProfileToUserInfo,
@@ -59,8 +59,8 @@ import {
 import { Claims } from '@auth0/nextjs-auth0';
 import { sierraStatusCodeToLabel } from '@weco/common/data/microcopy';
 import { URLSearchParams } from 'url';
-import { useSendVerificationEmail } from '../src/frontend/hooks/useSendVerificationEmail';
-import { UnverifiedEmail } from '../src/frontend/MyAccount/UnverifiedEmail';
+import { useSendVerificationEmail } from '@weco/identity/src/frontend/hooks/useSendVerificationEmail';
+import { UnverifiedEmail } from '@weco/identity/src/frontend/MyAccount/UnverifiedEmail';
 
 type DetailProps = {
   label: string;

@@ -18,7 +18,7 @@ import { promises as fs } from 'fs';
 import { GetServerSidePropsContext } from 'next';
 import togglesHandler, { getTogglesFromContext } from './toggles';
 import prismicHandler from './prismic';
-import { simplifyServerData } from '../services/prismic/transformers/server-data';
+import { simplifyServerData } from '@weco/common/services/prismic/transformers/server-data';
 import { SimplifiedServerData } from './types';
 import { getAllConsentStates } from '@weco/common/services/app/civic-uk';
 

@@ -2,7 +2,7 @@ import { EditorialImageGallerySlice as RawEditorialImageGallerySlice } from '@we
 import { FunctionComponent } from 'react';
 import ImageGallery from '@weco/content/components/ImageGallery';
 import { SliceComponentProps } from '@prismicio/react';
-import SpacingComponent from '../../components/styled/SpacingComponent';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { transformEditorialImageGallerySlice } from '@weco/content/services/prismic/transformers/body';
 import {
   defaultContext,

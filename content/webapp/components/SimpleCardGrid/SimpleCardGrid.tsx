@@ -1,12 +1,12 @@
+import { FunctionComponent } from 'react';
 import { cssGrid, font } from '@weco/common/utils/classnames';
-import { Card as CardType } from '../../types/card';
-import Card from '../Card/Card';
+import { Card as CardType } from '@weco/content/types/card';
+import Card from '@weco/content/components/Card/Card';
 import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
-import FeaturedCard from '../FeaturedCard/FeaturedCard';
+import FeaturedCard from '@weco/content/components/FeaturedCard/FeaturedCard';
 import { getCrop } from '@weco/common/model/image';
-import { FunctionComponent } from 'react';
 
 type Props = {
   items: readonly CardType[];

@@ -2,7 +2,7 @@ import { FunctionComponent, SyntheticEvent } from 'react';
 import NextLink, { LinkProps } from 'next/link';
 import { classNames } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import {
   BaseButtonInner,
   ButtonIconWrapper,

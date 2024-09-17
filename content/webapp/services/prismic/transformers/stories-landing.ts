@@ -1,15 +1,18 @@
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { StoriesLandingDocument as RawStoriesLandingDocument } from '@weco/common/prismicio-types';
 import { StoriesLanding } from '@weco/content/types/stories-landing';
-import { transformBook, transformBookToBookBasic } from '../transformers/books';
+import {
+  transformBook,
+  transformBookToBookBasic,
+} from '@weco/content/services/prismic/transformers/books';
 import {
   transformSeries,
   transformSeriesToSeriesBasic,
-} from '../transformers/series';
+} from '@weco/content/services/prismic/transformers/series';
 import {
   transformArticle,
   transformArticleToArticleBasic,
-} from '../transformers/articles';
+} from '@weco/content/services/prismic/transformers/articles';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { asRichText, asText } from '.';
 

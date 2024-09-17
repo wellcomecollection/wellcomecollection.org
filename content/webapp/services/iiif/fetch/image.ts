@@ -1,5 +1,5 @@
 import { fetchJson } from '@weco/content/utils/http';
-import { IIIFImage } from '../types/image/v2';
+import { IIIFImage } from '@weco/content/services/iiif/types/image/v2';
 
 export async function fetchIIIFImageJson(
   location: string

@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import { prismicPageIds } from './hardcoded-ids';
-import Space from '../views/components/styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 
 export const errorMessages = {

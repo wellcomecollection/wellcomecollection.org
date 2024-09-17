@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { UseSendVerificationEmail } from '../hooks/useSendVerificationEmail';
+import { UseSendVerificationEmail } from '@weco/identity/src/frontend/hooks/useSendVerificationEmail';
 
 export const UnverifiedEmail: FunctionComponent<UseSendVerificationEmail> = ({
   sendVerificationEmail,

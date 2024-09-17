@@ -1,17 +1,14 @@
 import * as prismic from '@prismicio/client';
 
 export function getVimeoEmbedUrl(embed: prismic.EmbedField): string {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const embedUrl = embed.html?.match(/src="([-a-zA-Z0-9://.?=_]+)?/)![1];
 
   return `${embedUrl}?rel=0&dnt=1`;
 }
 
 export function getSoundCloudEmbedUrl(embed: prismic.EmbedField): string {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const apiUrl = embed.html!.match(/url=([^&]*)&/)!;
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const secretToken = embed.html!.match(/secret_token=([^"]*)"/);
   const secretTokenString =
     secretToken && secretToken[1] ? `%3Fsecret_token%3D${secretToken[1]}` : '';
@@ -26,7 +23,6 @@ export function getYouTubeEmbedUrl(embed: prismic.EmbedField): string {
   //
   // We want to add the query parameter ?rel=0
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const embedUrl = embed.html!.match(/src="([^"]+)"?/)![1];
 
   const embedUrlWithEnhancedPrivacy = embedUrl.replace(

@@ -41,7 +41,7 @@ import ArticleCard from '@weco/content/components/ArticleCard/ArticleCard';
 import ArticleScheduleItemCard from '@weco/content/components/ArticleScheduleItemCard';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import Standfirst from '@weco/common/views/slices/Standfirst';
-import { fetchSeriesById } from '../../services/prismic/fetch/series';
+import { fetchSeriesById } from '@weco/content/services/prismic/fetch/series';
 
 const SeriesItem = styled.div<{ $isFirst: boolean }>`
   border-top: ${props =>

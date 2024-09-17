@@ -1,5 +1,5 @@
-import { UserInfo, Auth0UserProfile } from '../../../model/user';
-import { RequestsList } from '../../../model/requesting';
+import { UserInfo, Auth0UserProfile } from '@weco/common/model/user';
+import { RequestsList } from '@weco/common/model/requesting';
 
 export const mockUser: UserInfo = {
   userId: '7654321',

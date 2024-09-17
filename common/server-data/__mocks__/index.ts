@@ -2,8 +2,8 @@ import {
   emptyGlobalAlert,
   emptyPopupDialog,
   emptyPrismicQuery,
-} from '../../services/prismic/documents';
-import { ServerData } from '../types';
+} from '@weco/common/services/prismic/documents';
+import { ServerData } from '@weco/common/server-data/types';
 import { CollectionVenueDocument as RawCollectionVenueDocument } from '@weco/common/prismicio-types';
 
 export async function init(): Promise<void> {

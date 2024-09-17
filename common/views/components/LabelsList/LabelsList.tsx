@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
-import { Label as LabelType, LabelColor } from '../../../model/labels';
-import Label from '../../components/Label/Label';
+import { Label as LabelType, LabelColor } from '@weco/common/model/labels';
+import Label from '@weco/common/views/components/Label/Label';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 

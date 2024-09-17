@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
 import IIIFViewerImage from './IIIFViewerImage';
 import { Thumbnails } from '@weco/content/components/IIIFViewer/Thumbnails';
 import {

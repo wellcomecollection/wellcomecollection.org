@@ -1,4 +1,4 @@
-import { removeIdiomaticTextTags } from '../../utils/string';
+import { removeIdiomaticTextTags } from '@weco/content/utils/string';
 
 describe('Removes idiomatic text tags from strings', () => {
   it('ignores dates contained within angled brackets', () => {

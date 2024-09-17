@@ -4,17 +4,17 @@ import {
   ReactElement,
   ReactNode,
 } from 'react';
+import styled from 'styled-components';
 import { grid, font, classNames } from '@weco/common/utils/classnames';
-import EventDateRange from '../EventDateRange';
-import StatusIndicator from '../StatusIndicator/StatusIndicator';
+import EventDateRange from '@weco/content/components/EventDateRange';
+import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
-import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
+import ImagePlaceholder from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
+import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
 import ImageType from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { ColorSelection } from '../../types/color-selections';
+import { ColorSelection } from '@weco/content/types/color-selections';
 import Space from '@weco/common/views/components/styled/Space';
 import { Label } from '@weco/common/model/labels';
-import styled from 'styled-components';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 
 export type Props = {

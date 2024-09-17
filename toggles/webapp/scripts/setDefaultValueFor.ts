@@ -1,7 +1,7 @@
 import { S3Client } from '@aws-sdk/client-s3';
 import { getCreds } from '@weco/ts-aws';
-import { region } from '../config';
-import { setDefaultValueFor } from '../setDefaultValueFor';
+import { region } from '@weco/toggles/config';
+import { setDefaultValueFor } from '@weco/toggles/setDefaultValueFor';
 
 export const isCi = process.env.CI === 'true';
 

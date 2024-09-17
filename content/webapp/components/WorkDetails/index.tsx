@@ -1,8 +1,8 @@
 import { FunctionComponent, useContext } from 'react';
 import { usePathname } from 'next/navigation';
 import { font } from '@weco/common/utils/classnames';
-import { toLink as worksLink } from '../SearchPagesLink/Works';
-import { toLink as imagesLink } from '../SearchPagesLink/Images';
+import { toLink as worksLink } from '@weco/content/components/SearchPagesLink/Works';
+import { toLink as imagesLink } from '@weco/content/components/SearchPagesLink/Images';
 import {
   DigitalLocationInfo,
   getDownloadOptionsFromImageUrl,
@@ -17,8 +17,8 @@ import WorkDetailsTags from './WorkDetails.Tags';
 import WhereToFindIt from './WorkDetails.WhereToFind';
 import WorkDetailsHoldings from './WorkDetails.Holdings';
 import Button from '@weco/common/views/components/Buttons';
-import { toLink as itemLink } from '../ItemLink';
-import { toLink as conceptLink } from '../ConceptLink';
+import { toLink as itemLink } from '@weco/content/components/ItemLink';
+import { toLink as conceptLink } from '@weco/content/components/ConceptLink';
 import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import {

@@ -4,7 +4,7 @@ import {
   ExhibitionGuideComponent,
   ExhibitionGuideType,
   RelatedExhibition,
-} from '../../../types/exhibition-guides';
+} from '@weco/content/types/exhibition-guides';
 import { asRichText, asTitle } from '.';
 import {
   ExhibitionGuidesDocument as RawExhibitionGuidesDocument,

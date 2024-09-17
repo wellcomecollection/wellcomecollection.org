@@ -1,9 +1,9 @@
-import Tasl from '../Tasl/Tasl';
+import { FunctionComponent } from 'react';
+import styled from 'styled-components';
+import Tasl from '@weco/common/views/components/Tasl/Tasl';
 import { imageSizes } from '@weco/common/utils/image-sizes';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { Picture as PictureProps } from '@weco/common/model/picture';
-import { FunctionComponent } from 'react';
-import styled from 'styled-components';
 
 const Figure = styled.figure`
   position: relative;

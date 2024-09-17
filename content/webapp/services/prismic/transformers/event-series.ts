@@ -1,4 +1,7 @@
-import { EventSeries, EventSeriesBasic } from '../../../types/event-series';
+import {
+  EventSeries,
+  EventSeriesBasic,
+} from '@weco/content/types/event-series';
 import { EventSeriesDocument as RawEventSeriesDocument } from '@weco/common/prismicio-types';
 import { transformGenericFields /*, asText */ } from '.';
 // import { BackgroundTexture } from '@weco/common/model/background-texture';

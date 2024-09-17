@@ -28,6 +28,10 @@ const sharedRules = {
   ],
   'react-hooks/rules-of-hooks': 'error',
   'prettier/prettier': 'error',
+  'no-restricted-imports': [
+    'error',
+    { patterns: ['../*'] }, // Should only import relatively from same directory
+  ],
   'no-restricted-syntax': [
     'error',
     "JSXElement.children > [expression.callee.property.name='stringify']",
@@ -42,6 +46,7 @@ module.exports = {
   },
   extends: sharedExtends,
   rules: sharedRules,
+  reportUnusedDisableDirectives: true,
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -85,6 +90,14 @@ module.exports = {
         // This rule does not support FunctionComponent<Props> and so
         // makes using (eg) children props more of a pain than it should be
         'react/prop-types': 'off',
+      },
+    },
+    // Some directories don't have an absolute import equivalent so ignoring
+    // import rules for them.
+    {
+      files: ['dash/**'],
+      rules: {
+        'no-restricted-imports': 'off',
       },
     },
   ],

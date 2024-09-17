@@ -1,8 +1,8 @@
-import { whatsOn } from '../../__mocks__/whats-on';
+import { whatsOn } from '@weco/content/__mocks__/whats-on';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 
 // We pull in the page after we've set the config
-import WhatsOnPage from '../../pages/whats-on';
+import WhatsOnPage from '@weco/content/pages/whats-on';
 
 /**
  * with the upgrades to jest, this import needs to be mocked else

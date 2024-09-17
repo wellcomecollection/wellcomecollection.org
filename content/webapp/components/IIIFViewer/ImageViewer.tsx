@@ -6,12 +6,12 @@ import {
   FunctionComponent,
 } from 'react';
 import styled from 'styled-components';
+import Router from 'next/router';
 import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
 import IIIFViewerImage from './IIIFViewerImage';
 import useOnScreen from '@weco/content/hooks/useOnScreen';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
-import Router from 'next/router';
+import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
 import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';

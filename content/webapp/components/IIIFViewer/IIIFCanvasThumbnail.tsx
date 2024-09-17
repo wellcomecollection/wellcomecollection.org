@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from 'react';
-import { TransformedCanvas } from '../../types/manifest';
+import { TransformedCanvas } from '@weco/content/types/manifest';
 import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import IIIFViewerImage from './IIIFViewerImage';

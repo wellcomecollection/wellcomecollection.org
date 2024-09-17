@@ -1,11 +1,11 @@
+import { ThemeProvider } from 'styled-components';
+import { rest } from 'msw';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ChangeEmail } from './ChangeEmail';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
-import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
-import { server } from '../mocks/server';
-import { rest } from 'msw';
+import { server } from '@weco/identity/src/frontend/mocks/server';
 import { mockUser } from '@weco/common/test/fixtures/identity/user';
 import UserProvider from '@weco/common/views/components/UserProvider/UserProvider';
 

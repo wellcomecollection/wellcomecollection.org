@@ -1,13 +1,13 @@
 // https://stackoverflow.com/questions/25993861/how-do-i-get-typescript-to-stop-complaining-about-functions-it-doesnt-know-abou
 /* eslint-disable dot-notation */
 import styled from 'styled-components';
+import { FunctionComponent, useContext } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import Download from '@weco/content/components/Download/Download';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { FunctionComponent, useContext } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
