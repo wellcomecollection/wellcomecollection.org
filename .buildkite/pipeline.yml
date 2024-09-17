@@ -130,11 +130,25 @@
 # It doesn't run on main, because we run e2es on main by deploying
 # into our stage/prod environments instead.
 - label: 'check if we need to run e2es'
-  command: .buildkite/e2e_on_pull_requests/check_if_we_need_to_ask.sh
   if: build.branch != "main"
-
+  input: "Do you want to run end-to-end tests on this pull request?"
+  key: "ask-user-if-should-run-e2es"
+  fields:
+    - select: "Run e2es?"
+      key: "should-run-e2es"
+      options:
+        - label: "Yes, run e2e tests now"
+          value: "yes"
+        - label: "Not now, maybe later"
+          value: "maybe-later"
   agents:
     queue: nano
+
+- label: "Add steps for e2e tests (if necessary)"
+    command: ".buildkite/e2e_on_pull_requests/react_to_user_choice_about_e2e_on_pull_request.sh"
+    depends_on: "ask-user-if-should-run-e2es"
+    agents:
+      queue: nano
 
 - wait
 
