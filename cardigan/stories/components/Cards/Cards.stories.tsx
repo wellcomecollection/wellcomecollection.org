@@ -108,7 +108,7 @@ export const guideStopCard = GuideStopCardTemplate.bind({});
 guideStopCard.args = {
   link: '/stop-1',
   totalStops: 3,
-  duration: 3.5,
+  duration: '03:30',
   number: 1,
   title: 'Exhibition guide stop',
   type: 'audio',
