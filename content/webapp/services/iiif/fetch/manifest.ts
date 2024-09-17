@@ -2,7 +2,7 @@ import { Manifest } from '@iiif/presentation-3';
 
 async function getIIIFManifest(
   url: string,
-  workType?: string
+  workTypeId?: string
 ): Promise<Manifest | undefined> {
   try {
     const resp = await fetch(url);
@@ -15,9 +15,9 @@ async function getIIIFManifest(
       // https://github.com/wellcomecollection/wellcomecollection.org/issues/10907
       // TODO: Check in once in a while to see if it's been fixed. There is not ticket to link to currently for that piece of work.
 
-      // This label identifies Born Digital works
+      // This workType ID identifies Born Digital works ("Archives - Digital")
       // https://github.com/wellcomecollection/catalogue-pipeline/issues/2659
-      if (workType !== 'Archives - Digital') {
+      if (workTypeId !== 'hdig') {
         const dashboardUrl = `https://iiif.wellcomecollection.org/dash/Manifestation/${bnumber}`;
 
         console.error(
@@ -41,16 +41,16 @@ async function getIIIFManifest(
 
 export async function fetchIIIFPresentationManifest({
   location,
-  workType,
+  workTypeId,
 }: {
   location: string;
-  workType?: string;
+  workTypeId?: string;
 }): Promise<Manifest | undefined> {
   // TODO once we're using v3 everywhere,
   // we'll want the catalogue API to return v3, then we can stop doing the following
   const v3Location = location.replace('/v2/', '/v3/');
 
-  const iiifManifest = await getIIIFManifest(v3Location, workType);
+  const iiifManifest = await getIIIFManifest(v3Location, workTypeId);
 
   return iiifManifest;
 }
