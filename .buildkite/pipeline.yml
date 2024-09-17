@@ -136,7 +136,8 @@
   if: build.branch != "main"
   key: "ask-user-if-should-run-e2es"
   fields:
-    - options:
+    - select: 
+      options:
       - label: "Yes, run e2e tests now"
         value: "yes"
       - label: "Not now, maybe later"
