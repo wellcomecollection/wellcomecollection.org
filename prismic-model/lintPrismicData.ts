@@ -147,7 +147,7 @@ function detectNonPromoImageStories(doc: any): string[] {
 function detectIncorrectAudioVideoDuration(doc: any): string[] {
   const guideStopSlices =
     doc?.data?.slices?.filter(s => s.slice_type === 'guide_stop') || [];
-  const regex = /^\d{2}:\d{2}$/; // e.g. 03:30
+  const regex = /^(\d{2,}:)?[0-5][0-9]:[0-5][0-9]$/; // e.g. 03:30 (optionally 01:03:30)
 
   const audioErrors = guideStopSlices
     .filter(
