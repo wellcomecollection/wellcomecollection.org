@@ -145,6 +145,35 @@ function detectNonPromoImageStories(doc: any): string[] {
   return [];
 }
 
+function detectIncorrectAudioVideoDuration(doc: any): string[] {
+  const guideStopSlices =
+    doc?.data?.slices?.filter(s => s.slice_type === 'guide_stop') || [];
+  const regex = /^(\d{2,}:)?[0-5][0-9]:[0-5][0-9]$/; // e.g. 03:30 (optionally 01:03:30)
+
+  const audioErrors = guideStopSlices
+    .filter(
+      s =>
+        Boolean(s.primary.audio_duration) &&
+        !s.primary.audio_duration.match(regex)
+    )
+    .map(
+      e =>
+        `The audio_duration for should be in the format xx:xx but it is ${e.primary.audio_duration}`
+    );
+  const videoErrors = guideStopSlices
+    .filter(
+      s =>
+        Boolean(s.primary.video_duration) &&
+        !s.primary.video_duration.match(regex)
+    )
+    .map(
+      e =>
+        `The video_duration for should be in the format xx:xx but it is ${e.primary.video_duration}`
+    );
+
+  return [...audioErrors, ...videoErrors];
+}
+
 // Contributors have a `sameAs` field which is used to generate links to
 // their pages elsewhere, e.g. social media or organisation websites.
 //
@@ -225,6 +254,7 @@ async function run() {
       ...detectNonPromoImageStories(doc),
       ...detectIncompleteContributorSameAs(doc),
       ...detectMissingUidDocuments(doc),
+      ...detectIncorrectAudioVideoDuration(doc),
     ];
 
     totalErrors += errors.length;
