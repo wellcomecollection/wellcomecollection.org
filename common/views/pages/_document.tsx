@@ -57,7 +57,8 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
         styles: (
           <>
             {initialProps.styles}
-            {sheet.getStyleElement()}
+            {/* TODO: re-add sheet.getStyleElement below when Chromium fix https://issues.chromium.org/issues/367758074 */}
+            {/* {sheet.getStyleElement()} */}
           </>
         ),
       };
