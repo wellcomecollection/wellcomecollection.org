@@ -20,6 +20,8 @@ import {
 } from '@weco/common/services/app/analytics-scripts';
 
 type DocumentInitialPropsWithTogglesAndGa = DocumentInitialProps & {
+  // TODO: remove style prop when Chromium fix https://issues.chromium.org/issues/367758074
+  style: string;
   toggles: Toggles;
   gaDimensions?: GaDimensions;
   consentStatus: ConsentStatusProps;
@@ -45,9 +47,10 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
       const consentStatus = pageProps.serverData
         ? pageProps.serverData?.consentStatus
         : getErrorPageConsent({ req: ctx.req, res: ctx.res });
-
       return {
         ...initialProps,
+        // TODO: remove style prop when Chromium fix https://issues.chromium.org/issues/367758074
+        style: sheet.getStyleElement()[0].props.dangerouslySetInnerHTML.__html,
         toggles: pageProps.serverData?.toggles,
         gaDimensions: pageProps.gaDimensions,
         consentStatus,
@@ -84,6 +87,13 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
 
             {/* https://github.com/wellcomecollection/wellcomecollection.org/issues/9286 */}
             <CoreWebVitalsScript />
+
+            {/* TODO: remove style block when Chromium fix https://issues.chromium.org/issues/367758074 */}
+            <style
+              dangerouslySetInnerHTML={{
+                __html: this.props.style,
+              }}
+            />
           </>
         </Head>
         <body>
