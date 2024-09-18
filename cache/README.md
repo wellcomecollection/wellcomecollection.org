@@ -24,7 +24,8 @@ Create a PR with this change, and once merged and built, run `terraform plan` an
 
 Test your redirection in staging after a few minutes. Cache might need to be cleared.
 
-If that works, you'll need to change the edge lambda versions in our [locals file](./locals.tf). 
+If that works, next step is to apply the changes to prod.
+For that, you'll need to change the edge lambda versions in our [locals file](./locals.tf). 
 You can find that version number in the Lambda AWS app.
 
 Once that has been merged and built, you'll need to reapply Terraform.
