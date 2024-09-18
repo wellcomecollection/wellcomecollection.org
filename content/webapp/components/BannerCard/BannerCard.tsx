@@ -119,7 +119,7 @@ const BannerCard: FunctionComponent<Props> = ({
       },
     link:
       (item.promo && item.promo.link) ||
-      linkResolver({ id: item.id, type: item.type }),
+      linkResolver({ uid: item.uid, type: item.type }),
   };
   return (
     <CardOuter href={link} $background={background}>

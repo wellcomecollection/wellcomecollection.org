@@ -91,7 +91,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
         return (
           <CardOuter
             key={event.id}
-            href={linkResolver({ id: event.id, type: 'events' })}
+            href={linkResolver({ uid: event.uid, type: 'events' })}
           >
             <CardImageWrapper>
               {croppedImage && (
