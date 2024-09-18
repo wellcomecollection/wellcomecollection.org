@@ -41,6 +41,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import { cross, arrow } from '@weco/common/icons';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import useHotjar from '@weco/content/hooks/useHotjar';
 
 type Props = {
   jsonLd: JsonLdObj;
@@ -197,6 +198,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     stopNumberServerSide,
     allStops,
   } = props;
+  useHotjar(exhibitionGuideId === 'ZthrZRIAACQALvCC'); // Only on Jason and the Adventure of 254
 
   // We use the `shallow` prop with NextLinks to avoid doing an unnecessary
   // `getServerSideProps` using the Previous/Next links, because we already have

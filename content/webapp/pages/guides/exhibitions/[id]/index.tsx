@@ -58,6 +58,7 @@ import { useToggles } from '@weco/common/server-data/Context';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getGuidesRedirections } from '@weco/content/utils/digital-guides';
 import { toMaybeString } from '@weco/common/utils/routes';
+import useHotjar from '@weco/content/hooks/useHotjar';
 
 // N.B. There are quite a lot of requests to Prismic for this page, which are necessary in order to maintain the url structure
 // while supporting both the deprecated ExhibitionGuide type and new custom types
@@ -65,6 +66,7 @@ import { toMaybeString } from '@weco/common/utils/routes';
 // At which point we'll have the exhibition id in the url and can query the types directly, filtering by the exhibition id
 
 type Props = {
+  exhibitionId: string;
   exhibitionGuide?: ExhibitionGuide;
   exhibitionText?: ExhibitionText;
   exhibitionHighlightTour?: ExhibitionHighlightTour;
@@ -171,6 +173,7 @@ export const getServerSideProps: GetServerSideProps<
 
       return {
         props: serialiseProps({
+          exhibitionId: id,
           exhibitionGuide,
           jsonLd,
           serverData,
@@ -263,6 +266,7 @@ export const getServerSideProps: GetServerSideProps<
         props: serialiseProps({
           jsonLd,
           serverData,
+          exhibitionId: id,
           exhibitionText: exhibitionText || exhibitionTexts?.results[0], // There should only ever be one of these, so we take the first
           exhibitionHighlightTour:
             exhibitionHighlightTour || exhibitionHighlightTours?.results[0], // There should only ever be one of these, so we take the first
@@ -281,6 +285,7 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const ExhibitionGuidePage: FunctionComponent<Props> = ({
+  exhibitionId,
   exhibitionGuide,
   exhibitionText,
   exhibitionHighlightTour,
@@ -298,6 +303,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
     exhibitionGuide?.title ||
     exhibitionText?.title ||
     exhibitionHighlightTour?.title;
+
+  useHotjar(exhibitionId === 'ZthrZRIAACQALvCC'); // Only on Jason and the Adventure of 254
 
   const highlightStops = exhibitionHighlightTour?.stops;
   const hasVideo =
