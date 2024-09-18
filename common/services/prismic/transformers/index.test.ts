@@ -28,11 +28,11 @@ describe('transformLink', () => {
     const result = transformLink({
       id: 'YoedaBEAACMAXnil',
       type: 'projects',
-      slug: 'ellen-reid-soundwalk-at-regents-park',
+      uid: 'ellen-reid-soundwalk-at-regents-park',
       link_type: 'Document',
       isBroken: false,
     });
 
-    expect(result).toBe('/projects/YoedaBEAACMAXnil');
+    expect(result).toBe('/projects/ellen-reid-soundwalk-at-regents-park');
   });
 });
