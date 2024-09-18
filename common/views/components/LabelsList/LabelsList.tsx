@@ -1,8 +1,9 @@
 import { FunctionComponent } from 'react';
-import { Label as LabelType, LabelColor } from '@weco/common/model/labels';
+import styled from 'styled-components';
+
+import { LabelColor, Label as LabelType } from '@weco/common/model/labels';
 import Label from '@weco/common/views/components/Label/Label';
 import Space from '@weco/common/views/components/styled/Space';
-import styled from 'styled-components';
 
 const List = styled(Space).attrs({
   $v: { size: 'xs', properties: ['row-gap'] },

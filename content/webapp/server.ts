@@ -1,5 +1,6 @@
-import appPromise from './app';
 import { clear as clearServerDataTimers } from '@weco/common/server-data';
+
+import appPromise from './app';
 
 const port = process.env.PORT ?? 3000;
 

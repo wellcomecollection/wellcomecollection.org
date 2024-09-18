@@ -1,20 +1,20 @@
-import {
-  getOverrideDatesForAllVenues,
-  groupOverrideDates,
-  completeDateRangeForExceptionalPeriods,
-  groupExceptionalVenueDays,
-  exceptionalFromRegular,
-  createExceptionalOpeningHoursDays,
-  getUpcomingExceptionalOpeningHours,
-  getTodaysVenueHours,
-  groupConsecutiveExceptionalDays,
-  getOverrideDatesForSpecificVenue,
-} from '@weco/common/services/prismic/opening-times';
-import { venues } from '@weco/common/test/fixtures/components/venues';
 import { OverrideType, Venue } from '@weco/common/model/opening-hours';
-import mockToday from '@weco/common/test/utils/date-mocks';
-import { libraryVenue } from '@weco/common/test/fixtures/components/library-venue';
+import {
+  completeDateRangeForExceptionalPeriods,
+  createExceptionalOpeningHoursDays,
+  exceptionalFromRegular,
+  getOverrideDatesForAllVenues,
+  getOverrideDatesForSpecificVenue,
+  getTodaysVenueHours,
+  getUpcomingExceptionalOpeningHours,
+  groupConsecutiveExceptionalDays,
+  groupExceptionalVenueDays,
+  groupOverrideDates,
+} from '@weco/common/services/prismic/opening-times';
 import { galleriesVenue } from '@weco/common/test/fixtures/components/galleries-venue';
+import { libraryVenue } from '@weco/common/test/fixtures/components/library-venue';
+import { venues } from '@weco/common/test/fixtures/components/venues';
+import mockToday from '@weco/common/test/utils/date-mocks';
 
 const venuesWithoutExceptionalDates = venues.map(venue => {
   return {

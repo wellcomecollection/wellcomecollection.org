@@ -1,36 +1,37 @@
 import type { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { Period } from '@weco/common/types/periods';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
-import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import { appError, AppErrorProps } from '@weco/common/services/app';
-import { serialiseProps } from '@weco/common/utils/json';
-import { getServerData } from '@weco/common/server-data';
-import { exhibitionLd } from '@weco/content/services/prismic/transformers/json-ld';
-import { getPage } from '@weco/content/utils/query-params';
+
 import {
   pageDescriptions,
   pastExhibitionsStrapline,
 } from '@weco/common/data/microcopy';
-import { fetchExhibitions } from '@weco/content/services/prismic/fetch/exhibitions';
-import { transformExhibitionsQuery } from '@weco/content/services/prismic/transformers/exhibitions';
-import { createClient } from '@weco/content/services/prismic/fetch';
-import { ExhibitionBasic } from '@weco/content/types/exhibitions';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
-import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
-import Space from '@weco/common/views/components/styled/Space';
-import CardGrid from '@weco/content/components/CardGrid/CardGrid';
-import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import { getServerData } from '@weco/common/server-data';
+import { appError, AppErrorProps } from '@weco/common/services/app';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
+import { Period } from '@weco/common/types/periods';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isFuture } from '@weco/common/utils/dates';
-import Pagination from '@weco/content/components/Pagination/Pagination';
-import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
-import { Container } from '@weco/common/views/components/styled/Container';
+import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import { Container } from '@weco/common/views/components/styled/Container';
+import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
+import Space from '@weco/common/views/components/styled/Space';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import CardGrid from '@weco/content/components/CardGrid/CardGrid';
+import Pagination from '@weco/content/components/Pagination/Pagination';
+import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
+import { createClient } from '@weco/content/services/prismic/fetch';
+import { fetchExhibitions } from '@weco/content/services/prismic/fetch/exhibitions';
+import { transformExhibitionsQuery } from '@weco/content/services/prismic/transformers/exhibitions';
+import { exhibitionLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
+import { getPage } from '@weco/content/utils/query-params';
+import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 
 export type ExhibitionsProps = {
   exhibitions: PaginatedResults<ExhibitionBasic>;

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 
 const useShowClickthrough = (

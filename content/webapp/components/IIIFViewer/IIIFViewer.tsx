@@ -1,37 +1,39 @@
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import {
   FunctionComponent,
-  useState,
-  useRef,
-  useEffect,
   useContext,
+  useEffect,
+  useRef,
+  useState,
 } from 'react';
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
-import dynamic from 'next/dynamic';
+
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import {
-  Work,
-  WorkBasic,
-} from '@weco/content/services/wellcome/catalogue/types';
-import ViewerSidebar from './ViewerSidebar';
-import MainViewer from './MainViewer';
-import ViewerTopBar from './ViewerTopBar';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import LL from '@weco/common/views/components/styled/LL';
+import { NoScriptImage } from '@weco/content/components/IIIFViewer/NoScriptImage';
+import { fromQuery } from '@weco/content/components/ItemLink';
 import ItemViewerContext, {
   ParentManifest,
   RotatedImage,
 } from '@weco/content/components/ItemViewerContext/ItemViewerContext';
+import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
+import {
+  Work,
+  WorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
+import { TransformedManifest } from '@weco/content/types/manifest';
+
+import { DelayVisibility, queryParamToArrayIndex } from '.';
 import GridViewer from './GridViewer';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import LL from '@weco/common/views/components/styled/LL';
 import ImageViewer from './ImageViewer';
 import ImageViewerControls from './ImageViewerControls';
+import MainViewer from './MainViewer';
 import ViewerBottomBar from './ViewerBottomBar';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { TransformedManifest } from '@weco/content/types/manifest';
-import { fromQuery } from '@weco/content/components/ItemLink';
-import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
-import { NoScriptImage } from '@weco/content/components/IIIFViewer/NoScriptImage';
-import { queryParamToArrayIndex, DelayVisibility } from '.';
+import ViewerSidebar from './ViewerSidebar';
+import ViewerTopBar from './ViewerTopBar';
 
 type IIIFViewerProps = {
   work: WorkBasic & Pick<Work, 'description'>;

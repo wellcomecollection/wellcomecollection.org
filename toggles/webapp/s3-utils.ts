@@ -1,15 +1,17 @@
 import {
+  CloudFrontClient,
+  CreateInvalidationCommand,
+} from '@aws-sdk/client-cloudfront';
+import {
   GetObjectCommand,
   PutObjectCommand,
   PutObjectCommandOutput,
   S3Client,
 } from '@aws-sdk/client-s3';
-import {
-  CloudFrontClient,
-  CreateInvalidationCommand,
-} from '@aws-sdk/client-cloudfront';
-import { getCreds } from '@weco/ts-aws';
 import { Readable } from 'stream';
+
+import { getCreds } from '@weco/ts-aws';
+
 import { TogglesResp } from '.';
 import { bucket, key, region } from './config';
 

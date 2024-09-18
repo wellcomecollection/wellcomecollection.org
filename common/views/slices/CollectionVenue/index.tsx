@@ -1,15 +1,16 @@
-import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
+import { FunctionComponent } from 'react';
+
 import { CollectionVenueSlice as RawCollectionVenueSlice } from '@weco/common/prismicio-types';
+import Layout from '@weco/common/views/components/Layout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
   LayoutWidth,
   SliceZoneContext,
 } from '@weco/content/components/Body/Body';
-import Layout from '@weco/common/views/components/Layout';
-import { transformCollectionVenueSlice } from '@weco/content/services/prismic/transformers/body';
-import VenueHours from '@weco/content/components/VenueHours';
 import VenueClosedPeriods from '@weco/content/components/VenueClosedPeriods/VenueClosedPeriods';
+import VenueHours from '@weco/content/components/VenueHours';
+import { transformCollectionVenueSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type CollectionVenueProps = SliceComponentProps<
   RawCollectionVenueSlice,

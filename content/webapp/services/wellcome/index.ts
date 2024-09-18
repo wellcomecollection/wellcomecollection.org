@@ -1,5 +1,6 @@
-import fetch, { Response } from 'node-fetch';
 import { HttpsAgent as Agent } from 'agentkeepalive';
+import fetch, { Response } from 'node-fetch';
+
 import { Toggles } from '@weco/toggles';
 
 export type GlobalApiOptions = {

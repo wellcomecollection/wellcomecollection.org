@@ -1,6 +1,7 @@
 import { ImageType } from '@weco/common/model/image';
-import IIIFImage from './IIIFImage';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
+
+import IIIFImage from './IIIFImage';
 
 describe('IIIFImage', () => {
   const props: ImageType = {

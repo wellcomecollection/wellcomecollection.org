@@ -1,16 +1,18 @@
+import * as prismic from '@prismicio/client';
+
+import { ImageType } from '@weco/common/model/image';
+import { Label } from '@weco/common/model/labels';
+import { Link } from '@weco/content/types/link';
+
 import { Article } from './articles';
-import { Series } from './series';
 import { Book } from './books';
 import { Contributor, ContributorBasic } from './contributors';
 import { EventBasic } from './events';
-import { Place } from './places';
 import { GenericContentFields } from './generic-content-fields';
-import { Link } from '@weco/content/types/link';
-import { Season } from './seasons';
 import { ImagePromo } from './image-promo';
-import { ImageType } from '@weco/common/model/image';
-import { Label } from '@weco/common/model/labels';
-import * as prismic from '@prismicio/client';
+import { Place } from './places';
+import { Season } from './seasons';
+import { Series } from './series';
 
 // e.g. 'Permanent'
 export type ExhibitionFormat = {

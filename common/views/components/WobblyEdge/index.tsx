@@ -1,15 +1,16 @@
+import debounce from 'lodash.debounce';
 import {
   FunctionComponent,
   PropsWithChildren,
   ReactElement,
-  useState,
-  useEffect,
   useContext,
+  useEffect,
+  useState,
 } from 'react';
 import styled from 'styled-components';
-import debounce from 'lodash.debounce';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+
 import { prefixedPropertyStyleObject } from '@weco/common/utils/prefixed-property-style-object';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
 export const WobblyEdgeWrapper = styled.div`

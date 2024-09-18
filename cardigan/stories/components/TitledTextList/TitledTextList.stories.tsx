@@ -1,6 +1,6 @@
-import TitledTextList from '@weco/content/components/TitledTextList/TitledTextList';
-import Readme from '@weco/content/components/TitledTextList/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import Readme from '@weco/content/components/TitledTextList/README.md';
+import TitledTextList from '@weco/content/components/TitledTextList/TitledTextList';
 
 const items = [
   {

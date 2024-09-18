@@ -1,16 +1,17 @@
-import { NextPage, GetServerSideProps } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
+
+import { getServerData } from '@weco/common/server-data';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
+import { AppErrorProps } from '@weco/common/services/app';
+import { serialiseProps } from '@weco/common/utils/json';
+import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
+import Space from '@weco/common/views/components/styled/Space';
+import { DeleteRequestedText } from '@weco/identity/copy';
 import {
   Container,
   Wrapper,
 } from '@weco/identity/src/frontend/components/Layout.style';
 import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper';
-import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
-import Space from '@weco/common/views/components/styled/Space';
-import { getServerData } from '@weco/common/server-data';
-import { AppErrorProps } from '@weco/common/services/app';
-import { serialiseProps } from '@weco/common/utils/json';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { DeleteRequestedText } from '@weco/identity/copy';
 
 const DeleteRequestedPage: NextPage = () => {
   return (

@@ -1,14 +1,14 @@
-import { FunctionComponent, useEffect, useState, useContext } from 'react';
+import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
-import { Image as ImageType } from '@weco/content/services/wellcome/catalogue/types';
-import { getImage } from '@weco/content/services/wellcome/catalogue/images';
-import Space from '@weco/common/views/components/styled/Space';
 import { ServerDataContext } from '@weco/common/server-data/Context';
-import IIIFImage from '@weco/content/components/IIIFImage/IIIFImage';
-import LL from '@weco/common/views/components/styled/LL';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
+import { font } from '@weco/common/utils/classnames';
+import LL from '@weco/common/views/components/styled/LL';
+import Space from '@weco/common/views/components/styled/Space';
+import IIIFImage from '@weco/content/components/IIIFImage/IIIFImage';
+import { getImage } from '@weco/content/services/wellcome/catalogue/images';
+import { Image as ImageType } from '@weco/content/services/wellcome/catalogue/types';
 
 type Props = {
   originalId: string;

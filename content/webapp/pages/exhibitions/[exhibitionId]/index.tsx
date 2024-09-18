@@ -1,34 +1,34 @@
-import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
-import { Page as PageType } from '@weco/content/types/pages';
-import Exhibition from '@weco/content/components/Exhibition/Exhibition';
-import { Exhibition as ExhibitionType } from '@weco/content/types/exhibitions';
-import Installation from '@weco/content/components/Installation/Installation';
-import { AppErrorProps } from '@weco/common/services/app';
-import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
-import { serialiseProps } from '@weco/common/utils/json';
-import { getServerData } from '@weco/common/server-data';
-import { createClient } from '@weco/content/services/prismic/fetch';
-import { fetchExhibition } from '@weco/content/services/prismic/fetch/exhibitions';
-import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
-import { transformPage } from '@weco/content/services/prismic/transformers/pages';
-import { transformExhibition } from '@weco/content/services/prismic/transformers/exhibitions';
-import { looksLikePrismicId } from '@weco/common/services/prismic';
-import { exhibitionLd } from '@weco/content/services/prismic/transformers/json-ld';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { Pageview } from '@weco/common/services/conversion/track';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
-import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { Link } from '@weco/content/types/link';
-import useHotjar from '@weco/content/hooks/useHotjar';
+import { FunctionComponent } from 'react';
 
 import {
-  visualStoryLinkText,
   exhibitionGuideLinkText,
+  visualStoryLinkText,
 } from '@weco/common/data/microcopy';
+import { getServerData } from '@weco/common/server-data';
+import { AppErrorProps } from '@weco/common/services/app';
+import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
+import { Pageview } from '@weco/common/services/conversion/track';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import Exhibition from '@weco/content/components/Exhibition/Exhibition';
+import Installation from '@weco/content/components/Installation/Installation';
+import useHotjar from '@weco/content/hooks/useHotjar';
+import { createClient } from '@weco/content/services/prismic/fetch';
+import { fetchExhibition } from '@weco/content/services/prismic/fetch/exhibitions';
+import { transformExhibition } from '@weco/content/services/prismic/transformers/exhibitions';
+import { exhibitionLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { transformPage } from '@weco/content/services/prismic/transformers/pages';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
+import { Exhibition as ExhibitionType } from '@weco/content/types/exhibitions';
+import { Link } from '@weco/content/types/link';
+import { Page as PageType } from '@weco/content/types/pages';
+import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 
 type ExhibitionProps = {
   exhibition: ExhibitionType;

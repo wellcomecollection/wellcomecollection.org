@@ -1,21 +1,23 @@
+import { SliceZone } from '@prismicio/react';
 import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
-import { SliceZone } from '@prismicio/react';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import Space from '@weco/common/views/components/styled/Space';
-import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
-import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
-import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import Table from '@weco/content/components/Table';
-import { policyUpdatedDate } from '@weco/common/views/components/CivicUK';
+
 import { cookiesTableCopy } from '@weco/common/data/cookies';
-import { AppErrorProps } from '@weco/common/services/app';
-import * as page from './pages/[pageId]';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { components } from '@weco/common/views/slices';
-import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
+import { AppErrorProps } from '@weco/common/services/app';
+import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { policyUpdatedDate } from '@weco/common/views/components/CivicUK';
+import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import Space from '@weco/common/views/components/styled/Space';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import { components } from '@weco/common/views/slices';
+import Table from '@weco/content/components/Table';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
+
+import * as page from './pages/[pageId]';
 
 const CookieTable = ({ rows }: { rows: string[][] }) => {
   return (

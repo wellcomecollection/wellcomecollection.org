@@ -1,18 +1,19 @@
 import { setCookie } from 'cookies-next';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
+
 import cookies from '@weco/common/data/cookies';
+import { arrow } from '@weco/common/icons';
 import { IconSvg } from '@weco/common/icons/types';
+import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
-import { PaletteColor } from '@weco/common/views/themes/config';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { plainListStyles } from '@weco/common/views/components/styled/PlainList';
-import { useToggles } from '@weco/common/server-data/Context';
-import { arrow } from '@weco/common/icons';
+import Space from '@weco/common/views/components/styled/Space';
+import { PaletteColor } from '@weco/common/views/themes/config';
+import { CardBody } from '@weco/content/components/Card/Card';
 import RelevantGuideIcons from '@weco/content/components/ExhibitionGuideRelevantIcons';
 import { ExhibitionGuideType } from '@weco/content/types/exhibition-guides';
-import { CardBody } from '@weco/content/components/Card/Card';
 
 export const TypeList = styled(Space).attrs({
   $v: { size: 'l', properties: ['row-gap'] },

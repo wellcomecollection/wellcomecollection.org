@@ -1,4 +1,4 @@
-import { toCommonParts, fromCommonParts } from './compressed-array';
+import { fromCommonParts, toCommonParts } from './compressed-array';
 
 test.each([
   {

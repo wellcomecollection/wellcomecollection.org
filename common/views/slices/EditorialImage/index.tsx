@@ -1,10 +1,11 @@
-import { EditorialImageSlice as RawEditorialImageSlice } from '@weco/common/prismicio-types';
-import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
+import { FunctionComponent } from 'react';
+
+import { EditorialImageSlice as RawEditorialImageSlice } from '@weco/common/prismicio-types';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
-  LayoutWidth,
   defaultContext,
+  LayoutWidth,
   SliceZoneContext,
 } from '@weco/content/components/Body/Body';
 import CaptionedImage from '@weco/content/components/CaptionedImage/CaptionedImage';

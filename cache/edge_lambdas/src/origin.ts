@@ -1,9 +1,10 @@
-import * as abTesting from './toggler';
-import { getRedirect } from './redirector';
 import {
   CloudFrontRequestHandler,
   CloudFrontResponseHandler,
 } from 'aws-lambda';
+
+import { getRedirect } from './redirector';
+import * as abTesting from './toggler';
 
 export const request: CloudFrontRequestHandler = (event, context, callback) => {
   const redirectResponse = getRedirect(event);

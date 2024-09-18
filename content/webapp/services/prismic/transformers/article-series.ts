@@ -1,6 +1,6 @@
-import { SeriesBasic } from '@weco/content/types/series';
-import { ArticleBasic } from '@weco/content/types/articles';
 import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items';
+import { ArticleBasic } from '@weco/content/types/articles';
+import { SeriesBasic } from '@weco/content/types/series';
 
 type ArticleSeriesProps = {
   series: SeriesBasic;

@@ -1,25 +1,27 @@
+import * as prismic from '@prismicio/client';
 import {
+  FunctionComponent,
+  useContext,
   useEffect,
   useRef,
   useState,
-  useContext,
-  FunctionComponent,
 } from 'react';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import styled from 'styled-components';
-import * as prismic from '@prismicio/client';
-import { dasherize } from '@weco/common/utils/grammar';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import { play, pause } from '@weco/common/icons';
-import Space from '@weco/common/views/components/styled/Space';
+
+import { pause, play } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
+import { dasherize } from '@weco/common/utils/grammar';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import Space from '@weco/common/views/components/styled/Space';
 import { useAVTracking } from '@weco/content/hooks/useAVTracking';
-import Volume from './AudioPlayer.Volume';
+
+import { formatPlayerTime } from './AudioPlayer.formatters';
 import PlayRate from './AudioPlayer.PlayRate';
 import Scrubber from './AudioPlayer.Scrubber';
-import { formatPlayerTime } from './AudioPlayer.formatters';
-import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import Volume from './AudioPlayer.Volume';
 
 const AudioPlayerWrapper = styled.figure`
   margin: 0;

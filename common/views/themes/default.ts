@@ -1,20 +1,22 @@
-import { css, createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, css } from 'styled-components';
+
 import { SpaceOverrides } from '@weco/common/views/components/styled/Space';
 import { Toggles } from '@weco/toggles';
+
+import { fonts } from './base/fonts';
+import { inlineFonts } from './base/inline-fonts';
+import { layout } from './base/layout';
+import { normalize } from './base/normalize';
+import { row } from './base/row';
+import { wellcomeNormalize } from './base/wellcome-normalize';
+import { Size, spacingUnits, themeValues } from './config';
+import { grid } from './grid';
 import {
-  typography,
   makeFontSizeClasses,
   makeFontSizeOverrideClasses,
+  typography,
 } from './typography';
 import { utilityClasses } from './utility-classes';
-import { normalize } from './base/normalize';
-import { wellcomeNormalize } from './base/wellcome-normalize';
-import { layout } from './base/layout';
-import { row } from './base/row';
-import { inlineFonts } from './base/inline-fonts';
-import { fonts } from './base/fonts';
-import { themeValues, spacingUnits, Size } from './config';
-import { grid } from './grid';
 
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 type SpaceProperty =

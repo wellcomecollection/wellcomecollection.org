@@ -1,7 +1,8 @@
+import { FunctionComponent } from 'react';
+import styled from 'styled-components';
+
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import styled from 'styled-components';
-import { FunctionComponent } from 'react';
 
 const Wrapper = styled(Space).attrs({
   className: font('intb', 5),

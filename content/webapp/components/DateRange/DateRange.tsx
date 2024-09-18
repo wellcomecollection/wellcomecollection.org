@@ -1,11 +1,12 @@
 import { FunctionComponent } from 'react';
+
+import { DateRange as DateRangeProps } from '@weco/common/model/date-range';
+import { isSameDay } from '@weco/common/utils/dates';
 import {
   HTMLDate,
   HTMLDayDate,
   HTMLTime,
 } from '@weco/common/views/components/HTMLDateAndTime';
-import { DateRange as DateRangeProps } from '@weco/common/model/date-range';
-import { isSameDay } from '@weco/common/utils/dates';
 
 const TimeRange = ({ start, end }: DateRangeProps) => (
   <>

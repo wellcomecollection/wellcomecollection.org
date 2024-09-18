@@ -1,7 +1,8 @@
-import fetch from 'node-fetch';
 import * as prismic from '@prismicio/client';
-import { isUndefined } from '@weco/common/utils/type-guards';
+import fetch from 'node-fetch';
+
 import sliceMachineConfig from '@weco/common/slicemachine.config.json';
+import { isUndefined } from '@weco/common/utils/type-guards';
 
 export function createClient(isPrismicStage?: boolean): prismic.Client {
   // We use an access token for Prismic in prod to avoid certain classes of

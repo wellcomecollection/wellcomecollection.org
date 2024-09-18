@@ -1,10 +1,11 @@
 import { FunctionComponent } from 'react';
-import { ArticleBasic } from '@weco/content/types/articles';
 import styled from 'styled-components';
-import Icon from '@weco/common/views/components/Icon/Icon';
+
 import { chevron } from '@weco/common/icons';
-import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Space from '@weco/common/views/components/styled/Space';
+import { ArticleBasic } from '@weco/content/types/articles';
 
 const Root = styled.div`
   position: absolute;

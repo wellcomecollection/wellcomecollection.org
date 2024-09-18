@@ -1,4 +1,5 @@
 import { DateRange } from '@weco/common/model/date-range';
+
 import { formatDayDate } from './format-date';
 
 /** Returns the current date/time.

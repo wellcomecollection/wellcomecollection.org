@@ -1,9 +1,10 @@
+import * as prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
-import { font, classNames } from '@weco/common/utils/classnames';
+import styled from 'styled-components';
+
+import { classNames, font } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
-import * as prismic from '@prismicio/client';
-import styled from 'styled-components';
 
 export type Props = {
   text: prismic.RichTextField;

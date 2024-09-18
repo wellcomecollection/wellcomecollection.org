@@ -1,7 +1,7 @@
-import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule';
-import Readme from '@weco/content/components/EventSchedule/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { darkCloudImageUrl } from '@weco/cardigan/stories/data/images';
+import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule';
+import Readme from '@weco/content/components/EventSchedule/README.md';
 
 const schedule = [
   {

@@ -1,7 +1,9 @@
 import * as prismic from '@prismicio/client';
-import { fetcher, GetByTypeParams, GetServerSidePropsPrismicClient } from '.';
+
 import { ExhibitionTextsDocument as RawExhibitionTextsDocument } from '@weco/common/prismicio-types';
 import { exhibitionsFetchLinks } from '@weco/content/services/prismic/types';
+
+import { fetcher, GetByTypeParams, GetServerSidePropsPrismicClient } from '.';
 
 const exhibitionTextsFetcher = fetcher<RawExhibitionTextsDocument>(
   'exhibition-texts',

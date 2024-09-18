@@ -1,4 +1,5 @@
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
+
 import Pagination from './Pagination';
 
 // This approach to mocking useRouter() comes from a comment by Stephen Mason

@@ -1,27 +1,28 @@
-import { GetServerSideProps } from 'next';
-import { FunctionComponent } from 'react';
-import Head from 'next/head';
 import * as prismic from '@prismicio/client';
-import { SeriesBasic } from '@weco/content/types/series';
-import type { PaginatedResults } from '@weco/common/services/prismic/types';
-import { createClient } from '@weco/content/services/prismic/fetch';
-import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
-import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import { appError, AppErrorProps } from '@weco/common/services/app';
-import { serialiseProps } from '@weco/common/utils/json';
-import { getServerData } from '@weco/common/server-data';
-import { getPage } from '@weco/content/utils/query-params';
+import { GetServerSideProps } from 'next';
+import Head from 'next/head';
+import { FunctionComponent } from 'react';
+
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { getServerData } from '@weco/common/server-data';
+import { appError, AppErrorProps } from '@weco/common/services/app';
+import type { PaginatedResults } from '@weco/common/services/prismic/types';
+import { serialiseProps } from '@weco/common/utils/json';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
+import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
+import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchSeries } from '@weco/content/services/prismic/fetch/series';
+import { articleSeriesLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import {
   transformSeries,
   transformSeriesToSeriesBasic,
 } from '@weco/content/services/prismic/transformers/series';
-import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
-import { articleSeriesLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { SeriesBasic } from '@weco/content/types/series';
+import { getPage } from '@weco/content/utils/query-params';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 const contentTypes = ['comic'] as const;

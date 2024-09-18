@@ -1,20 +1,21 @@
+import FocusTrap from 'focus-trap-react';
 import {
-  useEffect,
-  useRef,
   FunctionComponent,
-  RefObject,
   MutableRefObject,
   PropsWithChildren,
+  RefObject,
   useContext,
+  useEffect,
+  useRef,
 } from 'react';
-import styled from 'styled-components';
-import FocusTrap from 'focus-trap-react';
-import Space from '@weco/common/views/components/styled/Space';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import { CSSTransition } from 'react-transition-group';
+import styled from 'styled-components';
+
 import { cross } from '@weco/common/icons';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { ACTIVE_COOKIE_BANNER_ID } from '@weco/common/services/app/civic-uk';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Space from '@weco/common/views/components/styled/Space';
 
 type BaseModalProps = {
   $width?: string | null;

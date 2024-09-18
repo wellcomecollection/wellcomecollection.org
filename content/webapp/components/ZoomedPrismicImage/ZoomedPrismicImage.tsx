@@ -1,17 +1,18 @@
+import Image from 'next/image';
 import {
   FunctionComponent,
   RefObject,
   useEffect,
-  useState,
   useRef,
+  useState,
 } from 'react';
 import styled from 'styled-components';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import { expand, cross } from '@weco/common/icons';
+
+import { cross, expand } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
-import LL from '@weco/common/views/components/styled/LL';
-import Image from 'next/image';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import { createPrismicLoader } from '@weco/common/views/components/PrismicImage/PrismicImage';
+import LL from '@weco/common/views/components/styled/LL';
 
 const ZoomButton = styled.button`
   position: absolute;

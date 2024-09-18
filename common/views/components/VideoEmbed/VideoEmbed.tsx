@@ -1,12 +1,12 @@
-import { FunctionComponent, useState, useEffect } from 'react';
-import styled from 'styled-components';
 import * as prismic from '@prismicio/client';
+import { FunctionComponent, useEffect, useState } from 'react';
+import styled from 'styled-components';
 
-import Caption from '@weco/common/views/components/Caption/Caption';
-import { IframeContainer } from '@weco/common/views/components/Iframe/Iframe';
-import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { getConsentState } from '@weco/common/services/app/civic-uk';
+import Caption from '@weco/common/views/components/Caption/Caption';
+import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
+import { IframeContainer } from '@weco/common/views/components/Iframe/Iframe';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 
 export type Props = {
   embedUrl: string;

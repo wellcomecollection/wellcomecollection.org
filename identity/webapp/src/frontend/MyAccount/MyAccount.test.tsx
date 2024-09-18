@@ -1,15 +1,16 @@
-import { ThemeProvider } from 'styled-components';
 import { act, render, screen, waitFor } from '@testing-library/react';
-import AccountPage from '@weco/identity/pages';
+import userEvent from '@testing-library/user-event';
+import { ThemeProvider } from 'styled-components';
+
+import { ServerData } from '@weco/common/server-data/types';
 import {
   mockAuth0Profile,
   mockItemRequests,
   mockUser,
 } from '@weco/common/test/fixtures/identity/user';
-import userEvent from '@testing-library/user-event';
-import theme from '@weco/common/views/themes/default';
-import { ServerData } from '@weco/common/server-data/types';
 import UserProvider from '@weco/common/views/components/UserProvider/UserProvider';
+import theme from '@weco/common/views/themes/default';
+import AccountPage from '@weco/identity/pages';
 
 // avoid rendering header SVG to help with debugging tests
 jest.mock('@weco/identity/src/frontend/components/PageWrapper', () => ({

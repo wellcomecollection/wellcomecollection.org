@@ -1,14 +1,15 @@
-import { formatDayName } from '@weco/common/utils/format-date';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import { clock } from '@weco/common/icons';
-import UnusualOpeningHours from './VenueHours.UnusualOpeningHours';
-import Space from '@weco/common/views/components/styled/Space';
-import { font } from '@weco/common/utils/classnames';
-import { JauntyBox, OpeningHours } from './VenueHours.styles';
 import {
   ExceptionalOpeningHoursDay,
   Venue,
 } from '@weco/common/model/opening-hours';
+import { font } from '@weco/common/utils/classnames';
+import { formatDayName } from '@weco/common/utils/format-date';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Space from '@weco/common/views/components/styled/Space';
+
+import { JauntyBox, OpeningHours } from './VenueHours.styles';
+import UnusualOpeningHours from './VenueHours.UnusualOpeningHours';
 
 const randomPx = () => `${Math.floor(Math.random() * 20)}px`;
 

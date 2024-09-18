@@ -1,10 +1,11 @@
+import * as prismic from '@prismicio/client';
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import { dasherize } from '@weco/common/utils/grammar';
-import * as prismic from '@prismicio/client';
+
 import { font } from '@weco/common/utils/classnames';
+import { dasherize } from '@weco/common/utils/grammar';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import Space from '@weco/common/views/components/styled/Space';
 
 const Wrapper = styled(Space).attrs({
   $h: { size: 'l', properties: ['padding-left', 'padding-right'] },

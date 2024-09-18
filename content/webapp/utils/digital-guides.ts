@@ -1,9 +1,10 @@
 import { getCookie } from 'cookies-next';
 import { GetServerSidePropsContext, PreviewData } from 'next';
 import { ParsedUrlQuery } from 'querystring';
+
 import cookies from '@weco/common/data/cookies';
-import { isValidExhibitionGuideType } from '@weco/content/types/exhibition-guides';
 import { toMaybeString } from '@weco/common/utils/routes';
+import { isValidExhibitionGuideType } from '@weco/content/types/exhibition-guides';
 
 /** When a user opens an exhibition guide on their smartphone, they can
  * choose which guide to read.  To avoid somebody having to repeatedly select

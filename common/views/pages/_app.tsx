@@ -1,45 +1,46 @@
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import React, {
-  useEffect,
   FunctionComponent,
   ReactElement,
+  useEffect,
   useState,
 } from 'react';
 import { ThemeProvider } from 'styled-components';
-import theme, { GlobalStyle } from '@weco/common/views/themes/default';
-import LoadingIndicator from '@weco/common/views/components/LoadingIndicator/LoadingIndicator';
-import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
-import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
-import {
-  Pageview,
-  trackPageview,
-} from '@weco/common/services/conversion/track';
+
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
+import { ServerDataContext } from '@weco/common/server-data/Context';
 import {
-  isServerData,
   defaultServerData,
+  isServerData,
   ServerData,
 } from '@weco/common/server-data/types';
-import { ServerDataContext } from '@weco/common/server-data/Context';
-import UserProvider from '@weco/common/views/components/UserProvider/UserProvider';
-import { ApmContextProvider } from '@weco/common/views/components/ApmContext/ApmContext';
 import { AppErrorProps } from '@weco/common/services/app';
-import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
-import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
 import {
   GaDimensions,
   SegmentScript,
 } from '@weco/common/services/app/analytics-scripts';
+import { getConsentState } from '@weco/common/services/app/civic-uk';
 import {
   MetaScript,
   // TikTokScript,
 } from '@weco/common/services/app/marketing-scripts';
+import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
+import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
+import {
+  Pageview,
+  trackPageview,
+} from '@weco/common/services/conversion/track';
 import { deserialiseProps } from '@weco/common/utils/json';
-import { SearchContextProvider } from '@weco/common/views/components/SearchContext/SearchContext';
+import { ApmContextProvider } from '@weco/common/views/components/ApmContext/ApmContext';
+import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
 import CivicUK from '@weco/common/views/components/CivicUK';
-import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import { getConsentState } from '@weco/common/services/app/civic-uk';
+import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
+import LoadingIndicator from '@weco/common/views/components/LoadingIndicator/LoadingIndicator';
+import { SearchContextProvider } from '@weco/common/views/components/SearchContext/SearchContext';
+import UserProvider from '@weco/common/views/components/UserProvider/UserProvider';
+import theme, { GlobalStyle } from '@weco/common/views/themes/default';
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.

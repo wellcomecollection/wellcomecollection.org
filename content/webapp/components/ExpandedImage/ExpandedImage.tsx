@@ -1,30 +1,30 @@
-import { useEffect, useState, FunctionComponent } from 'react';
-import styled from 'styled-components';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
+import { FunctionComponent, useEffect, useState } from 'react';
+import styled from 'styled-components';
+
+import { eye } from '@weco/common/icons';
+import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 import { font } from '@weco/common/utils/classnames';
-import {
-  getDigitalLocationOfType,
-  getProductionDates,
-} from '@weco/content/utils/works';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
+import Button from '@weco/common/views/components/Buttons';
+import LL from '@weco/common/views/components/styled/LL';
+import Space from '@weco/common/views/components/styled/Space';
+import IIIFImage from '@weco/content/components/IIIFImage/IIIFImage';
+import { toLink as imageLink } from '@weco/content/components/ImageLink';
+import { toLink as itemLink } from '@weco/content/components/ItemLink';
+import VisuallySimilarImagesFromApi from '@weco/content/components/VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
+import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
+import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
 import {
   Image as ImageType,
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
-import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
-import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
-
-import { eye } from '@weco/common/icons';
-import Space from '@weco/common/views/components/styled/Space';
-import Button from '@weco/common/views/components/Buttons';
-import VisuallySimilarImagesFromApi from '@weco/content/components/VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
-import IIIFImage from '@weco/content/components/IIIFImage/IIIFImage';
-import LL from '@weco/common/views/components/styled/LL';
-import { toLink as itemLink } from '@weco/content/components/ItemLink';
-import { toLink as imageLink } from '@weco/content/components/ImageLink';
-import { trackSegmentEvent } from '@weco/common/services/conversion/track';
+import {
+  getDigitalLocationOfType,
+  getProductionDates,
+} from '@weco/content/utils/works';
 
 type Props = {
   image: ImageType | undefined;

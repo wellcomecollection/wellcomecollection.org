@@ -1,87 +1,88 @@
 import { GetServerSideProps } from 'next';
+import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import NextLink from 'next/link';
-import { ExhibitionBasic } from '@weco/content/types/exhibitions';
-import { EventBasic } from '@weco/content/types/events';
-import { Period, isOfTypePeriod } from '@weco/common/types/periods';
-import { font, grid, cssGrid } from '@weco/common/utils/classnames';
-import { transformPage } from '@weco/content/services/prismic/transformers/pages';
+
 import {
-  filterEventsForToday,
-  filterEventsForWeekend,
-} from '@weco/content/services/prismic/events';
-import { formatDayName, formatDate } from '@weco/common/utils/format-date';
+  collectionVenueId,
+  prismicPageIds,
+} from '@weco/common/data/hardcoded-ids';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 import { clock, information } from '@weco/common/icons';
+import {
+  ExceptionalOpeningHoursDay,
+  OpeningHoursDay,
+} from '@weco/common/model/opening-hours';
+import { PagesDocument as RawPagesDocument } from '@weco/common/prismicio-types';
+import { getServerData } from '@weco/common/server-data';
+import { usePrismicData } from '@weco/common/server-data/Context';
+import { AppErrorProps } from '@weco/common/services/app';
 import {
   getTodaysVenueHours,
   getVenueById,
 } from '@weco/common/services/prismic/opening-times';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import EventsByMonth from '@weco/content/components/EventsByMonth/EventsByMonth';
-import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
-import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
-import FacilityPromo from '@weco/content/components/FacilityPromo/FacilityPromo';
-import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import Space from '@weco/common/views/components/styled/Space';
-import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
-import {
-  ExceptionalOpeningHoursDay,
-  OpeningHoursDay,
-} from '@weco/common/model/opening-hours';
-import {
-  collectionVenueId,
-  prismicPageIds,
-} from '@weco/common/data/hardcoded-ids';
-import { FeaturedText as FeaturedTextType } from '@weco/content/types/text';
-import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { AppErrorProps } from '@weco/common/services/app';
-import { serialiseProps } from '@weco/common/utils/json';
-import { getServerData } from '@weco/common/server-data';
-import { usePrismicData } from '@weco/common/server-data/Context';
-import {
-  exhibitionLd,
-  eventLd,
-} from '@weco/content/services/prismic/transformers/json-ld';
-import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
-import CardGrid from '@weco/content/components/CardGrid/CardGrid';
-import { FeaturedCardExhibition } from '@weco/content/components/FeaturedCard/FeaturedCard';
-import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
-import { createClient } from '@weco/content/services/prismic/fetch';
-import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
-import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
-import {
-  transformEvent,
-  transformEventBasic,
-} from '@weco/content/services/prismic/transformers/events';
-import { pageDescriptions } from '@weco/common/data/microcopy';
-import { fetchExhibitions } from '@weco/content/services/prismic/fetch/exhibitions';
-import { transformExhibitionsQuery } from '@weco/content/services/prismic/transformers/exhibitions';
+import { isOfTypePeriod, Period } from '@weco/common/types/periods';
+import { cssGrid, font, grid } from '@weco/common/utils/classnames';
 import {
   endOfDay,
   getNextWeekendDateRange,
   startOfDay,
 } from '@weco/common/utils/dates';
-import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
-import {
-  enrichTryTheseTooPromos,
-  getTryTheseTooPromos,
-} from '@weco/content/services/prismic/transformers/whats-on';
-import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility-promo';
+import { formatDate, formatDayName } from '@weco/common/utils/format-date';
+import { serialiseProps } from '@weco/common/utils/json';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { Container } from '@weco/common/views/components/styled/Container';
-import Tabs from '@weco/content/components/Tabs';
+import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
+import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
+import Space from '@weco/common/views/components/styled/Space';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import theme from '@weco/common/views/themes/default';
+import CardGrid from '@weco/content/components/CardGrid/CardGrid';
+import EventsByMonth from '@weco/content/components/EventsByMonth/EventsByMonth';
+import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
+import FacilityPromo from '@weco/content/components/FacilityPromo/FacilityPromo';
+import { FeaturedCardExhibition } from '@weco/content/components/FeaturedCard/FeaturedCard';
 import InfoBox, {
   InfoIconWrapper,
 } from '@weco/content/components/InfoBox/InfoBox';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
-import theme from '@weco/common/views/themes/default';
-import { PagesDocument as RawPagesDocument } from '@weco/common/prismicio-types';
+import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
+import Tabs from '@weco/content/components/Tabs';
+import {
+  filterEventsForToday,
+  filterEventsForWeekend,
+} from '@weco/content/services/prismic/events';
+import { createClient } from '@weco/content/services/prismic/fetch';
+import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
+import { fetchExhibitions } from '@weco/content/services/prismic/fetch/exhibitions';
+import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
+import {
+  transformEvent,
+  transformEventBasic,
+} from '@weco/content/services/prismic/transformers/events';
+import { transformExhibitionsQuery } from '@weco/content/services/prismic/transformers/exhibitions';
+import {
+  eventLd,
+  exhibitionLd,
+} from '@weco/content/services/prismic/transformers/json-ld';
+import { transformPage } from '@weco/content/services/prismic/transformers/pages';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
+import {
+  enrichTryTheseTooPromos,
+  getTryTheseTooPromos,
+} from '@weco/content/services/prismic/transformers/whats-on';
+import { EventBasic } from '@weco/content/types/events';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
+import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility-promo';
+import { FeaturedText as FeaturedTextType } from '@weco/content/types/text';
+import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 
 const tabItems = [
   {

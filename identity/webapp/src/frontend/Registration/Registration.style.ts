@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+
 import Space from '@weco/common/views/components/styled/Space';
 
 export const ExternalLink = styled.a`

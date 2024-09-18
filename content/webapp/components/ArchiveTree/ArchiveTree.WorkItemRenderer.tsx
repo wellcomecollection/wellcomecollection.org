@@ -1,17 +1,19 @@
 import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
-import { font, classNames } from '@weco/common/utils/classnames';
-import {
-  UiTreeNode,
-  isRelatedWork,
-} from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
-import WorkTitle from '@weco/content/components/WorkTitle/WorkTitle';
-import WorkLink from '@weco/content/components/WorkLink';
-import { StyledLink } from './ArchiveTree.styles';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { TreeControl } from '@weco/content/components/ArchiveTree/ArchiveTree.styles';
-import Icon from '@weco/common/views/components/Icon/Icon';
+
 import { chevron } from '@weco/common/icons';
+import { classNames, font } from '@weco/common/utils/classnames';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import {
+  isRelatedWork,
+  UiTreeNode,
+} from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
+import { TreeControl } from '@weco/content/components/ArchiveTree/ArchiveTree.styles';
+import WorkLink from '@weco/content/components/WorkLink';
+import WorkTitle from '@weco/content/components/WorkTitle/WorkTitle';
+
+import { StyledLink } from './ArchiveTree.styles';
 
 const RefNumber = styled.span.attrs({
   className: font('intr', 6),

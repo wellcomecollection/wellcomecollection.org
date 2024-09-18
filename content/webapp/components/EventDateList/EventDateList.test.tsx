@@ -3,8 +3,9 @@ import {
   withMarkup,
 } from '@weco/common/test/fixtures/test-helpers';
 import mockToday from '@weco/common/test/utils/date-mocks';
-import EventDateList from '.';
 import { HasTimes } from '@weco/content/types/events';
+
+import EventDateList from '.';
 
 describe('DateList', () => {
   it('doesn’t show anything if there aren’t any times', () => {

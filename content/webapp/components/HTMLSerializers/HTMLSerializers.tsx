@@ -1,11 +1,12 @@
+import * as prismic from '@prismicio/client';
+import { JSXFunctionSerializer } from '@prismicio/react';
 import { Fragment } from 'react';
+import styled from 'styled-components';
+
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { dasherize } from '@weco/common/utils/grammar';
-import { JSXFunctionSerializer } from '@prismicio/react';
-import * as prismic from '@prismicio/client';
 import DownloadLink from '@weco/content/components/DownloadLink/DownloadLink';
 import { getMimeTypeFromExtension } from '@weco/content/utils/mime';
-import styled from 'styled-components';
 
 const DocumentType = styled.span`
   color: ${props => props.theme.color('neutral.600')};

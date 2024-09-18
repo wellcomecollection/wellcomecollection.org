@@ -1,12 +1,13 @@
-import { convertImageUri } from './convert-image-uri';
-import { Organization } from '@weco/common/model/organization';
 import { BreadcrumbItems } from '@weco/common/model/breadcrumbs';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import type {
   OpeningHours,
   OpeningHoursDay,
   SpecialOpeningHours,
 } from '@weco/common/model/opening-hours';
+import { Organization } from '@weco/common/model/organization';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+
+import { convertImageUri } from './convert-image-uri';
 import { formatDate } from './format-date';
 
 type ObjToJsonLdProps = { type: string; root?: boolean };

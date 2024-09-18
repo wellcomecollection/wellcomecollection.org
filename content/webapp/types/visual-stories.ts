@@ -1,8 +1,9 @@
-import { GenericContentFields } from './generic-content-fields';
-import { Link } from './link';
+import { ImageType } from '@weco/common/model/image';
 import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 import { ImagePromo } from '@weco/content/types/image-promo';
-import { ImageType } from '@weco/common/model/image';
+
+import { GenericContentFields } from './generic-content-fields';
+import { Link } from './link';
 
 export type VisualStory = GenericContentFields & {
   type: 'visual-stories';

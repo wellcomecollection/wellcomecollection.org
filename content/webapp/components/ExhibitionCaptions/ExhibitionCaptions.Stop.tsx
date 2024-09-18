@@ -1,23 +1,24 @@
+import * as prismic from '@prismicio/client';
 import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 import { KnownTarget } from 'styled-components/dist/types';
-import * as prismic from '@prismicio/client';
-import { PaletteColor } from '@weco/common/views/themes/config';
+
+import { font } from '@weco/common/utils/classnames';
+import { dasherizeShorten } from '@weco/common/utils/grammar';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
-import { dasherizeShorten } from '@weco/common/utils/grammar';
-import ZoomedPrismicImage from '@weco/content/components/ZoomedPrismicImage/ZoomedPrismicImage';
+import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { font } from '@weco/common/utils/classnames';
+import { PaletteColor } from '@weco/common/views/themes/config';
+import ZoomedPrismicImage from '@weco/content/components/ZoomedPrismicImage/ZoomedPrismicImage';
 import {
   ExhibitionGuideComponent,
   ExhibitionGuideType,
 } from '@weco/content/types/exhibition-guides';
-import { Container } from '@weco/common/views/components/styled/Container';
-import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 
 export const StandaloneTitle = styled(Space).attrs({
   as: 'h2',

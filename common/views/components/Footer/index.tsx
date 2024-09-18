@@ -1,19 +1,17 @@
-import { useRef, FunctionComponent } from 'react';
+import { FunctionComponent, useRef } from 'react';
 import styled from 'styled-components';
 
-// Components
-import Space from '@weco/common/views/components/styled/Space';
-import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
+import { Venue } from '@weco/common/model/opening-hours';
+import { font } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import FindUs from '@weco/common/views/components/FindUs/FindUs';
+import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
+import { Container } from '@weco/common/views/components/styled/Container';
+import Space from '@weco/common/views/components/styled/Space';
+
 import FooterNav from './Footer.Nav';
 import FooterSocial from './Footer.Social';
 import FooterWellcomeLogo from './Footer.WellcomeLogo';
-import { Container } from '@weco/common/views/components/styled/Container';
-
-// Utils / Types
-import { font } from '@weco/common/utils/classnames';
-import { Venue } from '@weco/common/model/opening-hours';
 
 type Props = {
   venues: Venue[];

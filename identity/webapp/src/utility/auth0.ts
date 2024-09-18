@@ -6,8 +6,8 @@ import {
   PageRoute,
   WithPageAuthRequiredPageRouterOptions,
 } from '@auth0/nextjs-auth0';
-import getConfig from 'next/config';
 import { GetServerSidePropsContext } from 'next';
+import getConfig from 'next/config';
 import { ParsedUrlQuery } from 'querystring';
 
 const { serverRuntimeConfig } = getConfig();

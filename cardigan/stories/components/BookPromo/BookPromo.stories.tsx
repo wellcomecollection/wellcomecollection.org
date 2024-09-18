@@ -1,6 +1,6 @@
-import BookPromo from '@weco/content/components/BookPromo/BookPromo';
 import { bookImageUrl, image } from '@weco/cardigan/stories/data/images';
 import { singleLineOfText } from '@weco/cardigan/stories/data/text';
+import BookPromo from '@weco/content/components/BookPromo/BookPromo';
 
 const Template = args => <BookPromo {...args} />;
 

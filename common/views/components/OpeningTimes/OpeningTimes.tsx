@@ -1,10 +1,11 @@
-import { getTodaysVenueHours } from '@weco/common/services/prismic/opening-times';
-import Space from '@weco/common/views/components/styled/Space';
-import { Venue } from '@weco/common/model/opening-hours';
-import { getNameFromCollectionVenue } from '@weco/common/data/hardcoded-ids';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
+
+import { getNameFromCollectionVenue } from '@weco/common/data/hardcoded-ids';
+import { Venue } from '@weco/common/model/opening-hours';
+import { getTodaysVenueHours } from '@weco/common/services/prismic/opening-times';
 import PlainList from '@weco/common/views/components/styled/PlainList';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {
   venues: Venue[];

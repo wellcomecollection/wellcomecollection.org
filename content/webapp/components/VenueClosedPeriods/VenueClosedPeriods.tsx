@@ -1,10 +1,11 @@
 import { FunctionComponent } from 'react';
-import { groupConsecutiveExceptionalDays } from '@weco/common/services/prismic/opening-times';
+
 import {
   collectionVenueId,
   getNameFromCollectionVenue,
 } from '@weco/common/data/hardcoded-ids';
 import { Venue } from '@weco/common/model/opening-hours';
+import { groupConsecutiveExceptionalDays } from '@weco/common/services/prismic/opening-times';
 import { HTMLDayDate } from '@weco/common/views/components/HTMLDateAndTime';
 
 type Props = {

@@ -1,14 +1,15 @@
 import { font } from '@weco/common/utils/classnames';
-import ExpandableList from '@weco/content/components/ExpandableList/ExpandableList';
 import Space from '@weco/common/views/components/styled/Space';
-import WorkDetailsSection from './WorkDetails.Section';
-import WorkDetailsText from './WorkDetails.Text';
+import ExpandableList from '@weco/content/components/ExpandableList/ExpandableList';
+import { Holding } from '@weco/content/services/wellcome/catalogue/types';
 import {
   getLocationLabel,
   getLocationLink,
   getLocationShelfmark,
 } from '@weco/content/utils/works';
-import { Holding } from '@weco/content/services/wellcome/catalogue/types';
+
+import WorkDetailsSection from './WorkDetails.Section';
+import WorkDetailsText from './WorkDetails.Text';
 
 const WorkDetailsHoldings = ({ holdings }: { holdings: Holding[] }) => {
   return (

@@ -1,11 +1,12 @@
-import worksAggregations from '@weco/content/services/wellcome/catalogue/fixtures/works-aggregations';
-import imagesAggregations from '@weco/content/services/wellcome/catalogue/fixtures/images-aggregations';
-import { CheckboxFilter, imagesFilters, worksFilters } from './filters';
-import { fromQuery as fromWorksQuery } from '@weco/content/components/SearchPagesLink/Works';
 import {
   fromQuery as fromImagesQuery,
   ImagesProps,
 } from '@weco/content/components/SearchPagesLink/Images';
+import { fromQuery as fromWorksQuery } from '@weco/content/components/SearchPagesLink/Works';
+import imagesAggregations from '@weco/content/services/wellcome/catalogue/fixtures/images-aggregations';
+import worksAggregations from '@weco/content/services/wellcome/catalogue/fixtures/works-aggregations';
+
+import { CheckboxFilter, imagesFilters, worksFilters } from './filters';
 
 // These tests require some knowledge of the fixture data.
 // A bit odd, but it works.

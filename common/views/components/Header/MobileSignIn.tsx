@@ -1,10 +1,11 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { font } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+
 import { user as userIcon } from '@weco/common/icons';
+import { font } from '@weco/common/utils/classnames';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Space from '@weco/common/views/components/styled/Space';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 
 const StyledComponent = styled.div.attrs({
   className: font('intr', 5),

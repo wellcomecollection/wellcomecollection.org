@@ -1,64 +1,65 @@
+import * as prismic from '@prismicio/client';
 import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
-import * as prismic from '@prismicio/client';
-import {
-  ExhibitionGuide,
-  ExhibitionGuideBasic,
-  ExhibitionText,
-  ExhibitionHighlightTour,
-} from '@weco/content/types/exhibition-guides';
+
+import { pageDescriptions } from '@weco/common/data/microcopy';
 import { GuideStopSlice as RawGuideStopSlice } from '@weco/common/prismicio-types';
+import { getServerData } from '@weco/common/server-data';
+import { useToggles } from '@weco/common/server-data/Context';
+import { AppErrorProps } from '@weco/common/services/app';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
+import { isFilledLinkToMediaField } from '@weco/common/services/prismic/types/';
+import { font } from '@weco/common/utils/classnames';
+import { serialiseProps } from '@weco/common/utils/json';
+import { toMaybeString } from '@weco/common/utils/routes';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import Space from '@weco/common/views/components/styled/Space';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import {
+  ExhibitionGuideLinks,
+  ExhibitionResourceLinks,
+} from '@weco/content/components/ExhibitionGuideLinks/ExhibitionGuideLinks';
+import OtherExhibitionGuides from '@weco/content/components/OtherExhibitionGuides/OtherExhibitionGuides';
+import useHotjar from '@weco/content/hooks/useHotjar';
+import { allGuides } from '@weco/content/pages/guides/exhibitions';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   fetchExhibitionGuide,
   fetchExhibitionGuides,
 } from '@weco/content/services/prismic/fetch/exhibition-guides';
 import {
-  fetchExhibitionText,
-  fetchExhibitionTexts,
-} from '@weco/content/services/prismic/fetch/exhibition-texts';
-import {
   fetchExhibitionHighlightTour,
   fetchExhibitionHighlightTours,
 } from '@weco/content/services/prismic/fetch/exhibition-highlight-tours';
-import { transformExhibitionGuide } from '@weco/content/services/prismic/transformers/exhibition-guides';
 import {
-  transformExhibitionTexts,
-  transformExhibitionTextsQuery,
-} from '@weco/content/services/prismic/transformers/exhibition-texts';
+  fetchExhibitionText,
+  fetchExhibitionTexts,
+} from '@weco/content/services/prismic/fetch/exhibition-texts';
+import { transformExhibitionGuide } from '@weco/content/services/prismic/transformers/exhibition-guides';
 import {
   transformExhibitionHighlightTours,
   transformExhibitionHighlightToursQuery,
 } from '@weco/content/services/prismic/transformers/exhibition-highlight-tours';
-import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
-import { isFilledLinkToMediaField } from '@weco/common/services/prismic/types/';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { font } from '@weco/common/utils/classnames';
-import { serialiseProps } from '@weco/common/utils/json';
-import { getServerData } from '@weco/common/server-data';
-import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/json-ld';
-import { pageDescriptions } from '@weco/common/data/microcopy';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { looksLikePrismicId } from '@weco/common/services/prismic';
-import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
-import Space from '@weco/common/views/components/styled/Space';
-import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import { AppErrorProps } from '@weco/common/services/app';
-import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
-import OtherExhibitionGuides from '@weco/content/components/OtherExhibitionGuides/OtherExhibitionGuides';
 import {
-  ExhibitionGuideLinks,
-  ExhibitionResourceLinks,
-} from '@weco/content/components/ExhibitionGuideLinks/ExhibitionGuideLinks';
-import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { allGuides } from '@weco/content/pages/guides/exhibitions';
-import { useToggles } from '@weco/common/server-data/Context';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+  transformExhibitionTexts,
+  transformExhibitionTextsQuery,
+} from '@weco/content/services/prismic/transformers/exhibition-texts';
+import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
+import {
+  ExhibitionGuide,
+  ExhibitionGuideBasic,
+  ExhibitionHighlightTour,
+  ExhibitionText,
+} from '@weco/content/types/exhibition-guides';
 import { getGuidesRedirections } from '@weco/content/utils/digital-guides';
-import { toMaybeString } from '@weco/common/utils/routes';
-import useHotjar from '@weco/content/hooks/useHotjar';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 // N.B. There are quite a lot of requests to Prismic for this page, which are necessary in order to maintain the url structure
 // while supporting both the deprecated ExhibitionGuide type and new custom types

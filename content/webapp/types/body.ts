@@ -1,3 +1,5 @@
+import * as prismic from '@prismicio/client';
+
 import {
   ContentListSlice as RawContentListSlice,
   EditorialImageSlice as RawEditorialImageSlice,
@@ -6,16 +8,14 @@ import {
 
 import { ArticleBasic } from './articles';
 import { Book } from './books';
-import { EventBasic } from './events';
-import { EventSeries } from './event-series';
-import { ExhibitionBasic } from './exhibitions';
-import { Page } from './pages';
-import { Series, SeriesBasic } from './series';
-import { Guide } from './guides';
-import { Season } from './seasons';
 import { Card } from './card';
-
-import * as prismic from '@prismicio/client';
+import { EventSeries } from './event-series';
+import { EventBasic } from './events';
+import { ExhibitionBasic } from './exhibitions';
+import { Guide } from './guides';
+import { Page } from './pages';
+import { Season } from './seasons';
+import { Series, SeriesBasic } from './series';
 
 export type Slice<TypeName extends string, Value> = {
   type: TypeName;

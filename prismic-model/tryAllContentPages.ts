@@ -8,13 +8,14 @@
  * a non-catastrophic way.
  */
 
+import fetch from 'node-fetch';
+import tqdm from 'tqdm';
+
 import { error } from './console';
 import {
   downloadPrismicSnapshot,
   getPrismicDocuments,
 } from './downloadSnapshot';
-import fetch from 'node-fetch';
-import tqdm from 'tqdm';
 
 type PrismicDocument = {
   id: string;

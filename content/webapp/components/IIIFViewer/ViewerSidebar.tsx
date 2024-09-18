@@ -1,28 +1,30 @@
+import NextLink from 'next/link';
 import {
   FunctionComponent,
-  useState,
+  PropsWithChildren,
   useContext,
   useEffect,
-  PropsWithChildren,
+  useState,
 } from 'react';
-import { DigitalLocation } from '@weco/common/model/catalogue';
-import NextLink from 'next/link';
 import styled from 'styled-components';
-import WorkLink from '@weco/content/components/WorkLink';
+
+import { arrow, chevron } from '@weco/common/icons';
+import { DigitalLocation } from '@weco/common/model/catalogue';
+import { classNames, font } from '@weco/common/utils/classnames';
+import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
+import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { classNames, font } from '@weco/common/utils/classnames';
-import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
-import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
-import ViewerStructures from './ViewerStructures';
-import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
-import MultipleManifestList from './MultipleManifestList';
 import IIIFSearchWithin from '@weco/content/components/IIIFSearchWithin/IIIFSearchWithin';
+import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
+import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
+import WorkLink from '@weco/content/components/WorkLink';
 import WorkTitle from '@weco/content/components/WorkTitle/WorkTitle';
-import { removeTrailingFullStop, toHtmlId } from '@weco/content/utils/string';
-import { arrow, chevron } from '@weco/common/icons';
 import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
-import { OptionalToUndefined } from '@weco/common/utils/utility-types';
+import { removeTrailingFullStop, toHtmlId } from '@weco/content/utils/string';
+
+import MultipleManifestList from './MultipleManifestList';
+import ViewerStructures from './ViewerStructures';
 
 const Inner = styled(Space).attrs({
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },

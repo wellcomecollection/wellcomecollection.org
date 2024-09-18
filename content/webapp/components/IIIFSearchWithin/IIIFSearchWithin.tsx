@@ -1,30 +1,31 @@
-import { useRouter } from 'next/router';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import {
-  useState,
+  FunctionComponent,
   useContext,
   useEffect,
-  FunctionComponent,
   useRef,
+  useState,
 } from 'react';
 import styled from 'styled-components';
-import TextInput from '@weco/common/views/components/TextInput';
+
+import { search } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
+import { pluralize } from '@weco/common/utils/grammar';
 import Button from '@weco/common/views/components/Buttons';
+import LL from '@weco/common/views/components/styled/LL';
+import Space from '@weco/common/views/components/styled/Space';
+import TextInput from '@weco/common/views/components/TextInput';
+import { themeValues } from '@weco/common/views/themes/config';
+import { arrayIndexToQueryParam } from '@weco/content/components/IIIFViewer';
+import { thumbnailsPageSize } from '@weco/content/components/IIIFViewer/Paginators';
+import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import ItemViewerContext, {
   results,
 } from '@weco/content/components/ItemViewerContext/ItemViewerContext';
-import Space from '@weco/common/views/components/styled/Space';
-import LL from '@weco/common/views/components/styled/LL';
-import { search } from '@weco/common/icons';
-import { themeValues } from '@weco/common/views/themes/config';
-import { toLink as itemLink } from '@weco/content/components/ItemLink';
-import { arrayIndexToQueryParam } from '@weco/content/components/IIIFViewer';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
-import { TransformedCanvas } from '@weco/content/types/manifest';
-import { thumbnailsPageSize } from '@weco/content/components/IIIFViewer/Paginators';
-import { pluralize } from '@weco/common/utils/grammar';
 import { searchWithinLabel } from '@weco/content/text/aria-labels';
+import { TransformedCanvas } from '@weco/content/types/manifest';
 
 const Highlight = styled.span`
   background: ${props => props.theme.color('accent.purple')};

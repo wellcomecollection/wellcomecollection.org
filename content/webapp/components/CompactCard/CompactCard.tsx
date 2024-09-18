@@ -1,4 +1,5 @@
 import { FunctionComponent } from 'react';
+
 import MediaObjectBase, {
   Props as MediaObjectBaseProps,
 } from '@weco/content/components/MediaObjectBase/MediaObjectBase';

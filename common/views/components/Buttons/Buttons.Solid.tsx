@@ -1,17 +1,19 @@
 import {
-  forwardRef,
-  SyntheticEvent,
   ForwardedRef,
+  forwardRef,
   ForwardRefRenderFunction,
+  SyntheticEvent,
 } from 'react';
+
 import { classNames } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { ButtonSolidBaseProps } from './Buttons.types';
+
 import {
   BaseButtonInner,
   ButtonIconWrapper,
   StyledButton,
 } from './Buttons.styles';
+import { ButtonSolidBaseProps } from './Buttons.types';
 
 export type ButtonSolidProps = ButtonSolidBaseProps & {
   disabled?: boolean;

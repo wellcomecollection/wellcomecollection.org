@@ -1,29 +1,30 @@
-import { Article, ArticleBasic } from '@weco/content/types/articles';
+import { Label } from '@weco/common/model/labels';
 import {
   ArticlesDocument as RawArticlesDocument,
-  SeriesDocument as RawSeriesDocument,
   SeasonsDocument as RawSeasonsDocument,
+  SeriesDocument as RawSeriesDocument,
   WebcomicsDocument as RawWebcomicsDocument,
 } from '@weco/common/prismicio-types';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { ArticleFormatId } from '@weco/content/data/content-format-ids';
+import { Article, ArticleBasic } from '@weco/content/types/articles';
+import { Format } from '@weco/content/types/format';
+import { Series } from '@weco/content/types/series';
+import {
+  calculateReadingTime,
+  showReadingTime,
+} from '@weco/content/utils/reading-time';
+
 import {
   transformGenericFields,
   transformLabelType,
   transformSingleLevelGroup,
 } from '.';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { Label } from '@weco/common/model/labels';
-import { Series } from '@weco/content/types/series';
-import { transformSeason } from './seasons';
-import { transformSeries, transformSeriesToSeriesBasic } from './series';
-import { Format } from '@weco/content/types/format';
-import { ArticleFormatId } from '@weco/content/data/content-format-ids';
 import { transformContributors } from './contributors';
 import { noAltTextBecausePromo } from './images';
-import {
-  calculateReadingTime,
-  showReadingTime,
-} from '@weco/content/utils/reading-time';
+import { transformSeason } from './seasons';
+import { transformSeries, transformSeriesToSeriesBasic } from './series';
 
 export function transformArticleToArticleBasic(article: Article): ArticleBasic {
   // returns what is required to render StoryPromos and story JSON-LD

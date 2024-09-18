@@ -1,7 +1,8 @@
 import NextLink, { LinkProps } from 'next/link';
-import { FunctionComponent, PropsWithChildren } from 'react';
-import { WorkLinkSource } from '@weco/common/data/segment-values';
 import { usePathname } from 'next/navigation';
+import { FunctionComponent, PropsWithChildren } from 'react';
+
+import { WorkLinkSource } from '@weco/common/data/segment-values';
 
 // We remove `href` and `as` because we contruct those ourselves
 // in the component.

@@ -1,10 +1,11 @@
 import { act, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { useForm } from 'react-hook-form';
 import { ThemeProvider } from 'styled-components';
+
 import theme from '@weco/common/views/themes/default';
 
 import { PasswordInput, PasswordInputProps } from './PasswordInput';
-import userEvent from '@testing-library/user-event';
-import { useForm } from 'react-hook-form';
 
 const renderComponent = (props: Partial<PasswordInputProps> = {}) => {
   const Form = () => {

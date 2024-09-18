@@ -1,6 +1,6 @@
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import InfoBlock from '@weco/content/components/InfoBlock/InfoBlock';
 import Readme from '@weco/content/components/InfoBlock/README.md';
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const Template = args => (
   <ReadmeDecorator WrappedComponent={InfoBlock} args={args} Readme={Readme} />

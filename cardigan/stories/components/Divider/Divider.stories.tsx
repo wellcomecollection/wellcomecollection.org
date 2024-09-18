@@ -1,7 +1,8 @@
 import styled from 'styled-components';
+
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import Readme from '@weco/common/views/components/Divider/README.md';
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const Container = styled.div<{ $backgroundColor: 'white' | 'black' }>`
   padding: 2rem 0;

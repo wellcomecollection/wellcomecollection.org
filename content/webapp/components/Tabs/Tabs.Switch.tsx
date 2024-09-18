@@ -1,26 +1,27 @@
 import {
-  FunctionComponent,
-  useRef,
-  useContext,
   Dispatch,
-  SetStateAction,
-  ReactNode,
+  FunctionComponent,
   KeyboardEvent,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useRef,
 } from 'react';
+
+import { IconSvg } from '@weco/common/icons';
+import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Space from '@weco/common/views/components/styled/Space';
 
 import {
-  TabsContainer,
+  IconWrapper,
+  NavItemInner,
   Tab,
   TabButton,
-  NavItemInner,
-  IconWrapper,
+  TabsContainer,
 } from './Tabs.styles';
-import { trackSegmentEvent } from '@weco/common/services/conversion/track';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
-import Space from '@weco/common/views/components/styled/Space';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import { IconSvg } from '@weco/common/icons';
 
 type SendEventProps = {
   id: string;

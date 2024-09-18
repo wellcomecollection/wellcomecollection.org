@@ -1,4 +1,5 @@
-import { Browser, Response, BrowserContext, Page } from 'playwright';
+import { Browser, BrowserContext, Page, Response } from 'playwright';
+
 import {
   ignoreErrorLog,
   ignoreMimeTypeMismatch,

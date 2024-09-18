@@ -1,18 +1,17 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import Space from '@weco/common/views/components/styled/Space';
-import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import { getCrop } from '@weco/common/model/image';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { font, grid } from '@weco/common/utils/classnames';
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
+import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import PrismicImage, {
   BreakpointSizes,
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { getCrop } from '@weco/common/model/image';
+import Space from '@weco/common/views/components/styled/Space';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
-
-import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { transformImage } from '@weco/common/services/prismic/transformers/images';
 
 const StoriesContainer = styled.div.attrs<{ $isDetailed?: boolean }>(props => ({
   className: props.$isDetailed

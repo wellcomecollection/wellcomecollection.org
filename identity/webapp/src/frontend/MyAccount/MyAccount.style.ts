@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
+
 import { font } from '@weco/common/utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
 
 export const ProgressBar = styled(Space).attrs({
   $v: { size: 'm', properties: ['margin-bottom'] },

@@ -1,4 +1,5 @@
 import mockToday from '@weco/common/test/utils/date-mocks';
+
 import { getMonthsInDateRange, groupEventsByMonth } from './group-event-utils';
 
 describe('getMonthsInDateRange', () => {

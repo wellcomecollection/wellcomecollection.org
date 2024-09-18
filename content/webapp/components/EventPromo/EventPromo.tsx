@@ -1,29 +1,30 @@
-import styled from 'styled-components';
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
+
+import { inOurBuilding } from '@weco/common/data/microcopy';
+import { location } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import TextWithDot from '@weco/content/components/TextWithDot';
-import EventDateRange from '@weco/content/components/EventDateRange';
-import { EventBasic } from '@weco/content/types/events';
-import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import {
-  CardOuter,
   CardBody,
-  CardPostBody,
-  CardLabels,
   CardImageWrapper,
+  CardLabels,
+  CardOuter,
+  CardPostBody,
   CardTitle,
 } from '@weco/content/components/Card/Card';
-import Divider from '@weco/common/views/components/Divider/Divider';
+import EventDateRange from '@weco/content/components/EventDateRange';
+import TextWithDot from '@weco/content/components/TextWithDot';
 import WatchLabel from '@weco/content/components/WatchLabel/WatchLabel';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import { location } from '@weco/common/icons';
-import { PlaceBasic } from '@weco/content/types/places';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { inOurBuilding } from '@weco/common/data/microcopy';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
 import { EventDocumentPlace } from '@weco/content/services/wellcome/content/types/api';
+import { EventBasic } from '@weco/content/types/events';
+import { PlaceBasic } from '@weco/content/types/places';
 
 type Props = {
   event: EventBasic;

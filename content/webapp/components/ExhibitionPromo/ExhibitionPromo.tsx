@@ -1,20 +1,21 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
+
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
-import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import {
-  CardOuter,
   CardBody,
-  CardLabels,
   CardImageWrapper,
+  CardLabels,
+  CardOuter,
   CardTitle,
 } from '@weco/content/components/Card/Card';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { ExhibitionBasic } from '@weco/content/types/exhibitions';
-import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
 import DateRange from '@weco/content/components/DateRange/DateRange';
+import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 
 const DateWrapper = styled(Space).attrs({
   className: font('intr', 5),

@@ -1,7 +1,7 @@
-import Quote from '@weco/content/components/Quote/Quote';
-import { quote } from '@weco/cardigan/stories/data/content';
-import Readme from '@weco/content/components/Quote/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { quote } from '@weco/cardigan/stories/data/content';
+import Quote from '@weco/content/components/Quote/Quote';
+import Readme from '@weco/content/components/Quote/README.md';
 
 const Template = args => (
   <ReadmeDecorator WrappedComponent={Quote} args={args} Readme={Readme} />

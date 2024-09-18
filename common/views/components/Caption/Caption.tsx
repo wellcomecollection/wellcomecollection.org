@@ -1,9 +1,10 @@
 import * as prismic from '@prismicio/client';
-import { font } from '@weco/common/utils/classnames';
 import { FunctionComponent, ReactNode } from 'react';
+import styled from 'styled-components';
+
+import { font } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
-import styled from 'styled-components';
 
 const CaptionText = styled(Space).attrs({
   $h: { size: 'm', properties: ['padding-left'] },

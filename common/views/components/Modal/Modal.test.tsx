@@ -1,11 +1,12 @@
-import { act } from 'react-dom/test-utils';
-import { useState, useRef } from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { useRef, useState } from 'react';
+import { act } from 'react-dom/test-utils';
 import { ThemeProvider } from 'styled-components';
+
+import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import theme from '@weco/common/views/themes/default';
-import userEvent from '@testing-library/user-event';
-import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
 
 const renderComponent = () => {
   const ModalExample = () => {

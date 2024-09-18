@@ -1,28 +1,30 @@
-import {
-  GetServerSidePropsPrismicClient,
-  delistFilter,
-  fetchFromClientSide,
-} from '.';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
 import * as prismic from '@prismicio/client';
+
+import { PaginatedResults } from '@weco/common/services/prismic/types';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
+  articlesFetchLinks,
   audienceFetchLinks,
   contributorFetchLinks,
-  exhibitionFormatsFetchLinks,
-  exhibitionsFetchLinks,
   eventFormatFetchLinks,
   eventPolicyFetchLinks,
+  exhibitionFormatsFetchLinks,
+  exhibitionsFetchLinks,
   interpretationTypeFetchLinks,
-  articlesFetchLinks,
-  pagesFetchLinks,
-  seriesFetchLinks,
-  teamsFetchLinks,
-  placesFetchLinks,
   MultiContentPrismicDocument,
+  pagesFetchLinks,
+  placesFetchLinks,
+  seriesFetchLinks,
   StructuredSearchQuery,
+  teamsFetchLinks,
 } from '@weco/content/services/prismic/types';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { MultiContent } from '@weco/content/types/multi-content';
+
+import {
+  delistFilter,
+  fetchFromClientSide,
+  GetServerSidePropsPrismicClient,
+} from '.';
 
 export const fetchMultiContent = async (
   { client }: GetServerSidePropsPrismicClient,

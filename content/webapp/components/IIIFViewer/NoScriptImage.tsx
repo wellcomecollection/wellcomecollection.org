@@ -1,15 +1,17 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
-import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
-import IIIFViewerImage from './IIIFViewerImage';
-import { Thumbnails } from '@weco/content/components/IIIFViewer/Thumbnails';
+
+import { imageSizes } from '@weco/common/utils/image-sizes';
+import LL from '@weco/common/views/components/styled/LL';
 import {
   CanvasPaginator,
   ThumbnailsPaginator,
 } from '@weco/content/components/IIIFViewer/Paginators';
-import LL from '@weco/common/views/components/styled/LL';
+import { Thumbnails } from '@weco/content/components/IIIFViewer/Thumbnails';
+import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
+
 import { DelayVisibility, queryParamToArrayIndex } from '.';
-import { imageSizes } from '@weco/common/utils/image-sizes';
+import IIIFViewerImage from './IIIFViewerImage';
 
 const NoScriptImageWrapper = styled.div`
   img {

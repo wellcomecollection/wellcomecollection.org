@@ -1,10 +1,12 @@
-import { ImagePromo } from './image-promo';
-import { ImageType } from '@weco/common/model/image';
 import * as prismic from '@prismicio/client';
+
+import { ImageType } from '@weco/common/model/image';
 import {
-  ExhibitionTextsDocumentData as RawExhibitionTextsDocumentData,
   ExhibitionHighlightToursDocumentData as RawExhibitionHighlightToursDocumentData,
+  ExhibitionTextsDocumentData as RawExhibitionTextsDocumentData,
 } from '@weco/common/prismicio-types';
+
+import { ImagePromo } from './image-promo';
 
 type CaptionsOrTranscripts = {
   title: string;

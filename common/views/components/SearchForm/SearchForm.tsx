@@ -1,18 +1,19 @@
 import { useRouter } from 'next/router';
+import {
+  ReactElement,
+  RefObject,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+
+import { searchLabelText } from '@weco/common/data/microcopy';
+import { formDataAsUrlQuery } from '@weco/common/utils/forms';
+import { getQueryPropertyValue, linkResolver } from '@weco/common/utils/search';
 import SearchBar, {
   ValidLocations,
 } from '@weco/common/views/components/SearchBar/SearchBar';
-import { linkResolver, getQueryPropertyValue } from '@weco/common/utils/search';
-import { formDataAsUrlQuery } from '@weco/common/utils/forms';
-import {
-  useState,
-  useEffect,
-  useContext,
-  ReactElement,
-  RefObject,
-} from 'react';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
-import { searchLabelText } from '@weco/common/data/microcopy';
 
 type SearchCategory = 'overview' | 'works';
 

@@ -1,6 +1,6 @@
+const { writeFileSync, readdirSync } = require('fs');
 const { resolve, join } = require('path');
 const TJS = require('typescript-json-schema');
-const { writeFileSync, readdirSync } = require('fs');
 
 const files = readdirSync(join(__dirname, './src/types/schemas')).map(f =>
   join(__dirname, './src/types/schemas', f)

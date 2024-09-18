@@ -1,6 +1,7 @@
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import { ComponentPropsWithoutRef, FunctionComponent } from 'react';
+
 import { font } from '@weco/common/utils/classnames';
-import { FunctionComponent, ComponentPropsWithoutRef } from 'react';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 
 type Props = ComponentPropsWithoutRef<typeof PrismicHtmlBlock>;
 

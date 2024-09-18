@@ -8,18 +8,19 @@
  * See https://prismic.io/blog/required-fields
  */
 
+import {
+  CloudFrontClient,
+  CreateInvalidationCommand,
+} from '@aws-sdk/client-cloudfront';
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import chalk from 'chalk';
 import fs from 'fs';
+
 import { error } from './console';
 import {
   downloadPrismicSnapshot,
   getPrismicDocuments,
 } from './downloadSnapshot';
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import {
-  CloudFrontClient,
-  CreateInvalidationCommand,
-} from '@aws-sdk/client-cloudfront';
 
 type ErrorProps = {
   id: string;

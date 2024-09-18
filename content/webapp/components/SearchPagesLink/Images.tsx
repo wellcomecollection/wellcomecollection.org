@@ -1,19 +1,20 @@
-import { ParsedUrlQuery } from 'querystring';
 import NextLink from 'next/link';
-import { LinkProps } from '@weco/common/model/link-props';
+import { ParsedUrlQuery } from 'querystring';
 import { FunctionComponent } from 'react';
+
+import { ImagesLinkSource } from '@weco/common/data/segment-values';
+import { LinkProps } from '@weco/common/model/link-props';
 import {
+  csvCodec,
+  decodeQuery,
+  encodeQuery,
+  FromCodecMap,
   LinkFrom,
   maybeStringCodec,
-  stringCodec,
   numberCodec,
-  csvCodec,
-  FromCodecMap,
-  encodeQuery,
-  decodeQuery,
   quotedCsvCodec,
+  stringCodec,
 } from '@weco/common/utils/routes';
-import { ImagesLinkSource } from '@weco/common/data/segment-values';
 
 export type ImagesProps = FromCodecMap<typeof codecMap>;
 

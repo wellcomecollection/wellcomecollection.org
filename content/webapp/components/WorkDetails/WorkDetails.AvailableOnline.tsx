@@ -1,50 +1,52 @@
-import { useState, useEffect, useContext } from 'react';
+import { ContentResource, InternationalString } from '@iiif/presentation-3';
 import NextLink from 'next/link';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
-import WorkDetailsSection from './WorkDetails.Section';
-import IIIFClickthrough from '@weco/content/components/IIIFClickthrough/IIIFClickthrough';
-import Space from '@weco/common/views/components/styled/Space';
-import Button from '@weco/common/views/components/Buttons';
-import WorkDetailsLicence from './WorkDetails.Licence';
-import { eye } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
-import { LinkProps } from '@weco/common/model/link-props';
-import {
-  DownloadOption,
-  TransformedManifest,
-} from '@weco/content/types/manifest';
-import { Note, Work } from '@weco/content/services/wellcome/catalogue/types';
-import { DigitalLocationInfo } from '@weco/content/utils/works';
-import { DigitalLocation } from '@weco/common/model/catalogue';
-import { UiTree } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
-import IIIFItemList from '@weco/content/components/IIIFItemList/IIIFItemList';
-import DownloadLink from '@weco/content/components/DownloadLink/DownloadLink';
-import Download from '@weco/content/components/Download/Download';
-import {
-  getLabelString,
-  getFormatString,
-  isAllOriginalPdfs,
-} from '@weco/content/utils/iiif/v3';
-import { InternationalString, ContentResource } from '@iiif/presentation-3';
-import { useToggles } from '@weco/common/server-data/Context';
+import { useContext, useEffect, useState } from 'react';
+import styled from 'styled-components';
+
 import {
   bornDigitalMessage,
   treeInstructions,
 } from '@weco/common/data/microcopy';
-import styled from 'styled-components';
-import NestedList from '@weco/content/components/ArchiveTree/ArchiveTree.NestedList';
+import { eye } from '@weco/common/icons';
+import { DigitalLocation } from '@weco/common/model/catalogue';
+import { LinkProps } from '@weco/common/model/link-props';
+import { useToggles } from '@weco/common/server-data/Context';
+import { font } from '@weco/common/utils/classnames';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import Button from '@weco/common/views/components/Buttons';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import Space from '@weco/common/views/components/styled/Space';
+import {
+  controlDimensions,
+  createDownloadTree,
+} from '@weco/content/components/ArchiveTree//ArchiveTree.helpers';
 import {
   Tree,
   TreeInstructions,
 } from '@weco/content/components/ArchiveTree//ArchiveTree.styles';
-import {
-  createDownloadTree,
-  controlDimensions,
-} from '@weco/content/components/ArchiveTree//ArchiveTree.helpers';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import DownloadItemRenderer from '@weco/content/components/ArchiveTree/ArchiveTree.DownloadItemRenderer';
+import { UiTree } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
+import NestedList from '@weco/content/components/ArchiveTree/ArchiveTree.NestedList';
+import Download from '@weco/content/components/Download/Download';
+import DownloadLink from '@weco/content/components/DownloadLink/DownloadLink';
+import IIIFClickthrough from '@weco/content/components/IIIFClickthrough/IIIFClickthrough';
+import IIIFItemList from '@weco/content/components/IIIFItemList/IIIFItemList';
 import { DownloadTable } from '@weco/content/components/WorkDetails/WorkDetails.DownloadItem';
 import { getTokenService } from '@weco/content/pages/works/[workId]/items'; // TODO move function to utils?
+import { Note, Work } from '@weco/content/services/wellcome/catalogue/types';
+import {
+  DownloadOption,
+  TransformedManifest,
+} from '@weco/content/types/manifest';
+import {
+  getFormatString,
+  getLabelString,
+  isAllOriginalPdfs,
+} from '@weco/content/utils/iiif/v3';
+import { DigitalLocationInfo } from '@weco/content/utils/works';
+
+import WorkDetailsLicence from './WorkDetails.Licence';
+import WorkDetailsSection from './WorkDetails.Section';
 
 const TreeHeadings = styled(Space).attrs({
   $v: { size: 'xl', properties: ['margin-top'] },

@@ -1,7 +1,8 @@
 import * as prismic from '@prismicio/client';
+
 import { ArticleBasic } from './articles';
-import { SeriesBasic } from './series';
 import { BookBasic } from './books';
+import { SeriesBasic } from './series';
 
 export type StoriesLanding = {
   id: string;

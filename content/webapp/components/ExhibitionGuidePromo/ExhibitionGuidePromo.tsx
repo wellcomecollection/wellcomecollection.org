@@ -1,19 +1,20 @@
 import { FunctionComponent } from 'react';
+
+import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import Space from '@weco/common/views/components/styled/Space';
+import {
+  CardBody,
+  CardImageWrapper,
+  CardOuter,
+  CardTitle,
+} from '@weco/content/components/Card/Card';
+import RelevantGuideIcons from '@weco/content/components/ExhibitionGuideRelevantIcons';
 import {
   ExhibitionGuideBasic,
   ExhibitionGuideType,
 } from '@weco/content/types/exhibition-guides';
-import Space from '@weco/common/views/components/styled/Space';
-import {
-  CardOuter,
-  CardBody,
-  CardImageWrapper,
-  CardTitle,
-} from '@weco/content/components/Card/Card';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { useToggles } from '@weco/common/server-data/Context';
-import RelevantGuideIcons from '@weco/content/components/ExhibitionGuideRelevantIcons';
 
 type Props = {
   exhibitionGuide: ExhibitionGuideBasic;

@@ -1,13 +1,15 @@
-import { ThemeProvider } from 'styled-components';
-import { rest } from 'msw';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ChangeEmail } from './ChangeEmail';
-import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
-import theme from '@weco/common/views/themes/default';
-import { server } from '@weco/identity/src/frontend/mocks/server';
+import { rest } from 'msw';
+import { ThemeProvider } from 'styled-components';
+
 import { mockUser } from '@weco/common/test/fixtures/identity/user';
 import UserProvider from '@weco/common/views/components/UserProvider/UserProvider';
+import theme from '@weco/common/views/themes/default';
+import { server } from '@weco/identity/src/frontend/mocks/server';
+
+import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
+import { ChangeEmail } from './ChangeEmail';
 
 const defaultProps: ChangeDetailsModalContentProps = {
   onComplete: () => null,

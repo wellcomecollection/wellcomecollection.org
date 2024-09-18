@@ -1,6 +1,6 @@
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
 import Readme from '@weco/content/components/MoreLink/README.md';
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const Template = args => (
   <ReadmeDecorator WrappedComponent={MoreLink} args={args} Readme={Readme} />

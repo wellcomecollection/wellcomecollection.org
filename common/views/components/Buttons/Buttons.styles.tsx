@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { classNames, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
+
 import { ButtonSize, SolidButtonStyledProps } from './Buttons.types';
 
 export const BaseButtonInner = styled.span.attrs<{

@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import React, {
   FunctionComponent,
   useCallback,
@@ -7,6 +6,8 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import styled from 'styled-components';
+
 import { clamp } from '@weco/content/utils/numeric';
 
 type Props = {

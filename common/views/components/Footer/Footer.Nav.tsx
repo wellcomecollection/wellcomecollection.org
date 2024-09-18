@@ -1,10 +1,11 @@
+import Link from 'next/link';
 import { ReactElement } from 'react';
 import styled from 'styled-components';
-import Link from 'next/link';
-import { font } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
-import { NavLink, links } from '@weco/common/views/components/Header/Header';
+
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
+import { font } from '@weco/common/utils/classnames';
+import { links, NavLink } from '@weco/common/views/components/Header/Header';
+import Space from '@weco/common/views/components/styled/Space';
 
 const NavList = styled.ul<{ $isInline?: boolean }>`
   list-style-type: none;

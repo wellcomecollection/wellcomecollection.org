@@ -1,10 +1,10 @@
+import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
 import { clock } from '@weco/common/icons';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
+import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 import { isContentList } from '@weco/content/types/body';
 import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility-promo';
 import { Page as PageType } from '@weco/content/types/pages';
-import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 
 /** The What's On page in Prismic includes a content list which is used to pick
  * items for the 'Try these too' promo section.

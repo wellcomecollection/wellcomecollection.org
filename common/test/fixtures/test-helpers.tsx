@@ -1,12 +1,12 @@
+import {
+  MatcherFunction,
+  render,
+  RenderOptions,
+  RenderResult,
+} from '@testing-library/react';
 import { FunctionComponent, PropsWithChildren, ReactElement } from 'react';
 import { ThemeProvider } from 'styled-components';
 
-import {
-  render,
-  RenderResult,
-  RenderOptions,
-  MatcherFunction,
-} from '@testing-library/react';
 import theme from '@weco/common/views/themes/default';
 
 const ProvidersWrapper: FunctionComponent<PropsWithChildren> = ({

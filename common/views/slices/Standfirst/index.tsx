@@ -1,8 +1,9 @@
-import { StandfirstSlice as RawStandfirstSlice } from '@weco/common/prismicio-types';
-import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
-import { transformStandfirstSlice } from '@weco/content/services/prismic/transformers/body';
+import { FunctionComponent } from 'react';
+
+import { StandfirstSlice as RawStandfirstSlice } from '@weco/common/prismicio-types';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
+import { transformStandfirstSlice } from '@weco/content/services/prismic/transformers/body';
 
 type StandfirstProps = SliceComponentProps<RawStandfirstSlice>;
 

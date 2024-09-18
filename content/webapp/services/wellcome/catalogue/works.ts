@@ -1,3 +1,13 @@
+import { propsToQuery } from '@weco/common/utils/routes';
+import {
+  emptyWorksProps,
+  toQuery,
+  WorksProps,
+} from '@weco/content/components/SearchPagesLink/Works';
+import { toIsoDateString } from '@weco/content/services/wellcome/catalogue/index';
+import { Toggles } from '@weco/toggles';
+
+import { catalogueQuery, looksLikeCanonicalId, notFound, rootUris } from '.';
 import {
   CatalogueApiRedirect,
   CatalogueResultsList,
@@ -5,22 +15,13 @@ import {
   ItemsList,
   Work,
 } from './types';
-import { looksLikeCanonicalId, rootUris, notFound, catalogueQuery } from '.';
-import { Toggles } from '@weco/toggles';
-import { propsToQuery } from '@weco/common/utils/routes';
 import {
-  emptyWorksProps,
-  toQuery,
-  WorksProps,
-} from '@weco/content/components/SearchPagesLink/Works';
-import {
-  QueryProps,
   globalApiOptions,
+  QueryProps,
+  WellcomeApiError,
   wellcomeApiError,
   wellcomeApiFetch,
-  WellcomeApiError,
 } from '..';
-import { toIsoDateString } from '@weco/content/services/wellcome/catalogue/index';
 
 type GetWorkProps = {
   id: string;

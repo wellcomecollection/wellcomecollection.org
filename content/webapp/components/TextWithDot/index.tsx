@@ -1,7 +1,9 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { PaletteColor } from '@weco/common/views/themes/config';
+
 import Space from '@weco/common/views/components/styled/Space';
+import { PaletteColor } from '@weco/common/views/themes/config';
+
 import Dot from './Dot';
 
 const Wrapper = styled.span`
