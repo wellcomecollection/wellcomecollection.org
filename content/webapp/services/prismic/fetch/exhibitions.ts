@@ -167,6 +167,7 @@ export async function fetchExhibition(
     ...exhibitionGuidesQuery.results,
   ].map(guide => ({
     id: guide.id,
+    uid: guide.uid,
     type: guide.type,
   }));
 
