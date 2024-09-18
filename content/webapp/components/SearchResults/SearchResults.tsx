@@ -10,6 +10,7 @@ import ArticleCard from '@weco/content/components/ArticleCard/ArticleCard';
 import { getCrop } from '@weco/common/model/image';
 import { Card } from '@weco/content/types/card';
 import PlainList from '@weco/common/views/components/styled/PlainList';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 const Result = styled.li`
   border-top: 1px solid ${props => props.theme.color('warmNeutral.400')};
@@ -43,7 +44,6 @@ const SearchResults: FunctionComponent<Props> = ({
     {summary && (
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>{summary}</Space>
     )}
-
     {items.length > 0 && (
       <PlainList>
         {items.map((item, index) => (
@@ -81,7 +81,7 @@ const SearchResults: FunctionComponent<Props> = ({
             )}
             {item.type === 'pages' && (
               <CompactCard
-                url={`/pages/${item.id}`}
+                url={linkResolver(item)}
                 title={item.title || ''}
                 primaryLabels={[]}
                 secondaryLabels={[]}
@@ -114,7 +114,7 @@ const SearchResults: FunctionComponent<Props> = ({
             )}
             {item.type === 'event-series' && (
               <CompactCard
-                url={`/event-series/${item.id}`}
+                url={linkResolver(item)}
                 title={item.title}
                 primaryLabels={item.labels}
                 secondaryLabels={[]}
@@ -147,7 +147,7 @@ const SearchResults: FunctionComponent<Props> = ({
             )}
             {item.type === 'books' && (
               <CompactCard
-                url={`/books/${item.id}`}
+                url={linkResolver(item)}
                 title={item.title}
                 primaryLabels={item.labels}
                 secondaryLabels={[]}
@@ -187,7 +187,7 @@ const SearchResults: FunctionComponent<Props> = ({
             )}
             {item.type === 'series' && (
               <CompactCard
-                url={`/series/${item.id}`}
+                url={linkResolver(item)}
                 title={item.title || ''}
                 primaryLabels={item.labels}
                 secondaryLabels={[]}
@@ -226,7 +226,7 @@ const SearchResults: FunctionComponent<Props> = ({
             )}
             {item.type === 'exhibitions' && (
               <CompactCard
-                url={`/exhibitions/${item.id}`}
+                url={linkResolver(item)}
                 title={item.title}
                 primaryLabels={item.labels}
                 secondaryLabels={[]}

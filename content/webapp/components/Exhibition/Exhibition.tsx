@@ -51,6 +51,7 @@ import {
   ResourceLink,
   ResourceLinkIconWrapper,
 } from '@weco/content/components/styled/AccessResources';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 function getBorderColor({
   type,
@@ -223,7 +224,7 @@ const Exhibition: FunctionComponent<Props> = ({
         text: 'Exhibitions',
       },
       {
-        url: `/exhibitions/${exhibition.id}`,
+        url: linkResolver(exhibition),
         text: exhibition.title,
         isHidden: true,
       },

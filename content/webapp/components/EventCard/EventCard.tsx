@@ -8,6 +8,7 @@ import { font } from '@weco/common/utils/classnames';
 import { getCrop } from '@weco/common/model/image';
 import Space from '@weco/common/views/components/styled/Space';
 import WatchLabel from '@weco/content/components/WatchLabel/WatchLabel';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 type Props = {
   event: EventBasic;
@@ -70,7 +71,7 @@ const EventCard: FunctionComponent<Props> = ({ event, xOfY }) => {
 
   return (
     <CompactCard
-      url={`/events/${event.id}`}
+      url={linkResolver(event)}
       title={event.title}
       primaryLabels={event.primaryLabels}
       secondaryLabels={event.secondaryLabels}

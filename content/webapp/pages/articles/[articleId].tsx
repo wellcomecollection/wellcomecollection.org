@@ -41,6 +41,7 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Standfirst from '@weco/common/views/slices/Standfirst';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 const ContentTypeWrapper = styled.div`
   display: flex;
@@ -202,13 +203,15 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
       // GOTCHA: we only take the first of the series list as the data is being
       // used a little bit badly, but we don't have capacity to implement a
       // better solution
-      ...article.series.slice(0, 1).map(series => ({
-        url: `/series/${series.id}`,
-        text: series.title || '',
-        prefix: 'Part of',
-      })),
+      ...article.series.slice(0, 1).map(series => {
+        return {
+          url: linkResolver(series),
+          text: series.title || '',
+          prefix: 'Part of',
+        };
+      }),
       {
-        url: `/articles/${article.id}`,
+        url: linkResolver(article),
         text: article.title,
         isHidden: true,
       },

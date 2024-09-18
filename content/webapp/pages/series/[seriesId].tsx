@@ -42,6 +42,7 @@ import ArticleScheduleItemCard from '@weco/content/components/ArticleScheduleIte
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import Standfirst from '@weco/common/views/slices/Standfirst';
 import { fetchSeriesById } from '@weco/content/services/prismic/fetch/series';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 const SeriesItem = styled.div<{ $isFirst: boolean }>`
   border-top: ${props =>
@@ -185,7 +186,7 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
         text: 'Stories',
       },
       {
-        url: `/series/${series.id}`,
+        url: linkResolver(series),
         text: series.title,
         isHidden: true,
       },

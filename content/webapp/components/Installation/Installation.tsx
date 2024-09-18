@@ -16,6 +16,7 @@ import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { fetchExhibitExhibition } from '@weco/content/services/prismic/fetch/exhibitions';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 type Props = {
   installation: InstallationType;
@@ -46,7 +47,7 @@ const Installation: FunctionComponent<Props> = ({ installation }) => {
           }
         : undefined,
       {
-        url: `/exhibitions/${installation.id}`,
+        url: linkResolver(installation),
         text: installation.title,
         isHidden: true,
       },

@@ -24,6 +24,7 @@ import { Pageview } from '@weco/common/services/conversion/track';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
@@ -139,7 +140,7 @@ const BookPage: FunctionComponent<Props> = props => {
         url: '/books',
       },
       {
-        url: `/books/${book.id}`,
+        url: linkResolver(book),
         text: book.title,
         isHidden: true,
       },

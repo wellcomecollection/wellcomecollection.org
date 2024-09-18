@@ -39,6 +39,7 @@ import {
   getLastEndTime,
 } from '@weco/content/services/prismic/transformers/events';
 import { isFilledLinkToDocument } from '@weco/common/services/prismic/types';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 export const getOtherVisualStories = ({
   documentId,
@@ -125,6 +126,7 @@ export const returnVisualStoryProps = ({
         return {
           type: story.type,
           id: story.id,
+          uid: story.uid,
           title: story.title,
           promo: story.promo,
           image: story.image,
@@ -217,7 +219,7 @@ const VisualStory: FunctionComponent<Props> = ({
                 },
                 {
                   text: relatedDocument.title,
-                  url: `/${relatedDocument.type}/${relatedDocument.id}`,
+                  url: linkResolver(relatedDocument),
                 },
               ]
             : [],

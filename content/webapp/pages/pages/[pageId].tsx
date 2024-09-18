@@ -54,6 +54,7 @@ import {
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import { isVanityUrl } from '@weco/content/utils/urls';
 import { makeLabels } from '@weco/common/views/components/LabelsList/LabelsList';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 export type Props = {
   page: PageType;
@@ -68,6 +69,7 @@ export type Props = {
 
 type OrderInParent = {
   id: string;
+  uid: string;
   title: string;
   order: number;
   type: 'pages' | 'exhibitions';
@@ -133,6 +135,7 @@ export const getServerSideProps: GetServerSideProps<
       page.parentPages?.map(p => {
         return {
           id: p.id,
+          uid: p.uid,
           title: p.title,
           order: p.order,
           type: p.type,
@@ -242,11 +245,13 @@ export const Page: FunctionComponent<Props> = ({
   const breadcrumbs = {
     items: [
       ...sectionItem,
-      ...ordersInParents.map(siblingGroup => ({
-        url: `/${siblingGroup.type}/${siblingGroup.id}`,
-        text: siblingGroup.title || '',
-        prefix: `Part ${siblingGroup.order || ''} of`,
-      })),
+      ...ordersInParents.map(siblingGroup => {
+        return {
+          url: linkResolver(siblingGroup),
+          text: siblingGroup.title || '',
+          prefix: `Part ${siblingGroup.order || ''} of`,
+        };
+      }),
     ],
   };
 

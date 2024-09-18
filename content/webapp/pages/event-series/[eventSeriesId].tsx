@@ -35,6 +35,7 @@ import { PaginatedResults } from '@weco/common/services/prismic/types';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Pagination from '@weco/content/components/Pagination/Pagination';
 import { getPage } from '@weco/content/utils/query-params';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 type Props = {
   series: EventSeries;
@@ -130,7 +131,7 @@ const EventSeriesPage: FunctionComponent<Props> = ({
         text: 'Events',
       },
       {
-        url: `/events-series/${series.id}`,
+        url: linkResolver(series),
         text: series.title,
         isHidden: true,
       },

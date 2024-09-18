@@ -5,6 +5,7 @@ import { BookBasic } from '@weco/content/types/books';
 import Space from '@weco/common/views/components/styled/Space';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import BookImage from '@weco/content/components/BookImage/BookImage';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 type LinkSpaceAttrs = {
   $url: string;
@@ -56,9 +57,9 @@ type Props = {
 };
 
 const BookPromo: FunctionComponent<Props> = ({ book }) => {
-  const { id, title, subtitle, promo, cover } = book;
+  const { title, subtitle, promo, cover } = book;
   return (
-    <LinkSpace $url={`/books/${id}`}>
+    <LinkSpace $url={linkResolver(book)}>
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
         <BookImage
           image={{
