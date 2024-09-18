@@ -1,5 +1,6 @@
-import { GetServerSidePropsPrismicClient } from '.';
 import { StoriesLandingDocument as RawStoriesLandingDocument } from '@weco/common/prismicio-types';
+
+import { GetServerSidePropsPrismicClient } from '.';
 
 const graphQuery = `{
   stories-landing {

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
+
 import { font } from '@weco/common/utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
 
 export const ShowPasswordButton = styled.button.attrs({ type: 'button' })`
   background: none;

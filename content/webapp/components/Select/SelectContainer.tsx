@@ -1,9 +1,10 @@
-import { ReactElement, FunctionComponent } from 'react';
-import { chevron } from '@weco/common/icons';
+import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
-import Icon from '@weco/common/views/components/Icon/Icon';
+
+import { chevron } from '@weco/common/icons';
 import { classNames, font } from '@weco/common/utils/classnames';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Space from '@weco/common/views/components/styled/Space';
 
 type StyledSelectProps = {
   $isPill?: boolean;

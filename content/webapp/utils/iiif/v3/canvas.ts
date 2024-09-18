@@ -1,10 +1,11 @@
 import { Canvas } from '@iiif/presentation-3';
+
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   CustomContentResource,
   ThumbnailImage,
 } from '@weco/content/types/manifest';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 // Temporary type until iiif3 types are correct
 type Thumbnail = {

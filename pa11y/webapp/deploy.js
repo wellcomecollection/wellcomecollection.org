@@ -1,7 +1,6 @@
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
 const cloudfront = new AWS.CloudFront();
-
 const fs = require('fs');
 
 try {

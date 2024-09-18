@@ -1,11 +1,12 @@
-import { font } from '@weco/common/utils/classnames';
 import NextLink from 'next/link';
+import { FunctionComponent } from 'react';
+import styled from 'styled-components';
+
+import { LinkProps } from '@weco/common/model/link-props';
+import { font } from '@weco/common/utils/classnames';
+import { StyledButton } from '@weco/common/views/components/Buttons';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import { StyledButton } from '@weco/common/views/components/Buttons';
-import { FunctionComponent } from 'react';
-import { LinkProps } from '@weco/common/model/link-props';
-import styled from 'styled-components';
 import { themeValues } from '@weco/common/views/themes/config';
 
 export type TagType = {

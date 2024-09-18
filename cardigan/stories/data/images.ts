@@ -1,9 +1,10 @@
-import { LicenseType } from '@weco/common/model/license';
-import { singleLineOfText } from './text';
-import { Picture } from '@weco/common/model/picture';
 import { ImageType } from '@weco/common/model/image';
+import { LicenseType } from '@weco/common/model/license';
+import { Picture } from '@weco/common/model/picture';
 import { CaptionedImageProps } from '@weco/content/components/CaptionedImage/CaptionedImage';
 import { Props as ImageGalleryProps } from '@weco/content/components/ImageGallery';
+
+import { singleLineOfText } from './text';
 
 type ImageSize = '1600x900' | '3200x1500' | '3200x1800' | '3200x3200';
 

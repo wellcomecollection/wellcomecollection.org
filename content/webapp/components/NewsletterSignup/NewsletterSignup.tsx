@@ -1,15 +1,16 @@
-import { SyntheticEvent, useState, useEffect, FunctionComponent } from 'react';
+import { FunctionComponent, SyntheticEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import TextInput from '@weco/common/views/components/TextInput';
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import { font } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
-import useValidation from '@weco/common/hooks/useValidation';
-import Button from '@weco/common/views/components/Buttons';
+
 import {
   newsletterAddressBook,
   secondaryAddressBooks,
 } from '@weco/common/data/dotdigital';
+import useValidation from '@weco/common/hooks/useValidation';
+import { font } from '@weco/common/utils/classnames';
+import Button from '@weco/common/views/components/Buttons';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+import Space from '@weco/common/views/components/styled/Space';
+import TextInput from '@weco/common/views/components/TextInput';
 
 const PlainList = styled.ul`
   list-style: none;

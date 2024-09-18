@@ -1,14 +1,15 @@
+import timezoneMock from 'timezone-mock';
+
 import {
   formatDate,
-  formatDayName,
   formatDayDate,
   formatDayMonth,
+  formatDayName,
   formatDuration,
+  formatIso8601Date,
   formatTime,
   formatYear,
-  formatIso8601Date,
 } from './format-date';
-import timezoneMock from 'timezone-mock';
 
 it('formats a day', () => {
   const result = formatDayName(new Date('2001-01-01'));

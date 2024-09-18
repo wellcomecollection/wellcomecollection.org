@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
-import { baseUrl } from './helpers/utils';
+
 import { gotoWithoutCache, mediaOffice } from './helpers/contexts';
+import { baseUrl } from './helpers/utils';
 
 // See the comment in content/webapp/pages/index.tsx about why this is important
 test('(1) Website includes the Meta domain verification tag', async ({

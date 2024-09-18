@@ -1,14 +1,15 @@
 import * as prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
-import Space from '@weco/common/views/components/styled/Space';
-import { Container } from '@weco/common/views/components/styled/Container';
+
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import { Container } from '@weco/common/views/components/styled/Container';
+import Space from '@weco/common/views/components/styled/Space';
 import {
-  StandaloneTitle as Title,
+  ContextContainer as Background,
   Tombstone as Spacer,
   ContextTitle as Subtitle,
-  ContextContainer as Background,
   CaptionTranscription as TextWrapper,
+  StandaloneTitle as Title,
 } from '@weco/content/components/ExhibitionCaptions/ExhibitionCaptions.Stop';
 
 const GuideSectionHeading: FunctionComponent<{

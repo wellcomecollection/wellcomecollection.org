@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
-import { TransformedImageJSON } from '@weco/content/types/image';
-import { IIIFImage } from '@weco/content/services/iiif/types/image/v2';
+
+import { DigitalLocation } from '@weco/common/model/catalogue';
 import { fetchIIIFImageJson } from '@weco/content/services/iiif/fetch/image';
 import { transformImageJSON } from '@weco/content/services/iiif/transformers/image';
-import { DigitalLocation } from '@weco/common/model/catalogue';
+import { IIIFImage } from '@weco/content/services/iiif/types/image/v2';
+import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+import { TransformedImageJSON } from '@weco/content/types/image';
 
 const imagePromises: Map<string, Promise<IIIFImage | undefined>> = new Map();
 const cachedTransformedImage: Map<string, TransformedImageJSON> = new Map();

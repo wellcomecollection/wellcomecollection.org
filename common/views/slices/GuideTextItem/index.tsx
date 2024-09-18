@@ -1,8 +1,9 @@
 import { Content } from '@prismicio/client';
-import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
-import { transformGuideTextItemSlice } from '@weco/content/services/prismic/transformers/exhibition-texts';
+import { FunctionComponent } from 'react';
+
 import TextItem from '@weco/content/components/GuideTextItem/GuideTextItem';
+import { transformGuideTextItemSlice } from '@weco/content/services/prismic/transformers/exhibition-texts';
 
 export type GuideTextItemProps =
   SliceComponentProps<Content.GuideTextItemSlice>;

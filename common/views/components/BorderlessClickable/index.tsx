@@ -1,19 +1,20 @@
 import {
   ComponentProps,
-  ReactNode,
-  SyntheticEvent,
   forwardRef,
   ForwardRefRenderFunction,
+  ReactNode,
+  SyntheticEvent,
 } from 'react';
 import styled from 'styled-components';
+
+import { IconSvg } from '@weco/common/icons';
+import { classNames, font } from '@weco/common/utils/classnames';
 import {
-  BasicButton,
   BaseButtonInner,
+  BasicButton,
   ButtonIconWrapper,
 } from '@weco/common/views/components/Buttons/Buttons.styles';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { classNames, font } from '@weco/common/utils/classnames';
-import { IconSvg } from '@weco/common/icons';
 
 type ClickableElement = 'a' | 'button';
 

@@ -1,19 +1,19 @@
-import {
-  getProductionDates,
-  getItemsWith,
-  getItemIdentifiersWith,
-  getArchiveAncestorArray,
-  getDigitalLocationOfType,
-  getAccessConditionForDigitalLocation,
-} from '@weco/content/utils/works';
+import { idArray, uiTree } from '@weco/content/__mocks__/uiTree';
 import { getTabbableIds } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
 import {
   workFixture,
-  workWithPartOf,
   workWithLibrarySeriesPartOf,
   workWithMixedPartOf,
+  workWithPartOf,
 } from '@weco/content/test/fixtures/catalogueApi/work';
-import { uiTree, idArray } from '@weco/content/__mocks__/uiTree';
+import {
+  getAccessConditionForDigitalLocation,
+  getArchiveAncestorArray,
+  getDigitalLocationOfType,
+  getItemIdentifiersWith,
+  getItemsWith,
+  getProductionDates,
+} from '@weco/content/utils/works';
 
 describe('getProductionDates', () => {
   it('extracts date labels from a work', () => {

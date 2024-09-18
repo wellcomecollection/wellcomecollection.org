@@ -1,64 +1,65 @@
-import { FunctionComponent } from 'react';
-import { GetServerSideProps } from 'next';
 import * as prismic from '@prismicio/client';
-import styled from 'styled-components';
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
+import { FunctionComponent } from 'react';
+import styled from 'styled-components';
+
+import { homepageId } from '@weco/common/data/hardcoded-ids';
+import { homepageHeading, pageDescriptions } from '@weco/common/data/microcopy';
+import { ImageType } from '@weco/common/model/image';
+import {
+  PagesDocument as RawPagesDocument,
+  StandfirstSlice as RawStandfirstSlice,
+} from '@weco/common/prismicio-types';
+import { getServerData } from '@weco/common/server-data';
+import { AppErrorProps } from '@weco/common/services/app';
 import { font } from '@weco/common/utils/classnames';
-import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
-import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { ArticleBasic } from '@weco/content/types/articles';
-import Space from '@weco/common/views/components/styled/Space';
+import { serialiseProps } from '@weco/common/utils/json';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import Layout, {
   gridSize10,
   gridSize12,
 } from '@weco/common/views/components/Layout';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import Space from '@weco/common/views/components/styled/Space';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import Standfirst from '@weco/common/views/slices/Standfirst';
+import CardGrid from '@weco/content/components/CardGrid/CardGrid';
+import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
+import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
 import SimpleCardGrid from '@weco/content/components/SimpleCardGrid/SimpleCardGrid';
 import {
-  orderEventsByNextAvailableDate,
   filterEventsForNext7Days,
+  orderEventsByNextAvailableDate,
 } from '@weco/content/services/prismic/events';
-import { ExhibitionBasic } from '@weco/content/types/exhibitions';
-import { EventBasic } from '@weco/content/types/events';
-import { convertItemToCardProps } from '@weco/content/types/card';
-import { AppErrorProps } from '@weco/common/services/app';
-import { serialiseProps } from '@weco/common/utils/json';
-import { getServerData } from '@weco/common/server-data';
-import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
-import CardGrid from '@weco/content/components/CardGrid/CardGrid';
-import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
-import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
+import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
+import { fetchExhibitions } from '@weco/content/services/prismic/fetch/exhibitions';
+import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import {
   transformArticle,
   transformArticleToArticleBasic,
 } from '@weco/content/services/prismic/transformers/articles';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
-import { homepageId } from '@weco/common/data/hardcoded-ids';
-import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
-import { transformPage } from '@weco/content/services/prismic/transformers/pages';
-import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
 import { transformEventBasic } from '@weco/content/services/prismic/transformers/events';
-import { pageDescriptions, homepageHeading } from '@weco/common/data/microcopy';
-import { fetchExhibitions } from '@weco/content/services/prismic/fetch/exhibitions';
 import { transformExhibitionsQuery } from '@weco/content/services/prismic/transformers/exhibitions';
-import { ImageType } from '@weco/common/model/image';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { transformPage } from '@weco/content/services/prismic/transformers/pages';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
+import { ArticleBasic } from '@weco/content/types/articles';
 import {
-  isContentList,
   ContentListProps,
+  isContentList,
   Slice,
 } from '@weco/content/types/body';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { convertItemToCardProps } from '@weco/content/types/card';
+import { EventBasic } from '@weco/content/types/events';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import Standfirst from '@weco/common/views/slices/Standfirst';
-import {
-  StandfirstSlice as RawStandfirstSlice,
-  PagesDocument as RawPagesDocument,
-} from '@weco/common/prismicio-types';
 
 const CreamBox = styled(Space).attrs({
   $h: { size: 'l', properties: ['padding-left', 'padding-right'] },

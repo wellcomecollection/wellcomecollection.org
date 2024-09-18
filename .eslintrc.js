@@ -16,18 +16,32 @@ const sharedExtends = [
 ];
 
 const sharedRules = {
-  'no-multi-spaces': 'warn',
   'eol-last': 'error',
-  'no-multi-str': 'off',
-  'no-mixed-operators': 'warn',
-  'no-return-assign': 'off',
-  'react/react-in-jsx-scope': 'off',
-  'react/jsx-curly-brace-presence': [
+  'import/order': [
     'warn',
-    { props: 'never', children: 'never', propElementValues: 'always' },
+    {
+      groups: [
+        ['builtin', 'external'],
+        ['internal', 'sibling', 'parent', 'index'],
+      ],
+      pathGroups: [
+        {
+          pattern: '@weco/**',
+          group: 'external',
+          position: 'after',
+        },
+      ],
+      pathGroupsExcludedImportTypes: ['builtin', 'object'],
+      alphabetize: {
+        order: 'asc',
+        caseInsensitive: true,
+      },
+      'newlines-between': 'always',
+    },
   ],
-  'react-hooks/rules-of-hooks': 'error',
-  'prettier/prettier': 'error',
+  'no-mixed-operators': 'warn',
+  'no-multi-spaces': 'warn',
+  'no-multi-str': 'off',
   'no-restricted-imports': [
     'error',
     { patterns: ['../*'] }, // Should only import relatively from same directory
@@ -35,6 +49,21 @@ const sharedRules = {
   'no-restricted-syntax': [
     'error',
     "JSXElement.children > [expression.callee.property.name='stringify']",
+  ],
+  'no-return-assign': 'off',
+  'prettier/prettier': 'error',
+  'react/react-in-jsx-scope': 'off',
+  'react/jsx-curly-brace-presence': [
+    'warn',
+    { props: 'never', children: 'never', propElementValues: 'always' },
+  ],
+  'react-hooks/rules-of-hooks': 'error',
+  'sort-imports': [
+    'error',
+    {
+      ignoreCase: true,
+      ignoreDeclarationSort: true,
+    },
   ],
 };
 

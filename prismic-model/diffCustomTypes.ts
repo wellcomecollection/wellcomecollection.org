@@ -1,10 +1,12 @@
-import { getCreds } from '@weco/ts-aws';
-import { error, success } from './console';
-import { isCi } from './config';
 import { diffString } from 'json-diff';
-import { removeUndefinedProps, printDelta } from './utils';
-import { getContentTypes, getSharedSlices, Credentials } from './utils/prismic';
+
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { getCreds } from '@weco/ts-aws';
+
+import { isCi } from './config';
+import { error, success } from './console';
+import { printDelta, removeUndefinedProps } from './utils';
+import { Credentials, getContentTypes, getSharedSlices } from './utils/prismic';
 
 export default async function diffContentTypes(
   credentials?: Credentials

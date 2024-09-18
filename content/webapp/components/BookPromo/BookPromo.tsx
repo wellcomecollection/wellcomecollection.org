@@ -1,10 +1,11 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
+
 import { font } from '@weco/common/utils/classnames';
-import { BookBasic } from '@weco/content/types/books';
-import Space from '@weco/common/views/components/styled/Space';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import Space from '@weco/common/views/components/styled/Space';
 import BookImage from '@weco/content/components/BookImage/BookImage';
+import { BookBasic } from '@weco/content/types/books';
 
 type LinkSpaceAttrs = {
   $url: string;

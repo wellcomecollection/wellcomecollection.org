@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import ValidatedPage from '@weco/identity/pages/validated';
 import { ThemeProvider } from 'styled-components';
-import theme from '@weco/common/views/themes/default';
+
 import { defaultServerData } from '@weco/common/server-data/types';
+import theme from '@weco/common/views/themes/default';
+import ValidatedPage from '@weco/identity/pages/validated';
 
 // avoid rendering header SVG to help with debugging tests
 jest.mock('@weco/identity/src/frontend/components/PageWrapper', () => ({

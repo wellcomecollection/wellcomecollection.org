@@ -1,11 +1,12 @@
+import mockToday from '@weco/common/test/utils/date-mocks';
 import { HasTimes } from '@weco/content/types/events';
+
 import {
   groupEventsByDay,
   isEventPast,
   orderEventsByNextAvailableDate,
   upcomingDatesFullyBooked,
 } from './events';
-import mockToday from '@weco/common/test/utils/date-mocks';
 
 describe('orderEventsByNextAvailableDate', () => {
   it('returns events in the right order', () => {

@@ -1,27 +1,29 @@
-import { useContext, FunctionComponent } from 'react';
-import styled from 'styled-components';
-import NextLink from 'next/link';
 import { Manifest } from '@iiif/presentation-3';
+import NextLink from 'next/link';
+import { FunctionComponent, useContext } from 'react';
+import styled from 'styled-components';
+
+import { font } from '@weco/common/utils/classnames';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import PlainList from '@weco/common/views/components/styled/PlainList';
+import Space from '@weco/common/views/components/styled/Space';
+import { thumbnailsPageSize } from '@weco/content/components/IIIFViewer/Paginators';
+import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import ItemViewerContext, {
   Query,
 } from '@weco/content/components/ItemViewerContext/ItemViewerContext';
-import { font } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
+import {
+  Work,
+  WorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
+import { TransformedCanvas } from '@weco/content/types/manifest';
 import {
   getEnFromInternationalString,
   isCanvas,
   isRange,
 } from '@weco/content/utils/iiif/v3';
-import PlainList from '@weco/common/views/components/styled/PlainList';
-import { toLink as itemLink } from '@weco/content/components/ItemLink';
+
 import { arrayIndexToQueryParam } from '.';
-import { thumbnailsPageSize } from '@weco/content/components/IIIFViewer/Paginators';
-import {
-  Work,
-  WorkBasic,
-} from '@weco/content/services/wellcome/catalogue/types';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
-import { TransformedCanvas } from '@weco/content/types/manifest';
 
 export const List = styled(PlainList)`
   border-left: 1px solid ${props => props.theme.color('neutral.600')};

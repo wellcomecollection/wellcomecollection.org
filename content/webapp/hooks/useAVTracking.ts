@@ -1,4 +1,4 @@
-import { useState, SyntheticEvent } from 'react';
+import { SyntheticEvent, useState } from 'react';
 
 export const useAVTracking = (avType: 'audio' | 'video') => {
   const [didStart, setDidStart] = useState(false);

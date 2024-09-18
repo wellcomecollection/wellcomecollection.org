@@ -1,21 +1,23 @@
 import openseadragon from 'openseadragon';
 import {
-  useState,
-  useEffect,
-  useRef,
-  useContext,
   FunctionComponent,
   MutableRefObject,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
 } from 'react';
 import styled from 'styled-components';
+
+import { cross, minus, plus, rotateRight } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
+import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Control from '@weco/common/views/components/Control';
 import Space from '@weco/common/views/components/styled/Space';
 import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
-import { cross, minus, plus, rotateRight } from '@weco/common/icons';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
+
 import { queryParamToArrayIndex } from '.';
-import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 
 const ZoomedImageContainer = styled.div`
   position: relative;

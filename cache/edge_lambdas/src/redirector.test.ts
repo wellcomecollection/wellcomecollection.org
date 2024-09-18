@@ -1,5 +1,6 @@
-import { getRedirect } from './redirector';
 import { CloudFrontHeaders, CloudFrontRequestEvent } from 'aws-lambda';
+
+import { getRedirect } from './redirector';
 
 const request = ({
   uri,

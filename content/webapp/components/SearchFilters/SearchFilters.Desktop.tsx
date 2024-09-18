@@ -1,22 +1,23 @@
 import {
   FunctionComponent,
   ReactElement,
+  useContext,
   useRef,
   useState,
-  useContext,
 } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
-import { SearchFiltersSharedProps } from '.';
-import ModalMoreFilters from './SearchFilters.Desktop.Modal';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { ResetActiveFilters } from './ResetActiveFilters';
-import DynamicFilterArray from './SearchFilters.Desktop.DynamicFilters';
-import { BooleanFilter } from './SearchFilters.BooleanFilter';
-import { BooleanFilter as BooleanFilterType } from '@weco/content/services/wellcome/common/filters';
 import { partition } from '@weco/common/utils/arrays';
+import { font } from '@weco/common/utils/classnames';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import Space from '@weco/common/views/components/styled/Space';
+import { BooleanFilter as BooleanFilterType } from '@weco/content/services/wellcome/common/filters';
+
+import { SearchFiltersSharedProps } from '.';
+import { ResetActiveFilters } from './ResetActiveFilters';
+import { BooleanFilter } from './SearchFilters.BooleanFilter';
+import DynamicFilterArray from './SearchFilters.Desktop.DynamicFilters';
+import ModalMoreFilters from './SearchFilters.Desktop.Modal';
 
 const Wrapper = styled(Space).attrs({
   className: font('intr', 5),

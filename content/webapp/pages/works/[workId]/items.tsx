@@ -1,62 +1,63 @@
-import { useEffect, useState } from 'react';
+import { Manifest } from '@iiif/presentation-3';
 import { GetServerSideProps, NextPage } from 'next';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+
 import {
   DigitalLocation,
   isDigitalLocation,
 } from '@weco/common/model/catalogue';
-import {
-  Work,
-  WorkBasic,
-  toWorkBasic,
-} from '@weco/content/services/wellcome/catalogue/types';
-import { Manifest } from '@iiif/presentation-3';
-import { getDigitalLocationOfType } from '@weco/content/utils/works';
-import { removeIdiomaticTextTags } from '@weco/content/utils/string';
-import { getWork } from '@weco/content/services/wellcome/catalogue/works';
-import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
-import IIIFViewer, {
-  queryParamToArrayIndex,
-} from '@weco/content/components/IIIFViewer';
-import styled from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
-import Modal from '@weco/common/views/components/Modal/Modal';
-import Button from '@weco/common/views/components/Buttons';
-import { font } from '@weco/common/utils/classnames';
-import { serialiseProps } from '@weco/common/utils/json';
+import { getServerData } from '@weco/common/server-data';
+import { useToggles } from '@weco/common/server-data/Context';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
-import { fromQuery } from '@weco/content/components/ItemLink';
-import WorkLink from '@weco/content/components/WorkLink';
-import { getServerData } from '@weco/common/server-data';
+import { font } from '@weco/common/utils/classnames';
+import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
-import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
-import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
-import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
-import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
-import { TransformedManifest, Auth } from '@weco/content/types/manifest';
 import {
   ApiToolbarLink,
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
-import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import Button from '@weco/common/views/components/Buttons';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import Modal from '@weco/common/views/components/Modal/Modal';
+import Space from '@weco/common/views/components/styled/Space';
+import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
+import IIIFItemList from '@weco/content/components/IIIFItemList/IIIFItemList';
+import IIIFViewer, {
+  queryParamToArrayIndex,
+} from '@weco/content/components/IIIFViewer';
+import { fromQuery } from '@weco/content/components/ItemLink';
+import { ParentManifest } from '@weco/content/components/ItemViewerContext/ItemViewerContext';
+import WorkLink from '@weco/content/components/WorkLink';
+import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
+import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
+import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
+import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
+import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
+import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
+import {
+  toWorkBasic,
+  Work,
+  WorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
+import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import {
   CompressedTransformedManifest,
   fromCompressedManifest,
   toCompressedTransformedManifest,
 } from '@weco/content/types/compressed-manifest';
-import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
+import { Auth, TransformedManifest } from '@weco/content/types/manifest';
 import { fetchJson } from '@weco/content/utils/http';
-import { ParentManifest } from '@weco/content/components/ItemViewerContext/ItemViewerContext';
 import {
+  checkModalRequired,
   getCollectionManifests,
   hasItemType,
   hasOriginalPdf,
-  checkModalRequired,
 } from '@weco/content/utils/iiif/v3';
-import IIIFItemList from '@weco/content/components/IIIFItemList/IIIFItemList';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
-import { useToggles } from '@weco/common/server-data/Context';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import { removeIdiomaticTextTags } from '@weco/content/utils/string';
+import { getDigitalLocationOfType } from '@weco/content/utils/works';
 
 const IframeAuthMessage = styled.iframe`
   display: none;

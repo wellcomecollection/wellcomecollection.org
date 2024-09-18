@@ -1,12 +1,13 @@
 import {
-  useEffect,
-  useState,
-  useRef,
   FunctionComponent,
   ReactElement,
+  useEffect,
+  useRef,
+  useState,
 } from 'react';
-import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
+
+import { font } from '@weco/common/utils/classnames';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 
 const ShowHideButton = styled.button.attrs({

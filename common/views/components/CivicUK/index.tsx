@@ -1,6 +1,6 @@
 import cookies from '@weco/common/data/cookies';
-import theme from '@weco/common/views/themes/default';
 import { font } from '@weco/common/utils/classnames';
+import theme from '@weco/common/views/themes/default';
 
 const headingStyles =
   'style="font-weight: 500; font-family: Inter, sans-serif;"';

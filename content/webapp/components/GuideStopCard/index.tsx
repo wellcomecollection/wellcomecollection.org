@@ -1,21 +1,22 @@
 import { FunctionComponent } from 'react';
-import { getCrop, ImageType } from '@weco/common/model/image';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import Space from '@weco/common/views/components/styled/Space';
-import { grid, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
+
+import { duration as durationIcon, map } from '@weco/common/icons';
+import { getCrop, ImageType } from '@weco/common/model/image';
+import { font, grid } from '@weco/common/utils/classnames';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import Space from '@weco/common/views/components/styled/Space';
 import { threeUpGridSizesMap } from '@weco/content/components/Body/GridFactory';
+import {
+  CardBody,
+  CardImageWrapper,
+  CardOuter,
+  CardTitle,
+} from '@weco/content/components/Card/Card';
 import ImagePlaceholder, {
   placeholderBackgroundColor,
 } from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
-import { map, duration as durationIcon } from '@weco/common/icons';
-import {
-  CardOuter,
-  CardTitle,
-  CardBody,
-  CardImageWrapper,
-} from '@weco/content/components/Card/Card';
 
 const AlignIconFirstLineCenter = styled.div.attrs({
   className: font('intr', 5),

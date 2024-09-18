@@ -1,9 +1,10 @@
-import { ReactElement, FunctionComponent, ReactNode } from 'react';
-import { font } from '@weco/common/utils/classnames';
+import { FunctionComponent, ReactElement, ReactNode } from 'react';
 import styled from 'styled-components';
+
+import { underConstruction } from '@weco/common/icons';
+import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { underConstruction } from '@weco/common/icons';
 
 const StyledBetaMessage = styled.div.attrs({
   className: font('intr', 5),

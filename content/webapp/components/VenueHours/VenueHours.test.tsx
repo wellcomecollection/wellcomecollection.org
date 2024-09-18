@@ -1,9 +1,10 @@
-import UnusualOpeningHours from './VenueHours.UnusualOpeningHours';
 import {
   ExceptionalOpeningHoursDay,
   OpeningHoursDay,
 } from '@weco/common/model/opening-hours';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
+
+import UnusualOpeningHours from './VenueHours.UnusualOpeningHours';
 
 const closedMonday: OpeningHoursDay = {
   dayOfWeek: 'Monday',

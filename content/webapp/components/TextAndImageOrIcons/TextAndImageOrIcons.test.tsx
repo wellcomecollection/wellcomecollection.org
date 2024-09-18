@@ -1,6 +1,7 @@
 // The TextAndImageOrIcons component covers both the TextAndIcons and the TextAndImage slice
 
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
+
 import TextAndImageOrIcons, { TextAndIconsItem, TextAndImageItem } from '.';
 
 const TextAndImageSlice: TextAndImageItem = {

@@ -1,19 +1,20 @@
 import each from 'jest-each';
+
 import {
   countDaysBetween,
+  endOfDay,
   endOfWeek,
   getDatesBetween,
+  getLondonTimezone,
   getNextWeekendDateRange,
   isFuture,
   isPast,
   isSameDay,
   isSameDayOrBefore,
-  minDate,
   maxDate,
-  startOfWeek,
+  minDate,
   startOfDay,
-  endOfDay,
-  getLondonTimezone,
+  startOfWeek,
 } from './dates';
 import { formatDayDate } from './format-date';
 

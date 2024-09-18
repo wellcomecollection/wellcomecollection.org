@@ -1,18 +1,19 @@
 import { FunctionComponent } from 'react';
-import CompactCard from '@weco/content/components/CompactCard/CompactCard';
-import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
-import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
-import Space from '@weco/common/views/components/styled/Space';
-import WatchLabel from '@weco/content/components/WatchLabel/WatchLabel';
+
+import { getCrop } from '@weco/common/model/image';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isNotUndefined, isUndefined } from '@weco/common/utils/type-guards';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import Space from '@weco/common/views/components/styled/Space';
+import CompactCard from '@weco/content/components/CompactCard/CompactCard';
+import WatchLabel from '@weco/content/components/WatchLabel/WatchLabel';
+import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import {
   ArticleBasic,
   getArticleColor,
   getPartNumberInSeries,
 } from '@weco/content/types/articles';
-import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { getCrop } from '@weco/common/model/image';
 
 type Props = {
   article: ArticleBasic;

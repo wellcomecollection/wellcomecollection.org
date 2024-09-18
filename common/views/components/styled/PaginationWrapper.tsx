@@ -1,5 +1,7 @@
 import styled from 'styled-components';
+
 import { font } from '@weco/common/utils/classnames';
+
 import Space from './Space';
 
 const PaginationWrapper = styled(Space).attrs<{ $verticalSpacing?: 'l' | 'm' }>(

@@ -1,14 +1,15 @@
-import { Fragment, FunctionComponent, ReactNode } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
 import { ParsedUrlQuery } from 'querystring';
+import { Fragment, FunctionComponent, ReactNode } from 'react';
+import styled from 'styled-components';
 
-import { LinkProps } from '@weco/common/model/link-props';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import { cross } from '@weco/common/icons';
-import Space from '@weco/common/views/components/styled/Space';
+import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Space from '@weco/common/views/components/styled/Space';
+import { getColorDisplayName } from '@weco/content/components/PaletteColorPicker';
 import {
   BooleanFilter,
   CheckboxFilter,
@@ -16,7 +17,6 @@ import {
   DateRangeFilter,
   Filter,
 } from '@weco/content/services/wellcome/common/filters';
-import { getColorDisplayName } from '@weco/content/components/PaletteColorPicker';
 
 type ResetActiveFilters = {
   resetFilters: LinkProps;

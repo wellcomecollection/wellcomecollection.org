@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
+
 import { visualStory } from './helpers/contexts';
 
 test('A visual story with a related document provides navigation between them both', async ({

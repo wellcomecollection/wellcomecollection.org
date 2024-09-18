@@ -1,15 +1,17 @@
-import { FunctionComponent, useState, useContext } from 'react';
+import { FunctionComponent, useContext, useState } from 'react';
+
+import { classNames, cssGrid } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { cssGrid, classNames } from '@weco/common/utils/classnames';
 import { gridSize12 } from '@weco/common/views/components/Layout';
-import { groupEventsByMonth, startOf } from './group-event-utils';
-import CardGrid from '@weco/content/components/CardGrid/CardGrid';
+import { Container } from '@weco/common/views/components/styled/Container';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import Space from '@weco/common/views/components/styled/Space';
-import { Container } from '@weco/common/views/components/styled/Container';
+import CardGrid from '@weco/content/components/CardGrid/CardGrid';
+import Tabs from '@weco/content/components/Tabs';
 import { EventBasic } from '@weco/content/types/events';
 import { Link } from '@weco/content/types/link';
-import Tabs from '@weco/content/components/Tabs';
+
+import { groupEventsByMonth, startOf } from './group-event-utils';
 
 type Props = {
   events: EventBasic[];

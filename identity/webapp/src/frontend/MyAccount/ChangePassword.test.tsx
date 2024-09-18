@@ -1,11 +1,13 @@
-import { rest } from 'msw';
-import { ThemeProvider } from 'styled-components';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ChangePassword } from './ChangePassword';
+import { rest } from 'msw';
+import { ThemeProvider } from 'styled-components';
+
 import theme from '@weco/common/views/themes/default';
-import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import { server } from '@weco/identity/src/frontend/mocks/server';
+
+import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
+import { ChangePassword } from './ChangePassword';
 
 const defaultProps: ChangeDetailsModalContentProps = {
   onComplete: () => null,

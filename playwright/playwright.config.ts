@@ -1,4 +1,4 @@
-import { PlaywrightTestConfig, devices } from '@playwright/test';
+import { devices, PlaywrightTestConfig } from '@playwright/test';
 
 const chromium = 'chromium' as const;
 const allSupportedBrowsers = [chromium, 'firefox'] as const;

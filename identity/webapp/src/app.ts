@@ -3,13 +3,15 @@
 
 require('@weco/common/services/apm/initApm')('identity-server');
 
+import Router from '@koa/router';
 import Koa from 'koa';
 import json from 'koa-json';
 import logger from 'koa-logger';
-import Router from '@koa/router';
 import next from 'next';
-import { apmErrorMiddleware } from '@weco/common/services/apm/errorMiddleware';
+
 import { init as initServerData } from '@weco/common/server-data';
+import { apmErrorMiddleware } from '@weco/common/services/apm/errorMiddleware';
+
 import { redactUrl } from './utility/logging';
 
 /* eslint-enable @typescript-eslint/no-var-requires, import/first */

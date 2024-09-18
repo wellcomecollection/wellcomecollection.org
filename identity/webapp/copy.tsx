@@ -9,11 +9,13 @@
 //      why they can't update some text in Prismic.
 //
 
+import { FunctionComponent } from 'react';
+
 import Divider from '@weco/common/views/components/Divider/Divider';
 import Space from '@weco/common/views/components/styled/Space';
-import { FunctionComponent } from 'react';
-import { ExternalLink } from './src/frontend/Registration/Registration.style';
+
 import { SectionHeading } from './src/frontend/components/Layout.style';
+import { ExternalLink } from './src/frontend/Registration/Registration.style';
 
 type ValidatedSuccessTextProps = {
   isNewSignUp: boolean;

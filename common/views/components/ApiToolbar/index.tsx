@@ -1,6 +1,7 @@
+import { getCookie, setCookie } from 'cookies-next';
 import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
-import { getCookie, setCookie } from 'cookies-next';
+
 import cookies from '@weco/common/data/cookies';
 import useIsomorphicLayoutEffect from '@weco/common/hooks/useIsomorphicLayoutEffect';
 import { Contributor, License } from '@weco/common/model/catalogue';

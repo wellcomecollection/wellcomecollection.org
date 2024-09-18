@@ -1,24 +1,25 @@
-import { FunctionComponent } from 'react';
-import {
-  TransformedCanvas,
-  CustomContentResource,
-} from '@weco/content/types/manifest';
 import {
   Body,
-  ContentResource,
   ChoiceBody,
+  ContentResource,
   InternationalString,
 } from '@iiif/presentation-3';
-import {
-  getLabelString,
-  getFileSize,
-  isChoiceBody,
-} from '@weco/content/utils/iiif/v3';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
+
+import { file, imageFile } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { file, imageFile } from '@weco/common/icons';
 import { controlDimensions } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
+import {
+  CustomContentResource,
+  TransformedCanvas,
+} from '@weco/content/types/manifest';
+import {
+  getFileSize,
+  getLabelString,
+  isChoiceBody,
+} from '@weco/content/utils/iiif/v3';
 
 export const DownloadTable = styled.table.attrs({ className: font('intr', 6) })`
   position: relative;

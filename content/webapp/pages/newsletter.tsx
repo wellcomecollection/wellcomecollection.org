@@ -1,15 +1,16 @@
-import { FunctionComponent } from 'react';
-import NewsletterSignup from '@weco/content/components/NewsletterSignup/NewsletterSignup';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import Space from '@weco/common/views/components/styled/Space';
 import { GetServerSideProps } from 'next';
-import { AppErrorProps } from '@weco/common/services/app';
-import { serialiseProps } from '@weco/common/utils/json';
-import { getServerData } from '@weco/common/server-data';
+import { FunctionComponent } from 'react';
+
 import { newsletterDescription } from '@weco/common/data/microcopy';
+import { getServerData } from '@weco/common/server-data';
+import { AppErrorProps } from '@weco/common/services/app';
 import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
+import { serialiseProps } from '@weco/common/utils/json';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import Space from '@weco/common/views/components/styled/Space';
+import NewsletterSignup from '@weco/content/components/NewsletterSignup/NewsletterSignup';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 type Props = {

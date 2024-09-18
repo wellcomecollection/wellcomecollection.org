@@ -1,6 +1,6 @@
-import Tags from '@weco/content/components/Tags/Tags';
-import Readme from '@weco/content/components/Tags/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import Readme from '@weco/content/components/Tags/README.md';
+import Tags from '@weco/content/components/Tags/Tags';
 
 const nextLink = {
   href: {

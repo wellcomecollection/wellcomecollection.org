@@ -1,11 +1,11 @@
-import SegmentScript from './segment';
 import CoreWebVitalsScript from './core-web-vitals';
-import PerformanceTimingTrackingScript from './performance-timing-tracking';
 import {
   Ga4DataLayer,
-  GoogleTagManager,
   GaDimensions,
+  GoogleTagManager,
 } from './google-analytics';
+import PerformanceTimingTrackingScript from './performance-timing-tracking';
+import SegmentScript from './segment';
 
 export {
   SegmentScript,

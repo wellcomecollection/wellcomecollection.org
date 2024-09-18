@@ -1,4 +1,5 @@
 import styled, { DefaultTheme } from 'styled-components';
+
 import { ColumnKey } from '@weco/common/views/themes/config';
 
 function makeGridCells(columns: number, key: ColumnKey): string {

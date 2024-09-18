@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import Table from 'cli-table3';
 import logUpdate from 'log-update';
+
 import { Failures, Result } from './check-url';
 
 type State = 'pending' | Result;

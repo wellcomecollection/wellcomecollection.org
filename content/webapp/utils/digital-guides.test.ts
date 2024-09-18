@@ -1,4 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
+
 import { getCleanRedirectURL, getGuidesRedirections } from './digital-guides';
 
 const baseUrl = '/guides/exhibitions/ZrHvtxEAACYAWmfc';

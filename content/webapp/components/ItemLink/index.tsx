@@ -1,15 +1,16 @@
 import { ParsedUrlQuery } from 'querystring';
+
+import { ItemLinkSource } from '@weco/common/data/segment-values';
+import { LinkProps } from '@weco/common/model/link-props';
+import { removeUndefinedProps } from '@weco/common/utils/json';
 import {
+  booleanCodec,
   decodeQuery,
   encodeQuery,
   FromCodecMap,
   maybeNumberCodec,
-  booleanCodec,
   maybeStringCodec,
 } from '@weco/common/utils/routes';
-import { LinkProps } from '@weco/common/model/link-props';
-import { ItemLinkSource } from '@weco/common/data/segment-values';
-import { removeUndefinedProps } from '@weco/common/utils/json';
 
 const emptyItemProps: ItemProps = {
   canvas: 1,

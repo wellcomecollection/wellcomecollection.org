@@ -1,7 +1,8 @@
-import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { JSXFunctionSerializer, PrismicRichText } from '@prismicio/react';
 import * as prismic from '@prismicio/client';
+import { JSXFunctionSerializer, PrismicRichText } from '@prismicio/react';
 import { FunctionComponent } from 'react';
+
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 type Props = {
   html: prismic.RichTextField;

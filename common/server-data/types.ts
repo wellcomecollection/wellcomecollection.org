@@ -1,9 +1,9 @@
-import { Toggles } from '@weco/toggles';
 import {
-  defaultValue as prismicDefaultValue,
   PrismicData,
+  defaultValue as prismicDefaultValue,
   SimplifiedPrismicData,
 } from '@weco/common/server-data/prismic';
+import { Toggles } from '@weco/toggles';
 
 /**
  * The type is stored here rather than with the service because

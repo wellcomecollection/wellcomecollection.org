@@ -1,27 +1,27 @@
 import * as prismic from '@prismicio/client';
-import {
-  WithContributors,
-  isFilledLinkToOrganisationField,
-  isFilledLinkToPersonField,
-} from '@weco/content/services/prismic/types';
-import {
-  isFilledLinkToDocumentWithData,
-  InferDataInterface,
-} from '@weco/common/services/prismic/types';
 
-import {
-  Contributor,
-  ContributorBasic,
-} from '@weco/content/types/contributors';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { asRichText, asText } from '.';
 import { ImageType } from '@weco/common/model/image';
 import {
   OrganisationsDocument as RawOrganisationsDocument,
   PeopleDocument as RawPeopleDocument,
 } from '@weco/common/prismicio-types';
-
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
+import {
+  InferDataInterface,
+  isFilledLinkToDocumentWithData,
+} from '@weco/common/services/prismic/types';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import {
+  isFilledLinkToOrganisationField,
+  isFilledLinkToPersonField,
+  WithContributors,
+} from '@weco/content/services/prismic/types';
+import {
+  Contributor,
+  ContributorBasic,
+} from '@weco/content/types/contributors';
+
+import { asRichText, asText } from '.';
 
 const defaultContributorImage: ImageType = {
   width: 64,

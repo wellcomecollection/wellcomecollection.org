@@ -1,16 +1,17 @@
-import { useState, useContext, FunctionComponent } from 'react';
+import { FunctionComponent, useContext, useState } from 'react';
 import styled from 'styled-components';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+
+import { newsletterAddressBook } from '@weco/common/data/dotdigital';
+import useValidation from '@weco/common/hooks/useValidation';
 import { font } from '@weco/common/utils/classnames';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import Button from '@weco/common/views/components/Buttons';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import TextInput from '@weco/common/views/components/TextInput';
-import useValidation from '@weco/common/hooks/useValidation';
-import Button from '@weco/common/views/components/Buttons';
-import { newsletterAddressBook } from '@weco/common/data/dotdigital';
-import { Container } from '@weco/common/views/components/styled/Container';
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import theme from '@weco/common/views/themes/default';
-import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 
 const NewsletterForm = styled.form.attrs({
   name: 'newsletter-signup',

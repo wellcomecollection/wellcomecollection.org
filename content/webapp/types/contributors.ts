@@ -1,5 +1,6 @@
-import { ImageType } from '@weco/common/model/image';
 import * as prismic from '@prismicio/client';
+
+import { ImageType } from '@weco/common/model/image';
 
 type SameAs = {
   link: string;

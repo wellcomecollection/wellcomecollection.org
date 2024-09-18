@@ -1,5 +1,6 @@
-import { looksLikePrismicId } from '.';
 import { homepageId, prismicPageIds } from '@weco/common/data/hardcoded-ids';
+
+import { looksLikePrismicId } from '.';
 
 describe('looksLikePrismicId', () => {
   it('thinks Prismic IDs look like Prismic IDs', () => {

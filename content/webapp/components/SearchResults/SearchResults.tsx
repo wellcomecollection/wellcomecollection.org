@@ -1,15 +1,16 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { MultiContent } from '@weco/content/types/multi-content';
+
+import { getCrop } from '@weco/common/model/image';
 import { font, grid } from '@weco/common/utils/classnames';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import CompactCard from '@weco/content/components/CompactCard/CompactCard';
-import EventCard from '@weco/content/components/EventCard/EventCard';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import ArticleCard from '@weco/content/components/ArticleCard/ArticleCard';
-import { getCrop } from '@weco/common/model/image';
+import CompactCard from '@weco/content/components/CompactCard/CompactCard';
+import EventCard from '@weco/content/components/EventCard/EventCard';
 import { Card } from '@weco/content/types/card';
-import PlainList from '@weco/common/views/components/styled/PlainList';
+import { MultiContent } from '@weco/content/types/multi-content';
 
 const Result = styled.li`
   border-top: 1px solid ${props => props.theme.color('warmNeutral.400')};

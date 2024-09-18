@@ -1,17 +1,18 @@
 import {
-  Service,
-  Range,
-  AuthClickThroughService,
   AuthAccessTokenService,
-  CollectionItems,
-  InternationalString,
-  SpecificationBehaviors,
+  AuthClickThroughService,
   ChoiceBody,
+  CollectionItems,
   ContentResource,
-  ResourceType,
+  InternationalString,
   Manifest,
   MetadataItem,
+  Range,
+  ResourceType,
+  Service,
+  SpecificationBehaviors,
 } from '@iiif/presentation-3';
+
 import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 
 export type ThumbnailImage = { url: string; width: number };

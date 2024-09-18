@@ -1,8 +1,9 @@
-import { FunctionComponent, useEffect, useState } from 'react';
 import Head from 'next/head';
+import { FunctionComponent, useEffect, useState } from 'react';
+
+import { getPrismicLintingReport } from './prismic-linting';
 import Header from '../components/Header';
 import Issue from '../components/Issue';
-import { getPrismicLintingReport } from './prismic-linting';
 
 const fontFamily = 'Gadget, sans-serif';
 

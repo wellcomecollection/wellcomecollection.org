@@ -1,13 +1,14 @@
 import {
   FunctionComponent,
-  SyntheticEvent,
   ReactElement,
   ReactNode,
+  SyntheticEvent,
 } from 'react';
 import styled from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
-import Icon from '@weco/common/views/components/Icon/Icon';
+
 import { check, indicator } from '@weco/common/icons';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Space from '@weco/common/views/components/styled/Space';
 
 const CheckboxRadioLabel = styled.label<{ $isDisabled?: boolean }>`
   display: inline-flex;

@@ -1,8 +1,9 @@
 import { Content } from '@prismicio/client';
 import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
-import { transformGuideStopSlice } from '@weco/content/services/prismic/transformers/exhibition-highlight-tours';
+
 import GuideStopCard from '@weco/content/components/GuideStopCard';
+import { transformGuideStopSlice } from '@weco/content/services/prismic/transformers/exhibition-highlight-tours';
 
 export type GuideStopProps = SliceComponentProps<Content.GuideStopSlice>;
 

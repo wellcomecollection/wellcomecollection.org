@@ -1,16 +1,17 @@
-import { test, expect, Page } from '@playwright/test';
+import { expect, Page, test } from '@playwright/test';
+
 import {
-  multiVolumeItem,
-  itemWithSearchAndStructures,
-  itemWithSearchAndStructuresAndQuery,
-  itemWithReferenceNumber,
+  isMobile,
   itemWithAltText,
+  itemWithNonRestrictedAndOpenAccess,
   itemWithOnlyOpenAccess,
   itemWithOnlyRestrictedAccess,
-  itemWithRestrictedAndOpenAccess,
+  itemWithReferenceNumber,
   itemWithRestrictedAndNonRestrictedAccess,
-  itemWithNonRestrictedAndOpenAccess,
-  isMobile,
+  itemWithRestrictedAndOpenAccess,
+  itemWithSearchAndStructures,
+  itemWithSearchAndStructuresAndQuery,
+  multiVolumeItem,
 } from './helpers/contexts';
 import { apiResponse } from './mocks/search-within';
 

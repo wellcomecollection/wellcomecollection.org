@@ -1,19 +1,20 @@
-import { ParsedUrlQuery } from 'querystring';
 import NextLink from 'next/link';
-import { LinkProps } from '@weco/common/model/link-props';
+import { ParsedUrlQuery } from 'querystring';
 import { FunctionComponent } from 'react';
+
+import { WorksLinkSource } from '@weco/common/data/segment-values';
+import { LinkProps } from '@weco/common/model/link-props';
 import {
-  LinkFrom,
-  stringCodec,
-  numberCodec,
   csvCodec,
-  maybeStringCodec,
-  quotedCsvCodec,
-  FromCodecMap,
   decodeQuery,
   encodeQuery,
+  FromCodecMap,
+  LinkFrom,
+  maybeStringCodec,
+  numberCodec,
+  quotedCsvCodec,
+  stringCodec,
 } from '@weco/common/utils/routes';
-import { WorksLinkSource } from '@weco/common/data/segment-values';
 
 const emptyWorksProps: WorksProps = {
   query: '',

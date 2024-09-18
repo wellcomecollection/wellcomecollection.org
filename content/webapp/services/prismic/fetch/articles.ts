@@ -1,23 +1,25 @@
 import * as prismic from '@prismicio/client';
-import {
-  GetServerSidePropsPrismicClient,
-  GetByTypeParams,
-  fetcher,
-  clientSideFetcher,
-} from '.';
+
 import {
   ArticlesDocument as RawArticlesDocument,
   WebcomicsDocument as RawWebcomicsDocument,
 } from '@weco/common/prismicio-types';
 import { ContentType } from '@weco/common/services/prismic/content-types';
-import { ArticleBasic } from '@weco/content/types/articles';
 import {
   articleFormatsFetchLinks,
   commonPrismicFieldsFetchLinks,
   contributorFetchLinks,
-  seriesFetchLinks,
   eventsFetchLinks,
+  seriesFetchLinks,
 } from '@weco/content/services/prismic/types';
+import { ArticleBasic } from '@weco/content/types/articles';
+
+import {
+  clientSideFetcher,
+  fetcher,
+  GetByTypeParams,
+  GetServerSidePropsPrismicClient,
+} from '.';
 
 const contentTypes: ContentType[] = ['articles', 'webcomics'];
 

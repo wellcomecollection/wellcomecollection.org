@@ -1,22 +1,23 @@
 import { Manifest, Range } from '@iiif/presentation-3';
+
 import {
-  getIIIFMetadata,
-  getIIIFPresentationCredit,
-  getClickThroughService,
-  getTransformedCanvases,
-  getMultiVolumeLabel,
-  getBornDigitalStatus,
-  groupRanges,
-} from '@weco/content/utils/iiif/v3';
-import {
-  manifest,
-  manifestWithTranscript,
-  manifestWithClickThroughService,
-  physicalDescriptionMetadataItem,
   clickThroughService,
+  manifest,
   manifestAllBornDigital,
   manifestMixedBornDigital,
+  manifestWithClickThroughService,
+  manifestWithTranscript,
+  physicalDescriptionMetadataItem,
 } from '@weco/content/__mocks__/iiif-manifest-v3';
+import {
+  getBornDigitalStatus,
+  getClickThroughService,
+  getIIIFMetadata,
+  getIIIFPresentationCredit,
+  getMultiVolumeLabel,
+  getTransformedCanvases,
+  groupRanges,
+} from '@weco/content/utils/iiif/v3';
 
 const canvases = getTransformedCanvases(manifest as Manifest);
 const structures = [

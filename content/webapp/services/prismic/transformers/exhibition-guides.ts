@@ -1,25 +1,26 @@
 import {
+  ExhibitionGuidesDocument as RawExhibitionGuidesDocument,
+  ExhibitionGuidesDocumentDataComponentsItem as RawExhibitionGuidesDocumentDataComponentsItem,
+} from '@weco/common/prismicio-types';
+import { transformImage } from '@weco/common/services/prismic/transformers/images';
+import {
+  isFilledLinkToDocumentWithData,
+  isFilledLinkToMediaField,
+} from '@weco/common/services/prismic/types';
+import { dasherizeShorten } from '@weco/common/utils/grammar';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { PromoSliceZone } from '@weco/content/services/prismic/types';
+import {
   ExhibitionGuide,
   ExhibitionGuideBasic,
   ExhibitionGuideComponent,
   ExhibitionGuideType,
   RelatedExhibition,
 } from '@weco/content/types/exhibition-guides';
+
 import { asRichText, asTitle } from '.';
-import {
-  ExhibitionGuidesDocument as RawExhibitionGuidesDocument,
-  ExhibitionGuidesDocumentDataComponentsItem as RawExhibitionGuidesDocumentDataComponentsItem,
-} from '@weco/common/prismicio-types';
-import { PromoSliceZone } from '@weco/content/services/prismic/types';
-import {
-  isFilledLinkToMediaField,
-  isFilledLinkToDocumentWithData,
-} from '@weco/common/services/prismic/types';
-import { transformImagePromo } from './images';
-import { transformImage } from '@weco/common/services/prismic/transformers/images';
-import { dasherizeShorten } from '@weco/common/utils/grammar';
 import { getYouTubeEmbedUrl } from './embeds';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { transformImagePromo } from './images';
 
 export function transformExhibitionGuideToExhibitionGuideBasic(
   exhibitionGuide: ExhibitionGuide

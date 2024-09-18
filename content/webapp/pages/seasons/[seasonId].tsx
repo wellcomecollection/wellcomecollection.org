@@ -1,27 +1,30 @@
+import * as prismic from '@prismicio/client';
 import { GetServerSideProps } from 'next';
 import { ReactElement } from 'react';
-import { Season } from '@weco/content/types/seasons';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import SeasonsHeader from '@weco/content/components/SeasonsHeader';
-import { serialiseProps } from '@weco/common/utils/json';
-import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import { AppErrorProps } from '@weco/common/services/app';
+
 import { getServerData } from '@weco/common/server-data';
-import CardGrid from '@weco/content/components/CardGrid/CardGrid';
+import { AppErrorProps } from '@weco/common/services/app';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
+import { serialiseProps } from '@weco/common/utils/json';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import Body from '@weco/content/components/Body/Body';
+import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
-import { contentLd } from '@weco/content/services/prismic/transformers/json-ld';
+import SeasonsHeader from '@weco/content/components/SeasonsHeader';
+import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
 import { fetchBooks } from '@weco/content/services/prismic/fetch/books';
 import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
 import { fetchExhibitions } from '@weco/content/services/prismic/fetch/exhibitions';
 import { fetchPages } from '@weco/content/services/prismic/fetch/pages';
 import { fetchProjects } from '@weco/content/services/prismic/fetch/projects';
-import { fetchSeries } from '@weco/content/services/prismic/fetch/series';
 import { fetchSeason } from '@weco/content/services/prismic/fetch/seasons';
-import { createClient } from '@weco/content/services/prismic/fetch';
-import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
+import { fetchSeries } from '@weco/content/services/prismic/fetch/series';
 import {
   transformArticle,
   transformArticleToArticleBasic,
@@ -32,23 +35,21 @@ import {
 } from '@weco/content/services/prismic/transformers/books';
 import { transformEventBasic } from '@weco/content/services/prismic/transformers/events';
 import { transformExhibitionsQuery } from '@weco/content/services/prismic/transformers/exhibitions';
+import { contentLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import { transformProject } from '@weco/content/services/prismic/transformers/projects';
-import { transformSeries } from '@weco/content/services/prismic/transformers/series';
 import { transformSeason } from '@weco/content/services/prismic/transformers/seasons';
+import { transformSeries } from '@weco/content/services/prismic/transformers/series';
 import { ArticleBasic } from '@weco/content/types/articles';
 import { BookBasic } from '@weco/content/types/books';
 import { EventBasic } from '@weco/content/types/events';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { Page } from '@weco/content/types/pages';
 import { Project } from '@weco/content/types/projects';
+import { Season } from '@weco/content/types/seasons';
 import { Series } from '@weco/content/types/series';
-import { looksLikePrismicId } from '@weco/common/services/prismic';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import * as prismic from '@prismicio/client';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 type Props = {
   season: Season;

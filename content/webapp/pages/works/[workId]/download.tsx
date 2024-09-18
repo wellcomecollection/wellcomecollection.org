@@ -1,38 +1,39 @@
+import { GetServerSideProps, NextPage } from 'next';
 import { FunctionComponent } from 'react';
-import {
-  Work,
-  WorkBasic,
-  toWorkBasic,
-} from '@weco/content/services/wellcome/catalogue/types';
+
+import { DigitalLocation } from '@weco/common/model/catalogue';
+import { getServerData } from '@weco/common/server-data';
+import { appError, AppErrorProps } from '@weco/common/services/app';
 import { font } from '@weco/common/utils/classnames';
-import { getDigitalLocationOfType } from '@weco/content/utils/works';
+import { serialiseProps } from '@weco/common/utils/json';
 import {
   getCatalogueLicenseData,
   LicenseData,
 } from '@weco/common/utils/licenses';
-import { DigitalLocation } from '@weco/common/model/catalogue';
-import { TransformedManifest } from '@weco/content/types/manifest';
-import { getWork } from '@weco/content/services/wellcome/catalogue/works';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
-import Download from '@weco/content/components/Download/Download';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import Space from '@weco/common/views/components/styled/Space';
+import Download from '@weco/content/components/Download/Download';
 import WorkDetailsText from '@weco/content/components/WorkDetails/WorkDetails.Text';
-import { serialiseProps } from '@weco/common/utils/json';
-import { GetServerSideProps, NextPage } from 'next';
-import { appError, AppErrorProps } from '@weco/common/services/app';
-import { getServerData } from '@weco/common/server-data';
-import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
+import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
+import {
+  toWorkBasic,
+  Work,
+  WorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
+import { getWork } from '@weco/content/services/wellcome/catalogue/works';
+import { TransformedManifest } from '@weco/content/types/manifest';
+import {
+  getDownloadOptionsFromCanvasRenderingAndSupplementing,
+  getDownloadOptionsFromManifestRendering,
+} from '@weco/content/utils/iiif/v3';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { removeTrailingFullStop } from '@weco/content/utils/string';
-import {
-  getDownloadOptionsFromManifestRendering,
-  getDownloadOptionsFromCanvasRenderingAndSupplementing,
-} from '@weco/content/utils/iiif/v3';
+import { getDigitalLocationOfType } from '@weco/content/utils/works';
 
 type CreditProps = {
   workId: string;

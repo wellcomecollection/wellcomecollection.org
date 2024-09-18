@@ -1,7 +1,8 @@
 import { FunctionComponent, ReactElement } from 'react';
+
 import { grid } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
 import { Container } from '@weco/common/views/components/styled/Container';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Grid = {
   s: number;

@@ -1,9 +1,11 @@
-import { useState } from 'react';
-import userEvent from '@testing-library/user-event';
 import { fireEvent } from '@testing-library/dom';
 import { act } from '@testing-library/react';
-import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
+import userEvent from '@testing-library/user-event';
+import { useState } from 'react';
+
 import useValidation from '@weco/common/hooks/useValidation';
+import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
+
 import TextInput from '.';
 
 const ExampleTextInput = () => {

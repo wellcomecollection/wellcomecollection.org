@@ -1,5 +1,6 @@
+import { expect, test } from '@playwright/test';
 import { URL } from 'url';
-import { test, expect } from '@playwright/test';
+
 import {
   isMobile,
   newSearch,

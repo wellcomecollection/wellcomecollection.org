@@ -1,41 +1,42 @@
 import * as prismic from '@prismicio/client';
+
+import { ImageDimensions } from '@weco/common/model/image';
 import {
-  ArticlesDocument as RawArticlesDocument,
   ArticleFormatsDocument as RawArticleFormatsDocument,
+  ArticlesDocument as RawArticlesDocument,
   AudiencesDocument as RawAudiencesDocument,
   BackgroundTexturesDocument as RawBackgroundTexturesDocument,
   BooksDocument as RawBooksDocument,
   CardDocument as RawCardDocument,
   CollectionVenueDocument as RawCollectionVenueDocument,
+  EditorialContributorRolesDocument as RawEditorialContributorRolesDocument,
   EventFormatsDocument as RawEventFormatsDocument,
-  EventsDocument as RawEventsDocument,
   EventPoliciesDocument as RawEventPoliciesDocument,
+  EventsDocument as RawEventsDocument,
+  EventSeriesDocument as RawEventSeriesDocument,
   ExhibitionFormatsDocument as RawExhibitionFormatsDocument,
   ExhibitionsDocument as RawExhibitionsDocument,
-  GuidesDocument as RawGuidesDocument,
   GuideFormatsDocument as RawGuideFormatsDocument,
-  PagesDocument as RawPagesDocument,
-  PageFormatsDocument as RawPageFormatsDocument,
-  ProjectsDocument as RawProjectsDocument,
-  ProjectFormatsDocument as RawProjectFormatsDocument,
-  EditorialContributorRolesDocument as RawEditorialContributorRolesDocument,
+  GuidesDocument as RawGuidesDocument,
+  InterpretationTypesDocument as RawInterpretationTypesDocument,
   OrganisationsDocument as RawOrganisationsDocument,
+  PageFormatsDocument as RawPageFormatsDocument,
+  PagesDocument as RawPagesDocument,
+  PagesDocumentData as RawPagesDocumentData,
   PeopleDocument as RawPeopleDocument,
   PlacesDocument as RawPlacesDocument,
-  EventSeriesDocument as RawEventSeriesDocument,
+  ProjectFormatsDocument as RawProjectFormatsDocument,
+  ProjectsDocument as RawProjectsDocument,
   SeasonsDocument as RawSeasonsDocument,
   SeriesDocument as RawSeriesDocument,
   TeamsDocument as RawTeamsDocument,
-  InterpretationTypesDocument as RawInterpretationTypesDocument,
-  WebcomicsDocument as RawWebcomicsDocument,
   VisualStoriesDocument as RawVisualStoriesDocument,
-  PagesDocumentData as RawPagesDocumentData,
+  WebcomicsDocument as RawWebcomicsDocument,
 } from '@weco/common/prismicio-types';
 import {
-  isFilledLinkToDocumentWithData,
   InferDataInterface,
+  isFilledLinkToDocumentWithData,
 } from '@weco/common/services/prismic/types';
-import { ImageDimensions } from '@weco/common/model/image';
 export type InferCustomType<T> =
   T extends prismic.PrismicDocument<
     /* eslint-disable @typescript-eslint/no-explicit-any */

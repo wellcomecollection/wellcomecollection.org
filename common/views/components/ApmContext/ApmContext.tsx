@@ -1,6 +1,7 @@
 import { ApmBase } from '@elastic/apm-rum';
 import getConfig from 'next/config';
 import { createContext, FunctionComponent, PropsWithChildren } from 'react';
+
 import useApmRum from './useApmRum';
 
 type ApmContextData = {

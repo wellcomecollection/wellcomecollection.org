@@ -1,13 +1,15 @@
+import * as prismic from '@prismicio/client';
+
 import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
 import {
   CollectionVenueDocument as RawCollectionVenueDocument,
-  PopupDialogDocument as RawPopupDialogDocument,
   GlobalAlertDocument as RawGlobalAlertDocument,
+  PopupDialogDocument as RawPopupDialogDocument,
 } from '@weco/common/prismicio-types';
-import { Handler } from './';
-import * as prismic from '@prismicio/client';
-import { InferDataInterface } from '@weco/common/services/prismic/types';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
+import { InferDataInterface } from '@weco/common/services/prismic/types';
+
+import { Handler } from './';
 
 export type RawCollectionVenueDocumentLite = {
   id: string;

@@ -1,6 +1,6 @@
-import * as abTesting from './toggler';
 import testEventRequest from './test_event_request';
 import testEventResponse from './test_event_response';
+import * as abTesting from './toggler';
 
 function copy(obj: unknown) {
   return JSON.parse(JSON.stringify(obj));

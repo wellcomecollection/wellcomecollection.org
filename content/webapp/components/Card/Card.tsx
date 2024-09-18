@@ -1,13 +1,14 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { Card as CardType } from '@weco/content/types/card';
+
+import { getCrop } from '@weco/common/model/image';
+import { Label as LabelType } from '@weco/common/model/labels';
 import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
-import { getCrop } from '@weco/common/model/image';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { Label as LabelType } from '@weco/common/model/labels';
+import { Card as CardType } from '@weco/content/types/card';
 
 export const CardImageWrapper = styled.div`
   position: relative;

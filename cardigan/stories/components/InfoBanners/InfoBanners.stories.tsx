@@ -1,9 +1,9 @@
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import {
   InfoBanner,
   WebsiteIssuesBanner,
 } from '@weco/common/views/components/InfoBanners';
 import Readme from '@weco/common/views/components/InfoBanners/README.md';
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const InfoBannerTemplate = args => (
   <ReadmeDecorator WrappedComponent={InfoBanner} args={args} Readme={Readme} />

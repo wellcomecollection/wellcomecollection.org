@@ -1,7 +1,7 @@
-import BackToResults from '@weco/content/components/BackToResults/BackToResults';
-import Readme from '@weco/content/components/BackToResults/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
+import BackToResults from '@weco/content/components/BackToResults/BackToResults';
+import Readme from '@weco/content/components/BackToResults/README.md';
 
 const nextLink = {
   href: {

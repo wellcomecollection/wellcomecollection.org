@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react';
-import { Toggles } from '@weco/toggles';
+
 import { ConsentStatusProps } from '@weco/common/server-data/types';
+import { Toggles } from '@weco/toggles';
 
 export type GaDimensions = {
   partOf: string[];

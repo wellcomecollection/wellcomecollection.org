@@ -1,6 +1,7 @@
-import { FunctionComponent } from 'react';
-import { useAVTracking } from '@weco/content/hooks/useAVTracking';
 import { ChoiceBody, ContentResource } from '@iiif/presentation-3';
+import { FunctionComponent } from 'react';
+
+import { useAVTracking } from '@weco/content/hooks/useAVTracking';
 import { CustomContentResource } from '@weco/content/types/manifest';
 
 type Props = {

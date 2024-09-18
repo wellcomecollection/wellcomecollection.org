@@ -1,10 +1,11 @@
 import { FunctionComponent, SyntheticEvent } from 'react';
-import Icon from '@weco/common/views/components/Icon/Icon';
 import styled from 'styled-components';
+
+import { IconSvg } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import { IconSvg } from '@weco/common/icons';
 
 const List = styled(PlainList)`
   display: inline-flex;

@@ -1,22 +1,23 @@
+import { hasCookie, setCookie } from 'cookies-next';
 import {
   FunctionComponent,
-  useState,
-  useRef,
-  useEffect,
   KeyboardEvent as ReactKeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
 } from 'react';
 import styled from 'styled-components';
-import { hasCookie, setCookie } from 'cookies-next';
+
 import cookies from '@weco/common/data/cookies';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import Space from '@weco/common/views/components/styled/Space';
+import { chat, clear } from '@weco/common/icons';
+import { PopupDialogDocument as RawPopupDialogDocument } from '@weco/common/prismicio-types';
+import { transformLink } from '@weco/common/services/prismic/transformers';
+import { InferDataInterface } from '@weco/common/services/prismic/types';
 import { font } from '@weco/common/utils/classnames';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
-import { PopupDialogDocument as RawPopupDialogDocument } from '@weco/common/prismicio-types';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import { chat, clear } from '@weco/common/icons';
-import { InferDataInterface } from '@weco/common/services/prismic/types';
-import { transformLink } from '@weco/common/services/prismic/transformers';
+import Space from '@weco/common/views/components/styled/Space';
 
 type PopupDialogOpenProps = {
   $shouldStartAnimation: boolean;

@@ -1,7 +1,8 @@
-import { FunctionComponent } from 'react';
 import { LinkProps } from 'next/link';
-import Button, { ButtonColors } from '@weco/common/views/components/Buttons';
+import { FunctionComponent } from 'react';
+
 import { arrowSmall } from '@weco/common/icons';
+import Button, { ButtonColors } from '@weco/common/views/components/Buttons';
 import { themeValues } from '@weco/common/views/themes/config';
 
 type Props = {

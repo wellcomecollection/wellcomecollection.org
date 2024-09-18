@@ -1,13 +1,14 @@
-import { FunctionComponent } from 'react';
-import Space from '@weco/common/views/components/styled/Space';
-import DownloadLink from '@weco/content/components/DownloadLink/DownloadLink';
-import { getFormatString } from '@weco/content/utils/iiif/v3';
 import {
   ChoiceBody,
   ContentResource,
   EmbeddedResource,
   ExternalWebResource,
 } from '@iiif/presentation-3';
+import { FunctionComponent } from 'react';
+
+import Space from '@weco/common/views/components/styled/Space';
+import DownloadLink from '@weco/content/components/DownloadLink/DownloadLink';
+import { getFormatString } from '@weco/content/utils/iiif/v3';
 
 type Props = {
   supplementing: (ContentResource | ChoiceBody)[];

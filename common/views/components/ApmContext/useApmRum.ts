@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
 import type { AgentConfigOptions, ApmBase } from '@elastic/apm-rum';
+import { useEffect, useRef } from 'react';
 
 const useApmRum = (config?: AgentConfigOptions): ApmBase | undefined => {
   const apm = useRef<ApmBase>();

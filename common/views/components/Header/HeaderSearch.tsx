@@ -1,10 +1,11 @@
+import { useRouter } from 'next/router';
 import { RefObject, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
+
 import { classNames } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import { Container } from '@weco/common/views/components/styled/Container';
+import Space from '@weco/common/views/components/styled/Space';
 
 type OverlayProps = { $isActive: boolean };
 const Overlay = styled.div.attrs<OverlayProps>(props => ({

@@ -1,26 +1,26 @@
-import CompactCard from '@weco/content/components/CompactCard/CompactCard';
-import BannerCard from '@weco/content/components/BannerCard/BannerCard';
-import FeaturedCard from '@weco/content/components/FeaturedCard/FeaturedCard';
-import EventPromo from '@weco/content/components/EventPromo/EventPromo';
-import ExhibitionPromo from '@weco/content/components/ExhibitionPromo/ExhibitionPromo';
-import StoryPromo from '@weco/content/components/StoryPromo/StoryPromo';
-import GuideStopCard from '@weco/content/components/GuideStopCard';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import Readme from '@weco/content/components/FeaturedCard/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import { font } from '@weco/common/utils/classnames';
 import {
-  bannerCardItem,
   articleBasic,
-  exhibitionBasic,
+  bannerCardItem,
   event,
+  exhibitionBasic,
 } from '@weco/cardigan/stories/data/content';
 import {
   image,
-  squareImage,
   imageWithCrops,
+  squareImage,
 } from '@weco/cardigan/stories/data/images';
 import { singleLineOfText } from '@weco/cardigan/stories/data/text';
+import { font } from '@weco/common/utils/classnames';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import BannerCard from '@weco/content/components/BannerCard/BannerCard';
+import CompactCard from '@weco/content/components/CompactCard/CompactCard';
+import EventPromo from '@weco/content/components/EventPromo/EventPromo';
+import ExhibitionPromo from '@weco/content/components/ExhibitionPromo/ExhibitionPromo';
+import FeaturedCard from '@weco/content/components/FeaturedCard/FeaturedCard';
+import Readme from '@weco/content/components/FeaturedCard/README.md';
+import GuideStopCard from '@weco/content/components/GuideStopCard';
+import StoryPromo from '@weco/content/components/StoryPromo/StoryPromo';
 
 const primaryLabelList = [{ text: 'Study day' }, { text: 'Schools' }];
 const secondaryLabelList = [{ text: 'Speech-to-text' }];

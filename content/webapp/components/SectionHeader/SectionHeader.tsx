@@ -1,9 +1,10 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { SizeMap, font } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+
+import { font, SizeMap } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import Space from '@weco/common/views/components/styled/Space';
 
 const YellowBox = styled.div`
   display: inline-block;
