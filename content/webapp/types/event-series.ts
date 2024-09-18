@@ -10,6 +10,7 @@ export type EventSeries = GenericContentFields & {
 };
 
 export type EventSeriesBasic = {
+  type: 'event-series';
   id: string;
   uid: string;
   title: string;

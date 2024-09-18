@@ -62,9 +62,10 @@ export function transformEventSeries(
 export function transformEventSeriesToEventSeriesBasic(
   eventSeries: EventSeries
 ): EventSeriesBasic {
-  return (({ id, uid, title }) => ({
+  return (({ id, uid, title, type }) => ({
     id,
     uid,
+    type,
     title,
   }))(eventSeries);
 }

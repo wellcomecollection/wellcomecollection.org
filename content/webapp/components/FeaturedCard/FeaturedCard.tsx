@@ -81,7 +81,7 @@ export function convertItemToFeaturedCardProps(
     },
     labels: item.labels,
     link: {
-      url: linkResolver({ id: item.id, type: item.type }),
+      url: linkResolver({ uid: item.uid, type: item.type }),
       text: item.title,
     },
   };
