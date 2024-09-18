@@ -53,8 +53,8 @@ export async function fetchEvent(
 ): Promise<FetchEventResult | undefined> {
   // TODO once redirects are in place we should only fetch by uid
   const event =
-    (await eventsFetcher.getById(client, id)) ||
-    (await eventsFetcher.getByUid(client, id));
+    (await eventsFetcher.getByUid(client, id)) ||
+    (await eventsFetcher.getById(client, id));
 
   if (!event) return;
 

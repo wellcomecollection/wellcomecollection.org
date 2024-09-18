@@ -15,8 +15,8 @@ export const fetchExhibitionHighlightTour = async (
 ): Promise<RawExhibitionHighlightToursDocument | undefined> => {
   // TODO once redirects are in place we should only fetch by uid
   const exhibitionHighlightTourDocument =
-    (await exhibitionHighlightToursFetcher.getById(client, id)) ||
-    (await exhibitionHighlightToursFetcher.getByUid(client, id));
+    (await exhibitionHighlightToursFetcher.getByUid(client, id)) ||
+    (await exhibitionHighlightToursFetcher.getById(client, id));
 
   return exhibitionHighlightTourDocument;
 };

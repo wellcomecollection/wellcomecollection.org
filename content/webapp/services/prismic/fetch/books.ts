@@ -21,9 +21,8 @@ export const fetchBook = async (
 ): Promise<RawBooksDocument | undefined> => {
   // TODO once redirects are in place we should only fetch by uid
   const bookDocument =
-    (await booksFetcher.getById(client, id)) ||
-    (await booksFetcher.getByUid(client, id));
-
+    (await booksFetcher.getByUid(client, id)) ||
+    (await booksFetcher.getById(client, id));
   return bookDocument;
 };
 

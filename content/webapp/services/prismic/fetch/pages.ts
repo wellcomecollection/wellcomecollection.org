@@ -61,8 +61,8 @@ export const fetchPage = async (
 ): Promise<RawPagesDocument | undefined> => {
   // TODO once redirects are in place we should only fetch by uid
   const pageDocument =
-    (await pagesFetcher.getById(client, id)) ||
-    (await pagesFetcher.getByUid(client, id));
+    (await pagesFetcher.getByUid(client, id)) ||
+    (await pagesFetcher.getById(client, id));
 
   return pageDocument;
 };

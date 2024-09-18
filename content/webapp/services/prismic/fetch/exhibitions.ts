@@ -89,8 +89,8 @@ export async function fetchExhibition(
 ): Promise<FetchExhibitionResult | undefined> {
   // TODO once redirects are in place we should only fetch by uid
   const exhibitionDocument =
-    (await exhibitionsFetcher.getById(client, id)) ||
-    (await exhibitionsFetcher.getByUid(client, id));
+    (await exhibitionsFetcher.getByUid(client, id)) ||
+    (await exhibitionsFetcher.getById(client, id));
 
   if (!exhibitionDocument) return;
 

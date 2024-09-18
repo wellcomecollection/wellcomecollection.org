@@ -13,8 +13,8 @@ export const fetchSeason = async (
 ): Promise<RawSeasonsDocument | undefined> => {
   // TODO once redirects are in place we should only fetch by uid
   const seasonDocument =
-    (await seasonsFetcher.getById(client, id)) ||
-    (await seasonsFetcher.getByUid(client, id));
+    (await seasonsFetcher.getByUid(client, id)) ||
+    (await seasonsFetcher.getById(client, id));
 
   return seasonDocument;
 };

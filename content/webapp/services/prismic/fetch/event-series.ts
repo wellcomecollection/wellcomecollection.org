@@ -23,9 +23,8 @@ export const fetchEventSeriesById = async (
 ): Promise<RawEventSeriesDocument | undefined> => {
   // TODO once redirects are in place we should only fetch by uid
   const eventDocumentById =
-    (await eventSeriesFetcher.getById(client, id)) ||
-    (await eventSeriesFetcher.getByUid(client, id));
-
+    (await eventSeriesFetcher.getByUid(client, id)) ||
+    (await eventSeriesFetcher.getById(client, id));
   return eventDocumentById;
 };
 
