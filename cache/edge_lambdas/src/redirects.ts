@@ -235,6 +235,17 @@ export const literalRedirects: Record<string, string> = {
   // Requested by Content team
   // See https://github.com/wellcomecollection/wellcomecollection.org/issues/9765
   '/lbe-festival': '/event-series/ZFt3UBQAAMFmEIya',
+
+  // Old Exhibition guide content type to new Highlights Tour/Text format.
+  // See https://github.com/wellcomecollection/wellcomecollection.org/issues/11140
+  '/guides/exhibitions/Zdcs4BEAACMA6abC':
+    '/guides/exhibitions/ZthrZRIAACQALvCC',
+  '/guides/exhibitions/Zdcs4BEAACMA6abC/audio-without-descriptions':
+    '/guides/exhibitions/ZthrZRIAACQALvCC/audio-without-descriptions',
+  '/guides/exhibitions/Zdcs4BEAACMA6abC/bsl':
+    '/guides/exhibitions/ZthrZRIAACQALvCC/bsl',
+  '/guides/exhibitions/Zdcs4BEAACMA6abC/captions-and-transcripts':
+    '/guides/exhibitions/ZthrZRIAACQALvCC/captions-and-transcripts',
 };
 
 // Query redirects have the form:
