@@ -65,7 +65,7 @@ const Index: FunctionComponent = () => {
               {resultsList.errors.map(e => (
                 <>
                   <a
-                    href={`https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/${e.id}`}
+                    href={`https://wellcomecollection.prismic.io/builder/pages/${e.id}`}
                   >
                     <h3>
                       {e.title && e.title.length > 0 ? (

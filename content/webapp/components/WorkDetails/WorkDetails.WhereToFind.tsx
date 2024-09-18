@@ -1,4 +1,3 @@
-import { useToggles } from '@weco/common/server-data/Context';
 import Space from '@weco/common/views/components/styled/Space';
 import LibraryMembersBar from '@weco/content/components/LibraryMembersBar/LibraryMembersBar';
 import PhysicalItems from '@weco/content/components/PhysicalItems/PhysicalItems';
@@ -22,13 +21,10 @@ type Props = {
 };
 
 const WhereToFindIt = ({ work, physicalItems, locationOfWork }: Props) => {
-  const { offsiteRequesting } = useToggles();
   return (
     <WorkDetailsSection headingText="Where to find it">
       {physicalItems.some(
-        item =>
-          itemIsRequestable(item, offsiteRequesting) ||
-          itemIsTemporarilyUnavailable(item)
+        item => itemIsRequestable(item) || itemIsTemporarilyUnavailable(item)
       ) && (
         <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
           <LibraryMembersBar />

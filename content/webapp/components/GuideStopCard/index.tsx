@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { duration as durationIcon, map } from '@weco/common/icons';
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { font, grid } from '@weco/common/utils/classnames';
-import { secondsToHoursMinutesAndSeconds } from '@weco/common/utils/format-time';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -35,7 +34,7 @@ type Props = {
   number?: number;
   totalStops: number;
   title: string;
-  duration?: number;
+  duration?: string;
   type: 'audio' | 'video';
   image?: ImageType;
 };
@@ -49,10 +48,6 @@ const GuideStopCard: FunctionComponent<Props> = ({
   type,
   image,
 }) => {
-  const durationInSeconds = duration && Math.round(duration * 60);
-  const durationInMinutesAndSeconds = durationInSeconds
-    ? secondsToHoursMinutesAndSeconds(durationInSeconds)
-    : undefined;
   const croppedImage = getCrop(image, '16:9');
   return (
     <Space
@@ -98,20 +93,19 @@ const GuideStopCard: FunctionComponent<Props> = ({
               </span>
             </AlignIconFirstLineCenter>
           )}
-          <AlignIconFirstLineCenter>
-            <Space
-              style={{ display: 'flex' }}
-              $h={{ size: 's', properties: ['margin-right'] }}
-            >
-              <Icon icon={durationIcon} sizeOverride="width: 16px;" />
-            </Space>
-            {durationInMinutesAndSeconds && (
+          {duration && (
+            <AlignIconFirstLineCenter>
+              <Space
+                style={{ display: 'flex' }}
+                $h={{ size: 's', properties: ['margin-right'] }}
+              >
+                <Icon icon={durationIcon} sizeOverride="width: 16px;" />
+              </Space>
               <span className={font('intr', 5)}>
-                {durationInMinutesAndSeconds} minutes{' '}
-                {type === 'audio' ? 'listen' : 'watch'} time
+                {duration} minutes {type === 'audio' ? 'listen' : 'watch'} time
               </span>
-            )}
-          </AlignIconFirstLineCenter>
+            </AlignIconFirstLineCenter>
+          )}
         </CardBody>
       </CardOuter>
     </Space>

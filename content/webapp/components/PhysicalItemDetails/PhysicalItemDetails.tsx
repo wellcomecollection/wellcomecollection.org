@@ -82,7 +82,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   isLast,
 }) => {
   const { state: userState } = useUser();
-  const { disableRequesting, offsiteRequesting } = useToggles();
+  const { disableRequesting } = useToggles();
   const isArchive = useContext(IsArchiveContext);
   const requestButtonRef = useRef<HTMLButtonElement | null>(null);
   const [requestModalIsActive, setRequestModalIsActive] = useState(false);
@@ -137,8 +137,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   // Work out whether to show status, access and request button
   const showAccessStatus = !!accessStatus;
   const showAccessMethod = !isOpenShelves;
-  const isRequestable =
-    itemIsRequestable(item, offsiteRequesting) && !wasJustRequested(item);
+  const isRequestable = itemIsRequestable(item) && !wasJustRequested(item);
 
   const showButton =
     isRequestable && userState === 'signedin' && !disableRequesting;

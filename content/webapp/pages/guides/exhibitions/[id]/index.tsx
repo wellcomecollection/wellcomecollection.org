@@ -343,7 +343,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
     >
       {egWork && (
         <PageHeader
-          title={`${pageTitle} digital guide`}
+          title={`${pageTitle} digital guides`}
           breadcrumbs={{
             items: [
               {

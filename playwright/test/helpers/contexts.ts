@@ -56,7 +56,20 @@ export const gotoWithoutCache = async (
   }
 };
 
-const createCookie = ({ name, value }: { name: string; value: string }) => {
+export type CookieProps = {
+  name: string;
+  value: string;
+  path: string;
+  domain: string;
+};
+
+const createCookie = ({
+  name,
+  value,
+}: {
+  name: string;
+  value: string;
+}): CookieProps => {
   return {
     name,
     value,
@@ -267,6 +280,16 @@ const visualStory = async (
   await gotoWithoutCache(`${baseUrl}/visual-stories/${id}`, page);
 };
 
+const digitalGuide = async (
+  path: string,
+  context: BrowserContext,
+  page: Page,
+  cookies: CookieProps[]
+): Promise<void> => {
+  await context.addCookies([...requiredCookies, ...cookies]);
+  await gotoWithoutCache(`${baseUrl}/guides/exhibitions/${path}`, page);
+};
+
 const whatsOn = async (context: BrowserContext, page: Page): Promise<void> => {
   await context.addCookies(requiredCookies);
   await gotoWithoutCache(`${baseUrl}/whats-on`, page);
@@ -305,6 +328,7 @@ export {
   isMobile,
   event,
   visualStory,
+  digitalGuide,
   whatsOn,
   mediaOffice,
 };

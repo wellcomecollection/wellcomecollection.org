@@ -14,6 +14,7 @@ import {
 } from '@aws-sdk/client-cloudfront';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import chalk from 'chalk';
+import fs from 'fs';
 
 import { error } from './console';
 import {
@@ -174,6 +175,41 @@ function detectIncompleteContributorSameAs(doc: any): string[] {
   return [];
 }
 
+// Some Content Type documents should now always have a UID, but some have seemed to escape us
+// so we're adding this as a safeguarding since we'll depend on them for URLs.
+// We have to then get all the types that have that field, which we wanted to be a dynamic fetch
+// so it didn't need a manual add every time.
+const getContentTypesWithUid = () => {
+  const files = fs.readdirSync('../common/customtypes/');
+
+  return files
+    .map(f => {
+      const file = fs.readFileSync(
+        `../common/customtypes/${f}/index.json`,
+        'utf8'
+      );
+
+      let label;
+      if (file) {
+        const fileObject = JSON.parse(file);
+        const firstChildJsonSection = Object.values(fileObject.json)?.[0] as
+          | { uid?: string }
+          | undefined;
+
+        if (firstChildJsonSection && 'uid' in firstChildJsonSection)
+          label = fileObject.id;
+      }
+      return label;
+    })
+    .filter(f => f);
+};
+const contentTypesWithUid = getContentTypesWithUid();
+function detectMissingUidDocuments(doc: any): string[] {
+  return contentTypesWithUid.includes(doc.type) && !doc.uid
+    ? [`Document ${doc.id} (${doc.type}) is missing a UID, please go add one.`]
+    : [];
+}
+
 async function run() {
   const snapshotFile = await downloadPrismicSnapshot();
 
@@ -188,6 +224,7 @@ async function run() {
       ...detectNonHttpContributorLinks(doc),
       ...detectNonPromoImageStories(doc),
       ...detectIncompleteContributorSameAs(doc),
+      ...detectMissingUidDocuments(doc),
     ];
 
     totalErrors += errors.length;
@@ -203,7 +240,7 @@ async function run() {
 
       console.log(
         chalk.blue(
-          `https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/${doc.id}/`
+          `https://wellcomecollection.prismic.io/builder/pages/${doc.id}`
         )
       );
       for (const msg of errors) {

@@ -22,10 +22,10 @@ export type GuideHighlightTour = {
   title: string;
   audio?: string;
   transcript?: prismic.RichTextField;
-  audioDuration?: number;
+  audioDuration?: string;
   video?: string;
   subtitles?: prismic.RichTextField;
-  videoDuration?: number;
+  videoDuration?: string;
   image?: ImageType;
 };
 

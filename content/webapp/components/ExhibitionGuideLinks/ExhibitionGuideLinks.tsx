@@ -152,14 +152,14 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
               </Space>
               <p>
                 Find out more about the exhibition with our highlights tour,
-                available in short audio clips with transcripts or as British
-                Sign Language videos.
+                available in short audio clips with audio description and
+                transcripts, or as British Sign Language videos.
               </p>
               <TypeList>
                 {audioPathname && (
                   <TypeOption
                     url={`/${audioPathname}${stopNumber ? `/${stopNumber}` : ''}`}
-                    title="Audio descriptive tour with transcripts"
+                    title="Listen to audio"
                     text="Find out more about the exhibition with short audio tracks."
                     backgroundColor="accent.lightSalmon"
                     icon={audioDescribed}
@@ -169,7 +169,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
                 {videoPathname && (
                   <TypeOption
                     url={`/${videoPathname}${stopNumber ? `/${stopNumber}` : ''}`}
-                    title="British Sign Language tour with transcripts"
+                    title="Watch British Sign Language videos"
                     text="Commentary about the exhibition in British Sign Language videos."
                     backgroundColor="accent.lightBlue"
                     icon={britishSignLanguage}
