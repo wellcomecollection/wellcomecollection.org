@@ -1,22 +1,23 @@
-import styled from 'styled-components';
-import { FunctionComponent } from 'react';
 import {
   ChoiceBody,
   ContentResource,
   InternationalString,
 } from '@iiif/presentation-3';
-import {
-  TransformedCanvas,
-  CustomContentResource,
-} from '@weco/content/types/manifest';
-import { getLabelString } from '@weco/content/utils/iiif/v3';
+import { FunctionComponent } from 'react';
+import styled from 'styled-components';
+
+import { unavailableContentMessage } from '@weco/common/data/microcopy';
 import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import VideoPlayer from '@weco/content/components/VideoPlayer/VideoPlayer';
-import BetaMessage from '@weco/content/components/BetaMessage/BetaMessage';
 import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
+import BetaMessage from '@weco/content/components/BetaMessage/BetaMessage';
+import VideoPlayer from '@weco/content/components/VideoPlayer/VideoPlayer';
 import VideoTranscript from '@weco/content/components/VideoTranscript/VideoTranscript';
-import { unavailableContentMessage } from '@weco/common/data/microcopy';
+import {
+  CustomContentResource,
+  TransformedCanvas,
+} from '@weco/content/types/manifest';
+import { getLabelString } from '@weco/content/utils/iiif/v3';
 
 const IframePdfViewer = styled(Space)`
   width: 90vw;

@@ -1,4 +1,3 @@
-import { formatDayDate } from '@weco/common/utils/format-date';
 import {
   addDays,
   endOfDay,
@@ -9,8 +8,9 @@ import {
   minDate,
   startOfDay,
 } from '@weco/common/utils/dates';
-import { EventTime, HasTimes } from '@weco/content/types/events';
+import { formatDayDate } from '@weco/common/utils/format-date';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { EventTime, HasTimes } from '@weco/content/types/events';
 
 function getNextDateInFuture(event: HasTimes): Date | undefined {
   const futureTimes = event.times.filter(

@@ -1,10 +1,10 @@
 import { ArticleFormatId } from '@weco/content/data/content-format-ids';
+import { Image } from '@weco/content/services/prismic/types';
 import {
   BooleanBucketData,
   WellcomeAggregation,
   WellcomeResultList,
 } from '@weco/content/services/wellcome';
-import { Image } from '@weco/content/services/prismic/types';
 
 export type ContentApiTimeField = {
   startDateTime?: Date;

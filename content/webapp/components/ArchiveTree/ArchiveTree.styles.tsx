@@ -1,11 +1,13 @@
 import styled from 'styled-components';
-import {
-  TreeItemProps,
-  controlDimensions,
-  verticalGuidePosition,
-} from './ArchiveTree.helpers';
+
 import { treeInstructions } from '@weco/common/data/microcopy';
 import Space from '@weco/common/views/components/styled/Space';
+
+import {
+  controlDimensions,
+  TreeItemProps,
+  verticalGuidePosition,
+} from './ArchiveTree.helpers';
 
 export const TreeContainer = styled.div`
   border-right: 1px solid ${props => props.theme.color('warmNeutral.400')};

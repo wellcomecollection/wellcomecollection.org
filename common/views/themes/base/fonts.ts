@@ -1,4 +1,5 @@
 import { css } from 'styled-components';
+
 import { GlobalStyleProps } from '@weco/common/views/themes/default';
 
 export const fonts = css<GlobalStyleProps>`

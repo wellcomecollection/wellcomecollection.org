@@ -1,4 +1,5 @@
 import { ArticleBasic } from '@weco/content/types/articles';
+
 import { getPartNumberInSeries } from './articles';
 
 describe('getPartNumberInSeries', () => {

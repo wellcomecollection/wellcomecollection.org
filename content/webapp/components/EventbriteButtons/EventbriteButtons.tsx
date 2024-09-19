@@ -1,10 +1,11 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { Event } from '@weco/content/types/events';
-import Button from '@weco/common/views/components/Buttons';
-import { font } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
+
 import { ticket } from '@weco/common/icons';
+import { font } from '@weco/common/utils/classnames';
+import Button from '@weco/common/views/components/Buttons';
+import Space from '@weco/common/views/components/styled/Space';
+import { Event } from '@weco/content/types/events';
 
 const Location = styled(Space).attrs({
   as: 'p',

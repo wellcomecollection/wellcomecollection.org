@@ -1,30 +1,32 @@
 import {
-  FunctionComponent,
-  ReactNode,
-  ReactElement,
   ComponentProps,
+  FunctionComponent,
+  ReactElement,
+  ReactNode,
 } from 'react';
 import styled from 'styled-components';
+
 import { font } from '@weco/common/utils/classnames';
 import Breadcrumb from '@weco/common/views/components/Breadcrumb/Breadcrumb';
-import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import { Picture } from '@weco/common/views/components/Picture/Picture';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import HighlightedHeading from './HighlightedHeading';
+import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Layout, {
   gridSize10,
   gridSize12,
 } from '@weco/common/views/components/Layout';
-import {
-  WobblyEdge,
-  WobblyBottom,
-} from '@weco/common/views/components/WobblyEdge';
-import Space from '@weco/common/views/components/styled/Space';
+import { Picture } from '@weco/common/views/components/Picture/Picture';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import Space from '@weco/common/views/components/styled/Space';
+import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
+import {
+  WobblyBottom,
+  WobblyEdge,
+} from '@weco/common/views/components/WobblyEdge';
 import { PaletteColor } from '@weco/common/views/themes/config';
+
+import HighlightedHeading from './HighlightedHeading';
 
 const Container = styled.div<{
   $backgroundTexture?: string;

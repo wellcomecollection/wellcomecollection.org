@@ -1,23 +1,24 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
+
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
-import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import {
-  CardOuter,
   CardBody,
-  CardPostBody,
-  CardLabels,
   CardImageWrapper,
+  CardLabels,
+  CardOuter,
+  CardPostBody,
   CardTitle,
 } from '@weco/content/components/Card/Card';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
 import {
   ArticleBasic,
   getArticleColor,
   getPartNumberInSeries,
 } from '@weco/content/types/articles';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
-import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 const Caption = styled.p.attrs({
   className: font('intr', 5),

@@ -1,6 +1,8 @@
 import * as prismic from '@prismicio/client';
+
 import { ImageType } from '@weco/common/model/image';
 import { isUndefined } from '@weco/common/utils/type-guards';
+
 import { transformTaslFromString } from '.';
 
 // when images have crops, event if the image isn't attached, we get e.g.

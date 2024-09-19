@@ -1,18 +1,20 @@
 import { render, screen } from '@testing-library/react';
-import prismicData from '@weco/common/test/fixtures/prismicData/prismic-data';
 import { ThemeProvider } from 'styled-components';
-import theme from '@weco/common/views/themes/default';
-import EventPromo, { getLocationText } from './EventPromo';
+
 import * as Context from '@weco/common/server-data/Context';
-import { Event } from '@weco/content/types/events';
+import prismicData from '@weco/common/test/fixtures/prismicData/prismic-data';
+import theme from '@weco/common/views/themes/default';
 import {
-  location,
-  eventWithOneLocation,
-  eventOnline,
-  eventWithOneLocationOnline,
-  eventWithMultipleLocations,
   eventFullyBooked,
+  eventOnline,
+  eventWithMultipleLocations,
+  eventWithOneLocation,
+  eventWithOneLocationOnline,
+  location,
 } from '@weco/content/__mocks__/events';
+import { Event } from '@weco/content/types/events';
+
+import EventPromo, { getLocationText } from './EventPromo';
 
 jest
   .spyOn(Context, 'usePrismicData')

@@ -1,47 +1,47 @@
+import * as prismic from '@prismicio/client';
 import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 
-import * as prismic from '@prismicio/client';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import { bodySquabblesSeries as bodySquabblesSeriesId } from '@weco/common/data/hardcoded-ids';
+import { getServerData } from '@weco/common/server-data';
+import { appError, AppErrorProps } from '@weco/common/services/app';
+import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
+import { Pageview } from '@weco/common/services/conversion/track';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import { serialiseProps } from '@weco/common/utils/json';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
-import { getFeaturedMedia } from '@weco/content/utils/page-header';
-import { Series } from '@weco/content/types/series';
-import { ArticleBasic } from '@weco/content/types/articles';
-import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
-import { appError, AppErrorProps } from '@weco/common/services/app';
-import { serialiseProps } from '@weco/common/utils/json';
-import { getServerData } from '@weco/common/server-data';
+import Standfirst from '@weco/common/views/slices/Standfirst';
+import ArticleCard from '@weco/content/components/ArticleCard/ArticleCard';
+import ArticleScheduleItemCard from '@weco/content/components/ArticleScheduleItemCard';
 import Body from '@weco/content/components/Body/Body';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
-import { looksLikePrismicId } from '@weco/common/services/prismic';
+import Pagination from '@weco/content/components/Pagination/Pagination';
 import { createClient } from '@weco/content/services/prismic/fetch';
-import { bodySquabblesSeries as bodySquabblesSeriesId } from '@weco/common/data/hardcoded-ids';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
+import { fetchSeriesById } from '@weco/content/services/prismic/fetch/series';
 import {
   getScheduledItems,
   sortSeriesItems,
 } from '@weco/content/services/prismic/transformers/article-series';
-import { getPage } from '@weco/content/utils/query-params';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
 import {
   transformArticle,
   transformArticleToArticleBasic,
 } from '@weco/content/services/prismic/transformers/articles';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
-import Pagination from '@weco/content/components/Pagination/Pagination';
 import { seasonsFetchLinks } from '@weco/content/services/prismic/types';
-import { Pageview } from '@weco/common/services/conversion/track';
-import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items';
-import styled from 'styled-components';
-import ArticleCard from '@weco/content/components/ArticleCard/ArticleCard';
-import ArticleScheduleItemCard from '@weco/content/components/ArticleScheduleItemCard';
+import { ArticleBasic } from '@weco/content/types/articles';
+import { Series } from '@weco/content/types/series';
+import { getFeaturedMedia } from '@weco/content/utils/page-header';
+import { getPage } from '@weco/content/utils/query-params';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import Standfirst from '@weco/common/views/slices/Standfirst';
-import { fetchSeriesById } from '@weco/content/services/prismic/fetch/series';
 
 const SeriesItem = styled.div<{ $isFirst: boolean }>`
   border-top: ${props =>

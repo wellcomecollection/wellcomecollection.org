@@ -1,5 +1,6 @@
 import { forwardRef, useState } from 'react';
 import styled from 'styled-components';
+
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
 async function getImageMax(url: string): Promise<number> {

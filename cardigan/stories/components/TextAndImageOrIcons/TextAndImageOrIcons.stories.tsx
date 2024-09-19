@@ -1,9 +1,9 @@
-import TextAndImageOrIcons from '@weco/content/components/TextAndImageOrIcons';
-import Readme from '@weco/content/components/TextAndImageOrIcons/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { image as genericImage } from '@weco/cardigan/stories/data/images';
 import { smallText } from '@weco/cardigan/stories/data/text';
 import { mockIcons } from '@weco/common/test/fixtures/components/text-and-icons';
-import { image as genericImage } from '@weco/cardigan/stories/data/images';
+import TextAndImageOrIcons from '@weco/content/components/TextAndImageOrIcons';
+import Readme from '@weco/content/components/TextAndImageOrIcons/README.md';
 
 const Template = args => (
   <ReadmeDecorator

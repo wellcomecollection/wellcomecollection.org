@@ -1,7 +1,9 @@
 import { createContext, useContext } from 'react';
-import { defaultServerData, SimplifiedServerData } from './types';
+
+import { TestId, ToggleId } from '@weco/toggles';
+
 import { SimplifiedPrismicData } from './prismic';
-import { ToggleId, TestId } from '@weco/toggles';
+import { defaultServerData, SimplifiedServerData } from './types';
 
 /**
  * `AppData` is data that we retrieve from ServerData (data cached on the filesystem)

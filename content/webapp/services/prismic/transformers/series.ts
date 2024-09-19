@@ -1,17 +1,19 @@
 import * as prismic from '@prismicio/client';
-import { Series, SeriesBasic } from '@weco/content/types/series';
+
 import {
-  StandfirstSlice as RawStandfirstSlice,
-  SeriesDocument as RawSeriesDocument,
   SeasonsDocument as RawSeasonsDocument,
+  SeriesDocument as RawSeriesDocument,
+  StandfirstSlice as RawStandfirstSlice,
 } from '@weco/common/prismicio-types';
-import { asTitle, transformGenericFields, transformSingleLevelGroup } from '.';
-import { transformSeason } from './seasons';
-import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { transformContributors } from './contributors';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items';
+import { Series, SeriesBasic } from '@weco/content/types/series';
 import { getSeriesColor } from '@weco/content/utils/colors';
+
+import { asTitle, transformGenericFields, transformSingleLevelGroup } from '.';
+import { transformContributors } from './contributors';
+import { transformSeason } from './seasons';
 
 export function transformSeries(document: RawSeriesDocument): Series {
   const { data } = document;

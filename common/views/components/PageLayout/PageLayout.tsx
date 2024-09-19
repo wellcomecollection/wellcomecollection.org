@@ -1,39 +1,40 @@
-import { useContext, FunctionComponent, PropsWithChildren } from 'react';
-import Script from 'next/script';
 import Head from 'next/head';
+import Script from 'next/script';
+import { FunctionComponent, PropsWithChildren, useContext } from 'react';
+
+import cookies from '@weco/common/data/cookies';
+import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
+import { defaultPageTitle } from '@weco/common/data/microcopy';
+import { wellcomeCollectionGallery } from '@weco/common/data/organization';
+import { getCrop, ImageType } from '@weco/common/model/image';
 import { Url } from '@weco/common/model/link-props';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { usePrismicData, useToggles } from '@weco/common/server-data/Context';
+import { getVenueById } from '@weco/common/services/prismic/opening-times';
+import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
+import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
+import {
+  libraryLd,
+  museumLd,
+  openingHoursLd,
+} from '@weco/common/utils/json-ld';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import ApiToolbar, {
+  ApiToolbarLink,
+} from '@weco/common/views/components/ApiToolbar';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import Footer from '@weco/common/views/components/Footer';
+import GlobalInfoBarContext, {
+  GlobalInfoBarContextProvider,
+} from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
 import Header, { NavLink } from '@weco/common/views/components/Header/Header';
 import {
   InfoBanner,
   WebsiteIssuesBanner,
 } from '@weco/common/views/components/InfoBanners';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import NewsletterPromo from '@weco/common/views/components/NewsletterPromo/NewsletterPromo';
-import Footer from '@weco/common/views/components/Footer';
 import PopupDialog from '@weco/common/views/components/PopupDialog/PopupDialog';
-import {
-  museumLd,
-  libraryLd,
-  openingHoursLd,
-} from '@weco/common/utils/json-ld';
-import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
-import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
-import { getVenueById } from '@weco/common/services/prismic/opening-times';
-import { wellcomeCollectionGallery } from '@weco/common/data/organization';
-import GlobalInfoBarContext, {
-  GlobalInfoBarContextProvider,
-} from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
-import ApiToolbar, {
-  ApiToolbarLink,
-} from '@weco/common/views/components/ApiToolbar';
-import { usePrismicData, useToggles } from '@weco/common/server-data/Context';
-import { defaultPageTitle } from '@weco/common/data/microcopy';
-import { getCrop, ImageType } from '@weco/common/model/image';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import cookies from '@weco/common/data/cookies';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 export type SiteSection =
   | 'visit-us'

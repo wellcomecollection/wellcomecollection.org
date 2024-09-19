@@ -1,8 +1,9 @@
-import axios, { AxiosInstance } from 'axios';
 import {
-  SecretsManagerClient,
   GetSecretValueCommand,
+  SecretsManagerClient,
 } from '@aws-sdk/client-secrets-manager';
+import axios, { AxiosInstance } from 'axios';
+
 import { Check, UpdownCheck } from './types';
 
 const secretsManager = new SecretsManagerClient({

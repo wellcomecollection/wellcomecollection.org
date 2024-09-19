@@ -1,23 +1,25 @@
-import { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import { ErrorMessage } from '@hookform/error-message';
-import usePasswordRules from '@weco/identity/src/frontend/hooks/usePasswordRules';
+import { FunctionComponent, useEffect, useMemo, useState } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
+
+import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
+import Space from '@weco/common/views/components/styled/Space';
+import { InputErrorMessage } from '@weco/common/views/components/TextInput';
+import { FieldMargin } from '@weco/identity/src/frontend/components/Form.style';
 import {
   PasswordInput,
   PasswordRules,
 } from '@weco/identity/src/frontend/components/PasswordInput';
-import { FieldMargin } from '@weco/identity/src/frontend/components/Form.style';
-import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
-import { InputErrorMessage } from '@weco/common/views/components/TextInput';
-import { useForm, useWatch } from 'react-hook-form';
-import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
-import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
+import { validPasswordPattern } from '@weco/identity/src/frontend/components/ValidationPatterns';
+import usePasswordRules from '@weco/identity/src/frontend/hooks/usePasswordRules';
 import {
   UpdatePasswordError,
   useUpdatePassword,
 } from '@weco/identity/src/frontend/hooks/useUpdatePassword';
+
+import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import { Loading } from './Loading';
-import { validPasswordPattern } from '@weco/identity/src/frontend/components/ValidationPatterns';
-import Space from '@weco/common/views/components/styled/Space';
+import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
 
 type ChangePasswordInputs = {
   password: string;

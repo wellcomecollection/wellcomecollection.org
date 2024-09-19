@@ -1,14 +1,16 @@
-import { Contributor } from './contributors';
-import { GenericContentFields } from './generic-content-fields';
-import { Format } from './format';
+import * as prismic from '@prismicio/client';
+
+import { ImageType } from '@weco/common/model/image';
+import { Label } from '@weco/common/model/labels';
 import { LabelField } from '@weco/content/model/label-field';
+
+import { Contributor } from './contributors';
+import { EventSeriesBasic } from './event-series';
+import { Format } from './format';
+import { GenericContentFields } from './generic-content-fields';
+import { ImagePromo } from './image-promo';
 import { Place, PlaceBasic } from './places';
 import { Season } from './seasons';
-import { Label } from '@weco/common/model/labels';
-import { ImagePromo } from './image-promo';
-import * as prismic from '@prismicio/client';
-import { EventSeriesBasic } from './event-series';
-import { ImageType } from '@weco/common/model/image';
 
 export type DateTimeRange = {
   startDateTime: Date;

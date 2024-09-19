@@ -1,8 +1,10 @@
 import { screen } from '@testing-library/react';
-import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
-import OpeningTimes from './OpeningTimes';
+
 import * as serviceOpeningTimes from '@weco/common/services/prismic/opening-times';
 import { shopVenue } from '@weco/common/test/fixtures/components/shop-venue';
+import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
+
+import OpeningTimes from './OpeningTimes';
 
 describe('OpeningTimes', () => {
   const spyOnGetTodaysVenueHours = jest.spyOn(

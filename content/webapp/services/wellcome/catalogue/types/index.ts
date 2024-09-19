@@ -1,23 +1,24 @@
 import {
-  Location,
-  DigitalLocation,
-  Identifier,
-  PhysicalLocation,
   Agent,
   Contributor,
+  DigitalLocation,
+  Identifier,
+  Location,
+  PhysicalLocation,
 } from '@weco/common/model/catalogue';
-import {
-  CatalogueWorksApiProps,
-  CatalogueImagesApiProps,
-  CatalogueConceptsApiProps,
-} from './api';
+import { WellcomeResultList } from '@weco/content/services/wellcome';
+
 import {
   ConceptAggregations,
   ImageAggregations,
   WorkAggregations,
 } from './aggregations';
-import { WellcomeResultList } from '@weco/content/services/wellcome';
-import { WorkBasic, toWorkBasic } from './work';
+import {
+  CatalogueConceptsApiProps,
+  CatalogueImagesApiProps,
+  CatalogueWorksApiProps,
+} from './api';
+import { toWorkBasic, WorkBasic } from './work';
 
 export type {
   CatalogueWorksApiProps,

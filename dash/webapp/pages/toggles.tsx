@@ -1,14 +1,15 @@
-import {
-  useState,
-  useEffect,
-  useCallback,
-  FunctionComponent,
-  Dispatch,
-  SetStateAction,
-} from 'react';
-import Head from 'next/head';
-import styled from 'styled-components';
 import { deleteCookie, getCookies, setCookie } from 'cookies-next';
+import Head from 'next/head';
+import {
+  Dispatch,
+  FunctionComponent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+import styled from 'styled-components';
+
 import Header from '../components/Header';
 
 const fontFamily = 'Gadget, sans-serif';

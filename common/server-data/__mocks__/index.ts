@@ -1,10 +1,10 @@
+import { CollectionVenueDocument as RawCollectionVenueDocument } from '@weco/common/prismicio-types';
+import { ServerData } from '@weco/common/server-data/types';
 import {
   emptyGlobalAlert,
   emptyPopupDialog,
   emptyPrismicQuery,
 } from '@weco/common/services/prismic/documents';
-import { ServerData } from '@weco/common/server-data/types';
-import { CollectionVenueDocument as RawCollectionVenueDocument } from '@weco/common/prismicio-types';
 
 export async function init(): Promise<void> {
   // we avoid writing to the filesystem so we can run this in CI

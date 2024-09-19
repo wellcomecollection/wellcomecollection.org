@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+
+import { font, grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import { grid, font } from '@weco/common/utils/classnames';
 
 export const Container = styled(Space).attrs({
   $v: { size: 'xl', properties: ['margin-bottom'] },

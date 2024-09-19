@@ -1,30 +1,30 @@
 import {
+  AccessCondition,
   DigitalLocation,
   Location,
-  PhysicalLocation,
-  AccessCondition,
   Location as LocationType,
+  PhysicalLocation,
 } from '@weco/common/model/catalogue';
-import {
-  Item,
-  Work,
-  Holding,
-  PhysicalItem,
-  RelatedWork,
-  Work as WorkType,
-} from '@weco/content/services/wellcome/catalogue/types';
-import {
-  DownloadOption,
-  BornDigitalStatus,
-  TransformedCanvas,
-} from '@weco/content/types/manifest';
-import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import { Label } from '@weco/common/model/labels';
+import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import {
   getCatalogueLicenseData,
   LicenseData,
 } from '@weco/common/utils/licenses';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
+import {
+  Holding,
+  Item,
+  PhysicalItem,
+  RelatedWork,
+  Work,
+  Work as WorkType,
+} from '@weco/content/services/wellcome/catalogue/types';
+import {
+  BornDigitalStatus,
+  DownloadOption,
+  TransformedCanvas,
+} from '@weco/content/types/manifest';
 import { hasItemType } from '@weco/content/utils/iiif/v3';
 
 export function getProductionDates(work: Work): string[] {

@@ -1,5 +1,6 @@
-import { GenericContentFields } from './generic-content-fields';
 import * as prismic from '@prismicio/client';
+
+import { GenericContentFields } from './generic-content-fields';
 
 export type Place = GenericContentFields & {
   id: string;

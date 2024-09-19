@@ -1,46 +1,47 @@
-import { FunctionComponent, useEffect, useCallback, useState } from 'react';
-import { useRouter } from 'next/router';
-import { font, grid } from '@weco/common/utils/classnames';
-import NextLink from 'next/link';
-import { isFilledSliceZone } from '@weco/common/services/prismic/types';
 import { GetServerSideProps } from 'next';
-import Space from '@weco/common/views/components/styled/Space';
+import NextLink from 'next/link';
+import { useRouter } from 'next/router';
+import { FunctionComponent, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {
-  ExhibitionGuideType,
-  isValidExhibitionGuideType,
-  GuideHighlightTour,
-} from '@weco/content/types/exhibition-guides';
+
+import { pageDescriptions } from '@weco/common/data/microcopy';
+import { arrow, cross } from '@weco/common/icons';
+import { getCrop } from '@weco/common/model/image';
+import { getServerData } from '@weco/common/server-data';
+import { AppErrorProps } from '@weco/common/services/app';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
+import { isFilledSliceZone } from '@weco/common/services/prismic/types';
+import { font, grid } from '@weco/common/utils/classnames';
+import { serialiseProps } from '@weco/common/utils/json';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { Container } from '@weco/common/views/components/styled/Container';
+import Space from '@weco/common/views/components/styled/Space';
+import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
+import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
+import ImagePlaceholder, {
+  placeholderBackgroundColor,
+} from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibitionHighlightTour } from '@weco/content/services/prismic/fetch/exhibition-highlight-tours';
 import {
   transformExhibitionHighlightTours,
   transformGuideStopSlice,
 } from '@weco/content/services/prismic/transformers/exhibition-highlight-tours';
-import { serialiseProps } from '@weco/common/utils/json';
-import { getServerData } from '@weco/common/server-data';
 import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/json-ld';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { looksLikePrismicId } from '@weco/common/services/prismic';
-import { AppErrorProps } from '@weco/common/services/app';
+import {
+  ExhibitionGuideType,
+  GuideHighlightTour,
+  isValidExhibitionGuideType,
+} from '@weco/content/types/exhibition-guides';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { pageDescriptions } from '@weco/common/data/microcopy';
-import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { Container } from '@weco/common/views/components/styled/Container';
-import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { getCrop } from '@weco/common/model/image';
-import ImagePlaceholder, {
-  placeholderBackgroundColor,
-} from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
-import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
-import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
-import { cross, arrow } from '@weco/common/icons';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 
 type Props = {
   jsonLd: JsonLdObj;

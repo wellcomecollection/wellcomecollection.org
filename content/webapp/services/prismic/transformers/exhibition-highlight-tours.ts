@@ -1,24 +1,26 @@
 import * as prismic from '@prismicio/client';
-import { PromoSliceZone } from '@weco/content/services/prismic/types';
+
 import {
-  GuideStopSlice as RawGuideStopSlice,
   ExhibitionHighlightToursDocument as RawExhibitionHighlightToursDocument,
+  GuideStopSlice as RawGuideStopSlice,
 } from '@weco/common/prismicio-types';
+import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import {
-  PaginatedResults,
-  isFilledLinkToMediaField,
   isFilledLinkToDocumentWithData,
+  isFilledLinkToMediaField,
+  PaginatedResults,
 } from '@weco/common/services/prismic/types';
+import { getYouTubeEmbedUrl } from '@weco/content/services/prismic/transformers/embeds';
+import { transformRelatedExhibition } from '@weco/content/services/prismic/transformers/exhibition-guides';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
+import { PromoSliceZone } from '@weco/content/services/prismic/types';
 import {
   ExhibitionHighlightTour,
   GuideHighlightTour,
 } from '@weco/content/types/exhibition-guides';
+
 import { asRichText, asTitle } from '.';
 import { transformImagePromo } from './images';
-import { transformImage } from '@weco/common/services/prismic/transformers/images';
-import { transformRelatedExhibition } from '@weco/content/services/prismic/transformers/exhibition-guides';
-import { getYouTubeEmbedUrl } from '@weco/content/services/prismic/transformers/embeds';
 
 export function transformExhibitionHighlightTours(
   document: RawExhibitionHighlightToursDocument

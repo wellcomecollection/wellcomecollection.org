@@ -1,4 +1,6 @@
 import * as prismic from '@prismicio/client';
+
+import { Period } from '@weco/common/types/periods';
 import {
   addDays,
   endOfDay,
@@ -8,7 +10,6 @@ import {
   startOfWeek,
   today,
 } from '@weco/common/utils/dates';
-import { Period } from '@weco/common/types/periods';
 import { formatIso8601Date } from '@weco/common/utils/format-date';
 
 type Props = { period?: Period; startField: string; endField: string };

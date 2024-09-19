@@ -1,6 +1,9 @@
 import NextLink from 'next/link';
-import { FunctionComponent } from 'react';
 import { ParsedUrlQuery } from 'querystring';
+import { FunctionComponent } from 'react';
+
+import { ImageLinkSource } from '@weco/common/data/segment-values';
+import { LinkProps } from '@weco/common/model/link-props';
 import {
   decodeQuery,
   encodeQuery,
@@ -9,8 +12,6 @@ import {
   maybeNumberCodec,
   stringCodec,
 } from '@weco/common/utils/routes';
-import { LinkProps } from '@weco/common/model/link-props';
-import { ImageLinkSource } from '@weco/common/data/segment-values';
 
 const emptyImageProps: ImageProps = {
   id: '',

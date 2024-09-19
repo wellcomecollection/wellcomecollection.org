@@ -1,11 +1,12 @@
-import { FunctionComponent, useEffect, useState } from 'react';
 import * as prismic from '@prismicio/client';
+import { FunctionComponent, useEffect, useState } from 'react';
+
+import cookies from '@weco/common/data/cookies';
+import { wellcomeImagesRedirectBanner } from '@weco/common/data/microcopy';
+import { InfoBanner } from '@weco/common/views/components/InfoBanners';
 import PageLayout, {
   Props as PageLayoutProps,
 } from '@weco/common/views/components/PageLayout/PageLayout';
-import { InfoBanner } from '@weco/common/views/components/InfoBanners';
-import { wellcomeImagesRedirectBanner } from '@weco/common/data/microcopy';
-import cookies from '@weco/common/data/cookies';
 
 type Props = {
   hideTopContent?: boolean;

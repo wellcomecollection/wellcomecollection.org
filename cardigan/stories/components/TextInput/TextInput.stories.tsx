@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import TextInput from '@weco/common/views/components/TextInput';
-import useValidation from '@weco/common/hooks/useValidation';
-import Readme from '@weco/common/views/components/TextInput/README.md';
+
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import useValidation from '@weco/common/hooks/useValidation';
+import TextInput from '@weco/common/views/components/TextInput';
+import Readme from '@weco/common/views/components/TextInput/README.md';
 
 const Template = () => {
   const [value, setValue] = useState('');

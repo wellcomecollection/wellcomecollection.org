@@ -1,7 +1,8 @@
 import { FunctionComponent } from 'react';
-import type { ColorSelection } from '@weco/content/types/color-selections';
-import { transparentGif, repeatingLs } from '@weco/common/utils/backgrounds';
 import styled from 'styled-components';
+
+import { repeatingLs, transparentGif } from '@weco/common/utils/backgrounds';
+import type { ColorSelection } from '@weco/content/types/color-selections';
 
 const Wrapper = styled.div<{
   $backgroundColor: ColorSelection;

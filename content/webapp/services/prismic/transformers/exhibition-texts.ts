@@ -1,21 +1,23 @@
 import * as prismic from '@prismicio/client';
-import { PromoSliceZone } from '@weco/content/services/prismic/types';
-import type { PaginatedResults } from '@weco/common/services/prismic/types';
-import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
-import {
-  ExhibitionText,
-  ExhibitionHighlightTour,
-  ExhibitionGuideBasic,
-} from '@weco/content/types/exhibition-guides';
+
 import {
   ExhibitionTextsDocument as RawExhibitionTextsDocument,
-  GuideTextItemSlice as RawGuideTextItemSlice,
   GuideSectionHeadingSlice as RawGuideSectionHeadingSlice,
+  GuideTextItemSlice as RawGuideTextItemSlice,
 } from '@weco/common/prismicio-types';
-import { asRichText, asTitle } from '.';
+import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
-import { transformImagePromo } from './images';
 import { transformRelatedExhibition } from '@weco/content/services/prismic/transformers/exhibition-guides';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
+import { PromoSliceZone } from '@weco/content/services/prismic/types';
+import {
+  ExhibitionGuideBasic,
+  ExhibitionHighlightTour,
+  ExhibitionText,
+} from '@weco/content/types/exhibition-guides';
+
+import { asRichText, asTitle } from '.';
+import { transformImagePromo } from './images';
 
 export function transformToBasic(
   fullDocument: ExhibitionText | ExhibitionHighlightTour

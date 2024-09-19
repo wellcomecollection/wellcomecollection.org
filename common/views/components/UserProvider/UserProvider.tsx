@@ -5,12 +5,13 @@ import {
   useContext,
   useState,
 } from 'react';
+
+import { useAbortSignalEffect } from '@weco/common/hooks/useAbortSignalEffect';
 import {
   auth0UserProfileToUserInfo,
   isFullAuth0Profile,
   UserInfo,
 } from '@weco/common/model/user';
-import { useAbortSignalEffect } from '@weco/common/hooks/useAbortSignalEffect';
 
 export type State = 'initial' | 'loading' | 'signedin' | 'signedout' | 'failed';
 

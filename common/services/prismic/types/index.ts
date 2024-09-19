@@ -1,5 +1,6 @@
-import { isNotUndefined } from '@weco/common/utils/type-guards';
 import * as prismic from '@prismicio/client';
+
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 /**
  * This is a convenience type for what the generic DataInterface type extend in @prismicio/types

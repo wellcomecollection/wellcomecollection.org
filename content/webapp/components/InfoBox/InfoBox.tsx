@@ -1,11 +1,12 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
-import { font } from '@weco/common/utils/classnames';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import { LabelField } from '@weco/content/model/label-field';
-import Space from '@weco/common/views/components/styled/Space';
+
 import { IconSvg } from '@weco/common/icons';
+import { font } from '@weco/common/utils/classnames';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import Space from '@weco/common/views/components/styled/Space';
+import { LabelField } from '@weco/content/model/label-field';
 
 type InfoBoxItem = LabelField & {
   icon?: IconSvg;

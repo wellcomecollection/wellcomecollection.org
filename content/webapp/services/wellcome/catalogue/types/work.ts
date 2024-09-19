@@ -1,14 +1,15 @@
+import { DigitalLocation } from '@weco/common/model/catalogue';
+import { Label } from '@weco/common/model/labels';
+import { OptionalToUndefined } from '@weco/common/utils/utility-types';
+import { Note } from '@weco/content/services/wellcome/catalogue/types';
 import {
   ArchiveLabels,
   getArchiveLabels,
   getCardLabels,
   getProductionDates,
 } from '@weco/content/utils/works';
+
 import { Work } from '.';
-import { Label } from '@weco/common/model/labels';
-import { DigitalLocation } from '@weco/common/model/catalogue';
-import { OptionalToUndefined } from '@weco/common/utils/utility-types';
-import { Note } from '@weco/content/services/wellcome/catalogue/types';
 
 export type WorkBasic = OptionalToUndefined<{
   id: string;

@@ -1,4 +1,5 @@
 import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
+
 import { Contributor } from './contributors';
 import { Format } from './format';
 import { GenericContentFields } from './generic-content-fields';

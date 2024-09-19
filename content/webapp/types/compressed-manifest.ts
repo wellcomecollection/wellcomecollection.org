@@ -1,19 +1,21 @@
 import {
-  toCommonParts,
-  fromCommonParts,
-  CommonParts,
-} from '@weco/content/utils/compressed-array';
+  ChoiceBody,
+  ContentResource,
+  MetadataItem,
+  ResourceType,
+} from '@iiif/presentation-3';
+
 import {
+  CommonParts,
+  fromCommonParts,
+  toCommonParts,
+} from '@weco/content/utils/compressed-array';
+
+import {
+  CustomContentResource,
   TransformedCanvas,
   TransformedManifest,
-  CustomContentResource,
 } from './manifest';
-import {
-  ResourceType,
-  ContentResource,
-  ChoiceBody,
-  MetadataItem,
-} from '@iiif/presentation-3';
 
 type CompressedTransformedCanvases = {
   id: CommonParts;

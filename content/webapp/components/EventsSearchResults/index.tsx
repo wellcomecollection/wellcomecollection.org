@@ -1,24 +1,19 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { font } from '@weco/common/utils/classnames';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { getCrop } from '@weco/common/model/image';
-import { EventDocument } from '@weco/content/services/wellcome/content/types/api';
 
+import { location } from '@weco/common/icons';
+import { getCrop } from '@weco/common/model/image';
+import { Label } from '@weco/common/model/labels';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
-import Space from '@weco/common/views/components/styled/Space';
-import WatchLabel from '@weco/content/components/WatchLabel/WatchLabel';
-import EventDateRange from '@weco/content/components/EventDateRange';
-import {
-  getLastEndTime,
-  transformEventTimes,
-} from '@weco/content/services/prismic/transformers/events';
+import { font } from '@weco/common/utils/classnames';
 import { isPast as checkIfIsPast } from '@weco/common/utils/dates';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import { getLocationText } from '@weco/content/components/EventPromo/EventPromo';
-import { location } from '@weco/common/icons';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import Space from '@weco/common/views/components/styled/Space';
 import {
   CardBody,
   CardImageWrapper,
@@ -27,11 +22,16 @@ import {
   CardPostBody,
   CardTitle,
 } from '@weco/content/components/Card/Card';
+import EventDateRange from '@weco/content/components/EventDateRange';
+import { getLocationText } from '@weco/content/components/EventPromo/EventPromo';
 import TextWithDot from '@weco/content/components/TextWithDot';
-import Divider from '@weco/common/views/components/Divider/Divider';
-import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import { Label } from '@weco/common/model/labels';
+import WatchLabel from '@weco/content/components/WatchLabel/WatchLabel';
 import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
+import {
+  getLastEndTime,
+  transformEventTimes,
+} from '@weco/content/services/prismic/transformers/events';
+import { EventDocument } from '@weco/content/services/wellcome/content/types/api';
 
 type Props = {
   events: EventDocument[];

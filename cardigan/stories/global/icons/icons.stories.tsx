@@ -1,8 +1,9 @@
 import { FunctionComponent } from 'react';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import styled from 'styled-components';
+
 import * as icons from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import styled from 'styled-components';
+import Icon from '@weco/common/views/components/Icon/Icon';
 
 const IconWrapper = styled.div`
   display: inline-block;

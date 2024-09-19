@@ -1,8 +1,9 @@
 import { FunctionComponent, ReactElement, useRef, useState } from 'react';
-import Modal from '@weco/common/views/components/Modal/Modal';
+
 import Button from '@weco/common/views/components/Buttons';
-import { UpdateUserSchema } from '@weco/identity/src/types/schemas/update-user';
+import Modal from '@weco/common/views/components/Modal/Modal';
 import { themeValues } from '@weco/common/views/themes/config';
+import { UpdateUserSchema } from '@weco/identity/src/types/schemas/update-user';
 
 export type ChangeDetailsModalContentProps =
   | Record<string, never>

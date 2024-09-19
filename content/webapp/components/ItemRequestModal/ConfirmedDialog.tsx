@@ -1,8 +1,10 @@
 import { FunctionComponent } from 'react';
-import { CTAs, CurrentRequests, Header } from './common';
+
+import { font } from '@weco/common/utils/classnames';
 import { allowedRequests } from '@weco/common/values/requests';
 import Button from '@weco/common/views/components/Buttons';
-import { font } from '@weco/common/utils/classnames';
+
+import { CTAs, CurrentRequests, Header } from './common';
 
 type ConfirmedDialogProps = {
   currentHoldNumber?: number;

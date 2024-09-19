@@ -1,30 +1,32 @@
 import * as prismic from '@prismicio/client';
+
+import { ImageType } from '@weco/common/model/image';
 import {
-  WithArticleFormat,
-  WithPageFormat,
-  WithEventFormat,
-  WithCardFormat,
-  WithGuideFormat,
-  GenericDoc,
-  GenericDocWithPromo,
-  GenericDocWithMetaDescription,
-  RelatedGenericDoc,
-  WithProjectFormat,
-} from '@weco/content/services/prismic/types';
-import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
-import {
-  StandfirstSlice as RawStandfirstSlice,
   ArticlesDocumentData as RawArticlesDocumentData,
+  StandfirstSlice as RawStandfirstSlice,
   WebcomicsDocumentData as RawWebcomicsDocumentData,
 } from '@weco/common/prismicio-types';
-import { GenericContentFields } from '@weco/content/types/generic-content-fields';
-import { ImageType } from '@weco/common/model/image';
-import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
-import { transformImagePromo } from './images';
-import { Format } from '@weco/content/types/format';
-import { LabelField } from '@weco/content/model/label-field';
+import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
+import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import { ArticleFormatId } from '@weco/content/data/content-format-ids';
+import { LabelField } from '@weco/content/model/label-field';
+import {
+  GenericDoc,
+  GenericDocWithMetaDescription,
+  GenericDocWithPromo,
+  RelatedGenericDoc,
+  WithArticleFormat,
+  WithCardFormat,
+  WithEventFormat,
+  WithGuideFormat,
+  WithPageFormat,
+  WithProjectFormat,
+} from '@weco/content/services/prismic/types';
+import { Format } from '@weco/content/types/format';
+import { GenericContentFields } from '@weco/content/types/generic-content-fields';
+
+import { transformImagePromo } from './images';
 
 export function transformFormat(document: {
   data:

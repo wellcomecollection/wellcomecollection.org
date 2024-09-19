@@ -1,7 +1,8 @@
 'use client';
-import { getServerData } from '@weco/common/server-data';
-import { SliceSimulator } from '@slicemachine/adapter-next/simulator';
 import { SliceZone } from '@prismicio/react';
+import { SliceSimulator } from '@slicemachine/adapter-next/simulator';
+
+import { getServerData } from '@weco/common/server-data';
 import { components } from '@weco/common/views/slices';
 
 export const getServerSideProps = async context => {

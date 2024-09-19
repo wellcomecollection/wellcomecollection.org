@@ -1,7 +1,7 @@
-import ImageGallery from '@weco/content/components/ImageGallery';
-import Readme from '@weco/content/components/ImageGallery/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { captionedImage } from '@weco/cardigan/stories/data/images';
+import ImageGallery from '@weco/content/components/ImageGallery';
+import Readme from '@weco/content/components/ImageGallery/README.md';
 
 const images = [...new Array(5)].map(() => captionedImage());
 const sharedArgs = {

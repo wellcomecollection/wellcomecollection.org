@@ -1,9 +1,10 @@
-import { emptyDocumentWithUid } from '@weco/common/services/prismic/documents';
-import { transformPage } from './pages';
 import {
   PagesDocument as RawPagesDocument,
   TextSlice as RawTextSlice,
 } from '@weco/common/prismicio-types';
+import { emptyDocumentWithUid } from '@weco/common/services/prismic/documents';
+
+import { transformPage } from './pages';
 
 const exampleTextSlice = {
   variation: 'default',

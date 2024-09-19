@@ -1,9 +1,10 @@
 import { FunctionComponent } from 'react';
-import { font, classNames } from '@weco/common/utils/classnames';
-import { breadcrumbsLd } from '@weco/common/utils/json-ld';
-import Space from '@weco/common/views/components/styled/Space';
+
 import { BreadcrumbItems } from '@weco/common/model/breadcrumbs';
+import { classNames, font } from '@weco/common/utils/classnames';
+import { breadcrumbsLd } from '@weco/common/utils/json-ld';
 import { links } from '@weco/common/views/components/Header/Header';
+import Space from '@weco/common/views/components/styled/Space';
 
 export function getBreadcrumbItems(siteSection?: string): BreadcrumbItems {
   if (!siteSection) return { items: [] };

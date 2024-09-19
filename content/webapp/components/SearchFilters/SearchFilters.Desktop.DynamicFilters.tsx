@@ -1,15 +1,15 @@
-import { useEffect, useState, useLayoutEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useEffect, useLayoutEffect, useState } from 'react';
 
+import { filter } from '@weco/common/icons';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
+import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
 import { Filter } from '@weco/content/services/wellcome/common/filters';
-import Space from '@weco/common/views/components/styled/Space';
-import { filter } from '@weco/common/icons';
 
 import CheckboxFilter from './SearchFilters.Desktop.CheckboxFilter';
-import DesktopDateRangeFilter from './SearchFilters.Desktop.DateRangeFilter';
 import DesktopColorFilter from './SearchFilters.Desktop.ColorFilter';
+import DesktopDateRangeFilter from './SearchFilters.Desktop.DateRangeFilter';
 
 const DynamicFilterArray = ({
   showMoreFiltersModal,

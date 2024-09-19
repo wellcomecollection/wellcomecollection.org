@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
+
 import { newSearch } from './helpers/contexts';
 import {
   searchQuerySubmitAndWait,
@@ -6,7 +7,7 @@ import {
   selectAndWaitForFilter,
   testIfFilterIsApplied,
 } from './helpers/search';
-import { slowExpect, baseUrl } from './helpers/utils';
+import { baseUrl, slowExpect } from './helpers/utils';
 
 test.describe.configure({ mode: 'parallel' });
 

@@ -1,8 +1,9 @@
 import { FunctionComponent } from 'react';
-import DateRange from '@weco/content/components/DateRange/DateRange';
+
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
-import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
 import Space from '@weco/common/views/components/styled/Space';
+import DateRange from '@weco/content/components/DateRange/DateRange';
+import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
 
 type Props = {
   start: Date;

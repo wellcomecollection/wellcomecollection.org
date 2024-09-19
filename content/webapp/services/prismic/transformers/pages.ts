@@ -1,24 +1,26 @@
-import { Page } from '@weco/content/types/pages';
+import flattenDeep from 'lodash.flattendeep';
+
 import {
   PagesDocument as RawPagesDocument,
-  SeasonsDocument as RawSeasonsDocument,
   PagesDocumentData as RawPagesDocumentData,
+  SeasonsDocument as RawSeasonsDocument,
 } from '@weco/common/prismicio-types';
+import { transformTimestamp } from '@weco/common/services/prismic/transformers';
+import { dasherize } from '@weco/common/utils/grammar';
+import { isNotUndefined, isUndefined } from '@weco/common/utils/type-guards';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
+import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
+import { Link } from '@weco/content/types/link';
+import { Page } from '@weco/content/types/pages';
+
 import {
   asText,
   transformFormat,
   transformGenericFields,
   transformSingleLevelGroup,
 } from '.';
-import { transformSeason } from './seasons';
-import { dasherize } from '@weco/common/utils/grammar';
-import flattenDeep from 'lodash.flattendeep';
-import { Link } from '@weco/content/types/link';
 import { transformContributors } from './contributors';
-import { isNotUndefined, isUndefined } from '@weco/common/utils/type-guards';
-import { transformTimestamp } from '@weco/common/services/prismic/transformers';
-import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
+import { transformSeason } from './seasons';
 
 export function transformOnThisPage(
   body: RawPagesDocumentData['body']

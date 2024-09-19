@@ -1,10 +1,12 @@
-import { GenericContentFields } from './generic-content-fields';
-import { ImageType } from '@weco/common/model/image';
 import * as prismic from '@prismicio/client';
-import { Contributor } from './contributors';
-import { Season } from './seasons';
-import { ImagePromo } from './image-promo';
+
+import { ImageType } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
+
+import { Contributor } from './contributors';
+import { GenericContentFields } from './generic-content-fields';
+import { ImagePromo } from './image-promo';
+import { Season } from './seasons';
 
 type Review = {
   text: prismic.RichTextField;

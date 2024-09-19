@@ -1,5 +1,6 @@
-import { PhysicalItem } from '@weco/content/services/wellcome/catalogue/types';
 import { PhysicalLocation } from '@weco/common/model/catalogue';
+import { PhysicalItem } from '@weco/content/services/wellcome/catalogue/types';
+
 import { getFirstAccessCondition, getFirstPhysicalLocation } from './works';
 
 const requestableStatusIds = ['open', 'open-with-advisory', 'restricted'];

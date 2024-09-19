@@ -1,7 +1,7 @@
-import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
-import Readme from '@weco/content/components/LinkLabels/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { clock } from '@weco/common/icons';
+import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
+import Readme from '@weco/content/components/LinkLabels/README.md';
 
 const Template = args => (
   <ReadmeDecorator WrappedComponent={LinkLabels} args={args} Readme={Readme} />

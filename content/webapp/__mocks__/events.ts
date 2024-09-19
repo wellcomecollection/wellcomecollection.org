@@ -1,6 +1,7 @@
-import { Event } from '@weco/content/types/events';
-import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import * as prismic from '@prismicio/client';
+
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
+import { Event } from '@weco/content/types/events';
 
 const image = {
   contentUrl:

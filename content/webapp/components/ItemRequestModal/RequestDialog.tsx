@@ -1,19 +1,21 @@
-import { FunctionComponent, FormEvent, useEffect } from 'react';
+import { FormEvent, FunctionComponent, useEffect } from 'react';
 import styled from 'styled-components';
-import { allowedRequests } from '@weco/common/values/requests';
+
+import { itemRequestDialog } from '@weco/common/data/microcopy';
 import { font } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
-import RequestingDayPicker from '@weco/content/components/RequestingDayPicker/RequestingDayPicker';
+import { formatDayMonth, formatDayName } from '@weco/common/utils/format-date';
+import { allowedRequests } from '@weco/common/values/requests';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
+import Space from '@weco/common/views/components/styled/Space';
+import { themeValues } from '@weco/common/views/themes/config';
+import RequestingDayPicker from '@weco/content/components/RequestingDayPicker/RequestingDayPicker';
 import {
   PhysicalItem,
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
+
 import { CTAs, CurrentRequests, Header } from './common';
-import { themeValues } from '@weco/common/views/themes/config';
 import { dateAsValue, dateFromValue } from './format-date';
-import { formatDayName, formatDayMonth } from '@weco/common/utils/format-date';
-import { itemRequestDialog } from '@weco/common/data/microcopy';
 
 const PickUpDate = styled(Space).attrs({
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },

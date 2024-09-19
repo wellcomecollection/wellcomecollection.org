@@ -1,13 +1,14 @@
-import { InfoBlockSlice as RawInfoBlockSlice } from '@weco/common/prismicio-types';
-import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
+import { FunctionComponent } from 'react';
+
+import { InfoBlockSlice as RawInfoBlockSlice } from '@weco/common/prismicio-types';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
   LayoutWidth,
   SliceZoneContext,
 } from '@weco/content/components/Body/Body';
-import { transformInfoBlockSlice } from '@weco/content/services/prismic/transformers/body';
 import InfoBlock from '@weco/content/components/InfoBlock/InfoBlock';
+import { transformInfoBlockSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type InfoBlockProps = SliceComponentProps<
   RawInfoBlockSlice,

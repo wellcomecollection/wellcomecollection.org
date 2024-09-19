@@ -1,10 +1,11 @@
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
+
 import { font } from '@weco/common/utils/classnames';
-import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import styled from 'styled-components';
+import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
 
 const ImageWrapper = styled.div`
   position: relative;

@@ -2,22 +2,23 @@ import Document, {
   DocumentContext,
   DocumentInitialProps,
   Head,
+  Html,
   Main,
   NextScript,
-  Html,
 } from 'next/document';
 import { ReactElement } from 'react';
 import { ServerStyleSheet } from 'styled-components';
-import { Toggles } from '@weco/toggles';
+
 import { ConsentStatusProps } from '@weco/common/server-data/types';
-import { getErrorPageConsent } from '@weco/common/services/app/civic-uk';
 import {
   CoreWebVitalsScript,
-  PerformanceTimingTrackingScript,
   Ga4DataLayer,
-  GoogleTagManager,
   GaDimensions,
+  GoogleTagManager,
+  PerformanceTimingTrackingScript,
 } from '@weco/common/services/app/analytics-scripts';
+import { getErrorPageConsent } from '@weco/common/services/app/civic-uk';
+import { Toggles } from '@weco/toggles';
 
 type DocumentInitialPropsWithTogglesAndGa = DocumentInitialProps & {
   // TODO: remove style prop when Chromium fix https://issues.chromium.org/issues/367758074

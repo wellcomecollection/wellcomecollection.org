@@ -1,32 +1,33 @@
-import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
-import { appError, AppErrorProps } from '@weco/common/services/app';
-import {
-  Work,
-  Image,
-  WorkBasic,
-  toWorkBasic,
-} from '@weco/content/services/wellcome/catalogue/types';
-import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
-import BetaMessage from '@weco/content/components/BetaMessage/BetaMessage';
-import Space from '@weco/common/views/components/styled/Space';
-import IIIFViewer from '@weco/content/components/IIIFViewer';
-import { serialiseProps } from '@weco/common/utils/json';
-import { getWork } from '@weco/content/services/wellcome/catalogue/works';
-import { getImage } from '@weco/content/services/wellcome/catalogue/images';
-import { getServerData } from '@weco/common/server-data';
+import { FunctionComponent } from 'react';
+
 import { unavailableContentMessage } from '@weco/common/data/microcopy';
+import { DigitalLocation } from '@weco/common/model/catalogue';
+import { getServerData } from '@weco/common/server-data';
+import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
-import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
+import { serialiseProps } from '@weco/common/utils/json';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   ApiToolbarLink,
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import Space from '@weco/common/views/components/styled/Space';
+import BetaMessage from '@weco/content/components/BetaMessage/BetaMessage';
+import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
+import IIIFViewer from '@weco/content/components/IIIFViewer';
+import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
+import { getImage } from '@weco/content/services/wellcome/catalogue/images';
+import {
+  Image,
+  toWorkBasic,
+  Work,
+  WorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
+import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
-import { DigitalLocation } from '@weco/common/model/catalogue';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 function createTzitzitImageLink(
   work: Work,

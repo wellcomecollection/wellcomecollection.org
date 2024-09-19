@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import Tabs from '@weco/content/components/Tabs';
-import Space from '@weco/common/views/components/styled/Space';
-import { Container } from '@weco/common/views/components/styled/Container';
+
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { Container } from '@weco/common/views/components/styled/Container';
+import Space from '@weco/common/views/components/styled/Space';
+import Tabs from '@weco/content/components/Tabs';
 import Readme from '@weco/content/components/Tabs/README.md';
 
 type WrapperProps = { $backgroundColor: 'white' | 'black' };

@@ -1,14 +1,16 @@
+import { EventSeriesDocument as RawEventSeriesDocument } from '@weco/common/prismicio-types';
 import {
   EventSeries,
   EventSeriesBasic,
 } from '@weco/content/types/event-series';
-import { EventSeriesDocument as RawEventSeriesDocument } from '@weco/common/prismicio-types';
+
 import { transformGenericFields /*, asText */ } from '.';
+import { transformContributors } from './contributors';
+
 // import { BackgroundTexture } from '@weco/common/model/background-texture';
 // import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 // import * as prismic from '@prismicio/client';
 // import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { transformContributors } from './contributors';
 
 // function transformBackgroundTexture({
 //   image,

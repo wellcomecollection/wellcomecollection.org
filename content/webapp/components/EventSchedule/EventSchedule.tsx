@@ -1,16 +1,18 @@
 import { Fragment, FunctionComponent } from 'react';
-import type {
-  EventSchedule as EventScheduleType,
-  Event as EventType,
-} from '@weco/content/types/events';
-import EventScheduleItem from './EventScheduleItem';
+
+import { font } from '@weco/common/utils/classnames';
+import { isPast } from '@weco/common/utils/dates';
+import Space from '@weco/common/views/components/styled/Space';
 import {
   EventsGroup,
   groupEventsByDay,
 } from '@weco/content/services/prismic/events';
-import Space from '@weco/common/views/components/styled/Space';
-import { isPast } from '@weco/common/utils/dates';
-import { font } from '@weco/common/utils/classnames';
+import type {
+  EventSchedule as EventScheduleType,
+  Event as EventType,
+} from '@weco/content/types/events';
+
+import EventScheduleItem from './EventScheduleItem';
 
 const EventScheduleList: FunctionComponent<{
   groupedEvents: EventsGroup<EventType>[];

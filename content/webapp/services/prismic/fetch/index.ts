@@ -1,15 +1,16 @@
 import * as prismic from '@prismicio/client';
-import fetch from 'node-fetch';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
+import fetch from 'node-fetch';
+
 import {
   ContentType,
   isContentType,
 } from '@weco/common/services/prismic/content-types';
-import { isString } from '@weco/common/utils/type-guards';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { deserialiseDates as deserialiseJsonDates } from '@weco/common/utils/json';
 import { toMaybeString } from '@weco/common/utils/routes';
+import { isString } from '@weco/common/utils/type-guards';
 
 export type GetServerSidePropsPrismicClient = {
   type: 'GetServerSidePropsPrismicClient';

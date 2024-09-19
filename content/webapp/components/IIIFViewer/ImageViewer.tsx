@@ -1,20 +1,22 @@
+import Router from 'next/router';
 import {
-  useState,
+  FunctionComponent,
+  useContext,
   useEffect,
   useRef,
-  useContext,
-  FunctionComponent,
+  useState,
 } from 'react';
 import styled from 'styled-components';
-import Router from 'next/router';
+
 import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
-import IIIFViewerImage from './IIIFViewerImage';
-import useOnScreen from '@weco/content/hooks/useOnScreen';
-import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
+import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
+import useOnScreen from '@weco/content/hooks/useOnScreen';
 import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
+
 import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
+import IIIFViewerImage from './IIIFViewerImage';
 
 const ImageWrapper = styled.div`
   position: absolute;

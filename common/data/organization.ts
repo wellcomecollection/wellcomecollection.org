@@ -1,5 +1,5 @@
-import { objToJsonLd } from '@weco/common/utils/json-ld';
 import { Organization } from '@weco/common/model/organization';
+import { objToJsonLd } from '@weco/common/utils/json-ld';
 
 export const wellcomeCollectionAddress = {
   addressLocality: 'London',

@@ -1,22 +1,23 @@
 import type { GetServerSideProps } from 'next';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
-import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import { appError, AppErrorProps } from '@weco/common/services/app';
-import { serialiseProps } from '@weco/common/utils/json';
 import { FunctionComponent } from 'react';
+
+import { pageDescriptions } from '@weco/common/data/microcopy';
 import { getServerData } from '@weco/common/server-data';
+import { appError, AppErrorProps } from '@weco/common/services/app';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
+import { serialiseProps } from '@weco/common/utils/json';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { createClient } from '@weco/content/services/prismic/fetch';
-import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
+import { fetchBooks } from '@weco/content/services/prismic/fetch/books';
 import {
   transformBook,
   transformBookToBookBasic,
 } from '@weco/content/services/prismic/transformers/books';
-import { fetchBooks } from '@weco/content/services/prismic/fetch/books';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import { BookBasic } from '@weco/content/types/books';
 import { getPage } from '@weco/content/utils/query-params';
-import { pageDescriptions } from '@weco/common/data/microcopy';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 type Props = {

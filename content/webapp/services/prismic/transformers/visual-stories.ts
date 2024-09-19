@@ -1,12 +1,14 @@
 import * as prismic from '@prismicio/client';
-import { VisualStory } from '@weco/content/types/visual-stories';
-import { asText, transformGenericFields } from '.';
-import { links as headerLinks } from '@weco/common/views/components/Header/Header';
-import { transformOnThisPage } from './pages';
-import { transformTimestamp } from '@weco/common/services/prismic/transformers';
-import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
+
 import { VisualStoriesDocument as RawVisualStoriesDocument } from '@weco/common/prismicio-types';
+import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
+import { links as headerLinks } from '@weco/common/views/components/Header/Header';
+import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
+import { VisualStory } from '@weco/content/types/visual-stories';
+
+import { asText, transformGenericFields } from '.';
+import { transformOnThisPage } from './pages';
 
 export function transformVisualStory(
   document: RawVisualStoriesDocument

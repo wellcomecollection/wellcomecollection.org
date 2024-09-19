@@ -1,5 +1,6 @@
-import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
+import { useState } from 'react';
+
 import { RegisterUserSchema } from '@weco/identity/src/types/schemas/register-user';
 
 export enum RegistrationError {

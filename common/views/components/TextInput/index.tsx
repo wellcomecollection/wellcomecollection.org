@@ -1,18 +1,19 @@
 import {
-  forwardRef,
-  RefObject,
-  ForwardRefRenderFunction,
   ChangeEvent,
   FocusEvent,
+  forwardRef,
+  ForwardRefRenderFunction,
+  RefObject,
   useContext,
 } from 'react';
 import styled from 'styled-components';
-import Icon from '@weco/common/views/components/Icon/Icon';
+
 import { exclamation, tickCircle } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import ClearInput from '@weco/common/views/components/TextInput/TextInput.Clear';
-import Space from '@weco/common/views/components/styled/Space';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Space from '@weco/common/views/components/styled/Space';
+import ClearInput from '@weco/common/views/components/TextInput/TextInput.Clear';
 
 export const TextInputLabel = styled.label.attrs({
   className: font('intb', 5),

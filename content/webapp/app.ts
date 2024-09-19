@@ -1,18 +1,19 @@
 /* eslint-disable @typescript-eslint/no-var-requires, import/first */
 // This needs to be the first module loaded in the application
 require('@weco/common/services/apm/initApm')('content-server');
+import * as prismic from '@prismicio/client';
 import Koa from 'koa';
 import Router from 'koa-router';
 import next from 'next';
-import { apmErrorMiddleware } from '@weco/common/services/apm/errorMiddleware';
-import { init as initServerData } from '@weco/common/server-data';
+
 import {
-  withCachedValues,
   handleAllRoute,
+  withCachedValues,
 } from '@weco/common/koa-middleware/withCachedValues';
-import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { init as initServerData } from '@weco/common/server-data';
+import { apmErrorMiddleware } from '@weco/common/services/apm/errorMiddleware';
 import { createClient as createPrismicClient } from '@weco/common/services/prismic/fetch';
-import * as prismic from '@prismicio/client';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { buildStoriesRss } from '@weco/content/utils/rss';
 
 const dev = process.env.NODE_ENV !== 'production';

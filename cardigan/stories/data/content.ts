@@ -1,20 +1,22 @@
-import { Article, ArticleBasic } from '@weco/content/types/articles';
-import { Event } from '@weco/content/types/events';
 import { faker } from '@faker-js/faker';
+
+import untransformedBody from '@weco/cardigan/stories/data/untransformed-body';
+import { Props as QuoteProps } from '@weco/content/components/Quote/Quote';
+import { Article, ArticleBasic } from '@weco/content/types/articles';
+import {
+  Organisation as OrganisationType,
+  Person as PersonType,
+} from '@weco/content/types/contributors';
+import { Event } from '@weco/content/types/events';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { Season } from '@weco/content/types/seasons';
+
 import {
   darkCloudImageUrl,
   florenceWinterfloodImageUrl,
   image,
 } from './images';
 import { smallText } from './text';
-import { Props as QuoteProps } from '@weco/content/components/Quote/Quote';
-import {
-  Person as PersonType,
-  Organisation as OrganisationType,
-} from '@weco/content/types/contributors';
-import { ExhibitionBasic } from '@weco/content/types/exhibitions';
-import untransformedBody from '@weco/cardigan/stories/data/untransformed-body';
 
 faker.seed(123);
 

@@ -1,14 +1,15 @@
+import * as prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import * as prismic from '@prismicio/client';
+
+import { getCrop, ImageType } from '@weco/common/model/image';
+import { font, grid } from '@weco/common/utils/classnames';
+import { gridSize12 } from '@weco/common/views/components/Layout';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import MediaObjectBase, {
   HasImageProps,
 } from '@weco/content/components/MediaObjectBase/MediaObjectBase';
-import { getCrop, ImageType } from '@weco/common/model/image';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import { grid, font } from '@weco/common/utils/classnames';
-import { gridSize12 } from '@weco/common/views/components/Layout';
 
 export type Props = {
   title: string;

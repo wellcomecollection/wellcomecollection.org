@@ -1,16 +1,8 @@
 // https://stackoverflow.com/questions/25993861/how-do-i-get-typescript-to-stop-complaining-about-functions-it-doesnt-know-abou
 /* eslint-disable dot-notation */
-import styled from 'styled-components';
 import { FunctionComponent, useContext } from 'react';
-import { font } from '@weco/common/utils/classnames';
-import Download from '@weco/content/components/Download/Download';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import Space from '@weco/common/views/components/styled/Space';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
-import { DigitalLocation } from '@weco/common/model/catalogue';
-import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
-import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
+import styled from 'styled-components';
+
 import {
   chevrons,
   collapse,
@@ -18,14 +10,24 @@ import {
   gridView,
   singlePage,
 } from '@weco/common/icons';
-import { queryParamToArrayIndex } from '.';
-import { getDownloadOptionsFromImageUrl } from '@weco/content/utils/works';
+import { DigitalLocation } from '@weco/common/model/catalogue';
+import { font } from '@weco/common/utils/classnames';
+import { OptionalToUndefined } from '@weco/common/utils/utility-types';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Space from '@weco/common/views/components/styled/Space';
+import Download from '@weco/content/components/Download/Download';
+import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
+import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
+import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
+import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
 import {
   getDownloadOptionsFromCanvasRenderingAndSupplementing,
   getDownloadOptionsFromManifestRendering,
 } from '@weco/content/utils/iiif/v3';
-import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
-import { OptionalToUndefined } from '@weco/common/utils/utility-types';
+import { getDownloadOptionsFromImageUrl } from '@weco/content/utils/works';
+
+import { queryParamToArrayIndex } from '.';
 
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs({

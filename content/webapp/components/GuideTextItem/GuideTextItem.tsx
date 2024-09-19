@@ -1,14 +1,15 @@
 import * as prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import Space from '@weco/common/views/components/styled/Space';
+
 import { font } from '@weco/common/utils/classnames';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { Container } from '@weco/common/views/components/styled/Container';
+import Space from '@weco/common/views/components/styled/Space';
 import {
-  TombstoneTitle,
-  Tombstone,
-  CaptionTranscription as Wrapper,
   Caption,
+  Tombstone,
+  TombstoneTitle,
+  CaptionTranscription as Wrapper,
 } from '@weco/content/components/ExhibitionCaptions/ExhibitionCaptions.Stop';
 
 const GuideTextItem: FunctionComponent<{

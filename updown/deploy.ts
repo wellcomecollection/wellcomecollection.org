@@ -1,6 +1,6 @@
-import { getUpdownClient, getAlertRecipients } from './updown';
-import checksList from './updown-checks';
 import { Check, UpdownCheck } from './types';
+import { getAlertRecipients, getUpdownClient } from './updown';
+import checksList from './updown-checks';
 
 type Options = {
   dryRun: boolean;

@@ -1,6 +1,7 @@
 import { font } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
 import Button from '@weco/common/views/components/Buttons';
+import Space from '@weco/common/views/components/styled/Space';
+
 import DateRangeFilter, {
   DateRangeFilterProps,
 } from './SearchFilters.DateRangeFilter';

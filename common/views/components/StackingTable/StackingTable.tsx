@@ -1,8 +1,9 @@
+import { FunctionComponent, ReactElement, ReactNode } from 'react';
 import styled from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
+
 import { font } from '@weco/common/utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
 import { fontFamilyMixin } from '@weco/common/views/themes/typography';
-import { ReactElement, FunctionComponent, ReactNode } from 'react';
 
 type TableProps = {
   $useFixedWidth: boolean;

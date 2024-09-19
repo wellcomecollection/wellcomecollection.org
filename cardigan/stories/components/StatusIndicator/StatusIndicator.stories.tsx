@@ -1,6 +1,6 @@
-import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
-import Readme from '@weco/content/components/StatusIndicator/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import Readme from '@weco/content/components/StatusIndicator/README.md';
+import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
 
 const now = new Date();
 const tomorrow = new Date();

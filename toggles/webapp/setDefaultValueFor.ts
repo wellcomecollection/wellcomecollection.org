@@ -1,7 +1,8 @@
+import { S3Client } from '@aws-sdk/client-s3';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
+
 import { getTogglesObject, putTogglesObject } from './s3-utils';
-import { S3Client } from '@aws-sdk/client-s3';
 
 const argv = yargs(hideBin(process.argv)).parseSync();
 

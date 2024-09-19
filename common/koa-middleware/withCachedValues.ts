@@ -1,9 +1,10 @@
-import compose from 'koa-compose';
-import { withPrismicPreviewStatus } from './withPrismicPreviewStatus';
 import { IncomingMessage, ServerResponse } from 'http';
+import compose from 'koa-compose';
 import Router from 'koa-router';
 import { NextServer } from 'next/dist/server/next';
 import { parse, UrlWithParsedQuery } from 'url'; // eslint-disable-line n/no-deprecated-api
+
+import { withPrismicPreviewStatus } from './withPrismicPreviewStatus';
 
 export const withCachedValues = compose([withPrismicPreviewStatus]);
 

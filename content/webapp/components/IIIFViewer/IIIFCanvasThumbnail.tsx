@@ -1,11 +1,13 @@
 import { FunctionComponent, useState } from 'react';
-import { TransformedCanvas } from '@weco/content/types/manifest';
-import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
-import IIIFViewerImage from './IIIFViewerImage';
+
+import { font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
-import Padlock from './Padlock';
 import Space from '@weco/common/views/components/styled/Space';
+import { TransformedCanvas } from '@weco/content/types/manifest';
+
+import IIIFViewerImage from './IIIFViewerImage';
+import Padlock from './Padlock';
 
 const IIIFViewerThumb = styled.span`
   cursor: pointer;

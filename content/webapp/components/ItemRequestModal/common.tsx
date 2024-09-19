@@ -1,6 +1,7 @@
-import styled from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
+
+import Space from '@weco/common/views/components/styled/Space';
 
 export const CTAs = styled(Space).attrs({
   $v: { size: 'l', properties: ['margin-top'] },

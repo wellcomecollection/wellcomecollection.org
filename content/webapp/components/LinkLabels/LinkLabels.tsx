@@ -1,12 +1,13 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
+
+import { IconSvg } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space, {
   HorizontalSpaceProperty,
 } from '@weco/common/views/components/styled/Space';
-import { IconSvg } from '@weco/common/icons';
 
 type ItemProps = {
   url?: string;

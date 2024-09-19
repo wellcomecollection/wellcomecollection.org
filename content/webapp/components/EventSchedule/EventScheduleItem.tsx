@@ -1,18 +1,20 @@
 import { Fragment, FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { grid, font } from '@weco/common/utils/classnames';
-import EventBookingButton from './EventBookingButton';
-import EventbriteButtons from '@weco/content/components/EventbriteButtons/EventbriteButtons';
-import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import Message from '@weco/content/components/Message/Message';
-import { formatTime, formatDayDate } from '@weco/common/utils/format-date';
-import { Event } from '@weco/content/types/events';
-import Space from '@weco/common/views/components/styled/Space';
-import { isEventPast } from '@weco/content/services/prismic/events';
-import { isPast } from '@weco/common/utils/dates';
-import { HTMLTime } from '@weco/common/views/components/HTMLDateAndTime';
-import { Place } from '@weco/content/types/places';
+
 import { eventPolicyIds } from '@weco/common/data/hardcoded-ids';
+import { font, grid } from '@weco/common/utils/classnames';
+import { isPast } from '@weco/common/utils/dates';
+import { formatDayDate, formatTime } from '@weco/common/utils/format-date';
+import { HTMLTime } from '@weco/common/views/components/HTMLDateAndTime';
+import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import Space from '@weco/common/views/components/styled/Space';
+import EventbriteButtons from '@weco/content/components/EventbriteButtons/EventbriteButtons';
+import Message from '@weco/content/components/Message/Message';
+import { isEventPast } from '@weco/content/services/prismic/events';
+import { Event } from '@weco/content/types/events';
+import { Place } from '@weco/content/types/places';
+
+import EventBookingButton from './EventBookingButton';
 
 type Props = {
   event: Event;

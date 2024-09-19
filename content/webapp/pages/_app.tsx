@@ -1,6 +1,7 @@
 import NextApp, { AppContext, AppProps } from 'next/app';
-import App from '@weco/common/views/pages/_app';
 import { ReactElement } from 'react';
+
+import App from '@weco/common/views/pages/_app';
 
 export default function ContentApp(props: AppProps): ReactElement {
   return <App {...props} />;

@@ -1,9 +1,10 @@
+import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
+
+import { Contributor } from './contributors';
+import { Format } from './format';
 import { GenericContentFields } from './generic-content-fields';
 import { Link } from './link';
 import { Season } from './seasons';
-import { Format } from './format';
-import { Contributor } from './contributors';
-import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 
 export type ParentPage = Page & {
   order: number;

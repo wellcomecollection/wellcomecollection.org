@@ -2,6 +2,7 @@ import { getCookie } from 'cookies-next';
 import Router from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import { v4 as uuidv4 } from 'uuid';
+
 import cookies from '@weco/common/data/cookies';
 import { PageviewName } from '@weco/common/data/segment-values';
 import { getConsentState } from '@weco/common/services/app/civic-uk';

@@ -1,5 +1,6 @@
-import { themeValues } from '@weco/common/views/themes/config';
 import styled from 'styled-components';
+
+import { themeValues } from '@weco/common/views/themes/config';
 
 export const Container = styled.div`
   margin: 0 auto;

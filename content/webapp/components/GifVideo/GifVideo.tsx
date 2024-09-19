@@ -1,13 +1,14 @@
-import { FunctionComponent, useState, useEffect, useRef } from 'react';
+import * as prismic from '@prismicio/client';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
-import { font } from '@weco/common/utils/classnames';
-import Tasl from '@weco/common/views/components/Tasl/Tasl';
-import Caption from '@weco/common/views/components/Caption/Caption';
-import { Tasl as TaslType } from '@weco/common/model/tasl';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+
+import { Tasl as TaslType } from '@weco/common/model/tasl';
+import { font } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import * as prismic from '@prismicio/client';
+import Caption from '@weco/common/views/components/Caption/Caption';
+import Tasl from '@weco/common/views/components/Tasl/Tasl';
 
 const Video = styled.video`
   max-height: 80vh;

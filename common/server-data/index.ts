@@ -13,14 +13,16 @@
  * rather than going back to the remote source.
  */
 
-import path from 'path';
 import { promises as fs } from 'fs';
 import { GetServerSidePropsContext } from 'next';
-import togglesHandler, { getTogglesFromContext } from './toggles';
-import prismicHandler from './prismic';
-import { simplifyServerData } from '@weco/common/services/prismic/transformers/server-data';
-import { SimplifiedServerData } from './types';
+import path from 'path';
+
 import { getAllConsentStates } from '@weco/common/services/app/civic-uk';
+import { simplifyServerData } from '@weco/common/services/prismic/transformers/server-data';
+
+import prismicHandler from './prismic';
+import togglesHandler, { getTogglesFromContext } from './toggles';
+import { SimplifiedServerData } from './types';
 
 export type Handler<DefaultData, FetchedData> = {
   defaultValue: DefaultData;
