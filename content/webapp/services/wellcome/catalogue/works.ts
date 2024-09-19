@@ -9,19 +9,19 @@ import { Toggles } from '@weco/toggles';
 
 import { catalogueQuery, looksLikeCanonicalId, notFound, rootUris } from '.';
 import {
-  globalApiOptions,
-  QueryProps,
-  WellcomeApiError,
-  wellcomeApiError,
-  wellcomeApiFetch,
-} from '..';
-import {
   CatalogueApiRedirect,
   CatalogueResultsList,
   CatalogueWorksApiProps,
   ItemsList,
   Work,
 } from './types';
+import {
+  globalApiOptions,
+  QueryProps,
+  WellcomeApiError,
+  wellcomeApiError,
+  wellcomeApiFetch,
+} from '..';
 
 type GetWorkProps = {
   id: string;

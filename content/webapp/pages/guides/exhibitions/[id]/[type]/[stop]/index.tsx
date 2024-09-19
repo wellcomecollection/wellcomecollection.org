@@ -29,6 +29,7 @@ import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
 import ImagePlaceholder, {
   placeholderBackgroundColor,
 } from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
+import useHotjar from '@weco/content/hooks/useHotjar';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibitionHighlightTour } from '@weco/content/services/prismic/fetch/exhibition-highlight-tours';
 import {
@@ -198,6 +199,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     stopNumberServerSide,
     allStops,
   } = props;
+  useHotjar(exhibitionGuideId === 'ZthrZRIAACQALvCC'); // Only on Jason and the Adventure of 254
 
   // We use the `shallow` prop with NextLinks to avoid doing an unnecessary
   // `getServerSideProps` using the Previous/Next links, because we already have

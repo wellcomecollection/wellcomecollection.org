@@ -1,11 +1,11 @@
 import { propsToQuery } from '@weco/common/utils/routes';
-
 import {
   globalApiOptions,
   QueryProps,
   WellcomeApiError,
   wellcomeApiQuery,
-} from '..';
+} from '@weco/content/services/wellcome';
+
 import { ContentResultsList, ResultType } from './types/api';
 
 const rootUris = {

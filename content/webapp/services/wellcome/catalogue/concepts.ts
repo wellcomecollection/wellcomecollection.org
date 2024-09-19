@@ -1,13 +1,13 @@
-import { Toggles } from '@weco/toggles';
-
-import { catalogueQuery, looksLikeCanonicalId, notFound, rootUris } from '.';
 import {
   globalApiOptions,
   QueryProps,
   WellcomeApiError,
   wellcomeApiError,
   wellcomeApiFetch,
-} from '..';
+} from '@weco/content/services/wellcome/';
+import { Toggles } from '@weco/toggles';
+
+import { catalogueQuery, looksLikeCanonicalId, notFound, rootUris } from '.';
 import {
   CatalogueConceptsApiProps,
   CatalogueResultsList,
