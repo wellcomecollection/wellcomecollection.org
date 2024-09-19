@@ -258,9 +258,13 @@ export const getServerSideProps: GetServerSideProps<
     work,
     'iiif-presentation'
   );
+
   const iiifManifest =
     iiifPresentationLocation &&
-    (await fetchIIIFPresentationManifest(iiifPresentationLocation.url));
+    (await fetchIIIFPresentationManifest({
+      location: iiifPresentationLocation.url,
+      workTypeId: work.workType?.id,
+    }));
 
   const transformedManifest = iiifManifest && transformManifest(iiifManifest);
 
