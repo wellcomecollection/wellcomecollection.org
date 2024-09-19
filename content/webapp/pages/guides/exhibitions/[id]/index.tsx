@@ -5,11 +5,9 @@ import { FunctionComponent } from 'react';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { GuideStopSlice as RawGuideStopSlice } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
-import { useToggles } from '@weco/common/server-data/Context';
 import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { isFilledLinkToMediaField } from '@weco/common/services/prismic/types/';
-import { font } from '@weco/common/utils/classnames';
 import { serialiseProps } from '@weco/common/utils/json';
 import { toMaybeString } from '@weco/common/utils/routes';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -294,8 +292,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
   otherExhibitionGuides,
   stopNumber,
 }) => {
-  const { egWork } = useToggles();
-
   const pageId =
     exhibitionGuide?.id || exhibitionText?.id || exhibitionHighlightTour?.id;
   const pageUid =
@@ -348,35 +344,21 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
       apiToolbarLinks={[createPrismicLink(pageId || '')]}
       hideNewsletterPromo={true}
     >
-      {egWork && (
-        <PageHeader
-          title={`${pageTitle} digital guides`}
-          breadcrumbs={{
-            items: [
-              {
-                text: 'Digital Guides',
-                url: `/guides/exhibitions`,
-              },
-            ],
-            noHomeLink: true,
-          }}
-          isSlim
-        />
-      )}
+      <PageHeader
+        title={`${pageTitle} digital guides`}
+        breadcrumbs={{
+          items: [
+            {
+              text: 'Digital Guides',
+              url: `/guides/exhibitions`,
+            },
+          ],
+          noHomeLink: true,
+        }}
+        isSlim
+      />
       <Layout gridSizes={gridSize10(false)}>
         <SpacingSection>
-          {!egWork && (
-            <Space
-              $v={{ size: 'l', properties: ['margin-top'] }}
-              className={font('wb', 1)}
-            >
-              <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-                <h1 className={font('wb', 0)}>
-                  {`Choose the ${pageTitle} guide for you`}
-                </h1>
-              </Space>
-            </Space>
-          )}
           <Space $v={{ size: 'l', properties: ['margin-top'] }}>
             {/* Links to ExhibitionTexts and ExhibitionHighlightTours */}
             {/* Or, if there is a stopNumber in the URL, link straight to it */}

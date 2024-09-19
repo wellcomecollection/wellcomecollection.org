@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { ExhibitionGuideComponent } from '@weco/content/types/exhibition-guides';
 
-import Stop, { getTypeColor } from './ExhibitionCaptions.Stop';
+import Stop from './ExhibitionCaptions.Stop';
 
 type Props = {
   stops: ExhibitionGuideComponent[];
@@ -51,5 +51,4 @@ const ExhibitionCaptions: FunctionComponent<Props> = ({ stops }) => {
   );
 };
 
-export { getTypeColor };
 export default ExhibitionCaptions;
