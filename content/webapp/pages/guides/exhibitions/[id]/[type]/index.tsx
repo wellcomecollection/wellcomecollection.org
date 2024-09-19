@@ -46,7 +46,6 @@ import {
   ExhibitionText,
   isValidExhibitionGuideType,
 } from '@weco/content/types/exhibition-guides';
-import { getGuidesRedirections } from '@weco/content/utils/digital-guides';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 const isExhibitionGuide = (
@@ -98,15 +97,6 @@ export const getServerSideProps: GetServerSideProps<
     return { notFound: true };
   }
 
-  // This is needed for the Jason QR codes
-  // TODO remove from this page when it closes or if we change its QR codes
-  // https://github.com/wellcomecollection/wellcomecollection.org/issues/11131
-  // Check if it needs to be redirected because of query params or cookie preferences
-  // Will redirect here if needed
-  const redirect = getGuidesRedirections(context);
-  if (redirect) return redirect;
-
-  // If not needed, then fetch everything required for this page
   const client = createClient(context);
 
   // We don't know exactly which type of document the id is for, so:
