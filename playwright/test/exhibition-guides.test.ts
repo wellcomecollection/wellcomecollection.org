@@ -17,27 +17,7 @@ const newJasonGuideRelativeURL = `/guides/exhibitions/${newJasonGuideId}`;
 
 test.describe.configure({ mode: 'parallel' });
 
-// TODO remove this when we stop supporting legacy QRs
-// https://github.com/wellcomecollection/wellcomecollection.org/issues/11131
-test('(1) | Legacy: Still redirects to another format if we have an EG preference and come from a QR code', async ({
-  context,
-  page,
-}) => {
-  // Go to In Plain Sight Audio exhibition guide with the QR code params
-  await digitalGuide(
-    'YzwsAREAAHylrxau/audio-without-descriptions?usingQRCode=true&stopId=witness#witness',
-    context,
-    page,
-    bslCookie
-  );
-
-  // Check we've been redirected to the BSL guide and kept the extra params
-  await expect(page).toHaveURL(
-    /\/bsl[?]usingQRCode=true&stopId=witness#witness/
-  );
-});
-
-test('(2) | New: Redirects to preferred format if user has an EG preference and comes from a QR code', async ({
+test('(1) | Redirects to preferred format if user has an EG preference and comes from a QR code', async ({
   context,
   page,
 }) => {
@@ -53,7 +33,7 @@ test('(2) | New: Redirects to preferred format if user has an EG preference and 
   await expect(page).toHaveURL(/\/bsl\/2[?]usingQRCode=true/);
 });
 
-test('(3) | New: Does not redirect if user does not come from a QR code', async ({
+test('(2) | Does not redirect if user does not come from a QR code', async ({
   context,
   page,
 }) => {
@@ -71,7 +51,7 @@ test('(3) | New: Does not redirect if user does not come from a QR code', async 
   );
 });
 
-test('(4) | New: If first stop, redirects to preferred type landing page instead of [type]/1', async ({
+test('(3) | If first stop, redirects to preferred type landing page instead of [type]/1', async ({
   context,
   page,
 }) => {
@@ -87,7 +67,7 @@ test('(4) | New: If first stop, redirects to preferred type landing page instead
   await expect(page).toHaveURL(/\/guides\/exhibitions\/ZthrZRIAACQALvCC\/bsl/);
 });
 
-test.describe('(5) | New: If no type preference set, links to BSL and Audio on the EG landing page: ', () => {
+test.describe('(4) | If no type preference set, links to BSL and Audio on the EG landing page: ', () => {
   test('go straight to stop page instead of listing page', async ({
     context,
     page,
