@@ -122,23 +122,18 @@ Promise.all(promises)
     ];
     if (isPullRequestRun && fakeResults.length > 0) {
       const resultsLog = fakeResults
-        .map(result =>
-          result.issues.map(issue => {
-            return {
-              title: result.documentTitle,
-              url: result.pageUrl,
-              type:
-                issue.type === 'error'
-                  ? chalk.redBright(issue.type)
-                  : chalk.yellow(issue.type),
-              message: issue.message,
-            };
-          })
-        )
+        .map(result => ({
+          title: result.documentTitle,
+          url: result.pageUrl,
+          errors: result.issues.map(issue => ({
+            type: issue.type,
+            message: issue.message,
+          })),
+        }))
         .flat();
 
       console.error(`!!! ${chalk.redBright('Fix these before merging')}`);
-      console.log(resultsLog);
+      console.log(...resultsLog);
 
       // TODO do we want it to stop people from merging also when it's of type "warning" or "notice"?
       if (
