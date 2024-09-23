@@ -9,16 +9,18 @@ const writeFile = promisify(fs.writeFile);
 
 events.EventEmitter.defaultMaxListeners = 25;
 
-const { isPullReviewRun } = yargs(process.argv.slice(2))
-  .usage('Usage: $0 --isPullReviewRun [boolean]')
+const { isPullRequestRun } = yargs(process.argv.slice(2))
+  .usage('Usage: $0 --isPullRequestRun [boolean]')
   .options({
-    isPullReviewRun: { type: 'boolean' },
+    isPullRequestRun: { type: 'boolean' },
   })
   .parseSync();
 
 console.info('Pa11y: Starting report');
 
-const baseUrl = 'https://wellcomecollection.org';
+const baseUrl = isPullRequestRun
+  ? 'https://www-e2e.wellcomecollection.org'
+  : 'https://wellcomecollection.org';
 
 // Note: if you add a URL to this list, make sure to also add it to the list
 // of URLs checked by the URL checker.
@@ -88,7 +90,7 @@ Promise.all(promises)
         ],
       },
     ];
-    if (isPullReviewRun && fakeResults.length > 0) {
+    if (isPullRequestRun && fakeResults.length > 0) {
       console.warn(fakeResults);
 
       // TODO do we want it to stop people from merging?

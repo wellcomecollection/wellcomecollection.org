@@ -33,17 +33,15 @@
 
   depends_on: deploy-to-e2e-environment
 
-  key: e2e-tests
-
   agents:
     queue: nano
 
 - label: "Run pa11y tests"
-  depends_on: e2e-tests
+  depends_on: deploy-to-e2e-environment
   plugins:
     - docker-compose#v3.5.0:
         run: pa11y
-        command: [ "yarn", "write-report", "--isPullReviewRun" ]
+        command: [ "yarn", "write-report", "--isPullRequestRun" ]
 
 - wait
 
