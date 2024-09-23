@@ -41,13 +41,9 @@
 - label: "Run pa11y tests"
   depends_on: e2e-tests
   plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
     - docker-compose#v3.5.0:
         run: pa11y
-        command: [ "yarn", "write-report", "--printErrors" ]
+        command: [ "yarn", "write-report", "--isPullReviewRun" ]
 
 - wait
 

@@ -1,3 +1,4 @@
+const chalk = require('chalk');
 const events = require('events');
 const fs = require('fs');
 const pa11y = require('pa11y');
@@ -8,10 +9,10 @@ const writeFile = promisify(fs.writeFile);
 
 events.EventEmitter.defaultMaxListeners = 25;
 
-const { printErrors } = yargs(process.argv.slice(2))
-  .usage('Usage: $0 --printErrors [boolean]')
+const { isPullReviewRun } = yargs(process.argv.slice(2))
+  .usage('Usage: $0 --isPullReviewRun [boolean]')
   .options({
-    printErrors: { type: 'boolean' },
+    isPullReviewRun: { type: 'boolean' },
   })
   .parseSync();
 
@@ -87,15 +88,15 @@ Promise.all(promises)
         ],
       },
     ];
-    if (printErrors && fakeResults.length > 0) {
+    if (isPullReviewRun && fakeResults.length > 0) {
       console.warn(fakeResults);
 
       // TODO do we want it to stop people from merging?
-      throw Error('Fix these before merging');
+      console.error(`!!! ${chalk.redBright('Fix these before merging')}`);
     } else {
       await fs.promises.mkdir('./.dist', { recursive: true });
       await writeFile('./.dist/report.json', JSON.stringify({ results }));
-      console.info('Reporting done!');
+      console.info(chalk.greenBright('Reporting done!'));
     }
   })
   .catch(e => console.info(e));
