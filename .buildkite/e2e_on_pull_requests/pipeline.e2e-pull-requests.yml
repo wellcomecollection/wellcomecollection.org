@@ -47,10 +47,7 @@
         login: true
     - docker-compose#v3.5.0:
         run: pa11y
-        command: [ "yarn", "write-report" ]
-    - test-collector#v1.0.0:
-        files: "'.dist/report.json"
-        format: "json"
+        command: [ "yarn", "write-report", "--printErrors" ]
 
 - wait
 

@@ -2,10 +2,18 @@ const events = require('events');
 const fs = require('fs');
 const pa11y = require('pa11y');
 const { promisify } = require('util');
+const yargs = require('yargs');
 
 const writeFile = promisify(fs.writeFile);
 
 events.EventEmitter.defaultMaxListeners = 25;
+
+const { printErrors } = yargs(process.argv.slice(2))
+  .usage('Usage: $0 --printErrors [boolean]')
+  .options({
+    printErrors: { type: 'boolean' },
+  })
+  .parseSync();
 
 console.info('Pa11y: Starting report');
 
@@ -63,8 +71,31 @@ const promises = urls.map(url =>
 
 Promise.all(promises)
   .then(async results => {
-    await fs.promises.mkdir('./.dist', { recursive: true });
-    await writeFile('./.dist/report.json', JSON.stringify({ results }));
-    console.info('Reporting done!');
+    const fakeResults = [
+      {
+        documentTitle: 'title',
+        pageUrl: '/url/here',
+        issues: [
+          {
+            code: 'string',
+            context: 'Context of the error',
+            message: 'This is an error',
+            selector: '#id-of-the-element',
+            type: 'string',
+            typeCode: 300,
+          },
+        ],
+      },
+    ];
+    if (printErrors && fakeResults.length > 0) {
+      console.warn(fakeResults);
+
+      // TODO do we want it to stop people from merging?
+      throw Error('Fix these before merging');
+    } else {
+      await fs.promises.mkdir('./.dist', { recursive: true });
+      await writeFile('./.dist/report.json', JSON.stringify({ results }));
+      console.info('Reporting done!');
+    }
   })
   .catch(e => console.info(e));
