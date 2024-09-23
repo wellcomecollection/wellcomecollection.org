@@ -74,74 +74,30 @@ const promises = urls.map(url =>
 
 Promise.all(promises)
   .then(async results => {
-    const fakeResults = [
-      {
-        documentTitle: 'First page title',
-        pageUrl: '/url/here',
-        issues: [
-          {
-            code: 'string',
-            context: 'Context of the error',
-            message: 'This is an error',
-            selector: '#id-of-the-element',
-            type: 'warning',
-            typeCode: 300,
-          },
-          {
-            code: 'string',
-            context: 'Context of the error!',
-            message: 'This is an error too',
-            selector: '#id-of-the-element',
-            type: 'error',
-            typeCode: 300,
-          },
-        ],
-      },
-      {
-        documentTitle: 'Second page title',
-        pageUrl: '/url/here2',
-        issues: [
-          {
-            code: 'string',
-            context: 'Context of the error',
-            message: 'This is another error',
-            selector: '#id-of-the-element',
-            type: 'warning',
-            typeCode: 300,
-          },
-          {
-            code: 'string',
-            context: 'Context of the error!',
-            message: 'This is another error too!!',
-            selector: '#id-of-the-element',
-            type: 'error',
-            typeCode: 300,
-          },
-        ],
-      },
-    ];
-    if (isPullRequestRun && fakeResults.length > 0) {
-      const resultsLog = fakeResults
-        .map(result => ({
-          title: result.documentTitle,
-          url: result.pageUrl,
-          errors: result.issues.map(issue => ({
-            type: issue.type,
-            message: issue.message,
-          })),
-        }))
-        .flat();
+    if (isPullRequestRun) {
+      if (results.length > 0) {
+        const resultsLog = results
+          .map(result => ({
+            title: result.documentTitle,
+            url: result.pageUrl,
+            errors: result.issues.map(issue => ({
+              type: issue.type,
+              message: issue.message,
+            })),
+          }))
+          .flat();
 
-      console.error(`!!! ${chalk.redBright('Fix these before merging')}`);
-      console.log(...resultsLog);
+        console.error(`!!! ${chalk.redBright('Fix these before merging')}`);
+        console.log(...resultsLog);
 
-      // TODO do we want it to stop people from merging also when it's of type "warning" or "notice"?
-      if (
-        fakeResults.find(result =>
+        // TODO do we want it to stop people from merging also when it's of type "warning" or "notice"?
+        const hasErrors = results.find(result =>
           result.issues.find(issue => issue.type === 'error')
-        )
-      )
-        process.exit(1);
+        );
+        if (hasErrors) process.exit(1);
+      } else {
+        console.log(chalk.redBright('Report done, no errors found'));
+      }
     } else {
       await fs.promises.mkdir('./.dist', { recursive: true });
       await writeFile('./.dist/report.json', JSON.stringify({ results }));
