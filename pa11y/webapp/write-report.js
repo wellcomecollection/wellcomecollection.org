@@ -75,18 +75,23 @@ const promises = urls.map(url =>
 Promise.all(promises)
   .then(async results => {
     if (isPullRequestRun) {
-      if (results.length > 0) {
-        const resultsLog = results
-          .map(result => ({
-            title: result.documentTitle,
-            url: result.pageUrl,
-            errors: result.issues.map(issue => ({
-              type: issue.type,
-              message: issue.message,
-            })),
-          }))
-          .flat();
+      const resultsLog = results
+        .map(result => {
+          return result.issues.length > 0
+            ? {
+                title: result.documentTitle,
+                url: result.pageUrl,
+                errors: result.issues.map(issue => ({
+                  type: issue.type,
+                  message: issue.message,
+                })),
+              }
+            : undefined;
+        })
+        .filter(f => f)
+        .flat();
 
+      if (resultsLog.length > 0) {
         console.error(`!!! ${chalk.redBright('Fix these before merging')}`);
         console.log(...resultsLog);
 
@@ -96,7 +101,7 @@ Promise.all(promises)
         );
         if (hasErrors) process.exit(1);
       } else {
-        console.log(chalk.redBright('Report done, no errors found'));
+        console.log(chalk.greenBright('Report done, no errors found'));
       }
     } else {
       await fs.promises.mkdir('./.dist', { recursive: true });
