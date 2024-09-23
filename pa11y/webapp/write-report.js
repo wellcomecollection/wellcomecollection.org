@@ -95,6 +95,7 @@ Promise.all(promises)
 
       // TODO do we want it to stop people from merging?
       console.error(`!!! ${chalk.redBright('Fix these before merging')}`);
+      process.exit(1);
     } else {
       await fs.promises.mkdir('./.dist', { recursive: true });
       await writeFile('./.dist/report.json', JSON.stringify({ results }));
