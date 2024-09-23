@@ -76,7 +76,7 @@ Promise.all(promises)
   .then(async results => {
     const fakeResults = [
       {
-        documentTitle: 'title',
+        documentTitle: 'First page title',
         pageUrl: '/url/here',
         issues: [
           {
@@ -84,18 +84,69 @@ Promise.all(promises)
             context: 'Context of the error',
             message: 'This is an error',
             selector: '#id-of-the-element',
-            type: 'string',
+            type: 'warning',
+            typeCode: 300,
+          },
+          {
+            code: 'string',
+            context: 'Context of the error!',
+            message: 'This is an error too',
+            selector: '#id-of-the-element',
+            type: 'error',
+            typeCode: 300,
+          },
+        ],
+      },
+      {
+        documentTitle: 'Second page title',
+        pageUrl: '/url/here2',
+        issues: [
+          {
+            code: 'string',
+            context: 'Context of the error',
+            message: 'This is another error',
+            selector: '#id-of-the-element',
+            type: 'warning',
+            typeCode: 300,
+          },
+          {
+            code: 'string',
+            context: 'Context of the error!',
+            message: 'This is another error too!!',
+            selector: '#id-of-the-element',
+            type: 'error',
             typeCode: 300,
           },
         ],
       },
     ];
     if (isPullRequestRun && fakeResults.length > 0) {
-      console.warn(fakeResults);
+      const resultsLog = fakeResults
+        .map(result =>
+          result.issues.map(issue => {
+            return {
+              title: result.documentTitle,
+              url: result.pageUrl,
+              type:
+                issue.type === 'error'
+                  ? chalk.redBright(issue.type)
+                  : chalk.yellow(issue.type),
+              message: issue.message,
+            };
+          })
+        )
+        .flat();
 
-      // TODO do we want it to stop people from merging?
       console.error(`!!! ${chalk.redBright('Fix these before merging')}`);
-      process.exit(1);
+      console.log(resultsLog);
+
+      // TODO do we want it to stop people from merging also when it's of type "warning" or "notice"?
+      if (
+        fakeResults.find(result =>
+          result.issues.find(issue => issue.type === 'error')
+        )
+      )
+        process.exit(1);
     } else {
       await fs.promises.mkdir('./.dist', { recursive: true });
       await writeFile('./.dist/report.json', JSON.stringify({ results }));
