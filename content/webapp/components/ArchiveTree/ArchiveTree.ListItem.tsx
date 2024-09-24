@@ -316,6 +316,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         <ItemRenderer
           currentWorkId={currentWorkId}
           item={item}
+          isSelected={isSelected}
           isEnhanced={isEnhanced}
           level={level}
           showFirstLevelGuideline={showFirstLevelGuideline}
