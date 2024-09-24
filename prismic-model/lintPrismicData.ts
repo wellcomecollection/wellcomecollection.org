@@ -17,6 +17,7 @@ import chalk from 'chalk';
 import fs from 'fs';
 import yargs from 'yargs';
 
+import { pluralize } from '@weco/common/utils/grammar';
 import { getCreds, setEnvsFromSecrets } from '@weco/ts-aws';
 
 import { error } from './console';
@@ -310,7 +311,7 @@ async function run() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json; charset=UTF-8' },
             body: JSON.stringify({
-              message: `The Prismic linting script has found ${errors.length} thing${errors.length > 1 ? 's' : ''} that require${errors.length > 1 ? '' : 's'} your attention.`,
+              message: `The Prismic linting script has found ${errors.length} ${pluralize(errors.length, 'thing')} that require${errors.length > 1 ? '' : 's'} your attention.`,
             }),
           });
         } catch (e) {
