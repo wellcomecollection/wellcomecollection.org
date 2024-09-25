@@ -1,6 +1,5 @@
 import { FunctionComponent } from 'react';
 
-import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -35,8 +34,6 @@ const getAvailableTypes = availableTypes => {
 const ExhibitionGuidePromo: FunctionComponent<Props> = ({
   exhibitionGuide,
 }) => {
-  const { egWork } = useToggles();
-
   return (
     <CardOuter
       data-component="ExhibitionGuidePromo"
@@ -76,19 +73,17 @@ const ExhibitionGuidePromo: FunctionComponent<Props> = ({
               </p>
             </Space>
           )}
-          {egWork && (
-            <Space
-              $v={{
-                size: 'l',
-                properties: ['margin-top'],
-                overrides: { small: 4, medium: 4, large: 5 },
-              }}
-            >
-              <RelevantGuideIcons
-                types={getAvailableTypes(exhibitionGuide.availableTypes)}
-              />
-            </Space>
-          )}
+          <Space
+            $v={{
+              size: 'l',
+              properties: ['margin-top'],
+              overrides: { small: 4, medium: 4, large: 5 },
+            }}
+          >
+            <RelevantGuideIcons
+              types={getAvailableTypes(exhibitionGuide.availableTypes)}
+            />
+          </Space>
         </div>
       </CardBody>
     </CardOuter>

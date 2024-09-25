@@ -15,10 +15,7 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import ZoomedPrismicImage from '@weco/content/components/ZoomedPrismicImage/ZoomedPrismicImage';
-import {
-  ExhibitionGuideComponent,
-  ExhibitionGuideType,
-} from '@weco/content/types/exhibition-guides';
+import { ExhibitionGuideComponent } from '@weco/content/types/exhibition-guides';
 
 export const StandaloneTitle = styled(Space).attrs({
   as: 'h2',
@@ -30,8 +27,7 @@ export const StandaloneTitle = styled(Space).attrs({
   position: relative;
   margin-bottom: 0;
 
-  background: ${props =>
-    props.theme.color(getTypeColor('captions-and-transcripts'))};
+  background: ${props => props.theme.color('accent.lightGreen')};
 `;
 
 type LevelProps = { $level: number };
@@ -138,18 +134,6 @@ function calculateTombstoneHeadingLevel(titlesUsed: TitlesUsed): number {
     return 3;
   } else {
     return 2;
-  }
-}
-
-export function getTypeColor(type: ExhibitionGuideType): PaletteColor {
-  switch (type) {
-    case 'bsl':
-      return 'accent.lightBlue';
-    case 'audio-without-descriptions':
-      return 'accent.lightSalmon';
-    case 'captions-and-transcripts':
-    default:
-      return 'accent.lightGreen';
   }
 }
 
