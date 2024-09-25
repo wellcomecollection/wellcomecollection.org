@@ -2771,7 +2771,7 @@ export interface ExhibitionsDocumentDataEventsItem {
  */
 export interface ExhibitionsDocumentDataArticlesItem {
   /**
-   * Article field in *Exhibition → Articles*
+   * Story or Story Series field in *Exhibition → Articles*
    *
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
