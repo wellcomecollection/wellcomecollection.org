@@ -1,110 +1,59 @@
-name: 'Typescript'
+name: "Typescript"
 on:
   push:
 
 jobs:
-  paths-filter:
+  tsc:
     runs-on: ubuntu-latest
-    outputs:
-      output1: ${{ steps.filter.outputs.workflows }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3
-        id: filter
-        with:
-          filters: |
-            workspaces:
-              - 'cardigan/*'
-              - 'common/*'
-              - 'content/*'
-              - 'identity/*'
-              - 'prismic-model/*'
-              - 'toggles/*'
-              - 'package.json'
-              - 'yarn.lock'
-            playwright:
-              - 'playwright/*' 
-            dash
-              - 'dash/*'
-      - name: check
-        run: echo steps.filter.outputs
-      # run only if 'workspaces' files were changed
-      - name: workspaces check
-        if: steps.filter.outputs.workspaces == 'true'
-        run: echo "Workspaces files have been modified"
-      # run only if non-'workspaces' files were changed
-      - name: not workspaces check
-        if: steps.filter.outputs.workspaces != 'true'
-        run: echo "Workspaces files have not been modified"
+    - uses: actions/checkout@v4
+    - name: install Node
+      # https://github.com/actions/setup-node?tab=readme-ov-file#usage
+      # The node-version input is optional. If not supplied, the node version from PATH will be used.
+      # However, it is recommended to always specify Node.js version and don't rely on the system one.
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+    - uses: dorny/paths-filter@v3
+      id: filter
+      with:
+        filters: |
+          workspaces:
+            - 'cardigan/**'
+            - 'common/**'
+            - 'content/**'
+            - 'identity/**'
+            - 'prismic-model/**'
+            - 'toggles/**'
+            - 'package.json'
+            - 'yarn.lock'
+          playwright:
+            - 'playwright/**' 
+          dash:
+            - 'dash/**'
+          updown:
+            - 'updown/**'
 
-      # run only if 'playwright' files were changed
-      - name: playwright check
-        if: steps.filter.outputs.playwright == 'true'
-        run: echo "Playwright files have been modified"
-      # run only if non-'playwright' files were changed
-      - name: not playwright check
-        if: steps.filter.outputs.playwright != 'true'
-        run: echo "Playwright files have not been modified"
+    # run only if 'workspaces' files were changed
+    - name: workspaces tsc
+      if: steps.filter.outputs.workspaces == 'true'
+      run: yarn install && yarn tsc
 
-      # run only if 'dash' files were changed
-      - name: dash check
-        if: steps.filter.outputs.dash == 'true'
-        run: echo "Dash files have been modified"
-      # run only if non-'dash' files were changed
-      - name: not dash check
-        if: steps.filter.outputs.dash != 'true'
-        run: echo "Dash files have not been modified"
+    # run only if 'playwright' files were changed
+    - name: playwright tsc
+      if: steps.filter.outputs.playwright == 'true'
+      run: cd playwright && yarn install && yarn tsc
 
-  tsc-workspaces:
-    runs-on: ubuntu-latest
-    # Wait from the paths-filter to be completed before starting next-job
-    needs: paths-filter
-    if: needs.paths-filter.outputs.output1 == 'true'
-    steps:
-      - uses: actions/checkout@v4
-      - name: install Node
-        # https://github.com/actions/setup-node?tab=readme-ov-file#usage
-        # The node-version input is optional. If not supplied, the node version from PATH will be used.
-        # However, it is recommended to always specify Node.js version and don't rely on the system one.
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: (Workspaces) yarn tsc
-        run: yarn install && yarn tsc
+    # run only if 'dash' files were changed
+    - name: dash tsc
+      if: steps.filter.outputs.dash == 'true'
+      run: cd dash/webapp && yarn install && yarn tsc
 
-  tsc-playwright:
-    runs-on: ubuntu-latest
-    # Wait from the paths-filter to be completed before starting next-job
-    needs: paths-filter
-    if: needs.paths-filter.outputs.output2 == 'true'
-    steps:
-      - uses: actions/checkout@v4
-      - name: install Node
-        # https://github.com/actions/setup-node?tab=readme-ov-file#usage
-        # The node-version input is optional. If not supplied, the node version from PATH will be used.
-        # However, it is recommended to always specify Node.js version and don't rely on the system one.
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: (Playwright) yarn tsc
-        run: cd playwright && yarn install && yarn tsc
+    # run only if 'updown' files were changed
+    - name: updown tsc
+      if: steps.filter.outputs.updown == 'true'
+      run: cd updown && yarn install && yarn tsc
 
-  tsc-dash:
-    runs-on: ubuntu-latest
-    # Wait from the paths-filter to be completed before starting next-job
-    needs: paths-filter
-    if: needs.paths-filter.outputs.output3 == 'true'
-    steps:
-      - uses: actions/checkout@v4
-      - name: install Node
-        # https://github.com/actions/setup-node?tab=readme-ov-file#usage
-        # The node-version input is optional. If not supplied, the node version from PATH will be used.
-        # However, it is recommended to always specify Node.js version and don't rely on the system one.
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: (Dash) yarn tsc
-        run: cd dash/webapp && yarn install && yarn tsc
 # jobs:
 #   tsc:
 #     name: tsc
