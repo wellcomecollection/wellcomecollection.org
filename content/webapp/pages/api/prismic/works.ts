@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 async function fetchWorks(page) {
   try {
     const works = await fetch(
-      `https://api.wellcomecollection.org/catalogue/v2/works?pageSize=50&page=${page || 1}`,
+      `https://api.wellcomecollection.org/catalogue/v2/works?availabilities=online&pageSize=50&page=${page || 1}`,
       {
         headers: {
           'Content-Type': 'application/json',
