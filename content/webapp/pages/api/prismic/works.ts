@@ -16,8 +16,6 @@ async function fetchWorks(page) {
   }
 }
 
-// TODO accessToken stuff
-
 const WorksApi = async (
   req: NextApiRequest,
   res: NextApiResponse
