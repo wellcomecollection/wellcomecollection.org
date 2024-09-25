@@ -183,7 +183,7 @@
               "config": {
                 "label": "Article",
                 "select": "document",
-                "customtypes": ["articles"]
+                "customtypes": ["articles", "series", "webcomics"]
               }
             }
           }
