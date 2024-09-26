@@ -1,5 +1,8 @@
 name: Prismic Linting
 on:
+  push:
+    branches:
+      - 'prismic-linting-slack'
   workflow_dispatch:
   schedule:
     - cron: '0 4 * * MON-FRI'
