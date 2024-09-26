@@ -292,7 +292,7 @@ async function run() {
         console.log(`- ${msg}`);
       }
       console.log('');
-      console.log({ slackWebhookUrl });
+
       // Send an alert to Editors if anything is found on a GitHub Action run
       // https://github.com/wellcomecollection/wellcomecollection.org/actions/workflows/prismic-linting.yml
       if (slackWebhookUrl) {
