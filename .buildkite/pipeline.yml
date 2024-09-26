@@ -126,7 +126,6 @@
         command: ['yarn', 'test']
 
 # This step kicks of the "end-to-end on pull requests" flow.
-#
 # It doesn't run on main, because we run e2es on main by deploying
 # into our stage/prod environments instead.
 

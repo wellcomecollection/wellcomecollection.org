@@ -53,26 +53,6 @@ describe('getGuidesRedirections', () => {
 
     expect(result).toBe(undefined);
   });
-
-  it('redirects legacy exhibition guides', () => {
-    // Mock userPreferenceGuideType cookie
-    document.cookie = `WC_userPreferenceGuideType=${userPreferenceGuideType}`;
-
-    const result = getGuidesRedirections({
-      ...contextParams,
-      query: {
-        id: 'ZHXyDBQAAMCZbr6n',
-        type: 'audio-without-descriptions',
-        usingQRCode: 'true',
-        stopId: 'abc',
-      },
-      resolvedUrl: `${baseUrl}/bsl?usingQRCode=true&stopNumber=abc`,
-    });
-
-    expect(result?.redirect?.destination).toBe(
-      `${baseUrl}/bsl?usingQRCode=true&stopNumber=abc`
-    );
-  });
 });
 
 describe('getCleanRedirectURL', () => {

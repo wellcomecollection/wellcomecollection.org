@@ -204,8 +204,9 @@ const ExpandedImage: FunctionComponent<Props> = ({
       imageUrl: string
     ) => {
       const imageLocationBase = imageUrl.replace('/info.json', '');
-      const iiifManifest =
-        await fetchIIIFPresentationManifest(manifestLocation);
+      const iiifManifest = await fetchIIIFPresentationManifest({
+        location: manifestLocation,
+      });
       const transformedManifest =
         iiifManifest && transformManifest(iiifManifest);
       const { firstCollectionManifestLocation, canvases } = {

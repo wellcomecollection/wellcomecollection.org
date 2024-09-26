@@ -4,8 +4,6 @@ import styled from 'styled-components';
 
 import cookies from '@weco/common/data/cookies';
 import { arrow } from '@weco/common/icons';
-import { IconSvg } from '@weco/common/icons/types';
-import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { plainListStyles } from '@weco/common/views/components/styled/PlainList';
@@ -27,31 +25,26 @@ export const TypeList = styled(Space).attrs({
   `}
 `;
 
-const TypeItem = styled.li<{ $egWork?: boolean }>`
+const TypeItem = styled.li`
   flex: 0 0 100%;
   position: relative;
-  ${props => (props.$egWork ? '' : 'min-height: 200px;')}
   ${props => props.theme.media('medium')`
-        flex-basis: calc(50% - 25px);
-      `}
+      flex-basis: calc(50% - 25px);
+    `}
 `;
 
 const TypeLink = styled.a<{
   $backgroundColor: PaletteColor;
-  $egWork?: boolean;
 }>`
   display: block;
   height: 100%;
   width: 100%;
   text-decoration: none;
-  ${props => (props.$egWork ? 'border-radius: 6px;' : '')}
+  border-radius: 6px;
   background: ${props => props.theme.color(props.$backgroundColor)};
 
   &:hover {
-    ${props =>
-      props.$egWork
-        ? 'text-decoration: underline;'
-        : `background: ${props.theme.color('neutral.400')};`}
+    text-decoration: underline;
   }
 `;
 
@@ -62,30 +55,14 @@ const TypeIconsWrapper = styled.div`
 `;
 
 // TODO Review how this can be streamlined when we move to the new EG models
+// https://github.com/wellcomecollection/wellcomecollection.org/issues/11181
 type Props = {
   url: string;
   title: string;
-  text: string;
-  backgroundColor:
-    | 'warmNeutral.300'
-    | 'accent.lightSalmon'
-    | 'accent.lightGreen'
-    | 'accent.lightPurple'
-    | 'accent.lightBlue';
   type: ExhibitionGuideType;
-  icon?: IconSvg;
 };
 
-const TypeOption: FunctionComponent<Props> = ({
-  url,
-  title,
-  text,
-  backgroundColor,
-  icon,
-  type,
-}) => {
-  const { egWork } = useToggles();
-
+const TypeOption: FunctionComponent<Props> = ({ url, title, type }) => {
   const onClick = () => {
     // We set the cookie to expire in 8 hours (the maximum length of
     // time the galleries are open in a day)
@@ -96,14 +73,9 @@ const TypeOption: FunctionComponent<Props> = ({
     });
   };
 
-  return egWork ? (
-    <TypeItem $egWork={egWork}>
-      <TypeLink
-        href={url}
-        $backgroundColor="warmNeutral.300"
-        $egWork
-        onClick={onClick}
-      >
+  return (
+    <TypeItem>
+      <TypeLink href={url} $backgroundColor="warmNeutral.300" onClick={onClick}>
         <CardBody style={{ height: '100%' }}>
           <h2 className={font('wb', 3)}>{title}</h2>
 
@@ -113,21 +85,6 @@ const TypeOption: FunctionComponent<Props> = ({
             <Icon icon={arrow} sizeOverride="height: 32px; width: 32px;" />
           </TypeIconsWrapper>
         </CardBody>
-      </TypeLink>
-    </TypeItem>
-  ) : (
-    <TypeItem>
-      <TypeLink href={url} $backgroundColor={backgroundColor} onClick={onClick}>
-        <Space
-          $v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-          $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-        >
-          <h2 className={font('wb', 3)}>{title}</h2>
-          <p className={font('intr', 5)}>{text}</p>
-          {icon && (
-            <Icon icon={icon} sizeOverride="height: 32px; width: 32px;" />
-          )}
-        </Space>
       </TypeLink>
     </TypeItem>
   );
