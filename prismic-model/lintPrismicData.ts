@@ -301,7 +301,7 @@ async function run() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json; charset=UTF-8' },
             body: JSON.stringify({
-              message: `The Prismic linting script has found ${errors.length} ${pluralize(errors.length, 'thing')} that require${errors.length > 1 ? '' : 's'} your attention.`,
+              message: `The Prismic linting script has found ${pluralize(errors.length, 'thing')} that require${errors.length > 1 ? '' : 's'} your attention.`,
             }),
           });
         } catch (e) {
