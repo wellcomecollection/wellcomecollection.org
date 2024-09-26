@@ -18,7 +18,6 @@ import fs from 'fs';
 import yargs from 'yargs';
 
 import { pluralize } from '@weco/common/utils/grammar';
-import { getCreds, setEnvsFromSecrets } from '@weco/ts-aws';
 
 import { error } from './console';
 import {
@@ -33,10 +32,10 @@ type ErrorProps = {
   errors: string[];
 };
 
-const { isGitHubAction } = yargs(process.argv.slice(2))
-  .usage('Usage: $0 --isGitHubAction [boolean]')
+const { slackWebhookUrl } = yargs(process.argv.slice(2))
+  .usage('Usage: $0 --slackWebhookUrl [string]')
   .options({
-    isGitHubAction: { type: 'boolean' },
+    slackWebhookUrl: { type: 'string' },
   })
   .parseSync();
 
@@ -258,15 +257,6 @@ function detectMissingUidDocuments(doc: any): string[] {
 async function run() {
   const snapshotFile = await downloadPrismicSnapshot();
 
-  await setEnvsFromSecrets(
-    {
-      SLACK_WEBHOOK_GA_PRISMIC_LINTING_URL: 'prismic-model/slack/linting',
-    },
-    await getCreds('experience', 'developer')
-  );
-
-  const slackWebhookUrl = process.env.SLACK_WEBHOOK_GA_PRISMIC_LINTING_URL;
-
   let totalErrors = 0;
   const allErrors: ErrorProps[] = [];
 
@@ -302,10 +292,10 @@ async function run() {
         console.log(`- ${msg}`);
       }
       console.log('');
-
+      console.log({ slackWebhookUrl });
       // Send an alert to Editors if anything is found on a GitHub Action run
       // https://github.com/wellcomecollection/wellcomecollection.org/actions/workflows/prismic-linting.yml
-      if (isGitHubAction && slackWebhookUrl) {
+      if (slackWebhookUrl) {
         try {
           await fetch(slackWebhookUrl, {
             method: 'POST',
