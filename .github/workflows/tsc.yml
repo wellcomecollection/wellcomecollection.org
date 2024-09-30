@@ -4,6 +4,7 @@ on:
 
 jobs:
   tsc:
+    name: tsc
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -14,42 +15,11 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: 20
-    - uses: dorny/paths-filter@v3
-      id: filter
-      with:
-        filters: |
-          workspaces:
-            - 'cardigan/**'
-            - 'common/**'
-            - 'content/**'
-            - 'identity/**'
-            - 'prismic-model/**'
-            - 'toggles/**'
-            - 'package.json'
-            - 'yarn.lock'
-          playwright:
-            - 'playwright/**' 
-          dash:
-            - 'dash/**'
-          updown:
-            - 'updown/**'
-
-    # run only if 'workspaces' files were changed
-    - name: workspaces tsc
-      if: steps.filter.outputs.workspaces == 'true'
+    - name: (Workspaces) yarn tsc
       run: yarn install && yarn tsc
-
-    # run only if 'playwright' files were changed
-    - name: playwright tsc
-      if: steps.filter.outputs.playwright == 'true'
+    - name: (Playwright) yarn tsc
       run: cd playwright && yarn install && yarn tsc
-
-    # run only if 'dash' files were changed
-    - name: dash tsc
-      if: steps.filter.outputs.dash == 'true'
+    - name: (Dash) yarn tsc
       run: cd dash/webapp && yarn install && yarn tsc
-
-    # run only if 'updown' files were changed
-    - name: updown tsc
-      if: steps.filter.outputs.updown == 'true'
+    - name: (Updown) yarn tsc
       run: cd updown && yarn install && yarn tsc
