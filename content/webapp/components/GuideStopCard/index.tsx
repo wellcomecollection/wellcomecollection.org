@@ -11,7 +11,7 @@ import { threeUpGridSizesMap } from '@weco/content/components/Body/GridFactory';
 import {
   CardBody,
   CardImageWrapper,
-  CardOuter,
+  CardOuterTransition,
   CardTitle,
 } from '@weco/content/components/Card/Card';
 import ImagePlaceholder, {
@@ -54,7 +54,7 @@ const GuideStopCard: FunctionComponent<Props> = ({
       $v={{ size: 'l', properties: ['margin-bottom'] }}
       className={grid(threeUpGridSizesMap.default[0])}
     >
-      <CardOuter
+      <CardOuterTransition
         href={link}
         style={{ minHeight: '0', viewTransitionName: `player-${number}` }}
         id={`${number}`}
@@ -116,7 +116,7 @@ const GuideStopCard: FunctionComponent<Props> = ({
             </AlignIconFirstLineCenter>
           )}
         </CardBody>
-      </CardOuter>
+      </CardOuterTransition>
     </Space>
   );
 };

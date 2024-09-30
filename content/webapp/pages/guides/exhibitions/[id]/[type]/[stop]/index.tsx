@@ -283,9 +283,12 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               <span>
                 <TransitionLink
                   href={`${guideTypeUrl}#${currentStop.number}`}
-                  onMouseEnter={() => {
-                    setViewTransitionName(`player-${currentStop.number}`);
-                  }}
+                  onFocus={() =>
+                    setViewTransitionName(`player-${currentStop.number}`)
+                  }
+                  onMouseEnter={() =>
+                    setViewTransitionName(`player-${currentStop.number}`)
+                  }
                 >
                   <Icon icon={cross} />
                   <span className="visually-hidden">Back to list of stops</span>
@@ -383,6 +386,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                     }}
                     href={`${guideTypeUrl}/${stopNumber - 1}`}
                     shallow={true}
+                    onFocus={() => setViewTransitionName('player-previous')}
                     onMouseEnter={() =>
                       setViewTransitionName('player-previous')
                     }
@@ -416,6 +420,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                     }}
                     href={`${guideTypeUrl}/${stopNumber + 1}`}
                     shallow={true}
+                    onFocus={() => setViewTransitionName('player-next')}
                     onMouseEnter={() => setViewTransitionName('player-next')}
                   >
                     <Space
