@@ -36,4 +36,10 @@ export const transitions = `
   ::view-transition-new(player-next) {
     animation: 200ms in ease-in reverse;
   }
+
+  @media (prefers-reduced-motion: reduce) {
+	  * {
+      view-transition-name: none !important;
+    }
+  }
 `;
