@@ -95,14 +95,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'egWork',
-      title: 'Exhibition Guides redesign/restructure work',
-      initialValue: false,
-      description:
-        'With this activated, you will be able to see the new (and work in progress) versions of exhibition guides',
-      type: 'experimental',
-    },
-    {
       id: 'authV2',
       title: 'IIIF Auth V2',
       initialValue: false,

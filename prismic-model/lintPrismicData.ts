@@ -15,6 +15,9 @@ import {
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import chalk from 'chalk';
 import fs from 'fs';
+import yargs from 'yargs';
+
+import { pluralize } from '@weco/common/utils/grammar';
 
 import { error } from './console';
 import {
@@ -28,6 +31,13 @@ type ErrorProps = {
   title: string;
   errors: string[];
 };
+
+const { slackWebhookUrl } = yargs(process.argv.slice(2))
+  .usage('Usage: $0 --slackWebhookUrl [string]')
+  .options({
+    slackWebhookUrl: { type: 'string' },
+  })
+  .parseSync();
 
 // Look for eur01 safelinks.  These occur when somebody has copied
 // a URL directly from Outlook and isn't using the original URL.
@@ -145,6 +155,8 @@ function detectNonPromoImageStories(doc: any): string[] {
   return [];
 }
 
+// Digital guides video and audio have a text field to input duration.
+// We'd like the style to always be xx:xx, so we're adding a test to ensure this is respected.
 function detectIncorrectAudioVideoDuration(doc: any): string[] {
   const guideStopSlices =
     doc?.data?.slices?.filter(s => s.slice_type === 'guide_stop') || [];
@@ -232,6 +244,9 @@ const getContentTypesWithUid = () => {
     })
     .filter(f => f);
 };
+
+// No document with the UID field should be saveable without that field filled in.
+// We've had a few instances of it though, maybe they were drafts? So we're adding a test for the future.
 const contentTypesWithUid = getContentTypesWithUid();
 function detectMissingUidDocuments(doc: any): string[] {
   return contentTypesWithUid.includes(doc.type) && !doc.uid
@@ -277,6 +292,22 @@ async function run() {
         console.log(`- ${msg}`);
       }
       console.log('');
+
+      // Send an alert to Editors if anything is found on a GitHub Action run
+      // https://github.com/wellcomecollection/wellcomecollection.org/actions/workflows/prismic-linting.yml
+      if (slackWebhookUrl) {
+        try {
+          await fetch(slackWebhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+            body: JSON.stringify({
+              message: `The Prismic linting script has found ${pluralize(errors.length, 'thing')} that require${errors.length > 1 ? '' : 's'} your attention.`,
+            }),
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      }
     }
   }
 

@@ -141,8 +141,6 @@ export const getServerSideProps: GetServerSideProps<
 
   const client = createClient(context);
 
-  // TODO: get exhibitionHighlightTourQuery from localStorage if possible
-
   const exhibitionHighlightTourQuery = await fetchExhibitionHighlightTour(
     client,
     id

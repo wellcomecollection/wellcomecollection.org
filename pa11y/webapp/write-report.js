@@ -1,15 +1,26 @@
+const chalk = require('chalk');
 const events = require('events');
 const fs = require('fs');
 const pa11y = require('pa11y');
 const { promisify } = require('util');
+const yargs = require('yargs');
 
 const writeFile = promisify(fs.writeFile);
 
 events.EventEmitter.defaultMaxListeners = 25;
 
+const { isPullRequestRun } = yargs(process.argv.slice(2))
+  .usage('Usage: $0 --isPullRequestRun [boolean]')
+  .options({
+    isPullRequestRun: { type: 'boolean' },
+  })
+  .parseSync();
+
 console.info('Pa11y: Starting report');
 
-const baseUrl = 'https://wellcomecollection.org';
+const baseUrl = isPullRequestRun
+  ? 'https://www-e2e.wellcomecollection.org'
+  : 'https://wellcomecollection.org';
 
 // Note: if you add a URL to this list, make sure to also add it to the list
 // of URLs checked by the URL checker.
@@ -63,8 +74,39 @@ const promises = urls.map(url =>
 
 Promise.all(promises)
   .then(async results => {
-    await fs.promises.mkdir('./.dist', { recursive: true });
-    await writeFile('./.dist/report.json', JSON.stringify({ results }));
-    console.info('Reporting done!');
+    if (isPullRequestRun) {
+      const resultsLog = results
+        .map(result => {
+          return result.issues.length > 0
+            ? {
+                title: result.documentTitle,
+                url: result.pageUrl,
+                errors: result.issues.map(issue => ({
+                  type: issue.type,
+                  message: issue.message,
+                })),
+              }
+            : undefined;
+        })
+        .filter(f => f)
+        .flat();
+
+      if (resultsLog.length > 0) {
+        console.error(`!!! ${chalk.redBright('Fix these before merging')}`);
+        console.log(...resultsLog);
+
+        // TODO do we want it to stop people from merging also when it's of type "warning" or "notice"?
+        const hasErrors = results.find(result =>
+          result.issues.find(issue => issue.type === 'error')
+        );
+        if (hasErrors) process.exit(1);
+      } else {
+        console.log(chalk.greenBright('Report done, no errors found'));
+      }
+    } else {
+      await fs.promises.mkdir('./.dist', { recursive: true });
+      await writeFile('./.dist/report.json', JSON.stringify({ results }));
+      console.info(chalk.greenBright('Reporting done!'));
+    }
   })
   .catch(e => console.info(e));

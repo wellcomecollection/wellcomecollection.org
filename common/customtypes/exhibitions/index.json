@@ -181,9 +181,9 @@
             "item": {
               "type": "Link",
               "config": {
-                "label": "Article",
+                "label": "Story or Story Series",
                 "select": "document",
-                "customtypes": ["articles"]
+                "customtypes": ["articles", "series", "webcomics"]
               }
             }
           }
