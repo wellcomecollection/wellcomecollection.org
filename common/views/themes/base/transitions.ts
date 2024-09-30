@@ -1,8 +1,4 @@
 export const transitions = `
-  @view-transition {
-    navigation: auto;
-  }
-
   @keyframes out {
     from {
       transform: translateX(0%)
