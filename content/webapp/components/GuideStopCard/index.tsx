@@ -54,7 +54,11 @@ const GuideStopCard: FunctionComponent<Props> = ({
       $v={{ size: 'l', properties: ['margin-bottom'] }}
       className={grid(threeUpGridSizesMap.default[0])}
     >
-      <CardOuter href={link} style={{ minHeight: '0' }} id={`${number}`}>
+      <CardOuter
+        href={link}
+        style={{ minHeight: '0', viewTransitionName: `player-${number}` }}
+        id={`${number}`}
+      >
         <CardImageWrapper>
           {croppedImage ? (
             <PrismicImage
@@ -71,7 +75,12 @@ const GuideStopCard: FunctionComponent<Props> = ({
               quality="low"
             />
           ) : (
-            <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
+            <div
+              style={{
+                aspectRatio: '16/9',
+                overflow: 'hidden',
+              }}
+            >
               <ImagePlaceholder
                 backgroundColor={placeholderBackgroundColor(number || 1)}
               />
