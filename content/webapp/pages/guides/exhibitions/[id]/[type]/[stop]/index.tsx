@@ -284,7 +284,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                 <TransitionLink
                   href={`${guideTypeUrl}#${currentStop.number}`}
                   onMouseEnter={() => {
-                    console.log('ooof');
                     setViewTransitionName(`player-${currentStop.number}`);
                   }}
                 >
