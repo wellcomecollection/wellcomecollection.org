@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { FunctionComponent, useCallback, useEffect, useState } from 'react';
-import styled, { CSSProperties } from 'styled-components';
+import styled from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { arrow, cross } from '@weco/common/icons';
@@ -297,11 +297,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             </HeaderInner>
           </Container>
         </Header>
-        <div
-          style={
-            { 'view-transition-name': viewTransitionName } as CSSProperties
-          }
-        >
+        <div style={{ viewTransitionName }}>
           <FlushContainer>
             <div className="grid">
               <div className={grid(gridSize8())}>

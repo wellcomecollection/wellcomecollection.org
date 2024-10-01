@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { duration as durationIcon, map } from '@weco/common/icons';
 import { getCrop, ImageType } from '@weco/common/model/image';
+import { useToggles } from '@weco/common/server-data/Context';
 import { font, grid } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
@@ -11,6 +12,7 @@ import { threeUpGridSizesMap } from '@weco/content/components/Body/GridFactory';
 import {
   CardBody,
   CardImageWrapper,
+  CardOuter,
   CardOuterTransition,
   CardTitle,
 } from '@weco/content/components/Card/Card';
@@ -48,13 +50,22 @@ const GuideStopCard: FunctionComponent<Props> = ({
   type,
   image,
 }) => {
+  const { viewTransitions } = useToggles();
+
+  const CardOuterComponent:
+    | typeof CardOuterTransition
+    | (typeof CardOuter & { href: string }) = viewTransitions
+    ? CardOuterTransition
+    : CardOuter;
+
   const croppedImage = getCrop(image, '16:9');
+
   return (
     <Space
       $v={{ size: 'l', properties: ['margin-bottom'] }}
       className={grid(threeUpGridSizesMap.default[0])}
     >
-      <CardOuterTransition
+      <CardOuterComponent
         href={link}
         style={{ minHeight: '0', viewTransitionName: `player-${number}` }}
         id={`${number}`}
@@ -116,7 +127,7 @@ const GuideStopCard: FunctionComponent<Props> = ({
             </AlignIconFirstLineCenter>
           )}
         </CardBody>
-      </CardOuterTransition>
+      </CardOuterComponent>
     </Space>
   );
 };
