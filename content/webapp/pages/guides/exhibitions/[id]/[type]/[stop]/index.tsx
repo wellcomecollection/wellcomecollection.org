@@ -206,6 +206,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   const [stopNumber, setStopNumber] = useState(stopNumberServerSide);
   const [currentStop, setCurrentStop] = useState(currentStopServerSide);
   const [headerEl, setHeaderEl] = useState<HTMLElement>();
+  const guideTypeUrl = `/guides/exhibitions/${exhibitionGuideId}/${type}`;
+  const pathname = `${guideTypeUrl}/${stopNumber}`;
 
   const headerRef = useCallback((node: HTMLElement) => {
     if (node) setHeaderEl(node);
@@ -231,6 +233,27 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     `player-${currentStop.number}`
   );
 
+  // Because we've given the page the appearance of a modal, we handle the case
+  // where someone hits 'Escape' as an intention to return to the previous state (page)
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        const prev = `${guideTypeUrl}#${currentStop.number}`;
+        setViewTransitionName(`player-${currentStop.number}`);
+
+        if (!document.startViewTransition) {
+          router.push(prev);
+        }
+
+        document.startViewTransition(() => router.push(prev));
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   useEffect(() => {
     setStopNumber(Number(router.query.stop));
     const newStop = allStops.find(s => s.number === Number(router.query.stop));
@@ -240,8 +263,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     }
   }, [router.query.stop]);
 
-  const guideTypeUrl = `/guides/exhibitions/${exhibitionGuideId}/${type}`;
-  const pathname = `${guideTypeUrl}/${stopNumber}`;
   const controlText = {
     defaultText: type === 'bsl' ? 'Read subtitles' : 'Read audio transcript',
     contentShowingText:
@@ -363,7 +384,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             )}
           </Layout>
         </div>
-        <PrevNext>
+        {/* Even though we're not transitioning the footer, we need to give it a view-transition-name to make sure it is taken into consideration by the browser when it's computing the transition: https://www.nicchan.me/blog/view-transitions-and-stacking-context/#the-workaround */}
+        <PrevNext style={{ viewTransitionName: 'prevnext' }}>
           <Container>
             <div
               style={{
