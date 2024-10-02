@@ -280,6 +280,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                   },
                   { label: 'Email', value: user?.email },
                   { label: 'Library card number', value: user?.barcode },
+                  { label: 'Role', value: user?.role },
                   /* Membership expiry date? */
                 ]}
               />

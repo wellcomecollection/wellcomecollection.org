@@ -4,6 +4,7 @@ export type UserInfo = {
   email: string;
   emailValidated: boolean;
   barcode: string;
+  role: string;
   userId: string;
 };
 
@@ -19,6 +20,7 @@ export type Auth0UserProfile = {
   family_name: string;
   nickname: string;
   'https://wellcomecollection.org/patron_barcode': string;
+  'https://wellcomecollection.org/patron_role': string;
 };
 
 // Auth0 subject claims (aka user IDs) are prefixed with `auth0|`, plus
@@ -50,5 +52,6 @@ export const auth0UserProfileToUserInfo = (
     email: auth0Profile.email,
     emailValidated: !!auth0Profile.email_verified,
     barcode: auth0Profile['https://wellcomecollection.org/patron_barcode'],
+    role: auth0Profile['https://wellcomecollection.org/patron_role'],
     userId: auth0IdToPublic(auth0Profile.sub),
   };
