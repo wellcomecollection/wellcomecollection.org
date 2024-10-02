@@ -1,8 +1,9 @@
-import { FunctionComponent } from 'react';
+import { ElementType, FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { duration as durationIcon, map } from '@weco/common/icons';
 import { getCrop, ImageType } from '@weco/common/model/image';
+import { useToggles } from '@weco/common/server-data/Context';
 import { font, grid } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
@@ -12,6 +13,7 @@ import {
   CardBody,
   CardImageWrapper,
   CardOuter,
+  CardOuterTransition,
   CardTitle,
 } from '@weco/content/components/Card/Card';
 import ImagePlaceholder, {
@@ -48,13 +50,24 @@ const GuideStopCard: FunctionComponent<Props> = ({
   type,
   image,
 }) => {
+  const { viewTransitions } = useToggles();
+
+  const CardOuterComponent: ElementType = viewTransitions
+    ? CardOuterTransition
+    : CardOuter;
+
   const croppedImage = getCrop(image, '16:9');
+
   return (
     <Space
       $v={{ size: 'l', properties: ['margin-bottom'] }}
       className={grid(threeUpGridSizesMap.default[0])}
     >
-      <CardOuter href={link} style={{ minHeight: '0' }} id={`${number}`}>
+      <CardOuterComponent
+        href={link}
+        style={{ minHeight: '0', viewTransitionName: `player-${number}` }}
+        id={`${number}`}
+      >
         <CardImageWrapper>
           {croppedImage ? (
             <PrismicImage
@@ -71,7 +84,12 @@ const GuideStopCard: FunctionComponent<Props> = ({
               quality="low"
             />
           ) : (
-            <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
+            <div
+              style={{
+                aspectRatio: '16/9',
+                overflow: 'hidden',
+              }}
+            >
               <ImagePlaceholder
                 backgroundColor={placeholderBackgroundColor(number || 1)}
               />
@@ -107,7 +125,7 @@ const GuideStopCard: FunctionComponent<Props> = ({
             </AlignIconFirstLineCenter>
           )}
         </CardBody>
-      </CardOuter>
+      </CardOuterComponent>
     </Space>
   );
 };

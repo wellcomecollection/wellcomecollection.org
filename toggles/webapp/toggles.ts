@@ -79,6 +79,14 @@ const toggles = {
       type: 'permanent',
     },
     {
+      id: 'viewTransitions',
+      title: 'Use view-transitions API',
+      initialValue: false,
+      description:
+        'Use animated transitions between page routes where possible',
+      type: 'experimental',
+    },
+    {
       id: 'showBornDigital',
       title: 'Display born digital files',
       initialValue: false,
