@@ -1,6 +1,6 @@
-import Link from 'next/link';
+import Link, { LinkProps } from 'next/link';
 import { useRouter } from 'next/router';
-import { SyntheticEvent } from 'react';
+import { FunctionComponent, ReactNode, SyntheticEvent } from 'react';
 
 declare global {
   interface Document {
@@ -8,7 +8,12 @@ declare global {
   }
 }
 
-const TransitionLink = ({ href, children, ...props }) => {
+type Props = LinkProps & { children: ReactNode };
+const TransitionLink: FunctionComponent<Props> = ({
+  href,
+  children,
+  ...props
+}) => {
   const router = useRouter();
 
   const handleClick = (event: SyntheticEvent) => {
