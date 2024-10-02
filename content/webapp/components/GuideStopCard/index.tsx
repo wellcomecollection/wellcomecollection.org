@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { ElementType, FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { duration as durationIcon, map } from '@weco/common/icons';
@@ -52,9 +52,8 @@ const GuideStopCard: FunctionComponent<Props> = ({
 }) => {
   const { viewTransitions } = useToggles();
 
-  const CardOuterComponent:
-    | typeof CardOuterTransition
-    | (typeof CardOuter & { href: string }) = viewTransitions
+  // TODO: constrain type
+  const CardOuterComponent: ElementType = viewTransitions
     ? CardOuterTransition
     : CardOuter;
 
