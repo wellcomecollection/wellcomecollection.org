@@ -290,7 +290,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
       apiToolbarLinks={[createPrismicLink(exhibitionGuideId)]}
     >
       <Page>
-        <Header ref={headerRef}>
+        {/* Header needs a view-transition-name even though it isn't transitioning: https://www.nicchan.me/blog/view-transitions-and-stacking-context/#the-workaround */}
+        <Header ref={headerRef} style={{ viewTransitionName: 'header' }}>
           <Container>
             <HeaderInner>
               <div>
@@ -384,7 +385,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             )}
           </Layout>
         </div>
-        {/* Even though we're not transitioning the footer, we need to give it a view-transition-name to make sure it is taken into consideration by the browser when it's computing the transition: https://www.nicchan.me/blog/view-transitions-and-stacking-context/#the-workaround */}
+        {/* PrevNext needs a view-transition-name even though it isn't transitioning: https://www.nicchan.me/blog/view-transitions-and-stacking-context/#the-workaround */}
         <PrevNext style={{ viewTransitionName: 'prevnext' }}>
           <Container>
             <div
