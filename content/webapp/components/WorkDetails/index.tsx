@@ -8,6 +8,7 @@ import { formatDuration } from '@weco/common/utils/format-date';
 import Button from '@weco/common/views/components/Buttons';
 import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { themeValues } from '@weco/common/views/themes/config';
 import { toLink as conceptLink } from '@weco/content/components/ConceptLink';
 import { CopyUrl } from '@weco/content/components/CopyButtons';
@@ -59,6 +60,7 @@ const WorkDetails: FunctionComponent<Props> = ({
   digitalLocationInfo,
   transformedManifest,
 }: Props) => {
+  const { user } = useUser();
   const { showBornDigital } = useToggles();
   const isArchive = useContext(IsArchiveContext);
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
@@ -153,11 +155,16 @@ const WorkDetails: FunctionComponent<Props> = ({
   const hasBornDigital =
     bornDigitalStatus && bornDigitalStatus !== 'noBornDigital';
 
+  const treatAsRestricted =
+    digitalLocationInfo?.accessCondition === 'restricted' &&
+    user?.role !== 'StaffWithRestricted';
+
   const showAvailableOnlineSection =
-    (digitalLocation && shouldShowItemLink) ||
-    hasVideo ||
-    hasSound ||
-    (hasBornDigital && showBornDigital);
+    ((digitalLocation && shouldShowItemLink) ||
+      hasVideo ||
+      hasSound ||
+      (hasBornDigital && showBornDigital)) &&
+    !treatAsRestricted;
 
   const renderContent = () => (
     <>
