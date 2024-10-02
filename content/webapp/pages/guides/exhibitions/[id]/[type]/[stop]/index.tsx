@@ -385,7 +385,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             )}
           </Layout>
         </div>
-        {/* Header needs a view-transition-name even though it isn't transitioning: https://www.nicchan.me/blog/view-transitions-and-stacking-context/#the-workaround */}
+        {/* PrevNext needs a view-transition-name even though it isn't transitioning: https://www.nicchan.me/blog/view-transitions-and-stacking-context/#the-workaround */}
         <PrevNext style={{ viewTransitionName: 'prevnext' }}>
           <Container>
             <div

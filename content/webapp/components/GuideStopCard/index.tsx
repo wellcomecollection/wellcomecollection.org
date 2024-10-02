@@ -52,7 +52,6 @@ const GuideStopCard: FunctionComponent<Props> = ({
 }) => {
   const { viewTransitions } = useToggles();
 
-  // TODO: constrain type
   const CardOuterComponent: ElementType = viewTransitions
     ? CardOuterTransition
     : CardOuter;
