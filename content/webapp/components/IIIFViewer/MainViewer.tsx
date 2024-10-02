@@ -84,6 +84,7 @@ type ItemRendererProps = {
     rotatedImages: RotatedImage[];
     errorHandler?: () => void;
     externalAccessService: TransformedAuthService | undefined;
+    accessToken?: string;
   };
 };
 
@@ -210,16 +211,18 @@ function getPositionData({
   return highlightsPositioningData || [];
 }
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
-  const { scrollVelocity, canvases, externalAccessService } = data;
+  const { scrollVelocity, canvases, externalAccessService, accessToken } = data;
   const [mainLoaded, setMainLoaded] = useState(false);
   const currentCanvas = canvases[index];
-  const mainImageService = { '@id': currentCanvas.imageServiceId };
-  const urlTemplateMain = mainImageService['@id']
-    ? iiifImageTemplate(mainImageService['@id'])
+  // TODO loop through each painting instead and get image service id directly
+  // TODO duplicate painting in the array to see what happens when more than one
+  // TODO then take imageServiceId off of transformedCanvas - just get working first with what we have
+  const urlTemplateMain = currentCanvas.imageServiceId // TODO do we need to do this for each painting?
+    ? iiifImageTemplate(currentCanvas.imageServiceId)
     : undefined;
   const infoUrl =
-    mainImageService['@id'] &&
-    convertRequestUriToInfoUri(mainImageService['@id']);
+    currentCanvas.imageServiceId &&
+    convertRequestUriToInfoUri(currentCanvas.imageServiceId);
   const imageType = scrollVelocity >= 1 ? 'none' : 'main';
   const isRestricted = currentCanvas.hasRestrictedImage;
   const { searchResults, rotatedImages } = useContext(ItemViewerContext);
@@ -232,6 +235,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const [overlayPositionData, setOverlayPositionData] = useState<
     OverlayPositionData[]
   >([]);
+  const [probeServiceResponse, setProbeServiceResponse] = useState();
 
   useEffect(() => {
     const fetchOcr = async () => {
@@ -269,13 +273,75 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     }
   }, [imageRect, imageContainerRect, currentCanvas, searchResults]);
 
+  // TODO might have been talking nonsense about V1 working for auth
+  // maybe not if we're not using Probe service
+  const probeService = currentCanvas.painting[0].service.find(
+    s => s.type === 'AuthProbeService2'
+  ); // TODO get in more robust way looping through paintings - this assumes only one painting - as does current code which should be fixed
+
+  // PROBE service
+  // TODO if AuthAccessService2 = https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin
+
+  // const response = await fetch(probeService.id, {
+  //   method: "POST",
+  //   // ...
+  // });
+  // TODO only if logged in staff
+  // TODO pass the iframe in here
+  // useEffect(() => {
+  //   // TODO if not accessTaken then open the service?
+  //   // const authServiceWindow = window.open(
+  //   //   'http://google.com'
+  //   //   // `${clickThroughService?.id || ''}?origin=${origin}`
+  //   // );
+  //   // authServiceWindow &&
+  //   //   authServiceWindow.addEventListener('unload', function () {
+  //   //     // reloadAuthIframe(document, iframeId);
+  //   //   });
+  //   // }}
+  //   // declare the async data fetching function
+  //   const fetchData = async () => {
+  //     // get the data from the api
+  //     const data = await fetch(probeService.id);
+  //     // convert the data to json
+  //     const json = await data.json();
+  //     // set state with the result
+  //     console.log(json);
+  //     // setData(json);
+  //   };
+  //   // call the function
+  //   fetchData()
+  //     // make sure to catch any error
+  //     .catch(console.error);
+  // }, []);
+
+  useEffect(() => {
+    // console.log('HEY', accessToken); // TODO
+    console.log({ id: probeService.id, token: accessToken });
+    fetch(probeService.id, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+      .then(resp => resp.json())
+      .then(json => {
+        console.log(json); // TODO remove
+        setProbeServiceResponse(json);
+      });
+  }, []);
+
+  // TODO viewing restricted material bit
+  // TODO probe service 401s afters  while? needs to hard refresh reclick, then refresh again
   return (
     <div style={style}>
+      {/* // TODO we need to do probe service stuff in this file */}
+      {/* TODO why probe service twice where should we get it from? */}
+      {/* <pre>Probe service: {JSON.stringify(probeService, null, 2)}</pre> */}
+      <p>Access token: {accessToken || null}</p>
+
       {scrollVelocity === 3 ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <LL $lighten={true} />
         </div>
-      ) : isRestricted ? (
+      ) : isRestricted && probeServiceResponse?.status !== 200 ? ( // TODO properly
         <MessageContainer>
           <h2 className={font('intb', 4)}>{externalAccessService?.label}</h2>
           <p
@@ -380,6 +446,7 @@ const MainViewer: FunctionComponent = () => {
     rotatedImages,
     setShowControls,
     errorHandler,
+    accessToken,
   } = useContext(ItemViewerContext);
   const { authV2 } = useToggles();
   const { shouldScrollToCanvas, canvas } = query;
@@ -454,6 +521,7 @@ const MainViewer: FunctionComponent = () => {
           errorHandler,
           externalAccessService,
           canvas,
+          accessToken,
         }}
         itemSize={mainAreaWidth}
         onItemsRendered={debounceHandleOnItemsRendered.current}

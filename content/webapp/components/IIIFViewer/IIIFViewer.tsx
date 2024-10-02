@@ -45,6 +45,8 @@ type IIIFViewerProps = {
   searchResults: SearchResults | null;
   setSearchResults: (v) => void;
   parentManifest?: ParentManifest;
+  accessToken?: string;
+  isTotallyRestricted: boolean;
 };
 
 const LoadingComponent = () => (
@@ -214,6 +216,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   searchResults,
   setSearchResults,
   parentManifest,
+  accessToken,
 }: IIIFViewerProps) => {
   const router = useRouter();
   const {
@@ -247,6 +250,8 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [showControls, setShowControls] = useState(
     Boolean(hasIiifImage && !hasImageService)
   );
+
+  /// TODO why accessToken no longer set, where did that code go?
 
   // We need to reset the MainAreaWidth and MainAreaHeight
   // when the available space changes.
@@ -318,6 +323,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setRotatedImages,
         isResizing,
         errorHandler: handleImageError,
+        accessToken,
       }}
     >
       <Grid ref={viewerRef} $isFullSupportBrowser={isFullSupportBrowser}>

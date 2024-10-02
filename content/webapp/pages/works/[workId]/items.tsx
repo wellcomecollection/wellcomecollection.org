@@ -22,6 +22,7 @@ import Button from '@weco/common/views/components/Buttons';
 import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import Space from '@weco/common/views/components/styled/Space';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
 import IIIFItemList from '@weco/content/components/IIIFItemList/IIIFItemList';
 import IIIFViewer, {
@@ -98,9 +99,13 @@ function getIframeAuthSrc({ workId, origin, auth, authV2 }) {
   }
 }
 
+// TODO move functions to iiif v3 utils?
+// TODO comment // use v2 first/
 // If more than one access service is available, the client should interact with them in the order external, kiosk, active. - https://iiif.io/api/auth/2.0/#33-interaction-patterns
 // For non logged in users/logged in non staff we clickThrough (i.e. active) first because we want users to be able to see the non restricted things
+// TODO other way around if logged in staff
 function getAuthService({ auth, authV2 }) {
+  // TODO NEXT need to return both services - some things have both
   if (auth && authV2) {
     return (
       auth.v2.activeAccessService ||
@@ -156,6 +161,8 @@ const ItemPage: NextPage<Props> = ({
   serverSearchResults,
   parentManifest,
 }) => {
+  const { user } = useUser();
+  const role = user?.role;
   const { authV2 } = useToggles();
   const transformedManifest =
     compressedTransformedManifest &&
@@ -169,16 +176,17 @@ const ItemPage: NextPage<Props> = ({
     ...transformedManifest,
   };
 
+  // TODO need to take logged in staff into account
   const needsModal = checkModalRequired({
     auth,
     isAnyImageOpen,
     authV2,
   });
-
+  const [accessToken, setAccessToken] = useState();
   const [searchResults, setSearchResults] = useState(serverSearchResults);
   const authService = getAuthService({ auth, authV2 });
   const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
-
+  // TODO only do auth stuff with V2 externalAccessService - does it work with v1?
   const displayTitle =
     title || (work && removeIdiomaticTextTags(work.title)) || '';
   const { imageServiceId = '' } = { ...currentCanvas };
@@ -188,12 +196,19 @@ const ItemPage: NextPage<Props> = ({
 
   const hasImage = hasItemType(canvases, 'Image');
   const hasPdf = hasOriginalPdf(canvases);
+  const isTotallyRestricted = getIsTotallyRestricted({ auth, authV2 });
 
+  const hasAuthV2RestrictedLogin =
+    authService.id ===
+    'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin'; // . TODO need to account for more than one service
+
+  // TODO commments to explain this
+  const tryAndGetAuthCookie = role === 'StaffWithRestricted'; // ;&& hasAuthV2RestrictedLogin; // TODO not if have CORRECT token already - determine by probe service?
   // showViewer is true by default, so the noScriptViewer is available without javascript
   // if javascript is available we set it to false and then determine whether the clickthrough modal is required
   // before setting it to true
   useEffect(() => {
-    setShowViewer(false);
+    setShowViewer(true); // TODO put back to false
   }, []);
 
   useEffect(() => {
@@ -201,31 +216,44 @@ const ItemPage: NextPage<Props> = ({
   }, []);
 
   useEffect(() => {
+    // console.log('auth', { authService });
+    if (tryAndGetAuthCookie) {
+      const authServiceWindow = window.open(
+        `${authService?.id || ''}?origin=${origin}`
+      );
+      authServiceWindow &&
+        authServiceWindow.addEventListener('unload', function () {
+          reloadAuthIframe(document, iframeId);
+        });
+    }
+  }, [tryAndGetAuthCookie]);
+
+  useEffect(() => {
     function receiveMessage(event: MessageEvent) {
       const data = event.data;
       const tokenService = getTokenService({ auth, authV2 });
       const service = tokenService && new URL(tokenService.id);
-      const isTotallyRestricted = getIsTotallyRestricted({ auth, authV2 });
+
       // We check this is the event we are interested in
       // N.B. locally react dev tools will create a lot of events
-
       if (service.origin === event.origin) {
         if (Object.prototype.hasOwnProperty.call(data, 'accessToken')) {
-          setShowModal(Boolean(isTotallyRestricted));
-          setShowViewer(!isTotallyRestricted);
+          setAccessToken(data.accessToken);
+          // setShowModal(Boolean(isTotallyRestricted));
+          // setShowViewer(!isTotallyRestricted);
         } else {
-          setShowModal(true);
-          setShowViewer(false);
+          // setShowModal(true);
+          // setShowViewer(false);
         }
       }
     }
-    if (needsModal) {
-      window.addEventListener('message', receiveMessage);
-      return () => window.removeEventListener('message', receiveMessage);
-    } else {
-      setShowModal(false);
-      setShowViewer(true);
-    }
+    // if (needsModal) {
+    window.addEventListener('message', receiveMessage);
+    return () => window.removeEventListener('message', receiveMessage);
+    // } else {
+    //   setShowModal(false);
+    //   setShowViewer(true);
+    // }
   }, []);
 
   return (
@@ -260,6 +288,7 @@ const ItemPage: NextPage<Props> = ({
       so we check for the presence of a pdf in the original property of the canvas.
       If it has one we show the IIIFItemList
       */}
+      <pre>{JSON.stringify(user?.role, null, 2)}</pre>
 
       {(!hasImage || hasPdf) && showViewer && (
         <Layout gridSizes={gridSize12()}>
@@ -337,6 +366,8 @@ const ItemPage: NextPage<Props> = ({
             searchResults={searchResults}
             setSearchResults={setSearchResults}
             parentManifest={parentManifest}
+            accessToken={accessToken}
+            isTotallyRestricted={isTotallyRestricted}
           />
         )}
     </CataloguePageLayout>

@@ -182,8 +182,9 @@ export const isChoiceBody = (
 type AnnotationPageBody = {
   service: BodyService;
 };
-
+// TODO Update this function to get this in a more robust way? use getAnnotationsOfMotivation?
 function getImageService(canvas: Canvas): BodyService | undefined {
+  // we're just grabbing the first one
   const items = canvas?.items;
   const AnnotationPages = items?.[0].items;
   const AnnotationBodies = AnnotationPages?.map(
@@ -193,6 +194,7 @@ function getImageService(canvas: Canvas): BodyService | undefined {
         | AnnotationPageBody[]
         | undefined
   ).flat();
+  // const paintings = getAnnotationsOfMotivation(canvas.items || [], 'painting'); // this doesn't work?
   const BodiesServices = AnnotationBodies?.map(body => body?.service).flat();
   const imageService = BodiesServices?.find(
     service => service?.['@type'] === 'ImageService2'
@@ -226,7 +228,7 @@ function getImageAuthCookieService(
       : undefined;
 }
 
-function getImageAuthProbeService(
+export function getImageAuthProbeService(
   service: BodyService2 | undefined
 ): AuthProbeService2 | undefined {
   return Array.isArray(service)
@@ -243,6 +245,7 @@ function getImageAuthProbeService(
 // So we check if any canvas _doesn't_ have an authService, and treat the whole item as open access if that's the case.
 // This allows us to determine whether or not to show the viewer at all.
 // N.B. the individual items within the viewer won't display if they are restricted.
+// TODO work out how this interacts with staff access
 export function checkIsAnyImageOpen(
   transformedCanvases: TransformedCanvas[]
 ): boolean {
@@ -348,6 +351,7 @@ type checkModalParams = {
   authV2?: boolean;
 };
 
+// TODO should we just show it for restricted, rather than have the modal?
 export function checkModalRequired(params: checkModalParams): boolean {
   const { auth, isAnyImageOpen, authV2 } = params;
   // If authV2 is true, We try to use the iiif auth V2 services and fallback to V1 in case the manifest doesn't contain V2
