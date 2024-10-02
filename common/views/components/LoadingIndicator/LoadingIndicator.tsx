@@ -42,7 +42,6 @@ const LoadingIndicator: FunctionComponent = () => {
   function handleRouteChangeComplete() {
     NProgress.done();
   }
-
   useEffect(() => {
     Router.events.on('routeChangeStart', handleRouteChangeStart);
     Router.events.on('routeChangeComplete', handleRouteChangeComplete);
