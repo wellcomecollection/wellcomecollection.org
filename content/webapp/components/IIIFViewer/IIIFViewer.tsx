@@ -45,6 +45,7 @@ type IIIFViewerProps = {
   searchResults: SearchResults | null;
   setSearchResults: (v) => void;
   parentManifest?: ParentManifest;
+  accessToken?: string;
 };
 
 const LoadingComponent = () => (
@@ -207,6 +208,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   searchResults,
   setSearchResults,
   parentManifest,
+  accessToken,
 }: IIIFViewerProps) => {
   const router = useRouter();
   const {
@@ -311,6 +313,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setRotatedImages,
         isResizing,
         errorHandler: handleImageError,
+        accessToken,
       }}
     >
       <Grid ref={viewerRef} $isFullSupportBrowser={isFullSupportBrowser}>
