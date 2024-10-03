@@ -192,7 +192,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
 
   return (
     <>
-      {/* TODO logic for this - the message should only show it the user has a role of 'StaffWithRestricted' */}
+      {/* TODO logic for this - the message should only show if there are restricted items on the page and the user has a role of 'StaffWithRestricted' */}
       <RestrictedMessage>
         <Inner className={font('intr', 5)}>
           <Icon icon={info2} iconColor="accent.blue" />
