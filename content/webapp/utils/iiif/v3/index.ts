@@ -46,19 +46,17 @@ export function getMultiVolumeLabel(
   internationalString: InternationalString,
   itemTitle: string
 ): string | undefined {
-  const stringAtIndex1 = getEnFromInternationalString(internationalString, {
+  const stringAtIndex1 = getDisplayLabel(internationalString, {
     index: 1,
   });
-  const stringAtIndex0 = getEnFromInternationalString(internationalString, {
+  const stringAtIndex0 = getDisplayLabel(internationalString, {
     index: 0,
   });
 
   return stringAtIndex1 === itemTitle ? stringAtIndex0 : stringAtIndex1;
 }
 
-// TODO: rename this to something like getDisplayLabel since the key of interest
-// can be either 'en' or 'none'
-export function getEnFromInternationalString(
+export function getDisplayLabel(
   internationalString: InternationalString,
   indexProps?: { index: number }
 ): string | undefined {
@@ -74,7 +72,7 @@ export function transformLabel(
 ): string | undefined {
   if (typeof label === 'string' || label === undefined) return label;
 
-  return getEnFromInternationalString(label);
+  return getDisplayLabel(label);
 }
 
 // It appears that iiif-manifests for born digital items can exist without the items property
@@ -132,7 +130,7 @@ export function getTitle(
   if (!label) return '';
   if (typeof label === 'string') return label;
 
-  return getEnFromInternationalString(label) || '';
+  return getDisplayLabel(label) || '';
 }
 
 export function getTransformedCanvases(
@@ -254,7 +252,7 @@ export function getIIIFMetadata(
   label: string
 ): MetadataItem | undefined {
   return (manifest.metadata || []).find(
-    data => getEnFromInternationalString(data.label) === label
+    data => getDisplayLabel(data.label) === label
   );
 }
 
@@ -263,7 +261,7 @@ export function getIIIFPresentationCredit(
 ): string | undefined {
   const attribution = getIIIFMetadata(manifest, 'Attribution and usage');
   const maybeValueWithBrTags =
-    attribution?.value && getEnFromInternationalString(attribution.value);
+    attribution?.value && getDisplayLabel(attribution.value);
 
   return maybeValueWithBrTags?.split('<br />')[0];
 }
@@ -489,8 +487,8 @@ export function groupRanges(
       );
 
       if (
-        getEnFromInternationalString(acc.previousLabel) ===
-          getEnFromInternationalString(range.label) &&
+        getDisplayLabel(acc.previousLabel) ===
+          getDisplayLabel(range.label) &&
         acc.previousLastCanvasIndex &&
         firstCanvasIndex === acc.previousLastCanvasIndex + 1
       ) {
