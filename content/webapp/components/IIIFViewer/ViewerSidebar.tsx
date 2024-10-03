@@ -8,7 +8,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
-import { arrow, chevron } from '@weco/common/icons';
+import { arrow, chevron, info2 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
@@ -25,6 +25,36 @@ import { removeTrailingFullStop, toHtmlId } from '@weco/content/utils/string';
 
 import MultipleManifestList from './MultipleManifestList';
 import ViewerStructures from './ViewerStructures';
+
+const RestrictedMessage = styled(Space).attrs({
+  // TODO do properly - colours from palette, flex etc. - maybe use AlertBox from identity app - move it to common?
+  $h: { size: 'm', properties: ['margin-left', 'margin-right'] },
+  $v: { size: 'm', properties: ['margin-top'] },
+})`
+  background: #f0f6ff;
+  color: black;
+  border-radius: 3px;
+  border-left: 5px solid #1672f3;
+
+  div {
+    padding-left: 40px;
+    position: relative;
+  }
+
+  h2 {
+    display: inline;
+    color: #003170;
+  }
+
+  p {
+    display: inline;
+  }
+
+  .icon {
+    position: absolute;
+    left: 10px;
+  }
+`;
 
 const Inner = styled(Space).attrs({
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -162,6 +192,19 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
 
   return (
     <>
+      {/* TODO logic for this - the message should only show it the user has a role of 'StaffWithRestricted' */}
+      <RestrictedMessage>
+        <Inner className={font('intr', 5)}>
+          <Icon icon={info2} iconColor="accent.blue" />
+          <h2>Restricted item</h2>
+          &nbsp;
+          {/* TODO speak to Dana about wording, it may be that only certain parts of the page that are hidden from the public. */}
+          <p>
+            This page is hidden from the public and can only be viewed by some
+            staff.
+          </p>
+        </Inner>
+      </RestrictedMessage>
       <Inner className={font('intb', 5)}>
         {manifestLabel && (
           <span className={font('intr', 5)}>{manifestLabel}</span>
