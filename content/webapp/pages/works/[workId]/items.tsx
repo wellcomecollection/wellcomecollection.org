@@ -22,6 +22,7 @@ import Button from '@weco/common/views/components/Buttons';
 import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import Space from '@weco/common/views/components/styled/Space';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
 import IIIFItemList from '@weco/content/components/IIIFItemList/IIIFItemList';
 import IIIFViewer, {
@@ -156,6 +157,8 @@ const ItemPage: NextPage<Props> = ({
   serverSearchResults,
   parentManifest,
 }) => {
+  const { user } = useUser();
+  const role = user?.role;
   const { authV2 } = useToggles();
   const transformedManifest =
     compressedTransformedManifest &&
