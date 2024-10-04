@@ -174,7 +174,7 @@ const ItemPage: NextPage<Props> = ({
     isAnyImageOpen,
     authV2,
   });
-
+  const [accessToken, setAccessToken] = useState();
   const [searchResults, setSearchResults] = useState(serverSearchResults);
   const authService = getAuthService({ auth, authV2 });
   const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
@@ -213,6 +213,7 @@ const ItemPage: NextPage<Props> = ({
         if (Object.prototype.hasOwnProperty.call(data, 'accessToken')) {
           setShowModal(Boolean(isTotallyRestricted));
           setShowViewer(!isTotallyRestricted);
+          setAccessToken(data.accessToken);
         } else {
           setShowModal(true);
           setShowViewer(false);
@@ -337,6 +338,7 @@ const ItemPage: NextPage<Props> = ({
             searchResults={searchResults}
             setSearchResults={setSearchResults}
             parentManifest={parentManifest}
+            accessToken={accessToken}
           />
         )}
     </CataloguePageLayout>
