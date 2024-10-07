@@ -12,6 +12,7 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import ArchiveBreadcrumb from '@weco/content/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
 import ArchiveTree from '@weco/content/components/ArchiveTree';
 import BackToResults from '@weco/content/components/BackToResults/BackToResults';
@@ -69,6 +70,8 @@ export const WorkPage: NextPage<Props> = ({
   apiUrl,
   transformedManifest,
 }) => {
+  const { user } = useUser();
+  const role = user?.role;
   const isArchive = !!(
     work.parts.length ||
     (work.partOf.length > 0 && work.partOf[0].totalParts)
@@ -93,6 +96,7 @@ export const WorkPage: NextPage<Props> = ({
   const allOriginalPdfs = isAllOriginalPdfs(canvases || []);
 
   const shouldShowItemLink = showItemLink({
+    role,
     allOriginalPdfs,
     hasIIIFManifest: !!transformedManifest,
     digitalLocation,
