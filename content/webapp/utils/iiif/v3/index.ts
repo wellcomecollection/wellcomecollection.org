@@ -341,13 +341,14 @@ export function getTokenService(
 }
 
 type checkModalParams = {
+  role?: string;
   auth?: Auth;
   isAnyImageOpen?: boolean;
   authV2?: boolean;
 };
 
 export function checkModalRequired(params: checkModalParams): boolean {
-  const { auth, isAnyImageOpen, authV2 } = params;
+  const { role, auth, isAnyImageOpen, authV2 } = params;
   // If authV2 is true, We try to use the iiif auth V2 services and fallback to V1 in case the manifest doesn't contain V2
   const externalAccessService = authV2
     ? auth?.v2.externalAccessService || auth?.v1.externalAccessService
@@ -358,7 +359,11 @@ export function checkModalRequired(params: checkModalParams): boolean {
   if (activeAccessService) {
     return true;
   } else if (externalAccessService) {
-    return !isAnyImageOpen;
+    if (isAnyImageOpen || role === 'StaffWithRestricted') {
+      return false;
+    } else {
+      return true;
+    }
   } else {
     return false;
   }

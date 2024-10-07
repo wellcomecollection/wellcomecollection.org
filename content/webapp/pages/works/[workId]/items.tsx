@@ -173,6 +173,7 @@ const ItemPage: NextPage<Props> = ({
   };
 
   const needsModal = checkModalRequired({
+    role,
     auth,
     isAnyImageOpen,
     authV2,
@@ -230,7 +231,7 @@ const ItemPage: NextPage<Props> = ({
       setShowModal(false);
       setShowViewer(true);
     }
-  }, []);
+  }, [needsModal]);
 
   return (
     <CataloguePageLayout
