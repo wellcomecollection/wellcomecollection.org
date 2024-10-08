@@ -21,6 +21,8 @@ updates:
       # Needs to be done carefully, has its own ticket. Remove this once it's done.
       - dependency-name: 'slice-machine-ui'
       - dependency-name: '@slicemachine'
+      # Needs more work, has its own ticket. Remove this once it's done.
+      - dependency-name: 'eslint*'
     groups:
       all:
         patterns: ['*']
