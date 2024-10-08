@@ -339,6 +339,30 @@ export function getTokenService(
       )
     : clickThroughService?.service;
 }
+type AuthServices = {
+  active?: TransformedAuthService;
+  external?: TransformedAuthService;
+};
+
+export function getAuthServices({
+  auth,
+  authV2,
+}: {
+  auth?: Auth;
+  authV2?: boolean;
+}): AuthServices | undefined {
+  if (auth && authV2) {
+    return {
+      active: auth.v2.activeAccessService,
+      external: auth.v2.externalAccessService, // Only the v2 external service works (v1 responds with a 404), so we only try returning the v2 service
+    };
+  } else if (auth) {
+    return {
+      active: auth.v1.activeAccessService,
+      external: auth.v2.externalAccessService, // Only the v2 external service works (v1 responds with a 404), so we try returning the v2 service regardless of the toggle value, so we can use it if it is available
+    };
+  }
+}
 
 type checkModalParams = {
   role?: string;
@@ -349,16 +373,10 @@ type checkModalParams = {
 
 export function checkModalRequired(params: checkModalParams): boolean {
   const { role, auth, isAnyImageOpen, authV2 } = params;
-  // If authV2 is true, We try to use the iiif auth V2 services and fallback to V1 in case the manifest doesn't contain V2
-  const externalAccessService = authV2
-    ? auth?.v2.externalAccessService || auth?.v1.externalAccessService
-    : auth?.v1.externalAccessService;
-  const activeAccessService = authV2
-    ? auth?.v2.activeAccessService || auth?.v1.activeAccessService
-    : auth?.v1.activeAccessService;
-  if (activeAccessService) {
+  const authServices = getAuthServices({ auth, authV2 });
+  if (authServices?.active) {
     return true;
-  } else if (externalAccessService) {
+  } else if (authServices?.external) {
     if (isAnyImageOpen || role === 'StaffWithRestricted') {
       return false;
     } else {
