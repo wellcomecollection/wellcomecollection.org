@@ -2,9 +2,10 @@ import { Content } from '@prismicio/client';
 import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import GuideStopCard from '@weco/content/components/GuideStopCard';
 import { transformGuideStopSlice } from '@weco/content/services/prismic/transformers/exhibition-highlight-tours';
-
+import { ExhibitionHighlightTour } from '@weco/content/types/exhibition-guides';
 export type GuideStopProps = SliceComponentProps<Content.GuideStopSlice>;
 
 const GuideStopSlice: FunctionComponent<GuideStopProps> = ({
@@ -19,12 +20,12 @@ const GuideStopSlice: FunctionComponent<GuideStopProps> = ({
   const { number, title, image, audioDuration, videoDuration } =
     transformedSlice;
 
-  const { type, id } = context as {
+  const { type, exhibitionGuide } = context as {
     type: 'bsl' | 'audio-without-descriptions';
-    id: string;
+    exhibitionGuide: ExhibitionHighlightTour;
   };
   const link = number
-    ? `/guides/exhibitions/${id}/${type}/${number}`
+    ? `${linkResolver(exhibitionGuide)}/${type}/${number}`
     : undefined;
 
   const duration = type === 'bsl' ? videoDuration : audioDuration;

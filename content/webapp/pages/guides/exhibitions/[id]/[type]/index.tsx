@@ -205,7 +205,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   useHotjar(true);
 
   const { exhibitionGuide, jsonLd, type, userPreferenceSet } = props;
-  const pathname = `guides/exhibitions/${exhibitionGuide.uid}/${type}`;
+  const pathname = `${linkResolver(exhibitionGuide)}/${type}`;
 
   const thisStopTitle = props.stopId
     ? isExhibitionGuide(exhibitionGuide) &&
@@ -311,7 +311,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             <SliceZone
               slices={exhibitionGuide.stops}
               components={components}
-              context={{ type, id: exhibitionGuide.id }}
+              context={{ type, exhibitionGuide }}
             />
           </div>
         </Container>
