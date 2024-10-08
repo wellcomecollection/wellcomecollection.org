@@ -40,6 +40,7 @@ import {
 import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/json-ld';
 import {
   ExhibitionGuideType,
+  ExhibitionHighlightTour,
   GuideHighlightTour,
   isValidExhibitionGuideType,
 } from '@weco/content/types/exhibition-guides';
@@ -52,6 +53,7 @@ type Props = {
   exhibitionGuideId: string;
   exhibitionTitle: string;
   stopNumberServerSide: number;
+  exhibitionGuide: ExhibitionHighlightTour;
   allStops: GuideHighlightTour[];
 };
 
@@ -179,7 +181,8 @@ export const getServerSideProps: GetServerSideProps<
         type,
         stopNumberServerSide,
         exhibitionTitle,
-        exhibitionGuideId: id,
+        exhibitionGuideId: exhibitionHighlightTour.id,
+        exhibitionGuide: exhibitionHighlightTour,
         allStops,
       }),
     };
@@ -196,6 +199,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     exhibitionGuideId,
     exhibitionTitle,
     stopNumberServerSide,
+    exhibitionGuide,
     allStops,
   } = props;
   useHotjar(exhibitionGuideId === 'ZthrZRIAACQALvCC'); // Only on Jason and the Adventure of 254
@@ -207,7 +211,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   const [stopNumber, setStopNumber] = useState(stopNumberServerSide);
   const [currentStop, setCurrentStop] = useState(currentStopServerSide);
   const [headerEl, setHeaderEl] = useState<HTMLElement>();
-  const guideUrl = linkResolver(exhibition);
+  const guideUrl = linkResolver(exhibitionGuide);
   const guideTypeUrl = `${guideUrl}/${type}`;
   const pathname = `${guideTypeUrl}/${stopNumber}`;
 
