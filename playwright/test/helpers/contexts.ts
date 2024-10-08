@@ -188,6 +188,14 @@ const workWithDigitalLocationOnly = async (
   await gotoWithoutCache(`${baseUrl}/works/j9kukb78`, page);
 };
 
+const workWithDigitalLocationAndRestricted = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/jjdp9v65`, page);
+};
+
 const workWithDigitalLocationAndLocationNote = async (
   context: BrowserContext,
   page: Page
@@ -315,6 +323,7 @@ export {
   itemWithReferenceNumber,
   workWithPhysicalLocationOnly,
   workWithDigitalLocationOnly,
+  workWithDigitalLocationAndRestricted,
   workWithDigitalLocationAndLocationNote,
   workWithBornDigitalDownloads,
   itemWithOnlyOpenAccess,

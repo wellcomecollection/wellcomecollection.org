@@ -5,6 +5,7 @@ import {
   isMobile,
   workWithBornDigitalDownloads,
   workWithDigitalLocationAndLocationNote,
+  workWithDigitalLocationAndRestricted,
   workWithDigitalLocationOnly,
   workWithPhysicalLocationOnly,
 } from './helpers/contexts';
@@ -71,6 +72,15 @@ test.describe(`Scenario 1: a user wants to see relevant information about where 
     await workWithDigitalLocationAndLocationNote(context, page);
     const availableOnline = await getAvailableOnline(page);
     await expect(availableOnline).toBeVisible();
+  });
+
+  test(`works with a digital location don't display an 'Available online' section if the work is restricted and the user doesn't have a role of 'StaffWithRestricted'`, async ({
+    page,
+    context,
+  }) => {
+    await workWithDigitalLocationAndRestricted(context, page);
+    const availableOnline = await getAvailableOnline(page);
+    await expect(availableOnline).toHaveCount(0);
   });
 
   test(`works with only a digital location don't display a 'Where to find it' section`, async ({

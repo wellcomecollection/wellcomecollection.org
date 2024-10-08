@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { getCrop } from '@weco/common/model/image';
 import { Label as LabelType } from '@weco/common/model/labels';
@@ -7,6 +7,7 @@ import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
+import TransitionLink from '@weco/common/views/components/TransitionLink';
 import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
 import { Card as CardType } from '@weco/content/types/card';
 
@@ -18,9 +19,7 @@ type Props = {
   item: CardType;
 };
 
-export const CardOuter = styled.a.attrs<{ 'data-gtm-trigger'?: 'card_link' }>({
-  'data-gtm-trigger': 'card_link',
-})`
+const sharedCardOuter = css`
   height: 100%;
   display: block; /* IE */
 
@@ -74,6 +73,22 @@ export const CardOuter = styled.a.attrs<{ 'data-gtm-trigger'?: 'card_link' }>({
       }
     }
   }
+`;
+
+export const CardOuter = styled.a.attrs<{
+  'data-gtm-trigger'?: 'card_link';
+}>({
+  'data-gtm-trigger': 'card_link',
+})`
+  ${sharedCardOuter};
+`;
+
+export const CardOuterTransition = styled(TransitionLink).attrs<{
+  'data-gtm-trigger'?: 'card_link';
+}>({
+  'data-gtm-trigger': 'card_link',
+})`
+  ${sharedCardOuter};
 `;
 
 export const CardPostBody = styled(Space).attrs({
