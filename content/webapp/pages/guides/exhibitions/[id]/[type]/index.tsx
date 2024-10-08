@@ -8,6 +8,7 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { serialiseProps } from '@weco/common/utils/json';
 import { toMaybeString } from '@weco/common/utils/routes';
@@ -235,7 +236,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             },
             {
               text: `${exhibitionGuide.relatedExhibition?.title} Digital Guides`,
-              url: `/guides/exhibitions/${exhibitionGuide.id}`,
+              url: linkResolver(exhibitionGuide),
               isHidden: !exhibitionGuide.relatedExhibition,
             },
           ],
@@ -265,7 +266,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               You selected this type of guide previously, but you can also
               select{' '}
               <a
-                href={`/guides/exhibitions/${exhibitionGuide.id}`}
+                href={linkResolver(exhibitionGuide)}
                 onClick={() => {
                   deleteCookie(cookies.exhibitionGuideType);
                 }}
