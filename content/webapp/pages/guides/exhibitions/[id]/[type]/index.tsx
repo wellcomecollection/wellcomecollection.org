@@ -102,13 +102,21 @@ export const getServerSideProps: GetServerSideProps<
 
   // We don't know exactly which type of document the id is for, so:
   // We try and get any deprecated ExhibitionGuides
-  // and also the custom types that have replaced ExhibitionGuides
+  // and also the custom types that have replaced ExhibitionGuides.
+  // We know from the type which of the new types to retrieve
   const exhibitionGuideQueryPromise = fetchExhibitionGuide(client, id);
-  const exhibitionTextQueryPromise = fetchExhibitionText(client, id);
-  const exhibitionHighlightTourQueryPromise = fetchExhibitionHighlightTour(
-    client,
-    id
-  );
+  const exhibitionTextQueryPromise =
+    type === 'captions-and-transcripts'
+      ? fetchExhibitionText(client, id)
+      : new Promise(resolve => {
+          resolve(undefined);
+        });
+  const exhibitionHighlightTourQueryPromise =
+    type === 'bsl' || type === 'audio-without-descriptions'
+      ? fetchExhibitionHighlightTour(client, id)
+      : new Promise(resolve => {
+          resolve(undefined);
+        });
 
   const [
     exhibitionGuideQuery,
