@@ -53,7 +53,7 @@ export async function fetchEvent(
   client: GetServerSidePropsPrismicClient,
   id: string
 ): Promise<FetchEventResult | undefined> {
-  // TODO once redirects are in place we should only fetch by uid
+  // #11240 once redirects are in place we should only fetch by uid
   const event =
     (await eventsFetcher.getByUid(client, id)) ||
     (await eventsFetcher.getById(client, id));

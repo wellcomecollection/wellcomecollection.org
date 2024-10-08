@@ -22,7 +22,7 @@ export const fetchEventSeriesById = async (
   client: GetServerSidePropsPrismicClient,
   id: string
 ): Promise<RawEventSeriesDocument | undefined> => {
-  // TODO once redirects are in place we should only fetch by uid
+  // #11240 once redirects are in place we should only fetch by uid
   const eventDocumentById =
     (await eventSeriesFetcher.getByUid(client, id)) ||
     (await eventSeriesFetcher.getById(client, id));

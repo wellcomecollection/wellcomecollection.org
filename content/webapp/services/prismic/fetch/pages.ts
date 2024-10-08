@@ -61,7 +61,7 @@ export const fetchPage = async (
   client: GetServerSidePropsPrismicClient,
   id: string
 ): Promise<RawPagesDocument | undefined> => {
-  // TODO once redirects are in place we should only fetch by uid
+  // #11240 once redirects are in place we should only fetch by uid
   const pageDocument =
     (await pagesFetcher.getByUid(client, id)) ||
     (await pagesFetcher.getById(client, id));
