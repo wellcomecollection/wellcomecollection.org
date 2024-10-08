@@ -5,6 +5,10 @@ import { FunctionComponent } from 'react';
 
 import cookies from '@weco/common/data/cookies';
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import {
+  ExhibitionHighlightToursDocument,
+  ExhibitionTextsDocument,
+} from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
@@ -159,7 +163,9 @@ export const getServerSideProps: GetServerSideProps<
 
     // If we're dealing with and ExhibitionText
     if (isNotUndefined(exhibitionTextQuery)) {
-      const exhibitionText = transformExhibitionTexts(exhibitionTextQuery);
+      const exhibitionText = transformExhibitionTexts(
+        exhibitionTextQuery as ExhibitionTextsDocument
+      );
       const jsonLd = exhibitionGuideLd(exhibitionText);
       return {
         props: serialiseProps({
@@ -176,7 +182,7 @@ export const getServerSideProps: GetServerSideProps<
     // If we're dealing with an ExhibitionHighlightTour
     if (isNotUndefined(exhibitionHighlightTourQuery)) {
       const exhibitionHighlightTour = transformExhibitionHighlightTours(
-        exhibitionHighlightTourQuery
+        exhibitionHighlightTourQuery as ExhibitionHighlightToursDocument
       );
       const jsonLd = exhibitionGuideLd(exhibitionHighlightTour);
       return {
