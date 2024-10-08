@@ -1,13 +1,14 @@
-import { ColorSelection } from './color-selections';
-import { ArticleFormatId } from '@weco/content/data/content-format-ids';
-import { Format } from './format';
-import { GenericContentFields } from './generic-content-fields';
-import { Contributor } from './contributors';
-import { Season } from './seasons';
-import { Series, SeriesBasic } from './series';
-import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
+import { ArticleFormatId } from '@weco/content/data/content-format-ids';
+
+import { ColorSelection } from './color-selections';
+import { Contributor } from './contributors';
+import { Format } from './format';
+import { GenericContentFields } from './generic-content-fields';
+import { ImagePromo } from './image-promo';
+import { Season } from './seasons';
+import { Series, SeriesBasic } from './series';
 
 export type ArticleBasic = {
   // this is a mix of props from GenericContentFields and Article

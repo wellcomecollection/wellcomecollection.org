@@ -1,21 +1,22 @@
 import { FunctionComponent, useEffect, useState } from 'react';
+
+import {
+  abortErrorHandler,
+  useAbortSignalEffect,
+} from '@weco/common/hooks/useAbortSignalEffect';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import ExpandableList from '@weco/content/components/ExpandableList/ExpandableList';
 import PhysicalItemDetails from '@weco/content/components/PhysicalItemDetails/PhysicalItemDetails';
 import {
   PhysicalItem,
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
-import ExpandableList from '@weco/content/components/ExpandableList/ExpandableList';
-import {
-  useAbortSignalEffect,
-  abortErrorHandler,
-} from '@weco/common/hooks/useAbortSignalEffect';
-import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
-import { getItemsWithPhysicalLocation } from '@weco/content/utils/works';
+import { getWorkItemsClientSide } from '@weco/content/services/wellcome/catalogue/works';
 import {
   itemIsRequestable,
   itemIsTemporarilyUnavailable,
 } from '@weco/content/utils/requesting';
-import { getWorkItemsClientSide } from '@weco/content/services/wellcome/catalogue/works';
+import { getItemsWithPhysicalLocation } from '@weco/content/utils/works';
 
 type Props = {
   work: Work;

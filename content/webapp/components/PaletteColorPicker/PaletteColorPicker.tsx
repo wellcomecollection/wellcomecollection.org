@@ -1,15 +1,17 @@
 import {
   FunctionComponent,
+  useContext,
   useEffect,
   useRef,
   useState,
-  useContext,
 } from 'react';
 import styled from 'styled-components';
-import HueSlider from './HueSlider';
-import { hexToHsv, hsvToHex } from '@weco/content/utils/convert-colors';
+
 import { font } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { hexToHsv, hsvToHex } from '@weco/content/utils/convert-colors';
+
+import HueSlider from './HueSlider';
 
 export type PaletteColorPickerProps = {
   name: string;

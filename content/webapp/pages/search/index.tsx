@@ -1,43 +1,44 @@
-import { useContext, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
-import styled from 'styled-components';
 import { ParsedUrlQuery } from 'querystring';
+import { useContext, useEffect } from 'react';
+import styled from 'styled-components';
 
-import Space from '@weco/common/views/components/styled/Space';
-import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
-import StoriesGrid from '@weco/content/components/StoriesGrid';
-import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
-import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
-import EventsSearchResults from '@weco/content/components/EventsSearchResults';
-import MoreLink from '@weco/content/components/MoreLink/MoreLink';
-import { Container } from '@weco/common/views/components/styled/Container';
-import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
-import { serialiseProps } from '@weco/common/utils/json';
-import { appError, AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
-import { NextPageWithLayout } from '@weco/common/views/pages/_app';
+import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { font } from '@weco/common/utils/classnames';
-import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
-import { Query } from '@weco/content/types/search';
+import { formatNumber } from '@weco/common/utils/grammar';
+import { serialiseProps } from '@weco/common/utils/json';
+import {
+  decodeQuery,
+  FromCodecMap,
+  stringCodec,
+} from '@weco/common/utils/routes';
+import {
+  getQueryPropertyValue,
+  getQueryResults,
+  ReturnedResults,
+} from '@weco/common/utils/search';
+import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
+import { Container } from '@weco/common/views/components/styled/Container';
+import Space from '@weco/common/views/components/styled/Space';
+import { NextPageWithLayout } from '@weco/common/views/pages/_app';
+import theme from '@weco/common/views/themes/default';
+import EventsSearchResults from '@weco/content/components/EventsSearchResults';
+import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
+import MoreLink from '@weco/content/components/MoreLink/MoreLink';
+import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
+import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
+import StoriesGrid from '@weco/content/components/StoriesGrid';
+import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
+import { WellcomeApiError } from '@weco/content/services/wellcome';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import {
   Image,
   toWorkBasic,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
-import {
-  getQueryResults,
-  getQueryPropertyValue,
-  ReturnedResults,
-} from '@weco/common/utils/search';
-import {
-  decodeQuery,
-  FromCodecMap,
-  stringCodec,
-} from '@weco/common/utils/routes';
-import theme from '@weco/common/views/themes/default';
-import { formatNumber } from '@weco/common/utils/grammar';
+import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
 import { getEvents } from '@weco/content/services/wellcome/content/events';
 import {
@@ -45,10 +46,9 @@ import {
   ContentResultsList,
   EventDocument,
 } from '@weco/content/services/wellcome/content/types/api';
-import { WellcomeApiError } from '@weco/content/services/wellcome';
+import { Query } from '@weco/content/types/search';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
-import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 
 // Creating this version of fromQuery for the overview page only
 // No filters or pagination required.

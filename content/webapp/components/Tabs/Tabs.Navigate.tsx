@@ -1,9 +1,11 @@
-import { FunctionComponent } from 'react';
 import Link, { LinkProps } from 'next/link';
-import { TabsContainer, Tab, NavItemInner, IconWrapper } from './Tabs.styles';
-import Space from '@weco/common/views/components/styled/Space';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import { FunctionComponent } from 'react';
+
 import { IconSvg } from '@weco/common/icons';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Space from '@weco/common/views/components/styled/Space';
+
+import { IconWrapper, NavItemInner, Tab, TabsContainer } from './Tabs.styles';
 
 export type NavigateSelectableTextLink = {
   id: string;

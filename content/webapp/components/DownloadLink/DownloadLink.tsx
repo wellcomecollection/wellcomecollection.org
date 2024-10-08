@@ -1,10 +1,11 @@
+import { FunctionComponent, ReactNode } from 'react';
 import styled from 'styled-components';
+
+import { download } from '@weco/common/icons';
+import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { FunctionComponent, ReactNode } from 'react';
-import { trackSegmentEvent } from '@weco/common/services/conversion/track';
-import { download } from '@weco/common/icons';
 
 const DownloadLinkStyle = styled.a.attrs({
   className: font('intb', 5),

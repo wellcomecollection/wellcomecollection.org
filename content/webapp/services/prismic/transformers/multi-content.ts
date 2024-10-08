@@ -1,17 +1,19 @@
 import searchQueryParser from 'search-query-parser';
-import { transformSeries } from './series';
+
 import {
   MultiContentPrismicDocument,
   StructuredSearchQuery,
 } from '@weco/content/services/prismic/types';
+import { MultiContent } from '@weco/content/types/multi-content';
+
 import { transformArticle } from './articles';
 import { transformBook } from './books';
+import { transformCard } from './card';
 import { transformEventSeries } from './event-series';
 import { transformEventBasic } from './events';
 import { transformExhibition } from './exhibitions';
 import { transformPage } from './pages';
-import { MultiContent } from '@weco/content/types/multi-content';
-import { transformCard } from './card';
+import { transformSeries } from './series';
 
 export function parseQuery(query: string): StructuredSearchQuery {
   const structuredQuery = searchQueryParser.parse(query, {

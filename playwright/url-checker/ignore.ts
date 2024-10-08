@@ -1,5 +1,5 @@
-import { URL } from 'url';
 import { Request } from 'playwright';
+import { URL } from 'url';
 
 // We might have certain errors from pages which we want to ignore.
 // It's best to be specific about these so ignoring them doesn't cause any false negatives

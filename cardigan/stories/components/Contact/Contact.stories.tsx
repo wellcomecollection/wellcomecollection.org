@@ -1,6 +1,6 @@
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import Contact from '@weco/content/components/Contact/Contact';
 import Readme from '@weco/content/components/Contact/README.md';
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const args = {
   title: 'Joe Bloggs',

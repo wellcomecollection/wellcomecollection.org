@@ -126,7 +126,6 @@
         command: ['yarn', 'test']
 
 # This step kicks of the "end-to-end on pull requests" flow.
-#
 # It doesn't run on main, because we run e2es on main by deploying
 # into our stage/prod environments instead.
 
@@ -145,6 +144,7 @@
         value: "maybe-later"
       
 - label: "Add steps for e2e tests (if necessary)"
+  if: build.branch != "main"
   depends_on: "ask-user-if-should-run-e2es"
   command: |
     if [[ "$$(buildkite-agent meta-data get should-run-e2es)" == "yes" ]]; then

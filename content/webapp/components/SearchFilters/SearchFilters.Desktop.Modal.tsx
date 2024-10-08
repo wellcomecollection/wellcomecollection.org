@@ -1,23 +1,25 @@
-import { FunctionComponent, RefObject, useContext } from 'react';
 import NextLink from 'next/link';
+import { FunctionComponent, RefObject, useContext } from 'react';
 import styled from 'styled-components';
-import Modal from '@weco/common/views/components/Modal/Modal';
-import Space from '@weco/common/views/components/styled/Space';
-import { searchFilterCheckBox } from '@weco/content/text/aria-labels';
+
+import { LinkProps } from '@weco/common/model/link-props';
+import { font } from '@weco/common/utils/classnames';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+import Modal from '@weco/common/views/components/Modal/Modal';
+import PlainList from '@weco/common/views/components/styled/PlainList';
+import Space from '@weco/common/views/components/styled/Space';
+import PaletteColorPicker from '@weco/content/components/PaletteColorPicker';
+import { BooleanFilter } from '@weco/content/components/SearchFilters/SearchFilters.BooleanFilter';
 import {
-  Filter,
   CheckboxFilter as CheckboxFilterType,
+  Filter,
   filterLabel,
 } from '@weco/content/services/wellcome/common/filters';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import PlainList from '@weco/common/views/components/styled/PlainList';
-import { LinkProps } from '@weco/common/model/link-props';
+import { searchFilterCheckBox } from '@weco/content/text/aria-labels';
+
 import DateRangeFilter from './SearchFilters.DateRangeFilter';
-import PaletteColorPicker from '@weco/content/components/PaletteColorPicker';
-import { font } from '@weco/common/utils/classnames';
-import { BooleanFilter } from '@weco/content/components/SearchFilters/SearchFilters.BooleanFilter';
 
 type ModalMoreFiltersProps = {
   id: string;

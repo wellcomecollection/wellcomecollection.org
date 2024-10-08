@@ -1,9 +1,11 @@
 import { FunctionComponent } from 'react';
+
+import { font } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Space from '@weco/common/views/components/styled/Space';
-import Contributor from './Contributor';
 import { Contributor as ContributorType } from '@weco/content/types/contributors';
-import { font } from '@weco/common/utils/classnames';
+
+import Contributor from './Contributor';
 
 export type Props = {
   titlePrefix?: string;

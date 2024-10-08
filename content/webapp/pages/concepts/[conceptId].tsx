@@ -1,31 +1,33 @@
-import styled from 'styled-components';
-import { useState, JSX, FunctionComponent } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { LinkProps } from 'next/link';
-
-// Helpers/Utils
-import { appError, AppErrorProps } from '@weco/common/services/app';
-import { serialiseProps } from '@weco/common/utils/json';
-import { getServerData } from '@weco/common/server-data';
-import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
-import { getConcept } from '@weco/content/services/wellcome/catalogue/concepts';
-import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
-import { getImages } from '@weco/content/services/wellcome/catalogue/images';
-import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink/Images';
-import { toLink as toWorksLink } from '@weco/content/components/SearchPagesLink/Works';
-import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
-import { capitalize, formatNumber } from '@weco/common/utils/grammar';
-import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { usePathname } from 'next/navigation';
+import { FunctionComponent, JSX, useState } from 'react';
+import styled from 'styled-components';
 
-// Components
+import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
+import { ImagesLinkSource } from '@weco/common/data/segment-values';
+import { getServerData } from '@weco/common/server-data';
+import { appError, AppErrorProps } from '@weco/common/services/app';
+import { Pageview } from '@weco/common/services/conversion/track';
+import { font } from '@weco/common/utils/classnames';
+import { capitalize, formatNumber } from '@weco/common/utils/grammar';
+import { serialiseProps } from '@weco/common/utils/json';
+import { getQueryResults, ReturnedResults } from '@weco/common/utils/search';
+import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
+import { Container } from '@weco/common/views/components/styled/Container';
+import Space from '@weco/common/views/components/styled/Space';
+import theme from '@weco/common/views/themes/default';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
 import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
+import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink/Images';
+import { toLink as toWorksLink } from '@weco/content/components/SearchPagesLink/Works';
+import Tabs from '@weco/content/components/Tabs';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
-import { Container } from '@weco/common/views/components/styled/Container';
-
-// Types
+import { emptyResultList } from '@weco/content/services/wellcome';
+import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
+import { getConcept } from '@weco/content/services/wellcome/catalogue/concepts';
+import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import {
   CatalogueResultsList,
   Concept as ConceptType,
@@ -34,23 +36,14 @@ import {
   WorkBasic,
   Work as WorkType,
 } from '@weco/content/services/wellcome/catalogue/types';
-import { ImagesLinkSource } from '@weco/common/data/segment-values';
-
-// Styles
-import Space from '@weco/common/views/components/styled/Space';
-import Tabs from '@weco/content/components/Tabs';
-import { font } from '@weco/common/utils/classnames';
-import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import { Pageview } from '@weco/common/services/conversion/track';
-import theme from '@weco/common/views/themes/default';
+import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
 import {
   allRecordsLinkParams,
   conceptTypeDisplayName,
   getDisplayIdentifierType,
   queryParams,
 } from '@weco/content/utils/concepts';
-import { emptyResultList } from '@weco/content/services/wellcome';
-import { getQueryResults, ReturnedResults } from '@weco/common/utils/search';
+import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 
 const emptyImageResults: CatalogueResultsList<ImageType> = emptyResultList();
 

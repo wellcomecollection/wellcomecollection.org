@@ -1,13 +1,14 @@
-import readingTime from 'reading-time';
-import { asText } from '@weco/content/services/prismic/transformers';
 import * as prismic from '@prismicio/client';
-import { Format } from '@weco/content/types/format';
+import readingTime from 'reading-time';
+
 import { Label } from '@weco/common/model/labels';
-import { pluralize } from '@weco/common/utils/grammar';
 import {
-  TextSlice as RawTextSlice,
   QuoteSlice as RawQuoteSlice,
+  TextSlice as RawTextSlice,
 } from '@weco/common/prismicio-types';
+import { pluralize } from '@weco/common/utils/grammar';
+import { asText } from '@weco/content/services/prismic/transformers';
+import { Format } from '@weco/content/types/format';
 
 // Calculating the full reading time of the article by getting all article text
 function allArticleText(genericBody: prismic.Slice[]) {

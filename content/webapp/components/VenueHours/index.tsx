@@ -1,28 +1,30 @@
 import { FunctionComponent } from 'react';
-import { font } from '@weco/common/utils/classnames';
-import MoreLink from '@weco/content/components/MoreLink/MoreLink';
-import Divider from '@weco/common/views/components/Divider/Divider';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+
 import { getCrop } from '@weco/common/model/image';
+import { OverrideDate, Venue } from '@weco/common/model/opening-hours';
+import { usePrismicData } from '@weco/common/server-data/Context';
 import {
-  createExceptionalOpeningHoursDays,
-  getUpcomingExceptionalOpeningHours,
-  getOverrideDatesForAllVenues,
-  groupOverrideDates,
   completeDateRangeForExceptionalPeriods,
+  createExceptionalOpeningHoursDays,
+  getOverrideDatesForAllVenues,
   getOverrideDatesForSpecificVenue,
+  getUpcomingExceptionalOpeningHours,
+  groupOverrideDates,
 } from '@weco/common/services/prismic/opening-times';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
+import { font } from '@weco/common/utils/classnames';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
-import { usePrismicData } from '@weco/common/server-data/Context';
-import { OverrideDate, Venue } from '@weco/common/model/opening-hours';
+import MoreLink from '@weco/content/components/MoreLink/MoreLink';
+
+import VenueHoursJauntyBox from './VenueHours.JauntyBox';
 import {
   DayOfWeek,
   OpeningHours,
   VenueHoursImage,
   VenueHoursTimes,
 } from './VenueHours.styles';
-import VenueHoursJauntyBox from './VenueHours.JauntyBox';
 
 type Props = {
   venue: Venue;

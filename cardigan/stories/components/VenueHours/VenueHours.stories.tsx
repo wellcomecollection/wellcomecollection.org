@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import VenueHours from '@weco/content/components/VenueHours';
-import { galleriesVenue } from '@weco/common/test/fixtures/components/galleries-venue';
-import Readme from '@weco/content/components/VenueHours/README.md';
+
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { Venue } from '@weco/common/model/opening-hours';
+import { galleriesVenue } from '@weco/common/test/fixtures/components/galleries-venue';
+import VenueHours from '@weco/content/components/VenueHours';
+import Readme from '@weco/content/components/VenueHours/README.md';
 
 // Won't display bank holidays as that requires a Prismic fetch, which doesn't work from Cardigan
 const VenueHoursComponent = ({

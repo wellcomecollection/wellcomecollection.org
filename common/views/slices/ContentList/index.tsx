@@ -1,17 +1,18 @@
-import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
-import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
+import { FunctionComponent } from 'react';
+
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
+import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
-  LayoutWidth,
   defaultContext,
+  LayoutWidth,
   SliceZoneContext,
 } from '@weco/content/components/Body/Body';
-import SearchResults from '@weco/content/components/SearchResults/SearchResults';
 import AsyncSearchResults from '@weco/content/components/SearchResults/AsyncSearchResults';
+import SearchResults from '@weco/content/components/SearchResults/SearchResults';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
-import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 export type ContentListProps = SliceComponentProps<
   RawContentListSlice,

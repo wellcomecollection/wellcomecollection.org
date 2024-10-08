@@ -1,13 +1,14 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import {
-  wellcomeCollectionGallery,
-  wellcomeCollectionAddress,
-} from '@weco/common/data/organization';
-import Space from '@weco/common/views/components/styled/Space';
+
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
+import {
+  wellcomeCollectionAddress,
+  wellcomeCollectionGallery,
+} from '@weco/common/data/organization';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 import PlainList from '@weco/common/views/components/styled/PlainList';
+import Space from '@weco/common/views/components/styled/Space';
 
 const PlainLink = styled.a`
   transition: color 200ms ease;

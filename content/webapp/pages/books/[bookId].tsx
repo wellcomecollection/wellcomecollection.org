@@ -1,31 +1,31 @@
 import { GetServerSideProps } from 'next';
 import { FunctionComponent, ReactElement } from 'react';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import Button from '@weco/common/views/components/Buttons';
-import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
-import { font, grid } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
-import BookImage from '@weco/content/components/BookImage/BookImage';
 import styled from 'styled-components';
+
+import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
+import { Pageview } from '@weco/common/services/conversion/track';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { font, grid } from '@weco/common/utils/classnames';
 import { serialiseProps } from '@weco/common/utils/json';
-import { getServerData } from '@weco/common/server-data';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import Button from '@weco/common/views/components/Buttons';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
+import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import Space from '@weco/common/views/components/styled/Space';
 import Body from '@weco/content/components/Body/Body';
+import BookImage from '@weco/content/components/BookImage/BookImage';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
-import { fetchBook } from '@weco/content/services/prismic/fetch/books';
 import { createClient } from '@weco/content/services/prismic/fetch';
+import { fetchBook } from '@weco/content/services/prismic/fetch/books';
 import { transformBook } from '@weco/content/services/prismic/transformers/books';
 import { Book } from '@weco/content/types/books';
-import { looksLikePrismicId } from '@weco/common/services/prismic';
-import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
-import { Pageview } from '@weco/common/services/conversion/track';
-import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
-import linkResolver from '@weco/common/services/prismic/link-resolver';
-
 const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
 `;

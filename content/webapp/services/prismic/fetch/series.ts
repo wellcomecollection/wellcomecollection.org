@@ -1,14 +1,15 @@
-import { GetServerSidePropsPrismicClient, fetcher } from '.';
+import {
+  SeriesDocument as RawSeriesDocument,
+  WebcomicSeriesDocument as RawWebcomicSeriesDocument,
+} from '@weco/common/prismicio-types';
 import {
   commonPrismicFieldsFetchLinks,
   contributorFetchLinks,
   seasonsFetchLinks,
   seriesFetchLinks,
 } from '@weco/content/services/prismic/types';
-import {
-  SeriesDocument as RawSeriesDocument,
-  WebcomicSeriesDocument as RawWebcomicSeriesDocument,
-} from '@weco/common/prismicio-types';
+
+import { fetcher, GetServerSidePropsPrismicClient } from '.';
 
 const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,

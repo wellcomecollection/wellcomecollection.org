@@ -1,29 +1,30 @@
-import { useState, useRef, FunctionComponent, ReactElement } from 'react';
 import NextLink from 'next/link';
+import { FunctionComponent, ReactElement, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
+import { filter } from '@weco/common/icons';
+import { font } from '@weco/common/utils/classnames';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
+import Button, {
+  ButtonTypes,
+  StyledButton,
+} from '@weco/common/views/components/Buttons';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Modal from '@weco/common/views/components/Modal/Modal';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import { SearchFiltersSharedProps } from '.';
+import PaletteColorPicker from '@weco/content/components/PaletteColorPicker';
+import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
 import {
   CheckboxFilter as CheckboxFilterType,
   filterLabel,
 } from '@weco/content/services/wellcome/common/filters';
-import Button, {
-  StyledButton,
-  ButtonTypes,
-} from '@weco/common/views/components/Buttons';
 import { searchFilterCheckBox } from '@weco/content/text/aria-labels';
-import { filter } from '@weco/common/icons';
-import Modal from '@weco/common/views/components/Modal/Modal';
-import PaletteColorPicker from '@weco/content/components/PaletteColorPicker';
-import DateRangeFilter from './SearchFilters.DateRangeFilter';
+
+import { SearchFiltersSharedProps } from '.';
 import { BooleanFilter } from './SearchFilters.BooleanFilter';
-import { font } from '@weco/common/utils/classnames';
+import DateRangeFilter from './SearchFilters.DateRangeFilter';
 import { getFilterLabel } from './SearchFilters.Desktop.Modal';
 
 const SearchFiltersContainer = styled(Space).attrs({

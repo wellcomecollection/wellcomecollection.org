@@ -1,28 +1,16 @@
+import * as prismic from '@prismicio/client';
 import { GetServerSideProps, NextPage } from 'next';
 import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
-import * as prismic from '@prismicio/client';
 import styled from 'styled-components';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule';
-import Button from '@weco/common/views/components/Buttons';
-import EventbriteButtons from '@weco/content/components/EventbriteButtons/EventbriteButtons';
-import Message from '@weco/content/components/Message/Message';
-import InfoBox from '@weco/content/components/InfoBox/InfoBox';
-import { font } from '@weco/common/utils/classnames';
-import { camelize } from '@weco/common/utils/grammar';
-import { formatDayDate, formatTime } from '@weco/common/utils/format-date';
-import EventDateRange from '@weco/content/components/EventDateRange';
-import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import { getFeaturedMedia } from '@weco/content/utils/page-header';
-import { Event, EventBasic, Interpretation } from '@weco/content/types/events';
-import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
-import EventDatesLink from '@weco/content/components/EventDatesLink/EventDatesLink';
-import Space from '@weco/common/views/components/styled/Space';
-import { LabelField } from '@weco/content/model/label-field';
-import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
+
 import {
+  eventPolicyIds,
+  prismicPageIds,
+} from '@weco/common/data/hardcoded-ids';
+import { a11y, visualStoryLinkText } from '@weco/common/data/microcopy';
+import {
+  arrow,
   audioDescribed,
   britishSignLanguage,
   email,
@@ -30,15 +18,48 @@ import {
   IconSvg,
   speechToText,
   ticket,
-  arrow,
 } from '@weco/common/icons';
 import { getServerData } from '@weco/common/server-data';
+import { AppErrorProps } from '@weco/common/services/app';
+import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
+import { Pageview } from '@weco/common/services/conversion/track';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import { font } from '@weco/common/utils/classnames';
+import { isPast } from '@weco/common/utils/dates';
+import { formatDayDate, formatTime } from '@weco/common/utils/format-date';
+import { camelize } from '@weco/common/utils/grammar';
 import { serialiseProps } from '@weco/common/utils/json';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import Button from '@weco/common/views/components/Buttons';
+import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import Space from '@weco/common/views/components/styled/Space';
 import Body from '@weco/content/components/Body/Body';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import Contributors from '@weco/content/components/Contributors/Contributors';
-import { eventLd } from '@weco/content/services/prismic/transformers/json-ld';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
+import EventbriteButtons from '@weco/content/components/EventbriteButtons/EventbriteButtons';
+import EventDateList from '@weco/content/components/EventDateList';
+import EventDateRange from '@weco/content/components/EventDateRange';
+import EventDatesLink from '@weco/content/components/EventDatesLink/EventDatesLink';
+import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule';
+import EventStatus from '@weco/content/components/EventStatus';
+import InfoBox from '@weco/content/components/InfoBox/InfoBox';
+import Message from '@weco/content/components/Message/Message';
+import {
+  ResourceLink,
+  ResourceLinkIconWrapper,
+  ResourcesItem,
+  ResourcesList,
+} from '@weco/content/components/styled/AccessResources';
+import { LabelField } from '@weco/content/model/label-field';
+import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
+import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   fetchEvent,
   fetchEventScheduleItems,
@@ -48,33 +69,12 @@ import {
   getScheduleIds,
   transformEvent,
 } from '@weco/content/services/prismic/transformers/events';
-import { createClient } from '@weco/content/services/prismic/fetch';
-import {
-  eventPolicyIds,
-  prismicPageIds,
-} from '@weco/common/data/hardcoded-ids';
-import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import { isPast } from '@weco/common/utils/dates';
-import EventDateList from '@weco/content/components/EventDateList';
-import EventStatus from '@weco/content/components/EventStatus';
-
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { a11y, visualStoryLinkText } from '@weco/common/data/microcopy';
-import { Pageview } from '@weco/common/services/conversion/track';
-import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { AppErrorProps } from '@weco/common/services/app';
-import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
-import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { Link } from '@weco/content/types/link';
-import {
-  ResourcesList,
-  ResourcesItem,
-  ResourceLink,
-  ResourceLinkIconWrapper,
-} from '@weco/content/components/styled/AccessResources';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import { looksLikePrismicId } from '@weco/common/services/prismic';
+import { eventLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { isVideoEmbed } from '@weco/content/types/body';
+import { Event, EventBasic, Interpretation } from '@weco/content/types/events';
+import { Link } from '@weco/content/types/link';
+import { getFeaturedMedia } from '@weco/content/utils/page-header';
+import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 
 const DateWrapper = styled.div.attrs({
   className: 'body-text',

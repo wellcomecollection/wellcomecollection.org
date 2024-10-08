@@ -1,23 +1,24 @@
 import { ComponentProps, FunctionComponent, ReactElement } from 'react';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
-import Divider from '@weco/common/views/components/Divider/Divider';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import { ExhibitionBasic } from '@weco/content/types/exhibitions';
-import { EventBasic } from '@weco/content/types/events';
-import { ArticleBasic } from '@weco/content/types/articles';
+
 import { PaginatedResults } from '@weco/common/services/prismic/types';
-import Space from '@weco/common/views/components/styled/Space';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import { SeriesBasic } from '@weco/content/types/series';
-import CardGrid from '@weco/content/components/CardGrid/CardGrid';
-import { BookBasic } from '@weco/content/types/books';
-import { Guide } from '@weco/content/types/guides';
-import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
 import { pluralize } from '@weco/common/utils/grammar';
-import Pagination from '@weco/content/components/Pagination/Pagination';
-import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Breadcrumb from '@weco/common/views/components/Breadcrumb/Breadcrumb';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
+import Space from '@weco/common/views/components/styled/Space';
+import CardGrid from '@weco/content/components/CardGrid/CardGrid';
+import Pagination from '@weco/content/components/Pagination/Pagination';
+import { ArticleBasic } from '@weco/content/types/articles';
+import { BookBasic } from '@weco/content/types/books';
+import { EventBasic } from '@weco/content/types/events';
+import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
+import { Guide } from '@weco/content/types/guides';
+import { SeriesBasic } from '@weco/content/types/series';
 
 type PaginatedResultsTypes =
   | PaginatedResults<ExhibitionBasic>

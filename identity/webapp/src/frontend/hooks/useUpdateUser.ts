@@ -1,8 +1,9 @@
-import { useState } from 'react';
 import axios from 'axios';
-import { UpdateUserSchema } from '@weco/identity/src/types/schemas/update-user';
-import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import { useState } from 'react';
+
 import { UserInfo } from '@weco/common/model/user';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import { UpdateUserSchema } from '@weco/identity/src/types/schemas/update-user';
 
 export enum UpdateUserError {
   EMAIL_ALREADY_EXISTS = 'EMAIL_ALREADY_EXISTS',

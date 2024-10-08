@@ -1,6 +1,7 @@
-const path = require('path');
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
+const path = require('path');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
 const apmConfig = require('../services/apm/apmConfig');
 
 const defaultConfigOptions = {

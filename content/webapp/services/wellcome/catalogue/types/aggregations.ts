@@ -1,6 +1,6 @@
 import {
-  WellcomeAggregation,
   UnidentifiedBucketData,
+  WellcomeAggregation,
 } from '@weco/content/services/wellcome';
 
 export type WorkAggregations = {

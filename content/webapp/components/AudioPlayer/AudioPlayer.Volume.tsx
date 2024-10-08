@@ -1,9 +1,11 @@
 import { FunctionComponent, SyntheticEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
+
+import { volume as volumeIcon, volumeMuted } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { volumeMuted, volume as volumeIcon } from '@weco/common/icons';
-import { formatVolume } from './AudioPlayer.formatters';
 import Space from '@weco/common/views/components/styled/Space';
+
+import { formatVolume } from './AudioPlayer.formatters';
 
 const VolumeWrapper = styled(Space).attrs({
   $h: {

@@ -1,11 +1,12 @@
 import { ParsedUrlQuery } from 'querystring';
+
 import {
   QueryParam,
   toCsv,
   toMaybeNumber,
-  toString,
   toMaybeString,
   toNumber,
+  toString,
 } from '@weco/common/utils/routes';
 
 const params: ParsedUrlQuery = {

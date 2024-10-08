@@ -1,30 +1,31 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
+
 import { ImageType } from '@weco/common/model/image';
-import { ExhibitionBasic } from '@weco/content/types/exhibitions';
+import { Label } from '@weco/common/model/labels';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { font, grid } from '@weco/common/utils/classnames';
+import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import Space from '@weco/common/views/components/styled/Space';
+import { PaletteColor } from '@weco/common/views/themes/config';
+import DateRange from '@weco/content/components/DateRange/DateRange';
+import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
+import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
 import {
   ArticleBasic,
   getArticleColor,
   getPartNumberInSeries,
 } from '@weco/content/types/articles';
-import { Season } from '@weco/content/types/seasons';
-import { Card } from '@weco/content/types/card';
-import { Label } from '@weco/common/model/labels';
-import { Link } from '@weco/content/types/link';
-import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
-import { grid, font } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
-import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
-import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { Page } from '@weco/content/types/pages';
-import { EventSeries } from '@weco/content/types/event-series';
 import { BookBasic } from '@weco/content/types/books';
+import { Card } from '@weco/content/types/card';
+import { EventSeries } from '@weco/content/types/event-series';
 import { EventBasic } from '@weco/content/types/events';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { Guide } from '@weco/content/types/guides';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { PaletteColor } from '@weco/common/views/themes/config';
-import DateRange from '@weco/content/components/DateRange/DateRange';
+import { Link } from '@weco/content/types/link';
+import { Page } from '@weco/content/types/pages';
+import { Season } from '@weco/content/types/seasons';
 import { SeriesBasic } from '@weco/content/types/series';
 
 type PartialFeaturedCard = {

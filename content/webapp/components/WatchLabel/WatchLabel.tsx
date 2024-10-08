@@ -1,9 +1,10 @@
-import { font } from '@weco/common/utils/classnames';
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
+
+import { play } from '@weco/common/icons';
+import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { play } from '@weco/common/icons';
 
 const WatchIconWrapper = styled.div`
   display: flex;

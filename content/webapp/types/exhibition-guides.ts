@@ -1,10 +1,12 @@
-import { ImagePromo } from './image-promo';
-import { ImageType } from '@weco/common/model/image';
 import * as prismic from '@prismicio/client';
+
+import { ImageType } from '@weco/common/model/image';
 import {
-  ExhibitionTextsDocumentData as RawExhibitionTextsDocumentData,
   ExhibitionHighlightToursDocumentData as RawExhibitionHighlightToursDocumentData,
+  ExhibitionTextsDocumentData as RawExhibitionTextsDocumentData,
 } from '@weco/common/prismicio-types';
+
+import { ImagePromo } from './image-promo';
 
 type CaptionsOrTranscripts = {
   title: string;
@@ -72,9 +74,6 @@ export type ExhibitionGuide = ExhibitionGuideBasic & {
   components: ExhibitionGuideComponent[];
 };
 
-// TODO remove 'captions-and-transcripts' once we close Jason/migrate it
-// as we no longer set a cookie for that type.
-// https://github.com/wellcomecollection/wellcomecollection.org/issues/11131
 const typeNames = [
   'bsl',
   'audio-without-descriptions',

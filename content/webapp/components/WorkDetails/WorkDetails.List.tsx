@@ -1,7 +1,8 @@
-import styled from 'styled-components';
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 
 import Space from '@weco/common/views/components/styled/Space';
+
 import WorkDetailsProperty from './WorkDetails.Property';
 
 const PlainList = styled(Space)`

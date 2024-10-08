@@ -1,63 +1,63 @@
+import * as prismic from '@prismicio/client';
 import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
-import * as prismic from '@prismicio/client';
-import {
-  ExhibitionGuide,
-  ExhibitionGuideBasic,
-  ExhibitionText,
-  ExhibitionHighlightTour,
-} from '@weco/content/types/exhibition-guides';
+
+import { pageDescriptions } from '@weco/common/data/microcopy';
 import { GuideStopSlice as RawGuideStopSlice } from '@weco/common/prismicio-types';
+import { getServerData } from '@weco/common/server-data';
+import { AppErrorProps } from '@weco/common/services/app';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
+import { isFilledLinkToMediaField } from '@weco/common/services/prismic/types/';
+import { serialiseProps } from '@weco/common/utils/json';
+import { toMaybeString } from '@weco/common/utils/routes';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import Space from '@weco/common/views/components/styled/Space';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import {
+  ExhibitionGuideLinks,
+  ExhibitionResourceLinks,
+} from '@weco/content/components/ExhibitionGuideLinks/ExhibitionGuideLinks';
+import OtherExhibitionGuides from '@weco/content/components/OtherExhibitionGuides/OtherExhibitionGuides';
+import useHotjar from '@weco/content/hooks/useHotjar';
+import { allGuides } from '@weco/content/pages/guides/exhibitions';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   fetchExhibitionGuide,
   fetchExhibitionGuides,
 } from '@weco/content/services/prismic/fetch/exhibition-guides';
 import {
-  fetchExhibitionText,
-  fetchExhibitionTexts,
-} from '@weco/content/services/prismic/fetch/exhibition-texts';
-import {
   fetchExhibitionHighlightTour,
   fetchExhibitionHighlightTours,
 } from '@weco/content/services/prismic/fetch/exhibition-highlight-tours';
-import { transformExhibitionGuide } from '@weco/content/services/prismic/transformers/exhibition-guides';
 import {
-  transformExhibitionTexts,
-  transformExhibitionTextsQuery,
-} from '@weco/content/services/prismic/transformers/exhibition-texts';
+  fetchExhibitionText,
+  fetchExhibitionTexts,
+} from '@weco/content/services/prismic/fetch/exhibition-texts';
+import { transformExhibitionGuide } from '@weco/content/services/prismic/transformers/exhibition-guides';
 import {
   transformExhibitionHighlightTours,
   transformExhibitionHighlightToursQuery,
 } from '@weco/content/services/prismic/transformers/exhibition-highlight-tours';
-import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
-import { isFilledLinkToMediaField } from '@weco/common/services/prismic/types/';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { font } from '@weco/common/utils/classnames';
-import { serialiseProps } from '@weco/common/utils/json';
-import { getServerData } from '@weco/common/server-data';
-import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/json-ld';
-import { pageDescriptions } from '@weco/common/data/microcopy';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { looksLikePrismicId } from '@weco/common/services/prismic';
-import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
-import Space from '@weco/common/views/components/styled/Space';
-import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import { AppErrorProps } from '@weco/common/services/app';
-import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
-import OtherExhibitionGuides from '@weco/content/components/OtherExhibitionGuides/OtherExhibitionGuides';
 import {
-  ExhibitionGuideLinks,
-  ExhibitionResourceLinks,
-} from '@weco/content/components/ExhibitionGuideLinks/ExhibitionGuideLinks';
-import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { allGuides } from '@weco/content/pages/guides/exhibitions';
-import { useToggles } from '@weco/common/server-data/Context';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+  transformExhibitionTexts,
+  transformExhibitionTextsQuery,
+} from '@weco/content/services/prismic/transformers/exhibition-texts';
+import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
+import {
+  ExhibitionGuide,
+  ExhibitionGuideBasic,
+  ExhibitionHighlightTour,
+  ExhibitionText,
+} from '@weco/content/types/exhibition-guides';
 import { getGuidesRedirections } from '@weco/content/utils/digital-guides';
-import { toMaybeString } from '@weco/common/utils/routes';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 // N.B. There are quite a lot of requests to Prismic for this page, which are necessary in order to maintain the url structure
 // while supporting both the deprecated ExhibitionGuide type and new custom types
@@ -65,6 +65,7 @@ import { toMaybeString } from '@weco/common/utils/routes';
 // At which point we'll have the exhibition id in the url and can query the types directly, filtering by the exhibition id
 
 type Props = {
+  exhibitionId: string;
   exhibitionGuide?: ExhibitionGuide;
   exhibitionText?: ExhibitionText;
   exhibitionHighlightTour?: ExhibitionHighlightTour;
@@ -171,6 +172,7 @@ export const getServerSideProps: GetServerSideProps<
 
       return {
         props: serialiseProps({
+          exhibitionId: id,
           exhibitionGuide,
           jsonLd,
           serverData,
@@ -263,6 +265,7 @@ export const getServerSideProps: GetServerSideProps<
         props: serialiseProps({
           jsonLd,
           serverData,
+          exhibitionId: id,
           exhibitionText: exhibitionText || exhibitionTexts?.results[0], // There should only ever be one of these, so we take the first
           exhibitionHighlightTour:
             exhibitionHighlightTour || exhibitionHighlightTours?.results[0], // There should only ever be one of these, so we take the first
@@ -281,6 +284,7 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const ExhibitionGuidePage: FunctionComponent<Props> = ({
+  exhibitionId,
   exhibitionGuide,
   exhibitionText,
   exhibitionHighlightTour,
@@ -288,8 +292,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
   otherExhibitionGuides,
   stopNumber,
 }) => {
-  const { egWork } = useToggles();
-
   const pageId =
     exhibitionGuide?.id || exhibitionText?.id || exhibitionHighlightTour?.id;
   const pageUid =
@@ -298,6 +300,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
     exhibitionGuide?.title ||
     exhibitionText?.title ||
     exhibitionHighlightTour?.title;
+
+  useHotjar(exhibitionId === 'ZthrZRIAACQALvCC'); // Only on Jason and the Adventure of 254
 
   const highlightStops = exhibitionHighlightTour?.stops;
   const hasVideo =
@@ -340,35 +344,21 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
       apiToolbarLinks={[createPrismicLink(pageId || '')]}
       hideNewsletterPromo={true}
     >
-      {egWork && (
-        <PageHeader
-          title={`${pageTitle} digital guides`}
-          breadcrumbs={{
-            items: [
-              {
-                text: 'Digital Guides',
-                url: `/guides/exhibitions`,
-              },
-            ],
-            noHomeLink: true,
-          }}
-          isSlim
-        />
-      )}
+      <PageHeader
+        title={`${pageTitle} digital guides`}
+        breadcrumbs={{
+          items: [
+            {
+              text: 'Digital Guides',
+              url: `/guides/exhibitions`,
+            },
+          ],
+          noHomeLink: true,
+        }}
+        isSlim
+      />
       <Layout gridSizes={gridSize10(false)}>
         <SpacingSection>
-          {!egWork && (
-            <Space
-              $v={{ size: 'l', properties: ['margin-top'] }}
-              className={font('wb', 1)}
-            >
-              <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-                <h1 className={font('wb', 0)}>
-                  {`Choose the ${pageTitle} guide for you`}
-                </h1>
-              </Space>
-            </Space>
-          )}
           <Space $v={{ size: 'l', properties: ['margin-top'] }}>
             {/* Links to ExhibitionTexts and ExhibitionHighlightTours */}
             {/* Or, if there is a stopNumber in the URL, link straight to it */}

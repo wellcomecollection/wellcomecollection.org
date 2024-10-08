@@ -1,17 +1,18 @@
 import {
+  globalApiOptions,
+  QueryProps,
+  WellcomeApiError,
+  wellcomeApiError,
+  wellcomeApiFetch,
+} from '@weco/content/services/wellcome/';
+import { Toggles } from '@weco/toggles';
+
+import { catalogueQuery, looksLikeCanonicalId, notFound, rootUris } from '.';
+import {
   CatalogueConceptsApiProps,
   CatalogueResultsList,
   Concept,
 } from './types';
-import { Toggles } from '@weco/toggles';
-import { catalogueQuery, looksLikeCanonicalId, notFound, rootUris } from '.';
-import {
-  QueryProps,
-  globalApiOptions,
-  wellcomeApiError,
-  wellcomeApiFetch,
-  WellcomeApiError,
-} from '..';
 
 type GetConceptProps = {
   id: string;

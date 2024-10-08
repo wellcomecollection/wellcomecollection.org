@@ -1,41 +1,42 @@
+import * as prismic from '@prismicio/client';
 import { GetServerSideProps } from 'next';
-import { EventSeries } from '@weco/content/types/event-series';
-import { EventBasic } from '@weco/content/types/events';
 import { FunctionComponent } from 'react';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import { getFeaturedMedia } from '@weco/content/utils/page-header';
-import Space from '@weco/common/views/components/styled/Space';
-import { appError, AppErrorProps } from '@weco/common/services/app';
-import { serialiseProps } from '@weco/common/utils/json';
+
 import { getServerData } from '@weco/common/server-data';
+import { appError, AppErrorProps } from '@weco/common/services/app';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
+import { font } from '@weco/common/utils/classnames';
+import { today } from '@weco/common/utils/dates';
+import { serialiseProps } from '@weco/common/utils/json';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
+import Space from '@weco/common/views/components/styled/Space';
 import Body from '@weco/content/components/Body/Body';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
+import Pagination from '@weco/content/components/Pagination/Pagination';
 import SearchResults from '@weco/content/components/SearchResults/SearchResults';
-import { eventLd } from '@weco/content/services/prismic/transformers/json-ld';
-import { looksLikePrismicId } from '@weco/common/services/prismic';
-import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
 import { createClient } from '@weco/content/services/prismic/fetch';
-import * as prismic from '@prismicio/client';
 import { fetchEventSeriesById } from '@weco/content/services/prismic/fetch/event-series';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
 import { transformEventSeries } from '@weco/content/services/prismic/transformers/event-series';
-import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import {
   transformEvent,
   transformEventBasic,
 } from '@weco/content/services/prismic/transformers/events';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import { font } from '@weco/common/utils/classnames';
-import { today } from '@weco/common/utils/dates';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
-import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
-import Pagination from '@weco/content/components/Pagination/Pagination';
+import { eventLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
+import { EventSeries } from '@weco/content/types/event-series';
+import { EventBasic } from '@weco/content/types/events';
+import { getFeaturedMedia } from '@weco/content/utils/page-header';
 import { getPage } from '@weco/content/utils/query-params';
-import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 type Props = {
   series: EventSeries;

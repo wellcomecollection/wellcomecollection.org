@@ -1,27 +1,29 @@
-import styled from 'styled-components';
+import NextLink from 'next/link';
 import {
-  useState,
+  CSSProperties,
+  FunctionComponent,
   memo,
+  useContext,
   useEffect,
   useRef,
-  useContext,
-  FunctionComponent,
-  CSSProperties,
+  useState,
 } from 'react';
-import NextLink from 'next/link';
-import { FixedSizeGrid, areEqual } from 'react-window';
-import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
+import { areEqual, FixedSizeGrid } from 'react-window';
+import styled from 'styled-components';
+
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import LL from '@weco/common/views/components/styled/LL';
-import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import Space from '@weco/common/views/components/styled/Space';
-import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
+import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import ItemViewerContext, {
   Query,
 } from '@weco/content/components/ItemViewerContext/ItemViewerContext';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
+import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { TransformedCanvas } from '@weco/content/types/manifest';
-import { toLink as itemLink } from '@weco/content/components/ItemLink';
+
 import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
+import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 
 const ThumbnailSpacer = styled(Space).attrs({
   $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },

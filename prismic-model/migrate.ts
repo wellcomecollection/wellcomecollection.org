@@ -1,7 +1,8 @@
 import { createClient } from '@prismicio/client';
-import yargs from 'yargs';
 import fetch from 'node-fetch';
 import fs from 'node:fs';
+import yargs from 'yargs';
+
 import 'dotenv/config';
 
 const { type } = yargs(process.argv.slice(2))

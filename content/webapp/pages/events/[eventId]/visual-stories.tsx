@@ -1,12 +1,12 @@
-import VisualStory, {
-  returnVisualStoryProps,
-  getOtherVisualStories,
-} from '@weco/content/pages/visual-stories/[visualStoryId]';
 import { getServerData } from '@weco/common/server-data';
+import { isFilledLinkToDocument } from '@weco/common/services/prismic/types';
+import VisualStory, {
+  getOtherVisualStories,
+  returnVisualStoryProps,
+} from '@weco/content/pages/visual-stories/[visualStoryId]';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchVisualStories } from '@weco/content/services/prismic/fetch/visual-stories';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import { isFilledLinkToDocument } from '@weco/common/services/prismic/types';
 
 export const getServerSideProps = async context => {
   setCacheControl(context.res);

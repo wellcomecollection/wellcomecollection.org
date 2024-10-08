@@ -1,20 +1,20 @@
 import { getCrop, ImageType } from '@weco/common/model/image';
-import { Format } from '@weco/content/types/format';
-import { EventBasic } from '@weco/content/types/events';
-import { ArticleBasic } from '@weco/content/types/articles';
-import { Season } from '@weco/content/types/seasons';
-import { Page, ParentPage } from '@weco/content/types/pages';
-import { Series, SeriesBasic } from '@weco/content/types/series';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { EventSeries } from '@weco/content/types/event-series';
+import { ArticleBasic } from '@weco/content/types/articles';
 import { Book } from '@weco/content/types/books';
-import { ExhibitionBasic } from '@weco/content/types/exhibitions';
-import { Guide } from '@weco/content/types/guides';
-import { Project } from '@weco/content/types/projects';
+import { EventSeries } from '@weco/content/types/event-series';
+import { EventBasic } from '@weco/content/types/events';
 import {
   ExhibitionGuide,
   ExhibitionGuideBasic,
 } from '@weco/content/types/exhibition-guides';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
+import { Format } from '@weco/content/types/format';
+import { Guide } from '@weco/content/types/guides';
+import { Page, ParentPage } from '@weco/content/types/pages';
+import { Project } from '@weco/content/types/projects';
+import { Season } from '@weco/content/types/seasons';
+import { Series, SeriesBasic } from '@weco/content/types/series';
 import { VisualStoryBasic } from '@weco/content/types/visual-stories';
 
 export type Card = {

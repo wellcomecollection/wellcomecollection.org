@@ -1,23 +1,18 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-// Helpers/Utils
-import { font } from '@weco/common/utils/classnames';
 import { getCrop } from '@weco/common/model/image';
-
-// Components
-import DateRange from '@weco/content/components/DateRange/DateRange';
+import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Layout, {
-  gridSize12,
   gridSize10,
+  gridSize12,
 } from '@weco/common/views/components/Layout';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import { WobblyBottom } from '@weco/common/views/components/WobblyEdge';
 import Standfirst from '@weco/common/views/slices/Standfirst';
-
-// Types
+import DateRange from '@weco/content/components/DateRange/DateRange';
 import { Season } from '@weco/content/types/seasons';
 
 const HeaderWrapper = styled.div`

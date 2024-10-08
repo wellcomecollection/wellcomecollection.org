@@ -1,13 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+
+import { serialiseDates as serialiseJsonDates } from '@weco/common/utils/json';
 import { isString } from '@weco/common/utils/type-guards';
 import { createClient } from '@weco/content/services/prismic/fetch';
+import { fetchMultiContent } from '@weco/content/services/prismic/fetch/multi-content';
 import {
   parseQuery,
   transformMultiContent,
 } from '@weco/content/services/prismic/transformers/multi-content';
-import { fetchMultiContent } from '@weco/content/services/prismic/fetch/multi-content';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
-import { serialiseDates as serialiseJsonDates } from '@weco/common/utils/json';
 
 export default async (
   req: NextApiRequest,

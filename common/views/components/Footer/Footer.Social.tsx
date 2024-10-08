@@ -1,13 +1,14 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
+
 import {
   facebook,
+  IconSvg,
   instagram,
   soundCloud,
   tripadvisor,
   twitter,
   youtube,
-  IconSvg,
 } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';

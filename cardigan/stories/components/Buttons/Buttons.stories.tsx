@@ -1,6 +1,6 @@
-import Button from '@weco/common/views/components/Buttons';
 import { eye } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
+import Button from '@weco/common/views/components/Buttons';
 import theme from '@weco/common/views/themes/default';
 
 const ButtonSolidTemplate = args => {

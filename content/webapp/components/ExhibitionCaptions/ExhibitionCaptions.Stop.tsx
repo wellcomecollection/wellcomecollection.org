@@ -1,23 +1,21 @@
+import * as prismic from '@prismicio/client';
 import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 import { KnownTarget } from 'styled-components/dist/types';
-import * as prismic from '@prismicio/client';
-import { PaletteColor } from '@weco/common/views/themes/config';
+
+import { font } from '@weco/common/utils/classnames';
+import { dasherizeShorten } from '@weco/common/utils/grammar';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
-import { dasherizeShorten } from '@weco/common/utils/grammar';
-import ZoomedPrismicImage from '@weco/content/components/ZoomedPrismicImage/ZoomedPrismicImage';
-import Space from '@weco/common/views/components/styled/Space';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { font } from '@weco/common/utils/classnames';
-import {
-  ExhibitionGuideComponent,
-  ExhibitionGuideType,
-} from '@weco/content/types/exhibition-guides';
 import { Container } from '@weco/common/views/components/styled/Container';
-import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
+import Space from '@weco/common/views/components/styled/Space';
+import { PaletteColor } from '@weco/common/views/themes/config';
+import ZoomedPrismicImage from '@weco/content/components/ZoomedPrismicImage/ZoomedPrismicImage';
+import { ExhibitionGuideComponent } from '@weco/content/types/exhibition-guides';
 
 export const StandaloneTitle = styled(Space).attrs({
   as: 'h2',
@@ -29,8 +27,7 @@ export const StandaloneTitle = styled(Space).attrs({
   position: relative;
   margin-bottom: 0;
 
-  background: ${props =>
-    props.theme.color(getTypeColor('captions-and-transcripts'))};
+  background: ${props => props.theme.color('accent.lightGreen')};
 `;
 
 type LevelProps = { $level: number };
@@ -137,18 +134,6 @@ function calculateTombstoneHeadingLevel(titlesUsed: TitlesUsed): number {
     return 3;
   } else {
     return 2;
-  }
-}
-
-export function getTypeColor(type: ExhibitionGuideType): PaletteColor {
-  switch (type) {
-    case 'bsl':
-      return 'accent.lightBlue';
-    case 'audio-without-descriptions':
-      return 'accent.lightSalmon';
-    case 'captions-and-transcripts':
-    default:
-      return 'accent.lightGreen';
   }
 }
 

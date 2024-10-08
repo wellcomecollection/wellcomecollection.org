@@ -1,6 +1,7 @@
-import Modal from '@weco/common/views/components/Modal/Modal';
+import { useEffect, useRef, useState } from 'react';
+
 import Button from '@weco/common/views/components/Buttons';
-import { useState, useRef, useEffect } from 'react';
+import Modal from '@weco/common/views/components/Modal/Modal';
 
 const Template = () => {
   const [isActive, setIsActive] = useState(false);

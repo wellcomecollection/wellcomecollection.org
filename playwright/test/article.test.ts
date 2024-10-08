@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
+
 import { article, articleWithMockSiblings } from './helpers/contexts';
 import { oneScheduleItem } from './mocks/one-schedule-item';
 

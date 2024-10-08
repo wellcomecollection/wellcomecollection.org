@@ -1,6 +1,7 @@
-import { Period } from '@weco/common/types/periods';
-import { getExhibitionPeriodFilters, getEventFilters } from './filters';
 import mockToday from '@weco/common/test/utils/date-mocks';
+import { Period } from '@weco/common/types/periods';
+
+import { getEventFilters, getExhibitionPeriodFilters } from './filters';
 
 describe('getPeriodFilters', () => {
   it('uses the current time for current-and-coming-up', () => {

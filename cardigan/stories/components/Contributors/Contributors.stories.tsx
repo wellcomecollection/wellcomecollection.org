@@ -1,7 +1,7 @@
-import Contributors from '@weco/content/components/Contributors/Contributors';
-import Readme from '@weco/content/components/Contributors/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { organisation, person } from '@weco/cardigan/stories/data/content';
+import Contributors from '@weco/content/components/Contributors/Contributors';
+import Readme from '@weco/content/components/Contributors/README.md';
 
 const Template = args => (
   <ReadmeDecorator

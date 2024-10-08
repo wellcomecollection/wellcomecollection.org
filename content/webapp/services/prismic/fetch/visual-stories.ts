@@ -1,4 +1,6 @@
-import { GetServerSidePropsPrismicClient, fetcher } from '.';
+import * as prismic from '@prismicio/client';
+
+import { VisualStoriesDocument as RawVisualStoriesDocument } from '@weco/common/prismicio-types';
 import {
   commonPrismicFieldsFetchLinks,
   contributorFetchLinks,
@@ -6,8 +8,8 @@ import {
   exhibitionsFetchLinks,
   teamsFetchLinks,
 } from '@weco/content/services/prismic/types';
-import * as prismic from '@prismicio/client';
-import { VisualStoriesDocument as RawVisualStoriesDocument } from '@weco/common/prismicio-types';
+
+import { fetcher, GetServerSidePropsPrismicClient } from '.';
 
 const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,

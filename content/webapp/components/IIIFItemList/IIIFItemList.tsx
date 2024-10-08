@@ -1,8 +1,9 @@
+import { ChoiceBody, ContentResource } from '@iiif/presentation-3';
 import { FunctionComponent } from 'react';
-import IIIFItem from '@weco/content/components/IIIFItem/IIIFItem';
+
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import { ContentResource, ChoiceBody } from '@iiif/presentation-3';
+import IIIFItem from '@weco/content/components/IIIFItem/IIIFItem';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 
 type Props = {

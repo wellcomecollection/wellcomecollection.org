@@ -1,21 +1,23 @@
-import { FunctionComponent } from 'react';
 import { usePathname } from 'next/navigation';
+import { FunctionComponent } from 'react';
+
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
-import Space from '@weco/common/views/components/styled/Space';
-import WorkTitle from '@weco/content/components/WorkTitle/WorkTitle';
-import WorkLink from '@weco/content/components/WorkLink';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import Space from '@weco/common/views/components/styled/Space';
+import WorkLink from '@weco/content/components/WorkLink';
+import WorkTitle from '@weco/content/components/WorkTitle/WorkTitle';
+import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+
 import {
   Container,
-  Wrapper,
   Details,
   Preview,
   PreviewImage,
   WorkInformation,
-  WorkTitleHeading,
   WorkInformationItemSeparator,
+  WorkTitleHeading,
+  Wrapper,
 } from './WorksSearchResult.styles';
 
 type Props = {

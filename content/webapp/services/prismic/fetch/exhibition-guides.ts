@@ -1,10 +1,12 @@
 import * as prismic from '@prismicio/client';
-import { fetcher, GetByTypeParams, GetServerSidePropsPrismicClient } from '.';
+
 import { ExhibitionGuidesDocument as RawExhibitionGuidesDocument } from '@weco/common/prismicio-types';
 import {
-  exhibitionsFetchLinks,
   contributorFetchLinks,
+  exhibitionsFetchLinks,
 } from '@weco/content/services/prismic/types';
+
+import { fetcher, GetByTypeParams, GetServerSidePropsPrismicClient } from '.';
 
 const fetchLinks = [...exhibitionsFetchLinks, ...contributorFetchLinks];
 

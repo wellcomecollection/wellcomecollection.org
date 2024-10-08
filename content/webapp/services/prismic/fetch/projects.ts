@@ -1,4 +1,3 @@
-import { GetServerSidePropsPrismicClient, fetcher } from '.';
 import { ProjectsDocument as RawProjectsDocument } from '@weco/common/prismicio-types';
 import {
   commonPrismicFieldsFetchLinks,
@@ -6,6 +5,8 @@ import {
   projectFormatsFetchLinks,
   seasonsFetchLinks,
 } from '@weco/content/services/prismic/types';
+
+import { fetcher, GetServerSidePropsPrismicClient } from '.';
 
 export const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,

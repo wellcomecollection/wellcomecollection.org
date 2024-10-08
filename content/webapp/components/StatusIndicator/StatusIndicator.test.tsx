@@ -1,5 +1,6 @@
-import { formatDateRangeWithMessage } from './StatusIndicator';
 import mockToday from '@weco/common/test/utils/date-mocks';
+
+import { formatDateRangeWithMessage } from './StatusIndicator';
 
 describe('formatDateRangeWithMessage', () => {
   it('formats a range that hasn’t started yet', () => {

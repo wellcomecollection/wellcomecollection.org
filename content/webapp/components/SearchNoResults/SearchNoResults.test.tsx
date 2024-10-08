@@ -1,5 +1,6 @@
-import SearchNoResults from './SearchNoResults';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
+
+import SearchNoResults from './SearchNoResults';
 
 describe('SearchNoResults', () => {
   const query = 'hello-query-results';

@@ -1,7 +1,8 @@
-import { chromium } from 'playwright';
-import { program, Option } from 'commander';
+import { Option, program } from 'commander';
 import { readFile } from 'fs/promises';
 import pLimit from 'p-limit';
+import { chromium } from 'playwright';
+
 import { urlChecker } from './check-url';
 import { resultTable } from './result-table';
 

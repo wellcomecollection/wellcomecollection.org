@@ -1,5 +1,6 @@
-import { SeriesBasic } from '@weco/content/types/series';
 import { ArticleBasic } from '@weco/content/types/articles';
+import { SeriesBasic } from '@weco/content/types/series';
+
 import { sortSeriesItems } from './article-series';
 
 describe('sortSeriesItems', () => {

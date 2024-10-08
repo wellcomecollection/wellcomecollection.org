@@ -1,37 +1,39 @@
 import {
-  BornDigitalStatus,
-  DownloadOption,
-  TransformedCanvas,
-  AuthClickThroughServiceWithPossibleServiceArray,
-  CustomSpecificationBehaviors,
-  CustomContentResource,
-  Auth,
-} from '@weco/content/types/manifest';
-import {
   Annotation,
   AnnotationBody,
-  ChoiceBody,
-  ContentResource,
-  Manifest,
-  Collection,
-  MetadataItem,
-  Service,
-  InternationalString,
-  Canvas,
-  AuthExternalService,
-  AuthAccessTokenService,
-  Range,
-  RangeItems,
-  TechnicalProperties,
-  CollectionItems,
   AuthAccessService2,
   AuthAccessService2_Active as AuthAccessService2Active,
   AuthAccessService2_External as AuthAccessService2External,
+  AuthAccessTokenService,
   AuthAccessTokenService2,
+  AuthExternalService,
   AuthProbeService2,
+  Canvas,
+  ChoiceBody,
+  Collection,
+  CollectionItems,
+  ContentResource,
+  InternationalString,
+  Manifest,
+  MetadataItem,
+  Range,
+  RangeItems,
+  Service,
+  TechnicalProperties,
 } from '@iiif/presentation-3';
+
 import { isString } from '@weco/common/utils/type-guards';
-import { getThumbnailImage, getOriginal } from './canvas';
+import {
+  Auth,
+  AuthClickThroughServiceWithPossibleServiceArray,
+  BornDigitalStatus,
+  CustomContentResource,
+  CustomSpecificationBehaviors,
+  DownloadOption,
+  TransformedCanvas,
+} from '@weco/content/types/manifest';
+
+import { getOriginal, getThumbnailImage } from './canvas';
 
 // The label we want to use to distinguish between parts of a multi-volume work
 // (e.g. 'Copy 1' or 'Volume 1') can currently exist in either the first or

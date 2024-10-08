@@ -1,42 +1,44 @@
 import { GetServerSideProps, NextPage } from 'next';
 import styled from 'styled-components';
-import { serialiseProps } from '@weco/common/utils/json';
+
+import { DigitalLocation } from '@weco/common/model/catalogue';
+import { getServerData } from '@weco/common/server-data';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
-import { getServerData } from '@weco/common/server-data';
-import { getWork } from '@weco/content/services/wellcome/catalogue/works';
-import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
-import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import {
-  getDigitalLocationOfType,
-  getDigitalLocationInfo,
-  showItemLink,
-  createApiToolbarWorkLinks,
-} from '@weco/content/utils/works';
+import { grid } from '@weco/common/utils/classnames';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import { serialiseProps } from '@weco/common/utils/json';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
+import { Container } from '@weco/common/views/components/styled/Container';
+import Space from '@weco/common/views/components/styled/Space';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import ArchiveBreadcrumb from '@weco/content/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
+import ArchiveTree from '@weco/content/components/ArchiveTree';
+import BackToResults from '@weco/content/components/BackToResults/BackToResults';
+import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
+import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
+import WorkDetails from '@weco/content/components/WorkDetails';
+import WorkHeader from '@weco/content/components/WorkHeader/WorkHeader';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
-import { TransformedManifest } from '@weco/content/types/manifest';
-import { Container } from '@weco/common/views/components/styled/Container';
+import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import {
-  Work as WorkType,
   toWorkBasic,
+  Work as WorkType,
 } from '@weco/content/services/wellcome/catalogue/types';
-import { DigitalLocation } from '@weco/common/model/catalogue';
-import { grid } from '@weco/common/utils/classnames';
+import { getWork } from '@weco/content/services/wellcome/catalogue/works';
+import { TransformedManifest } from '@weco/content/types/manifest';
 import { isAllOriginalPdfs } from '@weco/content/utils/iiif/v3';
-import { removeIdiomaticTextTags } from '@weco/content/utils/string';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
 import { workLd } from '@weco/content/utils/json-ld';
-import BackToResults from '@weco/content/components/BackToResults/BackToResults';
-import WorkHeader from '@weco/content/components/WorkHeader/WorkHeader';
-import ArchiveBreadcrumb from '@weco/content/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
-import Space from '@weco/common/views/components/styled/Space';
-import WorkDetails from '@weco/content/components/WorkDetails';
-import ArchiveTree from '@weco/content/components/ArchiveTree';
-import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
-import Divider from '@weco/common/views/components/Divider/Divider';
-import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import { removeIdiomaticTextTags } from '@weco/content/utils/string';
+import {
+  createApiToolbarWorkLinks,
+  getDigitalLocationInfo,
+  getDigitalLocationOfType,
+  showItemLink,
+} from '@weco/content/utils/works';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -68,6 +70,8 @@ export const WorkPage: NextPage<Props> = ({
   apiUrl,
   transformedManifest,
 }) => {
+  const { user } = useUser();
+  const role = user?.role;
   const isArchive = !!(
     work.parts.length ||
     (work.partOf.length > 0 && work.partOf[0].totalParts)
@@ -92,6 +96,7 @@ export const WorkPage: NextPage<Props> = ({
   const allOriginalPdfs = isAllOriginalPdfs(canvases || []);
 
   const shouldShowItemLink = showItemLink({
+    role,
     allOriginalPdfs,
     hasIIIFManifest: !!transformedManifest,
     digitalLocation,
@@ -257,9 +262,13 @@ export const getServerSideProps: GetServerSideProps<
     work,
     'iiif-presentation'
   );
+
   const iiifManifest =
     iiifPresentationLocation &&
-    (await fetchIIIFPresentationManifest(iiifPresentationLocation.url));
+    (await fetchIIIFPresentationManifest({
+      location: iiifPresentationLocation.url,
+      workTypeId: work.workType?.id,
+    }));
 
   const transformedManifest = iiifManifest && transformManifest(iiifManifest);
 

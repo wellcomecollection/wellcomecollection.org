@@ -1,10 +1,11 @@
-import { GetServerSidePropsPrismicClient, fetcher } from '.';
+import { EventSeriesDocument as RawEventSeriesDocument } from '@weco/common/prismicio-types';
 import {
   cardFetchLinks,
   commonPrismicFieldsFetchLinks,
   contributorFetchLinks,
 } from '@weco/content/services/prismic/types';
-import { EventSeriesDocument as RawEventSeriesDocument } from '@weco/common/prismicio-types';
+
+import { fetcher, GetServerSidePropsPrismicClient } from '.';
 
 const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,

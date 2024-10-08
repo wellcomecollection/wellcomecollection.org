@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { font } from '@weco/common/utils/classnames';
 
 type Props = {

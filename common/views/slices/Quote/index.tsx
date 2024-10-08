@@ -1,13 +1,14 @@
-import { QuoteSlice as RawQuoteSlice } from '@weco/common/prismicio-types';
-import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
-import Quote from '@weco/content/components/Quote/Quote';
+import { FunctionComponent } from 'react';
+
+import { QuoteSlice as RawQuoteSlice } from '@weco/common/prismicio-types';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
+  defaultContext,
   LayoutWidth,
   SliceZoneContext,
-  defaultContext,
 } from '@weco/content/components/Body/Body';
+import Quote from '@weco/content/components/Quote/Quote';
 import { transformQuoteSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type QuoteSliceProps = SliceComponentProps<

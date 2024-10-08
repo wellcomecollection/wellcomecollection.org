@@ -36,6 +36,13 @@
   agents:
     queue: nano
 
+- label: "Run pa11y tests"
+  depends_on: deploy-to-e2e-environment
+  plugins:
+    - docker-compose#v3.5.0:
+        run: pa11y
+        command: [ "yarn", "write-report", "--isPullRequestRun" ]
+
 - wait
 
 - label: "Scale down e2e environment"

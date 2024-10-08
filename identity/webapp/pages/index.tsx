@@ -1,66 +1,67 @@
-import {
-  FunctionComponent,
-  useState,
-  ComponentPropsWithoutRef,
-  PropsWithChildren,
-} from 'react';
+import { Claims } from '@auth0/nextjs-auth0';
 import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import auth0, {
-  withPageAuthRequiredSSR,
-} from '@weco/identity/src/utility/auth0';
-import { ChangeDetailsModal } from '@weco/identity/src/frontend/MyAccount/ChangeDetailsModal';
-import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper';
 import {
-  Wrapper,
-  Container,
-  Title,
-  Header,
-  SectionHeading,
-} from '@weco/identity/src/frontend/components/Layout.style';
-import {
-  StatusAlert,
-  StyledDl,
-  StyledDd,
-  ProgressBar,
-  ProgressIndicator,
-  ItemTitle,
-  ItemStatus,
-  ItemPickup,
-  ButtonWrapper,
-  StatusAlertProps,
-} from '@weco/identity/src/frontend/MyAccount/MyAccount.style';
-import { InlineLoading } from '@weco/identity/src/frontend/MyAccount/Loading';
-import { ChangeEmail } from '@weco/identity/src/frontend/MyAccount/ChangeEmail';
-import { ChangePassword } from '@weco/identity/src/frontend/MyAccount/ChangePassword';
-import { DeleteAccount } from '@weco/identity/src/frontend/MyAccount/DeleteAccount';
-import { useRequestedItems } from '@weco/identity/src/frontend/hooks/useRequestedItems';
-import Layout, {
-  gridSize10,
-  gridSize12,
-} from '@weco/common/views/components/Layout';
-import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
-import Space from '@weco/common/views/components/styled/Space';
-import { font } from '@weco/common/utils/classnames';
-import { allowedRequests } from '@weco/common/values/requests';
+  ComponentPropsWithoutRef,
+  FunctionComponent,
+  PropsWithChildren,
+  useState,
+} from 'react';
+import { URLSearchParams } from 'url';
+
+import { sierraStatusCodeToLabel } from '@weco/common/data/microcopy';
 import { info2 } from '@weco/common/icons';
-import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
-import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
-import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
-import { getServerData } from '@weco/common/server-data';
-import { serialiseProps } from '@weco/common/utils/json';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { AppErrorProps } from '@weco/common/services/app';
 import {
   Auth0UserProfile,
   auth0UserProfileToUserInfo,
 } from '@weco/common/model/user';
-import { Claims } from '@auth0/nextjs-auth0';
-import { sierraStatusCodeToLabel } from '@weco/common/data/microcopy';
-import { URLSearchParams } from 'url';
+import { getServerData } from '@weco/common/server-data';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
+import { AppErrorProps } from '@weco/common/services/app';
+import { font } from '@weco/common/utils/classnames';
+import { serialiseProps } from '@weco/common/utils/json';
+import { allowedRequests } from '@weco/common/values/requests';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Layout, {
+  gridSize10,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
+import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
+import Space from '@weco/common/views/components/styled/Space';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
+import {
+  Container,
+  Header,
+  SectionHeading,
+  Title,
+  Wrapper,
+} from '@weco/identity/src/frontend/components/Layout.style';
+import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper';
+import { useRequestedItems } from '@weco/identity/src/frontend/hooks/useRequestedItems';
 import { useSendVerificationEmail } from '@weco/identity/src/frontend/hooks/useSendVerificationEmail';
+import { ChangeDetailsModal } from '@weco/identity/src/frontend/MyAccount/ChangeDetailsModal';
+import { ChangeEmail } from '@weco/identity/src/frontend/MyAccount/ChangeEmail';
+import { ChangePassword } from '@weco/identity/src/frontend/MyAccount/ChangePassword';
+import { DeleteAccount } from '@weco/identity/src/frontend/MyAccount/DeleteAccount';
+import { InlineLoading } from '@weco/identity/src/frontend/MyAccount/Loading';
+import {
+  ButtonWrapper,
+  ItemPickup,
+  ItemStatus,
+  ItemTitle,
+  ProgressBar,
+  ProgressIndicator,
+  StatusAlert,
+  StatusAlertProps,
+  StyledDd,
+  StyledDl,
+} from '@weco/identity/src/frontend/MyAccount/MyAccount.style';
 import { UnverifiedEmail } from '@weco/identity/src/frontend/MyAccount/UnverifiedEmail';
+import auth0, {
+  withPageAuthRequiredSSR,
+} from '@weco/identity/src/utility/auth0';
 
 type DetailProps = {
   label: string;

@@ -1,6 +1,7 @@
-import { FunctionComponent } from 'react';
 import Image from 'next/image';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
+
 import { ImageType } from '@weco/common/model/image';
 import {
   createPrismicLoader,

@@ -1,15 +1,15 @@
-import { FunctionComponent } from 'react';
 import Image, { ImageLoaderProps } from 'next/image';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { ImageType } from '@weco/common/model/image';
 import {
-  convertImageUri,
   convertIiifImageUri,
+  convertImageUri,
 } from '@weco/common/utils/convert-image-uri';
 import {
-  convertBreakpointSizesToSizes,
   BreakpointSizes,
+  convertBreakpointSizesToSizes,
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
 
 const StyledImage = styled(Image)`

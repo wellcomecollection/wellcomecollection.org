@@ -1,47 +1,48 @@
-import { FunctionComponent } from 'react';
-import { GetServerSideProps } from 'next';
-import styled from 'styled-components';
 import * as prismic from '@prismicio/client';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import { GetServerSideProps } from 'next';
+import { FunctionComponent } from 'react';
+import styled from 'styled-components';
+
+import { pageDescriptions } from '@weco/common/data/microcopy';
+import { StoriesLandingDocument as RawStoriesLandingDocument } from '@weco/common/prismicio-types';
+import { getServerData } from '@weco/common/server-data';
+import { AppErrorProps } from '@weco/common/services/app';
+import { serialiseProps } from '@weco/common/utils/json';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import Layout, {
   gridSize12,
   gridSize8,
 } from '@weco/common/views/components/Layout';
-import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
-import { ArticleBasic } from '@weco/content/types/articles';
-import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import Space from '@weco/common/views/components/styled/Space';
-import FeaturedText from '@weco/content/components/FeaturedText/FeaturedText';
-import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import { AppErrorProps } from '@weco/common/services/app';
-import { serialiseProps } from '@weco/common/utils/json';
-import { getServerData } from '@weco/common/server-data';
-import StoryPromo from '@weco/content/components/StoryPromo/StoryPromo';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import { Container } from '@weco/common/views/components/styled/Container';
+import Space from '@weco/common/views/components/styled/Space';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import { FeaturedCardArticle } from '@weco/content/components/FeaturedCard/FeaturedCard';
-import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
+import FeaturedText from '@weco/content/components/FeaturedText/FeaturedText';
+import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
+import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
+import StoryPromo from '@weco/content/components/StoryPromo/StoryPromo';
+import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
 import { fetchStoriesLanding } from '@weco/content/services/prismic/fetch/stories-landing';
-import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import {
   transformArticle,
   transformArticleToArticleBasic,
 } from '@weco/content/services/prismic/transformers/articles';
-import { transformStoriesLanding } from '@weco/content/services/prismic/transformers/stories-landing';
-import { pageDescriptions } from '@weco/common/data/microcopy';
-import { StoriesLanding } from '@weco/content/types/stories-landing';
-import { StoriesLandingDocument as RawStoriesLandingDocument } from '@weco/common/prismicio-types';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
+import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import { transformSeriesToSeriesBasic } from '@weco/content/services/prismic/transformers/series';
+import { transformStoriesLanding } from '@weco/content/services/prismic/transformers/stories-landing';
+import { ArticleBasic } from '@weco/content/types/articles';
 import { Series, SeriesBasic } from '@weco/content/types/series';
-import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { StoriesLanding } from '@weco/content/types/stories-landing';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import { Container } from '@weco/common/views/components/styled/Container';
 
 type Props = {
   articles: ArticleBasic[];

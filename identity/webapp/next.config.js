@@ -1,5 +1,7 @@
-const apmConfig = require('@weco/common/services/apm/apmConfig');
 const withBundleAnalyzer = require('@next/bundle-analyzer');
+
+const apmConfig = require('@weco/common/services/apm/apmConfig');
+
 const { getConfig } = require('./config');
 const buildHash = process.env.BUILD_HASH || 'test';
 const isProd = process.env.NODE_ENV === 'production';

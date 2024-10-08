@@ -1,7 +1,8 @@
+import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
+
+import { Format } from './format';
 import { GenericContentFields } from './generic-content-fields';
 import { Link } from './link';
-import { Format } from './format';
-import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 
 export type Guide = GenericContentFields & {
   type: 'guides';

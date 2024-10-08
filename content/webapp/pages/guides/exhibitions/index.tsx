@@ -1,34 +1,34 @@
-import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
-import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
+import { FunctionComponent } from 'react';
+
+import { pageDescriptions } from '@weco/common/data/microcopy';
+import { getServerData } from '@weco/common/server-data';
+import { appError, AppErrorProps } from '@weco/common/services/app';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
-import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
+import { serialiseProps } from '@weco/common/utils/json';
+import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibitionGuides } from '@weco/content/services/prismic/fetch/exhibition-guides';
-import { fetchExhibitionTexts } from '@weco/content/services/prismic/fetch/exhibition-texts';
 import { fetchExhibitionHighlightTours } from '@weco/content/services/prismic/fetch/exhibition-highlight-tours';
+import { fetchExhibitionTexts } from '@weco/content/services/prismic/fetch/exhibition-texts';
 import {
   transformExhibitionGuide,
   transformExhibitionGuideToExhibitionGuideBasic,
 } from '@weco/content/services/prismic/transformers/exhibition-guides';
+import { transformExhibitionHighlightTours } from '@weco/content/services/prismic/transformers/exhibition-highlight-tours';
 import {
   transformExhibitionTexts,
   transformToBasic,
 } from '@weco/content/services/prismic/transformers/exhibition-texts';
-import { transformExhibitionHighlightTours } from '@weco/content/services/prismic/transformers/exhibition-highlight-tours';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { appError, AppErrorProps } from '@weco/common/services/app';
-import { serialiseProps } from '@weco/common/utils/json';
-import { getServerData } from '@weco/common/server-data';
 import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
+import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
 import { getPage } from '@weco/content/utils/query-params';
-import { pageDescriptions } from '@weco/common/data/microcopy';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
-import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   exhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
@@ -173,13 +173,12 @@ export const getServerSideProps: GetServerSideProps<
 
 const ExhibitionGuidesPage: FunctionComponent<Props> = props => {
   const { exhibitionGuides } = props;
-  const { egWork } = useToggles();
 
   const image = exhibitionGuides.results[0]?.image;
 
   return (
     <PageLayout
-      title={egWork ? 'Digital Guides' : 'Exhibition Guides'}
+      title="Digital Guides"
       description={pageDescriptions.exhibitionGuides}
       url={{ pathname: '/guides/exhibitions' }}
       jsonLd={{ '@type': 'WebPage' }}
@@ -194,9 +193,9 @@ const ExhibitionGuidesPage: FunctionComponent<Props> = props => {
     >
       <SpacingSection>
         <LayoutPaginatedResults
-          title={egWork ? 'Digital Guides' : 'Exhibition Guides'}
+          title="Digital Guides"
           paginatedResults={exhibitionGuides}
-          breadcrumbs={{ items: [], noHomeLink: egWork }}
+          breadcrumbs={{ items: [], noHomeLink: true }}
         />
       </SpacingSection>
     </PageLayout>

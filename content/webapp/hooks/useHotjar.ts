@@ -5,6 +5,7 @@
 // We should probably move out the pieces that are troublesome, and check the rest
 
 import { useEffect, useState } from 'react';
+
 import { getConsentState } from '@weco/common/services/app/civic-uk';
 
 declare global {

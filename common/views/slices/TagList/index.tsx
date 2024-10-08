@@ -1,6 +1,7 @@
-import { TagListSlice as RawTagListSlice } from '@weco/common/prismicio-types';
-import { FunctionComponent } from 'react';
 import { SliceComponentProps } from '@prismicio/react';
+import { FunctionComponent } from 'react';
+
+import { TagListSlice as RawTagListSlice } from '@weco/common/prismicio-types';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
   LayoutWidth,

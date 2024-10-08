@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 
 type Callback = () => void;

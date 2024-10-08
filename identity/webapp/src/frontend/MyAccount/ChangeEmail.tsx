@@ -1,23 +1,25 @@
-import { FunctionComponent, useEffect, useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { FieldMargin } from '@weco/identity/src/frontend/components/Form.style';
+import { FunctionComponent, useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+
+import { font } from '@weco/common/utils/classnames';
+import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
+import Space from '@weco/common/views/components/styled/Space';
 import TextInput, {
   InputErrorMessage,
 } from '@weco/common/views/components/TextInput';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import { FieldMargin } from '@weco/identity/src/frontend/components/Form.style';
 import { PasswordInput } from '@weco/identity/src/frontend/components/PasswordInput';
 import { validEmailPattern } from '@weco/identity/src/frontend/components/ValidationPatterns';
-import { Loading } from './Loading';
-import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import {
   UpdateUserError,
   useUpdateUser,
 } from '@weco/identity/src/frontend/hooks/useUpdateUser';
+
+import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
+import { Loading } from './Loading';
 import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
-import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
-import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
-import { font } from '@weco/common/utils/classnames';
 
 type ChangeEmailInputs = {
   email: string;

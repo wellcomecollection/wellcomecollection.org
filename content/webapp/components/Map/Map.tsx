@@ -1,5 +1,5 @@
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { Loader, LoaderOptions } from 'google-maps';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 export type Props = {

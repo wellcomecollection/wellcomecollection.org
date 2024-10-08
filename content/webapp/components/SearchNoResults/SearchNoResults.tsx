@@ -1,7 +1,8 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
+
 import { font, grid } from '@weco/common/utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {
   query?: string;

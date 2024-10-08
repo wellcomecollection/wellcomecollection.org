@@ -1,7 +1,8 @@
-import styled from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
 import { ComponentProps, FunctionComponent } from 'react';
+import styled from 'styled-components';
+
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import Space from '@weco/common/views/components/styled/Space';
 
 const BookPromoImageContainer = styled.div`
   position: relative;

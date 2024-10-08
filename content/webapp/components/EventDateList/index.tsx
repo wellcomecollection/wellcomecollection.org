@@ -1,11 +1,11 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import DateRange from '@weco/content/components/DateRange/DateRange';
-import { HasTimes } from '@weco/content/types/events';
-import EventStatus from '@weco/content/components/EventStatus';
-import Space from '@weco/common/views/components/styled/Space';
 import { isPast } from '@weco/common/utils/dates';
+import Space from '@weco/common/views/components/styled/Space';
+import DateRange from '@weco/content/components/DateRange/DateRange';
+import EventStatus from '@weco/content/components/EventStatus';
+import { HasTimes } from '@weco/content/types/events';
 
 const TimeWrapper = styled(Space).attrs({
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },

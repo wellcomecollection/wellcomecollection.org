@@ -1,10 +1,11 @@
 import { Component, createRef, ReactElement } from 'react';
 import styled from 'styled-components';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import Control from '@weco/common/views/components/Control';
-import Button from '@weco/common/views/components/Buttons';
+
 import { cross } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
+import Button from '@weco/common/views/components/Buttons';
+import Control from '@weco/common/views/components/Control';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 
 export const IframeContainer = styled.div.attrs<{
   'data-chromatic'?: 'ignore';

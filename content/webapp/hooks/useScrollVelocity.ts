@@ -1,4 +1,4 @@
-import { useState, useReducer, useEffect } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 
 const useScrollVelocity = (offset: number): number => {
   const [then, setThen] = useState(Date.now());

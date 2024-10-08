@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { isString } from '@weco/common/utils/type-guards';
+
 import {
   isJson,
   serialiseDates as serialiseJsonDates,
 } from '@weco/common/utils/json';
+import { isString } from '@weco/common/utils/type-guards';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibitionRelatedContent } from '@weco/content/services/prismic/fetch/exhibitions';
 import { transformExhibitionRelatedContent } from '@weco/content/services/prismic/transformers/exhibitions';

@@ -1,8 +1,10 @@
+import { devices } from '@playwright/test';
 import * as prismic from '@prismicio/client';
 import { BrowserContext, Page, errors as playwrightErrors } from 'playwright';
-import { baseUrl, useStageApis } from './utils';
-import { devices } from '@playwright/test';
+
 import { ArticlesDocument as RawArticlesDocument } from '@weco/common/prismicio-types';
+
+import { baseUrl, useStageApis } from './utils';
 
 export const gotoWithoutCache = async (
   url: string,
@@ -186,6 +188,14 @@ const workWithDigitalLocationOnly = async (
   await gotoWithoutCache(`${baseUrl}/works/j9kukb78`, page);
 };
 
+const workWithDigitalLocationAndRestricted = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/jjdp9v65`, page);
+};
+
 const workWithDigitalLocationAndLocationNote = async (
   context: BrowserContext,
   page: Page
@@ -313,6 +323,7 @@ export {
   itemWithReferenceNumber,
   workWithPhysicalLocationOnly,
   workWithDigitalLocationOnly,
+  workWithDigitalLocationAndRestricted,
   workWithDigitalLocationAndLocationNote,
   workWithBornDigitalDownloads,
   itemWithOnlyOpenAccess,

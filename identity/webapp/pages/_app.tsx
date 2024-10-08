@@ -1,4 +1,5 @@
 import NextApp, { AppContext, AppProps } from 'next/app';
+
 import App from '@weco/common/views/pages/_app';
 
 export default function IdentityApp(props: AppProps) {

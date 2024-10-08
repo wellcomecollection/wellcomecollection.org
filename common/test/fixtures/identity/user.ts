@@ -1,5 +1,5 @@
-import { UserInfo, Auth0UserProfile } from '@weco/common/model/user';
 import { RequestsList } from '@weco/common/model/requesting';
+import { Auth0UserProfile, UserInfo } from '@weco/common/model/user';
 
 export const mockUser: UserInfo = {
   userId: '7654321',
@@ -8,10 +8,12 @@ export const mockUser: UserInfo = {
   email: 'bruciebaby@wayneenterprises.com',
   emailValidated: true,
   barcode: '1234567',
+  role: 'Staff',
 };
 
 export const mockAuth0Profile: Auth0UserProfile = {
   'https://wellcomecollection.org/patron_barcode': mockUser.barcode,
+  'https://wellcomecollection.org/patron_role': mockUser.role,
   email: mockUser.email,
   email_verified: mockUser.emailValidated,
   family_name: mockUser.lastName,

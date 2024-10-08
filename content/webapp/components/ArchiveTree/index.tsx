@@ -1,26 +1,28 @@
 import {
-  useState,
-  useEffect,
-  useContext,
-  useRef,
   FunctionComponent,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
 } from 'react';
+
+import { treeInstructions } from '@weco/common/data/microcopy';
+import { tree } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import Button from '@weco/common/views/components/Buttons';
+import Modal from '@weco/common/views/components/Modal/Modal';
 import Space from '@weco/common/views/components/styled/Space';
-import { getArchiveAncestorArray } from '@weco/content/utils/works';
+import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
 import {
   RelatedWork,
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
-import Modal from '@weco/common/views/components/Modal/Modal';
-import Button from '@weco/common/views/components/Buttons';
-import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
-import { tree } from '@weco/common/icons';
-import NestedList from './ArchiveTree.NestedList';
+import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
+import { getArchiveAncestorArray } from '@weco/content/utils/works';
+
 import { UiTree, UiTreeNode, updateChildren } from './ArchiveTree.helpers';
-import { treeInstructions } from '@weco/common/data/microcopy';
+import NestedList from './ArchiveTree.NestedList';
 import {
   ButtonWrap,
   Tree,

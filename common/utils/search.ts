@@ -1,5 +1,6 @@
-import { propsToQuery } from './routes';
 import { ParsedUrlQuery } from 'querystring';
+
+import { propsToQuery } from './routes';
 
 export type DefaultSortValuesType = {
   sort: string | undefined;

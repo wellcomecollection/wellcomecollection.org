@@ -1,25 +1,26 @@
-import { RelatedWork } from '@weco/content/services/wellcome/catalogue/types';
-import { FunctionComponent } from 'react';
 import {
-  getLabelString,
-  isTransformedCanvas,
-  getOriginalFiles,
-  isCanvas,
-  isRange,
-} from '@weco/content/utils/iiif/v3';
-import {
-  Manifest,
   ChoiceBody,
   ContentResource,
+  Manifest,
   Range,
 } from '@iiif/presentation-3';
-import {
-  TransformedCanvas,
-  CustomContentResource,
-} from '@weco/content/types/manifest';
+import { FunctionComponent } from 'react';
+
 import { isString } from '@weco/common/utils/type-guards';
 import { DownloadItemRendererProps } from '@weco/content/components/ArchiveTree/ArchiveTree.DownloadItemRenderer';
 import { WorkItemRendererProps } from '@weco/content/components/ArchiveTree/ArchiveTree.WorkItemRenderer';
+import { RelatedWork } from '@weco/content/services/wellcome/catalogue/types';
+import {
+  CustomContentResource,
+  TransformedCanvas,
+} from '@weco/content/types/manifest';
+import {
+  getLabelString,
+  getOriginalFiles,
+  isCanvas,
+  isRange,
+  isTransformedCanvas,
+} from '@weco/content/utils/iiif/v3';
 
 export const controlDimensions = {
   controlWidth: 44,

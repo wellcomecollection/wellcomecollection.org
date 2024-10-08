@@ -1,5 +1,6 @@
-import { calculateReadingTime } from './reading-time';
 import { TextSlice as RawTextSlice } from '@weco/common/prismicio-types';
+
+import { calculateReadingTime } from './reading-time';
 
 const exampleTextSlice = {
   variation: 'default',

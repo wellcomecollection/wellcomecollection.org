@@ -1,11 +1,13 @@
 import * as prismic from '@prismicio/client';
-import { Image, PromoSliceZone } from '@weco/content/services/prismic/types';
+
 import { CaptionedImage } from '@weco/common/model/captioned-image';
-import isEmptyObj from '@weco/content/utils/is-empty-object';
 import { Crop, ImageType } from '@weco/common/model/image';
-import { ImagePromo } from '@weco/content/types/image-promo';
-import { asRichText, asText } from '.';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
+import { Image, PromoSliceZone } from '@weco/content/services/prismic/types';
+import { ImagePromo } from '@weco/content/types/image-promo';
+import isEmptyObj from '@weco/content/utils/is-empty-object';
+
+import { asRichText, asText } from '.';
 
 export const placeHolderImage: ImageType = {
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',

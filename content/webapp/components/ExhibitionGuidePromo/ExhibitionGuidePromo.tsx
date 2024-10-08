@@ -1,19 +1,19 @@
 import { FunctionComponent } from 'react';
+
 import { font } from '@weco/common/utils/classnames';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import Space from '@weco/common/views/components/styled/Space';
+import {
+  CardBody,
+  CardImageWrapper,
+  CardOuter,
+  CardTitle,
+} from '@weco/content/components/Card/Card';
+import RelevantGuideIcons from '@weco/content/components/ExhibitionGuideRelevantIcons';
 import {
   ExhibitionGuideBasic,
   ExhibitionGuideType,
 } from '@weco/content/types/exhibition-guides';
-import Space from '@weco/common/views/components/styled/Space';
-import {
-  CardOuter,
-  CardBody,
-  CardImageWrapper,
-  CardTitle,
-} from '@weco/content/components/Card/Card';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { useToggles } from '@weco/common/server-data/Context';
-import RelevantGuideIcons from '@weco/content/components/ExhibitionGuideRelevantIcons';
 
 type Props = {
   exhibitionGuide: ExhibitionGuideBasic;
@@ -34,8 +34,6 @@ const getAvailableTypes = availableTypes => {
 const ExhibitionGuidePromo: FunctionComponent<Props> = ({
   exhibitionGuide,
 }) => {
-  const { egWork } = useToggles();
-
   return (
     <CardOuter
       data-component="ExhibitionGuidePromo"
@@ -75,19 +73,17 @@ const ExhibitionGuidePromo: FunctionComponent<Props> = ({
               </p>
             </Space>
           )}
-          {egWork && (
-            <Space
-              $v={{
-                size: 'l',
-                properties: ['margin-top'],
-                overrides: { small: 4, medium: 4, large: 5 },
-              }}
-            >
-              <RelevantGuideIcons
-                types={getAvailableTypes(exhibitionGuide.availableTypes)}
-              />
-            </Space>
-          )}
+          <Space
+            $v={{
+              size: 'l',
+              properties: ['margin-top'],
+              overrides: { small: 4, medium: 4, large: 5 },
+            }}
+          >
+            <RelevantGuideIcons
+              types={getAvailableTypes(exhibitionGuide.availableTypes)}
+            />
+          </Space>
         </div>
       </CardBody>
     </CardOuter>

@@ -1,9 +1,11 @@
 import { FunctionComponent } from 'react';
+
 import { defaultRequestErrorMessage } from '@weco/common/data/microcopy';
-import Button from '@weco/common/views/components/Buttons';
-import { CTAs, Header } from './common';
-import { themeValues } from '@weco/common/views/themes/config';
 import { font } from '@weco/common/utils/classnames';
+import Button from '@weco/common/views/components/Buttons';
+import { themeValues } from '@weco/common/views/themes/config';
+
+import { CTAs, Header } from './common';
 
 type ErrorDialogProps = {
   setIsActive: (value: boolean) => void;

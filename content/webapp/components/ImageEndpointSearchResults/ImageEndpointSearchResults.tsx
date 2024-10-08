@@ -1,25 +1,26 @@
 import {
   FunctionComponent,
-  useMemo,
-  useState,
   useContext,
   useEffect,
+  useMemo,
+  useState,
 } from 'react';
 import PhotoAlbum, {
   RenderPhotoProps,
   RenderRowContainer,
 } from 'react-photo-album';
 import styled from 'styled-components';
-import { hexToRgb } from '@weco/content/utils/convert-colors';
-import { Image } from '@weco/content/services/wellcome/catalogue/types';
+
+import { ServerDataContext } from '@weco/common/server-data/Context';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import ExpandedImage from '@weco/content/components/ExpandedImage/ExpandedImage';
-import ImageCard from '@weco/content/components/ImageCard/ImageCard';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
+import ExpandedImage from '@weco/content/components/ExpandedImage/ExpandedImage';
+import ImageCard from '@weco/content/components/ImageCard/ImageCard';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
-import { ServerDataContext } from '@weco/common/server-data/Context';
+import { Image } from '@weco/content/services/wellcome/catalogue/types';
+import { hexToRgb } from '@weco/content/utils/convert-colors';
 
 type Props = {
   images: Image[];

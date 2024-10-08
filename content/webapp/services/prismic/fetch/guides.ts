@@ -1,15 +1,17 @@
-import { fetcher, GetByTypeParams, GetServerSidePropsPrismicClient } from '.';
 import * as prismic from '@prismicio/client';
+
+import {
+  GuideFormatsDocument as RawGuideFormatsDocument,
+  GuidesDocument as RawGuidesDocument,
+} from '@weco/common/prismicio-types';
 import {
   commonPrismicFieldsFetchLinks,
   guideFetchLinks,
   guideFormatsFetchLinks,
   pagesFetchLinks,
 } from '@weco/content/services/prismic/types';
-import {
-  GuidesDocument as RawGuidesDocument,
-  GuideFormatsDocument as RawGuideFormatsDocument,
-} from '@weco/common/prismicio-types';
+
+import { fetcher, GetByTypeParams, GetServerSidePropsPrismicClient } from '.';
 
 const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,

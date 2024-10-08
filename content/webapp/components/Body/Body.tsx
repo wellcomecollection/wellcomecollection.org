@@ -1,39 +1,41 @@
-import {
-  ReactElement,
-  FunctionComponent,
-  Fragment,
-  PropsWithChildren,
-} from 'react';
-import styled from 'styled-components';
 import * as prismic from '@prismicio/client';
 import { SliceZone } from '@prismicio/react';
+import {
+  Fragment,
+  FunctionComponent,
+  PropsWithChildren,
+  ReactElement,
+} from 'react';
+import styled from 'styled-components';
+
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { Link } from '@weco/content/types/link';
-import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
-import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
-import Space from '@weco/common/views/components/styled/Space';
-import FeaturedText from '@weco/content/components/FeaturedText/FeaturedText';
 import Layout, {
-  gridSize12,
   gridSize10,
+  gridSize12,
   gridSize8,
 } from '@weco/common/views/components/Layout';
-import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors/OnThisPageAnchors';
+import Space from '@weco/common/views/components/styled/Space';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
-import GridFactory, { sectionLevelPageGrid } from './GridFactory';
-import Card from '@weco/content/components/Card/Card';
-import { convertItemToCardProps } from '@weco/content/types/card';
-import { isContentList } from '@weco/content/types/body';
-import FeaturedCard, {
-  convertItemToFeaturedCardProps,
-  convertCardToFeaturedCardProps,
-} from '@weco/content/components/FeaturedCard/FeaturedCard';
-import { Props as ComicPreviousNextProps } from '@weco/content/components/ComicPreviousNext/ComicPreviousNext';
-import { PaletteColor } from '@weco/common/views/themes/config';
 import { components } from '@weco/common/views/slices';
+import { PaletteColor } from '@weco/common/views/themes/config';
+import Card from '@weco/content/components/Card/Card';
+import { Props as ComicPreviousNextProps } from '@weco/content/components/ComicPreviousNext/ComicPreviousNext';
+import FeaturedCard, {
+  convertCardToFeaturedCardProps,
+  convertItemToFeaturedCardProps,
+} from '@weco/content/components/FeaturedCard/FeaturedCard';
+import FeaturedText from '@weco/content/components/FeaturedText/FeaturedText';
+import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
+import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors/OnThisPageAnchors';
+import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
+import { isContentList } from '@weco/content/types/body';
+import { convertItemToCardProps } from '@weco/content/types/card';
+import { Link } from '@weco/content/types/link';
+
+import GridFactory, { sectionLevelPageGrid } from './GridFactory';
 
 const BodyWrapper = styled.div<{ $splitBackground: boolean }>`
   ${props =>

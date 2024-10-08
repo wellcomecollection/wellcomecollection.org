@@ -6,8 +6,8 @@ import {
   PageRoute,
   WithPageAuthRequiredPageRouterOptions,
 } from '@auth0/nextjs-auth0';
-import getConfig from 'next/config';
 import { GetServerSidePropsContext } from 'next';
+import getConfig from 'next/config';
 import { ParsedUrlQuery } from 'querystring';
 
 const { serverRuntimeConfig } = getConfig();
@@ -50,7 +50,12 @@ const utilityScopes = [
 // https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
 // you can actually only ask for quite general *scopes*:
 // https://openid.net/specs/openid-connect-core-1_0.html#ScopeClaims
-const profileScopes = ['profile', 'email', 'weco:patron_barcode'];
+const profileScopes = [
+  'profile',
+  'email',
+  'weco:patron_barcode',
+  'weco:patron_role',
+];
 
 const identityAuthorizationParams = {
   audience: config.remoteApi.host,

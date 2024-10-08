@@ -1,24 +1,25 @@
-import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
+import { FunctionComponent } from 'react';
+
+import { pageDescriptions } from '@weco/common/data/microcopy';
+import { getServerData } from '@weco/common/server-data';
+import { appError, AppErrorProps } from '@weco/common/services/app';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
+import { serialiseProps } from '@weco/common/utils/json';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
-import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import {
   transformArticle,
   transformArticleToArticleBasic,
 } from '@weco/content/services/prismic/transformers/articles';
 import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
-import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import { appError, AppErrorProps } from '@weco/common/services/app';
-import { serialiseProps } from '@weco/common/utils/json';
-import { getServerData } from '@weco/common/server-data';
-import { getPage } from '@weco/content/utils/query-params';
-import { pageDescriptions } from '@weco/common/data/microcopy';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import { ArticleBasic } from '@weco/content/types/articles';
+import { getPage } from '@weco/content/utils/query-params';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 type Props = {

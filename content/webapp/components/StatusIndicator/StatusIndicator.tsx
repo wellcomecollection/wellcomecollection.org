@@ -1,6 +1,6 @@
-import { font } from '@weco/common/utils/classnames';
 import { FunctionComponent } from 'react';
-import TextWithDot from '@weco/content/components/TextWithDot';
+
+import { font } from '@weco/common/utils/classnames';
 import {
   addDays,
   isFuture,
@@ -10,6 +10,7 @@ import {
   today,
 } from '@weco/common/utils/dates';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import TextWithDot from '@weco/content/components/TextWithDot';
 
 type Props = {
   start: Date;

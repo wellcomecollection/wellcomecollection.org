@@ -1,6 +1,6 @@
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors/OnThisPageAnchors';
 import Readme from '@weco/content/components/OnThisPageAnchors/README.md';
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 
 const Template = args => (
   <ReadmeDecorator

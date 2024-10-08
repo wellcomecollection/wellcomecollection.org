@@ -1,21 +1,24 @@
-import { FunctionComponent } from 'react';
-import { getCrop, ImageType } from '@weco/common/model/image';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import Space from '@weco/common/views/components/styled/Space';
-import { grid, font } from '@weco/common/utils/classnames';
+import { ElementType, FunctionComponent } from 'react';
 import styled from 'styled-components';
+
+import { duration as durationIcon, map } from '@weco/common/icons';
+import { getCrop, ImageType } from '@weco/common/model/image';
+import { useToggles } from '@weco/common/server-data/Context';
+import { font, grid } from '@weco/common/utils/classnames';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import Space from '@weco/common/views/components/styled/Space';
 import { threeUpGridSizesMap } from '@weco/content/components/Body/GridFactory';
+import {
+  CardBody,
+  CardImageWrapper,
+  CardOuter,
+  CardOuterTransition,
+  CardTitle,
+} from '@weco/content/components/Card/Card';
 import ImagePlaceholder, {
   placeholderBackgroundColor,
 } from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
-import { map, duration as durationIcon } from '@weco/common/icons';
-import {
-  CardOuter,
-  CardTitle,
-  CardBody,
-  CardImageWrapper,
-} from '@weco/content/components/Card/Card';
 
 const AlignIconFirstLineCenter = styled.div.attrs({
   className: font('intr', 5),
@@ -47,13 +50,24 @@ const GuideStopCard: FunctionComponent<Props> = ({
   type,
   image,
 }) => {
+  const { viewTransitions } = useToggles();
+
+  const CardOuterComponent: ElementType = viewTransitions
+    ? CardOuterTransition
+    : CardOuter;
+
   const croppedImage = getCrop(image, '16:9');
+
   return (
     <Space
       $v={{ size: 'l', properties: ['margin-bottom'] }}
       className={grid(threeUpGridSizesMap.default[0])}
     >
-      <CardOuter href={link} style={{ minHeight: '0' }} id={`${number}`}>
+      <CardOuterComponent
+        href={link}
+        style={{ minHeight: '0', viewTransitionName: `player-${number}` }}
+        id={`${number}`}
+      >
         <CardImageWrapper>
           {croppedImage ? (
             <PrismicImage
@@ -70,7 +84,12 @@ const GuideStopCard: FunctionComponent<Props> = ({
               quality="low"
             />
           ) : (
-            <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
+            <div
+              style={{
+                aspectRatio: '16/9',
+                overflow: 'hidden',
+              }}
+            >
               <ImagePlaceholder
                 backgroundColor={placeholderBackgroundColor(number || 1)}
               />
@@ -106,7 +125,7 @@ const GuideStopCard: FunctionComponent<Props> = ({
             </AlignIconFirstLineCenter>
           )}
         </CardBody>
-      </CardOuter>
+      </CardOuterComponent>
     </Space>
   );
 };

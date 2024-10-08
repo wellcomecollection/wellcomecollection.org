@@ -1,8 +1,9 @@
 import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
-import { LinkFrom } from '@weco/common/utils/routes';
-import { LinkProps } from '@weco/common/model/link-props';
+
 import { ConceptLinkSource } from '@weco/common/data/segment-values';
+import { LinkProps } from '@weco/common/model/link-props';
+import { LinkFrom } from '@weco/common/utils/routes';
 
 type ConceptLinkProps = { conceptId: string };
 

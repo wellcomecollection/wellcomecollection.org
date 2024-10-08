@@ -1,31 +1,31 @@
-import { FunctionComponent } from 'react';
-import { orderEventsByNextAvailableDate } from '@weco/content/services/prismic/events';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
-
-import MoreLink from '@weco/content/components/MoreLink/MoreLink';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
-import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import Space from '@weco/common/views/components/styled/Space';
 import { GetServerSideProps } from 'next';
-import { appError, AppErrorProps } from '@weco/common/services/app';
-import { serialiseProps } from '@weco/common/utils/json';
+import { FunctionComponent } from 'react';
+
+import { pageDescriptions } from '@weco/common/data/microcopy';
 import { getServerData } from '@weco/common/server-data';
-import { eventLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { appError, AppErrorProps } from '@weco/common/services/app';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
+import { Period } from '@weco/common/types/periods';
+import { serialiseProps } from '@weco/common/utils/json';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import Space from '@weco/common/views/components/styled/Space';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
+import MoreLink from '@weco/content/components/MoreLink/MoreLink';
+import { orderEventsByNextAvailableDate } from '@weco/content/services/prismic/events';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
-import { getPage } from '@weco/content/utils/query-params';
 import {
   transformEvent,
   transformEventBasic,
 } from '@weco/content/services/prismic/transformers/events';
+import { eventLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
-import { pageDescriptions } from '@weco/common/data/microcopy';
 import { EventBasic } from '@weco/content/types/events';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { getPage } from '@weco/content/utils/query-params';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
-import { Period } from '@weco/common/types/periods';
 
 export type Props = {
   title: string;

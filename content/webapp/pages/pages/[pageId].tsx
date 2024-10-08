@@ -1,60 +1,61 @@
-import { EditorialImageSlice as RawEditorialImageSlice } from '@weco/common/prismicio-types';
+import { GetServerSideProps } from 'next';
 import { FunctionComponent, ReactElement } from 'react';
-import PageLayout, {
-  SiteSection,
-} from '@weco/common/views/components/PageLayout/PageLayout';
-import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
-import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import ImageWithTasl from '@weco/content/components/ImageWithTasl/ImageWithTasl';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { Page as PageType } from '@weco/content/types/pages';
-import { SiblingsGroup } from '@weco/content/types/siblings-group';
-import {
-  headerBackgroundLs,
-  landingHeaderBackgroundLs,
-} from '@weco/common/utils/backgrounds';
+
 import {
   prismicPageIds,
   sectionLevelPages,
 } from '@weco/common/data/hardcoded-ids';
-import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
-import { PageFormatIds } from '@weco/content/data/content-format-ids';
-import { links } from '@weco/common/views/components/Header/Header';
+import { getCrop } from '@weco/common/model/image';
+import { EditorialImageSlice as RawEditorialImageSlice } from '@weco/common/prismicio-types';
+import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
-import { GetServerSideProps } from 'next';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
+import {
+  headerBackgroundLs,
+  landingHeaderBackgroundLs,
+} from '@weco/common/utils/backgrounds';
 import { serialiseProps } from '@weco/common/utils/json';
-import { getServerData } from '@weco/common/server-data';
-import CardGrid from '@weco/content/components/CardGrid/CardGrid';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { links } from '@weco/common/views/components/Header/Header';
+import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { makeLabels } from '@weco/common/views/components/LabelsList/LabelsList';
+import { gridSize12 } from '@weco/common/views/components/Layout';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import PageLayout, {
+  SiteSection,
+} from '@weco/common/views/components/PageLayout/PageLayout';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import Body from '@weco/content/components/Body/Body';
+import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
-import { contentLd } from '@weco/content/services/prismic/transformers/json-ld';
+import ImageWithTasl from '@weco/content/components/ImageWithTasl/ImageWithTasl';
+import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
+import { PageFormatIds } from '@weco/content/data/content-format-ids';
+import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   fetchChildren,
   fetchPage,
   fetchSiblings,
 } from '@weco/content/services/prismic/fetch/pages';
-import { createClient } from '@weco/content/services/prismic/fetch';
-import { transformPage } from '@weco/content/services/prismic/transformers/pages';
-import { getCrop } from '@weco/common/model/image';
-import { isEditorialImage, isVideoEmbed } from '@weco/content/types/body';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { looksLikePrismicId } from '@weco/common/services/prismic';
-import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import {
   transformEditorialImageSlice,
   transformEmbedSlice,
 } from '@weco/content/services/prismic/transformers/body';
-import { gridSize12 } from '@weco/common/views/components/Layout';
+import { contentLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { transformPage } from '@weco/content/services/prismic/transformers/pages';
+import { isEditorialImage, isVideoEmbed } from '@weco/content/types/body';
+import { Page as PageType } from '@weco/content/types/pages';
+import { SiblingsGroup } from '@weco/content/types/siblings-group';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { isVanityUrl } from '@weco/content/utils/urls';
-import { makeLabels } from '@weco/common/views/components/LabelsList/LabelsList';
-import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 export type Props = {
   page: PageType;

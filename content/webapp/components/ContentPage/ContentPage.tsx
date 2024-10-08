@@ -1,7 +1,7 @@
+import { Children, createContext, ReactElement, ReactNode } from 'react';
 import styled from 'styled-components';
-import { Children, createContext, ReactNode, ReactElement } from 'react';
+
 import { sectionLevelPages } from '@weco/common/data/hardcoded-ids';
-import { Season } from '@weco/content/types/seasons';
 import { ElementFromComponent } from '@weco/common/utils/utility-types';
 import Layout, {
   gridSize12,
@@ -10,13 +10,14 @@ import Layout, {
 import PageHeader, {
   headerSpaceSize,
 } from '@weco/common/views/components/PageHeader/PageHeader';
-import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import BannerCard from '@weco/content/components/BannerCard/BannerCard';
+import { Props as BodyProps } from '@weco/content/components/Body/Body';
 import Contributors from '@weco/content/components/Contributors/Contributors';
 import { Contributor } from '@weco/content/types/contributors';
-import { Props as BodyProps } from '@weco/content/components/Body/Body';
+import { Season } from '@weco/content/types/seasons';
 
 export const PageBackgroundContext = createContext<'warmNeutral.300' | 'white'>(
   'white'

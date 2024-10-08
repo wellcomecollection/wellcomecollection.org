@@ -1,5 +1,6 @@
-import { themeValues } from './config';
 import { css } from 'styled-components';
+
+import { themeValues } from './config';
 import { GlobalStyleProps } from './default';
 
 const breakpointNames = ['small', 'medium', 'large'];

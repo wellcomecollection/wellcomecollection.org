@@ -1,20 +1,22 @@
 import {
   FunctionComponent,
-  useState,
-  useEffect,
   MutableRefObject,
+  useEffect,
+  useState,
 } from 'react';
+
 import Modal from '@weco/common/views/components/Modal/Modal';
+import LL from '@weco/common/views/components/styled/LL';
+import { WellcomeApiError } from '@weco/content/services/wellcome';
 import {
   PhysicalItem,
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
-import LL from '@weco/common/views/components/styled/LL';
-import RequestDialog from './RequestDialog';
+
 import ConfirmedDialog from './ConfirmedDialog';
 import ErrorDialog from './ErrorDialog';
-import { formatDateForRequestsAPI, dateAsValue } from './format-date';
-import { WellcomeApiError } from '@weco/content/services/wellcome';
+import { dateAsValue, formatDateForRequestsAPI } from './format-date';
+import RequestDialog from './RequestDialog';
 
 type Props = {
   work: Work;

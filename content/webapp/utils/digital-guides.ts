@@ -1,9 +1,10 @@
 import { getCookie } from 'cookies-next';
 import { GetServerSidePropsContext, PreviewData } from 'next';
 import { ParsedUrlQuery } from 'querystring';
+
 import cookies from '@weco/common/data/cookies';
-import { isValidExhibitionGuideType } from '@weco/content/types/exhibition-guides';
 import { toMaybeString } from '@weco/common/utils/routes';
+import { isValidExhibitionGuideType } from '@weco/content/types/exhibition-guides';
 
 /** When a user opens an exhibition guide on their smartphone, they can
  * choose which guide to read.  To avoid somebody having to repeatedly select
@@ -31,22 +32,10 @@ import { toMaybeString } from '@weco/common/utils/routes';
  *        page they were just looking at. This takes them to `/guides/exhibitions/[id]`
  *        … where we redirect them back to the guide they were just looking at.
  *
- * We only create QR codes that link to the audio guides, not the overview page, so
- * this prevents somebody getting stuck in this sort of redirect loop.
+ * We only created QR codes that linked to the audio guides, not the overview page, so
+ * this prevented somebody getting stuck in this sort of redirect loop.
  *
  */
-
-const legacyGuides = [
-  'Y2omihEAAKLNfLar',
-  'ZHXyDBQAAMCZbr6n',
-  'YvJ4UhAAAPgZztMl',
-  'YvUALRAAACMA2h8V',
-  'Zdcs4BEAACMA6abC',
-  'ZD01LBQAAC4ZiY95',
-  'YzwsAREAAHylrxau',
-  'ZSaiohAAACMAlJbK',
-  'Y2JgxREAACcJWckj',
-];
 
 export const getCleanRedirectURL = (
   resolvedURL: string,
@@ -73,7 +62,7 @@ export const getGuidesRedirections = (
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>
 ) => {
   const { req, res, resolvedUrl } = context;
-  const { id: guideId, stopNumber, stopId, type, usingQRCode } = context.query;
+  const { stopNumber, type, usingQRCode } = context.query;
 
   if (toMaybeString(usingQRCode) !== 'true') return;
 
@@ -87,29 +76,7 @@ export const getGuidesRedirections = (
     userPreferenceGuideType !== type &&
     isValidExhibitionGuideType(userPreferenceGuideType);
 
-  // Supporting Jason exhibition
-  // TODO remove when it closes/we adapt the QR codes
-  // https://github.com/wellcomecollection/wellcomecollection.org/issues/11131
-  if (
-    legacyGuides.includes(toMaybeString(guideId) || '') &&
-    hasValidUserPreference &&
-    type &&
-    typeof stopId === 'string'
-  ) {
-    return {
-      redirect: {
-        permanent: false,
-        // We do a simple replace on the URL so we preserve all other URL information
-        // (e.g. UTM tracking parameters).
-        destination: context.resolvedUrl.replace(
-          `/${type}`,
-          `/${userPreferenceGuideType}`
-        ),
-      },
-    };
-  }
-
-  // New exhibition QR codes URLs should _always_ have the following format:
+  // QR codes URLs should _always_ have the following format:
   // guides/exhibitions/[exhibitionId]?stopNumber=[stopNumber]
   const hasValidStopNumber =
     typeof stopNumber === 'string' && !!Number(stopNumber);

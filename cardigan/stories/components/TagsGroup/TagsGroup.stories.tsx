@@ -1,6 +1,6 @@
-import TagsGroup from '@weco/content/components/TagsGroup/TagsGroup';
-import Readme from '@weco/content/components/TagsGroup/README.md';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import Readme from '@weco/content/components/TagsGroup/README.md';
+import TagsGroup from '@weco/content/components/TagsGroup/TagsGroup';
 
 const Template = args => (
   <ReadmeDecorator WrappedComponent={TagsGroup} args={args} Readme={Readme} />

@@ -1,22 +1,23 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import DateAndStatusIndicator from '@weco/content/components/DateAndStatusIndicator/DateAndStatusIndicator';
-import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
+
+import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { isPast } from '@weco/common/utils/dates';
+import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import { getFeaturedMedia } from '@weco/content/utils/page-header';
-import { Exhibition as InstallationType } from '@weco/content/types/exhibitions';
+import Body from '@weco/content/components/Body/Body';
+import ContentPage from '@weco/content/components/ContentPage/ContentPage';
+import DateAndStatusIndicator from '@weco/content/components/DateAndStatusIndicator/DateAndStatusIndicator';
 import {
   AccessibilityServices,
   getInfoItems,
 } from '@weco/content/components/Exhibition/Exhibition';
 import InfoBox from '@weco/content/components/InfoBox/InfoBox';
-import { isPast } from '@weco/common/utils/dates';
-import Body from '@weco/content/components/Body/Body';
-import ContentPage from '@weco/content/components/ContentPage/ContentPage';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
+import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
 import { fetchExhibitExhibition } from '@weco/content/services/prismic/fetch/exhibitions';
-import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
-import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { Exhibition as InstallationType } from '@weco/content/types/exhibitions';
+import { getFeaturedMedia } from '@weco/content/utils/page-header';
 
 type Props = {
   installation: InstallationType;

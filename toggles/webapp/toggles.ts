@@ -79,19 +79,19 @@ const toggles = {
       type: 'permanent',
     },
     {
+      id: 'viewTransitions',
+      title: 'Use view-transitions API',
+      initialValue: false,
+      description:
+        'Use animated transitions between page routes where possible',
+      type: 'experimental',
+    },
+    {
       id: 'showBornDigital',
       title: 'Display born digital files',
       initialValue: false,
       description:
         'If there are born digital items in the iiif-manifest, then links to all the files in the manifest are shown on the works page.',
-      type: 'experimental',
-    },
-    {
-      id: 'egWork',
-      title: 'Exhibition Guides redesign/restructure work',
-      initialValue: false,
-      description:
-        'With this activated, you will be able to see the new (and work in progress) versions of exhibition guides',
       type: 'experimental',
     },
     {

@@ -1,11 +1,11 @@
+import { font } from '@weco/common/utils/classnames';
+import Button from '@weco/common/views/components/Buttons';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 import {
   CheckboxFilter as CheckboxFilterType,
   filterLabel,
 } from '@weco/content/services/wellcome/common/filters';
-import PlainList from '@weco/common/views/components/styled/PlainList';
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import Button from '@weco/common/views/components/Buttons';
-import { font } from '@weco/common/utils/classnames';
 
 type CheckboxFilterProps = {
   f: CheckboxFilterType;

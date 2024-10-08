@@ -1,45 +1,46 @@
 import { FunctionComponent } from 'react';
+
+import {
+  EventsDocumentData,
+  VisualStoriesDocument as RawVisualStoriesDocument,
+} from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
+import { Pageview } from '@weco/common/services/conversion/track';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { isFilledLinkToDocument } from '@weco/common/services/prismic/types';
+import { font } from '@weco/common/utils/classnames';
+import { isPast } from '@weco/common/utils/dates';
+import { capitalize } from '@weco/common/utils/grammar';
+import { serialiseProps } from '@weco/common/utils/json';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import Space from '@weco/common/views/components/styled/Space';
+import Standfirst from '@weco/common/views/slices/Standfirst';
+import Body from '@weco/content/components/Body/Body';
+import CardGrid from '@weco/content/components/CardGrid/CardGrid';
+import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import {
-  fetchVisualStory,
   fetchVisualStories,
+  fetchVisualStory,
 } from '@weco/content/services/prismic/fetch/visual-stories';
-import { looksLikePrismicId } from '@weco/common/services/prismic';
-import { serialiseProps } from '@weco/common/utils/json';
-import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import { transformVisualStory } from '@weco/content/services/prismic/transformers/visual-stories';
-import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import {
-  VisualStory as VisualStoryProps,
-  VisualStoryBasic,
-} from '@weco/content/types/visual-stories';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import { visualStoryLd } from '@weco/content/services/prismic/transformers/json-ld';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { Pageview } from '@weco/common/services/conversion/track';
-import Body from '@weco/content/components/Body/Body';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { capitalize } from '@weco/common/utils/grammar';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
-import Standfirst from '@weco/common/views/slices/Standfirst';
-import CardGrid from '@weco/content/components/CardGrid/CardGrid';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
-import Space from '@weco/common/views/components/styled/Space';
-import Divider from '@weco/common/views/components/Divider/Divider';
-import { font } from '@weco/common/utils/classnames';
-import {
-  VisualStoriesDocument as RawVisualStoriesDocument,
-  EventsDocumentData,
-} from '@weco/common/prismicio-types';
-import { isPast } from '@weco/common/utils/dates';
-import {
-  transformEventTimes,
   getLastEndTime,
+  transformEventTimes,
 } from '@weco/content/services/prismic/transformers/events';
-import { isFilledLinkToDocument } from '@weco/common/services/prismic/types';
-import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { visualStoryLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { transformVisualStory } from '@weco/content/services/prismic/transformers/visual-stories';
+import {
+  VisualStoryBasic,
+  VisualStory as VisualStoryProps,
+} from '@weco/content/types/visual-stories';
+import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 export const getOtherVisualStories = ({
   documentId,

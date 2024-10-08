@@ -1,32 +1,34 @@
+import debounce from 'lodash.debounce';
 import {
-  memo,
-  useState,
-  useRef,
   CSSProperties,
   FunctionComponent,
-  useEffect,
+  memo,
   useContext,
+  useEffect,
+  useRef,
+  useState,
 } from 'react';
-import { FixedSizeList, areEqual } from 'react-window';
-import debounce from 'lodash.debounce';
+import { areEqual, FixedSizeList } from 'react-window';
 import styled from 'styled-components';
-import LL from '@weco/common/views/components/styled/LL';
-import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
-import { missingAltTextMessage } from '@weco/content/services/wellcome/catalogue/works';
+
+import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
-import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import LL from '@weco/common/views/components/styled/LL';
 import ItemViewerContext, {
   RotatedImage,
 } from '@weco/content/components/ItemViewerContext/ItemViewerContext';
-import ImageViewer from './ImageViewer';
-import { TransformedCanvas } from '@weco/content/types/manifest';
+import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
+import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
+import { missingAltTextMessage } from '@weco/content/services/wellcome/catalogue/works';
+import { TransformedCanvas } from '@weco/content/types/manifest';
+import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
 import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
+
 import { queryParamToArrayIndex } from '.';
-import { useToggles } from '@weco/common/server-data/Context';
+import ImageViewer from './ImageViewer';
 
 type OverlayPositionData = {
   canvasNumber: number;
