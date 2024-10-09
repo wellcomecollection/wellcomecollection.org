@@ -42,7 +42,7 @@ const Installation: FunctionComponent<Props> = ({ installation }) => {
       },
       partOf
         ? {
-            url: `/exhibitions/${partOf.id}`,
+            url: linkResolver(partOf),
             text: partOf.shortTitle || partOf.title,
             prefix: 'Part of',
           }
