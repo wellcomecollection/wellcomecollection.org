@@ -1,17 +1,27 @@
+import type { Meta, StoryObj } from '@storybook/react';
+
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import Contact from '@weco/content/components/Contact/Contact';
-import Readme from '@weco/content/components/Contact/README.md';
+import Readme from '@weco/content/components/Contact/README.mdx';
 
-const args = {
-  title: 'Joe Bloggs',
-  subtitle: 'Head of Examples',
-  phone: '+44 (0)20 7444 4444',
-  email: 'j.bloggs@wellcome.ac.uk',
+const meta: Meta<typeof Contact> = {
+  title: 'Components/Contact',
+  component: Contact,
+  args: {
+    title: 'Joe Bloggs',
+    subtitle: 'Head of Examples',
+    phone: '+44 (0)20 7444 4444',
+    email: 'j.bloggs@wellcome.ac.uk',
+  },
 };
 
-const ContactTemplate = args => (
-  <ReadmeDecorator WrappedComponent={Contact} args={args} Readme={Readme} />
-);
-export const basic = ContactTemplate.bind({});
-basic.args = args;
-basic.storyName = 'Contact';
+export default meta;
+
+type Story = StoryObj<typeof Contact>;
+
+export const Basic: Story = {
+  name: 'Contact',
+  render: args => (
+    <ReadmeDecorator WrappedComponent={Contact} args={args} Readme={Readme} />
+  ),
+};

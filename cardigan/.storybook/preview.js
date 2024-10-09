@@ -75,3 +75,4 @@ export const parameters = {
     Provider: RouterContext.Provider,
   },
 };
+export const tags = ['!autodocs'];
