@@ -208,14 +208,7 @@ const workWithBornDigitalDownloads = async (
   context: BrowserContext,
   page: Page
 ): Promise<void> => {
-  await context.addCookies(
-    requiredCookies.concat(
-      createCookie({
-        name: 'toggle_showBornDigital', // TODO: remove this when born digital work isn't behind a toggle anymore
-        value: 'true',
-      })
-    )
-  );
+  await context.addCookies(requiredCookies);
   await gotoWithoutCache(`${baseUrl}/works/htzhunbw`, page);
 };
 

@@ -87,14 +87,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'showBornDigital',
-      title: 'Display born digital files',
-      initialValue: false,
-      description:
-        'If there are born digital items in the iiif-manifest, then links to all the files in the manifest are shown on the works page.',
-      type: 'experimental',
-    },
-    {
       id: 'authV2',
       title: 'IIIF Auth V2',
       initialValue: false,
