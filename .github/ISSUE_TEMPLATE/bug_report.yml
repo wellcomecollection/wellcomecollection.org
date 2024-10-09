@@ -1,10 +1,8 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: ''
-labels: "bug \U0001F41B"
-assignees: ''
-
+labels: 'Bug+🐛'
+projects: 'wellcomecollection/18'
 ---
 
 ## What
