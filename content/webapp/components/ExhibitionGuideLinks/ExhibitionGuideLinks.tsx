@@ -129,7 +129,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
           <p>All the wall and label text from the exhibition.</p>
           <TypeList>
             <TypeOption
-              url={`${textPathname}`}
+              url={textPathname}
               title="Exhibition text"
               type="captions-and-transcripts"
             />
