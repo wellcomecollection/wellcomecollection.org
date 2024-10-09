@@ -29,7 +29,7 @@ export const decorators = [
 
 const themeColors = Object.entries(theme.colors).map(([key, value]) => ({
   name: key,
-  value: value.base,
+  value: value,
 }));
 
 export const parameters = {
@@ -75,4 +75,3 @@ export const parameters = {
     Provider: RouterContext.Provider,
   },
 };
-export const tags = ['!autodocs'];
