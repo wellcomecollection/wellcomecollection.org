@@ -3,3 +3,8 @@ description: Start on a design feature
 title: 'Feature: '
 labels: ''
 projects: 'wellcomecollection/18'
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
