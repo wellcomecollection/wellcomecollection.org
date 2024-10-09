@@ -14,6 +14,7 @@ module.exports = {
     "declaration-property-value-no-unknown": true,
     "font-family-name-quotes": "always-unless-keyword",
     "media-feature-range-notation": "prefix",
+    "media-query-no-invalid": null,
     "no-empty-source": null,
     "property-no-vendor-prefix": null,
     "selector-class-pattern": null,
