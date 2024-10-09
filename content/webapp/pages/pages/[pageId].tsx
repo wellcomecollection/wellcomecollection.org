@@ -16,6 +16,7 @@ import {
   landingHeaderBackgroundLs,
 } from '@weco/common/utils/backgrounds';
 import { serialiseProps } from '@weco/common/utils/json';
+import { toMaybeString } from '@weco/common/utils/routes';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { links } from '@weco/common/views/components/Header/Header';
@@ -26,6 +27,7 @@ import { makeLabels } from '@weco/common/views/components/LabelsList/LabelsList'
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout, {
+  isSiteSection,
   SiteSection,
 } from '@weco/common/views/components/PageLayout/PageLayout';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
@@ -105,6 +107,7 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   setCacheControl(context.res);
   const { pageId } = context.query;
+  const siteSection = toMaybeString(context.params?.siteSection);
 
   if (!looksLikePrismicId(pageId)) {
     return { notFound: true };
@@ -118,6 +121,22 @@ export const getServerSideProps: GetServerSideProps<
   const pageDocument = await fetchPage(client, pageId);
 
   if (isNotUndefined(pageDocument)) {
+    // If it does not have a tag and the route hasn't specified one either,
+    // it's an orphan, continue rendering.
+    const pageTagHasSection = pageDocument.tags.find(t => isSiteSection(t));
+    if (siteSection || pageTagHasSection) {
+      // If it does, it has to be a valid one
+      const tagIsValidSiteSection = isSiteSection(siteSection);
+      // and the same one passed by the route page.
+      const isSameSectionAsRoute = pageDocument.tags.find(
+        t => t === siteSection
+      );
+
+      // otherwise return not found. else, continue rendering.
+      if (!tagIsValidSiteSection || !isSameSectionAsRoute)
+        return { notFound: true };
+    }
+
     const serverData = await getServerData(context);
 
     const page = transformPage(pageDocument);
