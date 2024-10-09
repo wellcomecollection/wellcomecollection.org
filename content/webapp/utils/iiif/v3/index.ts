@@ -354,12 +354,13 @@ export function getAuthServices({
   if (auth && authV2) {
     return {
       active: auth.v2.activeAccessService,
-      external: auth.v2.externalAccessService, // Only the v2 external service works (v1 responds with a 404), so we only try returning the v2 service
+      external: auth.v2.externalAccessService,
     };
   } else if (auth) {
     return {
       active: auth.v1.activeAccessService,
-      external: auth.v2.externalAccessService, // Only the v2 external service works (v1 responds with a 404), so we try returning the v2 service regardless of the toggle value, so we can use it if it is available
+      // Only the v2 external service works (v1 responds with a 404), we therefore try returning the v2 service, so we can use it if it is available. We still need to fallback to the v1 service as the presence of the service helps us determine whether to show the viewer or not.
+      external: auth.v2.externalAccessService || auth.v1.externalAccessService,
     };
   }
 }
@@ -377,6 +378,7 @@ export function checkModalRequired(params: checkModalParams): boolean {
   if (authServices?.active) {
     return true;
   } else if (authServices?.external) {
+    // TODO if we've got a v1 service then display a message to say the manifest needs regenerating
     if (isAnyImageOpen || role === 'StaffWithRestricted') {
       return false;
     } else {
@@ -510,8 +512,7 @@ export function groupRanges(
       );
 
       if (
-        getDisplayLabel(acc.previousLabel) ===
-          getDisplayLabel(range.label) &&
+        getDisplayLabel(acc.previousLabel) === getDisplayLabel(range.label) &&
         acc.previousLastCanvasIndex &&
         firstCanvasIndex === acc.previousLastCanvasIndex + 1
       ) {
