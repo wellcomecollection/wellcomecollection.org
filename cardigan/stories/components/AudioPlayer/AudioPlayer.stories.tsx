@@ -6,6 +6,7 @@ import Readme from '@weco/content/components/AudioPlayer/README.mdx';
 
 const meta: Meta<typeof AudioPlayer> = {
   title: 'Components/AudioPlayer',
+  component: AudioPlayer,
   args: {
     audioFile:
       'https://iiif.wellcomecollection.org/av/b2248887x_0001.wav/full/max/default.mp3#identity',

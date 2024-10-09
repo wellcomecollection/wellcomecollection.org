@@ -24,6 +24,7 @@ const nextLink = {
 
 const meta: Meta<typeof BackToResults> = {
   title: 'Components/BackToResults',
+  component: BackToResults,
 };
 
 export default meta;
