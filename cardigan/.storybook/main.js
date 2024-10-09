@@ -1,7 +1,7 @@
 import { dirname, join } from "path";
 const path = require('path');
 module.exports = {
-
+  staticDirs: ['../public'],
   stories: [
     '../stories/global/**/*.mdx',
     '../stories/global/**/*.stories.tsx',
@@ -13,7 +13,6 @@ module.exports = {
     getAbsolutePath("@storybook/addon-a11y"),
     getAbsolutePath("@storybook/addon-backgrounds"),
     getAbsolutePath("@storybook/addon-docs"),
-    '@chromatic-com/storybook'
   ],
 
   webpackFinal: async (config, { configType }) => {
