@@ -17,7 +17,7 @@ const newJasonGuideRelativeURL = `/guides/exhibitions/${jasonGuideId}`;
 
 test.describe.configure({ mode: 'parallel' });
 
-test('(jasonGuideId) | Redirects to preferred format if user has an EG preference and comes from a QR code', async ({
+test('(1) | Redirects to preferred format if user has an EG preference and comes from a QR code', async ({
   context,
   page,
 }) => {
