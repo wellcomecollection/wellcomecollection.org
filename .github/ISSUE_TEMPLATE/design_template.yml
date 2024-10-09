@@ -2,11 +2,7 @@ name: Design work
 description: Start on a design feature
 projects: 'wellcomecollection/18'
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!
   - type: textarea
     id: description
     attributes:
-      label: description
+      label: Description
