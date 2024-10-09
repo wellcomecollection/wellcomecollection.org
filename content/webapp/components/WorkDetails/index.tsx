@@ -2,7 +2,6 @@ import { usePathname } from 'next/navigation';
 import { FunctionComponent, useContext } from 'react';
 
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { formatDuration } from '@weco/common/utils/format-date';
 import Button from '@weco/common/views/components/Buttons';
@@ -61,7 +60,6 @@ const WorkDetails: FunctionComponent<Props> = ({
   transformedManifest,
 }: Props) => {
   const { user } = useUser();
-  const { showBornDigital } = useToggles();
   const isArchive = useContext(IsArchiveContext);
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
   const { canvases, rendering, bornDigitalStatus } = {
@@ -163,7 +161,7 @@ const WorkDetails: FunctionComponent<Props> = ({
     ((digitalLocation && shouldShowItemLink) ||
       hasVideo ||
       hasSound ||
-      (hasBornDigital && showBornDigital)) &&
+      hasBornDigital) &&
     !treatAsRestricted;
 
   const renderContent = () => (

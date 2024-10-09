@@ -180,7 +180,7 @@ const WorkDetailsAvailableOnline = ({
   locationOfWork,
   transformedManifest,
 }: Props) => {
-  const { showBornDigital, authV2 } = useToggles();
+  const { authV2 } = useToggles();
   const {
     collectionManifestsCount,
     canvasCount,
@@ -197,9 +197,8 @@ const WorkDetailsAvailableOnline = ({
     : auth?.v1.activeAccessService; // TODO should this include externalAccessSerice too?
 
   const isBornDigital =
-    showBornDigital &&
-    (bornDigitalStatus === 'mixedBornDigital' ||
-      bornDigitalStatus === 'allBornDigital');
+    bornDigitalStatus === 'mixedBornDigital' ||
+    bornDigitalStatus === 'allBornDigital';
 
   const [tabbableId, setTabbableId] = useState<string>();
   const [archiveTree, setArchiveTree] = useState<UiTree>([]);
@@ -235,68 +234,61 @@ const WorkDetailsAvailableOnline = ({
           )
         }
       >
-        {showBornDigital &&
-          (bornDigitalStatus === 'mixedBornDigital' ||
-            bornDigitalStatus === 'allBornDigital') &&
-          !allOriginalPdfs && (
-            <>
-              {Number(canvases?.length) > 0 && (
-                <p className={font('lr', 6)}>
-                  Contains {canvases?.length} files
-                </p>
-              )}
-              <MessageBox>{bornDigitalMessage}</MessageBox>
-              <div style={{ overflow: 'visible' }}>
-                <div
-                  style={{
-                    display: 'inline-table',
-                    minWidth: '100%',
-                  }}
-                >
-                  <TreeHeadings aria-hidden="true">
-                    <DownloadTable>
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>File format</th>
-                          <th>Size</th>
-                          <th>Download</th>
-                        </tr>
-                      </thead>
-                    </DownloadTable>
-                  </TreeHeadings>
-                  <TreeContainer>
-                    <Tree
-                      $isEnhanced={isEnhanced}
-                      $showFirstLevelGuideline={true}
-                    >
-                      {isEnhanced && (
-                        <TreeInstructions>{`Download tree: ${treeInstructions}`}</TreeInstructions>
-                      )}
-                      <NestedList
-                        currentWorkId={work.id}
-                        fullTree={archiveTree}
-                        setArchiveTree={setArchiveTree}
-                        archiveTree={archiveTree}
-                        level={1}
-                        tabbableId={tabbableId}
-                        setTabbableId={setTabbableId}
-                        archiveAncestorArray={[]}
-                        firstItemTabbable={true}
-                        showFirstLevelGuideline={true}
-                        ItemRenderer={DownloadItemRenderer}
-                        shouldFetchChildren={false}
-                      />
-                    </Tree>
-                  </TreeContainer>
-                </div>
+        {isBornDigital && !allOriginalPdfs && (
+          <>
+            {Number(canvases?.length) > 0 && (
+              <p className={font('lr', 6)}>Contains {canvases?.length} files</p>
+            )}
+            <MessageBox>{bornDigitalMessage}</MessageBox>
+            <div style={{ overflow: 'visible' }}>
+              <div
+                style={{
+                  display: 'inline-table',
+                  minWidth: '100%',
+                }}
+              >
+                <TreeHeadings aria-hidden="true">
+                  <DownloadTable>
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>File format</th>
+                        <th>Size</th>
+                        <th>Download</th>
+                      </tr>
+                    </thead>
+                  </DownloadTable>
+                </TreeHeadings>
+                <TreeContainer>
+                  <Tree
+                    $isEnhanced={isEnhanced}
+                    $showFirstLevelGuideline={true}
+                  >
+                    {isEnhanced && (
+                      <TreeInstructions>{`Download tree: ${treeInstructions}`}</TreeInstructions>
+                    )}
+                    <NestedList
+                      currentWorkId={work.id}
+                      fullTree={archiveTree}
+                      setArchiveTree={setArchiveTree}
+                      archiveTree={archiveTree}
+                      level={1}
+                      tabbableId={tabbableId}
+                      setTabbableId={setTabbableId}
+                      archiveAncestorArray={[]}
+                      firstItemTabbable={true}
+                      showFirstLevelGuideline={true}
+                      ItemRenderer={DownloadItemRenderer}
+                      shouldFetchChildren={false}
+                    />
+                  </Tree>
+                </TreeContainer>
               </div>
-            </>
-          )}
+            </div>
+          </>
+        )}
 
-        {(!showBornDigital ||
-          (showBornDigital && bornDigitalStatus === 'noBornDigital') ||
-          (showBornDigital && allOriginalPdfs)) && (
+        {(!isBornDigital || allOriginalPdfs) && (
           <>
             {!shouldShowItemLink && (
               <>
