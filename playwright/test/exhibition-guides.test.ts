@@ -12,8 +12,8 @@ const bslCookie: CookieProps[] = [
   },
 ];
 
-const newJasonGuideId = 'ZthrZRIAACQALvCC';
-const newJasonGuideRelativeURL = `/guides/exhibitions/${newJasonGuideId}`;
+const newJasonGuideUid = 'jason-and-the-adventure-of-254';
+const newJasonGuideRelativeURL = `/guides/exhibitions/${newJasonGuideUid}`;
 
 test.describe.configure({ mode: 'parallel' });
 
@@ -23,7 +23,7 @@ test('(1) | Redirects to preferred format if user has an EG preference and comes
 }) => {
   // Jason with the QR code params and Stop #2
   await digitalGuide(
-    `${newJasonGuideId}?usingQRCode=true&stopNumber=2`,
+    `${newJasonGuideUid}?usingQRCode=true&stopNumber=2`,
     context,
     page,
     bslCookie
@@ -39,7 +39,7 @@ test('(2) | Does not redirect if user does not come from a QR code', async ({
 }) => {
   // Jason with the QR code params and Stop #2
   await digitalGuide(
-    `${newJasonGuideId}?stopNumber=2`,
+    `${newJasonGuideUid}?stopNumber=2`,
     context,
     page,
     bslCookie
@@ -47,7 +47,7 @@ test('(2) | Does not redirect if user does not come from a QR code', async ({
 
   // Nothing happens, URL is the same
   await expect(page).toHaveURL(
-    /\/guides\/exhibitions\/ZthrZRIAACQALvCC[?]stopNumber=2/
+    /\/guides\/exhibitions\/jason-and-the-adventure-of-254[?]stopNumber=2/
   );
 });
 
@@ -57,14 +57,16 @@ test('(3) | If first stop, redirects to preferred type landing page instead of [
 }) => {
   // Jason with the QR code params and Stop #1
   await digitalGuide(
-    `${newJasonGuideId}?usingQRCode=true&stopNumber=1`,
+    `${newJasonGuideUid}?usingQRCode=true&stopNumber=1`,
     context,
     page,
     bslCookie
   );
 
   // Nothing happens, URL is the same
-  await expect(page).toHaveURL(/\/guides\/exhibitions\/ZthrZRIAACQALvCC\/bsl/);
+  await expect(page).toHaveURL(
+    /\/guides\/exhibitions\/jason-and-the-adventure-of-254\/bsl/
+  );
 });
 
 test.describe('(4) | If no type preference set, links to BSL and Audio on the EG landing page: ', () => {
@@ -74,7 +76,7 @@ test.describe('(4) | If no type preference set, links to BSL and Audio on the EG
   }) => {
     // Jason with the QR code params and Stop #2
     await digitalGuide(
-      `${newJasonGuideId}?usingQRCode=true&stopNumber=2`,
+      `${newJasonGuideUid}?usingQRCode=true&stopNumber=2`,
       context,
       page,
       [
@@ -102,7 +104,7 @@ test.describe('(4) | If no type preference set, links to BSL and Audio on the EG
   test('unless it is the first stop', async ({ context, page }) => {
     // Jason with the QR code params and Stop #1
     await digitalGuide(
-      `${newJasonGuideId}?usingQRCode=true&stopNumber=1`,
+      `${newJasonGuideUid}?usingQRCode=true&stopNumber=1`,
       context,
       page,
       [
