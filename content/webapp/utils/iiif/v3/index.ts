@@ -378,7 +378,6 @@ export function checkModalRequired(params: checkModalParams): boolean {
   if (authServices?.active) {
     return true;
   } else if (authServices?.external) {
-    // TODO if we've got a v1 service then display a message to say the manifest needs regenerating
     if (isAnyImageOpen || role === 'StaffWithRestricted') {
       return false;
     } else {
