@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "@storybook/nextjs": "^8.3.5",
-    "@storybook/theming": "^8.3.5"
+    "@storybook/theming": "^8.3.5",
+    "storybook-addon-mock": "^5.0.0"
   }
 }
