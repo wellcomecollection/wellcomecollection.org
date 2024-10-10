@@ -10,8 +10,8 @@ const secondaryLabelList = [{ text: 'Speech-to-text' }];
 const imageProps = squareImage();
 
 const meta: Meta<typeof CompactCard> = {
-  component: CompactCard,
   title: 'Components/Cards/CompactCard',
+  component: CompactCard,
   args: {
     url: 'https://wellcomecollection.org',
     title: 'Wellcome Collection',
