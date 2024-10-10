@@ -58,11 +58,13 @@ export function convertItemToCardProps(
     'relatedDocument' in item
       ? {
           id: item.id,
+          uid: item.uid,
           type: item.type,
           data: { relatedDocument: item.relatedDocument },
         }
       : {
           id: item.id,
+          uid: item.uid,
           type: item.type,
         };
   return {

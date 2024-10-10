@@ -12,8 +12,8 @@ const bslCookie: CookieProps[] = [
   },
 ];
 
-const newJasonGuideId = 'ZthrZRIAACQALvCC';
-const newJasonGuideRelativeURL = `/guides/exhibitions/${newJasonGuideId}`;
+const jasonGuideUid = 'jason-and-the-adventure-of-254';
+const jasonGuideRelativeURL = `/guides/exhibitions/${jasonGuideUid}`;
 
 test.describe.configure({ mode: 'parallel' });
 
@@ -23,7 +23,7 @@ test('(1) | Redirects to preferred format if user has an EG preference and comes
 }) => {
   // Jason with the QR code params and Stop #2
   await digitalGuide(
-    `${newJasonGuideId}?usingQRCode=true&stopNumber=2`,
+    `${jasonGuideUid}?usingQRCode=true&stopNumber=2`,
     context,
     page,
     bslCookie
@@ -38,16 +38,11 @@ test('(2) | Does not redirect if user does not come from a QR code', async ({
   page,
 }) => {
   // Jason with the QR code params and Stop #2
-  await digitalGuide(
-    `${newJasonGuideId}?stopNumber=2`,
-    context,
-    page,
-    bslCookie
-  );
+  await digitalGuide(`${jasonGuideUid}?stopNumber=2`, context, page, bslCookie);
 
   // Nothing happens, URL is the same
   await expect(page).toHaveURL(
-    /\/guides\/exhibitions\/ZthrZRIAACQALvCC[?]stopNumber=2/
+    /\/guides\/exhibitions\/jason-and-the-adventure-of-254[?]stopNumber=2/
   );
 });
 
@@ -57,14 +52,16 @@ test('(3) | If first stop, redirects to preferred type landing page instead of [
 }) => {
   // Jason with the QR code params and Stop #1
   await digitalGuide(
-    `${newJasonGuideId}?usingQRCode=true&stopNumber=1`,
+    `${jasonGuideUid}?usingQRCode=true&stopNumber=1`,
     context,
     page,
     bslCookie
   );
 
   // Nothing happens, URL is the same
-  await expect(page).toHaveURL(/\/guides\/exhibitions\/ZthrZRIAACQALvCC\/bsl/);
+  await expect(page).toHaveURL(
+    /\/guides\/exhibitions\/jason-and-the-adventure-of-254\/bsl/
+  );
 });
 
 test.describe('(4) | If no type preference set, links to BSL and Audio on the EG landing page: ', () => {
@@ -74,7 +71,7 @@ test.describe('(4) | If no type preference set, links to BSL and Audio on the EG
   }) => {
     // Jason with the QR code params and Stop #2
     await digitalGuide(
-      `${newJasonGuideId}?usingQRCode=true&stopNumber=2`,
+      `${jasonGuideUid}?usingQRCode=true&stopNumber=2`,
       context,
       page,
       [
@@ -91,18 +88,18 @@ test.describe('(4) | If no type preference set, links to BSL and Audio on the EG
       page.getByRole('link', { name: 'Listen to audio' }).first()
     ).toHaveAttribute(
       'href',
-      `${newJasonGuideRelativeURL}/audio-without-descriptions/2`
+      `${jasonGuideRelativeURL}/audio-without-descriptions/2`
     );
 
     await expect(
       page.getByRole('link', { name: 'Watch British Sign Language' }).first()
-    ).toHaveAttribute('href', `${newJasonGuideRelativeURL}/bsl/2`);
+    ).toHaveAttribute('href', `${jasonGuideRelativeURL}/bsl/2`);
   });
 
   test('unless it is the first stop', async ({ context, page }) => {
     // Jason with the QR code params and Stop #1
     await digitalGuide(
-      `${newJasonGuideId}?usingQRCode=true&stopNumber=1`,
+      `${jasonGuideUid}?usingQRCode=true&stopNumber=1`,
       context,
       page,
       [
@@ -119,11 +116,11 @@ test.describe('(4) | If no type preference set, links to BSL and Audio on the EG
       page.getByRole('link', { name: 'Listen to audio' }).first()
     ).toHaveAttribute(
       'href',
-      `${newJasonGuideRelativeURL}/audio-without-descriptions`
+      `${jasonGuideRelativeURL}/audio-without-descriptions`
     );
 
     await expect(
       page.getByRole('link', { name: 'Watch British Sign Language' }).first()
-    ).toHaveAttribute('href', `${newJasonGuideRelativeURL}/bsl`);
+    ).toHaveAttribute('href', `${jasonGuideRelativeURL}/bsl`);
   });
 });

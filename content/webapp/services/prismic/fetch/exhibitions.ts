@@ -89,10 +89,10 @@ export async function fetchExhibition(
   client: GetServerSidePropsPrismicClient,
   id: string
 ): Promise<FetchExhibitionResult | undefined> {
-  // TODO once redirects are in place we should only fetch by uid
+  // #11240 once redirects are in place we should only fetch by uid
   const exhibitionDocument =
-    (await exhibitionsFetcher.getById(client, id)) ||
-    (await exhibitionsFetcher.getByUid(client, id));
+    (await exhibitionsFetcher.getByUid(client, id)) ||
+    (await exhibitionsFetcher.getById(client, id));
 
   if (!exhibitionDocument) return;
 
@@ -169,6 +169,7 @@ export async function fetchExhibition(
     ...exhibitionGuidesQuery.results,
   ].map(guide => ({
     id: guide.id,
+    uid: guide.uid,
     type: guide.type,
   }));
 

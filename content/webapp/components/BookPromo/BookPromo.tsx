@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
@@ -57,9 +58,9 @@ type Props = {
 };
 
 const BookPromo: FunctionComponent<Props> = ({ book }) => {
-  const { id, title, subtitle, promo, cover } = book;
+  const { title, subtitle, promo, cover } = book;
   return (
-    <LinkSpace $url={`/books/${id}`}>
+    <LinkSpace $url={linkResolver(book)}>
       <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
         <BookImage
           image={{

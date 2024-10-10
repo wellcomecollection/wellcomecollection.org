@@ -1,5 +1,6 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isPast } from '@weco/common/utils/dates';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -41,13 +42,13 @@ const Installation: FunctionComponent<Props> = ({ installation }) => {
       },
       partOf
         ? {
-            url: `/exhibitions/${partOf.id}`,
+            url: linkResolver(partOf),
             text: partOf.shortTitle || partOf.title,
             prefix: 'Part of',
           }
         : undefined,
       {
-        url: `/exhibitions/${installation.id}`,
+        url: linkResolver(installation),
         text: installation.title,
         isHidden: true,
       },

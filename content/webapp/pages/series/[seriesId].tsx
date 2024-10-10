@@ -9,6 +9,7 @@ import { appError, AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -185,7 +186,7 @@ const ArticleSeriesPage: FunctionComponent<Props> = props => {
         text: 'Stories',
       },
       {
-        url: `/series/${series.id}`,
+        url: linkResolver(series),
         text: series.title,
         isHidden: true,
       },

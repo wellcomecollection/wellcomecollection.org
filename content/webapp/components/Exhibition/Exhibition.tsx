@@ -14,6 +14,7 @@ import {
   location,
   ticket,
 } from '@weco/common/icons';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { isFuture, isPast } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
@@ -224,7 +225,7 @@ const Exhibition: FunctionComponent<Props> = ({
         text: 'Exhibitions',
       },
       {
-        url: `/exhibitions/${exhibition.id}`,
+        url: linkResolver(exhibition),
         text: exhibition.title,
         isHidden: true,
       },

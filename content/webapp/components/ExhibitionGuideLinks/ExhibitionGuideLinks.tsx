@@ -99,14 +99,14 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
           <TypeList>
             {audioPathname && (
               <TypeOption
-                url={`/${audioPathname}${stopNumber ? `/${stopNumber}` : ''}`}
+                url={`${audioPathname}${stopNumber ? `/${stopNumber}` : ''}`}
                 title="Listen to audio"
                 type="audio-without-descriptions"
               />
             )}
             {videoPathname && (
               <TypeOption
-                url={`/${videoPathname}${stopNumber ? `/${stopNumber}` : ''}`}
+                url={`${videoPathname}${stopNumber ? `/${stopNumber}` : ''}`}
                 title="Watch British Sign Language videos"
                 type="bsl"
               />
@@ -129,7 +129,7 @@ export const ExhibitionResourceLinks: FunctionComponent<ResourceProps> = ({
           <p>All the wall and label text from the exhibition.</p>
           <TypeList>
             <TypeOption
-              url={`/${textPathname}`}
+              url={textPathname}
               title="Exhibition text"
               type="captions-and-transcripts"
             />

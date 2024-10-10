@@ -9,6 +9,7 @@ import { getCrop } from '@weco/common/model/image';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isFilledSliceZone } from '@weco/common/services/prismic/types';
 import { font, grid } from '@weco/common/utils/classnames';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -39,6 +40,7 @@ import {
 import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/json-ld';
 import {
   ExhibitionGuideType,
+  ExhibitionHighlightTour,
   GuideHighlightTour,
   isValidExhibitionGuideType,
 } from '@weco/content/types/exhibition-guides';
@@ -51,6 +53,7 @@ type Props = {
   exhibitionGuideId: string;
   exhibitionTitle: string;
   stopNumberServerSide: number;
+  exhibitionGuide: ExhibitionHighlightTour;
   allStops: GuideHighlightTour[];
 };
 
@@ -178,7 +181,8 @@ export const getServerSideProps: GetServerSideProps<
         type,
         stopNumberServerSide,
         exhibitionTitle,
-        exhibitionGuideId: id,
+        exhibitionGuideId: exhibitionHighlightTour.id,
+        exhibitionGuide: exhibitionHighlightTour,
         allStops,
       }),
     };
@@ -195,6 +199,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     exhibitionGuideId,
     exhibitionTitle,
     stopNumberServerSide,
+    exhibitionGuide,
     allStops,
   } = props;
   useHotjar(exhibitionGuideId === 'ZthrZRIAACQALvCC'); // Only on Jason and the Adventure of 254
@@ -206,7 +211,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   const [stopNumber, setStopNumber] = useState(stopNumberServerSide);
   const [currentStop, setCurrentStop] = useState(currentStopServerSide);
   const [headerEl, setHeaderEl] = useState<HTMLElement>();
-  const guideTypeUrl = `/guides/exhibitions/${exhibitionGuideId}/${type}`;
+  const guideUrl = linkResolver(exhibitionGuide);
+  const guideTypeUrl = `${guideUrl}/${type}`;
   const pathname = `${guideTypeUrl}/${stopNumber}`;
 
   const headerRef = useCallback((node: HTMLElement) => {

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { inOurBuilding } from '@weco/common/data/microcopy';
 import { location } from '@weco/common/icons';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Divider from '@weco/common/views/components/Divider/Divider';
@@ -94,7 +95,7 @@ const EventPromo: FunctionComponent<Props> = ({
     <CardOuter
       data-component="EventPromo"
       data-component-state={JSON.stringify({ position })}
-      href={(event.promo && event.promo.link) || `/events/${event.id}`}
+      href={(event.promo && event.promo.link) || linkResolver(event)}
     >
       <CardImageWrapper>
         {event.promo?.image && (

@@ -7,6 +7,7 @@ import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font, grid } from '@weco/common/utils/classnames';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -25,7 +26,6 @@ import { fetchBook } from '@weco/content/services/prismic/fetch/books';
 import { transformBook } from '@weco/content/services/prismic/transformers/books';
 import { Book } from '@weco/content/types/books';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-
 const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
 `;
@@ -140,7 +140,7 @@ const BookPage: FunctionComponent<Props> = props => {
         url: '/books',
       },
       {
-        url: `/books/${book.id}`,
+        url: linkResolver(book),
         text: book.title,
         isHidden: true,
       },

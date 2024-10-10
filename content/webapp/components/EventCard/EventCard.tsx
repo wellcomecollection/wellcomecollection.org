@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react';
 
 import { getCrop } from '@weco/common/model/image';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -71,7 +72,7 @@ const EventCard: FunctionComponent<Props> = ({ event, xOfY }) => {
 
   return (
     <CompactCard
-      url={`/events/${event.id}`}
+      url={linkResolver(event)}
       title={event.title}
       primaryLabels={event.primaryLabels}
       secondaryLabels={event.secondaryLabels}

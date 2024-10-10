@@ -5,9 +5,14 @@ import { FunctionComponent } from 'react';
 
 import cookies from '@weco/common/data/cookies';
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import {
+  ExhibitionHighlightToursDocument,
+  ExhibitionTextsDocument,
+} from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { serialiseProps } from '@weco/common/utils/json';
 import { toMaybeString } from '@weco/common/utils/routes';
@@ -101,13 +106,21 @@ export const getServerSideProps: GetServerSideProps<
 
   // We don't know exactly which type of document the id is for, so:
   // We try and get any deprecated ExhibitionGuides
-  // and also the custom types that have replaced ExhibitionGuides
+  // and also the custom types that have replaced ExhibitionGuides.
+  // We know from the type which of the new types to retrieve
   const exhibitionGuideQueryPromise = fetchExhibitionGuide(client, id);
-  const exhibitionTextQueryPromise = fetchExhibitionText(client, id);
-  const exhibitionHighlightTourQueryPromise = fetchExhibitionHighlightTour(
-    client,
-    id
-  );
+  const exhibitionTextQueryPromise =
+    type === 'captions-and-transcripts'
+      ? fetchExhibitionText(client, id)
+      : new Promise(resolve => {
+          resolve(undefined);
+        });
+  const exhibitionHighlightTourQueryPromise =
+    type === 'bsl' || type === 'audio-without-descriptions'
+      ? fetchExhibitionHighlightTour(client, id)
+      : new Promise(resolve => {
+          resolve(undefined);
+        });
 
   const [
     exhibitionGuideQuery,
@@ -150,7 +163,9 @@ export const getServerSideProps: GetServerSideProps<
 
     // If we're dealing with and ExhibitionText
     if (isNotUndefined(exhibitionTextQuery)) {
-      const exhibitionText = transformExhibitionTexts(exhibitionTextQuery);
+      const exhibitionText = transformExhibitionTexts(
+        exhibitionTextQuery as ExhibitionTextsDocument
+      );
       const jsonLd = exhibitionGuideLd(exhibitionText);
       return {
         props: serialiseProps({
@@ -167,7 +182,7 @@ export const getServerSideProps: GetServerSideProps<
     // If we're dealing with an ExhibitionHighlightTour
     if (isNotUndefined(exhibitionHighlightTourQuery)) {
       const exhibitionHighlightTour = transformExhibitionHighlightTours(
-        exhibitionHighlightTourQuery
+        exhibitionHighlightTourQuery as ExhibitionHighlightToursDocument
       );
       const jsonLd = exhibitionGuideLd(exhibitionHighlightTour);
       return {
@@ -190,7 +205,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   useHotjar(true);
 
   const { exhibitionGuide, jsonLd, type, userPreferenceSet } = props;
-  const pathname = `guides/exhibitions/${exhibitionGuide.uid}/${type}`;
+  const pathname = `${linkResolver(exhibitionGuide)}/${type}`;
 
   const thisStopTitle = props.stopId
     ? isExhibitionGuide(exhibitionGuide) &&
@@ -235,7 +250,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             },
             {
               text: `${exhibitionGuide.relatedExhibition?.title} Digital Guides`,
-              url: `/guides/exhibitions/${exhibitionGuide.id}`,
+              url: linkResolver(exhibitionGuide),
               isHidden: !exhibitionGuide.relatedExhibition,
             },
           ],
@@ -265,7 +280,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               You selected this type of guide previously, but you can also
               select{' '}
               <a
-                href={`/guides/exhibitions/${exhibitionGuide.id}`}
+                href={linkResolver(exhibitionGuide)}
                 onClick={() => {
                   deleteCookie(cookies.exhibitionGuideType);
                 }}
@@ -296,7 +311,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             <SliceZone
               slices={exhibitionGuide.stops}
               components={components}
-              context={{ type, id: exhibitionGuide.id }}
+              context={{ type, exhibitionGuide }}
             />
           </div>
         </Container>

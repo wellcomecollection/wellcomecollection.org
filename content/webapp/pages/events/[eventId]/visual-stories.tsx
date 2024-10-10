@@ -22,8 +22,10 @@ export const getServerSideProps = async context => {
 
   const visualStoryDocument = visualStoriesQuery.results.find(result => {
     return (
+      // #11240 once redirects are in place we should only compare with uid
       isFilledLinkToDocument(result.data.relatedDocument) &&
-      result.data.relatedDocument.id === context.query.eventId
+      (result.data.relatedDocument.uid === context.query.eventId ||
+        result.data.relatedDocument.id === context.query.eventId)
     );
   });
 

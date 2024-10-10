@@ -11,6 +11,7 @@ import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import {
   headerBackgroundLs,
   landingHeaderBackgroundLs,
@@ -69,6 +70,7 @@ export type Props = {
 
 type OrderInParent = {
   id: string;
+  uid: string;
   title: string;
   order: number;
   type: 'pages' | 'exhibitions';
@@ -134,6 +136,7 @@ export const getServerSideProps: GetServerSideProps<
       page.parentPages?.map(p => {
         return {
           id: p.id,
+          uid: p.uid,
           title: p.title,
           order: p.order,
           type: p.type,
@@ -243,11 +246,13 @@ export const Page: FunctionComponent<Props> = ({
   const breadcrumbs = {
     items: [
       ...sectionItem,
-      ...ordersInParents.map(siblingGroup => ({
-        url: `/${siblingGroup.type}/${siblingGroup.id}`,
-        text: siblingGroup.title || '',
-        prefix: `Part ${siblingGroup.order || ''} of`,
-      })),
+      ...ordersInParents.map(siblingGroup => {
+        return {
+          url: linkResolver(siblingGroup),
+          text: siblingGroup.title || '',
+          prefix: `Part ${siblingGroup.order || ''} of`,
+        };
+      }),
     ],
   };
 

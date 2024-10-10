@@ -1,12 +1,12 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
-
 const ImageWrapper = styled.div`
   position: relative;
 `;
@@ -34,31 +34,25 @@ const ExhibitionGuideLinksPromo: FunctionComponent<Props> = ({
   const links: { url: string; text: string }[] = [];
   if (exhibitionGuide.availableTypes.audioWithoutDescriptions) {
     links.push({
-      url: `/guides/exhibitions/${
-        exhibitionGuide.exhibitionHighlightTourId || exhibitionGuide.id
-      }/audio-without-descriptions`,
+      url: `${linkResolver(exhibitionGuide)}/audio-without-descriptions`,
       text: 'Listen to audio',
     });
   }
   if (exhibitionGuide.availableTypes.captionsOrTranscripts) {
     links.push({
-      url: `/guides/exhibitions/${
-        exhibitionGuide.exhibitionTextId || exhibitionGuide.id
-      }/captions-and-transcripts`,
+      url: `${linkResolver(exhibitionGuide)}/captions-and-transcripts`,
       text: 'Read captions and transcriptions',
     });
   }
   if (exhibitionGuide.availableTypes.BSLVideo) {
     links.push({
-      url: `/guides/exhibitions/${
-        exhibitionGuide.exhibitionHighlightTourId || exhibitionGuide.id
-      }/bsl`,
+      url: `${linkResolver(exhibitionGuide)}/bsl`,
       text: 'Watch British Sign Language videos',
     });
   }
   return (
     <>
-      <ExhibitionTitleLink href={`/guides/exhibitions/${exhibitionGuide.id}`}>
+      <ExhibitionTitleLink href={linkResolver(exhibitionGuide)}>
         {exhibitionGuide.promo?.image && (
           <ImageWrapper>
             <PrismicImage
