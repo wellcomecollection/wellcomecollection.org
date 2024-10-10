@@ -34,19 +34,19 @@ const ExhibitionGuideLinksPromo: FunctionComponent<Props> = ({
   const links: { url: string; text: string }[] = [];
   if (exhibitionGuide.availableTypes.audioWithoutDescriptions) {
     links.push({
-      url: `${linkResolver(exhibitionGuide)}/audio-without-descriptions`,
+      url: `${linkResolver({ ...exhibitionGuide, uid: exhibitionGuide.exhibitionHighlightTourUid })}/audio-without-descriptions`,
       text: 'Listen to audio',
     });
   }
   if (exhibitionGuide.availableTypes.captionsOrTranscripts) {
     links.push({
-      url: `${linkResolver(exhibitionGuide)}/captions-and-transcripts`,
+      url: `${linkResolver({ ...exhibitionGuide, uid: exhibitionGuide.exhibitionTextUid })}/captions-and-transcripts`,
       text: 'Read captions and transcriptions',
     });
   }
   if (exhibitionGuide.availableTypes.BSLVideo) {
     links.push({
-      url: `${linkResolver(exhibitionGuide)}/bsl`,
+      url: `${linkResolver({ ...exhibitionGuide, uid: exhibitionGuide.exhibitionHighlightTourUid })}/bsl`,
       text: 'Watch British Sign Language videos',
     });
   }
