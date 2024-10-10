@@ -91,7 +91,7 @@ const toggles = {
       title: 'IIIF Auth V2',
       initialValue: false,
       description:
-        'Will make use of the V2 auth services in the IIIF Presentation manifest, if they are available',
+        'Will make use of the V2 auth services in the IIIF Presentation manifest, if they are available. N.B. some V2 services contain invalid data, so it is not safe to turn this on for everyone until all manifests have been regenerated.',
       type: 'experimental',
     },
   ] as const,

@@ -84,6 +84,7 @@ type ItemRendererProps = {
     rotatedImages: RotatedImage[];
     errorHandler?: () => void;
     externalAccessService: TransformedAuthService | undefined;
+    accessToken?: string;
   };
 };
 
@@ -210,7 +211,7 @@ function getPositionData({
   return highlightsPositioningData || [];
 }
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
-  const { scrollVelocity, canvases, externalAccessService } = data;
+  const { scrollVelocity, canvases, externalAccessService, accessToken } = data;
   const [mainLoaded, setMainLoaded] = useState(false);
   const currentCanvas = canvases[index];
   const mainImageService = { '@id': currentCanvas.imageServiceId };
@@ -380,6 +381,7 @@ const MainViewer: FunctionComponent = () => {
     rotatedImages,
     setShowControls,
     errorHandler,
+    accessToken,
   } = useContext(ItemViewerContext);
   const { authV2 } = useToggles();
   const { shouldScrollToCanvas, canvas } = query;
@@ -454,6 +456,7 @@ const MainViewer: FunctionComponent = () => {
           errorHandler,
           externalAccessService,
           canvas,
+          accessToken,
         }}
         itemSize={mainAreaWidth}
         onItemsRendered={debounceHandleOnItemsRendered.current}

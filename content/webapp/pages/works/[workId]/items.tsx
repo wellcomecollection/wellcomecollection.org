@@ -22,6 +22,7 @@ import Button from '@weco/common/views/components/Buttons';
 import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import Space from '@weco/common/views/components/styled/Space';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
 import IIIFItemList from '@weco/content/components/IIIFItemList/IIIFItemList';
 import IIIFViewer, {
@@ -156,6 +157,8 @@ const ItemPage: NextPage<Props> = ({
   serverSearchResults,
   parentManifest,
 }) => {
+  const { user } = useUser();
+  const role = user?.role;
   const { authV2 } = useToggles();
   const transformedManifest =
     compressedTransformedManifest &&
@@ -170,11 +173,12 @@ const ItemPage: NextPage<Props> = ({
   };
 
   const needsModal = checkModalRequired({
+    role,
     auth,
     isAnyImageOpen,
     authV2,
   });
-
+  const [accessToken, setAccessToken] = useState();
   const [searchResults, setSearchResults] = useState(serverSearchResults);
   const authService = getAuthService({ auth, authV2 });
   const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
@@ -213,6 +217,7 @@ const ItemPage: NextPage<Props> = ({
         if (Object.prototype.hasOwnProperty.call(data, 'accessToken')) {
           setShowModal(Boolean(isTotallyRestricted));
           setShowViewer(!isTotallyRestricted);
+          setAccessToken(data.accessToken);
         } else {
           setShowModal(true);
           setShowViewer(false);
@@ -226,7 +231,7 @@ const ItemPage: NextPage<Props> = ({
       setShowModal(false);
       setShowViewer(true);
     }
-  }, []);
+  }, [needsModal]);
 
   return (
     <CataloguePageLayout
@@ -337,6 +342,7 @@ const ItemPage: NextPage<Props> = ({
             searchResults={searchResults}
             setSearchResults={setSearchResults}
             parentManifest={parentManifest}
+            accessToken={accessToken}
           />
         )}
     </CataloguePageLayout>
