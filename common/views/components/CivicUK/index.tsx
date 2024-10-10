@@ -159,9 +159,6 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => (
                     name: 'Meta',
                     optOutLink: 'https://www.facebook.com/privacy/policies/cookies',
                   },
-                  {
-                    name: 'TikTok', optOutLink: 'https://www.tiktok.com/privacy/ads-and-your-data/en-GB'
-                  },
                 ],
               },
             ],   

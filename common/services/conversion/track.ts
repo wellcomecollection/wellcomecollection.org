@@ -23,11 +23,6 @@ declare global {
 
     // Meta pixel
     fbq: (action: 'consent', status: 'grant' | 'revoke') => void;
-    // TikTok pixel
-    ttq: {
-      grantConsent: () => void;
-      revokeConsent: () => void;
-    };
   }
 }
 
