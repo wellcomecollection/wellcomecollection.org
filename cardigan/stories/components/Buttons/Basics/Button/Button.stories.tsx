@@ -31,7 +31,7 @@ export default meta;
 type Story = StoryObj<typeof Button>;
 
 export const Basic: Story = {
-  name: 'ButtonSolid',
+  name: 'Solid',
   args: {
     variant: 'ButtonSolid',
     colors: 'default',
@@ -92,7 +92,7 @@ export const Basic: Story = {
 };
 
 export const DropdownButton: Story = {
-  name: 'DropdownButton',
+  name: 'Dropdown',
   args: {
     isOnDark: false,
     hasNoOptions: false, // disabled?
