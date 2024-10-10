@@ -17,7 +17,6 @@ const meta: Meta<typeof CompactCard> = {
     title: 'Wellcome Collection',
     description: singleLineOfText(),
     Image: <PrismicImage image={imageProps} quality="low" />,
-    DateInfo: null,
     primaryLabels: primaryLabelList,
     secondaryLabels: secondaryLabelList,
     xOfY: { x: 1, y: 1 },

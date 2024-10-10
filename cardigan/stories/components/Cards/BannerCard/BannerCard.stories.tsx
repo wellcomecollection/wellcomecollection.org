@@ -6,6 +6,9 @@ import BannerCard from '@weco/content/components/BannerCard/BannerCard';
 const meta: Meta<typeof BannerCard> = {
   title: 'Components/Cards/BannerCard',
   component: BannerCard,
+  args: {
+    item: bannerCardItem,
+  },
 };
 
 export default meta;
@@ -13,7 +16,4 @@ export default meta;
 type Story = StoryObj<typeof BannerCard>;
 export const Basic: Story = {
   name: 'BannerCard',
-  args: {
-    item: bannerCardItem,
-  },
 };
