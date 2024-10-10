@@ -61,12 +61,6 @@ module.exports = {
     name: getAbsolutePath('@storybook/nextjs'),
     options: {}
   },
-
-  docs: {},
-
-  typescript: {
-    reactDocgen: 'react-docgen-typescript'
-  }
 };
 
 function getAbsolutePath(value) {
