@@ -1,4 +1,5 @@
-import { dirname, join } from "path";
+import { dirname, join } from 'path';
+
 const path = require('path');
 module.exports = {
   staticDirs: ['../public'],
@@ -9,10 +10,11 @@ module.exports = {
   ],
 
   addons: [
-    getAbsolutePath("@storybook/addon-controls"),
-    getAbsolutePath("@storybook/addon-a11y"),
-    getAbsolutePath("@storybook/addon-backgrounds"),
-    getAbsolutePath("@storybook/addon-docs"),
+    getAbsolutePath('@storybook/addon-controls'),
+    getAbsolutePath('@storybook/addon-a11y'),
+    getAbsolutePath('@storybook/addon-backgrounds'),
+    getAbsolutePath('@storybook/addon-docs'),
+    getAbsolutePath('storybook-addon-mock'),
   ],
 
   webpackFinal: async (config, { configType }) => {
@@ -56,7 +58,7 @@ module.exports = {
   },
 
   framework: {
-    name: getAbsolutePath("@storybook/nextjs"),
+    name: getAbsolutePath('@storybook/nextjs'),
     options: {}
   },
 
@@ -68,5 +70,5 @@ module.exports = {
 };
 
 function getAbsolutePath(value) {
-  return dirname(require.resolve(join(value, "package.json")));
+  return dirname(require.resolve(join(value, 'package.json')));
 }
