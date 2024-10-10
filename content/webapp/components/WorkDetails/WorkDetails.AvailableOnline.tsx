@@ -282,8 +282,8 @@ const WorkDetailsAvailableOnline = ({
   } = { ...transformedManifest };
   const tokenService = getTokenService({ auth, authV2 });
   const activeAccessService = authV2
-    ? auth?.v2.activeAccessService || auth?.v1.activeAccessService
-    : auth?.v1.activeAccessService; // TODO should this include externalAccessSerice too?
+    ? auth?.v2.activeAccessService
+    : auth?.v1.activeAccessService;
 
   const isBornDigital =
     bornDigitalStatus === 'mixedBornDigital' ||
