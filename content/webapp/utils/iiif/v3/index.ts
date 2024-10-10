@@ -224,7 +224,7 @@ function getImageAuthCookieService(
       : undefined;
 }
 
-function getImageAuthProbeService(
+export function getImageAuthProbeService(
   service: BodyService2 | undefined
 ): AuthProbeService2 | undefined {
   return Array.isArray(service)
