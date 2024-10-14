@@ -43,7 +43,7 @@ export const parameters = {
       order: [
         'Cardigan',
         'Components',
-        ['Buttons', ['Basics', 'Alternates'], 'Cards'],
+        ['Banners', 'Buttons', ['Basics', 'Alternates'], 'Cards'],
 
         'Global',
       ],
