@@ -30,7 +30,7 @@ export const decorators = [
   },
 ];
 
-const themeColors = Object.entries(theme.colors).map(([key, value]) => ({
+export const themeColors = Object.entries(theme.colors).map(([key, value]) => ({
   name: key,
   value,
 }));
