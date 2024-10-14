@@ -1,5 +1,4 @@
 import { DocsContainer } from '@storybook/addon-docs';
-import { RouterContext } from 'next/dist/shared/lib/router-context';
 
 import { ContextDecorator } from '@weco/cardigan_new/config/decorators';
 import { grid } from '@weco/common/utils/classnames';
@@ -79,8 +78,5 @@ export const parameters = {
   },
   chromatic: {
     viewports: [375, 1200],
-  },
-  nextRouter: {
-    Provider: RouterContext.Provider,
   },
 };
