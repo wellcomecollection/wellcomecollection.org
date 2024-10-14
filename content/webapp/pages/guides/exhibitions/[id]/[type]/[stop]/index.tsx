@@ -1,5 +1,4 @@
 import { GetServerSideProps } from 'next';
-import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { FunctionComponent, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -10,6 +9,7 @@ import { getCrop } from '@weco/common/model/image';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isFilledSliceZone } from '@weco/common/services/prismic/types';
 import { font, grid } from '@weco/common/utils/classnames';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -24,6 +24,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
+import TransitionLink from '@weco/common/views/components/TransitionLink';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
 import ImagePlaceholder, {
@@ -39,6 +40,7 @@ import {
 import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/json-ld';
 import {
   ExhibitionGuideType,
+  ExhibitionHighlightTour,
   GuideHighlightTour,
   isValidExhibitionGuideType,
 } from '@weco/content/types/exhibition-guides';
@@ -51,6 +53,7 @@ type Props = {
   exhibitionGuideId: string;
   exhibitionTitle: string;
   stopNumberServerSide: number;
+  exhibitionGuide: ExhibitionHighlightTour;
   allStops: GuideHighlightTour[];
 };
 
@@ -178,7 +181,8 @@ export const getServerSideProps: GetServerSideProps<
         type,
         stopNumberServerSide,
         exhibitionTitle,
-        exhibitionGuideId: id,
+        exhibitionGuideId: exhibitionHighlightTour.id,
+        exhibitionGuide: exhibitionHighlightTour,
         allStops,
       }),
     };
@@ -195,6 +199,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     exhibitionGuideId,
     exhibitionTitle,
     stopNumberServerSide,
+    exhibitionGuide,
     allStops,
   } = props;
   useHotjar(exhibitionGuideId === 'ZthrZRIAACQALvCC'); // Only on Jason and the Adventure of 254
@@ -206,6 +211,9 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   const [stopNumber, setStopNumber] = useState(stopNumberServerSide);
   const [currentStop, setCurrentStop] = useState(currentStopServerSide);
   const [headerEl, setHeaderEl] = useState<HTMLElement>();
+  const guideUrl = linkResolver(exhibitionGuide);
+  const guideTypeUrl = `${guideUrl}/${type}`;
+  const pathname = `${guideTypeUrl}/${stopNumber}`;
 
   const headerRef = useCallback((node: HTMLElement) => {
     if (node) setHeaderEl(node);
@@ -227,6 +235,31 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     return () => resizeObserver.disconnect();
   }, [headerEl]);
 
+  const [viewTransitionName, setViewTransitionName] = useState(
+    `player-${currentStop.number}`
+  );
+
+  // Because we've given the page the appearance of a modal, we handle the case
+  // where someone hits 'Escape' as an intention to return to the previous state (page)
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        const prev = `${guideTypeUrl}#${currentStop.number}`;
+        setViewTransitionName(`player-${currentStop.number}`);
+
+        if (!document.startViewTransition) {
+          router.push(prev);
+        }
+
+        document.startViewTransition(() => router.push(prev));
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   useEffect(() => {
     setStopNumber(Number(router.query.stop));
     const newStop = allStops.find(s => s.number === Number(router.query.stop));
@@ -236,8 +269,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     }
   }, [router.query.stop]);
 
-  const guideTypeUrl = `/guides/exhibitions/${exhibitionGuideId}/${type}`;
-  const pathname = `${guideTypeUrl}/${stopNumber}`;
   const controlText = {
     defaultText: type === 'bsl' ? 'Read subtitles' : 'Read audio transcript',
     contentShowingText:
@@ -265,7 +296,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
       apiToolbarLinks={[createPrismicLink(exhibitionGuideId)]}
     >
       <Page>
-        <Header ref={headerRef}>
+        {/* Header needs a view-transition-name even though it isn't transitioning: https://www.nicchan.me/blog/view-transitions-and-stacking-context/#the-workaround */}
+        <Header ref={headerRef} style={{ viewTransitionName: 'header' }}>
           <Container>
             <HeaderInner>
               <div>
@@ -275,75 +307,92 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                 </h1>
               </div>
               <span>
-                <NextLink href={`${guideTypeUrl}#${stopNumber}`}>
+                <TransitionLink
+                  href={`${guideTypeUrl}#${currentStop.number}`}
+                  onFocus={() =>
+                    setViewTransitionName(`player-${currentStop.number}`)
+                  }
+                  onMouseEnter={() =>
+                    setViewTransitionName(`player-${currentStop.number}`)
+                  }
+                >
                   <Icon icon={cross} />
                   <span className="visually-hidden">Back to list of stops</span>
-                </NextLink>
+                </TransitionLink>
               </span>
             </HeaderInner>
           </Container>
         </Header>
+        <div style={{ viewTransitionName }}>
+          <FlushContainer>
+            <div className="grid">
+              <div className={grid(gridSize8())}>
+                {type !== 'bsl' && (
+                  <>
+                    {croppedImage ? (
+                      <PrismicImage quality="low" image={croppedImage} />
+                    ) : (
+                      <div
+                        style={{
+                          aspectRatio: '16/9',
+                          overflow: 'hidden',
+                        }}
+                      >
+                        <ImagePlaceholder
+                          backgroundColor={placeholderBackgroundColor(
+                            stopNumber
+                          )}
+                        />
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
+          </FlushContainer>
 
-        <FlushContainer>
-          <div className="grid">
-            <div className={grid(gridSize8())}>
-              {type !== 'bsl' && (
+          <Layout gridSizes={gridSize8()}>
+            <StickyPlayer $sticky={type !== 'bsl'}>
+              {type === 'bsl' ? (
                 <>
-                  {croppedImage ? (
-                    <PrismicImage quality="low" image={croppedImage} />
-                  ) : (
-                    <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
-                      <ImagePlaceholder
-                        backgroundColor={placeholderBackgroundColor(stopNumber)}
-                      />
-                    </div>
+                  {currentStop.video && (
+                    <VideoEmbed embedUrl={currentStop.video} />
+                  )}
+                </>
+              ) : (
+                <>
+                  {currentStop.audio && (
+                    <AudioPlayerWrapper>
+                      <AudioPlayer title="" audioFile={currentStop.audio} />
+                    </AudioPlayerWrapper>
                   )}
                 </>
               )}
-            </div>
-          </div>
-        </FlushContainer>
+            </StickyPlayer>
+            {/* Make sure we can scroll content into view if it's behind the fixed position footer (paddingBottom: 100px) */}
 
-        <Layout gridSizes={gridSize8()}>
-          <StickyPlayer $sticky={type !== 'bsl'}>
-            {type === 'bsl' ? (
-              <>
-                {currentStop.video && (
-                  <VideoEmbed embedUrl={currentStop.video} />
-                )}
-              </>
-            ) : (
-              <>
-                {currentStop.audio && (
-                  <AudioPlayerWrapper>
-                    <AudioPlayer title="" audioFile={currentStop.audio} />
-                  </AudioPlayerWrapper>
-                )}
-              </>
-            )}
-          </StickyPlayer>
-          {/* Make sure we can scroll content into view if it's behind the fixed position footer (paddingBottom: 100px) */}
-
-          {!!relatedText?.length && (
-            <Space
-              $v={{
-                size: 'xl',
-                properties: ['padding-bottom', 'margin-bottom'],
-              }}
-            >
-              <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-                <CollapsibleContent
-                  controlText={controlText}
-                  id="stop-transcript"
-                  darkTheme={true}
-                >
-                  <PrismicHtmlBlock html={relatedText} />
-                </CollapsibleContent>
+            {!!relatedText?.length && (
+              <Space
+                $v={{
+                  size: 'xl',
+                  properties: ['padding-bottom', 'margin-bottom'],
+                }}
+              >
+                <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+                  <CollapsibleContent
+                    controlText={controlText}
+                    id="stop-transcript"
+                    darkTheme={true}
+                  >
+                    <PrismicHtmlBlock html={relatedText} />
+                  </CollapsibleContent>
+                </Space>
               </Space>
-            </Space>
-          )}
-        </Layout>
-        <PrevNext>
+            )}
+          </Layout>
+        </div>
+        {/* PrevNext needs a view-transition-name even though it isn't transitioning: https://www.nicchan.me/blog/view-transitions-and-stacking-context/#the-workaround */}
+        <PrevNext style={{ viewTransitionName: 'prevnext' }}>
           <Container>
             <div
               style={{
@@ -353,10 +402,17 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             >
               <div>
                 {stopNumber > 1 && (
-                  <NextLink
-                    style={{ textDecoration: 'none', display: 'inline-block' }}
+                  <TransitionLink
+                    style={{
+                      textDecoration: 'none',
+                      display: 'inline-block',
+                    }}
                     href={`${guideTypeUrl}/${stopNumber - 1}`}
                     shallow={true}
+                    onFocus={() => setViewTransitionName('player-previous')}
+                    onMouseEnter={() =>
+                      setViewTransitionName('player-previous')
+                    }
                   >
                     <Space
                       $v={{
@@ -375,15 +431,20 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                         <span>Previous</span>
                       </AlignCenter>
                     </Space>
-                  </NextLink>
+                  </TransitionLink>
                 )}
               </div>
               <div>
                 {stopNumber < allStops.length && (
-                  <NextLink
-                    style={{ textDecoration: 'none', display: 'inline-block' }}
+                  <TransitionLink
+                    style={{
+                      textDecoration: 'none',
+                      display: 'inline-block',
+                    }}
                     href={`${guideTypeUrl}/${stopNumber + 1}`}
                     shallow={true}
+                    onFocus={() => setViewTransitionName('player-next')}
+                    onMouseEnter={() => setViewTransitionName('player-next')}
                   >
                     <Space
                       $v={{
@@ -402,7 +463,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                         <Icon icon={arrow} />
                       </AlignCenter>
                     </Space>
-                  </NextLink>
+                  </TransitionLink>
                 )}
               </div>
             </div>

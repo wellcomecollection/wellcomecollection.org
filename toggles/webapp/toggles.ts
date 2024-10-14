@@ -79,11 +79,11 @@ const toggles = {
       type: 'permanent',
     },
     {
-      id: 'showBornDigital',
-      title: 'Display born digital files',
+      id: 'viewTransitions',
+      title: 'Use view-transitions API',
       initialValue: false,
       description:
-        'If there are born digital items in the iiif-manifest, then links to all the files in the manifest are shown on the works page.',
+        'Use animated transitions between page routes where possible',
       type: 'experimental',
     },
     {
@@ -91,7 +91,7 @@ const toggles = {
       title: 'IIIF Auth V2',
       initialValue: false,
       description:
-        'Will make use of the V2 auth services in the IIIF Presentation manifest, if they are available',
+        'Will make use of the V2 auth services in the IIIF Presentation manifest, if they are available. N.B. some V2 services contain invalid data, so it is not safe to turn this on for everyone until all manifests have been regenerated.',
       type: 'experimental',
     },
   ] as const,

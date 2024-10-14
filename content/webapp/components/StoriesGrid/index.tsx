@@ -123,7 +123,7 @@ const StoriesGrid: FunctionComponent<Props> = ({
           <StoryWrapper
             key={article.id}
             as="a"
-            href={linkResolver({ id: article.id, type: 'articles' })}
+            href={linkResolver({ uid: article.uid, type: 'articles' })}
             $isDetailed={isDetailed}
             data-testid="story-search-result"
           >

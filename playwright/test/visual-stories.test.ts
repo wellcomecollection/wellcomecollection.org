@@ -26,6 +26,6 @@ test('A visual story with a related document provides navigation between them bo
   await expect(visualStoryBlock).toBeVisible();
   await expect(visualStoryBlock).toHaveAttribute(
     'href',
-    '/exhibitions/ZAW0PxQAACcG-pX8/visual-stories'
+    '/exhibitions/genetic-automata/visual-stories'
   );
 });

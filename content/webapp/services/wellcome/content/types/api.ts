@@ -41,6 +41,7 @@ export type ArticleFormat = {
 export type Article = {
   type: 'Article';
   id: string;
+  uid: string;
   title: string;
   publicationDate: string;
   contributors: Contributor[];
@@ -93,6 +94,7 @@ export type EventDocumentAudience = {
 export type EventDocument = {
   type: 'Event';
   id: string;
+  uid: string;
   title: string;
   image?: ContentApiImage;
   times: ContentApiTimeField[];

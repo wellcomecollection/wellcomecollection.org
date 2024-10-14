@@ -1,0 +1,8 @@
+name: Design work
+description: Start on a design feature
+projects: 'wellcomecollection/18'
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description

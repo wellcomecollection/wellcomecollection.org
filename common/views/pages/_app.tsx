@@ -22,10 +22,7 @@ import {
   SegmentScript,
 } from '@weco/common/services/app/analytics-scripts';
 import { getConsentState } from '@weco/common/services/app/civic-uk';
-import {
-  MetaScript,
-  // TikTokScript,
-} from '@weco/common/services/app/marketing-scripts';
+import { MetaScript } from '@weco/common/services/app/marketing-scripts';
 import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
 import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
 import {
@@ -214,9 +211,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                   <SegmentScript hasAnalyticsConsent={hasAnalyticsConsent} />
 
                   <MetaScript hasMarketingConsent={hasMarketingConsent} />
-                  {/* TODO: Uncomment when we have means to test
-                  https://github.com/wellcomecollection/wellcomecollection.org/pull/11047 */}
-                  {/* <TikTokScript hasMarketingConsent={hasMarketingConsent} /> */}
                 </ThemeProvider>
               </SearchContextProvider>
             </AppContextProvider>

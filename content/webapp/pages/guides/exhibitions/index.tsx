@@ -72,8 +72,8 @@ export function allGuides({
         );
       return {
         ...guide,
-        exhibitionTextId: matchingExhibitionText?.id,
-        exhibitionHighlightTourId: matchingExhibitionHighlightTour?.id,
+        exhibitionTextUid: matchingExhibitionText?.uid,
+        exhibitionHighlightTourUid: matchingExhibitionHighlightTour?.uid,
         availableTypes: {
           BSLVideo:
             matchingExhibitionText?.availableTypes.BSLVideo ||

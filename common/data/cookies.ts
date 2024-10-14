@@ -141,10 +141,6 @@ export const cookiesTableCopy = {
       'Meta',
       `We use tracking technologies to enhance the measurement, optimisation, and targeting of our advertising campaigns on Meta (includes Facebook and Instagram).<br /><a href="https://www.facebook.com/privacy/policies/cookies?annotations[0]=explanation%2F1_common_cookies_and_uses" target="_blank" rel="noopener noreferrer">See the full list of cookies on Meta's website</a>.`,
     ],
-    [
-      'TikTok',
-      `We use tracking technologies to enhance the measurement, optimisation, and targeting of our advertising campaigns on TikTok.<br /><a href="https://ads.tiktok.com/help/article/using-cookies-with-tiktok-pixel?lang=en" target="_blank" rel="noopener noreferrer">Information about the TikTok pixel and list of cookies</a>.`,
-    ],
   ],
 };
 

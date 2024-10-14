@@ -1,46 +1,48 @@
 import { isContentType } from './content-types';
 
 type Props = {
-  id: string;
+  uid?: string;
   type: string;
 };
 type DataProps = {
-  id: string;
+  uid?: string;
   type: string;
   data: {
     relatedDocument?: {
-      id: string;
+      uid: string;
       type: string;
     };
   };
 };
-function linkResolver(doc: Props | DataProps): string {
-  const { id, type } = doc;
 
-  if (type === 'webcomics') return `/articles/${id}`;
-  if (type === 'webcomic-series') return `/series/${id}`;
+function linkResolver(doc: Props | DataProps): string {
+  const { uid, type } = doc;
+  if (!uid) return '/';
+  if (type === 'webcomics') return `/articles/${uid}`;
+  if (type === 'webcomic-series') return `/series/${uid}`;
   if (
     type === 'exhibition-guides' ||
     type === 'exhibition-texts' ||
-    type === 'exhibition-highlight-tours'
+    type === 'exhibition-highlight-tours' ||
+    type === 'exhibition-guides-links'
   )
-    return `/guides/exhibitions/${id}`;
+    return `/guides/exhibitions/${uid}`;
 
   if (type === 'visual-stories') {
     if ('data' in doc) {
       const {
         data: { relatedDocument },
       } = doc;
-      if (relatedDocument?.id) {
-        return `/${relatedDocument.type}/${relatedDocument.id}/visual-stories`;
+      if (relatedDocument?.uid) {
+        return `/${relatedDocument.type}/${relatedDocument.uid}/visual-stories`;
       } else {
-        return `/visual-stories/${id}`;
+        return `/visual-stories/${uid}`;
       }
     }
   }
 
   if (isContentType(type)) {
-    return `/${type}/${id}`;
+    return `/${type}/${uid}`;
   }
 
   return '/';

@@ -46,19 +46,17 @@ export function getMultiVolumeLabel(
   internationalString: InternationalString,
   itemTitle: string
 ): string | undefined {
-  const stringAtIndex1 = getEnFromInternationalString(internationalString, {
+  const stringAtIndex1 = getDisplayLabel(internationalString, {
     index: 1,
   });
-  const stringAtIndex0 = getEnFromInternationalString(internationalString, {
+  const stringAtIndex0 = getDisplayLabel(internationalString, {
     index: 0,
   });
 
   return stringAtIndex1 === itemTitle ? stringAtIndex0 : stringAtIndex1;
 }
 
-// TODO: rename this to something like getDisplayLabel since the key of interest
-// can be either 'en' or 'none'
-export function getEnFromInternationalString(
+export function getDisplayLabel(
   internationalString: InternationalString,
   indexProps?: { index: number }
 ): string | undefined {
@@ -74,7 +72,7 @@ export function transformLabel(
 ): string | undefined {
   if (typeof label === 'string' || label === undefined) return label;
 
-  return getEnFromInternationalString(label);
+  return getDisplayLabel(label);
 }
 
 // It appears that iiif-manifests for born digital items can exist without the items property
@@ -132,7 +130,7 @@ export function getTitle(
   if (!label) return '';
   if (typeof label === 'string') return label;
 
-  return getEnFromInternationalString(label) || '';
+  return getDisplayLabel(label) || '';
 }
 
 export function getTransformedCanvases(
@@ -254,7 +252,7 @@ export function getIIIFMetadata(
   label: string
 ): MetadataItem | undefined {
   return (manifest.metadata || []).find(
-    data => getEnFromInternationalString(data.label) === label
+    data => getDisplayLabel(data.label) === label
   );
 }
 
@@ -263,7 +261,7 @@ export function getIIIFPresentationCredit(
 ): string | undefined {
   const attribution = getIIIFMetadata(manifest, 'Attribution and usage');
   const maybeValueWithBrTags =
-    attribution?.value && getEnFromInternationalString(attribution.value);
+    attribution?.value && getDisplayLabel(attribution.value);
 
   return maybeValueWithBrTags?.split('<br />')[0];
 }
@@ -341,26 +339,51 @@ export function getTokenService(
       )
     : clickThroughService?.service;
 }
+type AuthServices = {
+  active?: TransformedAuthService;
+  external?: TransformedAuthService;
+};
+
+export function getAuthServices({
+  auth,
+  authV2,
+}: {
+  auth?: Auth;
+  authV2?: boolean;
+}): AuthServices | undefined {
+  if (authV2) {
+    return {
+      active: auth?.v2.activeAccessService,
+      external: auth?.v2.externalAccessService,
+    };
+  } else {
+    return {
+      active: auth?.v1.activeAccessService,
+      // Only the v2 external service works (v1 responds with a 404), we therefore try returning the v2 service, so we can use it if it is available. We still need to fallback to the v1 service as the presence of the service helps us determine whether to show the viewer or not.
+      external:
+        auth?.v2.externalAccessService || auth?.v1.externalAccessService,
+    };
+  }
+}
 
 type checkModalParams = {
+  role?: string;
   auth?: Auth;
   isAnyImageOpen?: boolean;
   authV2?: boolean;
 };
 
 export function checkModalRequired(params: checkModalParams): boolean {
-  const { auth, isAnyImageOpen, authV2 } = params;
-  // If authV2 is true, We try to use the iiif auth V2 services and fallback to V1 in case the manifest doesn't contain V2
-  const externalAccessService = authV2
-    ? auth?.v2.externalAccessService || auth?.v1.externalAccessService
-    : auth?.v1.externalAccessService;
-  const activeAccessService = authV2
-    ? auth?.v2.activeAccessService || auth?.v1.activeAccessService
-    : auth?.v1.activeAccessService;
-  if (activeAccessService) {
+  const { role, auth, isAnyImageOpen, authV2 } = params;
+  const authServices = getAuthServices({ auth, authV2 });
+  if (authServices?.active) {
     return true;
-  } else if (externalAccessService) {
-    return !isAnyImageOpen;
+  } else if (authServices?.external) {
+    if (isAnyImageOpen || role === 'StaffWithRestricted') {
+      return false;
+    } else {
+      return true;
+    }
   } else {
     return false;
   }
@@ -489,8 +512,7 @@ export function groupRanges(
       );
 
       if (
-        getEnFromInternationalString(acc.previousLabel) ===
-          getEnFromInternationalString(range.label) &&
+        getDisplayLabel(acc.previousLabel) === getDisplayLabel(range.label) &&
         acc.previousLastCanvasIndex &&
         firstCanvasIndex === acc.previousLastCanvasIndex + 1
       ) {

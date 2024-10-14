@@ -5,6 +5,7 @@ import { FunctionComponent } from 'react';
 import { getServerData } from '@weco/common/server-data';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { font } from '@weco/common/utils/classnames';
 import { today } from '@weco/common/utils/dates';
@@ -131,7 +132,7 @@ const EventSeriesPage: FunctionComponent<Props> = ({
         text: 'Events',
       },
       {
-        url: `/events-series/${series.id}`,
+        url: linkResolver(series),
         text: series.title,
         isHidden: true,
       },

@@ -1,0 +1,19 @@
+name: 'Bug report'
+description: 'Create a report to help us improve'
+labels: 'Bug 🐛'
+projects: 'wellcomecollection/18'
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What
+      description: 'A clear and concise description of what the bug is.'
+    validations:
+      required: true
+  - type: textarea
+    id: where
+    attributes:
+      label: Where
+      description: 'A link, or a screenshot if relevant, as to where the bug is.'
+    validations:
+      required: true

@@ -8,6 +8,7 @@ import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -42,7 +43,6 @@ import {
   getHeroPicture,
 } from '@weco/content/utils/page-header';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-
 const ContentTypeWrapper = styled.div`
   display: flex;
   align-items: baseline;
@@ -203,13 +203,15 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
       // GOTCHA: we only take the first of the series list as the data is being
       // used a little bit badly, but we don't have capacity to implement a
       // better solution
-      ...article.series.slice(0, 1).map(series => ({
-        url: `/series/${series.id}`,
-        text: series.title || '',
-        prefix: 'Part of',
-      })),
+      ...article.series.slice(0, 1).map(series => {
+        return {
+          url: linkResolver(series),
+          text: series.title || '',
+          prefix: 'Part of',
+        };
+      }),
       {
-        url: `/articles/${article.id}`,
+        url: linkResolver(article),
         text: article.title,
         isHidden: true,
       },
