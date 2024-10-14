@@ -15,6 +15,7 @@ import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import IIIFSearchWithin from '@weco/content/components/IIIFSearchWithin/IIIFSearchWithin';
 import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
 import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
@@ -22,37 +23,27 @@ import WorkLink from '@weco/content/components/WorkLink';
 import WorkTitle from '@weco/content/components/WorkTitle/WorkTitle';
 import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
 import { removeTrailingFullStop, toHtmlId } from '@weco/content/utils/string';
+import { getDigitalLocationInfo } from '@weco/content/utils/works';
 
 import MultipleManifestList from './MultipleManifestList';
 import ViewerStructures from './ViewerStructures';
 
 const RestrictedMessage = styled(Space).attrs({
-  // TODO do properly - colours from palette, flex etc. - maybe use AlertBox from identity app - move it to common?
   $h: { size: 'm', properties: ['margin-left', 'margin-right'] },
-  $v: { size: 'm', properties: ['margin-top'] },
 })`
-  background: #f0f6ff;
-  color: black;
+  background: ${props => props.theme.color('neutral.200')};
+  color: ${props => props.theme.color('black')};
   border-radius: 3px;
   border-left: 5px solid #1672f3;
 
-  div {
-    padding-left: 40px;
-    position: relative;
-  }
-
   h2 {
-    display: inline;
-    color: #003170;
-  }
-
-  p {
-    display: inline;
+    padding-left: 32px;
+    color: ${props => props.theme.color('accent.blue')};
+    margin-bottom: 4px;
   }
 
   .icon {
     position: absolute;
-    left: 10px;
   }
 `;
 
@@ -164,6 +155,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
 }) => {
   const { work, transformedManifest, parentManifest } =
     useContext(ItemViewerContext);
+  const { user } = useUser();
 
   const matchingManifest =
     parentManifest &&
@@ -190,21 +182,30 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     note => note.noteType.id === 'location-of-original'
   );
 
+  const digitalLocationInfo =
+    digitalLocation && getDigitalLocationInfo(digitalLocation);
+
+  const treatAsRestricted =
+    digitalLocationInfo?.accessCondition === 'restricted' &&
+    user?.role === 'StaffWithRestricted';
+
   return (
     <>
-      {/* TODO logic for this - the message should only show if there are restricted items on the page and the user has a role of 'StaffWithRestricted' */}
-      <RestrictedMessage>
-        <Inner className={font('intr', 5)}>
-          <Icon icon={info2} iconColor="accent.blue" />
-          <h2>Restricted item</h2>
-          &nbsp;
-          {/* TODO speak to Dana about wording, it may be that only certain parts of the page that are hidden from the public. */}
-          <p>
-            This page is hidden from the public and can only be viewed by some
-            staff.
-          </p>
-        </Inner>
-      </RestrictedMessage>
+      {treatAsRestricted && (
+        <RestrictedMessage>
+          <Space
+            $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+            $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
+          >
+            <Icon icon={info2} iconColor="accent.blue" />
+            <h2 className={font('intsb', 5)}>Restricted item</h2>
+            {/* TODO speak to Dana about wording, it may be that only certain parts of the page that are hidden from the public. */}
+            <p style={{ marginBottom: 0 }} className={font('intr', 5)}>
+              This page is hidden from the public.
+            </p>
+          </Space>
+        </RestrictedMessage>
+      )}
       <Inner className={font('intb', 5)}>
         {manifestLabel && (
           <span className={font('intr', 5)}>{manifestLabel}</span>
