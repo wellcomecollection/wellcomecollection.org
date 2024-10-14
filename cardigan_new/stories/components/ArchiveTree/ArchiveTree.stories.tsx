@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import collectionTree from '@weco/cardigan/stories/data/collection-tree';
-import work from '@weco/cardigan/stories/data/work';
+import collectionTree from '@weco/cardigan_new/stories/data/collection-tree';
+import work from '@weco/cardigan_new/stories/data/work';
 import ArchiveTree from '@weco/content/components/ArchiveTree';
 import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
 

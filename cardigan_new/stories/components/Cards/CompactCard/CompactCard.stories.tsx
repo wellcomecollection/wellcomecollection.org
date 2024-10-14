@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { squareImage } from '@weco/cardigan/stories/data/images';
-import { singleLineOfText } from '@weco/cardigan/stories/data/text';
+import { squareImage } from '@weco/cardigan_new/stories/data/images';
+import { singleLineOfText } from '@weco/cardigan_new/stories/data/text';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import CompactCard from '@weco/content/components/CompactCard/CompactCard';
 

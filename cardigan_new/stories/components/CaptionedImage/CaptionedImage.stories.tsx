@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { captionedImage } from '@weco/cardigan/stories/data/images';
+import { captionedImage } from '@weco/cardigan_new/stories/data/images';
 import CaptionedImage from '@weco/content/components/CaptionedImage/CaptionedImage';
 
 const meta: Meta<typeof CaptionedImage> = {

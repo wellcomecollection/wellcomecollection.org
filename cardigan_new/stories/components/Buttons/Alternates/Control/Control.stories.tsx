@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { ReadmeDecorator } from '@weco/cardigan_new/config/decorators';
 import { chevron } from '@weco/common/icons';
 import Control from '@weco/common/views/components/Control';
 import ControlReadme from '@weco/common/views/components/Control/README.mdx';

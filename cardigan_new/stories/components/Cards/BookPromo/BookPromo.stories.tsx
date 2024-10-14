@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { bookImageUrl, image } from '@weco/cardigan/stories/data/images';
-import { singleLineOfText } from '@weco/cardigan/stories/data/text';
+import { bookImageUrl, image } from '@weco/cardigan_new/stories/data/images';
+import { singleLineOfText } from '@weco/cardigan_new/stories/data/text';
 import BookPromo from '@weco/content/components/BookPromo/BookPromo';
 
 const meta: Meta<typeof BookPromo> = {

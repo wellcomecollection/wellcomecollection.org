@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import untransformedBody from '@weco/cardigan/stories/data/untransformed-body';
+import untransformedBody from '@weco/cardigan_new/stories/data/untransformed-body';
 import Body from '@weco/content/components/Body/Body';
 
 const meta: Meta<typeof Body> = {

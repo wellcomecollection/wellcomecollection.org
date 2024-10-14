@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { ReadmeDecorator } from '@weco/cardigan_new/config/decorators';
 import { CopyUrl } from '@weco/content/components/CopyButtons';
 import Readme from '@weco/content/components/CopyButtons/README.mdx';
 

@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { imageWithCrops } from '@weco/cardigan/stories/data/images';
+import { imageWithCrops } from '@weco/cardigan_new/stories/data/images';
 import GuideStopCard from '@weco/content/components/GuideStopCard';
 
 const meta: Meta<typeof GuideStopCard> = {

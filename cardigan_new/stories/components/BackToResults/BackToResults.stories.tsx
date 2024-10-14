@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { ReadmeDecorator } from '@weco/cardigan_new/config/decorators';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import BackToResults from '@weco/content/components/BackToResults/BackToResults';
 import Readme from '@weco/content/components/BackToResults/README.mdx';

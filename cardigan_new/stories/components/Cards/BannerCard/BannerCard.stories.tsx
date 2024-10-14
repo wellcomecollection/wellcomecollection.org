@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { bannerCardItem } from '@weco/cardigan/stories/data/content';
+import { bannerCardItem } from '@weco/cardigan_new/stories/data/content';
 import BannerCard from '@weco/content/components/BannerCard/BannerCard';
 
 const meta: Meta<typeof BannerCard> = {

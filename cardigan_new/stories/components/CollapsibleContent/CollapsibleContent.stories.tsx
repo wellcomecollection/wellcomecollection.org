@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { prismicRichTextMultiline } from '@weco/cardigan/stories/data/text';
+import { prismicRichTextMultiline } from '@weco/cardigan_new/stories/data/text';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 

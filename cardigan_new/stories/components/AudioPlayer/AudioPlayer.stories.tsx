@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { ReadmeDecorator } from '@weco/cardigan_new/config/decorators';
 import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
 import Readme from '@weco/content/components/AudioPlayer/README.mdx';
 

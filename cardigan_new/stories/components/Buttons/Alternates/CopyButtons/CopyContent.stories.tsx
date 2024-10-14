@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import { singleLineOfText } from '@weco/cardigan/stories/data/text';
+import { ReadmeDecorator } from '@weco/cardigan_new/config/decorators';
+import { singleLineOfText } from '@weco/cardigan_new/stories/data/text';
 import { CopyContent } from '@weco/content/components/CopyButtons';
 import Readme from '@weco/content/components/CopyButtons/README.mdx';
 

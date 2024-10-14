@@ -1,26 +1,29 @@
-import { default as React } from 'react';
-import { RouterContext } from 'next/dist/shared/lib/router-context';
 import { DocsContainer } from '@storybook/addon-docs';
-import theme from '@weco/common/views/themes/default';
-import { ContextDecorator } from '@weco/cardigan/config/decorators';
-import wellcomeTheme from './wellcome-theme';
+import { RouterContext } from 'next/dist/shared/lib/router-context';
+
+import { ContextDecorator } from '@weco/cardigan_new/config/decorators';
 import { grid } from '@weco/common/utils/classnames';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import theme from '@weco/common/views/themes/default';
+
+import wellcomeTheme from './wellcome-theme';
 
 export const decorators = [
   (Story, context) => {
     return (
       <ContextDecorator>
         <AppContextProvider>
-        <ConditionalWrapper
-          condition={context?.parameters?.gridSizes}
-          wrapper={children => (
-            <div className={grid(context.parameters.gridSizes)}>{children}</div>
-          )}
-        >
-          <Story {...context} />
-        </ConditionalWrapper>
+          <ConditionalWrapper
+            condition={context?.parameters?.gridSizes}
+            wrapper={children => (
+              <div className={grid(context.parameters.gridSizes)}>
+                {children}
+              </div>
+            )}
+          >
+            <Story {...context} />
+          </ConditionalWrapper>
         </AppContextProvider>
       </ContextDecorator>
     );
@@ -29,7 +32,7 @@ export const decorators = [
 
 const themeColors = Object.entries(theme.colors).map(([key, value]) => ({
   name: key,
-  value: value,
+  value,
 }));
 
 export const parameters = {
@@ -40,16 +43,9 @@ export const parameters = {
       order: [
         'Cardigan',
         'Components',
-        [
-          'Buttons',
-            [
-              'Basics',
-              'Alternates',
-            ],
-          'Cards',
-        ],
+        ['Buttons', ['Basics', 'Alternates'], 'Cards'],
 
-        'Global'
+        'Global',
       ],
     },
   },

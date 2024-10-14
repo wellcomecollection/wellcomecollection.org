@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { event } from '@weco/cardigan/stories/data/content';
+import { event } from '@weco/cardigan_new/stories/data/content';
 import EventPromo from '@weco/content/components/EventPromo/EventPromo';
 
 const meta: Meta<typeof EventPromo> = {
