@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { ReadMeInfo } from '@weco/cardigan/config/decorators';
-import { image as contentImage } from '@weco/cardigan/stories/data/images';
+import { ReadMeInfo } from '@weco/cardigan_new/config/decorators';
+import { image as contentImage } from '@weco/cardigan_new/stories/data/images';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { WobblyBottom } from '@weco/common/views/components/WobblyEdge';
 import Readme from '@weco/common/views/components/WobblyEdge/README.mdx';

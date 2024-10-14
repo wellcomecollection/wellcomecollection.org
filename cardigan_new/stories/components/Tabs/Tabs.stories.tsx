@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { ReadmeDecorator } from '@weco/cardigan_new/config/decorators';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import Tabs from '@weco/content/components/Tabs';

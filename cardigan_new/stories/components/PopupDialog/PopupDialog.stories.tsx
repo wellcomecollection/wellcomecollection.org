@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { ReadmeDecorator } from '@weco/cardigan_new/config/decorators';
 import PopupDialog from '@weco/common/views/components/PopupDialog/PopupDialog';
 import Readme from '@weco/common/views/components/PopupDialog/README.mdx';
 

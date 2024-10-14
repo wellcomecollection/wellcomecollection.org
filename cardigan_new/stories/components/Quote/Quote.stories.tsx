@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import { quote } from '@weco/cardigan/stories/data/content';
+import { ReadmeDecorator } from '@weco/cardigan_new/config/decorators';
+import { quote } from '@weco/cardigan_new/stories/data/content';
 import Quote from '@weco/content/components/Quote/Quote';
 import Readme from '@weco/content/components/Quote/README.mdx';
 

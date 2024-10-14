@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { ReadmeDecorator } from '@weco/cardigan_new/config/decorators';
 import { clock } from '@weco/common/icons';
 import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
 import Readme from '@weco/content/components/LinkLabels/README.mdx';

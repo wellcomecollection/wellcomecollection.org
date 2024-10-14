@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { themeColors } from '@weco/cardigan_new/.storybook/preview';
 
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { ReadmeDecorator } from '@weco/cardigan_new/config/decorators';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import Readme from '@weco/common/views/components/Divider/README.mdx';
 

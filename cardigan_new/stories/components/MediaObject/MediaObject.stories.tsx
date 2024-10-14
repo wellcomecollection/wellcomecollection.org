@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import { imageWithCrops } from '@weco/cardigan/stories/data/images';
+import { ReadmeDecorator } from '@weco/cardigan_new/config/decorators';
+import { imageWithCrops } from '@weco/cardigan_new/stories/data/images';
 import { mockData } from '@weco/common/test/fixtures/components/media-object';
 import { MediaObject } from '@weco/content/components/MediaObject/MediaObject';
 import Readme from '@weco/content/components/MediaObject/README.mdx';

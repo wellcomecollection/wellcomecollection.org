@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { ReadmeDecorator } from '@weco/cardigan_new/config/decorators';
 import useValidation from '@weco/common/hooks/useValidation';
 import TextInput from '@weco/common/views/components/TextInput';
 import Readme from '@weco/common/views/components/TextInput/README.mdx';

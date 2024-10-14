@@ -1,12 +1,12 @@
 import { Meta, StoryObj } from '@storybook/react';
 import styled from 'styled-components';
 
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { ReadmeDecorator } from '@weco/cardigan_new/config/decorators';
 import {
   bookImageUrl,
   florenceWinterfloodImageUrl,
   image,
-} from '@weco/cardigan/stories/data/images';
+} from '@weco/cardigan_new/stories/data/images';
 import { EmbedSlice as RawEmbedSlice } from '@weco/common/prismicio-types';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { font } from '@weco/common/utils/classnames';

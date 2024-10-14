@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { ReadmeDecorator } from '@weco/cardigan_new/config/decorators';
 import { WebsiteIssuesBanner } from '@weco/common/views/components/InfoBanners';
 import Readme from '@weco/common/views/components/InfoBanners/README.mdx';
 

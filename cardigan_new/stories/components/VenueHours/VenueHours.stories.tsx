@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
 
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { ReadmeDecorator } from '@weco/cardigan_new/config/decorators';
 import { Venue } from '@weco/common/model/opening-hours';
 import { galleriesVenue } from '@weco/common/test/fixtures/components/galleries-venue';
 import VenueHours from '@weco/content/components/VenueHours';

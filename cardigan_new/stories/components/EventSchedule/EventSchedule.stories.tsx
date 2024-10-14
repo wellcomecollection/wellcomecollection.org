@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import { darkCloudImageUrl } from '@weco/cardigan/stories/data/images';
+import { ReadmeDecorator } from '@weco/cardigan_new/config/decorators';
+import { darkCloudImageUrl } from '@weco/cardigan_new/stories/data/images';
 import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule';
 import Readme from '@weco/content/components/EventSchedule/README.mdx';
 

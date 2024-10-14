@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { imagesBaseUrl } from '@weco/cardigan/stories/data/images';
+import { imagesBaseUrl } from '@weco/cardigan_new/stories/data/images';
 import { ImageType } from '@weco/common/model/image';
 import SeasonsHeader from '@weco/content/components/SeasonsHeader';
 import { Season } from '@weco/content/types/seasons';
