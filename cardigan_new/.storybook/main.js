@@ -6,8 +6,11 @@ module.exports = {
   stories: [
     '../stories/global/**/*.mdx',
     '../stories/global/**/*.stories.tsx',
-    '../stories/components/**/*.stories.tsx'
+    '../stories/components/**/*.stories.tsx',
   ],
+  docs: {
+    defaultName: 'Overview',
+  },
 
   addons: [
     getAbsolutePath('@storybook/addon-controls'),
@@ -59,7 +62,7 @@ module.exports = {
 
   framework: {
     name: getAbsolutePath('@storybook/nextjs'),
-    options: {}
+    options: {},
   },
 };
 
