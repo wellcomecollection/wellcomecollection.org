@@ -7,7 +7,7 @@ import {
   bornDigitalMessage,
   treeInstructions,
 } from '@weco/common/data/microcopy';
-import { eye } from '@weco/common/icons';
+import { eye, info2 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { LinkProps } from '@weco/common/model/link-props';
 import { useToggles } from '@weco/common/server-data/Context';
@@ -15,6 +15,8 @@ import { font } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Button from '@weco/common/views/components/Buttons';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import {
   controlDimensions,
@@ -47,6 +49,39 @@ import { DigitalLocationInfo } from '@weco/content/utils/works';
 
 import WorkDetailsLicence from './WorkDetails.Licence';
 import WorkDetailsSection from './WorkDetails.Section';
+
+const RestrictedMessage = styled(Space).attrs({
+  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+})`
+  position: relative;
+  border-radius: 3px;
+  border: 1px solid ${props => props.theme.color('black')};
+  background-color: ${props => props.theme.color('white')};
+
+  &::after {
+    position: absolute;
+    content: '';
+    bottom: -4px;
+    left: -1px;
+    height: 8px;
+    width: calc(100% + 2px);
+    border-radius: 3px;
+    background-color: ${props => props.theme.color('black')};
+    z-index: -1;
+  }
+`;
+
+const RestrictedMessageTitle = styled.div`
+  h3 {
+    padding-left: 32px;
+    margin-bottom: 4px;
+  }
+
+  .icon {
+    position: absolute;
+  }
+`;
 
 const TreeHeadings = styled(Space).attrs({
   $v: { size: 'xl', properties: ['margin-top'] },
@@ -100,6 +135,10 @@ const ItemPageLink = ({
   canvasCount,
   digitalLocationInfo,
 }) => {
+  const isDownloadable =
+    digitalLocationInfo?.accessCondition !== 'open-with-advisory' &&
+    downloadOptions.length > 0;
+
   return (
     <>
       {work.thumbnail && (
@@ -132,28 +171,29 @@ const ItemPageLink = ({
           </ConditionalWrapper>
         </Space>
       )}
-      <div style={{ display: 'flex' }}>
-        {itemUrl && (
-          <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
-            <Button
-              variant="ButtonSolidLink"
-              icon={eye}
-              text="View"
-              link={{ ...itemUrl }}
-            />
-          </Space>
+
+      {/*  TODO finish this section */}
+      <ConditionalWrapper
+        condition={true}
+        wrapper={children => (
+          <Layout gridSizes={gridSize10(false)}>
+            <RestrictedMessage>
+              <RestrictedMessageTitle>
+                <Icon icon={info2} />
+                <h3 className={font('intsb', 4)}>Restricted item</h3>
+              </RestrictedMessageTitle>
+
+              <p className={font('intr', 5)}>
+                This page is hidden from the public and can only be viewed by
+                some staff.
+              </p>
+              {children}
+            </RestrictedMessage>
+          </Layout>
         )}
-        {digitalLocationInfo?.accessCondition !== 'open-with-advisory' &&
-          downloadOptions.length > 0 && (
-            <Download
-              ariaControlsId="itemDownloads"
-              downloadOptions={downloadOptions}
-            />
-          )}
-      </div>
-      {(Boolean(collectionManifestsCount && collectionManifestsCount > 0) ||
-        Boolean(canvasCount && canvasCount > 0)) && (
-        <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+      >
+        {(Boolean(collectionManifestsCount && collectionManifestsCount > 0) ||
+          Boolean(canvasCount && canvasCount > 0)) && (
           <p className={`${font('lr', 6)}`} style={{ marginBottom: 0 }}>
             Contains:{' '}
             {collectionManifestsCount && collectionManifestsCount > 0
@@ -164,8 +204,32 @@ const ItemPageLink = ({
                 ? `${canvasCount} ${canvasCount === 1 ? 'image' : 'images'}`
                 : ''}
           </p>
-        </Space>
-      )}
+        )}
+
+        {(itemUrl || isDownloadable) && (
+          <Space
+            $v={{ size: 's', properties: ['margin-top'] }}
+            style={{ display: 'flex' }}
+          >
+            {itemUrl && (
+              <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
+                <Button
+                  variant="ButtonSolidLink"
+                  icon={eye}
+                  text="View"
+                  link={{ ...itemUrl }}
+                />
+              </Space>
+            )}
+            {isDownloadable && (
+              <Download
+                ariaControlsId="itemDownloads"
+                downloadOptions={downloadOptions}
+              />
+            )}
+          </Space>
+        )}
+      </ConditionalWrapper>
     </>
   );
 };
