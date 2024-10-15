@@ -59,26 +59,17 @@ const meta: Meta<typeof Tabs> = {
       {
         id: 'all',
         text: 'All',
-        url: {
-          href: '#one',
-          as: '#one',
-        },
+        url: '#one',
       },
       {
         id: 'slightly-longer',
         text: 'Slightly longer title to test with',
-        url: {
-          href: '#two',
-          as: '#two',
-        },
+        url: '#two',
       },
       {
         id: 'pictures',
         text: 'Pictures',
-        url: {
-          href: '#three',
-          as: '#three',
-        },
+        url: '#three',
       },
     ],
   },
