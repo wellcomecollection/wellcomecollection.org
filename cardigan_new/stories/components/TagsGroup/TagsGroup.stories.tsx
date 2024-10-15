@@ -13,36 +13,36 @@ const meta: Meta<typeof TagsGroup> = {
       {
         textParts: ['SoundCloud'],
         linkAttributes: {
-          href: { pathname: '/', query: '' },
-          as: { pathname: '/', query: '' },
+          href: { pathname: '/', query: {} },
+          as: { pathname: '/', query: {} },
         },
       },
       {
         textParts: ['Google Podcasts'],
         linkAttributes: {
-          href: { pathname: '/', query: '' },
-          as: { pathname: '/', query: '' },
+          href: { pathname: '/', query: {} },
+          as: { pathname: '/', query: {} },
         },
       },
       {
         textParts: ['Spotify'],
         linkAttributes: {
-          href: { pathname: '/', query: '' },
-          as: { pathname: '/', query: '' },
+          href: { pathname: '/', query: {} },
+          as: { pathname: '/', query: {} },
         },
       },
       {
         textParts: ['Apple'],
         linkAttributes: {
-          href: { pathname: '/', query: '' },
-          as: { pathname: '/', query: '' },
+          href: { pathname: '/', query: {} },
+          as: { pathname: '/', query: {} },
         },
       },
       {
         textParts: ['Player'],
         linkAttributes: {
-          href: { pathname: '/', query: '' },
-          as: { pathname: '/', query: '' },
+          href: { pathname: '/', query: {} },
+          as: { pathname: '/', query: {} },
         },
       },
     ],
