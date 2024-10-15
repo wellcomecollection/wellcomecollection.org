@@ -1,21 +1,24 @@
-import { dirname, join } from "path";
 const path = require('path');
 module.exports = {
-
+  core: {
+    builder: 'webpack5',
+  },
   stories: [
-    '../stories/global/**/*.mdx',
+    '../stories/global/**/*.stories.mdx',
     '../stories/global/**/*.stories.tsx',
-    '../stories/components/**/*.stories.tsx'
+    '../stories/components/**/*.stories.mdx',
+    '../stories/components/**/*.stories.tsx',
   ],
-
   addons: [
-    getAbsolutePath("@storybook/addon-controls"),
-    getAbsolutePath("@storybook/addon-a11y"),
-    getAbsolutePath("@storybook/addon-backgrounds"),
-    getAbsolutePath("@storybook/addon-docs"),
-    '@chromatic-com/storybook'
+    '@storybook/addon-controls',
+    '@storybook/addon-a11y',
+    '@storybook/addon-backgrounds',
+    'storybook-addon-next-router',
+    {
+      name: '@storybook/addon-docs',
+      options: { transcludeMarkdown: true },
+    },
   ],
-
   webpackFinal: async (config, { configType }) => {
     // Adds support for modules using mjs
     config.module.rules.push({
@@ -55,19 +58,4 @@ module.exports = {
 
     return config;
   },
-
-  framework: {
-    name: getAbsolutePath("@storybook/nextjs"),
-    options: {}
-  },
-
-  docs: {},
-
-  typescript: {
-    reactDocgen: 'react-docgen-typescript'
-  }
 };
-
-function getAbsolutePath(value) {
-  return dirname(require.resolve(join(value, "package.json")));
-}
