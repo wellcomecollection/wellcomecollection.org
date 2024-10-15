@@ -2,12 +2,11 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan_new/config/decorators';
 import { chevron } from '@weco/common/icons';
-import Control from '@weco/common/views/components/Control';
+import Control, { ButtonProps } from '@weco/common/views/components/Control';
 import ControlReadme from '@weco/common/views/components/Control/README.mdx';
 
-const meta: Meta<typeof Control> = {
+const meta: Meta<ButtonProps> = {
   title: 'Components/Buttons/Alternates/Control',
-  component: Control,
   args: {
     text: 'something for screenreaders',
     icon: chevron,
@@ -17,7 +16,7 @@ const meta: Meta<typeof Control> = {
 
 export default meta;
 
-type Story = StoryObj<typeof Control>;
+type Story = StoryObj<ButtonProps>;
 
 export const Basic: Story = {
   name: 'Control',
