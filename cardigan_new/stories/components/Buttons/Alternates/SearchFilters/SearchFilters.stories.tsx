@@ -52,7 +52,6 @@ const meta: Meta<typeof SearchFilters> = {
         from: { id: 'from', value: '' },
         to: { id: 'to', value: '' },
       },
-      { type: 'color', name: 'color' },
     ],
   },
 };
