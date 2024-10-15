@@ -151,7 +151,7 @@ const schedule = [
       ],
       isPast: true,
       isOnline: false,
-      availableOnline: null,
+      availableOnline: false,
       primaryLabels: [
         {
           text: 'Performance',

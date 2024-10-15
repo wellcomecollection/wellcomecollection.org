@@ -20,7 +20,6 @@ const meta: Meta<typeof Contributors> = {
           id: 'xxx',
           title: 'Speaker',
         },
-        description: null,
       },
       {
         contributor: {
@@ -32,7 +31,6 @@ const meta: Meta<typeof Contributors> = {
           id: 'xxx',
           title: 'Partner',
         },
-        description: null,
       },
     ],
   },

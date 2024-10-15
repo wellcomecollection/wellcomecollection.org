@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { eye } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import Button from '@weco/common/views/components/Buttons';
+import Button, { ButtonProps } from '@weco/common/views/components/Buttons';
 import theme from '@weco/common/views/themes/default';
 
 function getColor(color) {
@@ -28,44 +28,49 @@ const meta: Meta<typeof Button> = {
 
 export default meta;
 
-type Story = StoryObj<typeof Button>;
+type StoryProps = {
+  showIcon: boolean;
+  storyColors: 'Default' | 'Green border' | 'Yellow' | 'White' | 'White border';
+};
+
+type Story = StoryObj<ButtonProps & StoryProps>;
 
 export const Basic: Story = {
   name: 'Solid',
   args: {
     variant: 'ButtonSolid',
-    colors: 'default',
     size: 'medium',
-    icon: true,
     isIconAfter: false,
     isTextHidden: false,
     disabled: false,
+    storyColors: 'Default',
+    showIcon: true,
   },
   argTypes: {
     variant: {
       options: ['ButtonSolid', 'ButtonSolidLink'],
       control: { type: 'radio' },
     },
-    colors: {
-      options: ['Default', 'Green border', 'Yellow', 'White', 'White border'],
-      control: 'select',
-    },
     size: {
       options: ['small', 'medium'],
       control: { type: 'radio' },
     },
-    icon: { control: 'boolean' },
     isIconAfter: { control: 'boolean' },
     isTextHidden: { control: 'boolean' },
     disabled: { control: 'boolean' },
+    showIcon: { control: 'boolean' },
+    storyColors: {
+      options: ['Default', 'Green border', 'Yellow', 'White', 'White border'],
+      control: 'select',
+    },
   },
   render: args => {
-    const { icon, colors, variant, ...restOfArgs } = args;
+    const { showIcon, storyColors, variant, ...restOfArgs } = args;
     return (
       <div
         style={{
           padding: '20px',
-          backgroundColor: colors.includes('White')
+          backgroundColor: storyColors.includes('White')
             ? theme.color('black')
             : undefined,
         }}
@@ -73,8 +78,8 @@ export const Basic: Story = {
         <Button
           text="Click me"
           ariaLabel="Cardigan button example"
-          icon={icon ? eye : undefined}
-          colors={getColor(colors)}
+          icon={showIcon ? eye : undefined}
+          colors={getColor(storyColors)}
           link={args.variant === 'ButtonSolidLink' ? '#' : undefined}
           clickHandler={e => {
             e.preventDefault();
