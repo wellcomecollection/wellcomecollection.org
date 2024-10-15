@@ -18,7 +18,10 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
@@ -351,7 +354,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             </div>
           </FlushContainer>
 
-          <Layout gridSizes={gridSize8()}>
+          <ContaineredLayout gridSizes={gridSize8()}>
             <StickyPlayer $sticky={type !== 'bsl'}>
               {type === 'bsl' ? (
                 <>
@@ -389,7 +392,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                 </Space>
               </Space>
             )}
-          </Layout>
+          </ContaineredLayout>
         </div>
         {/* PrevNext needs a view-transition-name even though it isn't transitioning: https://www.nicchan.me/blog/view-transitions-and-stacking-context/#the-workaround */}
         <PrevNext style={{ viewTransitionName: 'prevnext' }}>

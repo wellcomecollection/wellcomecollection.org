@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { getCrop } from '@weco/common/model/image';
 import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import Layout, {
+import {
+  ContaineredLayout,
   gridSize10,
   gridSize12,
 } from '@weco/common/views/components/Layout';
@@ -32,7 +33,7 @@ const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
   const superWidescreenImage = getCrop(season.image, '32:15');
 
   return (
-    <Layout gridSizes={gridSize12()}>
+    <ContaineredLayout gridSizes={gridSize12()}>
       <HeaderWrapper>
         <WobblyBottom backgroundColor="white">
           {superWidescreenImage && (
@@ -47,7 +48,7 @@ const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
           <Space
             $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
-            <Layout gridSizes={gridSize10()}>
+            <ContaineredLayout gridSizes={gridSize10()}>
               <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
                 <TextWrapper>
                   <Space $h={{ size: 'm', properties: ['padding-left'] }}>
@@ -84,11 +85,11 @@ const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
                   </Space>
                 </TextWrapper>
               </Space>
-            </Layout>
+            </ContaineredLayout>
           </Space>
         </WobblyBottom>
       </HeaderWrapper>
-    </Layout>
+    </ContaineredLayout>
   );
 };
 

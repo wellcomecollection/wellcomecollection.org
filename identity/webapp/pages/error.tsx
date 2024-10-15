@@ -5,7 +5,10 @@ import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { StyledButton } from '@weco/common/views/components/Buttons';
-import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize10,
+} from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
 import CustomError from '@weco/identity/src/frontend/components/CustomError';
@@ -18,7 +21,7 @@ import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper'
 const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
   return (
     <PageWrapper title="Error">
-      <Layout gridSizes={gridSize10()}>
+      <ContaineredLayout gridSizes={gridSize10()}>
         <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
@@ -38,7 +41,7 @@ const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
             </Wrapper>
           </Container>
         </Space>
-      </Layout>
+      </ContaineredLayout>
     </PageWrapper>
   );
 };

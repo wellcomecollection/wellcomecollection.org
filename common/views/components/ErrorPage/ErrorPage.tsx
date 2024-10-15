@@ -13,7 +13,10 @@ import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { dangerouslyGetEnabledToggles } from '@weco/common/utils/cookies';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import PageHeader, {
   headerSpaceSize,
 } from '@weco/common/views/components/PageHeader/PageHeader';
@@ -87,7 +90,7 @@ const TogglesMessage: FunctionComponent = () => {
 
   return toggles.length > 0 ? (
     <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-      <Layout gridSizes={gridSize8()}>
+      <ContaineredLayout gridSizes={gridSize8()}>
         <MessageBar>
           <Space $h={{ size: 's', properties: ['margin-right'] }}>
             <Icon icon={underConstruction} />
@@ -108,7 +111,7 @@ const TogglesMessage: FunctionComponent = () => {
             .
           </Space>
         </MessageBar>
-      </Layout>
+      </ContaineredLayout>
     </Space>
   ) : null;
 };
@@ -128,7 +131,7 @@ const SafariPreviewMessage: FunctionComponent = () => {
 
   return showPreviewSafariMessage ? (
     <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-      <Layout gridSizes={gridSize8()}>
+      <ContaineredLayout gridSizes={gridSize8()}>
         <MessageBar>
           <Space $h={{ size: 's', properties: ['margin-right'] }}>
             <Icon icon={underConstruction} />
@@ -138,7 +141,7 @@ const SafariPreviewMessage: FunctionComponent = () => {
             browser, or enable cross-site cookies.
           </Space>
         </MessageBar>
-      </Layout>
+      </ContaineredLayout>
     </Space>
   ) : null;
 };

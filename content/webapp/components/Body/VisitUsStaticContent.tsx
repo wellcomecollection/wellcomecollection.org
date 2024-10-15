@@ -5,7 +5,10 @@ import { usePrismicData } from '@weco/common/server-data/Context';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import { font, grid } from '@weco/common/utils/classnames';
 import FindUs from '@weco/common/views/components/FindUs/FindUs';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
@@ -14,7 +17,7 @@ import SpacingSection from '@weco/common/views/components/styled/SpacingSection'
 const Container: FunctionComponent<PropsWithChildren> = ({ children }) => (
   <SpacingSection>
     <SpacingComponent>
-      <Layout gridSizes={gridSize12()}>{children}</Layout>
+      <ContaineredLayout gridSizes={gridSize12()}>{children}</ContaineredLayout>
     </SpacingComponent>
   </SpacingSection>
 );

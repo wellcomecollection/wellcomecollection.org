@@ -13,7 +13,8 @@ import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import Control from '@weco/common/views/components/Control';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import Layout, {
+import {
+  ContaineredLayout,
   gridSize10,
   gridSize12,
   gridSize8,
@@ -134,7 +135,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
   return (
     <>
       {!isStandalone && !isFrames && (
-        <Layout gridSizes={gridSize8()}>
+        <ContaineredLayout gridSizes={gridSize8()}>
           <GalleryTitle>
             <Space as="span" $h={{ size: 's', properties: ['margin-right'] }}>
               <Icon icon={gallery} />
@@ -143,7 +144,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
               {title || 'In pictures'}
             </h2>
           </GalleryTitle>
-        </Layout>
+        </ContaineredLayout>
       )}
       <Gallery
         id={`image-gallery-${id}`}
@@ -160,7 +161,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
             background: `url(${repeatingLsBlack}) no-repeat top center`,
           }}
         />
-        <Layout gridSizes={getGridSize()}>
+        <ContaineredLayout gridSizes={getGridSize()}>
           {comicPreviousNext && <ComicPreviousNext {...comicPreviousNext} />}
           <Space
             $v={
@@ -266,7 +267,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
               </ButtonContainer>
             )}
           </Space>
-        </Layout>
+        </ContaineredLayout>
       </Gallery>
     </>
   );

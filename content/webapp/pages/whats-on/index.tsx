@@ -35,7 +35,10 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
@@ -442,13 +445,13 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
           todaysOpeningHours={todaysOpeningHours}
           featuredText={featuredText}
         />
-        <Layout gridSizes={gridSize12()}>
+        <ContaineredLayout gridSizes={gridSize12()}>
           <DateRange dateRange={dateRange} period={period} />
 
           {period === 'today' && todaysOpeningHours?.isClosed && (
             <ClosedMessage />
           )}
-        </Layout>
+        </ContaineredLayout>
         <Space $v={{ size: 'm', properties: ['margin-top'] }}>
           {period === 'current-and-coming-up' && (
             <>
@@ -463,17 +466,17 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                   <SpacingComponent>
                     <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
                       {firstExhibition ? (
-                        <Layout gridSizes={gridSize12()}>
+                        <ContaineredLayout gridSizes={gridSize12()}>
                           <FeaturedCardExhibition
                             exhibition={firstExhibition}
                             background="warmNeutral.300"
                             textColor="black"
                           />
-                        </Layout>
+                        </ContaineredLayout>
                       ) : (
-                        <Layout gridSizes={gridSize12()}>
+                        <ContaineredLayout gridSizes={gridSize12()}>
                           <p>There are no current exhibitions</p>
-                        </Layout>
+                        </ContaineredLayout>
                       )}
                     </Space>
                   </SpacingComponent>
@@ -500,9 +503,9 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                         links={[{ text: 'View all events', url: '/events' }]}
                       />
                     ) : (
-                      <Layout gridSizes={gridSize12()}>
+                      <ContaineredLayout gridSizes={gridSize12()}>
                         <p>There are no upcoming events</p>
-                      </Layout>
+                      </ContaineredLayout>
                     )}
                   </SpacingComponent>
                 </SpacingSection>
@@ -524,9 +527,9 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                         ]}
                       />
                     ) : (
-                      <Layout gridSizes={gridSize12()}>
+                      <ContaineredLayout gridSizes={gridSize12()}>
                         <p>There are no upcoming catch up events</p>
-                      </Layout>
+                      </ContaineredLayout>
                     )}
                   </SpacingComponent>
                 </SpacingSection>
@@ -542,7 +545,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                     properties: ['padding-top', 'margin-bottom'],
                   }}
                 >
-                  <Layout gridSizes={gridSize12()}>
+                  <ContaineredLayout gridSizes={gridSize12()}>
                     <div
                       style={{
                         display: 'flex',
@@ -553,7 +556,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                       <h2 className={font('wb', 2)}>Exhibitions and Events</h2>
                       <span className={font('intb', 4)}>Free admission</span>
                     </div>
-                  </Layout>
+                  </ContaineredLayout>
                 </Space>
                 <ExhibitionsAndEvents
                   exhibitions={exhibitionsToShow}
