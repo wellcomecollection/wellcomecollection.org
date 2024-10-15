@@ -1,24 +1,21 @@
+import { dirname, join } from "path";
 const path = require('path');
 module.exports = {
-  core: {
-    builder: 'webpack5',
-  },
+
   stories: [
-    '../stories/global/**/*.stories.mdx',
+    '../stories/global/**/*.mdx',
     '../stories/global/**/*.stories.tsx',
-    '../stories/components/**/*.stories.mdx',
-    '../stories/components/**/*.stories.tsx',
+    '../stories/components/**/*.stories.tsx'
   ],
+
   addons: [
-    '@storybook/addon-controls',
-    '@storybook/addon-a11y',
-    '@storybook/addon-backgrounds',
-    'storybook-addon-next-router',
-    {
-      name: '@storybook/addon-docs',
-      options: { transcludeMarkdown: true },
-    },
+    getAbsolutePath("@storybook/addon-controls"),
+    getAbsolutePath("@storybook/addon-a11y"),
+    getAbsolutePath("@storybook/addon-backgrounds"),
+    getAbsolutePath("@storybook/addon-docs"),
+    '@chromatic-com/storybook'
   ],
+
   webpackFinal: async (config, { configType }) => {
     // Adds support for modules using mjs
     config.module.rules.push({
@@ -48,6 +45,29 @@ module.exports = {
       },
     });
 
+    config.resolve.fallback = {
+      stream: require.resolve('stream-browserify'),
+      path: require.resolve('path-browserify'),
+      crypto: require.resolve('crypto-browserify'),
+      fs: require.resolve('browserify-fs'),
+      zlib: require.resolve('browserify-zlib'),
+    };
+
     return config;
   },
+
+  framework: {
+    name: getAbsolutePath("@storybook/nextjs"),
+    options: {}
+  },
+
+  docs: {},
+
+  typescript: {
+    reactDocgen: 'react-docgen-typescript'
+  }
 };
+
+function getAbsolutePath(value) {
+  return dirname(require.resolve(join(value, "package.json")));
+}
