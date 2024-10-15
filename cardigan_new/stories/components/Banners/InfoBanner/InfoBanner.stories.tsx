@@ -18,6 +18,8 @@ export const Basic: Story = {
   args: {
     document: {
       data: {
+        isShown: 'show',
+        routeRegex: '',
         text: [
           {
             type: 'paragraph',
