@@ -16,7 +16,7 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import Button from '@weco/common/views/components/Buttons';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
+import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import {
   controlDimensions,
@@ -73,13 +73,13 @@ const RestrictedMessage = styled(Space).attrs({
 `;
 
 const RestrictedMessageTitle = styled.div`
-  h3 {
-    padding-left: 32px;
-    margin-bottom: 4px;
-  }
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
 
-  .icon {
-    position: absolute;
+  h3 {
+    padding-left: 8px;
+    margin-bottom: 0;
   }
 `;
 
@@ -139,6 +139,13 @@ const ItemPageLink = ({
     digitalLocationInfo?.accessCondition !== 'open-with-advisory' &&
     downloadOptions.length > 0;
 
+  const isRestrictedAndVisible = true;
+
+  //  TODO
+  // const isRestrictedAndVisible =
+  //   digitalLocationInfo?.accessCondition === 'restricted' &&
+  //   user?.role === 'StaffWithRestricted';
+
   return (
     <>
       {work.thumbnail && (
@@ -172,18 +179,17 @@ const ItemPageLink = ({
         </Space>
       )}
 
-      {/*  TODO finish this section */}
       <ConditionalWrapper
-        condition={true}
+        condition={isRestrictedAndVisible}
         wrapper={children => (
-          <Layout gridSizes={gridSize10(false)}>
+          <Layout gridSizes={gridSize8(false)}>
             <RestrictedMessage>
               <RestrictedMessageTitle>
-                <Icon icon={info2} />
+                <Icon icon={info2} attrs={{}} />
                 <h3 className={font('intsb', 4)}>Restricted item</h3>
               </RestrictedMessageTitle>
 
-              <p className={font('intr', 5)}>
+              <p className={font('intr', 5)} style={{ marginBottom: '1rem' }}>
                 This page is hidden from the public and can only be viewed by
                 some staff.
               </p>
@@ -192,19 +198,28 @@ const ItemPageLink = ({
           </Layout>
         )}
       >
-        {(Boolean(collectionManifestsCount && collectionManifestsCount > 0) ||
-          Boolean(canvasCount && canvasCount > 0)) && (
-          <p className={`${font('lr', 6)}`} style={{ marginBottom: 0 }}>
-            Contains:{' '}
-            {collectionManifestsCount && collectionManifestsCount > 0
-              ? `${collectionManifestsCount} ${
-                  collectionManifestsCount === 1 ? 'volume' : 'volumes'
-                }`
-              : canvasCount && canvasCount > 0
-                ? `${canvasCount} ${canvasCount === 1 ? 'image' : 'images'}`
-                : ''}
-          </p>
-        )}
+        <ConditionalWrapper
+          condition={isRestrictedAndVisible}
+          wrapper={children => (
+            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+              {children}
+            </Space>
+          )}
+        >
+          {(Boolean(collectionManifestsCount && collectionManifestsCount > 0) ||
+            Boolean(canvasCount && canvasCount > 0)) && (
+            <p className={`${font('lr', 6)}`} style={{ marginBottom: 0 }}>
+              Contains:{' '}
+              {collectionManifestsCount && collectionManifestsCount > 0
+                ? `${collectionManifestsCount} ${
+                    collectionManifestsCount === 1 ? 'volume' : 'volumes'
+                  }`
+                : canvasCount && canvasCount > 0
+                  ? `${canvasCount} ${canvasCount === 1 ? 'image' : 'images'}`
+                  : ''}
+            </p>
+          )}
+        </ConditionalWrapper>
 
         {(itemUrl || isDownloadable) && (
           <Space

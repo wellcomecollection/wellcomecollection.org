@@ -28,6 +28,7 @@ import { getDigitalLocationInfo } from '@weco/content/utils/works';
 import MultipleManifestList from './MultipleManifestList';
 import ViewerStructures from './ViewerStructures';
 
+//  TODO Align with other one more?
 const RestrictedMessage = styled(Space).attrs({
   $h: { size: 'm', properties: ['margin-left', 'margin-right'] },
 })`
@@ -185,13 +186,13 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   const digitalLocationInfo =
     digitalLocation && getDigitalLocationInfo(digitalLocation);
 
-  const treatAsRestricted =
+  const isRestrictedAndVisible =
     digitalLocationInfo?.accessCondition === 'restricted' &&
     user?.role === 'StaffWithRestricted';
 
   return (
     <>
-      {treatAsRestricted && (
+      {isRestrictedAndVisible && (
         <RestrictedMessage>
           <Space
             $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
