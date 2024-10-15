@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import Table from '@weco/content/components/Table';
+import Table, { Props } from '@weco/content/components/Table';
 
 const headerInFirstRow = [
   ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
@@ -58,7 +58,12 @@ const Template = args => {
   );
 };
 
-const meta: Meta<typeof Table> = {
+type StoryProps = {
+  headerPosition: 'row' | 'column';
+  addMoreContent: boolean;
+};
+
+const meta: Meta<Props & StoryProps> = {
   title: 'Components/Table',
   component: Table,
   args: {
@@ -96,7 +101,7 @@ const meta: Meta<typeof Table> = {
 
 export default meta;
 
-type Story = StoryObj<typeof Table>;
+type Story = StoryObj<Props>;
 
 export const Basic: Story = {
   name: 'Table',
