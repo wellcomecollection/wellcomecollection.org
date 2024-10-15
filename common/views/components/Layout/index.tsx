@@ -3,7 +3,7 @@ import { FunctionComponent, PropsWithChildren } from 'react';
 import { grid, SizeMap } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
 
-export const gridSize6 = () => ({
+const gridSize6 = () => ({
   s: 12,
   m: 6,
   shiftM: 1,
@@ -13,7 +13,7 @@ export const gridSize6 = () => ({
   shiftXl: 2,
 });
 
-export const gridSize8 = (shift = true) => ({
+const gridSize8 = (shift = true) => ({
   s: 12,
   m: 10,
   shiftM: shift ? 1 : 0,
@@ -23,7 +23,7 @@ export const gridSize8 = (shift = true) => ({
   shiftXL: shift ? 2 : 0,
 });
 
-export const gridSize10 = (isCentered = true) => ({
+const gridSize10 = (isCentered = true) => ({
   s: 12,
   m: 10,
   shiftM: isCentered ? 1 : 0,
@@ -33,17 +33,28 @@ export const gridSize10 = (isCentered = true) => ({
   shiftXl: isCentered ? 1 : 0,
 });
 
-export const gridSize12 = () => ({ s: 12, m: 12, l: 12, xl: 12 });
+const gridSize12 = () => ({ s: 12, m: 12, l: 12, xl: 12 });
 
 type Props = PropsWithChildren<{
   gridSizes: SizeMap;
 }>;
 
-const Layout: FunctionComponent<Props> = ({ gridSizes, children }) => (
+const ContaineredLayout: FunctionComponent<Props> = ({
+  gridSizes,
+  children,
+}) => (
   <Container>
     <div className="grid">
       <div className={grid(gridSizes)}>{children}</div>
     </div>
   </Container>
 );
+
+const Layout: FunctionComponent<Props> = ({ gridSizes, children }) => (
+  <div className="grid">
+    <div className={grid(gridSizes)}>{children}</div>
+  </div>
+);
+
+export { ContaineredLayout, gridSize12, gridSize10, gridSize8, gridSize6 };
 export default Layout;

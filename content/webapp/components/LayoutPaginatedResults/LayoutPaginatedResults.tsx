@@ -5,7 +5,10 @@ import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { pluralize } from '@weco/common/utils/grammar';
 import Breadcrumb from '@weco/common/views/components/Breadcrumb/Breadcrumb';
 import Divider from '@weco/common/views/components/Divider/Divider';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
@@ -69,7 +72,7 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
     {children}
 
     {paginatedResults.totalPages > 1 && (
-      <Layout gridSizes={gridSize12()}>
+      <ContaineredLayout gridSizes={gridSize12()}>
         <PaginationWrapper $verticalSpacing="l">
           <span>{pluralize(paginatedResults.totalResults, 'result')}</span>
 
@@ -83,28 +86,28 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
         <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
           <Divider />
         </Space>
-      </Layout>
+      </ContaineredLayout>
     )}
 
     <Space $v={{ size: 'l', properties: ['margin-top'] }}>
       {paginatedResults.results.length > 0 ? (
         <CardGrid items={paginatedResults.results} itemsPerRow={3} />
       ) : (
-        <Layout gridSizes={gridSize12()}>
+        <ContaineredLayout gridSizes={gridSize12()}>
           <p>There are no results.</p>
-        </Layout>
+        </ContaineredLayout>
       )}
     </Space>
 
     {paginatedResults.totalPages > 1 && (
-      <Layout gridSizes={gridSize12()}>
+      <ContaineredLayout gridSizes={gridSize12()}>
         <PaginationWrapper $verticalSpacing="l" $alignRight>
           <Pagination
             totalPages={paginatedResults.totalPages}
             ariaLabel="Results pagination"
           />
         </PaginationWrapper>
-      </Layout>
+      </ContaineredLayout>
     )}
   </>
 );

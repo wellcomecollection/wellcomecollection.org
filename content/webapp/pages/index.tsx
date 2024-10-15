@@ -18,7 +18,8 @@ import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import Layout, {
+import {
+  ContaineredLayout,
   gridSize10,
   gridSize12,
 } from '@weco/common/views/components/Layout';
@@ -213,7 +214,7 @@ const Homepage: FunctionComponent<Props> = ({
         image={pageImage}
         apiToolbarLinks={[createPrismicLink(homepageId)]}
       >
-        <Layout gridSizes={gridSize10(false)}>
+        <ContaineredLayout gridSizes={gridSize10(false)}>
           <SpacingSection>
             <Space
               $v={{ size: 'l', properties: ['margin-top'] }}
@@ -235,7 +236,7 @@ const Homepage: FunctionComponent<Props> = ({
               </CreamBox>
             )}
           </SpacingSection>
-        </Layout>
+        </ContaineredLayout>
         {transformedHeaderList && (
           <SpacingSection>
             {transformedHeaderList.value.title && (

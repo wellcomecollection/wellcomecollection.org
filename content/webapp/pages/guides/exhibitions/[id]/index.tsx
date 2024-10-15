@@ -15,7 +15,10 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize10,
+} from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
@@ -357,7 +360,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
         }}
         isSlim
       />
-      <Layout gridSizes={gridSize10(false)}>
+      <ContaineredLayout gridSizes={gridSize10(false)}>
         <SpacingSection>
           <Space $v={{ size: 'l', properties: ['margin-top'] }}>
             {/* Links to ExhibitionTexts and ExhibitionHighlightTours */}
@@ -379,7 +382,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
             )}
           </Space>
         </SpacingSection>
-      </Layout>
+      </ContaineredLayout>
       {otherExhibitionGuides?.length > 0 && (
         <OtherExhibitionGuides otherExhibitionGuides={otherExhibitionGuides} />
       )}

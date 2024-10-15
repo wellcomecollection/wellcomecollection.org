@@ -5,7 +5,10 @@ import { DigitalLocation } from '@weco/common/model/catalogue';
 import { font } from '@weco/common/utils/classnames';
 import { formatDuration } from '@weco/common/utils/format-date';
 import Button from '@weco/common/views/components/Buttons';
-import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize10,
+} from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { themeValues } from '@weco/common/views/themes/config';
@@ -476,7 +479,9 @@ const WorkDetails: FunctionComponent<Props> = ({
       {renderContent()}
     </Space>
   ) : (
-    <Layout gridSizes={gridSize10()}>{renderContent()}</Layout>
+    <ContaineredLayout gridSizes={gridSize10()}>
+      {renderContent()}
+    </ContaineredLayout>
   );
 };
 

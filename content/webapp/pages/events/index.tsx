@@ -8,7 +8,10 @@ import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { Period } from '@weco/common/types/periods';
 import { serialiseProps } from '@weco/common/utils/json';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
@@ -112,11 +115,11 @@ const EventsPage: FunctionComponent<Props> = props => {
           paginatedResults={convertedPaginatedResults}
         />
         {period === 'current-and-coming-up' && (
-          <Layout gridSizes={gridSize12()}>
+          <ContaineredLayout gridSizes={gridSize12()}>
             <Space $v={{ size: 'm', properties: ['margin-top'] }}>
               <MoreLink url="/events/past" name="View past events" />
             </Space>
-          </Layout>
+          </ContaineredLayout>
         )}
       </SpacingSection>
     </PageLayout>

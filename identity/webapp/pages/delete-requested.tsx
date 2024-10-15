@@ -4,7 +4,10 @@ import { getServerData } from '@weco/common/server-data';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
-import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize10,
+} from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { DeleteRequestedText } from '@weco/identity/copy';
 import {
@@ -16,7 +19,7 @@ import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper'
 const DeleteRequestedPage: NextPage = () => {
   return (
     <PageWrapper title="Delete request">
-      <Layout gridSizes={gridSize10()}>
+      <ContaineredLayout gridSizes={gridSize10()}>
         <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
@@ -24,7 +27,7 @@ const DeleteRequestedPage: NextPage = () => {
             </Wrapper>
           </Container>
         </Space>
-      </Layout>
+      </ContaineredLayout>
     </PageWrapper>
   );
 };

@@ -6,7 +6,10 @@ import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
 import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
 import { serialiseProps } from '@weco/common/utils/json';
-import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
@@ -59,13 +62,13 @@ const Newsletter: FunctionComponent<Props> = ({ result }) => {
 
       <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
         <Space $v={{ size: 'xl', properties: ['padding-bottom'] }}>
-          <Layout gridSizes={gridSize8()}>
+          <ContaineredLayout gridSizes={gridSize8()}>
             <NewsletterSignup
               isSuccess={result === 'success'}
               isError={result === 'error'}
               isConfirmed={result === 'confirmed'}
             />
-          </Layout>
+          </ContaineredLayout>
         </Space>
       </Space>
     </PageLayout>
