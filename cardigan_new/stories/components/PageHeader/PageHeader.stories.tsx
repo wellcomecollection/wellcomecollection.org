@@ -152,7 +152,9 @@ export const Article: Story = {
   },
 };
 
-export const ShortFilm: Story = {
+type ShortFilmStory = StoryObj<typeof ContentPage>;
+
+export const ShortFilm: ShortFilmStory = {
   name: 'Short film',
   render: args => (
     <ReadmeDecorator
