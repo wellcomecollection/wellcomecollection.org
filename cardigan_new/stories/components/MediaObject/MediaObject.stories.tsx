@@ -1,3 +1,4 @@
+import { RichTextField } from '@prismicio/client';
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan_new/config/decorators';
@@ -11,7 +12,7 @@ const meta: Meta<typeof MediaObject> = {
   component: MediaObject,
   args: {
     title: mockData.title,
-    text: mockData.text,
+    text: mockData.text as RichTextField,
     image: imageWithCrops,
   },
 };
