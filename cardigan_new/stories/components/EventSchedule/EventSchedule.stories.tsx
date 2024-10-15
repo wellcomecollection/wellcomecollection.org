@@ -1,15 +1,20 @@
+import { RichTextField } from '@prismicio/client';
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan_new/config/decorators';
 import { darkCloudImageUrl } from '@weco/cardigan_new/stories/data/images';
+import untransformedbody from '@weco/cardigan_new/stories/data/untransformed-body';
 import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule';
 import Readme from '@weco/content/components/EventSchedule/README.mdx';
+import { Place } from '@weco/content/types/places';
 
 const schedule = [
   {
     event: {
-      type: 'events',
+      untransformedBody: untransformedbody,
+      type: 'events' as const,
       id: 'XH6TrhAAAPXyGlz3',
+      uid: 'as-far-as-isolation-goes',
       title: 'As Far as Isolation Goes',
       promo: {
         caption:
@@ -26,7 +31,6 @@ const schedule = [
           simpleCrops: {},
           richCrops: {},
         },
-        link: null,
       },
       image: {
         contentUrl: darkCloudImageUrl('3200x1800'),
@@ -46,10 +50,10 @@ const schedule = [
       locations: [
         {
           id: 'Wn1gnioAACoAIABr',
+          untransformedBody: untransformedbody,
           title: 'Ground floor Atrium',
-          body: [],
-          labels: [],
           level: 0,
+          labels: [],
           information: [
             {
               type: 'paragraph',
@@ -57,7 +61,7 @@ const schedule = [
               spans: [],
             },
           ],
-        },
+        } as Place,
       ],
       audiences: [],
       format: {
@@ -87,7 +91,7 @@ const schedule = [
                 },
               ],
             },
-          ],
+          ] as RichTextField,
         },
       ],
       hasEarlyRegistration: false,
@@ -105,7 +109,10 @@ const schedule = [
             startDateTime: new Date('2019-04-06T11:00:00.000Z'),
             endDateTime: new Date('2019-04-06T13:00:00.000Z'),
           },
-          isFullyBooked: null,
+          isFullyBooked: {
+            inVenue: false,
+            online: false,
+          },
           onlineIsFullyBooked: null,
         },
         {
@@ -113,7 +120,10 @@ const schedule = [
             startDateTime: new Date('2019-04-06T14:00:00.000Z'),
             endDateTime: new Date('2019-04-06T16:00:00.000Z'),
           },
-          isFullyBooked: null,
+          isFullyBooked: {
+            inVenue: false,
+            online: false,
+          },
           onlineIsFullyBooked: null,
         },
         {
@@ -121,7 +131,10 @@ const schedule = [
             startDateTime: new Date('2019-04-07T11:00:00.000Z'),
             endDateTime: new Date('2019-04-07T13:00:00.000Z'),
           },
-          isFullyBooked: null,
+          isFullyBooked: {
+            inVenue: false,
+            online: false,
+          },
           onlineIsFullyBooked: null,
         },
         {
@@ -129,12 +142,15 @@ const schedule = [
             startDateTime: new Date('2019-04-07T14:00:00.000Z'),
             endDateTime: new Date('2019-04-07T16:00:00.000Z'),
           },
-          isFullyBooked: null,
+          isFullyBooked: {
+            inVenue: false,
+            online: false,
+          },
           onlineIsFullyBooked: null,
         },
       ],
       isPast: true,
-      isOnline: null,
+      isOnline: false,
       availableOnline: null,
       primaryLabels: [
         {
