@@ -10,7 +10,10 @@ import {
   getCatalogueLicenseData,
   LicenseData,
 } from '@weco/common/utils/licenses';
-import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
@@ -126,7 +129,7 @@ const DownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
       siteSection="collections"
       hideNewsletterPromo={true}
     >
-      <Layout gridSizes={gridSize8()}>
+      <ContaineredLayout gridSizes={gridSize8()}>
         <SpacingSection>
           <SpacingComponent>
             <Space
@@ -174,7 +177,7 @@ const DownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
             </SpacingComponent>
           )}
         </SpacingSection>
-      </Layout>
+      </ContaineredLayout>
     </PageLayout>
   );
 };

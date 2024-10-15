@@ -4,7 +4,8 @@ import { getServerData } from '@weco/common/server-data';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
-import Layout, {
+import {
+  ContaineredLayout,
   gridSize10,
   gridSize8,
 } from '@weco/common/views/components/Layout';
@@ -42,19 +43,19 @@ const SuccessPage: NextPage<Props> = ({ email }) => {
 
   return (
     <PageWrapper title="Registration">
-      <Layout gridSizes={gridSize10()}>
+      <ContaineredLayout gridSizes={gridSize10()}>
         <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
-              <Layout gridSizes={gridSize8()}>
+              <ContaineredLayout gridSizes={gridSize8()}>
                 <Space $v={{ size: 'xl', properties: ['padding-top'] }}>
                   <ApplicationReceived email={email} />
                 </Space>
-              </Layout>
+              </ContaineredLayout>
             </Wrapper>
           </Container>
         </Space>
-      </Layout>
+      </ContaineredLayout>
     </PageWrapper>
   );
 };

@@ -2,7 +2,7 @@ import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
 import { CollectionVenueSlice as RawCollectionVenueSlice } from '@weco/common/prismicio-types';
-import Layout from '@weco/common/views/components/Layout';
+import ContaineredLayout from '@weco/common/views/components/Layout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
   LayoutWidth,
@@ -33,7 +33,7 @@ const CollectionVenue: FunctionComponent<CollectionVenueProps> = ({
             <VenueClosedPeriods venue={transformedSlice.value.content} />
           </LayoutWidth>
         ) : (
-          <Layout
+          <ContaineredLayout
             gridSizes={
               transformedSlice.value.content.isFeatured
                 ? {
@@ -55,7 +55,7 @@ const CollectionVenue: FunctionComponent<CollectionVenueProps> = ({
             }
           >
             <VenueHours venue={transformedSlice.value.content} />
-          </Layout>
+          </ContaineredLayout>
         )}
       </SpacingComponent>
     );

@@ -1,6 +1,9 @@
 import { FunctionComponent } from 'react';
 
-import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
@@ -25,7 +28,7 @@ const SeriesNavigation: FunctionComponent<Props> = ({
     : `Read more from ${series.title}`;
   return items.length > 0 ? (
     <SpacingComponent>
-      <Layout gridSizes={gridSize8()}>
+      <ContaineredLayout gridSizes={gridSize8()}>
         <SearchResults
           key={series.id}
           title={title}
@@ -44,7 +47,7 @@ const SeriesNavigation: FunctionComponent<Props> = ({
             }}
           />
         </Space>
-      </Layout>
+      </ContaineredLayout>
     </SpacingComponent>
   ) : null;
 };

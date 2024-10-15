@@ -10,7 +10,8 @@ import styled from 'styled-components';
 
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
 import { classNames, font } from '@weco/common/utils/classnames';
-import Layout, {
+import {
+  ContaineredLayout,
   gridSize10,
   gridSize12,
   gridSize8,
@@ -59,11 +60,23 @@ export const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
 }): ReactElement | null => {
   switch (true) {
     case width === 12:
-      return <Layout gridSizes={gridSize12()}>{children}</Layout>;
+      return (
+        <ContaineredLayout gridSizes={gridSize12()}>
+          {children}
+        </ContaineredLayout>
+      );
     case width === 10:
-      return <Layout gridSizes={gridSize10()}>{children}</Layout>;
+      return (
+        <ContaineredLayout gridSizes={gridSize10()}>
+          {children}
+        </ContaineredLayout>
+      );
     case width === 8:
-      return <Layout gridSizes={gridSize8()}>{children}</Layout>;
+      return (
+        <ContaineredLayout gridSizes={gridSize8()}>
+          {children}
+        </ContaineredLayout>
+      );
     default:
       return null;
   }
@@ -275,7 +288,9 @@ const Body: FunctionComponent<Props> = ({
               )}
               {featuredItem && (
                 <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-                  <Layout gridSizes={gridSize12()}>{featuredItem}</Layout>
+                  <ContaineredLayout gridSizes={gridSize12()}>
+                    {featuredItem}
+                  </ContaineredLayout>
                 </Space>
               )}
               {cards.length > 0 && (
@@ -303,7 +318,7 @@ const Body: FunctionComponent<Props> = ({
       $splitBackground={isShortFilm}
     >
       {featuredTextFromUntransformedBody && (
-        <Layout gridSizes={gridSize8(!sectionLevelPage)}>
+        <ContaineredLayout gridSizes={gridSize8(!sectionLevelPage)}>
           <div className="body-text spaced-text">
             <Space
               $v={{
@@ -317,7 +332,7 @@ const Body: FunctionComponent<Props> = ({
               />
             </Space>
           </div>
-        </Layout>
+        </ContaineredLayout>
       )}
 
       {staticContent}

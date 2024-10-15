@@ -13,7 +13,8 @@ import { serialiseProps } from '@weco/common/utils/json';
 import { isString } from '@weco/common/utils/type-guards';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import Layout, {
+import {
+  ContaineredLayout,
   gridSize10,
   gridSize8,
 } from '@weco/common/views/components/Layout';
@@ -120,11 +121,11 @@ const RegistrationPage: NextPage<Props> = ({
 
   return (
     <PageWrapper title="Registration">
-      <Layout gridSizes={gridSize10()}>
+      <ContaineredLayout gridSizes={gridSize10()}>
         <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
-              <Layout gridSizes={gridSize8()}>
+              <ContaineredLayout gridSizes={gridSize8()}>
                 <Space $v={{ size: 'xl', properties: ['padding-top'] }}>
                   <RegistrationInformation email={email} />
 
@@ -247,11 +248,11 @@ const RegistrationPage: NextPage<Props> = ({
                     </SpacingComponent>
                   </form>
                 </Space>
-              </Layout>
+              </ContaineredLayout>
             </Wrapper>
           </Container>
         </Space>
-      </Layout>
+      </ContaineredLayout>
     </PageWrapper>
   );
 };

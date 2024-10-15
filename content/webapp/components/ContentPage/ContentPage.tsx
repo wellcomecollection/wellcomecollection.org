@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 import { sectionLevelPages } from '@weco/common/data/hardcoded-ids';
 import { ElementFromComponent } from '@weco/common/utils/utility-types';
-import Layout, {
+import {
+  ContaineredLayout,
   gridSize12,
   gridSize8,
 } from '@weco/common/views/components/Layout';
@@ -90,7 +91,9 @@ const ContentPage = ({
                 <>
                   {child && (
                     <SpacingComponent>
-                      <Layout gridSizes={gridSize8()}>{child}</Layout>
+                      <ContaineredLayout gridSizes={gridSize8()}>
+                        {child}
+                      </ContaineredLayout>
                     </SpacingComponent>
                   )}
                 </>
@@ -99,12 +102,12 @@ const ContentPage = ({
           )}
           {!hideContributors && contributors && contributors.length > 0 && (
             <SpacingSection>
-              <Layout gridSizes={gridSize8()}>
+              <ContaineredLayout gridSizes={gridSize8()}>
                 <Contributors
                   contributors={contributors}
                   titleOverride={contributorTitle}
                 />
-              </Layout>
+              </ContaineredLayout>
             </SpacingSection>
           )}
         </Wrapper>
@@ -120,9 +123,9 @@ const ContentPage = ({
         {seasons.length > 0 &&
           seasons.map(season => (
             <SpacingSection key={season.id}>
-              <Layout gridSizes={gridSize12()}>
+              <ContaineredLayout gridSizes={gridSize12()}>
                 <BannerCard item={season} />
-              </Layout>
+              </ContaineredLayout>
             </SpacingSection>
           ))}
       </Wrapper>

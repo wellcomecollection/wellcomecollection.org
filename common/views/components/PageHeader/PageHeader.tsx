@@ -11,7 +11,8 @@ import Breadcrumb from '@weco/common/views/components/Breadcrumb/Breadcrumb';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import Layout, {
+import {
+  ContaineredLayout,
   gridSize10,
   gridSize12,
 } from '@weco/common/views/components/Layout';
@@ -158,7 +159,7 @@ const PageHeader: FunctionComponent<Props> = ({
     <>
       <Container $backgroundTexture={backgroundTexture}>
         {Background}
-        <Layout
+        <ContaineredLayout
           gridSizes={
             sectionLevelPage ? gridSize12() : sectionLevelPageGridLayout
           }
@@ -209,12 +210,12 @@ const PageHeader: FunctionComponent<Props> = ({
               <LabelsList {...amendedLabels} />
             )}
           </Wrapper>
-        </Layout>
+        </ContaineredLayout>
 
         {FeaturedMedia && (
-          <Layout gridSizes={gridSize10()}>
+          <ContaineredLayout gridSizes={gridSize10()}>
             <div style={{ position: 'relative' }}>{FeaturedMedia}</div>
-          </Layout>
+          </ContaineredLayout>
         )}
 
         {HeroPicture && (
@@ -236,14 +237,14 @@ const PageHeader: FunctionComponent<Props> = ({
         !isSlim && <WobblyEdge backgroundColor="white" />}
 
       {!isContentTypeInfoBeforeMedia && ContentTypeInfo && (
-        <Layout gridSizes={sectionLevelPageGridLayout}>
+        <ContaineredLayout gridSizes={sectionLevelPageGridLayout}>
           <Space
             $v={{ size: 'l', properties: ['margin-top'] }}
             className={font('intb', 4)}
           >
             {ContentTypeInfo}
           </Space>
-        </Layout>
+        </ContaineredLayout>
       )}
     </>
   );

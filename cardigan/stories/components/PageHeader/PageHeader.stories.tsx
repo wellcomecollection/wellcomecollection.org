@@ -10,7 +10,10 @@ import { EmbedSlice as RawEmbedSlice } from '@weco/common/prismicio-types';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { font } from '@weco/common/utils/classnames';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageHeaderReadme from '@weco/common/views/components/PageHeader/README.md';
 import ShortFilmPageHeaderReadme from '@weco/common/views/components/PageHeader/ShortFilm_README.md';
@@ -269,13 +272,13 @@ book.args = {
   breadcrumbs: { items: [{ text: 'Books', url: '#' }] },
   FeaturedMedia: (
     <Space $v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
-      <Layout gridSizes={gridSize8()}>
+      <ContaineredLayout gridSizes={gridSize8()}>
         <BookImage
           image={image(bookImageUrl, 1659, 1800)}
           sizes={{ xlarge: 1 / 3, large: 1 / 3, medium: 1 / 3, small: 1 }}
           quality="low"
         />
-      </Layout>
+      </ContaineredLayout>
     </Space>
   ),
 };

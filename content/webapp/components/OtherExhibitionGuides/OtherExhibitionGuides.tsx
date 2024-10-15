@@ -2,7 +2,10 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
-import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
@@ -20,11 +23,11 @@ const OtherExhibitionGuides: FunctionComponent<Props> = ({
 }) => (
   <PromoContainer>
     <Space $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
-      <Layout gridSizes={gridSize8(false)}>
+      <ContaineredLayout gridSizes={gridSize8(false)}>
         <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
           <h2 className={font('wb', 3)}>Other exhibition guides available</h2>
         </Space>
-      </Layout>
+      </ContaineredLayout>
       <CardGrid
         itemsHaveTransparentBackground={true}
         items={otherExhibitionGuides.map(result => ({

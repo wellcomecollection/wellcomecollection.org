@@ -1,6 +1,9 @@
 import { FunctionComponent } from 'react';
 
-import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 
 import { prismicPageIds } from './hardcoded-ids';
@@ -11,7 +14,7 @@ export const errorMessages = {
 };
 
 export const DefaultErrorText: FunctionComponent = () => (
-  <Layout gridSizes={gridSize8()}>
+  <ContaineredLayout gridSizes={gridSize8()}>
     <Space
       className="body-text"
       $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
@@ -38,11 +41,11 @@ export const DefaultErrorText: FunctionComponent = () => (
         <li>Try again a bit later</li>
       </ul>
     </Space>
-  </Layout>
+  </ContaineredLayout>
 );
 
 export const NotFoundErrorText: FunctionComponent = () => (
-  <Layout gridSizes={gridSize8()}>
+  <ContaineredLayout gridSizes={gridSize8()}>
     <Space
       className="body-text"
       $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
@@ -83,11 +86,11 @@ export const NotFoundErrorText: FunctionComponent = () => (
         .
       </p>
     </Space>
-  </Layout>
+  </ContaineredLayout>
 );
 
 export const GoneErrorText: FunctionComponent = () => (
-  <Layout gridSizes={gridSize8()}>
+  <ContaineredLayout gridSizes={gridSize8()}>
     <Space
       className="body-text"
       $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
@@ -102,5 +105,5 @@ export const GoneErrorText: FunctionComponent = () => (
         .
       </p>
     </Space>
-  </Layout>
+  </ContaineredLayout>
 );

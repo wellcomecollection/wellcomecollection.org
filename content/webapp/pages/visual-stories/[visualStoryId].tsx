@@ -17,7 +17,10 @@ import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
@@ -273,7 +276,7 @@ const VisualStory: FunctionComponent<Props> = ({
       />
       {visualStories.length > 0 && (
         <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
-          <Layout gridSizes={gridSize12()}>
+          <ContaineredLayout gridSizes={gridSize12()}>
             <Divider lineColor="neutral.400" />
             <Space
               $v={{
@@ -285,7 +288,7 @@ const VisualStory: FunctionComponent<Props> = ({
                 More Visual Stories
               </h2>
             </Space>
-          </Layout>
+          </ContaineredLayout>
           <CardGrid items={visualStories} itemsPerRow={3} />
         </Space>
       )}

@@ -19,7 +19,10 @@ import {
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
 import Button from '@weco/common/views/components/Buttons';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import Space from '@weco/common/views/components/styled/Space';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
@@ -259,7 +262,7 @@ const ItemPage: NextPage<Props> = ({
       */}
 
       {(!hasImage || hasPdf) && showViewer && (
-        <Layout gridSizes={gridSize12()}>
+        <ContaineredLayout gridSizes={gridSize12()}>
           <Space
             className="body-text"
             $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
@@ -270,7 +273,7 @@ const ItemPage: NextPage<Props> = ({
               placeholderId={placeholderId}
             />
           </Space>
-        </Layout>
+        </ContaineredLayout>
       )}
 
       <Modal

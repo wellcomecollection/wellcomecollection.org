@@ -1,7 +1,10 @@
 import { FunctionComponent } from 'react';
 
 import { classNames, cssGrid } from '@weco/common/utils/classnames';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import Space from '@weco/common/views/components/styled/Space';
 import BookPromo from '@weco/content/components/BookPromo/BookPromo';
@@ -88,7 +91,7 @@ const CardGrid: FunctionComponent<Props> = ({
         </div>
       </CssGridContainer>
       {links && links.length > 0 && (
-        <Layout gridSizes={gridSize12()}>
+        <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'l', properties: ['margin-top'] }}>
             {links.map(link => (
               <Space
@@ -99,7 +102,7 @@ const CardGrid: FunctionComponent<Props> = ({
               </Space>
             ))}
           </Space>
-        </Layout>
+        </ContaineredLayout>
       )}
     </div>
   );
