@@ -12,4 +12,4 @@ This is usually used in conjunction with a link to view the full list of date
 ranges.
 
 
-[Edit this Readme on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/main/content/webapp/components/EventDateRange/README.mdx)
+[Edit this Readme on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/main/content/webapp/components/EventDateRange/README.md)
