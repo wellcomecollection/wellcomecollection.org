@@ -144,11 +144,11 @@ type CommonProps = {
   clickHandler?: (event: Event) => void | Promise<void>;
 };
 
-interface ButtonProps
-  extends Omit<JSX.IntrinsicElements['button'], 'ref'>,
-    CommonProps {
-  link?: undefined;
-}
+export type ButtonProps = CommonProps & { link?: undefined } & Omit<
+    JSX.IntrinsicElements['button'],
+    'ref'
+  >;
+
 interface AnchorProps
   extends Omit<JSX.IntrinsicElements['a'], 'ref'>,
     CommonProps {
