@@ -22,7 +22,7 @@ const IconId = styled.p.attrs({
 `;
 
 export const Icons = () => (
-  <div className="keep-type">
+  <div className="keep-font">
     {Object.keys(icons).map(key => (
       <IconWrapper key={key}>
         <Icon icon={icons[key]} />
