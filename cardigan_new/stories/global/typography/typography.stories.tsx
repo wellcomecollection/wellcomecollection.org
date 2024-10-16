@@ -87,7 +87,7 @@ const Typography = ({ text }) => {
 const Template = args => <Typography {...args} />;
 export const families = Template.bind({});
 families.args = {
-  text: 'Wellcome Collection',
+  text: 'The quick brown fox jumped over the lazy dog',
 };
 
 const ScaleTemplate = args => <TypographyScale {...args} />;
