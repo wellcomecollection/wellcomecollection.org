@@ -100,7 +100,7 @@ export const DropdownButton: Story = {
   name: 'Dropdown',
   args: {
     isOnDark: false,
-    hasNoOptions: false, // disabled?
+    hasNoOptions: false,
   },
   argTypes: {
     isOnDark: { control: 'boolean' },
