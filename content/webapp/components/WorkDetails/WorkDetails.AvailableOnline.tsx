@@ -142,7 +142,7 @@ const ItemPageLink = ({
     digitalLocationInfo?.accessCondition !== 'open-with-advisory' &&
     downloadOptions.length > 0;
 
-  const isRestrictedAndVisible =
+  const isWorkVisibleWithPermission =
     digitalLocationInfo?.accessCondition === 'restricted' &&
     user?.role === 'StaffWithRestricted';
 
@@ -180,7 +180,7 @@ const ItemPageLink = ({
       )}
 
       <ConditionalWrapper
-        condition={isRestrictedAndVisible}
+        condition={isWorkVisibleWithPermission}
         wrapper={children => (
           <Layout gridSizes={gridSize8(false)}>
             <RestrictedMessage>
@@ -199,7 +199,7 @@ const ItemPageLink = ({
         )}
       >
         <ConditionalWrapper
-          condition={isRestrictedAndVisible}
+          condition={isWorkVisibleWithPermission}
           wrapper={children => (
             <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
               {children}

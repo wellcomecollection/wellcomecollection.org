@@ -187,13 +187,13 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   const digitalLocationInfo =
     digitalLocation && getDigitalLocationInfo(digitalLocation);
 
-  const isRestrictedAndVisible =
+  const isWorkVisibleWithPermission =
     digitalLocationInfo?.accessCondition === 'restricted' &&
     user?.role === 'StaffWithRestricted';
 
   return (
     <>
-      {isRestrictedAndVisible && (
+      {isWorkVisibleWithPermission && (
         <RestrictedMessage>
           <Space
             $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
