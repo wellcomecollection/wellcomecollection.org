@@ -8,7 +8,10 @@ import { AppErrorProps } from '@weco/common/services/app';
 import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { policyUpdatedDate } from '@weco/common/views/components/CivicUK';
-import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
@@ -22,9 +25,9 @@ import * as page from './pages/[pageId]';
 const CookieTable = ({ rows }: { rows: string[][] }) => {
   return (
     <SpacingComponent>
-      <Layout gridSizes={gridSize8()}>
+      <ContaineredLayout gridSizes={gridSize8()}>
         <Table rows={rows} withBorder={true} hasSmallerCopy></Table>
-      </Layout>
+      </ContaineredLayout>
     </SpacingComponent>
   );
 };
@@ -76,13 +79,13 @@ const CookiePolicy: FunctionComponent<page.Props> = (props: page.Props) => {
           })}
 
           <SpacingComponent>
-            <Layout gridSizes={gridSize8()}>
+            <ContaineredLayout gridSizes={gridSize8()}>
               <div className="body-text spaced-text">
                 <p>
                   <em>This policy was last updated on {policyUpdatedDate}.</em>
                 </p>
               </div>
-            </Layout>
+            </ContaineredLayout>
           </SpacingComponent>
         </Space>
       </Space>

@@ -5,7 +5,10 @@ import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import Button from '@weco/common/views/components/Buttons';
-import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize10,
+} from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { ValidatedFailedText, ValidatedSuccessText } from '@weco/identity/copy';
@@ -25,7 +28,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
   // auth0.com/docs/brand-and-customize/email/email-template-descriptions#redirect-to-results-for-verification-email-template
   return (
     <PageWrapper title="Email verified">
-      <Layout gridSizes={gridSize10()}>
+      <ContaineredLayout gridSizes={gridSize10()}>
         <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
@@ -48,7 +51,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
             </Wrapper>
           </Container>
         </Space>
-      </Layout>
+      </ContaineredLayout>
     </PageWrapper>
   );
 };

@@ -23,7 +23,8 @@ import { serialiseProps } from '@weco/common/utils/json';
 import { allowedRequests } from '@weco/common/values/requests';
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import Layout, {
+import {
+  ContaineredLayout,
   gridSize10,
   gridSize12,
 } from '@weco/common/views/components/Layout';
@@ -243,18 +244,18 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
   return (
     <PageWrapper title="Your library account">
       <Header $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <Layout gridSizes={gridSize12()}>
+        <ContaineredLayout gridSizes={gridSize12()}>
           <Space
             $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
             <Title>Library account</Title>
           </Space>
-        </Layout>
+        </ContaineredLayout>
         <div className="is-hidden-s">
           <WobblyEdge backgroundColor="warmNeutral.300" />
         </div>
       </Header>
-      <Layout gridSizes={gridSize10()}>
+      <ContaineredLayout gridSizes={gridSize10()}>
         <>
           {!user?.emailValidated && (
             <AccountStatus type="info">
@@ -449,7 +450,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
             </Wrapper>
           </Container>
         </>
-      </Layout>
+      </ContaineredLayout>
     </PageWrapper>
   );
 };

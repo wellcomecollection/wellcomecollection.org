@@ -2,7 +2,10 @@ import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
 import { TextAndIconsSlice as RawTextAndIconsSlice } from '@weco/common/prismicio-types';
-import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import TextAndImageOrIcons from '@weco/content/components/TextAndImageOrIcons';
 import { transformTextAndIcons } from '@weco/content/services/prismic/transformers/body';
@@ -14,9 +17,9 @@ const TextAndIconsSlice: FunctionComponent<TextAndIconsProps> = ({ slice }) => {
 
   return (
     <SpacingComponent $sliceType={transformedSlice.type}>
-      <Layout gridSizes={gridSize8()}>
+      <ContaineredLayout gridSizes={gridSize8()}>
         <TextAndImageOrIcons item={transformedSlice.value} />
-      </Layout>
+      </ContaineredLayout>
     </SpacingComponent>
   );
 };

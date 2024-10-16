@@ -20,7 +20,8 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import Layout, {
+import {
+  ContaineredLayout,
   gridSize10,
   gridSize8,
 } from '@weco/common/views/components/Layout';
@@ -259,7 +260,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
         isSlim
       />
 
-      <Layout gridSizes={gridSize8(false)}>
+      <ContaineredLayout gridSizes={gridSize8(false)}>
         <h2 className={font('intsb', 4)}>{getTypeTitle(type)}</h2>
 
         {exhibitionGuide.introText?.length > 0 ? (
@@ -271,10 +272,10 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
         )}
 
         <RelevantGuideIcons types={[type]} />
-      </Layout>
+      </ContaineredLayout>
 
       <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-        <Layout gridSizes={gridSize10(false)}>
+        <ContaineredLayout gridSizes={gridSize10(false)}>
           {userPreferenceSet && (
             <p>
               You selected this type of guide previously, but you can also
@@ -289,7 +290,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               </a>
             </p>
           )}
-        </Layout>
+        </ContaineredLayout>
       </Space>
 
       {/* For deprecated ExhibitionGuides */}

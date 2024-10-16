@@ -2,7 +2,10 @@ import { FunctionComponent } from 'react';
 
 import { getCrop } from '@weco/common/model/image';
 import { cssGrid, font } from '@weco/common/utils/classnames';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import Space from '@weco/common/views/components/styled/Space';
 import Card from '@weco/content/components/Card/Card';
@@ -22,7 +25,7 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
   const image = getCrop(item.image, '16:9');
 
   return (
-    <Layout gridSizes={gridSize12()}>
+    <ContaineredLayout gridSizes={gridSize12()}>
       <FeaturedCard
         image={
           image && {
@@ -60,7 +63,7 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
           <p className={font('intr', 5)}>{item.description}</p>
         )}
       </FeaturedCard>
-    </Layout>
+    </ContaineredLayout>
   );
 };
 

@@ -14,7 +14,10 @@ import { isFuture } from '@weco/common/utils/dates';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
@@ -154,11 +157,11 @@ const ExhibitionsPage: FunctionComponent<ExhibitionsProps> = props => {
           {!period && (
             <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
               <SectionHeader title="Past Exhibitions" gridSize={gridSize12()} />
-              <Layout gridSizes={gridSize12()}>
+              <ContaineredLayout gridSizes={gridSize12()}>
                 <Space $v={{ size: 'm', properties: ['margin-top'] }}>
                   <p style={{ marginBottom: 0 }}>{pastExhibitionsStrapline}</p>
                 </Space>
-              </Layout>
+              </ContaineredLayout>
             </Space>
           )}
           <SpacingSection>

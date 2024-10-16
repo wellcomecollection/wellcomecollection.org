@@ -3,7 +3,10 @@ import styled from 'styled-components';
 
 import { font, SizeMap } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 
 const YellowBox = styled.div`
@@ -45,7 +48,9 @@ const SectionHeader: FunctionComponent<Props> = ({ title, gridSize }) => {
       <ConditionalWrapper
         condition={!!gridSize}
         wrapper={children => (
-          <Layout gridSizes={gridSize || gridSize12()}>{children}</Layout>
+          <ContaineredLayout gridSizes={gridSize || gridSize12()}>
+            {children}
+          </ContaineredLayout>
         )}
       >
         <YellowBox />
