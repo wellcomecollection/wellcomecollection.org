@@ -22,14 +22,3 @@ type Story = StoryObj<typeof EventPromo>;
 export const Basic: Story = {
   name: 'EventPromo',
 };
-
-// const EventPromoTemplate = args => <EventPromo {...args} />;
-// export const eventPromo = EventPromoTemplate.bind({});
-// eventPromo.args = {
-//   position: 0,
-//   event,
-// };
-// eventPromo.parameters = {
-//   gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
-// };
-// eventPromo.storyName = 'EventPromo';
