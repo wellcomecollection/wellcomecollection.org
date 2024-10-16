@@ -9,7 +9,7 @@ import DropdownButton, { DropdownButtonProps } from './Buttons.Dropdown';
 import ButtonSolid, { ButtonSolidProps } from './Buttons.Solid';
 import ButtonSolidLink, { ButtonSolidLinkProps } from './Buttons.SolidLink';
 
-type ButtonProps =
+export type ButtonProps =
   | (PropsWithChildren<DropdownButtonProps> & {
       variant: 'DropdownButton';
     })

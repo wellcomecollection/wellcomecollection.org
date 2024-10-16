@@ -105,6 +105,7 @@
   "private": true,
   "workspaces": [
     "cardigan",
+    "cardigan_new",
     "common",
     "content/webapp",
     "identity/webapp",
