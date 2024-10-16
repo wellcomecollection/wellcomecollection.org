@@ -149,49 +149,46 @@ const meta = {
 
 export default meta;
 
-export const Basic = {
-  name: 'Palette',
-  render: () => (
-    <>
-      {Object.keys(paletteColors).map((category, i) => (
-        <SectionWrapper key={category}>
-          {i !== 0 && <Divider lineColor="black" />}
-          <SectionTitle>{paletteColors[category].label}</SectionTitle>
-          <SectionDescription>
-            {paletteColors[category].description}
-          </SectionDescription>
-          <PaletteSection>
-            {Object.entries(paletteColors[category].colors!).map(
-              ([colorName, colorValues]) => (
-                <PaletteBlock key={colorName}>
-                  <PaletteName>{colorName}</PaletteName>
-                  <PaletteColor
-                    $hasBorder={colorName === 'white'}
-                    style={{ background: colorValues.hex }}
-                  />
-                  <PaletteHex>
-                    Hex: <PaletteCode>{colorValues.hex}</PaletteCode>
-                  </PaletteHex>
-                  <PaletteHex>
-                    RGB:{' '}
-                    <PaletteCode>
-                      {colorValues.rgb.r}, {colorValues.rgb.g},{' '}
-                      {colorValues.rgb.b}
-                    </PaletteCode>
-                  </PaletteHex>
-                  <PaletteHex>
-                    HSL:{' '}
-                    <PaletteCode>
-                      {colorValues.hsl.h}, {colorValues.hsl.s},{' '}
-                      {colorValues.hsl.l}%
-                    </PaletteCode>
-                  </PaletteHex>
-                </PaletteBlock>
-              )
-            )}
-          </PaletteSection>
-        </SectionWrapper>
-      ))}
-    </>
-  ),
-};
+export const Palette = () => (
+  <>
+    {Object.keys(paletteColors).map((category, i) => (
+      <SectionWrapper key={category}>
+        {i !== 0 && <Divider lineColor="black" />}
+        <SectionTitle>{paletteColors[category].label}</SectionTitle>
+        <SectionDescription>
+          {paletteColors[category].description}
+        </SectionDescription>
+        <PaletteSection>
+          {Object.entries(paletteColors[category].colors!).map(
+            ([colorName, colorValues]) => (
+              <PaletteBlock key={colorName}>
+                <PaletteName>{colorName}</PaletteName>
+                <PaletteColor
+                  $hasBorder={colorName === 'white'}
+                  style={{ background: colorValues.hex }}
+                />
+                <PaletteHex>
+                  Hex: <PaletteCode>{colorValues.hex}</PaletteCode>
+                </PaletteHex>
+                <PaletteHex>
+                  RGB:{' '}
+                  <PaletteCode>
+                    {colorValues.rgb.r}, {colorValues.rgb.g},{' '}
+                    {colorValues.rgb.b}
+                  </PaletteCode>
+                </PaletteHex>
+                <PaletteHex>
+                  HSL:{' '}
+                  <PaletteCode>
+                    {colorValues.hsl.h}, {colorValues.hsl.s},{' '}
+                    {colorValues.hsl.l}%
+                  </PaletteCode>
+                </PaletteHex>
+              </PaletteBlock>
+            )
+          )}
+        </PaletteSection>
+      </SectionWrapper>
+    ))}
+  </>
+);

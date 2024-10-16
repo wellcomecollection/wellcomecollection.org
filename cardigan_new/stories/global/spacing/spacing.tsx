@@ -46,7 +46,3 @@ export const Spacing: FunctionComponent = () => {
     </ColorSection>
   );
 };
-
-export default {
-  title: 'Global/Spacing',
-};

@@ -21,22 +21,13 @@ const IconId = styled.p.attrs({
   hyphens: auto;
 `;
 
-const meta = {
-  title: 'Global/Icons',
-};
-
-export default meta;
-
-export const Icons = {
-  name: 'Icons',
-  render: () => (
-    <>
-      {Object.keys(icons).map(key => (
-        <IconWrapper key={key}>
-          <Icon icon={icons[key]} />
-          <IconId>{key}</IconId>
-        </IconWrapper>
-      ))}
-    </>
-  ),
-};
+export const Icons = () => (
+  <>
+    {Object.keys(icons).map(key => (
+      <IconWrapper key={key}>
+        <Icon icon={icons[key]} />
+        <IconId>{key}</IconId>
+      </IconWrapper>
+    ))}
+  </>
+);
