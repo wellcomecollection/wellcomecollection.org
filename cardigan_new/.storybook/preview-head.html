@@ -9,11 +9,15 @@
 </script>
 
 <style>
-  .sbdocs *:not(.sb-story) {
+  .sbdocs h2 {
+    border-bottom: none!important;
+  }
+
+  .sbdocs:not(:has(.keep-type)) *:not(:is(.sb-story, code))  {
     font-family: 'Inter', sans-serif!important;
   }
 
-  .sbdocs *:not(:is(h1, h2, h3, .sb-story *)) {
+  .sbdocs:not(:has(.keep-type)) *:not(:is(h1, h2, h3, .sb-story *, code)) {
     font-size: 1.125rem!important;
     line-height: 1.5!important;
   }
