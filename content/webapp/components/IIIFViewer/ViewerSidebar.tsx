@@ -28,7 +28,6 @@ import { getDigitalLocationInfo } from '@weco/content/utils/works';
 import MultipleManifestList from './MultipleManifestList';
 import ViewerStructures from './ViewerStructures';
 
-//  TODO Align with other one more?
 const RestrictedMessage = styled(Space).attrs({
   $h: { size: 'm', properties: ['margin-left', 'margin-right'] },
 })`
@@ -36,15 +35,17 @@ const RestrictedMessage = styled(Space).attrs({
   color: ${props => props.theme.color('black')};
   border-radius: 3px;
   border-left: 5px solid #1672f3;
+`;
+
+const RestrictedMessageTitle = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
 
   h2 {
-    padding-left: 32px;
+    padding-left: 8px;
+    margin-bottom: 0;
     color: ${props => props.theme.color('accent.blue')};
-    margin-bottom: 4px;
-  }
-
-  .icon {
-    position: absolute;
   }
 `;
 
@@ -198,8 +199,11 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
             $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
             $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
           >
-            <Icon icon={info2} iconColor="accent.blue" />
-            <h2 className={font('intsb', 5)}>Restricted item</h2>
+            <RestrictedMessageTitle>
+              <Icon icon={info2} iconColor="accent.blue" />
+              <h2 className={font('intsb', 5)}>Restricted item</h2>
+            </RestrictedMessageTitle>
+
             {/* TODO speak to Dana about wording, it may be that only certain parts of the page that are hidden from the public. */}
             <p style={{ marginBottom: 0 }} className={font('intr', 5)}>
               This page is hidden from the public.

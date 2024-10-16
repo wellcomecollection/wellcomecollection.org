@@ -18,6 +18,7 @@ import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import {
   controlDimensions,
   createDownloadTree,
@@ -135,16 +136,15 @@ const ItemPageLink = ({
   canvasCount,
   digitalLocationInfo,
 }) => {
+  const { user } = useUser();
+
   const isDownloadable =
     digitalLocationInfo?.accessCondition !== 'open-with-advisory' &&
     downloadOptions.length > 0;
 
-  const isRestrictedAndVisible = true;
-
-  //  TODO
-  // const isRestrictedAndVisible =
-  //   digitalLocationInfo?.accessCondition === 'restricted' &&
-  //   user?.role === 'StaffWithRestricted';
+  const isRestrictedAndVisible =
+    digitalLocationInfo?.accessCondition === 'restricted' &&
+    user?.role === 'StaffWithRestricted';
 
   return (
     <>
