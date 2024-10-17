@@ -204,9 +204,8 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
               <h2 className={font('intsb', 5)}>Restricted item</h2>
             </RestrictedMessageTitle>
 
-            {/* TODO speak to Dana about wording, it may be that only certain parts of the page that are hidden from the public. */}
             <p style={{ marginBottom: 0 }} className={font('intr', 5)}>
-              This page is hidden from the public.
+              This item is hidden from the public.
             </p>
           </Space>
         </RestrictedMessage>

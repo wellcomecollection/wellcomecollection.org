@@ -190,8 +190,8 @@ const ItemPageLink = ({
               </RestrictedMessageTitle>
 
               <p className={font('intr', 5)} style={{ marginBottom: '1rem' }}>
-                This page is hidden from the public and can only be viewed by
-                some staff.
+                This item is hidden from the public and can only be viewed by
+                staff.
               </p>
               {children}
             </RestrictedMessage>
