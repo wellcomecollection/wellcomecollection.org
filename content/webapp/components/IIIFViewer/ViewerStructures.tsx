@@ -18,7 +18,7 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import {
-  getEnFromInternationalString,
+  getDisplayLabel,
   isCanvas,
   isRange,
 } from '@weco/content/utils/iiif/v3';
@@ -121,7 +121,7 @@ const Structures: FunctionComponent<Props> = ({
                 </NextLink>
               )}
             >
-              {getEnFromInternationalString(range.label)}
+              {getDisplayLabel(range.label)}
             </ConditionalWrapper>
             {nestedRanges.map((range, i) => {
               return (

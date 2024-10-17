@@ -8,6 +8,7 @@ import { getServerData } from '@weco/common/server-data';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isFilledLinkToDocument } from '@weco/common/services/prismic/types';
 import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
@@ -16,7 +17,10 @@ import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
@@ -126,6 +130,7 @@ export const returnVisualStoryProps = ({
         return {
           type: story.type,
           id: story.id,
+          uid: story.uid,
           title: story.title,
           promo: story.promo,
           image: story.image,
@@ -218,7 +223,7 @@ const VisualStory: FunctionComponent<Props> = ({
                 },
                 {
                   text: relatedDocument.title,
-                  url: `/${relatedDocument.type}/${relatedDocument.id}`,
+                  url: linkResolver(relatedDocument),
                 },
               ]
             : [],
@@ -271,7 +276,7 @@ const VisualStory: FunctionComponent<Props> = ({
       />
       {visualStories.length > 0 && (
         <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
-          <Layout gridSizes={gridSize12()}>
+          <ContaineredLayout gridSizes={gridSize12()}>
             <Divider lineColor="neutral.400" />
             <Space
               $v={{
@@ -283,7 +288,7 @@ const VisualStory: FunctionComponent<Props> = ({
                 More Visual Stories
               </h2>
             </Space>
-          </Layout>
+          </ContaineredLayout>
           <CardGrid items={visualStories} itemsPerRow={3} />
         </Space>
       )}

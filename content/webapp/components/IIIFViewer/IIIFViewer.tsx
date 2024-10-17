@@ -45,6 +45,7 @@ type IIIFViewerProps = {
   searchResults: SearchResults | null;
   setSearchResults: (v) => void;
   parentManifest?: ParentManifest;
+  accessToken?: string;
 };
 
 const LoadingComponent = () => (
@@ -129,14 +130,7 @@ const Sidebar = styled.div<{
 const Topbar = styled.div`
   background: ${props => props.theme.color('neutral.700')};
   grid-area: top-edge / left-edge / desktop-topbar-end / right-edge;
-
-  /* TODO: this is to let downloads sit above sidebar on desktop but not have the topbar above the sidebar on mobile.
-   If we move the downloads, this can be simplified */
-  z-index: 4;
-
-  ${props => props.theme.media('medium')`
-    z-index: 5;
-  `}
+  z-index: 5;
 `;
 
 const Main = styled.div<{
@@ -214,6 +208,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   searchResults,
   setSearchResults,
   parentManifest,
+  accessToken,
 }: IIIFViewerProps) => {
   const router = useRouter();
   const {
@@ -318,6 +313,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setRotatedImages,
         isResizing,
         errorHandler: handleImageError,
+        accessToken,
       }}
     >
       <Grid ref={viewerRef} $isFullSupportBrowser={isFullSupportBrowser}>

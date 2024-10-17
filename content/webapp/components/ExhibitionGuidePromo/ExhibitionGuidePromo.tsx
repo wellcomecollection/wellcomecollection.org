@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react';
 
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -14,7 +15,6 @@ import {
   ExhibitionGuideBasic,
   ExhibitionGuideType,
 } from '@weco/content/types/exhibition-guides';
-
 type Props = {
   exhibitionGuide: ExhibitionGuideBasic;
 };
@@ -37,10 +37,7 @@ const ExhibitionGuidePromo: FunctionComponent<Props> = ({
   return (
     <CardOuter
       data-component="ExhibitionGuidePromo"
-      href={
-        exhibitionGuide.promo?.link ||
-        `/guides/exhibitions/${exhibitionGuide.id}`
-      }
+      href={exhibitionGuide.promo?.link || linkResolver(exhibitionGuide)}
     >
       {exhibitionGuide.promo?.image && (
         <CardImageWrapper>

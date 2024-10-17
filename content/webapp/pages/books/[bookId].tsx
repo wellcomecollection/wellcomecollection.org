@@ -7,13 +7,17 @@ import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font, grid } from '@weco/common/utils/classnames';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import Button from '@weco/common/views/components/Buttons';
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
-import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
@@ -25,7 +29,6 @@ import { fetchBook } from '@weco/content/services/prismic/fetch/books';
 import { transformBook } from '@weco/content/services/prismic/transformers/books';
 import { Book } from '@weco/content/types/books';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-
 const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
 `;
@@ -124,13 +127,13 @@ const BookPage: FunctionComponent<Props> = props => {
   const { book } = props;
   const FeaturedMedia = book.cover && (
     <Space $v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
-      <Layout gridSizes={gridSize8()}>
+      <ContaineredLayout gridSizes={gridSize8()}>
         <BookImage
           image={{ ...book.cover }}
           sizes={{ xlarge: 1 / 3, large: 1 / 3, medium: 1 / 3, small: 1 }}
           quality="low"
         />
-      </Layout>
+      </ContaineredLayout>
     </Space>
   );
   const breadcrumbs = {
@@ -140,7 +143,7 @@ const BookPage: FunctionComponent<Props> = props => {
         url: '/books',
       },
       {
-        url: `/books/${book.id}`,
+        url: linkResolver(book),
         text: book.title,
         isHidden: true,
       },

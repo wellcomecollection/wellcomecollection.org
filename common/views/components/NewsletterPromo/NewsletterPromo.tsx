@@ -7,7 +7,10 @@ import { font } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Button from '@weco/common/views/components/Buttons';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import TextInput from '@weco/common/views/components/TextInput';
@@ -103,7 +106,7 @@ const NewsletterPromo: FunctionComponent = () => {
       $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
     >
       <Container>
-        <Layout gridSizes={gridSize8()}>
+        <ContaineredLayout gridSizes={gridSize8()}>
           <h2 className={font('wb', 3)} style={{ textAlign: 'center' }}>
             {isSuccess ? 'Thank you for signing up!' : 'Stay in the know'}
           </h2>
@@ -190,7 +193,7 @@ const NewsletterPromo: FunctionComponent = () => {
               <PrivacyNotice />
             </div>
           )}
-        </Layout>
+        </ContaineredLayout>
       </Container>
     </Space>
   );

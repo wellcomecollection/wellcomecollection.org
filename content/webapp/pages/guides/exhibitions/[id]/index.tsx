@@ -7,6 +7,7 @@ import { GuideStopSlice as RawGuideStopSlice } from '@weco/common/prismicio-type
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isFilledLinkToMediaField } from '@weco/common/services/prismic/types/';
 import { serialiseProps } from '@weco/common/utils/json';
 import { toMaybeString } from '@weco/common/utils/routes';
@@ -14,7 +15,10 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize10,
+} from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
@@ -58,7 +62,6 @@ import {
 } from '@weco/content/types/exhibition-guides';
 import { getGuidesRedirections } from '@weco/content/utils/digital-guides';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-
 // N.B. There are quite a lot of requests to Prismic for this page, which are necessary in order to maintain the url structure
 // while supporting both the deprecated ExhibitionGuide type and new custom types
 // We are looking to change the url structure for this and related pages, see: https://docs.google.com/document/d/17xPEfOFAFzBeFopkKUAWUTyBo89lPzoSSV5o_4Ri8NQ/edit#heading=h.l7pem7f5wz3f
@@ -319,13 +322,13 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
     );
 
   const textPathname = exhibitionText?.id
-    ? `guides/exhibitions/${exhibitionText.id}/captions-and-transcripts`
+    ? `${linkResolver(exhibitionText)}/captions-and-transcripts`
     : undefined;
   const audioPathname = hasAudio
-    ? `guides/exhibitions/${exhibitionHighlightTour.id}/audio-without-descriptions`
+    ? `${linkResolver(exhibitionHighlightTour)}/audio-without-descriptions`
     : undefined;
   const videoPathname = hasVideo
-    ? `guides/exhibitions/${exhibitionHighlightTour.id}/bsl`
+    ? `${linkResolver(exhibitionHighlightTour)}/bsl`
     : undefined;
 
   return (
@@ -357,7 +360,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
         }}
         isSlim
       />
-      <Layout gridSizes={gridSize10(false)}>
+      <ContaineredLayout gridSizes={gridSize10(false)}>
         <SpacingSection>
           <Space $v={{ size: 'l', properties: ['margin-top'] }}>
             {/* Links to ExhibitionTexts and ExhibitionHighlightTours */}
@@ -374,12 +377,12 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
             {exhibitionGuide && (
               <ExhibitionGuideLinks
                 availableTypes={exhibitionGuide.availableTypes}
-                pathname={`guides/exhibitions/${pageId}`}
+                pathname={`guides/exhibitions/${pageUid}`}
               />
             )}
           </Space>
         </SpacingSection>
-      </Layout>
+      </ContaineredLayout>
       {otherExhibitionGuides?.length > 0 && (
         <OtherExhibitionGuides otherExhibitionGuides={otherExhibitionGuides} />
       )}

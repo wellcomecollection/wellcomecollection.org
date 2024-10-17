@@ -19,9 +19,13 @@ import {
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
 import Button from '@weco/common/views/components/Buttons';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import Space from '@weco/common/views/components/styled/Space';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
 import IIIFItemList from '@weco/content/components/IIIFItemList/IIIFItemList';
 import IIIFViewer, {
@@ -51,6 +55,7 @@ import { Auth, TransformedManifest } from '@weco/content/types/manifest';
 import { fetchJson } from '@weco/content/utils/http';
 import {
   checkModalRequired,
+  getAuthServices,
   getCollectionManifests,
   hasItemType,
   hasOriginalPdf,
@@ -98,21 +103,6 @@ function getIframeAuthSrc({ workId, origin, auth, authV2 }) {
   }
 }
 
-// If more than one access service is available, the client should interact with them in the order external, kiosk, active. - https://iiif.io/api/auth/2.0/#33-interaction-patterns
-// For non logged in users/logged in non staff we clickThrough (i.e. active) first because we want users to be able to see the non restricted things
-function getAuthService({ auth, authV2 }) {
-  if (auth && authV2) {
-    return (
-      auth.v2.activeAccessService ||
-      auth.v1.activeAccessService ||
-      auth.v2.externalAccessService ||
-      auth.v1.externalAccessService
-    );
-  } else if (auth) {
-    return auth.v1.activeAccessService || auth.v1.externalAccessService;
-  }
-}
-
 export function getTokenService({ auth, authV2 }) {
   const service = authV2
     ? auth?.v2.tokenService || auth?.v1.tokenService
@@ -156,6 +146,8 @@ const ItemPage: NextPage<Props> = ({
   serverSearchResults,
   parentManifest,
 }) => {
+  const { user } = useUser();
+  const role = user?.role;
   const { authV2 } = useToggles();
   const transformedManifest =
     compressedTransformedManifest &&
@@ -170,13 +162,14 @@ const ItemPage: NextPage<Props> = ({
   };
 
   const needsModal = checkModalRequired({
+    role,
     auth,
     isAnyImageOpen,
     authV2,
   });
-
+  const [accessToken, setAccessToken] = useState();
   const [searchResults, setSearchResults] = useState(serverSearchResults);
-  const authService = getAuthService({ auth, authV2 });
+  const authServices = getAuthServices({ auth, authV2 });
   const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
 
   const displayTitle =
@@ -196,6 +189,12 @@ const ItemPage: NextPage<Props> = ({
     setShowViewer(false);
   }, []);
 
+  // We have iiif manifests that contain both active and external (restricted login) services
+  // If this happens we want to show the active service (clickthrough) message and link rather than the external one.
+  // This will enable most users to view the images with an active service (those with a restricted service won't display)
+  // For staff with a role of 'StaffWithRestricted' they will be able to see both types of image.
+  const modalContent = authServices?.active || authServices?.external;
+
   useEffect(() => {
     setOrigin(`${window.origin}`);
   }, []);
@@ -213,6 +212,7 @@ const ItemPage: NextPage<Props> = ({
         if (Object.prototype.hasOwnProperty.call(data, 'accessToken')) {
           setShowModal(Boolean(isTotallyRestricted));
           setShowViewer(!isTotallyRestricted);
+          setAccessToken(data.accessToken);
         } else {
           setShowModal(true);
           setShowViewer(false);
@@ -226,7 +226,7 @@ const ItemPage: NextPage<Props> = ({
       setShowModal(false);
       setShowViewer(true);
     }
-  }, []);
+  }, [needsModal]);
 
   return (
     <CataloguePageLayout
@@ -244,6 +244,7 @@ const ItemPage: NextPage<Props> = ({
       {(auth?.v1.tokenService || auth?.v2.tokenService) && origin && (
         <IframeAuthMessage
           id={iframeId}
+          title="Authentication"
           src={getIframeAuthSrc({
             workId: work.id,
             origin,
@@ -262,7 +263,7 @@ const ItemPage: NextPage<Props> = ({
       */}
 
       {(!hasImage || hasPdf) && showViewer && (
-        <Layout gridSizes={gridSize12()}>
+        <ContaineredLayout gridSizes={gridSize12()}>
           <Space
             className="body-text"
             $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
@@ -273,7 +274,7 @@ const ItemPage: NextPage<Props> = ({
               placeholderId={placeholderId}
             />
           </Space>
-        </Layout>
+        </ContaineredLayout>
       )}
 
       <Modal
@@ -284,13 +285,13 @@ const ItemPage: NextPage<Props> = ({
         openButtonRef={{ current: null }}
       >
         <div className={font('intr', 5)}>
-          {authService?.label && (
-            <h2 className={font('intb', 4)}>{authService?.label}</h2>
+          {modalContent?.label && (
+            <h2 className={font('intb', 4)}>{modalContent?.label}</h2>
           )}
-          {authService?.description && (
+          {modalContent?.description && (
             <div
               dangerouslySetInnerHTML={{
-                __html: authService?.description,
+                __html: modalContent?.description,
               }}
             />
           )}
@@ -306,7 +307,7 @@ const ItemPage: NextPage<Props> = ({
                 text="Show the content"
                 clickHandler={() => {
                   const authServiceWindow = window.open(
-                    `${authService?.id || ''}?origin=${origin}`
+                    `${modalContent?.id || ''}?origin=${origin}`
                   );
                   authServiceWindow &&
                     authServiceWindow.addEventListener('unload', function () {
@@ -337,6 +338,7 @@ const ItemPage: NextPage<Props> = ({
             searchResults={searchResults}
             setSearchResults={setSearchResults}
             parentManifest={parentManifest}
+            accessToken={accessToken}
           />
         )}
     </CataloguePageLayout>

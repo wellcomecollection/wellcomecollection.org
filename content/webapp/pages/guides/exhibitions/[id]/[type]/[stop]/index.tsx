@@ -9,6 +9,7 @@ import { getCrop } from '@weco/common/model/image';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isFilledSliceZone } from '@weco/common/services/prismic/types';
 import { font, grid } from '@weco/common/utils/classnames';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -17,7 +18,10 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
@@ -39,6 +43,7 @@ import {
 import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/json-ld';
 import {
   ExhibitionGuideType,
+  ExhibitionHighlightTour,
   GuideHighlightTour,
   isValidExhibitionGuideType,
 } from '@weco/content/types/exhibition-guides';
@@ -51,6 +56,7 @@ type Props = {
   exhibitionGuideId: string;
   exhibitionTitle: string;
   stopNumberServerSide: number;
+  exhibitionGuide: ExhibitionHighlightTour;
   allStops: GuideHighlightTour[];
 };
 
@@ -178,7 +184,8 @@ export const getServerSideProps: GetServerSideProps<
         type,
         stopNumberServerSide,
         exhibitionTitle,
-        exhibitionGuideId: id,
+        exhibitionGuideId: exhibitionHighlightTour.id,
+        exhibitionGuide: exhibitionHighlightTour,
         allStops,
       }),
     };
@@ -195,6 +202,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     exhibitionGuideId,
     exhibitionTitle,
     stopNumberServerSide,
+    exhibitionGuide,
     allStops,
   } = props;
   useHotjar(exhibitionGuideId === 'ZthrZRIAACQALvCC'); // Only on Jason and the Adventure of 254
@@ -206,7 +214,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   const [stopNumber, setStopNumber] = useState(stopNumberServerSide);
   const [currentStop, setCurrentStop] = useState(currentStopServerSide);
   const [headerEl, setHeaderEl] = useState<HTMLElement>();
-  const guideTypeUrl = `/guides/exhibitions/${exhibitionGuideId}/${type}`;
+  const guideUrl = linkResolver(exhibitionGuide);
+  const guideTypeUrl = `${guideUrl}/${type}`;
   const pathname = `${guideTypeUrl}/${stopNumber}`;
 
   const headerRef = useCallback((node: HTMLElement) => {
@@ -345,7 +354,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             </div>
           </FlushContainer>
 
-          <Layout gridSizes={gridSize8()}>
+          <ContaineredLayout gridSizes={gridSize8()}>
             <StickyPlayer $sticky={type !== 'bsl'}>
               {type === 'bsl' ? (
                 <>
@@ -383,7 +392,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                 </Space>
               </Space>
             )}
-          </Layout>
+          </ContaineredLayout>
         </div>
         {/* PrevNext needs a view-transition-name even though it isn't transitioning: https://www.nicchan.me/blog/view-transitions-and-stacking-context/#the-workaround */}
         <PrevNext style={{ viewTransitionName: 'prevnext' }}>

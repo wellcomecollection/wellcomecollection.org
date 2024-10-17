@@ -7,7 +7,10 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { unavailableContentMessage } from '@weco/common/data/microcopy';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
 import BetaMessage from '@weco/content/components/BetaMessage/BetaMessage';
@@ -147,11 +150,11 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       if (exclude.length === 0) {
         // If we have exclusions, we don't want to fall back to the BetaMessage
         return (
-          <Layout gridSizes={gridSize12()}>
+          <ContaineredLayout gridSizes={gridSize12()}>
             <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
               <BetaMessage message={unavailableContentMessage} />
             </Space>
-          </Layout>
+          </ContaineredLayout>
         );
       } else {
         return null;

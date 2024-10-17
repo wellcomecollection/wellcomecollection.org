@@ -12,7 +12,10 @@ import {
   ApiToolbarLink,
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import BetaMessage from '@weco/content/components/BetaMessage/BetaMessage';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
@@ -84,13 +87,13 @@ const ImagePage: FunctionComponent<Props> = ({
           setSearchResults={() => null}
         />
       ) : (
-        <Layout gridSizes={gridSize12()}>
+        <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
             <div style={{ marginTop: '98px' }}>
               <BetaMessage message={unavailableContentMessage} />
             </div>
           </Space>
-        </Layout>
+        </ContaineredLayout>
       )}
     </CataloguePageLayout>
   );

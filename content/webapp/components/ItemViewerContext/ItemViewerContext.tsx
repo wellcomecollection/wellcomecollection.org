@@ -52,6 +52,7 @@ type Props = {
   setRotatedImages: (v: RotatedImage[]) => void;
   isResizing: boolean;
   errorHandler?: () => void;
+  accessToken?: string;
 };
 
 export const results = {

@@ -1,5 +1,6 @@
 import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
 import { clock } from '@weco/common/icons';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 import { isContentList } from '@weco/content/types/body';
@@ -27,7 +28,7 @@ export function getTryTheseTooPromos(
       item.type === 'pages'
         ? {
             id: item.id,
-            url: `/pages/${item.id}`,
+            url: linkResolver(item),
             title: item.title,
             image: item.promo!.image!,
             description: item.promo!.caption!,

@@ -47,10 +47,10 @@ export const fetchGuide = async (
   client: GetServerSidePropsPrismicClient,
   id: string
 ): Promise<RawGuidesDocument | undefined> => {
-  // TODO once redirects are in place we should only fetch by uid
+  // #11240 once redirects are in place we should only fetch by uid
   const guideDocument =
-    (await guidesFetcher.getById(client, id)) ||
-    (await guidesFetcher.getByUid(client, id));
+    (await guidesFetcher.getByUid(client, id)) ||
+    (await guidesFetcher.getById(client, id));
 
   return guideDocument;
 };

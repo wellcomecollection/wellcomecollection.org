@@ -2,7 +2,10 @@ import { FunctionComponent } from 'react';
 
 import { info2 } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import Layout, { gridSize10 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize10,
+} from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
@@ -17,7 +20,7 @@ import { SuccessMessage } from './Registration.style';
 export const AccountCreated: FunctionComponent = () => {
   return (
     <PageWrapper title="Account created">
-      <Layout gridSizes={gridSize10()}>
+      <ContaineredLayout gridSizes={gridSize10()}>
         <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
@@ -63,7 +66,7 @@ export const AccountCreated: FunctionComponent = () => {
             </Wrapper>
           </Container>
         </Space>
-      </Layout>
+      </ContaineredLayout>
     </PageWrapper>
   );
 };

@@ -1,10 +1,12 @@
 import { expect, test } from '@playwright/test';
 
-import { newSearch } from './helpers/contexts';
+import { isMobile, newSearch } from './helpers/contexts';
 import {
   clickImageSearchResultItem,
+  openFilterDropdown,
   searchQuerySubmitAndWait,
   selectAndWaitForColourFilter,
+  testIfFilterIsApplied,
 } from './helpers/search';
 
 const ItemViewerURLRegex = /\/works\/[a-zA-Z0-9]+\/images[?]id=/;
@@ -61,4 +63,30 @@ test('(3) | Image Modal | images with contributors show both title and contribut
     imageModal.getByRole('heading', { name: 'Dr. Darwin.' })
   ).toBeVisible();
   await expect(imageModal).toContainText('Fortey, W. S. (William Samuel)');
+});
+
+test('(4) | Search for images between dates; there is a list of results', async ({
+  page,
+  context,
+}) => {
+  await newSearch(context, page, 'images');
+  await searchQuerySubmitAndWait('instruments', page);
+  await openFilterDropdown('Dates', page);
+
+  await page
+    .getByRole('spinbutton', { name: 'From', exact: true })
+    .fill('1812');
+
+  await page.getByRole('spinbutton', { name: 'to', exact: true }).fill('1870');
+
+  if (isMobile(page)) {
+    await page.getByRole('button', { name: 'Show results' }).click();
+  }
+
+  await testIfFilterIsApplied('From 1812', page);
+  await testIfFilterIsApplied('To 1870', page);
+
+  await expect(
+    page.locator('[data-testid="image-search-results-container"] li')
+  ).toHaveCount(30);
 });
