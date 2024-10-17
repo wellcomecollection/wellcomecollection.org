@@ -211,7 +211,7 @@ function getPositionData({
   return highlightsPositioningData || [];
 }
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
-  const { scrollVelocity, canvases, externalAccessService, accessToken } = data;
+  const { scrollVelocity, canvases, externalAccessService } = data;
   const [mainLoaded, setMainLoaded] = useState(false);
   const currentCanvas = canvases[index];
   const mainImageService = { '@id': currentCanvas.imageServiceId };

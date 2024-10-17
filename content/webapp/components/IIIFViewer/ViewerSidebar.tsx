@@ -8,13 +8,14 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
-import { arrow, chevron } from '@weco/common/icons';
+import { arrow, chevron, info2 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import IIIFSearchWithin from '@weco/content/components/IIIFSearchWithin/IIIFSearchWithin';
 import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
 import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
@@ -22,9 +23,31 @@ import WorkLink from '@weco/content/components/WorkLink';
 import WorkTitle from '@weco/content/components/WorkTitle/WorkTitle';
 import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
 import { removeTrailingFullStop, toHtmlId } from '@weco/content/utils/string';
+import { getDigitalLocationInfo } from '@weco/content/utils/works';
 
 import MultipleManifestList from './MultipleManifestList';
 import ViewerStructures from './ViewerStructures';
+
+const RestrictedMessage = styled(Space).attrs({
+  $h: { size: 'm', properties: ['margin-left', 'margin-right'] },
+})`
+  background: ${props => props.theme.color('neutral.200')};
+  color: ${props => props.theme.color('black')};
+  border-radius: 3px;
+  border-left: 5px solid #1672f3;
+`;
+
+const RestrictedMessageTitle = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+
+  h2 {
+    padding-left: 8px;
+    margin-bottom: 0;
+    color: ${props => props.theme.color('accent.blue')};
+  }
+`;
 
 const Inner = styled(Space).attrs({
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -134,6 +157,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
 }) => {
   const { work, transformedManifest, parentManifest } =
     useContext(ItemViewerContext);
+  const { user } = useUser();
 
   const matchingManifest =
     parentManifest &&
@@ -160,8 +184,42 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     note => note.noteType.id === 'location-of-original'
   );
 
+  const digitalLocationInfo =
+    digitalLocation && getDigitalLocationInfo(digitalLocation);
+
+  const isWorkVisibleWithPermission =
+    digitalLocationInfo?.accessCondition === 'restricted' &&
+    user?.role === 'StaffWithRestricted';
+
+  const manifestNeedsRegeneration = false;
+
   return (
     <>
+      {isWorkVisibleWithPermission && (
+        <RestrictedMessage>
+          <Space
+            $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+            $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
+            className={font('intr', 5)}
+          >
+            <RestrictedMessageTitle>
+              <Icon icon={info2} iconColor="accent.blue" />
+              <h2 className={font('intsb', 5)}>Restricted item</h2>
+            </RestrictedMessageTitle>
+
+            <p style={{ marginBottom: manifestNeedsRegeneration ? '1rem' : 0 }}>
+              This item is hidden from the public.
+            </p>
+
+            {manifestNeedsRegeneration && (
+              <p style={{ marginBottom: 0 }}>
+                The manifest for this work needs to be regenerated in order for
+                staff with restricted access to be able to view it.
+              </p>
+            )}
+          </Space>
+        </RestrictedMessage>
+      )}
       <Inner className={font('intb', 5)}>
         {manifestLabel && (
           <span className={font('intr', 5)}>{manifestLabel}</span>

@@ -7,7 +7,7 @@ import {
   bornDigitalMessage,
   treeInstructions,
 } from '@weco/common/data/microcopy';
-import { eye } from '@weco/common/icons';
+import { eye, info2 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { LinkProps } from '@weco/common/model/link-props';
 import { useToggles } from '@weco/common/server-data/Context';
@@ -15,7 +15,10 @@ import { font } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Button from '@weco/common/views/components/Buttons';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import {
   controlDimensions,
   createDownloadTree,
@@ -47,6 +50,40 @@ import { DigitalLocationInfo } from '@weco/content/utils/works';
 
 import WorkDetailsLicence from './WorkDetails.Licence';
 import WorkDetailsSection from './WorkDetails.Section';
+
+const RestrictedMessage = styled(Space).attrs({
+  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  className: font('intr', 5),
+})`
+  position: relative;
+  border-radius: 3px;
+  border: 1px solid ${props => props.theme.color('black')};
+  background-color: ${props => props.theme.color('white')};
+
+  &::after {
+    position: absolute;
+    content: '';
+    bottom: -4px;
+    left: -1px;
+    height: 8px;
+    width: calc(100% + 2px);
+    border-radius: 3px;
+    background-color: ${props => props.theme.color('black')};
+    z-index: -1;
+  }
+`;
+
+const RestrictedMessageTitle = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+
+  h3 {
+    padding-left: 8px;
+    margin-bottom: 0;
+  }
+`;
 
 const TreeHeadings = styled(Space).attrs({
   $v: { size: 'xl', properties: ['margin-top'] },
@@ -100,6 +137,18 @@ const ItemPageLink = ({
   canvasCount,
   digitalLocationInfo,
 }) => {
+  const { user } = useUser();
+
+  const isDownloadable =
+    digitalLocationInfo?.accessCondition !== 'open-with-advisory' &&
+    downloadOptions.length > 0;
+
+  const isWorkVisibleWithPermission =
+    digitalLocationInfo?.accessCondition === 'restricted' &&
+    user?.role === 'StaffWithRestricted';
+
+  const manifestNeedsRegeneration = false;
+
   return (
     <>
       {work.thumbnail && (
@@ -132,40 +181,80 @@ const ItemPageLink = ({
           </ConditionalWrapper>
         </Space>
       )}
-      <div style={{ display: 'flex' }}>
-        {itemUrl && (
-          <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
-            <Button
-              variant="ButtonSolidLink"
-              icon={eye}
-              text="View"
-              link={{ ...itemUrl }}
-            />
+
+      <ConditionalWrapper
+        condition={isWorkVisibleWithPermission}
+        wrapper={children => (
+          <Layout gridSizes={gridSize8(false)}>
+            <RestrictedMessage>
+              <RestrictedMessageTitle>
+                <Icon icon={info2} attrs={{}} />
+                <h3 className={font('intsb', 4)}>Restricted item</h3>
+              </RestrictedMessageTitle>
+
+              <p style={{ marginBottom: '1rem' }}>
+                This item is hidden from the public and can only be viewed by
+                staff.
+              </p>
+
+              {manifestNeedsRegeneration && (
+                <p style={{ marginBottom: '1rem' }}>
+                  The manifest for this work needs to be regenerated in order
+                  for staff with restricted access to be able to view it.
+                </p>
+              )}
+              {children}
+            </RestrictedMessage>
+          </Layout>
+        )}
+      >
+        <ConditionalWrapper
+          condition={isWorkVisibleWithPermission}
+          wrapper={children => (
+            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+              {children}
+            </Space>
+          )}
+        >
+          {(Boolean(collectionManifestsCount && collectionManifestsCount > 0) ||
+            Boolean(canvasCount && canvasCount > 0)) && (
+            <p className={`${font('lr', 6)}`} style={{ marginBottom: 0 }}>
+              Contains:{' '}
+              {collectionManifestsCount && collectionManifestsCount > 0
+                ? `${collectionManifestsCount} ${
+                    collectionManifestsCount === 1 ? 'volume' : 'volumes'
+                  }`
+                : canvasCount && canvasCount > 0
+                  ? `${canvasCount} ${canvasCount === 1 ? 'image' : 'images'}`
+                  : ''}
+            </p>
+          )}
+        </ConditionalWrapper>
+
+        {(itemUrl || isDownloadable) && (
+          <Space
+            $v={{ size: 's', properties: ['margin-top'] }}
+            style={{ display: 'flex' }}
+          >
+            {itemUrl && (
+              <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
+                <Button
+                  variant="ButtonSolidLink"
+                  icon={eye}
+                  text="View"
+                  link={{ ...itemUrl }}
+                />
+              </Space>
+            )}
+            {isDownloadable && (
+              <Download
+                ariaControlsId="itemDownloads"
+                downloadOptions={downloadOptions}
+              />
+            )}
           </Space>
         )}
-        {digitalLocationInfo?.accessCondition !== 'open-with-advisory' &&
-          downloadOptions.length > 0 && (
-            <Download
-              ariaControlsId="itemDownloads"
-              downloadOptions={downloadOptions}
-            />
-          )}
-      </div>
-      {(Boolean(collectionManifestsCount && collectionManifestsCount > 0) ||
-        Boolean(canvasCount && canvasCount > 0)) && (
-        <Space $v={{ size: 'm', properties: ['margin-top'] }}>
-          <p className={`${font('lr', 6)}`} style={{ marginBottom: 0 }}>
-            Contains:{' '}
-            {collectionManifestsCount && collectionManifestsCount > 0
-              ? `${collectionManifestsCount} ${
-                  collectionManifestsCount === 1 ? 'volume' : 'volumes'
-                }`
-              : canvasCount && canvasCount > 0
-                ? `${canvasCount} ${canvasCount === 1 ? 'image' : 'images'}`
-                : ''}
-          </p>
-        </Space>
-      )}
+      </ConditionalWrapper>
     </>
   );
 };
