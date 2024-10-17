@@ -69,6 +69,11 @@ const promises = urls.map(url =>
     chromeLaunchConfig: {
       args: ['--no-sandbox'],
     },
+    ignore: [
+      // Iframe element requires a non-empty title attribute that identifies the frame.
+      // https://github.com/wellcomecollection/wellcomecollection.org/issues/11269
+      'WCAG2AA.Principle2.Guideline2_4.2_4_1.H64.1',
+    ],
   })
 );
 
