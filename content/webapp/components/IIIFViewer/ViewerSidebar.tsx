@@ -191,6 +191,8 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     digitalLocationInfo?.accessCondition === 'restricted' &&
     user?.role === 'StaffWithRestricted';
 
+  const manifestNeedsRegeneration = false;
+
   return (
     <>
       {isWorkVisibleWithPermission && (
@@ -198,15 +200,23 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           <Space
             $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
             $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
+            className={font('intr', 5)}
           >
             <RestrictedMessageTitle>
               <Icon icon={info2} iconColor="accent.blue" />
               <h2 className={font('intsb', 5)}>Restricted item</h2>
             </RestrictedMessageTitle>
 
-            <p style={{ marginBottom: 0 }} className={font('intr', 5)}>
+            <p style={{ marginBottom: manifestNeedsRegeneration ? '1rem' : 0 }}>
               This item is hidden from the public.
             </p>
+
+            {manifestNeedsRegeneration && (
+              <p style={{ marginBottom: 0 }}>
+                The manifest for this work needs to be regenerated in order for
+                staff with restricted access to be able to view it.
+              </p>
+            )}
           </Space>
         </RestrictedMessage>
       )}

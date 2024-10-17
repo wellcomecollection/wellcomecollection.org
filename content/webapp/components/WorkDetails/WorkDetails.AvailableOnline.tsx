@@ -54,6 +54,7 @@ import WorkDetailsSection from './WorkDetails.Section';
 const RestrictedMessage = styled(Space).attrs({
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  className: font('intr', 5),
 })`
   position: relative;
   border-radius: 3px;
@@ -146,6 +147,8 @@ const ItemPageLink = ({
     digitalLocationInfo?.accessCondition === 'restricted' &&
     user?.role === 'StaffWithRestricted';
 
+  const manifestNeedsRegeneration = false;
+
   return (
     <>
       {work.thumbnail && (
@@ -189,10 +192,17 @@ const ItemPageLink = ({
                 <h3 className={font('intsb', 4)}>Restricted item</h3>
               </RestrictedMessageTitle>
 
-              <p className={font('intr', 5)} style={{ marginBottom: '1rem' }}>
+              <p style={{ marginBottom: '1rem' }}>
                 This item is hidden from the public and can only be viewed by
                 staff.
               </p>
+
+              {manifestNeedsRegeneration && (
+                <p style={{ marginBottom: '1rem' }}>
+                  The manifest for this work needs to be regenerated in order
+                  for staff with restricted access to be able to view it.
+                </p>
+              )}
               {children}
             </RestrictedMessage>
           </Layout>
