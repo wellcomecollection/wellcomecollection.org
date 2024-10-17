@@ -339,7 +339,8 @@ export function getTokenService(
       )
     : clickThroughService?.service;
 }
-type AuthServices = {
+
+export type AuthServices = {
   active?: TransformedAuthService;
   external?: TransformedAuthService;
 };
