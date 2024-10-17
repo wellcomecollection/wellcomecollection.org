@@ -1,8 +1,18 @@
+import { Meta, StoryObj } from '@storybook/react';
+
 import { captionedImage } from '@weco/cardigan/stories/data/images';
 import CaptionedImage from '@weco/content/components/CaptionedImage/CaptionedImage';
 
-const Template = args => <CaptionedImage {...args} />;
-export const basic = Template.bind({});
+const meta: Meta<typeof CaptionedImage> = {
+  title: 'Components/CaptionedImage',
+  component: CaptionedImage,
+  args: captionedImage(),
+};
 
-basic.args = captionedImage();
-basic.storyName = 'CaptionedImage';
+export default meta;
+
+type Story = StoryObj<typeof CaptionedImage>;
+
+export const Basic: Story = {
+  name: 'CaptionedImage',
+};

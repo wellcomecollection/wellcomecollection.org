@@ -1,5 +1,16 @@
+import { Meta, StoryObj } from '@storybook/react';
+
 import NewsletterSignup from '@weco/content/components/NewsletterSignup/NewsletterSignup';
 
-const Template = args => <NewsletterSignup {...args} />;
-export const basic = Template.bind({});
-basic.storyName = 'NewsletterSignup';
+const meta: Meta<typeof NewsletterSignup> = {
+  title: 'Components/NewsletterSignup',
+  component: NewsletterSignup,
+};
+
+export default meta;
+
+type Story = StoryObj<typeof NewsletterSignup>;
+
+export const Basic: Story = {
+  name: 'NewsletterSignup',
+};

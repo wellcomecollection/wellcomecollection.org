@@ -1,17 +1,31 @@
+import { Meta, StoryObj } from '@storybook/react';
+
 import collectionTree from '@weco/cardigan/stories/data/collection-tree';
 import ArchiveTree from '@weco/content/components/ArchiveTree';
+import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
 
-const Template = args => <ArchiveTree {...args} />;
-
-export const basic = Template.bind({});
-basic.args = {
-  work: collectionTree,
-};
-basic.storyName = 'ArchiveTree';
-basic.parameters = {
-  chromatic: {
-    // I tried to delay the snapshot for 15s (the max) and it still gives an error.
-    // This still allows the Canvas view, it just won't snapshot/compare it.
+const meta: Meta<typeof ArchiveTree> = {
+  title: 'Components/ArchiveTree',
+  component: ArchiveTree,
+  args: {
+    work: collectionTree,
+  },
+  parameters: {
     disableSnapshot: true,
   },
+};
+
+export default meta;
+
+type Story = StoryObj<typeof ArchiveTree>;
+
+const Template = args => (
+  <IsArchiveContext.Provider value={true}>
+    <ArchiveTree {...args} />
+  </IsArchiveContext.Provider>
+);
+
+export const Basic: Story = {
+  name: 'ArchiveTree',
+  render: Template,
 };

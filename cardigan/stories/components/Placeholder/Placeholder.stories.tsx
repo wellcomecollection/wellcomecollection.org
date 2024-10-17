@@ -1,13 +1,29 @@
+import { Meta, StoryObj } from '@storybook/react';
+
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import Placeholder from '@weco/content/components/Placeholder/Placeholder';
-import Readme from '@weco/content/components/Placeholder/README.md';
+import Readme from '@weco/content/components/Placeholder/README.mdx';
 
-const Template = args => (
-  <ReadmeDecorator WrappedComponent={Placeholder} args={args} Readme={Readme} />
-);
-export const basic = Template.bind({});
-basic.args = {
-  isLoading: true,
-  nRows: 1,
+const meta: Meta<typeof Placeholder> = {
+  title: 'Components/Placeholder',
+  component: Placeholder,
+  args: {
+    isLoading: true,
+    nRows: 1,
+  },
 };
-basic.storyName = 'Placeholder';
+
+export default meta;
+
+type Story = StoryObj<typeof Placeholder>;
+
+export const Basic: Story = {
+  name: 'Placeholder',
+  render: args => (
+    <ReadmeDecorator
+      WrappedComponent={Placeholder}
+      args={args}
+      Readme={Readme}
+    />
+  ),
+};

@@ -1,35 +1,47 @@
+import { Meta, StoryObj } from '@storybook/react';
+
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { image as genericImage } from '@weco/cardigan/stories/data/images';
 import { smallText } from '@weco/cardigan/stories/data/text';
 import { mockIcons } from '@weco/common/test/fixtures/components/text-and-icons';
 import TextAndImageOrIcons from '@weco/content/components/TextAndImageOrIcons';
-import Readme from '@weco/content/components/TextAndImageOrIcons/README.md';
+import Readme from '@weco/content/components/TextAndImageOrIcons/README.mdx';
 
-const Template = args => (
-  <ReadmeDecorator
-    WrappedComponent={TextAndImageOrIcons}
-    args={args}
-    Readme={Readme}
-  />
-);
+const meta: Meta<typeof TextAndImageOrIcons> = {
+  title: 'Components/TextAndImageOrIcons',
+  component: TextAndImageOrIcons,
+  render: args => (
+    <ReadmeDecorator
+      WrappedComponent={TextAndImageOrIcons}
+      args={args}
+      Readme={Readme}
+    />
+  ),
+};
 
-export const icons = Template.bind({});
-icons.args = {
-  item: {
-    type: 'icons',
-    icons: mockIcons,
-    text: smallText(),
+export default meta;
+
+type Story = StoryObj<typeof TextAndImageOrIcons>;
+
+export const Icons: Story = {
+  name: 'Text and icons',
+  args: {
+    item: {
+      type: 'icons',
+      icons: mockIcons,
+      text: smallText(),
+    },
   },
 };
-icons.storyName = 'TextAndIcons';
 
-export const image = Template.bind({});
-image.args = {
-  item: {
-    type: 'image',
-    image: genericImage(),
-    isZoomable: true,
-    text: smallText(),
+export const Image: Story = {
+  name: 'Text and image',
+  args: {
+    item: {
+      type: 'image',
+      image: genericImage(),
+      isZoomable: true,
+      text: smallText(),
+    },
   },
 };
-image.storyName = 'TextAndImage';

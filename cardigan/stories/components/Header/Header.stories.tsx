@@ -1,18 +1,29 @@
+import { Meta, StoryObj } from '@storybook/react';
+
 import Header, {
   exhibitionGuidesLinks,
 } from '@weco/common/views/components/Header/Header';
 
-const Template = args => <Header {...args} />;
-export const basic = Template.bind({});
-basic.args = {
-  siteSection: 'stories',
-  isActive: true,
+const meta: Meta<typeof Header> = {
+  title: 'Components/Header',
+  component: Header,
+  args: {
+    siteSection: 'stories',
+  },
 };
-basic.storyName = 'Header';
 
-export const exhibitionGuides = Template.bind({});
-exhibitionGuides.args = {
-  customNavLinks: exhibitionGuidesLinks,
-  isMinimalHeader: true,
+export default meta;
+
+type Story = StoryObj<typeof Header>;
+
+export const Basic: Story = {
+  name: 'Default',
 };
-exhibitionGuides.storyName = 'Exhibition guides';
+
+export const ExhibitionGuides: Story = {
+  name: 'Exhibition guides',
+  args: {
+    customNavLinks: exhibitionGuidesLinks,
+    isMinimalHeader: true,
+  },
+};

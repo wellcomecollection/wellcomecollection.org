@@ -1,13 +1,25 @@
+import { Meta, StoryObj } from '@storybook/react';
+
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { venues } from '@weco/common/test/fixtures/components/venues';
 import Footer from '@weco/common/views/components/Footer';
-import Readme from '@weco/common/views/components/Footer/README.md';
+import Readme from '@weco/common/views/components/Footer/README.mdx';
 
-const Template = args => (
-  <ReadmeDecorator WrappedComponent={Footer} args={args} Readme={Readme} />
-);
-export const basic = Template.bind({});
-basic.args = {
-  venues,
+const meta: Meta<typeof Footer> = {
+  title: 'Components/Footer',
+  component: Footer,
+  args: {
+    venues,
+  },
 };
-basic.storyName = 'Footer';
+
+export default meta;
+
+type Story = StoryObj<typeof Footer>;
+
+export const Basic: Story = {
+  name: 'Footer',
+  render: args => (
+    <ReadmeDecorator WrappedComponent={Footer} args={args} Readme={Readme} />
+  ),
+};
