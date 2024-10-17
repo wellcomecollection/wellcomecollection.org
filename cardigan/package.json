@@ -3,7 +3,7 @@
   "license": "MIT",
   "version": "1.0.0",
   "scripts": {
-    "dev": "storybook dev -c .storybook",
+    "dev": "storybook dev -c .storybook -p 9001",
     "build": "storybook build -c .storybook -o .dist",
     "chromatic": "chromatic --only-changed"
   },
@@ -19,7 +19,7 @@
     "@storybook/theming": "^8.3.5",
     "chromatic": "^6.21.1",
     "husky": "^4.3.0",
-    "next": "14.2.15",
+    "next": "13.5.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "typescript": "^5.6.2",
