@@ -3,10 +3,8 @@ import { FunctionComponent } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { AppErrorProps } from '@weco/common/services/app';
-import CollectionsStaticContent from '@weco/content/components/Body/CollectionsStaticContent';
+import * as page from '@weco/content/pages/pages/[pageId]';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-
-import * as page from './pages/[pageId]';
 
 export const getServerSideProps: GetServerSideProps<
   page.Props | AppErrorProps
@@ -14,13 +12,13 @@ export const getServerSideProps: GetServerSideProps<
   setCacheControl(context.res);
   return page.getServerSideProps({
     ...context,
-    query: { pageId: prismicPageIds.collections },
+    query: { pageId: prismicPageIds.getInvolved },
+    params: { siteSection: 'get-involved' },
   });
 };
 
-const CollectionsPage: FunctionComponent<page.Props> = (props: page.Props) => {
-  const staticContent = <CollectionsStaticContent />;
-  return <page.Page {...props} staticContent={staticContent} />;
+const GetInvolved: FunctionComponent<page.Props> = (props: page.Props) => {
+  return <page.Page {...props}></page.Page>;
 };
 
-export default CollectionsPage;
+export default GetInvolved;
