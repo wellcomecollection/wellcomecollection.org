@@ -157,10 +157,10 @@ class Iframe extends Component<Props, State> {
         {this.state.iframeShowing && (
           <iframe
             className="iframe"
+            aria-hidden="true"
             ref={this.iframeRef}
             src={src}
-            frameBorder="0"
-            scrolling="no"
+            style={{ border: 0 }}
             allow="fullscreen; xr-spatial-tracking"
           />
         )}
