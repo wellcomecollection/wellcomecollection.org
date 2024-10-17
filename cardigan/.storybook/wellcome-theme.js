@@ -1,10 +1,8 @@
 import { create } from '@storybook/theming';
-import logo from '../public/images/favicon.ico';
 
 export default create({
   base: 'light',
   brandTitle: 'Cardigan',
-  brandUrl: 'https://wellcomecollection.org',
-  brandImage:`/${logo}`,
+  brandUrl: 'https://cardigan.wellcomecollection.org',
   fontBase: '"Inter", sans-serif',
 });

@@ -1,10 +1,21 @@
+import { Meta, StoryObj } from '@storybook/react';
+
 import DownloadLink from '@weco/content/components/DownloadLink/DownloadLink';
 
-const Template = args => <DownloadLink {...args} />;
-export const basic = Template.bind({});
-basic.args = {
-  href: '/',
-  linkText: 'Download file',
-  format: 'PDF',
+const meta: Meta<typeof DownloadLink> = {
+  title: 'Components/DownloadLink',
+  component: DownloadLink,
+  args: {
+    href: '/',
+    linkText: 'Download file',
+    format: 'PDF',
+  },
 };
-basic.storyName = 'DownloadLink';
+
+export default meta;
+
+type Story = StoryObj<typeof DownloadLink>;
+
+export const Basic: Story = {
+  name: 'DownloadLink',
+};
