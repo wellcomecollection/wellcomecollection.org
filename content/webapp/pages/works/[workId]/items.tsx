@@ -244,6 +244,7 @@ const ItemPage: NextPage<Props> = ({
       {(auth?.v1.tokenService || auth?.v2.tokenService) && origin && (
         <IframeAuthMessage
           id={iframeId}
+          title="Authentication"
           src={getIframeAuthSrc({
             workId: work.id,
             origin,
