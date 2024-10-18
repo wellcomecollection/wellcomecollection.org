@@ -1,6 +1,7 @@
 import { FunctionComponent, useRef } from 'react';
 import styled from 'styled-components';
 
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { Venue } from '@weco/common/model/opening-hours';
 import { font } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider/Divider';
@@ -159,6 +160,8 @@ const BackToTopButton = styled.button.attrs({
 const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
   const footer = useRef<HTMLDivElement>(null);
 
+  const hasVenuesInfo = Array.isArray(venues) && venues.length > 0;
+
   return (
     <Wrapper ref={footer}>
       <Container>
@@ -172,20 +175,23 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
           </FindUsContainer>
 
           <OpeningTimesContainer>
-            {Array.isArray(venues) && venues.length > 0 ? (
+            {/* Error pages do not receive serverData so should only display
+            openingtimes link */}
+            {hasVenuesInfo && (
               <>
                 <h4 className={font('intb', 5)}>Today&rsquo;s opening times</h4>
                 <OpeningTimes venues={venues} />
-                <Space as="p" $v={{ size: 'm', properties: ['margin-top'] }}>
-                  <a href="/opening-times">Opening times</a>
-                </Space>
               </>
-            ) : (
-              // Error pages do not receive serverData so should only display openingtimes link
-              <Space as="p" $v={{ size: 'm', properties: ['margin-bottom'] }}>
-                <a href="/opening-times">Opening times</a>
-              </Space>
             )}
+            <Space
+              as="p"
+              $v={{
+                size: 'm',
+                properties: [hasVenuesInfo ? 'margin-top' : 'margin-bottom'],
+              }}
+            >
+              <a href={`/${prismicPageIds.openingTimes}`}>Opening times</a>
+            </Space>
           </OpeningTimesContainer>
 
           <InternalNavigationContainer>

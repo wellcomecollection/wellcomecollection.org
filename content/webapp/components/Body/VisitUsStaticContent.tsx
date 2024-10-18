@@ -1,6 +1,7 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import { font, grid } from '@weco/common/utils/classnames';
@@ -51,7 +52,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
                   properties: ['margin-top'],
                 }}
               >
-                <a href="/opening-times">Opening times</a>
+                <a href={`/${prismicPageIds.openingTimes}`}>Opening times</a>
               </Space>
             </OpeningTimesWrapper>
           </div>

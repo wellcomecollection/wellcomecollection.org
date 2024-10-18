@@ -5,6 +5,7 @@ import {
   newsletterAddressBook,
   secondaryAddressBooks,
 } from '@weco/common/data/dotdigital';
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import useValidation from '@weco/common/hooks/useValidation';
 import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
@@ -74,7 +75,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             the emails you receive.
           </p>
           <p>
-            <a href="/whats-on">
+            <a href={`/${[prismicPageIds.whatsOn]}`}>
               Browse our current and upcoming exhibitions and events
             </a>
             .

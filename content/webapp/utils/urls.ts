@@ -20,3 +20,6 @@ export function isVanityUrl(pageId: string, url: string): boolean {
 
   return !containsPageId && looksLikeVanityUrl;
 }
+
+// TODO what do we do with this?
+// Remove?
