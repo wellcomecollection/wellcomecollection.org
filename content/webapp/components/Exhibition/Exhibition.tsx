@@ -2,6 +2,7 @@ import * as prismic from '@prismicio/client';
 import { Fragment, FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { a11y } from '@weco/common/data/microcopy';
 import {
   a11Y,
@@ -115,7 +116,7 @@ function getTodaysHoursObject(): ExhibitionItem {
     end: todaysHoursText.length,
     data: {
       link_type: 'Web',
-      url: '/opening-times',
+      url: `/${prismicPageIds.openingTimes}`,
     },
   };
 
@@ -377,8 +378,8 @@ const Exhibition: FunctionComponent<Props> = ({
         <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
           <AccessibilityServices>
             For more information, please visit our{' '}
-            <a href="/access">Accessibility</a> page. If you have any queries
-            about accessibility, please email us at{' '}
+            <a href={`/${prismicPageIds.access}`}>Accessibility</a> page. If you
+            have any queries about accessibility, please email us at{' '}
             <a href="mailto:access@wellcomecollection.org">
               access@wellcomecollection.org
             </a>{' '}

@@ -90,17 +90,18 @@ import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 const tabItems = [
   {
     id: 'current-and-coming-up',
-    url: '/whats-on',
+    url: `/${prismicPageIds.whatsOn}`,
     text: 'Everything',
   },
   {
     id: 'today',
-    url: '/whats-on/today',
+    // TODO discuss these; do we want to use this technique?
+    url: `/${prismicPageIds.whatsOn}/today`,
     text: 'Today',
   },
   {
     id: 'this-weekend',
-    url: '/whats-on/this-weekend',
+    url: `/${prismicPageIds.whatsOn}/this-weekend`,
     text: 'This weekend',
   },
 ];
@@ -145,6 +146,7 @@ const ClosedMessage = () => (
       <InfoIconWrapper>
         <Icon icon={information} />
       </InfoIconWrapper>
+      {/* TODO change URLs */}
       <p className={font('intr', 5)}>
         Our exhibitions are closed today, but our{' '}
         <a href="/pages/Wvl1wiAAADMJ3zNe">café</a> and{' '}
@@ -276,7 +278,7 @@ const Header: FunctionComponent<HeaderProps> = ({
                   </div>
                 )}
                 <NextLink
-                  href="/opening-times"
+                  href={`/${prismicPageIds.openingTimes}`}
                   as="/opening-times"
                   className={font('intb', 5)}
                 >

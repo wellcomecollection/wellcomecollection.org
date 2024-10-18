@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { homepageId } from '@weco/common/data/hardcoded-ids';
+import { homepageId, prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { homepageHeading, pageDescriptions } from '@weco/common/data/microcopy';
 import { ImageType } from '@weco/common/model/image';
 import {
@@ -269,7 +269,10 @@ const Homepage: FunctionComponent<Props> = ({
                 exhibitions={exhibitions}
                 events={nextSevenDaysEvents}
                 links={[
-                  { text: 'All exhibitions and events', url: '/whats-on' },
+                  {
+                    text: 'All exhibitions and events',
+                    url: `/${prismicPageIds.whatsOn}`,
+                  },
                 ]}
               />
             </SpacingComponent>

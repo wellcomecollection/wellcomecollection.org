@@ -27,6 +27,8 @@ const baseUrl = isPullRequestRun
 //
 // See .buildkite/urls/expected_200_urls.txt
 //
+
+// TODO change these urls to uid-based ones
 const urls = [
   '/',
   '/visit-us',

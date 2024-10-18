@@ -189,15 +189,17 @@ export const literalRedirects: Record<string, string> = {
   '/exhibitions/medicine-man': '/exhibitions/Weoe4SQAAKJwjcDC',
   '/graphicdesign': '/exhibitions/WZwh4ioAAJ3usf86',
 
-  '/about-us': '/pages/Wuw2MSIAACtd3Stq',
-  '/access': '/pages/Wvm2uiAAAIYQ4FHP',
-  '/get-involved': '/pages/YDaZmxMAACIAT9u8',
-  '/opening-times': '/pages/WwQHTSAAANBfDYXU',
-  '/press': '/pages/WuxrKCIAAP9h3hmw',
-  '/schools': '/pages/Wuw2MSIAACtd3StS',
-  '/user-panel': '/pages/YH17kRAAACoAyWTB',
-  '/venue-hire': '/pages/Wuw2MSIAACtd3SsC',
-  '/what-we-do': '/pages/WwLGFCAAAPMiB_Ps',
+  // TODO: am I ok to remove these? Were they permanent?
+  // We want to avoid a loop of redirection here.
+  //   '/about-us': '/pages/Wuw2MSIAACtd3Stq',
+  // '/access': '/pages/Wvm2uiAAAIYQ4FHP',
+  // '/get-involved': '/pages/YDaZmxMAACIAT9u8',
+  // '/opening-times': '/pages/WwQHTSAAANBfDYXU',
+  // '/press': '/pages/WuxrKCIAAP9h3hmw',
+  // '/schools': '/pages/Wuw2MSIAACtd3StS',
+  // '/user-panel': '/pages/YH17kRAAACoAyWTB',
+  // '/venue-hire': '/pages/Wuw2MSIAACtd3SsC',
+  // '/what-we-do': '/pages/WwLGFCAAAPMiB_Ps',
   '/youth': '/pages/Wuw2MSIAACtd3Ssg',
 
   // This is the Prismic page for the homepage
