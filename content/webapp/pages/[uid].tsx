@@ -12,6 +12,7 @@ export const getServerSideProps: GetServerSideProps<
   return page.getServerSideProps({
     ...context,
     query: { pageId: context.query.uid },
+    params: { siteSection: 'orphan' },
   });
 };
 

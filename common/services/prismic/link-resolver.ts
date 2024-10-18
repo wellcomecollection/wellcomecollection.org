@@ -1,3 +1,5 @@
+import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
+
 import { isContentType } from './content-types';
 
 type Props = {
@@ -13,10 +15,12 @@ type DataProps = {
       type: string;
     };
   };
+  siteSection: SiteSection;
 };
 
 function linkResolver(doc: Props | DataProps): string {
   const { uid, type } = doc;
+
   if (!uid) return '/';
   if (type === 'webcomics') return `/articles/${uid}`;
   if (type === 'webcomic-series') return `/series/${uid}`;
@@ -39,6 +43,13 @@ function linkResolver(doc: Props | DataProps): string {
         return `/visual-stories/${uid}`;
       }
     }
+  }
+
+  if (type === 'pages') {
+    if ('siteSection' in doc) {
+      return `${doc.siteSection}/${uid}`;
+    }
+    return `/${uid}`;
   }
 
   if (isContentType(type)) {
