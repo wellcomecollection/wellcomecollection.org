@@ -26,7 +26,7 @@ function reloadAuthIframe(document: Document, id: string) {
 
 type Props = PropsWithChildren<{
   clickThroughService: TransformedAuthService | undefined;
-  tokenService: TransformedAuthService | undefined;
+  tokenService: string;
 }>;
 
 const IIIFClickthrough: FunctionComponent<Props> = ({
@@ -49,7 +49,7 @@ const IIIFClickthrough: FunctionComponent<Props> = ({
         <IframeAuthMessage
           id={iframeId}
           title="IIIF Authentication iframe for cross-domain messaging"
-          src={`${tokenService.id}?messageId=1&origin=${origin}`}
+          src={tokenService}
         />
       )}
       {showClickthroughMessage ? (
