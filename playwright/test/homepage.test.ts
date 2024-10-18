@@ -27,7 +27,7 @@ test('(2) | Cookie banner displays on first visit from anywhere, except the cook
   await gotoWithoutCache(`${baseUrl}/visit-us`, page);
   await expect(cookieBanner).toBeAttached();
 
-  await gotoWithoutCache(`${baseUrl}/cookie-policy`, page);
+  await gotoWithoutCache(`${baseUrl}/about-us/cookie-policy`, page);
   await expect(cookieBanner).not.toBeAttached();
 });
 
