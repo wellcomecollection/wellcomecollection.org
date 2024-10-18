@@ -269,6 +269,8 @@ const WorkDetailsAvailableOnline = ({
   locationOfWork,
   transformedManifest,
 }: Props) => {
+  const { user } = useUser();
+  const role = user?.role;
   const { authV2 } = useToggles();
   const {
     collectionManifestsCount,
@@ -282,9 +284,8 @@ const WorkDetailsAvailableOnline = ({
   } = { ...transformedManifest };
 
   const tokenService = getIframeTokenSrc({
-    authServices,
     role,
-    workId,
+    workId: work.id,
     origin,
     auth,
     authV2,
@@ -320,16 +321,14 @@ const WorkDetailsAvailableOnline = ({
     >
       <ConditionalWrapper
         condition={Boolean(tokenService && !shouldShowItemLink)}
-        wrapper={children =>
-          itemUrl && (
-            <IIIFClickthrough
-              clickThroughService={activeAccessService}
-              tokenService={tokenService}
-            >
-              {children}
-            </IIIFClickthrough>
-          )
-        }
+        wrapper={children => (
+          <IIIFClickthrough
+            clickThroughService={activeAccessService}
+            tokenService={tokenService || ''}
+          >
+            {children}
+          </IIIFClickthrough>
+        )}
       >
         {isBornDigital && !allOriginalPdfs && (
           <>
