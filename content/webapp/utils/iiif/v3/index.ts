@@ -368,14 +368,12 @@ export function getAuthServices({
 }
 
 export function getIframeTokenSrc({
-  authServices,
   role,
   workId,
   origin,
   auth,
   authV2,
 }: {
-  authServices: AuthServices;
   role?: string;
   workId: string;
   origin: string;
@@ -385,8 +383,9 @@ export function getIframeTokenSrc({
   // We want the token source to be from the same auth version as the authService
   // We use v2 if we have a v2 external service and the user has a role of 'StaffWithRestricted'
   // OR if the authV2 toggle is true
+  const authServices = getAuthServices({ auth, authV2 });
   const useV2TokenService =
-    (authServices.external?.id ===
+    (authServices?.external?.id ===
       'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin' &&
       role === 'StaffWithRestricted') ||
     authV2;
