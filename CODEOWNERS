@@ -1,2 +1,2 @@
-# These are default codeowners, later rules take precedence
-*	@wellcomecollection/js-ts-reviewers
+*   @wellcomecollection/digital-platform
+    
