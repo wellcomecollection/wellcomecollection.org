@@ -1,9 +1,4 @@
-import {
-  FunctionComponent,
-  PropsWithChildren,
-  useEffect,
-  useState,
-} from 'react';
+import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
@@ -34,14 +29,10 @@ const IIIFClickthrough: FunctionComponent<Props> = ({
   tokenService,
   children,
 }) => {
-  const [origin, setOrigin] = useState<string>();
   const showClickthroughMessage = useShowClickthrough(
     clickThroughService,
     tokenService
   );
-  useEffect(() => {
-    setOrigin(`${window.location.protocol}//${window.location.hostname}`);
-  }, []);
 
   return clickThroughService && tokenService ? (
     <>
