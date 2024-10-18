@@ -7,7 +7,10 @@ import { AppErrorProps } from '@weco/common/services/app';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import { font, grid } from '@weco/common/utils/classnames';
 import FindUs from '@weco/common/views/components/FindUs/FindUs';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
@@ -20,7 +23,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
 
   return (
     <SpacingSection>
-      <Layout gridSizes={gridSize12()}>
+      <ContaineredLayout gridSizes={gridSize12()}>
         <div className="grid">
           <div className={grid({ s: 12, l: 5, xl: 5 })}>
             <FindUs />
@@ -35,7 +38,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
             </Space>
           </div>
         </div>
-      </Layout>
+      </ContaineredLayout>
     </SpacingSection>
   );
 };
