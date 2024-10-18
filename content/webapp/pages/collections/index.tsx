@@ -3,7 +3,10 @@ import { FunctionComponent } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { AppErrorProps } from '@weco/common/services/app';
-import Layout, { gridSize12 } from '@weco/common/views/components/Layout';
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import * as page from '@weco/content/pages/pages/[pageId]';
@@ -25,11 +28,11 @@ const CollectionsPage: FunctionComponent<page.Props> = (props: page.Props) => {
     <page.Page
       {...props}
       staticContent={
-        <Layout gridSizes={gridSize12()}>
+        <ContaineredLayout gridSizes={gridSize12()}>
           <SpacingSection>
             <SearchForm searchCategory="works" location="page" />
           </SpacingSection>
-        </Layout>
+        </ContaineredLayout>
       }
     />
   );
