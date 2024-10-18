@@ -1,6 +1,8 @@
+import { Meta, StoryObj } from '@storybook/react';
+
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import EventDateRange from '@weco/content/components/EventDateRange';
-import Readme from '@weco/content/components/EventDateRange/README.md';
+import Readme from '@weco/content/components/EventDateRange/README.mdx';
 
 const dateString = '2022-03-01T13:15:00Z';
 
@@ -23,30 +25,43 @@ const eventTimes = [
       startDateTime: firstDate,
       endDateTime: thirdDate,
     },
+    isFullyBooked: { inVenue: false, online: false },
   },
   {
     range: {
       startDateTime: secondDate,
       endDateTime: fourthDate,
     },
+    isFullyBooked: { inVenue: false, online: false },
   },
   {
     range: {
       startDateTime: thirdDate,
       endDateTime: fifthDate,
     },
+    isFullyBooked: { inVenue: false, online: false },
   },
 ];
 
-const Template = args => (
-  <ReadmeDecorator
-    WrappedComponent={EventDateRange}
-    args={args}
-    Readme={Readme}
-  />
-);
-export const basic = Template.bind({});
-basic.args = {
-  eventTimes,
+const meta: Meta<typeof EventDateRange> = {
+  title: 'Components/EventDateRange',
+  component: EventDateRange,
+  args: {
+    eventTimes,
+  },
 };
-basic.storyName = 'EventDateRange';
+
+export default meta;
+
+type Story = StoryObj<typeof EventDateRange>;
+
+export const Basic: Story = {
+  name: 'EventDateRange',
+  render: args => (
+    <ReadmeDecorator
+      WrappedComponent={EventDateRange}
+      args={args}
+      Readme={Readme}
+    />
+  ),
+};

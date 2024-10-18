@@ -1,16 +1,28 @@
+import { Meta, StoryObj } from '@storybook/react';
+
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import EventDatesLink from '@weco/content/components/EventDatesLink/EventDatesLink';
-import Readme from '@weco/content/components/EventDatesLink/README.md';
+import Readme from '@weco/content/components/EventDatesLink/README.mdx';
 
-const Template = args => (
-  <ReadmeDecorator
-    WrappedComponent={EventDatesLink}
-    args={args}
-    Readme={Readme}
-  />
-);
-export const basic = Template.bind({});
-basic.args = {
-  id: 'test',
+const meta: Meta<typeof EventDatesLink> = {
+  title: 'Components/EventDatesLink',
+  component: EventDatesLink,
+  args: {
+    id: 'test',
+  },
 };
-basic.storyName = 'EventDatesLink';
+
+export default meta;
+
+type Story = StoryObj<typeof EventDatesLink>;
+
+export const Basic: Story = {
+  name: 'EventDatesLink',
+  render: args => (
+    <ReadmeDecorator
+      WrappedComponent={EventDatesLink}
+      args={args}
+      Readme={Readme}
+    />
+  ),
+};

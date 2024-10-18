@@ -4,6 +4,17 @@
 <link rel="preload" href="/fonts/lineto-lettera-regular.woff" />
 <link rel="preload" href="/fonts/lineto-lettera-regular.woff2" />
 
-<script>
-  window.global = window;
-</script>
+<style>
+  .sbdocs h2 {
+    border-bottom: none!important;
+  }
+
+  .sbdocs:not(:has(.keep-font)) *:not(:is(.sb-story, code))  {
+    font-family: 'Inter', sans-serif!important;
+  }
+
+  .sbdocs:not(:has(.keep-font)) *:not(:is(h1, h2, h3, .sb-story *, code)) {
+    font-size: 1.125rem!important;
+    line-height: 1.5!important;
+  }
+</style>

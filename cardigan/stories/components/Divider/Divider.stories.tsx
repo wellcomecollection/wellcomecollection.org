@@ -1,50 +1,33 @@
-import styled from 'styled-components';
+import { Meta, StoryObj } from '@storybook/react';
+import { themeColors } from '@weco/cardigan/.storybook/preview';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import Divider from '@weco/common/views/components/Divider/Divider';
-import Readme from '@weco/common/views/components/Divider/README.md';
+import Readme from '@weco/common/views/components/Divider/README.mdx';
 
-const Container = styled.div<{ $backgroundColor: 'white' | 'black' }>`
-  padding: 2rem 0;
-  ${props =>
-    props.$backgroundColor &&
-    `background-color: ${props.theme.color(props.$backgroundColor)}`};
-`;
-
-const Wrapper = styled.div`
-  margin: 0 2rem;
-`;
-
-const Template = args => {
-  const { backgroundColor, ...rest } = args;
-  return (
-    <Container $backgroundColor={backgroundColor}>
-      <Wrapper>
-        <ReadmeDecorator
-          WrappedComponent={Divider}
-          args={rest}
-          Readme={Readme}
-        />
-      </Wrapper>
-    </Container>
-  );
+const meta: Meta<typeof Divider> = {
+  title: 'Components/Divider',
+  render: args => {
+    return (
+      <ReadmeDecorator WrappedComponent={Divider} args={args} Readme={Readme} />
+    );
+  },
 };
 
-export const basic = Template.bind({});
-basic.args = {
-  backgroundColor: 'white',
-};
+export default meta;
 
-export const stub = Template.bind({});
-stub.args = {
-  lineColor: 'black',
-  isStub: true,
-  backgroundColor: 'white',
-};
+type Story = StoryObj<typeof Divider>;
 
-basic.argTypes = {
-  backgroundColor: {
-    control: { type: 'select' },
-    options: ['black', 'white'],
+export const Basic: Story = {
+  name: 'Divider',
+  args: {
+    isStub: false,
+    lineColor: 'black',
+  },
+  argTypes: {
+    lineColor: {
+      control: 'select',
+      options: themeColors.map(c => c.name),
+    },
   },
 };

@@ -1,12 +1,12 @@
+import { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { Venue } from '@weco/common/model/opening-hours';
 import { galleriesVenue } from '@weco/common/test/fixtures/components/galleries-venue';
 import VenueHours from '@weco/content/components/VenueHours';
-import Readme from '@weco/content/components/VenueHours/README.md';
+import Readme from '@weco/content/components/VenueHours/README.mdx';
 
-// Won't display bank holidays as that requires a Prismic fetch, which doesn't work from Cardigan
 const VenueHoursComponent = ({
   hasUnusualHours,
   venue,
@@ -66,16 +66,25 @@ const Template = args => (
     Readme={Readme}
   />
 );
-export const basic = Template.bind({});
-basic.args = {
-  venue: galleriesVenue,
-  hasUnusualHours: false,
-};
-basic.argTypes = {
-  venue: {
-    table: { disable: true },
+
+const meta: Meta<typeof VenueHours> = {
+  title: 'Components/VenueHours',
+  component: VenueHours,
+  args: {
+    venue: galleriesVenue,
   },
-  hasUnusualHours: { control: 'boolean' },
+  argTypes: {
+    venue: {
+      table: { disable: true },
+    },
+  },
 };
 
-basic.storyName = 'VenueHours';
+export default meta;
+
+type Story = StoryObj<typeof VenueHours>;
+
+export const Basic: Story = {
+  name: 'VenueHours',
+  render: Template,
+};
