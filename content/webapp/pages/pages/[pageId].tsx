@@ -120,25 +120,15 @@ export const getServerSideProps: GetServerSideProps<
     ? context.resolvedUrl
     : undefined;
 
-  const pageDocument = await fetchPage(client, pageId);
+  const pageDocument = await fetchPage(
+    client,
+    pageId,
+    isSiteSection(siteSection) || siteSection === 'orphan'
+      ? siteSection
+      : undefined
+  );
 
   if (isNotUndefined(pageDocument)) {
-    // If it does not have a tag and the route hasn't specified one either,
-    // it's an orphan, continue rendering.
-    const pageTagHasSection = pageDocument.tags.find(t => isSiteSection(t));
-    if (siteSection || pageTagHasSection) {
-      // If it does, it has to be a valid one
-      const tagIsValidSiteSection = isSiteSection(siteSection);
-      // and the same one passed by the route page.
-      const isSameSectionAsRoute = pageDocument.tags.find(
-        t => t === siteSection
-      );
-
-      // otherwise return not found. else, continue rendering.
-      if (!tagIsValidSiteSection || !isSameSectionAsRoute)
-        return { notFound: true };
-    }
-
     const serverData = await getServerData(context);
 
     const page = transformPage(pageDocument);
