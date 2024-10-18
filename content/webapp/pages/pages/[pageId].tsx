@@ -111,7 +111,7 @@ export const getServerSideProps: GetServerSideProps<
   const { pageId } = context.query;
   const siteSection = toMaybeString(context.params?.siteSection);
 
-  if (!looksLikePrismicId(pageId)) {
+  if (!looksLikePrismicId(pageId) || !siteSection) {
     return { notFound: true };
   }
   const client = createClient(context);
