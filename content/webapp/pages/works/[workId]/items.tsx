@@ -57,6 +57,7 @@ import {
   checkModalRequired,
   getAuthServices,
   getCollectionManifests,
+  getIframeTokenSrc,
   hasItemType,
   hasOriginalPdf,
 } from '@weco/content/utils/iiif/v3';
@@ -90,25 +91,6 @@ function createTzitzitWorkLink(work: Work): ApiToolbarLink | undefined {
   });
 }
 
-// We are currently using V1 iiif auth services from the manitest
-// If the authV2 toggle is set to true we try to use V2 services if they're available
-function getIframeAuthSrc({ workId, origin, auth, authV2 }) {
-  // TODO typing
-  if (authV2 && auth.v2.externalAccessService && auth.v2.tokenService) {
-    return `${auth.v2.tokenService.id}?messageId=${workId}&origin=${origin}`;
-  } else if (auth.v1.tokenService) {
-    return `${auth.v1.tokenService.id}?messageId=${workId}&origin=${origin}`;
-  } else {
-    return undefined;
-  }
-}
-
-export function getTokenService({ auth, authV2 }) {
-  const service = authV2
-    ? auth?.v2.tokenService || auth?.v1.tokenService
-    : auth?.v1.tokenService;
-  return service;
-}
 
 function getIsTotallyRestricted({
   auth,

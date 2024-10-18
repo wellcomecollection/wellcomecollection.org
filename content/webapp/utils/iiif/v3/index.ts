@@ -340,7 +340,7 @@ export function getTokenService(
     : clickThroughService?.service;
 }
 
-export type AuthServices = {
+type AuthServices = {
   active?: TransformedAuthService;
   external?: TransformedAuthService;
 };
@@ -364,6 +364,36 @@ export function getAuthServices({
       external:
         auth?.v2.externalAccessService || auth?.v1.externalAccessService,
     };
+  }
+}
+
+export function getIframeTokenSrc({
+  authServices,
+  role,
+  workId,
+  origin,
+  auth,
+  authV2,
+}: {
+  authServices: AuthServices;
+  role?: string;
+  workId: string;
+  origin: string;
+  auth: Auth | undefined;
+  authV2: boolean | undefined;
+}): string | undefined {
+  // We want the token source to be from the same auth version as the authService
+  // We use v2 if we have a v2 external service and the user has a role of 'StaffWithRestricted'
+  // OR if the authV2 toggle is true
+  const useV2TokenService =
+    (authServices.external?.id ===
+      'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin' &&
+      role === 'StaffWithRestricted') ||
+    authV2;
+  if (useV2TokenService && auth?.v2.tokenService) {
+    return `${auth.v2.tokenService.id}?messageId=${workId}&origin=${origin}`;
+  } else if (auth?.v1.tokenService) {
+    return `${auth.v1.tokenService.id}?messageId=${workId}&origin=${origin}`;
   }
 }
 

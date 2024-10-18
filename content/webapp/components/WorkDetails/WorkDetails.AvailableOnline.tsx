@@ -35,7 +35,6 @@ import DownloadLink from '@weco/content/components/DownloadLink/DownloadLink';
 import IIIFClickthrough from '@weco/content/components/IIIFClickthrough/IIIFClickthrough';
 import IIIFItemList from '@weco/content/components/IIIFItemList/IIIFItemList';
 import { DownloadTable } from '@weco/content/components/WorkDetails/WorkDetails.DownloadItem';
-import { getTokenService } from '@weco/content/pages/works/[workId]/items'; // TODO move function to utils?
 import { Note, Work } from '@weco/content/services/wellcome/catalogue/types';
 import {
   DownloadOption,
@@ -43,6 +42,7 @@ import {
 } from '@weco/content/types/manifest';
 import {
   getFormatString,
+  getIframeTokenSrc,
   getLabelString,
   isAllOriginalPdfs,
 } from '@weco/content/utils/iiif/v3';
@@ -280,7 +280,15 @@ const WorkDetailsAvailableOnline = ({
     placeholderId,
     rendering,
   } = { ...transformedManifest };
-  const tokenService = getTokenService({ auth, authV2 });
+
+  const tokenService = getIframeTokenSrc({
+    authServices,
+    role,
+    workId,
+    origin,
+    auth,
+    authV2,
+  });
   const activeAccessService = authV2
     ? auth?.v2.activeAccessService
     : auth?.v1.activeAccessService;
