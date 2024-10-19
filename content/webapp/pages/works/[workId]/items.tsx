@@ -91,7 +91,6 @@ function createTzitzitWorkLink(work: Work): ApiToolbarLink | undefined {
   });
 }
 
-
 function getIsTotallyRestricted({
   auth,
   authV2,
@@ -99,9 +98,7 @@ function getIsTotallyRestricted({
   auth: Auth | undefined;
   authV2: boolean | undefined;
 }) {
-  return authV2
-    ? auth?.v2.isTotallyRestricted || auth?.v1.isTotallyRestricted
-    : auth?.v1.isTotallyRestricted;
+  return authV2 ? auth?.v2.isTotallyRestricted : auth?.v1.isTotallyRestricted;
 }
 
 type Props = {
