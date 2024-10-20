@@ -376,7 +376,7 @@ export function getIframeTokenSrc({
 }: {
   role?: string;
   workId: string;
-  origin: string;
+  origin?: string;
   auth: Auth | undefined;
   authV2: boolean | undefined;
 }): string | undefined {
