@@ -161,6 +161,9 @@ const ItemPage: NextPage<Props> = ({
   const hasImage = hasItemType(canvases, 'Image');
   const hasPdf = hasOriginalPdf(canvases);
 
+  const shouldUseAuthMessageIframe =
+    ((authV2 && auth?.v2.tokenService) || (!authV2 && auth?.v1.tokenService)) &&
+    origin;
   // showViewer is true by default, so the noScriptViewer is available without javascript
   // if javascript is available we set it to false and then determine whether the clickthrough modal is required
   // before setting it to true
@@ -220,7 +223,7 @@ const ItemPage: NextPage<Props> = ({
       hideFooter={true}
       hideTopContent={true}
     >
-      {(auth?.v1.tokenService || auth?.v2.tokenService) && origin && (
+      {shouldUseAuthMessageIframe && (
         <IframeAuthMessage
           id={iframeId}
           title="Authentication"
