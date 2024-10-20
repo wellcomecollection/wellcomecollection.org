@@ -15,6 +15,7 @@ import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import ItemViewerContext, {
   RotatedImage,
 } from '@weco/content/components/ItemViewerContext/ItemViewerContext';
@@ -217,6 +218,8 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const mainImageService = { '@id': currentCanvas.imageServiceId };
   const urlTemplateMain = mainImageService['@id']
     ? iiifImageTemplate(mainImageService['@id'])
+  const { user } = useUser();
+  const role = user?.role;
     : undefined;
   const infoUrl =
     mainImageService['@id'] &&
@@ -276,7 +279,13 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <LL $lighten={true} />
         </div>
-      ) : isRestricted ? (
+      ) : isRestricted &&
+        (role !== 'StaffWithRestricted' ||
+          (role === 'StaffWithRestricted' && !accessToken)) ? (
+        // We always want to show the restricted message to users without a role of 'StaffWithRestricted'
+        // If the user has the correct role then officially we should check the probe service repsonse before trying to load the image
+        // However, we've opted to just try and load the image if the accessToken is available rather than making an additional call
+        // In our case the probe service doesn't offer any information other than whether the image would load, so we may as well try that directly.
         <MessageContainer>
           <h2 className={font('intb', 4)}>{externalAccessService?.label}</h2>
           <p
