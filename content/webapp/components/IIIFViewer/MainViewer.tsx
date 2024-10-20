@@ -11,7 +11,6 @@ import {
 import { areEqual, FixedSizeList } from 'react-window';
 import styled from 'styled-components';
 
-import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
@@ -30,7 +29,6 @@ import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 
 import { queryParamToArrayIndex } from '.';
 import ImageViewer from './ImageViewer';
-
 type OverlayPositionData = {
   canvasNumber: number;
   overlayTop: number;
@@ -392,7 +390,6 @@ const MainViewer: FunctionComponent = () => {
     errorHandler,
     accessToken,
   } = useContext(ItemViewerContext);
-  const { authV2 } = useToggles();
   const { shouldScrollToCanvas, canvas } = query;
   const mainViewerRef = useRef<FixedSizeList>(null);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
@@ -408,10 +405,9 @@ const MainViewer: FunctionComponent = () => {
     ...transformedManifest,
   };
 
-  // If authV2 toggle is true we try to use the iiif auth V2 services and fallback to V1, in case the manifest doesn't contain V2. Otherwise we just use the V1 services
-  const externalAccessService = authV2
-    ? auth?.v2.externalAccessService || auth?.v1.externalAccessService
-    : auth?.v1.externalAccessService;
+  // Only the V2 external service works for providing access so we always attempt to use that first
+  const externalAccessService =
+    auth?.v2.externalAccessService || auth?.v1.externalAccessService;
 
   // We hide the zoom and rotation controls while the user is scrolling
   function handleOnScroll({ scrollOffset }) {
