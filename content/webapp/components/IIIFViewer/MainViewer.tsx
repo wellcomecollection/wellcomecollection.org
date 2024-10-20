@@ -213,15 +213,14 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const { scrollVelocity, canvases, externalAccessService, accessToken } = data;
   const [mainLoaded, setMainLoaded] = useState(false);
   const currentCanvas = canvases[index];
-  const mainImageService = { '@id': currentCanvas.imageServiceId };
-  const urlTemplateMain = mainImageService['@id']
-    ? iiifImageTemplate(mainImageService['@id'])
   const { user } = useUser();
   const role = user?.role;
+  const urlTemplateMain = currentCanvas.imageServiceId
+    ? iiifImageTemplate(currentCanvas.imageServiceId)
     : undefined;
   const infoUrl =
-    mainImageService['@id'] &&
-    convertRequestUriToInfoUri(mainImageService['@id']);
+    currentCanvas.imageServiceId &&
+    convertRequestUriToInfoUri(currentCanvas.imageServiceId);
   const imageType = scrollVelocity >= 1 ? 'none' : 'main';
   const isRestricted = currentCanvas.hasRestrictedImage;
   const { searchResults, rotatedImages } = useContext(ItemViewerContext);
