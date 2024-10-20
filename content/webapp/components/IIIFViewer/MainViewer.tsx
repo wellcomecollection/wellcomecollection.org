@@ -280,7 +280,8 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
         (role !== 'StaffWithRestricted' ||
           (role === 'StaffWithRestricted' && !accessToken)) ? (
         // We always want to show the restricted message to users without a role of 'StaffWithRestricted'
-        // If the user has the correct role then officially we should check the probe service repsonse before trying to load the image
+        // If the user has the correct role then officially we should check the probe service repsonse before trying to load the image.
+        // https://iiif.io/api/auth/2.0/#probe-service
         // However, we've opted to just try and load the image if the accessToken is available rather than making an additional call
         // In our case the probe service doesn't offer any information other than whether the image would load, so we may as well try that directly.
         <MessageContainer>
