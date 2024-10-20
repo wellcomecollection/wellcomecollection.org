@@ -160,7 +160,7 @@ const ItemPage: NextPage<Props> = ({
 
   const hasImage = hasItemType(canvases, 'Image');
   const hasPdf = hasOriginalPdf(canvases);
-
+  const isTotallyRestricted = getIsTotallyRestricted({ auth, authV2 });
   const shouldUseAuthMessageIframe =
     ((authV2 && auth?.v2.tokenService) || (!authV2 && auth?.v1.tokenService)) &&
     origin;
