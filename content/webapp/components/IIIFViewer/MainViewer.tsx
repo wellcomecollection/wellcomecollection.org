@@ -358,7 +358,7 @@ function scrollViewer({
       currentCanvas?.height && currentCanvas?.width
         ? currentCanvas.height / currentCanvas.width
         : 1;
-    const renderedHeight = mainAreaWidth * ratio * 0.8; // TODO: 0.8 = 80% max-width image in container. Variable.
+    const renderedHeight = mainAreaWidth * ratio * 0.8; // 0.8 = 80% max-width image in container. Variable.
     const heightOfPreviousItems =
       queryParamToArrayIndex(canvas) * (viewer?.props.itemSize || 0);
     const distanceToScroll =
