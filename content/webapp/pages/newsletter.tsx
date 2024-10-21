@@ -44,7 +44,6 @@ const Newsletter: FunctionComponent<Props> = ({ result }) => {
       url={{ pathname: '/newsletter' }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
-      siteSection="what-we-do"
       image={{
         contentUrl:
           'https://iiif.wellcomecollection.org/image/V0019283.jpg/full/800,/0/default.jpg',
