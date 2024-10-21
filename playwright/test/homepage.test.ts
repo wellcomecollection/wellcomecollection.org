@@ -35,7 +35,7 @@ test('(3) | Cookie banner only displays if CookieControl cookie has not already 
   context,
   page,
 }) => {
-  await gotoWithoutCache(`${baseUrl}/pages/WuxrKCIAAP9h3hmw`, page);
+  await mediaOffice(context, page);
   const cookieBanner = await page.getByLabel('Our website uses cookies');
   await expect(cookieBanner).toBeAttached();
 

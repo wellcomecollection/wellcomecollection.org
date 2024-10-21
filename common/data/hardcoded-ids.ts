@@ -32,8 +32,6 @@ export const prismicPageIds = {
   collections: 'collections',
   contactUs: 'contact-us',
   cookiePolicy: 'cookie-policy',
-  copyrightClearance:
-    'copyright-clearance-and-takedown-guidelines-for-digitised-content', // Not used in codebase
   dailyGuidedTours: 'daily-guided-tours-and-discussions',
   getInvolved: 'get-involved',
   gettingHere: 'getting-here',

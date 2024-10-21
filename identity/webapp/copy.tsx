@@ -11,6 +11,7 @@
 
 import { FunctionComponent } from 'react';
 
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -38,7 +39,9 @@ export const ValidatedSuccessText: FunctionComponent<
           e-journals and e-books, you’ll need to bring a form of photo
           identification (ID) and proof of your address to our admissions desk
           when you visit. The identification we accept is detailed on our{' '}
-          <a href="https://wellcomecollection.org/pages/X_2eexEAACQAZLBi">
+          <a
+            href={`https://wellcomecollection.org/pages/${prismicPageIds.register}`}
+          >
             Library membership page
           </a>
           .
@@ -84,7 +87,9 @@ export const ApplicationReceived: FunctionComponent<{ email: string }> = ({
         e-journals and e-books, you’ll need to bring a form of photo
         identification (ID) and proof of your address to our admissions desk
         when you visit. The identification we accept is detailed on our{' '}
-        <a href="https://wellcomecollection.org/pages/X_2eexEAACQAZLBi">
+        <a
+          href={`https://wellcomecollection.org/pages/${prismicPageIds.register}`}
+        >
           Library membership page
         </a>
         .
