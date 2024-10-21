@@ -164,6 +164,10 @@ const ItemPage: NextPage<Props> = ({
   const shouldUseAuthMessageIframe =
     ((authV2 && auth?.v2.tokenService) || (!authV2 && auth?.v1.tokenService)) &&
     origin;
+  const tryAndGetRestrictedAuthCookie =
+    role === 'StaffWithRestricted' &&
+    authServices?.external?.id ===
+      'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin';
   // showViewer is true by default, so the noScriptViewer is available without javascript
   // if javascript is available we set it to false and then determine whether the clickthrough modal is required
   // before setting it to true
@@ -180,6 +184,18 @@ const ItemPage: NextPage<Props> = ({
   useEffect(() => {
     setOrigin(`${window.origin}`);
   }, []);
+
+  useEffect(() => {
+    if (tryAndGetRestrictedAuthCookie) {
+      const authServiceWindow = window.open(
+        `${authServices?.external?.id || ''}?origin=${window.origin}`
+      );
+      authServiceWindow &&
+        authServiceWindow.addEventListener('unload', function () {
+          reloadAuthIframe(document, iframeId);
+        });
+    }
+  }, [tryAndGetRestrictedAuthCookie]);
 
   useEffect(() => {
     function receiveMessage(event: MessageEvent) {
