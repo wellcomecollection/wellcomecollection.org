@@ -27,35 +27,33 @@ const baseUrl = isPullRequestRun
 //
 // See .buildkite/urls/expected_200_urls.txt
 //
-
-// TODO change these urls to uid-based ones
 const urls = [
   '/',
   '/visit-us',
   '/whats-on',
   '/collections',
   '/stories',
-  '/articles/WyjHUicAACvGnmJI',
-  '/articles/W8ivQRAAAJFijw1h',
+  '/articles/the-birth-of-britain-s-national-health-service',
+  '/articles/art',
   '/works/cjwep3ze?query=health&page=1',
   '/works/e7vav3ss/items?page=1&canvas=1',
   '/works/d2mach47',
-  '/series/WsSUrR8AAL3KGFPF',
-  '/exhibitions/XOVfTREAAOJmx-Uw',
-  '/events/Wqkd1yUAAB8sW4By',
-  '/event-series/WlYT_SQAACcAWccj',
+  '/series/inside-our-collections',
+  '/exhibitions/heart-n-soul-s-wall-of-change',
+  '/events/embracing-the-goddess',
+  '/event-series/saturday-studio',
   '/concepts/n4fvtc49',
-  '/guides/YL9OAxIAAB8AHsyv',
-  '/visual-stories/ZU4FRhIAACYAUvi8',
+  '/guides/archives-at-wellcome-collection',
+  '/visual-stories/genetic-automata-visual-story',
 
   // This is a comic using the new (as of November 2022) approach to
   // comic frames and navigation between issues.
-  '/articles/YzQT_BEAANURiuK9',
+  '/articles/clinical-detachment',
 
   // Exhibition guides.  We should test one example of each guide format.
-  '/guides/exhibitions/YzwsAREAAHylrxau/audio-without-descriptions',
-  '/guides/exhibitions/YzwsAREAAHylrxau/captions-and-transcripts',
-  '/guides/exhibitions/YzwsAREAAHylrxau/bsl',
+  '/guides/exhibitions/in-plain-sight/audio-without-descriptions',
+  '/guides/exhibitions/in-plain-sight/captions-and-transcripts',
+  '/guides/exhibitions/in-plain-sight/bsl',
 
   // Search pages, overview + with one of each
   '/search?query=human',

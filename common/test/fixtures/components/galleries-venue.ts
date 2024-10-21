@@ -1,3 +1,4 @@
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { Venue } from '@weco/common/model/opening-hours';
 
 export const galleriesVenue: Venue = {
@@ -134,7 +135,7 @@ export const galleriesVenue: Venue = {
       },
     },
   },
-  url: 'https://wellcomecollection.org/whats-on',
+  url: `https://wellcomecollection.org/${prismicPageIds.whatsOn}`,
   linkText: 'See what’s on',
   isFeatured: true,
 };

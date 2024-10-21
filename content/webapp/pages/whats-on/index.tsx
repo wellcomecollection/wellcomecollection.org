@@ -146,11 +146,11 @@ const ClosedMessage = () => (
       <InfoIconWrapper>
         <Icon icon={information} />
       </InfoIconWrapper>
-      {/* TODO change URLs */}
       <p className={font('intr', 5)}>
         Our exhibitions are closed today, but our{' '}
-        <a href="/pages/Wvl1wiAAADMJ3zNe">café</a> and{' '}
-        <a href="/pages/WwgaIh8AAB8AGhC_">shop</a> are open for your visit.
+        <a href={`/pages/${prismicPageIds.cafe}`}>café</a> and{' '}
+        <a href={`/pages/${prismicPageIds.shop}`}>shop</a> are open for your
+        visit.
       </p>
 
       <InfoIconWrapper>
@@ -158,7 +158,7 @@ const ClosedMessage = () => (
       </InfoIconWrapper>
       <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
         Galleries open Tuesday–Sunday,{' '}
-        <a href="/opening-times">see full opening times</a>.
+        <a href={`/${prismicPageIds.openingTimes}`}>see full opening times</a>.
       </p>
     </InfoBox>
     <Space $v={{ size: 'l', properties: ['margin-top'] }}>

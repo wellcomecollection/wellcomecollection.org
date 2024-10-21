@@ -29,6 +29,7 @@ export const prismicPageIds = {
   aboutUs: 'about-us',
   access: 'accessibility',
   bookingAndAttendingOurEvents: 'booking-and-attending-our-events',
+  cafe: 'cafe',
   collections: 'collections',
   contactUs: 'contact-us',
   cookiePolicy: 'cookie-policy',
@@ -40,11 +41,11 @@ export const prismicPageIds = {
   press: 'media-office',
   register: 'library-membership',
   schools: 'schools',
+  shop: 'shop',
   userPanel: 'YH17kRAAACoAyWTB', // Kill? Archived.
   venueHire: 'venue-hire',
   visitUs: 'visit-us',
   whatsOn: 'whats-on',
-  whatWeDo: 'WwLGFCAAAPMiB_Ps', // Kill? Archived.
   youth: 'young-people', // not used in codebase
 };
 

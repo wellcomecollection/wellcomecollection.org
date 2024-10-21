@@ -1,3 +1,4 @@
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { Venue } from '@weco/common/model/opening-hours';
 
 export const cafeVenue: Venue = {
@@ -84,6 +85,6 @@ export const cafeVenue: Venue = {
       },
     },
   },
-  url: 'https://wellcomecollection.org/pages/Wvl1wiAAADMJ3zNe',
+  url: `https://wellcomecollection.org/pages/${prismicPageIds.cafe}`,
   linkText: 'Take a break in our café',
 };
