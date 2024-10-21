@@ -42,11 +42,11 @@ export const prismicPageIds = {
   register: 'library-membership',
   schools: 'schools',
   shop: 'shop',
-  userPanel: 'YH17kRAAACoAyWTB', // Kill? Archived.
+  userPanel: 'user-panel',
   venueHire: 'venue-hire',
   visitUs: 'visit-us',
   whatsOn: 'whats-on',
-  youth: 'young-people', // not used in codebase
+  youth: 'young-people',
 };
 
 export const eventPolicyIds = {
