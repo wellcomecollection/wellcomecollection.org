@@ -1,3 +1,4 @@
+// TODO modify logic for this. Should we make UID the canonical link?
 /** Is this URL a vanity URL?
  *
  * e.g. /visit-us instead of /pages/X8ZTSBIAACQAiDzY
@@ -20,6 +21,3 @@ export function isVanityUrl(pageId: string, url: string): boolean {
 
   return !containsPageId && looksLikeVanityUrl;
 }
-
-// TODO what do we do with this?
-// Remove?
