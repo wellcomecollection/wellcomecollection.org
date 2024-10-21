@@ -198,7 +198,6 @@ export const literalRedirects: Record<string, string> = {
   // '/schools': '/pages/Wuw2MSIAACtd3StS',
   // '/user-panel': '/pages/YH17kRAAACoAyWTB',
   // '/venue-hire': '/pages/Wuw2MSIAACtd3SsC',
-  // '/what-we-do': '/pages/WwLGFCAAAPMiB_Ps',
   '/youth': '/pages/Wuw2MSIAACtd3Ssg',
 
   // This is the Prismic page for the homepage

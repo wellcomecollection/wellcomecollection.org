@@ -28,22 +28,22 @@ export default [
     slackAlerts: ['alerts-channel'],
   },
   {
-    url: 'https://content.wellcomecollection.org/articles/Wcj2kSgAAB-3C4Uj',
+    url: 'https://content.wellcomecollection.org/articles/graphic-gallery--green',
     name: 'Story',
     slackAlerts: ['alerts-channel'],
   },
   {
-    url: 'https://content.wellcomecollection.org/events/W4VKXR4AAB4AeXU7',
+    url: 'https://content.wellcomecollection.org/events/cancelled--stronger--smarter----better-',
     name: 'Event',
     slackAlerts: ['alerts-channel'],
   },
   {
-    url: 'https://content.wellcomecollection.org/exhibitions/WZwh4ioAAJ3usf86',
+    url: 'https://content.wellcomecollection.org/exhibitions/can-graphic-design-save-your-life-',
     name: 'Exhibition',
     slackAlerts: ['alerts-channel'],
   },
   {
-    url: 'https://content.wellcomecollection.org/visual-stories/ZU4FRhIAACYAUvi8',
+    url: 'https://content.wellcomecollection.org/visual-stories/genetic-automata-visual-story',
     name: 'Visual Story',
     slackAlerts: ['alerts-channel'],
   },
