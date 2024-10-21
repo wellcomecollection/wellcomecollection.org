@@ -279,7 +279,6 @@ const Header: FunctionComponent<HeaderProps> = ({
                 )}
                 <NextLink
                   href={`/${prismicPageIds.openingTimes}`}
-                  as="/opening-times"
                   className={font('intb', 5)}
                 >
                   Full opening times

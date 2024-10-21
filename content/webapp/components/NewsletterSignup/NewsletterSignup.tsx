@@ -75,7 +75,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             the emails you receive.
           </p>
           <p>
-            <a href={`/${[prismicPageIds.whatsOn]}`}>
+            <a href={`/${prismicPageIds.whatsOn}`}>
               Browse our current and upcoming exhibitions and events
             </a>
             .

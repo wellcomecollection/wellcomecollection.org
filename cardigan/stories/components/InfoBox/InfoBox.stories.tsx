@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { a11Y, a11YVisual, clock, location, ticket } from '@weco/common/icons';
 import InfoBox from '@weco/content/components/InfoBox/InfoBox';
 import Readme from '@weco/content/components/InfoBox/README.mdx';
@@ -33,7 +34,7 @@ const meta: Meta<typeof InfoBox> = {
                 end: 44,
                 data: {
                   link_type: 'Web',
-                  url: '/opening-times',
+                  url: `/${prismicPageIds.openingTimes}`,
                 },
               },
             ],
