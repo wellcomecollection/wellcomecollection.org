@@ -43,8 +43,6 @@ export type SiteSection =
   | 'collections'
   | 'get-involved'
   | 'about-us'
-  | 'what-we-do' // TODO: to remove? Not in menu anymore
-  | 'identity' // TODO: is this used? No menu on login page
   | 'exhibition-guides';
 
 type HeaderProps = {
