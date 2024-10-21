@@ -5,10 +5,12 @@ import {
   useMemo,
   useState,
 } from 'react';
-import PhotoAlbum, {
-  RenderPhotoProps,
-  RenderRowContainer,
+import {
+  RenderImageProps,
+  RenderPhotoContext,
+  RowsPhotoAlbum,
 } from 'react-photo-album';
+import 'react-photo-album/rows.css';
 import styled from 'styled-components';
 
 import { ServerDataContext } from '@weco/common/server-data/Context';
@@ -151,24 +153,25 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
     [images]
   );
 
-  const renderRowContainer: RenderRowContainer = ({ children }) => {
-    return <AlbumRow>{children}</AlbumRow>;
-  };
-
-  const imageRenderer: FunctionComponent<RenderPhotoProps<GalleryImageProps>> =
+  const imageRenderer =
     // these are values and props that are passed in by the PhotoAlbum component
-    ({ photo, layout }) => {
+    (
+      props: RenderImageProps,
+      context: RenderPhotoContext<GalleryImageProps>
+    ) => {
+      const { photo, width, height } = context;
       const rgbColor = hexToRgb(photo.averageColor || '');
+
       return (
-        <li style={{ padding: 12 }}>
+        <li>
           <ImageFrame>
             <ImageCard
               id={photo.id}
               workId={photo.source.id}
               image={{
                 contentUrl: photo.src,
-                width: layout.width,
-                height: layout.height,
+                width,
+                height,
                 alt: photo.source.title,
               }}
               onClick={event => {
@@ -187,15 +190,17 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
         </li>
       );
     };
+
   return (
     <>
       {isFullSupportBrowser && !isSmallGallery && (
         <GalleryContainer data-testid="image-search-results-container">
-          <PhotoAlbum
+          <RowsPhotoAlbum
             photos={imagesWithDimensions}
-            renderPhoto={imageRenderer}
-            renderRowContainer={renderRowContainer}
-            layout="rows"
+            render={{
+              track: ({ children }) => <AlbumRow>{children}</AlbumRow>,
+              image: imageRenderer,
+            }}
             spacing={0}
             padding={12}
             targetRowHeight={200}
