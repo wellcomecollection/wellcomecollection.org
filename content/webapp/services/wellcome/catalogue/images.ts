@@ -4,18 +4,18 @@ import {
   ImagesProps,
   toQuery,
 } from '@weco/content/components/SearchPagesLink/Images';
-import { toIsoDateString } from '@weco/content/services/wellcome/catalogue/index';
-import { Toggles } from '@weco/toggles';
-
-import { catalogueQuery, looksLikeCanonicalId, notFound, rootUris } from '.';
-import { CatalogueImagesApiProps, CatalogueResultsList, Image } from './types';
 import {
   globalApiOptions,
   QueryProps,
   WellcomeApiError,
   wellcomeApiError,
   wellcomeApiFetch,
-} from '..';
+} from '@weco/content/services/wellcome';
+import { toIsoDateString } from '@weco/content/services/wellcome/catalogue/index';
+import { Toggles } from '@weco/toggles';
+
+import { catalogueQuery, looksLikeCanonicalId, notFound, rootUris } from '.';
+import { CatalogueImagesApiProps, CatalogueResultsList, Image } from './types';
 
 type ImageInclude =
   | 'withSimilarFeatures'
