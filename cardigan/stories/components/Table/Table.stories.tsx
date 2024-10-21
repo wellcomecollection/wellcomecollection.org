@@ -1,4 +1,6 @@
-import Table from '@weco/content/components/Table';
+import { Meta, StoryObj } from '@storybook/react';
+
+import Table, { Props } from '@weco/content/components/Table';
 
 const headerInFirstRow = [
   ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
@@ -56,35 +58,52 @@ const Template = args => {
   );
 };
 
-export const table = Template.bind({});
-table.args = {
-  caption: 'Delivery schedule',
-  plain: false,
-  withBorder: false,
-  vAlign: 'middle',
-  headerPosition: 'column',
-  addMoreContent: false,
+type StoryProps = {
+  headerPosition: 'row' | 'column';
+  addMoreContent: boolean;
 };
-table.argTypes = {
-  vAlign: {
-    options: ['top', 'middle', 'bottom'],
-    control: { type: 'radio' },
+
+const meta: Meta<Props & StoryProps> = {
+  title: 'Components/Table',
+  component: Table,
+  args: {
+    caption: 'Delivery schedule',
+    plain: false,
+    withBorder: false,
+    vAlign: 'middle',
+    headerPosition: 'column',
+    addMoreContent: false,
   },
-  plain: { control: 'boolean' },
-  withBorder: { control: 'boolean' },
-  headerPosition: {
-    options: ['row', 'column'],
-    control: { type: 'radio' },
-  },
-  rows: {
-    table: {
-      disable: true,
+  argTypes: {
+    vAlign: {
+      options: ['top', 'middle', 'bottom'],
+      control: { type: 'radio' },
     },
-  },
-  hasRowHeaders: {
-    table: {
-      disable: true,
+    plain: { control: 'boolean' },
+    withBorder: { control: 'boolean' },
+    headerPosition: {
+      options: ['row', 'column'],
+      control: { type: 'radio' },
     },
+    rows: {
+      table: {
+        disable: true,
+      },
+    },
+    hasRowHeaders: {
+      table: {
+        disable: true,
+      },
+    },
+    addMoreContent: { control: 'boolean' },
   },
-  addMoreContent: { control: 'boolean' },
+};
+
+export default meta;
+
+type Story = StoryObj<Props>;
+
+export const Basic: Story = {
+  name: 'Table',
+  render: Template,
 };

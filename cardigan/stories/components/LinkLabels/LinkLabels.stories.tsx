@@ -1,37 +1,55 @@
+import { Meta, StoryObj } from '@storybook/react';
+
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { clock } from '@weco/common/icons';
 import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
-import Readme from '@weco/content/components/LinkLabels/README.md';
+import Readme from '@weco/content/components/LinkLabels/README.mdx';
 
-const Template = args => (
-  <ReadmeDecorator WrappedComponent={LinkLabels} args={args} Readme={Readme} />
-);
-export const basic = Template.bind({});
-basic.args = {
-  items: [
-    {
-      url: 'https://twitter.com/mafunyane',
-      text: '@mafunyane',
-    },
-    {
-      url: 'https://strategiccontent.co.uk/',
-      text: 'strategiccontent.co.uk',
-    },
-  ],
+const meta: Meta<typeof LinkLabels> = {
+  title: 'Components/LinkLabels',
+  component: LinkLabels,
+  render: args => (
+    <ReadmeDecorator
+      WrappedComponent={LinkLabels}
+      args={args}
+      Readme={Readme}
+    />
+  ),
 };
-basic.storyName = 'Basic LinkLabels';
 
-export const withHeading = Template.bind({});
-withHeading.args = {
-  heading: 'Colours',
-  items: [{ text: 'red' }, { text: 'green' }, { text: 'blue' }],
-};
-withHeading.storyName = 'LinkLabels with a heading';
+export default meta;
 
-export const withIcon = Template.bind({});
-withIcon.args = {
-  icon: clock,
-  heading: 'Days',
-  items: [{ text: 'Monday' }, { text: 'Tuesday' }, { text: 'Wednesday' }],
+type Story = StoryObj<typeof LinkLabels>;
+
+export const Basic: Story = {
+  name: 'Default',
+  args: {
+    items: [
+      {
+        url: 'https://twitter.com/mafunyane',
+        text: '@mafunyane',
+      },
+      {
+        url: 'https://strategiccontent.co.uk/',
+        text: 'strategiccontent.co.uk',
+      },
+    ],
+  },
 };
-withIcon.storyName = 'LinkLabels with a heading and an icon';
+
+export const WithHeading: Story = {
+  name: 'With heading',
+  args: {
+    heading: 'Colours',
+    items: [{ text: 'red' }, { text: 'green' }, { text: 'blue' }],
+  },
+};
+
+export const WithIcon: Story = {
+  name: 'With icon',
+  args: {
+    icon: clock,
+    heading: 'Days',
+    items: [{ text: 'Monday' }, { text: 'Tuesday' }, { text: 'Wednesday' }],
+  },
+};

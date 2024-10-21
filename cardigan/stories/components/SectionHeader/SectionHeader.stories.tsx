@@ -1,6 +1,8 @@
+import { Meta, StoryObj } from '@storybook/react';
+
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { gridSize12 } from '@weco/common/views/components/Layout';
-import Readme from '@weco/content/components/SectionHeader/README.md';
+import Readme from '@weco/content/components/SectionHeader/README.mdx';
 import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
 
 const Template = args => {
@@ -17,15 +19,27 @@ const Template = args => {
     />
   );
 };
-export const basic = Template.bind({});
-basic.args = {
-  title: 'You may have missed',
-  gridSize: undefined,
-};
-basic.argTypes = {
-  gridSize: {
-    options: ['12', undefined],
-    control: { type: 'radio' },
+
+const meta: Meta<typeof SectionHeader> = {
+  title: 'Components/SectionHeader',
+  component: SectionHeader,
+  args: {
+    title: 'You may have missed',
+    gridSize: undefined,
+  },
+  argTypes: {
+    gridSize: {
+      options: ['12', undefined],
+      control: { type: 'radio' },
+    },
   },
 };
-basic.storyName = 'SectionHeader';
+
+export default meta;
+
+type Story = StoryObj<typeof SectionHeader>;
+
+export const Basic: Story = {
+  name: 'SectionHeader',
+  render: Template,
+};
