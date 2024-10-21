@@ -151,7 +151,6 @@ export const literalRedirects: Record<string, string> = {
   '/articles/paris-morgue': '/articles/W-RTBBEAAO5mfQ3M',
   '/articles/sockets-and-stumps': '/articles/W-VjexEAAJKKgbWt',
   '/articles/ethical-taxidermy': '/articles/WsT4Ex8AAHruGfWx',
-  '/what-we-do/wellcome-trust': '/what-we-do',
   '/articles/nymphomania': '/articles/W_v8XxQAACgA_WKS',
   '/articles/museums-in-context-the-birth-of-the-public-museum':
     '/articles/W_0kHhEAADUAbHiJ',
@@ -197,7 +196,6 @@ export const literalRedirects: Record<string, string> = {
   '/schools': '/pages/Wuw2MSIAACtd3StS',
   '/user-panel': '/pages/YH17kRAAACoAyWTB',
   '/venue-hire': '/pages/Wuw2MSIAACtd3SsC',
-  '/what-we-do': '/pages/WwLGFCAAAPMiB_Ps',
   '/youth': '/pages/Wuw2MSIAACtd3Ssg',
 
   // This is the Prismic page for the homepage

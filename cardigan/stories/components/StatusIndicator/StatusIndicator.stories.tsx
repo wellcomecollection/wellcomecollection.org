@@ -1,5 +1,7 @@
+import { Meta, StoryObj } from '@storybook/react';
+
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import Readme from '@weco/content/components/StatusIndicator/README.md';
+import Readme from '@weco/content/components/StatusIndicator/README.mdx';
 import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
 
 const now = new Date();
@@ -18,37 +20,50 @@ twoWeeksAgo.setHours(now.getHours() - 336);
 const aWeekAgo = new Date();
 aWeekAgo.setHours(now.getHours() - 168);
 
-const Template = args => (
-  <ReadmeDecorator
-    WrappedComponent={StatusIndicator}
-    args={args}
-    Readme={Readme}
-  />
-);
-export const comingSoon = Template.bind({});
-comingSoon.args = {
-  start: tomorrow,
-  end: twoWeeksFromNow,
+const meta: Meta<typeof StatusIndicator> = {
+  title: 'Components/StatusIndicator',
+  component: StatusIndicator,
+  render: args => (
+    <ReadmeDecorator
+      WrappedComponent={StatusIndicator}
+      args={args}
+      Readme={Readme}
+    />
+  ),
 };
-comingSoon.storyName = 'Coming soon';
 
-export const past = Template.bind({});
-past.args = {
-  start: twoWeeksAgo,
-  end: aWeekAgo,
-};
-past.storyName = 'Past';
+export default meta;
 
-export const finalWeek = Template.bind({});
-finalWeek.args = {
-  start: now,
-  end: threeDaysFromNow,
-};
-finalWeek.storyName = 'Final week';
+type Story = StoryObj<typeof StatusIndicator>;
 
-export const nowOn = Template.bind({});
-nowOn.args = {
-  start: now,
-  end: twoWeeksFromNow,
+export const ComingSoon: Story = {
+  name: 'Coming soon',
+  args: {
+    start: tomorrow,
+    end: twoWeeksFromNow,
+  },
 };
-nowOn.storyName = 'Now on';
+
+export const Past: Story = {
+  name: 'Past',
+  args: {
+    start: twoWeeksAgo,
+    end: aWeekAgo,
+  },
+};
+
+export const FinalWeek: Story = {
+  name: 'Final week',
+  args: {
+    start: now,
+    end: threeDaysFromNow,
+  },
+};
+
+export const NowOn: Story = {
+  name: 'Now on',
+  args: {
+    start: now,
+    end: twoWeeksFromNow,
+  },
+};

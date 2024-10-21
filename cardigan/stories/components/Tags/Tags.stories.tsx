@@ -1,5 +1,7 @@
+import { Meta, StoryObj } from '@storybook/react';
+
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import Readme from '@weco/content/components/Tags/README.md';
+import Readme from '@weco/content/components/Tags/README.mdx';
 import Tags from '@weco/content/components/Tags/Tags';
 
 const nextLink = {
@@ -19,25 +21,35 @@ const nextLink = {
   },
 };
 
-const Template = args => (
-  <ReadmeDecorator WrappedComponent={Tags} args={args} Readme={Readme} />
-);
-export const basic = Template.bind({});
-basic.args = {
-  isFirstPartBold: false,
-  tags: [
-    {
-      textParts: ['Medical illustration'],
-      linkAttributes: nextLink,
-    },
-    {
-      textParts: ['Dentistry', 'History'],
-      linkAttributes: nextLink,
-    },
-    {
-      textParts: ['Teeth', 'Care and hygiene', 'History', 'Pictorial works'],
-      linkAttributes: nextLink,
-    },
-  ],
+const meta: Meta<typeof Tags> = {
+  title: 'Components/Tags',
+  component: Tags,
+  args: {
+    isFirstPartBold: false,
+    tags: [
+      {
+        textParts: ['Medical illustration'],
+        linkAttributes: nextLink,
+      },
+      {
+        textParts: ['Dentistry', 'History'],
+        linkAttributes: nextLink,
+      },
+      {
+        textParts: ['Teeth', 'Care and hygiene', 'History', 'Pictorial works'],
+        linkAttributes: nextLink,
+      },
+    ],
+  },
 };
-basic.storyName = 'Tags';
+
+export default meta;
+
+type Story = StoryObj<typeof Tags>;
+
+export const Basic: Story = {
+  name: 'Tags',
+  render: args => (
+    <ReadmeDecorator WrappedComponent={Tags} args={args} Readme={Readme} />
+  ),
+};

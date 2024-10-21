@@ -1,13 +1,20 @@
+import { RichTextField } from '@prismicio/client';
+import { Meta, StoryObj } from '@storybook/react';
+
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { darkCloudImageUrl } from '@weco/cardigan/stories/data/images';
+import untransformedbody from '@weco/cardigan/stories/data/untransformed-body';
 import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule';
-import Readme from '@weco/content/components/EventSchedule/README.md';
+import Readme from '@weco/content/components/EventSchedule/README.mdx';
+import { Place } from '@weco/content/types/places';
 
 const schedule = [
   {
     event: {
-      type: 'events',
+      untransformedBody: untransformedbody,
+      type: 'events' as const,
       id: 'XH6TrhAAAPXyGlz3',
+      uid: 'as-far-as-isolation-goes',
       title: 'As Far as Isolation Goes',
       promo: {
         caption:
@@ -24,7 +31,6 @@ const schedule = [
           simpleCrops: {},
           richCrops: {},
         },
-        link: null,
       },
       image: {
         contentUrl: darkCloudImageUrl('3200x1800'),
@@ -44,10 +50,10 @@ const schedule = [
       locations: [
         {
           id: 'Wn1gnioAACoAIABr',
+          untransformedBody: untransformedbody,
           title: 'Ground floor Atrium',
-          body: [],
-          labels: [],
           level: 0,
+          labels: [],
           information: [
             {
               type: 'paragraph',
@@ -55,7 +61,7 @@ const schedule = [
               spans: [],
             },
           ],
-        },
+        } as Place,
       ],
       audiences: [],
       format: {
@@ -85,7 +91,7 @@ const schedule = [
                 },
               ],
             },
-          ],
+          ] as RichTextField,
         },
       ],
       hasEarlyRegistration: false,
@@ -103,7 +109,10 @@ const schedule = [
             startDateTime: new Date('2019-04-06T11:00:00.000Z'),
             endDateTime: new Date('2019-04-06T13:00:00.000Z'),
           },
-          isFullyBooked: null,
+          isFullyBooked: {
+            inVenue: false,
+            online: false,
+          },
           onlineIsFullyBooked: null,
         },
         {
@@ -111,7 +120,10 @@ const schedule = [
             startDateTime: new Date('2019-04-06T14:00:00.000Z'),
             endDateTime: new Date('2019-04-06T16:00:00.000Z'),
           },
-          isFullyBooked: null,
+          isFullyBooked: {
+            inVenue: false,
+            online: false,
+          },
           onlineIsFullyBooked: null,
         },
         {
@@ -119,7 +131,10 @@ const schedule = [
             startDateTime: new Date('2019-04-07T11:00:00.000Z'),
             endDateTime: new Date('2019-04-07T13:00:00.000Z'),
           },
-          isFullyBooked: null,
+          isFullyBooked: {
+            inVenue: false,
+            online: false,
+          },
           onlineIsFullyBooked: null,
         },
         {
@@ -127,13 +142,16 @@ const schedule = [
             startDateTime: new Date('2019-04-07T14:00:00.000Z'),
             endDateTime: new Date('2019-04-07T16:00:00.000Z'),
           },
-          isFullyBooked: null,
+          isFullyBooked: {
+            inVenue: false,
+            online: false,
+          },
           onlineIsFullyBooked: null,
         },
       ],
       isPast: true,
-      isOnline: null,
-      availableOnline: null,
+      isOnline: false,
+      availableOnline: false,
       primaryLabels: [
         {
           text: 'Performance',
@@ -147,15 +165,25 @@ const schedule = [
   },
 ];
 
-const Template = args => (
-  <ReadmeDecorator
-    WrappedComponent={EventSchedule}
-    args={args}
-    Readme={Readme}
-  />
-);
-export const basic = Template.bind({});
-basic.args = {
-  schedule,
+const meta: Meta<typeof EventSchedule> = {
+  title: 'Components/EventSchedule',
+  component: EventSchedule,
+  args: {
+    schedule,
+  },
 };
-basic.storyName = 'EventSchedule';
+
+export default meta;
+
+type Story = StoryObj<typeof EventSchedule>;
+
+export const Basic: Story = {
+  name: 'EventSchedule',
+  render: args => (
+    <ReadmeDecorator
+      WrappedComponent={EventSchedule}
+      args={args}
+      Readme={Readme}
+    />
+  ),
+};
