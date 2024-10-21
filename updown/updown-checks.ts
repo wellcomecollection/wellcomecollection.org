@@ -1,6 +1,5 @@
 import { Check } from './types';
 
-// TODO change these URLs to uid-based ones
 export default [
   {
     // 'content' prefix is the origin (ie not cached by CloudFront)
