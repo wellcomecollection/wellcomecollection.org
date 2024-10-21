@@ -151,7 +151,6 @@ export const literalRedirects: Record<string, string> = {
   '/articles/paris-morgue': '/articles/W-RTBBEAAO5mfQ3M',
   '/articles/sockets-and-stumps': '/articles/W-VjexEAAJKKgbWt',
   '/articles/ethical-taxidermy': '/articles/WsT4Ex8AAHruGfWx',
-  '/what-we-do/wellcome-trust': '/what-we-do',
   '/articles/nymphomania': '/articles/W_v8XxQAACgA_WKS',
   '/articles/museums-in-context-the-birth-of-the-public-museum':
     '/articles/W_0kHhEAADUAbHiJ',
