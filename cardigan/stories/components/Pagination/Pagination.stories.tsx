@@ -1,8 +1,8 @@
-import Pagination, {
-  Props,
-} from '@weco/content/components/Pagination/Pagination';
+import { Meta, StoryObj } from '@storybook/react';
 
-const Template = (args: Props) => (
+import Pagination from '@weco/content/components/Pagination/Pagination';
+
+const Template = args => (
   <div
     style={{
       padding: '10px',
@@ -14,49 +14,56 @@ const Template = (args: Props) => (
   </div>
 );
 
-export const middleOfPagination = Template.bind({});
-middleOfPagination.args = {
-  totalPages: 10,
-  hasDarkBg: false,
-  isHiddenMobile: false,
-};
-middleOfPagination.argTypes = {
-  totalPages: {
-    options: [5, 10, 250],
-    control: { type: 'radio' },
-  },
-  hasDarkBg: { control: 'boolean' },
-  ariaLabel: {
-    table: {
-      disable: true,
+const meta: Meta<typeof Pagination> = {
+  title: 'Components/Pagination',
+  component: Pagination,
+  render: Template,
+  argTypes: {
+    totalPages: {
+      options: [5, 10, 250],
+      control: { type: 'radio' },
     },
-  },
-};
-middleOfPagination.storyName = 'Midway or end of pagination';
-middleOfPagination.parameters = {
-  nextRouter: {
-    query: {
-      page: '5',
+    hasDarkBg: { control: 'boolean' },
+    ariaLabel: {
+      table: {
+        disable: true,
+      },
     },
   },
 };
 
-export const startOfPagination = Template.bind({});
-startOfPagination.args = {
-  totalPages: 10,
-  hasDarkBg: false,
-  isHiddenMobile: false,
-};
-startOfPagination.storyName = 'On first page';
-startOfPagination.argTypes = {
-  totalPages: {
-    options: [1, 5, 10, 250],
-    control: { type: 'radio' },
+export default meta;
+
+type Story = StoryObj<typeof Pagination>;
+
+export const Start: Story = {
+  name: 'Start',
+  args: {
+    totalPages: 10,
+    hasDarkBg: false,
+    isHiddenMobile: false,
   },
-  hasDarkBg: { control: 'boolean' },
-  ariaLabel: {
-    table: {
-      disable: true,
+  argTypes: {
+    totalPages: {
+      options: [1, 5, 10, 250],
+    },
+  },
+};
+
+export const Midway: Story = {
+  name: 'Midway or end',
+  args: {
+    totalPages: 10,
+    hasDarkBg: false,
+    isHiddenMobile: false,
+  },
+  parameters: {
+    nextjs: {
+      router: {
+        query: {
+          page: '5',
+        },
+      },
     },
   },
 };

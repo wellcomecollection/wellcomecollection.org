@@ -4,6 +4,13 @@ import {
   toQuery,
   WorksProps,
 } from '@weco/content/components/SearchPagesLink/Works';
+import {
+  globalApiOptions,
+  QueryProps,
+  WellcomeApiError,
+  wellcomeApiError,
+  wellcomeApiFetch,
+} from '@weco/content/services/wellcome';
 import { toIsoDateString } from '@weco/content/services/wellcome/catalogue/index';
 import { Toggles } from '@weco/toggles';
 
@@ -15,13 +22,6 @@ import {
   ItemsList,
   Work,
 } from './types';
-import {
-  globalApiOptions,
-  QueryProps,
-  WellcomeApiError,
-  wellcomeApiError,
-  wellcomeApiFetch,
-} from '..';
 
 type GetWorkProps = {
   id: string;

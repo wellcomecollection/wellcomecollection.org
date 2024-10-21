@@ -1,4 +1,5 @@
 /**/node_modules/
 /**/libs/
 /**/_next/
+/**/dist/
 !.storybook/

@@ -1,3 +1,5 @@
+import { Meta, StoryObj } from '@storybook/react';
+
 import { imagesBaseUrl } from '@weco/cardigan/stories/data/images';
 import { ImageType } from '@weco/common/model/image';
 import SeasonsHeader from '@weco/content/components/SeasonsHeader';
@@ -51,12 +53,21 @@ const season: Season = {
   type: 'seasons',
 };
 
-const Template = args => <SeasonsHeader {...args} />;
-export const basic = Template.bind({});
-basic.args = { season };
-basic.parameters = {
-  chromatic: {
-    viewports: [375, 1200],
+const meta: Meta<typeof SeasonsHeader> = {
+  title: 'Components/SeasonsHeader',
+  component: SeasonsHeader,
+  args: { season },
+  parameters: {
+    chromatic: {
+      viewports: [375, 1200],
+    },
   },
 };
-basic.storyName = 'SeasonsHeader';
+
+export default meta;
+
+type Story = StoryObj<typeof SeasonsHeader>;
+
+export const Basic: Story = {
+  name: 'SeasonsHeader',
+};

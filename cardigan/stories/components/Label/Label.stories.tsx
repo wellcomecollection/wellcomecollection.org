@@ -1,10 +1,21 @@
+import { Meta, StoryObj } from '@storybook/react';
+
 import Label from '@weco/common/views/components/Label/Label';
 
-const Template = args => <Label {...args} />;
-export const basic = Template.bind({});
-basic.args = {
-  label: {
-    text: 'Audio described',
+const meta: Meta<typeof Label> = {
+  title: 'Components/Label',
+  component: Label,
+  args: {
+    label: {
+      text: 'Audio described',
+    },
   },
 };
-basic.storyName = 'Label';
+
+export default meta;
+
+type Story = StoryObj<typeof Label>;
+
+export const Basic: Story = {
+  name: 'Label',
+};
