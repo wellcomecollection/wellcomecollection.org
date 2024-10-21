@@ -1,3 +1,4 @@
+import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import styled from 'styled-components';
 
@@ -5,7 +6,7 @@ import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import Tabs from '@weco/content/components/Tabs';
-import Readme from '@weco/content/components/Tabs/README.md';
+import Readme from '@weco/content/components/Tabs/README.mdx';
 
 type WrapperProps = { $backgroundColor: 'white' | 'black' };
 const Wrapper = styled(Space).attrs({
@@ -47,49 +48,47 @@ const TabsContainer = ({ items, isWhite, tabBehaviour, ...rest }) => {
   );
 };
 
-const Template = args => (
-  <ReadmeDecorator
-    WrappedComponent={TabsContainer}
-    args={args}
-    Readme={Readme}
-  />
-);
-
-export const basic = Template.bind({});
-basic.args = {
-  isWhite: false,
-  hideBorder: false,
-  tabBehaviour: 'switch',
-  items: [
-    {
-      id: 'all',
-      text: 'All',
-      url: {
-        href: '#one',
-        as: '#one',
+const meta: Meta<typeof Tabs> = {
+  title: 'Components/Tabs',
+  component: Tabs,
+  args: {
+    isWhite: false,
+    hideBorder: false,
+    tabBehaviour: 'switch',
+    items: [
+      {
+        id: 'all',
+        text: 'All',
+        url: '#one',
       },
-    },
-    {
-      id: 'slightly-longer',
-      text: 'Slightly longer title to test with',
-      url: {
-        href: '#two',
-        as: '#two',
+      {
+        id: 'slightly-longer',
+        text: 'Slightly longer title to test with',
+        url: '#two',
       },
-    },
-    {
-      id: 'pictures',
-      text: 'Pictures',
-      url: {
-        href: '#three',
-        as: '#three',
+      {
+        id: 'pictures',
+        text: 'Pictures',
+        url: '#three',
       },
-    },
-  ],
+    ],
+  },
+  parameters: {
+    chromatic: { delay: 1000 },
+  },
 };
 
-basic.parameters = {
-  chromatic: { delay: 1000 },
-};
+export default meta;
 
-basic.storyName = 'Tabs';
+type Story = StoryObj<typeof Tabs>;
+
+export const Basic: Story = {
+  name: 'Tabs',
+  render: args => (
+    <ReadmeDecorator
+      WrappedComponent={TabsContainer}
+      args={args}
+      Readme={Readme}
+    />
+  ),
+};
