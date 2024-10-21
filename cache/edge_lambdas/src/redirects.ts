@@ -21,7 +21,6 @@
 export const literalRedirects: Record<string, string> = {
   '/access': '/pages/Wvm2uiAAAIYQ4FHP', // accessibility
   '/alice-anderson': '/exhibitions/W31qcCkAACIAP4zJ',
-  '/articles/a-drop-in-the-ocean-beth-hopkins': '/articles/WsT4Ex8AAHruGfWV', // 404s, remove?
   '/articles/a-drop-in-the-ocean-daniel-regan': '/articles/WsT4Ex8AAHruGfXJ', // daniel-regan-on-using-photography-to-manage-emotions
   '/articles/aids-posters': '/articles/W9hlyRAAANom8AzA', // aids-awareness-posters-from-the-1980s-onwards
   '/articles/aids-posters-0': '/articles/W9hlyRAAANom8AzA', // aids-awareness-posters-from-the-1980s-onwards
@@ -46,12 +45,9 @@ export const literalRedirects: Record<string, string> = {
   '/articles/graphic-sex': '/articles/W-Q1sxEAAB5ffIw4', // sex-in-graphic-novels
   '/articles/hysteria': '/articles/W89GZBIAAN4yz1hQ', // what-is-hysteria-
   '/articles/lustmord': '/articles/WqfvayUAAKsrVreh', // lustmord-and-the-three-perspectives-of-murder
-  '/articles/mummies-revealed': '/articles/WqfrzCUAAPjnVqeT', // 404
   '/articles/museums-in-context-the-birth-of-the-public-museum':
     '/articles/W_0kHhEAADUAbHiJ', // the-birth-of-the-public-museum
   '/articles/nymphomania': '/articles/W_v8XxQAACgA_WKS', // nymphomania-and-hypersexuality-in-women-and-men
-  '/articles/object-of-the-month-shrunken-heads-real-and-fake/':
-    '/articles/W9sabBUAAC0Aoz5g', // 404 archived
   '/articles/obsessed-with-buffy-much': '/articles/WsT4Ex8AAHruGfWh', // the-unexpected-parallels-between-buffy-the-vampire-slayer-and-wellcome-collection
   '/articles/outsiders-the-child': '/articles/WsT4Ex8AAHruGfXd', // the-child-whose-town-rejected-vaccines
   '/articles/outsiders-the-colonist': '/articles/WsT4Ex8AAHruGfWj', // the-colonist-who-faced-the-blue-terror
@@ -100,8 +96,6 @@ export const literalRedirects: Record<string, string> = {
     '/exhibitions/W301BSkAACgAPqOR', // skeletons--london-s-buried-bones
   '/exhibitions/sleeping-dreaming': '/exhibitions/W30vSSkAACIAPowf', // uis is sleeping---dreaming
   '/exhibitions/souzou': '/exhibitions/W31G5CkAACgAPu8q', // souzou--outsider-art-from-japan
-  '/exhibitions/states-mind-ann-veronica-janssens':
-    '/exhibitions/W31rWykAACIAP5DX', // 404s, remove?
   '/exhibitions/states-mind-tracing-edges-consciousness':
     '/exhibitions/W31sUykAACkAP5Um', // states-of-mind--tracing-the-edges-of-consciousness
   '/exhibitions/thinking-body-mind-and-movement-work-wayne-mcgregor-random-dance':
