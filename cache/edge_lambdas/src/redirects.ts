@@ -21,7 +21,6 @@
 export const literalRedirects: Record<string, string> = {
   '/access': '/pages/Wvm2uiAAAIYQ4FHP', // accessibility
   '/alice-anderson': '/exhibitions/W31qcCkAACIAP4zJ',
-  '/articles/a-drop-in-the-ocean-daniel-regan': '/articles/WsT4Ex8AAHruGfXJ', // daniel-regan-on-using-photography-to-manage-emotions
   '/articles/aids-posters': '/articles/W9hlyRAAANom8AzA', // aids-awareness-posters-from-the-1980s-onwards
   '/articles/aids-posters-0': '/articles/W9hlyRAAANom8AzA', // aids-awareness-posters-from-the-1980s-onwards
   '/articles/body-squabbles-button': '/articles/WXH-ZCoAAC8ca_lj',
