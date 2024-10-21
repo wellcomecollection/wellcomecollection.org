@@ -1,3 +1,4 @@
+import { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useRef, useState } from 'react';
 
 import Button from '@weco/common/views/components/Buttons';
@@ -33,10 +34,21 @@ const Template = () => {
   );
 };
 
-export const basic = Template.bind({});
-basic.storyName = 'Modal';
-basic.parameters = {
-  chromatic: {
-    delay: 500, // Allow the button to get clicked
+const meta: Meta<typeof Modal> = {
+  title: 'Components/Modal',
+  component: Modal,
+  parameters: {
+    chromatic: {
+      delay: 500, // Allow the button to get clicked
+    },
   },
+};
+
+export default meta;
+
+type Story = StoryObj<typeof Modal>;
+
+export const Basic: Story = {
+  name: 'Modal',
+  render: Template,
 };

@@ -45,7 +45,6 @@ export const prismicPageIds = {
   venueHire: 'Wuw2MSIAACtd3SsC',
   visitUs: 'X8ZTSBIAACQAiDzY',
   whatsOn: 'YD_IQxAAACUAK6HG',
-  whatWeDo: 'WwLGFCAAAPMiB_Ps',
   youth: 'Wuw2MSIAACtd3Ssg',
 };
 
