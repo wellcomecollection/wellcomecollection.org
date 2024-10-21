@@ -207,6 +207,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
           />
         </GalleryContainer>
       )}
+
       {(!isFullSupportBrowser || isSmallGallery) && (
         <div data-testid="image-search-results-container">
           <ImageCardList>
