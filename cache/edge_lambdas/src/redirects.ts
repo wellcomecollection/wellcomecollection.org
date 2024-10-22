@@ -25,17 +25,15 @@ export const literalRedirects: Record<string, string> = {
   '/articles/body-squabbles-plague': '/articles/WWjabioAAAF0Q7', // this led to a 404, it's missing part of the ID (WWjabioAAAF0Q7-8)
   '/articles/hysteria': '/articles/what-is-hysteria', // "hysteria" already taken by ZN-ELxEAACMABO5a in former UID.
   '/articles/lustmord': '/articles/WqfvayUAAKsrVreh', // lustmord-and-the-three-perspectives-of-murder -> not published?
-  '/articles/the-humours-in-shakespeare': '/articles/W-MM-xUAAAinxgs3', // shakespeare-and-the-four-humours
-  '/articles/the-transvengers-webcomic': '/articles/W03jACYAACUAg5IR', // the-transvengers
-  '/articles/thunderbolts-and-lightning': '/articles/WsT4Ex8AAHruGfXD', // the-child-whose-town-rejected-vaccines
-  '/articles/wonder-womans-wonder-women': '/articles/WsT4Ex8AAHruGfWp', // wonder-woman-s-wonder-women
+  // Webcomic -> Story of type Comic.
   '/articles/X5rs7RIAAB4Avr_r': '/articles/X8ZZChIAACUAiFbC',
   '/articles/X61xYhMAACAAX_z1': '/articles/X8dTWhIAACQAjJ5S',
   '/articles/X6P6_xMAACEANfQB': '/articles/X8dRxhIAACQAjJdL',
   '/articles/X7bJORMAACEAiRPo': '/articles/X8dU2BIAACMAjKT-',
   '/articles/X8Ay3hIAACMAbSL2': '/articles/X8dV8xIAACIAjKn6',
   '/articles/X_dsXREAACMASftU': '/articles/X_g6ohEAACQATYJF',
-  '/articles/xksu0xiaadlrl4-h': '/articles/XKsU0xIAADlrL4-h', // ?? lowercase/uppercase
+  //
+  '/articles/xksu0xiaadlrl4-h': '/articles/XKsU0xIAADlrL4-h', // lowercase/uppercase
   '/ayurvedic-man': '/exhibitions/WduTricAAN7Mt8yY',
   '/bedlam': '/exhibitions/W31tsSkAACkAP5p8',
   '/brains': '/exhibitions/W31EzykAACkAPuXG',
@@ -44,27 +42,10 @@ export const literalRedirects: Record<string, string> = {
   '/electricity': '/exhibitions/W31vkCkAACkAP6LL',
   '/event-series/Wo1YeCoAACoAZFoN': '/events/Wqkd1yUAAB8sW4By',
   '/eventspaces': '/venue-hire',
-  '/exhibitions/atoms-patterns': '/exhibitions/W300HykAACgAPp9y', // from-atoms-to-patterns
-  '/exhibitions/bobby-bakers-diary-drawings': '/exhibitions/W309HSkAACcAPsep', // bobby-baker-s-diary-drawings
-  '/exhibitions/brains-mind-matter': '/exhibitions/W31EzykAACkAPuXG', // brains--the-mind-as-matter
-  '/exhibitions/death-self-portrait': '/exhibitions/W31GISkAACIAPuvB', // death--a-self-portrait
-  '/exhibitions/dirt-filthy-reality-everyday-life':
-    '/exhibitions/W31CnikAACIAPtwS',
-  '/exhibitions/heart': '/exhibitions/W30t8ykAACcAPoc1', // the-heart
-  '/exhibitions/idiosyncratic-z-human-condition':
-    '/exhibitions/W31n7ykAACcAP4F2', // an-idiosyncratic-a-to-z-of-the-human-condition
-  '/exhibitions/institute-sexology': '/exhibitions/W31ooSkAACIAP4So', // the-institute-of-sexology
-  '/exhibitions/life-death': '/exhibitions/W30waSkAACcAPo_q', // life-before-death
-  '/exhibitions/madness-modernity': '/exhibitions/W308LykAACgAPsON', // madness---modernity
-  '/exhibitions/museum-modern-nature': '/exhibitions/W31waSkAACcAP6aX', // a-museum-of-modern-nature
   '/exhibitions/skeletons-london%E2%80%99s-buried-bones':
-    '/exhibitions/W301BSkAACgAPqOR', // skeletons--london-s-buried-bones
-  '/exhibitions/sleeping-dreaming': '/exhibitions/W30vSSkAACIAPowf', // uis is sleeping---dreaming
-  '/exhibitions/souzou': '/exhibitions/W31G5CkAACgAPu8q', // souzou--outsider-art-from-japan
-  '/exhibitions/states-mind-tracing-edges-consciousness':
-    '/exhibitions/W31sUykAACkAP5Um', // states-of-mind--tracing-the-edges-of-consciousness
+    '/exhibitions/skeletons-londons-buried-bones',
   '/exhibitions/thinking-body-mind-and-movement-work-wayne-mcgregor-random-dance':
-    '/exhibitions/W31ITCkAACcAPvVo', // thinking-with-the-body
+    '/exhibitions/thinking-with-the-body',
   '/exhibitionsandevents': '/whats-on',
   '/explore': '/stories',
   '/exquisite-bodies': '/exhibitions/W30-zikAACcAPs8v',
