@@ -41,7 +41,7 @@ test('It returns 301 responses for URLs with defined redirects', () => {
   expect(redirectedResponse?.status).toEqual('301');
   expect(redirectedResponse?.headers.location[0]).toEqual({
     key: 'Location',
-    value: `https://wellcomecollection.org/pages/Wvl1wiAAADMJ3zNe`,
+    value: `https://wellcomecollection.org/pages/cafe`,
   });
 });
 
@@ -62,7 +62,7 @@ test('It redirects requests from the staging site to a staging page', () => {
 
   expect(redirectedResponse?.headers.location[0]).toEqual({
     key: 'Location',
-    value: `https://www-stage.wellcomecollection.org/pages/Wvl1wiAAADMJ3zNe`,
+    value: `https://www-stage.wellcomecollection.org/pages/cafe`,
   });
 });
 
