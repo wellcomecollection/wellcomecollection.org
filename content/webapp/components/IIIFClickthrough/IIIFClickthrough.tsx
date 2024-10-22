@@ -1,9 +1,4 @@
-import {
-  FunctionComponent,
-  PropsWithChildren,
-  useEffect,
-  useState,
-} from 'react';
+import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
@@ -26,22 +21,19 @@ function reloadAuthIframe(document: Document, id: string) {
 type Props = PropsWithChildren<{
   clickThroughService?: TransformedAuthService;
   tokenService: string;
+  origin?: string;
 }>;
 
 const IIIFClickthrough: FunctionComponent<Props> = ({
   clickThroughService,
   tokenService,
+  origin,
   children,
 }) => {
-  const [origin, setOrigin] = useState<string | undefined>();
   const showClickthroughMessage = useShowClickthrough(
     clickThroughService,
     tokenService
   );
-
-  useEffect(() => {
-    setOrigin(window.origin);
-  }, []);
 
   return clickThroughService && tokenService ? (
     <>

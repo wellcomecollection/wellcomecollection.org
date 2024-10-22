@@ -282,6 +282,7 @@ const WorkDetailsAvailableOnline = ({
     placeholderId,
     rendering,
   } = { ...transformedManifest };
+  const [origin, setOrigin] = useState<string | undefined>();
 
   const tokenService = getIframeTokenSrc({
     role,
@@ -315,6 +316,10 @@ const WorkDetailsAvailableOnline = ({
   }, [archiveTree, tabbableId]);
   const { isEnhanced } = useContext(AppContext);
 
+  useEffect(() => {
+    setOrigin(window.origin);
+  }, []);
+
   return (
     <WorkDetailsSection
       headingText={`Available ${isBornDigital ? 'to download' : 'online'}`}
@@ -325,6 +330,7 @@ const WorkDetailsAvailableOnline = ({
           <IIIFClickthrough
             clickThroughService={activeAccessService}
             tokenService={tokenService || ''}
+            origin={origin}
           >
             {children}
           </IIIFClickthrough>
