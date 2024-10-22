@@ -19,10 +19,9 @@
  *
  */
 export const literalRedirects: Record<string, string> = {
-  '/access': '/pages/Wvm2uiAAAIYQ4FHP', // accessibility
+  '/access': '/pages/accessibility',
   '/alice-anderson': '/exhibitions/W31qcCkAACIAP4zJ',
   '/articles/aids-posters-0': '/articles/aids-posters',
-  '/articles/body-squabbles-plague': '/articles/WWjabioAAAF0Q7', // this led to a 404, it's missing part of the ID (WWjabioAAAF0Q7-8)
   '/articles/hysteria': '/articles/what-is-hysteria', // "hysteria" already taken by ZN-ELxEAACMABO5a in former UID.
   '/articles/lustmord': '/articles/WqfvayUAAKsrVreh', // lustmord-and-the-three-perspectives-of-murder -> not published?
   // Webcomic -> Story of type Comic.
@@ -76,7 +75,7 @@ export const literalRedirects: Record<string, string> = {
   '/medieval-bodies': '/books/Ww0QpiUAAFQXohEZ',
   '/openplatform': '/pages/WvljzSAAAB4E3uMF',
   '/packed-lunch': '/event-series/WifrbikAAGSyDtHk',
-  '/press': '/pages/WuxrKCIAAP9h3hmw', // media-office -> press
+  '/press': '/pages/press',
   '/press/‘forensics-anatomy-crime’-opens-wellcome-collection':
     '/pages/Wv7RnyAAAPtL9tHr',
   '/rawminds': '/schools',
@@ -102,8 +101,7 @@ export const literalRedirects: Record<string, string> = {
   '/whats-on/exhibitions/brains': '/exhibitions/W31EzykAACkAPuXG',
   '/whats-on/exhibitions/infinitas-gracias': '/exhibitions/W31D3CkAACIAPuGN',
   '/whats-on/exhibitions/superhuman': '/exhibitions/W31FpSkAACkAPumK',
-  '/young-people': '/pages/Wuw2MSIAACtd3Ssg',
-  '/youth': '/pages/Wuw2MSIAACtd3Ssg', // young-people -> keep
+  '/youth': '/pages/young-people',
 
   // This is the Prismic page for the homepage
   '/pages/XphUbREAACMAgRNP': '/',
