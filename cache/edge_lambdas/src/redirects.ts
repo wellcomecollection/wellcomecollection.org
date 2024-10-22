@@ -20,26 +20,29 @@
  */
 export const literalRedirects: Record<string, string> = {
   '/access': '/pages/accessibility',
-  '/alice-anderson': '/exhibitions/W31qcCkAACIAP4zJ',
+  '/alice-anderson':
+    '/exhibitions/alice-anderson--memory-movement-memory-objects',
   '/articles/aids-posters-0': '/articles/aids-posters',
   '/articles/hysteria': '/articles/what-is-hysteria', // "hysteria" already taken by ZN-ELxEAACMABO5a in former UID.
   '/articles/lustmord': '/articles/WqfvayUAAKsrVreh', // lustmord-and-the-three-perspectives-of-murder -> not published?
   // Webcomic -> Story of type Comic.
-  '/articles/X5rs7RIAAB4Avr_r': '/articles/X8ZZChIAACUAiFbC',
-  '/articles/X61xYhMAACAAX_z1': '/articles/X8dTWhIAACQAjJ5S',
-  '/articles/X6P6_xMAACEANfQB': '/articles/X8dRxhIAACQAjJdL',
-  '/articles/X7bJORMAACEAiRPo': '/articles/X8dU2BIAACMAjKT-',
-  '/articles/X8Ay3hIAACMAbSL2': '/articles/X8dV8xIAACIAjKn6',
-  '/articles/X_dsXREAACMASftU': '/articles/X_g6ohEAACQATYJF',
+  '/articles/X5rs7RIAAB4Avr_r': '/articles/what-distinguishes-the-human-',
+  '/articles/X61xYhMAACAAX_z1': '/articles/to-err-is-human',
+  '/articles/X6P6_xMAACEANfQB': '/articles/stuff-humans-like',
+  '/articles/X7bJORMAACEAiRPo': '/articles/humans-are-social-animals',
+  '/articles/X8Ay3hIAACMAbSL2': '/articles/stuff-humans-don-t-like',
+  '/articles/X_dsXREAACMASftU': '/articles/january-diet',
   //
-  '/articles/xksu0xiaadlrl4-h': '/articles/XKsU0xIAADlrL4-h', // lowercase/uppercase
-  '/ayurvedic-man': '/exhibitions/WduTricAAN7Mt8yY',
-  '/bedlam': '/exhibitions/W31tsSkAACkAP5p8',
-  '/brains': '/exhibitions/W31EzykAACkAPuXG',
-  '/dirt': '/exhibitions/W31CnikAACIAPtwS',
-  '/eat-me': '/books/WwVK3CAAAHm5ExxF',
-  '/electricity': '/exhibitions/W31vkCkAACkAP6LL',
-  '/event-series/Wo1YeCoAACoAZFoN': '/events/Wqkd1yUAAB8sW4By',
+  '/articles/xksu0xiaadlrl4-h':
+    '/articles/enduring-taboos-and-the-future-of-skin-bleaching',
+  '/ayurvedic-man':
+    '/exhibitions/ayurvedic-man--encounters-with-indian-medicine',
+  '/bedlam': '/exhibitions/bedlam--the-asylum-and-beyond',
+  '/brains': '/exhibitions/brains-mind-matter',
+  '/dirt': '/exhibitions/dirt-filthy-reality-everyday-life',
+  '/eat-me': '/books/eat-me',
+  '/electricity': '/exhibitions/electricity--the-spark-of-life',
+  '/event-series/Wo1YeCoAACoAZFoN': '/events/embracing-the-goddess',
   '/eventspaces': '/venue-hire',
   '/exhibitions/skeletons-london%E2%80%99s-buried-bones':
     '/exhibitions/skeletons-londons-buried-bones',
@@ -47,70 +50,72 @@ export const literalRedirects: Record<string, string> = {
     '/exhibitions/thinking-with-the-body',
   '/exhibitionsandevents': '/whats-on',
   '/explore': '/stories',
-  '/exquisite-bodies': '/exhibitions/W30-zikAACcAPs8v',
-  '/foreignbodies': '/exhibitions/W31I-ykAACkAPvh1',
-  '/forensics': '/exhibitions/W31pfCkAACkAP4iL',
-  '/graphic-warnings': '/books/WwVK3CAAAHm5ExxT',
-  '/graphicdesign': '/exhibitions/WZwh4ioAAJ3usf86',
-  '/high-society': '/exhibitions/W31CFCkAACcAPtpJ',
-  '/infinitas-gracias': '/exhibitions/W31D3CkAACIAPuGN',
+  '/exquisite-bodies': '/exhibitions/exquisite-bodies',
+  '/foreignbodies': '/exhibitions/foreign-bodies--common-ground',
+  '/forensics': '/exhibitions/forensics--the-anatomy-of-crime',
+  '/graphic-warnings': '/books/graphic-warnings',
+  '/graphicdesign': '/exhibitions/can-graphic-design-save-your-life-',
+  '/high-society': '/exhibitions/high-society',
+  '/infinitas-gracias':
+    '/exhibitions/infinitas-gracias--mexican-miracle-paintings',
   '/info/opening-hours': '/opening-times',
   '/info/opening-times': '/opening-times',
-  '/installations/W-K6iBUAAJqYxKMi': '/exhibitions/XFximBAAAPkAioW_',
-  '/installations/W-K8VhUAAKOcxKsl': '/exhibitions/XFximBAAAPkAioW3',
-  '/installations/W-LESBUAAJ-dxM5y': '/exhibitions/XFximBAAAPkAioW5',
-  '/installations/W3LDcCkAACcAEKqy': '/exhibitions/XFximBAAAPkAioWp',
-  '/installations/W5Y-NyYAACMALAdp': '/exhibitions/XFximBAAAPkAioWl',
-  '/installations/W78dJBEAAB8NpQle': '/exhibitions/XFximBAAAPkAioWj',
-  '/installations/W7T-FxAAADRy0mu0': '/exhibitions/XFximBAAAPkAioWx',
-  '/installations/W9sIhRUAANoQovHe': '/exhibitions/XFximBAAAPkAioWz',
-  '/installations/W9xNPBUAAO5nqHyO': '/exhibitions/XFximBAAAPkAioWv',
-  '/installations/WqwC1iAAAB8AJgFB': '/exhibitions/XFximBAAAPkAioWn',
-  '/installations/Wrynhx8AAAjk9XX-': '/exhibitions/XFximBAAAPkAioW1',
-  '/installations/Wryoox8AAAjk9Xr0': '/exhibitions/XFximBAAAPkAioWr',
-  '/installations/WryoVx8AAAjk9Xmg': '/exhibitions/XFximBAAAPkAioW9',
-  '/installations/WthzICAAAOObLY5K': '/exhibitions/XFximBAAAPkAioWt',
-  '/installations/WyuWLioAACkACeYv': '/exhibitions/XFximBAAAPkAioW7',
-  '/MakingNature': '/exhibitions/W31uwCkAACcAP58u',
-  '/medieval-bodies': '/books/Ww0QpiUAAFQXohEZ',
-  '/openplatform': '/pages/WvljzSAAAB4E3uMF',
-  '/packed-lunch': '/event-series/WifrbikAAGSyDtHk',
+  '/installations/W-K6iBUAAJqYxKMi': '/exhibitions/things',
+  '/installations/W-K8VhUAAKOcxKsl': '/exhibitions/twenty-six-things',
+  '/installations/W-LESBUAAJ-dxM5y': '/exhibitions/the-generosity-plates',
+  '/installations/W3LDcCkAACcAEKqy': '/exhibitions/global-clinic',
+  '/installations/W5Y-NyYAACMALAdp': '/exhibitions/our-voice--our-way',
+  '/installations/W78dJBEAAB8NpQle': '/exhibitions/made-well',
+  '/installations/W7T-FxAAADRy0mu0': '/exhibitions/drawing-the-bombay-plague',
+  '/installations/W9sIhRUAANoQovHe':
+    '/exhibitions/ann-veronica-janssens--yellowbluepink',
+  '/installations/W9xNPBUAAO5nqHyO': '/exhibitions/the-transvengers',
+  '/installations/WqwC1iAAAB8AJgFB':
+    '/exhibitions/alien-sex-club-by-john-walter',
+  '/installations/Wrynhx8AAAjk9XX-': '/exhibitions/under-by-martina-amati',
+  '/installations/Wryoox8AAAjk9Xr0':
+    '/exhibitions/sensorium-tests-by-daria-martin',
+  '/installations/WryoVx8AAAjk9Xmg': '/exhibitions/sire-by-maria-mckinney',
+  '/installations/WthzICAAAOObLY5K': '/exhibitions/spirit-booth',
+  '/installations/WyuWLioAACkACeYv': '/exhibitions/the-pharmacy-of-colour',
+  '/MakingNature': '/exhibitions/making-nature',
+  '/medieval-bodies': '/books/medieval-bodies',
+  '/packed-lunch': '/event-series/packed-lunch',
   '/press': '/pages/press',
   '/press/‘forensics-anatomy-crime’-opens-wellcome-collection':
-    '/pages/Wv7RnyAAAPtL9tHr',
+    '/pages/forensics-the-anatomy-of-crime-opens-at-wellcome-collection',
   '/rawminds': '/schools',
-  '/readingroom': '/pages/Wvlk4yAAAB8A3ufp',
-  '/secrettemple': '/exhibitions/W3Ls-SkAACgAEWMx',
-  '/series/X8D9qxIAACIAcKSf': '/series/X76JKBMAACIAqtZ2', // Worry lines webcomic -> series
-  '/sexology': '/exhibitions/W31ooSkAACIAP4So',
-  '/somewhere-in-between': '/exhibitions/WhvoAykAACgAlDoo',
-  '/the-hub': '/pages/Wuw2MSIAACtd3SsU',
-  '/thisisavoice': '/exhibitions/W31tHikAACgAP5gi',
-  '/touring': '/pages/Wuw2MSIAACtd3Sty',
+  '/readingroom': '/pages/the-reading-room',
+  '/secrettemple': '/exhibitions/tibets-secret-temple',
+  '/series/X8D9qxIAACIAcKSf': '/series/worry-lines',
+  '/sexology': '/exhibitions/institute-sexology',
+  '/somewhere-in-between': '/exhibitions/somewhere-in-between',
+  '/the-hub': '/pages/the-hub',
+  '/thisisavoice': '/exhibitions/this-is-a-voice',
+  '/touring': '/pages/our-touring-exhibitions',
   '/visit': '/visit-us',
   '/visit-us.aspx': '/visit-us',
   '/visit-us/accessibility': '/access', // this will be the final URL and cause a loop
-  '/visit-us/events-tickets': '/pages/Wuw19yIAAK1Z3Sng',
-  '/visit-us/photography': '/pages/Wuw19yIAAK1Z3Smw',
-  '/visit-us/wellcome-café': '/pages/Wvl1wiAAADMJ3zNe',
-  '/visit-us/wellcome-kitchen': '/pages/Wuw19yIAAK1Z3Snk',
-  '/voices-within': '/books/WwVK3CAAAHm5Exxl',
-  '/webcomic-series/WleP3iQAACUAYEoN': '/series/WleP3iQAACUAYEoN', // /series/body-squabbles
-  '/what-we-do/proposing-online-article': '/pages/Wvl00yAAAB8A3y8p',
+  '/visit-us/events-tickets': '/pages/booking-and-attending-our-events',
+  '/visit-us/wellcome-café': '/pages/cafe',
+  '/voices-within': '/books/the-voices-within',
+  '/webcomic-series/WleP3iQAACUAYEoN': '/series/body-squabbles',
+  '/what-we-do/proposing-online-article': '/pages/propose-a-story',
   '/whats-on/exhibitions/all-exhibitions': '/exhibitions',
-  '/whats-on/exhibitions/brains': '/exhibitions/W31EzykAACkAPuXG',
-  '/whats-on/exhibitions/infinitas-gracias': '/exhibitions/W31D3CkAACIAPuGN',
-  '/whats-on/exhibitions/superhuman': '/exhibitions/W31FpSkAACkAPumK',
+  '/whats-on/exhibitions/brains': '/exhibitions/brains-mind-matter',
+  '/whats-on/exhibitions/infinitas-gracias':
+    '/exhibitions/infinitas-gracias-mexican-miracle-paintings',
+  '/whats-on/exhibitions/superhuman': '/exhibitions/superhuman',
   '/youth': '/pages/young-people',
 
   // This is the Prismic page for the homepage
   '/pages/XphUbREAACMAgRNP': '/',
 
   // See https://wellcome.slack.com/archives/C8X9YKM5X/p1656920569188629
-  '/events/YrCXAREAACEAFSTW': '/events/Yqcv7xEAACEA61Co',
+  '/events/YrCXAREAACEAFSTW': '/events/am-i-normal',
 
   // See https://wellcome.slack.com/archives/C8X9YKM5X/p1676549408691429
-  '/exhibitions/Yo39QREAACMAet6p': '/exhibitions/Y3zI8hAAAGXXcMua',
+  '/exhibitions/Yo39QREAACMAet6p': '/exhibitions/the-archive-of-an-unseen',
 
   // This is the "nice" URL for new memberships.
   // See https://github.com/wellcomecollection/wellcomecollection.org/issues/8167
@@ -121,34 +126,35 @@ export const literalRedirects: Record<string, string> = {
   // Among other places, it's linked to from the footer of some email
   // newsletters, so we need to make sure it goes somewhere sensible.
   // See https://wellcome.slack.com/archives/C3N7J05TK/p1658503007545149
-  '/pages/Wuw19yIAAK1Z3Smy': '/access#getting-around-the-building',
+  '/pages/Wuw19yIAAK1Z3Smy': '/pages/accessibility#getting-around-the-building',
 
   // This was added for the the printed gallery guide that will accompany
   // the Grace Ndiritu exhibition.
   // See https://wellcome.slack.com/archives/C8X9YKM5X/p1664363102626599
-  '/colonial-roots': '/pages/YLnsihAAACEAfsuu',
+  '/colonial-roots':
+    '/pages/the-colonial-roots-of-our-collections--and-our-response',
 
   // This was added to improve the accessibility of this exhibition URL,
   // in particular for use in Instagram pictures -- we wanted something that
   // could be embedded in an image and would be easier to type than a string
   // of letters.
   // See https://wellcome.slack.com/archives/C3TQSF63C/p1668010459644169
-  '/in-plain-sight': '/exhibitions/Yv95yBAAAILuCNv6',
+  '/in-plain-sight': '/exhibitions/in-plain-sight',
 
   // Requested by Content team
   // See https://github.com/wellcomecollection/wellcomecollection.org/issues/9765
-  '/lbe-festival': '/event-series/ZFt3UBQAAMFmEIya',
+  '/lbe-festival': '/event-series/land-body-ecologies-festival',
 
   // Old Exhibition guide content type to new Highlights Tour/Text format.
   // See https://github.com/wellcomecollection/wellcomecollection.org/issues/11140
   '/guides/exhibitions/Zdcs4BEAACMA6abC':
-    '/guides/exhibitions/ZthrZRIAACQALvCC',
+    '/guides/exhibitions/jason-and-the-adventure-of-254',
   '/guides/exhibitions/Zdcs4BEAACMA6abC/audio-without-descriptions':
-    '/guides/exhibitions/ZthrZRIAACQALvCC/audio-without-descriptions',
+    '/guides/exhibitions/jason-and-the-adventure-of-254/audio-without-descriptions',
   '/guides/exhibitions/Zdcs4BEAACMA6abC/bsl':
-    '/guides/exhibitions/ZthrZRIAACQALvCC/bsl',
+    '/guides/exhibitions/jason-and-the-adventure-of-254/bsl',
   '/guides/exhibitions/Zdcs4BEAACMA6abC/captions-and-transcripts':
-    '/guides/exhibitions/ZthrZRIAACQALvCC/captions-and-transcripts',
+    '/guides/exhibitions/jason-and-the-adventure-of-254/captions-and-transcripts',
 };
 
 // Query redirects have the form:
