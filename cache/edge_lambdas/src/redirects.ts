@@ -19,6 +19,7 @@
  *
  */
 export const literalRedirects: Record<string, string> = {
+  '/about-us': '/pages/about-us',
   '/access': '/pages/accessibility',
   '/alice-anderson':
     '/exhibitions/alice-anderson--memory-movement-memory-objects',
@@ -44,7 +45,7 @@ export const literalRedirects: Record<string, string> = {
   '/eat-me': '/books/eat-me',
   '/electricity': '/exhibitions/electricity--the-spark-of-life',
   '/event-series/Wo1YeCoAACoAZFoN': '/events/embracing-the-goddess',
-  '/eventspaces': '/venue-hire',
+  '/eventspaces': '/pages/venue-hire',
   '/exhibitions/skeletons-london%E2%80%99s-buried-bones':
     '/exhibitions/skeletons-londons-buried-bones',
   '/exhibitions/thinking-body-mind-and-movement-work-wayne-mcgregor-random-dance':
@@ -54,6 +55,7 @@ export const literalRedirects: Record<string, string> = {
   '/exquisite-bodies': '/exhibitions/exquisite-bodies',
   '/foreignbodies': '/exhibitions/foreign-bodies--common-ground',
   '/forensics': '/exhibitions/forensics--the-anatomy-of-crime',
+  '/get-involved': '/pages/get-involved',
   '/graphic-warnings': '/books/graphic-warnings',
   '/graphicdesign': '/exhibitions/can-graphic-design-save-your-life-',
   '/high-society': '/exhibitions/high-society',
@@ -81,12 +83,14 @@ export const literalRedirects: Record<string, string> = {
   '/installations/WyuWLioAACkACeYv': '/exhibitions/the-pharmacy-of-colour',
   '/MakingNature': '/exhibitions/making-nature',
   '/medieval-bodies': '/books/medieval-bodies',
+  '/opening-times': '/pages/opening-time',
   '/packed-lunch': '/event-series/packed-lunch',
   '/press': '/pages/press',
   '/press/‘forensics-anatomy-crime’-opens-wellcome-collection':
     '/pages/forensics-the-anatomy-of-crime-opens-at-wellcome-collection',
   '/rawminds': '/schools',
   '/readingroom': '/pages/the-reading-room',
+  '/schools': '/pages/schools',
   '/secrettemple': '/exhibitions/tibets-secret-temple',
   '/series/X8D9qxIAACIAcKSf': '/series/worry-lines',
   '/sexology': '/exhibitions/institute-sexology',
@@ -94,6 +98,8 @@ export const literalRedirects: Record<string, string> = {
   '/the-hub': '/pages/the-hub',
   '/thisisavoice': '/exhibitions/this-is-a-voice',
   '/touring': '/pages/our-touring-exhibitions',
+  '/user-panel': '/pages/user-panel', // This page is, more often than not, archived.
+  '/venue-hire': '/pages/venue-hire',
   '/visit': '/visit-us',
   '/visit-us.aspx': '/visit-us',
   '/visit-us/accessibility': '/access', // this will be the final URL and cause a loop
