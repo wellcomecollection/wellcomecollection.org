@@ -41,6 +41,7 @@ import {
   TransformedManifest,
 } from '@weco/content/types/manifest';
 import {
+  getAuthServices,
   getFormatString,
   getIframeTokenSrc,
   getLabelString,
@@ -136,6 +137,7 @@ const ItemPageLink = ({
   collectionManifestsCount,
   canvasCount,
   digitalLocationInfo,
+  authServices,
 }) => {
   const { user } = useUser();
 
@@ -147,8 +149,9 @@ const ItemPageLink = ({
     digitalLocationInfo?.accessCondition === 'restricted' &&
     user?.role === 'StaffWithRestricted';
 
-  const manifestNeedsRegeneration = false;
-
+  const manifestNeedsRegeneration =
+    authServices?.external.id ===
+    'https://iiif.wellcomecollection.org/auth/restrictedlogin';
   return (
     <>
       {work.thumbnail && (
@@ -291,9 +294,8 @@ const WorkDetailsAvailableOnline = ({
     auth,
     authV2,
   });
-  const activeAccessService = authV2
-    ? auth?.v2.activeAccessService
-    : auth?.v1.activeAccessService;
+
+  const authServices = getAuthServices({ auth, authV2 });
 
   const isBornDigital =
     bornDigitalStatus === 'mixedBornDigital' ||
@@ -328,7 +330,7 @@ const WorkDetailsAvailableOnline = ({
         condition={Boolean(tokenService && !shouldShowItemLink)}
         wrapper={children => (
           <IIIFClickthrough
-            clickThroughService={activeAccessService}
+            clickThroughService={authServices?.active}
             tokenService={tokenService || ''}
             origin={origin}
           >
@@ -440,6 +442,7 @@ const WorkDetailsAvailableOnline = ({
                 canvasCount={canvasCount}
                 downloadOptions={downloadOptions}
                 digitalLocationInfo={digitalLocationInfo}
+                authServices={authServices}
               />
             )}
           </>
