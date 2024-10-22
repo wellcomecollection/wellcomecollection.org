@@ -21,7 +21,9 @@ export const getServerSideProps: GetServerSideProps<
 const VisitUs: FunctionComponent<page.Props> = (props: page.Props) => {
   const staticContent = <VisitUsStaticContent />;
 
-  return <page.Page {...props} staticContent={staticContent}></page.Page>;
+  return (
+    <page.Page {...props} staticContent={staticContent} vanityUid="visit-us" />
+  );
 };
 
 export default VisitUs;

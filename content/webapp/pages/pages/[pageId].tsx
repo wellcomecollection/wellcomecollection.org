@@ -55,7 +55,6 @@ import { isEditorialImage, isVideoEmbed } from '@weco/content/types/body';
 import { Page as PageType } from '@weco/content/types/pages';
 import { SiblingsGroup } from '@weco/content/types/siblings-group';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import { isVanityUrl } from '@weco/content/utils/urls';
 
 export type Props = {
   page: PageType;
@@ -63,9 +62,9 @@ export type Props = {
   children: SiblingsGroup<PageType>;
   ordersInParents: OrderInParent[];
   staticContent: ReactElement | null;
-  vanityUrl?: string;
   jsonLd: JsonLdObj;
   gaDimensions: GaDimensions;
+  vanityUid?: string;
 };
 
 type OrderInParent = {
@@ -113,10 +112,6 @@ export const getServerSideProps: GetServerSideProps<
   }
   const client = createClient(context);
 
-  const vanityUrl = isVanityUrl(pageId, context.resolvedUrl)
-    ? context.resolvedUrl
-    : undefined;
-
   const pageDocument = await fetchPage(client, pageId);
 
   if (isNotUndefined(pageDocument)) {
@@ -162,7 +157,6 @@ export const getServerSideProps: GetServerSideProps<
         staticContent: null,
         jsonLd,
         serverData,
-        vanityUrl,
         gaDimensions: {
           partOf: page.seasons?.map(season => season.id),
         },
@@ -179,8 +173,8 @@ export const Page: FunctionComponent<Props> = ({
   children,
   ordersInParents,
   staticContent,
-  vanityUrl,
   jsonLd,
+  vanityUid,
 }) => {
   const DateInfo = page.datePublished && <HTMLDate date={page.datePublished} />;
   const isLanding = page.format && page.format.id === PageFormatIds.Landing;
@@ -330,17 +324,11 @@ export const Page: FunctionComponent<Props> = ({
           </SpacingSection>,
         ]
       : [];
-
-  // If we have a vanity URL, we prefer that for the link rel="canonical"
-  // in the page <head>; it means the canonical URL will match the links
-  // we put elsewhere on the website, e.g. in the header.
-  const pathname = vanityUrl || `/pages/${page.uid}`;
-
   return (
     <PageLayout
       title={page.title}
       description={page.metadataDescription || page.promo?.caption || ''}
-      url={{ pathname }}
+      url={{ pathname: `/pages/${vanityUid || page.uid}` }}
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection={page?.siteSection as SiteSection}
