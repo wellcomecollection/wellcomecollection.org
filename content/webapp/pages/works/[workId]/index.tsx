@@ -20,6 +20,7 @@ import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/Ca
 import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
 import WorkDetails from '@weco/content/components/WorkDetails';
 import WorkHeader from '@weco/content/components/WorkHeader/WorkHeader';
+import useHotjar from '@weco/content/hooks/useHotjar';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
@@ -70,6 +71,7 @@ export const WorkPage: NextPage<Props> = ({
   apiUrl,
   transformedManifest,
 }) => {
+  useHotjar(true);
   const { user } = useUser();
   const role = user?.role;
   const isArchive = !!(

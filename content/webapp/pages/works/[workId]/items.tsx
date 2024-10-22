@@ -34,6 +34,7 @@ import IIIFViewer, {
 import { fromQuery } from '@weco/content/components/ItemLink';
 import { ParentManifest } from '@weco/content/components/ItemViewerContext/ItemViewerContext';
 import WorkLink from '@weco/content/components/WorkLink';
+import useHotjar from '@weco/content/hooks/useHotjar';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
@@ -146,6 +147,7 @@ const ItemPage: NextPage<Props> = ({
   serverSearchResults,
   parentManifest,
 }) => {
+  useHotjar(true);
   const { user } = useUser();
   const role = user?.role;
   const { authV2 } = useToggles();
