@@ -95,7 +95,6 @@ const tabItems = [
   },
   {
     id: 'today',
-    // TODO discuss these; do we want to use this technique?
     url: `/${prismicPageIds.whatsOn}/today`,
     text: 'Today',
   },
