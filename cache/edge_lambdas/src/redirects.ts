@@ -106,6 +106,7 @@ export const literalRedirects: Record<string, string> = {
   '/whats-on/exhibitions/infinitas-gracias':
     '/exhibitions/infinitas-gracias-mexican-miracle-paintings',
   '/whats-on/exhibitions/superhuman': '/exhibitions/superhuman',
+  '/young-people': '/pages/young-people',
   '/youth': '/pages/young-people',
 
   // This is the Prismic page for the homepage
