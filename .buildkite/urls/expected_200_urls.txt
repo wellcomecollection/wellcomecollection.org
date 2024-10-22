@@ -59,7 +59,7 @@
 /events/racial-difference-in-the-anglophone-caribbean
 /exhibitions/tranquillity
 /guides/archives-at-wellcome-collection
-/pages/the-history-and-context-of-our-collections
+/collections/the-history-and-context-of-our-collections
 /projects/regarding-forests-touring-exhibition
 /seasons/on-happiness
 /series/the-disabled-lockdown-experience
@@ -76,7 +76,7 @@
 # This is the RawMinds page, which has an ID very similar to the
 # Schools page, but it shouldn't be redirected.  See the router in
 # the content app, where we enable case-sensitive routing.
-/pages/youth-projects
+/get-involved/youth-projects
 
 # This page won't serve anything especially useful, but we want to
 # make sure it won't throw a 500 error

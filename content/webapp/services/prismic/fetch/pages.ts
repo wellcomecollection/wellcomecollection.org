@@ -1,6 +1,7 @@
 import * as prismic from '@prismicio/client';
 
 import { PagesDocument as RawPagesDocument } from '@weco/common/prismicio-types';
+import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 import { labelsFields } from '@weco/content/services/prismic/fetch-links';
 import {
   articleFormatsFetchLinks,
@@ -59,11 +60,14 @@ const pagesFetcher = fetcher<RawPagesDocument>(['pages'], fetchLinks);
 export const fetchPages = pagesFetcher.getByType;
 export const fetchPage = async (
   client: GetServerSidePropsPrismicClient,
-  id: string
+  id: string,
+  // 'orphan' is only ever used in this context,
+  // so I'm keeping it separate from SiteSection which is used in other contexts.
+  siteSection?: SiteSection | 'orphan'
 ): Promise<RawPagesDocument | undefined> => {
   // #11240 once redirects are in place we should only fetch by uid
   const pageDocument =
-    (await pagesFetcher.getByUid(client, id)) ||
+    (await pagesFetcher.getByUid(client, id, siteSection)) ||
     (await pagesFetcher.getById(client, id));
 
   return pageDocument;

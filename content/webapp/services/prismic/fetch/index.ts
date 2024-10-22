@@ -11,6 +11,7 @@ import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { deserialiseDates as deserialiseJsonDates } from '@weco/common/utils/json';
 import { toMaybeString } from '@weco/common/utils/routes';
 import { isString } from '@weco/common/utils/type-guards';
+import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 
 export type GetServerSidePropsPrismicClient = {
   type: 'GetServerSidePropsPrismicClient';
@@ -153,7 +154,10 @@ export function fetcher<Document extends prismic.PrismicDocument>(
 
     getByUid: async (
       { client }: GetServerSidePropsPrismicClient,
-      uid: string
+      uid: string,
+      // 'orphan' is only ever used in this context,
+      // so I'm keeping it separate from SiteSection which is used in other contexts.
+      siteSection?: SiteSection | 'orphan'
     ): Promise<Document | undefined> => {
       try {
         const primaryContentType = toMaybeString(contentType);
@@ -165,6 +169,9 @@ export function fetcher<Document extends prismic.PrismicDocument>(
           uid,
           {
             fetchLinks,
+            filters: siteSection
+              ? [prismic.filter.any('document.tags', [siteSection])]
+              : [],
           }
         );
 
