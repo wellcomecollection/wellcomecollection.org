@@ -31,6 +31,7 @@ import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoRe
 import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
 import StoriesGrid from '@weco/content/components/StoriesGrid';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
+import useHotjar from '@weco/content/hooks/useHotjar';
 import { WellcomeApiError } from '@weco/content/services/wellcome';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import {
@@ -140,6 +141,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   events,
   query,
 }) => {
+  useHotjar(true);
   const { query: queryString } = query;
   const { setLink } = useContext(SearchContext);
 
