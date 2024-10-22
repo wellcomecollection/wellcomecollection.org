@@ -199,7 +199,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   const authServices = getAuthServices({ auth, authV2 });
 
   const manifestNeedsRegeneration =
-    authServices?.external.id ===
+    authServices?.external?.id ===
     'https://iiif.wellcomecollection.org/auth/restrictedlogin';
 
   return (

@@ -150,7 +150,7 @@ const ItemPageLink = ({
     user?.role === 'StaffWithRestricted';
 
   const manifestNeedsRegeneration =
-    authServices?.external.id ===
+    authServices?.external?.id ===
     'https://iiif.wellcomecollection.org/auth/restrictedlogin';
   return (
     <>
