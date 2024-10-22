@@ -155,6 +155,8 @@ export function fetcher<Document extends prismic.PrismicDocument>(
     getByUid: async (
       { client }: GetServerSidePropsPrismicClient,
       uid: string,
+      // 'orphan' is only ever used in this context,
+      // so I'm keeping it separate from SiteSection which is used in other contexts.
       siteSection?: SiteSection | 'orphan'
     ): Promise<Document | undefined> => {
       try {

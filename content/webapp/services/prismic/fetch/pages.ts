@@ -61,6 +61,8 @@ export const fetchPages = pagesFetcher.getByType;
 export const fetchPage = async (
   client: GetServerSidePropsPrismicClient,
   id: string,
+  // 'orphan' is only ever used in this context,
+  // so I'm keeping it separate from SiteSection which is used in other contexts.
   siteSection?: SiteSection | 'orphan'
 ): Promise<RawPagesDocument | undefined> => {
   // #11240 once redirects are in place we should only fetch by uid
