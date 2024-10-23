@@ -49,6 +49,25 @@ const createConfig =
         }
         return [...rewriteEntries];
       },
+      async redirects() {
+        return [
+          {
+            source: '/articles/:slug',
+            destination: '/stories/:slug',
+            permanent: true,
+          },
+          {
+            source: '/articles',
+            destination: '/search/stories',
+            permanent: true,
+          },
+          {
+            source: '/stories/comic',
+            destination: '/search/stories?format=W7d_ghAAALWY3Ujc',
+            permanent: true,
+          },
+        ];
+      },
       webpack: (config, { isServer, webpack }) => {
         config.plugins.push(
           new webpack.NormalModuleReplacementPlugin(
