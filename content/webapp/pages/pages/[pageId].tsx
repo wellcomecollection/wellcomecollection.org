@@ -335,6 +335,7 @@ export const Page: FunctionComponent<Props> = ({
     <PageLayout
       title={page.title}
       description={page.metadataDescription || page.promo?.caption || ''}
+      // TODO
       url={{ pathname: `/pages/${page.uid}` }}
       jsonLd={jsonLd}
       openGraphType="website"

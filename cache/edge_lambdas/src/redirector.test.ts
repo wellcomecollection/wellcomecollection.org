@@ -39,7 +39,7 @@ test('It returns 301 responses for URLs with defined redirects', () => {
   expect(redirectedResponse?.status).toEqual('301');
   expect(redirectedResponse?.headers.location[0]).toEqual({
     key: 'Location',
-    value: `https://wellcomecollection.org//exhibitions/electricity--the-spark-of-life`,
+    value: `https://wellcomecollection.org/exhibitions/electricity--the-spark-of-life`,
   });
 });
 
