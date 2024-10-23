@@ -52,6 +52,7 @@ const Map: FunctionComponent<Props> = ({
         },
       };
       const map = new google.maps.Map(mapCanvas as Element, mapOptions);
+      /* disable @typescript-eslint/no-unused-vars */
       const marker = new google.maps.Marker({
         position: latLng,
         map,
