@@ -38,7 +38,7 @@ export const prismicPageIds = {
   gettingHere: 'getting-here',
   library: 'the-library',
   openingTimes: 'opening-times',
-  press: 'media-office',
+  press: 'press',
   register: 'library-membership',
   schools: 'schools',
   shop: 'shop',
