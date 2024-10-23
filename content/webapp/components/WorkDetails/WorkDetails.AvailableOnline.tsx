@@ -196,8 +196,7 @@ const ItemPageLink = ({
               </RestrictedMessageTitle>
 
               <p style={{ marginBottom: '1rem' }}>
-                This item is hidden from the public and can only be viewed by
-                staff.
+                Only staff with the right permissions can view this item online.
               </p>
 
               {manifestNeedsRegeneration && (

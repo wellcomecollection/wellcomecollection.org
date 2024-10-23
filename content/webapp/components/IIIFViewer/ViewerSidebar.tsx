@@ -217,7 +217,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
             </RestrictedMessageTitle>
 
             <p style={{ marginBottom: manifestNeedsRegeneration ? '1rem' : 0 }}>
-              This item is hidden from the public.
+              Only staff with the right permissions can view this item online.
             </p>
 
             {manifestNeedsRegeneration && (
