@@ -147,8 +147,8 @@ const ClosedMessage = () => (
       </InfoIconWrapper>
       <p className={font('intr', 5)}>
         Our exhibitions are closed today, but our{' '}
-        <a href={`/pages/${prismicPageIds.cafe}`}>café</a> and{' '}
-        <a href={`/pages/${prismicPageIds.shop}`}>shop</a> are open for your
+        <a href={`/visit-us/${prismicPageIds.cafe}`}>café</a> and{' '}
+        <a href={`/visit-us/${prismicPageIds.shop}`}>shop</a> are open for your
         visit.
       </p>
 

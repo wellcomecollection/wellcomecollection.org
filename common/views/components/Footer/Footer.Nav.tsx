@@ -59,7 +59,7 @@ const NavLinkElement = styled(Space).attrs({
 const InternalNavigation: NavLink[] = [
   ...links,
   {
-    href: `/pages/${prismicPageIds.contactUs}`,
+    href: `/${prismicPageIds.contactUs}`,
     title: 'Contact us',
   },
 ];

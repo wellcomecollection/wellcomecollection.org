@@ -52,6 +52,6 @@ export const shopVenue = {
     ],
     exceptional: [],
   },
-  url: `https://wellcomecollection.org/pages/${prismicPageIds.shop}`,
+  url: `https://wellcomecollection.org/visit-us/${prismicPageIds.shop}`,
   linkText: 'Books and gifts',
 } as Venue;
