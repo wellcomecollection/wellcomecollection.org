@@ -18,7 +18,6 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Exhibition from '@weco/content/components/Exhibition/Exhibition';
 import Installation from '@weco/content/components/Installation/Installation';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibition } from '@weco/content/services/prismic/fetch/exhibitions';
 import { transformExhibition } from '@weco/content/services/prismic/transformers/exhibitions';
@@ -50,8 +49,6 @@ const ExhibitionPage: FunctionComponent<ExhibitionProps> = ({
   accessResourceLinks,
   jsonLd,
 }) => {
-  useHotjar(exhibition.id === 'ZZP8BxAAALeD00jo'); // Only on Jason and the Adventure of 254
-
   return (
     <PageLayout
       title={exhibition.title}
