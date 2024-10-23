@@ -157,7 +157,10 @@ const ClosedMessage = () => (
       </InfoIconWrapper>
       <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
         Galleries open Tuesday–Sunday,{' '}
-        <a href={`/${prismicPageIds.openingTimes}`}>see full opening times</a>.
+        <a href={`/visit-us/${prismicPageIds.openingTimes}`}>
+          see full opening times
+        </a>
+        .
       </p>
     </InfoBox>
     <Space $v={{ size: 'l', properties: ['margin-top'] }}>
@@ -277,7 +280,7 @@ const Header: FunctionComponent<HeaderProps> = ({
                   </div>
                 )}
                 <NextLink
-                  href={`/${prismicPageIds.openingTimes}`}
+                  href={`/visit-us/${prismicPageIds.openingTimes}`}
                   className={font('intb', 5)}
                 >
                   Full opening times

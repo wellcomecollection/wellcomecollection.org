@@ -34,7 +34,7 @@ const meta: Meta<typeof InfoBox> = {
                 end: 44,
                 data: {
                   link_type: 'Web',
-                  url: `/${prismicPageIds.openingTimes}`,
+                  url: `/visit-us/${prismicPageIds.openingTimes}`,
                 },
               },
             ],
