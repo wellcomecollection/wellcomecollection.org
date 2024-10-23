@@ -109,10 +109,31 @@ export const getServerSideProps: GetServerSideProps<
   const { pageId } = context.query;
   const siteSection = toMaybeString(context.params?.siteSection);
 
-  if (!looksLikePrismicId(pageId) || !siteSection) {
+  if (!looksLikePrismicId(pageId)) {
     return { notFound: true };
   }
+
   const client = createClient(context);
+
+  // As our former URL structure for all pages was /pages/, if a user ends up on an old URL
+  // We want to redirect them to where the page now is.
+  if (context.resolvedUrl.indexOf('/pages/') === 0) {
+    const basicDocument = await fetchPage(client, pageId);
+
+    if (isNotUndefined(basicDocument)) {
+      const basicDocSiteSection = basicDocument.tags.find(t =>
+        isSiteSection(t)
+      );
+
+      return {
+        redirect: {
+          destination: `${basicDocSiteSection ? '/' + basicDocSiteSection : ''}/${basicDocument.uid}`,
+          permanent: false,
+        },
+      };
+    }
+    return { notFound: true };
+  }
 
   const pageDocument = await fetchPage(
     client,
@@ -122,7 +143,13 @@ export const getServerSideProps: GetServerSideProps<
       : undefined
   );
 
-  if (isNotUndefined(pageDocument)) {
+  // Is valid if document has a tag that matches the one declared in route OR
+  // if it has NO SiteSection tags at all (orphan)
+  const isInValidSection =
+    pageDocument?.tags.find(t => siteSection === t) ||
+    !pageDocument?.tags.find(t => isSiteSection(t));
+
+  if (isNotUndefined(pageDocument) && isInValidSection) {
     const serverData = await getServerData(context);
 
     const page = transformPage(pageDocument);

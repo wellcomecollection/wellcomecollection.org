@@ -82,7 +82,7 @@ export const literalRedirects: Record<string, string> = {
   '/installations/WyuWLioAACkACeYv': '/exhibitions/the-pharmacy-of-colour',
   '/MakingNature': '/exhibitions/making-nature',
   '/medieval-bodies': '/books/medieval-bodies',
-  '/opening-times': '/visit-us/opening-time',
+  '/opening-times': '/visit-us/opening-times',
   '/packed-lunch': '/event-series/packed-lunch',
   '/press': '/about-us/press',
   '/rawminds': '/get-involved/schools',
