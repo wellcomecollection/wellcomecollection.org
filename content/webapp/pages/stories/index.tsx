@@ -248,7 +248,7 @@ const StoriesPage: FunctionComponent<Props> = ({
           <CardGrid
             items={storiesLanding.stories}
             itemsPerRow={3}
-            links={[{ text: 'More stories', url: '/articles' }]}
+            links={[{ text: 'More stories', url: '/search/stories' }]}
           />
         </SpacingComponent>
       </SpacingSection>
@@ -269,7 +269,9 @@ const StoriesPage: FunctionComponent<Props> = ({
             items={comicSeries}
             itemsPerRow={3}
             itemsHaveTransparentBackground={true}
-            links={[{ text: 'More comics', url: '/stories/comic' }]}
+            links={[
+              { text: 'More comics', url: '/stories?format=W7d_ghAAALWY3Ujc' },
+            ]}
           />
         </SpacingComponent>
       </SpacingSection>
@@ -307,7 +309,7 @@ const StoriesPage: FunctionComponent<Props> = ({
           <CardGrid
             items={articles.slice(5, 11)}
             itemsPerRow={3}
-            links={[{ text: 'More stories', url: '/articles' }]}
+            links={[{ text: 'More stories', url: '/search/stories' }]}
           />
         </SpacingComponent>
       </SpacingSection>
