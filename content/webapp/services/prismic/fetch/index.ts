@@ -170,7 +170,12 @@ export function fetcher<Document extends prismic.PrismicDocument>(
           {
             fetchLinks,
             filters: siteSection
-              ? [prismic.filter.any('document.tags', [siteSection])]
+              ? [
+                  prismic.filter.any(
+                    'document.tags',
+                    siteSection === 'orphan' ? [] : [siteSection]
+                  ),
+                ]
               : [],
           }
         );
