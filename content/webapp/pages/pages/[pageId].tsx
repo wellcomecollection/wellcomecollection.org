@@ -173,8 +173,6 @@ export const getServerSideProps: GetServerSideProps<
         };
       }) || [];
 
-    // TODO: Why are we putting 'children' in a 'siblings' attribute?
-    // Fix this janky naming.
     const children = {
       id: page.id,
       title: page.title,
@@ -358,12 +356,14 @@ export const Page: FunctionComponent<Props> = ({
           </SpacingSection>,
         ]
       : [];
+
   return (
     <PageLayout
       title={page.title}
       description={page.metadataDescription || page.promo?.caption || ''}
-      // TODO
-      url={{ pathname: `/pages/${page.uid}` }}
+      url={{
+        pathname: `${page?.siteSection ? '/' + page.siteSection : ''}/${page.uid}`,
+      }}
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection={page?.siteSection as SiteSection}

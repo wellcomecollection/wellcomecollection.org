@@ -1,11 +1,10 @@
-// TODO rewite the comment here
 /** This defines the vanity URLs for pages on wellcomecollection.org.
  *
  * == What it looks like for users ==
  *
  * When a user visits a vanity URL, they will be redirected to the appropriate page.
  *
- * e.g. if somebody visits /about-us, they'll be redirected to /pages/Wuw2MSIAACtd3Stq
+ * e.g. if somebody visits /access, they'll be redirected to /visit-us/accessibility
  *
  * == When we use vanity URLs ==
  *
@@ -15,8 +14,6 @@
  *    - It’s meant to be read aloud
  *    - User needs to remember to write it down
  *    - Print to digital transmission
- *
- * See https://app.gitbook.com/o/-LumfFcEMKx4gYXKAZTQ/s/DPDDj27NI2F2kPukWrC1/developer-handbook/urls-on-wellcomecollection.org
  *
  */
 export const literalRedirects: Record<string, string> = {
