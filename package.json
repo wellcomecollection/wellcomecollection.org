@@ -117,11 +117,6 @@
       "stylelint --max-warnings=0"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "dependencies": {
     "yarn": "^1.22.21"
   }
