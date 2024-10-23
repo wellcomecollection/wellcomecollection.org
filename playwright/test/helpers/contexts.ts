@@ -301,7 +301,7 @@ const mediaOffice = async (
   page: Page
 ): Promise<void> => {
   await context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/about-us/media-office`, page);
+  await gotoWithoutCache(`${baseUrl}/about-us/press`, page);
 };
 
 const isMobile = (page: Page): boolean =>

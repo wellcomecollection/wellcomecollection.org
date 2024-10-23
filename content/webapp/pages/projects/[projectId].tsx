@@ -26,12 +26,10 @@ import { transformProject } from '@weco/content/services/prismic/transformers/pr
 import { isEditorialImage, isVideoEmbed } from '@weco/content/types/body';
 import { Project as ProjectType } from '@weco/content/types/projects';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import { isVanityUrl } from '@weco/content/utils/urls';
 
 type ProjectProps = {
   project: ProjectType;
   staticContent: ReactElement | null;
-  vanityUrl?: string | undefined;
   jsonLd: JsonLdObj;
   gaDimensions: GaDimensions;
 };
@@ -48,10 +46,6 @@ export const getServerSideProps: GetServerSideProps<
 
   const client = createClient(context);
 
-  const vanityUrl = isVanityUrl(projectId, context.resolvedUrl)
-    ? context.resolvedUrl
-    : undefined;
-
   const projectDocument = await fetchProject(client, projectId);
 
   if (isNotUndefined(projectDocument)) {
@@ -67,7 +61,6 @@ export const getServerSideProps: GetServerSideProps<
         staticContent: null,
         jsonLd,
         serverData,
-        vanityUrl,
         gaDimensions: {
           partOf: project.seasons?.map(season => season.id),
         },
@@ -81,7 +74,6 @@ export const getServerSideProps: GetServerSideProps<
 export const Project: FunctionComponent<ProjectProps> = ({
   project,
   staticContent,
-  vanityUrl,
   jsonLd,
 }) => {
   const featuredPicture =
@@ -124,16 +116,11 @@ export const Project: FunctionComponent<ProjectProps> = ({
     />
   );
 
-  // If we have a vanity URL, we prefer that for the link rel="canonical"
-  // in the page <head>; it means the canonical URL will match the links
-  // we put elsewhere on the website, e.g. in the header.
-  const pathname = vanityUrl || `/projects/${project.uid}`;
-
   return (
     <PageLayout
       title={project.title}
       description={project.metadataDescription || project.promo?.caption || ''}
-      url={{ pathname }}
+      url={{ pathname: `/projects/${project.uid}` }}
       jsonLd={jsonLd}
       openGraphType="website"
       image={project.image}

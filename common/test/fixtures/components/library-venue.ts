@@ -1,3 +1,4 @@
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { Venue } from '@weco/common/model/opening-hours';
 
 export const libraryVenue: Venue = {
@@ -113,6 +114,6 @@ export const libraryVenue: Venue = {
       },
     },
   },
-  url: 'https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Smm',
+  url: `https://wellcomecollection.org/pages/${prismicPageIds.library}`,
   linkText: 'Read about the library',
 };

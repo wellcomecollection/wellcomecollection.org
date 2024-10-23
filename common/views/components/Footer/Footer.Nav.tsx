@@ -66,7 +66,7 @@ const InternalNavigation: NavLink[] = [
 
 const PoliciesNavigation: NavLink[] = [
   { href: 'https://wellcome.org/jobs', title: 'Jobs' },
-  { href: '/press', title: 'Media office' },
+  { href: `/${prismicPageIds.press}`, title: 'Media office' },
   {
     href: 'https://developers.wellcomecollection.org',
     title: 'Developers',
@@ -77,7 +77,7 @@ const PoliciesNavigation: NavLink[] = [
   },
 
   {
-    href: '/cookie-policy',
+    href: `/${prismicPageIds.cookiePolicy}`,
     title: 'Cookie policy',
   },
   {
