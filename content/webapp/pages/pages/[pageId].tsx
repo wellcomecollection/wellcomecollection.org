@@ -43,6 +43,7 @@ import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader'
 import { PageFormatIds } from '@weco/content/data/content-format-ids';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import {
+  fetchBasicPage,
   fetchChildren,
   fetchPage,
   fetchSiblings,
@@ -118,7 +119,7 @@ export const getServerSideProps: GetServerSideProps<
   // As our former URL structure for all pages was /pages/, if a user ends up on an old URL
   // We want to redirect them to where the page now is.
   if (context.resolvedUrl.indexOf('/pages/') === 0) {
-    const basicDocument = await fetchPage(client, pageId);
+    const basicDocument = await fetchBasicPage(client, pageId);
 
     if (isNotUndefined(basicDocument)) {
       const basicDocSiteSection = basicDocument.tags.find(t =>

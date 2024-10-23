@@ -157,7 +157,8 @@ export function fetcher<Document extends prismic.PrismicDocument>(
       uid: string,
       // 'orphan' is only ever used in this context,
       // so I'm keeping it separate from SiteSection which is used in other contexts.
-      siteSection?: SiteSection | 'orphan'
+      siteSection?: SiteSection | 'orphan',
+      params?: { graphQuery?: string }
     ): Promise<Document | undefined> => {
       try {
         const primaryContentType = toMaybeString(contentType);
@@ -167,17 +168,21 @@ export function fetcher<Document extends prismic.PrismicDocument>(
         const response = await client.getByUID<Document>(
           primaryContentType,
           uid,
-          {
-            fetchLinks,
-            filters: siteSection
-              ? [
-                  prismic.filter.any(
-                    'document.tags',
-                    siteSection === 'orphan' ? [] : [siteSection]
-                  ),
-                ]
-              : [],
-          }
+          params?.graphQuery
+            ? {
+                graphQuery: params?.graphQuery,
+              }
+            : {
+                fetchLinks,
+                filters: siteSection
+                  ? [
+                      prismic.filter.any(
+                        'document.tags',
+                        siteSection === 'orphan' ? [] : [siteSection]
+                      ),
+                    ]
+                  : [],
+              }
         );
 
         return response;
