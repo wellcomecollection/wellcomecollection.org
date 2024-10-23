@@ -24,6 +24,7 @@ import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink
 import { toLink as toWorksLink } from '@weco/content/components/SearchPagesLink/Works';
 import Tabs from '@weco/content/components/Tabs';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
+import useHotjar from '@weco/content/hooks/useHotjar';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { getConcept } from '@weco/content/services/wellcome/catalogue/concepts';
@@ -257,6 +258,7 @@ export const ConceptPage: NextPage<Props> = ({
   sectionsData,
   apiToolbarLinks,
 }) => {
+  useHotjar(true);
   const pathname = usePathname();
   const worksTabs = tabOrder
     .map(relationship => {

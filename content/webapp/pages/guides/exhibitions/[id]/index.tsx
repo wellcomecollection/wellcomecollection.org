@@ -28,7 +28,6 @@ import {
   ExhibitionResourceLinks,
 } from '@weco/content/components/ExhibitionGuideLinks/ExhibitionGuideLinks';
 import OtherExhibitionGuides from '@weco/content/components/OtherExhibitionGuides/OtherExhibitionGuides';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import { allGuides } from '@weco/content/pages/guides/exhibitions';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import {
@@ -68,7 +67,6 @@ import { setCacheControl } from '@weco/content/utils/setCacheControl';
 // At which point we'll have the exhibition id in the url and can query the types directly, filtering by the exhibition id
 
 type Props = {
-  exhibitionId: string;
   exhibitionGuide?: ExhibitionGuide;
   exhibitionText?: ExhibitionText;
   exhibitionHighlightTour?: ExhibitionHighlightTour;
@@ -175,7 +173,6 @@ export const getServerSideProps: GetServerSideProps<
 
       return {
         props: serialiseProps({
-          exhibitionId: id,
           exhibitionGuide,
           jsonLd,
           serverData,
@@ -287,7 +284,6 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const ExhibitionGuidePage: FunctionComponent<Props> = ({
-  exhibitionId,
   exhibitionGuide,
   exhibitionText,
   exhibitionHighlightTour,
@@ -303,8 +299,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
     exhibitionGuide?.title ||
     exhibitionText?.title ||
     exhibitionHighlightTour?.title;
-
-  useHotjar(exhibitionId === 'ZthrZRIAACQALvCC'); // Only on Jason and the Adventure of 254
 
   const highlightStops = exhibitionHighlightTour?.stops;
   const hasVideo =

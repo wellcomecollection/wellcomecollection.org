@@ -33,7 +33,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import { components } from '@weco/common/views/slices';
 import RelevantGuideIcons from '@weco/content/components/ExhibitionGuideRelevantIcons';
 import ExhibitionGuideStops from '@weco/content/components/ExhibitionGuideStops/ExhibitionGuideStops';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibitionGuide } from '@weco/content/services/prismic/fetch/exhibition-guides';
 import { fetchExhibitionHighlightTour } from '@weco/content/services/prismic/fetch/exhibition-highlight-tours';
@@ -203,8 +202,6 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const ExhibitionGuidePage: FunctionComponent<Props> = props => {
-  useHotjar(true);
-
   const { exhibitionGuide, jsonLd, type, userPreferenceSet } = props;
   const pathname = `${linkResolver(exhibitionGuide)}/${type}`;
 
