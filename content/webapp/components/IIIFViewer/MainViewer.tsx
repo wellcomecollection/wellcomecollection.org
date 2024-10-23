@@ -283,7 +283,6 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
         // However, we've opted to just try and load the image if the accessToken is available rather than making an additional call
         // In our case the probe service doesn't offer any information other than whether the image would load, so we may as well try that directly.
         <MessageContainer>
-          Access token: {accessToken}
           <h2 className={font('intb', 4)}>{externalAccessService?.label}</h2>
           <p
             className={font('intr', 5)}
