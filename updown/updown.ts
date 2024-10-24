@@ -36,7 +36,7 @@ export const getAlertRecipients = async (
     );
   const email = recipients.data.find(r => r.type === 'email')?.id;
   const platformChannel = recipients.data.find(
-    r => r.type === 'slack' && r.name.endsWith('#digital-platform')
+    r => r.type === 'slack' && r.name.endsWith('digital-general')
   )?.id;
   const alertsChannel = recipients.data.find(
     r => r.type === 'slack' && r.name.endsWith('platform-alerts')
@@ -53,7 +53,7 @@ export const getAlertRecipients = async (
       recipients.add(email);
     }
     if (
-      desiredCheck.slackAlerts?.includes('platform-channel') &&
+      desiredCheck.slackAlerts?.includes('digital-general') &&
       platformChannel
     ) {
       recipients.add(platformChannel);
