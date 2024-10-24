@@ -2,6 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { getCrop } from '@weco/common/model/image';
+import { Label } from '@weco/common/model/labels';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font, grid } from '@weco/common/utils/classnames';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
@@ -47,218 +48,100 @@ const SearchResults: FunctionComponent<Props> = ({
     )}
     {items.length > 0 && (
       <PlainList>
-        {items.map((item, index) => (
-          <Result key={item.id} data-testid="search-result">
-            {item.type === 'card' && (
-              <CompactCard
-                url={item.link}
-                title={item.title || ''}
-                primaryLabels={[]}
-                secondaryLabels={[]}
-                description={item.description || ''}
-                Image={
-                  getCrop(item.image, 'square') && (
-                    <PrismicImage
-                      image={{
-                        // We intentionally omit the alt text on promos, so screen reader
-                        // users don't have to listen to the alt text before hearing the
-                        // title of the item in the list.
-                        //
-                        // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                        ...getCrop(item.image, 'square')!,
-                        alt: '',
-                      }}
-                      sizes={{
-                        xlarge: 1 / 6,
-                        large: 1 / 6,
-                        medium: 1 / 5,
-                        small: 1 / 4,
-                      }}
-                      quality="low"
-                    />
-                  )
-                }
-              />
-            )}
-            {item.type === 'pages' && (
-              <CompactCard
-                url={linkResolver(item)}
-                title={item.title || ''}
-                primaryLabels={[]}
-                secondaryLabels={[]}
-                description={item.promo?.caption || item.metadataDescription}
-                urlOverride={item.promo && item.promo.link}
-                Image={
-                  getCrop(item.image, 'square') && (
-                    <PrismicImage
-                      image={{
-                        // We intentionally omit the alt text on promos, so screen reader
-                        // users don't have to listen to the alt text before hearing the
-                        // title of the item in the list.
-                        //
-                        // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                        ...getCrop(item.image, 'square')!,
-                        alt: '',
-                      }}
-                      sizes={{
-                        xlarge: 1 / 6,
-                        large: 1 / 6,
-                        medium: 1 / 5,
-                        small: 1 / 4,
-                      }}
-                      quality="low"
-                    />
-                  )
-                }
-                xOfY={{ x: index + 1, y: items.length }}
-              />
-            )}
-            {item.type === 'event-series' && (
-              <CompactCard
-                url={linkResolver(item)}
-                title={item.title}
-                primaryLabels={item.labels}
-                secondaryLabels={[]}
-                description={item.promo && item.promo.caption}
-                urlOverride={item.promo && item.promo.link}
-                Image={
-                  getCrop(item.image, 'square') && (
-                    <PrismicImage
-                      image={{
-                        // We intentionally omit the alt text on promos, so screen reader
-                        // users don't have to listen to the alt text before hearing the
-                        // title of the item in the list.
-                        //
-                        // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                        ...getCrop(item.image, 'square')!,
-                        alt: '',
-                      }}
-                      sizes={{
-                        xlarge: 1 / 6,
-                        large: 1 / 6,
-                        medium: 1 / 5,
-                        small: 1 / 4,
-                      }}
-                      quality="low"
-                    />
-                  )
-                }
-                xOfY={{ x: index + 1, y: items.length }}
-              />
-            )}
-            {item.type === 'books' && (
-              <CompactCard
-                url={linkResolver(item)}
-                title={item.title}
-                primaryLabels={item.labels}
-                secondaryLabels={[]}
-                description={item.promo && item.promo.caption}
-                urlOverride={item.promo && item.promo.link}
-                Image={
-                  getCrop(item.cover, 'square') && (
-                    <PrismicImage
-                      image={{
-                        // We intentionally omit the alt text on promos, so screen reader
-                        // users don't have to listen to the alt text before hearing the
-                        // title of the item in the list.
-                        //
-                        // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                        ...getCrop(item.cover, 'square')!,
-                        alt: '',
-                      }}
-                      sizes={{
-                        xlarge: 1 / 6,
-                        large: 1 / 6,
-                        medium: 1 / 5,
-                        small: 1 / 4,
-                      }}
-                      quality="low"
-                    />
-                  )
-                }
-                xOfY={{ x: index + 1, y: items.length }}
-              />
-            )}
-            {item.type === 'articles' && (
-              <ArticleCard
-                article={item}
-                showPosition={showPosition}
-                xOfY={{ x: index + 1, y: items.length }}
-              />
-            )}
-            {item.type === 'series' && (
-              <CompactCard
-                url={linkResolver(item)}
-                title={item.title || ''}
-                primaryLabels={item.labels}
-                secondaryLabels={[]}
-                description={item.promo && item.promo.caption}
-                urlOverride={item.promo && item.promo.link}
-                Image={
-                  getCrop(item.image, 'square') && (
-                    <PrismicImage
-                      image={{
-                        // We intentionally omit the alt text on promos, so screen reader
-                        // users don't have to listen to the alt text before hearing the
-                        // title of the item in the list.
-                        //
-                        // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                        ...getCrop(item.image, 'square')!,
-                        alt: '',
-                      }}
-                      sizes={{
-                        xlarge: 1 / 6,
-                        large: 1 / 6,
-                        medium: 1 / 5,
-                        small: 1 / 4,
-                      }}
-                      quality="low"
-                    />
-                  )
-                }
-                xOfY={{ x: index + 1, y: items.length }}
-              />
-            )}
-            {item.type === 'events' && (
-              <EventCard
-                event={item}
-                xOfY={{ x: index + 1, y: items.length }}
-              />
-            )}
-            {item.type === 'exhibitions' && (
-              <CompactCard
-                url={linkResolver(item)}
-                title={item.title}
-                primaryLabels={item.labels}
-                secondaryLabels={[]}
-                description={item.promo?.caption}
-                Image={
-                  getCrop(item.image, 'square') && (
-                    <PrismicImage
-                      image={{
-                        // We intentionally omit the alt text on promos, so screen reader
-                        // users don't have to listen to the alt text before hearing the
-                        // title of the item in the list.
-                        //
-                        // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                        ...getCrop(item.image, 'square')!,
-                        alt: '',
-                      }}
-                      sizes={{
-                        xlarge: 1 / 6,
-                        large: 1 / 6,
-                        medium: 1 / 5,
-                        small: 1 / 4,
-                      }}
-                      quality="low"
-                    />
-                  )
-                }
-                xOfY={{ x: index + 1, y: items.length }}
-              />
-            )}
-          </Result>
-        ))}
+        {items.map((item, index) => {
+          if (item.type === 'weblinks') return null;
+
+          const itemImage =
+            'image' in item
+              ? item.image
+              : 'cover' in item
+                ? item.cover
+                : undefined;
+
+          const xOfY = { x: index + 1, y: items.length };
+
+          const BaseCompactCard = ({
+            primaryLabels = [],
+            secondaryLabels = [],
+            description = '',
+            urlOverride,
+            ...rest
+          }: {
+            primaryLabels?: Label[];
+            secondaryLabels?: Label[];
+            description?: string;
+            urlOverride?: string;
+          }) => (
+            <CompactCard
+              url={'link' in item ? item.link : linkResolver(item)}
+              title={item.title || ''}
+              primaryLabels={primaryLabels}
+              secondaryLabels={secondaryLabels}
+              description={description}
+              xOfY={xOfY}
+              Image={
+                getCrop(itemImage, 'square') && (
+                  <PrismicImage
+                    image={{
+                      // We intentionally omit the alt text on promos, so screen reader
+                      // users don't have to listen to the alt text before hearing the
+                      // title of the item in the list.
+                      //
+                      // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                      ...getCrop(itemImage, 'square')!,
+                      alt: '',
+                    }}
+                    sizes={{
+                      xlarge: 1 / 6,
+                      large: 1 / 6,
+                      medium: 1 / 5,
+                      small: 1 / 4,
+                    }}
+                    quality="low"
+                  />
+                )
+              }
+              {...rest}
+            />
+          );
+
+          return (
+            <Result key={item.id} data-testid="search-result">
+              {item.type === 'card' && (
+                <BaseCompactCard description={item.description} />
+              )}
+              {item.type === 'pages' && (
+                <BaseCompactCard
+                  description={item.promo?.caption || item.metadataDescription}
+                  urlOverride={item.promo && item.promo.link}
+                />
+              )}
+              {(item.type === 'books' ||
+                item.type === 'event-series' ||
+                item.type === 'series') && (
+                <BaseCompactCard
+                  primaryLabels={item.labels}
+                  description={item.promo && item.promo.caption}
+                  urlOverride={item.promo && item.promo.link}
+                />
+              )}
+              {item.type === 'exhibitions' && (
+                <BaseCompactCard
+                  primaryLabels={item.labels}
+                  description={item.promo?.caption}
+                />
+              )}
+              {item.type === 'articles' && (
+                <ArticleCard
+                  article={item}
+                  showPosition={showPosition}
+                  xOfY={xOfY}
+                />
+              )}
+              {item.type === 'events' && <EventCard event={item} xOfY={xOfY} />}
+            </Result>
+          );
+        })}
       </PlainList>
     )}
   </>
