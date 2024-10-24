@@ -18,7 +18,8 @@ type DataProps = {
 function linkResolver(doc: Props | DataProps): string {
   const { uid, type } = doc;
   if (!uid) return '/';
-  if (type === 'webcomics') return `/articles/${uid}`;
+  if (type === 'articles') return `/stories/${uid}`;
+  if (type === 'webcomics') return `/stories/${uid}`;
   if (type === 'webcomic-series') return `/series/${uid}`;
   if (
     type === 'exhibition-guides' ||
