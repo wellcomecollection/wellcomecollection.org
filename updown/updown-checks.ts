@@ -6,7 +6,7 @@ export default [
     url: 'https://content.wellcomecollection.org/',
     name: 'Homepage',
     emailAlerts: true,
-    slackAlerts: ['platform-channel', 'alerts-channel'],
+    slackAlerts: ['digital-general', 'alerts-channel'],
   },
   {
     url: 'https://content.wellcomecollection.org/stories',
@@ -60,7 +60,7 @@ export default [
     url: 'https://content.wellcomecollection.org/search/works?query=botany',
     name: 'Works search',
     emailAlerts: true,
-    slackAlerts: ['platform-channel', 'alerts-channel'],
+    slackAlerts: ['digital-general', 'alerts-channel'],
     apdexThreshold: 1.0, // We expect this to be a slower page
   },
   {
@@ -94,7 +94,7 @@ export default [
     url: 'https://api.wellcomecollection.org/catalogue/v2/images?query=medicine',
     name: 'Images API: Search',
     emailAlerts: true,
-    slackAlerts: ['platform-channel', 'alerts-channel'],
+    slackAlerts: ['digital-general', 'alerts-channel'],
   },
   {
     url: 'https://api.wellcomecollection.org/catalogue/v2/images/sws5gyfw',
@@ -105,7 +105,7 @@ export default [
     url: 'https://api.wellcomecollection.org/catalogue/v2/works?query=botany',
     name: 'Works API: Search',
     emailAlerts: true,
-    slackAlerts: ['platform-channel', 'alerts-channel'],
+    slackAlerts: ['digital-general', 'alerts-channel'],
   },
   {
     url: 'https://api.wellcomecollection.org/catalogue/v2/works/tp3rer3n',
