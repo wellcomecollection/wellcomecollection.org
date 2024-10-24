@@ -40,7 +40,7 @@ export const ValidatedSuccessText: FunctionComponent<
           identification (ID) and proof of your address to our admissions desk
           when you visit. The identification we accept is detailed on our{' '}
           <a
-            href={`https://wellcomecollection.org/pages/${prismicPageIds.register}`}
+            href={`https://wellcomecollection.org/collections/${prismicPageIds.register}`}
           >
             Library membership page
           </a>
@@ -88,7 +88,7 @@ export const ApplicationReceived: FunctionComponent<{ email: string }> = ({
         identification (ID) and proof of your address to our admissions desk
         when you visit. The identification we accept is detailed on our{' '}
         <a
-          href={`https://wellcomecollection.org/pages/${prismicPageIds.register}`}
+          href={`https://wellcomecollection.org/collections/${prismicPageIds.register}`}
         >
           Library membership page
         </a>

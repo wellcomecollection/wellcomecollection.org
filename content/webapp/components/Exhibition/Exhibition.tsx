@@ -116,7 +116,7 @@ function getTodaysHoursObject(): ExhibitionItem {
     end: todaysHoursText.length,
     data: {
       link_type: 'Web',
-      url: `/${prismicPageIds.openingTimes}`,
+      url: `/visit-us/${prismicPageIds.openingTimes}`,
     },
   };
 
@@ -378,8 +378,9 @@ const Exhibition: FunctionComponent<Props> = ({
         <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
           <AccessibilityServices>
             For more information, please visit our{' '}
-            <a href={`/${prismicPageIds.access}`}>Accessibility</a> page. If you
-            have any queries about accessibility, please email us at{' '}
+            <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>{' '}
+            page. If you have any queries about accessibility, please email us
+            at{' '}
             <a href="mailto:access@wellcomecollection.org">
               access@wellcomecollection.org
             </a>{' '}

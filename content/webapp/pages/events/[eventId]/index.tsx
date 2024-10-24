@@ -453,7 +453,7 @@ const EventPage: NextPage<EventProps> = ({
               <p className={font('intr', 5)}>{a11y.defaultEventMessage}</p>
               <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
                 <a
-                  href={`https://wellcomecollection.org/pages/${prismicPageIds.bookingAndAttendingOurEvents}`}
+                  href={`https://wellcomecollection.org/visit-us/${prismicPageIds.bookingAndAttendingOurEvents}`}
                 >
                   Our event terms and conditions
                 </a>

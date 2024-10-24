@@ -59,14 +59,14 @@ const NavLinkElement = styled(Space).attrs({
 const InternalNavigation: NavLink[] = [
   ...links,
   {
-    href: `/pages/${prismicPageIds.contactUs}`,
+    href: `/${prismicPageIds.contactUs}`,
     title: 'Contact us',
   },
 ];
 
 const PoliciesNavigation: NavLink[] = [
   { href: 'https://wellcome.org/jobs', title: 'Jobs' },
-  { href: `/${prismicPageIds.press}`, title: 'Media office' },
+  { href: `/about-us/${prismicPageIds.press}`, title: 'Media office' },
   {
     href: 'https://developers.wellcomecollection.org',
     title: 'Developers',
@@ -77,7 +77,7 @@ const PoliciesNavigation: NavLink[] = [
   },
 
   {
-    href: `/${prismicPageIds.cookiePolicy}`,
+    href: `/about-us/${prismicPageIds.cookiePolicy}`,
     title: 'Cookie policy',
   },
   {

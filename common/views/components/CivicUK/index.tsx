@@ -54,7 +54,7 @@ export const policyUpdatedDate = '17/04/2024';
 const statement = {
   description: 'You can read more about how we use cookies in our',
   name: 'Cookie policy',
-  url: `/${prismicPageIds.cookiePolicy}`,
+  url: `/about-us/${prismicPageIds.cookiePolicy}`,
   updated: policyUpdatedDate,
 };
 

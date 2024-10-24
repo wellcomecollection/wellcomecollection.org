@@ -80,8 +80,8 @@ export const a11y = {
   defaultEventMessage: (
     <>
       For more information, please visit our{' '}
-      <a href={`/${prismicPageIds.access}`}>Accessibility</a> page. If you have
-      any queries about accessibility, please email us at{' '}
+      <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a> page. If
+      you have any queries about accessibility, please email us at{' '}
       <a href="mailto:access@wellcomecollection.org">
         access@wellcomecollection.org
       </a>{' '}

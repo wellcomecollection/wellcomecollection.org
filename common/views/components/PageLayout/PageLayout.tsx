@@ -36,14 +36,21 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import NewsletterPromo from '@weco/common/views/components/NewsletterPromo/NewsletterPromo';
 import PopupDialog from '@weco/common/views/components/PopupDialog/PopupDialog';
 
-export type SiteSection =
-  | 'visit-us'
-  | 'whats-on'
-  | 'stories'
-  | 'collections'
-  | 'get-involved'
-  | 'about-us'
-  | 'exhibition-guides';
+const siteSectionList = [
+  'visit-us',
+  'whats-on',
+  'stories',
+  'collections',
+  'get-involved',
+  'about-us',
+  'exhibition-guides',
+] as const;
+export type SiteSection = (typeof siteSectionList)[number];
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const isSiteSection = (section: any): section is SiteSection => {
+  return siteSectionList.includes(section);
+};
 
 type HeaderProps = {
   customNavLinks: NavLink[];

@@ -55,8 +55,6 @@ export function transformPage(document: RawPagesDocument): Page {
       })
     : [];
 
-  // TODO (tagging): This is just for now, we will be implementing a proper site tagging
-  // strategy for this later
   const siteSections = headerLinks.map(link => link.siteSection);
   const siteSection = document.tags.find(tag =>
     siteSections.includes(tag as SiteSection)
