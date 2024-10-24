@@ -90,17 +90,17 @@ import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 const tabItems = [
   {
     id: 'current-and-coming-up',
-    url: '/whats-on',
+    url: `/${prismicPageIds.whatsOn}`,
     text: 'Everything',
   },
   {
     id: 'today',
-    url: '/whats-on/today',
+    url: `/${prismicPageIds.whatsOn}/today`,
     text: 'Today',
   },
   {
     id: 'this-weekend',
-    url: '/whats-on/this-weekend',
+    url: `/${prismicPageIds.whatsOn}/this-weekend`,
     text: 'This weekend',
   },
 ];
@@ -147,8 +147,9 @@ const ClosedMessage = () => (
       </InfoIconWrapper>
       <p className={font('intr', 5)}>
         Our exhibitions are closed today, but our{' '}
-        <a href="/pages/Wvl1wiAAADMJ3zNe">café</a> and{' '}
-        <a href="/pages/WwgaIh8AAB8AGhC_">shop</a> are open for your visit.
+        <a href={`/pages/${prismicPageIds.cafe}`}>café</a> and{' '}
+        <a href={`/pages/${prismicPageIds.shop}`}>shop</a> are open for your
+        visit.
       </p>
 
       <InfoIconWrapper>
@@ -156,7 +157,7 @@ const ClosedMessage = () => (
       </InfoIconWrapper>
       <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
         Galleries open Tuesday–Sunday,{' '}
-        <a href="/opening-times">see full opening times</a>.
+        <a href={`/${prismicPageIds.openingTimes}`}>see full opening times</a>.
       </p>
     </InfoBox>
     <Space $v={{ size: 'l', properties: ['margin-top'] }}>
@@ -276,8 +277,7 @@ const Header: FunctionComponent<HeaderProps> = ({
                   </div>
                 )}
                 <NextLink
-                  href="/opening-times"
-                  as="/opening-times"
+                  href={`/${prismicPageIds.openingTimes}`}
                   className={font('intb', 5)}
                 >
                   Full opening times

@@ -9,10 +9,10 @@
 /exhibitions/notfound
 
 # Ignore attempts to inject malicious data into our Prismic queries
-/event-series/WlYUDCQAACQAWcdt..!5c..
+/event-series/perspective-tours..!5c..
 
 # This is a real Prismic ID, but it's an exhibition, not an event
-/events/YZYdQxEAACQAVm7b
+/events/viscera
 
 # Ignore requests for bare types
 /event-series
@@ -25,7 +25,4 @@
 /guides?format=%not-a-prismic-id%
 
 # Requesting a page beyond the end of an article series 
-/series/W-XBJxEAAKmng1TG?page=500
-
-# Uses a UID based URL
 /series/inside-our-books?page=500

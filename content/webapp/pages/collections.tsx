@@ -20,10 +20,16 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const CollectionsPage: FunctionComponent<page.Props> = (props: page.Props) => {
-  const staticContent = <CollectionsStaticContent />;
   useHotjar(true);
+  const staticContent = <CollectionsStaticContent />;
 
-  return <page.Page {...props} staticContent={staticContent} />;
+  return (
+    <page.Page
+      {...props}
+      staticContent={staticContent}
+      vanityUid="collections"
+    />
+  );
 };
 
 export default CollectionsPage;

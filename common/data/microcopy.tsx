@@ -12,6 +12,8 @@
 
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 
+import { prismicPageIds } from './hardcoded-ids';
+
 export const pageDescriptions = {
   articles:
     'Our words and pictures explore the connections between science, medicine, life and art. Dive into one no matter where in the world you are.',
@@ -77,8 +79,9 @@ export const a11y = {
   //
   defaultEventMessage: (
     <>
-      For more information, please visit our <a href="/access">Accessibility</a>{' '}
-      page. If you have any queries about accessibility, please email us at{' '}
+      For more information, please visit our{' '}
+      <a href={`/${prismicPageIds.access}`}>Accessibility</a> page. If you have
+      any queries about accessibility, please email us at{' '}
       <a href="mailto:access@wellcomecollection.org">
         access@wellcomecollection.org
       </a>{' '}
