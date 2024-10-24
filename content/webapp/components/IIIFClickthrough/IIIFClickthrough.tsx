@@ -1,9 +1,4 @@
-import {
-  FunctionComponent,
-  PropsWithChildren,
-  useEffect,
-  useState,
-} from 'react';
+import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
@@ -11,7 +6,6 @@ import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import useShowClickthrough from '@weco/content/hooks/useShowClickthrough';
 import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
-
 const IframeAuthMessage = styled.iframe`
   display: none;
 `;
@@ -25,23 +19,21 @@ function reloadAuthIframe(document: Document, id: string) {
 }
 
 type Props = PropsWithChildren<{
-  clickThroughService: TransformedAuthService | undefined;
-  tokenService: TransformedAuthService | undefined;
+  clickThroughService?: TransformedAuthService;
+  tokenService: string;
+  origin?: string;
 }>;
 
 const IIIFClickthrough: FunctionComponent<Props> = ({
   clickThroughService,
   tokenService,
+  origin,
   children,
 }) => {
-  const [origin, setOrigin] = useState<string>();
   const showClickthroughMessage = useShowClickthrough(
     clickThroughService,
     tokenService
   );
-  useEffect(() => {
-    setOrigin(`${window.location.protocol}//${window.location.hostname}`);
-  }, []);
 
   return clickThroughService && tokenService ? (
     <>
@@ -49,7 +41,7 @@ const IIIFClickthrough: FunctionComponent<Props> = ({
         <IframeAuthMessage
           id={iframeId}
           title="IIIF Authentication iframe for cross-domain messaging"
-          src={`${tokenService.id}?messageId=1&origin=${origin}`}
+          src={tokenService}
         />
       )}
       {showClickthroughMessage ? (

@@ -35,7 +35,6 @@ import DownloadLink from '@weco/content/components/DownloadLink/DownloadLink';
 import IIIFClickthrough from '@weco/content/components/IIIFClickthrough/IIIFClickthrough';
 import IIIFItemList from '@weco/content/components/IIIFItemList/IIIFItemList';
 import { DownloadTable } from '@weco/content/components/WorkDetails/WorkDetails.DownloadItem';
-import { getTokenService } from '@weco/content/pages/works/[workId]/items'; // TODO move function to utils?
 import { Note, Work } from '@weco/content/services/wellcome/catalogue/types';
 import {
   DownloadOption,
@@ -43,6 +42,7 @@ import {
 } from '@weco/content/types/manifest';
 import {
   getFormatString,
+  getIframeTokenSrc,
   getLabelString,
   isAllOriginalPdfs,
 } from '@weco/content/utils/iiif/v3';
@@ -269,6 +269,8 @@ const WorkDetailsAvailableOnline = ({
   locationOfWork,
   transformedManifest,
 }: Props) => {
+  const { user } = useUser();
+  const role = user?.role;
   const { authV2 } = useToggles();
   const {
     collectionManifestsCount,
@@ -280,10 +282,18 @@ const WorkDetailsAvailableOnline = ({
     placeholderId,
     rendering,
   } = { ...transformedManifest };
-  const tokenService = getTokenService({ auth, authV2 });
+  const [origin, setOrigin] = useState<string | undefined>();
+
+  const tokenService = getIframeTokenSrc({
+    role,
+    workId: work.id,
+    origin,
+    auth,
+    authV2,
+  });
   const activeAccessService = authV2
-    ? auth?.v2.activeAccessService || auth?.v1.activeAccessService
-    : auth?.v1.activeAccessService; // TODO should this include externalAccessSerice too?
+    ? auth?.v2.activeAccessService
+    : auth?.v1.activeAccessService;
 
   const isBornDigital =
     bornDigitalStatus === 'mixedBornDigital' ||
@@ -306,22 +316,25 @@ const WorkDetailsAvailableOnline = ({
   }, [archiveTree, tabbableId]);
   const { isEnhanced } = useContext(AppContext);
 
+  useEffect(() => {
+    setOrigin(window.origin);
+  }, []);
+
   return (
     <WorkDetailsSection
       headingText={`Available ${isBornDigital ? 'to download' : 'online'}`}
     >
       <ConditionalWrapper
         condition={Boolean(tokenService && !shouldShowItemLink)}
-        wrapper={children =>
-          itemUrl && (
-            <IIIFClickthrough
-              clickThroughService={activeAccessService}
-              tokenService={tokenService}
-            >
-              {children}
-            </IIIFClickthrough>
-          )
-        }
+        wrapper={children => (
+          <IIIFClickthrough
+            clickThroughService={activeAccessService}
+            tokenService={tokenService || ''}
+            origin={origin}
+          >
+            {children}
+          </IIIFClickthrough>
+        )}
       >
         {isBornDigital && !allOriginalPdfs && (
           <>
