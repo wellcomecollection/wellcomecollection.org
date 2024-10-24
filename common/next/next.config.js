@@ -54,17 +54,17 @@ const createConfig =
           {
             source: '/articles/:slug',
             destination: '/stories/:slug',
-            permanent: true,
+            statusCode: 301,
           },
           {
             source: '/articles',
             destination: '/search/stories',
-            permanent: true,
+            statusCode: 301,
           },
           {
             source: '/stories/comic',
             destination: '/search/stories?format=W7d_ghAAALWY3Ujc',
-            permanent: true,
+            statusCode: 301,
           },
         ];
       },
