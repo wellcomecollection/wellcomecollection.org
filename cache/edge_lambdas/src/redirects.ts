@@ -83,7 +83,7 @@ export const literalRedirects: Record<string, string> = {
   '/installations/WyuWLioAACkACeYv': '/exhibitions/the-pharmacy-of-colour',
   '/MakingNature': '/exhibitions/making-nature',
   '/medieval-bodies': '/books/medieval-bodies',
-  '/opening-times': '/pages/opening-time',
+  '/opening-times': '/pages/opening-times',
   '/packed-lunch': '/event-series/packed-lunch',
   '/press': '/pages/press',
   '/press/‘forensics-anatomy-crime’-opens-wellcome-collection':
