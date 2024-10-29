@@ -29,11 +29,9 @@ import { contentLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { isEditorialImage, isVideoEmbed } from '@weco/content/types/body';
 import { Guide as GuideType } from '@weco/content/types/guides';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import { isVanityUrl } from '@weco/content/utils/urls';
 
 export type Props = {
   guide: GuideType;
-  vanityUrl?: string;
   jsonLd: JsonLdObj;
 };
 
@@ -49,10 +47,6 @@ export const getServerSideProps: GetServerSideProps<
 
   const client = createClient(context);
 
-  const vanityUrl = isVanityUrl(guideId, context.resolvedUrl)
-    ? context.resolvedUrl
-    : undefined;
-
   const guideDocument = await fetchGuide(client, guideId);
 
   if (isNotUndefined(guideDocument)) {
@@ -66,7 +60,6 @@ export const getServerSideProps: GetServerSideProps<
         guide,
         jsonLd,
         serverData,
-        vanityUrl,
       }),
     };
   }
@@ -74,11 +67,7 @@ export const getServerSideProps: GetServerSideProps<
   return { notFound: true };
 };
 
-export const Guide: FunctionComponent<Props> = ({
-  guide,
-  vanityUrl,
-  jsonLd,
-}) => {
+export const Guide: FunctionComponent<Props> = ({ guide, jsonLd }) => {
   const DateInfo = guide.datePublished && (
     <HTMLDate date={guide.datePublished} />
   );
@@ -129,16 +118,11 @@ export const Guide: FunctionComponent<Props> = ({
     />
   );
 
-  // If we have a vanity URL, we prefer that for the link rel="canonical"
-  // in the page <head>; it means the canonical URL will match the links
-  // we put elsewhere on the website, e.g. in the header.
-  const pathname = vanityUrl || `/guides/${guide.uid}`;
-
   return (
     <PageLayout
       title={guide.title}
       description={guide.metadataDescription || guide.promo?.caption || ''}
-      url={{ pathname }}
+      url={{ pathname: `/guides/${guide.uid}` }}
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection={guide?.siteSection as SiteSection}

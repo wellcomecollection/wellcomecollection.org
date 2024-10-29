@@ -6,7 +6,7 @@ export default [
     url: 'https://content.wellcomecollection.org/',
     name: 'Homepage',
     emailAlerts: true,
-    slackAlerts: ['platform-channel', 'alerts-channel'],
+    slackAlerts: ['digital-general', 'alerts-channel'],
   },
   {
     url: 'https://content.wellcomecollection.org/stories',
@@ -27,22 +27,22 @@ export default [
     slackAlerts: ['alerts-channel'],
   },
   {
-    url: 'https://content.wellcomecollection.org/articles/Wcj2kSgAAB-3C4Uj',
+    url: 'https://content.wellcomecollection.org/articles/graphic-gallery--green',
     name: 'Story',
     slackAlerts: ['alerts-channel'],
   },
   {
-    url: 'https://content.wellcomecollection.org/events/W4VKXR4AAB4AeXU7',
+    url: 'https://content.wellcomecollection.org/events/cancelled--stronger--smarter----better-',
     name: 'Event',
     slackAlerts: ['alerts-channel'],
   },
   {
-    url: 'https://content.wellcomecollection.org/exhibitions/WZwh4ioAAJ3usf86',
+    url: 'https://content.wellcomecollection.org/exhibitions/can-graphic-design-save-your-life-',
     name: 'Exhibition',
     slackAlerts: ['alerts-channel'],
   },
   {
-    url: 'https://content.wellcomecollection.org/visual-stories/ZU4FRhIAACYAUvi8',
+    url: 'https://content.wellcomecollection.org/visual-stories/genetic-automata-visual-story',
     name: 'Visual Story',
     slackAlerts: ['alerts-channel'],
   },
@@ -60,7 +60,7 @@ export default [
     url: 'https://content.wellcomecollection.org/search/works?query=botany',
     name: 'Works search',
     emailAlerts: true,
-    slackAlerts: ['platform-channel', 'alerts-channel'],
+    slackAlerts: ['digital-general', 'alerts-channel'],
     apdexThreshold: 1.0, // We expect this to be a slower page
   },
   {
@@ -94,7 +94,7 @@ export default [
     url: 'https://api.wellcomecollection.org/catalogue/v2/images?query=medicine',
     name: 'Images API: Search',
     emailAlerts: true,
-    slackAlerts: ['platform-channel', 'alerts-channel'],
+    slackAlerts: ['digital-general', 'alerts-channel'],
   },
   {
     url: 'https://api.wellcomecollection.org/catalogue/v2/images/sws5gyfw',
@@ -105,7 +105,7 @@ export default [
     url: 'https://api.wellcomecollection.org/catalogue/v2/works?query=botany',
     name: 'Works API: Search',
     emailAlerts: true,
-    slackAlerts: ['platform-channel', 'alerts-channel'],
+    slackAlerts: ['digital-general', 'alerts-channel'],
   },
   {
     url: 'https://api.wellcomecollection.org/catalogue/v2/works/tp3rer3n',

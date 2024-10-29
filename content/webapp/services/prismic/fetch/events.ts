@@ -87,7 +87,7 @@ type FetchEventsQueryParams = {
   availableOnline?: boolean;
   page?: number;
   pageSize?: number;
-  orderings?: (prismic.Ordering | string)[];
+  orderings?: prismic.Ordering[];
 };
 
 const startField = 'my.events.times.startDateTime';

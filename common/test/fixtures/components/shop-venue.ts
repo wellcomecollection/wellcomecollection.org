@@ -1,3 +1,4 @@
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { Venue } from '@weco/common/model/opening-hours';
 
 export const shopVenue = {
@@ -51,6 +52,6 @@ export const shopVenue = {
     ],
     exceptional: [],
   },
-  url: 'https://wellcomecollection.org/pages/WwgaIh8AAB8AGhC_',
+  url: `https://wellcomecollection.org/visit-us/${prismicPageIds.shop}`,
   linkText: 'Books and gifts',
 } as Venue;

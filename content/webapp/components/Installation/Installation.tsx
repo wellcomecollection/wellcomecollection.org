@@ -1,5 +1,6 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isPast } from '@weco/common/utils/dates';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
@@ -99,8 +100,9 @@ const Installation: FunctionComponent<Props> = ({ installation }) => {
         <InfoBox title="Visit us" items={getInfoItems(installation)}>
           <AccessibilityServices>
             For more information, please visit our{' '}
-            <a href="/access">Accessibility</a> page. If you have any queries
-            about accessibility, please email us at{' '}
+            <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>{' '}
+            page. If you have any queries about accessibility, please email us
+            at{' '}
             <a href="mailto:access@wellcomecollection.org">
               access@wellcomecollection.org
             </a>{' '}
