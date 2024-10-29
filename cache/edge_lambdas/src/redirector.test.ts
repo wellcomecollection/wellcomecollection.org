@@ -45,6 +45,45 @@ test('It returns 301 responses for URLs with defined redirects', () => {
   });
 });
 
+test('It returns 301 responses for articles URLs with defined redirects', () => {
+  // Should have been redirected
+  const redirectedResponse = getRedirect(
+    request({ uri: '/articles/X61xYhMAACAAX_z1' })
+  );
+
+  expect(redirectedResponse?.status).toEqual('301');
+  expect(redirectedResponse?.headers.location[0]).toEqual({
+    key: 'Location',
+    value: `https://wellcomecollection.org/stories/to-err-is-human`,
+  });
+});
+
+test('It returns 301 responses for previously redirected URLs with defined redirects', () => {
+  // Should have been redirected
+  const redirectedResponse = getRedirect(
+    request({ uri: '/articles/to-err-is-human' })
+  );
+
+  expect(redirectedResponse?.status).toEqual('301');
+  expect(redirectedResponse?.headers.location[0]).toEqual({
+    key: 'Location',
+    value: `https://wellcomecollection.org/stories/to-err-is-human`,
+  });
+});
+
+test('It returns 301 for articles URLs without defined redirects', () => {
+  // Should have been redirected
+  const redirectedResponse = getRedirect(
+    request({ uri: '/articles/anything' })
+  );
+
+  expect(redirectedResponse?.status).toEqual('301');
+  expect(redirectedResponse?.headers.location[0]).toEqual({
+    key: 'Location',
+    value: `https://wellcomecollection.org/stories/anything`,
+  });
+});
+
 test('It returns nothing for URLs without defined redirects', () => {
   const nonRedirectedResponse = getRedirect(request({ uri: '/visit-us/' }));
   expect(nonRedirectedResponse).toBeUndefined();
