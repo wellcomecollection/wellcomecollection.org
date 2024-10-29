@@ -80,6 +80,13 @@ export const getRedirect = (
         ? 'www-e2e.wellcomecollection.org'
         : 'wellcomecollection.org';
 
+  if (
+    uriSansSlash.startsWith('/articles') &&
+    literalRedirects[uriSansSlash] === undefined
+  ) {
+    return redirect301(host, uriSansSlash.replace(/^\/articles/, '/stories'));
+  }
+
   if (literalRedirects[uriSansSlash]) {
     return redirect301(host, literalRedirects[uriSansSlash]);
   }
