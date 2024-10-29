@@ -270,7 +270,10 @@ const StoriesPage: FunctionComponent<Props> = ({
             itemsPerRow={3}
             itemsHaveTransparentBackground={true}
             links={[
-              { text: 'More comics', url: '/stories?format=W7d_ghAAALWY3Ujc' },
+              {
+                text: 'More comics',
+                url: '/search/stories?format=W7d_ghAAALWY3Ujc',
+              },
             ]}
           />
         </SpacingComponent>
