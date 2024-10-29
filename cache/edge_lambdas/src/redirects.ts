@@ -25,6 +25,8 @@ export const literalRedirects: Record<string, string> = {
     '/exhibitions/alice-anderson--memory-movement-memory-objects',
   '/articles/aids-posters-0': '/articles/aids-posters',
   '/articles/hysteria': '/articles/what-is-hysteria', // "hysteria" already taken by ZN-ELxEAACMABO5a in former UID.
+  '/articles': '/search/stories',
+  '/stories/comic': '/search/stories?format=W7d_ghAAALWY3Ujc',
   '/articles/lustmord':
     '/articles/lustmord-and-the-three-perspectives-of-murder',
   // Webcomic -> Story of type Comic.
