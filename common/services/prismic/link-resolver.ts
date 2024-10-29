@@ -19,6 +19,9 @@ type DataProps = {
 };
 
 function linkResolver(doc: Props | DataProps): string {
+  // this is mostly useful for scenarios like rendering in Page Builder
+  if (!doc) return '/';
+
   const { uid, type } = doc;
 
   if (!uid) return '/';

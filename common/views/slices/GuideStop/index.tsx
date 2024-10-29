@@ -1,6 +1,6 @@
 import { Content } from '@prismicio/client';
 import { SliceComponentProps } from '@prismicio/react';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent } from 'react';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import GuideStopCard from '@weco/content/components/GuideStopCard';
@@ -19,21 +19,15 @@ const GuideStopSlice: FunctionComponent<GuideStopProps> = ({
   const transformedSlice = transformGuideStopSlice(slice);
   const { number, title, image, audioDuration, videoDuration } =
     transformedSlice;
-  const [isSliceSimulator, setIsSliceSimulator] = useState(false);
 
   const { type, exhibitionGuide } = context as {
     type: 'bsl' | 'audio-without-descriptions';
     exhibitionGuide: ExhibitionHighlightTour;
   };
 
-  useEffect(() => {
-    setIsSliceSimulator(document.location.pathname === '/slice-simulator');
-  }, []);
-
-  const link =
-    number && exhibitionGuide
-      ? `${linkResolver(exhibitionGuide)}/${type}/${number}`
-      : undefined;
+  const link = number
+    ? `${linkResolver(exhibitionGuide)}/${type}/${number}`
+    : undefined;
 
   const duration = type === 'bsl' ? videoDuration : audioDuration;
 
@@ -46,7 +40,6 @@ const GuideStopSlice: FunctionComponent<GuideStopProps> = ({
       title={title}
       type={type === 'bsl' ? 'video' : 'audio'}
       image={image}
-      isSliceSimulator={isSliceSimulator}
     />
   );
 };

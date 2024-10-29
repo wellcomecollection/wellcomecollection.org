@@ -5,7 +5,6 @@ import { duration as durationIcon, map } from '@weco/common/icons';
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font, grid } from '@weco/common/utils/classnames';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -40,7 +39,6 @@ type Props = {
   duration?: string;
   type: 'audio' | 'video';
   image?: ImageType;
-  isSliceSimulator?: boolean;
 };
 
 const GuideStopCard: FunctionComponent<Props> = ({
@@ -51,7 +49,6 @@ const GuideStopCard: FunctionComponent<Props> = ({
   duration,
   type,
   image,
-  isSliceSimulator,
 }) => {
   const { viewTransitions } = useToggles();
 
@@ -62,16 +59,9 @@ const GuideStopCard: FunctionComponent<Props> = ({
   const croppedImage = getCrop(image, '16:9');
 
   return (
-    <ConditionalWrapper
-      condition={!isSliceSimulator}
-      wrapper={children => (
-        <Space
-          $v={{ size: 'l', properties: ['margin-bottom'] }}
-          className={grid(threeUpGridSizesMap.default[0])}
-        >
-          {children}
-        </Space>
-      )}
+    <Space
+      $v={{ size: 'l', properties: ['margin-bottom'] }}
+      className={grid(threeUpGridSizesMap.default[0])}
     >
       <CardOuterComponent
         href={link}
@@ -136,7 +126,7 @@ const GuideStopCard: FunctionComponent<Props> = ({
           )}
         </CardBody>
       </CardOuterComponent>
-    </ConditionalWrapper>
+    </Space>
   );
 };
 
