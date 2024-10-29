@@ -74,14 +74,17 @@ export const getRedirect = (
   const allowedHosts = [
     'www-stage.wellcomecollection.org',
     'www-e2e.wellcomecollection.org',
-    'wellcomecollection.org'
+    'wellcomecollection.org',
   ];
 
-  const parsedHost = requestHost ? new URL(`http://${requestHost}`).hostname : undefined;
+  const parsedHost = requestHost
+    ? new URL(`http://${requestHost}`).hostname
+    : undefined;
 
-  const host = allowedHosts.includes(parsedHost)
-    ? parsedHost
-    : 'wellcomecollection.org';
+  const host =
+    parsedHost && allowedHosts.includes(parsedHost)
+      ? parsedHost
+      : 'wellcomecollection.org';
 
   if (literalRedirects[uriSansSlash]) {
     return redirect301(host, literalRedirects[uriSansSlash]);
