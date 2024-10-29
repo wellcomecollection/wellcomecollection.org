@@ -27,7 +27,7 @@ test('(2) | Cookie banner displays on first visit from anywhere, except the cook
   await gotoWithoutCache(`${baseUrl}/visit-us`, page);
   await expect(cookieBanner).toBeAttached();
 
-  await gotoWithoutCache(`${baseUrl}/cookie-policy`, page);
+  await gotoWithoutCache(`${baseUrl}/about-us/cookie-policy`, page);
   await expect(cookieBanner).not.toBeAttached();
 });
 
@@ -35,7 +35,7 @@ test('(3) | Cookie banner only displays if CookieControl cookie has not already 
   context,
   page,
 }) => {
-  await gotoWithoutCache(`${baseUrl}/pages/WuxrKCIAAP9h3hmw`, page);
+  await gotoWithoutCache(`${baseUrl}/about-us/press`, page);
   const cookieBanner = await page.getByLabel('Our website uses cookies');
   await expect(cookieBanner).toBeAttached();
 

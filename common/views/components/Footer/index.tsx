@@ -190,7 +190,9 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
                 properties: [hasVenuesInfo ? 'margin-top' : 'margin-bottom'],
               }}
             >
-              <a href={`/${prismicPageIds.openingTimes}`}>Opening times</a>
+              <a href={`/visit-us/${prismicPageIds.openingTimes}`}>
+                Opening times
+              </a>
             </Space>
           </OpeningTimesContainer>
 
