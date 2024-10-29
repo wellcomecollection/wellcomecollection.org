@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { isUndefined } from '@weco/common/utils/type-guards';
+import { newsletterAddressBook, secondaryAddressBooks } from '@weco/common/data/dotdigital';
 
 const dotdigitalUsername = process.env.dotdigital_username;
 const dotdigitalPassword = process.env.dotdigital_password;
@@ -98,8 +99,11 @@ async function createSubscription({
   }
 }
 
+const validAddressBookIds = [newsletterAddressBook, ...secondaryAddressBooks].map(addressbook => addressbook.id)
+
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'POST') {
+  // making sure addressBookId is legit to prevent server-side request forgery
+  if (req.method === 'POST' && validAddressBookIds.includes(req.body.addressBookId)) {
     try {
       const { addressBookId, emailAddress, marketingPermissions } = req.body;
       const result = await createSubscription({
