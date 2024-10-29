@@ -27,7 +27,7 @@ export const data: EventBasic = {
   secondaryLabels: [],
   promo: {
     image,
-    link: `/pages/${prismicPageIds.dailyGuidedTours}`,
+    link: `/visit-us/${prismicPageIds.dailyGuidedTours}`,
   },
   image,
   isOnline: false,

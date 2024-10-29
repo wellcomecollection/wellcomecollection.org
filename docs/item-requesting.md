@@ -1,4 +1,4 @@
-This document is an overview of how users request items. This process is described publicly in the [Accessing our collections](https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ) page on wellcomecollection.org; this document explains what happens behind the scenes.
+This document is an overview of how users request items. This process is described publicly in the [Accessing our collections](https://wellcomecollection.org/collections/accessing-our-collections) page on wellcomecollection.org; this document explains what happens behind the scenes.
 
 It’s written from a Digital Platform perspective; although item requesting involves both the Collections & Research (C&R) and Library Experience and Engagement (LE&E) teams, it doesn’t describe their role in detail.
 
@@ -306,7 +306,7 @@ It’s possible for when we eventually replace Sierra, but would likely need mul
 
 ## Related documents
 
--   [Accessing our collections](https://wellcomecollection.org/pages/YA64vRMAACAAgRjZ) on wellcomecollection.org
+-   [Accessing our collections](https://wellcomecollection.org/collections/accessing-our-collections) on wellcomecollection.org
 -   [Archives at Wellcome Collection](https://wellcomecollection.org/guides/YL9OAxIAAB8AHsyv) on wellcomecollection.org
 -   The [Wellcome Collection Access Policy](https://wellcomecollection.cdn.prismic.io/wellcomecollection/d4817da5-c71a-4151-81c4-83e39ad4f5b3_Wellcome+Collection_Access+Policy_Aug+2020.pdf)
 -   [Requesting and registration project document (Miro board)](https://miro.com/app/board/o9J_lKrHIws=/?share_link_id=892112807037)
