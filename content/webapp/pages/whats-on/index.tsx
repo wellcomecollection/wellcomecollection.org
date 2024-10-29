@@ -106,6 +106,7 @@ const tabItems = [
 ];
 
 export type Props = {
+  pageId: string;
   exhibitions: ExhibitionBasic[];
   events: EventBasic[];
   availableOnlineEvents: EventBasic[];
@@ -379,6 +380,7 @@ export const getServerSideProps: GetServerSideProps<
 
     return {
       props: serialiseProps({
+        pageId: whatsOnPage.id,
         period,
         exhibitions,
         events: basicEvents,
@@ -396,6 +398,7 @@ export const getServerSideProps: GetServerSideProps<
 
 const WhatsOnPage: FunctionComponent<Props> = props => {
   const {
+    pageId,
     period,
     exhibitions,
     events,
@@ -440,7 +443,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
       openGraphType="website"
       siteSection="whats-on"
       image={firstExhibition && firstExhibition.promo?.image}
-      apiToolbarLinks={[createPrismicLink(prismicPageIds.whatsOn)]}
+      apiToolbarLinks={[createPrismicLink(pageId)]}
     >
       <>
         <Header

@@ -15,6 +15,7 @@ import { isPast } from '@weco/common/utils/dates';
 import { capitalize } from '@weco/common/utils/grammar';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import {
@@ -260,6 +261,7 @@ const VisualStory: FunctionComponent<Props> = ({
       openGraphType="website"
       hideNewsletterPromo={true}
       siteSection={visualStory.siteSection}
+      apiToolbarLinks={[createPrismicLink(visualStory.id)]}
     >
       <ContentPage
         id={visualStory.id}
