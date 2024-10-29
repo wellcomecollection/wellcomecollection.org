@@ -114,6 +114,6 @@ export const libraryVenue: Venue = {
       },
     },
   },
-  url: `https://wellcomecollection.org/pages/${prismicPageIds.library}`,
+  url: `https://wellcomecollection.org/visit-us/${prismicPageIds.library}`,
   linkText: 'Read about the library',
 };
