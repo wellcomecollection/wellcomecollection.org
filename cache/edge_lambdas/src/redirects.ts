@@ -23,22 +23,22 @@ export const literalRedirects: Record<string, string> = {
   '/access': '/pages/accessibility',
   '/alice-anderson':
     '/exhibitions/alice-anderson--memory-movement-memory-objects',
-  '/articles/aids-posters-0': '/articles/aids-posters',
-  '/articles/hysteria': '/articles/what-is-hysteria', // "hysteria" already taken by ZN-ELxEAACMABO5a in former UID.
   '/articles': '/search/stories',
   '/stories/comic': '/search/stories?format=W7d_ghAAALWY3Ujc',
+  '/articles/aids-posters-0': '/stories/aids-posters',
+  '/articles/hysteria': '/stories/what-is-hysteria', // "hysteria" already taken by ZN-ELxEAACMABO5a in former UID.
   '/articles/lustmord':
-    '/articles/lustmord-and-the-three-perspectives-of-murder',
+    '/stories/lustmord-and-the-three-perspectives-of-murder',
   // Webcomic -> Story of type Comic.
-  '/articles/X5rs7RIAAB4Avr_r': '/articles/what-distinguishes-the-human-',
-  '/articles/X61xYhMAACAAX_z1': '/articles/to-err-is-human',
-  '/articles/X6P6_xMAACEANfQB': '/articles/stuff-humans-like',
-  '/articles/X7bJORMAACEAiRPo': '/articles/humans-are-social-animals',
-  '/articles/X8Ay3hIAACMAbSL2': '/articles/stuff-humans-don-t-like',
-  '/articles/X_dsXREAACMASftU': '/articles/january-diet',
+  '/articles/X5rs7RIAAB4Avr_r': '/stories/what-distinguishes-the-human-',
+  '/articles/X61xYhMAACAAX_z1': '/stories/to-err-is-human',
+  '/articles/X6P6_xMAACEANfQB': '/stories/stuff-humans-like',
+  '/articles/X7bJORMAACEAiRPo': '/stories/humans-are-social-animals',
+  '/articles/X8Ay3hIAACMAbSL2': '/stories/stuff-humans-don-t-like',
+  '/articles/X_dsXREAACMASftU': '/stories/january-diet',
   //
   '/articles/xksu0xiaadlrl4-h':
-    '/articles/enduring-taboos-and-the-future-of-skin-bleaching',
+    '/stories/enduring-taboos-and-the-future-of-skin-bleaching',
   '/ayurvedic-man':
     '/exhibitions/ayurvedic-man--encounters-with-indian-medicine',
   '/bedlam': '/exhibitions/bedlam--the-asylum-and-beyond',
