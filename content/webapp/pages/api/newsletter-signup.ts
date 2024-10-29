@@ -103,7 +103,10 @@ const validAddressBookIds = [newsletterAddressBook, ...secondaryAddressBooks].ma
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   // making sure addressBookId is legit to prevent server-side request forgery
-  if (req.method === 'POST' && validAddressBookIds.includes(req.body.addressBookId)) {
+  if (!validAddressBookIds.includes(req.body.addressBookId)) {
+    res.status(400).send('Bad request');
+  }
+  if (req.method === 'POST') {
     try {
       const { addressBookId, emailAddress, marketingPermissions } = req.body;
       const result = await createSubscription({
