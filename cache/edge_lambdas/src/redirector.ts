@@ -80,6 +80,7 @@ export const getRedirect = (
         ? 'www-e2e.wellcomecollection.org'
         : 'wellcomecollection.org';
 
+  // We MUST check literalRedirects first
   if (literalRedirects[uriSansSlash]) {
     return redirect301(host, literalRedirects[uriSansSlash]);
   }
