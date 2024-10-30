@@ -110,7 +110,11 @@ export const getServerSideProps: GetServerSideProps<
   const { pageId } = context.query;
   const siteSection = toMaybeString(context.params?.siteSection);
 
-  if (!looksLikePrismicId(pageId)) {
+  const isLandingPageRenderingAsSubPage =
+    pageId === siteSection &&
+    context.resolvedUrl === `/${siteSection}/${pageId}`;
+
+  if (!looksLikePrismicId(pageId) || isLandingPageRenderingAsSubPage) {
     return { notFound: true };
   }
 
