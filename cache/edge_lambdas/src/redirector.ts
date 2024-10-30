@@ -1,7 +1,7 @@
 import { CloudFrontRequestEvent, CloudFrontResponse } from 'aws-lambda';
 import { URLSearchParams } from 'url';
 
-import { literalRedirects, queryRedirects } from './redirects';
+import { literalRedirects, pathRedirects, queryRedirects } from './redirects';
 
 export const redirect301 = (host: string, path: string) => ({
   status: '301',
@@ -66,7 +66,7 @@ export const getRedirect = (
   const cf = event.Records[0].cf;
   const request = cf.request;
   const uriSansSlash = request.uri.replace(/\/$/, '');
-
+  const firstPartOfPath = uriSansSlash.match(/\/[^/]+/)?.[0];
   const hostHeader = cf.request.headers.host;
   const requestHost =
     hostHeader && hostHeader.length > 0 ? hostHeader[0].value : undefined;
@@ -80,15 +80,20 @@ export const getRedirect = (
         ? 'www-e2e.wellcomecollection.org'
         : 'wellcomecollection.org';
 
-  if (
-    uriSansSlash.startsWith('/articles') &&
-    literalRedirects[uriSansSlash] === undefined
-  ) {
-    return redirect301(host, uriSansSlash.replace(/^\/articles/, '/stories'));
-  }
-
+  // We MUST check literalRedirects first
   if (literalRedirects[uriSansSlash]) {
     return redirect301(host, literalRedirects[uriSansSlash]);
+  }
+
+  if (
+    !literalRedirects[uriSansSlash] &&
+    firstPartOfPath &&
+    pathRedirects[firstPartOfPath]
+  ) {
+    return redirect301(
+      host,
+      uriSansSlash.replace(firstPartOfPath, pathRedirects[firstPartOfPath])
+    );
   }
 
   if (queryRedirects[uriSansSlash]) {

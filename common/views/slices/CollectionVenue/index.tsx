@@ -2,7 +2,7 @@ import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
 import { CollectionVenueSlice as RawCollectionVenueSlice } from '@weco/common/prismicio-types';
-import ContaineredLayout from '@weco/common/views/components/Layout';
+import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
   LayoutWidth,

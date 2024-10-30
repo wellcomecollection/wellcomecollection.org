@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import PopupDialog from '@weco/common/views/components/PopupDialog/PopupDialog';
 import Readme from '@weco/common/views/components/PopupDialog/README.mdx';
 
@@ -14,7 +15,7 @@ const meta: Meta<typeof PopupDialog> = {
         linkText: 'Take the survey',
         link: {
           link_type: 'Web',
-          url: 'https://wellcomecollection.org/user-panel',
+          url: `https://wellcomecollection.org/${prismicPageIds.userPanel}`,
         },
         title: 'Help us improve our website',
         text: [

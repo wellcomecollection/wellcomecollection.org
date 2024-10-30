@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { homepageId } from '@weco/common/data/hardcoded-ids';
+import { homepageId, prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { homepageHeading, pageDescriptions } from '@weco/common/data/microcopy';
 import { ImageType } from '@weco/common/model/image';
 import {
@@ -70,6 +70,7 @@ const CreamBox = styled(Space).attrs({
 `;
 
 type Props = {
+  pageId: string;
   exhibitions: ExhibitionBasic[];
   nextSevenDaysEvents: EventBasic[];
   articles: ArticleBasic[];
@@ -150,6 +151,7 @@ export const getServerSideProps: GetServerSideProps<
   if (events && exhibitions && articles && page) {
     return {
       props: serialiseProps({
+        pageId: page.id,
         articles: basicArticles,
         serverData,
         jsonLd,
@@ -177,6 +179,7 @@ const Homepage: FunctionComponent<Props> = ({
   untransformedStandfirst,
   transformedHeaderList,
   transformedContentList,
+  pageId,
 }) => {
   return (
     <>
@@ -212,7 +215,7 @@ const Homepage: FunctionComponent<Props> = ({
         jsonLd={jsonLd}
         openGraphType="website"
         image={pageImage}
-        apiToolbarLinks={[createPrismicLink(homepageId)]}
+        apiToolbarLinks={[createPrismicLink(pageId)]}
       >
         <ContaineredLayout gridSizes={gridSize10(false)}>
           <SpacingSection>
@@ -269,7 +272,10 @@ const Homepage: FunctionComponent<Props> = ({
                 exhibitions={exhibitions}
                 events={nextSevenDaysEvents}
                 links={[
-                  { text: 'All exhibitions and events', url: '/whats-on' },
+                  {
+                    text: 'All exhibitions and events',
+                    url: `/${prismicPageIds.whatsOn}`,
+                  },
                 ]}
               />
             </SpacingComponent>

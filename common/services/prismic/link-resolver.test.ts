@@ -21,7 +21,7 @@ it('resolves exhibition guides to /guides/exhibitions/{id}', () => {
 
 test.each([
   { doc: { type: 'articles', uid: '1' }, path: '/stories/1' },
-  { doc: { type: 'pages', uid: '1' }, path: '/pages/1' },
+  { doc: { type: 'pages', uid: '1' }, path: '/1' },
   { doc: { type: 'not a thing', uid: '1' }, path: '/' },
 ])('$doc resolves to $path', ({ doc, path }) => {
   expect(linkResolver(doc)).toBe(path);

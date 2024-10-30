@@ -1,5 +1,6 @@
 import * as prismic from '@prismicio/client';
 
+import { SiteSection } from '@weco/common/model/site-section';
 import { PagesDocument as RawPagesDocument } from '@weco/common/prismicio-types';
 import { labelsFields } from '@weco/content/services/prismic/fetch-links';
 import {
@@ -59,12 +60,37 @@ const pagesFetcher = fetcher<RawPagesDocument>(['pages'], fetchLinks);
 export const fetchPages = pagesFetcher.getByType;
 export const fetchPage = async (
   client: GetServerSidePropsPrismicClient,
-  id: string
+  id: string,
+  // 'orphan' is only ever used in this context,
+  // so I'm keeping it separate from SiteSection which is used in other contexts.
+  siteSection?: SiteSection | 'orphan'
 ): Promise<RawPagesDocument | undefined> => {
   // #11240 once redirects are in place we should only fetch by uid
   const pageDocument =
-    (await pagesFetcher.getByUid(client, id)) ||
+    (await pagesFetcher.getByUid(client, id, siteSection)) ||
     (await pagesFetcher.getById(client, id));
+
+  return pageDocument;
+};
+
+export const fetchBasicPage = async (
+  client: GetServerSidePropsPrismicClient,
+  id: string
+): Promise<RawPagesDocument | undefined> => {
+  // This allows for the most basic document to be returned, with an empty data object.
+  const graphQuery = `{
+        pages {
+          uid
+        }
+      }`.replace(/\n(\s+)/g, '\n');
+
+  const pageDocument =
+    (await pagesFetcher.getByUid(client, id, undefined, {
+      graphQuery,
+    })) ||
+    (await pagesFetcher.getById(client, id, {
+      graphQuery,
+    }));
 
   return pageDocument;
 };

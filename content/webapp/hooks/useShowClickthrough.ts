@@ -4,14 +4,14 @@ import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 
 const useShowClickthrough = (
   clickThroughService: TransformedAuthService | undefined,
-  tokenService: TransformedAuthService | undefined
+  tokenService: string | undefined
 ): boolean => {
   const [showClickthrough, setShowClickthrough] = useState(false);
 
   useEffect(() => {
     function receiveMessage(event: MessageEvent) {
       const data = event.data;
-      const serviceOrigin = tokenService && new URL(tokenService.id);
+      const serviceOrigin = tokenService && new URL(tokenService);
       if (
         serviceOrigin &&
         `${serviceOrigin.protocol}//${serviceOrigin.hostname}` === event.origin

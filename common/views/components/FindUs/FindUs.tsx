@@ -52,13 +52,13 @@ const FindUs: FunctionComponent = () => (
     </p>
     <PlainList>
       <Space as="li" $v={{ size: 's', properties: ['padding-bottom'] }}>
-        <a href={`/pages/${prismicPageIds.gettingHere}`}>Getting here</a>
+        <a href={`/visit-us/${prismicPageIds.gettingHere}`}>Getting here</a>
       </Space>
       <Space
         as="li"
         $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
       >
-        <a href={`/pages/${prismicPageIds.access}`}>Accessibility</a>
+        <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>
       </Space>
     </PlainList>
   </>
