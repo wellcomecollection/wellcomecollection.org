@@ -1,4 +1,4 @@
-import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
+import { SiteSection } from '@weco/common/model/site-section';
 
 import { Contributor } from './contributors';
 import { Format } from './format';

@@ -2,6 +2,7 @@ import * as prismic from '@prismicio/client';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
 import fetch from 'node-fetch';
 
+import { SiteSection } from '@weco/common/model/site-section';
 import {
   ContentType,
   isContentType,
@@ -11,7 +12,6 @@ import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { deserialiseDates as deserialiseJsonDates } from '@weco/common/utils/json';
 import { toMaybeString } from '@weco/common/utils/routes';
 import { isString } from '@weco/common/utils/type-guards';
-import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 
 export type GetServerSidePropsPrismicClient = {
   type: 'GetServerSidePropsPrismicClient';
