@@ -1,3 +1,5 @@
+import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
+
 import { isContentType } from './content-types';
 
 type Props = {
@@ -13,12 +15,18 @@ type DataProps = {
       type: string;
     };
   };
+  siteSection: SiteSection;
 };
 
 function linkResolver(doc: Props | DataProps): string {
+  // this is mostly useful for scenarios like rendering in Page Builder
+  if (!doc) return '/';
+
   const { uid, type } = doc;
+
   if (!uid) return '/';
-  if (type === 'webcomics') return `/articles/${uid}`;
+  if (type === 'articles') return `/stories/${uid}`;
+  if (type === 'webcomics') return `/stories/${uid}`;
   if (type === 'webcomic-series') return `/series/${uid}`;
   if (
     type === 'exhibition-guides' ||
@@ -39,6 +47,13 @@ function linkResolver(doc: Props | DataProps): string {
         return `/visual-stories/${uid}`;
       }
     }
+  }
+
+  if (type === 'pages') {
+    if ('siteSection' in doc) {
+      return `${doc.siteSection}/${uid}`;
+    }
+    return `/${uid}`;
   }
 
   if (isContentType(type)) {

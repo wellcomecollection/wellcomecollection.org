@@ -63,7 +63,7 @@ const baseEvent: Event = {
   secondaryLabels: [],
   promo: {
     image,
-    link: `/pages/${prismicPageIds.dailyGuidedTours}`,
+    link: `/visit-us/${prismicPageIds.dailyGuidedTours}`,
   },
   seasons: [],
   isOnline: false,

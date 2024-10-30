@@ -6,7 +6,9 @@ import { useToggles } from '@weco/common/server-data/Context';
 
 declare global {
   interface Document {
-    startViewTransition: (cb: () => void) => void;
+    startViewTransition: (
+      callbackOptions?: UpdateCallback | undefined
+    ) => ViewTransition;
   }
 }
 

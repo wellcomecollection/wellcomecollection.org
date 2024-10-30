@@ -58,6 +58,7 @@ import {
   checkModalRequired,
   getAuthServices,
   getCollectionManifests,
+  getIframeTokenSrc,
   hasItemType,
   hasOriginalPdf,
 } from '@weco/content/utils/iiif/v3';
@@ -91,26 +92,6 @@ function createTzitzitWorkLink(work: Work): ApiToolbarLink | undefined {
   });
 }
 
-// We are currently using V1 iiif auth services from the manitest
-// If the authV2 toggle is set to true we try to use V2 services if they're available
-function getIframeAuthSrc({ workId, origin, auth, authV2 }) {
-  // TODO typing
-  if (authV2 && auth.v2.externalAccessService && auth.v2.tokenService) {
-    return `${auth.v2.tokenService.id}?messageId=${workId}&origin=${origin}`;
-  } else if (auth.v1.tokenService) {
-    return `${auth.v1.tokenService.id}?messageId=${workId}&origin=${origin}`;
-  } else {
-    return undefined;
-  }
-}
-
-export function getTokenService({ auth, authV2 }) {
-  const service = authV2
-    ? auth?.v2.tokenService || auth?.v1.tokenService
-    : auth?.v1.tokenService;
-  return service;
-}
-
 function getIsTotallyRestricted({
   auth,
   authV2,
@@ -118,9 +99,7 @@ function getIsTotallyRestricted({
   auth: Auth | undefined;
   authV2: boolean | undefined;
 }) {
-  return authV2
-    ? auth?.v2.isTotallyRestricted || auth?.v1.isTotallyRestricted
-    : auth?.v1.isTotallyRestricted;
+  return authV2 ? auth?.v2.isTotallyRestricted : auth?.v1.isTotallyRestricted;
 }
 
 type Props = {
@@ -183,7 +162,14 @@ const ItemPage: NextPage<Props> = ({
 
   const hasImage = hasItemType(canvases, 'Image');
   const hasPdf = hasOriginalPdf(canvases);
-
+  const isTotallyRestricted = getIsTotallyRestricted({ auth, authV2 });
+  const shouldUseAuthMessageIframe =
+    ((authV2 && auth?.v2.tokenService) || (!authV2 && auth?.v1.tokenService)) &&
+    origin;
+  const tryAndGetRestrictedAuthCookie =
+    role === 'StaffWithRestricted' &&
+    authServices?.external?.id ===
+      'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin';
   // showViewer is true by default, so the noScriptViewer is available without javascript
   // if javascript is available we set it to false and then determine whether the clickthrough modal is required
   // before setting it to true
@@ -202,19 +188,38 @@ const ItemPage: NextPage<Props> = ({
   }, []);
 
   useEffect(() => {
+    if (tryAndGetRestrictedAuthCookie) {
+      const authServiceWindow = window.open(
+        `${authServices?.external?.id || ''}?origin=${window.origin}`
+      );
+      authServiceWindow &&
+        authServiceWindow.addEventListener('unload', function () {
+          reloadAuthIframe(document, iframeId);
+        });
+    }
+  }, [tryAndGetRestrictedAuthCookie]);
+
+  useEffect(() => {
     function receiveMessage(event: MessageEvent) {
       const data = event.data;
-      const tokenService = getTokenService({ auth, authV2 });
-      const service = tokenService && new URL(tokenService.id);
-      const isTotallyRestricted = getIsTotallyRestricted({ auth, authV2 });
+      const tokenService = getIframeTokenSrc({
+        role,
+        workId: work.id,
+        origin: window.origin,
+        auth,
+        authV2,
+      });
+      const service = (tokenService && new URL(tokenService)) as
+        | URL
+        | undefined;
+
       // We check this is the event we are interested in
       // N.B. locally react dev tools will create a lot of events
-
-      if (service.origin === event.origin) {
+      if (service?.origin === event.origin) {
         if (Object.prototype.hasOwnProperty.call(data, 'accessToken')) {
+          setAccessToken(data.accessToken);
           setShowModal(Boolean(isTotallyRestricted));
           setShowViewer(!isTotallyRestricted);
-          setAccessToken(data.accessToken);
         } else {
           setShowModal(true);
           setShowViewer(false);
@@ -243,11 +248,12 @@ const ItemPage: NextPage<Props> = ({
       hideFooter={true}
       hideTopContent={true}
     >
-      {(auth?.v1.tokenService || auth?.v2.tokenService) && origin && (
+      {shouldUseAuthMessageIframe && (
         <IframeAuthMessage
           id={iframeId}
           title="Authentication"
-          src={getIframeAuthSrc({
+          src={getIframeTokenSrc({
+            role,
             workId: work.id,
             origin,
             auth,

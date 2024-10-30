@@ -17,6 +17,7 @@ import {
   landingHeaderBackgroundLs,
 } from '@weco/common/utils/backgrounds';
 import { serialiseProps } from '@weco/common/utils/json';
+import { toMaybeString } from '@weco/common/utils/routes';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { links } from '@weco/common/views/components/Header/Header';
@@ -27,6 +28,7 @@ import { makeLabels } from '@weco/common/views/components/LabelsList/LabelsList'
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout, {
+  isSiteSection,
   SiteSection,
 } from '@weco/common/views/components/PageLayout/PageLayout';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
@@ -41,6 +43,7 @@ import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader'
 import { PageFormatIds } from '@weco/content/data/content-format-ids';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import {
+  fetchBasicPage,
   fetchChildren,
   fetchPage,
   fetchSiblings,
@@ -64,7 +67,6 @@ export type Props = {
   staticContent: ReactElement | null;
   jsonLd: JsonLdObj;
   gaDimensions: GaDimensions;
-  vanityUid?: string;
 };
 
 type OrderInParent = {
@@ -106,15 +108,49 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   setCacheControl(context.res);
   const { pageId } = context.query;
+  const siteSection = toMaybeString(context.params?.siteSection);
 
   if (!looksLikePrismicId(pageId)) {
     return { notFound: true };
   }
+
   const client = createClient(context);
 
-  const pageDocument = await fetchPage(client, pageId);
+  // As our former URL structure for all pages was /pages/, if a user ends up on an old URL
+  // We want to redirect them to where the page now is.
+  if (context.resolvedUrl.indexOf('/pages/') === 0) {
+    const basicDocument = await fetchBasicPage(client, pageId);
 
-  if (isNotUndefined(pageDocument)) {
+    if (isNotUndefined(basicDocument)) {
+      const basicDocSiteSection = basicDocument.tags.find(t =>
+        isSiteSection(t)
+      );
+
+      return {
+        redirect: {
+          destination: `${basicDocSiteSection ? '/' + basicDocSiteSection : ''}/${basicDocument.uid}`,
+          permanent: false,
+        },
+      };
+    }
+    return { notFound: true };
+  }
+
+  const pageDocument = await fetchPage(
+    client,
+    pageId,
+    isSiteSection(siteSection) || siteSection === 'orphan'
+      ? siteSection
+      : undefined
+  );
+
+  // Is valid if document has a tag that matches the one declared in route OR
+  // if it has NO SiteSection tags at all (orphan)
+  const isInValidSection =
+    pageDocument?.tags.find(t => siteSection === t) ||
+    !pageDocument?.tags.find(t => isSiteSection(t));
+
+  if (isNotUndefined(pageDocument) && isInValidSection) {
     const serverData = await getServerData(context);
 
     const page = transformPage(pageDocument);
@@ -138,8 +174,6 @@ export const getServerSideProps: GetServerSideProps<
         };
       }) || [];
 
-    // TODO: Why are we putting 'children' in a 'siblings' attribute?
-    // Fix this janky naming.
     const children = {
       id: page.id,
       title: page.title,
@@ -174,7 +208,6 @@ export const Page: FunctionComponent<Props> = ({
   ordersInParents,
   staticContent,
   jsonLd,
-  vanityUid,
 }) => {
   const DateInfo = page.datePublished && <HTMLDate date={page.datePublished} />;
   const isLanding = page.format && page.format.id === PageFormatIds.Landing;
@@ -324,11 +357,14 @@ export const Page: FunctionComponent<Props> = ({
           </SpacingSection>,
         ]
       : [];
+
   return (
     <PageLayout
       title={page.title}
       description={page.metadataDescription || page.promo?.caption || ''}
-      url={{ pathname: `/pages/${vanityUid || page.uid}` }}
+      url={{
+        pathname: `${page?.siteSection ? '/' + page.siteSection : ''}/${page.uid}`,
+      }}
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection={page?.siteSection as SiteSection}

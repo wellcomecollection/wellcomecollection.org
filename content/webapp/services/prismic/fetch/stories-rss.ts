@@ -1,4 +1,4 @@
-import prismic from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 
 import { GetServerSidePropsPrismicClient } from '.';
 
