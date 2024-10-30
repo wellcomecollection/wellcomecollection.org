@@ -70,6 +70,7 @@ const CreamBox = styled(Space).attrs({
 `;
 
 type Props = {
+  pageId: string;
   exhibitions: ExhibitionBasic[];
   nextSevenDaysEvents: EventBasic[];
   articles: ArticleBasic[];
@@ -150,6 +151,7 @@ export const getServerSideProps: GetServerSideProps<
   if (events && exhibitions && articles && page) {
     return {
       props: serialiseProps({
+        pageId: page.id,
         articles: basicArticles,
         serverData,
         jsonLd,
@@ -177,6 +179,7 @@ const Homepage: FunctionComponent<Props> = ({
   untransformedStandfirst,
   transformedHeaderList,
   transformedContentList,
+  pageId,
 }) => {
   return (
     <>
@@ -212,7 +215,7 @@ const Homepage: FunctionComponent<Props> = ({
         jsonLd={jsonLd}
         openGraphType="website"
         image={pageImage}
-        apiToolbarLinks={[createPrismicLink(homepageId)]}
+        apiToolbarLinks={[createPrismicLink(pageId)]}
       >
         <ContaineredLayout gridSizes={gridSize10(false)}>
           <SpacingSection>

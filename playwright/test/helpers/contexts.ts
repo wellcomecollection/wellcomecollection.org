@@ -236,7 +236,7 @@ const article = async (
   page: Page
 ): Promise<void> => {
   await context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/articles/${id}`, page);
+  await gotoWithoutCache(`${baseUrl}/stories/${id}`, page);
 };
 
 const articleWithMockSiblings = async (
@@ -251,7 +251,7 @@ const articleWithMockSiblings = async (
       body: JSON.stringify(response),
     })
   );
-  await gotoWithoutCache(`${baseUrl}/articles/${id}`, page);
+  await gotoWithoutCache(`${baseUrl}/stories/${id}`, page);
 };
 
 const concept = async (
