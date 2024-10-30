@@ -8,7 +8,7 @@
     "chromatic": "chromatic --only-changed"
   },
   "dependencies": {
-    "@faker-js/faker": "^8.4.1",
+    "@faker-js/faker": "^9.1.0",
     "@storybook/addon-a11y": "^8.3.5",
     "@storybook/addon-backgrounds": "^8.3.5",
     "@storybook/addon-controls": "^8.3.5",
@@ -18,7 +18,7 @@
     "@storybook/react": "^8.3.5",
     "@storybook/theming": "^8.3.5",
     "chromatic": "^6.21.1",
-    "husky": "^4.3.0",
+    "husky": "^9.1.6",
     "next": "13.5.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
