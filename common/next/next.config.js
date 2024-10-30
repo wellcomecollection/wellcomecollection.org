@@ -49,25 +49,6 @@ const createConfig =
         }
         return [...rewriteEntries];
       },
-      async redirects() {
-        return [
-          {
-            source: '/articles/:slug',
-            destination: '/stories/:slug',
-            statusCode: 301,
-          },
-          {
-            source: '/articles',
-            destination: '/search/stories',
-            statusCode: 301,
-          },
-          {
-            source: '/stories/comic',
-            destination: '/search/stories?format=W7d_ghAAALWY3Ujc',
-            statusCode: 301,
-          },
-        ];
-      },
       webpack: (config, { isServer, webpack }) => {
         config.plugins.push(
           new webpack.NormalModuleReplacementPlugin(
