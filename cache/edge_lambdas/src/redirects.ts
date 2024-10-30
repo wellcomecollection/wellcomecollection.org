@@ -185,6 +185,10 @@ type QueryRedirect = {
   };
 };
 
+export const pathRedirects: Record<string, string> = {
+  '/articles': '/stories',
+};
+
 // When adding a new rule, add it to redirect.tests.ts
 // As we can't test the actual redirection locally
 export const queryRedirects: Record<string, QueryRedirect[]> = {
