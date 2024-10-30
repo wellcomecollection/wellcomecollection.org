@@ -76,7 +76,7 @@ const ItemsApi = async (
   const toggles = getTogglesFromContext(togglesResp, { req });
   const { workId } = req.query;
 
-  if (!isString(workId) || !/^([a-z0-9]+)$/.test(workId)) {
+  if (!isString(workId) || !looksLikeCanonicalId(workId)) {
     res.status(404);
     return;
   }
