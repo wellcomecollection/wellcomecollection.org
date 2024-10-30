@@ -77,13 +77,20 @@ export const fetchBasicPage = async (
   client: GetServerSidePropsPrismicClient,
   id: string
 ): Promise<RawPagesDocument | undefined> => {
-  const pageDocument = await pagesFetcher.getByUid(client, id, undefined, {
-    graphQuery: `{
+  // This allows for the most basic document to be returned, with an empty data object.
+  const graphQuery = `{
         pages {
           uid
         }
-      }`.replace(/\n(\s+)/g, '\n'),
-  });
+      }`.replace(/\n(\s+)/g, '\n');
+
+  const pageDocument =
+    (await pagesFetcher.getByUid(client, id, undefined, {
+      graphQuery,
+    })) ||
+    (await pagesFetcher.getById(client, id, {
+      graphQuery,
+    }));
 
   return pageDocument;
 };
