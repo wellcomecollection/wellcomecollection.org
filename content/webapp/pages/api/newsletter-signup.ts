@@ -1,7 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
+import {
+  newsletterAddressBook,
+  secondaryAddressBooks,
+} from '@weco/common/data/dotdigital';
 import { isUndefined } from '@weco/common/utils/type-guards';
-import { newsletterAddressBook, secondaryAddressBooks } from '@weco/common/data/dotdigital';
 
 const dotdigitalUsername = process.env.dotdigital_username;
 const dotdigitalPassword = process.env.dotdigital_password;
@@ -99,11 +102,14 @@ async function createSubscription({
   }
 }
 
-const validAddressBookIds = [newsletterAddressBook, ...secondaryAddressBooks].map(addressbook => addressbook.id)
+const validAddressBookIds = [
+  newsletterAddressBook,
+  ...secondaryAddressBooks,
+].map(addressbook => addressbook.id);
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   // making sure addressBookId is legit to prevent server-side request forgery
-  if (!validAddressBookIds.includes(req.body.addressBookId)) {
+  if (!validAddressBookIds.includes(Number(req.body.addressBookId))) {
     res.status(400).send('Bad request');
   }
   if (req.method === 'POST') {
