@@ -62,6 +62,7 @@ export function convertItemToCardProps(
           id: item.id,
           uid: item.uid,
           type: item.type,
+          tags: 'tags' in item ? item.tags : [],
           data: { relatedDocument: item.relatedDocument },
         }
       : {
