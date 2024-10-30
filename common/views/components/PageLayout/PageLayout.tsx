@@ -8,6 +8,7 @@ import { defaultPageTitle } from '@weco/common/data/microcopy';
 import { wellcomeCollectionGallery } from '@weco/common/data/organization';
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { Url } from '@weco/common/model/link-props';
+import { SiteSection } from '@weco/common/model/site-section';
 import { usePrismicData, useToggles } from '@weco/common/server-data/Context';
 import { getVenueById } from '@weco/common/services/prismic/opening-times';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
@@ -35,22 +36,6 @@ import {
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import NewsletterPromo from '@weco/common/views/components/NewsletterPromo/NewsletterPromo';
 import PopupDialog from '@weco/common/views/components/PopupDialog/PopupDialog';
-
-const siteSectionList = [
-  'visit-us',
-  'whats-on',
-  'stories',
-  'collections',
-  'get-involved',
-  'about-us',
-  'exhibition-guides',
-] as const;
-export type SiteSection = (typeof siteSectionList)[number];
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const isSiteSection = (section: any): section is SiteSection => {
-  return siteSectionList.includes(section);
-};
 
 type HeaderProps = {
   customNavLinks: NavLink[];

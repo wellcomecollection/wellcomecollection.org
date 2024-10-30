@@ -9,9 +9,9 @@ import {
 } from 'react';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { SiteSection } from '@weco/common/model/site-section';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
 

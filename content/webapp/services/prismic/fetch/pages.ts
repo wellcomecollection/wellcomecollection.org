@@ -1,7 +1,7 @@
 import * as prismic from '@prismicio/client';
 
+import { SiteSection } from '@weco/common/model/site-section';
 import { PagesDocument as RawPagesDocument } from '@weco/common/prismicio-types';
-import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 import { labelsFields } from '@weco/content/services/prismic/fetch-links';
 import {
   articleFormatsFetchLinks,
