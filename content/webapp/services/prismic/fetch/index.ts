@@ -94,7 +94,8 @@ export function fetcher<Document extends prismic.PrismicDocument>(
   return {
     getById: async (
       { client }: GetServerSidePropsPrismicClient,
-      id: string
+      id: string,
+      params?: { graphQuery?: string }
     ): Promise<Document | undefined> => {
       try {
         // This means that Prismic will only return the document with the given ID if
@@ -105,10 +106,17 @@ export function fetcher<Document extends prismic.PrismicDocument>(
           ? [prismic.filter.at('document.type', contentType)]
           : [prismic.filter.any('document.type', contentType)];
 
-        return await client.getByID<Document>(id, {
-          fetchLinks,
-          filters,
-        });
+        return await client.getByID<Document>(
+          id,
+          params?.graphQuery
+            ? {
+                graphQuery: params?.graphQuery,
+              }
+            : {
+                fetchLinks,
+                filters,
+              }
+        );
       } catch {}
     },
 
