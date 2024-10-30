@@ -8,14 +8,17 @@ describe('IIIFImage', () => {
     contentUrl: 'https://iiif.wellcomecollection.org/image/V0043039/info.json',
     width: 300,
     height: 300,
-    alt: '',
+    alt: 'image of trees',
   };
 
   it('renders a IIIF image URL', async () => {
-    const { getByRole } = renderWithTheme(
+    const { findByRole } = renderWithTheme(
       <IIIFImage image={props} priority={true} layout="fixed" />
     );
-    await expect(getByRole('img')).toHaveAttribute(
+
+    const image = await findByRole('img');
+
+    await expect(image).toHaveAttribute(
       'src',
       'https://iiif.wellcomecollection.org/image/V0043039/full/640%2C/0/default.jpg'
     );
