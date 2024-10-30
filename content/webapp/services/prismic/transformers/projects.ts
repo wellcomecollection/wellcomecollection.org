@@ -1,9 +1,9 @@
+import { SiteSection } from '@weco/common/model/site-section';
 import {
   ProjectsDocument as RawProjectsDocument,
   SeasonsDocument as RawSeasonsDocument,
 } from '@weco/common/prismicio-types';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
-import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 import { Project } from '@weco/content/types/projects';
 
 import {

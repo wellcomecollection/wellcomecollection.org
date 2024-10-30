@@ -1,5 +1,5 @@
 import { ImageType } from '@weco/common/model/image';
-import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
+import { SiteSection } from '@weco/common/model/site-section';
 import { ImagePromo } from '@weco/content/types/image-promo';
 
 import { GenericContentFields } from './generic-content-fields';

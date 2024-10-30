@@ -25,6 +25,7 @@ import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
 import SeriesNavigation from '@weco/content/components/SeriesNavigation/SeriesNavigation';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
+import useHotjar from '@weco/content/hooks/useHotjar';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   fetchArticle,
@@ -43,6 +44,7 @@ import {
   getHeroPicture,
 } from '@weco/content/utils/page-header';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+
 const ContentTypeWrapper = styled.div`
   display: flex;
   align-items: baseline;
@@ -163,6 +165,7 @@ const HTMLDateWrapper = styled.span.attrs({ className: font('intr', 6) })`
 `;
 
 const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
+  useHotjar(true);
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
 
   useEffect(() => {
@@ -332,7 +335,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
     <PageLayout
       title={article.title}
       description={article.metadataDescription || article.promo?.caption || ''}
-      url={{ pathname: `/articles/${article.uid}` }}
+      url={{ pathname: `/stories/${article.uid}` }}
       jsonLd={jsonLd}
       openGraphType="article"
       siteSection="stories"

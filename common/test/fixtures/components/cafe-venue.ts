@@ -85,6 +85,6 @@ export const cafeVenue: Venue = {
       },
     },
   },
-  url: `https://wellcomecollection.org/pages/${prismicPageIds.cafe}`,
+  url: `https://wellcomecollection.org/visit-us/${prismicPageIds.cafe}`,
   linkText: 'Take a break in our café',
 };
