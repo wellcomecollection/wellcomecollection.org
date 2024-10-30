@@ -57,6 +57,10 @@ function linkResolver(doc: Props | DataProps): string {
     } else if ('tags' in doc) {
       // Needed for Prismic previews
       const docSiteSection = doc.tags.find(t => isSiteSection(t));
+
+      const isLandingPage = docSiteSection === uid;
+      if (isLandingPage) return `/${uid}`;
+
       return `${docSiteSection ? '/' + docSiteSection : ''}/${uid}`;
     }
     return `/${uid}`;
