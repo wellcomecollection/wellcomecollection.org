@@ -147,7 +147,7 @@ const GridViewer: FunctionComponent = () => {
   const columnCount = Math.round(mainAreaWidth / itemWidth);
   const columnWidth = mainAreaWidth / columnCount;
   const grid = useRef<FixedSizeGrid>(null);
-  const { canvases } = { ...transformedManifest } || [];
+  const canvases = transformedManifest?.canvases;
 
   useEffect(() => {
     const rowIndex = Math.floor(
