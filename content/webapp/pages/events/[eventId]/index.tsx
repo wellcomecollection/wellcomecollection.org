@@ -185,14 +185,11 @@ const EventPage: NextPage<EventProps> = ({
         url: '/events',
         text: 'Events',
       },
-      ...event.series.map(series => {
-        console.log(series);
-        return {
-          url: linkResolver(series),
-          text: series.title || '',
-          prefix: 'Part of',
-        };
-      }),
+      ...event.series.map(series => ({
+        url: linkResolver(series),
+        text: series.title || '',
+        prefix: 'Part of',
+      })),
       scheduledIn
         ? {
             url: linkResolver(scheduledIn),
