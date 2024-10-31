@@ -149,6 +149,7 @@ export const literalRedirects: Record<string, string> = {
 
   // Old Exhibition guide content type to new Highlights Tour/Text format.
   // See https://github.com/wellcomecollection/wellcomecollection.org/issues/11140
+  // Jason
   '/guides/exhibitions/Zdcs4BEAACMA6abC':
     '/guides/exhibitions/jason-and-the-adventure-of-254',
   '/guides/exhibitions/Zdcs4BEAACMA6abC/audio-without-descriptions':
@@ -157,6 +158,15 @@ export const literalRedirects: Record<string, string> = {
     '/guides/exhibitions/jason-and-the-adventure-of-254/bsl',
   '/guides/exhibitions/Zdcs4BEAACMA6abC/captions-and-transcripts':
     '/guides/exhibitions/jason-and-the-adventure-of-254/captions-and-transcripts',
+  // Healing pavilion
+  '/guides/exhibitions/Y2JgxREAACcJWckj':
+    '/guides/exhibitions/the-healing-pavilion',
+  '/guides/exhibitions/Y2JgxREAACcJWckj/audio-without-descriptions':
+    '/guides/exhibitions/the-healing-pavilion/audio-without-descriptions',
+  '/guides/exhibitions/Y2JgxREAACcJWckj/bsl':
+    '/guides/exhibitions/the-healing-pavilion/bsl',
+  '/guides/exhibitions/Y2JgxREAACcJWckj/captions-and-transcripts':
+    '/guides/exhibitions/the-healing-pavilion/captions-and-transcripts',
 };
 
 // Query redirects have the form:
