@@ -4,7 +4,7 @@ export type Check = {
   url: string;
   name: string;
   emailAlerts?: boolean;
-  slackAlerts?: ('platform-channel' | 'alerts-channel')[];
+  slackAlerts?: ('digital-general' | 'alerts-channel')[];
   apdexThreshold?: ApdexThreshold;
 };
 

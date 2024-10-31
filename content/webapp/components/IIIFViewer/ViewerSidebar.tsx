@@ -10,6 +10,7 @@ import styled from 'styled-components';
 
 import { arrow, chevron, info2 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
+import { useToggles } from '@weco/common/server-data/Context';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
@@ -21,7 +22,10 @@ import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemVi
 import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
 import WorkLink from '@weco/content/components/WorkLink';
 import WorkTitle from '@weco/content/components/WorkTitle/WorkTitle';
-import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
+import {
+  getAuthServices,
+  getMultiVolumeLabel,
+} from '@weco/content/utils/iiif/v3';
 import { removeTrailingFullStop, toHtmlId } from '@weco/content/utils/string';
 import { getDigitalLocationInfo } from '@weco/content/utils/works';
 
@@ -155,6 +159,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   iiifImageLocation,
   iiifPresentationLocation,
 }) => {
+  const { authV2 } = useToggles();
   const { work, transformedManifest, parentManifest } =
     useContext(ItemViewerContext);
   const { user } = useUser();
@@ -171,7 +176,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     matchingManifest?.label &&
     getMultiVolumeLabel(matchingManifest.label, work?.title || '');
 
-  const { structures, searchService } = { ...transformedManifest };
+  const { structures, searchService, auth } = { ...transformedManifest };
 
   const digitalLocation: DigitalLocation | undefined =
     iiifPresentationLocation || iiifImageLocation;
@@ -191,7 +196,11 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     digitalLocationInfo?.accessCondition === 'restricted' &&
     user?.role === 'StaffWithRestricted';
 
-  const manifestNeedsRegeneration = false;
+  const authServices = getAuthServices({ auth, authV2 });
+
+  const manifestNeedsRegeneration =
+    authServices?.external?.id ===
+    'https://iiif.wellcomecollection.org/auth/restrictedlogin';
 
   return (
     <>
@@ -208,7 +217,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
             </RestrictedMessageTitle>
 
             <p style={{ marginBottom: manifestNeedsRegeneration ? '1rem' : 0 }}>
-              This item is hidden from the public.
+              Only staff with the right permissions can view this item online.
             </p>
 
             {manifestNeedsRegeneration && (

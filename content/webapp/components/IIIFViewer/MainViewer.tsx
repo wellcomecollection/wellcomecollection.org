@@ -11,10 +11,10 @@ import {
 import { areEqual, FixedSizeList } from 'react-window';
 import styled from 'styled-components';
 
-import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import ItemViewerContext, {
   RotatedImage,
 } from '@weco/content/components/ItemViewerContext/ItemViewerContext';
@@ -29,7 +29,6 @@ import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 
 import { queryParamToArrayIndex } from '.';
 import ImageViewer from './ImageViewer';
-
 type OverlayPositionData = {
   canvasNumber: number;
   overlayTop: number;
@@ -214,13 +213,14 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const { scrollVelocity, canvases, externalAccessService } = data;
   const [mainLoaded, setMainLoaded] = useState(false);
   const currentCanvas = canvases[index];
-  const mainImageService = { '@id': currentCanvas.imageServiceId };
-  const urlTemplateMain = mainImageService['@id']
-    ? iiifImageTemplate(mainImageService['@id'])
+  const { user } = useUser();
+  const role = user?.role;
+  const urlTemplateMain = currentCanvas.imageServiceId
+    ? iiifImageTemplate(currentCanvas.imageServiceId)
     : undefined;
   const infoUrl =
-    mainImageService['@id'] &&
-    convertRequestUriToInfoUri(mainImageService['@id']);
+    currentCanvas.imageServiceId &&
+    convertRequestUriToInfoUri(currentCanvas.imageServiceId);
   const imageType = scrollVelocity >= 1 ? 'none' : 'main';
   const isRestricted = currentCanvas.hasRestrictedImage;
   const { searchResults, rotatedImages } = useContext(ItemViewerContext);
@@ -276,7 +276,12 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <LL $lighten={true} />
         </div>
-      ) : isRestricted ? (
+      ) : isRestricted && role !== 'StaffWithRestricted' ? (
+        // We always want to show the restricted message to users without a role of 'StaffWithRestricted'
+        // If the user has the correct role then officially we should check the probe service repsonse before trying to load the image.
+        // https://iiif.io/api/auth/2.0/#probe-service
+        // However, we've opted to just try and load the image if the accessToken is available rather than making an additional call
+        // In our case the probe service doesn't offer any information other than whether the image would load, so we may as well try that directly.
         <MessageContainer>
           <h2 className={font('intb', 4)}>{externalAccessService?.label}</h2>
           <p
@@ -358,7 +363,7 @@ function scrollViewer({
       currentCanvas?.height && currentCanvas?.width
         ? currentCanvas.height / currentCanvas.width
         : 1;
-    const renderedHeight = mainAreaWidth * ratio * 0.8; // TODO: 0.8 = 80% max-width image in container. Variable.
+    const renderedHeight = mainAreaWidth * ratio * 0.8; // 0.8 = 80% max-width image in container. Variable.
     const heightOfPreviousItems =
       queryParamToArrayIndex(canvas) * (viewer?.props.itemSize || 0);
     const distanceToScroll =
@@ -383,7 +388,6 @@ const MainViewer: FunctionComponent = () => {
     errorHandler,
     accessToken,
   } = useContext(ItemViewerContext);
-  const { authV2 } = useToggles();
   const { shouldScrollToCanvas, canvas } = query;
   const mainViewerRef = useRef<FixedSizeList>(null);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
@@ -399,10 +403,9 @@ const MainViewer: FunctionComponent = () => {
     ...transformedManifest,
   };
 
-  // If authV2 toggle is true we try to use the iiif auth V2 services and fallback to V1, in case the manifest doesn't contain V2. Otherwise we just use the V1 services
-  const externalAccessService = authV2
-    ? auth?.v2.externalAccessService || auth?.v1.externalAccessService
-    : auth?.v1.externalAccessService;
+  // Only the V2 external service works for providing access so we always attempt to use that first
+  const externalAccessService =
+    auth?.v2.externalAccessService || auth?.v1.externalAccessService;
 
   // We hide the zoom and rotation controls while the user is scrolling
   function handleOnScroll({ scrollOffset }) {

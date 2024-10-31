@@ -377,14 +377,17 @@ export function showItemLink({
 }): boolean {
   // In general we don't show the item link if there are born digital items present, i.e. canvases with a behavior of placeholder, because we display download links on the page instead.
   // The exception to this is if ALL the items are born digital and they are ALL pdfs, as we know we can show them on the items page.
-  // We also don't show the item link if there are video or sound items present because we display the players on the page instead.
+  // We also don't show the item link if there are video or sound items present because we display the players on the page instead. The exception to this is if they are restricted items and the user has a role of 'StaffWithRestricted'.
+  // In which case we show the link not the players.
   // This means we rely on there only being one type of thing in a manifest, otherwise non video/sound items will be hidden from the user.
   // This is usually the case, except for manifests with 'Born digital' items.
   // But since we display links to all files when there are 'Born digital' items present, then this should not matter.
   const hasVideo = hasItemType(canvases, 'Video');
   const hasSound =
     hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
-
+  if (accessCondition === 'restricted' && role === 'StaffWithRestricted') {
+    return true;
+  }
   if (
     accessCondition === 'closed' ||
     (accessCondition === 'restricted' && role !== 'StaffWithRestricted')

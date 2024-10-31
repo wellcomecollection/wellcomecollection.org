@@ -1,4 +1,4 @@
-This document is an overview of how we manage library membership. This process is described publicly in the [Library membership](https://wellcomecollection.org/pages/X_2eexEAACQAZLBi) page on wellcomecollection.org; this document explains what happens behind the scenes.
+This document is an overview of how we manage library membership. This process is described publicly in the [Library membership](https://wellcomecollection.org/collections/library-membership) page on wellcomecollection.org; this document explains what happens behind the scenes.
 
 It’s written from a Digital Platform perspective; although membership also involves the Library Experience and Engagement (LE&E) team, it doesn’t describe their role in detail.
 
@@ -8,14 +8,14 @@ It’s written from a Digital Platform perspective; although membership also inv
 
 # What is membership for?
 
-Quoting from the [Library membership page](https://wellcomecollection.org/pages/X_2eexEAACQAZLBi) on wellcomecollection.org:
+Quoting from the [Library membership page](https://wellcomecollection.org/collections/library-membership) on wellcomecollection.org:
 
 > [Membership] allows you to:
 >
 > -   order items from the library’s closed stores to view in our Rare Materials Room 
-> -   log in to the library’s computer network to access our online [subscription databases](https://wellcomecollection.org/pages/YDaP2BMAACUAT7DS)
+> -   log in to the library’s computer network to access our online [subscription databases](https://wellcomecollection.org/collections/databases)
 > -   use the library scanners and printers for research purposes 
-> -   [book a study room](https://wellcomecollection.org/pages/YBGczxMAACAAjXFz).
+> -   [book a study room](https://wellcomecollection.org/collections/study-rooms).
 
 Ordering items from the closed stores is the item requesting process, which is [described separately](https://docs.google.com/document/d/1WXK79lGKp0pbO_7O5p_10uNFIvSbiPBaRS4Q_JSAc50/edit#).
 

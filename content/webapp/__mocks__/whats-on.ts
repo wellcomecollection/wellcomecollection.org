@@ -92,6 +92,7 @@ export const whatsOn: ({
 }: {
   hasExhibitions: boolean;
 }) => WhatsOnProps = ({ hasExhibitions }) => ({
+  pageId: 'XNFfsxAAANwqbNWD',
   period: 'current-and-coming-up',
   exhibitions: hasExhibitions ? [beingHuman] : [],
   events: [],

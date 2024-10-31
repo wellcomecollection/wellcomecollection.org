@@ -9,13 +9,14 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { searchLabelText } from '@weco/common/data/microcopy';
 import { cross, search } from '@weco/common/icons';
 import WellcomeCollectionBlack from '@weco/common/icons/wellcome_collection_black';
+import { SiteSection } from '@weco/common/model/site-section';
 import { font } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 
 import DesktopSignIn from './DesktopSignIn';
 import {
@@ -55,12 +56,12 @@ type Props = {
 
 export const links: NavLink[] = [
   {
-    href: '/visit-us',
+    href: `/${prismicPageIds.visitUs}`,
     title: 'Visit us',
     siteSection: 'visit-us',
   },
   {
-    href: '/whats-on',
+    href: `/${prismicPageIds.whatsOn}`,
     title: 'What’s on',
     siteSection: 'whats-on',
   },
@@ -70,17 +71,17 @@ export const links: NavLink[] = [
     siteSection: 'stories',
   },
   {
-    href: '/collections',
+    href: `/${prismicPageIds.collections}`,
     title: 'Collections',
     siteSection: 'collections',
   },
   {
-    href: '/get-involved',
+    href: `/${prismicPageIds.getInvolved}`,
     title: 'Get involved',
     siteSection: 'get-involved',
   },
   {
-    href: '/about-us',
+    href: `/${prismicPageIds.aboutUs}`,
     title: 'About us',
     siteSection: 'about-us',
   },

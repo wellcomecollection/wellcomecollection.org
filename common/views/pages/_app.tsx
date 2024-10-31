@@ -172,7 +172,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   const isCookieBannerException = () => {
     // Banner should not load on cookie policy page to allow user to interact with the page content.
-    if (pageProps['page']?.id === prismicPageIds.cookiePolicy) return true; // eslint-disable-line dot-notation
+    if (pageProps['page']?.uid === prismicPageIds.cookiePolicy) return true; // eslint-disable-line dot-notation
 
     // Banner shouldn't appear in Prismic's Slice Simulator (or Page Builder)
     if (router.route === '/slice-simulator') return true;

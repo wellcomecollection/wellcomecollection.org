@@ -30,6 +30,7 @@ type Props = {
   parentManifest: ParentManifest | undefined;
   searchResults: SearchResults | null;
   setSearchResults: (v) => void;
+  accessToken: string | undefined;
 
   // UI props:
   viewerRef: RefObject<HTMLDivElement> | undefined;
@@ -52,7 +53,6 @@ type Props = {
   setRotatedImages: (v: RotatedImage[]) => void;
   isResizing: boolean;
   errorHandler?: () => void;
-  accessToken?: string;
 };
 
 export const results = {
@@ -98,6 +98,7 @@ const ItemViewerContext = createContext<Props>({
   parentManifest: undefined,
   searchResults: results,
   setSearchResults: () => undefined,
+  accessToken: undefined,
 
   // UI props:
   viewerRef: undefined,

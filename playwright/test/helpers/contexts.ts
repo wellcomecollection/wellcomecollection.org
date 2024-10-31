@@ -236,7 +236,7 @@ const article = async (
   page: Page
 ): Promise<void> => {
   await context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/articles/${id}`, page);
+  await gotoWithoutCache(`${baseUrl}/stories/${id}`, page);
 };
 
 const articleWithMockSiblings = async (
@@ -251,7 +251,7 @@ const articleWithMockSiblings = async (
       body: JSON.stringify(response),
     })
   );
-  await gotoWithoutCache(`${baseUrl}/articles/${id}`, page);
+  await gotoWithoutCache(`${baseUrl}/stories/${id}`, page);
 };
 
 const concept = async (
@@ -301,7 +301,7 @@ const mediaOffice = async (
   page: Page
 ): Promise<void> => {
   await context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/pages/WuxrKCIAAP9h3hmw`, page); // alias is /press but it doesn't work locally
+  await gotoWithoutCache(`${baseUrl}/about-us/press`, page);
 };
 
 const isMobile = (page: Page): boolean =>

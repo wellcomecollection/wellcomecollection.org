@@ -2,6 +2,7 @@ import * as prismic from '@prismicio/client';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
 import fetch from 'node-fetch';
 
+import { SiteSection } from '@weco/common/model/site-section';
 import {
   ContentType,
   isContentType,
@@ -93,7 +94,8 @@ export function fetcher<Document extends prismic.PrismicDocument>(
   return {
     getById: async (
       { client }: GetServerSidePropsPrismicClient,
-      id: string
+      id: string,
+      params?: { graphQuery?: string }
     ): Promise<Document | undefined> => {
       try {
         // This means that Prismic will only return the document with the given ID if
@@ -104,10 +106,17 @@ export function fetcher<Document extends prismic.PrismicDocument>(
           ? [prismic.filter.at('document.type', contentType)]
           : [prismic.filter.any('document.type', contentType)];
 
-        return await client.getByID<Document>(id, {
-          fetchLinks,
-          filters,
-        });
+        return await client.getByID<Document>(
+          id,
+          params?.graphQuery
+            ? {
+                graphQuery: params?.graphQuery,
+              }
+            : {
+                fetchLinks,
+                filters,
+              }
+        );
       } catch {}
     },
 
@@ -153,7 +162,11 @@ export function fetcher<Document extends prismic.PrismicDocument>(
 
     getByUid: async (
       { client }: GetServerSidePropsPrismicClient,
-      uid: string
+      uid: string,
+      // 'orphan' is only ever used in this context,
+      // so I'm keeping it separate from SiteSection which is used in other contexts.
+      siteSection?: SiteSection | 'orphan',
+      params?: { graphQuery?: string }
     ): Promise<Document | undefined> => {
       try {
         const primaryContentType = toMaybeString(contentType);
@@ -163,9 +176,21 @@ export function fetcher<Document extends prismic.PrismicDocument>(
         const response = await client.getByUID<Document>(
           primaryContentType,
           uid,
-          {
-            fetchLinks,
-          }
+          params?.graphQuery
+            ? {
+                graphQuery: params?.graphQuery,
+              }
+            : {
+                fetchLinks,
+                filters: siteSection
+                  ? [
+                      prismic.filter.any(
+                        'document.tags',
+                        siteSection === 'orphan' ? [] : [siteSection]
+                      ),
+                    ]
+                  : [],
+              }
         );
 
         return response;

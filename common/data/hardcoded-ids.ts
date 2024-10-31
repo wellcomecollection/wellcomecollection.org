@@ -1,7 +1,7 @@
 // Place to store id's of prismic of dynamic content if required.
 // We can always reference all hardcoded prismic id where they are called and remove them later to maintain
 
-export const homepageId = 'XphUbREAACMAgRNP';
+export const homepageId = 'homepage';
 
 export const collectionVenueId = {
   galleries: {
@@ -26,26 +26,27 @@ export const collectionVenueId = {
 };
 
 export const prismicPageIds = {
-  aboutUs: 'Wuw2MSIAACtd3Stq',
-  access: 'Wvm2uiAAAIYQ4FHP',
-  bookingAndAttendingOurEvents: 'Wuw19yIAAK1Z3Sng',
-  collections: 'YBfeAhMAACEAqBTx',
-  contactUs: 'YVMbEBAAAPaMBrz7',
-  cookiePolicy: 'ZlCaVRAAACQAD2uX',
-  copyrightClearance: 'YGSEhxAAACgAXL4E',
-  dailyGuidedTours: 'Wuw19yIAAK1Z3Sma',
-  getInvolved: 'YDaZmxMAACIAT9u8',
-  gettingHere: 'X0TZOhAAACkAPkxz',
-  library: 'Wuw19yIAAK1Z3Smm',
-  openingTimes: 'WwQHTSAAANBfDYXU',
-  press: 'WuxrKCIAAP9h3hmw',
-  register: 'X_2eexEAACQAZLBi',
-  schools: 'Wuw2MSIAACtd3StS',
-  userPanel: 'YH17kRAAACoAyWTB',
-  venueHire: 'Wuw2MSIAACtd3SsC',
-  visitUs: 'X8ZTSBIAACQAiDzY',
-  whatsOn: 'YD_IQxAAACUAK6HG',
-  youth: 'Wuw2MSIAACtd3Ssg',
+  aboutUs: 'about-us',
+  access: 'accessibility',
+  bookingAndAttendingOurEvents: 'booking-and-attending-our-events',
+  cafe: 'cafe',
+  collections: 'collections',
+  contactUs: 'contact-us',
+  cookiePolicy: 'cookie-policy',
+  dailyGuidedTours: 'daily-guided-tours-and-discussions',
+  getInvolved: 'get-involved',
+  gettingHere: 'getting-here',
+  library: 'the-library',
+  openingTimes: 'opening-times',
+  press: 'press',
+  register: 'library-membership',
+  schools: 'schools',
+  shop: 'shop',
+  userPanel: 'user-panel',
+  venueHire: 'venue-hire',
+  visitUs: 'visit-us',
+  whatsOn: 'whats-on',
+  youth: 'young-people',
 };
 
 export const eventPolicyIds = {
@@ -69,4 +70,4 @@ export const sectionLevelPages = [
 ];
 
 // The only series ("webcomic series") that uses the `webcomics` type.
-export const bodySquabblesSeries = 'WleP3iQAACUAYEoN';
+export const bodySquabblesSeries = 'body-squabbles';

@@ -4,7 +4,6 @@ import { looksLikePrismicId } from '.';
 
 describe('looksLikePrismicId', () => {
   it('thinks Prismic IDs look like Prismic IDs', () => {
-    expect(looksLikePrismicId('Wuw2MSIAACtd3StS')).toBeTruthy();
     expect(looksLikePrismicId('sun')).toBeTruthy();
     expect(looksLikePrismicId('sun-set')).toBeTruthy();
     expect(looksLikePrismicId(prismicPageIds.press)).toBeTruthy();

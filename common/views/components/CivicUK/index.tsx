@@ -1,4 +1,5 @@
 import cookies from '@weco/common/data/cookies';
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { font } from '@weco/common/utils/classnames';
 import theme from '@weco/common/views/themes/default';
 
@@ -53,7 +54,7 @@ export const policyUpdatedDate = '17/04/2024';
 const statement = {
   description: 'You can read more about how we use cookies in our',
   name: 'Cookie policy',
-  url: '/cookie-policy',
+  url: `/about-us/${prismicPageIds.cookiePolicy}`,
   updated: policyUpdatedDate,
 };
 
