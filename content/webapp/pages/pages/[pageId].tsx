@@ -127,10 +127,16 @@ export const getServerSideProps: GetServerSideProps<
       const basicDocSiteSection = basicDocument.tags.find(t =>
         isSiteSection(t)
       );
+      const isLandingPage = basicDocSiteSection === pageId;
+
+      const redirectUrl =
+        isLandingPage || !basicDocSiteSection
+          ? `/${pageId}`
+          : `/${basicDocSiteSection}/${pageId}`;
 
       return {
         redirect: {
-          destination: `${basicDocSiteSection ? '/' + basicDocSiteSection : ''}/${basicDocument.uid}`,
+          destination: redirectUrl,
           permanent: false,
         },
       };
