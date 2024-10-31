@@ -108,9 +108,11 @@ export const getServerSideProps: GetServerSideProps<
   const { pageId } = context.query;
   const siteSection = toMaybeString(context.params?.siteSection);
 
+  // We don't allow e.g. /visit-us/visit-us as it's a landing page
+  // Should only display on /visit-us
   const isLandingPageRenderingAsSubPage =
     pageId === siteSection &&
-    context.resolvedUrl === `/${siteSection}/${pageId}`;
+    context.resolvedUrl.indexOf(`/${siteSection}/${pageId}`) === 0;
 
   if (!looksLikePrismicId(pageId) || isLandingPageRenderingAsSubPage) {
     return { notFound: true };
