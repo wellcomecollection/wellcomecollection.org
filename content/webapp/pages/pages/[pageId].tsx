@@ -6,6 +6,7 @@ import {
   sectionLevelPages,
 } from '@weco/common/data/hardcoded-ids';
 import { getCrop } from '@weco/common/model/image';
+import { isSiteSection, SiteSection } from '@weco/common/model/site-section';
 import { EditorialImageSlice as RawEditorialImageSlice } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
@@ -27,10 +28,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { makeLabels } from '@weco/common/views/components/LabelsList/LabelsList';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import PageLayout, {
-  isSiteSection,
-  SiteSection,
-} from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';

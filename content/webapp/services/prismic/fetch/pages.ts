@@ -1,7 +1,7 @@
 import * as prismic from '@prismicio/client';
 
+import { SiteSection } from '@weco/common/model/site-section';
 import { PagesDocument as RawPagesDocument } from '@weco/common/prismicio-types';
-import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 import { labelsFields } from '@weco/content/services/prismic/fetch-links';
 import {
   articleFormatsFetchLinks,
@@ -77,13 +77,20 @@ export const fetchBasicPage = async (
   client: GetServerSidePropsPrismicClient,
   id: string
 ): Promise<RawPagesDocument | undefined> => {
-  const pageDocument = await pagesFetcher.getByUid(client, id, undefined, {
-    graphQuery: `{
+  // This allows for the most basic document to be returned, with an empty data object.
+  const graphQuery = `{
         pages {
           uid
         }
-      }`.replace(/\n(\s+)/g, '\n'),
-  });
+      }`.replace(/\n(\s+)/g, '\n');
+
+  const pageDocument =
+    (await pagesFetcher.getByUid(client, id, undefined, {
+      graphQuery,
+    })) ||
+    (await pagesFetcher.getById(client, id, {
+      graphQuery,
+    }));
 
   return pageDocument;
 };

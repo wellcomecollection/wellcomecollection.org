@@ -1,10 +1,10 @@
+import { SiteSection } from '@weco/common/model/site-section';
 import {
   GuideFormatsDocument as RawGuideFormatsDocument,
   GuidesDocument as RawGuidesDocument,
 } from '@weco/common/prismicio-types';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
-import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 import { Format } from '@weco/content/types/format';
 import { Guide } from '@weco/content/types/guides';
 

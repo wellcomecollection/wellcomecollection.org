@@ -13,10 +13,10 @@ import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { searchLabelText } from '@weco/common/data/microcopy';
 import { cross, search } from '@weco/common/icons';
 import WellcomeCollectionBlack from '@weco/common/icons/wellcome_collection_black';
+import { SiteSection } from '@weco/common/model/site-section';
 import { font } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 
 import DesktopSignIn from './DesktopSignIn';
 import {

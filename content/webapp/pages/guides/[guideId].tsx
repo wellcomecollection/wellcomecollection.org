@@ -1,6 +1,7 @@
 import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
+import { SiteSection } from '@weco/common/model/site-section';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
@@ -14,9 +15,7 @@ import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { makeLabels } from '@weco/common/views/components/LabelsList/LabelsList';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import PageLayout, {
-  SiteSection,
-} from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import Body from '@weco/content/components/Body/Body';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';

@@ -2,6 +2,7 @@ import * as prismic from '@prismicio/client';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
 import fetch from 'node-fetch';
 
+import { SiteSection } from '@weco/common/model/site-section';
 import {
   ContentType,
   isContentType,
@@ -11,7 +12,6 @@ import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { deserialiseDates as deserialiseJsonDates } from '@weco/common/utils/json';
 import { toMaybeString } from '@weco/common/utils/routes';
 import { isString } from '@weco/common/utils/type-guards';
-import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 
 export type GetServerSidePropsPrismicClient = {
   type: 'GetServerSidePropsPrismicClient';
@@ -94,7 +94,8 @@ export function fetcher<Document extends prismic.PrismicDocument>(
   return {
     getById: async (
       { client }: GetServerSidePropsPrismicClient,
-      id: string
+      id: string,
+      params?: { graphQuery?: string }
     ): Promise<Document | undefined> => {
       try {
         // This means that Prismic will only return the document with the given ID if
@@ -105,10 +106,17 @@ export function fetcher<Document extends prismic.PrismicDocument>(
           ? [prismic.filter.at('document.type', contentType)]
           : [prismic.filter.any('document.type', contentType)];
 
-        return await client.getByID<Document>(id, {
-          fetchLinks,
-          filters,
-        });
+        return await client.getByID<Document>(
+          id,
+          params?.graphQuery
+            ? {
+                graphQuery: params?.graphQuery,
+              }
+            : {
+                fetchLinks,
+                filters,
+              }
+        );
       } catch {}
     },
 

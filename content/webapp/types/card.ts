@@ -1,6 +1,6 @@
 import { getCrop, ImageType } from '@weco/common/model/image';
+import { SiteSection } from '@weco/common/model/site-section';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
 import { ArticleBasic } from '@weco/content/types/articles';
 import { Book } from '@weco/content/types/books';
 import { EventSeries } from '@weco/content/types/event-series';
@@ -62,7 +62,7 @@ export function convertItemToCardProps(
           id: item.id,
           uid: item.uid,
           type: item.type,
-          siteSection: 'siteSection' in item ? item.siteSection : undefined,
+          tags: 'tags' in item ? item.tags : [],
           data: { relatedDocument: item.relatedDocument },
         }
       : {

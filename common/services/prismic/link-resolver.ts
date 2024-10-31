@@ -1,21 +1,22 @@
-import { SiteSection } from '@weco/common/views/components/PageLayout/PageLayout';
+import { isSiteSection, SiteSection } from '@weco/common/model/site-section';
 
 import { isContentType } from './content-types';
 
 type Props = {
   uid?: string;
   type: string;
+  siteSection?: SiteSection;
 };
 type DataProps = {
   uid?: string;
   type: string;
+  tags: string[];
   data: {
     relatedDocument?: {
       uid: string;
       type: string;
     };
   };
-  siteSection: SiteSection;
 };
 
 function linkResolver(doc: Props | DataProps): string {
@@ -28,6 +29,7 @@ function linkResolver(doc: Props | DataProps): string {
   if (type === 'articles') return `/stories/${uid}`;
   if (type === 'webcomics') return `/stories/${uid}`;
   if (type === 'webcomic-series') return `/series/${uid}`;
+
   if (
     type === 'exhibition-guides' ||
     type === 'exhibition-texts' ||
@@ -52,6 +54,14 @@ function linkResolver(doc: Props | DataProps): string {
   if (type === 'pages') {
     if ('siteSection' in doc) {
       return `${doc.siteSection}/${uid}`;
+    } else if ('tags' in doc) {
+      // Needed for Prismic previews
+      const docSiteSection = doc.tags.find(t => isSiteSection(t));
+
+      const isLandingPage = docSiteSection === uid;
+      if (isLandingPage) return `/${uid}`;
+
+      return `${docSiteSection ? '/' + docSiteSection : ''}/${uid}`;
     }
     return `/${uid}`;
   }
