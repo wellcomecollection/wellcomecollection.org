@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 
 import IIIFViewerImage from './IIIFViewerImage';
@@ -74,6 +75,8 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
   highlightImage,
 }: IIIFCanvasThumbnailProps) => {
   const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
+  const { user } = useUser();
+  const role = user?.role;
   const isRestricted = canvas.hasRestrictedImage;
 
   return (
@@ -83,7 +86,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
           {!thumbnailLoaded && !isRestricted && (
             <LL $small={true} $lighten={true} />
           )}
-          {isRestricted ? (
+          {isRestricted && role !== 'StaffWithRestricted' ? (
             <>
               <Padlock />
               <span className="visually-hidden">
