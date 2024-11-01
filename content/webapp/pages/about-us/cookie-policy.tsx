@@ -18,9 +18,8 @@ import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { components } from '@weco/common/views/slices';
 import Table from '@weco/content/components/Table';
+import * as page from '@weco/content/pages/pages/[pageId]';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-
-import * as page from './pages/[pageId]';
 
 const CookieTable = ({ rows }: { rows: string[][] }) => {
   return (
@@ -54,7 +53,7 @@ const CookiePolicy: FunctionComponent<page.Props> = (props: page.Props) => {
       title={props.page.title}
       description={props.page.metadataDescription || ''}
       hideNewsletterPromo={true}
-      url={{ pathname: '/cookie-policy' }}
+      url={{ pathname: '/about-us/cookie-policy' }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
       siteSection={props.page.siteSection}
@@ -101,6 +100,7 @@ export const getServerSideProps: GetServerSideProps<
   return page.getServerSideProps({
     ...context,
     query: { pageId: prismicPageIds.cookiePolicy },
+    params: { siteSection: 'about-us' },
   });
 };
 
