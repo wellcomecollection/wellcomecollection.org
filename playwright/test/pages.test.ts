@@ -33,7 +33,7 @@ test.describe('Server-side redirection logic works as expected', () => {
 
 // As they are displayed through a hack, we want to make sure they're working
 // https://github.com/wellcomecollection/wellcomecollection.org/pull/10890
-test.only('Cookie policy tables are showing', async ({ context, page }) => {
+test('Cookie policy tables are showing', async ({ context, page }) => {
   await context.addCookies(requiredCookies);
   await gotoWithoutCache(`${baseUrl}/about-us/cookie-policy`, page);
 
