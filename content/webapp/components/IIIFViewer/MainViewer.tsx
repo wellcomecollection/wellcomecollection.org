@@ -213,8 +213,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const { scrollVelocity, canvases, externalAccessService } = data;
   const [mainLoaded, setMainLoaded] = useState(false);
   const currentCanvas = canvases[index];
-  const { user } = useUser();
-  const role = user?.role;
+  const { userIsStaffWithRestricted } = useUser();
   const urlTemplateMain = currentCanvas.imageServiceId
     ? iiifImageTemplate(currentCanvas.imageServiceId)
     : undefined;
@@ -276,7 +275,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <LL $lighten={true} />
         </div>
-      ) : isRestricted && role !== 'StaffWithRestricted' ? (
+      ) : isRestricted && !userIsStaffWithRestricted ? (
         // We always want to show the restricted message to users without a role of 'StaffWithRestricted'
         // If the user has the correct role then officially we should check the probe service repsonse before trying to load the image.
         // https://iiif.io/api/auth/2.0/#probe-service

@@ -162,7 +162,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   const { authV2 } = useToggles();
   const { work, transformedManifest, parentManifest } =
     useContext(ItemViewerContext);
-  const { user } = useUser();
+  const { userIsStaffWithRestricted } = useUser();
 
   const matchingManifest =
     parentManifest &&
@@ -194,7 +194,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
 
   const isWorkVisibleWithPermission =
     digitalLocationInfo?.accessCondition === 'restricted' &&
-    user?.role === 'StaffWithRestricted';
+    userIsStaffWithRestricted;
 
   const authServices = getAuthServices({ auth, authV2 });
 

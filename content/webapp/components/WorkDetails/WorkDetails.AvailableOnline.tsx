@@ -139,7 +139,7 @@ const ItemPageLink = ({
   digitalLocationInfo,
   authServices,
 }) => {
-  const { user } = useUser();
+  const { userIsStaffWithRestricted } = useUser();
 
   const isDownloadable =
     digitalLocationInfo?.accessCondition !== 'open-with-advisory' &&
@@ -147,7 +147,7 @@ const ItemPageLink = ({
 
   const isWorkVisibleWithPermission =
     digitalLocationInfo?.accessCondition === 'restricted' &&
-    user?.role === 'StaffWithRestricted';
+    userIsStaffWithRestricted;
 
   const manifestNeedsRegeneration =
     authServices?.external?.id ===
@@ -271,8 +271,8 @@ const WorkDetailsAvailableOnline = ({
   locationOfWork,
   transformedManifest,
 }: Props) => {
-  const { user } = useUser();
-  const role = user?.role;
+  const { userIsStaffWithRestricted } = useUser();
+
   const { authV2 } = useToggles();
   const {
     collectionManifestsCount,
@@ -287,7 +287,7 @@ const WorkDetailsAvailableOnline = ({
   const [origin, setOrigin] = useState<string | undefined>();
 
   const tokenService = getIframeTokenSrc({
-    role,
+    userIsStaffWithRestricted,
     workId: work.id,
     origin,
     auth,

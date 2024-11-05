@@ -359,7 +359,7 @@ export function getFirstAccessCondition(
 }
 
 export function showItemLink({
-  role,
+  userIsStaffWithRestricted,
   allOriginalPdfs,
   hasIIIFManifest,
   digitalLocation,
@@ -367,7 +367,7 @@ export function showItemLink({
   canvases,
   bornDigitalStatus,
 }: {
-  role?: string;
+  userIsStaffWithRestricted: boolean;
   allOriginalPdfs: boolean;
   hasIIIFManifest: boolean;
   digitalLocation?: DigitalLocation;
@@ -385,12 +385,12 @@ export function showItemLink({
   const hasVideo = hasItemType(canvases, 'Video');
   const hasSound =
     hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
-  if (accessCondition === 'restricted' && role === 'StaffWithRestricted') {
+  if (accessCondition === 'restricted' && userIsStaffWithRestricted) {
     return true;
   }
   if (
     accessCondition === 'closed' ||
-    (accessCondition === 'restricted' && role !== 'StaffWithRestricted')
+    (accessCondition === 'restricted' && !userIsStaffWithRestricted)
   ) {
     return false;
   } else if (
