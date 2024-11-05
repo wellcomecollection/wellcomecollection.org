@@ -7,6 +7,8 @@ type Props = {
   type: string;
   siteSection?: SiteSection;
 };
+
+// Untransformed data
 type DataProps = {
   uid?: string;
   type: string;
@@ -20,7 +22,8 @@ type DataProps = {
 };
 
 function linkResolver(doc: Props | DataProps): string {
-  // this is mostly useful for scenarios like rendering in Page Builder
+  // This is mostly useful for scenarios like rendering in Page Builder
+  // which doesn't necessarily have access to all data
   if (!doc) return '/';
 
   const { uid, type } = doc;
@@ -52,18 +55,20 @@ function linkResolver(doc: Props | DataProps): string {
   }
 
   if (type === 'pages') {
+    let siteSection: SiteSection | undefined;
+
     if ('siteSection' in doc) {
-      return `${doc.siteSection}/${uid}`;
-    } else if ('tags' in doc) {
-      // Needed for Prismic previews
-      const docSiteSection = doc.tags.find(t => isSiteSection(t));
-
-      const isLandingPage = docSiteSection === uid;
-      if (isLandingPage) return `/${uid}`;
-
-      return `${docSiteSection ? '/' + docSiteSection : ''}/${uid}`;
+      siteSection = doc.siteSection;
     }
-    return `/${uid}`;
+
+    // Prismic previews come through here.
+    if ('tags' in doc) {
+      siteSection = doc.tags.find(t => isSiteSection(t));
+    }
+
+    const isLandingPage = siteSection === uid;
+
+    return isLandingPage || !siteSection ? `/${uid}` : `/${siteSection}/${uid}`;
   }
 
   if (isContentType(type)) {
