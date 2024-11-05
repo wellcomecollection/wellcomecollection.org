@@ -2,8 +2,10 @@ import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 
 import IIIFViewerImage from './IIIFViewerImage';
@@ -74,7 +76,12 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
   highlightImage,
 }: IIIFCanvasThumbnailProps) => {
   const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
+  const { user } = useUser();
+  const role = user?.role;
   const isRestricted = canvas.hasRestrictedImage;
+  const urlTemplate = canvas.imageServiceId
+    ? iiifImageTemplate(canvas.imageServiceId)
+    : undefined;
 
   return (
     <IIIFViewerThumb>
@@ -83,7 +90,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
           {!thumbnailLoaded && !isRestricted && (
             <LL $small={true} $lighten={true} />
           )}
-          {isRestricted ? (
+          {isRestricted && role !== 'StaffWithRestricted' ? (
             <>
               <Padlock />
               <span className="visually-hidden">
@@ -94,7 +101,10 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
             <IIIFViewerImage
               highlightImage={highlightImage}
               width={canvas?.thumbnailImage?.width || 30}
-              src={canvas?.thumbnailImage?.url}
+              src={
+                canvas?.thumbnailImage?.url ||
+                (urlTemplate && urlTemplate({ size: '200,' }))
+              }
               srcSet=""
               sizes={`${canvas?.thumbnailImage?.width || 30}px`}
               alt=""
