@@ -24,6 +24,7 @@ const GuideStopSlice: FunctionComponent<GuideStopProps> = ({
     type: 'bsl' | 'audio-without-descriptions';
     exhibitionGuide: ExhibitionHighlightTour;
   };
+
   const link = number
     ? `${linkResolver(exhibitionGuide)}/${type}/${number}`
     : undefined;

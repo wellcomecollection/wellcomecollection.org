@@ -1,7 +1,7 @@
 import { CloudFrontRequestEvent, CloudFrontResponse } from 'aws-lambda';
 import { URLSearchParams } from 'url';
 
-import { literalRedirects, queryRedirects } from './redirects';
+import { literalRedirects, pathRedirects, queryRedirects } from './redirects';
 
 export const redirect301 = (host: string, path: string) => ({
   status: '301',
@@ -66,22 +66,40 @@ export const getRedirect = (
   const cf = event.Records[0].cf;
   const request = cf.request;
   const uriSansSlash = request.uri.replace(/\/$/, '');
-
+  const firstPartOfPath = uriSansSlash.match(/\/[^/]+/)?.[0];
   const hostHeader = cf.request.headers.host;
   const requestHost =
     hostHeader && hostHeader.length > 0 ? hostHeader[0].value : undefined;
 
-  const host =
-    requestHost &&
-    requestHost.indexOf('www-stage.wellcomecollection.org') !== -1
-      ? 'www-stage.wellcomecollection.org'
-      : requestHost &&
-          requestHost.indexOf('www-e2e.wellcomecollection.org') !== -1
-        ? 'www-e2e.wellcomecollection.org'
-        : 'wellcomecollection.org';
+  const allowedHosts = [
+    'www-stage.wellcomecollection.org',
+    'www-e2e.wellcomecollection.org',
+    'wellcomecollection.org',
+  ];
 
+  const parsedHost = requestHost
+    ? new URL(`http://${requestHost}`).hostname
+    : undefined;
+
+  const host =
+    parsedHost && allowedHosts.includes(parsedHost)
+      ? parsedHost
+      : 'wellcomecollection.org';
+
+  // We MUST check literalRedirects first
   if (literalRedirects[uriSansSlash]) {
     return redirect301(host, literalRedirects[uriSansSlash]);
+  }
+
+  if (
+    !literalRedirects[uriSansSlash] &&
+    firstPartOfPath &&
+    pathRedirects[firstPartOfPath]
+  ) {
+    return redirect301(
+      host,
+      uriSansSlash.replace(firstPartOfPath, pathRedirects[firstPartOfPath])
+    );
   }
 
   if (queryRedirects[uriSansSlash]) {

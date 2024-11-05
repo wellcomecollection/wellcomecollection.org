@@ -84,9 +84,7 @@ const stageApiToggleCookie = createCookie({
   value: 'true',
 });
 
-// TODO: context.addCookies should run for the first test of a suite (even on beforeAll/beforeEach)
-
-const requiredCookies = useStageApis
+export const requiredCookies = useStageApis
   ? [acceptCookieCookie, stageApiToggleCookie]
   : [acceptCookieCookie];
 
@@ -236,7 +234,7 @@ const article = async (
   page: Page
 ): Promise<void> => {
   await context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/articles/${id}`, page);
+  await gotoWithoutCache(`${baseUrl}/stories/${id}`, page);
 };
 
 const articleWithMockSiblings = async (
@@ -251,7 +249,7 @@ const articleWithMockSiblings = async (
       body: JSON.stringify(response),
     })
   );
-  await gotoWithoutCache(`${baseUrl}/articles/${id}`, page);
+  await gotoWithoutCache(`${baseUrl}/stories/${id}`, page);
 };
 
 const concept = async (
@@ -301,7 +299,7 @@ const mediaOffice = async (
   page: Page
 ): Promise<void> => {
   await context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/pages/WuxrKCIAAP9h3hmw`, page);
+  await gotoWithoutCache(`${baseUrl}/about-us/press`, page);
 };
 
 const isMobile = (page: Page): boolean =>

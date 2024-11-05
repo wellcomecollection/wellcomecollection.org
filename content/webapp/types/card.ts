@@ -1,4 +1,5 @@
 import { getCrop, ImageType } from '@weco/common/model/image';
+import { SiteSection } from '@weco/common/model/site-section';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { ArticleBasic } from '@weco/content/types/articles';
 import { Book } from '@weco/content/types/books';
@@ -26,6 +27,7 @@ export type Card = {
   image?: ImageType;
   link?: string;
   order?: number;
+  siteSection?: SiteSection;
 };
 
 export function convertItemToCardProps(
@@ -60,13 +62,16 @@ export function convertItemToCardProps(
           id: item.id,
           uid: item.uid,
           type: item.type,
+          tags: 'tags' in item ? item.tags : [],
           data: { relatedDocument: item.relatedDocument },
         }
       : {
           id: item.id,
           uid: item.uid,
           type: item.type,
+          siteSection: 'siteSection' in item ? item.siteSection : undefined,
         };
+
   return {
     type: 'card',
     format: format as never, // TODO: This is now warning for use of any, need to specify type correctly
@@ -96,5 +101,6 @@ export function convertItemToCardProps(
           }
         : undefined,
     link: (item.promo && item.promo.link) || linkResolver(linkData),
+    siteSection: 'siteSection' in item ? item.siteSection : undefined,
   };
 }

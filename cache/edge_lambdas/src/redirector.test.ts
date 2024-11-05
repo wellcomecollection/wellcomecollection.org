@@ -34,14 +34,51 @@ const request = ({
 
 test('It returns 301 responses for URLs with defined redirects', () => {
   // Should have been redirected
+  const redirectedResponse = getRedirect(request({ uri: '/electricity/' }));
+
+  expect(redirectedResponse?.status).toEqual('301');
+  expect(redirectedResponse?.headers.location[0]).toEqual({
+    key: 'Location',
+    value: `https://wellcomecollection.org/exhibitions/electricity--the-spark-of-life`,
+  });
+});
+
+test('It returns 301 responses for articles URLs with defined redirects', () => {
+  // Should have been redirected
   const redirectedResponse = getRedirect(
-    request({ uri: '/visit-us/wellcome-café/' })
+    request({ uri: '/articles/X61xYhMAACAAX_z1' })
   );
 
   expect(redirectedResponse?.status).toEqual('301');
   expect(redirectedResponse?.headers.location[0]).toEqual({
     key: 'Location',
-    value: `https://wellcomecollection.org/pages/cafe`,
+    value: `https://wellcomecollection.org/stories/to-err-is-human`,
+  });
+});
+
+test('It returns 301 responses for previously redirected URLs with defined redirects', () => {
+  // Should have been redirected
+  const redirectedResponse = getRedirect(
+    request({ uri: '/articles/to-err-is-human' })
+  );
+
+  expect(redirectedResponse?.status).toEqual('301');
+  expect(redirectedResponse?.headers.location[0]).toEqual({
+    key: 'Location',
+    value: `https://wellcomecollection.org/stories/to-err-is-human`,
+  });
+});
+
+test('It returns 301 for articles URLs without defined redirects', () => {
+  // Should have been redirected
+  const redirectedResponse = getRedirect(
+    request({ uri: '/articles/anything' })
+  );
+
+  expect(redirectedResponse?.status).toEqual('301');
+  expect(redirectedResponse?.headers.location[0]).toEqual({
+    key: 'Location',
+    value: `https://wellcomecollection.org/stories/anything`,
   });
 });
 
@@ -53,7 +90,7 @@ test('It returns nothing for URLs without defined redirects', () => {
 test('It redirects requests from the staging site to a staging page', () => {
   const redirectedResponse = getRedirect(
     request({
-      uri: '/visit-us/wellcome-café/',
+      uri: '/electricity/',
       headers: {
         host: [{ key: 'Host', value: 'www-stage.wellcomecollection.org' }],
       },
@@ -62,7 +99,7 @@ test('It redirects requests from the staging site to a staging page', () => {
 
   expect(redirectedResponse?.headers.location[0]).toEqual({
     key: 'Location',
-    value: `https://www-stage.wellcomecollection.org/pages/cafe`,
+    value: `https://www-stage.wellcomecollection.org/exhibitions/electricity--the-spark-of-life`,
   });
 });
 

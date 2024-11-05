@@ -106,6 +106,7 @@ const tabItems = [
 ];
 
 export type Props = {
+  pageId: string;
   exhibitions: ExhibitionBasic[];
   events: EventBasic[];
   availableOnlineEvents: EventBasic[];
@@ -147,8 +148,8 @@ const ClosedMessage = () => (
       </InfoIconWrapper>
       <p className={font('intr', 5)}>
         Our exhibitions are closed today, but our{' '}
-        <a href={`/pages/${prismicPageIds.cafe}`}>café</a> and{' '}
-        <a href={`/pages/${prismicPageIds.shop}`}>shop</a> are open for your
+        <a href={`/visit-us/${prismicPageIds.cafe}`}>café</a> and{' '}
+        <a href={`/visit-us/${prismicPageIds.shop}`}>shop</a> are open for your
         visit.
       </p>
 
@@ -157,7 +158,10 @@ const ClosedMessage = () => (
       </InfoIconWrapper>
       <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
         Galleries open Tuesday–Sunday,{' '}
-        <a href={`/${prismicPageIds.openingTimes}`}>see full opening times</a>.
+        <a href={`/visit-us/${prismicPageIds.openingTimes}`}>
+          see full opening times
+        </a>
+        .
       </p>
     </InfoBox>
     <Space $v={{ size: 'l', properties: ['margin-top'] }}>
@@ -277,7 +281,7 @@ const Header: FunctionComponent<HeaderProps> = ({
                   </div>
                 )}
                 <NextLink
-                  href={`/${prismicPageIds.openingTimes}`}
+                  href={`/visit-us/${prismicPageIds.openingTimes}`}
                   className={font('intb', 5)}
                 >
                   Full opening times
@@ -376,6 +380,7 @@ export const getServerSideProps: GetServerSideProps<
 
     return {
       props: serialiseProps({
+        pageId: whatsOnPage.id,
         period,
         exhibitions,
         events: basicEvents,
@@ -393,6 +398,7 @@ export const getServerSideProps: GetServerSideProps<
 
 const WhatsOnPage: FunctionComponent<Props> = props => {
   const {
+    pageId,
     period,
     exhibitions,
     events,
@@ -437,7 +443,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
       openGraphType="website"
       siteSection="whats-on"
       image={firstExhibition && firstExhibition.promo?.image}
-      apiToolbarLinks={[createPrismicLink(prismicPageIds.whatsOn)]}
+      apiToolbarLinks={[createPrismicLink(pageId)]}
     >
       <>
         <Header
