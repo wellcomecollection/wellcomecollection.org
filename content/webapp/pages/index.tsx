@@ -37,20 +37,20 @@ import {
   orderEventsByNextAvailableDate,
 } from '@weco/content/services/prismic/events';
 import { createClient } from '@weco/content/services/prismic/fetch';
-import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
 import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
 import { fetchExhibitions } from '@weco/content/services/prismic/fetch/exhibitions';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
-import {
-  transformArticle,
-  transformArticleToArticleBasic,
-} from '@weco/content/services/prismic/transformers/articles';
+import { transformContentApiArticle } from '@weco/content/services/prismic/transformers/articles';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 import { transformEventBasic } from '@weco/content/services/prismic/transformers/events';
 import { transformExhibitionsQuery } from '@weco/content/services/prismic/transformers/exhibitions';
 import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
-import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
+import {
+  transformContentApiResponse,
+  transformQuery,
+} from '@weco/content/services/prismic/transformers/paginated-results';
+import { getArticles } from '@weco/content/services/wellcome/content/articles';
 import { ArticleBasic } from '@weco/content/types/articles';
 import {
   ContentListProps,
@@ -96,7 +96,12 @@ export const getServerSideProps: GetServerSideProps<
 
   const client = createClient(context);
 
-  const articlesQueryPromise = fetchArticles(client, { pageSize: 4 });
+  const articlesResponsePromise = getArticles({
+    params: {},
+    pageSize: 4,
+    toggles: serverData.toggles,
+  });
+
   const eventsQueryPromise = fetchEvents(client, {
     period: 'current-and-coming-up',
   });
@@ -106,20 +111,23 @@ export const getServerSideProps: GetServerSideProps<
     order: 'asc',
   });
 
-  const [exhibitionsQuery, eventsQuery, articlesQuery, pageDocument] =
+  const [articlesResponse, exhibitionsQuery, eventsQuery, pageDocument] =
     await Promise.all([
+      articlesResponsePromise,
       exhibitionsQueryPromise,
       eventsQueryPromise,
-      articlesQueryPromise,
       pagePromise,
     ]);
 
   // The homepage should always exist in Prismic.
   const page = transformPage(pageDocument as RawPagesDocument);
 
-  const articles = transformQuery(articlesQuery, transformArticle);
-  const jsonLd = articles.results.map(articleLd);
-  const basicArticles = articles.results.map(transformArticleToArticleBasic);
+  const articles = transformContentApiResponse(
+    articlesResponse,
+    transformContentApiArticle
+  ).results;
+
+  const jsonLd = articles.map(articleLd);
 
   const events = transformQuery(eventsQuery, transformEventBasic).results;
   const nextSevenDaysEvents = orderEventsByNextAvailableDate(
@@ -152,7 +160,7 @@ export const getServerSideProps: GetServerSideProps<
     return {
       props: serialiseProps({
         pageId: page.id,
-        articles: basicArticles,
+        articles,
         serverData,
         jsonLd,
         untransformedStandfirst,
