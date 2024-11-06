@@ -5,7 +5,6 @@ import {
   SeriesDocument as RawSeriesDocument,
   WebcomicsDocument as RawWebcomicsDocument,
 } from '@weco/common/prismicio-types';
-import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { ArticleFormatId } from '@weco/content/data/content-format-ids';
@@ -125,26 +124,5 @@ export function transformArticle(
           transformSeason(season as RawSeasonsDocument)
         )
       : [],
-  };
-}
-
-export function transformContentApiArticle(response) {
-  const image = response.image['16:9'] || response.image;
-
-  return {
-    type: 'articles',
-    promo: {
-      image: image && transformImage(image),
-      caption: response.caption,
-    },
-    id: response.id,
-    uid: response.uid,
-    title: response.title,
-    format: {
-      id: response.format.id,
-      title: response.format.label,
-    },
-    contributors: response.contributors,
-    series: response.series ?? [],
   };
 }

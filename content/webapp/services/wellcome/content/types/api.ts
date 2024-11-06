@@ -48,6 +48,7 @@ export type Article = {
   format: ArticleFormat;
   image?: ContentApiImage;
   caption?: string;
+  seriesTitle?: string;
 };
 
 // Event Documents
@@ -112,7 +113,7 @@ type BasicContributorInformation = {
   label?: string;
 };
 
-type Contributor = {
+export type Contributor = {
   type: 'Contributor';
   contributor?: BasicContributorInformation & {
     type: 'Person' | 'Organisation';

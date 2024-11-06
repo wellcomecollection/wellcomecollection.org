@@ -14,13 +14,3 @@ export function transformQuery<Doc extends prismic.PrismicDocument, Result>(
     results: query.results.map(resultsTransformer),
   };
 }
-
-export function transformContentApiResponse(response, resultsTransformer) {
-  return {
-    currentPage: response.page,
-    pageSize: response.pageSize,
-    totalResults: response.totalResults,
-    totalPages: response.totalPages,
-    results: response.results.map(resultsTransformer),
-  };
-}
