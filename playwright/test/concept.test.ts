@@ -34,7 +34,7 @@ const test = base.extend<{
     // Chosen because there are works both about and by this person,
     // and his label is punctuated in such a way that would break the page if
     // it is not escaped properly in the API calls.
-    await concept('d46ea7yk', context, page);
+    await concept('qe5c6x6f', context, page);
     const thackrahPage = new ConceptPage(page, 'person');
     await use(thackrahPage);
   },
