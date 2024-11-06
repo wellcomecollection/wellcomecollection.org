@@ -17,7 +17,7 @@
 /search/stories?query=human
 /search/images?query=human
 /search/works?query=human
-/concepts/n4fvtc49
+/concepts/cza334ke
 # A works search page where some results contain thumbnails
 # https://wellcome.slack.com/archives/C8X9YKM5X/p1657191146272169
 /search/works?subjects.label=Liliaceae

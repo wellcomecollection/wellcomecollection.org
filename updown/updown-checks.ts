@@ -85,7 +85,7 @@ export default [
     slackAlerts: ['alerts-channel'],
   },
   {
-    url: 'https://content.wellcomecollection.org/concepts/v3m7uhy9',
+    url: 'https://content.wellcomecollection.org/concepts/fppbxh8b',
     name: 'Concept',
     slackAlerts: ['alerts-channel'],
     apdexThreshold: 1.0, // We expect this to be a slower page
