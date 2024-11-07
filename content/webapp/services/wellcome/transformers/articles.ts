@@ -5,7 +5,7 @@ import {
 } from '@weco/content/services/wellcome/content/types/api';
 import { ArticleBasic } from '@weco/content/types/articles';
 
-export function transformContentApiArticle(response: Article): Omit<
+export function transformArticle(response: Article): Omit<
   ArticleBasic,
   'series' | 'datePublished' | 'labels'
 > & {
