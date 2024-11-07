@@ -32,14 +32,14 @@ import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
 import { fetchStoriesLanding } from '@weco/content/services/prismic/fetch/stories-landing';
-import {
-  transformArticle,
-  transformArticleToArticleBasic,
-} from '@weco/content/services/prismic/transformers/articles';
+import { transformArticle } from '@weco/content/services/prismic/transformers/articles';
 import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import { transformSeriesToSeriesBasic } from '@weco/content/services/prismic/transformers/series';
 import { transformStoriesLanding } from '@weco/content/services/prismic/transformers/stories-landing';
+import { getArticles } from '@weco/content/services/wellcome/content/articles';
+import { transformContentApiArticle } from '@weco/content/services/wellcome/transformers/articles';
+import { transformPaginatedResults } from '@weco/content/services/wellcome/transformers/paginated-results';
 import { ArticleBasic } from '@weco/content/types/articles';
 import { Series, SeriesBasic } from '@weco/content/types/series';
 import { StoriesLanding } from '@weco/content/types/stories-landing';
@@ -97,9 +97,6 @@ export const getServerSideProps: GetServerSideProps<
   setCacheControl(context.res);
   const serverData = await getServerData(context);
   const client = createClient(context);
-  const articlesQueryPromise = fetchArticles(client, {
-    filters: prismic.filter.not('my.articles.format', ArticleFormatIds.Comic),
-  });
 
   const comicsQueryPromise = fetchArticles(client, {
     pageSize: 100, // we need enough comics to make sure we have at least one from three different series
@@ -107,14 +104,22 @@ export const getServerSideProps: GetServerSideProps<
   });
 
   const storiesLandingPromise = fetchStoriesLanding(client);
+  const articlesResponsePromise = getArticles({
+    params: {},
+    pageSize: 11,
+    toggles: serverData.toggles,
+  });
 
-  const [articlesQuery, storiesLandingDoc, comicsQuery] = await Promise.all([
-    articlesQueryPromise,
+  const [articlesResponse, storiesLandingDoc, comicsQuery] = await Promise.all([
+    articlesResponsePromise,
     storiesLandingPromise,
     comicsQueryPromise,
   ]);
 
-  const articles = transformQuery(articlesQuery, transformArticle);
+  const articles = transformPaginatedResults(
+    articlesResponse,
+    transformContentApiArticle
+  ).results;
 
   // In order to avoid the case where we end up with an empty comic series,
   // rather than querying for the series itself we query for the individual
@@ -137,16 +142,15 @@ export const getServerSideProps: GetServerSideProps<
     transformSeriesToSeriesBasic
   );
 
-  const jsonLd = articles.results.map(articleLd);
-  const basicArticles = articles.results.map(transformArticleToArticleBasic);
+  const jsonLd = articles.map(articleLd);
   const storiesLanding =
     storiesLandingDoc &&
     transformStoriesLanding(storiesLandingDoc as RawStoriesLandingDocument);
 
-  if (articles && articles.results) {
+  if (articles) {
     return {
       props: serialiseProps({
-        articles: basicArticles,
+        articles,
         comicSeries: basicComicSeries,
         serverData,
         jsonLd,
