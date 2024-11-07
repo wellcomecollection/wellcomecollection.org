@@ -47,7 +47,7 @@ import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
-import { transformContentApiArticle } from '@weco/content/services/wellcome/transformers/articles';
+import { transformArticle } from '@weco/content/services/wellcome/transformers/articles';
 import { transformPaginatedResults } from '@weco/content/services/wellcome/transformers/paginated-results';
 import { ArticleBasic } from '@weco/content/types/articles';
 import {
@@ -122,7 +122,7 @@ export const getServerSideProps: GetServerSideProps<
 
   const articles = transformPaginatedResults(
     articlesResponse,
-    transformContentApiArticle
+    transformArticle
   ).results;
 
   const jsonLd = articles.map(articleLd);
