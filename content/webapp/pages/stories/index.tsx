@@ -32,13 +32,13 @@ import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
 import { fetchStoriesLanding } from '@weco/content/services/prismic/fetch/stories-landing';
-import { transformArticle } from '@weco/content/services/prismic/transformers/articles';
+import { transformArticle as transformPrismicArticle } from '@weco/content/services/prismic/transformers/articles';
 import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import { transformSeriesToSeriesBasic } from '@weco/content/services/prismic/transformers/series';
 import { transformStoriesLanding } from '@weco/content/services/prismic/transformers/stories-landing';
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
-import { transformContentApiArticle } from '@weco/content/services/wellcome/transformers/articles';
+import { transformArticle } from '@weco/content/services/wellcome/transformers/articles';
 import { transformPaginatedResults } from '@weco/content/services/wellcome/transformers/paginated-results';
 import { ArticleBasic } from '@weco/content/types/articles';
 import { Series, SeriesBasic } from '@weco/content/types/series';
@@ -118,7 +118,7 @@ export const getServerSideProps: GetServerSideProps<
 
   const articles = transformPaginatedResults(
     articlesResponse,
-    transformContentApiArticle
+    transformArticle
   ).results;
 
   // In order to avoid the case where we end up with an empty comic series,
@@ -126,7 +126,7 @@ export const getServerSideProps: GetServerSideProps<
   // comics, then group them by series and stop once we've got to three. That
   // way we can be confident each of the three series that we have contains at
   // least one comic.
-  const comics = transformQuery(comicsQuery, transformArticle);
+  const comics = transformQuery(comicsQuery, transformPrismicArticle);
   const comicSeries = new Map<string, Series>();
   for (const comic of comics.results) {
     const series = comic.series[0];
