@@ -14,9 +14,6 @@ updates:
         update-types: ['version-update:semver-patch'] # Ignore all patch updates for version updates only
       # We are looking at updating Chromatic, so don't tell us about it. Remove this once we've upgraded.
       - dependency-name: 'chromatic*'
-      # Bigger piece, has a ticket to upgrade. Remove this once it's done.
-      - dependency-name: 'next'
-      - dependency-name: '@next*'
       # Needs to be done carefully, has its own ticket. Remove this once it's done.
       - dependency-name: 'slice-machine-ui'
       - dependency-name: '@slicemachine'
