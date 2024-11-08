@@ -96,6 +96,11 @@ export async function createApp(): Promise<Koa> {
     ctx.respond = false;
   });
 
+  app.use(async (ctx, next) => {
+    ctx.res.statusCode = 200;
+    await next();
+  });
+
   app.use(router.routes()).use(router.allowedMethods());
 
   process.on('SIGINT', async () => {
