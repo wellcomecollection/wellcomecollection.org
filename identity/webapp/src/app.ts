@@ -96,6 +96,9 @@ export async function createApp(): Promise<Koa> {
     ctx.respond = false;
   });
 
+  // Upgrading next passed 13.5.1 led to an issue with the incorrect status code being returned
+  // So we do it explicitly here
+  // See https://github.com/vercel/next.js/issues/65691 for similar
   app.use(async (ctx, next) => {
     ctx.res.statusCode = 200;
     await next();
