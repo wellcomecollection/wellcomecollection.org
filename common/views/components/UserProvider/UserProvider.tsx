@@ -66,7 +66,7 @@ const UserProvider: FunctionComponent<PropsWithChildren> = ({ children }) => {
               const userData = auth0UserProfileToUserInfo(data);
               setUser(userData);
               setUserIsStaffWithRestricted(
-                userData?.role === 'StaffWithRestriced'
+                userData?.role === 'StaffWithRestricted'
               );
               setState('signedin');
             }
