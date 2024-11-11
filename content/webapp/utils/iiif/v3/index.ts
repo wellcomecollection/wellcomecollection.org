@@ -368,13 +368,13 @@ export function getAuthServices({
 }
 
 export function getIframeTokenSrc({
-  role,
+  userIsStaffWithRestricted,
   workId,
   origin,
   auth,
   authV2,
 }: {
-  role?: string;
+  userIsStaffWithRestricted: boolean;
   workId: string;
   origin?: string;
   auth: Auth | undefined;
@@ -387,7 +387,7 @@ export function getIframeTokenSrc({
   const useV2TokenService =
     (authServices?.external?.id ===
       'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin' &&
-      role === 'StaffWithRestricted') ||
+      userIsStaffWithRestricted) ||
     authV2;
   if (useV2TokenService && auth?.v2.tokenService) {
     return `${auth.v2.tokenService.id}?messageId=${workId}&origin=${origin}`;
@@ -397,19 +397,19 @@ export function getIframeTokenSrc({
 }
 
 type checkModalParams = {
-  role?: string;
+  userIsStaffWithRestricted: boolean;
   auth?: Auth;
   isAnyImageOpen?: boolean;
   authV2?: boolean;
 };
 
 export function checkModalRequired(params: checkModalParams): boolean {
-  const { role, auth, isAnyImageOpen, authV2 } = params;
+  const { userIsStaffWithRestricted, auth, isAnyImageOpen, authV2 } = params;
   const authServices = getAuthServices({ auth, authV2 });
   if (authServices?.active) {
     return true;
   } else if (authServices?.external) {
-    if (isAnyImageOpen || role === 'StaffWithRestricted') {
+    if (isAnyImageOpen || userIsStaffWithRestricted) {
       return false;
     } else {
       return true;
