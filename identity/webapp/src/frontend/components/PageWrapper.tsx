@@ -30,11 +30,11 @@ export const PageWrapper: FunctionComponent<PropsWithChildren<Props>> = ({
   const { isEnhanced } = useContext(AppContext);
   const { collectionVenues } = usePrismicData();
   const venues = transformCollectionVenues(collectionVenues);
-
+  const fullTitle = `${title} | Wellcome Collection`;
   return (
     <>
       <Head>
-        <title>{title} | Wellcome Collection</title>
+        <title>{fullTitle}</title>
         <Favicons />
       </Head>
       <GlobalStyle isFontsLoaded={useIsFontsLoaded()} />
