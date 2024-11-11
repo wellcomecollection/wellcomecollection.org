@@ -108,7 +108,13 @@ export const getServerSideProps: GetServerSideProps<
   const { pageId } = context.query;
   const siteSection = toMaybeString(context.params?.siteSection);
 
-  if (!looksLikePrismicId(pageId)) {
+  // We don't allow e.g. /visit-us/visit-us as it's a landing page
+  // Should only display on /visit-us
+  const isLandingPageRenderingAsSubPage =
+    pageId === siteSection &&
+    context.resolvedUrl.indexOf(`/${siteSection}/${pageId}`) === 0;
+
+  if (!looksLikePrismicId(pageId) || isLandingPageRenderingAsSubPage) {
     return { notFound: true };
   }
 
@@ -123,10 +129,16 @@ export const getServerSideProps: GetServerSideProps<
       const basicDocSiteSection = basicDocument.tags.find(t =>
         isSiteSection(t)
       );
+      const isLandingPage = basicDocSiteSection === pageId;
+
+      const redirectUrl =
+        isLandingPage || !basicDocSiteSection
+          ? `/${pageId}`
+          : `/${basicDocSiteSection}/${pageId}`;
 
       return {
         redirect: {
-          destination: `${basicDocSiteSection ? '/' + basicDocSiteSection : ''}/${basicDocument.uid}`,
+          destination: redirectUrl,
           permanent: false,
         },
       };

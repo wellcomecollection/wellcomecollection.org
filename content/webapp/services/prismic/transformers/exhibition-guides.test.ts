@@ -213,7 +213,6 @@ describe('transformExhibitionGuide', () => {
   it('returns a set of components', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const exhibition = transformExhibitionGuide(exhibitionGuidesDoc as any);
-    console.log(exhibition.components.length, 'the exhibition');
     expect(exhibition.components.length).toBe(2);
   });
 });

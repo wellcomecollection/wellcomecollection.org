@@ -170,7 +170,7 @@ function detectIncorrectAudioVideoDuration(doc: any): string[] {
     )
     .map(
       e =>
-        `The audio_duration for should be in the format xx:xx but it is ${e.primary.audio_duration}`
+        `The audio_duration for "${e.primary.title[0].text}" should be in the format xx:xx but it is ${e.primary.audio_duration}`
     );
   const videoErrors = guideStopSlices
     .filter(
@@ -180,7 +180,7 @@ function detectIncorrectAudioVideoDuration(doc: any): string[] {
     )
     .map(
       e =>
-        `The video_duration for should be in the format xx:xx but it is ${e.primary.video_duration}`
+        `The video_duration for "${e.primary.title[0].text}" should be in the format xx:xx but it is ${e.primary.video_duration}`
     );
 
   return [...audioErrors, ...videoErrors];

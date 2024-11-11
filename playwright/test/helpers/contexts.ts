@@ -84,9 +84,7 @@ const stageApiToggleCookie = createCookie({
   value: 'true',
 });
 
-// TODO: context.addCookies should run for the first test of a suite (even on beforeAll/beforeEach)
-
-const requiredCookies = useStageApis
+export const requiredCookies = useStageApis
   ? [acceptCookieCookie, stageApiToggleCookie]
   : [acceptCookieCookie];
 
