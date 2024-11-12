@@ -43,13 +43,11 @@ import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 import { transformEventBasic } from '@weco/content/services/prismic/transformers/events';
 import { transformExhibitionsQuery } from '@weco/content/services/prismic/transformers/exhibitions';
-import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { articleLdContentApi } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
-import { transformArticle } from '@weco/content/services/wellcome/transformers/articles';
-import { transformPaginatedResults } from '@weco/content/services/wellcome/transformers/paginated-results';
-import { ArticleBasic } from '@weco/content/types/articles';
+import { Article } from '@weco/content/services/wellcome/content/types/api';
 import {
   ContentListProps,
   isContentList,
@@ -71,7 +69,7 @@ type Props = {
   pageId: string;
   exhibitions: ExhibitionBasic[];
   nextSevenDaysEvents: EventBasic[];
-  articles: ArticleBasic[];
+  articles: Article[];
   jsonLd: JsonLdObj[];
   untransformedStandfirst?: RawStandfirstSlice;
   transformedHeaderList: Slice<'contentList', ContentListProps> | null;
@@ -120,12 +118,10 @@ export const getServerSideProps: GetServerSideProps<
   // The homepage should always exist in Prismic.
   const page = transformPage(pageDocument as RawPagesDocument);
 
-  const articles = transformPaginatedResults(
-    articlesResponse,
-    transformArticle
-  ).results;
+  const articles =
+    articlesResponse.type === 'ResultList' ? articlesResponse.results : [];
 
-  const jsonLd = articles.map(articleLd);
+  const jsonLd = articles.map(articleLdContentApi);
 
   const events = transformQuery(eventsQuery, transformEventBasic).results;
   const nextSevenDaysEvents = orderEventsByNextAvailableDate(
