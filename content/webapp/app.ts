@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-var-requires, import/first */
 // This needs to be the first module loaded in the application
 require('@weco/common/services/apm/initApm')('content-server');
+import Router from '@koa/router';
 import * as prismic from '@prismicio/client';
 import Koa from 'koa';
-import Router from 'koa-router';
 import next from 'next';
 
 import {
@@ -88,7 +88,7 @@ const appPromise = nextApp
       ctx.redirect(url);
     });
 
-    router.all('*', handleAllRoute(handle));
+    router.all('(.*)', handleAllRoute(handle));
 
     koaApp.use(async (ctx, next) => {
       ctx.res.statusCode = 200;
