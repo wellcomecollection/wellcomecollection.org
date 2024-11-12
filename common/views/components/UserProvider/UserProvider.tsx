@@ -16,13 +16,15 @@ import {
 export type State = 'initial' | 'loading' | 'signedin' | 'signedout' | 'failed';
 
 type Props = {
-  user: UserInfo | undefined;
+  user?: UserInfo;
+  userIsStaffWithRestricted: boolean;
   state: State;
   reload: (abortSignal?: AbortSignal) => Promise<void>;
 };
 
 const defaultUserContext: Props = {
   user: undefined,
+  userIsStaffWithRestricted: false,
   state: 'initial',
   reload: async () => undefined,
 };
@@ -36,6 +38,8 @@ export function useUser(): Props {
 
 const UserProvider: FunctionComponent<PropsWithChildren> = ({ children }) => {
   const [user, setUser] = useState<UserInfo>();
+  const [userIsStaffWithRestricted, setUserIsStaffWithRestricted] =
+    useState(false);
   const [state, setState] = useState<State>('initial');
 
   const fetchUser = async (abortSignal?: AbortSignal, refetch = false) => {
@@ -59,7 +63,11 @@ const UserProvider: FunctionComponent<PropsWithChildren> = ({ children }) => {
             // There is a race condition here where the cancel can happen
             // after the fetch has finished but before the response has been deserialised
             if (!abortSignal?.aborted) {
-              setUser(auth0UserProfileToUserInfo(data));
+              const userData = auth0UserProfileToUserInfo(data);
+              setUser(userData);
+              setUserIsStaffWithRestricted(
+                userData?.role === 'StaffWithRestricted'
+              );
               setState('signedin');
             }
           } else {
@@ -92,6 +100,7 @@ const UserProvider: FunctionComponent<PropsWithChildren> = ({ children }) => {
     <UserContext.Provider
       value={{
         user,
+        userIsStaffWithRestricted,
         state,
         reload: (abortSignal?: AbortSignal) => fetchUser(abortSignal, true),
       }}

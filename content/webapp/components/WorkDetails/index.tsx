@@ -62,7 +62,7 @@ const WorkDetails: FunctionComponent<Props> = ({
   digitalLocationInfo,
   transformedManifest,
 }: Props) => {
-  const { user } = useUser();
+  const { userIsStaffWithRestricted } = useUser();
   const isArchive = useContext(IsArchiveContext);
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
   const { canvases, rendering, bornDigitalStatus } = {
@@ -158,7 +158,7 @@ const WorkDetails: FunctionComponent<Props> = ({
 
   const treatAsRestricted =
     digitalLocationInfo?.accessCondition === 'restricted' &&
-    user?.role !== 'StaffWithRestricted';
+    !userIsStaffWithRestricted;
 
   const showAvailableOnlineSection =
     ((digitalLocation && shouldShowItemLink) ||

@@ -72,8 +72,7 @@ export const WorkPage: NextPage<Props> = ({
   transformedManifest,
 }) => {
   useHotjar(true);
-  const { user } = useUser();
-  const role = user?.role;
+  const { userIsStaffWithRestricted } = useUser();
   const isArchive = !!(
     work.parts.length ||
     (work.partOf.length > 0 && work.partOf[0].totalParts)
@@ -98,7 +97,7 @@ export const WorkPage: NextPage<Props> = ({
   const allOriginalPdfs = isAllOriginalPdfs(canvases || []);
 
   const shouldShowItemLink = showItemLink({
-    role,
+    userIsStaffWithRestricted,
     allOriginalPdfs,
     hasIIIFManifest: !!transformedManifest,
     digitalLocation,

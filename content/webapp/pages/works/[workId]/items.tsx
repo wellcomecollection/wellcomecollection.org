@@ -127,8 +127,7 @@ const ItemPage: NextPage<Props> = ({
   parentManifest,
 }) => {
   useHotjar(true);
-  const { user } = useUser();
-  const role = user?.role;
+  const { userIsStaffWithRestricted } = useUser();
   const { authV2 } = useToggles();
   const transformedManifest =
     compressedTransformedManifest &&
@@ -143,7 +142,7 @@ const ItemPage: NextPage<Props> = ({
   };
 
   const needsModal = checkModalRequired({
-    role,
+    userIsStaffWithRestricted,
     auth,
     isAnyImageOpen,
     authV2,
@@ -167,7 +166,7 @@ const ItemPage: NextPage<Props> = ({
     ((authV2 && auth?.v2.tokenService) || (!authV2 && auth?.v1.tokenService)) &&
     origin;
   const tryAndGetRestrictedAuthCookie =
-    role === 'StaffWithRestricted' &&
+    userIsStaffWithRestricted &&
     authServices?.external?.id ===
       'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin';
   // showViewer is true by default, so the noScriptViewer is available without javascript
@@ -203,7 +202,7 @@ const ItemPage: NextPage<Props> = ({
     function receiveMessage(event: MessageEvent) {
       const data = event.data;
       const tokenService = getIframeTokenSrc({
-        role,
+        userIsStaffWithRestricted,
         workId: work.id,
         origin: window.origin,
         auth,
@@ -253,7 +252,7 @@ const ItemPage: NextPage<Props> = ({
           id={iframeId}
           title="Authentication"
           src={getIframeTokenSrc({
-            role,
+            userIsStaffWithRestricted,
             workId: work.id,
             origin,
             auth,
