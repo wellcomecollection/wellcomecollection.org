@@ -4,19 +4,16 @@ import styled from 'styled-components';
 import { ImageType } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { font, grid } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import DateRange from '@weco/content/components/DateRange/DateRange';
-import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
 import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
-import {
-  ArticleBasic,
-  getArticleColor,
-  getPartNumberInSeries,
-} from '@weco/content/types/articles';
+import { Article } from '@weco/content/services/wellcome/content/types/api';
+import { ArticleBasic } from '@weco/content/types/articles';
 import { BookBasic } from '@weco/content/types/books';
 import { Card } from '@weco/content/types/card';
 import { EventSeries } from '@weco/content/types/event-series';
@@ -89,44 +86,29 @@ export function convertItemToFeaturedCardProps(
 }
 
 type FeaturedCardArticleProps = {
-  article: ArticleBasic;
+  article: Article;
   background: PaletteColor;
   textColor: PaletteColor;
 };
 
 type FeaturedCardArticleBodyProps = {
-  article: ArticleBasic;
+  article: Article;
 };
 
 // TODO: make this e.g. just `CardArticleBody` and work it back into the existing promos/cards
 const FeaturedCardArticleBody: FunctionComponent<
   FeaturedCardArticleBodyProps
 > = ({ article }) => {
-  const partNumber = getPartNumberInSeries(article);
-  const seriesColor = getArticleColor(article);
   return (
     <>
-      {partNumber && (
-        <PartNumberIndicator
-          number={partNumber}
-          backgroundColor={seriesColor}
-        />
-      )}
       <h2 className={font('wb', 2)}>{article.title}</h2>
-      {article.promo?.caption && (
-        <p className={font('intr', 5)}>{article.promo?.caption}</p>
-      )}
-      {article.series.length > 0 && (
+      {article.caption && <p className={font('intr', 5)}>{article.caption}</p>}
+      {article.seriesTitle && (
         <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-          {article.series.map(series => (
-            <p
-              key={series.title}
-              className={font('intb', 6)}
-              style={{ marginBottom: 0 }}
-            >
-              <span className={font('intr', 6)}>Part of</span> {series.title}
-            </p>
-          ))}
+          <p className={font('intb', 6)} style={{ marginBottom: 0 }}>
+            <span className={font('intr', 6)}>Part of</span>{' '}
+            {article.seriesTitle}
+          </p>
         </Space>
       )}
     </>
@@ -303,10 +285,24 @@ const FeaturedCard: FunctionComponent<PropsWithChildren<Props>> = ({
 export const FeaturedCardArticle: FunctionComponent<
   FeaturedCardArticleProps
 > = ({ article, background, textColor }) => {
-  const props = convertItemToFeaturedCardProps(article);
-
+  const promoImage = article.image?.['16:9'] || article.image;
+  const image = promoImage && {
+    ...transformImage(promoImage),
+    alt: '',
+  };
+  const link = {
+    url: linkResolver({ type: 'articles', uid: article.uid }),
+    text: article.title,
+  };
+  const labels = [{ text: article.format.label }];
   return (
-    <FeaturedCard {...props} background={background} textColor={textColor}>
+    <FeaturedCard
+      image={image}
+      link={link}
+      labels={labels}
+      background={background}
+      textColor={textColor}
+    >
       <FeaturedCardArticleBody article={article} />
     </FeaturedCard>
   );

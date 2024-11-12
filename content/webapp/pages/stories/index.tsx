@@ -7,6 +7,7 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 import { StoriesLandingDocument as RawStoriesLandingDocument } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
+import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { serialiseProps } from '@weco/common/utils/json';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
@@ -27,26 +28,24 @@ import { FeaturedCardArticle } from '@weco/content/components/FeaturedCard/Featu
 import FeaturedText from '@weco/content/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
 import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
-import StoryPromo from '@weco/content/components/StoryPromo/StoryPromo';
+import StoryPromoContentApi from '@weco/content/components/StoryPromo/StoryPromoContentApi';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
 import { fetchStoriesLanding } from '@weco/content/services/prismic/fetch/stories-landing';
 import { transformArticle as transformPrismicArticle } from '@weco/content/services/prismic/transformers/articles';
-import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { articleLdContentApi } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import { transformSeriesToSeriesBasic } from '@weco/content/services/prismic/transformers/series';
 import { transformStoriesLanding } from '@weco/content/services/prismic/transformers/stories-landing';
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
-import { transformArticle } from '@weco/content/services/wellcome/transformers/articles';
-import { transformPaginatedResults } from '@weco/content/services/wellcome/transformers/paginated-results';
-import { ArticleBasic } from '@weco/content/types/articles';
+import { Article } from '@weco/content/services/wellcome/content/types/api';
 import { Series, SeriesBasic } from '@weco/content/types/series';
 import { StoriesLanding } from '@weco/content/types/stories-landing';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 type Props = {
-  articles: ArticleBasic[];
+  articles: Article[];
   comicSeries: SeriesBasic[];
   storiesLanding: StoriesLanding;
   jsonLd: JsonLdObj[];
@@ -116,10 +115,8 @@ export const getServerSideProps: GetServerSideProps<
     comicsQueryPromise,
   ]);
 
-  const articles = transformPaginatedResults(
-    articlesResponse,
-    transformArticle
-  ).results;
+  const articles =
+    articlesResponse.type === 'ResultList' ? articlesResponse.results : [];
 
   // In order to avoid the case where we end up with an empty comic series,
   // rather than querying for the series itself we query for the individual
@@ -142,7 +139,7 @@ export const getServerSideProps: GetServerSideProps<
     transformSeriesToSeriesBasic
   );
 
-  const jsonLd = articles.map(articleLd);
+  const jsonLd = articles.map(articleLdContentApi);
   const storiesLanding =
     storiesLandingDoc &&
     transformStoriesLanding(storiesLandingDoc as RawStoriesLandingDocument);
@@ -179,7 +176,7 @@ const StoriesPage: FunctionComponent<Props> = ({
       jsonLd={jsonLd}
       openGraphType="website"
       siteSection="stories"
-      image={firstArticle && firstArticle.image}
+      image={firstArticle && transformImage(firstArticle.image)}
       rssUrl="https://rss.wellcomecollection.org/stories"
       apiToolbarLinks={[createPrismicLink(storiesLanding.id)]}
     >
@@ -221,7 +218,7 @@ const StoriesPage: FunctionComponent<Props> = ({
                   return (
                     <div className="grid__cell" key={article.id}>
                       <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-                        <StoryPromo article={article} />
+                        <StoryPromoContentApi article={article} />
                       </Space>
                     </div>
                   );
