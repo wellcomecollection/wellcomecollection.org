@@ -76,8 +76,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
   highlightImage,
 }: IIIFCanvasThumbnailProps) => {
   const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
-  const { user } = useUser();
-  const role = user?.role;
+  const { userIsStaffWithRestricted } = useUser();
   const isRestricted = canvas.hasRestrictedImage;
   const urlTemplate = canvas.imageServiceId
     ? iiifImageTemplate(canvas.imageServiceId)
@@ -90,7 +89,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
           {!thumbnailLoaded && !isRestricted && (
             <LL $small={true} $lighten={true} />
           )}
-          {isRestricted && role !== 'StaffWithRestricted' ? (
+          {isRestricted && !userIsStaffWithRestricted ? (
             <>
               <Padlock />
               <span className="visually-hidden">
