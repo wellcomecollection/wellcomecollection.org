@@ -35,7 +35,7 @@ export function isVideoEmbed(slice: prismic.Slice): slice is RawEmbedSlice {
 export function isEditorialImage(
   slice: prismic.Slice
 ): slice is RawEditorialImageSlice {
-  return slice.slice_type === 'picture';
+  return slice.slice_type === 'editorialImage';
 }
 
 export type ContentListItems =
