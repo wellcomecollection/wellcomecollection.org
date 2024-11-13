@@ -3850,6 +3850,17 @@ interface PagesDocumentData {
   showOnThisPage: prismic.BooleanField;
 
   /**
+   * Featured text field in *Page*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Introductory/important text to appear near the top of the page
+   * - **API ID Path**: pages.featuredText
+   * - **Tab**: Page
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  featuredText: prismic.RichTextField;
+
+  /**
    * Slice Zone field in *Page*
    *
    * - **Field Type**: Slice Zone
@@ -7201,6 +7212,17 @@ declare module '@prismicio/client' {
       repositoryNameOrEndpoint: string,
       options?: prismic.ClientConfig
     ): prismic.Client<AllDocumentTypes>;
+  }
+
+  interface CreateWriteClient {
+    (
+      repositoryNameOrEndpoint: string,
+      options: prismic.WriteClientConfig
+    ): prismic.WriteClient<AllDocumentTypes>;
+  }
+
+  interface CreateMigration {
+    (): prismic.Migration<AllDocumentTypes>;
   }
 
   namespace Content {
