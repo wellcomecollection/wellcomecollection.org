@@ -16,10 +16,6 @@ updates:
       - dependency-name: 'chromatic*'
       # Needs more work, has its own ticket. Remove this once it's done.
       - dependency-name: 'eslint*'
-      # Needs untangling, has its own ticket. Remove this once it's done.
-      - dependency-name: '@types/koa*'
-      - dependency-name: 'koa*'
-      - dependency-name: '@koa*'
     groups:
       all:
         patterns: ['*']
