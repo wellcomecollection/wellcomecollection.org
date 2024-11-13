@@ -25,7 +25,6 @@ import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
 import SeriesNavigation from '@weco/content/components/SeriesNavigation/SeriesNavigation';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   fetchArticle,
@@ -165,7 +164,6 @@ const HTMLDateWrapper = styled.span.attrs({ className: font('intr', 6) })`
 `;
 
 const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
-  useHotjar(true);
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
 
   useEffect(() => {
