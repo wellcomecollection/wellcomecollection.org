@@ -257,7 +257,7 @@ export const Page: FunctionComponent<Props> = ({
     <VideoEmbed {...transformFeaturedVideo.value} />
   ) : undefined;
 
-  const sectionLevelPage = sectionLevelPages.includes(page.id);
+  const sectionLevelPage = sectionLevelPages.includes(page.uid);
 
   function getBreadcrumbText(siteSection: string): string {
     return isLanding
