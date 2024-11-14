@@ -42,6 +42,15 @@
           "placeholder": ""
         }
       },
+      "introText": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Intro text",
+          "placeholder": "Introductory/important text to appear near the top of the page",
+          "allowTargetBlank": false,
+          "multi": "paragraph,strong,em,hyperlink"
+        }
+      },
       "body": {
         "type": "Slices",
         "fieldset": "Slice Zone",

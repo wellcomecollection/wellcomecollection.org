@@ -27,6 +27,7 @@ const exampleTextSlice = {
 export const pageWithoutBody: RawPagesDocument = {
   ...emptyDocumentWithUid<RawPagesDocument>({
     title: [],
+    introText: exampleTextSlice.primary.text,
     datePublished: null,
     showOnThisPage: false,
     metadataDescription: exampleTextSlice.primary.text,

@@ -1,3 +1,5 @@
+import type * as prismic from '@prismicio/client';
+
 import { SiteSection } from '@weco/common/model/site-section';
 
 import { Contributor } from './contributors';
@@ -13,6 +15,7 @@ export type ParentPage = Page & {
 
 export type Page = GenericContentFields & {
   type: 'pages';
+  introText?: prismic.RichTextField;
   uid: string;
   format: Format | undefined;
   seasons: Season[];

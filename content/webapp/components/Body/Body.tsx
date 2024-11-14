@@ -84,6 +84,7 @@ export const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
 
 export type Props = {
   untransformedBody: prismic.Slice[];
+  introText?: prismic.RichTextField;
   onThisPage?: Link[];
   showOnThisPage?: boolean;
   isDropCapped?: boolean;
@@ -146,6 +147,7 @@ export const defaultContext: SliceZoneContext = {
 
 const Body: FunctionComponent<Props> = ({
   untransformedBody,
+  introText,
   onThisPage,
   showOnThisPage,
   isDropCapped,
@@ -157,25 +159,9 @@ const Body: FunctionComponent<Props> = ({
   comicPreviousNext,
   contentType,
 }: Props) => {
-  const isFirstFeaturedTextSliceFromUntransformedBody = (slice, i) =>
-    i === 0 && slice.slice_type === 'text' && slice.slice_label === 'featured';
-
-  const featuredTextFromUntransformedBody = untransformedBody.find(
-    isFirstFeaturedTextSliceFromUntransformedBody
-  ) as prismic.Slice<'text', { text: prismic.RichTextField }>;
-
-  const filteredUntransformedBody = untransformedBody
-    .filter(
-      (slice, i) => !isFirstFeaturedTextSliceFromUntransformedBody(slice, i)
-    )
-    .filter(
-      slice =>
-        !(
-          slice.slice_type === 'editorialImage' &&
-          slice.slice_label === 'featured'
-        )
-    )
-    .filter(slice => slice.slice_type !== 'standfirst');
+  const filteredUntransformedBody = untransformedBody.filter(
+    slice => slice.slice_type !== 'standfirst'
+  );
 
   const firstTextSliceIndex = filteredUntransformedBody
     .map(slice => slice.slice_type)
@@ -317,7 +303,7 @@ const Body: FunctionComponent<Props> = ({
       className={`content-type-${contentType}`}
       $splitBackground={isShortFilm}
     >
-      {featuredTextFromUntransformedBody && (
+      {introText && (
         <ContaineredLayout gridSizes={gridSize8(!sectionLevelPage)}>
           <div className="body-text spaced-text">
             <Space
@@ -327,7 +313,7 @@ const Body: FunctionComponent<Props> = ({
               }}
             >
               <FeaturedText
-                html={featuredTextFromUntransformedBody.primary.text}
+                html={introText}
                 htmlSerializer={defaultSerializer}
               />
             </Space>
