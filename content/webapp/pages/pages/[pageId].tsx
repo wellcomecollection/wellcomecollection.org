@@ -388,7 +388,7 @@ export const Page: FunctionComponent<Props> = ({
           <Body
             untransformedBody={untransformedBody}
             pageId={page.id}
-            featuredText={page.featuredText}
+            introText={page.introText}
             onThisPage={page.onThisPage}
             showOnThisPage={page.showOnThisPage}
             isLanding={isLanding}

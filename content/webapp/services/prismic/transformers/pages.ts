@@ -55,7 +55,7 @@ export function transformPage(document: RawPagesDocument): Page {
       })
     : [];
 
-  const featuredText = data?.featuredText;
+  const introText = data?.introText;
   const siteSections = headerLinks.map(link => link.siteSection);
   const siteSection = document.tags.find(tag =>
     siteSections.includes(tag as SiteSection)
@@ -98,7 +98,7 @@ export function transformPage(document: RawPagesDocument): Page {
     uid: document.uid,
     format: transformFormat(document),
     ...genericFields,
-    featuredText,
+    introText,
     metadataDescription,
     seasons,
     contributors,

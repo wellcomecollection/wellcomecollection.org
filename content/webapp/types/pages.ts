@@ -15,7 +15,7 @@ export type ParentPage = Page & {
 
 export type Page = GenericContentFields & {
   type: 'pages';
-  featuredText?: prismic.RichTextField;
+  introText?: prismic.RichTextField;
   uid: string;
   format: Format | undefined;
   seasons: Season[];

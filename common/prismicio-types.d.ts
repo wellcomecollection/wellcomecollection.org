@@ -3850,15 +3850,15 @@ interface PagesDocumentData {
   showOnThisPage: prismic.BooleanField;
 
   /**
-   * Featured text field in *Page*
+   * Intro text field in *Page*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: Introductory/important text to appear near the top of the page
-   * - **API ID Path**: pages.featuredText
+   * - **API ID Path**: pages.introText
    * - **Tab**: Page
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  featuredText: prismic.RichTextField;
+  introText: prismic.RichTextField;
 
   /**
    * Slice Zone field in *Page*

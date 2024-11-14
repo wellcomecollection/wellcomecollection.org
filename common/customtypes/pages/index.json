@@ -42,10 +42,10 @@
           "placeholder": ""
         }
       },
-      "featuredText": {
+      "introText": {
         "type": "StructuredText",
         "config": {
-          "label": "Featured text",
+          "label": "Intro text",
           "placeholder": "Introductory/important text to appear near the top of the page",
           "allowTargetBlank": false,
           "multi": "paragraph,strong,em,hyperlink"

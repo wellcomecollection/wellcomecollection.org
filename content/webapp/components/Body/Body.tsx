@@ -84,7 +84,7 @@ export const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
 
 export type Props = {
   untransformedBody: prismic.Slice[];
-  featuredText?: prismic.RichTextField;
+  introText?: prismic.RichTextField;
   onThisPage?: Link[];
   showOnThisPage?: boolean;
   isDropCapped?: boolean;
@@ -147,7 +147,7 @@ export const defaultContext: SliceZoneContext = {
 
 const Body: FunctionComponent<Props> = ({
   untransformedBody,
-  featuredText,
+  introText,
   onThisPage,
   showOnThisPage,
   isDropCapped,
@@ -303,7 +303,7 @@ const Body: FunctionComponent<Props> = ({
       className={`content-type-${contentType}`}
       $splitBackground={isShortFilm}
     >
-      {featuredText && (
+      {introText && (
         <ContaineredLayout gridSizes={gridSize8(!sectionLevelPage)}>
           <div className="body-text spaced-text">
             <Space
@@ -313,7 +313,7 @@ const Body: FunctionComponent<Props> = ({
               }}
             >
               <FeaturedText
-                html={featuredText}
+                html={introText}
                 htmlSerializer={defaultSerializer}
               />
             </Space>
