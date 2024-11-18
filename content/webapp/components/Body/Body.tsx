@@ -268,7 +268,7 @@ const Body: FunctionComponent<Props> = ({
                 <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
                   <SectionHeader
                     title={section.value.title}
-                    gridSize={gridSize12()}
+                    gridSize={sectionLevelPage ? gridSize12() : gridSize8()}
                   />
                 </Space>
               )}
