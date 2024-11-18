@@ -10,6 +10,8 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 
 export type Props = {
   embedUrl: string;
+  videoProvider?: string;
+  videoThumbnail?: string;
   caption?: prismic.RichTextField;
   transcript?: prismic.RichTextField;
   hasFullSizePoster?: boolean;
@@ -54,6 +56,8 @@ const VideoTrigger = styled.button<{ $hasFullSizePoster?: boolean }>`
 
 const VideoEmbed: FunctionComponent<Props> = ({
   embedUrl,
+  videoProvider,
+  videoThumbnail,
   caption,
   transcript,
   hasFullSizePoster,
@@ -61,9 +65,14 @@ const VideoEmbed: FunctionComponent<Props> = ({
   const [isActive, setIsActive] = useState(false);
   const id = embedUrl.match(/embed\/(.*)\?/)?.[1];
   const hasAnalyticsConsent = getConsentState('analytics');
-  const isYouTube = embedUrl.indexOf('youtube') >= 0;
+  const isYouTube = videoProvider === 'YouTube';
+  const isVimeo = videoProvider === 'Vimeo';
 
   useEffect(() => {
+    // TODO do we need analytics consent for vimeo?
+    // Do we need this?
+    /* <script src="https://player.vimeo.com/api/player.js"></script> */
+
     if (isYouTube && hasAnalyticsConsent) {
       // GA4 automatically tracks YouTube engagement, but requires the iframe api
       // script to have been loaded on the page. Since we're lazyloading youtube
@@ -86,17 +95,31 @@ const VideoEmbed: FunctionComponent<Props> = ({
     }
   }, []);
 
+  const videoSrc = isYouTube
+    ? `${embedUrl}&enablejsapi=1&autoplay=1`
+    : isVimeo
+      ? `${embedUrl}&autoplay=1`
+      : undefined;
+
+  const thumbnailSrc = isYouTube
+    ? `https://img.youtube.com/vi/${id}/${
+        hasFullSizePoster ? 'maxresdefault' : 'hqdefault'
+      }.jpg`
+    : isVimeo
+      ? videoThumbnail
+      : undefined;
+
   return (
     <>
       <VideoEmbedWrapper data-chromatic="ignore">
         <IframeContainer>
-          {isActive ? (
+          {isActive && videoSrc ? (
             <iframe
               className="iframe"
               title="Video"
               allowFullScreen={true}
               allow="autoplay; picture-in-picture"
-              src={`${embedUrl}&enablejsapi=1&autoplay=1`}
+              src={videoSrc}
               style={{ border: 0 }}
             />
           ) : (
@@ -105,13 +128,8 @@ const VideoEmbed: FunctionComponent<Props> = ({
               $hasFullSizePoster={hasFullSizePoster}
             >
               <span className="visually-hidden">Play video</span>
-              <YouTubePlay />
-              <img
-                src={`https://img.youtube.com/vi/${id}/${
-                  hasFullSizePoster ? 'maxresdefault' : 'hqdefault'
-                }.jpg`}
-                alt=""
-              />
+              {isYouTube && <YouTubePlay />}
+              {thumbnailSrc && <img src={thumbnailSrc} alt="" />}
             </VideoTrigger>
           )}
         </IframeContainer>

@@ -10,7 +10,10 @@ import {
   isFilledLinkToMediaField,
   PaginatedResults,
 } from '@weco/common/services/prismic/types';
-import { getYouTubeEmbedUrl } from '@weco/content/services/prismic/transformers/embeds';
+import {
+  getVimeoEmbedUrl,
+  getYouTubeEmbedUrl,
+} from '@weco/content/services/prismic/transformers/embeds';
 import { transformRelatedExhibition } from '@weco/content/services/prismic/transformers/exhibition-guides';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import { PromoSliceZone } from '@weco/content/services/prismic/types';
@@ -80,6 +83,15 @@ export function transformGuideStopSlice(
   slice: RawGuideStopSlice
 ): GuideHighlightTour {
   const title = asTitle(slice.primary.title);
+
+  const videoProvider = slice.primary?.bsl_video?.provider_name || undefined;
+
+  // We get the YouTube video through their API, so we don't need it here.
+  const videoThumbnail =
+    videoProvider === 'Vimeo'
+      ? (slice.primary.bsl_video?.thumbnail_url_with_play_button as string)
+      : undefined;
+
   return {
     number: slice.primary.number || undefined,
     title,
@@ -91,9 +103,13 @@ export function transformGuideStopSlice(
       : undefined,
     audioDuration: slice.primary.audio_duration || undefined,
     video:
-      slice.primary.bsl_video.provider_name === 'YouTube'
+      videoProvider === 'YouTube'
         ? getYouTubeEmbedUrl(slice.primary.bsl_video)
-        : undefined,
+        : videoProvider === 'Vimeo'
+          ? getVimeoEmbedUrl(slice.primary.bsl_video)
+          : undefined,
+    videoProvider,
+    videoThumbnail,
     subtitles: slice.primary.subtitles
       ? asRichText(slice.primary.subtitles)
       : undefined,

@@ -24,8 +24,10 @@ export type GuideHighlightTour = {
   transcript?: prismic.RichTextField;
   audioDuration?: string;
   video?: string;
-  subtitles?: prismic.RichTextField;
+  videoProvider?: string;
+  videoThumbnail?: string;
   videoDuration?: string;
+  subtitles?: prismic.RichTextField;
   image?: ImageType;
 };
 
@@ -38,6 +40,8 @@ export type ExhibitionGuideComponent = {
   audioWithoutDescription?: { url: string };
   bsl?: {
     embedUrl: string;
+    provider: 'YouTube' | 'Vimeo';
+    thumbnail?: string;
   };
 };
 

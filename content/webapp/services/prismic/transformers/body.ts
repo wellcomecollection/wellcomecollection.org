@@ -337,6 +337,9 @@ export function transformEmbedSlice(
       type: 'videoEmbed',
       value: {
         embedUrl: getVimeoEmbedUrl(embed),
+        videoProvider: 'Vimeo',
+        // TODO
+        // videoThumbnail
         caption: slice.primary.caption,
         transcript: slice.primary.transcript,
       },
@@ -359,6 +362,7 @@ export function transformEmbedSlice(
       type: 'videoEmbed',
       value: {
         embedUrl: getYouTubeEmbedUrl(embed),
+        videoProvider: 'YouTube',
         caption: slice.primary.caption,
         transcript: slice.primary.transcript,
       },

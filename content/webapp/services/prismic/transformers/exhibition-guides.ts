@@ -19,7 +19,7 @@ import {
 } from '@weco/content/types/exhibition-guides';
 
 import { asRichText, asTitle } from '.';
-import { getYouTubeEmbedUrl } from './embeds';
+import { getVimeoEmbedUrl, getYouTubeEmbedUrl } from './embeds';
 import { transformImagePromo } from './images';
 
 export function transformExhibitionGuideToExhibitionGuideBasic(
@@ -99,8 +99,18 @@ export function transformExhibitionGuide(
             : undefined,
         bsl:
           component['bsl-video'].provider_name === 'YouTube'
-            ? { embedUrl: getYouTubeEmbedUrl(component['bsl-video']) }
-            : undefined,
+            ? {
+                embedUrl: getYouTubeEmbedUrl(component['bsl-video']),
+                provider: 'YouTube' as const,
+              }
+            : component['bsl-video'].provider_name === 'Vimeo'
+              ? {
+                  embedUrl: getVimeoEmbedUrl(component['bsl-video']),
+                  provider: 'Vimeo' as const,
+                  thumbnail: component['bsl-video']
+                    .thumbnail_url_with_play_button as string,
+                }
+              : undefined,
       };
     }
   );
