@@ -15,6 +15,8 @@ import ExhibitionGuidePromo from '@weco/content/components/ExhibitionGuidePromo/
 import ExhibitionPromo from '@weco/content/components/ExhibitionPromo/ExhibitionPromo';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
 import StoryPromo from '@weco/content/components/StoryPromo/StoryPromo';
+import StoryPromoContentApi from '@weco/content/components/StoryPromo/StoryPromoContentApi';
+import { Article } from '@weco/content/services/wellcome/content/types/api';
 import { convertItemToCardProps } from '@weco/content/types/card';
 import { Link } from '@weco/content/types/link';
 import { MultiContent } from '@weco/content/types/multi-content';
@@ -22,7 +24,7 @@ import { MultiContent } from '@weco/content/types/multi-content';
 import DailyTourPromo from './DailyTourPromo';
 
 type Props = {
-  items: readonly MultiContent[];
+  items: readonly MultiContent[] | Article[];
   hidePromoText?: boolean;
   itemsPerRow: number;
   itemsHaveTransparentBackground?: boolean;
@@ -64,6 +66,12 @@ const CardGrid: FunctionComponent<Props> = ({
               )}
               {item.id !== 'tours' && item.type === 'events' && (
                 <EventPromo event={item} position={i} fromDate={fromDate} />
+              )}
+              {item.type === 'Article' && (
+                <StoryPromoContentApi
+                  article={item}
+                  hidePromoText={hidePromoText}
+                />
               )}
               {item.type === 'articles' && (
                 <StoryPromo article={item} hidePromoText={hidePromoText} />

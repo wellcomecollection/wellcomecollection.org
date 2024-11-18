@@ -7,6 +7,7 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { objToJsonLd } from '@weco/common/utils/json-ld';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { getImageUrlAtSize } from '@weco/content/services/prismic/types/images';
+import { Article as ArticleContentApi } from '@weco/content/services/wellcome/content/types/api';
 import { Article } from '@weco/content/types/articles';
 import { Contributor } from '@weco/content/types/contributors';
 import { Event } from '@weco/content/types/events';
@@ -193,6 +194,48 @@ export function articleLd(article: Article): JsonLdObj {
           : undefined,
       image: article.promo?.image?.contentUrl,
       // TODO: isPartOf
+      publisher: orgLd(wellcomeCollectionGallery),
+      url: `https://wellcomecollection.org/articles/${article.id}`,
+    },
+    { type: 'Article' }
+  );
+}
+
+export function articleLdContentApi(article: ArticleContentApi) {
+  const author: Contributor = article.contributors.find(
+    ({ role }) => role && role.label === 'Author'
+  )?.[0];
+
+  const contributors = article.contributors
+    .map(c => {
+      return c.contributor?.label
+        ? {
+            name: c.contributor?.label,
+            '@type': 'Person',
+          }
+        : undefined;
+    })
+    .filter(_ => _);
+
+  return objToJsonLd(
+    {
+      contributor: contributors,
+      dateCreated: article.publicationDate,
+      datePublished: article.publicationDate,
+      headline: article.title,
+      author:
+        author && author.contributor
+          ? objToJsonLd(
+              {
+                name: author.contributor.name,
+                image: author.contributor.image
+                  ? getImageUrlAtSize(author.contributor.image, { w: 600 })
+                  : undefined,
+              },
+              { type: 'Person', root: false }
+            )
+          : undefined,
+      image: article.image?.url,
       publisher: orgLd(wellcomeCollectionGallery),
       url: `https://wellcomecollection.org/articles/${article.id}`,
     },
