@@ -7,7 +7,8 @@ import Caption from '@weco/common/views/components/Caption/Caption';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import { IframeContainer } from '@weco/common/views/components/Iframe/Iframe';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import { VideoProvider } from '@weco/content/types/exhibition-guides';
+
+export type VideoProvider = 'YouTube' | 'Vimeo';
 
 export type Props = {
   embedUrl: string;

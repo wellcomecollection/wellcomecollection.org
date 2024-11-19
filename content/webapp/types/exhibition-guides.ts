@@ -5,6 +5,7 @@ import {
   ExhibitionHighlightToursDocumentData as RawExhibitionHighlightToursDocumentData,
   ExhibitionTextsDocumentData as RawExhibitionTextsDocumentData,
 } from '@weco/common/prismicio-types';
+import { VideoProvider } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 
 import { ImagePromo } from './image-promo';
 
@@ -16,8 +17,6 @@ type CaptionsOrTranscripts = {
   transcription?: prismic.RichTextField;
   context?: prismic.RichTextField;
 };
-
-export type VideoProvider = 'YouTube' | 'Vimeo';
 
 export type GuideHighlightTour = {
   number?: number;
