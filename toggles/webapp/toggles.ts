@@ -94,6 +94,14 @@ const toggles = {
         'Will make use of the V2 auth services in the IIIF Presentation manifest, if they are available. N.B. some V2 services contain invalid data, so it is not safe to turn this on for everyone until all manifests have been regenerated.',
       type: 'experimental',
     },
+    {
+      id: 'conceptsById',
+      title: 'Concept Pages by ID',
+      initialValue: false,
+      description:
+        'Use the new concept ID filters & aggregatiuons in the search API to query for works & images by ID rather than label.',
+      type: 'experimental',
+    },
   ] as const,
   tests: [] as ABTest[],
 };
