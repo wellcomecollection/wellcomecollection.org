@@ -71,10 +71,6 @@ const VideoEmbed: FunctionComponent<Props> = ({
   const isVimeo = videoProvider === 'Vimeo';
 
   useEffect(() => {
-    // TODO do we need analytics consent for vimeo?
-    // Do we need this?
-    /* <script src="https://player.vimeo.com/api/player.js"></script> */
-
     if (isYouTube && hasAnalyticsConsent) {
       // GA4 automatically tracks YouTube engagement, but requires the iframe api
       // script to have been loaded on the page. Since we're lazyloading youtube

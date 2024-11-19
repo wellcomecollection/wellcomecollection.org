@@ -338,8 +338,8 @@ export function transformEmbedSlice(
       value: {
         embedUrl: getVimeoEmbedUrl(embed),
         videoProvider: 'Vimeo',
-        // TODO? Do we want to support it on legacy guides?
-        // videoThumbnail
+        videoThumbnail:
+          (embed.thumbnail_url_with_play_button as string) || undefined,
         caption: slice.primary.caption,
         transcript: slice.primary.transcript,
       },
