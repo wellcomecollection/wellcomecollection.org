@@ -27,6 +27,7 @@ const commonKeys = {
   imagesAbout: { filter: 'source.subjects.label', fields: ['label'] },
   imagesBy: { filter: 'source.contributors.agent.label', fields: ['label'] },
 };
+
 // Definition of the fields used to populate each section
 // of the page, and to define the link to the "all" searches.
 // Currently, only genres use the id to filter
@@ -61,6 +62,33 @@ const linkKeys = {
   ...linkOnlyKeys,
 };
 
+const keysById = {
+  worksAbout: {
+    filter: 'subjects.concepts',
+    fields: ['id', 'sameAs'],
+  },
+  worksBy: {
+    filter: 'contributors.concepts',
+    fields: ['id', 'sameAs'],
+  },
+  imagesAbout: {
+    filter: 'source.subjects.concepts',
+    fields: ['id', 'sameAs'],
+  },
+  imagesBy: {
+    filter: 'source.contributors.concepts',
+    fields: ['id', 'sameAs'],
+  },
+  worksIn: {
+    filter: 'genres.concepts',
+    fields: ['id', 'sameAs'],
+  },
+  imagesIn: {
+    filter: 'source.genres.concepts',
+    fields: ['id', 'sameAs'],
+  },
+};
+
 const gatherValues = (conceptResponse: ConceptType, fields: string[]) => {
   return fields.reduce(
     (acc, current) => acc.concat(conceptResponse[current]),
@@ -73,6 +101,19 @@ export const queryParams = (
   conceptResponse: ConceptType
 ) => {
   const queryDefinition = queryKeys[sectionName];
+  return {
+    [queryDefinition.filter]: gatherValues(
+      conceptResponse,
+      queryDefinition.fields
+    ),
+  };
+};
+
+export const queryParamsById = (
+  sectionName: string,
+  conceptResponse: ConceptType
+) => {
+  const queryDefinition = keysById[sectionName];
   return {
     [queryDefinition.filter]: gatherValues(
       conceptResponse,

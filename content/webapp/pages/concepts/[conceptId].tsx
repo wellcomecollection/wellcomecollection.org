@@ -42,7 +42,8 @@ import {
   allRecordsLinkParams,
   conceptTypeDisplayName,
   getDisplayIdentifierType,
-  queryParams,
+  queryParamsById,
+  queryParams as queryParamsByLabel,
 } from '@weco/content/utils/concepts';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 
@@ -259,6 +260,7 @@ export const ConceptPage: NextPage<Props> = ({
   apiToolbarLinks,
 }) => {
   useHotjar(true);
+
   const pathname = usePathname();
   const worksTabs = tabOrder
     .map(relationship => {
@@ -448,6 +450,9 @@ export const getServerSideProps: GetServerSideProps<
       conceptResponse.description
     );
   }
+
+  const filterByConceptId = serverData.toggles.conceptsById.value;
+  const queryParams = filterByConceptId ? queryParamsById : queryParamsByLabel;
 
   const getConceptWorks = (sectionName: string) =>
     getWorks({
