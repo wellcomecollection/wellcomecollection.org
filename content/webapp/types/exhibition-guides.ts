@@ -17,6 +17,8 @@ type CaptionsOrTranscripts = {
   context?: prismic.RichTextField;
 };
 
+export type VideoProvider = 'YouTube' | 'Vimeo';
+
 export type GuideHighlightTour = {
   number?: number;
   title: string;
@@ -24,7 +26,7 @@ export type GuideHighlightTour = {
   transcript?: prismic.RichTextField;
   audioDuration?: string;
   video?: string;
-  videoProvider?: string;
+  videoProvider?: VideoProvider;
   videoThumbnail?: string;
   videoDuration?: string;
   subtitles?: prismic.RichTextField;
@@ -40,7 +42,7 @@ export type ExhibitionGuideComponent = {
   audioWithoutDescription?: { url: string };
   bsl?: {
     embedUrl: string;
-    provider: 'YouTube' | 'Vimeo';
+    provider: VideoProvider;
     thumbnail?: string;
   };
 };

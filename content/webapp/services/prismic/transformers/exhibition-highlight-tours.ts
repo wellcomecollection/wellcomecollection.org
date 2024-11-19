@@ -84,7 +84,12 @@ export function transformGuideStopSlice(
 ): GuideHighlightTour {
   const title = asTitle(slice.primary.title);
 
-  const videoProvider = slice.primary?.bsl_video?.provider_name || undefined;
+  // We only support YT and Vimeo at the moment
+  const videoProvider =
+    slice.primary?.bsl_video?.provider_name === 'YouTube' ||
+    slice.primary?.bsl_video?.provider_name === 'Vimeo'
+      ? slice.primary?.bsl_video?.provider_name
+      : undefined;
 
   // We get the YouTube video through their API, so we don't need it here.
   const videoThumbnail =

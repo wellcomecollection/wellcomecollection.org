@@ -338,19 +338,8 @@ export function transformEmbedSlice(
       value: {
         embedUrl: getVimeoEmbedUrl(embed),
         videoProvider: 'Vimeo',
-        // TODO
+        // TODO? Do we want to support it on legacy guides?
         // videoThumbnail
-        caption: slice.primary.caption,
-        transcript: slice.primary.transcript,
-      },
-    };
-  }
-
-  if (embed.provider_name === 'SoundCloud') {
-    return {
-      type: 'soundcloudEmbed',
-      value: {
-        embedUrl: getSoundCloudEmbedUrl(embed),
         caption: slice.primary.caption,
         transcript: slice.primary.transcript,
       },
@@ -363,6 +352,17 @@ export function transformEmbedSlice(
       value: {
         embedUrl: getYouTubeEmbedUrl(embed),
         videoProvider: 'YouTube',
+        caption: slice.primary.caption,
+        transcript: slice.primary.transcript,
+      },
+    };
+  }
+
+  if (embed.provider_name === 'SoundCloud') {
+    return {
+      type: 'soundcloudEmbed',
+      value: {
+        embedUrl: getSoundCloudEmbedUrl(embed),
         caption: slice.primary.caption,
         transcript: slice.primary.transcript,
       },
