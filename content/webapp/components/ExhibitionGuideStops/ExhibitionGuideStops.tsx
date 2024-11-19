@@ -30,12 +30,16 @@ const VideoPlayerWrapper = styled.figure`
 type VideoPlayerProps = {
   title: string;
   videoUrl: string;
+  videoProvider: 'YouTube' | 'Vimeo';
+  videoThumbnail?: string;
   titleProps: { role: string; 'aria-level': number };
 };
 
 export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
   title,
   videoUrl,
+  videoProvider,
+  videoThumbnail,
   titleProps,
 }) => (
   <VideoPlayerWrapper>
@@ -44,7 +48,11 @@ export const VideoPlayer: FunctionComponent<VideoPlayerProps> = ({
         {title}
       </figcaption>
     </Space>
-    <VideoEmbed embedUrl={videoUrl} />
+    <VideoEmbed
+      embedUrl={videoUrl}
+      videoProvider={videoProvider}
+      videoThumbnail={videoThumbnail}
+    />
   </VideoPlayerWrapper>
 );
 
@@ -108,6 +116,8 @@ export const Stops: FunctionComponent<Props> = ({ stops, type }) => {
                     title={stopTitle}
                     titleProps={titleProps}
                     videoUrl={bsl.embedUrl}
+                    videoProvider={bsl.provider}
+                    videoThumbnail={bsl.thumbnail}
                   />
                 )}
               </Stop>

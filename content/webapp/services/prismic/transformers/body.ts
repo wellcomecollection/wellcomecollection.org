@@ -337,17 +337,9 @@ export function transformEmbedSlice(
       type: 'videoEmbed',
       value: {
         embedUrl: getVimeoEmbedUrl(embed),
-        caption: slice.primary.caption,
-        transcript: slice.primary.transcript,
-      },
-    };
-  }
-
-  if (embed.provider_name === 'SoundCloud') {
-    return {
-      type: 'soundcloudEmbed',
-      value: {
-        embedUrl: getSoundCloudEmbedUrl(embed),
+        videoProvider: 'Vimeo',
+        videoThumbnail:
+          (embed.thumbnail_url_with_play_button as string) || undefined,
         caption: slice.primary.caption,
         transcript: slice.primary.transcript,
       },
@@ -359,6 +351,18 @@ export function transformEmbedSlice(
       type: 'videoEmbed',
       value: {
         embedUrl: getYouTubeEmbedUrl(embed),
+        videoProvider: 'YouTube',
+        caption: slice.primary.caption,
+        transcript: slice.primary.transcript,
+      },
+    };
+  }
+
+  if (embed.provider_name === 'SoundCloud') {
+    return {
+      type: 'soundcloudEmbed',
+      value: {
+        embedUrl: getSoundCloudEmbedUrl(embed),
         caption: slice.primary.caption,
         transcript: slice.primary.transcript,
       },

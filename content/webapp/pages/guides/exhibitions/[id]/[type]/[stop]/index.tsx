@@ -356,7 +356,11 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               {type === 'bsl' ? (
                 <>
                   {currentStop.video && (
-                    <VideoEmbed embedUrl={currentStop.video} />
+                    <VideoEmbed
+                      embedUrl={currentStop.video}
+                      videoThumbnail={currentStop.videoThumbnail}
+                      videoProvider={currentStop.videoProvider}
+                    />
                   )}
                 </>
               ) : (

@@ -5,6 +5,7 @@ import {
   ExhibitionHighlightToursDocumentData as RawExhibitionHighlightToursDocumentData,
   ExhibitionTextsDocumentData as RawExhibitionTextsDocumentData,
 } from '@weco/common/prismicio-types';
+import { VideoProvider } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 
 import { ImagePromo } from './image-promo';
 
@@ -24,8 +25,10 @@ export type GuideHighlightTour = {
   transcript?: prismic.RichTextField;
   audioDuration?: string;
   video?: string;
-  subtitles?: prismic.RichTextField;
+  videoProvider?: VideoProvider;
+  videoThumbnail?: string;
   videoDuration?: string;
+  subtitles?: prismic.RichTextField;
   image?: ImageType;
 };
 
@@ -38,6 +41,8 @@ export type ExhibitionGuideComponent = {
   audioWithoutDescription?: { url: string };
   bsl?: {
     embedUrl: string;
+    provider: VideoProvider;
+    thumbnail?: string;
   };
 };
 
