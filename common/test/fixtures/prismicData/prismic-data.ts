@@ -32,6 +32,7 @@ const prismicData: SimplifiedPrismicData = {
         url: 'https://interviewer.djsresearch.com/scripts/Dubinterviewer.dll/Frames?Quest=7577',
       },
       isShown: false,
+      routeRegex: null,
     },
   },
   collectionVenues: {
