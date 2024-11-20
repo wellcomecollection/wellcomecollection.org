@@ -101,5 +101,6 @@ export function emptyPopupDialog(): RawPopupDialogDocument {
     openButtonText: null,
     text: [],
     title: null,
+    routeRegex: null,
   }) as RawPopupDialogDocument;
 }
