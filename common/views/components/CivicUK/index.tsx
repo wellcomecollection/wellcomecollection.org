@@ -137,6 +137,10 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => (
                     name: 'YouTube',
                     optOutLink: 'https://myaccount.google.com/yourdata/youtube?hl=en&pli=1',
                   },
+                  {
+                    name: 'Vimeo',
+                    optOutLink: 'https://vimeo.com/cookie_policy'
+                  },
                 ],
               },
               {
