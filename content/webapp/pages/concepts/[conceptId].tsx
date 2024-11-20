@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 import { ImagesLinkSource } from '@weco/common/data/segment-values';
 import { getServerData } from '@weco/common/server-data';
+import { useToggles } from '@weco/common/server-data/Context';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { font } from '@weco/common/utils/classnames';
@@ -260,6 +261,8 @@ export const ConceptPage: NextPage<Props> = ({
   apiToolbarLinks,
 }) => {
   useHotjar(true);
+  const { conceptsById } = useToggles();
+  const linkParams = conceptsById ? queryParamsById : allRecordsLinkParams;
 
   const pathname = usePathname();
   const worksTabs = tabOrder
@@ -273,7 +276,7 @@ export const ConceptPage: NextPage<Props> = ({
         resultsGroup: data.works,
         tabLabelText: data.label,
         link: toWorksLink(
-          allRecordsLinkParams(tabId, conceptResponse),
+          linkParams(tabId, conceptResponse),
           linkSources[tabId]
         ),
       });
@@ -293,7 +296,7 @@ export const ConceptPage: NextPage<Props> = ({
         resultsGroup: sectionsData[relationship].images,
         tabLabelText: sectionsData[relationship].label,
         link: toImagesLink(
-          allRecordsLinkParams(tabId, conceptResponse),
+          linkParams(tabId, conceptResponse),
           `${linkSources[tabId]}_${pathname}` as ImagesLinkSource
         ),
       });

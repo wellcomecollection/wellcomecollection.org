@@ -21,6 +21,7 @@ export const conceptTypeDisplayName = (conceptResponse: ConceptType) => {
     ? 'Type/Technique'
     : conceptResponse.type;
 };
+
 const commonKeys = {
   worksAbout: { filter: 'subjects.label', fields: ['label'] },
   worksBy: { filter: 'contributors.agent.label', fields: ['label'] },
