@@ -3,6 +3,7 @@
   "label": "Popup dialog",
   "repeatable": false,
   "status": true,
+  "format": "custom",
   "json": {
     "Popup dialog": {
       "openButtonText": {
@@ -44,8 +45,14 @@
           "default_value": false,
           "label": "Is shown?"
         }
+      },
+      "routeRegex": {
+        "type": "Text",
+        "config": {
+          "label": "Route regex",
+          "placeholder": "Pipe-separated (|) list of page paths here if you only want this on certain pages"
+        }
       }
     }
-  },
-  "format": "custom"
+  }
 }
