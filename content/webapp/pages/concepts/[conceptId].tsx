@@ -451,7 +451,7 @@ export const getServerSideProps: GetServerSideProps<
     );
   }
 
-  const filterByConceptId = serverData.toggles.conceptsById.value;
+  const filterByConceptId = serverData.toggles.conceptsById.value === "true";
   const queryParams = filterByConceptId ? queryParamsById : queryParamsByLabel;
 
   const getConceptWorks = (sectionName: string) =>
