@@ -4221,6 +4221,17 @@ interface PopupDialogDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   isShown: prismic.BooleanField;
+
+  /**
+   * Route regex field in *Popup dialog*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Pipe-separated (|) list of page paths here if you only want this on certain pages
+   * - **API ID Path**: popup-dialog.routeRegex
+   * - **Tab**: Popup dialog
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  routeRegex: prismic.KeyTextField;
 }
 
 /**

@@ -26,6 +26,7 @@ const meta: Meta<typeof PopupDialog> = {
           },
         ],
         isShown: true,
+        routeRegex: null,
       },
     },
   },

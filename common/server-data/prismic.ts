@@ -40,6 +40,7 @@ export const defaultValue = {
       openButtonText: null,
       text: [] as prismic.RichTextField,
       title: null,
+      routeRegex: null,
     },
   },
   collectionVenues: {

@@ -341,7 +341,11 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
               }}
             />
           )}
-        {popupDialog.data.isShown && <PopupDialog document={popupDialog} />}
+        {popupDialog.data.isShown &&
+          (!popupDialog.data.routeRegex ||
+            urlString.match(new RegExp(popupDialog.data.routeRegex))) && (
+            <PopupDialog document={popupDialog} />
+          )}
         <div
           id="main"
           className="main"
