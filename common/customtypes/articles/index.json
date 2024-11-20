@@ -242,7 +242,8 @@
     "Overrides": {
       "publishDate": {
         "config": {
-          "label": "Override publish date rendering. This will not affect ordering"
+          "label": "Override pub. date in UI+ContentAPI",
+          "placeholder": ""
         },
         "type": "Timestamp"
       }
