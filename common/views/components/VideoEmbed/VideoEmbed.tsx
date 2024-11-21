@@ -96,7 +96,7 @@ const VideoEmbed: FunctionComponent<Props> = ({
   const videoSrc = isYouTube
     ? `${embedUrl}&enablejsapi=1&autoplay=1`
     : isVimeo
-      ? `${embedUrl}&autoplay=1`
+      ? `${embedUrl}&autoplay=1${!hasAnalyticsConsent ? '&dnt=1' : ''}`
       : undefined;
 
   const thumbnailSrc = isYouTube

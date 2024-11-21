@@ -130,6 +130,10 @@ export const cookiesTableCopy = {
       'YouTube',
       `We embed videos on our websites from our official YouTube channel using YouTube's privacy-enhanced mode.<br />YouTube will not store personally-identifiable Cookie information for playbacks of embedded videos using the privacy-enhanced mode.<br /><a href="https://www.youtube.com/intl/ALL_uk/howyoutubeworks/our-commitments/protecting-user-data" target="_blank" rel="noopener noreferrer">Read about how YouTube maintains user privacy</a>.`,
     ],
+    [
+      'Vimeo',
+      `We embed videos on our websites from our official Vimeo channel. With permission we collect data on how you interact with these videos.<br />This information helps us improve the digital content we create. <a href="https://help.vimeo.com/hc/en-us/articles/26080940921361-Vimeo-Player-Cookies" target="_blank" rel="noopener noreferrer">Visit Vimeo to see a full list of cookies and their uses</a>.`,
+    ],
   ],
   '[marketing_cookies_table]': [
     ['Provider', 'Purpose'],
