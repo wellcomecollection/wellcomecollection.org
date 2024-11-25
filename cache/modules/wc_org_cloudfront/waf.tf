@@ -37,6 +37,11 @@ locals {
 
   ip_allowlist = setunion(var.waf_ip_allowlist, local.qualys_scanner_ips)
 
+  cidr_watchlist = [
+    "20.49.161.16/28",
+    "20.77.132.128/28"
+  ]
+
   // This is the complete list of Bot Control rules from
   // https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html
   //
@@ -106,8 +111,29 @@ resource "aws_wafv2_web_acl" "wc_org" {
   }
 
   rule {
-    name     = "managed-ip-blocking"
+    name     = "ip-watchlist"
     priority = 1
+
+    action {
+      count {}
+    }
+
+    statement {
+      ip_set_reference_statement {
+        arn = aws_wafv2_ip_set.watchlist.arn
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "weco-cloudfront-acl-watchlist-${var.namespace}"
+    }
+  }
+
+  rule {
+    name     = "managed-ip-blocking"
+    priority = 2
 
     override_action {
       none {}
@@ -130,7 +156,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "blanket-rate-limiting"
-    priority = 2
+    priority = 3
 
     action {
       block {}
@@ -152,7 +178,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "restrictive-rate-limiting"
-    priority = 3
+    priority = 4
 
     action {
       block {}
@@ -190,7 +216,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
   rule {
     name     = "core-rule-group"
-    priority = 4
+    priority = 5
 
     override_action {
       none {}
@@ -213,7 +239,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
   rule {
     name     = "sqli-rule-group"
-    priority = 5
+    priority = 6
 
     override_action {
       none {}
@@ -236,7 +262,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
   rule {
     name     = "known-bad-inputs-rule-group"
-    priority = 6
+    priority = 7
 
     override_action {
       none {}
@@ -258,7 +284,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-control-rule-group"
-    priority = 7
+    priority = 8
 
     // Because the Bot Control rules are quite aggressive, they block some useful bots
     // such as Updown. While we could add overrides for specific bots, we don"t want to have to
@@ -304,7 +330,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "google-other-block"
-    priority = 8
+    priority = 9
 
     action {
       block {}
@@ -326,7 +352,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit"
-    priority = 9
+    priority = 10
 
     action {
       block {
@@ -390,4 +416,14 @@ resource "aws_wafv2_ip_set" "allowlist" {
 
   # These need to be CIDR blocks rather than plain addresses
   addresses = [for ip in local.ip_allowlist : "${ip}/32"]
+}
+
+resource "aws_wafv2_ip_set" "watchlist" {
+  name        = "watchlist-${var.namespace}"
+  description = "IPs that we do not apply managed WAF rules to, but we want to monitor"
+
+  scope              = "CLOUDFRONT"
+  ip_address_version = "IPV4"
+
+  addresses = local.cidr_watchlist
 }
