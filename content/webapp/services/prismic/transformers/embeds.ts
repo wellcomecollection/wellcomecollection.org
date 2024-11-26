@@ -3,7 +3,7 @@ import * as prismic from '@prismicio/client';
 export function getVimeoEmbedUrl(embed: prismic.EmbedField): string {
   const embedUrl = embed.html?.match(/src="([-a-zA-Z0-9://.?=_]+)?/)![1];
 
-  return `${embedUrl}?rel=0&dnt=1`;
+  return `${embedUrl}?rel=0`;
 }
 
 export function getSoundCloudEmbedUrl(embed: prismic.EmbedField): string {

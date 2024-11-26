@@ -19,8 +19,10 @@ describe('WorksLink', () => {
         'genres.concepts': [],
         'genres.label': [],
         'subjects.label': [],
+        'subjects.concepts': [],
         languages: [],
         'contributors.agent.label': [],
+        'contributors.concepts': [],
       });
     });
 
@@ -49,8 +51,10 @@ describe('WorksLink', () => {
         'genres.concepts': [],
         'genres.label': [],
         'subjects.label': [],
+        'subjects.concepts': [],
         languages: [],
         'contributors.agent.label': [],
+        'contributors.concepts': [],
       });
     });
   });
