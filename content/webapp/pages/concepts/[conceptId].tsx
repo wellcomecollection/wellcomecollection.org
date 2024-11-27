@@ -149,21 +149,25 @@ type ImagesTabPanelProps = {
   id: string;
   link: LinkProps;
   results: ReturnedResults<ImageType>;
+  totalResults: number;
 };
 const ImagesTabPanel: FunctionComponent<ImagesTabPanelProps> = ({
   id,
   link,
   results,
+  totalResults,
 }) => {
   return (
     <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
       <ImageEndpointSearchResults images={results.pageResults} />
       <Space $v={{ size: 'm', properties: ['margin-top'] }}>
-        <SeeMoreButton
-          text="All images"
-          totalResults={results.totalResults}
-          link={link}
-        />
+        {totalResults > 0 && (
+          <SeeMoreButton
+            text="All images"
+            totalResults={totalResults}
+            link={link}
+          />
+        )}
       </Space>
     </div>
   );
@@ -173,22 +177,26 @@ type WorksTabPanelProps = {
   id: string;
   link: LinkProps;
   results: ReturnedResults<WorkBasic>;
+  totalResults: number;
 };
 const WorksTabPanel: FunctionComponent<WorksTabPanelProps> = ({
   id,
   link,
   results,
+  totalResults,
 }) => {
   return (
     <Container>
       <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
         <WorksSearchResults works={results.pageResults} />
         <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-          <SeeMoreButton
-            text="All works"
-            totalResults={results.totalResults}
-            link={link}
-          />
+          {totalResults > 0 && (
+            <SeeMoreButton
+              text="All works"
+              totalResults={totalResults}
+              link={link}
+            />
+          )}
         </Space>
       </div>
     </Container>
@@ -206,12 +214,14 @@ type PageSectionDefinition<T> = {
     id: string;
     link: LinkProps;
     results: ReturnedResults<T>;
+    totalResults: number;
   };
 };
 type PageSectionDefinitionProps<T> = {
   tabId: string;
   resultsGroup: ReturnedResults<T> | undefined;
   tabLabelText: string;
+  totalResults: number;
   link: LinkProps;
 };
 
@@ -219,6 +229,7 @@ function toPageSectionDefinition<T>({
   tabId,
   resultsGroup,
   tabLabelText,
+  totalResults,
   link,
 }: PageSectionDefinitionProps<T>): PageSectionDefinition<T> | undefined {
   return resultsGroup?.totalResults
@@ -231,7 +242,7 @@ function toPageSectionDefinition<T>({
             totalResults: resultsGroup.totalResults,
           }),
         },
-        panel: { id: tabId, link, results: resultsGroup },
+        panel: { id: tabId, link, results: resultsGroup, totalResults },
       }
     : undefined;
 }
@@ -240,6 +251,7 @@ type SectionData = {
   label: string;
   works: ReturnedResults<WorkBasic> | undefined;
   images: ReturnedResults<ImageType> | undefined;
+  totalResults: { works: number; images: number };
 };
 
 type SectionsData = {
@@ -275,6 +287,7 @@ export const ConceptPage: NextPage<Props> = ({
         tabId,
         resultsGroup: data.works,
         tabLabelText: data.label,
+        totalResults: data.totalResults.works,
         link: toWorksLink(
           linkParams(tabId, conceptResponse),
           linkSources[tabId]
@@ -291,10 +304,12 @@ export const ConceptPage: NextPage<Props> = ({
       const tabId = `images${relationship
         .charAt(0)
         .toUpperCase()}${relationship.slice(1)}`;
+
       return toPageSectionDefinition({
         tabId,
         resultsGroup: sectionsData[relationship].images,
         tabLabelText: sectionsData[relationship].label,
+        totalResults: sectionsData[relationship].totalResults.works,
         link: toImagesLink(
           linkParams(tabId, conceptResponse),
           `${linkSources[tabId]}_${pathname}` as ImagesLinkSource
@@ -454,37 +469,67 @@ export const getServerSideProps: GetServerSideProps<
     );
   }
 
-  const filterByConceptId = serverData.toggles?.conceptsById?.value;
-  const queryParams = filterByConceptId ? queryParamsById : queryParamsByLabel;
+  const conceptsById = serverData.toggles?.conceptsById?.value;
 
-  const getConceptWorks = (sectionName: string) =>
-    getWorks({
-      params: queryParams(sectionName, conceptResponse),
-      toggles: serverData.toggles,
-      pageSize: 5,
-    });
+  const getConceptDocs = {
+    works: {
+      byId: (sectionName: string) =>
+        getWorks({
+          params: queryParamsById(sectionName, conceptResponse),
+          toggles: serverData.toggles,
+          pageSize: 5,
+        }),
+      byLabel: (sectionName: string) =>
+        getWorks({
+          params: queryParamsByLabel(sectionName, conceptResponse),
+          toggles: serverData.toggles,
+          pageSize: 5,
+        }),
+    },
+    images: {
+      byId: (sectionName: string) =>
+        getImages({
+          params: queryParamsById(sectionName, conceptResponse),
+          toggles: serverData.toggles,
+          pageSize: 5,
+        }),
+      byLabel: (sectionName: string) =>
+        getImages({
+          params: queryParamsByLabel(sectionName, conceptResponse),
+          toggles: serverData.toggles,
+          pageSize: 5,
+        }),
+    },
+  };
 
-  const getConceptImages = (sectionName: string) =>
-    getImages({
-      params: queryParams(sectionName, conceptResponse),
-      toggles: serverData.toggles,
-      pageSize: 10,
-    });
+  const worksAboutPromiseById = getConceptDocs.works.byId('worksAbout');
+  const imagesAboutPromiseById = getConceptDocs.images.byId('imagesAbout');
 
-  const worksAboutPromise = getConceptWorks('worksAbout');
-  const imagesAboutPromise = getConceptImages('imagesAbout');
+  const worksAboutPromiseByLabel = getConceptDocs.works.byLabel('worksAbout');
+  const imagesAboutPromiseByLabel =
+    getConceptDocs.images.byLabel('imagesAbout');
 
   // Only Genres can have works or images "in" them
   // so don't bother executing this query for other types
   // just pretend that we have.
-  const worksInPromise =
+  const worksInPromiseById =
     conceptResponse.type === 'Genre'
-      ? getConceptWorks('worksIn')
+      ? getConceptDocs.works.byId('worksIn')
       : Promise.resolve(emptyWorkResults);
 
-  const imagesInPromise =
+  const imagesInPromiseById =
     conceptResponse.type === 'Genre'
-      ? getConceptImages('imagesIn')
+      ? getConceptDocs.images.byId('imagesIn')
+      : Promise.resolve(emptyImageResults);
+
+  const worksInPromiseByLabel =
+    conceptResponse.type === 'Genre'
+      ? getConceptDocs.works.byLabel('worksIn')
+      : Promise.resolve(emptyWorkResults);
+
+  const imagesInPromiseByLabel =
+    conceptResponse.type === 'Genre'
+      ? getConceptDocs.images.byLabel('imagesIn')
       : Promise.resolve(emptyImageResults);
 
   // Genres cannot be creators of works or images.
@@ -494,56 +539,127 @@ export const getServerSideProps: GetServerSideProps<
   // the contributor fields.
   // Therefore, we can only really be certain that a Concept
   // is not (and should never be) a contributor when it is a genre.
-  const worksByPromise =
+  const worksByPromiseById =
     conceptResponse.type !== 'Genre'
-      ? getConceptWorks('worksBy')
+      ? getConceptDocs.works.byId('worksBy')
       : Promise.resolve(emptyWorkResults);
 
-  const imagesByPromise =
+  const imagesByPromiseById =
     conceptResponse.type !== 'Genre'
-      ? getConceptImages('imagesBy')
+      ? getConceptDocs.images.byId('imagesBy')
+      : Promise.resolve(emptyImageResults);
+
+  const worksByPromiseByLabel =
+    conceptResponse.type !== 'Genre'
+      ? getConceptDocs.works.byLabel('worksBy')
+      : Promise.resolve(emptyWorkResults);
+
+  const imagesByPromiseByLabel =
+    conceptResponse.type !== 'Genre'
+      ? getConceptDocs.images.byLabel('imagesBy')
       : Promise.resolve(emptyImageResults);
 
   const [
-    worksAboutResponse,
-    worksByResponse,
-    worksInResponse,
-    imagesAboutResponse,
-    imagesByResponse,
-    imagesInResponse,
+    worksAboutResponseById,
+    worksByResponseById,
+    worksInResponseById,
+    imagesAboutResponseById,
+    imagesByResponseById,
+    imagesInResponseById,
+
+    worksAboutResponseByLabel,
+    worksByResponseByLabel,
+    worksInResponseByLabel,
+    imagesAboutResponseByLabel,
+    imagesByResponseByLabel,
+    imagesInResponseByLabel,
   ] = await Promise.all([
-    worksAboutPromise,
-    worksByPromise,
-    worksInPromise,
-    imagesAboutPromise,
-    imagesByPromise,
-    imagesInPromise,
+    worksAboutPromiseById,
+    worksByPromiseById,
+    worksInPromiseById,
+    imagesAboutPromiseById,
+    imagesByPromiseById,
+    imagesInPromiseById,
+
+    worksAboutPromiseByLabel,
+    worksByPromiseByLabel,
+    worksInPromiseByLabel,
+    imagesAboutPromiseByLabel,
+    imagesByPromiseByLabel,
+    imagesInPromiseByLabel,
   ]);
 
   const worksAbout = getQueryResults({
     categoryName: 'works about',
-    queryResults: worksAboutResponse,
+    queryResults: worksAboutResponseById,
   });
   const worksBy = getQueryResults({
     categoryName: 'works by',
-    queryResults: worksByResponse,
+    queryResults: worksByResponseById,
   });
   const imagesAbout = getQueryResults({
     categoryName: 'images about',
-    queryResults: imagesAboutResponse,
+    queryResults: imagesAboutResponseById,
   });
   const imagesBy = getQueryResults({
     categoryName: 'images by',
-    queryResults: imagesByResponse,
+    queryResults: imagesByResponseById,
   });
   const worksIn = getQueryResults({
     categoryName: 'works in',
-    queryResults: worksInResponse,
+    queryResults: worksInResponseById,
   });
   const imagesIn = getQueryResults({
     categoryName: 'images in',
-    queryResults: imagesInResponse,
+    queryResults: imagesInResponseById,
   });
+
+  const getLabelTotals = () => {
+    const worksAboutByLabelTotalResults = getQueryResults({
+      categoryName: 'works about',
+      queryResults: worksAboutResponseByLabel,
+    })?.totalResults;
+    const worksByByLabelTotalResults = getQueryResults({
+      categoryName: 'works by',
+      queryResults: worksByResponseByLabel,
+    })?.totalResults;
+    const imagesAboutByLabelTotalResults = getQueryResults({
+      categoryName: 'images about',
+      queryResults: imagesAboutResponseByLabel,
+    })?.totalResults;
+    const imagesByByLabelTotalResults = getQueryResults({
+      categoryName: 'images by',
+      queryResults: imagesByResponseByLabel,
+    })?.totalResults;
+    const worksInByLabelTotalResults = getQueryResults({
+      categoryName: 'works in',
+      queryResults: worksInResponseByLabel,
+    })?.totalResults;
+    const imagesInByLabelTotalResults = getQueryResults({
+      categoryName: 'images in',
+      queryResults: imagesInResponseByLabel,
+    })?.totalResults;
+
+    return {
+      worksAbout: worksAboutByLabelTotalResults,
+      worksBy: worksByByLabelTotalResults,
+      worksIn: worksInByLabelTotalResults,
+      imagesAbout: imagesAboutByLabelTotalResults,
+      imagesBy: imagesByByLabelTotalResults,
+      imagesIn: imagesInByLabelTotalResults,
+    };
+  };
+
+  const totalResults = conceptsById
+    ? {
+        worksAbout: worksAbout?.totalResults,
+        worksBy: worksBy?.totalResults,
+        worksIn: worksIn?.totalResults,
+        imagesAbout: imagesAbout?.totalResults,
+        imagesBy: imagesBy?.totalResults,
+        imagesIn: imagesIn?.totalResults,
+      }
+    : getLabelTotals();
 
   const apiToolbarLinks = createApiToolbarLinks(conceptResponse);
 
@@ -557,6 +673,10 @@ export const getServerSideProps: GetServerSideProps<
         pageResults: worksAbout.pageResults.map(toWorkBasic),
       },
       images: imagesAbout,
+      totalResults: {
+        works: totalResults.worksAbout,
+        images: totalResults.imagesAbout,
+      },
     },
     by: {
       label: `By this ${conceptTypeName}`,
@@ -565,6 +685,10 @@ export const getServerSideProps: GetServerSideProps<
         pageResults: worksBy.pageResults.map(toWorkBasic),
       },
       images: imagesBy,
+      totalResults: {
+        works: totalResults.worksBy,
+        images: totalResults.imagesBy,
+      },
     },
     in: {
       label: `Using this ${conceptTypeName}`,
@@ -573,6 +697,10 @@ export const getServerSideProps: GetServerSideProps<
         pageResults: worksIn.pageResults.map(toWorkBasic),
       },
       images: imagesIn,
+      totalResults: {
+        works: totalResults.worksIn,
+        images: totalResults.imagesIn,
+      },
     },
   };
 
