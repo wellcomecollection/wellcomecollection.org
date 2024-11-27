@@ -314,7 +314,7 @@ interface ArticlesDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#group
    */
   parents: prismic.GroupField<Simplify<ArticlesDocumentDataParentsItem>> /**
-   * Override publish date rendering. This will not affect ordering field in *Story*
+   * Override pub. date in UI+ContentAPI field in *Story*
    *
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
