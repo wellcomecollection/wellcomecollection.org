@@ -309,7 +309,7 @@ export const ConceptPage: NextPage<Props> = ({
         tabId,
         resultsGroup: sectionsData[relationship].images,
         tabLabelText: sectionsData[relationship].label,
-        totalResults: sectionsData[relationship].totalResults.works,
+        totalResults: sectionsData[relationship].totalResults.images,
         link: toImagesLink(
           linkParams(tabId, conceptResponse),
           `${linkSources[tabId]}_${pathname}` as ImagesLinkSource
