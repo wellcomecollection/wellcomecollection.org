@@ -1,7 +1,6 @@
 locals {
   toggles_cookies        = ["toggles", "toggle_*"]
   userpreference_cookies = ["WC_*", "CookieControl"] // CookieControl is Civic UK (our Consent Management Platform)'s cookie that stores user preferences
-  ga_cookies             = ["_ga"]
 
   one_minute = 60
   one_hour   = 60 * local.one_minute
