@@ -149,7 +149,7 @@ type ImagesTabPanelProps = {
   id: string;
   link: LinkProps;
   results: ReturnedResults<ImageType>;
-  totalResults: number;
+  totalResults: number | undefined;
 };
 const ImagesTabPanel: FunctionComponent<ImagesTabPanelProps> = ({
   id,
@@ -161,7 +161,7 @@ const ImagesTabPanel: FunctionComponent<ImagesTabPanelProps> = ({
     <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
       <ImageEndpointSearchResults images={results.pageResults} />
       <Space $v={{ size: 'm', properties: ['margin-top'] }}>
-        {totalResults > 0 && (
+        {totalResults && (
           <SeeMoreButton
             text="All images"
             totalResults={totalResults}
@@ -177,7 +177,7 @@ type WorksTabPanelProps = {
   id: string;
   link: LinkProps;
   results: ReturnedResults<WorkBasic>;
-  totalResults: number;
+  totalResults: number | undefined;
 };
 const WorksTabPanel: FunctionComponent<WorksTabPanelProps> = ({
   id,
@@ -190,7 +190,7 @@ const WorksTabPanel: FunctionComponent<WorksTabPanelProps> = ({
       <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
         <WorksSearchResults works={results.pageResults} />
         <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-          {totalResults > 0 && (
+          {totalResults && (
             <SeeMoreButton
               text="All works"
               totalResults={totalResults}
@@ -214,14 +214,14 @@ type PageSectionDefinition<T> = {
     id: string;
     link: LinkProps;
     results: ReturnedResults<T>;
-    totalResults: number;
+    totalResults: number | undefined;
   };
 };
 type PageSectionDefinitionProps<T> = {
   tabId: string;
   resultsGroup: ReturnedResults<T> | undefined;
   tabLabelText: string;
-  totalResults: number;
+  totalResults: number | undefined;
   link: LinkProps;
 };
 
@@ -251,7 +251,7 @@ type SectionData = {
   label: string;
   works: ReturnedResults<WorkBasic> | undefined;
   images: ReturnedResults<ImageType> | undefined;
-  totalResults: { works: number; images: number };
+  totalResults: { works: number | undefined; images: number | undefined };
 };
 
 type SectionsData = {
