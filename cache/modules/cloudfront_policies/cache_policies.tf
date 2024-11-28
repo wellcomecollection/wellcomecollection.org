@@ -55,7 +55,6 @@ resource "aws_cloudfront_cache_policy" "weco_apps" {
             concat(
               local.toggles_cookies,
               local.userpreference_cookies,
-              local.ga_cookies,
             )
           )
         )
@@ -98,7 +97,6 @@ resource "aws_cloudfront_cache_policy" "weco_apps_all_params" {
             concat(
               local.toggles_cookies,
               local.userpreference_cookies,
-              local.ga_cookies,
             )
           )
         )
