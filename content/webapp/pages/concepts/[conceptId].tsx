@@ -157,11 +157,13 @@ const ImagesTabPanel: FunctionComponent<ImagesTabPanelProps> = ({
   results,
   totalResults,
 }) => {
+  const showSeeMore = totalResults !== undefined && totalResults > 0;
+
   return (
     <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
       <ImageEndpointSearchResults images={results.pageResults} />
       <Space $v={{ size: 'm', properties: ['margin-top'] }}>
-        {totalResults && (
+        {showSeeMore && (
           <SeeMoreButton
             text="All images"
             totalResults={totalResults}
@@ -185,12 +187,14 @@ const WorksTabPanel: FunctionComponent<WorksTabPanelProps> = ({
   results,
   totalResults,
 }) => {
+  const showSeeMore = totalResults !== undefined && totalResults > 0;
+
   return (
     <Container>
       <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
         <WorksSearchResults works={results.pageResults} />
         <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-          {totalResults && (
+          {showSeeMore && (
             <SeeMoreButton
               text="All works"
               totalResults={totalResults}
