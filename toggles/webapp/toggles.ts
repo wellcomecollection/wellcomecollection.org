@@ -102,6 +102,14 @@ const toggles = {
         'Use the new concept ID filters & aggregatiuons in the search API to query for works & images by ID rather than label.',
       type: 'experimental',
     },
+    {
+      id: 'recommendedStories',
+      title: 'Recommended stories',
+      initialValue: false,
+      description:
+        'Displays a static set of recommended stories on story pages',
+      type: 'experimental',
+    },
   ] as const,
   tests: [] as ABTest[],
 };
