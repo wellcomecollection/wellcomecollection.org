@@ -13,23 +13,22 @@ const RecommendedSection = styled(Space).attrs({
 `;
 
 const StoryPromoContainer = styled(Container)`
-  padding: 0 24px;
+  padding: 0 24px ${props => props.theme.containerPadding.small}px;
   max-width: none;
   width: auto;
   overflow: auto;
   margin: 0 auto;
-  padding-bottom: ${props => props.theme.containerPadding.large}px;
+  margin-bottom: ${props => props.theme.containerPadding.medium}px;
 
   ${props =>
     props.theme.media(
       'medium',
       'max-width'
     )(`
-    padding-bottom: ${props.theme.containerPadding.small}px;
+    margin-bottom: ${props.theme.containerPadding.small}px;
   `)}
 
   &::-webkit-scrollbar {
-    background: ${props => props.theme.color('neutral.200')};
     height: 18px;
   }
 
@@ -37,8 +36,8 @@ const StoryPromoContainer = styled(Container)`
     border-radius: 0;
     border-style: solid;
     border-width: 0 ${props => props.theme.containerPadding.small}px 12px;
-    background: ${props => props.theme.color('neutral.400')};
-    border-color: ${props => props.theme.color('neutral.200')};
+    background: ${props => props.theme.color('neutral.300')};
+    border-color: ${props => props.theme.color('white')};
   }
 
   -webkit-overflow-scrolling: touch;
@@ -181,7 +180,7 @@ const RecommendedStories = () => {
   return (
     <RecommendedSection>
       <h2 className={font('wb', 3)} style={{ padding: '16px 24px', margin: 0 }}>
-        Recommended articles
+        Popular stories
       </h2>
 
       <StoryPromoContainer>
