@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
 import { getServerData } from '@weco/common/server-data';
+import { useToggles } from '@weco/common/server-data/Context';
 import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { Pageview } from '@weco/common/services/conversion/track';
@@ -165,6 +166,7 @@ const HTMLDateWrapper = styled.span.attrs({ className: font('intr', 6) })`
 
 const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
+  const { recommendedStories } = useToggles();
 
   useEffect(() => {
     async function setSeries() {
@@ -360,6 +362,7 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
                   ? 'standalone-image-gallery'
                   : undefined
             }
+            hasRecommendations={recommendedStories}
           />
         }
         RelatedContent={Siblings}
