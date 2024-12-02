@@ -95,6 +95,7 @@ export type Props = {
   staticContent?: ReactElement | null;
   comicPreviousNext?: ComicPreviousNextProps;
   contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
+  hasRecommendations?: boolean;
 };
 
 type SectionTheme = {
@@ -123,7 +124,7 @@ const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
 
 export type SliceZoneContext = {
   minWidth: 8 | 10 | 12;
-  firstTextSliceIndex: number;
+  firstTextSliceIndex: string;
   isVisualStory: boolean;
   comicPreviousNext?: ComicPreviousNextProps;
   isShortFilm: boolean;
@@ -131,11 +132,12 @@ export type SliceZoneContext = {
   isLanding: boolean;
   isDropCapped: boolean;
   contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
+  fifthParagraphIndex?: number;
 };
 
 export const defaultContext: SliceZoneContext = {
   minWidth: 8,
-  firstTextSliceIndex: 1,
+  firstTextSliceIndex: '',
   isVisualStory: false,
   comicPreviousNext: undefined,
   isShortFilm: false,
@@ -143,6 +145,63 @@ export const defaultContext: SliceZoneContext = {
   isLanding: false,
   isDropCapped: false,
   contentType: undefined,
+};
+
+const TransformedSliceZone = ({ slices, components, context }) => {
+  let paragraphCount = 0;
+  let hasFoundFifthParagraph = false;
+  let index;
+
+  return slices.map(slice => {
+    let isTheSliceWFifthParagraph = false;
+
+    if (slice.slice_type === 'text') {
+      // Go through all Text slices
+      if (
+        !hasFoundFifthParagraph &&
+        paragraphCount <= 5 &&
+        Array.isArray(slice.primary?.text)
+      ) {
+        // Find all paragraphs within each Text slice until we find the fifth one.
+        slice.primary?.text.forEach((t, textIndex) => {
+          if (
+            !hasFoundFifthParagraph &&
+            paragraphCount <= 5 &&
+            t.type === 'paragraph'
+          ) {
+            if (paragraphCount < 5) {
+              paragraphCount++;
+            } else {
+              index = textIndex;
+              hasFoundFifthParagraph = true;
+              isTheSliceWFifthParagraph = true;
+            }
+          }
+        });
+      }
+
+      return (
+        <SliceZone
+          key={slice.id}
+          slices={[slice]}
+          components={components}
+          context={{
+            ...context,
+            fifthParagraphIndex: isTheSliceWFifthParagraph ? index : undefined,
+          }}
+        />
+      );
+    }
+
+    return (
+      <SliceZone
+        key={slice.id}
+        slices={[slice]}
+        components={components}
+        context={context}
+      />
+    );
+  });
 };
 
 const Body: FunctionComponent<Props> = ({
@@ -158,14 +217,15 @@ const Body: FunctionComponent<Props> = ({
   staticContent = null,
   comicPreviousNext,
   contentType,
+  hasRecommendations,
 }: Props) => {
   const filteredUntransformedBody = untransformedBody.filter(
     slice => slice.slice_type !== 'standfirst'
   );
 
-  const firstTextSliceIndex = filteredUntransformedBody
-    .map(slice => slice.slice_type)
-    .indexOf('text');
+  const firstTextSliceIndex =
+    filteredUntransformedBody.find(slice => slice.slice_type === 'text')?.id ||
+    '';
 
   const sections: RawContentListSlice[] =
     untransformedBody.filter(isContentList);
@@ -333,21 +393,40 @@ const Body: FunctionComponent<Props> = ({
 
       {isLanding && <LandingPageSections sections={sections} />}
 
-      <SliceZone
-        slices={filteredUntransformedBody}
-        components={components}
-        context={{
-          minWidth,
-          firstTextSliceIndex,
-          isVisualStory,
-          comicPreviousNext,
-          pageId,
-          isLanding,
-          isDropCapped,
-          contentType,
-          isShortFilm,
-        }}
-      />
+      {hasRecommendations ? (
+        <TransformedSliceZone
+          slices={filteredUntransformedBody}
+          components={components}
+          context={{
+            minWidth,
+            firstTextSliceIndex,
+            isVisualStory,
+            comicPreviousNext,
+            pageId,
+            isLanding,
+            isDropCapped,
+            contentType,
+            isShortFilm,
+            hasRecommendations,
+          }}
+        />
+      ) : (
+        <SliceZone
+          slices={filteredUntransformedBody}
+          components={components}
+          context={{
+            minWidth,
+            firstTextSliceIndex,
+            isVisualStory,
+            comicPreviousNext,
+            pageId,
+            isLanding,
+            isDropCapped,
+            contentType,
+            isShortFilm,
+          }}
+        />
+      )}
     </BodyWrapper>
   );
 };
