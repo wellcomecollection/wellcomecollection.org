@@ -5,7 +5,7 @@ import { ConceptPage } from './pages/concept';
 
 const test = base.extend<{
   armyPage: ConceptPage;
-  lithographsPage: ConceptPage;
+  mohPage: ConceptPage;
   songsPage: ConceptPage;
   thackrahPage: ConceptPage;
 }>({
@@ -16,11 +16,11 @@ const test = base.extend<{
     await use(armyPage);
   },
 
-  lithographsPage: async ({ context, page }, use) => {
+  mohPage: async ({ context, page }, use) => {
     // A Genre with both works and images using it, but nothing about it.
-    await concept('fmydsuw2', context, page);
-    const lithographsPage = new ConceptPage(page, 'type/technique');
-    await use(lithographsPage);
+    await concept('rasp7aye', context, page);
+    const mohPage = new ConceptPage(page, 'type/technique');
+    await use(mohPage);
   },
 
   songsPage: async ({ context, page }, use) => {
@@ -165,28 +165,27 @@ test.describe('a Concept representing a Genre with works and images both about a
 
 test.describe('a Concept representing a Genre that is only used as a genre for both works and images', () => {
   test('has both works and image sections showing records in that genre', async ({
-    lithographsPage,
+    mohPage,
   }) => {
     // Both images and works sections exist
-    await expect(lithographsPage.imagesHeader).toBeVisible();
-    await expect(lithographsPage.worksHeader).toBeVisible();
-    // There are no tabs, because there is only one group within each of the two sections
-    await expect(lithographsPage.worksAboutTab).not.toBeVisible();
-    await expect(lithographsPage.worksInTab).not.toBeVisible();
-    await expect(lithographsPage.imagesAboutTab).not.toBeVisible();
-    await expect(lithographsPage.imagesInTab).not.toBeVisible();
+    await expect(mohPage.imagesHeader).toBeVisible();
+    await expect(mohPage.worksHeader).toBeVisible();
 
-    // It has links to filtered searches
-    await expect(lithographsPage.allWorksLink).toHaveAttribute(
+    // There are no tabs, because there is only one group within each of the two sections
+    await expect(mohPage.worksAboutTab).not.toBeVisible();
+    await expect(mohPage.worksInTab).not.toBeVisible();
+    await expect(mohPage.imagesAboutTab).not.toBeVisible();
+    await expect(mohPage.imagesInTab).not.toBeVisible();
+
+    // It has links to filtered searches, (not using encodeURIComponent because the genre includes '+'")
+    await expect(mohPage.allWorksLink).toHaveAttribute(
       'href',
-      `/search/works?genres.label=${encodeURIComponent('"Lithographs"')}`
+      `/search/works?genres.label=%22MOH+reports%22`
     );
 
-    await expect(lithographsPage.allImagesLink).toHaveAttribute(
+    await expect(mohPage.allImagesLink).toHaveAttribute(
       'href',
-      `/search/images?source.genres.label=${encodeURIComponent(
-        '"Lithographs"'
-      )}`
+      `/search/images?source.genres.label=%22MOH+reports%22`
     );
   });
 });
