@@ -4,12 +4,25 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
-import { WobblyBottom } from '@weco/common/views/components/WobblyEdge';
+import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 
 const RecommendedSection = styled(Space).attrs({
   $v: { size: 'l', properties: ['margin-bottom', 'margin-top'] },
 })`
   background-color: ${props => props.theme.color('white')};
+`;
+
+const RecommendedWrapper = styled.div`
+  h2 {
+    padding: 16px 24px;
+    margin: 0;
+  }
+
+  ${props => props.theme.media('xlarge', 'min-width')`
+    max-width: 2200px;
+    margin: 0 auto;
+    justify-content: center;
+  `}
 `;
 
 const StoryPromoContainer = styled(Container)`
@@ -53,6 +66,11 @@ const StoriesContainer = styled.ul`
   margin-left: 0;
   display: flex;
   flex-wrap: nowrap;
+
+  ${props => props.theme.media('xlarge', 'min-width')`
+    max-width: 2200px;
+    margin: 0 auto;
+  `}
 `;
 
 const StoryLink = styled.a`
@@ -75,12 +93,16 @@ const StoryWrapper = styled.li`
     padding-bottom: 0;
   }
 
+  ${props => props.theme.media('xlarge', 'min-width')`
+    min-width: 345px;
+  `}
+
   ${props => props.theme.media('large', 'max-width')`
     min-width: 40vw;
-    max-width: 300px;
   `}
 
   ${props => props.theme.media('medium', 'max-width')`
+      max-width: 300px;
       min-width: 80vw;
   `}
 `;
@@ -179,28 +201,28 @@ const RecommendedStories = () => {
 
   return (
     <RecommendedSection>
-      <h2 className={font('wb', 3)} style={{ padding: '16px 24px', margin: 0 }}>
-        Popular stories
-      </h2>
+      <WobblyEdge backgroundColor="warmNeutral.300" isRotated />
 
-      <StoryPromoContainer>
-        <StoriesContainer>
-          {stories.map(story => {
-            return (
-              <StoryWrapper key={story.title}>
-                <StoryLink href={story.path}>
-                  <Story>
-                    <img src={story.imageUrl} alt={story.title} />
-                    <h4 className={font('wb', 6)}>{story.title}</h4>
-                  </Story>
-                </StoryLink>
-              </StoryWrapper>
-            );
-          })}
-        </StoriesContainer>
-      </StoryPromoContainer>
+      <RecommendedWrapper>
+        <h2 className={font('wb', 3)}>Popular stories</h2>
 
-      <WobblyBottom backgroundColor="warmNeutral.300" />
+        <StoryPromoContainer>
+          <StoriesContainer>
+            {stories.map(story => {
+              return (
+                <StoryWrapper key={story.title}>
+                  <StoryLink href={story.path}>
+                    <Story>
+                      <img src={story.imageUrl} alt={story.title} />
+                      <h4 className={font('wb', 6)}>{story.title}</h4>
+                    </Story>
+                  </StoryLink>
+                </StoryWrapper>
+              );
+            })}
+          </StoriesContainer>
+        </StoryPromoContainer>
+      </RecommendedWrapper>
     </RecommendedSection>
   );
 };
