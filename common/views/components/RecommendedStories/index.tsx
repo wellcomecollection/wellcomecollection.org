@@ -26,20 +26,11 @@ const RecommendedWrapper = styled.div`
 `;
 
 const StoryPromoContainer = styled(Container)`
-  padding: 0 24px ${props => props.theme.containerPadding.small}px;
+  padding: 0 24px 32px;
   max-width: none;
   width: auto;
   overflow: auto;
   margin: 0 auto;
-  margin-bottom: ${props => props.theme.containerPadding.medium}px;
-
-  ${props =>
-    props.theme.media(
-      'medium',
-      'max-width'
-    )(`
-    margin-bottom: ${props.theme.containerPadding.small}px;
-  `)}
 
   &::-webkit-scrollbar {
     height: 18px;
@@ -52,6 +43,10 @@ const StoryPromoContainer = styled(Container)`
     background: ${props => props.theme.color('neutral.300')};
     border-color: ${props => props.theme.color('white')};
   }
+
+  ${props => props.theme.media('medium', 'max-width')`
+    padding-bottom: 24px;
+  `}
 
   -webkit-overflow-scrolling: touch;
 `;
@@ -201,7 +196,12 @@ const RecommendedStories = () => {
 
   return (
     <RecommendedSection>
-      <WobblyEdge backgroundColor="warmNeutral.300" isRotated />
+      <WobblyEdge
+        backgroundColor="warmNeutral.300"
+        isRotated
+        isValley
+        intensity={60}
+      />
 
       <RecommendedWrapper>
         <h2 className={font('wb', 3)}>Popular stories</h2>
