@@ -69,13 +69,6 @@ export default meta;
 type Story = StoryObj<typeof WobblyEdge>;
 
 export const Basic: Story = {
-  args: {
-    intensity: 70,
-    isRotated: true,
-    points: 6,
-    isValley: true,
-  },
-
   name: 'WobblyEdge',
   render: Template,
 };
