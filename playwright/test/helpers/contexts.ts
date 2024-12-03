@@ -86,10 +86,7 @@ const stageApiToggleCookie = createCookie({
 
 export const requiredCookies = useStageApis
   ? [acceptCookieCookie, stageApiToggleCookie]
-  : [
-      acceptCookieCookie,
-      createCookie({ name: 'toggle_recommendedStories', value: 'true' }),
-    ];
+  : [acceptCookieCookie];
 
 const multiVolumeItem = async (
   context: BrowserContext,
