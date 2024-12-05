@@ -210,7 +210,10 @@ const RecommendedStories = () => {
           <StoriesContainer>
             {stories.map(story => {
               return (
-                <StoryWrapper key={story.title}>
+                <StoryWrapper
+                  key={story.title}
+                  data-gtm-trigger="popular_story"
+                >
                   <StoryLink href={story.path}>
                     <Story>
                       <img src={story.imageUrl} alt={story.title} />
