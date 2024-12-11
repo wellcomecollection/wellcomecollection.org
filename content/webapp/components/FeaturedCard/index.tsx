@@ -1,5 +1,4 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
-import styled from 'styled-components';
 
 import { ImageType } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
@@ -25,6 +24,16 @@ import { Page } from '@weco/content/types/pages';
 import { Season } from '@weco/content/types/seasons';
 import { SeriesBasic } from '@weco/content/types/series';
 
+import {
+  DateWrapper,
+  FeaturedCardCopy,
+  FeaturedCardLeft,
+  FeaturedCardLink,
+  FeaturedCardRight,
+  FeaturedCardShim,
+  FeaturedCardWrap,
+} from './FeaturedCard.styles';
+
 type PartialFeaturedCard = {
   image?: ImageType;
   labels: Label[];
@@ -35,6 +44,54 @@ type Props = PartialFeaturedCard & {
   background: PaletteColor;
   textColor: PaletteColor;
   isReversed?: boolean;
+};
+
+const FeaturedCard: FunctionComponent<PropsWithChildren<Props>> = ({
+  image,
+  labels,
+  children,
+  link,
+  textColor,
+  background,
+  isReversed = false,
+}) => {
+  return (
+    <FeaturedCardWrap>
+      <FeaturedCardLink href={link.url} $isReversed={isReversed}>
+        <FeaturedCardLeft>
+          {image && (
+            <PrismicImage
+              image={image}
+              sizes={{
+                xlarge: 1 / 2,
+                large: 1 / 2,
+                medium: 1 / 2,
+                small: 1,
+              }}
+              quality="low"
+            />
+          )}
+        </FeaturedCardLeft>
+        <div
+          className={grid({ s: 12, m: 11, l: 5, xl: 5 })}
+          style={{ display: 'flex' }}
+        >
+          <FeaturedCardRight $isReversed={isReversed}>
+            {labels && labels.length > 0 ? (
+              <LabelsList labels={labels} />
+            ) : (
+              <div style={{ marginBottom: '26px' }} />
+            )}
+            <FeaturedCardCopy $background={background} $textColor={textColor}>
+              {children}
+            </FeaturedCardCopy>
+          </FeaturedCardRight>
+        </div>
+        <div className={grid({ s: 12, m: 12, l: 7, xl: 7 })}></div>
+        <FeaturedCardShim $background={background} $isReversed={isReversed} />
+      </FeaturedCardLink>
+    </FeaturedCardWrap>
+  );
 };
 
 export function convertCardToFeaturedCardProps(
@@ -121,167 +178,6 @@ type FeaturedCardExhibitionProps = {
   textColor: PaletteColor;
 };
 
-const DateWrapper = styled(Space).attrs({
-  className: font('intr', 4),
-  $v: { size: 'm', properties: ['margin-bottom'] },
-})`
-  margin: 0;
-  padding: 0;
-`;
-
-type FeaturedCardExhibitionBodyProps = {
-  exhibition: ExhibitionBasic;
-};
-
-const FeaturedCardExhibitionBody = ({
-  exhibition,
-}: FeaturedCardExhibitionBodyProps) => {
-  return (
-    <div>
-      <h3 className={font('wb', 2)}>{exhibition.title}</h3>
-      {!exhibition.statusOverride && exhibition.start && exhibition.end && (
-        <DateWrapper as="p">
-          <DateRange start={exhibition.start} end={exhibition.end} />
-        </DateWrapper>
-      )}
-      <StatusIndicator
-        start={exhibition.start}
-        end={exhibition.end || new Date()}
-        statusOverride={exhibition.statusOverride}
-      />
-    </div>
-  );
-};
-
-const FeaturedCardWrap = styled.div`
-  margin-left: -${props => props.theme.gutter.small}px;
-  margin-right: -${props => props.theme.gutter.small}px;
-
-  ${props => props.theme.media('medium')`
-    margin-left: 0;
-    margin-right: 0;
-  `}
-`;
-
-type HasIsReversed = { $isReversed: boolean };
-const FeaturedCardLink = styled.a.attrs({
-  className: 'grid',
-  'data-gtm-trigger': 'featured_card_link',
-})<HasIsReversed>`
-  justify-content: flex-end;
-  flex-direction: ${props => (props.$isReversed ? 'row-reverse' : 'row')};
-
-  &,
-  &:link,
-  &:visited {
-    text-decoration: none;
-    border: none;
-  }
-`;
-
-const FeaturedCardLeft = styled.div.attrs({
-  className: grid({ s: 12, m: 12, l: 7, xl: 7 }),
-})``;
-
-const FeaturedCardRight = styled.div<HasIsReversed>`
-  display: flex;
-  flex-direction: column;
-  padding-left: ${props =>
-    props.$isReversed ? 0 : props.theme.gutter.small}px;
-  padding-right: ${props =>
-    props.$isReversed ? props.theme.gutter.small : 0}px;
-  transform: translateY(-28px); /* Height of a label (font size + padding) */
-  width: 100%;
-  height: 100%;
-  min-height: 200px;
-
-  ${props => props.theme.media('medium')`
-    padding-left: 0;
-    padding-right: 0;
-  `}
-
-  ${props =>
-    props.theme.media('large')(`
-      margin-left: ${props.$isReversed ? 0 : -props.theme.gutter.large + 'px'};
-      transform: translateY(0);
-    `)}
-`;
-
-const FeaturedCardCopy = styled(Space).attrs({
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-})<{ $textColor: PaletteColor; $background: PaletteColor }>`
-  flex: 1;
-  color: ${props => props.theme.color(props.$textColor)};
-  background-color: ${props => props.theme.color(props.$background)};
-
-  ${props =>
-    props.theme.media('large')(`
-      margin-right: -${props.theme.gutter.large}px;
-    `)}
-`;
-
-const FeaturedCardShim = styled.div.attrs<{ $background: PaletteColor }>({
-  className: `is-hidden-s is-hidden-m ${grid({ s: 12, m: 11, l: 5, xl: 5 })}`,
-})<HasIsReversed & { $background: PaletteColor }>`
-  position: relative;
-  background-color: ${props => props.theme.color(props.$background)};
-  height: 21px;
-
-  /* Prevent a white line appearing above the shim because of browser rounding errors */
-  top: -1px;
-  margin-left: ${props =>
-    props.$isReversed ? props.theme.gutter.large + 'px' : null};
-`;
-
-const FeaturedCard: FunctionComponent<PropsWithChildren<Props>> = ({
-  image,
-  labels,
-  children,
-  link,
-  textColor,
-  background,
-  isReversed = false,
-}) => {
-  return (
-    <FeaturedCardWrap>
-      <FeaturedCardLink href={link.url} $isReversed={isReversed}>
-        <FeaturedCardLeft>
-          {image && (
-            <PrismicImage
-              image={image}
-              sizes={{
-                xlarge: 1 / 2,
-                large: 1 / 2,
-                medium: 1 / 2,
-                small: 1,
-              }}
-              quality="low"
-            />
-          )}
-        </FeaturedCardLeft>
-        <div
-          className={grid({ s: 12, m: 11, l: 5, xl: 5 })}
-          style={{ display: 'flex' }}
-        >
-          <FeaturedCardRight $isReversed={isReversed}>
-            {labels && labels.length > 0 ? (
-              <LabelsList labels={labels} />
-            ) : (
-              <div style={{ marginBottom: '26px' }} />
-            )}
-            <FeaturedCardCopy $background={background} $textColor={textColor}>
-              {children}
-            </FeaturedCardCopy>
-          </FeaturedCardRight>
-        </div>
-        <div className={grid({ s: 12, m: 12, l: 7, xl: 7 })}></div>
-        <FeaturedCardShim $background={background} $isReversed={isReversed} />
-      </FeaturedCardLink>
-    </FeaturedCardWrap>
-  );
-};
-
 export const FeaturedCardArticle: FunctionComponent<
   FeaturedCardArticleProps
 > = ({ article, background, textColor }) => {
@@ -315,7 +211,19 @@ export const FeaturedCardExhibition: FunctionComponent<
 
   return (
     <FeaturedCard {...props} background={background} textColor={textColor}>
-      <FeaturedCardExhibitionBody exhibition={exhibition} />
+      <div>
+        <h3 className={font('wb', 2)}>{exhibition.title}</h3>
+        {!exhibition.statusOverride && exhibition.start && exhibition.end && (
+          <DateWrapper as="p">
+            <DateRange start={exhibition.start} end={exhibition.end} />
+          </DateWrapper>
+        )}
+        <StatusIndicator
+          start={exhibition.start}
+          end={exhibition.end || new Date()}
+          statusOverride={exhibition.statusOverride}
+        />
+      </div>
     </FeaturedCard>
   );
 };

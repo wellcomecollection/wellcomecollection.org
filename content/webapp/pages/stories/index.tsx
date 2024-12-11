@@ -24,7 +24,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
-import { FeaturedCardArticle } from '@weco/content/components/FeaturedCard/FeaturedCard';
+import { FeaturedCardArticle } from '@weco/content/components/FeaturedCard';
 import FeaturedText from '@weco/content/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
 import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';

@@ -51,7 +51,7 @@ import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import EventsByMonth from '@weco/content/components/EventsByMonth/EventsByMonth';
 import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import FacilityPromo from '@weco/content/components/FacilityPromo/FacilityPromo';
-import { FeaturedCardExhibition } from '@weco/content/components/FeaturedCard/FeaturedCard';
+import { FeaturedCardExhibition } from '@weco/content/components/FeaturedCard';
 import InfoBox, {
   InfoIconWrapper,
 } from '@weco/content/components/InfoBox/InfoBox';

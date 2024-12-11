@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { image } from '@weco/cardigan/stories/data/images';
 import { font } from '@weco/common/utils/classnames';
-import FeaturedCard from '@weco/content/components/FeaturedCard/FeaturedCard';
+import FeaturedCard from '@weco/content/components/FeaturedCard';
 import Readme from '@weco/content/components/FeaturedCard/README.mdx';
 
 const meta: Meta<typeof FeaturedCard> = {
