@@ -1,5 +1,3 @@
-import { FunctionComponent } from 'react';
-
 import { getCrop } from '@weco/common/model/image';
 import { cssGrid, font } from '@weco/common/utils/classnames';
 import {
@@ -7,21 +5,15 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
-import Space from '@weco/common/views/components/styled/Space';
 import Card from '@weco/content/components/Card/Card';
 import FeaturedCard from '@weco/content/components/FeaturedCard';
-import { Card as CardType } from '@weco/content/types/card';
+import {
+  Card as CardType,
+  convertItemToCardProps,
+  ItemType,
+} from '@weco/content/types/card';
 
-type Props = {
-  items: readonly CardType[];
-  isFeaturedFirst?: boolean;
-};
-
-type CardGridFeaturedCardProps = {
-  item: CardType;
-};
-
-const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
+export const HomepageFeaturedCard = ({ item }) => {
   const image = getCrop(item.image, '16:9');
 
   return (
@@ -67,35 +59,27 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
   );
 };
 
-const CardGrid: FunctionComponent<Props> = ({
-  items,
-  isFeaturedFirst,
-}: Props) => {
-  const cards = items.filter(item => item.type === 'card');
-  const threeCards = isFeaturedFirst ? cards.slice(1) : cards.slice(0, 3);
-  const featuredCard = isFeaturedFirst ? cards[0] : cards[3];
-
-  return (
-    <>
-      {featuredCard && isFeaturedFirst && (
-        <CardGridFeaturedCard item={featuredCard} />
-      )}
-      <CssGridContainer>
-        <div className="css-grid">
-          {threeCards.map((item, i) => (
-            <div key={i} className={cssGrid({ s: 12, m: 4, l: 4, xl: 4 })}>
-              <Card item={item} />
-            </div>
-          ))}
-        </div>
-      </CssGridContainer>
-      {featuredCard && !isFeaturedFirst && (
-        <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-          <CardGridFeaturedCard item={featuredCard} />
-        </Space>
-      )}
-    </>
-  );
+type Props = {
+  items: (ItemType | CardType)[];
 };
 
-export default CardGrid;
+export const HomepageCardGrid = ({ items }: Props) => {
+  const threeCards = items.slice(0, 3);
+
+  return (
+    <CssGridContainer>
+      <div className="css-grid">
+        {threeCards.map((item, i) => {
+          const cardItem =
+            item.type !== 'card' ? convertItemToCardProps(item) : item;
+
+          return (
+            <div key={i} className={cssGrid({ s: 12, m: 4, l: 4, xl: 4 })}>
+              <Card item={cardItem} />
+            </div>
+          );
+        })}
+      </div>
+    </CssGridContainer>
+  );
+};

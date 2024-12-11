@@ -30,8 +30,11 @@ import SpacingSection from '@weco/common/views/components/styled/SpacingSection'
 import Standfirst from '@weco/common/views/slices/Standfirst';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
+import {
+  HomepageCardGrid,
+  HomepageFeaturedCard,
+} from '@weco/content/components/HomepageCardGrid';
 import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
-import SimpleCardGrid from '@weco/content/components/SimpleCardGrid/SimpleCardGrid';
 import {
   filterEventsForNext7Days,
   orderEventsByNextAvailableDate,
@@ -242,6 +245,7 @@ const Homepage: FunctionComponent<Props> = ({
             )}
           </SpacingSection>
         </ContaineredLayout>
+
         {transformedHeaderList && (
           <SpacingSection>
             {transformedHeaderList.value.title && (
@@ -253,12 +257,8 @@ const Homepage: FunctionComponent<Props> = ({
               </SpacingComponent>
             )}
             <SpacingComponent>
-              <SimpleCardGrid
-                items={
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  transformedHeaderList.value.items as any[]
-                }
-                isFeaturedFirst={true}
+              <HomepageFeaturedCard
+                item={transformedHeaderList.value.items[0]}
               />
             </SpacingComponent>
           </SpacingSection>
@@ -293,7 +293,7 @@ const Homepage: FunctionComponent<Props> = ({
               />
             </SpacingComponent>
             <SpacingComponent>
-              <SimpleCardGrid
+              <HomepageCardGrid
                 items={
                   transformedContentList.value.items.map(
                     item =>
