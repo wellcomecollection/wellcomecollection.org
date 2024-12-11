@@ -87,36 +87,6 @@ type FeaturedCardArticleProps = {
   textColor: PaletteColor;
 };
 
-type FeaturedCardArticleBodyProps = {
-  article: Article;
-};
-
-// TODO: make this e.g. just `CardArticleBody` and work it back into the existing promos/cards
-const FeaturedCardArticleBody: FunctionComponent<
-  FeaturedCardArticleBodyProps
-> = ({ article }) => {
-  return (
-    <>
-      <h2 className={font('wb', 2)}>{article.title}</h2>
-      {article.caption && <p className={font('intr', 5)}>{article.caption}</p>}
-      {article.seriesTitle && (
-        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-          <p className={font('intb', 6)} style={{ marginBottom: 0 }}>
-            <span className={font('intr', 6)}>Part of</span>{' '}
-            {article.seriesTitle}
-          </p>
-        </Space>
-      )}
-    </>
-  );
-};
-
-type FeaturedCardExhibitionProps = {
-  exhibition: ExhibitionBasic;
-  background: PaletteColor;
-  textColor: PaletteColor;
-};
-
 export const FeaturedCardArticle: FunctionComponent<
   FeaturedCardArticleProps
 > = ({ article, background, textColor }) => {
@@ -139,9 +109,24 @@ export const FeaturedCardArticle: FunctionComponent<
       background={background}
       textColor={textColor}
     >
-      <FeaturedCardArticleBody article={article} />
+      <h2 className={font('wb', 2)}>{article.title}</h2>
+      {article.caption && <p className={font('intr', 5)}>{article.caption}</p>}
+      {article.seriesTitle && (
+        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+          <p className={font('intb', 6)} style={{ marginBottom: 0 }}>
+            <span className={font('intr', 6)}>Part of</span>{' '}
+            {article.seriesTitle}
+          </p>
+        </Space>
+      )}
     </FeaturedCard>
   );
+};
+
+type FeaturedCardExhibitionProps = {
+  exhibition: ExhibitionBasic;
+  background: PaletteColor;
+  textColor: PaletteColor;
 };
 
 export const FeaturedCardExhibition: FunctionComponent<
