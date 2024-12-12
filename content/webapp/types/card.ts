@@ -30,24 +30,24 @@ export type Card = {
   siteSection?: SiteSection;
 };
 
-export type ItemType =
-  | ArticleBasic
-  | EventBasic
-  | Season
-  | Page
-  | Series
-  | SeriesBasic
-  | ParentPage
-  | EventSeries
-  | Book
-  | ExhibitionBasic
-  | Guide
-  | Project
-  | ExhibitionGuide
-  | ExhibitionGuideBasic
-  | VisualStoryBasic;
-
-export function convertItemToCardProps(item: ItemType): Card {
+export function convertItemToCardProps(
+  item:
+    | ArticleBasic
+    | EventBasic
+    | Season
+    | Page
+    | Series
+    | SeriesBasic
+    | ParentPage
+    | EventSeries
+    | Book
+    | ExhibitionBasic
+    | Guide
+    | Project
+    | ExhibitionGuide
+    | ExhibitionGuideBasic
+    | VisualStoryBasic
+): Card {
   const format =
     'format' in item
       ? item.format
