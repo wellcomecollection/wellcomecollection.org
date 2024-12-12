@@ -3,6 +3,7 @@ import { LicenseType } from '@weco/common/model/license';
 import { Picture } from '@weco/common/model/picture';
 import { CaptionedImageProps } from '@weco/content/components/CaptionedImage/CaptionedImage';
 import { Props as ImageGalleryProps } from '@weco/content/components/ImageGallery';
+import { ContentApiImage } from '@weco/content/services/wellcome/content/types/api';
 
 import { singleLineOfText } from './text';
 
@@ -109,6 +110,76 @@ export const imageWithCrops = {
       contentUrl: florenceWinterfloodImageUrl('3200x3200'),
       width: 3200,
       height: 3200,
+    },
+  },
+};
+
+export const contentAPIImage: ContentApiImage = {
+  type: 'PrismicImage',
+  dimensions: {
+    width: 3543,
+    height: 1993,
+  },
+  alt: 'A collage combining photos and illustration featuring a woman in a blue hairnet.',
+  copyright:
+    'The personal cost of mental illness | Tanya Cooper for Wellcome Collection | | | CC-BY-NC-ND | |',
+  url: 'https://images.prismic.io/wellcomecollection/Z1BdtpbqstJ98BwR_WellcomeCollection_Main.jpg?auto=format,compress',
+  id: 'Z1BdtpbqstJ98BwR',
+  edit: {
+    x: 0,
+    y: 0,
+    zoom: 1,
+    background: 'transparent',
+  },
+  '32:15': {
+    dimensions: {
+      width: 3200,
+      height: 1500,
+    },
+    alt: 'A collage combining photos and illustration featuring a woman in a blue hairnet.',
+    copyright:
+      'The personal cost of mental illness | Tanya Cooper for Wellcome Collection | | | CC-BY-NC-ND | |',
+    url: florenceWinterfloodImageUrl('3200x1500'),
+    id: 'Z1BdtpbqstJ98BwR',
+    edit: {
+      x: 0,
+      y: 166,
+      zoom: 1,
+      background: 'transparent',
+    },
+  },
+  '16:9': {
+    dimensions: {
+      width: 3200,
+      height: 1800,
+    },
+    alt: 'A collage combining photos and illustration featuring a woman in a blue hairnet.',
+    copyright:
+      'The personal cost of mental illness | Tanya Cooper for Wellcome Collection | | | CC-BY-NC-ND | |',
+    url: florenceWinterfloodImageUrl('3200x1800'),
+    id: 'Z1BdtpbqstJ98BwR',
+    edit: {
+      x: 0,
+      y: 0,
+      zoom: 1,
+      background: 'transparent',
+    },
+  },
+  square: {
+    dimensions: {
+      width: 3200,
+      height: 3200,
+    },
+    alt: 'A collage combining photos and illustration featuring a woman in a blue hairnet.',
+    copyright:
+      'The personal cost of mental illness | Tanya Cooper for Wellcome Collection | | | CC-BY-NC-ND | |',
+    url: florenceWinterfloodImageUrl('3200x3200'),
+    id: 'Z1BdtpbqstJ98BwR',
+    edit: {
+      x: 775,
+      y: 0,
+      zoom: 1,
+      background: 'transparent',
     },
   },
 };

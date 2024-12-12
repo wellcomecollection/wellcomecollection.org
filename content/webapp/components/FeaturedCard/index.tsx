@@ -95,9 +95,12 @@ const FeaturedCardBasic = props => {
   );
 };
 
-export const FeaturedCardArticle: FunctionComponent<
-  FeaturedCardArticleProps
-> = ({ article, background, textColor }) => {
+const FeaturedCardArticle: FunctionComponent<FeaturedCardArticleProps> = ({
+  article,
+  background,
+  textColor,
+  ...rest
+}) => {
   const promoImage = article.image?.['16:9'] || article.image;
   const image = promoImage && {
     ...transformImage(promoImage),
@@ -111,6 +114,7 @@ export const FeaturedCardArticle: FunctionComponent<
 
   return (
     <FeaturedCardBasic
+      {...rest}
       image={image}
       link={link}
       labels={labels}
@@ -131,13 +135,18 @@ export const FeaturedCardArticle: FunctionComponent<
   );
 };
 
-export const FeaturedCardExhibition: FunctionComponent<
+const FeaturedCardExhibition: FunctionComponent<
   FeaturedCardExhibitionProps
-> = ({ exhibition, background, textColor }) => {
+> = ({ exhibition, background, textColor, ...rest }) => {
   const props = convertItemToFeaturedCardProps(exhibition);
 
   return (
-    <FeaturedCardBasic {...props} background={background} textColor={textColor}>
+    <FeaturedCardBasic
+      {...rest}
+      {...props}
+      background={background}
+      textColor={textColor}
+    >
       <div>
         <h3 className={font('wb', 2)}>{exhibition.title}</h3>
         {!exhibition.statusOverride && exhibition.start && exhibition.end && (
@@ -161,23 +170,11 @@ const FeaturedCard: FunctionComponent<
   | (FeaturedCardExhibitionProps & { type: 'exhibition' })
 > = props => {
   if (props.type === 'article') {
-    return (
-      <FeaturedCardArticle
-        article={props.article}
-        background={props.background}
-        textColor={props.textColor}
-      />
-    );
+    return <FeaturedCardArticle {...props} />;
   }
 
   if (props.type === 'exhibition') {
-    return (
-      <FeaturedCardExhibition
-        exhibition={props.exhibition}
-        background={props.background}
-        textColor={props.textColor}
-      />
-    );
+    return <FeaturedCardExhibition {...props} />;
   }
 
   return <FeaturedCardBasic {...props} />;
