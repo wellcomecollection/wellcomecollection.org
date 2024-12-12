@@ -27,21 +27,35 @@ import {
   FeaturedCardWrap,
 } from './FeaturedCard.styles';
 
-type Props = PartialFeaturedCard & {
+type FeaturedCardProps = PartialFeaturedCard & {
   background: PaletteColor;
   textColor: PaletteColor;
   isReversed?: boolean;
 };
 
-const FeaturedCard: FunctionComponent<PropsWithChildren<Props>> = ({
-  image,
-  labels,
-  children,
-  link,
-  textColor,
-  background,
-  isReversed = false,
-}) => {
+type FeaturedCardArticleProps = {
+  article: Article;
+  background: PaletteColor;
+  textColor: PaletteColor;
+};
+
+type FeaturedCardExhibitionProps = {
+  exhibition: ExhibitionBasic;
+  background: PaletteColor;
+  textColor: PaletteColor;
+};
+
+const FeaturedCardBasic = props => {
+  const {
+    image,
+    labels,
+    children,
+    link,
+    textColor,
+    background,
+    isReversed = false,
+  } = props;
+
   return (
     <FeaturedCardWrap>
       <FeaturedCardLink href={link.url} $isReversed={isReversed}>
@@ -81,12 +95,6 @@ const FeaturedCard: FunctionComponent<PropsWithChildren<Props>> = ({
   );
 };
 
-type FeaturedCardArticleProps = {
-  article: Article;
-  background: PaletteColor;
-  textColor: PaletteColor;
-};
-
 export const FeaturedCardArticle: FunctionComponent<
   FeaturedCardArticleProps
 > = ({ article, background, textColor }) => {
@@ -102,7 +110,7 @@ export const FeaturedCardArticle: FunctionComponent<
   const labels = [{ text: article.format.label }];
 
   return (
-    <FeaturedCard
+    <FeaturedCardBasic
       image={image}
       link={link}
       labels={labels}
@@ -119,14 +127,8 @@ export const FeaturedCardArticle: FunctionComponent<
           </p>
         </Space>
       )}
-    </FeaturedCard>
+    </FeaturedCardBasic>
   );
-};
-
-type FeaturedCardExhibitionProps = {
-  exhibition: ExhibitionBasic;
-  background: PaletteColor;
-  textColor: PaletteColor;
 };
 
 export const FeaturedCardExhibition: FunctionComponent<
@@ -135,7 +137,7 @@ export const FeaturedCardExhibition: FunctionComponent<
   const props = convertItemToFeaturedCardProps(exhibition);
 
   return (
-    <FeaturedCard {...props} background={background} textColor={textColor}>
+    <FeaturedCardBasic {...props} background={background} textColor={textColor}>
       <div>
         <h3 className={font('wb', 2)}>{exhibition.title}</h3>
         {!exhibition.statusOverride && exhibition.start && exhibition.end && (
@@ -149,8 +151,36 @@ export const FeaturedCardExhibition: FunctionComponent<
           statusOverride={exhibition.statusOverride}
         />
       </div>
-    </FeaturedCard>
+    </FeaturedCardBasic>
   );
+};
+
+const FeaturedCard: FunctionComponent<
+  | PropsWithChildren<FeaturedCardProps & { type?: 'card' }>
+  | (FeaturedCardArticleProps & { type: 'article' })
+  | (FeaturedCardExhibitionProps & { type: 'exhibition' })
+> = props => {
+  if (props.type === 'article') {
+    return (
+      <FeaturedCardArticle
+        article={props.article}
+        background={props.background}
+        textColor={props.textColor}
+      />
+    );
+  }
+
+  if (props.type === 'exhibition') {
+    return (
+      <FeaturedCardExhibition
+        exhibition={props.exhibition}
+        background={props.background}
+        textColor={props.textColor}
+      />
+    );
+  }
+
+  return <FeaturedCardBasic {...props} />;
 };
 
 export default FeaturedCard;
