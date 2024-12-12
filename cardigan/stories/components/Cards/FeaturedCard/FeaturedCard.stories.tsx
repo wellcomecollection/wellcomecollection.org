@@ -59,7 +59,6 @@ type Story = StoryObj<typeof FeaturedCard>;
 export const Basic: Story = {
   name: 'FeaturedCard',
   render: args => {
-    console.log(args);
     return (
       <ReadmeDecorator
         WrappedComponent={FeaturedCard}
