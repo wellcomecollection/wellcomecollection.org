@@ -26,7 +26,7 @@ import { Props as ComicPreviousNextProps } from '@weco/content/components/ComicP
 import FeaturedCard, {
   convertCardToFeaturedCardProps,
   convertItemToFeaturedCardProps,
-} from '@weco/content/components/FeaturedCard/FeaturedCard';
+} from '@weco/content/components/FeaturedCard';
 import FeaturedText from '@weco/content/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
 import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors/OnThisPageAnchors';

@@ -51,7 +51,7 @@ import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import EventsByMonth from '@weco/content/components/EventsByMonth/EventsByMonth';
 import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import FacilityPromo from '@weco/content/components/FacilityPromo/FacilityPromo';
-import { FeaturedCardExhibition } from '@weco/content/components/FeaturedCard/FeaturedCard';
+import FeaturedCard from '@weco/content/components/FeaturedCard';
 import InfoBox, {
   InfoIconWrapper,
 } from '@weco/content/components/InfoBox/InfoBox';
@@ -473,7 +473,8 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                     <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
                       {firstExhibition ? (
                         <ContaineredLayout gridSizes={gridSize12()}>
-                          <FeaturedCardExhibition
+                          <FeaturedCard
+                            type="exhibition"
                             exhibition={firstExhibition}
                             background="warmNeutral.300"
                             textColor="black"

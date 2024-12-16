@@ -9,7 +9,7 @@ import {
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import Space from '@weco/common/views/components/styled/Space';
 import Card from '@weco/content/components/Card/Card';
-import FeaturedCard from '@weco/content/components/FeaturedCard/FeaturedCard';
+import FeaturedCard from '@weco/content/components/FeaturedCard';
 import { Card as CardType } from '@weco/content/types/card';
 
 type Props = {
