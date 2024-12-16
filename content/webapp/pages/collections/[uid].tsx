@@ -2,6 +2,7 @@ import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { AppErrorProps } from '@weco/common/services/app';
+import useHotjar from '@weco/content/hooks/useHotjar';
 import * as page from '@weco/content/pages/pages/[pageId]';
 
 export const getServerSideProps: GetServerSideProps<
@@ -16,7 +17,7 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const CollectionsPage: FunctionComponent<page.Props> = (props: page.Props) => {
+  useHotjar(true);
   return <page.Page {...props} />;
 };
-
 export default CollectionsPage;

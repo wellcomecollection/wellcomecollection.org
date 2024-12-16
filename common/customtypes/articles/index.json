@@ -176,6 +176,14 @@
       }
     },
     "Content relationships": {
+      "exploreMoreDocument": {
+        "type": "Link",
+        "config": {
+          "label": "\"Explore more\" document",
+          "select": "document",
+          "customtypes": ["articles", "exhibitions"]
+        }
+      },
       "series": {
         "type": "Group",
         "fieldset": "Series",
