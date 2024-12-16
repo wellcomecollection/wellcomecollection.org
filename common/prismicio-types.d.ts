@@ -283,6 +283,19 @@ interface ArticlesDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */;
   metadataDescription: prismic.RichTextField /**
+   * "Explore more" document field in *Story*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: articles.exploreMoreDocument
+   * - **Tab**: Content relationships
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */;
+  exploreMoreDocument: prismic.ContentRelationshipField<
+    'articles' | 'exhibitions'
+  >;
+
+  /**
    * Series field in *Story*
    *
    * - **Field Type**: Group
@@ -290,7 +303,7 @@ interface ArticlesDocumentData {
    * - **API ID Path**: articles.series[]
    * - **Tab**: Content relationships
    * - **Documentation**: https://prismic.io/docs/field#group
-   */;
+   */
   series: prismic.GroupField<Simplify<ArticlesDocumentDataSeriesItem>>;
 
   /**
