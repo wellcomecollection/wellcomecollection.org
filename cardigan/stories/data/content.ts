@@ -2,7 +2,11 @@ import { faker } from '@faker-js/faker';
 
 import untransformedBody from '@weco/cardigan/stories/data/untransformed-body';
 import { Props as QuoteProps } from '@weco/content/components/Quote/Quote';
-import { Article, ArticleBasic } from '@weco/content/types/articles';
+import { Article } from '@weco/content/services/wellcome/content/types/api';
+import {
+  ArticleBasic,
+  Article as TransformedPrismicArticle,
+} from '@weco/content/types/articles';
 import {
   Organisation as OrganisationType,
   Person as PersonType,
@@ -12,6 +16,7 @@ import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { Season } from '@weco/content/types/seasons';
 
 import {
+  contentAPIImage,
   darkCloudImageUrl,
   florenceWinterfloodImageUrl,
   image,
@@ -257,7 +262,7 @@ export const organisation: OrganisationType = {
   sameAs: [],
 };
 
-export const article: Article = {
+export const article: TransformedPrismicArticle = {
   type: 'articles',
   id: 'YLoCLhAAACEAfyuO',
   uid: 'a-dark-cloud',
@@ -466,5 +471,49 @@ export const exhibitionBasic: ExhibitionBasic = {
   end: new Date('2021-09-29T23:00:00+0000'),
   isPermanent: false,
   contributors: [],
-  labels: [],
+  labels: [{ text: 'Exhibition' }],
+};
+
+export const contentAPIArticle: Article = {
+  type: 'Article',
+  id: 'Zz2g4BAAAB8AAs0L',
+  uid: 'the-personal-cost-of-mental-illness',
+  title: 'The personal cost of mental illness',
+  caption:
+    'Laura Grace Simpkins is tired of hearing how much her mental ill health costs the country. What about how much it costs her?',
+  format: {
+    type: 'ArticleFormat',
+    id: 'W7TfJRAAAJ1D0eLK',
+    label: 'Article',
+  },
+  publicationDate: '2024-12-11T10:00:07+0000',
+  contributors: [
+    {
+      type: 'Contributor',
+      contributor: {
+        type: 'Person',
+        id: 'YRpIOREAANdN3wpG',
+        label: 'Laura Grace Simpkins',
+      },
+      role: {
+        type: 'EditorialContributorRole',
+        id: 'WcUWeCgAAFws-nGh',
+        label: 'Author',
+      },
+    },
+    {
+      type: 'Contributor',
+      contributor: {
+        type: 'Person',
+        id: 'Yw8WwhAAADhyTh92',
+        label: 'Tanya Cooper',
+      },
+      role: {
+        type: 'EditorialContributorRole',
+        id: 'YEu7zhAAACMAX7IG',
+        label: 'Artist',
+      },
+    },
+  ],
+  image: contentAPIImage,
 };

@@ -23,7 +23,7 @@ export type ContentApiProps = {
   aggregations?: string[];
 };
 
-type ContentApiImage = Image & { type: 'PrismicImage' };
+export type ContentApiImage = Image & { type: 'PrismicImage' };
 
 export type Series = {
   id: string;

@@ -381,9 +381,6 @@ export function transformContentListSlice(
     type: 'contentList',
     value: {
       title: asText(slice.primary.title),
-      // TODO: The old code would look up a `hasFeatured` field on `slice.primary`,
-      // but that doesn't exist in our Prismic model.
-      // hasFeatured: slice.primary.hasFeatured,
       items: contents
         .map(content => {
           switch (content.type) {
