@@ -10,6 +10,7 @@ import { cross, gallery } from '@weco/common/icons';
 import { CaptionedImage as CaptionedImageProps } from '@weco/common/model/captioned-image';
 import { repeatingLsBlack } from '@weco/common/utils/backgrounds';
 import { font } from '@weco/common/utils/classnames';
+import { dasherize } from '@weco/common/utils/grammar';
 import Button from '@weco/common/views/components/Buttons';
 import Control from '@weco/common/views/components/Control';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -71,7 +72,7 @@ export type Props = {
   comicPreviousNext?: ComicPreviousNextProps;
 };
 
-const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
+const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
   id,
   title,
   items,
@@ -140,14 +141,18 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
             <Space as="span" $h={{ size: 's', properties: ['margin-right'] }}>
               <Icon icon={gallery} />
             </Space>
-            <h2 id={`gallery-${id}`} className={font('wb', 3)} ref={headingRef}>
+            <h2
+              id={title ? dasherize(title) : `gallery-${id}`}
+              className={font('wb', 3)}
+              ref={headingRef}
+            >
               {title || 'In pictures'}
             </h2>
           </GalleryTitle>
         </ContaineredLayout>
       )}
       <Gallery
-        id={`image-gallery-${id}`}
+        id={id}
         $isActive={isActive}
         $isStandalone={isStandalone || isFrames}
         $pageBackground={pageBackground}
@@ -187,7 +192,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                 <ControlContainer $isActive={isActive}>
                   <Control
                     tabIndex={-1}
-                    ariaControls={`image-gallery-${id}`}
+                    ariaControls={id}
                     ariaExpanded={isActive}
                     dataGtmTrigger="hide_image_gallery"
                     ref={closeButtonRef}
@@ -257,7 +262,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                 <Button
                   variant="ButtonSolid"
                   ref={openButtonRef}
-                  ariaControls={`image-gallery-${id}`}
+                  ariaControls={id}
                   ariaExpanded={isActive}
                   dataGtmTrigger={isActive ? undefined : 'show_image_gallery'}
                   icon={gallery}
