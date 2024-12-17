@@ -343,6 +343,7 @@ export const oneScheduleItem: prismic.Query<RawArticlesDocument> = {
             },
           },
         ],
+        exploreMoreDocument: { link_type: 'Document' },
         seasons: [
           {
             season: {
