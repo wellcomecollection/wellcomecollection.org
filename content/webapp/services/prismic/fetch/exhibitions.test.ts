@@ -38,16 +38,13 @@ describe('fetchExhibitions', () => {
         .map(e => ({
           id: e.id,
           title: asText(e.data.title),
-          end: e.data.end,
+          end: e.data.end || '2090-09-09T23:00:00+0000',
         }))
         .sort((a, b) => {
           // Makes TS happy but this condition should never not work
           // we always have an end date, even for permanent exhibitions
           // e.g. Being Human ends in 2090
-          if (a.end && b.end) {
-            return a.end > b.end ? 1 : -1;
-          }
-          return 1;
+          return a.end > b.end ? 1 : -1;
         })
         .slice(0, 6); // Slicing so we don't have to keep adding new exhibitions.
 
@@ -96,16 +93,13 @@ describe('fetchExhibitions', () => {
         .map(e => ({
           id: e.id,
           title: asText(e.data.title),
-          end: e.data.end,
+          end: e.data.end || '2090-09-09T23:00:00+0000',
         }))
         .sort((a, b) => {
           // Makes TS happy but this condition should never not work
           // we always have an end date, even for permanent exhibitions
           // e.g. Being Human ends in 2090
-          if (a.end && b.end) {
-            return a.end > b.end ? 1 : -1;
-          }
-          return 1;
+          return a.end > b.end ? 1 : -1;
         })
         .slice(0, 3); // Slicing so we don't have to keep adding new exhibitions.
 
