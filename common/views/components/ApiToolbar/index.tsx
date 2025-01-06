@@ -165,15 +165,6 @@ const ApiToolbar: FunctionComponent<Props> = ({ links = [] }) => {
           </>
         )}
       </div>
-      <a
-        href="https://main.d33vyuqnhij7au.amplifyapp.com/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <button type="button" style={{ padding: '10px' }}>
-          <>🏷️</>
-        </button>
-      </a>
       <button
         type="button"
         onClick={() => {
