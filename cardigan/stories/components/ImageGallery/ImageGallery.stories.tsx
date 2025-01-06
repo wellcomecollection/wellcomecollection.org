@@ -19,7 +19,7 @@ const meta: Meta<typeof ImageGallery> = {
   ),
   args: {
     items: images,
-    id: 1,
+    id: 'image-gallery',
     isStandalone: false,
   },
 };

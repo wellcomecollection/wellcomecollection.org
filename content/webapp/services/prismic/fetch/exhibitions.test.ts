@@ -38,19 +38,49 @@ describe('fetchExhibitions', () => {
         .map(e => ({
           id: e.id,
           title: asText(e.data.title),
+          end: e.data.end || '2090-09-09T23:00:00+0000',
         }))
-        .sort((a, b) => (a.id > b.id ? 1 : -1))
+        .sort((a, b) => {
+          // Makes TS happy but this condition should never not work
+          // we always have an end date, even for permanent exhibitions
+          // e.g. Being Human ends in 2090
+          return a.end > b.end ? 1 : -1;
+        })
         .slice(0, 6); // Slicing so we don't have to keep adding new exhibitions.
 
       // Of these exhibitions, three closed on 23 April 2023:
       // Objects in Stereo, The Archive of an Unseen, and the Healing Pavilion
       expect(closingDayExhibitions).toStrictEqual([
-        { id: 'XNFfsxAAANwqbNWD', title: 'Being Human' },
-        { id: 'Y0QhIxEAAA__0sMb', title: 'Objects in Stereo' },
-        { id: 'Y3zI8hAAAGXXcMua', title: 'The Archive of an Unseen' },
-        { id: 'Y8VNbhEAAPJM-oki', title: 'Milk' },
-        { id: 'Yzv9ChEAABfUrkVp', title: 'The Healing Pavilion' },
-        { id: 'ZAW0PxQAACcG-pX8', title: 'Genetic Automata' },
+        {
+          id: 'Yzv9ChEAABfUrkVp',
+          title: 'The Healing Pavilion',
+          end: '2023-04-22T23:00:00+0000',
+        },
+        {
+          id: 'Y0QhIxEAAA__0sMb',
+          title: 'Objects in Stereo',
+          end: '2023-04-22T23:00:00+0000',
+        },
+        {
+          id: 'Y3zI8hAAAGXXcMua',
+          title: 'The Archive of an Unseen',
+          end: '2023-04-22T23:00:00+0000',
+        },
+        {
+          id: 'Y8VNbhEAAPJM-oki',
+          title: 'Milk',
+          end: '2023-09-09T23:00:00+0000',
+        },
+        {
+          id: 'ZAW0PxQAACcG-pX8',
+          title: 'Genetic Automata',
+          end: '2024-02-11T00:00:00+0000',
+        },
+        {
+          id: 'ZJ1zCxAAACMAczPA',
+          title: 'The Cult of Beauty',
+          end: '2024-04-27T23:00:00+0000',
+        },
       ]);
 
       mockToday({ as: new Date('2023-04-24T12:00:00Z') });
@@ -63,14 +93,32 @@ describe('fetchExhibitions', () => {
         .map(e => ({
           id: e.id,
           title: asText(e.data.title),
+          end: e.data.end || '2090-09-09T23:00:00+0000',
         }))
-        .sort((a, b) => (a.id > b.id ? 1 : -1))
+        .sort((a, b) => {
+          // Makes TS happy but this condition should never not work
+          // we always have an end date, even for permanent exhibitions
+          // e.g. Being Human ends in 2090
+          return a.end > b.end ? 1 : -1;
+        })
         .slice(0, 3); // Slicing so we don't have to keep adding new exhibitions.
 
       expect(nextDayExhibitions).toStrictEqual([
-        { id: 'XNFfsxAAANwqbNWD', title: 'Being Human' },
-        { id: 'Y8VNbhEAAPJM-oki', title: 'Milk' },
-        { id: 'ZAW0PxQAACcG-pX8', title: 'Genetic Automata' },
+        {
+          id: 'Y8VNbhEAAPJM-oki',
+          title: 'Milk',
+          end: '2023-09-09T23:00:00+0000',
+        },
+        {
+          id: 'ZAW0PxQAACcG-pX8',
+          title: 'Genetic Automata',
+          end: '2024-02-11T00:00:00+0000',
+        },
+        {
+          id: 'ZJ1zCxAAACMAczPA',
+          title: 'The Cult of Beauty',
+          end: '2024-04-27T23:00:00+0000',
+        },
       ]);
     },
     timeout

@@ -17,23 +17,19 @@ export type EditorialImageGalleryProps = SliceComponentProps<
 
 const EditorialImageGallerySlice: FunctionComponent<
   EditorialImageGalleryProps
-> = ({ slice, slices, context }) => {
+> = ({ slice, context }) => {
   const isStandalone = context.contentType === 'standalone-image-gallery';
   const transformedSlice = transformEditorialImageGallerySlice(
     slice,
     isStandalone
   );
   const options = { ...defaultContext, ...context };
-  const allImageGallerySlices = slices.filter(
-    slice => slice.slice_type === 'editorialImageGallery'
-  );
-  const index = allImageGallerySlices.findIndex(s => s.id === slice.id);
 
   return transformedSlice.value.items?.length ? (
     <SpacingComponent $sliceType={transformedSlice.type}>
       <ImageGallery
         {...transformedSlice.value}
-        id={index + 1}
+        id={slice.id}
         comicPreviousNext={options.comicPreviousNext}
       />
     </SpacingComponent>
