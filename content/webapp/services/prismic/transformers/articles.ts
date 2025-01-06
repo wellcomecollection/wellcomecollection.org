@@ -115,6 +115,7 @@ export function transformArticle(
     prismic.isFilled.contentRelationship(data.exploreMoreDocument)
       ? {
           id: data.exploreMoreDocument.id,
+          uid: data.exploreMoreDocument.uid,
           type: data.exploreMoreDocument.type,
         }
       : undefined;
@@ -126,7 +127,6 @@ export function transformArticle(
     labels: labels.length > 0 ? labels : [{ text: 'Story' }],
     format,
     series,
-    exploreMoreDocument,
     contributors,
     readingTime: showReadingTime(format, labels)
       ? calculateReadingTime(genericFields.untransformedBody)
@@ -137,5 +137,6 @@ export function transformArticle(
           transformSeason(season as RawSeasonsDocument)
         )
       : [],
+    exploreMoreDocument,
   };
 }
