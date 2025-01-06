@@ -5,6 +5,7 @@ import {
   WellcomeApiError,
   wellcomeApiQuery,
 } from '@weco/content/services/wellcome';
+import { Toggles } from '@weco/toggles';
 
 import { ContentResultsList, ResultType } from './types/api';
 
@@ -32,4 +33,15 @@ export async function contentQuery<Params, Result extends ResultType>(
   return wellcomeApiQuery(url) as unknown as
     | ContentResultsList<Result>
     | WellcomeApiError;
+}
+
+export async function contentDocumentQuery<Result extends ResultType>(
+  endpoint: string,
+  { toggles }: { toggles: Toggles }
+): Promise<Result | WellcomeApiError> {
+  const apiOptions = globalApiOptions(toggles);
+
+  const url = `${rootUris[apiOptions.env]}/v0/${endpoint}`;
+
+  return wellcomeApiQuery(url) as unknown as Result | WellcomeApiError;
 }
