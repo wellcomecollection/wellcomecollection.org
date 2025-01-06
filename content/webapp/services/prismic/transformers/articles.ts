@@ -1,3 +1,5 @@
+import * as prismic from '@prismicio/client';
+
 import { Label } from '@weco/common/model/labels';
 import {
   ArticlesDocument as RawArticlesDocument,
@@ -107,6 +109,16 @@ export function transformArticle(
 
   const contributors = transformContributors(document);
 
+  // The content will be fetched content side later on
+  const exploreMoreDocument =
+    'exploreMoreDocument' in data &&
+    prismic.isFilled.contentRelationship(data.exploreMoreDocument)
+      ? {
+          id: data.exploreMoreDocument.id,
+          type: data.exploreMoreDocument.type,
+        }
+      : undefined;
+
   return {
     ...genericFields,
     type: 'articles',
@@ -114,6 +126,7 @@ export function transformArticle(
     labels: labels.length > 0 ? labels : [{ text: 'Story' }],
     format,
     series,
+    exploreMoreDocument,
     contributors,
     readingTime: showReadingTime(format, labels)
       ? calculateReadingTime(genericFields.untransformedBody)

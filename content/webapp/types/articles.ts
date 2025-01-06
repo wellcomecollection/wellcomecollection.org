@@ -32,6 +32,7 @@ export type Article = GenericContentFields & {
   format?: Format<ArticleFormatId>;
   readingTime?: string;
   datePublished: Date;
+  exploreMoreDocument?: { id: string; type: 'articles' | 'exhibitions' };
   series: Series[];
   seasons: Season[];
   color?: ColorSelection;
