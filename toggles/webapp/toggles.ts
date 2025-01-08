@@ -110,6 +110,13 @@ const toggles = {
         'Displays a static set of recommended stories on story pages',
       type: 'experimental',
     },
+    {
+      id: 'allSearch',
+      title: 'Modified All search page',
+      initialValue: false,
+      description: 'Displays a new version of the "all" search (/search)',
+      type: 'experimental',
+    },
   ] as const,
   tests: [] as ABTest[],
 };
