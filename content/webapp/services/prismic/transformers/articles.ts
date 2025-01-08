@@ -109,7 +109,7 @@ export function transformArticle(
 
   const contributors = transformContributors(document);
 
-  // The content will be fetched content side later on
+  // The content will be fetched client side later on
   const exploreMoreDocument =
     'exploreMoreDocument' in data &&
     prismic.isFilled.contentRelationship(data.exploreMoreDocument)
