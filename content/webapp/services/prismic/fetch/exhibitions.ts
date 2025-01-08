@@ -55,7 +55,7 @@ const fetchLinks = [
   ...seasonsFetchLinks,
 ] as string[];
 
-const exhibitionsFetcher = fetcher<RawExhibitionsDocument>(
+export const exhibitionsFetcher = fetcher<RawExhibitionsDocument>(
   'exhibitions',
   fetchLinks
 );
