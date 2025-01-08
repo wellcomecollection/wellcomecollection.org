@@ -466,6 +466,8 @@ export const exhibitionBasic: ExhibitionBasic = {
   title: 'What does it mean to be human now? Four views by CYP x CALLY',
   promo: {
     image: image(florenceWinterfloodImageUrl('3200x1800'), 3200, 1800),
+    caption:
+      'This installation featured five short films exploring the question of being human during Covid-19 through poetry and monologues. Watch the films online, together with participants. ',
   },
   start: new Date('2021-05-17T23:00:00+0000'),
   end: new Date('2021-09-29T23:00:00+0000'),

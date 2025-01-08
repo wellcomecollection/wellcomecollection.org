@@ -3,14 +3,18 @@ import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
+import { ExhibitionsDocument as RawExhibitionsDocument } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { useToggles } from '@weco/common/server-data/Context';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { font } from '@weco/common/utils/classnames';
+import { isPast } from '@weco/common/utils/dates';
 import { capitalize } from '@weco/common/utils/grammar';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -19,25 +23,38 @@ import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
+import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import Standfirst from '@weco/common/views/slices/Standfirst';
 import Body from '@weco/content/components/Body/Body';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
+import FeaturedCard from '@weco/content/components/FeaturedCard';
 import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
 import SeriesNavigation from '@weco/content/components/SeriesNavigation/SeriesNavigation';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
-import { createClient } from '@weco/content/services/prismic/fetch';
+import {
+  createClient,
+  fetchFromClientSide,
+} from '@weco/content/services/prismic/fetch';
 import {
   fetchArticle,
   fetchArticlesClientSide,
 } from '@weco/content/services/prismic/fetch/articles';
 import { transformArticle } from '@weco/content/services/prismic/transformers/articles';
+import {
+  transformExhibition,
+  transformExhibitionToExhibitionBasic,
+} from '@weco/content/services/prismic/transformers/exhibitions';
 import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
+import { getArticle } from '@weco/content/services/wellcome/content/article';
+import { Article as ContentAPIArticle } from '@weco/content/services/wellcome/content/types/api';
 import {
   Article,
   ArticleBasic,
   getPartNumberInSeries,
 } from '@weco/content/types/articles';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { Series } from '@weco/content/types/series';
 import {
   getFeaturedMedia,
@@ -56,9 +73,15 @@ const ContentTypeText = styled.p.attrs({
   margin: 0;
 `;
 
+const RelatedStoryContainer = styled.div`
+  ${props => props.theme.makeSpacePropertyValues('l', ['margin-top'])};
+  ${props => props.theme.makeSpacePropertyValues('xl', ['margin-bottom'])};
+`;
+
 type Props = {
   article: Article;
   jsonLd: JsonLdObj;
+  serverData: SimplifiedServerData;
   gaDimensions: GaDimensions;
   pageview: Pageview;
 };
@@ -164,8 +187,16 @@ const HTMLDateWrapper = styled.span.attrs({ className: font('intr', 6) })`
   color: ${props => props.theme.color('neutral.600')};
 `;
 
-const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
+const ArticlePage: FunctionComponent<Props> = ({
+  article,
+  serverData,
+  jsonLd,
+}) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
+  const [relatedDocument, setRelatedDocument] = useState<
+    ExhibitionBasic | ContentAPIArticle | undefined
+  >();
+
   const { recommendedStories } = useToggles();
 
   useEffect(() => {
@@ -194,7 +225,51 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
       }
     }
 
+    async function getRelatedDoc() {
+      if (article.exploreMoreDocument?.type === 'exhibitions') {
+        const relatedExhibition =
+          await fetchFromClientSide<RawExhibitionsDocument>({
+            endpoint: 'exhibitions/exhibition',
+            params: {
+              id:
+                article.exploreMoreDocument?.uid ||
+                article.exploreMoreDocument?.id,
+            },
+          });
+
+        if (relatedExhibition) {
+          // We're hiding exhibitions once they've ended, so not setting the related document value.
+          const isPastExhibition = isPast(
+            transformTimestamp(relatedExhibition.data.end) || new Date()
+          );
+
+          if (!isPastExhibition) {
+            const transformedRelatedExhibition =
+              transformExhibitionToExhibitionBasic(
+                transformExhibition(relatedExhibition)
+              );
+            setRelatedDocument(transformedRelatedExhibition);
+          }
+        }
+      }
+
+      if (article.exploreMoreDocument?.type === 'articles') {
+        const relatedArticle = await getArticle({
+          id: article.exploreMoreDocument.id,
+          toggles: serverData.toggles,
+        });
+
+        if (relatedArticle?.type === 'Article') {
+          setRelatedDocument(relatedArticle);
+        }
+      }
+    }
+
     setSeries();
+
+    if (article.exploreMoreDocument && !relatedDocument) {
+      getRelatedDoc();
+    }
   }, []);
 
   const breadcrumbs = {
@@ -369,6 +444,41 @@ const ArticlePage: FunctionComponent<Props> = ({ article, jsonLd }) => {
         contributors={article.contributors}
         seasons={article.seasons}
       />
+
+      {article.exploreMoreDocument && relatedDocument && (
+        <>
+          <WobblyEdge isRotated backgroundColor="warmNeutral.300" />
+          <Container>
+            <RelatedStoryContainer>
+              {relatedDocument.type === 'Article' ? (
+                <>
+                  <h2 className={font('wb', 2)}>Your next story</h2>
+                  <FeaturedCard
+                    type="article"
+                    background="neutral.700"
+                    textColor="white"
+                    article={relatedDocument}
+                  />
+                </>
+              ) : (
+                relatedDocument.type === 'exhibitions' && (
+                  <>
+                    <h2 className={font('wb', 2)}>
+                      You may also be interested in
+                    </h2>
+                    <FeaturedCard
+                      type="exhibition"
+                      background="neutral.700"
+                      textColor="white"
+                      exhibition={relatedDocument}
+                    />
+                  </>
+                )
+              )}
+            </RelatedStoryContainer>
+          </Container>
+        </>
+      )}
     </PageLayout>
   );
 };
