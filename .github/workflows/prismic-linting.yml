@@ -3,10 +3,6 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 4 * * MON-FRI'
-  # Remove before merge
-  push:
-    branches:
-      - dependabot/github_actions/all-4e70f87ec0
 
 permissions:
   id-token: write
