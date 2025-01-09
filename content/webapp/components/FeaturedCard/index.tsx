@@ -159,6 +159,11 @@ const FeaturedCardExhibition: FunctionComponent<
           end={exhibition.end || new Date()}
           statusOverride={exhibition.statusOverride}
         />
+        {exhibition.promo?.caption && (
+          <p className={font('intr', 5)} style={{ marginTop: '1rem' }}>
+            {exhibition.promo.caption}
+          </p>
+        )}
       </div>
     </FeaturedCardBasic>
   );

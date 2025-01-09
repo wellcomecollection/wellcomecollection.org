@@ -176,6 +176,12 @@ export const getServerSideProps: GetServerSideProps<
           link: catalogueApiUrl!,
         },
         createTzitzitImageLink(work, image),
+        {
+          id: 'library-data-link-explorer',
+          label: 'Library Data Link Explorer',
+          ariaLabel: 'open matcher graph via the Library Data Link Explorer',
+          link: `https://main.d33vyuqnhij7au.amplifyapp.com/?workId=${work.id}`,
+        },
       ].filter(isNotUndefined),
       pageview: {
         name: 'image',

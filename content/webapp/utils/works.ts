@@ -437,6 +437,12 @@ export function createApiToolbarWorkLinks(
       label: id.identifierType.label,
       value: id.value,
     })),
+    {
+      id: 'library-data-link-explorer',
+      label: 'Library Data Link Explorer',
+      ariaLabel: 'open matcher graph via the Library Data Link Explorer',
+      link: `https://main.d33vyuqnhij7au.amplifyapp.com/?workId=${work.id}`,
+    },
   ].filter(Boolean) as ApiToolbarLink[];
 
   return links;

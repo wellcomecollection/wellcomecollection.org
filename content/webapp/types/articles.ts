@@ -36,6 +36,11 @@ export type Article = GenericContentFields & {
   seasons: Season[];
   color?: ColorSelection;
   contributors: Contributor[];
+  exploreMoreDocument?: {
+    id: string;
+    uid?: string;
+    type: 'articles' | 'exhibitions';
+  };
 };
 
 /** Given an article in a serial, return its part number.

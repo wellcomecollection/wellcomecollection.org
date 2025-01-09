@@ -1,3 +1,5 @@
+import * as prismic from '@prismicio/client';
+
 import { Label } from '@weco/common/model/labels';
 import {
   ArticlesDocument as RawArticlesDocument,
@@ -107,6 +109,17 @@ export function transformArticle(
 
   const contributors = transformContributors(document);
 
+  // The content will be fetched client side later on
+  const exploreMoreDocument =
+    'exploreMoreDocument' in data &&
+    prismic.isFilled.contentRelationship(data.exploreMoreDocument)
+      ? {
+          id: data.exploreMoreDocument.id,
+          uid: data.exploreMoreDocument.uid,
+          type: data.exploreMoreDocument.type,
+        }
+      : undefined;
+
   return {
     ...genericFields,
     type: 'articles',
@@ -124,5 +137,6 @@ export function transformArticle(
           transformSeason(season as RawSeasonsDocument)
         )
       : [],
+    exploreMoreDocument,
   };
 }
