@@ -132,7 +132,7 @@ export type SliceZoneContext = {
   isLanding: boolean;
   isDropCapped: boolean;
   contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
-  fifthParagraphIndex?: number;
+  fifteenthParagraphIndex?: number;
 };
 
 export const defaultContext: SliceZoneContext = {
@@ -147,34 +147,37 @@ export const defaultContext: SliceZoneContext = {
   contentType: undefined,
 };
 
-const TransformedSliceZone = ({ slices, components, context }) => {
+// We're aware this is horrible, it should not be made a permanent fixture.
+// Should the test be successful, we aim to make this a slice, or something better as this isn't
+// fully satisfactory on the front-end, and simply hacky/bad in the code.
+const ShameTransformedSliceZone = ({ slices, components, context }) => {
   let paragraphCount = 0;
-  let hasFoundFifthParagraph = false;
+  let hasFoundFifteenthParagraph = false;
   let index;
 
   return slices.map(slice => {
-    let isTheSliceWFifthParagraph = false;
+    let isTheSliceWFifteenthParagraph = false;
 
     if (slice.slice_type === 'text') {
       // Go through all Text slices
       if (
-        !hasFoundFifthParagraph &&
-        paragraphCount <= 5 &&
+        !hasFoundFifteenthParagraph &&
+        paragraphCount <= 15 &&
         Array.isArray(slice.primary?.text)
       ) {
-        // Find all paragraphs within each Text slice until we find the fifth one.
+        // Find all paragraphs within each Text slice until we find the fifteenth one.
         slice.primary?.text.forEach((t, textIndex) => {
           if (
-            !hasFoundFifthParagraph &&
-            paragraphCount <= 5 &&
+            !hasFoundFifteenthParagraph &&
+            paragraphCount <= 15 &&
             t.type === 'paragraph'
           ) {
-            if (paragraphCount < 5) {
+            if (paragraphCount < 15) {
               paragraphCount++;
             } else {
               index = textIndex;
-              hasFoundFifthParagraph = true;
-              isTheSliceWFifthParagraph = true;
+              hasFoundFifteenthParagraph = true;
+              isTheSliceWFifteenthParagraph = true;
             }
           }
         });
@@ -187,7 +190,9 @@ const TransformedSliceZone = ({ slices, components, context }) => {
           components={components}
           context={{
             ...context,
-            fifthParagraphIndex: isTheSliceWFifthParagraph ? index : undefined,
+            fifteenthParagraphIndex: isTheSliceWFifteenthParagraph
+              ? index
+              : undefined,
           }}
         />
       );
@@ -394,7 +399,7 @@ const Body: FunctionComponent<Props> = ({
       {isLanding && <LandingPageSections sections={sections} />}
 
       {hasRecommendations ? (
-        <TransformedSliceZone
+        <ShameTransformedSliceZone
           slices={filteredUntransformedBody}
           components={components}
           context={{

@@ -47,7 +47,7 @@ const RecommendedStoriesTest = ({
                   html={
                     slice.primary.text.slice(
                       1,
-                      context.fifthParagraphIndex
+                      context.fifteenthParagraphIndex
                     ) as prismic.RichTextField
                   }
                   htmlSerializer={defaultSerializer}
@@ -58,7 +58,7 @@ const RecommendedStoriesTest = ({
                 html={
                   slice.primary.text.slice(
                     0,
-                    context.fifthParagraphIndex
+                    context.fifteenthParagraphIndex
                   ) as prismic.RichTextField
                 }
                 htmlSerializer={defaultSerializer}
@@ -81,7 +81,7 @@ const RecommendedStoriesTest = ({
             <PrismicHtmlBlock
               html={
                 slice.primary.text.slice(
-                  context.fifthParagraphIndex
+                  context.fifteenthParagraphIndex
                 ) as prismic.RichTextField
               }
               htmlSerializer={defaultSerializer}
@@ -99,7 +99,7 @@ const Text: FunctionComponent<TextProps> = ({ slice, context, index }) => {
   const shouldBeDroppedCap =
     options.firstTextSliceIndex === slice.id && options.isDropCapped;
 
-  return recommendedStories && context.fifthParagraphIndex !== undefined ? (
+  return recommendedStories && context.fifteenthParagraphIndex !== undefined ? (
     <RecommendedStoriesTest
       slice={slice}
       context={context}
