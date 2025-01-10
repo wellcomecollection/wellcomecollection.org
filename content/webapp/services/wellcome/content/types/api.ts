@@ -168,9 +168,5 @@ export type ResultType = Article | EventDocument | Addressable;
 
 export type ContentResultsList<Result extends ResultType> = WellcomeResultList<
   Result,
-  Result extends Article
-    ? ArticleAggregations
-    : Result extends Event
-      ? EventAggregations
-      : null
+  (Result extends Article ? ArticleAggregations : EventAggregations) | undefined
 >;
