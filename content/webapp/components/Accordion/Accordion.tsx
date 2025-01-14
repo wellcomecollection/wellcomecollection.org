@@ -79,6 +79,11 @@ const Accordion: FunctionComponent<Props> = ({ id, items }) => {
   return (
     <>
       {items.map(item => (
+        // `name` is an allowed attribute on a `details` element, but our TS
+        // (possibly NextJS's TS) setup is unhappy with it
+
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         <Details key={item.summary} name={id}>
           <Summary>
             <SummaryInner>
