@@ -4,13 +4,13 @@ import {
   ContentResultsList,
 } from '@weco/content/services/wellcome/content/types/api';
 
-import { contentQuery } from '.';
+import { contentListQuery } from '.';
 import { Article } from './types/api';
 
 export async function getArticles(
   props: QueryProps<ContentApiProps>
 ): Promise<ContentResultsList<Article> | WellcomeApiError> {
-  const getArticlesResult = await contentQuery<ContentApiProps, Article>(
+  const getArticlesResult = await contentListQuery<ContentApiProps, Article>(
     'articles',
     props
   );

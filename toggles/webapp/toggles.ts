@@ -110,6 +110,21 @@ const toggles = {
         'Displays a static set of recommended stories on story pages',
       type: 'experimental',
     },
+    {
+      id: 'allSearch',
+      title: 'Modified All search page',
+      initialValue: false,
+      description: 'Displays a new version of the "all" search (/search)',
+      type: 'experimental',
+    },
+    {
+      id: 'extendedViewer',
+      title: 'Allow viewer to render video, audio and pdfs',
+      initialValue: false,
+      description:
+        'Displays a new version of the viewer that can render video, audio and pdfs in addition to images',
+      type: 'experimental',
+    },
   ] as const,
   tests: [] as ABTest[],
 };

@@ -21,4 +21,4 @@ export type ImageAggregations = {
   type: 'Aggregations';
 };
 
-export type ConceptAggregations = null;
+export type ConceptAggregations = undefined;

@@ -1,18 +1,19 @@
 import { QueryProps, WellcomeApiError } from '@weco/content/services/wellcome';
 import {
+  Addressable,
   ContentApiProps,
   ContentResultsList,
 } from '@weco/content/services/wellcome/content/types/api';
 
 import { contentListQuery } from '.';
-import { EventDocument } from './types/api';
 
-export async function getEvents(
+export async function getAddressables(
   props: QueryProps<ContentApiProps>
-): Promise<ContentResultsList<EventDocument> | WellcomeApiError> {
-  const getEventsResult = await contentListQuery<
+): Promise<ContentResultsList<Addressable> | WellcomeApiError> {
+  const getAddressablesResult = await contentListQuery<
     ContentApiProps,
-    EventDocument
-  >('events', props);
-  return getEventsResult;
+    Addressable
+  >('all', props);
+
+  return getAddressablesResult;
 }

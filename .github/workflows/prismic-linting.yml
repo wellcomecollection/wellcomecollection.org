@@ -31,7 +31,7 @@ jobs:
     steps:
     - name: Send GitHub Action trigger data to Slack workflow
       id: slack
-      uses: slackapi/slack-github-action@v1.27.0
+      uses: slackapi/slack-github-action@v2.0.0
       with:
         # This data can be any valid JSON from a previous step in the GitHub Action
         payload: |
@@ -40,5 +40,6 @@ jobs:
             "status": "${{ needs.prismic_linting.result }}",
             "link": "https://github.com/wellcomecollection/wellcomecollection.org/actions/workflows/prismic-linting.yml"
           }
+        webhook-type: webhook-trigger
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_GA_ACTION_URL }}

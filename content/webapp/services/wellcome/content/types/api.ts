@@ -140,10 +140,33 @@ export type EventAggregations = BasicAggregations & {
   isAvailableOnline: WellcomeAggregation<BooleanBucketData>;
 };
 
+type AddressableType =
+  | 'Article'
+  | 'Book'
+  | 'Event'
+  | 'Project'
+  | 'Season'
+  | 'Exhibition'
+  | 'Exhibition highlight tour'
+  | 'Exhibition text'
+  | 'Page'
+  | 'Visual story';
+
+export type Addressable = {
+  type: AddressableType;
+  id: string;
+  uid: string | null;
+  title: string;
+  description?: string;
+  format?: string;
+  contributors?: string;
+  times?: { start: Date; end: Date };
+};
+
 // Results
-export type ResultType = Article | EventDocument;
+export type ResultType = Article | EventDocument | Addressable;
 
 export type ContentResultsList<Result extends ResultType> = WellcomeResultList<
   Result,
-  Result extends Article ? ArticleAggregations : EventAggregations
+  (Result extends Article ? ArticleAggregations : EventAggregations) | undefined
 >;
