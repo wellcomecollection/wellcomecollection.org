@@ -32,15 +32,29 @@ const ShowHide = styled(Space).attrs({
   }
 `;
 
+// If we have these properties on the Summary directly, it prevents NVDA from
+// correctly announcing expanded/collapsed state changes, so we need this extra
+// element
+const SummaryInner = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 const Summary = styled(Space).attrs({
   as: 'summary',
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
   className: font('intr', 4),
 })`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
-  display: flex;
-  justify-content: space-between;
   cursor: pointer;
+
+  /* The two declarations below hide the disclosure triangle without affecting
+  screenreaders */
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
 
   .icon {
     border: 2px solid ${props => props.theme.color('black')};
@@ -67,11 +81,13 @@ const Accordion: FunctionComponent<Props> = ({ id, items }) => {
       {items.map(item => (
         <Details key={item.summary} name={id}>
           <Summary>
-            {item.summary}{' '}
-            <span style={{ display: 'flex' }}>
-              <ShowHide></ShowHide>
-              <Icon icon={chevron} />
-            </span>
+            <SummaryInner>
+              {item.summary}{' '}
+              <span style={{ display: 'flex' }}>
+                <ShowHide></ShowHide>
+                <Icon icon={chevron} />
+              </span>
+            </SummaryInner>
           </Summary>
           <div className="spaced-text body-text">{item.content}</div>
         </Details>
