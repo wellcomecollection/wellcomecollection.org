@@ -56,4 +56,11 @@ const Template = args => <Accordion {...args} />;
 export const Basic: Story = {
   name: 'Accordion',
   render: Template,
+  argTypes: {
+    items: {
+      table: {
+        disable: true,
+      },
+    },
+  },
 };
