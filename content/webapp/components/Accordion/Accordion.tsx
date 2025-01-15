@@ -87,8 +87,31 @@ const ShowHide = styled(Space).attrs({
 const Details = styled.details.attrs({
   className: font('intr', 5),
 })`
+  @media (prefers-reduced-motion: no-preference) {
+    /* stylelint-disable-next-line property-no-unknown */
+    interpolate-size: allow-keywords;
+  }
+
+  /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
+  &::details-content {
+    opacity: 0;
+    block-size: 0;
+    overflow-y: clip;
+    transition:
+      content-visibility ${props => props.theme.transitionProperties}
+        allow-discrete,
+      opacity ${props => props.theme.transitionProperties},
+      block-size ${props => props.theme.transitionProperties};
+  }
+
   &[open] {
     padding-bottom: 20px;
+
+    /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
+    &::details-content {
+      opacity: 1;
+      block-size: auto;
+    }
   }
 `;
 
