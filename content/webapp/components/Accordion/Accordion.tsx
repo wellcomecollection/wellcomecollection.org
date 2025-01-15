@@ -133,7 +133,7 @@ const Accordion: FunctionComponent<Props> = ({
             <SummaryInner>
               {item.summary}{' '}
               <span style={{ display: 'flex' }}>
-                <ShowHide></ShowHide>
+                <ShowHide aria-hidden="true"></ShowHide>
                 <Icon icon={chevron} />
               </span>
             </SummaryInner>
