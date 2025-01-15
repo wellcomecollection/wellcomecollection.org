@@ -13,6 +13,7 @@ type AccordionItem = {
 
 type Props = {
   id: string;
+  closeOthersOnOpen?: boolean;
   items: AccordionItem[];
 };
 
@@ -75,7 +76,11 @@ const Details = styled.details.attrs({
   }
 `;
 
-const Accordion: FunctionComponent<Props> = ({ id, items }) => {
+const Accordion: FunctionComponent<Props> = ({
+  id,
+  closeOthersOnOpen,
+  items,
+}) => {
   return (
     <>
       {items.map(item => (
@@ -84,7 +89,7 @@ const Accordion: FunctionComponent<Props> = ({ id, items }) => {
 
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        <Details key={item.summary} name={id}>
+        <Details key={item.summary} name={closeOthersOnOpen ? id : undefined}>
           <Summary>
             <SummaryInner>
               {item.summary}{' '}

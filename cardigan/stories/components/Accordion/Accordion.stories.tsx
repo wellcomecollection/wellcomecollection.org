@@ -7,6 +7,7 @@ const meta: Meta<typeof Accordion> = {
   component: Accordion,
   args: {
     id: 'storybook',
+    closeOthersOnOpen: false,
     items: [
       {
         summary: 'Highlight Tour guides ',
