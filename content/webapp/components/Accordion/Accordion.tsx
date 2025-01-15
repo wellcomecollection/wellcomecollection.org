@@ -17,22 +17,6 @@ type Props = {
   items: AccordionItem[];
 };
 
-const ShowHide = styled(Space).attrs({
-  $h: { size: 's', properties: ['margin-right'] },
-  className: font('intr', 5),
-})`
-  text-decoration: underline;
-  text-underline-offset: 0.5em;
-
-  &::before {
-    content: 'Show';
-  }
-
-  details[open] &::before {
-    content: 'Hide';
-  }
-`;
-
 // If we have these properties on the Summary directly, it prevents NVDA from
 // correctly announcing expanded/collapsed state changes, so we need this extra
 // element
@@ -64,6 +48,38 @@ const Summary = styled(Space).attrs({
 
     details[open] & {
       transform: rotate(180deg);
+    }
+  }
+`;
+
+const ShowHide = styled(Space).attrs({
+  $h: { size: 's', properties: ['margin-right'] },
+  className: font('intr', 5),
+})`
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background: ${props => props.theme.color('focus.yellow')};
+    width: 0%;
+    left: 0;
+    transition: width ${props => props.theme.transitionProperties};
+  }
+
+  &::before {
+    content: 'Show';
+  }
+
+  details[open] &::before {
+    content: 'Hide';
+  }
+
+  ${Summary}:hover & {
+    &::after {
+      width: 100%;
     }
   }
 `;
