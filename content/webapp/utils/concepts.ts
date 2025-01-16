@@ -36,27 +36,27 @@ const linkKeys = {
 
 const keysById = {
   worksAbout: {
-    filter: 'subjects',
+    filters: ['subjects', 'subjects.concepts'],
     fields: ['id', 'sameAs'],
   },
   worksBy: {
-    filter: 'contributors.agent',
+    filters: ['contributors.agent', 'contributors.concepts'],
     fields: ['id', 'sameAs'],
   },
   imagesAbout: {
-    filter: 'source.subjects',
+    filters: ['source.subjects', 'source.subjects.concepts'],
     fields: ['id', 'sameAs'],
   },
   imagesBy: {
-    filter: 'source.contributors.agent',
+    filters: ['source.contributors.agent', 'source.contributors.concepts'],
     fields: ['id', 'sameAs'],
   },
   worksIn: {
-    filter: 'genres',
+    filters: ['genres', 'genres.concepts'],
     fields: ['id', 'sameAs'],
   },
   imagesIn: {
-    filter: 'source.genres',
+    filters: ['source.genres', 'source.genres.concepts'],
     fields: ['id', 'sameAs'],
   },
 };
@@ -72,13 +72,13 @@ export const queryParams = (
   sectionName: string,
   conceptResponse: ConceptType
 ) => {
+  const queryParams = {};
   const queryDefinition = keysById[sectionName];
-  return {
-    [queryDefinition.filter]: gatherValues(
-      conceptResponse,
-      queryDefinition.fields
-    ),
-  };
+  queryDefinition.filters.forEach(filter => {
+    queryParams[filter] = gatherValues(conceptResponse, queryDefinition.fields);
+  });
+
+  return queryParams;
 };
 
 export const allRecordsLinkParams = (
