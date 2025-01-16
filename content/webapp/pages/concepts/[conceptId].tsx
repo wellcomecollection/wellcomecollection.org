@@ -480,7 +480,7 @@ export const getServerSideProps: GetServerSideProps<
         }),
       byLabel: (sectionName: string) =>
         getWorks({
-          params: queryParams(sectionName, conceptResponse),
+          params: allRecordsLinkParams(sectionName, conceptResponse),
           toggles: serverData.toggles,
           pageSize: 5,
         }),
@@ -494,7 +494,7 @@ export const getServerSideProps: GetServerSideProps<
         }),
       byLabel: (sectionName: string) =>
         getImages({
-          params: queryParams(sectionName, conceptResponse),
+          params: allRecordsLinkParams(sectionName, conceptResponse),
           toggles: serverData.toggles,
           pageSize: 5,
         }),
