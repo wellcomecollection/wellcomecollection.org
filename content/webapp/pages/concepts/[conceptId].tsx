@@ -43,8 +43,7 @@ import {
   allRecordsLinkParams,
   conceptTypeDisplayName,
   getDisplayIdentifierType,
-  queryParamsById,
-  queryParams as queryParamsByLabel,
+  queryParams,
 } from '@weco/content/utils/concepts';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 
@@ -274,7 +273,7 @@ export const ConceptPage: NextPage<Props> = ({
 }) => {
   useHotjar(true);
   const { conceptsById } = useToggles();
-  const linkParams = conceptsById ? queryParamsById : allRecordsLinkParams;
+  const linkParams = conceptsById ? queryParams : allRecordsLinkParams;
 
   const pathname = usePathname();
   const worksTabs = tabOrder
@@ -475,13 +474,13 @@ export const getServerSideProps: GetServerSideProps<
     works: {
       byId: (sectionName: string) =>
         getWorks({
-          params: queryParamsById(sectionName, conceptResponse),
+          params: queryParams(sectionName, conceptResponse),
           toggles: serverData.toggles,
           pageSize: 5,
         }),
       byLabel: (sectionName: string) =>
         getWorks({
-          params: queryParamsByLabel(sectionName, conceptResponse),
+          params: queryParams(sectionName, conceptResponse),
           toggles: serverData.toggles,
           pageSize: 5,
         }),
@@ -489,13 +488,13 @@ export const getServerSideProps: GetServerSideProps<
     images: {
       byId: (sectionName: string) =>
         getImages({
-          params: queryParamsById(sectionName, conceptResponse),
+          params: queryParams(sectionName, conceptResponse),
           toggles: serverData.toggles,
           pageSize: 5,
         }),
       byLabel: (sectionName: string) =>
         getImages({
-          params: queryParamsByLabel(sectionName, conceptResponse),
+          params: queryParams(sectionName, conceptResponse),
           toggles: serverData.toggles,
           pageSize: 5,
         }),
