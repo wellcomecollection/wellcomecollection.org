@@ -419,7 +419,7 @@ const MainViewer: FunctionComponent = () => {
     }, 500);
   }
 
-  // We display the canvas indicated by the canvas when the page first loads
+  // We display the canvas indicated by the canvas (index) when the page first loads
   function handleOnItemsRendered() {
     let currentCanvas: TransformedCanvas | undefined;
     if (firstRenderRef.current) {
