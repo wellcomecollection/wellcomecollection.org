@@ -26,6 +26,48 @@ import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 
 import { queryParamToArrayIndex } from '.';
 import ImageViewer from './ImageViewer';
+
+// Temporary styling for viewer to display audio, video and pdfs
+// will be tidied up in future work
+const ItemWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+
+  right: 0;
+  padding: 0;
+
+  figure,
+  .video {
+    margin: auto;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 80%;
+    max-height: 95%;
+  }
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .video {
+    video {
+      width: 100%;
+    }
+  }
+
+  img {
+    overflow: scroll; /* for alt text, which can be long */
+  }
+`;
+
 type OverlayPositionData = {
   canvasNumber: number;
   overlayTop: number;
