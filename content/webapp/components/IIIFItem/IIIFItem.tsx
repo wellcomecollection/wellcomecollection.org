@@ -147,8 +147,8 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
     case item.type === 'Image' && !exclude.includes('Image'):
       return <p>Image goes here</p>; // This will be needed if this Item component is to be used to render an Image in the IIIFViewer
     default: // There are other types we don't do anything with at present, e.g. Dataset
-      if (exclude.length === 0) {
-        // If we have exclusions, we don't want to fall back to the BetaMessage
+      if (!exclude.includes(item.type)) {
+        // If the item hasn't been purposefully excluded then we should show a message
         return (
           <ContaineredLayout gridSizes={gridSize12()}>
             <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
