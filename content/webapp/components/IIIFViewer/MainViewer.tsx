@@ -84,6 +84,8 @@ type ItemRendererProps = {
     errorHandler?: () => void;
     externalAccessService: TransformedAuthService | undefined;
     accessToken?: string;
+    restrictedService: AuthExternalService | undefined;
+    placeholderId: string | undefined;
   };
 };
 
@@ -398,7 +400,7 @@ const MainViewer: FunctionComponent = () => {
     debounce(handleOnItemsRendered, 500)
   );
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
-  const { canvases, auth } = {
+  const { canvases, auth, placeholderId } = {
     ...transformedManifest,
   };
 
@@ -425,7 +427,6 @@ const MainViewer: FunctionComponent = () => {
       const viewer = mainViewerRef?.current;
       scrollViewer({ currentCanvas, canvas, viewer, mainAreaWidth });
       setFirstRender(false);
-      setShowControls(true);
     }
   }
 
@@ -459,6 +460,7 @@ const MainViewer: FunctionComponent = () => {
           externalAccessService,
           canvas,
           accessToken,
+          placeholderId,
         }}
         itemSize={mainAreaWidth}
         onItemsRendered={debounceHandleOnItemsRendered.current}
