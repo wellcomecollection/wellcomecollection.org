@@ -1,3 +1,4 @@
+import { AuthExternalService } from '@iiif/presentation-3';
 import debounce from 'lodash.debounce';
 import {
   CSSProperties,
@@ -12,20 +13,18 @@ import { areEqual, FixedSizeList } from 'react-window';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import IIIFItem from '@weco/content/components/IIIFItem/IIIFItem';
 import ItemViewerContext, {
   RotatedImage,
 } from '@weco/content/components/ItemViewerContext/ItemViewerContext';
 import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { TransformedCanvas } from '@weco/content/types/manifest';
-import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
 import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 
 import { queryParamToArrayIndex } from '.';
-import ImageViewer from './ImageViewer';
 
 // Temporary styling for viewer to display audio, video and pdfs
 // will be tidied up in future work
@@ -250,18 +249,12 @@ function getPositionData({
   });
   return searchHitsPositioningData || [];
 }
+
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
-  const { scrollVelocity, canvases, externalAccessService } = data;
-  const [mainLoaded, setMainLoaded] = useState(false);
+  const { scrollVelocity, canvases, externalAccessService, placeholderId } =
+    data;
   const currentCanvas = canvases[index];
   const { userIsStaffWithRestricted } = useUser();
-  const urlTemplateMain = currentCanvas.imageServiceId
-    ? iiifImageTemplate(currentCanvas.imageServiceId)
-    : undefined;
-  const infoUrl =
-    currentCanvas.imageServiceId &&
-    convertRequestUriToInfoUri(currentCanvas.imageServiceId);
-  const imageType = scrollVelocity >= 1 ? 'none' : 'main';
   const isRestricted = currentCanvas.hasRestrictedImage;
   const { searchResults, rotatedImages } = useContext(ItemViewerContext);
   const [imageRect, setImageRect] = useState<DOMRect | undefined>();
@@ -272,7 +265,6 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const [overlayPositionData, setOverlayPositionData] = useState<
     OverlayPositionData[]
   >([]);
-
   useEffect(() => {
     // The search hit dimensions and coordinates are given relative to the full size image.
     // The highlight overlays are positioned relative to the image container.
@@ -282,6 +274,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     // This needs to be recalculated whenever the image changes size or orientation.
     const searchHitsPositioningData =
       imageContainerRect &&
+
       imageRect &&
       getPositionData({
         imageContainerRect,
@@ -299,6 +292,11 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
       );
     }
   }, [imageRect, imageContainerRect, currentCanvas, searchResults]);
+
+  const displayItems =
+    currentCanvas.painting.length > 0
+      ? currentCanvas.painting
+      : currentCanvas.supplementing; // We fall back to supplementing for some of the pdfs
 
   return (
     <div style={style}>
@@ -323,40 +321,57 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
         </MessageContainer>
       ) : (
         <>
-          {!mainLoaded && <LL $lighten={true} />}
-          {(imageType === 'main' || mainLoaded) &&
-            urlTemplateMain &&
-            infoUrl && (
-              <>
-                {overlayPositionData &&
-                  overlayPositionData.map((item, i) => {
+          {overlayPositionData &&
+            overlayPositionData.map((item, i) => {
+              return (
+                <SearchTermHighlight
+                  key={i}
+                  $top={item.overlayTop}
+                  $left={item.overlayLeft}
+                  $width={item.highlight.w}
+                  $height={item.highlight.h}
+                  $rotation={item.rotation}
+                />
+              );
+            })}
+
+          {displayItems.map((item, i) => {
+            return (
+              <ItemWrapper key={i}>
+                {currentCanvas.painting.length > 0 &&
+                  currentCanvas.painting.map((item, i) => {
                     return (
-                      <SearchTermHighlight
+                      <IIIFItem
                         key={i}
-                        $top={item.overlayTop}
-                        $left={item.overlayLeft}
-                        $width={item.highlight.w}
-                        $height={item.highlight.h}
-                        $rotation={item.rotation}
+                        placeholderId={placeholderId}
+                        item={item}
+                        canvas={currentCanvas}
+                        i={index}
+                        exclude={[]}
+                        setImageRect={setImageRect}
+                        setImageContainerRect={setImageContainerRect}
                       />
                     );
                   })}
-                <ImageViewer
-                  id="item-page"
-                  infoUrl={infoUrl}
-                  width={currentCanvas.width || 0}
-                  height={currentCanvas.height || 0}
-                  alt={ocrText}
-                  urlTemplate={urlTemplateMain}
-                  index={index}
-                  loadHandler={() => {
-                    setMainLoaded(true);
-                  }}
-                  setImageRect={setImageRect}
-                  setImageContainerRect={setImageContainerRect}
-                />
-              </>
-            )}
+                {/* Pdfs added to manifests before the DLCS changes, that took place in May 2023, are available from the supplementing property */}
+                {currentCanvas.painting.length === 0 &&
+                  currentCanvas.supplementing.map((item, i) => {
+                    return (
+                      <IIIFItem
+                        key={i}
+                        placeholderId={placeholderId}
+                        item={item}
+                        canvas={currentCanvas}
+                        i={index}
+                        exclude={[]}
+                        setImageRect={setImageRect}
+                        setImageContainerRect={setImageContainerRect}
+                      />
+                    );
+                  })}
+              </ItemWrapper>
+            );
+          })}
         </>
       )}
     </div>
