@@ -103,10 +103,10 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     const imageContainerRect =
       imageWrapperRef?.current?.getBoundingClientRect();
     if (imageRect) {
-      setImageRect(imageRect);
+      setImageRect && setImageRect(imageRect);
     }
     if (imageContainerRect) {
-      setImageContainerRect(imageContainerRect);
+      setImageContainerRect && setImageContainerRect(imageContainerRect);
     }
   }
 
