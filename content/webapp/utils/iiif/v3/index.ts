@@ -13,6 +13,7 @@ import {
   Collection,
   CollectionItems,
   ContentResource,
+  ImageService,
   InternationalString,
   Manifest,
   MetadataItem,
@@ -179,6 +180,16 @@ export const isChoiceBody = (item: IIIFItemProps): item is ChoiceBody => {
 type AnnotationPageBody = {
   service: BodyService;
 };
+
+export function getImageServiceFromItem(
+  item: IIIFItemProps
+): ImageService | undefined {
+  if ('service' in item) {
+    return item.service?.find(
+      s => s['@type'] === 'ImageService2'
+    ) as ImageService;
+  }
+}
 
 function getImageServiceFromCanvas(canvas: Canvas): BodyService | undefined {
   const items = canvas?.items;
