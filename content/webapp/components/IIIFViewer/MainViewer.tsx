@@ -19,10 +19,7 @@ import ItemViewerContext, {
   RotatedImage,
 } from '@weco/content/components/ItemViewerContext/ItemViewerContext';
 import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
-import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
-import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
-import { missingAltTextMessage } from '@weco/content/services/wellcome/catalogue/works';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
 import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
@@ -229,20 +226,10 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const [imageContainerRect, setImageContainerRect] = useState<
     DOMRect | undefined
   >();
-  const [ocrText, setOcrText] = useState(missingAltTextMessage);
 
   const [overlayPositionData, setOverlayPositionData] = useState<
     OverlayPositionData[]
   >([]);
-
-  useEffect(() => {
-    const fetchOcr = async () => {
-      const ocrText = await fetchCanvasOcr(canvases[index]);
-      const ocrString = transformCanvasOcr(ocrText);
-      setOcrText(ocrString || missingAltTextMessage);
-    };
-    fetchOcr();
-  }, []);
 
   useEffect(() => {
     // The search hit dimensions and coordinates are given relative to the full size image.
