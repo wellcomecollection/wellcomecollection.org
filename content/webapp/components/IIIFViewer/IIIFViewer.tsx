@@ -349,8 +349,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
                 index={0}
                 alt={work?.description || work?.title || ''}
                 urlTemplate={urlTemplate}
-                setImageRect={() => undefined}
-                setImageContainerRect={() => undefined}
               />
             )}
 
