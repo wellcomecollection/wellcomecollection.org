@@ -23,6 +23,7 @@ import {
 } from '@iiif/presentation-3';
 
 import { isString } from '@weco/common/utils/type-guards';
+import { IIIFItemProps } from '@weco/content/components/IIIFItem/IIIFItem';
 import {
   Auth,
   AuthClickThroughServiceWithPossibleServiceArray,
@@ -170,9 +171,7 @@ function getCanvasTextServiceId(canvas: Canvas): string | undefined {
   return textAnnotation?.id;
 }
 
-export const isChoiceBody = (
-  item: ContentResource | ChoiceBody
-): item is ChoiceBody => {
+export const isChoiceBody = (item: IIIFItemProps): item is ChoiceBody => {
   return typeof item !== 'string' && 'type' in item && item.type === 'Choice';
 };
 
