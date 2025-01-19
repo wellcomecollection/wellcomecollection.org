@@ -180,7 +180,7 @@ type AnnotationPageBody = {
   service: BodyService;
 };
 
-function getImageService(canvas: Canvas): BodyService | undefined {
+function getImageServiceFromCanvas(canvas: Canvas): BodyService | undefined {
   const items = canvas?.items;
   const AnnotationPages = items?.[0].items;
   const AnnotationBodies = AnnotationPages?.map(
@@ -298,7 +298,7 @@ const restrictedAuthServiceUrls = [
 // We want to move to using v2, but can't guarantee all manifests will include them (they need to be recently generated to have the v2 services).
 // Therefore we check for both. When all manifests have V2 we can remove the V1 code.
 function isImageRestricted(canvas: Canvas): boolean {
-  const imageService = getImageService(canvas);
+  const imageService = getImageServiceFromCanvas(canvas);
   const imageAuthCookieService = getImageAuthCookieService(imageService); // V1 service
   const v2Services = imageService?.service as BodyService2;
   const imageAuthProbeService = getImageAuthProbeService(v2Services || []); // V2 service
@@ -473,7 +473,7 @@ export function getDisplayData(
     .filter(Boolean) as (ChoiceBody | ContentResource)[];
 }
 export function transformCanvas(canvas: Canvas): TransformedCanvas {
-  const imageService = getImageService(canvas);
+  const imageService = getImageServiceFromCanvas(canvas);
   const imageServiceId = getImageServiceId(imageService);
   const hasRestrictedImage = isImageRestricted(canvas);
   const label = getCanvasLabel(canvas);
