@@ -652,7 +652,7 @@ export function getOriginalFiles(
   return downloadData || [];
 }
 
-// If we have a files size, it is found in the metadata array of the canvas
+// If we have a file size, it is found in the metadata array of the canvas
 export function getFileSize(canvas: TransformedCanvas): string | undefined {
   const fileSizeMeta = canvas.metadata.find(
     metadata => getLabelString(metadata.label) === 'File size'
