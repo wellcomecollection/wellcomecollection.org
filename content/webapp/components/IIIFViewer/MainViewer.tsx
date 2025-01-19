@@ -167,7 +167,7 @@ function getPositionData({
   canvases: TransformedCanvas[];
   rotatedImages: RotatedImage[];
 }): OverlayPositionData[] {
-  const highlightsPositioningData = searchResults?.resources.map(resource => {
+  const searchHitsPositioningData = searchResults?.resources.map(resource => {
     // on: "https://wellcomelibrary.org/iiif/b30330002/canvas/c55#xywh=2301,662,157,47"
     // OR
     // on: https://iiif.wellcomecollection.org/presentation/b29338062/canvases/b29338062_0031.jp2#xywh=148,2277,259,59"
@@ -207,7 +207,7 @@ function getPositionData({
       rotation: matchingRotation?.rotation || 0,
     };
   });
-  return highlightsPositioningData || [];
+  return searchHitsPositioningData || [];
 }
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const { scrollVelocity, canvases, externalAccessService } = data;
@@ -244,12 +244,12 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
 
   useEffect(() => {
     // The search hit dimensions and coordinates are given relative to the full size image.
-    // The highlights are positioned relative to the image container.
-    // Therefore, in order to display the highlights correctly over the search hits,
+    // The highlight overlays are positioned relative to the image container.
+    // Therefore, in order to display the highlight overlays correctly over the search hits,
     // we need to get the position of the image relative to the container and the display scale of the image relative to the full size.
-    // We then need to calculate the position of the highlight factoring in the orientation of the image.
+    // We then need to calculate the position of the highlight overlays factoring in the orientation of the image.
     // This needs to be recalculated whenever the image changes size or orientation.
-    const highlightsPositioningData =
+    const searchHitsPositioningData =
       imageContainerRect &&
       imageRect &&
       getPositionData({
@@ -260,9 +260,9 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
         canvases,
         rotatedImages,
       });
-    if (highlightsPositioningData) {
+    if (searchHitsPositioningData) {
       setOverlayPositionData(
-        highlightsPositioningData.filter(item => {
+        searchHitsPositioningData.filter(item => {
           return item.canvasNumber === index;
         })
       );
