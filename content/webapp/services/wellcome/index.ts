@@ -15,7 +15,7 @@ export const globalApiOptions = (toggles?: Toggles): GlobalApiOptions => ({
 // Used as a helper to return a typesafe empty results list
 export const emptyResultList = <
   Result,
-  Aggregations extends { type: 'Aggregations' } | null,
+  Aggregations extends { type: 'Aggregations' } | undefined,
 >(): WellcomeResultList<Result, Aggregations> => ({
   type: 'ResultList',
   totalResults: 0,
@@ -29,7 +29,7 @@ export const emptyResultList = <
 
 export type WellcomeResultList<
   Result,
-  Aggregations extends { type: 'Aggregations' } | null,
+  Aggregations extends { type: 'Aggregations' } | undefined,
 > = {
   type: 'ResultList';
   totalResults: number;

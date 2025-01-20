@@ -5,14 +5,11 @@ import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 const Heading = styled(Space)`
-  display: block;
   background-color: ${props => props.theme.color('white')};
-
-  @supports (-webkit-box-decoration-break: clone) {
-    display: inline;
-    line-height: calc(1.1em + 12px);
-    -webkit-box-decoration-break: clone;
-  }
+  display: inline;
+  line-height: calc(1.1em + 12px);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 `;
 
 type Props = {

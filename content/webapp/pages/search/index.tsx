@@ -4,6 +4,7 @@ import { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { getServerData } from '@weco/common/server-data';
+import { useToggles } from '@weco/common/server-data/Context';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { font } from '@weco/common/utils/classnames';
@@ -40,9 +41,11 @@ import {
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
+import { getAddressables } from '@weco/content/services/wellcome/content/all';
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
 import { getEvents } from '@weco/content/services/wellcome/content/events';
 import {
+  Addressable,
   Article,
   ContentResultsList,
   EventDocument,
@@ -64,8 +67,18 @@ type Props = {
   images?: ReturnedResults<Image>;
   stories?: ReturnedResults<Article>;
   events?: ReturnedResults<EventDocument>;
+  contentResults?: ReturnedResults<Addressable>;
   query: Query;
   pageview: Pageview;
+};
+
+type NewProps = {
+  contentResults?: ReturnedResults<Addressable>;
+  catalogueResults: {
+    works?: ReturnedResults<WorkBasic>;
+    images?: ReturnedResults<Image>;
+  };
+  queryString?: string;
 };
 
 type SeeMoreButtonProps = {
@@ -134,7 +147,59 @@ const StoryPromoContainer = styled(Container)`
   }
 `;
 
+const NewSearchPage: NextPageWithLayout<NewProps> = ({
+  queryString,
+  contentResults,
+  catalogueResults,
+}) => {
+  return (
+    <main>
+      {!contentResults &&
+      !catalogueResults.works &&
+      !catalogueResults.images ? (
+        <Container>
+          <SearchNoResults query={queryString} />
+        </Container>
+      ) : (
+        <Container style={{ display: 'flex' }}>
+          <BasicSection>
+            <Container>
+              <SectionTitle sectionName="Content results" />
+              <p>{contentResults?.totalResults || 0} results</p>
+              <div
+                style={{
+                  fontSize: '12px',
+                  maxWidth: '780px',
+                  overflow: 'scroll',
+                }}
+              >
+                {contentResults && (
+                  <pre>{JSON.stringify(contentResults, null, 2)}</pre>
+                )}
+              </div>
+            </Container>
+          </BasicSection>
+
+          <div>
+            <div>
+              <SectionTitle sectionName="Images" />
+              <p>{catalogueResults.images?.totalResults || 0} results</p>
+            </div>
+
+            <div>
+              <SectionTitle sectionName="Catalogue" />
+
+              <p>{catalogueResults.works?.totalResults || 0} results</p>
+            </div>
+          </div>
+        </Container>
+      )}
+    </main>
+  );
+};
+
 export const SearchPage: NextPageWithLayout<Props> = ({
+  contentResults,
   works,
   images,
   stories,
@@ -144,6 +209,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   useHotjar(true);
   const { query: queryString } = query;
   const { setLink } = useContext(SearchContext);
+  const { allSearch } = useToggles();
 
   useEffect(() => {
     const pathname = '/search';
@@ -159,6 +225,16 @@ export const SearchPage: NextPageWithLayout<Props> = ({
     };
     setLink(link);
   }, [query]);
+
+  if (allSearch) {
+    return (
+      <NewSearchPage
+        queryString={queryString}
+        contentResults={contentResults}
+        catalogueResults={{ works, images }}
+      />
+    );
+  }
 
   const SeeMoreButton = ({
     text,
@@ -319,25 +395,69 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   try {
-    // Stories
-    // We want the default order to be "descending publication date" with the Content API
+    let contentResults:
+        | ContentResultsList<Addressable>
+        | WellcomeApiError
+        | undefined,
+      stories,
+      events;
+    let contentQueryFailed = false;
+    if (serverData.toggles.allSearch.value) {
+      // All/Addressables
+      contentResults = await getAddressables({
+        params: {
+          ...query,
+        },
+        pageSize: 4,
+        toggles: serverData.toggles,
+      });
 
-    const storiesResults = await getArticles({
-      params: {
-        ...query,
-        sort: getQueryPropertyValue(query.sort),
-        sortOrder: getQueryPropertyValue(query.sortOrder),
-      },
-      pageSize: 4,
-      toggles: serverData.toggles,
-    });
+      if (contentResults.type === 'Error') {
+        contentQueryFailed = true;
+        console.error(contentResults.label + ': Error fetching addressables');
+      }
+    } else {
+      // Stories
+      // We want the default order to be "descending publication date" with the Content API
+      const storiesResults = await getArticles({
+        params: {
+          ...query,
+          sort: getQueryPropertyValue(query.sort),
+          sortOrder: getQueryPropertyValue(query.sortOrder),
+        },
+        pageSize: 4,
+        toggles: serverData.toggles,
+      });
 
-    const stories = getQueryResults({
-      categoryName: 'stories',
-      queryResults: storiesResults as
-        | ContentResultsList<Article>
-        | WellcomeApiError,
-    });
+      if (storiesResults.type === 'Error') contentQueryFailed = true;
+
+      stories = getQueryResults({
+        categoryName: 'stories',
+        queryResults: storiesResults as
+          | ContentResultsList<Article>
+          | WellcomeApiError,
+      });
+
+      // Events
+      const eventsResults = await getEvents({
+        params: {
+          ...query,
+          sort: getQueryPropertyValue(query.sort),
+          sortOrder: getQueryPropertyValue(query.sortOrder),
+        },
+        pageSize: 3,
+        toggles: serverData.toggles,
+      });
+
+      if (eventsResults.type === 'Error') contentQueryFailed = true;
+
+      events = getQueryResults({
+        categoryName: 'events',
+        queryResults: eventsResults as
+          | ContentResultsList<EventDocument>
+          | WellcomeApiError,
+      });
+    }
 
     // Works
     const worksResults = await getWorks({
@@ -361,29 +481,11 @@ export const getServerSideProps: GetServerSideProps<
       queryResults: imagesResults,
     });
 
-    // Events
-    const eventsResults = await getEvents({
-      params: {
-        ...query,
-        sort: getQueryPropertyValue(query.sort),
-        sortOrder: getQueryPropertyValue(query.sortOrder),
-      },
-      pageSize: 3,
-      toggles: serverData.toggles,
-    });
-    const events = getQueryResults({
-      categoryName: 'events',
-      queryResults: eventsResults as
-        | ContentResultsList<EventDocument>
-        | WellcomeApiError,
-    });
-
     // If all three queries fail, return an error page
     if (
       imagesResults.type === 'Error' &&
       worksResults.type === 'Error' &&
-      storiesResults.type === 'Error' &&
-      eventsResults.type === 'Error'
+      contentQueryFailed
     ) {
       // Use the error from the works API as it is the most mature of the 3
       return appError(
@@ -399,6 +501,10 @@ export const getServerSideProps: GetServerSideProps<
         ...(stories && stories.pageResults?.length && { stories }),
         ...(images?.pageResults.length && { images }),
         ...(events?.pageResults.length && { events }),
+        ...(contentResults?.type !== 'Error' &&
+          contentResults?.results.length && {
+            contentResults,
+          }),
         works:
           works && works.pageResults.length
             ? {

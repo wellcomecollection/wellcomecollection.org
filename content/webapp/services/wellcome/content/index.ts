@@ -14,7 +14,7 @@ const rootUris = {
   stage: 'https://api-stage.wellcomecollection.org/content',
 };
 
-export async function contentQuery<Params, Result extends ResultType>(
+export async function contentListQuery<Params, Result extends ResultType>(
   endpoint: string,
   { params, toggles, pageSize }: QueryProps<Params>
 ): Promise<ContentResultsList<Result> | WellcomeApiError> {
