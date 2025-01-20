@@ -459,7 +459,10 @@ const MainViewer: FunctionComponent = () => {
     setNewScrollOffset(scrollOffset);
 
     timer.current = setTimeout(() => {
-      setShowControls(true);
+      const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
+      if (currentCanvas?.imageServiceId) {
+        setShowControls(true);
+      }
     }, 500);
   }
 
