@@ -107,6 +107,8 @@ const IIIFImage: FunctionComponent<{
 
 // Some of our ContentResources can have a type of 'Audio':
 // https://iiif.wellcomecollection.org/presentation/v3/b17276342
+// However, the IIIF Presentation API spec only has a type of 'Sound'
+// so we add 'Audio' to the type here.
 export type IIIFItemProps =
   | (Omit<ContentResource, 'type'> & {
       type: ContentResource['type'] | 'Audio';
