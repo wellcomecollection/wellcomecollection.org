@@ -274,7 +274,6 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     // This needs to be recalculated whenever the image changes size or orientation.
     const searchHitsPositioningData =
       imageContainerRect &&
-
       imageRect &&
       getPositionData({
         imageContainerRect,
@@ -459,7 +458,10 @@ const MainViewer: FunctionComponent = () => {
     setNewScrollOffset(scrollOffset);
 
     timer.current = setTimeout(() => {
-      setShowControls(true);
+      const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
+      if (currentCanvas?.imageServiceId) {
+        setShowControls(true);
+      }
     }, 500);
   }
 
