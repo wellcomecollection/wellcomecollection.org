@@ -60,9 +60,19 @@ async function init() {
     });
 
     doc.data.body = body;
+    const { image, ...docDataWithoutImage } = doc.data;
+    const articleDoc = {
+      ...doc,
+      title: doc.data.title[0].text,
+      type: 'articles',
+      data: {
+        ...docDataWithoutImage,
+        publishDate: doc.data.publishedDate || doc.first_publication_date,
+      },
+    };
 
     // construct the request URL
-    const url = `https://migration.prismic.io/documents/${doc.id}`;
+    const url = `https://migration.prismic.io/documents`; // `https://migration.prismic.io/documents/${doc.id}`;
 
     // Send the update
     const response = await fetch(url, {
@@ -72,9 +82,10 @@ async function init() {
         'Content-Type': 'application/json',
         repository,
       },
-      method: 'PUT',
-      body: JSON.stringify(doc),
+      method: 'POST', // 'PUT'
+      body: JSON.stringify(articleDoc),
     });
+    console.log(articleDoc);
 
     try {
       const res = await response.json();
@@ -115,10 +126,11 @@ async function init() {
   const token = await authResponse.text();
   const timer = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-  for (const doc of allDocs) {
-    await timer(2000); // don't make too many requests
-    migrateDoc(doc, token);
-  }
+  // for (const doc of allDocs) {
+  //   await timer(2000); // don't make too many requests
+  //   migrateDoc(doc, token);
+  // }
+  migrateDoc(allDocs[0], token);
 }
 
 init();
