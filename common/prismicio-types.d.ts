@@ -4939,7 +4939,16 @@ interface SeriesDocumentData {
    * - **Tab**: Content relationships
    * - **Documentation**: https://prismic.io/docs/field#group
    */;
-  seasons: prismic.GroupField<Simplify<SeriesDocumentDataSeasonsItem>>;
+  seasons: prismic.GroupField<Simplify<SeriesDocumentDataSeasonsItem>> /**
+   * Override published date field in *Story series*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: series.publishDate
+   * - **Tab**: Overrides
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */;
+  publishDate: prismic.TimestampField;
 }
 
 /**

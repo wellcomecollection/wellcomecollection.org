@@ -253,6 +253,15 @@
           }
         }
       }
+    },
+    "Overrides": {
+      "publishDate": {
+        "type": "Timestamp",
+        "config": {
+          "label": "Override published date",
+          "placeholder": ""
+        }
+      }
     }
   }
 }
