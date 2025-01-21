@@ -37,6 +37,7 @@ const ItemWrapper = styled.div`
   right: 0;
   padding: 0;
 
+  img,
   figure,
   .video {
     margin: auto;
@@ -274,7 +275,6 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     // This needs to be recalculated whenever the image changes size or orientation.
     const searchHitsPositioningData =
       imageContainerRect &&
-
       imageRect &&
       getPositionData({
         imageContainerRect,
