@@ -121,10 +121,10 @@ type ItemRendererProps = {
     canvases: TransformedCanvas[];
     rotatedImages: RotatedImage[];
     errorHandler?: () => void;
-    externalAccessService: TransformedAuthService | undefined;
+    externalAccessService?: TransformedAuthService;
     accessToken?: string;
-    restrictedService: AuthExternalService | undefined;
-    placeholderId: string | undefined;
+    restrictedService?: AuthExternalService;
+    placeholderId?: string;
   };
 };
 
