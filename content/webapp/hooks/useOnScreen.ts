@@ -28,9 +28,13 @@ export default function useOnScreen({
           if (topPassedMidPoint && bottomPassedMidPoint) {
             setIsIntersecting(false);
           }
-        } else {
-          setIsIntersecting(false);
+          if (!topPassedMidPoint) {
+            setIsIntersecting(false);
+          }
         }
+        // else {
+        //   setIsIntersecting(false);
+        // }
       },
       {
         root,

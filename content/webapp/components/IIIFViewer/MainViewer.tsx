@@ -1,5 +1,6 @@
 import { AuthExternalService } from '@iiif/presentation-3';
 import debounce from 'lodash.debounce';
+import Router from 'next/router';
 import {
   CSSProperties,
   FunctionComponent,
@@ -16,10 +17,14 @@ import { font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import IIIFItem from '@weco/content/components/IIIFItem/IIIFItem';
+import { arrayIndexToQueryParam } from '@weco/content/components/IIIFViewer/';
+import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import ItemViewerContext, {
   RotatedImage,
 } from '@weco/content/components/ItemViewerContext/ItemViewerContext';
+import useOnScreen from '@weco/content/hooks/useOnScreen';
 import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
+import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
@@ -29,6 +34,10 @@ import { queryParamToArrayIndex } from '.';
 // Temporary styling for viewer to display audio, video and pdfs
 // will be tidied up in future work
 const ItemWrapper = styled.div`
+  &[data-isOnscreen='true'] {
+    background: pink;
+  }
+  border: 1px solid red;
   position: absolute;
   top: 0;
   left: 0;
@@ -266,6 +275,20 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const [overlayPositionData, setOverlayPositionData] = useState<
     OverlayPositionData[]
   >([]);
+  const { work, mainAreaRef, query, transformedManifest } =
+    useContext(ItemViewerContext);
+  const itemWrapperRef = useRef<HTMLDivElement>(null);
+  const isOnScreen = useOnScreen({
+    // This doesn't work properly when scrolling quickly?
+    root: mainAreaRef?.current || undefined,
+    ref: itemWrapperRef || undefined,
+    threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
+  });
+  const displayItems =
+    currentCanvas.painting.length > 0
+      ? currentCanvas.painting
+      : currentCanvas.supplementing; // We fall back to supplementing for some of the pdfs
+
   useEffect(() => {
     // The search hit dimensions and coordinates are given relative to the full size image.
     // The highlight overlays are positioned relative to the image container.
@@ -293,13 +316,31 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     }
   }, [imageRect, imageContainerRect, currentCanvas, searchResults]);
 
-  const displayItems =
-    currentCanvas.painting.length > 0
-      ? currentCanvas.painting
-      : currentCanvas.supplementing; // We fall back to supplementing for some of the pdfs
+  // TODO change thresholds now using wrapper as ref not image?
+  // If the visible canvas changes because it is scrolled into view
+  // we update the canvas param to match
+  useSkipInitialEffect(() => {
+    if (isOnScreen && transformedManifest) {
+      const link = itemLink({
+        workId: work.id,
+        props: {
+          manifest: query.manifest,
+          query: query.query,
+          canvas: arrayIndexToQueryParam(index),
+          shouldScrollToCanvas: false,
+        },
+        source: 'viewer/scroll',
+      });
+      // console.log(index);
+      // console.log({ link });
+      // Router.replace(link.href, link.as); // TODO this is causing extendedViewer toggle to be set to false?
+    }
+  }, [isOnScreen]);
 
   return (
     <div style={style}>
+      {/* <p>isOnScreen: {JSON.stringify(isOnScreen)}</p> */}
+      {/* TODO some sort of hightlight to show which is current? */}
       {scrollVelocity === 3 ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <LL $lighten={true} />
@@ -337,36 +378,42 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
 
           {displayItems.map((item, i) => {
             return (
-              <ItemWrapper key={i}>
+              <ItemWrapper
+                key={i}
+                ref={itemWrapperRef}
+                data-isOnscreen={isOnScreen}
+              >
                 {currentCanvas.painting.length > 0 &&
                   currentCanvas.painting.map((item, i) => {
                     return (
-                      <IIIFItem
-                        key={i}
-                        placeholderId={placeholderId}
-                        item={item}
-                        canvas={currentCanvas}
-                        i={index}
-                        exclude={[]}
-                        setImageRect={setImageRect}
-                        setImageContainerRect={setImageContainerRect}
-                      />
+                      <p>this is an item</p>
+                      // <IIIFItem
+                      //   key={i}
+                      //   placeholderId={placeholderId}
+                      //   item={item}
+                      //   canvas={currentCanvas}
+                      //   i={index}
+                      //   exclude={[]}
+                      //   setImageRect={setImageRect}
+                      //   setImageContainerRect={setImageContainerRect}
+                      // />
                     );
                   })}
                 {/* Pdfs added to manifests before the DLCS changes, that took place in May 2023, are available from the supplementing property */}
                 {currentCanvas.painting.length === 0 &&
                   currentCanvas.supplementing.map((item, i) => {
                     return (
-                      <IIIFItem
-                        key={i}
-                        placeholderId={placeholderId}
-                        item={item}
-                        canvas={currentCanvas}
-                        i={index}
-                        exclude={[]}
-                        setImageRect={setImageRect}
-                        setImageContainerRect={setImageContainerRect}
-                      />
+                      <p>cheese</p>
+                      // <IIIFItem
+                      //   key={i}
+                      //   placeholderId={placeholderId}
+                      //   item={item}
+                      //   canvas={currentCanvas}
+                      //   i={index}
+                      //   exclude={[]}
+                      //   setImageRect={setImageRect}
+                      //   setImageContainerRect={setImageContainerRect}
+                      // />
                     );
                   })}
               </ItemWrapper>

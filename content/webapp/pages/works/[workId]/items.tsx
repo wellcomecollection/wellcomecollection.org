@@ -329,6 +329,11 @@ const ItemPage: NextPage<Props> = ({
         </div>
       </Modal>
 
+      <p>showViewer{JSON.stringify(showViewer)}</p>
+      <p>mainImageService{JSON.stringify(mainImageService)}</p>
+      <p>currentCanvas{JSON.stringify(currentCanvas)}</p>
+      <p>iiifImageLocation{JSON.stringify(iiifImageLocation)}</p>
+      <p>extendedViewer{JSON.stringify(extendedViewer)}</p>
       {showViewer &&
         ((mainImageService && currentCanvas) ||
           iiifImageLocation ||

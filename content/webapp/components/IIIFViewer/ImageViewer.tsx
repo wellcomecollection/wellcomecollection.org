@@ -1,4 +1,4 @@
-import Router from 'next/router';
+// import Router from 'next/router';
 import {
   FunctionComponent,
   useContext,
@@ -10,12 +10,12 @@ import styled from 'styled-components';
 
 import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
-import { toLink as itemLink } from '@weco/content/components/ItemLink';
+// import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
-import useOnScreen from '@weco/content/hooks/useOnScreen';
-import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
+// import useOnScreen from '@weco/content/hooks/useOnScreen';
+// import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
 
-import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
+import { /* arrayIndexToQueryParam, */ queryParamToArrayIndex } from '.';
 import IIIFViewerImage from './IIIFViewerImage';
 
 const ImageWrapper = styled.div`
@@ -68,18 +68,18 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     work,
     errorHandler,
     setShowZoomed,
-    mainAreaRef,
-    query,
+    // mainAreaRef,
+    // query,
     rotatedImages,
-    transformedManifest,
+    // transformedManifest,
   } = useContext(ItemViewerContext);
   const imageWrapperRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
-  const isOnScreen = useOnScreen({
-    root: mainAreaRef?.current || undefined,
-    ref: imageWrapperRef || undefined,
-    threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
-  });
+  // const isOnScreen = useOnScreen({
+  //   root: mainAreaRef?.current || undefined,
+  //   ref: imageWrapperRef || undefined,
+  //   threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
+  // });
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
   const [imageSrcSet, setImageSrcSet] = useState(
     imageSizes(2048)
@@ -117,23 +117,23 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     return () => window.removeEventListener('resize', updateImagePosition);
   }, []);
 
-  // If the visible canvas changes because it is scrolled into view
-  // we update the canvas param to match
-  useSkipInitialEffect(() => {
-    if (isOnScreen && transformedManifest) {
-      const link = itemLink({
-        workId: work.id,
-        props: {
-          manifest: query.manifest,
-          query: query.query,
-          canvas: arrayIndexToQueryParam(index),
-          shouldScrollToCanvas: false,
-        },
-        source: 'viewer/scroll',
-      });
-      Router.replace(link.href, link.as);
-    }
-  }, [isOnScreen]);
+  // // If the visible canvas changes because it is scrolled into view
+  // // we update the canvas param to match
+  // useSkipInitialEffect(() => {
+  //   if (isOnScreen && transformedManifest) {
+  //     const link = itemLink({
+  //       workId: work.id,
+  //       props: {
+  //         manifest: query.manifest,
+  //         query: query.query,
+  //         canvas: arrayIndexToQueryParam(index),
+  //         shouldScrollToCanvas: false,
+  //       },
+  //       source: 'viewer/scroll',
+  //     });
+  //     Router.replace(link.href, link.as);
+  //   }
+  // }, [isOnScreen]);
 
   useEffect(() => {
     setImageSrc(urlTemplate({ size: '640,', rotation }));
