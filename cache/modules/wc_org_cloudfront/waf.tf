@@ -446,7 +446,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name                = "bot-user-agent-MANUAL-RKENNY"
+      metric_name                = "bot-user-agent-manual"
       sampled_requests_enabled   = true
     }
   }
