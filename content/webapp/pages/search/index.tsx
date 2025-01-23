@@ -221,6 +221,9 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   const [clientSideWorks, setClientSideWorks] = useState<
     ReturnedResults<Work> | undefined
   >(undefined);
+  const [clientSideImages, setClientSideImages] = useState<
+    ReturnedResults<Image> | undefined
+  >(undefined);
   const params = fromQuery(query);
   const data = useContext(ServerDataContext);
 
@@ -255,9 +258,26 @@ export const SearchPage: NextPageWithLayout<Props> = ({
       return undefined;
     }
   }
+  async function fetchImages() {
+    try {
+      const imagesResults = await getImages({
+        params,
+        pageSize: 1,
+        toggles: data.toggles,
+      });
+      images = getQueryResults({
+        categoryName: 'images',
+        queryResults: imagesResults,
+      });
+      setClientSideImages(images);
+    } catch (e) {
+      return undefined;
+    }
+  }
   useEffect(() => {
     if (allSearch) {
       fetchWorks();
+      fetchImages();
     }
   }, []);
 
@@ -266,7 +286,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
       <NewSearchPage
         queryString={queryString}
         contentResults={contentResults}
-        catalogueResults={{ works: clientSideWorks, images }}
+        catalogueResults={{ works: clientSideWorks, images: clientSideImages }}
       />
     );
   }
