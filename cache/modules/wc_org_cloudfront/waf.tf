@@ -302,6 +302,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
       managed_rule_group_statement {
         name        = "AWSManagedRulesBotControlRuleSet"
         vendor_name = "AWS"
+        version     = "Version_3.1"
 
         managed_rule_group_configs {
           aws_managed_rules_bot_control_rule_set {
@@ -384,6 +385,68 @@ resource "aws_wafv2_web_acl" "wc_org" {
     visibility_config {
       cloudwatch_metrics_enabled = true
       metric_name                = "geo-rate-limit-${var.namespace}"
+      sampled_requests_enabled   = true
+    }
+  }
+
+  rule {
+    name     = "bot-user-agent-manual"
+    priority = 11
+
+    action {
+      block {}
+    }
+
+    statement {
+      rate_based_statement {
+        aggregate_key_type    = "CONSTANT"
+        evaluation_window_sec = 60
+        limit                 = 300
+
+        scope_down_statement {
+          or_statement {
+            statement {
+              byte_match_statement {
+                positional_constraint = "CONTAINS"
+                search_string         = "PetalBot"
+
+                field_to_match {
+                  single_header {
+                    name = "user-agent"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+            statement {
+              byte_match_statement {
+                positional_constraint = "CONTAINS"
+                search_string         = "ClaudeBot"
+
+                field_to_match {
+                  single_header {
+                    name = "user-agent"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "bot-user-agent-MANUAL-RKENNY"
       sampled_requests_enabled   = true
     }
   }
