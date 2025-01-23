@@ -180,18 +180,22 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
             </Container>
           </BasicSection>
 
-          <div>
+          {(catalogueResults.images || catalogueResults.works) && (
             <div>
-              <SectionTitle sectionName="Images" />
-              <p>{catalogueResults.images?.totalResults || 0} results</p>
+              {catalogueResults.images && (
+                <div>
+                  <SectionTitle sectionName="Images" />
+                  <p>{catalogueResults.images?.totalResults || 0} results</p>
+                </div>
+              )}
+              {catalogueResults.works && (
+                <div>
+                  <SectionTitle sectionName="Catalogue" />
+                  <p>{catalogueResults.works?.totalResults || 0} results</p>
+                </div>
+              )}
             </div>
-
-            <div>
-              <SectionTitle sectionName="Catalogue" />
-
-              <p>{catalogueResults.works?.totalResults || 0} results</p>
-            </div>
-          </div>
+          )}
         </Container>
       )}
     </main>
