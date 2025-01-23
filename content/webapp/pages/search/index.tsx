@@ -1,10 +1,13 @@
 import { GetServerSideProps } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { getServerData } from '@weco/common/server-data';
-import { useToggles } from '@weco/common/server-data/Context';
+import {
+  ServerDataContext,
+  useToggles,
+} from '@weco/common/server-data/Context';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { font } from '@weco/common/utils/classnames';
@@ -38,6 +41,7 @@ import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import {
   Image,
   toWorkBasic,
+  Work,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
@@ -75,7 +79,7 @@ type Props = {
 type NewProps = {
   contentResults?: ReturnedResults<Addressable>;
   catalogueResults: {
-    works?: ReturnedResults<WorkBasic>;
+    works?: ReturnedResults<Work>;
     images?: ReturnedResults<Image>;
   };
   queryString?: string;
@@ -214,6 +218,11 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   const { query: queryString } = query;
   const { setLink } = useContext(SearchContext);
   const { allSearch } = useToggles();
+  const [clientSideWorks, setClientSideWorks] = useState<
+    ReturnedResults<Work> | undefined
+  >(undefined);
+  const params = fromQuery(query);
+  const data = useContext(ServerDataContext);
 
   useEffect(() => {
     const pathname = '/search';
@@ -230,12 +239,34 @@ export const SearchPage: NextPageWithLayout<Props> = ({
     setLink(link);
   }, [query]);
 
+  async function fetchWorks() {
+    try {
+      const worksResults = await getWorks({
+        params,
+        pageSize: 1,
+        toggles: data.toggles,
+      });
+      const works = getQueryResults({
+        categoryName: 'works',
+        queryResults: worksResults,
+      });
+      setClientSideWorks(works);
+    } catch (e) {
+      return undefined;
+    }
+  }
+  useEffect(() => {
+    if (allSearch) {
+      fetchWorks();
+    }
+  }, []);
+
   if (allSearch) {
     return (
       <NewSearchPage
         queryString={queryString}
         contentResults={contentResults}
-        catalogueResults={{ works, images }}
+        catalogueResults={{ works: clientSideWorks, images }}
       />
     );
   }
