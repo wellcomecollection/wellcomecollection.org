@@ -404,7 +404,9 @@ export const getServerSideProps: GetServerSideProps<
         | WellcomeApiError
         | undefined,
       stories,
-      events;
+      events,
+      works,
+      images;
     let contentQueryFailed = false;
     if (serverData.toggles.allSearch.value) {
       // All/Addressables
@@ -461,42 +463,42 @@ export const getServerSideProps: GetServerSideProps<
           | ContentResultsList<EventDocument>
           | WellcomeApiError,
       });
-    }
 
-    // Works
-    const worksResults = await getWorks({
-      params,
-      pageSize: 5,
-      toggles: serverData.toggles,
-    });
-    const works = getQueryResults({
-      categoryName: 'works',
-      queryResults: worksResults,
-    });
+      // Works
+      const worksResults = await getWorks({
+        params,
+        pageSize: 5,
+        toggles: serverData.toggles,
+      });
+      works = getQueryResults({
+        categoryName: 'works',
+        queryResults: worksResults,
+      });
 
-    // Images
-    const imagesResults = await getImages({
-      params,
-      pageSize: 10,
-      toggles: serverData.toggles,
-    });
-    const images = getQueryResults({
-      categoryName: 'images',
-      queryResults: imagesResults,
-    });
+      // Images
+      const imagesResults = await getImages({
+        params,
+        pageSize: 10,
+        toggles: serverData.toggles,
+      });
+      images = getQueryResults({
+        categoryName: 'images',
+        queryResults: imagesResults,
+      });
 
-    // If all three queries fail, return an error page
-    if (
-      imagesResults.type === 'Error' &&
-      worksResults.type === 'Error' &&
-      contentQueryFailed
-    ) {
-      // Use the error from the works API as it is the most mature of the 3
-      return appError(
-        context,
-        worksResults.httpStatus,
-        worksResults.description || worksResults.label
-      );
+      // If all three queries fail, return an error page
+      if (
+        imagesResults.type === 'Error' &&
+        worksResults.type === 'Error' &&
+        contentQueryFailed
+      ) {
+        // Use the error from the works API as it is the most mature of the 3
+        return appError(
+          context,
+          worksResults.httpStatus,
+          worksResults.description || worksResults.label
+        );
+      }
     }
 
     return {
