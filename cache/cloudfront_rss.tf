@@ -9,7 +9,7 @@ resource "aws_cloudfront_distribution" "rss_wc_org" {
   enabled          = true
   retain_on_delete = false
   is_ipv6_enabled  = true
-  aliases          = [
+  aliases = [
     "rss.wellcomecollection.org",
   ]
 
@@ -60,7 +60,7 @@ resource "aws_cloudfront_distribution" "rss_wc_org" {
     response_headers_policy_id = module.cloudfront_policies.response_policies["weco-security"]
 
     function_association {
-      event_type = "viewer-request"
+      event_type   = "viewer-request"
       function_arn = aws_cloudfront_function.rss_stories_url_rewrite.arn
     }
   }

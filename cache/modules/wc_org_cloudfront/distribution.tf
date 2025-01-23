@@ -249,8 +249,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id            = var.cache_policies["weco-apps"]
-    origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
+    cache_policy_id          = var.cache_policies["weco-apps"]
+    origin_request_policy_id = var.request_policies["host-query-and-toggles"]
 
     // We can't apply the security headers policy to Slice Machine routes, as
     // it breaks the Slice Machine preview.
