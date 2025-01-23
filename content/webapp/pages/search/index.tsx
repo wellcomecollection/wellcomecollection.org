@@ -245,7 +245,10 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   async function fetchWorks() {
     try {
       const worksResults = await getWorks({
-        params,
+        params: {
+          ...params,
+          aggregations: ['workType'],
+        },
         pageSize: 1,
         toggles: data.toggles,
       });
