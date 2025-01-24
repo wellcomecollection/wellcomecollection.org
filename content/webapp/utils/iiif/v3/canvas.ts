@@ -5,6 +5,7 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   CustomContentResource,
   ThumbnailImage,
+  TransformedCanvas,
 } from '@weco/content/types/manifest';
 
 // Temporary type until iiif3 types are correct
@@ -75,3 +76,24 @@ export function getOriginal(
   });
   return original || [];
 }
+
+// Ordinarly we would use the painting array to display an item to the user, see https://iiif.io/api/presentation/3.0/#values-for-motivation
+// However, if there is a PDF in the 'original' array we want to display that.
+// If neither of those things are available we fallback to the supplementing array.
+// This is because pdfs that were added to manifests before the DLCS changes, which took place in May 2023,
+// will be in the supplementing array.
+export const getDisplayItems = (canvas: TransformedCanvas) => {
+  const originalPdfs = canvas.original.filter(o => {
+    if ('format' in o) {
+      return o.format === 'application/pdf';
+    } else {
+      return false;
+    }
+  });
+
+  return originalPdfs.length > 0
+    ? originalPdfs
+    : canvas.painting.length > 0
+      ? canvas.painting
+      : canvas.supplementing;
+};
