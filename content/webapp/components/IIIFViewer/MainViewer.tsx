@@ -295,7 +295,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   }, [imageRect, imageContainerRect, currentCanvas, searchResults]);
 
   const displayItems = getDisplayItems(currentCanvas);
-  console.log({ displayItems: displayItems.length });
+
   return (
     <div style={style}>
       {scrollVelocity === 3 ? (
