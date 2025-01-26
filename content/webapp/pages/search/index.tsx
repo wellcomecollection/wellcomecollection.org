@@ -71,13 +71,13 @@ type Props = {
   images?: ReturnedResults<Image>;
   stories?: ReturnedResults<Article>;
   events?: ReturnedResults<EventDocument>;
-  contentResults?: ReturnedResults<Addressable>;
+  contentResults?: ContentResultsList<Addressable>;
   query: Query;
   pageview: Pageview;
 };
 
 type NewProps = {
-  contentResults?: ReturnedResults<Addressable>;
+  contentResults?: ContentResultsList<Addressable>;
   catalogueResults: {
     works?: ReturnedResults<Work>;
     images?: ReturnedResults<Image>;
@@ -454,10 +454,10 @@ export const getServerSideProps: GetServerSideProps<
         | ContentResultsList<Addressable>
         | WellcomeApiError
         | undefined,
-      stories,
-      events,
-      works,
-      images;
+      stories: ReturnedResults<Article> | undefined,
+      events: ReturnedResults<EventDocument> | undefined,
+      works: ReturnedResults<Work> | undefined,
+      images: ReturnedResults<Image> | undefined;
     let contentQueryFailed = false;
     if (serverData.toggles.allSearch.value) {
       // All/Addressables
