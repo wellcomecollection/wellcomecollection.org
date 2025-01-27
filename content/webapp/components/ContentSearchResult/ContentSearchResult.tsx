@@ -14,8 +14,8 @@ type Props = {
   description: string;
   highlightTourType?: 'audio' | 'bsl';
   tags?: string[];
-  dates?: { start: Date; end: Date };
-  times?: { start: Date; end: Date };
+  dates?: { start: string; end: string };
+  times?: { start: string; end: string };
   contributors?: string;
 };
 
@@ -70,17 +70,17 @@ const ContentSearchResult: FunctionComponent<Props> = ({
 
   return (
     <Link href={link()}>
-      {type !== 'Page' && <Type>{type}</Type>}
+      {type !== 'Page' && <Type>{type === 'Article' ? 'Story' : type}</Type>}
       <Title>{title}</Title>
       <Description>{description}</Description>
       {dates ? (
         <DatesContributors>
-          <DateRange start={dates.start} end={dates.end} />
+          <DateRange start={new Date(dates.start)} end={new Date(dates.end)} />
         </DatesContributors>
       ) : null}
       {times ? (
         <DatesContributors>
-          <DateRange start={times.start} end={times.end} />
+          <DateRange start={new Date(times.start)} end={new Date(times.end)} />
         </DatesContributors>
       ) : null}
       {contributors ? (

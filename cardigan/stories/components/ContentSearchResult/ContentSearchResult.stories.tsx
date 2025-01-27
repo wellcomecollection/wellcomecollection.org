@@ -9,12 +9,12 @@ const meta: Meta<typeof ContentSearchResult> = {
     uid: 'shortlist-revealed-for-wellcome-book-prize-2018',
     contributors: 'Joe Bloggs',
     dates: {
-      start: new Date('2022-03-01T00:00:00Z'),
-      end: new Date('2022-03-08T00:00:00Z'),
+      start: '2022-03-01T00:00:00Z',
+      end: '2022-03-08T00:00:00Z',
     },
     times: {
-      start: new Date('2022-03-01T13:15:00Z'),
-      end: new Date('2022-03-01T14:15:00Z'),
+      start: '2022-03-01T13:15:00Z',
+      end: '2022-03-01T14:15:00Z',
     },
     description:
       'The shortlist for the 2018 Wellcome Book Prize is announced, celebrating the best new books that illuminate our encounters with health, medicine and illness.',
