@@ -26,8 +26,8 @@ const Link = styled(NextLink)`
 `;
 
 const Type = styled(Space).attrs({
-  $v: { size: 'm', properties: ['margin-bottom'] },
-  className: font('intr', 5),
+  $v: { size: 's', properties: ['margin-bottom'] },
+  className: font('intr', 6),
 })``;
 
 const Title = styled(Space).attrs({

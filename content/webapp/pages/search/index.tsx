@@ -29,6 +29,7 @@ import ContentSearchResult from '@weco/content/components/ContentSearchResult/Co
 import EventsSearchResults from '@weco/content/components/EventsSearchResults';
 import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
+import Pagination from '@weco/content/components/Pagination/Pagination';
 import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
 import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
 import StoriesGrid from '@weco/content/components/StoriesGrid';
@@ -162,33 +163,43 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
           <SearchNoResults query={queryString} />
         </Container>
       ) : (
-        <Container style={{ display: 'flex' }}>
+        <Container
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '3fr 2fr',
+            gap: '160px',
+          }}
+        >
           <BasicSection>
-            <Container>
-              <SectionTitle sectionName="Content results" />
-              <p>{contentResults?.totalResults || 0} results</p>
-              {/* <code>
-                <pre style={{ fontFamily: 'monaco', fontSize: '10px' }}>
-                  {JSON.stringify(contentResults, null, 2)}
-                </pre>
-              </code> */}
-              {contentResults?.results?.map(result => (
-                <Space
-                  key={result.uid}
-                  $v={{ size: 'xl', properties: ['margin-bottom'] }}
-                >
-                  <ContentSearchResult
-                    uid={result.uid || undefined}
-                    type={result.type}
-                    title={result.title}
-                    description={result.description}
-                    tags={result.tags}
-                    dates={result.dates}
-                    times={result.times}
-                  />
-                </Space>
-              ))}
-            </Container>
+            <p className={font('intr', 5)}>
+              {contentResults?.totalResults || 0} result
+              {contentResults?.totalResults === 1 ? '' : 's'} for{' '}
+              <span className={font('intb', 6)}>{queryString}</span>
+            </p>
+            {contentResults?.results?.map(result => (
+              <Space
+                key={result.uid}
+                $v={{ size: 'xl', properties: ['margin-bottom'] }}
+              >
+                <ContentSearchResult
+                  uid={result.uid || undefined}
+                  type={result.type}
+                  title={result.title}
+                  description={result.description}
+                  tags={result.tags}
+                  dates={result.dates}
+                  times={result.times}
+                />
+              </Space>
+            ))}
+
+            {contentResults?.totalPages ? (
+              <Pagination
+                totalPages={contentResults.totalPages}
+                ariaLabel="Content search results pagination"
+                isHiddenMobile
+              />
+            ) : null}
           </BasicSection>
 
           <div>
@@ -419,7 +430,7 @@ export const getServerSideProps: GetServerSideProps<
         params: {
           ...query,
         },
-        pageSize: 4,
+        pageSize: 20,
         toggles: serverData.toggles,
       });
 
