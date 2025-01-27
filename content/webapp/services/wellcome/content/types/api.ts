@@ -163,6 +163,7 @@ export type Addressable = {
   times?: { start: string; end: string };
   dates?: { start: string; end?: string };
   tags?: string[];
+  highlightTourType?: 'audio' | 'bsl';
 };
 
 // Results

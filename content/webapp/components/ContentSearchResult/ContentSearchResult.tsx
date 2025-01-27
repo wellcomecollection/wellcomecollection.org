@@ -9,7 +9,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import DateRange from '@weco/content/components/DateRange/DateRange';
 
 type Props = {
-  uid?: string;
+  uid: string | null;
   type: string;
   title: string;
   description?: string;
@@ -62,6 +62,7 @@ const ContentSearchResult: FunctionComponent<Props> = ({
   contributors,
 }) => {
   const link = (): string => {
+    console.log(highlightTourType);
     if (highlightTourType) {
       return `/guides/exhibitions/${uid}/${highlightTourType === 'audio' ? 'audio-without-descriptions' : 'bsl'}`;
     } else {

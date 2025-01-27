@@ -181,15 +181,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                 key={result.uid}
                 $v={{ size: 'xl', properties: ['margin-bottom'] }}
               >
-                <ContentSearchResult
-                  uid={result.uid || undefined}
-                  type={result.type}
-                  title={result.title}
-                  description={result.description}
-                  tags={result.tags}
-                  dates={result.dates}
-                  times={result.times}
-                />
+                <ContentSearchResult {...result} />
               </Space>
             ))}
 
