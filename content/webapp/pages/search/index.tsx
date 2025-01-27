@@ -25,6 +25,7 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import theme from '@weco/common/views/themes/default';
+import ContentSearchResult from '@weco/content/components/ContentSearchResult/ContentSearchResult';
 import EventsSearchResults from '@weco/content/components/EventsSearchResults';
 import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
@@ -166,17 +167,27 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
             <Container>
               <SectionTitle sectionName="Content results" />
               <p>{contentResults?.totalResults || 0} results</p>
-              <div
-                style={{
-                  fontSize: '12px',
-                  maxWidth: '780px',
-                  overflow: 'scroll',
-                }}
-              >
-                {contentResults && (
-                  <pre>{JSON.stringify(contentResults, null, 2)}</pre>
-                )}
-              </div>
+              {/* <code>
+                <pre style={{ fontFamily: 'monaco', fontSize: '10px' }}>
+                  {JSON.stringify(contentResults, null, 2)}
+                </pre>
+              </code> */}
+              {contentResults?.results?.map(result => (
+                <Space
+                  key={result.uid}
+                  $v={{ size: 'xl', properties: ['margin-bottom'] }}
+                >
+                  <ContentSearchResult
+                    uid={result.uid}
+                    type={result.type}
+                    title={result.title}
+                    description={result.description}
+                    tags={result.tags}
+                    dates={result.dates}
+                    times={result.times}
+                  />
+                </Space>
+              ))}
             </Container>
           </BasicSection>
 
