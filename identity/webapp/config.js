@@ -1,11 +1,10 @@
-const { config: dotEnvConfig } = require('dotenv');
+require('dotenv').config();
 
 const port = Number(process.env.PORT) || 3000;
 
 // Defaults (ie "build") need to be set here so that there's something available
 // at build time - it never gets used
 const getConfig = () => {
-  dotEnvConfig();
   return {
     // Random values used for encrypting cookies used for the session. Can be comma separated list.
     sessionKeys: process.env.SESSION_KEYS

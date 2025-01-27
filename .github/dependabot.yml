@@ -12,8 +12,9 @@ updates:
     ignore:
       - dependency-name: '*'
         update-types: ['version-update:semver-patch'] # Ignore all patch updates for version updates only
-      # Needs more work, has its own ticket. Remove this once it's done.
+      # Needs more work, they have their own ticket. Remove them from this list once tickets are Done.
       - dependency-name: 'eslint*'
+      - dependency-name: '@babel/*'
     groups:
       all:
         patterns: ['*']
