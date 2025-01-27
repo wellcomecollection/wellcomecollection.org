@@ -23,6 +23,7 @@ import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
+import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 
 import { queryParamToArrayIndex } from '.';
 
@@ -262,10 +263,10 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const [imageContainerRect, setImageContainerRect] = useState<
     DOMRect | undefined
   >();
-
   const [overlayPositionData, setOverlayPositionData] = useState<
     OverlayPositionData[]
   >([]);
+
   useEffect(() => {
     // The search hit dimensions and coordinates are given relative to the full size image.
     // The highlight overlays are positioned relative to the image container.
@@ -293,10 +294,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     }
   }, [imageRect, imageContainerRect, currentCanvas, searchResults]);
 
-  const displayItems =
-    currentCanvas.painting.length > 0
-      ? currentCanvas.painting
-      : currentCanvas.supplementing; // We fall back to supplementing for some of the pdfs
+  const displayItems = getDisplayItems(currentCanvas);
 
   return (
     <div style={style}>
@@ -335,43 +333,22 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
               );
             })}
 
-          {displayItems.map((item, i) => {
-            return (
-              <ItemWrapper key={i}>
-                {currentCanvas.painting.length > 0 &&
-                  currentCanvas.painting.map((item, i) => {
-                    return (
-                      <IIIFItem
-                        key={i}
-                        placeholderId={placeholderId}
-                        item={item}
-                        canvas={currentCanvas}
-                        i={index}
-                        exclude={[]}
-                        setImageRect={setImageRect}
-                        setImageContainerRect={setImageContainerRect}
-                      />
-                    );
-                  })}
-                {/* Pdfs added to manifests before the DLCS changes, that took place in May 2023, are available from the supplementing property */}
-                {currentCanvas.painting.length === 0 &&
-                  currentCanvas.supplementing.map((item, i) => {
-                    return (
-                      <IIIFItem
-                        key={i}
-                        placeholderId={placeholderId}
-                        item={item}
-                        canvas={currentCanvas}
-                        i={index}
-                        exclude={[]}
-                        setImageRect={setImageRect}
-                        setImageContainerRect={setImageContainerRect}
-                      />
-                    );
-                  })}
-              </ItemWrapper>
-            );
-          })}
+          {displayItems.length > 0 &&
+            displayItems.map(item => {
+              return (
+                <ItemWrapper key={item.id}>
+                  <IIIFItem
+                    placeholderId={placeholderId}
+                    item={item}
+                    canvas={currentCanvas}
+                    i={index}
+                    exclude={[]}
+                    setImageRect={setImageRect}
+                    setImageContainerRect={setImageContainerRect}
+                  />
+                </ItemWrapper>
+              );
+            })}
         </>
       )}
     </div>
