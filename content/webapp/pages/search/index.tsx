@@ -72,6 +72,7 @@ type Props = {
   contentResults?: ContentResultsList<Addressable>;
   query: Query;
   pageview: Pageview;
+  contentQueryFailed: boolean;
 };
 
 type NewProps = {
@@ -81,6 +82,7 @@ type NewProps = {
     images?: ReturnedResults<Image>;
   };
   queryString?: string;
+  contentQueryFailed: boolean;
 };
 
 type SeeMoreButtonProps = {
@@ -153,6 +155,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
   queryString,
   contentResults,
   catalogueResults,
+  contentQueryFailed,
 }) => {
   return (
     <main>
@@ -172,9 +175,18 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
         >
           <BasicSection>
             <p className={font('intr', 5)}>
-              {contentResults?.totalResults || 0} result
-              {contentResults?.totalResults === 1 ? '' : 's'} for{' '}
-              <span className={font('intb', 6)}>{queryString}</span>
+              {contentQueryFailed ? (
+                <>
+                  There was a problem fetching some search results. Please try
+                  again. If the problem persists, please contact us.
+                </>
+              ) : (
+                <>
+                  {contentResults?.totalResults || 0} result
+                  {contentResults?.totalResults === 1 ? '' : 's'} for{' '}
+                  <span className={font('intb', 6)}>{queryString}</span>
+                </>
+              )}
             </p>
             {contentResults?.results?.map(result => (
               <Space
@@ -214,6 +226,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
 
 export const SearchPage: NextPageWithLayout<Props> = ({
   contentResults,
+  contentQueryFailed,
   works,
   images,
   stories,
@@ -246,6 +259,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
         queryString={queryString}
         contentResults={contentResults}
         catalogueResults={{ works, images }}
+        contentQueryFailed={contentQueryFailed}
       />
     );
   }
@@ -519,6 +533,7 @@ export const getServerSideProps: GetServerSideProps<
           contentResults?.results.length && {
             contentResults,
           }),
+        contentQueryFailed,
         works:
           works && works.pageResults.length
             ? {
