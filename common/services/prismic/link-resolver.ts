@@ -1,6 +1,6 @@
 import { isSiteSection, SiteSection } from '@weco/common/model/site-section';
 
-import { isContentType } from './content-types';
+import { isContentApiContentType, isContentType } from './content-types';
 
 type Props = {
   uid?: string;
@@ -29,7 +29,7 @@ function linkResolver(doc: Props | DataProps): string {
   const { uid, type } = doc;
 
   if (!uid) return '/';
-  if (type === 'articles') return `/stories/${uid}`;
+  if (type === 'articles' || type === 'Article') return `/stories/${uid}`;
   if (type === 'webcomics') return `/stories/${uid}`;
   if (type === 'webcomic-series') return `/series/${uid}`;
 
@@ -37,7 +37,9 @@ function linkResolver(doc: Props | DataProps): string {
     type === 'exhibition-guides' ||
     type === 'exhibition-texts' ||
     type === 'exhibition-highlight-tours' ||
-    type === 'exhibition-guides-links'
+    type === 'exhibition-guides-links' ||
+    type === 'Exhibition text' ||
+    type === 'Exhibition highlight tour'
   )
     return `/guides/exhibitions/${uid}`;
 
@@ -54,7 +56,7 @@ function linkResolver(doc: Props | DataProps): string {
     }
   }
 
-  if (type === 'pages') {
+  if (type === 'pages' || type === 'Page') {
     let siteSection: SiteSection | undefined;
 
     if ('siteSection' in doc) {
@@ -73,6 +75,10 @@ function linkResolver(doc: Props | DataProps): string {
 
   if (isContentType(type)) {
     return `/${type}/${uid}`;
+  }
+
+  if (isContentApiContentType(type)) {
+    return `/${type.toLowerCase().replace(/ /g, '-')}s/${uid}`;
   }
 
   return '/';
