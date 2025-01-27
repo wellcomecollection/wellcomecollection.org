@@ -19,7 +19,7 @@ const meta: Meta<typeof ContentSearchResult> = {
     description:
       'The shortlist for the 2018 Wellcome Book Prize is announced, celebrating the best new books that illuminate our encounters with health, medicine and illness.',
     title: 'Shortlist revealed for Wellcome Book Prize 2018',
-    type: 'Page',
+    type: 'Event',
     tags: ['press'],
   },
 };
