@@ -15,6 +15,7 @@ updates:
       # Needs more work, they have their own ticket. Remove them from this list once tickets are Done.
       - dependency-name: 'eslint*'
       - dependency-name: '@babel/*'
+      - dependency-name: 'husky'
     groups:
       all:
         patterns: ['*']
