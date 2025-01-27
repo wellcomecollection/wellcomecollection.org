@@ -68,13 +68,13 @@ type Props = {
   images?: ReturnedResults<Image>;
   stories?: ReturnedResults<Article>;
   events?: ReturnedResults<EventDocument>;
-  contentResults?: ReturnedResults<Addressable>;
+  contentResults?: ContentResultsList<Addressable>;
   query: Query;
   pageview: Pageview;
 };
 
 type NewProps = {
-  contentResults?: ReturnedResults<Addressable>;
+  contentResults?: ContentResultsList<Addressable>;
   catalogueResults: {
     works?: ReturnedResults<WorkBasic>;
     images?: ReturnedResults<Image>;
@@ -178,7 +178,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                   $v={{ size: 'xl', properties: ['margin-bottom'] }}
                 >
                   <ContentSearchResult
-                    uid={result.uid}
+                    uid={result.uid || undefined}
                     type={result.type}
                     title={result.title}
                     description={result.description}

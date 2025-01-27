@@ -4,17 +4,18 @@ import styled from 'styled-components';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import Space from '@weco/common/views/components/styled/Space';
 import DateRange from '@weco/content/components/DateRange/DateRange';
 
 type Props = {
-  uid: string;
+  uid?: string;
   type: string;
   title: string;
-  description: string;
+  description?: string;
   highlightTourType?: 'audio' | 'bsl';
   tags?: string[];
-  dates?: { start: string; end: string };
+  dates?: { start: string; end?: string };
   times?: { start: string; end: string };
   contributors?: string;
 };
@@ -72,10 +73,14 @@ const ContentSearchResult: FunctionComponent<Props> = ({
     <Link href={link()}>
       {type !== 'Page' && <Type>{type === 'Article' ? 'Story' : type}</Type>}
       <Title>{title}</Title>
-      <Description>{description}</Description>
-      {dates ? (
+      {description ? <Description>{description}</Description> : null}
+      {dates?.end ? (
         <DatesContributors>
           <DateRange start={new Date(dates.start)} end={new Date(dates.end)} />
+        </DatesContributors>
+      ) : dates?.start ? (
+        <DatesContributors>
+          <HTMLDate date={new Date(dates.start)} />
         </DatesContributors>
       ) : null}
       {times ? (
