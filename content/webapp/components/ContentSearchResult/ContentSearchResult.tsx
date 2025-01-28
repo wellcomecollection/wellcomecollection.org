@@ -66,7 +66,7 @@ const ContentSearchResult: FunctionComponent<Props> = ({
     if (highlightTourType) {
       return `/guides/exhibitions/${uid}/${highlightTourType === 'audio' ? 'audio-without-descriptions' : 'bsl'}`;
     } else {
-      return linkResolver({ uid, type, tags });
+      return linkResolver({ uid: uid || undefined, type, tags });
     }
   };
 
