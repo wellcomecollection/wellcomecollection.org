@@ -6582,6 +6582,16 @@ export interface GuideTextItemSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   additional_notes: prismic.RichTextField;
+
+  /**
+   * Transcript field in *GuideTextItem → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: guide_text_item.default.primary.transcript
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  transcript: prismic.RichTextField;
 }
 
 /**
