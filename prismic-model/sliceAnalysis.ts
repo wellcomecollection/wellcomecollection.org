@@ -144,7 +144,7 @@ async function main() {
     );
   console.info('');
 
-  // console.info(contentTypeMatches);
+  console.info(contentTypeMatches);
   console.info(
     `found ${
       slicesMatches ? slicesMatches + ' ' + type : totalSlices + ' slices'
