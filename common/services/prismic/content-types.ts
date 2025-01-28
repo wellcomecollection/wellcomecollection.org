@@ -34,6 +34,7 @@ const contentApiContentTypes = [
   'Season',
 ];
 
+// We want to be able to treat Prismic and Content API content types as the same so we can test against single values in the link resolver
 export const contentApiTypeMap = {
   Book: 'books',
   'Event series': 'event-series',
