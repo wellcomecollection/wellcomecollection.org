@@ -1,4 +1,6 @@
 import { GetServerSideProps } from 'next';
+import NextLink from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ParsedUrlQuery } from 'querystring';
 import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -21,7 +23,9 @@ import {
 import {
   getQueryPropertyValue,
   getQueryResults,
+  getQueryWorkTypeBuckets,
   ReturnedResults,
+  WorkTypes,
 } from '@weco/common/utils/search';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -29,10 +33,13 @@ import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import theme from '@weco/common/views/themes/default';
 import EventsSearchResults from '@weco/content/components/EventsSearchResults';
+import ImageCard from '@weco/content/components/ImageCard/ImageCard';
 import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
 import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
 import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
+import { toLink as imagesLink } from '@weco/content/components/SearchPagesLink/Images';
+import { toLink as worksLink } from '@weco/content/components/SearchPagesLink/Works';
 import StoriesGrid from '@weco/content/components/StoriesGrid';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
 import useHotjar from '@weco/content/hooks/useHotjar';
@@ -41,7 +48,6 @@ import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import {
   Image,
   toWorkBasic,
-  Work,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
@@ -76,11 +82,16 @@ type Props = {
   pageview: Pageview;
 };
 
+type ImageResults = {
+  totalResults: number;
+  results: (Image & { src: string; width: number; height: number })[];
+};
+
 type NewProps = {
   contentResults?: ReturnedResults<Addressable>;
   catalogueResults: {
-    works?: ReturnedResults<Work>;
-    images?: ReturnedResults<Image>;
+    works?: WorkTypes;
+    images?: ImageResults;
   };
   queryString?: string;
 };
@@ -156,6 +167,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
   contentResults,
   catalogueResults,
 }) => {
+  const pathname = usePathname();
   return (
     <main>
       {!contentResults &&
@@ -183,23 +195,71 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
               </div>
             </Container>
           </BasicSection>
-
-          {(catalogueResults.images || catalogueResults.works) && (
-            <div>
-              {catalogueResults.images && (
-                <div>
-                  <SectionTitle sectionName="Images" />
-                  <p>{catalogueResults.images?.totalResults || 0} results</p>
-                </div>
-              )}
-              {catalogueResults.works && (
+          <div>
+            {catalogueResults.works &&
+              catalogueResults.works.totalResults > 0 && (
                 <div>
                   <SectionTitle sectionName="Catalogue" />
-                  <p>{catalogueResults.works?.totalResults || 0} results</p>
+                  {catalogueResults.works.workTypeBuckets?.map((bucket, i) => (
+                    <NextLink
+                      key={i}
+                      {...worksLink(
+                        {
+                          query: queryString,
+                          workType: [bucket.data.id],
+                        },
+                        `works_workType_${pathname}`
+                      )}
+                      passHref
+                    >
+                      {bucket.data.label} ({bucket.count})
+                    </NextLink>
+                  ))}
+                  <NextLink
+                    {...worksLink(
+                      {
+                        query: queryString,
+                      },
+                      `works_all_${pathname}`
+                    )}
+                    passHref
+                  >
+                    All Catalogue results {catalogueResults.works?.totalResults}
+                  </NextLink>
                 </div>
               )}
-            </div>
-          )}
+
+            {catalogueResults.images && (
+              <div>
+                <SectionTitle sectionName="Images" />
+                {catalogueResults.images.results.map(image => (
+                  <ImageCard
+                    key={image.id}
+                    id={image.id}
+                    workId={image.source.id}
+                    image={{
+                      contentUrl: image.src,
+                      width: image.width * 1.57,
+                      height: image.height * 1.57,
+                      alt: image.source.title,
+                    }}
+                    layout="raw"
+                  />
+                ))}
+                <NextLink
+                  {...imagesLink(
+                    {
+                      query: queryString,
+                    },
+                    `images_all_${pathname}`
+                  )}
+                  passHref
+                >
+                  All images {catalogueResults.images?.totalResults}
+                </NextLink>
+              </div>
+            )}
+          </div>
         </Container>
       )}
     </main>
@@ -222,7 +282,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
     WorkTypes | undefined
   >(undefined);
   const [clientSideImages, setClientSideImages] = useState<
-    ReturnedResults<Image> | undefined
+    ImageResults | undefined
   >(undefined);
   const params = fromQuery(query);
   const data = useContext(ServerDataContext);
@@ -298,7 +358,10 @@ export const SearchPage: NextPageWithLayout<Props> = ({
       <NewSearchPage
         queryString={queryString}
         contentResults={contentResults}
-        catalogueResults={{ works: clientSideWorks, images: clientSideImages }}
+        catalogueResults={{
+          works: clientSideWorkTypes,
+          images: clientSideImages,
+        }}
       />
     );
   }
