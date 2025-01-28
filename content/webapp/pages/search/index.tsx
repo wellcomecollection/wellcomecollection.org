@@ -265,7 +265,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
     try {
       const imagesResults = await getImages({
         params,
-        pageSize: 1,
+        pageSize: 5,
         toggles: data.toggles,
       });
       images = getQueryResults({
