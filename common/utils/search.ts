@@ -1,5 +1,11 @@
 import { ParsedUrlQuery } from 'querystring';
 
+import { WellcomeAggregation } from '@weco/content/services/wellcome';
+import {
+  CatalogueResultsList,
+  Work,
+} from '@weco/content/services/wellcome/catalogue/types';
+
 import { propsToQuery } from './routes';
 
 export type DefaultSortValuesType = {
@@ -43,6 +49,32 @@ export function getQueryResults<T>({
   } else {
     return {
       pageResults: queryResults.results,
+      totalResults: queryResults.totalResults,
+    };
+  }
+}
+
+export type WorkTypes = {
+  workTypeBuckets: WellcomeAggregation['buckets'] | undefined;
+  totalResults: number;
+};
+/**
+ * Takes query result and checks for errors to log before returning required data.
+ * @param {string} categoryName - e.g. works
+ * @param queryResults - Original result from query
+ */
+export function getQueryWorkTypeBuckets({
+  categoryName,
+  queryResults,
+}: {
+  categoryName: string;
+  queryResults: CatalogueResultsList<Work> | ApiError;
+}): WorkTypes | undefined {
+  if (queryResults.type === 'Error') {
+    console.error(queryResults.label + ': Error fetching ' + categoryName);
+  } else {
+    return {
+      workTypeBuckets: queryResults.aggregations?.workType.buckets,
       totalResults: queryResults.totalResults,
     };
   }
