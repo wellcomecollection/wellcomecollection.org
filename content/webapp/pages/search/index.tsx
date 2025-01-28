@@ -215,8 +215,13 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
               ) : (
                 <>
                   {totalResults} result
-                  {totalResults === 1 ? '' : 's'} for{' '}
-                  <span className={font('intb', 6)}>{queryString}</span>
+                  {totalResults === 1 ? '' : 's'}
+                  {queryString ? (
+                    <>
+                      {' '}
+                      for <span className={font('intb', 5)}>{queryString}</span>
+                    </>
+                  ) : null}
                 </>
               )}
             </p>

@@ -63,7 +63,6 @@ const ContentSearchResult: FunctionComponent<Props> = ({
   contributors,
 }) => {
   const link = (): string => {
-    console.log(highlightTourType);
     if (highlightTourType) {
       return `/guides/exhibitions/${uid}/${highlightTourType === 'audio' ? 'audio-without-descriptions' : 'bsl'}`;
     } else {
