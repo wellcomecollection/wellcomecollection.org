@@ -23,6 +23,7 @@ type Props = {
 const Link = styled(NextLink)`
   text-decoration: none;
   color: inherit;
+  display: block;
 `;
 
 const Type = styled(Space).attrs({

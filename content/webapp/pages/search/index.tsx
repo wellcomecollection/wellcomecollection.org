@@ -117,6 +117,40 @@ const SectionTitle = ({ sectionName }: { sectionName: string }) => {
   );
 };
 
+const GridContainer = styled(Container)`
+  display: grid;
+  grid-template-columns: [l-start] 9fr [l-end r-start] 3fr [r-end];
+
+  ${props => props.theme.media('large')`
+    grid-template-columns: [l-start] 6fr [l-end] 2fr [r-start] 4fr [r-end];
+  `}
+`;
+
+const ContentResults = styled.div`
+  grid-column: l-start / r-end;
+
+  ${props => props.theme.media('medium')`
+    grid-column: l-start / l-end;
+  `}
+
+  ${props => props.theme.media('large')`
+    grid-row: 1;
+    grid-column: l-start / l-end;
+  `}
+`;
+
+const CatalogueResults = styled.div`
+  grid-column: l-start / r-end;
+
+  ${props => props.theme.media('medium')`
+    grid-column: l-start / l-end;
+  `}
+
+  ${props => props.theme.media('large')`
+    grid-column: r-start / r-end;
+  `}
+`;
+
 const StoryPromoContainer = styled(Container)`
   ${props =>
     props.theme.mediaBetween(
@@ -170,14 +204,8 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
           <SearchNoResults query={queryString} />
         </Container>
       ) : (
-        <Container
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '3fr 2fr',
-            gap: '160px',
-          }}
-        >
-          <BasicSection>
+        <BasicSection>
+          <Container>
             <p className={font('intr', 5)}>
               {contentQueryFailed ? (
                 <>
@@ -192,37 +220,39 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                 </>
               )}
             </p>
-            {contentResults?.results?.map(result => (
-              <Space
-                key={result.uid}
-                $v={{ size: 'xl', properties: ['margin-bottom'] }}
-              >
-                <ContentSearchResult {...result} />
-              </Space>
-            ))}
+          </Container>
+          <GridContainer>
+            <CatalogueResults>
+              <div>
+                <SectionTitle sectionName="Images" />
+                <p>{catalogueResults.images?.totalResults || 0} results</p>
+              </div>
 
-            {contentResults?.totalPages ? (
-              <Pagination
-                totalPages={contentResults.totalPages}
-                ariaLabel="Content search results pagination"
-                isHiddenMobile
-              />
-            ) : null}
-          </BasicSection>
+              <div>
+                <SectionTitle sectionName="Catalogue" />
+                <p>{catalogueResults.works?.totalResults || 0} results</p>
+              </div>
+            </CatalogueResults>
+            <ContentResults>
+              {contentResults?.results?.map(result => (
+                <Space
+                  key={result.uid}
+                  $v={{ size: 'xl', properties: ['margin-bottom'] }}
+                >
+                  <ContentSearchResult {...result} />
+                </Space>
+              ))}
 
-          <div>
-            <div>
-              <SectionTitle sectionName="Images" />
-              <p>{catalogueResults.images?.totalResults || 0} results</p>
-            </div>
-
-            <div>
-              <SectionTitle sectionName="Catalogue" />
-
-              <p>{catalogueResults.works?.totalResults || 0} results</p>
-            </div>
-          </div>
-        </Container>
+              {contentResults?.totalPages ? (
+                <Pagination
+                  totalPages={contentResults.totalPages}
+                  ariaLabel="Content search results pagination"
+                  isHiddenMobile
+                />
+              ) : null}
+            </ContentResults>
+          </GridContainer>
+        </BasicSection>
       )}
     </main>
   );
