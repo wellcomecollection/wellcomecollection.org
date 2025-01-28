@@ -157,6 +157,10 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
   catalogueResults,
   contentQueryFailed,
 }) => {
+  const totalResults =
+    (contentResults?.totalResults || 0) +
+    (catalogueResults.images?.totalResults || 0) +
+    (catalogueResults.works?.totalResults || 0);
   return (
     <main>
       {!contentResults &&
@@ -182,8 +186,8 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                 </>
               ) : (
                 <>
-                  {contentResults?.totalResults || 0} result
-                  {contentResults?.totalResults === 1 ? '' : 's'} for{' '}
+                  {totalResults} result
+                  {totalResults === 1 ? '' : 's'} for{' '}
                   <span className={font('intb', 6)}>{queryString}</span>
                 </>
               )}
