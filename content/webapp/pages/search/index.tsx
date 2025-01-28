@@ -218,8 +218,8 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   const { query: queryString } = query;
   const { setLink } = useContext(SearchContext);
   const { allSearch } = useToggles();
-  const [clientSideWorks, setClientSideWorks] = useState<
-    ReturnedResults<Work> | undefined
+  const [clientSideWorkTypes, setClientSideWorkTypes] = useState<
+    WorkTypes | undefined
   >(undefined);
   const [clientSideImages, setClientSideImages] = useState<
     ReturnedResults<Image> | undefined
@@ -252,11 +252,11 @@ export const SearchPage: NextPageWithLayout<Props> = ({
         pageSize: 1,
         toggles: data.toggles,
       });
-      const works = getQueryResults({
+      const workTypeBuckets = getQueryWorkTypeBuckets({
         categoryName: 'works',
         queryResults: worksResults,
       });
-      setClientSideWorks(works);
+      setClientSideWorkTypes(workTypeBuckets);
     } catch (e) {
       return undefined;
     }
