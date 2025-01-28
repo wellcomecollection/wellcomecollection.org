@@ -1,6 +1,10 @@
 import { isSiteSection, SiteSection } from '@weco/common/model/site-section';
 
-import { isContentApiContentType, isContentType } from './content-types';
+import {
+  contentApiTypeMap,
+  isContentApiContentType,
+  isContentType,
+} from './content-types';
 
 type Props = {
   uid?: string;
@@ -26,10 +30,16 @@ function linkResolver(doc: Props | DataProps): string {
   // which doesn't necessarily have access to all data
   if (!doc) return '/';
 
-  const { uid, type } = doc;
+  const { uid } = doc;
+
+  const type = isContentType(doc.type)
+    ? doc.type
+    : isContentApiContentType(doc.type)
+      ? contentApiTypeMap[doc.type]
+      : '';
 
   if (!uid) return '/';
-  if (type === 'articles' || type === 'Article') return `/stories/${uid}`;
+  if (type === 'articles') return `/stories/${uid}`;
   if (type === 'webcomics') return `/stories/${uid}`;
   if (type === 'webcomic-series') return `/series/${uid}`;
 
@@ -56,7 +66,7 @@ function linkResolver(doc: Props | DataProps): string {
     }
   }
 
-  if (type === 'pages' || type === 'Page') {
+  if (type === 'pages') {
     let siteSection: SiteSection | undefined;
 
     if ('siteSection' in doc) {
@@ -75,10 +85,6 @@ function linkResolver(doc: Props | DataProps): string {
 
   if (isContentType(type)) {
     return `/${type}/${uid}`;
-  }
-
-  if (isContentApiContentType(type)) {
-    return `/${type.toLowerCase().replace(/ /g, '-')}s/${uid}`;
   }
 
   return '/';

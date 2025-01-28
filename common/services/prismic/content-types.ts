@@ -34,6 +34,20 @@ const contentApiContentTypes = [
   'Season',
 ];
 
+export const contentApiTypeMap = {
+  Book: 'books',
+  'Event series': 'event-series',
+  Event: 'events',
+  Exhibition: 'exhibitions',
+  'Visual story': 'visual-stories',
+  'Exhibition text': 'exhibition-texts',
+  Page: 'pages',
+  'Exhibition highlight tour': 'exhibition-highlight-tours',
+  Project: 'projects',
+  Article: 'articles',
+  Season: 'seasons',
+};
+
 export type ContentType = (typeof contentTypes)[number];
 export type ContentApiContentType = (typeof contentApiContentTypes)[number];
 /* eslint-disable @typescript-eslint/no-explicit-any */
