@@ -315,22 +315,6 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   >(undefined);
   const params = fromQuery(query);
   const data = useContext(ServerDataContext);
-
-  useEffect(() => {
-    const pathname = '/search';
-    const link = {
-      href: {
-        pathname,
-        query,
-      },
-      as: {
-        pathname,
-        query,
-      },
-    };
-    setLink(link);
-  }, [query]);
-
   async function fetchWorks() {
     try {
       const worksResults = await getWorks({
@@ -375,12 +359,25 @@ export const SearchPage: NextPageWithLayout<Props> = ({
       return undefined;
     }
   }
+
   useEffect(() => {
+    const pathname = '/search';
+    const link = {
+      href: {
+        pathname,
+        query,
+      },
+      as: {
+        pathname,
+        query,
+      },
+    };
+    setLink(link);
     if (allSearch) {
       fetchWorks();
       fetchImages();
     }
-  }, []);
+  }, [query]);
 
   if (allSearch) {
     return (
