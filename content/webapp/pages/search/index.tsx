@@ -23,9 +23,7 @@ import {
 import {
   getQueryPropertyValue,
   getQueryResults,
-  getQueryWorkTypeBuckets,
   ReturnedResults,
-  WorkTypes,
 } from '@weco/common/utils/search';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -43,11 +41,16 @@ import { toLink as worksLink } from '@weco/content/components/SearchPagesLink/Wo
 import StoriesGrid from '@weco/content/components/StoriesGrid';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
 import useHotjar from '@weco/content/hooks/useHotjar';
-import { WellcomeApiError } from '@weco/content/services/wellcome';
+import {
+  WellcomeAggregation,
+  WellcomeApiError,
+} from '@weco/content/services/wellcome';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import {
+  CatalogueResultsList,
   Image,
   toWorkBasic,
+  Work,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
@@ -63,6 +66,32 @@ import {
 import { Query } from '@weco/content/types/search';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
+
+export type WorkTypes = {
+  workTypeBuckets: WellcomeAggregation['buckets'] | undefined;
+  totalResults: number;
+};
+/**
+ * Takes query result and checks for errors to log before returning required data.
+ * @param {string} categoryName - e.g. works
+ * @param queryResults - Original result from query
+ */
+export function getQueryWorkTypeBuckets({
+  categoryName,
+  queryResults,
+}: {
+  categoryName: string;
+  queryResults: CatalogueResultsList<Work> | WellcomeApiError;
+}): WorkTypes | undefined {
+  if (queryResults.type === 'Error') {
+    console.error(queryResults.label + ': Error fetching ' + categoryName);
+  } else {
+    return {
+      workTypeBuckets: queryResults.aggregations?.workType.buckets,
+      totalResults: queryResults.totalResults,
+    };
+  }
+}
 
 // Creating this version of fromQuery for the overview page only
 // No filters or pagination required.
