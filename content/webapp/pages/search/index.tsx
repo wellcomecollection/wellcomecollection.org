@@ -272,7 +272,16 @@ export const SearchPage: NextPageWithLayout<Props> = ({
         categoryName: 'images',
         queryResults: imagesResults,
       });
-      setClientSideImages(images);
+      setClientSideImages({
+        totalResults: images?.totalResults || 0,
+        results:
+          images?.pageResults.map(image => ({
+            ...image,
+            src: image.locations[0].url,
+            width: (image.aspectRatio || 1) * 100,
+            height: 100,
+          })) || [],
+      });
     } catch (e) {
       return undefined;
     }
