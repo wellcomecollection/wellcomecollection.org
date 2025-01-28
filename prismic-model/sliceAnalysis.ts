@@ -65,20 +65,25 @@ async function main() {
   const snapshotDir = await downloadPrismicSnapshot();
 
   for (const result of getPrismicDocuments(snapshotDir)) {
-    if (result.data.body) {
-      for (const slice of result.data.body) {
+    const hasSlices = !!result.data.body || !!result.data.slices;
+
+    if (hasSlices) {
+      // Not all slices are within the body (Exhibition guides' were built straight in)
+      const slices = result.data.body || result.data.slices;
+
+      for (const slice of slices) {
         const currentValue = sliceCounter.get(slice.slice_type) || 0;
         sliceCounter.set(slice.slice_type, currentValue + 1);
       }
 
       const isWithType: boolean = type
-        ? result.data.body.some(slice => slice.slice_type === type)
+        ? slices.some(slice => slice.slice_type === type)
         : true;
 
       if (isWithType) {
         // Find how often the slice is used within the content type
         let nodeSliceCount = 0;
-        result.data.body
+        slices
           .map(slice => {
             if (slice.slice_type === type) {
               slicesMatches++;
@@ -139,7 +144,7 @@ async function main() {
     );
   console.info('');
 
-  console.info(contentTypeMatches);
+  // console.info(contentTypeMatches);
   console.info(
     `found ${
       slicesMatches ? slicesMatches + ' ' + type : totalSlices + ' slices'
