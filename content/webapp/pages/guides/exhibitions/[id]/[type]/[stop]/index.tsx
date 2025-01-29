@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next';
+import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { FunctionComponent, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -27,7 +28,6 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
-import TransitionLink from '@weco/common/views/components/TransitionLink';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
 import ImagePlaceholder, {
@@ -307,7 +307,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                 </h1>
               </div>
               <span>
-                <TransitionLink
+                <NextLink
                   href={`${guideTypeUrl}#${currentStop.number}`}
                   onFocus={() =>
                     setViewTransitionName(`player-${currentStop.number}`)
@@ -318,7 +318,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                 >
                   <Icon icon={cross} />
                   <span className="visually-hidden">Back to list of stops</span>
-                </TransitionLink>
+                </NextLink>
               </span>
             </HeaderInner>
           </Container>
@@ -406,7 +406,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             >
               <div>
                 {stopNumber > 1 && (
-                  <TransitionLink
+                  <NextLink
                     style={{
                       textDecoration: 'none',
                       display: 'inline-block',
@@ -435,12 +435,12 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                         <span>Previous</span>
                       </AlignCenter>
                     </Space>
-                  </TransitionLink>
+                  </NextLink>
                 )}
               </div>
               <div>
                 {stopNumber < allStops.length && (
-                  <TransitionLink
+                  <NextLink
                     style={{
                       textDecoration: 'none',
                       display: 'inline-block',
@@ -467,7 +467,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                         <Icon icon={arrow} />
                       </AlignCenter>
                     </Space>
-                  </TransitionLink>
+                  </NextLink>
                 )}
               </div>
             </div>
