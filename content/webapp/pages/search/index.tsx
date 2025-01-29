@@ -30,10 +30,12 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import theme from '@weco/common/views/themes/default';
+import ContentSearchResult from '@weco/content/components/ContentSearchResult/ContentSearchResult';
 import EventsSearchResults from '@weco/content/components/EventsSearchResults';
 import ImageCard from '@weco/content/components/ImageCard/ImageCard';
 import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
+import Pagination from '@weco/content/components/Pagination/Pagination';
 import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
 import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
 import { toLink as imagesLink } from '@weco/content/components/SearchPagesLink/Images';
@@ -110,6 +112,7 @@ type Props = {
   contentResults?: ContentResultsList<Addressable>;
   query: Query;
   pageview: Pageview;
+  contentQueryFailed?: boolean;
 };
 
 type ImageResults = {
@@ -124,6 +127,7 @@ type NewProps = {
     images?: ImageResults;
   };
   queryString?: string;
+  contentQueryFailed?: boolean;
 };
 
 type SeeMoreButtonProps = {
@@ -157,6 +161,40 @@ const SectionTitle = ({ sectionName }: { sectionName: string }) => {
     </Space>
   );
 };
+
+const GridContainer = styled(Container)`
+  display: grid;
+  grid-template-columns: [l-start] 9fr [l-end r-start] 3fr [r-end];
+
+  ${props => props.theme.media('large')`
+    grid-template-columns: [l-start] 6fr [l-end] 2fr [r-start] 4fr [r-end];
+  `}
+`;
+
+const ContentResults = styled.div`
+  grid-column: l-start / r-end;
+
+  ${props => props.theme.media('medium')`
+    grid-column: l-start / l-end;
+  `}
+
+  ${props => props.theme.media('large')`
+    grid-row: 1;
+    grid-column: l-start / l-end;
+  `}
+`;
+
+const CatalogueResults = styled.div`
+  grid-column: l-start / r-end;
+
+  ${props => props.theme.media('medium')`
+    grid-column: l-start / l-end;
+  `}
+
+  ${props => props.theme.media('large')`
+    grid-column: r-start / r-end;
+  `}
+`;
 
 const StoryPromoContainer = styled(Container)`
   ${props =>
@@ -196,8 +234,13 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
   queryString,
   contentResults,
   catalogueResults,
+  contentQueryFailed,
 }) => {
   const pathname = usePathname();
+  const totalResults =
+    (contentResults?.totalResults || 0) +
+    (catalogueResults.images?.totalResults || 0) +
+    (catalogueResults.works?.totalResults || 0);
   return (
     <main>
       {!contentResults &&
@@ -207,25 +250,30 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
           <SearchNoResults query={queryString} />
         </Container>
       ) : (
-        <Container style={{ display: 'flex' }}>
-          <BasicSection>
-            <Container>
-              <SectionTitle sectionName="Content results" />
-              <p>{contentResults?.totalResults || 0} results</p>
-              <div
-                style={{
-                  fontSize: '12px',
-                  maxWidth: '780px',
-                  overflow: 'scroll',
-                }}
-              >
-                {contentResults && (
-                  <pre>{JSON.stringify(contentResults, null, 2)}</pre>
-                )}
-              </div>
-            </Container>
-          </BasicSection>
-          <div>
+        <BasicSection>
+          <Container>
+            <p className={font('intr', 5)}>
+              {contentQueryFailed ? (
+                <>
+                  There was a problem fetching some search results. Please try
+                  again. If the problem persists, please contact us.
+                </>
+              ) : (
+                <>
+                  {totalResults} result
+                  {totalResults === 1 ? '' : 's'}
+                  {queryString ? (
+                    <>
+                      {' '}
+                      for <span className={font('intb', 5)}>{queryString}</span>
+                    </>
+                  ) : null}
+                </>
+              )}
+            </p>
+          </Container>
+          <GridContainer>
+            <CatalogueResults>
             {catalogueResults.works &&
               catalogueResults.works.totalResults > 0 && (
                 <div>
@@ -289,8 +337,28 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                 </NextLink>
               </div>
             )}
-          </div>
-        </Container>
+            </CatalogueResults>
+            <ContentResults>
+              {contentResults?.results?.map(result => (
+                <Space
+                  key={`${result.uid}${result.highlightTourType || ''}`}
+                  $v={{ size: 'xl', properties: ['margin-bottom'] }}
+                >
+                  <ContentSearchResult {...result} />
+                </Space>
+              ))}
+
+              {contentResults?.totalPages ? (
+                <Pagination
+                  totalPages={contentResults.totalPages}
+                  ariaLabel="Content search results pagination"
+                  isHiddenMobile
+                />
+              ) : null}
+            </ContentResults>
+          </GridContainer>
+        </BasicSection>
+>>>>>>> origin/all-search
       )}
     </main>
   );
@@ -298,6 +366,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
 
 export const SearchPage: NextPageWithLayout<Props> = ({
   contentResults,
+  contentQueryFailed,
   works,
   images,
   stories,
@@ -389,6 +458,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
           works: clientSideWorkTypes,
           images: clientSideImages,
         }}
+        contentQueryFailed={contentQueryFailed}
       />
     );
   }
@@ -567,7 +637,7 @@ export const getServerSideProps: GetServerSideProps<
         params: {
           ...query,
         },
-        pageSize: 4,
+        pageSize: 20,
         toggles: serverData.toggles,
       });
 
@@ -664,6 +734,7 @@ export const getServerSideProps: GetServerSideProps<
           contentResults?.results.length && {
             contentResults,
           }),
+        contentQueryFailed,
         works:
           works && works.pageResults.length
             ? {
