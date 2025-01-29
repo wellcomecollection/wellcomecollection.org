@@ -1,6 +1,8 @@
 import { GetServerSideProps } from 'next';
+import NextLink from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ParsedUrlQuery } from 'querystring';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
 
 import { getServerData } from '@weco/common/server-data';
@@ -29,16 +31,24 @@ import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import theme from '@weco/common/views/themes/default';
 import EventsSearchResults from '@weco/content/components/EventsSearchResults';
+import ImageCard from '@weco/content/components/ImageCard/ImageCard';
 import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
 import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
 import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
+import { toLink as imagesLink } from '@weco/content/components/SearchPagesLink/Images';
+import { toLink as worksLink } from '@weco/content/components/SearchPagesLink/Works';
 import StoriesGrid from '@weco/content/components/StoriesGrid';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
 import useHotjar from '@weco/content/hooks/useHotjar';
-import { WellcomeApiError } from '@weco/content/services/wellcome';
+import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
+import {
+  WellcomeAggregation,
+  WellcomeApiError,
+} from '@weco/content/services/wellcome';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import {
+  CatalogueResultsList,
   Image,
   toWorkBasic,
   Work,
@@ -58,6 +68,32 @@ import { Query } from '@weco/content/types/search';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 
+export type WorkTypes = {
+  workTypeBuckets: WellcomeAggregation['buckets'] | undefined;
+  totalResults: number;
+};
+/**
+ * Takes query result and checks for errors to log before returning required data.
+ * @param {string} categoryName - e.g. works
+ * @param queryResults - Original result from query
+ */
+export function getQueryWorkTypeBuckets({
+  categoryName,
+  queryResults,
+}: {
+  categoryName: string;
+  queryResults: CatalogueResultsList<Work> | WellcomeApiError;
+}): WorkTypes | undefined {
+  if (queryResults.type === 'Error') {
+    console.error(queryResults.label + ': Error fetching ' + categoryName);
+  } else {
+    return {
+      workTypeBuckets: queryResults.aggregations?.workType.buckets,
+      totalResults: queryResults.totalResults,
+    };
+  }
+}
+
 // Creating this version of fromQuery for the overview page only
 // No filters or pagination required.
 const codecMap = { query: stringCodec };
@@ -76,11 +112,16 @@ type Props = {
   pageview: Pageview;
 };
 
+type ImageResults = {
+  totalResults: number;
+  results: (Image & { src: string; width: number; height: number })[];
+};
+
 type NewProps = {
   contentResults?: ContentResultsList<Addressable>;
   catalogueResults: {
-    works?: ReturnedResults<Work>;
-    images?: ReturnedResults<Image>;
+    works?: WorkTypes;
+    images?: ImageResults;
   };
   queryString?: string;
 };
@@ -156,6 +197,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
   contentResults,
   catalogueResults,
 }) => {
+  const pathname = usePathname();
   return (
     <main>
       {!contentResults &&
@@ -183,23 +225,71 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
               </div>
             </Container>
           </BasicSection>
-
-          {(catalogueResults.images || catalogueResults.works) && (
-            <div>
-              {catalogueResults.images && (
-                <div>
-                  <SectionTitle sectionName="Images" />
-                  <p>{catalogueResults.images?.totalResults || 0} results</p>
-                </div>
-              )}
-              {catalogueResults.works && (
+          <div>
+            {catalogueResults.works &&
+              catalogueResults.works.totalResults > 0 && (
                 <div>
                   <SectionTitle sectionName="Catalogue" />
-                  <p>{catalogueResults.works?.totalResults || 0} results</p>
+                  {catalogueResults.works.workTypeBuckets?.map((bucket, i) => (
+                    <NextLink
+                      key={i}
+                      {...worksLink(
+                        {
+                          query: queryString,
+                          workType: [bucket.data.id],
+                        },
+                        `works_workType_${pathname}`
+                      )}
+                      passHref
+                    >
+                      {bucket.data.label} ({bucket.count})
+                    </NextLink>
+                  ))}
+                  <NextLink
+                    {...worksLink(
+                      {
+                        query: queryString,
+                      },
+                      `works_all_${pathname}`
+                    )}
+                    passHref
+                  >
+                    All Catalogue results {catalogueResults.works?.totalResults}
+                  </NextLink>
                 </div>
               )}
-            </div>
-          )}
+
+            {catalogueResults.images && (
+              <div>
+                <SectionTitle sectionName="Images" />
+                {catalogueResults.images.results.map(image => (
+                  <ImageCard
+                    key={image.id}
+                    id={image.id}
+                    workId={image.source.id}
+                    image={{
+                      contentUrl: image.src,
+                      width: image.width * 1.57,
+                      height: image.height * 1.57,
+                      alt: image.source.title,
+                    }}
+                    layout="raw"
+                  />
+                ))}
+                <NextLink
+                  {...imagesLink(
+                    {
+                      query: queryString,
+                    },
+                    `images_all_${pathname}`
+                  )}
+                  passHref
+                >
+                  All images {catalogueResults.images?.totalResults}
+                </NextLink>
+              </div>
+            )}
+          </div>
         </Container>
       )}
     </main>
@@ -218,16 +308,60 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   const { query: queryString } = query;
   const { setLink } = useContext(SearchContext);
   const { allSearch } = useToggles();
-  const [clientSideWorks, setClientSideWorks] = useState<
-    ReturnedResults<Work> | undefined
+  const [clientSideWorkTypes, setClientSideWorkTypes] = useState<
+    WorkTypes | undefined
   >(undefined);
   const [clientSideImages, setClientSideImages] = useState<
-    ReturnedResults<Image> | undefined
+    ImageResults | undefined
   >(undefined);
   const params = fromQuery(query);
   const data = useContext(ServerDataContext);
+  async function fetchWorks() {
+    try {
+      const worksResults = await getWorks({
+        params: {
+          ...params,
+          aggregations: ['workType'],
+        },
+        pageSize: 1,
+        toggles: data.toggles,
+      });
+      const workTypeBuckets = getQueryWorkTypeBuckets({
+        categoryName: 'works',
+        queryResults: worksResults,
+      });
+      setClientSideWorkTypes(workTypeBuckets);
+    } catch (e) {
+      return undefined;
+    }
+  }
+  async function fetchImages() {
+    try {
+      const imagesResults = await getImages({
+        params,
+        pageSize: 5,
+        toggles: data.toggles,
+      });
+      images = getQueryResults({
+        categoryName: 'images',
+        queryResults: imagesResults,
+      });
+      setClientSideImages({
+        totalResults: images?.totalResults || 0,
+        results:
+          images?.pageResults.map(image => ({
+            ...image,
+            src: image.locations[0].url,
+            width: (image.aspectRatio || 1) * 100,
+            height: 100,
+          })) || [],
+      });
+    } catch (e) {
+      return undefined;
+    }
+  }
 
-  useEffect(() => {
+  useSkipInitialEffect(() => {
     const pathname = '/search';
     const link = {
       href: {
@@ -240,53 +374,21 @@ export const SearchPage: NextPageWithLayout<Props> = ({
       },
     };
     setLink(link);
-  }, [query]);
-
-  async function fetchWorks() {
-    try {
-      const worksResults = await getWorks({
-        params,
-        pageSize: 1,
-        toggles: data.toggles,
-      });
-      const works = getQueryResults({
-        categoryName: 'works',
-        queryResults: worksResults,
-      });
-      setClientSideWorks(works);
-    } catch (e) {
-      return undefined;
-    }
-  }
-  async function fetchImages() {
-    try {
-      const imagesResults = await getImages({
-        params,
-        pageSize: 1,
-        toggles: data.toggles,
-      });
-      images = getQueryResults({
-        categoryName: 'images',
-        queryResults: imagesResults,
-      });
-      setClientSideImages(images);
-    } catch (e) {
-      return undefined;
-    }
-  }
-  useEffect(() => {
     if (allSearch) {
       fetchWorks();
       fetchImages();
     }
-  }, []);
+  }, [query]);
 
   if (allSearch) {
     return (
       <NewSearchPage
         queryString={queryString}
         contentResults={contentResults}
-        catalogueResults={{ works: clientSideWorks, images: clientSideImages }}
+        catalogueResults={{
+          works: clientSideWorkTypes,
+          images: clientSideImages,
+        }}
       />
     );
   }
