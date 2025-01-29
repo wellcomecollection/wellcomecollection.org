@@ -2,7 +2,7 @@ import { GetServerSideProps } from 'next';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ParsedUrlQuery } from 'querystring';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
 
 import { getServerData } from '@weco/common/server-data';
@@ -107,7 +107,7 @@ type Props = {
   images?: ReturnedResults<Image>;
   stories?: ReturnedResults<Article>;
   events?: ReturnedResults<EventDocument>;
-  contentResults?: ReturnedResults<Addressable>;
+  contentResults?: ContentResultsList<Addressable>;
   query: Query;
   pageview: Pageview;
 };
@@ -118,7 +118,7 @@ type ImageResults = {
 };
 
 type NewProps = {
-  contentResults?: ReturnedResults<Addressable>;
+  contentResults?: ContentResultsList<Addressable>;
   catalogueResults: {
     works?: WorkTypes;
     images?: ImageResults;
@@ -556,10 +556,10 @@ export const getServerSideProps: GetServerSideProps<
         | ContentResultsList<Addressable>
         | WellcomeApiError
         | undefined,
-      stories,
-      events,
-      works,
-      images;
+      stories: ReturnedResults<Article> | undefined,
+      events: ReturnedResults<EventDocument> | undefined,
+      works: ReturnedResults<Work> | undefined,
+      images: ReturnedResults<Image> | undefined;
     let contentQueryFailed = false;
     if (serverData.toggles.allSearch.value) {
       // All/Addressables

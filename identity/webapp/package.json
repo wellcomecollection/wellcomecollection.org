@@ -18,8 +18,7 @@
     "storybook": "start-storybook -p 4009",
     "build-storybook": "build-storybook",
     "test": "jest",
-    "lint:next": "next lint",
-    "deployBundleAnalysis": "aws s3 sync .dist s3://dash.wellcomecollection.org/bundles --only-show-errors --acl public-read"
+    "lint:next": "next lint"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.2.0",
@@ -27,7 +26,7 @@
     "@koa/router": "^13.1.0",
     "@weco/common": "1.0.0",
     "axios": "^0.28.0",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.4.7",
     "jsonwebtoken": "^9.0.0",
     "koa": "^2.13.0",
     "koa-json": "^2.0.2",

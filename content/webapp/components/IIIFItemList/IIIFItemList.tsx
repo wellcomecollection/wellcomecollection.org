@@ -5,6 +5,7 @@ import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import IIIFItem from '@weco/content/components/IIIFItem/IIIFItem';
 import { TransformedCanvas } from '@weco/content/types/manifest';
+import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 
 type Props = {
   canvases: TransformedCanvas[] | undefined;
@@ -16,28 +17,14 @@ const IIIFItemList: FunctionComponent<Props> = ({
   canvases,
   exclude,
   placeholderId,
-}) => (
-  <PlainList as="ol">
-    {canvases &&
-      canvases.map((canvas, i) => {
-        // Ordinarly we would use the painting array to display an item to the user, see https://iiif.io/api/presentation/3.0/#values-for-motivation
-        // However, if there is a PDF in the 'original' array we want to display that.
-        // If neither of those things are available we fallback to the supplementing array.
-        // This is because pdfs that were added to manifests before the DLCS changes, which took place in May 2023,
-        // will be in the supplementing array.
-        const originalPdfs = canvas.original.filter(o => {
-          if ('format' in o) {
-            return o.format === 'application/pdf';
-          } else {
-            return false;
-          }
-        });
-        const displayItems =
-          originalPdfs.length > 0
-            ? originalPdfs
-            : canvas.painting.length > 0
-              ? canvas.painting
-              : canvas.supplementing;
+}) => {
+  if (!canvases) return null;
+
+  return (
+    <PlainList as="ol">
+      {canvases.map((canvas, i) => {
+        const displayItems = getDisplayItems(canvas);
+
         return displayItems.map(item => {
           return (
             <li key={item.id}>
@@ -54,7 +41,8 @@ const IIIFItemList: FunctionComponent<Props> = ({
           );
         });
       })}
-  </PlainList>
-);
+    </PlainList>
+  );
+};
 
 export default IIIFItemList;
