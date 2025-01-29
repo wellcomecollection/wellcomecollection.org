@@ -51,6 +51,17 @@
 						}
 					}
 				]
+			},
+			"transcript": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Id qui eiusmod eu et elit pariatur qui. Cillum nulla aliquip ea ad et. Duis consequat sit consectetur est adipisicing esse est sint officia est aliquip culpa."
+						}
+					}
+				]
 			}
 		},
 		"items": [

@@ -2,6 +2,8 @@ import * as prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
 
 import { font } from '@weco/common/utils/classnames';
+import { camelize } from '@weco/common/utils/grammar';
+import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
@@ -18,7 +20,8 @@ const GuideTextItem: FunctionComponent<{
   tombstone?: prismic.RichTextField;
   caption?: prismic.RichTextField;
   additionalNotes?: prismic.RichTextField;
-}> = ({ number, title, tombstone, caption, additionalNotes }) => {
+  transcript?: prismic.RichTextField;
+}> = ({ number, title, tombstone, caption, additionalNotes, transcript }) => {
   return (
     <Space
       id={number ? `stop-${number}` : undefined}
@@ -42,6 +45,17 @@ const GuideTextItem: FunctionComponent<{
               <Caption>
                 <PrismicHtmlBlock html={caption} />
               </Caption>
+            )}
+
+            {transcript && (
+              <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+                <CollapsibleContent
+                  id={number ? `${number}` : camelize(title)}
+                  controlText={{ defaultText: 'Read transcript' }}
+                >
+                  <PrismicHtmlBlock html={transcript} />
+                </CollapsibleContent>
+              </Space>
             )}
           </Wrapper>
         )}
