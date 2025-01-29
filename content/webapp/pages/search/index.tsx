@@ -76,7 +76,7 @@ type Props = {
   contentResults?: ContentResultsList<Addressable>;
   query: Query;
   pageview: Pageview;
-  contentQueryFailed: boolean;
+  contentQueryFailed?: boolean;
 };
 
 type NewProps = {
@@ -86,7 +86,7 @@ type NewProps = {
     images?: ReturnedResults<Image>;
   };
   queryString?: string;
-  contentQueryFailed: boolean;
+  contentQueryFailed?: boolean;
 };
 
 type SeeMoreButtonProps = {
