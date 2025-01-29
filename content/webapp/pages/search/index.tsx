@@ -382,7 +382,6 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
             </ContentResults>
           </GridContainer>
         </BasicSection>
->>>>>>> origin/all-search
       )}
     </main>
   );
