@@ -136,6 +136,22 @@ type SeeMoreButtonProps = {
   totalResults: number;
 };
 
+const CatalogueResultsInner = styled(Space).attrs({
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background-color: ${props => props.theme.color('warmNeutral.300')};
+`;
+
+const CatalogueLinks = styled(Space).attrs({
+  $v: { size: 'm', properties: ['margin-bottom'] },
+  className: 'is-hidden-s',
+})`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+`;
+
 const BasicSection = styled(Space).attrs({
   as: 'section',
   $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
@@ -158,6 +174,14 @@ const SectionTitle = ({ sectionName }: { sectionName: string }) => {
   return (
     <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
       <h3 className={font('intb', 2)}>{sectionName}</h3>
+    </Space>
+  );
+};
+
+const CatalogueSectionTitle = ({ sectionName }: { sectionName: string }) => {
+  return (
+    <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+      <h3 className={`${font('intb', 4)} is-hidden-s`}>{sectionName}</h3>
     </Space>
   );
 };
