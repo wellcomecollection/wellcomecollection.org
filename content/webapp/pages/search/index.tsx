@@ -5,6 +5,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { useContext, useState } from 'react';
 import styled from 'styled-components';
 
+import { arrow } from '@weco/common/icons';
 import { getServerData } from '@weco/common/server-data';
 import {
   ServerDataContext,
@@ -26,6 +27,7 @@ import {
   ReturnedResults,
 } from '@weco/common/utils/search';
 import Divider from '@weco/common/views/components/Divider/Divider';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
@@ -70,6 +72,18 @@ import {
 import { Query } from '@weco/content/types/search';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
+
+const AllLink = styled.a.attrs({
+  className: font('intsb', 5),
+})`
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+
+  .icon {
+    margin-left: 8px;
+  }
+`;
 
 export type WorkTypes = {
   workTypeBuckets: WellcomeAggregation['buckets'] | undefined;
@@ -182,7 +196,7 @@ const SectionTitle = ({ sectionName }: { sectionName: string }) => {
 const CatalogueSectionTitle = ({ sectionName }: { sectionName: string }) => {
   return (
     <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
-      <h3 className={`${font('intb', 4)} is-hidden-s`}>{sectionName}</h3>
+      <h3 className={`${font('intsb', 4)} is-hidden-s`}>{sectionName}</h3>
     </Space>
   );
 };
@@ -335,9 +349,12 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                             `works_all_${pathname}`
                           )}
                           passHref
+                          legacyBehavior
                         >
-                          All Catalogue results{' '}
-                          {catalogueResults.works?.totalResults}
+                          <AllLink>
+                            {`All Catalogue results (${catalogueResults.works?.totalResults})`}
+                            <Icon icon={arrow} iconColor="black" rotate={360} />
+                          </AllLink>
                         </NextLink>
                       </>
                     )}
@@ -379,8 +396,12 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                           `images_all_${pathname}`
                         )}
                         passHref
+                        legacyBehavior
                       >
-                        All images {catalogueResults.images?.totalResults}
+                        <AllLink>
+                          {`All images (${catalogueResults.images?.totalResults})`}
+                          <Icon icon={arrow} iconColor="black" rotate={360} />
+                        </AllLink>
                       </NextLink>
                     </>
                   )}
