@@ -41,6 +41,7 @@ import { toLink as worksLink } from '@weco/content/components/SearchPagesLink/Wo
 import StoriesGrid from '@weco/content/components/StoriesGrid';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
 import useHotjar from '@weco/content/hooks/useHotjar';
+import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
 import {
   WellcomeAggregation,
   WellcomeApiError,
@@ -360,7 +361,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
     }
   }
 
-  useEffect(() => {
+  useSkipInitialEffect(() => {
     const pathname = '/search';
     const link = {
       href: {
