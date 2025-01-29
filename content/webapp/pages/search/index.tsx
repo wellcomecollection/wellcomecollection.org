@@ -313,36 +313,37 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                     </div>
                   )}
 
-                {catalogueResults.images && (
-                  <div>
-                    <SectionTitle sectionName="Images" />
-                    {catalogueResults.images.results.map(image => (
-                      <ImageCard
-                        key={image.id}
-                        id={image.id}
-                        workId={image.source.id}
-                        image={{
-                          contentUrl: image.src,
-                          width: image.width * 1.57,
-                          height: image.height * 1.57,
-                          alt: image.source.title,
-                        }}
-                        layout="raw"
-                      />
-                    ))}
-                    <NextLink
-                      {...imagesLink(
-                        {
-                          query: queryString,
-                        },
-                        `images_all_${pathname}`
-                      )}
-                      passHref
-                    >
-                      All images {catalogueResults.images?.totalResults}
-                    </NextLink>
-                  </div>
-                )}
+                {catalogueResults.images &&
+                  catalogueResults.images.totalResults > 0 && (
+                    <div>
+                      <SectionTitle sectionName="Images" />
+                      {catalogueResults.images.results.map(image => (
+                        <ImageCard
+                          key={image.id}
+                          id={image.id}
+                          workId={image.source.id}
+                          image={{
+                            contentUrl: image.src,
+                            width: image.width * 1.57,
+                            height: image.height * 1.57,
+                            alt: image.source.title,
+                          }}
+                          layout="raw"
+                        />
+                      ))}
+                      <NextLink
+                        {...imagesLink(
+                          {
+                            query: queryString,
+                          },
+                          `images_all_${pathname}`
+                        )}
+                        passHref
+                      >
+                        All images {catalogueResults.images?.totalResults}
+                      </NextLink>
+                    </div>
+                  )}
               </div>
             </CatalogueResults>
             <ContentResults>
