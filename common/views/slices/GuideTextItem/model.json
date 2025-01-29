@@ -54,6 +54,15 @@
             "allowTargetBlank": false,
             "multi": "paragraph,strong,em,hyperlink"
           }
+        },
+        "transcript": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Transcript",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "paragraph,heading1,heading2,heading3,heading4,heading5,strong,em"
+          }
         }
       },
       "items": {}

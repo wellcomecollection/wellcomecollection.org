@@ -12,16 +12,14 @@ const GuideTextItem: FunctionComponent<GuideTextItemProps> = ({
   slice,
   index,
 }) => {
-  const transformedSlice = transformGuideTextItemSlice(slice);
+  const { additional_notes: additionalNotes, ...transformedSlice } =
+    transformGuideTextItemSlice(slice);
 
   return (
     <TextItem
       key={index}
-      number={transformedSlice.number}
-      title={transformedSlice.title}
-      tombstone={transformedSlice.tombstone}
-      caption={transformedSlice.caption}
-      additionalNotes={transformedSlice.additional_notes}
+      {...transformedSlice}
+      additionalNotes={additionalNotes}
     />
   );
 };
