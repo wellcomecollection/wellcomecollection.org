@@ -241,7 +241,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
             <ContentResults>
               {contentResults?.results?.map(result => (
                 <Space
-                  key={result.uid}
+                  key={`${result.uid}${result.highlightTourType || ''}`}
                   $v={{ size: 'xl', properties: ['margin-bottom'] }}
                 >
                   <ContentSearchResult {...result} />
