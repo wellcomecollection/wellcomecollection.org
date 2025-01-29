@@ -5,7 +5,9 @@ terraform {
     dynamodb_table = "terraform-locktable"
     region         = "eu-west-1"
     bucket         = "wellcomecollection-infra"
-    role_arn       = "arn:aws:iam::130871440101:role/experience-developer"
+    assume_role = {
+      role_arn = "arn:aws:iam::130871440101:role/experience-developer"
+    }
   }
 }
 
@@ -48,7 +50,10 @@ data "terraform_remote_state" "experience" {
   backend = "s3"
 
   config = {
-    role_arn = "arn:aws:iam::130871440101:role/experience-read_only"
+    assume_role = {
+      role_arn = "arn:aws:iam::130871440101:role/experience-read_only"
+    }
+
     bucket   = "wellcomecollection-experience-infra"
     key      = "terraform/experience.tfstate"
     region   = "eu-west-1"
@@ -62,7 +67,9 @@ data "terraform_remote_state" "assets" {
     bucket   = "wellcomecollection-infra"
     key      = "build-state/client.tfstate"
     region   = "eu-west-1"
-    role_arn = "arn:aws:iam::130871440101:role/experience-read_only"
+    assume_role = {
+      role_arn = "arn:aws:iam::130871440101:role/experience-read_only"
+    }
   }
 }
 
@@ -73,7 +80,9 @@ data "terraform_remote_state" "platform_account" {
     bucket   = "wellcomecollection-platform-infra"
     key      = "terraform/aws-account-infrastructure/platform.tfstate"
     region   = "eu-west-1"
-    role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
+    assume_role = {
+      role_arn = "arn:aws:iam::760097843905:role/platform-read_only"
+    }
   }
 }
 
