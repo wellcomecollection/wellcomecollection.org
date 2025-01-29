@@ -1,10 +1,13 @@
 import { GetServerSideProps } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { getServerData } from '@weco/common/server-data';
-import { useToggles } from '@weco/common/server-data/Context';
+import {
+  ServerDataContext,
+  useToggles,
+} from '@weco/common/server-data/Context';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { font } from '@weco/common/utils/classnames';
@@ -40,6 +43,7 @@ import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import {
   Image,
   toWorkBasic,
+  Work,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
@@ -78,7 +82,7 @@ type Props = {
 type NewProps = {
   contentResults?: ContentResultsList<Addressable>;
   catalogueResults: {
-    works?: ReturnedResults<WorkBasic>;
+    works?: ReturnedResults<Work>;
     images?: ReturnedResults<Image>;
   };
   queryString?: string;
@@ -232,7 +236,6 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                 <SectionTitle sectionName="Images" />
                 <p>{catalogueResults.images?.totalResults || 0} results</p>
               </div>
-
               <div>
                 <SectionTitle sectionName="Catalogue" />
                 <p>{catalogueResults.works?.totalResults || 0} results</p>
@@ -276,6 +279,14 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   const { query: queryString } = query;
   const { setLink } = useContext(SearchContext);
   const { allSearch } = useToggles();
+  const [clientSideWorks, setClientSideWorks] = useState<
+    ReturnedResults<Work> | undefined
+  >(undefined);
+  const [clientSideImages, setClientSideImages] = useState<
+    ReturnedResults<Image> | undefined
+  >(undefined);
+  const params = fromQuery(query);
+  const data = useContext(ServerDataContext);
 
   useEffect(() => {
     const pathname = '/search';
@@ -292,13 +303,52 @@ export const SearchPage: NextPageWithLayout<Props> = ({
     setLink(link);
   }, [query]);
 
+  async function fetchWorks() {
+    try {
+      const worksResults = await getWorks({
+        params,
+        pageSize: 1,
+        toggles: data.toggles,
+      });
+      const works = getQueryResults({
+        categoryName: 'works',
+        queryResults: worksResults,
+      });
+      setClientSideWorks(works);
+    } catch (e) {
+      return undefined;
+    }
+  }
+  async function fetchImages() {
+    try {
+      const imagesResults = await getImages({
+        params,
+        pageSize: 1,
+        toggles: data.toggles,
+      });
+      images = getQueryResults({
+        categoryName: 'images',
+        queryResults: imagesResults,
+      });
+      setClientSideImages(images);
+    } catch (e) {
+      return undefined;
+    }
+  }
+  useEffect(() => {
+    if (allSearch) {
+      fetchWorks();
+      fetchImages();
+    }
+  }, []);
+
   if (allSearch) {
     return (
       <NewSearchPage
         queryString={queryString}
         contentResults={contentResults}
-        catalogueResults={{ works, images }}
         contentQueryFailed={contentQueryFailed}
+        catalogueResults={{ works: clientSideWorks, images: clientSideImages }}
       />
     );
   }
@@ -466,8 +516,10 @@ export const getServerSideProps: GetServerSideProps<
         | ContentResultsList<Addressable>
         | WellcomeApiError
         | undefined,
-      stories,
-      events;
+      stories: ReturnedResults<Article> | undefined,
+      events: ReturnedResults<EventDocument> | undefined,
+      works: ReturnedResults<Work> | undefined,
+      images: ReturnedResults<Image> | undefined;
     let contentQueryFailed = false;
     if (serverData.toggles.allSearch.value) {
       // All/Addressables
@@ -524,42 +576,42 @@ export const getServerSideProps: GetServerSideProps<
           | ContentResultsList<EventDocument>
           | WellcomeApiError,
       });
-    }
 
-    // Works
-    const worksResults = await getWorks({
-      params,
-      pageSize: 5,
-      toggles: serverData.toggles,
-    });
-    const works = getQueryResults({
-      categoryName: 'works',
-      queryResults: worksResults,
-    });
+      // Works
+      const worksResults = await getWorks({
+        params,
+        pageSize: 5,
+        toggles: serverData.toggles,
+      });
+      works = getQueryResults({
+        categoryName: 'works',
+        queryResults: worksResults,
+      });
 
-    // Images
-    const imagesResults = await getImages({
-      params,
-      pageSize: 10,
-      toggles: serverData.toggles,
-    });
-    const images = getQueryResults({
-      categoryName: 'images',
-      queryResults: imagesResults,
-    });
+      // Images
+      const imagesResults = await getImages({
+        params,
+        pageSize: 10,
+        toggles: serverData.toggles,
+      });
+      images = getQueryResults({
+        categoryName: 'images',
+        queryResults: imagesResults,
+      });
 
-    // If all three queries fail, return an error page
-    if (
-      imagesResults.type === 'Error' &&
-      worksResults.type === 'Error' &&
-      contentQueryFailed
-    ) {
-      // Use the error from the works API as it is the most mature of the 3
-      return appError(
-        context,
-        worksResults.httpStatus,
-        worksResults.description || worksResults.label
-      );
+      // If all three queries fail, return an error page
+      if (
+        imagesResults.type === 'Error' &&
+        worksResults.type === 'Error' &&
+        contentQueryFailed
+      ) {
+        // Use the error from the works API as it is the most mature of the 3
+        return appError(
+          context,
+          worksResults.httpStatus,
+          worksResults.description || worksResults.label
+        );
+      }
     }
 
     return {
