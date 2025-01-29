@@ -25,6 +25,7 @@ import {
   getQueryResults,
   ReturnedResults,
 } from '@weco/common/utils/search';
+import Divider from '@weco/common/views/components/Divider/Divider';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
@@ -298,69 +299,93 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
           </Container>
           <GridContainer>
             <CatalogueResults>
-            {catalogueResults.works &&
-              catalogueResults.works.totalResults > 0 && (
-                <div>
-                  <SectionTitle sectionName="Catalogue" />
-                  {catalogueResults.works.workTypeBuckets?.map((bucket, i) => (
-                    <NextLink
-                      key={i}
-                      {...worksLink(
-                        {
-                          query: queryString,
-                          workType: [bucket.data.id],
-                        },
-                        `works_workType_${pathname}`
-                      )}
-                      passHref
-                    >
-                      {bucket.data.label} ({bucket.count})
-                    </NextLink>
-                  ))}
-                  <NextLink
-                    {...worksLink(
-                      {
-                        query: queryString,
-                      },
-                      `works_all_${pathname}`
+              {((catalogueResults.images?.totalResults &&
+                catalogueResults.images?.totalResults > 0) ||
+                (catalogueResults.works?.totalResults &&
+                  catalogueResults.works?.totalResults > 0)) && (
+                <CatalogueResultsInner>
+                  {catalogueResults.works &&
+                    catalogueResults.works.totalResults > 0 && (
+                      <>
+                        <CatalogueSectionTitle sectionName="Catalogue results" />
+                        <CatalogueLinks>
+                          {catalogueResults.works.workTypeBuckets?.map(
+                            (bucket, i) => (
+                              <NextLink
+                                key={i}
+                                {...worksLink(
+                                  {
+                                    query: queryString,
+                                    workType: [bucket.data.id],
+                                  },
+                                  `works_workType_${pathname}`
+                                )}
+                                passHref
+                              >
+                                {bucket.data.label} ({bucket.count})
+                              </NextLink>
+                            )
+                          )}
+                        </CatalogueLinks>
+                        <NextLink
+                          {...worksLink(
+                            {
+                              query: queryString,
+                            },
+                            `works_all_${pathname}`
+                          )}
+                          passHref
+                        >
+                          All Catalogue results{' '}
+                          {catalogueResults.works?.totalResults}
+                        </NextLink>
+                      </>
                     )}
-                    passHref
-                  >
-                    All Catalogue results {catalogueResults.works?.totalResults}
-                  </NextLink>
-                </div>
-              )}
-
-            {catalogueResults.images && (
-              <div>
-                <SectionTitle sectionName="Images" />
-                {catalogueResults.images.results.map(image => (
-                  <ImageCard
-                    key={image.id}
-                    id={image.id}
-                    workId={image.source.id}
-                    image={{
-                      contentUrl: image.src,
-                      width: image.width * 1.57,
-                      height: image.height * 1.57,
-                      alt: image.source.title,
-                    }}
-                    layout="raw"
-                  />
-                ))}
-                <NextLink
-                  {...imagesLink(
-                    {
-                      query: queryString,
-                    },
-                    `images_all_${pathname}`
+                  {catalogueResults.works && catalogueResults.images && (
+                    <Space
+                      className="is-hidden-s"
+                      $v={{
+                        size: 'l',
+                        properties: ['margin-top', 'margin-bottom'],
+                      }}
+                    >
+                      <Divider lineColor="neutral.400" />
+                    </Space>
                   )}
-                  passHref
-                >
-                  All images {catalogueResults.images?.totalResults}
-                </NextLink>
-              </div>
-            )}
+                  {catalogueResults.images && (
+                    <>
+                      <CatalogueSectionTitle sectionName="Image results" />
+                      <CatalogueLinks>
+                        {catalogueResults.images.results.map(image => (
+                          <ImageCard
+                            key={image.id}
+                            id={image.id}
+                            workId={image.source.id}
+                            image={{
+                              contentUrl: image.src,
+                              width: image.width * 1.57,
+                              height: image.height * 1.57,
+                              alt: image.source.title,
+                            }}
+                            layout="raw"
+                          />
+                        ))}
+                      </CatalogueLinks>
+                      <NextLink
+                        {...imagesLink(
+                          {
+                            query: queryString,
+                          },
+                          `images_all_${pathname}`
+                        )}
+                        passHref
+                      >
+                        All images {catalogueResults.images?.totalResults}
+                      </NextLink>
+                    </>
+                  )}
+                </CatalogueResultsInner>
+              )}
             </CatalogueResults>
             <ContentResults>
               {contentResults?.results?.map(result => (
