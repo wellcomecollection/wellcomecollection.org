@@ -46,9 +46,7 @@ function linkResolver(doc: Props | DataProps): string {
   if (
     type === 'exhibition-guides' ||
     type === 'exhibition-highlight-tours' ||
-    type === 'exhibition-guides-links' ||
-    type === 'Exhibition text' ||
-    type === 'Exhibition highlight tour'
+    type === 'exhibition-guides-links'
   )
     return `/guides/exhibitions/${uid}`;
 
