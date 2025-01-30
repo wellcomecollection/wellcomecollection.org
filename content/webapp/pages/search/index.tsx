@@ -135,12 +135,14 @@ type ImageResults = {
   results: (Image & { src: string; width: number; height: number })[];
 };
 
+type CatalogueResults = {
+  works?: WorkTypes;
+  images?: ImageResults;
+};
+
 type NewProps = {
   contentResults?: ContentResultsList<Addressable>;
-  catalogueResults: {
-    works?: WorkTypes;
-    images?: ImageResults;
-  };
+  catalogueResults: CatalogueResults;
   queryString?: string;
   contentQueryFailed?: boolean;
 };
