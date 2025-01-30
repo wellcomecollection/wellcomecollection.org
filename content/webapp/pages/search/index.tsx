@@ -287,11 +287,12 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
   catalogueResults,
   contentQueryFailed,
 }) => {
-  const pathname = usePathname();
   const totalResults =
     (contentResults?.totalResults || 0) +
     (catalogueResults.images?.totalResults || 0) +
     (catalogueResults.works?.totalResults || 0);
+
+  const pathname = usePathname();
   return (
     <main>
       {!contentResults &&
@@ -426,7 +427,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
             <ContentResults>
               {contentResults?.results?.map(result => (
                 <Space
-                  key={`${result.uid}${result.highlightTourType || ''}`}
+                  key={`${result.id}${result.highlightTourType || ''}`}
                   $v={{ size: 'xl', properties: ['margin-bottom'] }}
                 >
                   <ContentSearchResult {...result} />
@@ -538,11 +539,11 @@ export const SearchPage: NextPageWithLayout<Props> = ({
       <NewSearchPage
         queryString={queryString}
         contentResults={contentResults}
+        contentQueryFailed={contentQueryFailed}
         catalogueResults={{
           works: clientSideWorkTypes,
           images: clientSideImages,
         }}
-        contentQueryFailed={contentQueryFailed}
       />
     );
   }

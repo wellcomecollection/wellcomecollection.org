@@ -1,10 +1,6 @@
 import { isSiteSection, SiteSection } from '@weco/common/model/site-section';
 
-import {
-  contentApiTypeMap,
-  isContentApiContentType,
-  isContentType,
-} from './content-types';
+import { isContentType } from './content-types';
 
 type Props = {
   uid?: string;
@@ -30,13 +26,7 @@ function linkResolver(doc: Props | DataProps): string {
   // which doesn't necessarily have access to all data
   if (!doc) return '/';
 
-  const { uid } = doc;
-
-  const type = isContentType(doc.type)
-    ? doc.type
-    : isContentApiContentType(doc.type)
-      ? contentApiTypeMap[doc.type]
-      : '';
+  const { uid, type } = doc;
 
   if (!uid) return '/';
   if (type === 'articles') return `/stories/${uid}`;
@@ -45,14 +35,11 @@ function linkResolver(doc: Props | DataProps): string {
 
   if (
     type === 'exhibition-guides' ||
+    type === 'exhibition-texts' ||
     type === 'exhibition-highlight-tours' ||
     type === 'exhibition-guides-links'
   )
     return `/guides/exhibitions/${uid}`;
-
-  if (type === 'exhibition-texts') {
-    return `/guides/exhibitions/${uid}/captions-and-transcripts`;
-  }
 
   if (type === 'visual-stories') {
     if ('data' in doc) {
