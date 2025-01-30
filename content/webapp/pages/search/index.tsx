@@ -411,10 +411,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                           passHref
                           legacyBehavior
                         >
-                          <AllLink>
-                            {`All Catalogue results (${catalogueResults.works?.totalResults})`}
-                            <Icon icon={arrow} iconColor="black" rotate={360} />
-                          </AllLink>
+                          <AllLink type="works" results={catalogueResults} />
                         </NextLink>
                       </>
                     )}
@@ -458,10 +455,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                         passHref
                         legacyBehavior
                       >
-                        <AllLink>
-                          {`All images (${catalogueResults.images?.totalResults})`}
-                          <Icon icon={arrow} iconColor="black" rotate={360} />
-                        </AllLink>
+                        <AllLink type="images" results={catalogueResults} />
                       </NextLink>
                     </>
                   )}
