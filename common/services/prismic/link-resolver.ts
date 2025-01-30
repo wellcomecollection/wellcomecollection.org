@@ -46,12 +46,10 @@ function linkResolver(doc: Props | DataProps): string {
   if (
     type === 'exhibition-guides' ||
     type === 'exhibition-highlight-tours' ||
-    type === 'exhibition-guides-links'
-  )
+    type === 'exhibition-guides-links' ||
+    type === 'exhibition-texts'
+  ) {
     return `/guides/exhibitions/${uid}`;
-
-  if (type === 'exhibition-texts') {
-    return `/guides/exhibitions/${uid}/captions-and-transcripts`;
   }
 
   if (type === 'visual-stories') {
