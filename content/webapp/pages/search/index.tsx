@@ -271,7 +271,9 @@ const ContentResults = styled.div`
   `}
 `;
 
-const CatalogueResults = styled.div`
+const CatalogueResults = styled(Space).attrs({
+  $v: { size: 'xl', properties: ['margin-bottom'] },
+})`
   grid-column: l-start / r-end;
 
   ${props => props.theme.media('medium')`
