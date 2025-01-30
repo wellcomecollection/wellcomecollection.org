@@ -5,6 +5,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { useContext, useState } from 'react';
 import styled from 'styled-components';
 
+import { arrow } from '@weco/common/icons';
 import { getServerData } from '@weco/common/server-data';
 import {
   ServerDataContext,
@@ -25,6 +26,8 @@ import {
   getQueryResults,
   ReturnedResults,
 } from '@weco/common/utils/search';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
@@ -69,6 +72,18 @@ import {
 import { Query } from '@weco/content/types/search';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
+
+const WorksLink = styled.a.attrs({
+  className: font('intr', 6),
+})`
+  border: 2px solid;
+  padding: 4px 12px;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 
 export type WorkTypes = {
   workTypeBuckets: WellcomeAggregation['buckets'] | undefined;
@@ -120,12 +135,14 @@ type ImageResults = {
   results: (Image & { src: string; width: number; height: number })[];
 };
 
+type CatalogueResults = {
+  works?: WorkTypes;
+  images?: ImageResults;
+};
+
 type NewProps = {
   contentResults?: ContentResultsList<Addressable>;
-  catalogueResults: {
-    works?: WorkTypes;
-    images?: ImageResults;
-  };
+  catalogueResults: CatalogueResults;
   queryString?: string;
   contentQueryFailed?: boolean;
 };
@@ -135,6 +152,22 @@ type SeeMoreButtonProps = {
   pathname: string;
   totalResults: number;
 };
+
+const CatalogueResultsInner = styled(Space).attrs({
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background-color: ${props => props.theme.color('warmNeutral.300')};
+`;
+
+const CatalogueLinks = styled(Space).attrs({
+  $v: { size: 'm', properties: ['margin-bottom'] },
+  className: 'is-hidden-s',
+})`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+`;
 
 const BasicSection = styled(Space).attrs({
   as: 'section',
@@ -162,6 +195,62 @@ const SectionTitle = ({ sectionName }: { sectionName: string }) => {
   );
 };
 
+const StyledAllLink = styled.a.attrs({
+  className: font('intsb', 5),
+})`
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+
+  .icon {
+    margin-left: 8px;
+  }
+`;
+
+const AllLink = ({
+  type,
+  results,
+}: {
+  type: 'works' | 'images';
+  results: CatalogueResults;
+}) => {
+  const data = (function () {
+    switch (type) {
+      case 'works':
+        return {
+          total: results.works?.totalResults,
+          text: `All Catalogue results (${results.works?.totalResults})`,
+          noResults: "We couldn't find any catalogue results",
+        };
+      case 'images':
+        return {
+          total: results.images?.totalResults,
+          text: `All Image results (${results.works?.totalResults})`,
+          noResults: "We couldn't find any image results",
+        };
+    }
+  })();
+
+  if (data.total && data.total > 0) {
+    return (
+      <StyledAllLink>
+        {data.text}
+        <Icon icon={arrow} iconColor="black" rotate={360} />
+      </StyledAllLink>
+    );
+  } else {
+    return <p className={font('intr', 6)}>{data.noResults}</p>;
+  }
+};
+
+const CatalogueSectionTitle = ({ sectionName }: { sectionName: string }) => {
+  return (
+    <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+      <h3 className={`${font('intsb', 4)} is-hidden-s`}>{sectionName}</h3>
+    </Space>
+  );
+};
+
 const GridContainer = styled(Container)`
   display: grid;
   grid-template-columns: [l-start] 9fr [l-end r-start] 3fr [r-end];
@@ -184,7 +273,9 @@ const ContentResults = styled.div`
   `}
 `;
 
-const CatalogueResults = styled.div`
+const CatalogueResults = styled(Space).attrs({
+  $v: { size: 'xl', properties: ['margin-bottom'] },
+})`
   grid-column: l-start / r-end;
 
   ${props => props.theme.media('medium')`
@@ -242,7 +333,6 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
     (catalogueResults.works?.totalResults || 0);
 
   const pathname = usePathname();
-
   return (
     <main>
       {!contentResults &&
@@ -276,61 +366,85 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
           </Container>
           <GridContainer>
             <CatalogueResults>
-              <div>
-                {catalogueResults.works &&
-                  catalogueResults.works.totalResults > 0 && (
-                    <div>
-                      <SectionTitle sectionName="Catalogue" />
-                      {catalogueResults.works.workTypeBuckets?.map(
-                        (bucket, i) => (
-                          <NextLink
-                            key={i}
-                            {...worksLink(
-                              {
-                                query: queryString,
-                                workType: [bucket.data.id],
-                              },
-                              `works_workType_${pathname}`
-                            )}
-                            passHref
-                          >
-                            {bucket.data.label} ({bucket.count})
-                          </NextLink>
-                        )
-                      )}
-                      <NextLink
-                        {...worksLink(
-                          {
-                            query: queryString,
-                          },
-                          `works_all_${pathname}`
-                        )}
-                        passHref
-                      >
-                        All Catalogue results{' '}
-                        {catalogueResults.works?.totalResults}
-                      </NextLink>
-                    </div>
+              {(!!(
+                catalogueResults.images?.totalResults &&
+                catalogueResults.images?.totalResults > 0
+              ) ||
+                !!(
+                  catalogueResults.works?.totalResults &&
+                  catalogueResults.works?.totalResults > 0
+                )) && (
+                <CatalogueResultsInner>
+                  {catalogueResults.works &&
+                    catalogueResults.works.totalResults > 0 && (
+                      <>
+                        <CatalogueSectionTitle sectionName="Catalogue results" />
+                        <CatalogueLinks>
+                          {catalogueResults.works.workTypeBuckets?.map(
+                            (bucket, i) => (
+                              <NextLink
+                                key={i}
+                                {...worksLink(
+                                  {
+                                    query: queryString,
+                                    workType: [bucket.data.id],
+                                  },
+                                  `works_workType_${pathname}`
+                                )}
+                                passHref
+                                legacyBehavior
+                              >
+                                <WorksLink>
+                                  {bucket.data.label} ({bucket.count})
+                                </WorksLink>
+                              </NextLink>
+                            )
+                          )}
+                        </CatalogueLinks>
+                        <NextLink
+                          {...worksLink(
+                            {
+                              query: queryString,
+                            },
+                            `works_all_${pathname}`
+                          )}
+                          passHref
+                          legacyBehavior
+                        >
+                          <AllLink type="works" results={catalogueResults} />
+                        </NextLink>
+                      </>
+                    )}
+                  {catalogueResults.works && catalogueResults.images && (
+                    <Space
+                      className="is-hidden-s"
+                      $v={{
+                        size: 'l',
+                        properties: ['margin-top', 'margin-bottom'],
+                      }}
+                    >
+                      <Divider lineColor="neutral.400" />
+                    </Space>
                   )}
-
-                {catalogueResults.images &&
-                  catalogueResults.images.totalResults > 0 && (
-                    <div>
-                      <SectionTitle sectionName="Images" />
-                      {catalogueResults.images.results.map(image => (
-                        <ImageCard
-                          key={image.id}
-                          id={image.id}
-                          workId={image.source.id}
-                          image={{
-                            contentUrl: image.src,
-                            width: image.width * 1.57,
-                            height: image.height * 1.57,
-                            alt: image.source.title,
-                          }}
-                          layout="raw"
-                        />
-                      ))}
+                  {catalogueResults.images && (
+                    <>
+                      <CatalogueSectionTitle sectionName="Image results" />
+                      <CatalogueLinks>
+                        {catalogueResults.images.results.map(image => (
+                          <ImageCard
+                            key={image.id}
+                            id={image.id}
+                            workId={image.source.id}
+                            image={{
+                              contentUrl: image.src,
+                              width: image.width * 1.57,
+                              height: image.height * 1.57,
+                              alt: image.source.title,
+                            }}
+                            layout="raw"
+                          />
+                        ))}
+                      </CatalogueLinks>
                       <NextLink
                         {...imagesLink(
                           {
@@ -339,12 +453,14 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                           `images_all_${pathname}`
                         )}
                         passHref
+                        legacyBehavior
                       >
-                        All images {catalogueResults.images?.totalResults}
+                        <AllLink type="images" results={catalogueResults} />
                       </NextLink>
-                    </div>
+                    </>
                   )}
-              </div>
+                </CatalogueResultsInner>
+              )}
             </CatalogueResults>
             <ContentResults>
               {contentResults?.results?.map(result => (
