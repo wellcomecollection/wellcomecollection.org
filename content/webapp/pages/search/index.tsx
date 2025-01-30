@@ -364,10 +364,14 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
           </Container>
           <GridContainer>
             <CatalogueResults>
-              {((catalogueResults.images?.totalResults &&
-                catalogueResults.images?.totalResults > 0) ||
-                (catalogueResults.works?.totalResults &&
-                  catalogueResults.works?.totalResults > 0)) && (
+              {(!!(
+                catalogueResults.images?.totalResults &&
+                catalogueResults.images?.totalResults > 0
+              ) ||
+                !!(
+                  catalogueResults.works?.totalResults &&
+                  catalogueResults.works?.totalResults > 0
+                )) && (
                 <CatalogueResultsInner>
                   {catalogueResults.works &&
                     catalogueResults.works.totalResults > 0 && (
