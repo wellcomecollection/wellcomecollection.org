@@ -85,6 +85,18 @@ const AllLink = styled.a.attrs({
   }
 `;
 
+const WorksLink = styled.a.attrs({
+  className: font('intr', 6),
+})`
+  border: 2px solid;
+  padding: 4px 12px;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 export type WorkTypes = {
   workTypeBuckets: WellcomeAggregation['buckets'] | undefined;
   totalResults: number;
@@ -335,8 +347,11 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                                   `works_workType_${pathname}`
                                 )}
                                 passHref
+                                legacyBehavior
                               >
-                                {bucket.data.label} ({bucket.count})
+                                <WorksLink>
+                                  {bucket.data.label} ({bucket.count})
+                                </WorksLink>
                               </NextLink>
                             )
                           )}
