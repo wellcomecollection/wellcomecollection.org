@@ -79,14 +79,6 @@ const toggles = {
       type: 'permanent',
     },
     {
-      id: 'viewTransitions',
-      title: 'Use view-transitions API',
-      initialValue: false,
-      description:
-        'Use animated transitions between page routes where possible',
-      type: 'experimental',
-    },
-    {
       id: 'authV2',
       title: 'IIIF Auth V2',
       initialValue: false,
