@@ -73,18 +73,6 @@ import { Query } from '@weco/content/types/search';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 
-const AllLink = styled.a.attrs({
-  className: font('intsb', 5),
-})`
-  display: inline-flex;
-  align-items: center;
-  cursor: pointer;
-
-  .icon {
-    margin-left: 8px;
-  }
-`;
-
 const WorksLink = styled.a.attrs({
   className: font('intr', 6),
 })`
@@ -203,6 +191,54 @@ const SectionTitle = ({ sectionName }: { sectionName: string }) => {
       <h3 className={font('intb', 2)}>{sectionName}</h3>
     </Space>
   );
+};
+
+const StyledAllLink = styled.a.attrs({
+  className: font('intsb', 5),
+})`
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+
+  .icon {
+    margin-left: 8px;
+  }
+`;
+
+const AllLink = ({
+  type,
+  results,
+}: {
+  type: 'works' | 'images';
+  results: CatalogueResults;
+}) => {
+  const data = (function () {
+    switch (type) {
+      case 'works':
+        return {
+          total: results.works?.totalResults,
+          text: `All Catalogue results (${results.works?.totalResults})`,
+          noResults: "We couldn't find any catalogue results",
+        };
+      case 'images':
+        return {
+          total: results.images?.totalResults,
+          text: `All Image results (${results.works?.totalResults})`,
+          noResults: "We couldn't find any image results",
+        };
+    }
+  })();
+
+  if (data.total && data.total > 0) {
+    return (
+      <StyledAllLink>
+        {data.text}
+        <Icon icon={arrow} iconColor="black" rotate={360} />
+      </StyledAllLink>
+    );
+  } else {
+    return <p className={font('intr', 6)}>{data.noResults}</p>;
+  }
 };
 
 const CatalogueSectionTitle = ({ sectionName }: { sectionName: string }) => {
