@@ -62,7 +62,8 @@ function linkResolver(doc: Props | DataProps): string {
   }
   if (
     type === 'exhibition-highlight-tours' ||
-    type === 'exhibition-guides-links'
+    type === 'exhibition-guides-links' ||
+    type === 'exhibition-guides'
   ) {
     if (doc.highlightTourType) {
       return `/guides/exhibitions/${uid}/${highlightToursMap[doc.highlightTourType]}`;
@@ -70,8 +71,6 @@ function linkResolver(doc: Props | DataProps): string {
       return `/guides/exhibitions/${uid}`;
     }
   }
-  if (type === 'exhibition-guides' || type === 'exhibition-guides-links')
-    return `/guides/exhibitions/${uid}`;
   if (type === 'visual-stories') {
     if ('data' in doc) {
       const {
