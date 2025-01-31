@@ -10,7 +10,7 @@ import {
 type Props = {
   uid?: string;
   type: string;
-  highlightTourType?: 'audio' | 'bsl';
+  highlightTourType?: 'audio' | 'bsl' | 'text';
   siteSection?: SiteSection;
 };
 
@@ -18,7 +18,7 @@ type Props = {
 type DataProps = {
   uid?: string;
   type: string;
-  highlightTourType?: 'audio' | 'bsl';
+  highlightTourType?: 'audio' | 'bsl' | 'text';
   tags: string[];
   data: {
     relatedDocument?: {
@@ -31,6 +31,7 @@ type DataProps = {
 export const highlightToursMap = {
   audio: 'audio-without-descriptions',
   bsl: 'bsl',
+  text: 'captions-and-transcripts',
 };
 
 function linkResolver(doc: Props | DataProps): string {
