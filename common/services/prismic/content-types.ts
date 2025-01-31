@@ -21,17 +21,17 @@ const contentTypes = [
 ] as const;
 
 const contentApiContentTypes = [
+  'Article',
   'Book',
-  'Event series',
   'Event',
+  'Event series',
   'Exhibition',
-  'Visual story',
+  'Exhibition highlight tour',
   'Exhibition text',
   'Page',
-  'Exhibition highlight tour',
   'Project',
-  'Article',
   'Season',
+  'Visual story',
 ] as const;
 
 const allContentTypes = [
