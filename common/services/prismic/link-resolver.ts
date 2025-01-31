@@ -5,6 +5,7 @@ import { isContentType } from './content-types';
 type Props = {
   uid?: string;
   type: string;
+  highlightTourType?: 'audio' | 'bsl';
   siteSection?: SiteSection;
 };
 
@@ -12,6 +13,7 @@ type Props = {
 type DataProps = {
   uid?: string;
   type: string;
+  highlightTourType?: 'audio' | 'bsl';
   tags: string[];
   data: {
     relatedDocument?: {
