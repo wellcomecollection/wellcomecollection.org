@@ -1,4 +1,4 @@
-import linkResolver from './link-resolver';
+import linkResolver, { HighlightTourType } from './link-resolver';
 
 // We want to be able to pass in either Prismic or Content API content types
 test.each([
@@ -26,7 +26,7 @@ test.each([
     doc: {
       type: 'Exhibition highlight tour',
       uid: '1',
-      highlightTourType: 'text',
+      highlightTourType: 'text' as HighlightTourType,
     },
     path: '/guides/exhibitions/1/captions-and-transcripts',
   },
@@ -34,7 +34,7 @@ test.each([
     doc: {
       type: 'Exhibition highlight tour',
       uid: '1',
-      highlightTourType: 'audio',
+      highlightTourType: 'audio' as HighlightTourType,
     },
     path: '/guides/exhibitions/1/audio-without-descriptions',
   },
@@ -42,7 +42,7 @@ test.each([
     doc: {
       type: 'Exhibition highlight tour',
       uid: '1',
-      highlightTourType: 'bsl',
+      highlightTourType: 'bsl' as HighlightTourType,
     },
     path: '/guides/exhibitions/1/bsl',
   },
@@ -63,7 +63,7 @@ test.each([
     doc: {
       type: 'exhibition-guides-links',
       uid: '1',
-      highlightTourType: 'text',
+      highlightTourType: 'text' as HighlightTourType,
     },
     path: '/guides/exhibitions/1/captions-and-transcripts',
   },
@@ -71,7 +71,7 @@ test.each([
     doc: {
       type: 'exhibition-guides-links',
       uid: '1',
-      highlightTourType: 'audio',
+      highlightTourType: 'audio' as HighlightTourType,
     },
     path: '/guides/exhibitions/1/audio-without-descriptions',
   },
@@ -79,7 +79,7 @@ test.each([
     doc: {
       type: 'exhibition-guides-links',
       uid: '1',
-      highlightTourType: 'bsl',
+      highlightTourType: 'bsl' as HighlightTourType,
     },
     path: '/guides/exhibitions/1/bsl',
   },
@@ -92,7 +92,7 @@ test.each([
     doc: {
       type: 'exhibition-guides',
       uid: '1',
-      highlightTourType: 'text',
+      highlightTourType: 'text' as HighlightTourType,
     },
     path: '/guides/exhibitions/1/captions-and-transcripts',
   },
@@ -100,7 +100,7 @@ test.each([
     doc: {
       type: 'exhibition-guides',
       uid: '1',
-      highlightTourType: 'audio',
+      highlightTourType: 'audio' as HighlightTourType,
     },
     path: '/guides/exhibitions/1/audio-without-descriptions',
   },
@@ -108,7 +108,7 @@ test.each([
     doc: {
       type: 'exhibition-guides',
       uid: '1',
-      highlightTourType: 'bsl',
+      highlightTourType: 'bsl' as HighlightTourType,
     },
     path: '/guides/exhibitions/1/bsl',
   },

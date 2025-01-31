@@ -7,10 +7,11 @@ import {
   isContentType,
 } from './content-types';
 
+export type HighlightTourType = 'audio' | 'bsl' | 'text';
 type Props = {
   uid?: string;
   type: string;
-  highlightTourType?: 'audio' | 'bsl' | 'text';
+  highlightTourType?: HighlightTourType;
   siteSection?: SiteSection;
 };
 
@@ -18,9 +19,9 @@ type Props = {
 type DataProps = {
   uid?: string;
   type: string;
-  highlightTourType?: 'audio' | 'bsl' | 'text';
-  tags: string[];
-  data: {
+  highlightTourType?: HighlightTourType;
+  tags?: string[];
+  data?: {
     relatedDocument?: {
       uid: string;
       type: string;
@@ -73,9 +74,7 @@ function linkResolver(doc: Props | DataProps): string {
       }
     case 'visual-stories':
       if ('data' in doc) {
-        const {
-          data: { relatedDocument },
-        } = doc;
+        const { data: { relatedDocument } = {} } = doc;
         if (relatedDocument?.uid) {
           return `/${relatedDocument.type}/${relatedDocument.uid}/visual-stories`;
         } else {
@@ -90,7 +89,7 @@ function linkResolver(doc: Props | DataProps): string {
 
       // Prismic previews come through here.
       if ('tags' in doc) {
-        siteSection = doc.tags.find(t => isSiteSection(t));
+        siteSection = doc.tags?.find(t => isSiteSection(t));
       }
 
       return siteSection === uid || !siteSection // if it is a landing page or doesn't have a siteSection
