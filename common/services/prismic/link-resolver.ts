@@ -60,7 +60,10 @@ function linkResolver(doc: Props | DataProps): string {
   if (type === 'exhibition-texts') {
     return `/guides/exhibitions/${uid}/captions-and-transcripts`;
   }
-  if (type === 'exhibition-highlight-tours') {
+  if (
+    type === 'exhibition-highlight-tours' ||
+    type === 'exhibition-guides-links'
+  ) {
     if (doc.highlightTourType) {
       return `/guides/exhibitions/${uid}/${highlightToursMap[doc.highlightTourType]}`;
     } else {
