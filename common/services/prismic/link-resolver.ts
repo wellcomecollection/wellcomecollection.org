@@ -54,51 +54,48 @@ function linkResolver(doc: Props | DataProps): string {
         : '';
 
   if (!uid) return '/';
-  if (type === 'articles') return `/stories/${uid}`;
-  if (type === 'webcomics') return `/stories/${uid}`;
-  if (type === 'webcomic-series') return `/series/${uid}`;
-  if (type === 'exhibition-texts') {
-    return `/guides/exhibitions/${uid}/captions-and-transcripts`;
-  }
-  if (
-    type === 'exhibition-highlight-tours' ||
-    type === 'exhibition-guides-links' ||
-    type === 'exhibition-guides'
-  ) {
-    if (doc.highlightTourType) {
-      return `/guides/exhibitions/${uid}/${highlightToursMap[doc.highlightTourType]}`;
-    } else {
-      return `/guides/exhibitions/${uid}`;
-    }
-  }
-  if (type === 'visual-stories') {
-    if ('data' in doc) {
-      const {
-        data: { relatedDocument },
-      } = doc;
-      if (relatedDocument?.uid) {
-        return `/${relatedDocument.type}/${relatedDocument.uid}/visual-stories`;
+  let siteSection: SiteSection | undefined;
+  switch (type) {
+    case 'articles':
+    case 'webcomics':
+      return `/stories/${uid}`;
+    case 'webcomic-series':
+      return `/series/${uid}`;
+    case 'exhibition-texts':
+      return `/guides/exhibitions/${uid}/captions-and-transcripts`;
+    case 'exhibition-highlight-tours':
+    case 'exhibition-guides-links': // We create this type in OtherExhibitionGuides, in order to render cards with links to individual tourTypes (.../bsl, .../audio-without-description, .../captions-and-transcripts)
+    case 'exhibition-guides': // This is a deprecated Prismic type
+      if (doc.highlightTourType) {
+        return `/guides/exhibitions/${uid}/${highlightToursMap[doc.highlightTourType]}`;
       } else {
-        return `/visual-stories/${uid}`;
+        return `/guides/exhibitions/${uid}`;
       }
-    }
-  }
+    case 'visual-stories':
+      if ('data' in doc) {
+        const {
+          data: { relatedDocument },
+        } = doc;
+        if (relatedDocument?.uid) {
+          return `/${relatedDocument.type}/${relatedDocument.uid}/visual-stories`;
+        } else {
+          return `/visual-stories/${uid}`;
+        }
+      }
+      break;
+    case 'pages':
+      if ('siteSection' in doc) {
+        siteSection = doc.siteSection;
+      }
 
-  if (type === 'pages') {
-    let siteSection: SiteSection | undefined;
+      // Prismic previews come through here.
+      if ('tags' in doc) {
+        siteSection = doc.tags.find(t => isSiteSection(t));
+      }
 
-    if ('siteSection' in doc) {
-      siteSection = doc.siteSection;
-    }
-
-    // Prismic previews come through here.
-    if ('tags' in doc) {
-      siteSection = doc.tags.find(t => isSiteSection(t));
-    }
-
-    const isLandingPage = siteSection === uid;
-
-    return isLandingPage || !siteSection ? `/${uid}` : `/${siteSection}/${uid}`;
+      return siteSection === uid || !siteSection // if it is a landing page or doesn't have a siteSection
+        ? `/${uid}`
+        : `/${siteSection}/${uid}`;
   }
 
   if (isContentType(type)) {
