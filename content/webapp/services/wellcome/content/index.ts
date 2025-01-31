@@ -12,6 +12,7 @@ import { ContentResultsList, ResultType } from './types/api';
 const rootUris = {
   prod: 'https://api.wellcomecollection.org/content',
   stage: 'https://api-stage.wellcomecollection.org/content',
+  dev: 'https://api-dev.wellcomecollection.org/content',
 };
 
 export async function contentListQuery<Params, Result extends ResultType>(

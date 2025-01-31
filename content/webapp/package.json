@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "build": "next build",
-    "dev": "NODE_ENV=development nodemon --watch server.ts --watch app.ts --exec ts-node --project tsconfig.server.json server",
+    "dev": "NODE_EXTRA_CA_CERTS=\"$(mkcert -CAROOT)/rootCA.pem\" NODE_ENV=development nodemon --watch server.ts --watch app.ts --exec ts-node --project tsconfig.server.json server",
     "start": "NODE_ENV=production ts-node-transpile-only --project tsconfig.server.json server",
     "test": "NODE_ENV=test jest --no-cache",
     "test:watch": "yarn test -- --watchAll"

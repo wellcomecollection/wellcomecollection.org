@@ -15,6 +15,7 @@ import {
 export const rootUris = {
   prod: 'https://api.wellcomecollection.org/catalogue',
   stage: 'https://api-stage.wellcomecollection.org/catalogue',
+  dev: 'https://api-dev.wellcomecollection.org/catalogue',
 };
 
 export const notFound = (): WellcomeApiError => ({
