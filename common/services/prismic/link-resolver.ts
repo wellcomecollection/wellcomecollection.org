@@ -1,6 +1,11 @@
 import { isSiteSection, SiteSection } from '@weco/common/model/site-section';
 
-import { isContentType } from './content-types';
+import {
+  AllContentType,
+  contentApiTypeMap,
+  isContentApiContentType,
+  isContentType,
+} from './content-types';
 
 type Props = {
   uid?: string;
@@ -33,21 +38,36 @@ function linkResolver(doc: Props | DataProps): string {
   // which doesn't necessarily have access to all data
   if (!doc) return '/';
 
-  const { uid, type } = doc;
+  const { uid, type: docType } = doc;
+  // The type of a document can be slightly different depending on whether we retrieve it
+  // from Prismic or the Content API, e.g. articles vs article,
+  // but we want to construct the same urls for them
+  // We also have an additional type of 'exhibition-guides-links' tht we use inside the CardGrid component
+  // This is so we can create links to the individual guide types such as bsl or captions-and-transcripts
+  const type =
+    isContentType(docType as AllContentType) ||
+    docType === 'exhibition-guides-links'
+      ? docType
+      : isContentApiContentType(docType as AllContentType)
+        ? contentApiTypeMap[docType]
+        : '';
 
   if (!uid) return '/';
   if (type === 'articles') return `/stories/${uid}`;
   if (type === 'webcomics') return `/stories/${uid}`;
   if (type === 'webcomic-series') return `/series/${uid}`;
-
-  if (
-    type === 'exhibition-guides' ||
-    type === 'exhibition-texts' ||
-    type === 'exhibition-highlight-tours' ||
-    type === 'exhibition-guides-links'
-  )
+  if (type === 'exhibition-texts') {
+    return `/guides/exhibitions/${uid}/captions-and-transcripts`;
+  }
+  if (type === 'exhibition-highlight-tours') {
+    if (doc.highlightTourType) {
+      return `/guides/exhibitions/${uid}/${highlightToursMap[doc.highlightTourType]}`;
+    } else {
+      return `/guides/exhibitions/${uid}`;
+    }
+  }
+  if (type === 'exhibition-guides' || type === 'exhibition-guides-links')
     return `/guides/exhibitions/${uid}`;
-
   if (type === 'visual-stories') {
     if ('data' in doc) {
       const {
