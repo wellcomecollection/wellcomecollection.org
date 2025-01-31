@@ -1,24 +1,21 @@
 import { FunctionComponent } from 'react';
 
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
+import { ExhibitionGuide } from '@weco/content/types/exhibition-guides';
 
 import TypeOption, { TypeList } from './TypeOption';
 
 type Props = {
-  pathname: string;
-  availableTypes: {
-    BSLVideo: boolean;
-    captionsOrTranscripts: boolean;
-    audioWithoutDescriptions: boolean;
-  };
+  exhibitionGuide: ExhibitionGuide;
 };
 
 export const ExhibitionGuideLinks: FunctionComponent<Props> = ({
-  pathname,
-  availableTypes,
+  exhibitionGuide,
 }) => {
+  const { availableTypes } = exhibitionGuide;
   return (
     <>
       {(availableTypes.audioWithoutDescriptions || availableTypes.BSLVideo) && (
@@ -34,14 +31,20 @@ export const ExhibitionGuideLinks: FunctionComponent<Props> = ({
           <TypeList>
             {availableTypes.audioWithoutDescriptions && (
               <TypeOption
-                url={`/${pathname}/audio-without-descriptions`}
+                url={linkResolver({
+                  ...exhibitionGuide,
+                  highlightTourType: 'audio',
+                })}
                 title="Audio descriptive tour with transcripts"
                 type="audio-without-descriptions"
               />
             )}
             {availableTypes.BSLVideo && (
               <TypeOption
-                url={`/${pathname}/bsl`}
+                url={linkResolver({
+                  ...exhibitionGuide,
+                  highlightTourType: 'bsl',
+                })}
                 title="British Sign Language tour with transcripts"
                 type="bsl"
               />
@@ -58,7 +61,10 @@ export const ExhibitionGuideLinks: FunctionComponent<Props> = ({
           <p>All the wall and label text from the exhibition.</p>
           <TypeList>
             <TypeOption
-              url={`/${pathname}/captions-and-transcripts`}
+              url={linkResolver({
+                ...exhibitionGuide,
+                highlightTourType: 'text',
+              })}
               title="Exhibition text"
               type="captions-and-transcripts"
             />
