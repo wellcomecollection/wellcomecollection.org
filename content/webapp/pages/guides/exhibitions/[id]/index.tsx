@@ -316,13 +316,13 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
     );
 
   const textPathname = exhibitionText?.id
-    ? `${linkResolver(exhibitionText)}/captions-and-transcripts`
+    ? linkResolver(exhibitionText)
     : undefined;
   const audioPathname = hasAudio
-    ? `${linkResolver(exhibitionHighlightTour)}/audio-without-descriptions`
+    ? linkResolver({ ...exhibitionHighlightTour, highlightTourType: 'audio' })
     : undefined;
   const videoPathname = hasVideo
-    ? `${linkResolver(exhibitionHighlightTour)}/bsl`
+    ? linkResolver({ ...exhibitionHighlightTour, highlightTourType: 'bsl' })
     : undefined;
 
   return (
