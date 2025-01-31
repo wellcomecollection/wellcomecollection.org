@@ -58,11 +58,6 @@ To run a project, from the root directory:
 # e.g.
 > yarn content
 
-# you may also run all of them concurrently.
-# this may add a prefix to the URL such as `/catalogue/`
-# and is only for local cross projects development
-> yarn run-concurrently
-
 EOF
 }
 
