@@ -369,10 +369,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = ({
             )}
             {/* Links to deprecated ExhibitionGuides */}
             {exhibitionGuide && (
-              <ExhibitionGuideLinks
-                availableTypes={exhibitionGuide.availableTypes}
-                pathname={`guides/exhibitions/${pageUid}`}
-              />
+              <ExhibitionGuideLinks exhibitionGuide={exhibitionGuide} />
             )}
           </Space>
         </SpacingSection>
