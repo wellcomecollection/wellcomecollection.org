@@ -23,6 +23,11 @@ type DataProps = {
   };
 };
 
+export const highlightToursMap = {
+  audio: 'audio-without-descriptions',
+  bsl: 'bsl',
+};
+
 function linkResolver(doc: Props | DataProps): string {
   // This is mostly useful for scenarios like rendering in Page Builder
   // which doesn't necessarily have access to all data
