@@ -352,7 +352,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   }
 
   rule {
-    name     = "geo-rate-limit"
+    name     = "geo-rate-limit-APAC"
     priority = 10
 
     action {
@@ -376,6 +376,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
             country_codes = [
               "CN",
               "SG",
+              "HK",
             ]
           }
         }
@@ -384,14 +385,51 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name                = "geo-rate-limit-${var.namespace}"
+      metric_name                = "geo-rate-limit-apac-${var.namespace}"
+      sampled_requests_enabled   = true
+    }
+  }
+
+  rule {
+    name     = "geo-rate-limit-LATAM"
+    priority = 11
+
+    action {
+      block {
+        custom_response {
+          response_code = 429
+        }
+      }
+    }
+
+    statement {
+      rate_based_statement {
+        aggregate_key_type    = "CONSTANT"
+        evaluation_window_sec = 60
+        limit                 = 500
+
+        scope_down_statement {
+          geo_match_statement {
+            // We have seen significant bot traffic from these regions,
+            // so we rate limit to a lower threshold.
+            country_codes = [
+              "BR",
+            ]
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "geo-rate-limit-latam-${var.namespace}"
       sampled_requests_enabled   = true
     }
   }
 
   rule {
     name     = "bot-user-agent-manual"
-    priority = 11
+    priority = 12
 
     action {
       block {}
