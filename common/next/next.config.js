@@ -18,7 +18,7 @@ const createConfig =
     const prodSubdomain = process.env.PROD_SUBDOMAIN || '';
     const buildHash = process.env.BUILD_HASH || 'test';
     const isProd = process.env.NODE_ENV === 'production';
-    const identityHost = process.env.IDENTITY_HOST || 'http://localhost:3000';
+    const identityHost = process.env.IDENTITY_HOST || 'http://localhost:3003';
     const shouldAnalyzeBundle = !!process.env.BUNDLE_ANALYZE;
 
     const rewriteEntries = options.rewriteEntries || [];

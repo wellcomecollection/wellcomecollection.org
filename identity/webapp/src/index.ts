@@ -26,7 +26,7 @@ async function main() {
     process.env.AUTH0_DOMAIN = 'stage.account.wellcomecollection.org';
     process.env.IDENTITY_API_HOST =
       'https://v1-api.stage.account.wellcomecollection.org';
-    process.env.SITE_BASE_URL = 'http://localhost:3000';
+    process.env.SITE_BASE_URL = `http://localhost:${port}`;
     process.env.AUTH0_CLIENT_SECRET = credentials.client_secret;
     process.env.IDENTITY_API_KEY = credentials.api_key;
     process.env.SESSION_KEYS = 'correct-horse-battery-staple'; // https://xkcd.com/936/

@@ -73,6 +73,18 @@ API_ENV_OVERRIDE="dev"
 This will configure local version of nginx to proxy requests to the local APIs, 
 see [scripts/configure-local-apis](./scripts/configure-local-apis) for more information.
 
+### Running the app with local Identity
+
+Currently the identity app is not included in the local APIs configuration, so you will need to run it separately. In order to run `content` & `identity` together, you will need to run the following commands in different terminal windows while **not** using the local APIs configuration:
+
+```bash
+yarn content
+```
+
+```bash
+yarn identity
+```
+
 ### Running CI steps locally
 
 In order to reproduce a build step locally you can run the same `docker-compose` command that [Buildkite](https://buildkite.com/wellcomecollection/experience) runs.
