@@ -219,13 +219,13 @@ const AllLink = ({
       case 'works':
         return {
           total: results.works?.totalResults,
-          text: `All Catalogue results (${results.works?.totalResults})`,
+          text: `All catalogue results (${results.works?.totalResults})`,
           noResults: "We couldn't find any catalogue results",
         };
       case 'images':
         return {
           total: results.images?.totalResults,
-          text: `All Image results (${results.works?.totalResults})`,
+          text: `All image results (${results.works?.totalResults})`,
           noResults: "We couldn't find any image results",
         };
     }
