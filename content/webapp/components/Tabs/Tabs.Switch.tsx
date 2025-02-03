@@ -121,7 +121,11 @@ const TabsSwitch: FunctionComponent<Props> = ({
   };
 
   return (
-    <TabsContainer role="tablist" ref={tabListRef} aria-label={label}>
+    <TabsContainer
+      role={isEnhanced ? 'tablist' : undefined}
+      ref={tabListRef}
+      aria-label={label}
+    >
       {items.map(item => {
         const isSelected = isEnhanced && selectedTab === item.id;
         return (
@@ -146,7 +150,7 @@ const TabsSwitch: FunctionComponent<Props> = ({
             onKeyDown={handleKeyDown}
           >
             <TabButton
-              role="tab"
+              role={isEnhanced ? 'tab' : undefined}
               id={`tab-${item.id}`}
               tabIndex={item.id === selectedTab ? 0 : -1}
               aria-controls={`tabpanel-${item.id}`}
