@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "start": "NODE_ENV=production ts-node-transpile-only -r tsconfig-paths/register src/index.ts",
-    "start:dev": "CREDENTIALS=$(AWS_PROFILE=identity-developer aws secretsmanager get-secret-value --secret-id=identity/stage/local_dev_client/credentials) NODE_ENV=development nodemon --ignore './src/frontend/' src/index.ts",
+    "start:dev": "PORT=3003 CREDENTIALS=$(AWS_PROFILE=identity-developer aws secretsmanager get-secret-value --secret-id=identity/stage/local_dev_client/credentials) NODE_ENV=development nodemon --ignore './src/frontend/' src/index.ts",
     "watch:client": "yarn build:frontend --watch",
     "build": "NODE_ENV=production && yarn build:next",
     "build:next": "next build",

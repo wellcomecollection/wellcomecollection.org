@@ -3,13 +3,17 @@ import fetch, { Response } from 'node-fetch';
 
 import { Toggles } from '@weco/toggles';
 
+type envOptions = 'prod' | 'stage' | 'dev';
+
+const API_ENV_OVERRIDE = process.env.NEXT_PUBLIC_API_ENV_OVERRIDE as envOptions;
+
 export type GlobalApiOptions = {
-  env: 'prod' | 'stage';
+  env: envOptions;
   index?: string;
 };
 
 export const globalApiOptions = (toggles?: Toggles): GlobalApiOptions => ({
-  env: toggles?.stagingApi?.value ? 'stage' : 'prod',
+  env: API_ENV_OVERRIDE ?? (toggles?.stagingApi?.value ? 'stage' : 'prod'),
 });
 
 // Used as a helper to return a typesafe empty results list
