@@ -5,7 +5,7 @@ import { Toggles } from '@weco/toggles';
 
 type envOptions = 'prod' | 'stage' | 'dev';
 
-const API_ENV_OVERRIDE = process.env.API_ENV_OVERRIDE as envOptions;
+const API_ENV_OVERRIDE = process.env.NEXT_PUBLIC_API_ENV_OVERRIDE as envOptions;
 
 export type GlobalApiOptions = {
   env: envOptions;
