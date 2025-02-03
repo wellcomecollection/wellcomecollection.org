@@ -225,7 +225,7 @@ const AllLink = ({
       case 'images':
         return {
           total: results.images?.totalResults,
-          text: `All image results (${results.works?.totalResults})`,
+          text: `All image results (${results.images?.totalResults})`,
           noResults: "We couldn't find any image results",
         };
     }
