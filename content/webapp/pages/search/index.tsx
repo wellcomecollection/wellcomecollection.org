@@ -162,7 +162,7 @@ const CatalogueResultsInner = styled(Space).attrs({
 
 const CatalogueLinks = styled(Space).attrs({
   $v: { size: 'm', properties: ['margin-bottom'] },
-  className: 'is-hidden-s',
+  className: 'is-hidden-s is-hidden-m',
 })`
   display: flex;
   flex-wrap: wrap;
@@ -246,7 +246,9 @@ const AllLink = ({
 const CatalogueSectionTitle = ({ sectionName }: { sectionName: string }) => {
   return (
     <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
-      <h3 className={`${font('intsb', 4)} is-hidden-s`}>{sectionName}</h3>
+      <h3 className={`${font('intsb', 4)} is-hidden-s is-hidden-m`}>
+        {sectionName}
+      </h3>
     </Space>
   );
 };
@@ -417,7 +419,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                     )}
                   {catalogueResults.works && catalogueResults.images && (
                     <Space
-                      className="is-hidden-s"
+                      className="is-hidden-s is-hidden-m"
                       $v={{
                         size: 'l',
                         properties: ['margin-top', 'margin-bottom'],
