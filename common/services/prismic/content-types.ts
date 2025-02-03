@@ -21,18 +21,38 @@ const contentTypes = [
 ] as const;
 
 const contentApiContentTypes = [
+  'Article',
   'Book',
-  'Event series',
   'Event',
+  'Event series',
   'Exhibition',
-  'Visual story',
+  'Exhibition highlight tour',
   'Exhibition text',
   'Page',
-  'Exhibition highlight tour',
   'Project',
-  'Article',
   'Season',
-];
+  'Visual story',
+] as const;
+
+const allContentTypes = [
+  ...contentTypes,
+  ...contentApiContentTypes,
+  'exhibition-guides-links',
+] as const;
+
+export type ContentType = (typeof contentTypes)[number];
+export type ContentApiContentType = (typeof contentApiContentTypes)[number];
+export type AllContentType = (typeof allContentTypes)[number];
+
+export function isContentType(type?: string): type is ContentType {
+  return contentTypes.includes(type as ContentType);
+}
+
+export function isContentApiContentType(
+  type: AllContentType
+): type is ContentApiContentType {
+  return contentApiContentTypes.includes(type as ContentApiContentType);
+}
 
 // We want to be able to treat Prismic and Content API content types as the same so we can test against single values in the link resolver
 export const contentApiTypeMap = {
@@ -48,19 +68,3 @@ export const contentApiTypeMap = {
   Article: 'articles',
   Season: 'seasons',
 };
-
-export type ContentType = (typeof contentTypes)[number];
-export type ContentApiContentType = (typeof contentApiContentTypes)[number];
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export function isContentType(type: any): type is ContentType {
-  /* eslint-enable @typescript-eslint/no-explicit-any */
-  return typeof type && contentTypes.includes(type);
-}
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export function isContentApiContentType(
-  type: any
-): type is ContentApiContentType {
-  /* eslint-enable @typescript-eslint/no-explicit-any */
-  return typeof type && contentApiContentTypes.includes(type);
-}
