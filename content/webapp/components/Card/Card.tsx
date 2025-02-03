@@ -7,7 +7,6 @@ import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
-import TransitionLink from '@weco/common/views/components/TransitionLink';
 import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
 import { Card as CardType } from '@weco/content/types/card';
 
@@ -76,14 +75,6 @@ const sharedCardOuter = css`
 `;
 
 export const CardOuter = styled.a.attrs<{
-  'data-gtm-trigger'?: 'card_link';
-}>({
-  'data-gtm-trigger': 'card_link',
-})`
-  ${sharedCardOuter};
-`;
-
-export const CardOuterTransition = styled(TransitionLink).attrs<{
   'data-gtm-trigger'?: 'card_link';
 }>({
   'data-gtm-trigger': 'card_link',
