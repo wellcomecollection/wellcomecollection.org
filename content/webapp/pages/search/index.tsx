@@ -195,7 +195,7 @@ const SectionTitle = ({ sectionName }: { sectionName: string }) => {
   );
 };
 
-const StyledAllLink = styled.a.attrs({
+const AllLink = styled.a.attrs({
   className: font('intsb', 5),
 })`
   display: inline-flex;
@@ -206,42 +206,6 @@ const StyledAllLink = styled.a.attrs({
     margin-left: 8px;
   }
 `;
-
-const AllLink = ({
-  type,
-  results,
-}: {
-  type: 'works' | 'images';
-  results: CatalogueResults;
-}) => {
-  const data = (function () {
-    switch (type) {
-      case 'works':
-        return {
-          total: results.works?.totalResults,
-          text: `All catalogue results (${results.works?.totalResults})`,
-          noResults: "We couldn't find any catalogue results",
-        };
-      case 'images':
-        return {
-          total: results.images?.totalResults,
-          text: `All image results (${results.images?.totalResults})`,
-          noResults: "We couldn't find any image results",
-        };
-    }
-  })();
-
-  if (data.total && data.total > 0) {
-    return (
-      <StyledAllLink>
-        {data.text}
-        <Icon icon={arrow} iconColor="black" rotate={360} />
-      </StyledAllLink>
-    );
-  } else {
-    return <p className={font('intr', 6)}>{data.noResults}</p>;
-  }
-};
 
 const CatalogueSectionTitle = ({ sectionName }: { sectionName: string }) => {
   return (
@@ -377,46 +341,62 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                   catalogueResults.works?.totalResults > 0
                 )) && (
                 <CatalogueResultsInner>
-                  {catalogueResults.works &&
-                    catalogueResults.works.totalResults > 0 && (
-                      <>
-                        <CatalogueSectionTitle sectionName="Catalogue results" />
-                        <CatalogueLinks>
-                          {catalogueResults.works.workTypeBuckets?.map(
-                            (bucket, i) => (
-                              <NextLink
-                                key={i}
-                                {...worksLink(
-                                  {
-                                    query: queryString,
-                                    workType: [bucket.data.id],
-                                  },
-                                  `works_workType_${pathname}`
-                                )}
-                                passHref
-                                legacyBehavior
-                              >
-                                <WorksLink>
-                                  {bucket.data.label} ({bucket.count})
-                                </WorksLink>
-                              </NextLink>
-                            )
-                          )}
-                        </CatalogueLinks>
-                        <NextLink
-                          {...worksLink(
-                            {
-                              query: queryString,
-                            },
-                            `works_all_${pathname}`
-                          )}
-                          passHref
-                          legacyBehavior
-                        >
-                          <AllLink type="works" results={catalogueResults} />
-                        </NextLink>
-                      </>
-                    )}
+                  {catalogueResults.works && (
+                    <>
+                      <CatalogueSectionTitle sectionName="Catalogue results" />
+                      {catalogueResults.works?.totalResults &&
+                      catalogueResults.works?.totalResults > 0 ? (
+                        <>
+                          <CatalogueLinks>
+                            {catalogueResults.works.workTypeBuckets?.map(
+                              (bucket, i) => (
+                                <NextLink
+                                  key={i}
+                                  {...worksLink(
+                                    {
+                                      query: queryString,
+                                      workType: [bucket.data.id],
+                                    },
+                                    `works_workType_${pathname}`
+                                  )}
+                                  passHref
+                                  legacyBehavior
+                                >
+                                  <WorksLink>
+                                    {bucket.data.label} ({bucket.count})
+                                  </WorksLink>
+                                </NextLink>
+                              )
+                            )}
+                          </CatalogueLinks>
+
+                          <NextLink
+                            {...worksLink(
+                              {
+                                query: queryString,
+                              },
+                              `works_all_${pathname}`
+                            )}
+                            passHref
+                            legacyBehavior
+                          >
+                            <AllLink>
+                              {`All catalogue results (${catalogueResults.works?.totalResults})`}
+                              <Icon
+                                icon={arrow}
+                                iconColor="black"
+                                rotate={360}
+                              />
+                            </AllLink>
+                          </NextLink>
+                        </>
+                      ) : (
+                        <p className={font('intr', 6)}>
+                          We couldn't find any catalogue results
+                        </p>
+                      )}
+                    </>
+                  )}
                   {catalogueResults.works && catalogueResults.images && (
                     <Space
                       className="is-hidden-s is-hidden-m"
@@ -431,34 +411,50 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                   {catalogueResults.images && (
                     <>
                       <CatalogueSectionTitle sectionName="Image results" />
-                      <CatalogueLinks>
-                        {catalogueResults.images.results.map(image => (
-                          <ImageCard
-                            key={image.id}
-                            id={image.id}
-                            workId={image.source.id}
-                            image={{
-                              contentUrl: image.src,
-                              width: image.width * 1.57,
-                              height: image.height * 1.57,
-                              alt: image.source.title,
-                            }}
-                            layout="raw"
-                          />
-                        ))}
-                      </CatalogueLinks>
-                      <NextLink
-                        {...imagesLink(
-                          {
-                            query: queryString,
-                          },
-                          `images_all_${pathname}`
-                        )}
-                        passHref
-                        legacyBehavior
-                      >
-                        <AllLink type="images" results={catalogueResults} />
-                      </NextLink>
+                      {catalogueResults.images?.totalResults &&
+                      catalogueResults.images?.totalResults > 0 ? (
+                        <>
+                          <CatalogueLinks>
+                            {catalogueResults.images.results.map(image => (
+                              <ImageCard
+                                key={image.id}
+                                id={image.id}
+                                workId={image.source.id}
+                                image={{
+                                  contentUrl: image.src,
+                                  width: image.width * 1.57,
+                                  height: image.height * 1.57,
+                                  alt: image.source.title,
+                                }}
+                                layout="raw"
+                              />
+                            ))}
+                          </CatalogueLinks>
+                          <NextLink
+                            {...imagesLink(
+                              {
+                                query: queryString,
+                              },
+                              `images_all_${pathname}`
+                            )}
+                            passHref
+                            legacyBehavior
+                          >
+                            <AllLink>
+                              {`All image results (${catalogueResults.images?.totalResults})`}
+                              <Icon
+                                icon={arrow}
+                                iconColor="black"
+                                rotate={360}
+                              />
+                            </AllLink>
+                          </NextLink>
+                        </>
+                      ) : (
+                        <p className={font('intr', 6)}>
+                          We couldn't find any image results
+                        </p>
+                      )}
                     </>
                   )}
                 </CatalogueResultsInner>
