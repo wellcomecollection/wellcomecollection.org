@@ -10,8 +10,10 @@ NC='\033[0m' # no colour - reset console colour
 
 NGINX_HOME=$("${DIR}/locate-nginx.sh")
 
-# check if $NGINX_HOME/servers/weco-local.conf exists and has the same contents as $DIR/weco-local.conf
+# ensure $NGINX_HOME/servers exists
+mkdir -p $NGINX_HOME/servers
 
+# check if $NGINX_HOME/servers/weco-local.conf exists and has the same contents as $DIR/weco-local.conf
 if [ -f $NGINX_HOME/servers/weco-local.conf ]; then
   if cmp -s $DIR/weco-local.conf $NGINX_HOME/servers/weco-local.conf; then
     echo -e "✅ ${NGINX_HOME}/servers/weco-local.conf is up to date"

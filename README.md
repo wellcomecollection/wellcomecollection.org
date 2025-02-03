@@ -71,7 +71,7 @@ API_ENV_OVERRIDE="dev"
 ```
 
 This will configure local version of nginx to proxy requests to the local APIs, 
-see [scripts/configure-local-running](./scripts/configure-local-running) for more information.
+see [scripts/configure-local-apis](./scripts/configure-local-apis) for more information.
 
 ### Running CI steps locally
 
