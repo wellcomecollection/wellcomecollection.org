@@ -67,7 +67,7 @@ yarn config-local-apis
 Configure the content app to use the local APIs under https:///api-dev.wellcomecollection.org/ by adding the following to the `.env` file in `./content`:
 
 ```
-API_ENV_OVERRIDE="dev"
+NEXT_PUBLIC_API_ENV_OVERRIDE="dev"
 ```
 
 This will configure local version of nginx to proxy requests to the local APIs, 
