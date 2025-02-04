@@ -11,6 +11,7 @@ type ResultsList<T> = {
   results: T[];
   totalResults: number;
   type: 'ResultList';
+  _requestUrl?: string;
 };
 
 type ApiError = {
@@ -21,6 +22,7 @@ type ApiError = {
 export type ReturnedResults<T> = {
   pageResults: T[];
   totalResults: number;
+  requestUrl?: string;
 };
 
 export const SEARCH_PAGES_FORM_ID = 'search-page-form';
@@ -44,6 +46,7 @@ export function getQueryResults<T>({
     return {
       pageResults: queryResults.results,
       totalResults: queryResults.totalResults,
+      requestUrl: queryResults._requestUrl,
     };
   }
 }
