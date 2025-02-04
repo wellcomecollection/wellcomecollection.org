@@ -391,7 +391,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                         </>
                       ) : (
                         <p className={font('intr', 6)}>
-                          We couldn't find any catalogue results
+                          {`We couldn't find any catalogue results`}
                         </p>
                       )}
                     </>
@@ -421,8 +421,8 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                                 workId={image.source.id}
                                 image={{
                                   contentUrl: image.src,
-                                  width: image.width * 1.57,
-                                  height: image.height * 1.57,
+                                  width: image.width * 0.8,
+                                  height: image.height * 0.8,
                                   alt: image.source.title,
                                 }}
                                 layout="raw"
@@ -451,7 +451,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                         </>
                       ) : (
                         <p className={font('intr', 6)}>
-                          We couldn't find any image results
+                          {`We couldn't find any image results`}
                         </p>
                       )}
                     </>
@@ -528,7 +528,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
     try {
       const imagesResults = await getImages({
         params,
-        pageSize: 5,
+        pageSize: 7,
         toggles: data.toggles,
       });
       images = getQueryResults({
