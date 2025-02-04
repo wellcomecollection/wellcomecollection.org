@@ -2,7 +2,7 @@ import { GetServerSideProps } from 'next';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ParsedUrlQuery } from 'querystring';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { arrow } from '@weco/common/icons';
@@ -46,7 +46,6 @@ import { toLink as worksLink } from '@weco/content/components/SearchPagesLink/Wo
 import StoriesGrid from '@weco/content/components/StoriesGrid';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
 import useHotjar from '@weco/content/hooks/useHotjar';
-import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
 import {
   WellcomeAggregation,
   WellcomeApiError,
@@ -551,7 +550,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
     }
   }
 
-  useSkipInitialEffect(() => {
+  useEffect(() => {
     const pathname = '/search';
     const link = {
       href: {
