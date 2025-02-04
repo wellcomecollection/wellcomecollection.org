@@ -38,6 +38,10 @@ const WrappedBackToResults = () => (
       setLink: () => {
         /* */
       },
+      extraApiToolbarLinks: [],
+      setExtraApiToolbarLinks: () => {
+        /* */
+      },
     }}
   >
     <BackToResults />
