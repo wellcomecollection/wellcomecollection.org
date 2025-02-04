@@ -347,8 +347,9 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                       catalogueResults.works?.totalResults > 0 ? (
                         <>
                           <CatalogueLinks>
-                            {catalogueResults.works.workTypeBuckets?.map(
-                              (bucket, i) => (
+                            {catalogueResults.works.workTypeBuckets
+                              ?.slice(0, 6)
+                              .map((bucket, i) => (
                                 <NextLink
                                   key={i}
                                   {...worksLink(
@@ -365,8 +366,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                                     {bucket.data.label} ({bucket.count})
                                   </WorksLink>
                                 </NextLink>
-                              )
-                            )}
+                              ))}
                           </CatalogueLinks>
 
                           <NextLink
