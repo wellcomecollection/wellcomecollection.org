@@ -186,7 +186,7 @@ export const dropCapSerializer: JSXFunctionSerializer = (
     type === prismic.RichTextNodeType.paragraph &&
     children[0] !== undefined
   ) {
-    const firstChild = children[0];
+    const firstChild = children[0] as JSX.Element;
     const firstCharacters =
       firstChild.props &&
       firstChild.props.children &&
