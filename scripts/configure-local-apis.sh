@@ -46,4 +46,4 @@ configure_nginx
 # echo sparkles then "All done! in green
 
 echo -e "\n${GREEN} ✨ All done!${NC}"
-echo -e "\n${YELLOW}Please restart nginx: \"sudo bash -c 'nginx -s stop && nginx'\"${NC}"
+echo -e "\n${YELLOW}Please restart nginx: \"sudo bash -c '(nginx -s stop || true) && nginx'\"${NC}"
