@@ -160,7 +160,10 @@ export type Addressable = {
   description?: string;
   format?: string;
   contributors?: string;
-  times?: { start: Date; end: Date };
+  times?: { start: string; end: string };
+  dates?: { start: string; end?: string };
+  tags?: string[];
+  highlightTourType?: 'audio' | 'bsl';
 };
 
 // Results

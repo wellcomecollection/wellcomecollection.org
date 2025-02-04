@@ -55,18 +55,35 @@ yarn install
 # yarn {appName = content|identity}
 # e.g.
 yarn content
-# you may also run all of them concurrently.
-# this may add a prefix to the URL such as `/catalogue/`
-# and is only for local cross projects development
-yarn run-concurrently
 ```
-### Port
+### Running the app with local APIs
 
-By default webapps will run on port `3000`.
+To run the app using a local copy of the concept, content, and/or catalogue APIs you can run:
 
-You can specify a port by setting the `PORT` in your `.env.development`.
+```bash
+yarn config-local-apis
+```
 
-This is useful if you want to run webapps simultaneously, or you may just use `yarn run-concurrently` as explained above.
+Configure the content app to use the local APIs under https:///api-dev.wellcomecollection.org/ by adding the following to the `.env` file in `./content`:
+
+```
+API_ENV_OVERRIDE="dev"
+```
+
+This will configure local version of nginx to proxy requests to the local APIs, 
+see [scripts/configure-local-apis](./scripts/configure-local-apis) for more information.
+
+### Running the app with local Identity
+
+Currently the identity app is not included in the local APIs configuration, so you will need to run it separately. In order to run `content` & `identity` together, you will need to run the following commands in different terminal windows while **not** using the local APIs configuration:
+
+```bash
+yarn content
+```
+
+```bash
+yarn identity
+```
 
 ### Running CI steps locally
 

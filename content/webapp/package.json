@@ -4,11 +4,10 @@
   "license": "MIT",
   "scripts": {
     "build": "next build",
-    "dev": "NODE_ENV=development nodemon --watch server.ts --watch app.ts --exec ts-node --project tsconfig.server.json server",
+    "dev": "NODE_EXTRA_CA_CERTS=\"$(mkcert -CAROOT)/rootCA.pem\" NODE_ENV=development nodemon --watch server.ts --watch app.ts --exec ts-node --project tsconfig.server.json server",
     "start": "NODE_ENV=production ts-node-transpile-only --project tsconfig.server.json server",
     "test": "NODE_ENV=test jest --no-cache",
-    "test:watch": "yarn test -- --watchAll",
-    "deployBundleAnalysis": "aws s3 sync .dist s3://dash.wellcomecollection.org/bundles --only-show-errors --acl public-read"
+    "test:watch": "yarn test -- --watchAll"
   },
   "dependencies": {
     "@iiif/presentation-3": "^2.1.3",

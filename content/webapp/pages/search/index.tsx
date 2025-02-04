@@ -1,10 +1,16 @@
 import { GetServerSideProps } from 'next';
+import NextLink from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ParsedUrlQuery } from 'querystring';
-import { useContext, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
 
+import { arrow } from '@weco/common/icons';
 import { getServerData } from '@weco/common/server-data';
-import { useToggles } from '@weco/common/server-data/Context';
+import {
+  ServerDataContext,
+  useToggles,
+} from '@weco/common/server-data/Context';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { font } from '@weco/common/utils/classnames';
@@ -20,24 +26,37 @@ import {
   getQueryResults,
   ReturnedResults,
 } from '@weco/common/utils/search';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import theme from '@weco/common/views/themes/default';
+import ContentSearchResult from '@weco/content/components/ContentSearchResult/ContentSearchResult';
 import EventsSearchResults from '@weco/content/components/EventsSearchResults';
+import ImageCard from '@weco/content/components/ImageCard/ImageCard';
 import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
+import Pagination from '@weco/content/components/Pagination/Pagination';
 import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
 import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
+import { toLink as imagesLink } from '@weco/content/components/SearchPagesLink/Images';
+import { toLink as worksLink } from '@weco/content/components/SearchPagesLink/Works';
 import StoriesGrid from '@weco/content/components/StoriesGrid';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
 import useHotjar from '@weco/content/hooks/useHotjar';
-import { WellcomeApiError } from '@weco/content/services/wellcome';
+import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
+import {
+  WellcomeAggregation,
+  WellcomeApiError,
+} from '@weco/content/services/wellcome';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import {
+  CatalogueResultsList,
   Image,
   toWorkBasic,
+  Work,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
@@ -54,6 +73,44 @@ import { Query } from '@weco/content/types/search';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 
+const WorksLink = styled.a.attrs({
+  className: font('intr', 6),
+})`
+  border: 2px solid;
+  padding: 4px 12px;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export type WorkTypes = {
+  workTypeBuckets: WellcomeAggregation['buckets'] | undefined;
+  totalResults: number;
+};
+/**
+ * Takes query result and checks for errors to log before returning required data.
+ * @param {string} categoryName - e.g. works
+ * @param queryResults - Original result from query
+ */
+export function getQueryWorkTypeBuckets({
+  categoryName,
+  queryResults,
+}: {
+  categoryName: string;
+  queryResults: CatalogueResultsList<Work> | WellcomeApiError;
+}): WorkTypes | undefined {
+  if (queryResults.type === 'Error') {
+    console.error(queryResults.label + ': Error fetching ' + categoryName);
+  } else {
+    return {
+      workTypeBuckets: queryResults.aggregations?.workType.buckets,
+      totalResults: queryResults.totalResults,
+    };
+  }
+}
+
 // Creating this version of fromQuery for the overview page only
 // No filters or pagination required.
 const codecMap = { query: stringCodec };
@@ -67,18 +124,27 @@ type Props = {
   images?: ReturnedResults<Image>;
   stories?: ReturnedResults<Article>;
   events?: ReturnedResults<EventDocument>;
-  contentResults?: ReturnedResults<Addressable>;
+  contentResults?: ContentResultsList<Addressable>;
   query: Query;
   pageview: Pageview;
+  contentQueryFailed?: boolean;
+};
+
+type ImageResults = {
+  totalResults: number;
+  results: (Image & { src: string; width: number; height: number })[];
+};
+
+type CatalogueResults = {
+  works?: WorkTypes;
+  images?: ImageResults;
 };
 
 type NewProps = {
-  contentResults?: ReturnedResults<Addressable>;
-  catalogueResults: {
-    works?: ReturnedResults<WorkBasic>;
-    images?: ReturnedResults<Image>;
-  };
+  contentResults?: ContentResultsList<Addressable>;
+  catalogueResults: CatalogueResults;
   queryString?: string;
+  contentQueryFailed?: boolean;
 };
 
 type SeeMoreButtonProps = {
@@ -86,6 +152,22 @@ type SeeMoreButtonProps = {
   pathname: string;
   totalResults: number;
 };
+
+const CatalogueResultsInner = styled(Space).attrs({
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background-color: ${props => props.theme.color('warmNeutral.300')};
+`;
+
+const CatalogueLinks = styled(Space).attrs({
+  $v: { size: 'm', properties: ['margin-bottom'] },
+  className: 'is-hidden-s is-hidden-m',
+})`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+`;
 
 const BasicSection = styled(Space).attrs({
   as: 'section',
@@ -112,6 +194,64 @@ const SectionTitle = ({ sectionName }: { sectionName: string }) => {
     </Space>
   );
 };
+
+const AllLink = styled.a.attrs({
+  className: font('intsb', 5),
+})`
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+
+  .icon {
+    margin-left: 8px;
+  }
+`;
+
+const CatalogueSectionTitle = ({ sectionName }: { sectionName: string }) => {
+  return (
+    <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+      <h3 className={`${font('intsb', 4)} is-hidden-s is-hidden-m`}>
+        {sectionName}
+      </h3>
+    </Space>
+  );
+};
+
+const GridContainer = styled(Container)`
+  display: grid;
+  grid-template-columns: [l-start] 9fr [l-end r-start] 3fr [r-end];
+
+  ${props => props.theme.media('large')`
+    grid-template-columns: [l-start] 6fr [l-end] 2fr [r-start] 4fr [r-end];
+  `}
+`;
+
+const ContentResults = styled.div`
+  grid-column: l-start / r-end;
+
+  ${props => props.theme.media('medium')`
+    grid-column: l-start / l-end;
+  `}
+
+  ${props => props.theme.media('large')`
+    grid-row: 1;
+    grid-column: l-start / l-end;
+  `}
+`;
+
+const CatalogueResults = styled(Space).attrs({
+  $v: { size: 'xl', properties: ['margin-bottom'] },
+})`
+  grid-column: l-start / r-end;
+
+  ${props => props.theme.media('medium')`
+    grid-column: l-start / l-end;
+  `}
+
+  ${props => props.theme.media('large')`
+    grid-column: r-start / r-end;
+  `}
+`;
 
 const StoryPromoContainer = styled(Container)`
   ${props =>
@@ -151,7 +291,14 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
   queryString,
   contentResults,
   catalogueResults,
+  contentQueryFailed,
 }) => {
+  const totalResults =
+    (contentResults?.totalResults || 0) +
+    (catalogueResults.images?.totalResults || 0) +
+    (catalogueResults.works?.totalResults || 0);
+
+  const pathname = usePathname();
   return (
     <main>
       {!contentResults &&
@@ -161,38 +308,178 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
           <SearchNoResults query={queryString} />
         </Container>
       ) : (
-        <Container style={{ display: 'flex' }}>
-          <BasicSection>
-            <Container>
-              <SectionTitle sectionName="Content results" />
-              <p>{contentResults?.totalResults || 0} results</p>
-              <div
-                style={{
-                  fontSize: '12px',
-                  maxWidth: '780px',
-                  overflow: 'scroll',
-                }}
-              >
-                {contentResults && (
-                  <pre>{JSON.stringify(contentResults, null, 2)}</pre>
-                )}
-              </div>
-            </Container>
-          </BasicSection>
+        <BasicSection>
+          <Container>
+            <p className={font('intr', 5)}>
+              {contentQueryFailed ? (
+                <>
+                  There was a problem fetching some search results. Please try
+                  again. If the problem persists, please contact us.
+                </>
+              ) : (
+                <>
+                  {totalResults} result
+                  {totalResults === 1 ? '' : 's'}
+                  {queryString ? (
+                    <>
+                      {' '}
+                      for <span className={font('intb', 5)}>{queryString}</span>
+                    </>
+                  ) : null}
+                </>
+              )}
+            </p>
+          </Container>
+          <GridContainer>
+            <CatalogueResults>
+              {(!!(
+                catalogueResults.images?.totalResults &&
+                catalogueResults.images?.totalResults > 0
+              ) ||
+                !!(
+                  catalogueResults.works?.totalResults &&
+                  catalogueResults.works?.totalResults > 0
+                )) && (
+                <CatalogueResultsInner>
+                  {catalogueResults.works && (
+                    <>
+                      <CatalogueSectionTitle sectionName="Catalogue results" />
+                      {catalogueResults.works?.totalResults &&
+                      catalogueResults.works?.totalResults > 0 ? (
+                        <>
+                          <CatalogueLinks>
+                            {catalogueResults.works.workTypeBuckets?.map(
+                              (bucket, i) => (
+                                <NextLink
+                                  key={i}
+                                  {...worksLink(
+                                    {
+                                      query: queryString,
+                                      workType: [bucket.data.id],
+                                    },
+                                    `works_workType_${pathname}`
+                                  )}
+                                  passHref
+                                  legacyBehavior
+                                >
+                                  <WorksLink>
+                                    {bucket.data.label} ({bucket.count})
+                                  </WorksLink>
+                                </NextLink>
+                              )
+                            )}
+                          </CatalogueLinks>
 
-          <div>
-            <div>
-              <SectionTitle sectionName="Images" />
-              <p>{catalogueResults.images?.totalResults || 0} results</p>
-            </div>
+                          <NextLink
+                            {...worksLink(
+                              {
+                                query: queryString,
+                              },
+                              `works_all_${pathname}`
+                            )}
+                            passHref
+                            legacyBehavior
+                          >
+                            <AllLink>
+                              {`All catalogue results (${catalogueResults.works?.totalResults})`}
+                              <Icon
+                                icon={arrow}
+                                iconColor="black"
+                                rotate={360}
+                              />
+                            </AllLink>
+                          </NextLink>
+                        </>
+                      ) : (
+                        <p className={font('intr', 6)}>
+                          We couldn't find any catalogue results
+                        </p>
+                      )}
+                    </>
+                  )}
+                  {catalogueResults.works && catalogueResults.images && (
+                    <Space
+                      className="is-hidden-s is-hidden-m"
+                      $v={{
+                        size: 'l',
+                        properties: ['margin-top', 'margin-bottom'],
+                      }}
+                    >
+                      <Divider lineColor="neutral.400" />
+                    </Space>
+                  )}
+                  {catalogueResults.images && (
+                    <>
+                      <CatalogueSectionTitle sectionName="Image results" />
+                      {catalogueResults.images?.totalResults &&
+                      catalogueResults.images?.totalResults > 0 ? (
+                        <>
+                          <CatalogueLinks>
+                            {catalogueResults.images.results.map(image => (
+                              <ImageCard
+                                key={image.id}
+                                id={image.id}
+                                workId={image.source.id}
+                                image={{
+                                  contentUrl: image.src,
+                                  width: image.width * 1.57,
+                                  height: image.height * 1.57,
+                                  alt: image.source.title,
+                                }}
+                                layout="raw"
+                              />
+                            ))}
+                          </CatalogueLinks>
+                          <NextLink
+                            {...imagesLink(
+                              {
+                                query: queryString,
+                              },
+                              `images_all_${pathname}`
+                            )}
+                            passHref
+                            legacyBehavior
+                          >
+                            <AllLink>
+                              {`All image results (${catalogueResults.images?.totalResults})`}
+                              <Icon
+                                icon={arrow}
+                                iconColor="black"
+                                rotate={360}
+                              />
+                            </AllLink>
+                          </NextLink>
+                        </>
+                      ) : (
+                        <p className={font('intr', 6)}>
+                          We couldn't find any image results
+                        </p>
+                      )}
+                    </>
+                  )}
+                </CatalogueResultsInner>
+              )}
+            </CatalogueResults>
+            <ContentResults>
+              {contentResults?.results?.map(result => (
+                <Space
+                  key={`${result.id}${result.highlightTourType || ''}`}
+                  $v={{ size: 'xl', properties: ['margin-bottom'] }}
+                >
+                  <ContentSearchResult {...result} />
+                </Space>
+              ))}
 
-            <div>
-              <SectionTitle sectionName="Catalogue" />
-
-              <p>{catalogueResults.works?.totalResults || 0} results</p>
-            </div>
-          </div>
-        </Container>
+              {contentResults?.totalPages ? (
+                <Pagination
+                  totalPages={contentResults.totalPages}
+                  ariaLabel="Content search results pagination"
+                  isHiddenMobile
+                />
+              ) : null}
+            </ContentResults>
+          </GridContainer>
+        </BasicSection>
       )}
     </main>
   );
@@ -200,6 +487,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
 
 export const SearchPage: NextPageWithLayout<Props> = ({
   contentResults,
+  contentQueryFailed,
   works,
   images,
   stories,
@@ -210,8 +498,60 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   const { query: queryString } = query;
   const { setLink } = useContext(SearchContext);
   const { allSearch } = useToggles();
+  const [clientSideWorkTypes, setClientSideWorkTypes] = useState<
+    WorkTypes | undefined
+  >(undefined);
+  const [clientSideImages, setClientSideImages] = useState<
+    ImageResults | undefined
+  >(undefined);
+  const params = fromQuery(query);
+  const data = useContext(ServerDataContext);
+  async function fetchWorks() {
+    try {
+      const worksResults = await getWorks({
+        params: {
+          ...params,
+          aggregations: ['workType'],
+        },
+        pageSize: 1,
+        toggles: data.toggles,
+      });
+      const workTypeBuckets = getQueryWorkTypeBuckets({
+        categoryName: 'works',
+        queryResults: worksResults,
+      });
+      setClientSideWorkTypes(workTypeBuckets);
+    } catch (e) {
+      return undefined;
+    }
+  }
+  async function fetchImages() {
+    try {
+      const imagesResults = await getImages({
+        params,
+        pageSize: 5,
+        toggles: data.toggles,
+      });
+      images = getQueryResults({
+        categoryName: 'images',
+        queryResults: imagesResults,
+      });
+      setClientSideImages({
+        totalResults: images?.totalResults || 0,
+        results:
+          images?.pageResults.map(image => ({
+            ...image,
+            src: image.locations[0].url,
+            width: (image.aspectRatio || 1) * 100,
+            height: 100,
+          })) || [],
+      });
+    } catch (e) {
+      return undefined;
+    }
+  }
 
-  useEffect(() => {
+  useSkipInitialEffect(() => {
     const pathname = '/search';
     const link = {
       href: {
@@ -224,6 +564,10 @@ export const SearchPage: NextPageWithLayout<Props> = ({
       },
     };
     setLink(link);
+    if (allSearch) {
+      fetchWorks();
+      fetchImages();
+    }
   }, [query]);
 
   if (allSearch) {
@@ -231,7 +575,11 @@ export const SearchPage: NextPageWithLayout<Props> = ({
       <NewSearchPage
         queryString={queryString}
         contentResults={contentResults}
-        catalogueResults={{ works, images }}
+        contentQueryFailed={contentQueryFailed}
+        catalogueResults={{
+          works: clientSideWorkTypes,
+          images: clientSideImages,
+        }}
       />
     );
   }
@@ -399,8 +747,10 @@ export const getServerSideProps: GetServerSideProps<
         | ContentResultsList<Addressable>
         | WellcomeApiError
         | undefined,
-      stories,
-      events;
+      stories: ReturnedResults<Article> | undefined,
+      events: ReturnedResults<EventDocument> | undefined,
+      works: ReturnedResults<Work> | undefined,
+      images: ReturnedResults<Image> | undefined;
     let contentQueryFailed = false;
     if (serverData.toggles.allSearch.value) {
       // All/Addressables
@@ -408,7 +758,7 @@ export const getServerSideProps: GetServerSideProps<
         params: {
           ...query,
         },
-        pageSize: 4,
+        pageSize: 20,
         toggles: serverData.toggles,
       });
 
@@ -457,42 +807,42 @@ export const getServerSideProps: GetServerSideProps<
           | ContentResultsList<EventDocument>
           | WellcomeApiError,
       });
-    }
 
-    // Works
-    const worksResults = await getWorks({
-      params,
-      pageSize: 5,
-      toggles: serverData.toggles,
-    });
-    const works = getQueryResults({
-      categoryName: 'works',
-      queryResults: worksResults,
-    });
+      // Works
+      const worksResults = await getWorks({
+        params,
+        pageSize: 5,
+        toggles: serverData.toggles,
+      });
+      works = getQueryResults({
+        categoryName: 'works',
+        queryResults: worksResults,
+      });
 
-    // Images
-    const imagesResults = await getImages({
-      params,
-      pageSize: 10,
-      toggles: serverData.toggles,
-    });
-    const images = getQueryResults({
-      categoryName: 'images',
-      queryResults: imagesResults,
-    });
+      // Images
+      const imagesResults = await getImages({
+        params,
+        pageSize: 10,
+        toggles: serverData.toggles,
+      });
+      images = getQueryResults({
+        categoryName: 'images',
+        queryResults: imagesResults,
+      });
 
-    // If all three queries fail, return an error page
-    if (
-      imagesResults.type === 'Error' &&
-      worksResults.type === 'Error' &&
-      contentQueryFailed
-    ) {
-      // Use the error from the works API as it is the most mature of the 3
-      return appError(
-        context,
-        worksResults.httpStatus,
-        worksResults.description || worksResults.label
-      );
+      // If all three queries fail, return an error page
+      if (
+        imagesResults.type === 'Error' &&
+        worksResults.type === 'Error' &&
+        contentQueryFailed
+      ) {
+        // Use the error from the works API as it is the most mature of the 3
+        return appError(
+          context,
+          worksResults.httpStatus,
+          worksResults.description || worksResults.label
+        );
+      }
     }
 
     return {
@@ -505,6 +855,7 @@ export const getServerSideProps: GetServerSideProps<
           contentResults?.results.length && {
             contentResults,
           }),
+        contentQueryFailed,
         works:
           works && works.pageResults.length
             ? {

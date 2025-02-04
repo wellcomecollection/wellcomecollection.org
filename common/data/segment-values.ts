@@ -46,6 +46,7 @@ export type ImagesLinkSource =
   | `concept/images_about_${string}`
   | `concept/images_by_${string}`
   | `concept/images_in_${string}`
+  | `images_all_${string}`
   | 'images_search_context'
   | 'work_details/images'
   | 'unknown';
@@ -80,6 +81,8 @@ export type WorksLinkSource =
   | 'concept/works_by'
   | 'concept/works_in'
   | `works_search_context_${string}`
+  | `works_workType_${string}`
+  | `works_all_${string}`
   | `work_details/contributors_${string}`
   | 'work_details/genres'
   | `work_details/subjects_${string}`
