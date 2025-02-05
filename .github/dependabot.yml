@@ -26,6 +26,7 @@ updates:
       - dependency-name: '@babel/*'
       - dependency-name: 'husky'
       - dependency-name: 'openseadragon'
+      - dependency-name: '@prismicio/*'
     groups:
       all:
         patterns: ['*']
