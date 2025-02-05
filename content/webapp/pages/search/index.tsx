@@ -31,6 +31,7 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { Container } from '@weco/common/views/components/styled/Container';
+import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import theme from '@weco/common/views/themes/default';
@@ -47,7 +48,6 @@ import { toLink as worksLink } from '@weco/content/components/SearchPagesLink/Wo
 import StoriesGrid from '@weco/content/components/StoriesGrid';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
 import useHotjar from '@weco/content/hooks/useHotjar';
-import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
 import {
   WellcomeAggregation,
   WellcomeApiError,
@@ -161,7 +161,12 @@ const CatalogueResultsInner = styled(Space).attrs({
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })`
+  position: relative;
   background-color: ${props => props.theme.color('warmNeutral.300')};
+  min-height: 90px;
+  ${props => props.theme.media('large')`
+      min-height: 400px;
+  `}
 `;
 
 const CatalogueLinks = styled(Space).attrs({
@@ -373,133 +378,126 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
           </Container>
           <GridContainer>
             <CatalogueResults>
-              {(!!(
-                catalogueResults.images?.totalResults &&
-                catalogueResults.images?.totalResults > 0
-              ) ||
-                !!(
-                  catalogueResults.works?.totalResults &&
-                  catalogueResults.works?.totalResults > 0
-                )) && (
-                <CatalogueResultsInner>
-                  {catalogueResults.works && (
-                    <>
-                      <CatalogueSectionTitle sectionName="Catalogue results" />
-                      {catalogueResults.works?.totalResults &&
-                      catalogueResults.works?.totalResults > 0 ? (
-                        <>
-                          <CatalogueLinks>
-                            {catalogueResults.works.workTypeBuckets?.map(
-                              (bucket, i) => (
-                                <NextLink
-                                  key={i}
-                                  {...worksLink(
-                                    {
-                                      query: queryString,
-                                      workType: [bucket.data.id],
-                                    },
-                                    `works_workType_${pathname}`
-                                  )}
-                                  passHref
-                                  legacyBehavior
-                                >
-                                  <WorksLink>
-                                    {bucket.data.label} ({bucket.count})
-                                  </WorksLink>
-                                </NextLink>
-                              )
-                            )}
-                          </CatalogueLinks>
-
-                          <NextLink
-                            {...worksLink(
-                              {
-                                query: queryString,
-                              },
-                              `works_all_${pathname}`
-                            )}
-                            passHref
-                            legacyBehavior
-                          >
-                            <AllLink>
-                              {`All catalogue results (${catalogueResults.works?.totalResults})`}
-                              <Icon
-                                icon={arrow}
-                                iconColor="black"
-                                rotate={360}
-                              />
-                            </AllLink>
-                          </NextLink>
-                        </>
-                      ) : (
-                        <p className={font('intr', 6)}>
-                          We couldn&apos;t find any catalogue results
-                        </p>
-                      )}
-                    </>
-                  )}
-                  {catalogueResults.works && catalogueResults.images && (
-                    <Space
-                      className="is-hidden-s is-hidden-m"
-                      $v={{
-                        size: 'l',
-                        properties: ['margin-top', 'margin-bottom'],
-                      }}
-                    >
-                      <Divider lineColor="neutral.400" />
-                    </Space>
-                  )}
-                  {catalogueResults.images && (
-                    <>
-                      <CatalogueSectionTitle sectionName="Image results" />
-                      {catalogueResults.images?.totalResults &&
-                      catalogueResults.images?.totalResults > 0 ? (
-                        <>
-                          <CatalogueLinks>
-                            {catalogueResults.images.results.map(image => (
-                              <ImageCard
-                                key={image.id}
-                                id={image.id}
-                                workId={image.source.id}
-                                image={{
-                                  contentUrl: image.src,
-                                  width: image.width * 1.57,
-                                  height: image.height * 1.57,
-                                  alt: image.source.title,
-                                }}
-                                layout="raw"
-                              />
+              <CatalogueResultsInner>
+                {!catalogueResults.works && !catalogueResults.images && (
+                  <>
+                    <span className="is-hidden-l is-hidden-xl">
+                      <LL $small />
+                    </span>
+                    <span className="is-hidden-s is-hidden-m">
+                      <LL />
+                    </span>
+                  </>
+                )}
+                {catalogueResults.works && (
+                  <>
+                    <CatalogueSectionTitle sectionName="Catalogue results" />
+                    {catalogueResults.works?.totalResults &&
+                    catalogueResults.works?.totalResults > 0 ? (
+                      <>
+                        <CatalogueLinks>
+                          {catalogueResults.works.workTypeBuckets
+                            ?.slice(0, 6)
+                            .map((bucket, i) => (
+                              <NextLink
+                                key={i}
+                                {...worksLink(
+                                  {
+                                    query: queryString,
+                                    workType: [bucket.data.id],
+                                  },
+                                  `works_workType_${pathname}`
+                                )}
+                                passHref
+                                legacyBehavior
+                              >
+                                <WorksLink>
+                                  {bucket.data.label} ({bucket.count})
+                                </WorksLink>
+                              </NextLink>
                             ))}
-                          </CatalogueLinks>
-                          <NextLink
-                            {...imagesLink(
-                              {
-                                query: queryString,
-                              },
-                              `images_all_${pathname}`
-                            )}
-                            passHref
-                            legacyBehavior
-                          >
-                            <AllLink>
-                              {`All image results (${catalogueResults.images?.totalResults})`}
-                              <Icon
-                                icon={arrow}
-                                iconColor="black"
-                                rotate={360}
-                              />
-                            </AllLink>
-                          </NextLink>
-                        </>
-                      ) : (
-                        <p className={font('intr', 6)}>
-                          We couldn&apos;t find any image results
-                        </p>
-                      )}
-                    </>
-                  )}
-                </CatalogueResultsInner>
-              )}
+                        </CatalogueLinks>
+
+                        <NextLink
+                          {...worksLink(
+                            {
+                              query: queryString,
+                            },
+                            `works_all_${pathname}`
+                          )}
+                          passHref
+                          legacyBehavior
+                        >
+                          <AllLink>
+                            {`All catalogue results (${catalogueResults.works?.totalResults})`}
+                            <Icon icon={arrow} iconColor="black" rotate={360} />
+                          </AllLink>
+                        </NextLink>
+                      </>
+                    ) : (
+                      <p className={font('intr', 6)}>
+                        {`We couldn't find any catalogue results`}
+                      </p>
+                    )}
+                  </>
+                )}
+                {catalogueResults.works && catalogueResults.images && (
+                  <Space
+                    className="is-hidden-s is-hidden-m"
+                    $v={{
+                      size: 'l',
+                      properties: ['margin-top', 'margin-bottom'],
+                    }}
+                  >
+                    <Divider lineColor="neutral.400" />
+                  </Space>
+                )}
+                {catalogueResults.images && (
+                  <>
+                    <CatalogueSectionTitle sectionName="Image results" />
+                    {catalogueResults.images?.totalResults &&
+                    catalogueResults.images?.totalResults > 0 ? (
+                      <>
+                        <CatalogueLinks>
+                          {catalogueResults.images.results.map(image => (
+                            <ImageCard
+                              key={image.id}
+                              id={image.id}
+                              workId={image.source.id}
+                              image={{
+                                contentUrl: image.src,
+                                width: image.width * 0.8,
+                                height: image.height * 0.8,
+                                alt: image.source.title,
+                              }}
+                              layout="raw"
+                            />
+                          ))}
+                        </CatalogueLinks>
+                        <NextLink
+                          {...imagesLink(
+                            {
+                              query: queryString,
+                            },
+                            `images_all_${pathname}`
+                          )}
+                          passHref
+                          legacyBehavior
+                        >
+                          <AllLink>
+                            {`All image results (${catalogueResults.images?.totalResults})`}
+                            <Icon icon={arrow} iconColor="black" rotate={360} />
+                          </AllLink>
+                        </NextLink>
+                      </>
+                    ) : (
+                      <p className={font('intr', 6)}>
+                        {`We couldn't find any image results`}
+                      </p>
+                    )}
+                  </>
+                )}
+              </CatalogueResultsInner>
             </CatalogueResults>
             <ContentResults>
               {contentResults?.results?.map(result => (
@@ -571,7 +569,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
     try {
       const imagesResults = await getImages({
         params,
-        pageSize: 5,
+        pageSize: 7,
         toggles: data.toggles,
       });
       images = getQueryResults({
@@ -594,7 +592,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
     }
   }
 
-  useSkipInitialEffect(() => {
+  useEffect(() => {
     const pathname = '/search';
     const link = {
       href: {

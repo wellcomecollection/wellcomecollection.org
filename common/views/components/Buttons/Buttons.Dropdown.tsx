@@ -1,4 +1,4 @@
-import FocusTrap from 'focus-trap-react';
+import { FocusTrap } from 'focus-trap-react';
 import {
   FunctionComponent,
   PropsWithChildren,
