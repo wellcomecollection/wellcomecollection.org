@@ -6,6 +6,7 @@ import {
 } from 'react';
 
 import { LinkProps } from '@weco/common/model/link-props';
+import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 
 const defaultLink = {
   href: {
@@ -19,15 +20,22 @@ const defaultLink = {
 const SearchContext = createContext<{
   link: LinkProps;
   setLink: (link: LinkProps) => void;
+  extraApiToolbarLinks: ApiToolbarLink[];
+  setExtraApiToolbarLinks: (toolbarLinks: ApiToolbarLink[]) => void;
 }>({
   link: defaultLink,
   setLink: link => link,
+  extraApiToolbarLinks: [],
+  setExtraApiToolbarLinks: () => null,
 });
 
 export const SearchContextProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
   const [searchLink, setSearchLink] = useState<LinkProps>(defaultLink);
+  const [extraApiToolbarLinks, setExtraApiToolbarLinks] = useState<
+    ApiToolbarLink[]
+  >([]);
 
   return (
     <SearchContext.Provider
@@ -36,6 +44,8 @@ export const SearchContextProvider: FunctionComponent<PropsWithChildren> = ({
         setLink: link => {
           setSearchLink(link);
         },
+        extraApiToolbarLinks,
+        setExtraApiToolbarLinks,
       }}
     >
       {children}

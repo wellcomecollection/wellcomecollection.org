@@ -36,6 +36,7 @@ import {
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import NewsletterPromo from '@weco/common/views/components/NewsletterPromo/NewsletterPromo';
 import PopupDialog from '@weco/common/views/components/PopupDialog/PopupDialog';
+import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 
 type HeaderProps = {
   customNavLinks: NavLink[];
@@ -126,6 +127,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   ];
 
   const globalInfoBar = useContext(GlobalInfoBarContext);
+  const { extraApiToolbarLinks } = useContext(SearchContext);
   const { isEnhanced } = useContext(AppContext);
 
   // For Twitter cards in particular, we prefer a crop as close to 2:1 as
@@ -313,7 +315,12 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
 
       <div id="root">
         {apiToolbar && (
-          <ApiToolbar links={apiToolbarLinks.filter(isNotUndefined)} />
+          <ApiToolbar
+            links={[
+              ...apiToolbarLinks.filter(isNotUndefined),
+              ...extraApiToolbarLinks.filter(isNotUndefined),
+            ]}
+          />
         )}
 
         {skipToContentLinks.map(({ anchorId, label }) => (

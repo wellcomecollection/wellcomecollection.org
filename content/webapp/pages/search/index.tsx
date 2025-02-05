@@ -26,6 +26,7 @@ import {
   getQueryResults,
   ReturnedResults,
 } from '@weco/common/utils/search';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
@@ -88,6 +89,7 @@ const WorksLink = styled.a.attrs({
 export type WorkTypes = {
   workTypeBuckets: WellcomeAggregation['buckets'] | undefined;
   totalResults: number;
+  requestUrl: string;
 };
 /**
  * Takes query result and checks for errors to log before returning required data.
@@ -107,6 +109,7 @@ export function getQueryWorkTypeBuckets({
     return {
       workTypeBuckets: queryResults.aggregations?.workType.buckets,
       totalResults: queryResults.totalResults,
+      requestUrl: queryResults._requestUrl,
     };
   }
 }
@@ -133,6 +136,7 @@ type Props = {
 type ImageResults = {
   totalResults: number;
   results: (Image & { src: string; width: number; height: number })[];
+  requestUrl?: string;
 };
 
 type CatalogueResults = {
@@ -298,12 +302,49 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
   catalogueResults,
   contentQueryFailed,
 }) => {
+  const { extraApiToolbarLinks, setExtraApiToolbarLinks } =
+    useContext(SearchContext);
+  const { apiToolbar } = useToggles();
+
   const totalResults =
     (contentResults?.totalResults || 0) +
     (catalogueResults.images?.totalResults || 0) +
     (catalogueResults.works?.totalResults || 0);
 
   const pathname = usePathname();
+
+  useEffect(() => {
+    if (apiToolbar) {
+      if (
+        catalogueResults.works &&
+        !extraApiToolbarLinks.find(link => link.id === 'catalogue-api-works')
+      ) {
+        setExtraApiToolbarLinks([
+          ...extraApiToolbarLinks,
+          {
+            id: 'catalogue-api-works',
+            label: 'Works API query',
+            link: catalogueResults.works.requestUrl,
+          },
+        ]);
+      }
+
+      if (
+        catalogueResults.images?.requestUrl &&
+        !extraApiToolbarLinks.find(link => link.id === 'catalogue-api-images')
+      ) {
+        setExtraApiToolbarLinks([
+          ...extraApiToolbarLinks,
+          {
+            id: 'catalogue-api-images',
+            label: 'Images API query',
+            link: catalogueResults.images.requestUrl,
+          },
+        ]);
+      }
+    }
+  }, [catalogueResults.works, catalogueResults.images]);
+
   return (
     <main>
       {!contentResults &&
@@ -523,6 +564,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
       return undefined;
     }
   }
+
   async function fetchImages() {
     try {
       const imagesResults = await getImages({
@@ -543,6 +585,7 @@ export const SearchPage: NextPageWithLayout<Props> = ({
             width: (image.aspectRatio || 1) * 100,
             height: 100,
           })) || [],
+        requestUrl: images?.requestUrl,
       });
     } catch (e) {
       return undefined;
@@ -843,6 +886,18 @@ export const getServerSideProps: GetServerSideProps<
       }
     }
 
+    const apiToolbarLinks = serverData.toggles.allSearch.value
+      ? [
+          contentResults && contentResults.type !== 'Error'
+            ? {
+                id: 'content-api',
+                label: 'Content API query',
+                link: contentResults._requestUrl,
+              }
+            : undefined,
+        ].filter(isNotUndefined)
+      : [];
+
     return {
       props: serialiseProps({
         ...defaultProps,
@@ -861,6 +916,7 @@ export const getServerSideProps: GetServerSideProps<
                 pageResults: works.pageResults.map(toWorkBasic),
               }
             : undefined,
+        apiToolbarLinks,
       }),
     };
   } catch (error) {

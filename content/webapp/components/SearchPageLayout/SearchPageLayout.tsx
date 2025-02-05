@@ -4,6 +4,7 @@ import {
   JSX,
   PropsWithChildren,
   ReactElement,
+  useContext,
   useEffect,
   useState,
 } from 'react';
@@ -12,6 +13,7 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 import { SiteSection } from '@weco/common/model/site-section';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
+import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { Container } from '@weco/common/views/components/styled/Container';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
 
@@ -43,6 +45,7 @@ const SearchLayout: FunctionComponent<SearchLayoutProps> = ({
   const router = useRouter();
   const queryString = getQueryPropertyValue(router?.query?.query);
   const [queryValue, setQueryValue] = useState(queryString || '');
+  const { setExtraApiToolbarLinks } = useContext(SearchContext);
 
   const currentSearchCategory =
     router.pathname === '/search'
@@ -73,6 +76,7 @@ const SearchLayout: FunctionComponent<SearchLayoutProps> = ({
     // from the global nav, we'll update the query string in the URL correctly --
     // and not keep whatever they were previously searching for.
     setQueryValue(queryString || '');
+    setExtraApiToolbarLinks([]);
 
     switch (currentSearchCategory) {
       case 'overview':
