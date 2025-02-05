@@ -31,5 +31,5 @@ Then run:
 
 ```console
 $ docker-compose build identity
-$ docker-compose run -p 3000:3000 identity yarn start:dev
+$ docker-compose run -p 3003:3003 identity yarn start:dev
 ```

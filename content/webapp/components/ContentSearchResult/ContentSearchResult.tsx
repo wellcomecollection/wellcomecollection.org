@@ -62,16 +62,15 @@ const ContentSearchResult: FunctionComponent<Props> = ({
   times,
   contributors,
 }) => {
-  const link = (): string => {
-    if (highlightTourType) {
-      return `/guides/exhibitions/${uid}/${highlightTourType === 'audio' ? 'audio-without-descriptions' : 'bsl'}`;
-    } else {
-      return linkResolver({ uid: uid || undefined, type, tags });
-    }
-  };
-
   return (
-    <Link href={link()}>
+    <Link
+      href={linkResolver({
+        uid: uid || undefined,
+        type,
+        highlightTourType,
+        tags: tags || [],
+      })}
+    >
       {type !== 'Page' && <Type>{type === 'Article' ? 'Story' : type}</Type>}
       <Title>{title}</Title>
       {description ? <Description>{description}</Description> : null}

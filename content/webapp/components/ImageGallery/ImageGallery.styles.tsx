@@ -123,9 +123,8 @@ export const Gallery = styled.div<GalleryProps>`
   `}
 
   .close {
-    position: sticky;
-    top: 18px;
     transform: translateX(calc((100vw - 100%) / 2));
+    position: relative;
     z-index: 3;
     pointer-events: all;
   }
@@ -196,7 +195,7 @@ export const ControlContainer = styled(Space).attrs<ControlContainerProps>(
       'is-hidden': !props.$isActive,
     }),
     $v: { size: 'm', properties: ['padding-bottom'] },
-    $h: { size: 'm', properties: ['padding-right'] },
+    $h: { size: 'l', properties: ['margin-right'] },
   })
 )<ControlContainerProps>`
   display: flex;
