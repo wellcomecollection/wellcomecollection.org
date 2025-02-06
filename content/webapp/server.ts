@@ -9,7 +9,7 @@ const serverPromise = appPromise.then(app => {
     console.log(
       `> ${
         process.env.NODE_ENV || 'development'
-      } ready on http://localhost:${port}/`
+      } ready on https://www-dev.wellcomecollection.org`
     );
   });
 
