@@ -37,7 +37,7 @@ import {
 } from '@weco/content/utils/iiif/v3';
 
 const IframePdfViewer = styled(Space)`
-  width: 90vw;
+  width: 100%;
   height: 90vh;
   display: block;
   border: 0;
@@ -172,7 +172,7 @@ const PublicRestrictedMessage: FunctionComponent<{
 
 const StaffRestrictedMessage: FunctionComponent = () => {
   return (
-    <p className={font('intr', 5)} style={{ display: 'inline-flex' }}>
+    <p className={font('intr', 5)} style={{ display: 'flex' }}>
       <IconContainer>
         <Icon icon={information} />
       </IconContainer>
@@ -224,13 +224,13 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       Boolean(item.id):
       if (shouldShowItem) {
         return (
-          <Outline className="audio">
+          <Outline className="item-wrapper">
             <PublicRestrictedMessage canvas={canvas} i={i} />
           </Outline>
         );
       } else {
         return (
-          <Outline $border={isRestricted} className="audio">
+          <Outline $border={isRestricted} className="item-wrapper">
             {isRestricted && <StaffRestrictedMessage />}
             <AudioPlayer
               audioFile={item.id || ''}
@@ -240,28 +240,48 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         );
       }
     case item.type === 'Video' && !exclude.includes('Video'):
-      return (
-        <div className="video">
-          <VideoPlayer
-            placeholderId={placeholderId}
-            video={item}
-            showDownloadOptions={true}
-          />
-          <VideoTranscript supplementing={canvas.supplementing} />
-        </div>
-      );
+      if (shouldShowItem) {
+        return (
+          <Outline className="item-wrapper">
+            <PublicRestrictedMessage canvas={canvas} i={i} />
+          </Outline>
+        );
+      } else {
+        return (
+          <Outline $border={isRestricted} className="item-wrapper">
+            {isRestricted && <StaffRestrictedMessage />}
+            <VideoPlayer
+              placeholderId={placeholderId}
+              video={item}
+              showDownloadOptions={true}
+            />
+            <VideoTranscript supplementing={canvas.supplementing} />
+          </Outline>
+        );
+      }
     case item.type === 'Text' && !exclude.includes('Text'):
       if ('label' in item) {
         const itemLabel = item.label
           ? getLabelString(item.label as InternationalString)
           : '';
-        return (
-          <IframePdfViewer
-            as="iframe"
-            title={`PDF: ${itemLabel}`}
-            src={item.id}
-          />
-        );
+        if (shouldShowItem) {
+          return (
+            <Outline className="item-wrapper">
+              <PublicRestrictedMessage canvas={canvas} i={i} />
+            </Outline>
+          );
+        } else {
+          return (
+            <Outline $border={isRestricted} className="pdf-wrapper">
+              {isRestricted && <StaffRestrictedMessage />}
+              <IframePdfViewer
+                as="iframe"
+                title={`PDF: ${itemLabel}`}
+                src={item.id}
+              />
+            </Outline>
+          );
+        }
       } else {
         return <IframePdfViewer as="iframe" title="PDF" src={item.id} />;
       }

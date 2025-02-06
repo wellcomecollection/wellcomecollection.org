@@ -39,8 +39,7 @@ const ItemWrapper = styled.div`
   padding: 0;
 
   img,
-  .audio,
-  .video {
+  .item-wrapper {
     margin: auto;
     position: relative;
     top: 50%;
@@ -52,13 +51,14 @@ const ItemWrapper = styled.div`
     max-height: 95%;
   }
 
+  .pdf-wrapper,
   iframe {
     width: 100%;
     height: 100%;
     border: 0;
   }
 
-  .video {
+  .item-wrapper {
     video {
       width: 100%;
     }
