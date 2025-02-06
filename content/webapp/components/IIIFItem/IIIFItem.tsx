@@ -196,6 +196,14 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   const { userIsStaffWithRestricted } = useUser();
   const isRestricted = isItemRestricted(item);
   const shouldShowItem = isItemRestricted(item) && !userIsStaffWithRestricted;
+  // N.B. Restricted images are handled differently from restricted audio/video and text.
+  // The isItemRestricted function doesn't account for restricted images.
+  // Instead there is a hasRestrictedImage property on the TransformedCanvas which is used by
+  // the ItemRenderer in MainViewer to decide whether or not to display the image.
+  // This is ok as we only ever have one image to a canvas.
+  // Theoretically, a canvas could contain more than one image (e.g. a painting and an x-ray of the painting)
+  // Therefore we may want to handle images here in the same way as everything else.
+  // Doing so would also make things simpler to understand.
   switch (true) {
     case item.type === 'Choice' && !exclude.includes('Choice'):
       return (
