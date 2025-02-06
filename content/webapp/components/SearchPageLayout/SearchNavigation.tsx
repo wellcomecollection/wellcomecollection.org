@@ -3,6 +3,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { searchLabelText } from '@weco/common/data/microcopy';
+import { useToggles } from '@weco/common/server-data/Context';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import { capitalize } from '@weco/common/utils/grammar';
@@ -41,6 +42,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
   currentSearchCategory,
   currentQueryValue: queryValue,
 }) => {
+  const { allSearch } = useToggles();
   const router = useRouter();
 
   // Variable naming note:
@@ -121,7 +123,9 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
               searchLabelText[
                 currentSearchCategory !== 'overview'
                   ? currentSearchCategory
-                  : 'overview'
+                  : allSearch
+                    ? 'overviewAllSearch'
+                    : 'overview'
               ]
             }
             form={SEARCH_PAGES_FORM_ID}
