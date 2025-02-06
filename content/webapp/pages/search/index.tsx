@@ -386,6 +386,14 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                     </span>
                   </>
                 )}
+                <Space
+                  className="is-hidden-l is-hidden-xl"
+                  $v={{ size: 'l', properties: ['margin-bottom'] }}
+                >
+                  <h3 className={font('intsb', 4)}>
+                    Are you looking for our online collections?
+                  </h3>
+                </Space>
                 {catalogueResults.works && (
                   <>
                     <CatalogueSectionTitle sectionName="Catalogue results" />
