@@ -141,6 +141,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
 }) => {
   const { userIsStaffWithRestricted } = useUser();
   const isRestricted = isItemRestricted(item);
+  const shouldShowItem = isItemRestricted(item) && !userIsStaffWithRestricted;
   switch (true) {
     case item.type === 'Choice' && !exclude.includes('Choice'):
       return (
