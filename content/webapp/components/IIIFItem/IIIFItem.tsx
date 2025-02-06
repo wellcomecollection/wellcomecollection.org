@@ -30,6 +30,7 @@ import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iii
 import {
   getImageServiceFromItem,
   getLabelString,
+  isItemRestricted,
 } from '@weco/content/utils/iiif/v3';
 
 const IframePdfViewer = styled(Space)`
@@ -139,6 +140,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   setImageContainerRect,
 }) => {
   const { userIsStaffWithRestricted } = useUser();
+  const isRestricted = isItemRestricted(item);
   switch (true) {
     case item.type === 'Choice' && !exclude.includes('Choice'):
       return (
