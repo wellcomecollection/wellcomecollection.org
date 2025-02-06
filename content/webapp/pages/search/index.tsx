@@ -246,16 +246,17 @@ const ContentResults = styled.div`
 
 const CatalogueResults = styled(Space).attrs({
   $v: { size: 'xl', properties: ['margin-bottom'] },
-})`
+})<{ $fullWidth: boolean }>`
   grid-column: 1 / 13;
 
   ${props => props.theme.media('medium')`
     grid-column: 1 / 10;
   `}
 
-  ${props => props.theme.media('large')`
-    grid-column: 9 / 13;
-  `}
+  ${props =>
+    props.theme.media('large')(
+      `grid-column: ${props.$fullWidth ? '1 / 13' : '9 / 13'};`
+    )}
 `;
 
 const StoryPromoContainer = styled(Container)`
@@ -373,7 +374,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
             </p>
           </Container>
           <GridContainer>
-            <CatalogueResults>
+            <CatalogueResults $fullWidth={!contentResults?.totalResults}>
               <CatalogueResultsInner>
                 {!catalogueResults.works && !catalogueResults.images && (
                   <>
