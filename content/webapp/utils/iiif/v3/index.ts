@@ -328,6 +328,30 @@ function isImageRestricted(canvas: Canvas): boolean {
   );
 }
 
+function getAuthServicesArray(service) {
+  return service.map(s => {
+    if (s.type === 'AuthProbeService2') {
+      return s.service.find(service => service.type === 'AuthAccessService2');
+    } else if (s['@type'] === 'AuthCookieService1') {
+      return s;
+    } else {
+      return undefined;
+    }
+  });
+}
+
+export function isItemRestricted(painting): boolean {
+  if (isChoiceBody(painting)) return false;
+  const paintingsServices =
+    painting.service && getAuthServicesArray(painting.service);
+
+  return paintingsServices?.some(s => {
+    return restrictedAuthServiceUrls.some(
+      url => s?.['@id'] === url || s?.id === url
+    );
+  });
+}
+
 export function getRestrictedLoginService(
   manifest: Manifest | Collection
 ): AuthExternalService | undefined {
@@ -485,9 +509,6 @@ export function getDisplayData(
     .filter(Boolean) as (ChoiceBody | ContentResource)[];
 }
 export function transformCanvas(canvas: Canvas): TransformedCanvas {
-  const imageService = getImageServiceFromCanvas(canvas);
-  const imageServiceId = getImageServiceId(imageService);
-  const hasRestrictedImage = isImageRestricted(canvas);
   const label = getCanvasLabel(canvas);
   const textServiceId = getCanvasTextServiceId(canvas);
   const thumbnailImage = getThumbnailImage(canvas);
@@ -514,6 +535,10 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
     'supplementing'
   );
   const supplementing = supplementings.map(getDisplayData).flat();
+
+  const imageService = getImageServiceFromCanvas(canvas);
+  const imageServiceId = getImageServiceId(imageService);
+  const hasRestrictedImage = isImageRestricted(canvas);
 
   return {
     id,
