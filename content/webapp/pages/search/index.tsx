@@ -228,37 +228,33 @@ const CatalogueSectionTitle = ({ sectionName }: { sectionName: string }) => {
 
 const GridContainer = styled(Container)`
   display: grid;
-  grid-template-columns: [l-start] 9fr [l-end r-start] 3fr [r-end];
-
-  ${props => props.theme.media('large')`
-    grid-template-columns: [l-start] 6fr [l-end] 2fr [r-start] 4fr [r-end];
-  `}
+  grid-template-columns: repeat(12, 1fr);
 `;
 
 const ContentResults = styled.div`
-  grid-column: l-start / r-end;
+  grid-column: 1 / 13;
 
   ${props => props.theme.media('medium')`
-    grid-column: l-start / l-end;
+    grid-column: 1 / 10;
   `}
 
   ${props => props.theme.media('large')`
     grid-row: 1;
-    grid-column: l-start / l-end;
+    grid-column: 1 / 8;
   `}
 `;
 
 const CatalogueResults = styled(Space).attrs({
   $v: { size: 'xl', properties: ['margin-bottom'] },
 })`
-  grid-column: l-start / r-end;
+  grid-column: 1 / 13;
 
   ${props => props.theme.media('medium')`
-    grid-column: l-start / l-end;
+    grid-column: 1 / 10;
   `}
 
   ${props => props.theme.media('large')`
-    grid-column: r-start / r-end;
+    grid-column: 9 / 13;
   `}
 `;
 
