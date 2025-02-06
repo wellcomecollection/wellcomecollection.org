@@ -3,7 +3,7 @@ import {
   ContentResource,
   InternationalString,
 } from '@iiif/presentation-3';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { unavailableContentMessage } from '@weco/common/data/microcopy';
@@ -181,6 +181,31 @@ const StaffRestrictedMessage: FunctionComponent = () => {
     </p>
   );
 };
+
+const Wrapper: FunctionComponent<{
+  shouldShowItem: boolean;
+  className: string;
+  i: number;
+  canvas: TransformedCanvas;
+  isRestricted: boolean;
+  children: ReactNode | undefined;
+}> = ({ shouldShowItem, className, i, canvas, isRestricted, children }) => {
+  if (shouldShowItem) {
+    return (
+      <Outline className="item-wrapper">
+        <PublicRestrictedMessage canvas={canvas} i={i} />
+      </Outline>
+    );
+  } else {
+    return (
+      <Outline $border={isRestricted} className={className}>
+        {isRestricted && <StaffRestrictedMessage />}
+        {children}
+      </Outline>
+    );
+  }
+};
+
 // This component will be useful for the IIIFViewer if we want to make that render video, audio, pdfs and Born Digital files in addition to images.
 // Currently it is used on the work page to render Sound or Video
 // and on the /items page to render Sound, Video and Text (i.e. PDF)
@@ -222,66 +247,59 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
     case ((item.type === 'Sound' && !exclude.includes('Sound')) ||
       (item.type === 'Audio' && !exclude.includes('Audio'))) &&
       Boolean(item.id):
-      if (shouldShowItem) {
-        return (
-          <Outline className="item-wrapper">
-            <PublicRestrictedMessage canvas={canvas} i={i} />
-          </Outline>
-        );
-      } else {
-        return (
-          <Outline $border={isRestricted} className="item-wrapper">
-            {isRestricted && <StaffRestrictedMessage />}
-            <AudioPlayer
-              audioFile={item.id || ''}
-              title={(canvas.label !== '-' && canvas.label) || `${i + 1}`}
-            />
-          </Outline>
-        );
-      }
+      return (
+        <Wrapper
+          shouldShowItem={shouldShowItem}
+          className="item-wrapper"
+          i={i}
+          canvas={canvas}
+          isRestricted={isRestricted}
+        >
+          <AudioPlayer
+            audioFile={item.id || ''}
+            title={(canvas.label !== '-' && canvas.label) || `${i + 1}`}
+          />
+        </Wrapper>
+      );
     case item.type === 'Video' && !exclude.includes('Video'):
-      if (shouldShowItem) {
-        return (
-          <Outline className="item-wrapper">
-            <PublicRestrictedMessage canvas={canvas} i={i} />
-          </Outline>
-        );
-      } else {
-        return (
-          <Outline $border={isRestricted} className="item-wrapper">
-            {isRestricted && <StaffRestrictedMessage />}
+      return (
+        <Wrapper
+          shouldShowItem={shouldShowItem}
+          className="item-wrapper"
+          i={i}
+          canvas={canvas}
+          isRestricted={isRestricted}
+        >
+          <>
             <VideoPlayer
               placeholderId={placeholderId}
               video={item}
               showDownloadOptions={true}
             />
             <VideoTranscript supplementing={canvas.supplementing} />
-          </Outline>
-        );
-      }
+          </>
+        </Wrapper>
+      );
     case item.type === 'Text' && !exclude.includes('Text'):
       if ('label' in item) {
         const itemLabel = item.label
           ? getLabelString(item.label as InternationalString)
           : '';
-        if (shouldShowItem) {
-          return (
-            <Outline className="item-wrapper">
-              <PublicRestrictedMessage canvas={canvas} i={i} />
-            </Outline>
-          );
-        } else {
-          return (
-            <Outline $border={isRestricted} className="pdf-wrapper">
-              {isRestricted && <StaffRestrictedMessage />}
-              <IframePdfViewer
-                as="iframe"
-                title={`PDF: ${itemLabel}`}
-                src={item.id}
-              />
-            </Outline>
-          );
-        }
+        return (
+          <Wrapper
+            shouldShowItem={shouldShowItem}
+            className="pdf-wrapper"
+            i={i}
+            canvas={canvas}
+            isRestricted={isRestricted}
+          >
+            <IframePdfViewer
+              as="iframe"
+              title={`PDF: ${itemLabel}`}
+              src={item.id}
+            />
+          </Wrapper>
+        );
       } else {
         return <IframePdfViewer as="iframe" title="PDF" src={item.id} />;
       }
