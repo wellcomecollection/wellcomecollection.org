@@ -39,7 +39,7 @@ const ItemWrapper = styled.div`
   padding: 0;
 
   img,
-  figure,
+  .audio,
   .video {
     margin: auto;
     position: relative;
