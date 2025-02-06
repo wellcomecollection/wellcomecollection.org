@@ -7,7 +7,10 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { unavailableContentMessage } from '@weco/common/data/microcopy';
+import { information } from '@weco/common/icons';
+import { font } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import {
   ContaineredLayout,
   gridSize12,
@@ -40,6 +43,29 @@ const IframePdfViewer = styled(Space)`
   border: 0;
   margin-left: auto;
   margin-right: auto;
+`;
+
+const Outline = styled(Space).attrs({
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+})<{ $border?: boolean }>`
+  ${props =>
+    props.$border
+      ? `border: 1px solid; border-color:  ${props.theme.color('neutral.400')}`
+      : ``}
+`;
+
+const IconContainer = styled(Space).attrs({
+  $h: { size: 's', properties: ['margin-right'] },
+})`
+  .icon {
+    position: relative;
+    top: 1px;
+    border-radius: 50%;
+    border: 2px solid;
+    width: 22px;
+    height: 22px;
+  }
 `;
 
 const Choice: FunctionComponent<
@@ -127,6 +153,34 @@ type ItemProps = {
   setImageContainerRect?: (v: DOMRect) => void;
 };
 
+const PublicRestrictedMessage: FunctionComponent<{
+  canvas: TransformedCanvas;
+  i: number;
+}> = ({ canvas, i }) => {
+  return (
+    <div className="audio">
+      <Space
+        className={font('intb', 5)}
+        $v={{ size: 'm', properties: ['margin-bottom'] }}
+      >
+        {(canvas.label !== '-' && canvas.label) || `${i + 1}`}
+      </Space>
+      <p className={font('intr', 5)}>Access to this item is restricted.</p>
+    </div>
+  );
+};
+
+const StaffRestrictedMessage: FunctionComponent = () => {
+  return (
+    <p className={font('intr', 5)} style={{ display: 'inline-flex' }}>
+      <IconContainer>
+        <Icon icon={information} />
+      </IconContainer>
+      <span className={font('intb', 5)}>Restricted item:</span> &nbsp;Only staff
+      with the right permission can access this item online.
+    </p>
+  );
+};
 // This component will be useful for the IIIFViewer if we want to make that render video, audio, pdfs and Born Digital files in addition to images.
 // Currently it is used on the work page to render Sound or Video
 // and on the /items page to render Sound, Video and Text (i.e. PDF)
