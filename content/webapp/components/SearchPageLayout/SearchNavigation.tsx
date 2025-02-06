@@ -23,6 +23,11 @@ const SearchBarContainer = styled(Space)`
   `}
 `;
 
+const TabsBorder = styled.div<{ $visible?: boolean }>`
+  border-bottom: ${props =>
+    props.$visible ? `1px solid ${props.theme.color('neutral.300')}` : 'none'};
+`;
+
 type SearchNavigationProps = {
   currentSearchCategory: string;
   currentQueryValue: string;
@@ -133,39 +138,41 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
           />
         </SearchBarContainer>
       </form>
-      <Tabs
-        tabBehaviour="navigate"
-        hideBorder={currentSearchCategory === 'overview'}
-        label="Search Categories"
-        items={[
-          {
-            id: 'overview',
-            url: getURL('/search'),
-            text: 'All',
-          },
-          {
-            id: 'stories',
-            url: getURL('/search/stories'),
-            text: 'Stories',
-          },
-          {
-            id: 'images',
-            url: getURL('/search/images'),
-            text: 'Images',
-          },
-          {
-            id: 'works',
-            url: getURL('/search/works'),
-            text: 'Catalogue',
-          },
-          {
-            id: 'events',
-            url: getURL('/search/events'),
-            text: 'Events',
-          },
-        ]}
-        currentSection={currentSearchCategory}
-      />
+      <TabsBorder $visible={allSearch}>
+        <Tabs
+          tabBehaviour="navigate"
+          hideBorder={allSearch || currentSearchCategory === 'overview'}
+          label="Search Categories"
+          items={[
+            {
+              id: 'overview',
+              url: getURL('/search'),
+              text: 'All',
+            },
+            {
+              id: 'stories',
+              url: getURL('/search/stories'),
+              text: 'Stories',
+            },
+            {
+              id: 'images',
+              url: getURL('/search/images'),
+              text: 'Images',
+            },
+            {
+              id: 'works',
+              url: getURL('/search/works'),
+              text: 'Catalogue',
+            },
+            {
+              id: 'events',
+              url: getURL('/search/events'),
+              text: 'Events',
+            },
+          ]}
+          currentSection={currentSearchCategory}
+        />
+      </TabsBorder>
     </>
   );
 };
