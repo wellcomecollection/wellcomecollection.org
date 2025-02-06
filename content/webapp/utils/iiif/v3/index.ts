@@ -303,6 +303,7 @@ export function getClickThroughService(
 const restrictedAuthServiceUrls = [
   'https://iiif.wellcomecollection.org/auth/restrictedlogin',
   'https://iiif-test.wellcomecollection.org/auth/restrictedlogin',
+  'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin',
 ];
 
 // The image services can contain auth v1 and auth v2 services, or just auth v1 services
