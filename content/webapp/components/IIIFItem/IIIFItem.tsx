@@ -13,6 +13,7 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
 import BetaMessage from '@weco/content/components/BetaMessage/BetaMessage';
 import ImageViewer from '@weco/content/components/IIIFViewer/ImageViewer';
@@ -137,6 +138,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   setImageRect,
   setImageContainerRect,
 }) => {
+  const { userIsStaffWithRestricted } = useUser();
   switch (true) {
     case item.type === 'Choice' && !exclude.includes('Choice'):
       return (
