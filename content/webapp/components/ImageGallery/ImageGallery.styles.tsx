@@ -124,7 +124,8 @@ export const Gallery = styled.div<GalleryProps>`
 
   .close {
     transform: translateX(calc((100vw - 100%) / 2));
-    position: relative;
+    position: sticky;
+    top: 18px;
     z-index: 3;
     pointer-events: all;
   }

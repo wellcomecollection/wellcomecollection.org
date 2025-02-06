@@ -39,7 +39,10 @@ type Props = {
 };
 
 const Wrapper = styled.div<{ $isCreamy: boolean }>`
-  overflow: auto;
+  /* This (display: flow-root) prevents unwanted margin collapsing which would
+  otherwise cause white spaces at the bottom of the story pages */
+  display: flow-root;
+
   ${props =>
     props.$isCreamy &&
     `background-color: ${props.theme.color('warmNeutral.300')}`};
