@@ -651,7 +651,7 @@ const eventsInterpretationFilter = ({
   return {
     type: 'checkbox',
     id: 'interpretation',
-    label: 'Access type',
+    label: 'Access types',
     options: filterOptionsWithNonAggregates({
       options: events?.aggregations?.interpretation?.buckets.map(bucket => {
         return {
