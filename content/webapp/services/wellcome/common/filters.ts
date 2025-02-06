@@ -644,6 +644,29 @@ const eventsLocationFilter = ({
   }),
 });
 
+const eventsInterpretationFilter = ({
+  events,
+  props,
+}: EventsFilterProps): CheckboxFilter<keyof EventsProps> => {
+  return {
+    type: 'checkbox',
+    id: 'interpretation',
+    label: 'Access type',
+    options: filterOptionsWithNonAggregates({
+      options: events?.aggregations?.interpretation?.buckets.map(bucket => {
+        return {
+          id: `access-${bucket.data.id}`,
+          value: bucket.data.id,
+          count: bucket.count,
+          label: bucket.data.label,
+          selected: props.interpretation.includes(bucket.data.id),
+        };
+      }),
+      selectedValues: props.interpretation,
+    }),
+  };
+};
+
 const eventsIsAvailableOnlineFilter = ({
   events,
   props,
@@ -659,30 +682,6 @@ const eventsIsAvailableOnlineFilter = ({
     isSelected: !!props.isAvailableOnline,
   };
 };
-
-// TODO re-add when https://github.com/wellcomecollection/content-api/issues/106 is done
-// const eventsInterpretationFilter = ({
-//   events,
-//   props,
-// }: EventsFilterProps): CheckboxFilter<keyof EventsProps> => {
-//   return {
-//     type: 'checkbox',
-//     id: 'interpretation',
-//     label: 'Accessibility',
-//     options: filterOptionsWithNonAggregates({
-//       options: events?.aggregations?.interpretation?.buckets.map(bucket => {
-//         return {
-//           id: `a11y-${bucket.data.id}`,
-//           value: bucket.data.id,
-//           count: bucket.count,
-//           label: bucket.data.label,
-//           selected: props.interpretation.includes(bucket.data.id),
-//         };
-//       }),
-//       selectedValues: props.interpretation,
-//     }),
-//   };
-// };
 
 const imagesFilters: (props: ImagesFilterProps) => Filter[] = props =>
   [
@@ -721,8 +720,7 @@ const eventsFilters: (
     eventsAudienceFilter,
     eventsLocationFilter,
     eventsIsAvailableOnlineFilter,
-    // TODO re-add when https://github.com/wellcomecollection/content-api/issues/106 is done
-    // eventsInterpretationFilter
+    eventsInterpretationFilter,
   ].map(f => f(props));
 
 export { worksFilters, imagesFilters, storiesFilters, eventsFilters };
