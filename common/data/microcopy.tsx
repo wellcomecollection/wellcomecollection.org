@@ -162,6 +162,7 @@ export const pastExhibitionsStrapline =
 // This is the label used in the search box, both for the
 // search in the global nav and on the categories in wc.org/search
 export const searchLabelText = {
+  overviewAllSearch: 'Search for anything',
   overview: 'Search our stories, images, catalogue and events',
   stories: 'Search for stories',
   images: 'Search for images',
