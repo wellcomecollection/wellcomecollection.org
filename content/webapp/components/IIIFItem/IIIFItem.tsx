@@ -214,12 +214,23 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
     case ((item.type === 'Sound' && !exclude.includes('Sound')) ||
       (item.type === 'Audio' && !exclude.includes('Audio'))) &&
       Boolean(item.id):
-      return (
-        <AudioPlayer
-          audioFile={item.id || ''}
-          title={(canvas.label !== '-' && canvas.label) || `${i + 1}`}
-        />
-      );
+      if (shouldShowItem) {
+        return (
+          <Outline className="audio">
+            <PublicRestrictedMessage canvas={canvas} i={i} />
+          </Outline>
+        );
+      } else {
+        return (
+          <Outline $border={isRestricted} className="audio">
+            {isRestricted && <StaffRestrictedMessage />}
+            <AudioPlayer
+              audioFile={item.id || ''}
+              title={(canvas.label !== '-' && canvas.label) || `${i + 1}`}
+            />
+          </Outline>
+        );
+      }
     case item.type === 'Video' && !exclude.includes('Video'):
       return (
         <div className="video">
