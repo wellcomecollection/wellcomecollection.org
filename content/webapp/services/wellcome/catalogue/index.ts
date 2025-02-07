@@ -8,15 +8,10 @@ import {
 import {
   globalApiOptions,
   QueryProps,
+  rootUris,
   WellcomeApiError,
   wellcomeApiQuery,
 } from '..';
-
-export const rootUris = {
-  prod: 'https://api.wellcomecollection.org/catalogue',
-  stage: 'https://api-stage.wellcomecollection.org/catalogue',
-  dev: 'https://api-dev.wellcomecollection.org/catalogue',
-};
 
 export const notFound = (): WellcomeApiError => ({
   errorType: 'http',
@@ -40,7 +35,7 @@ export async function catalogueQuery<Params, Result extends ResultType>(
     propsToQuery(extendedParams)
   ).toString();
 
-  const url = `${rootUris[apiOptions.env]}/v2/${endpoint}?${searchParams}`;
+  const url = `${rootUris[apiOptions.env.catalogue]}/catalogue/v2/${endpoint}?${searchParams}`;
 
   return wellcomeApiQuery(url) as unknown as
     | CatalogueResultsList<Result>

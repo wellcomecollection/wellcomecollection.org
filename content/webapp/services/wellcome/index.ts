@@ -5,16 +5,48 @@ import { Toggles } from '@weco/toggles';
 
 type envOptions = 'prod' | 'stage' | 'dev';
 
-const API_ENV_OVERRIDE = process.env.NEXT_PUBLIC_API_ENV_OVERRIDE as envOptions;
+const DEFAULT_API_ENV_OVERRIDE = process.env
+  .NEXT_PUBLIC_API_ENV_OVERRIDE as envOptions;
+const CONTENT_API_ENV_OVERRIDE = process.env
+  .NEXT_PUBLIC_CONTENT_API_ENV_OVERRIDE as envOptions;
+const CONCEPTS_API_ENV_OVERRIDE = process.env
+  .NEXT_PUBLIC_CONCEPTS_API_ENV_OVERRIDE as envOptions;
+const CATALOGUE_API_ENV_OVERRIDE = process.env
+  .NEXT_PUBLIC_CATALOGUE_API_ENV_OVERRIDE as envOptions;
+
+export const rootUris = {
+  prod: 'https://api.wellcomecollection.org',
+  stage: 'https://api-stage.wellcomecollection.org',
+  dev: 'https://api-dev.wellcomecollection.org',
+};
+
+type ApiEnvOptions = {
+  catalogue: envOptions;
+  concepts: envOptions;
+  content: envOptions;
+};
 
 export type GlobalApiOptions = {
-  env: envOptions;
+  env: ApiEnvOptions;
   index?: string;
 };
 
-export const globalApiOptions = (toggles?: Toggles): GlobalApiOptions => ({
-  env: API_ENV_OVERRIDE ?? (toggles?.stagingApi?.value ? 'stage' : 'prod'),
-});
+export const globalApiOptions = (toggles?: Toggles): GlobalApiOptions => {
+  const toggleDefinedApiOption =
+    DEFAULT_API_ENV_OVERRIDE || (toggles?.stagingApi?.value ? 'stage' : 'prod');
+
+  const apiConfig = {
+    env: {
+      catalogue: CATALOGUE_API_ENV_OVERRIDE ?? toggleDefinedApiOption,
+      concepts: CONCEPTS_API_ENV_OVERRIDE ?? toggleDefinedApiOption,
+      content: CONTENT_API_ENV_OVERRIDE ?? toggleDefinedApiOption,
+    },
+  };
+
+  console.log('API Configuration:', apiConfig);
+
+  return apiConfig;
+};
 
 // Used as a helper to return a typesafe empty results list
 export const emptyResultList = <

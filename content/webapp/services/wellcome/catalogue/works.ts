@@ -7,14 +7,15 @@ import {
 import {
   globalApiOptions,
   QueryProps,
-  WellcomeApiError,
+  rootUris,
   wellcomeApiError,
+  WellcomeApiError,
   wellcomeApiFetch,
 } from '@weco/content/services/wellcome';
 import { toIsoDateString } from '@weco/content/services/wellcome/catalogue/index';
 import { Toggles } from '@weco/toggles';
 
-import { catalogueQuery, looksLikeCanonicalId, notFound, rootUris } from '.';
+import { catalogueQuery, looksLikeCanonicalId, notFound } from '.';
 import {
   CatalogueApiRedirect,
   CatalogueResultsList,
@@ -117,7 +118,7 @@ export async function getWork({
   };
 
   const searchParams = new URLSearchParams(propsToQuery(params)).toString();
-  const url = `${rootUris[apiOptions.env]}/v2/works/${id}?${searchParams}`;
+  const url = `${rootUris[apiOptions.env.catalogue]}/catalogue/v2/works/${id}?${searchParams}`;
 
   const res = await wellcomeApiFetch(url, { redirect: 'manual' });
 
