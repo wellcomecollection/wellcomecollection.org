@@ -19,10 +19,6 @@ services:
       dockerfile: identity/Dockerfile
       args:
         - NEXT_PUBLIC_CIVICUK_API_KEY
-  dash:
-    build:
-      context: .
-      dockerfile: dash/Dockerfile
   edge_lambdas:
     build:
       context: .
