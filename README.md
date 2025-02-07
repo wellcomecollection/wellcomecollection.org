@@ -64,7 +64,7 @@ To run the app using a local copy of the concept, content, and/or catalogue APIs
 yarn config-local-apis
 ```
 
-Configure the content & identity app to use the local APIs under https:///api-dev.wellcomecollection.org/ 
+Configure the content & identity app to use the local APIs under `https://api-dev.wellcomecollection.org/`
 by adding the following to the `.env` file in both `./content/webapp` and `./identity/webapp`:
 
 ```

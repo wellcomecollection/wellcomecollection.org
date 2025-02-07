@@ -3,15 +3,13 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getTogglesFromContext } from '@weco/common/server-data/toggles';
 import { isString, isUndefined } from '@weco/common/utils/type-guards';
 import {
-  GlobalApiOptions,
   globalApiOptions,
-  wellcomeApiError,
-  WellcomeApiError,
-} from '@weco/content/services/wellcome';
-import {
-  looksLikeCanonicalId,
+  GlobalApiOptions,
   rootUris,
-} from '@weco/content/services/wellcome/catalogue';
+  WellcomeApiError,
+  wellcomeApiError,
+} from '@weco/content/services/wellcome';
+import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { ItemsList } from '@weco/content/services/wellcome/catalogue/types';
 import { Toggles, TogglesResp } from '@weco/toggles';
 
@@ -21,7 +19,7 @@ function getApiUrl(apiOptions: GlobalApiOptions, workId: string): string {
 
 function getApiKey(apiOptions: GlobalApiOptions): string {
   const key =
-    apiOptions.env === 'stage'
+    apiOptions.env.catalogue === 'stage'
       ? process.env.items_api_key_stage
       : process.env.items_api_key_prod;
 

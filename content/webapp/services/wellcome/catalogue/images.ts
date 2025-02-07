@@ -7,14 +7,15 @@ import {
 import {
   globalApiOptions,
   QueryProps,
-  WellcomeApiError,
+  rootUris,
   wellcomeApiError,
+  WellcomeApiError,
   wellcomeApiFetch,
 } from '@weco/content/services/wellcome';
 import { toIsoDateString } from '@weco/content/services/wellcome/catalogue/index';
 import { Toggles } from '@weco/toggles';
 
-import { catalogueQuery, looksLikeCanonicalId, notFound, rootUris } from '.';
+import { catalogueQuery, looksLikeCanonicalId, notFound } from '.';
 import { CatalogueImagesApiProps, CatalogueResultsList, Image } from './types';
 
 type ImageInclude =
