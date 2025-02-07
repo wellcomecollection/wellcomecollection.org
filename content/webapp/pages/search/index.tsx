@@ -606,6 +606,8 @@ export const SearchPage: NextPageWithLayout<Props> = ({
     };
     setLink(link);
     if (allSearch) {
+      setClientSideWorkTypes(undefined);
+      setClientSideImages(undefined);
       fetchWorks();
       fetchImages();
     }
