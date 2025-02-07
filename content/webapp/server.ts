@@ -6,11 +6,11 @@ const port = process.env.PORT ?? 3000;
 
 const serverPromise = appPromise.then(app => {
   const server = app.listen(port, () => {
-    console.log(
-      `> ${
-        process.env.NODE_ENV || 'development'
-      } ready on https://www-dev.wellcomecollection.org`
-    );
+    const inDev = process.env.NODE_ENV === 'development';
+    const devMessage =
+      '(NODE_ENV === development, also try https://www-dev.wellcomecollection.org)';
+
+    console.log(`> ready on localhost:${port} ${inDev ? devMessage : ''}`);
   });
 
   // We exit gracefully when we can.

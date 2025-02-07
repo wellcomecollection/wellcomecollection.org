@@ -16,7 +16,7 @@ import { ItemsList } from '@weco/content/services/wellcome/catalogue/types';
 import { Toggles, TogglesResp } from '@weco/toggles';
 
 function getApiUrl(apiOptions: GlobalApiOptions, workId: string): string {
-  return `${rootUris[apiOptions.env]}/v2/works/${workId}/items`;
+  return `${rootUris[apiOptions.env.catalogue]}/v2/works/${workId}/items`;
 }
 
 function getApiKey(apiOptions: GlobalApiOptions): string {

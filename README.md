@@ -64,26 +64,51 @@ To run the app using a local copy of the concept, content, and/or catalogue APIs
 yarn config-local-apis
 ```
 
-Configure the content app to use the local APIs under https:///api-dev.wellcomecollection.org/ by adding the following to the `.env` file in `./content`:
+Configure the content & identity app to use the local APIs under https:///api-dev.wellcomecollection.org/ 
+by adding the following to the `.env` file in both `./content/webapp` and `./identity/webapp`:
 
 ```
 NEXT_PUBLIC_API_ENV_OVERRIDE="dev"
 ```
 
-This will configure local version of nginx to proxy requests to the local APIs, 
+This will configure the local version of nginx to proxy requests to the local APIs, 
 see [scripts/configure-local-apis](./scripts/configure-local-apis) for more information.
 
-### Running the app with local Identity
 
-Currently the identity app is not included in the local APIs configuration, so you will need to run it separately. In order to run `content` & `identity` together, you will need to run the following commands in different terminal windows while **not** using the local APIs configuration:
+#### Choosing specific APIs
 
-```bash
-yarn content
+You can choose which APIs the content app uses locally by setting the following environment variables in the `.env` file:
+
+```
+NEXT_PUBLIC_CONTENT_API_ENV_OVERRIDE="dev"
+NEXT_PUBLIC_CONCEPTS_API_ENV_OVERRIDE="stage"
+NEXT_PUBLIC_CATALOGUE_API_ENV_OVERRIDE="prod"
 ```
 
+API environment is specified in the following order of precedence:
+
+1. `toggles?.stagingApi` is unset, all APIs are set to `prod`
+1. `toggles?.stagingApi` is true, then all APIs are set to `stage`
+1. `NEXT_PUBLIC_API_ENV_OVERRIDE` is set, then all APIs are set to the value of `NEXT_PUBLIC_API_ENV_OVERRIDE`
+1. `NEXT_PUBLIC_CONTENT_API_ENV_OVERRIDE`, `NEXT_PUBLIC_CONCEPTS_API_ENV_OVERRIDE`, or `NEXT_PUBLIC_CATALOGUE_API_ENV_OVERRIDE` are set, then the respective API is set to the value of the environment variable.
+
+#### Using www-dev.wellcomecollection.org
+
+Adding the local API confguration allows you to use the `www-dev.wellcomecollection.org` domain to access the website on your local machine.
+
+This allows content and identity to behave correctly when running locally, as paths between the two apps are relative to the domain.
+
+**Note:** [Fast refresh](https://nextjs.org/docs/architecture/fast-refresh) is not available when using the `www-dev.wellcomecollection.org` domain.
+
+### Running content & identity together
+
+You can run both apps together with the following command:
+
 ```bash
-yarn identity
+(yarn content & yarn identity)
 ```
+
+**Note:** both apps should have the same `NEXT_PUBLIC_API_ENV_OVERRIDE` value in their `.env` files.
 
 ### Running CI steps locally
 
