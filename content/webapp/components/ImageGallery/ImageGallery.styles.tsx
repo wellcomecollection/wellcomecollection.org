@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-import { classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const FrameGridWrap = styled(Space).attrs({
@@ -189,16 +188,12 @@ export const ButtonContainer = styled.div<ButtonContainerProps>`
 `;
 
 type ControlContainerProps = { $isActive: boolean };
-export const ControlContainer = styled(Space).attrs<ControlContainerProps>(
-  props => ({
-    className: classNames({
-      close: true,
-      'is-hidden': !props.$isActive,
-    }),
-    $v: { size: 'm', properties: ['padding-bottom'] },
-    $h: { size: 'l', properties: ['margin-right'] },
-  })
-)<ControlContainerProps>`
+export const ControlContainer = styled(Space).attrs({
+  className: 'close',
+  $v: { size: 'm', properties: ['padding-bottom'] },
+  $h: { size: 'l', properties: ['margin-right'] },
+})<ControlContainerProps>`
+  opacity: ${props => (props.$isActive ? 1 : 0)};
   display: flex;
   justify-content: flex-end;
 `;
