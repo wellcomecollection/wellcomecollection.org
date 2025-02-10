@@ -11,6 +11,7 @@ export { default as audioDescribed } from './components/AudioDescribed';
 export { default as book } from './components/Book';
 export { default as bookmark } from './components/Bookmark';
 export { default as britishSignLanguageLive } from './components/BritishSignLanguageLive';
+export { default as britishSignLanguageTranslation } from './components/BritishSignLanguageTranslation';
 export { default as calendar } from './components/Calendar';
 export { default as calendarAdded } from './components/CalendarAdded';
 export { default as cc } from './components/Cc';
