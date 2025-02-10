@@ -196,3 +196,13 @@ export const bornDigitalMessage = (
     </p>
   </>
 );
+
+export const restrictedItemMessage = (
+  <>
+    This item is unavailable online. Email{' '}
+    <a href="mailto:collections@wellcomecollection.org">
+      collections@wellcomecollection.org
+    </a>{' '}
+    to request access to the full version.
+  </>
+);

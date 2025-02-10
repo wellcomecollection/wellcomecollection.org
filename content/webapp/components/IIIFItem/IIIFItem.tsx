@@ -6,7 +6,10 @@ import {
 import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { unavailableContentMessage } from '@weco/common/data/microcopy';
+import {
+  restrictedItemMessage,
+  unavailableContentMessage,
+} from '@weco/common/data/microcopy';
 import { information } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -165,7 +168,7 @@ const PublicRestrictedMessage: FunctionComponent<{
       >
         {(canvas.label !== '-' && canvas.label) || `${i + 1}`}
       </Space>
-      <p className={font('intr', 5)}>Access to this item is restricted.</p>
+      <p className={font('intr', 5)}>{restrictedItemMessage}</p>
     </div>
   );
 };
