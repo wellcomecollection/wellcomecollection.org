@@ -2,18 +2,13 @@ import { propsToQuery } from '@weco/common/utils/routes';
 import {
   globalApiOptions,
   QueryProps,
+  rootUris,
   WellcomeApiError,
   wellcomeApiQuery,
 } from '@weco/content/services/wellcome';
 import { Toggles } from '@weco/toggles';
 
 import { ContentResultsList, ResultType } from './types/api';
-
-const rootUris = {
-  prod: 'https://api.wellcomecollection.org/content',
-  stage: 'https://api-stage.wellcomecollection.org/content',
-  dev: 'https://api-dev.wellcomecollection.org/content',
-};
 
 export async function contentListQuery<Params, Result extends ResultType>(
   endpoint: string,
@@ -29,7 +24,7 @@ export async function contentListQuery<Params, Result extends ResultType>(
     propsToQuery(extendedParams)
   ).toString();
 
-  const url = `${rootUris[apiOptions.env]}/v0/${endpoint}?${searchParams}`;
+  const url = `${rootUris[apiOptions.env.content]}/content/v0/${endpoint}?${searchParams}`;
 
   return wellcomeApiQuery(url) as unknown as
     | ContentResultsList<Result>
@@ -42,7 +37,7 @@ export async function contentDocumentQuery<Result extends ResultType>(
 ): Promise<Result | WellcomeApiError> {
   const apiOptions = globalApiOptions(toggles);
 
-  const url = `${rootUris[apiOptions.env]}/v0/${endpoint}`;
+  const url = `${rootUris[apiOptions.env.content]}/content/v0/${endpoint}`;
 
   return wellcomeApiQuery(url) as unknown as Result | WellcomeApiError;
 }

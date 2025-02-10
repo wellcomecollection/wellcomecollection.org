@@ -1,13 +1,14 @@
 import {
   globalApiOptions,
   QueryProps,
-  WellcomeApiError,
+  rootUris,
   wellcomeApiError,
+  WellcomeApiError,
   wellcomeApiFetch,
 } from '@weco/content/services/wellcome/';
 import { Toggles } from '@weco/toggles';
 
-import { catalogueQuery, looksLikeCanonicalId, notFound, rootUris } from '.';
+import { catalogueQuery, looksLikeCanonicalId, notFound } from '.';
 import {
   CatalogueConceptsApiProps,
   CatalogueResultsList,
@@ -31,7 +32,7 @@ export async function getConcept({
 
   const apiOptions = globalApiOptions(toggles);
 
-  const url = `${rootUris[apiOptions.env]}/v2/concepts/${id}`;
+  const url = `${rootUris[apiOptions.env.concepts]}/catalogue/v2/concepts/${id}`;
 
   const res = await wellcomeApiFetch(url, { redirect: 'manual' });
 
