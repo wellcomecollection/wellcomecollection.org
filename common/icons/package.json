@@ -4,7 +4,7 @@
   "license": "MIT",
   "sideEffects": false,
   "scripts": {
-    "compile": "yarn run-svgr && yarn move-index",
+    "compile": "rm ./components/* && yarn run-svgr && yarn move-index",
     "move-index": "mv components/index.ts ./index.ts",
     "run-svgr": "svgr svgs --out-dir components --typescript --template template.js --index-template index-template.js"
   },
