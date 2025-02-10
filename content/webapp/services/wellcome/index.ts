@@ -43,8 +43,6 @@ export const globalApiOptions = (toggles?: Toggles): GlobalApiOptions => {
     },
   };
 
-  console.log('API Configuration:', apiConfig);
-
   return apiConfig;
 };
 
