@@ -8,7 +8,7 @@ const serverPromise = appPromise.then(app => {
   const server = app.listen(port, () => {
     const inDev = process.env.NODE_ENV === 'development';
     const devMessage =
-      '(NODE_ENV === development, also try https://www-dev.wellcomecollection.org)';
+      '(NODE_ENV === development, also try https://www-dev.wellcomecollection.org )';
 
     console.log(`> ready on localhost:${port} ${inDev ? devMessage : ''}`);
   });
