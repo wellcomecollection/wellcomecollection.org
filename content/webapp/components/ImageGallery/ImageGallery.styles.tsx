@@ -178,21 +178,28 @@ export const WobblyEdgeWrapper = styled.div`
 `;
 
 type ButtonContainerProps = { $isHidden: boolean };
-export const ButtonContainer = styled.div<ButtonContainerProps>`
-  display: ${props => (props.$isHidden ? 'none' : 'block')};
+export const ButtonContainer = styled.div.attrs<ButtonContainerProps>(
+  props => ({
+    'aria-hidden': props.$isHidden,
+  })
+)<ButtonContainerProps>`
   position: absolute;
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%) translateY(50%);
   z-index: 2;
+  opacity: ${props => (props.$isHidden ? 0 : 1)};
 `;
 
 type ControlContainerProps = { $isActive: boolean };
-export const ControlContainer = styled(Space).attrs({
-  className: 'close',
-  $v: { size: 'm', properties: ['padding-bottom'] },
-  $h: { size: 'l', properties: ['margin-right'] },
-})<ControlContainerProps>`
+export const ControlContainer = styled(Space).attrs<{ $isActive: boolean }>(
+  props => ({
+    'aria-hidden': !props.$isActive,
+    className: 'close',
+    $v: { size: 'm', properties: ['padding-bottom'] },
+    $h: { size: 'l', properties: ['margin-right'] },
+  })
+)<ControlContainerProps>`
   opacity: ${props => (props.$isActive ? 1 : 0)};
   display: flex;
   justify-content: flex-end;

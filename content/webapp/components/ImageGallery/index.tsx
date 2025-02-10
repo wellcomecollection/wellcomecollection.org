@@ -105,6 +105,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
   function handleCloseClicked() {
     if (openButtonRef.current) {
       openButtonRef.current.tabIndex = 0;
+      openButtonRef.current.focus();
       setIsActive(false);
 
       if (headingRef.current) {
