@@ -192,7 +192,7 @@ export const ButtonContainer = styled.div.attrs<ButtonContainerProps>(
 `;
 
 type ControlContainerProps = { $isActive: boolean };
-export const ControlContainer = styled(Space).attrs<{ $isActive: boolean }>(
+export const ControlContainer = styled(Space).attrs<ControlContainerProps>(
   props => ({
     'aria-hidden': !props.$isActive,
     className: 'close',
