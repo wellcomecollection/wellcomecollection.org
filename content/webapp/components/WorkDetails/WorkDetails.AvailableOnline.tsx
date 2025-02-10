@@ -303,6 +303,7 @@ const WorkDetailsAvailableOnline = ({
   const [tabbableId, setTabbableId] = useState<string>();
   const [archiveTree, setArchiveTree] = useState<UiTree>([]);
   const allOriginalPdfs = isAllOriginalPdfs(canvases || []);
+  const clickThroughService = authServices?.active;
 
   useEffect(() => {
     const downloads = createDownloadTree(structures, canvases);
@@ -326,10 +327,12 @@ const WorkDetailsAvailableOnline = ({
       headingText={`Available ${isBornDigital ? 'to download' : 'online'}`}
     >
       <ConditionalWrapper
-        condition={Boolean(tokenService && !shouldShowItemLink)}
+        condition={Boolean(
+          tokenService && clickThroughService && !shouldShowItemLink
+        )}
         wrapper={children => (
           <IIIFClickthrough
-            clickThroughService={authServices?.active}
+            clickThroughService={clickThroughService}
             tokenService={tokenService || ''}
             origin={origin}
           >

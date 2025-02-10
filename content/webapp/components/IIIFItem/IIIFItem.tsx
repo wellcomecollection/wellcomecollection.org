@@ -3,16 +3,23 @@ import {
   ContentResource,
   InternationalString,
 } from '@iiif/presentation-3';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { unavailableContentMessage } from '@weco/common/data/microcopy';
+import {
+  restrictedItemMessage,
+  unavailableContentMessage,
+} from '@weco/common/data/microcopy';
+import { information } from '@weco/common/icons';
+import { font } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
 import BetaMessage from '@weco/content/components/BetaMessage/BetaMessage';
 import ImageViewer from '@weco/content/components/IIIFViewer/ImageViewer';
@@ -29,15 +36,39 @@ import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iii
 import {
   getImageServiceFromItem,
   getLabelString,
+  isItemRestricted,
 } from '@weco/content/utils/iiif/v3';
 
 const IframePdfViewer = styled(Space)`
-  width: 90vw;
+  width: 100%;
   height: 90vh;
   display: block;
   border: 0;
   margin-left: auto;
   margin-right: auto;
+`;
+
+const Outline = styled(Space).attrs({
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+})<{ $border?: boolean }>`
+  ${props =>
+    props.$border
+      ? `border: 1px solid; border-color:  ${props.theme.color('neutral.400')}`
+      : ``}
+`;
+
+const IconContainer = styled(Space).attrs({
+  $h: { size: 's', properties: ['margin-right'] },
+})`
+  .icon {
+    position: relative;
+    top: 1px;
+    border-radius: 50%;
+    border: 2px solid;
+    width: 22px;
+    height: 22px;
+  }
 `;
 
 const Choice: FunctionComponent<
@@ -125,6 +156,59 @@ type ItemProps = {
   setImageContainerRect?: (v: DOMRect) => void;
 };
 
+const PublicRestrictedMessage: FunctionComponent<{
+  canvas: TransformedCanvas;
+  i: number;
+}> = ({ canvas, i }) => {
+  return (
+    <div className="audio">
+      <Space
+        className={font('intb', 5)}
+        $v={{ size: 'm', properties: ['margin-bottom'] }}
+      >
+        {(canvas.label !== '-' && canvas.label) || `${i + 1}`}
+      </Space>
+      <p className={font('intr', 5)}>{restrictedItemMessage}</p>
+    </div>
+  );
+};
+
+const StaffRestrictedMessage: FunctionComponent = () => {
+  return (
+    <p className={font('intr', 5)} style={{ display: 'flex' }}>
+      <IconContainer>
+        <Icon icon={information} />
+      </IconContainer>
+      <span className={font('intb', 5)}>Restricted item:</span> &nbsp;Only staff
+      with the right permission can access this item online.
+    </p>
+  );
+};
+
+const Wrapper: FunctionComponent<{
+  shouldShowItem: boolean;
+  className: string;
+  i: number;
+  canvas: TransformedCanvas;
+  isRestricted: boolean;
+  children: ReactNode | undefined;
+}> = ({ shouldShowItem, className, i, canvas, isRestricted, children }) => {
+  if (shouldShowItem) {
+    return (
+      <Outline className="item-wrapper">
+        <PublicRestrictedMessage canvas={canvas} i={i} />
+      </Outline>
+    );
+  } else {
+    return (
+      <Outline $border={isRestricted} className={className}>
+        {isRestricted && <StaffRestrictedMessage />}
+        {children}
+      </Outline>
+    );
+  }
+};
+
 // This component will be useful for the IIIFViewer if we want to make that render video, audio, pdfs and Born Digital files in addition to images.
 // Currently it is used on the work page to render Sound or Video
 // and on the /items page to render Sound, Video and Text (i.e. PDF)
@@ -137,6 +221,17 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   setImageRect,
   setImageContainerRect,
 }) => {
+  const { userIsStaffWithRestricted } = useUser();
+  const isRestricted = isItemRestricted(item);
+  const shouldShowItem = isItemRestricted(item) && !userIsStaffWithRestricted;
+  // N.B. Restricted images are handled differently from restricted audio/video and text.
+  // The isItemRestricted function doesn't account for restricted images.
+  // Instead there is a hasRestrictedImage property on the TransformedCanvas which is used by
+  // the ItemRenderer in MainViewer to decide whether or not to display the image.
+  // This is ok as we only ever have one image to a canvas.
+  // Theoretically, a canvas could contain more than one image (e.g. a painting and an x-ray of the painting)
+  // Therefore we may want to handle images here in the same way as everything else.
+  // Doing so would also make things simpler to understand.
   switch (true) {
     case item.type === 'Choice' && !exclude.includes('Choice'):
       return (
@@ -156,21 +251,37 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       (item.type === 'Audio' && !exclude.includes('Audio'))) &&
       Boolean(item.id):
       return (
-        <AudioPlayer
-          audioFile={item.id || ''}
-          title={(canvas.label !== '-' && canvas.label) || `${i + 1}`}
-        />
+        <Wrapper
+          shouldShowItem={shouldShowItem}
+          className="item-wrapper"
+          i={i}
+          canvas={canvas}
+          isRestricted={isRestricted}
+        >
+          <AudioPlayer
+            audioFile={item.id || ''}
+            title={(canvas.label !== '-' && canvas.label) || `${i + 1}`}
+          />
+        </Wrapper>
       );
     case item.type === 'Video' && !exclude.includes('Video'):
       return (
-        <div className="video">
-          <VideoPlayer
-            placeholderId={placeholderId}
-            video={item}
-            showDownloadOptions={true}
-          />
-          <VideoTranscript supplementing={canvas.supplementing} />
-        </div>
+        <Wrapper
+          shouldShowItem={shouldShowItem}
+          className="item-wrapper"
+          i={i}
+          canvas={canvas}
+          isRestricted={isRestricted}
+        >
+          <>
+            <VideoPlayer
+              placeholderId={placeholderId}
+              video={item}
+              showDownloadOptions={true}
+            />
+            <VideoTranscript supplementing={canvas.supplementing} />
+          </>
+        </Wrapper>
       );
     case item.type === 'Text' && !exclude.includes('Text'):
       if ('label' in item) {
@@ -178,11 +289,19 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           ? getLabelString(item.label as InternationalString)
           : '';
         return (
-          <IframePdfViewer
-            as="iframe"
-            title={`PDF: ${itemLabel}`}
-            src={item.id}
-          />
+          <Wrapper
+            shouldShowItem={shouldShowItem}
+            className="pdf-wrapper"
+            i={i}
+            canvas={canvas}
+            isRestricted={isRestricted}
+          >
+            <IframePdfViewer
+              as="iframe"
+              title={`PDF: ${itemLabel}`}
+              src={item.id}
+            />
+          </Wrapper>
         );
       } else {
         return <IframePdfViewer as="iframe" title="PDF" src={item.id} />;
