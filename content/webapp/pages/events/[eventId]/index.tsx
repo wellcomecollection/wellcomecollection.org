@@ -127,7 +127,7 @@ const getDescription = ({
 };
 
 const eventInterpretationIcons: Record<string, IconSvg> = {
-  britishSignLanguageLive,
+  britishSignLanguage: britishSignLanguageLive,
   speechToText,
   hearingLoop,
   audioDescribed,
