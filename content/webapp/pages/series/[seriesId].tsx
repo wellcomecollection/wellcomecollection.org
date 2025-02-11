@@ -4,6 +4,10 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { bodySquabblesSeries as bodySquabblesSeriesId } from '@weco/common/data/hardcoded-ids';
+import {
+  SeriesDocument,
+  WebcomicSeriesDocument,
+} from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
@@ -36,6 +40,10 @@ import {
   transformArticleToArticleBasic,
 } from '@weco/content/services/prismic/transformers/articles';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
+import {
+  transformSeries,
+  transformWebcomicSeries,
+} from '@weco/content/services/prismic/transformers/series';
 import { seasonsFetchLinks } from '@weco/content/services/prismic/types';
 import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items';
 import { ArticleBasic } from '@weco/content/types/articles';
@@ -79,12 +87,11 @@ export const getServerSideProps: GetServerSideProps<
   const client = createClient(context);
 
   // GOTCHA: This is for a series where we have the `webcomics` type.
+  // i.e.  the body squabbles series.
   // This will have to remain like this until we figure out how to migrate them.
   // We create new webcomics as an article with comic format, and add
   // an article-series to them.
-  const isWebcomics =
-    seriesQueryId === bodySquabblesSeriesId ||
-    seriesQueryId === 'body-squabbles';
+  const isWebcomics = seriesQueryId === bodySquabblesSeriesId;
 
   const seriesDocument = await fetchSeriesById(
     client,
@@ -96,11 +103,15 @@ export const getServerSideProps: GetServerSideProps<
     return { notFound: true };
   }
 
+  const series = isWebcomics
+    ? transformWebcomicSeries(seriesDocument as WebcomicSeriesDocument)
+    : transformSeries(seriesDocument as SeriesDocument);
+
   const seriesField = isWebcomics
     ? 'my.webcomics.series.series'
     : 'my.articles.series.series';
 
-  // We need the actual ID to fetch related documents
+  // We need the actual ID, not the uid, to fetch related documents
   const seriesId = seriesDocument.id;
 
   const articlesQuery = await fetchArticles(client, {
@@ -110,44 +121,14 @@ export const getServerSideProps: GetServerSideProps<
     fetchLinks: seasonsFetchLinks,
   });
 
-  // This can occasionally occur if somebody in the Editorial team is
-  // trying to preview a series that doesn't have any entries yet.
-  //
-  // It should never happen for live content so we don't support it;
-  // the log is to make it easier to debug if somebody tries it.
-  if (articlesQuery.total_results_size === 0) {
-    console.warn(`Series ${seriesId} doesn't contain any articles`);
-    return { notFound: true };
-  }
+  const articles = transformQuery(articlesQuery, transformArticle);
 
   // We've seen people trying to request a high-numbered page for a series,
   // presumably by guessing at URLs, e.g. /series/W-XBJxEAAKmng1TG?page=500.
-  //
-  // We need a non-empty list of articles to get any metadata about the series,
-  // so if this page doesn't have any articles, let's 404 here.
-  //
-  // Note: this is a debug rather than a warn because it's more likely to be
-  // somebody guessing about our URL scheme than somebody in Editorial looking
-  // at a yet-to-be-published series.
-  //
-  // Note: we may be able to remove this once we refactor transformArticleSeries,
-  // see https://github.com/wellcomecollection/wellcomecollection.org/issues/8516
-  if (articlesQuery.results_size === 0) {
-    console.debug(
-      `Series ${seriesId} doesn't have any articles on page ${page}`
-    );
+  // If the requested page is higher than the number of available pages we 404 (except on the first page)
+  if (page > 1 && page > articlesQuery.total_pages) {
     return { notFound: true };
   }
-
-  const articles = transformQuery(articlesQuery, transformArticle);
-
-  // We know that `articles` is non-empty, and because we queried for articles in
-  // this series, we know these articles have a series defined.
-  const series = articles.results[0].series.find(
-    series =>
-      series.id ===
-      (seriesId === 'body-squabbles' ? bodySquabblesSeriesId : seriesId)
-  )!;
 
   const scheduledItems = getScheduledItems({
     articles: articles.results,
