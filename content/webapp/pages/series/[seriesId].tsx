@@ -82,9 +82,7 @@ export const getServerSideProps: GetServerSideProps<
   // This will have to remain like this until we figure out how to migrate them.
   // We create new webcomics as an article with comic format, and add
   // an article-series to them.
-  const isWebcomics =
-    seriesQueryId === bodySquabblesSeriesId ||
-    seriesQueryId === 'body-squabbles';
+  const isWebcomics = seriesQueryId === bodySquabblesSeriesId;
 
   const seriesDocument = await fetchSeriesById(
     client,
