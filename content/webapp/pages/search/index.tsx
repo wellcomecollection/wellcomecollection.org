@@ -305,10 +305,9 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
 
   const totalWorksResults = catalogueResults.works?.totalResults || 0;
   const totalImagesResults = catalogueResults.images?.totalResults || 0;
+  const totalContentResults = contentResults?.totalResults || 0;
   const totalCatalogueResults = totalWorksResults + totalImagesResults;
-
-  const totalResults =
-    (contentResults?.totalResults || 0) + totalCatalogueResults;
+  const totalResults = totalContentResults + totalCatalogueResults;
 
   const pathname = usePathname();
 
@@ -346,9 +345,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
 
   return (
     <main>
-      {!contentResults &&
-      !catalogueResults.works &&
-      !catalogueResults.images ? (
+      {totalResults === 0 ? (
         <Container>
           <SearchNoResults query={queryString} />
         </Container>
@@ -363,7 +360,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                 </>
               ) : (
                 <>
-                  {totalResults} result
+                  {formatNumber(totalResults)} result
                   {totalResults === 1 ? '' : 's'}
                   {queryString ? (
                     <>
@@ -418,7 +415,11 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                               legacyBehavior
                             >
                               <WorksLink>
-                                {bucket.data.label} ({bucket.count})
+                                {bucket.data.label} (
+                                {formatNumber(bucket.count, {
+                                  isCompact: true,
+                                })}
+                                )
                               </WorksLink>
                             </NextLink>
                           ))}
@@ -435,7 +436,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                         legacyBehavior
                       >
                         <AllLink>
-                          {`All catalogue results (${catalogueResults.works?.totalResults})`}
+                          {`All catalogue results (${formatNumber(totalWorksResults, { isCompact: true })})`}
                           <Icon icon={arrow} iconColor="black" rotate={360} />
                         </AllLink>
                       </NextLink>
@@ -489,7 +490,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                         legacyBehavior
                       >
                         <AllLink>
-                          {`All image results (${catalogueResults.images?.totalResults})`}
+                          {`All image results (${formatNumber(totalImagesResults, { isCompact: true })})`}
                           <Icon icon={arrow} iconColor="black" rotate={360} />
                         </AllLink>
                       </NextLink>
