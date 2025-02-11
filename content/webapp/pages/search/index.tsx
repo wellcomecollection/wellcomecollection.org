@@ -305,10 +305,9 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
 
   const totalWorksResults = catalogueResults.works?.totalResults || 0;
   const totalImagesResults = catalogueResults.images?.totalResults || 0;
+  const totalContentResults = contentResults?.totalResults || 0;
   const totalCatalogueResults = totalWorksResults + totalImagesResults;
-
-  const totalResults =
-    (contentResults?.totalResults || 0) + totalCatalogueResults;
+  const totalResults = totalContentResults + totalCatalogueResults;
 
   const pathname = usePathname();
 
@@ -346,9 +345,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
 
   return (
     <main>
-      {!contentResults &&
-      !catalogueResults.works &&
-      !catalogueResults.images ? (
+      {totalResults === 0 ? (
         <Container>
           <SearchNoResults query={queryString} />
         </Container>
