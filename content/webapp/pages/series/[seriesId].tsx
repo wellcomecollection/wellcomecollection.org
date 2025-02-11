@@ -152,14 +152,6 @@ export const getServerSideProps: GetServerSideProps<
 
   const articles = transformQuery(articlesQuery, transformArticle);
 
-  // We know that `articles` is non-empty, and because we queried for articles in
-  // this series, we know these articles have a series defined.
-  const series = articles.results[0].series.find(
-    series =>
-      series.id ===
-      (seriesId === 'body-squabbles' ? bodySquabblesSeriesId : seriesId)
-  )!;
-
   const scheduledItems = getScheduledItems({
     articles: articles.results,
     series,
