@@ -71,6 +71,7 @@ import {
   EventDocument,
 } from '@weco/content/services/wellcome/content/types/api';
 import { Query } from '@weco/content/types/search';
+import { simplifyCount } from '@weco/content/utils/numeric';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 
@@ -418,7 +419,8 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                               legacyBehavior
                             >
                               <WorksLink>
-                                {bucket.data.label} ({bucket.count})
+                                {bucket.data.label} (
+                                {simplifyCount(bucket.count)})
                               </WorksLink>
                             </NextLink>
                           ))}
@@ -435,7 +437,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                         legacyBehavior
                       >
                         <AllLink>
-                          {`All catalogue results (${catalogueResults.works?.totalResults})`}
+                          {`All catalogue results (${simplifyCount(totalWorksResults)})`}
                           <Icon icon={arrow} iconColor="black" rotate={360} />
                         </AllLink>
                       </NextLink>
@@ -483,7 +485,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                         legacyBehavior
                       >
                         <AllLink>
-                          {`All image results (${catalogueResults.images?.totalResults})`}
+                          {`All image results (${simplifyCount(totalImagesResults)})`}
                           <Icon icon={arrow} iconColor="black" rotate={360} />
                         </AllLink>
                       </NextLink>
