@@ -4,6 +4,10 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { bodySquabblesSeries as bodySquabblesSeriesId } from '@weco/common/data/hardcoded-ids';
+import {
+  SeriesDocument,
+  WebcomicSeriesDocument,
+} from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
@@ -36,6 +40,10 @@ import {
   transformArticleToArticleBasic,
 } from '@weco/content/services/prismic/transformers/articles';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
+import {
+  transformSeries,
+  transformWebcomicSeries,
+} from '@weco/content/services/prismic/transformers/series';
 import { seasonsFetchLinks } from '@weco/content/services/prismic/types';
 import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items';
 import { ArticleBasic } from '@weco/content/types/articles';
@@ -93,6 +101,10 @@ export const getServerSideProps: GetServerSideProps<
   if (!seriesDocument) {
     return { notFound: true };
   }
+
+  const series = isWebcomics
+    ? transformWebcomicSeries(seriesDocument as WebcomicSeriesDocument)
+    : transformSeries(seriesDocument as SeriesDocument);
 
   const seriesField = isWebcomics
     ? 'my.webcomics.series.series'
