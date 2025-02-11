@@ -330,23 +330,64 @@ resource "aws_wafv2_web_acl" "wc_org" {
   }
 
   rule {
-    name     = "google-other-block"
+    name     = "geo-block-LATAM"
     priority = 9
 
     action {
-      block {}
+      block {
+      }
     }
 
     statement {
-      label_match_statement {
-        key   = "awswaf:managed:aws:bot-control:bot:name:google_other"
-        scope = "LABEL"
+      and_statement {
+        statement {
+          geo_match_statement {
+            country_codes = [
+              "BR",
+              "AR",
+            ]
+          }
+        }
+        statement {
+          byte_match_statement {
+            positional_constraint = "CONTAINS"
+            search_string         = "Windows"
+
+            field_to_match {
+              single_header {
+                name = "user-agent"
+              }
+            }
+
+            text_transformation {
+              priority = 0
+              type     = "NONE"
+            }
+          }
+        }
+        statement {
+          byte_match_statement {
+            positional_constraint = "CONTAINS"
+            search_string         = "Trident"
+
+            field_to_match {
+              single_header {
+                name = "user-agent"
+              }
+            }
+
+            text_transformation {
+              priority = 0
+              type     = "NONE"
+            }
+          }
+        }
       }
     }
 
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name                = "weco-cloudfront-acl-google-other-block-${var.namespace}"
+      metric_name                = "geo-block-latam-${var.namespace}"
       sampled_requests_enabled   = true
     }
   }
@@ -406,7 +447,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
       rate_based_statement {
         aggregate_key_type    = "CONSTANT"
         evaluation_window_sec = 60
-        limit                 = 500
+        limit                 = 200
 
         scope_down_statement {
           geo_match_statement {
@@ -464,6 +505,40 @@ resource "aws_wafv2_web_acl" "wc_org" {
               byte_match_statement {
                 positional_constraint = "CONTAINS"
                 search_string         = "ClaudeBot"
+
+                field_to_match {
+                  single_header {
+                    name = "user-agent"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+            statement {
+              byte_match_statement {
+                positional_constraint = "CONTAINS"
+                search_string         = "GPTBot"
+
+                field_to_match {
+                  single_header {
+                    name = "user-agent"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+            statement {
+              byte_match_statement {
+                positional_constraint = "CONTAINS"
+                search_string         = "GoogleOther"
 
                 field_to_match {
                   single_header {
