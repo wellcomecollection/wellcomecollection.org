@@ -458,20 +458,26 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                     <>
                       <CatalogueSectionTitle sectionName="Image results" />
                       <CatalogueLinks>
-                        {catalogueResults.images.results.map(image => (
-                          <ImageCard
-                            key={image.id}
-                            id={image.id}
-                            workId={image.source.id}
-                            image={{
-                              contentUrl: image.src,
-                              width: image.width * 0.8,
-                              height: image.height * 0.8,
-                              alt: image.source.title,
-                            }}
-                            layout="raw"
-                          />
-                        ))}
+                        {catalogueResults.images.results.map(image => {
+                          const isPortrait = image.height > image.width;
+                          const width = image.width * (isPortrait ? 1.2 : 0.8);
+                          const height =
+                            image.height * (isPortrait ? 1.2 : 0.8);
+                          return (
+                            <ImageCard
+                              key={image.id}
+                              id={image.id}
+                              workId={image.source.id}
+                              image={{
+                                contentUrl: image.src,
+                                width,
+                                height,
+                                alt: image.source.title,
+                              }}
+                              layout="raw"
+                            />
+                          );
+                        })}
                       </CatalogueLinks>
                       <NextLink
                         {...imagesLink(
