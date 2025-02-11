@@ -360,7 +360,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                 </>
               ) : (
                 <>
-                  {totalResults} result
+                  {formatNumber(totalResults)} result
                   {totalResults === 1 ? '' : 's'}
                   {queryString ? (
                     <>
@@ -415,7 +415,11 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                               legacyBehavior
                             >
                               <WorksLink>
-                                {bucket.data.label} ({bucket.count})
+                                {bucket.data.label} (
+                                {formatNumber(bucket.count, {
+                                  isCompact: true,
+                                })}
+                                )
                               </WorksLink>
                             </NextLink>
                           ))}
@@ -432,7 +436,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                         legacyBehavior
                       >
                         <AllLink>
-                          {`All catalogue results (${catalogueResults.works?.totalResults})`}
+                          {`All catalogue results (${formatNumber(totalWorksResults, { isCompact: true })})`}
                           <Icon icon={arrow} iconColor="black" rotate={360} />
                         </AllLink>
                       </NextLink>
@@ -480,7 +484,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                         legacyBehavior
                       >
                         <AllLink>
-                          {`All image results (${catalogueResults.images?.totalResults})`}
+                          {`All image results (${formatNumber(totalImagesResults, { isCompact: true })})`}
                           <Icon icon={arrow} iconColor="black" rotate={360} />
                         </AllLink>
                       </NextLink>
