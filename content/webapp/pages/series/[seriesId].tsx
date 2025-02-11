@@ -87,6 +87,7 @@ export const getServerSideProps: GetServerSideProps<
   const client = createClient(context);
 
   // GOTCHA: This is for a series where we have the `webcomics` type.
+  // i.e.  the body squabbles series.
   // This will have to remain like this until we figure out how to migrate them.
   // We create new webcomics as an article with comic format, and add
   // an article-series to them.
@@ -110,7 +111,7 @@ export const getServerSideProps: GetServerSideProps<
     ? 'my.webcomics.series.series'
     : 'my.articles.series.series';
 
-  // We need the actual ID to fetch related documents
+  // We need the actual ID, not the uid, to fetch related documents
   const seriesId = seriesDocument.id;
 
   const articlesQuery = await fetchArticles(client, {
