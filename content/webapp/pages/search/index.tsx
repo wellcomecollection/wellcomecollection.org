@@ -459,12 +459,9 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                       <CatalogueLinks>
                         {catalogueResults.images.results.map(image => {
                           const isPortrait = image.height > image.width;
-                          const width = isPortrait
-                            ? image.width * 1.2
-                            : image.width * 0.8;
-                          const height = isPortrait
-                            ? image.height * 1.2
-                            : image.height * 0.8;
+                          const width = image.width * (isPortrait ? 1.2 : 0.8);
+                          const height =
+                            image.height * (isPortrait ? 1.2 : 0.8);
                           return (
                             <ImageCard
                               key={image.id}
