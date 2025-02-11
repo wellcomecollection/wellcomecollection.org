@@ -312,6 +312,14 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
 
   const pathname = usePathname();
 
+  const imagesWithDimensions =
+    catalogueResults.images?.results.map(image => ({
+      ...image,
+      src: image.locations[0].url,
+      width: (image.aspectRatio || 1) * 100,
+      height: 100,
+    })) || [];
+
   useEffect(() => {
     if (apiToolbar) {
       if (
