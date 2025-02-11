@@ -30,7 +30,6 @@ export function transformWebcomicSeries(
   doc: RawWebcomicSeriesDocument
 ): Series {
   const { data } = doc;
-  console.log({ doc });
   const promo = isGenericDocWithPromo(doc)
     ? transformImagePromo(data.promo)
     : undefined;
