@@ -23,3 +23,6 @@
 
 # Guide formats that don't exist
 /guides?format=%not-a-prismic-id%
+
+# Requesting a page beyond the end of an article series 
+/series/inside-our-books?page=500
