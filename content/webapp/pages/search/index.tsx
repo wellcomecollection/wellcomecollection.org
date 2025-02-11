@@ -71,7 +71,6 @@ import {
   EventDocument,
 } from '@weco/content/services/wellcome/content/types/api';
 import { Query } from '@weco/content/types/search';
-import { simplifyCount } from '@weco/content/utils/numeric';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 
@@ -364,7 +363,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                 </>
               ) : (
                 <>
-                  {totalResults} result
+                  {formatNumber(totalResults, { isCompact: true })} result
                   {totalResults === 1 ? '' : 's'}
                   {queryString ? (
                     <>
@@ -420,7 +419,10 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                             >
                               <WorksLink>
                                 {bucket.data.label} (
-                                {simplifyCount(bucket.count)})
+                                {formatNumber(bucket.count, {
+                                  isCompact: true,
+                                })}
+                                )
                               </WorksLink>
                             </NextLink>
                           ))}
@@ -437,7 +439,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                         legacyBehavior
                       >
                         <AllLink>
-                          {`All catalogue results (${simplifyCount(totalWorksResults)})`}
+                          {`All catalogue results (${formatNumber(totalWorksResults, { isCompact: true })})`}
                           <Icon icon={arrow} iconColor="black" rotate={360} />
                         </AllLink>
                       </NextLink>
@@ -485,7 +487,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                         legacyBehavior
                       >
                         <AllLink>
-                          {`All image results (${simplifyCount(totalImagesResults)})`}
+                          {`All image results (${formatNumber(totalImagesResults, { isCompact: true })})`}
                           <Icon icon={arrow} iconColor="black" rotate={360} />
                         </AllLink>
                       </NextLink>
