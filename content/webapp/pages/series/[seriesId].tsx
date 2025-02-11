@@ -125,9 +125,8 @@ export const getServerSideProps: GetServerSideProps<
 
   // We've seen people trying to request a high-numbered page for a series,
   // presumably by guessing at URLs, e.g. /series/W-XBJxEAAKmng1TG?page=500.
-  // If the requested page is higher than the number of available pages,
-  // we 404.
-  if (page > articlesQuery.total_pages) {
+  // If the requested page is higher than the number of available pages we 404 (except on the first page)
+  if (page > 1 && page > articlesQuery.total_pages) {
     return { notFound: true };
   }
 
