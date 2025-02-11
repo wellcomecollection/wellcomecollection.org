@@ -312,14 +312,6 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
 
   const pathname = usePathname();
 
-  const imagesWithDimensions =
-    catalogueResults.images?.results.map(image => ({
-      ...image,
-      src: image.locations[0].url,
-      width: (image.aspectRatio || 1) * 100,
-      height: 100,
-    })) || [];
-
   useEffect(() => {
     if (apiToolbar) {
       if (
@@ -465,20 +457,29 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                     <>
                       <CatalogueSectionTitle sectionName="Image results" />
                       <CatalogueLinks>
-                        {catalogueResults.images.results.map(image => (
-                          <ImageCard
-                            key={image.id}
-                            id={image.id}
-                            workId={image.source.id}
-                            image={{
-                              contentUrl: image.src,
-                              width: image.width * 0.8,
-                              height: image.height * 0.8,
-                              alt: image.source.title,
-                            }}
-                            layout="raw"
-                          />
-                        ))}
+                        {catalogueResults.images.results.map(image => {
+                          const isPortrait = image.height > image.width;
+                          const width = isPortrait
+                            ? image.width * 1.2
+                            : image.width * 0.8;
+                          const height = isPortrait
+                            ? image.height * 1.2
+                            : image.height * 0.8;
+                          return (
+                            <ImageCard
+                              key={image.id}
+                              id={image.id}
+                              workId={image.source.id}
+                              image={{
+                                contentUrl: image.src,
+                                width,
+                                height,
+                                alt: image.source.title,
+                              }}
+                              layout="raw"
+                            />
+                          );
+                        })}
                       </CatalogueLinks>
                       <NextLink
                         {...imagesLink(
