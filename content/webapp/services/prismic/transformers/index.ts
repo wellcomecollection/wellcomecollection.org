@@ -5,6 +5,7 @@ import {
   ArticlesDocumentData as RawArticlesDocumentData,
   StandfirstSlice as RawStandfirstSlice,
   WebcomicsDocumentData as RawWebcomicsDocumentData,
+  WebcomicSeriesDocument as RawWebcomicSeriesDocument,
 } from '@weco/common/prismicio-types';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
@@ -124,14 +125,14 @@ export function transformLabelType(
   return {};
 }
 
-const isGenericDocWithPromo = (
-  doc: GenericDoc | RelatedGenericDoc
+export const isGenericDocWithPromo = (
+  doc: GenericDoc | RelatedGenericDoc | RawWebcomicSeriesDocument
 ): doc is GenericDocWithPromo => {
   return Boolean(doc.data && 'promo' in doc.data);
 };
 
-const isGenericDocWithMetaDescription = (
-  doc: GenericDoc | RelatedGenericDoc
+export const isGenericDocWithMetaDescription = (
+  doc: GenericDoc | RelatedGenericDoc | RawWebcomicSeriesDocument
 ): doc is GenericDocWithMetaDescription => {
   return Boolean(doc.data && 'metaDescription' in doc.data);
 };
