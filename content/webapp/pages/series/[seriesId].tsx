@@ -121,35 +121,6 @@ export const getServerSideProps: GetServerSideProps<
     fetchLinks: seasonsFetchLinks,
   });
 
-  // This can occasionally occur if somebody in the Editorial team is
-  // trying to preview a series that doesn't have any entries yet.
-  //
-  // It should never happen for live content so we don't support it;
-  // the log is to make it easier to debug if somebody tries it.
-  if (articlesQuery.total_results_size === 0) {
-    console.warn(`Series ${seriesId} doesn't contain any articles`);
-    return { notFound: true };
-  }
-
-  // We've seen people trying to request a high-numbered page for a series,
-  // presumably by guessing at URLs, e.g. /series/W-XBJxEAAKmng1TG?page=500.
-  //
-  // We need a non-empty list of articles to get any metadata about the series,
-  // so if this page doesn't have any articles, let's 404 here.
-  //
-  // Note: this is a debug rather than a warn because it's more likely to be
-  // somebody guessing about our URL scheme than somebody in Editorial looking
-  // at a yet-to-be-published series.
-  //
-  // Note: we may be able to remove this once we refactor transformArticleSeries,
-  // see https://github.com/wellcomecollection/wellcomecollection.org/issues/8516
-  if (articlesQuery.results_size === 0) {
-    console.debug(
-      `Series ${seriesId} doesn't have any articles on page ${page}`
-    );
-    return { notFound: true };
-  }
-
   const articles = transformQuery(articlesQuery, transformArticle);
 
   const scheduledItems = getScheduledItems({
