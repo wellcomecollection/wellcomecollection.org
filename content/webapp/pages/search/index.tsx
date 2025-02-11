@@ -363,7 +363,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                 </>
               ) : (
                 <>
-                  {formatNumber(totalResults, { isCompact: true })} result
+                  {formatNumber(totalResults)} result
                   {totalResults === 1 ? '' : 's'}
                   {queryString ? (
                     <>
