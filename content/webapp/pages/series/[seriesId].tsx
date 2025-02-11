@@ -123,6 +123,14 @@ export const getServerSideProps: GetServerSideProps<
 
   const articles = transformQuery(articlesQuery, transformArticle);
 
+  // We've seen people trying to request a high-numbered page for a series,
+  // presumably by guessing at URLs, e.g. /series/W-XBJxEAAKmng1TG?page=500.
+  // If the requested page is higher than the number of available pages,
+  // we 404.
+  if (page > articlesQuery.total_pages) {
+    return { notFound: true };
+  }
+
   const scheduledItems = getScheduledItems({
     articles: articles.results,
     series,
