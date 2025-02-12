@@ -304,7 +304,17 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           </Wrapper>
         );
       } else {
-        return <IframePdfViewer as="iframe" title="PDF" src={item.id} />;
+        return (
+          <Wrapper
+            shouldShowItem={shouldShowItem}
+            className="pdf-wrapper"
+            i={i}
+            canvas={canvas}
+            isRestricted={isRestricted}
+          >
+            <IframePdfViewer as="iframe" title="PDF" src={item.id} />
+          </Wrapper>
+        );
       }
     case item.type === 'Image' && !exclude.includes('Image'):
       return (
