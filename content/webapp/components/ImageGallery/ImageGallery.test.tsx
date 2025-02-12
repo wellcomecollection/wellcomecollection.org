@@ -1,9 +1,7 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { act } from 'react-dom/test-utils';
 import { ThemeProvider } from 'styled-components';
 
-import { captionedImage } from '@weco/cardigan/stories/data/images';
 import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
 import theme from '@weco/common/views/themes/default';
 
@@ -11,7 +9,33 @@ import ImageGallery from './';
 
 window.HTMLElement.prototype.scrollIntoView = jest.fn(); // scrollIntoView is not in JSDOM: https://stackoverflow.com/a/60225417
 
-const images = [...new Array(3)].map(() => captionedImage());
+const image = {
+  contentUrl:
+    'https://cardigan.wellcomecollection.org/images/reading-room-3200x1800.jpg',
+  width: 3200,
+  height: 1800,
+  alt: 'an image with some alt text',
+  tasl: {
+    title: 'The title of the image',
+    author: 'The author',
+    sourceName: 'Wellcome Collection',
+    sourceLink: 'https://wellcomecollection.org/works',
+    license: 'CC-BY-NC',
+  },
+};
+const captionedImage = () => ({
+  image,
+  caption: [
+    {
+      type: 'paragraph',
+      text: 'Etiam pellentesque dui tellus, quis dictum turpis blandit id. Etiam.',
+      spans: [],
+    },
+  ],
+  hasRoundedCorners: false,
+});
+
+const images = [captionedImage()];
 
 const renderComponent = () => {
   const ImageGalleryExample = () => {
