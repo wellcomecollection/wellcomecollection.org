@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import {
   audioDescribed,
-  britishSignLanguage,
+  britishSignLanguageTranslation,
   speechToText,
 } from '@weco/common/icons';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
@@ -29,7 +29,7 @@ const RelevantGuideIcons = ({ types }: { types: ExhibitionGuideType[] }) => {
         const getIcon = () => {
           switch (type) {
             case 'bsl':
-              return britishSignLanguage;
+              return britishSignLanguageTranslation;
             case 'audio-without-descriptions':
               return audioDescribed;
             case 'captions-and-transcripts':
