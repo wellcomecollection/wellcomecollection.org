@@ -31,6 +31,7 @@ const show = keyframes`
 export const DelayVisibility = styled.div`
   opacity: 0;
   animation: 0.2s ${show} 1.5s forwards;
+  height: 100%;
 `;
 
 export default IIIFViewer;
