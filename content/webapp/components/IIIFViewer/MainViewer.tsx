@@ -414,7 +414,6 @@ const MainViewer: FunctionComponent = () => {
   const mainViewerRef = useRef<FixedSizeList>(null);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const [firstRender, setFirstRender] = useState(true);
-  const [hasImagesOnly, setHasImagesOnly] = useState(false);
   const firstRenderRef = useRef(firstRender);
   firstRenderRef.current = firstRender;
   const scrollVelocity = useScrollVelocity(newScrollOffset);
@@ -469,12 +468,6 @@ const MainViewer: FunctionComponent = () => {
     }
   }, [canvas]);
 
-  useEffect(() => {
-    // Keeping this very simple for now - I think it'll just apply to audio, video and of course mixed works containing either of them.
-    // I would like to also have it return false for PDFs, but they currently do have a thumbnail image.
-    setHasImagesOnly(!canvases?.find(canvas => !canvas.thumbnailImage?.url));
-  }, []);
-
   return (
     <div data-testid="main-viewer">
       <FixedSizeList
@@ -493,9 +486,7 @@ const MainViewer: FunctionComponent = () => {
           accessToken,
           placeholderId,
         }}
-        // We want images to render bigger than their height for readability
-        // But other things should be centered and therefore based on the height.
-        itemSize={hasImagesOnly ? mainAreaWidth : mainAreaHeight}
+        itemSize={mainAreaWidth}
         onItemsRendered={debounceHandleOnItemsRendered.current}
         onScroll={handleOnScroll}
         ref={mainViewerRef}
