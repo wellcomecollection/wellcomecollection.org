@@ -47,6 +47,8 @@ type Props = {
   setIsMobileSidebarActive: (v: boolean) => void;
   showZoomed: boolean;
   setShowZoomed: (v: boolean) => void;
+  showFullscreenControl: boolean;
+  setShowFullscreenControl: (v: boolean) => void;
   showControls: boolean;
   setShowControls: (v: boolean) => void;
   rotatedImages: RotatedImage[];

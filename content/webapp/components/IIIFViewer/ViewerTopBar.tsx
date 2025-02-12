@@ -217,6 +217,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     transformedManifest,
     query,
     viewerRef,
+    showFullscreenControl,
   } = useContext(ItemViewerContext);
   const { canvas } = query;
   const { canvases, rendering } = { ...transformedManifest };
@@ -380,7 +381,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                   />
                 </Space>
               )}
-              {isFullscreenEnabled && (
+              {isFullscreenEnabled && showFullscreenControl && (
                 <ShameButton
                   className="viewer-desktop"
                   $isDark
