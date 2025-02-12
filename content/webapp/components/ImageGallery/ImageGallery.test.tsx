@@ -1,3 +1,4 @@
+import * as prismic from '@prismicio/client';
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from 'styled-components';
@@ -20,7 +21,6 @@ const image = {
     author: 'The author',
     sourceName: 'Wellcome Collection',
     sourceLink: 'https://wellcomecollection.org/works',
-    license: 'CC-BY-NC',
   },
 };
 const captionedImage = () => ({
@@ -31,7 +31,7 @@ const captionedImage = () => ({
       text: 'Etiam pellentesque dui tellus, quis dictum turpis blandit id. Etiam.',
       spans: [],
     },
-  ],
+  ] as prismic.RichTextField,
   hasRoundedCorners: false,
 });
 
