@@ -95,7 +95,7 @@ const HeaderInner = styled(Space).attrs({
   align-items: center;
 `;
 
-const PrevNext = styled.div.attrs({
+export const PrevNext = styled.div.attrs({
   className: font('intr', 5),
 })`
   position: fixed;
@@ -105,7 +105,7 @@ const PrevNext = styled.div.attrs({
   background: ${props => props.theme.color('neutral.700')};
 `;
 
-const AlignCenter = styled.div`
+export const AlignCenter = styled.div`
   display: flex;
   align-items: center;
 `;
