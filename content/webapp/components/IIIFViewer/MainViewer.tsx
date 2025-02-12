@@ -16,13 +16,17 @@ import { font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import IIIFItem from '@weco/content/components/IIIFItem/IIIFItem';
+import { CanvasPaginator } from '@weco/content/components/IIIFViewer/Paginators';
 import ItemViewerContext, {
   RotatedImage,
 } from '@weco/content/components/ItemViewerContext/ItemViewerContext';
 import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { TransformedCanvas } from '@weco/content/types/manifest';
-import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
+import {
+  hasNonImages,
+  TransformedAuthService,
+} from '@weco/content/utils/iiif/v3';
 import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 
 import { queryParamToArrayIndex } from '.';
@@ -30,24 +34,18 @@ import { queryParamToArrayIndex } from '.';
 // Temporary styling for viewer to display audio, video and pdfs
 // will be tidied up in future work
 const ItemWrapper = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
+  margin: auto;
+  height: 100%;
 
-  right: 0;
-  padding: 0;
-
-  img,
   .item-wrapper {
     margin: auto;
     position: relative;
     top: 50%;
     transform: translateY(-50%);
     display: block;
-    width: auto;
     height: auto;
-    max-width: 80%;
+    width: 90%;
+    max-width: 800px;
     max-height: 95%;
   }
 
@@ -58,15 +56,13 @@ const ItemWrapper = styled.div`
     border: 0;
   }
 
-  .item-wrapper {
-    video {
-      width: 100%;
-    }
+  video {
+    width: 100%;
   }
 
-  img {
-    overflow: scroll; /* for alt text, which can be long */
-  }
+  /*  img { // TODO move this onto image component
+  //     overflow: scroll; /* for alt text, which can be long
+  //   } */
 `;
 
 type OverlayPositionData = {
@@ -468,35 +464,62 @@ const MainViewer: FunctionComponent = () => {
     }
   }, [canvas]);
 
+  const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
+  const displayItems = currentCanvas ? getDisplayItems(currentCanvas) : [];
+
   const useFixedSizeList = !hasNonImages(canvases);
   if (!useFixedSizeList) {
     setShowFullscreenControl(false);
   }
+
   return (
-    <div data-testid="main-viewer">
-      <FixedSizeList
-        width={mainAreaWidth}
-        style={{ width: `${mainAreaWidth}px`, margin: '0 auto' }}
-        height={mainAreaHeight}
-        itemCount={canvases?.length || 0}
-        itemData={{
-          scrollVelocity,
-          canvases: canvases || [],
-          setShowZoomed,
-          rotatedImages,
-          errorHandler,
-          externalAccessService,
-          canvas,
-          accessToken,
-          placeholderId,
-        }}
-        itemSize={mainAreaWidth}
-        onItemsRendered={debounceHandleOnItemsRendered.current}
-        onScroll={handleOnScroll}
-        ref={mainViewerRef}
-      >
-        {ItemRenderer}
-      </FixedSizeList>
+    <div data-testid="main-viewer" style={{ height: '100%' }}>
+      {useFixedSizeList ? (
+        <FixedSizeList
+          width={mainAreaWidth}
+          style={{ width: `${mainAreaWidth}px`, margin: '0 auto' }}
+          height={mainAreaHeight}
+          itemCount={canvases?.length || 0}
+          itemData={{
+            scrollVelocity,
+            canvases: canvases || [],
+            setShowZoomed,
+            rotatedImages,
+            errorHandler,
+            externalAccessService,
+            canvas,
+            accessToken,
+            placeholderId,
+          }}
+          itemSize={mainAreaWidth}
+          onItemsRendered={debounceHandleOnItemsRendered.current}
+          onScroll={handleOnScroll}
+          ref={mainViewerRef}
+        >
+          {ItemRenderer}
+        </FixedSizeList>
+      ) : (
+        <>
+          {displayItems.map(item => {
+            return (
+              <>
+                {currentCanvas ? (
+                  <ItemWrapper key={item.id}>
+                    <IIIFItem
+                      placeholderId={placeholderId}
+                      item={item}
+                      canvas={currentCanvas}
+                      i={1}
+                      exclude={[]}
+                    />
+                  </ItemWrapper>
+                ) : null}
+                <CanvasPaginator />
+              </>
+            );
+          })}
+        </>
+      )}
     </div>
   );
 };
