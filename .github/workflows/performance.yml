@@ -18,7 +18,7 @@ on:
 jobs:
   bundle_size_diff:
     name: Bundle size diff
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       # https://github.com/actions/setup-node?tab=readme-ov-file#usage
