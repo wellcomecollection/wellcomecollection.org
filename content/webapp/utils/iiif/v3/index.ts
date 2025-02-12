@@ -763,7 +763,8 @@ export function hasNonImages(
   const hasNonImage = canvases?.some(c => {
     return (
       c.painting.some(p => p.type !== 'Image') ||
-      c.original.some(p => p.type !== 'Image')
+      c.original.some(p => p.type !== 'Image') ||
+      c.supplementing.some(p => p.type !== 'Image')
     );
   });
   return !!hasNonImage;
