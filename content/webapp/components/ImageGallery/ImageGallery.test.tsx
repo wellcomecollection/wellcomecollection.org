@@ -18,7 +18,12 @@ const renderComponent = () => {
     return (
       <ThemeProvider theme={theme}>
         <AppContextProvider>
-          <ImageGallery id="test" title="what" items={images} />
+          <ImageGallery
+            id="test"
+            isStandalone={false}
+            isFrames={false}
+            items={images}
+          />
         </AppContextProvider>
       </ThemeProvider>
     );
