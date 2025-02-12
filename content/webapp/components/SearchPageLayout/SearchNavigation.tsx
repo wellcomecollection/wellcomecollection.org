@@ -103,6 +103,34 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
     return router.push(link.href, link.as);
   };
 
+  const allSearchItems = [
+    {
+      id: 'overview',
+      url: getURL('/search'),
+      text: 'All',
+    },
+    {
+      id: 'works',
+      url: getURL('/search/works'),
+      text: 'Catalogue',
+    },
+    {
+      id: 'images',
+      url: getURL('/search/images'),
+      text: 'Images',
+    },
+    {
+      id: 'events',
+      url: getURL('/search/events'),
+      text: 'Events',
+    },
+    {
+      id: 'stories',
+      url: getURL('/search/stories'),
+      text: 'Stories',
+    },
+  ];
+
   return (
     <>
       <form
@@ -143,33 +171,37 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
           tabBehaviour="navigate"
           hideBorder={allSearch || currentSearchCategory === 'overview'}
           label="Search Categories"
-          items={[
-            {
-              id: 'overview',
-              url: getURL('/search'),
-              text: 'All',
-            },
-            {
-              id: 'stories',
-              url: getURL('/search/stories'),
-              text: 'Stories',
-            },
-            {
-              id: 'images',
-              url: getURL('/search/images'),
-              text: 'Images',
-            },
-            {
-              id: 'works',
-              url: getURL('/search/works'),
-              text: 'Catalogue',
-            },
-            {
-              id: 'events',
-              url: getURL('/search/events'),
-              text: 'Events',
-            },
-          ]}
+          items={
+            allSearch
+              ? allSearchItems
+              : [
+                  {
+                    id: 'overview',
+                    url: getURL('/search'),
+                    text: 'All',
+                  },
+                  {
+                    id: 'stories',
+                    url: getURL('/search/stories'),
+                    text: 'Stories',
+                  },
+                  {
+                    id: 'images',
+                    url: getURL('/search/images'),
+                    text: 'Images',
+                  },
+                  {
+                    id: 'works',
+                    url: getURL('/search/works'),
+                    text: 'Catalogue',
+                  },
+                  {
+                    id: 'events',
+                    url: getURL('/search/events'),
+                    text: 'Events',
+                  },
+                ]
+          }
           currentSection={currentSearchCategory}
         />
       </TabsBorder>
