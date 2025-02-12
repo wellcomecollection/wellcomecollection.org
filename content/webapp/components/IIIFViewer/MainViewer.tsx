@@ -405,6 +405,7 @@ const MainViewer: FunctionComponent = () => {
     transformedManifest,
     query,
     setShowZoomed,
+    setShowFullscreenControl,
     rotatedImages,
     setShowControls,
     errorHandler,
@@ -468,6 +469,10 @@ const MainViewer: FunctionComponent = () => {
     }
   }, [canvas]);
 
+  const useFixedSizeList = !hasNonImages(canvases);
+  if (!useFixedSizeList) {
+    setShowFullscreenControl(false);
+  }
   return (
     <div data-testid="main-viewer">
       <FixedSizeList
