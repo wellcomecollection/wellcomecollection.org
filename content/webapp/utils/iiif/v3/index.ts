@@ -752,6 +752,23 @@ export function getBornDigitalStatus(
   }
 }
 
+// The viewer uses react-window's FixedSizeList if we are only displaying images
+// If we are displaying other things e.g. audio/video/pdf/other born digital files
+// then we display one item at a time with pagination.
+// So we need to determine if any of these are types are present.
+export function hasNonImages(
+  canvases: TransformedCanvas[] | undefined
+): boolean {
+  canvases?.map(c => console.log(JSON.stringify(c, null, 2)));
+  const hasNonImage = canvases?.some(c => {
+    return (
+      c.painting.some(p => p.type !== 'Image') ||
+      c.original.some(p => p.type !== 'Image')
+    );
+  });
+  return !!hasNonImage;
+}
+
 export function getFormatString(format: string): string | undefined {
   switch (format) {
     case 'application/pdf':
