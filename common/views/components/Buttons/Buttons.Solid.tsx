@@ -31,6 +31,7 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
     ariaControls,
     ariaExpanded,
     dataGtmTrigger,
+    dataTestId,
     ariaLive,
     disabled,
     size,
@@ -53,6 +54,7 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
       aria-expanded={ariaExpanded}
       aria-live={ariaLive}
       data-gtm-trigger={dataGtmTrigger}
+      data-testid={dataTestId}
       onClick={handleClick}
       disabled={disabled}
       form={form}
