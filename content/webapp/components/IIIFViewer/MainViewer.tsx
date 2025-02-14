@@ -336,8 +336,9 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                   key={item.id}
                   placeholderId={placeholderId}
                   item={item}
-                  canvas={currentCanvas}
                   i={index}
+                  canvas={currentCanvas}
+                  titleOverride={`${index}/${canvases.length}`}
                   exclude={[]}
                   setImageRect={setImageRect}
                   setImageContainerRect={setImageContainerRect}
@@ -417,7 +418,7 @@ const MainViewer: FunctionComponent = () => {
     debounce(handleOnItemsRendered, 500)
   );
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
-  const { canvases, auth, placeholderId } = {
+  const { canvases, auth, placeholderId, bornDigitalStatus } = {
     ...transformedManifest,
   };
 
@@ -466,10 +467,10 @@ const MainViewer: FunctionComponent = () => {
 
   const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
   const displayItems = currentCanvas ? getDisplayItems(currentCanvas) : [];
-
+  // doesn't have non images
   const useFixedSizeList = !hasNonImages(canvases);
   if (!useFixedSizeList) {
-    setShowFullscreenControl(false);
+    setShowFullscreenControl(false); // TODO not for PDFs
   }
 
   return (
@@ -500,16 +501,17 @@ const MainViewer: FunctionComponent = () => {
         </FixedSizeList>
       ) : (
         <>
-          {displayItems.map(item => {
+          {displayItems.map((item, i) => {
             return (
               <>
                 {currentCanvas ? (
-                  <ItemWrapper key={item.id}>
+                  <ItemWrapper key={i}>
                     <IIIFItem
                       placeholderId={placeholderId}
                       item={item}
-                      canvas={currentCanvas}
                       i={1}
+                      canvas={currentCanvas}
+                      titleOverride={`${canvas}/${canvases?.length}`}
                       exclude={[]}
                     />
                   </ItemWrapper>

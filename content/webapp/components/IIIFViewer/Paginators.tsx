@@ -1,25 +1,27 @@
+import NextLink from 'next/link';
 import { useContext } from 'react';
 import styled from 'styled-components';
 
 import { arrow } from '@weco/common/icons';
 import { LinkProps } from '@weco/common/model/link-props';
-import Control from '@weco/common/views/components/Control';
-import Rotator from '@weco/common/views/components/styled/Rotator';
+// import Control from '@weco/common/views/components/Control';
+import Icon from '@weco/common/views/components/Icon/Icon';
+// import { Container } from '@weco/common/views/components/styled/Container';
+// import Rotator from '@weco/common/views/components/styled/Rotator';
 import Space from '@weco/common/views/components/styled/Space';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
-
-const PaginatorWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
+import {
+  AlignCenter,
+  PrevNext,
+} from '@weco/content/pages/guides/exhibitions/[id]/[type]/[stop]'; // TODO move this import somewhere better for sharing
 
 const StyledPaginatorButtons = styled.div`
   position: absolute;
-  left: 12px;
-  top: 12px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: ${props => props.theme.color('neutral.700')};
 `;
 
 const PaginatorButtons = ({
@@ -29,37 +31,46 @@ const PaginatorButtons = ({
   prevLink?: LinkProps;
   nextLink?: LinkProps;
 }) => {
+  console.log('o', prevLink);
+  console.log('p', nextLink);
   return (
-    <PaginatorWrapper>
-      {prevLink && (
-        <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
-          <Rotator $rotate={270}>
-            <Control
-              scroll={false}
-              replace={true}
-              link={prevLink}
-              colorScheme="light"
-              icon={arrow}
-              text="Previous page"
-            />
-          </Rotator>
-        </Space>
-      )}
-      {nextLink && (
-        <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
-          <Rotator $rotate={90}>
-            <Control
-              scroll={false}
-              replace={true}
-              link={nextLink}
-              colorScheme="light"
-              icon={arrow}
-              text="Next page"
-            />
-          </Rotator>
-        </Space>
-      )}
-    </PaginatorWrapper>
+    <div>
+      {/* <Container> */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}
+      >
+        {prevLink && (
+          <NextLink {...prevLink} passHref legacyBehavior>
+            <AlignCenter>
+              <Space
+                $h={{ size: 'm', properties: ['margin-right'] }}
+                style={{ display: 'flex' }}
+              >
+                <Icon icon={arrow} rotate={180} />
+              </Space>
+              <span>Previous</span>
+            </AlignCenter>
+          </NextLink>
+        )}
+        {nextLink && (
+          <NextLink {...nextLink} passHref legacyBehavior>
+            <AlignCenter>
+              <span>Next</span>
+              <Space
+                $h={{ size: 'm', properties: ['margin-left'] }}
+                style={{ display: 'flex' }}
+              >
+                <Icon icon={arrow} />
+              </Space>
+            </AlignCenter>
+          </NextLink>
+        )}
+      </div>
+      {/* </Container> */}
+    </div>
   );
 };
 
@@ -131,7 +142,6 @@ export const CanvasPaginator = () => {
         },
       }
     : undefined;
-
   return (
     <StyledPaginatorButtons>
       <PaginatorButtons prevLink={prevLink} nextLink={nextLink} />

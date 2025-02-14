@@ -119,6 +119,8 @@ const ItemViewerContext = createContext<Props>({
   setShowZoomed: () => undefined,
   showControls: false,
   setShowControls: () => undefined,
+  showFullscreenControl: false,
+  setShowFullscreenControl: () => undefined,
   rotatedImages: [],
   setRotatedImages: () => undefined,
   isResizing: false,
