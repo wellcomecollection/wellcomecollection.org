@@ -77,7 +77,7 @@ async function init() {
     });
 
     try {
-      const res = await response.json();
+      const res = (await response.json()) as { id: string };
       console.log(res);
 
       if (!res.id) {
