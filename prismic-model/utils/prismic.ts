@@ -58,7 +58,7 @@ export async function getContentTypes(
     throw Error('Could not fetch custom types');
   }
 
-  const remoteCustomTypes = (await resp.json()) as CustomType[];
+  const remoteCustomTypes: CustomType[] = await resp.json();
 
   return Promise.all(
     remoteCustomTypes.map(async remoteCustomType => {
@@ -87,7 +87,7 @@ export async function getSharedSlices(
     throw Error('Could not fetch slices');
   }
 
-  const remoteSharedSlices = (await resp.json()) as SliceType[];
+  const remoteSharedSlices: SliceType[] = await resp.json();
 
   return Promise.all(
     remoteSharedSlices.map(async remoteSharedSlice => {

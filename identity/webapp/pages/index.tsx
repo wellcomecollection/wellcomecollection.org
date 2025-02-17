@@ -1,3 +1,4 @@
+import { Claims } from '@auth0/nextjs-auth0';
 import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import {
@@ -150,7 +151,7 @@ const NoRequestedItems = () => (
 
 type Props = {
   serverData: SimplifiedServerData;
-  user?: Auth0UserProfile;
+  user?: Claims;
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
