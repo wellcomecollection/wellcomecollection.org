@@ -58,13 +58,13 @@ const renderComponent = () => {
 describe('ImageGallery', () => {
   it('should have an unfocused button on initial render', () => {
     renderComponent();
-    const openButton = screen.getByRole('button', { name: '1 images' });
+    const openButton = screen.getByRole('button', { name: '1 image' });
     return expect(openButton).not.toHaveFocus();
   });
 
   it('should focus the close button when opened', async () => {
     renderComponent();
-    const openButton = screen.getByRole('button', { name: '1 images' });
+    const openButton = screen.getByRole('button', { name: '1 image' });
     await act(async () => {
       await userEvent.click(openButton);
     });
@@ -77,7 +77,7 @@ describe('ImageGallery', () => {
 
   it('should focus the open button when closed', async () => {
     renderComponent();
-    const openButton = screen.getByRole('button', { name: '1 images' });
+    const openButton = screen.getByRole('button', { name: '1 image' });
     await act(async () => {
       await userEvent.click(openButton);
     });

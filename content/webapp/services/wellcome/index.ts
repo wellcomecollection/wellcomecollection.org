@@ -180,7 +180,7 @@ export const wellcomeApiQuery = async (url: string) => {
       _requestUrl: url,
     };
   } catch (error) {
-    console.error(`Unable to fetch catalogue API URL ${url}`, error);
+    console.error(`Unable to fetch API URL: ${url}`, error);
     return wellcomeApiError();
   }
 };
