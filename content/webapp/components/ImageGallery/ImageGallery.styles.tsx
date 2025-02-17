@@ -126,7 +126,7 @@ export const Gallery = styled.div<GalleryProps>`
     position: sticky;
     top: 18px;
     z-index: 3;
-    pointer-events: all;
+    pointer-events: ${props => (props.$isActive ? 'all' : 'none')};
   }
 
   .background {
@@ -189,6 +189,7 @@ export const ButtonContainer = styled.div.attrs<ButtonContainerProps>(
   transform: translateX(-50%) translateY(50%);
   z-index: 2;
   opacity: ${props => (props.$isHidden ? 0 : 1)};
+  pointer-events: ${props => (props.$isHidden ? 'none' : 'auto')};
 `;
 
 type ControlContainerProps = { $isActive: boolean };
