@@ -58,23 +58,24 @@ const renderComponent = () => {
 describe('ImageGallery', () => {
   it('should have an unfocused button on initial render', () => {
     renderComponent();
-    const openButton = screen.getByTestId('open-image-gallery-button');
-    expect(document.activeElement).not.toEqual(openButton);
+    const openButton = screen.getByRole('button', { name: '1 images' });
+    return expect(openButton).not.toHaveFocus();
   });
 
   it('should focus the close button when opened', async () => {
     renderComponent();
-    const openButton = screen.getByTestId('open-image-gallery-button');
+    const openButton = screen.getByRole('button', { name: '1 images' });
     await act(async () => {
       await userEvent.click(openButton);
     });
     const closeButton = screen.getByTestId('close-image-gallery-button');
-    expect(document.activeElement).toEqual(closeButton);
+    return expect(closeButton).toHaveFocus();
   });
 
   it('should focus the open button when closed', async () => {
     renderComponent();
-    const openButton = screen.getByTestId('open-image-gallery-button');
+    // const openButton = screen.getByTestId('open-image-gallery-button');
+    const openButton = screen.getByRole('button', { name: '1 images' });
     await act(async () => {
       await userEvent.click(openButton);
     });
@@ -82,6 +83,6 @@ describe('ImageGallery', () => {
     await act(async () => {
       await userEvent.click(closeButton);
     });
-    expect(document.activeElement).toEqual(openButton);
+    return expect(openButton).toHaveFocus();
   });
 });
