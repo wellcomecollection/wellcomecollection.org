@@ -60,9 +60,14 @@ I have ...
 **Browsers** to be tested (latest version ...???)
 - [ ] Chrome
 - [ ] Safari
-- [ ] Edge
+- [ ] Android Webview
 - [ ] Firefox
+- [ ] Edge
 - [ ] Samsung Internet
+- [ ] Safari (in-app)
+- [ ] Opera Mini (extreme mode)
+
+*[Supported browsers](https://app.gitbook.com/o/-LumfFcEMKx4gYXKAZTQ/s/DPDDj27NI2F2kPukWrC1/readme/front-end/front-end-principles#browser-device-support)*
 
 ## Sign off
 **QA should be reviewed by each of the following. Once each discipline is happy that the relevant feedback has been addressed (or noted for later), tick off below to sign off the QA:**
