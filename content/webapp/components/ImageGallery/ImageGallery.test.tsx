@@ -68,7 +68,10 @@ describe('ImageGallery', () => {
     await act(async () => {
       await userEvent.click(openButton);
     });
-    const closeButton = screen.getByTestId('close-image-gallery-button');
+    const closeButton = screen.getByRole('button', {
+      name: 'close',
+      hidden: true,
+    });
     return expect(closeButton).toHaveFocus();
   });
 
@@ -78,7 +81,10 @@ describe('ImageGallery', () => {
     await act(async () => {
       await userEvent.click(openButton);
     });
-    const closeButton = screen.getByTestId('close-image-gallery-button');
+    const closeButton = screen.getByRole('button', {
+      name: 'close',
+      hidden: true,
+    });
     await act(async () => {
       await userEvent.click(closeButton);
     });
