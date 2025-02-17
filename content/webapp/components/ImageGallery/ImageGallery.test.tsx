@@ -71,7 +71,7 @@ describe('ImageGallery', () => {
     const closeButton = screen.getByRole('button', {
       name: 'close',
       hidden: true,
-    });
+    }); // The button is hidden at the time we're querying for it, but it will be focused when opened
     return expect(closeButton).toHaveFocus();
   });
 
@@ -84,7 +84,7 @@ describe('ImageGallery', () => {
     const closeButton = screen.getByRole('button', {
       name: 'close',
       hidden: true,
-    });
+    }); // The button is hidden at the time we're querying for it, but it will be focused when opened
     await act(async () => {
       await userEvent.click(closeButton);
     });
