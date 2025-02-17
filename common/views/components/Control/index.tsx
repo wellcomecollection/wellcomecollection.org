@@ -140,6 +140,7 @@ type CommonProps = {
   ariaControls?: string;
   ariaExpanded?: boolean;
   dataGtmTrigger?: string;
+  dataTestId?: string;
   ariaPressed?: 'true' | 'false' | 'mixed';
   clickHandler?: (event: Event) => void | Promise<void>;
 };
@@ -183,6 +184,7 @@ const BaseControl: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
     ariaExpanded,
     ariaPressed,
     dataGtmTrigger,
+    dataTestId,
   }: Props,
   ref: any // eslint-disable-line @typescript-eslint/no-explicit-any
 ) => {
@@ -193,6 +195,7 @@ const BaseControl: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
     'aria-expanded': ariaExpanded,
     'aria-pressed': ariaPressed,
     'data-gtm-trigger': dataGtmTrigger,
+    'data-testid': dataTestId,
     tabIndex,
     $extraClasses: extraClasses,
     $colorScheme: colorScheme,
