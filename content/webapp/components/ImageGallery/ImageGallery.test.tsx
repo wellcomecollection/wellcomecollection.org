@@ -74,7 +74,6 @@ describe('ImageGallery', () => {
 
   it('should focus the open button when closed', async () => {
     renderComponent();
-    // const openButton = screen.getByTestId('open-image-gallery-button');
     const openButton = screen.getByRole('button', { name: '1 images' });
     await act(async () => {
       await userEvent.click(openButton);
