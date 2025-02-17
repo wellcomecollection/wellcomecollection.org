@@ -1,6 +1,6 @@
 ---
-name: Design QA
-about: QA a design 
+name: Feature QA
+about: QA a feature 
 title: ''
 labels: ''
 assignees: ''
