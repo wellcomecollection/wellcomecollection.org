@@ -10,7 +10,7 @@ import { cross, gallery } from '@weco/common/icons';
 import { CaptionedImage as CaptionedImageProps } from '@weco/common/model/captioned-image';
 import { repeatingLsBlack } from '@weco/common/utils/backgrounds';
 import { font } from '@weco/common/utils/classnames';
-import { dasherize } from '@weco/common/utils/grammar';
+import { dasherize, pluralize } from '@weco/common/utils/grammar';
 import Button from '@weco/common/views/components/Buttons';
 import Control from '@weco/common/views/components/Control';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -268,7 +268,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
                   dataGtmTrigger={isActive ? undefined : 'show_image_gallery'}
                   icon={gallery}
                   clickHandler={handleOpenClicked}
-                  text={`${items.length} images`}
+                  text={pluralize(items.length, 'image')}
                 />
               </ButtonContainer>
             )}
