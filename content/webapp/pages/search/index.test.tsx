@@ -1,3 +1,5 @@
+import { jest } from '@jest/globals';
+
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 
 import {
