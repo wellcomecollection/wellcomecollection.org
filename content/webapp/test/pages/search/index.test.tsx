@@ -1,15 +1,12 @@
-import { jest } from '@jest/globals';
-
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
-
+import { NewSearchPage } from '@weco/content/pages/search';
 import {
   addressablesNoResults,
   clientSideImagesNoResults,
   clientSideImagesResults,
   clientSideWorkTypesNoResults,
   clientSideWorkTypesResults,
-} from './__mocks__/all';
-import { NewSearchPage } from './index';
+} from '@weco/content/test/fixtures/search';
 
 jest.mock('@weco/common/server-data');
 jest.mock('next/router', () => require('next-router-mock'));
