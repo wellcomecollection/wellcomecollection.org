@@ -6,7 +6,7 @@ import { baseUrl, slowExpect } from './helpers/utils';
 
 test.describe.configure({ mode: 'parallel' });
 
-test('(1) | The user can search for addressable site content', async ({
+test('The user can search for addressable site content', async ({
   page,
   context,
 }) => {
@@ -17,21 +17,21 @@ test('(1) | The user can search for addressable site content', async ({
   await slowExpect(page).toHaveURL(`${baseUrl}/visit-us/opening-times`);
 });
 
-test('(2) | The user can find catalogue works', async ({ page, context }) => {
+test('The user can find catalogue works', async ({ page, context }) => {
   await newAllSearch(context, page);
   await searchQuerySubmitAndWait('test', page);
   await page.getByRole('link', { name: 'All catalogue results' }).click();
   await slowExpect(page).toHaveURL(`${baseUrl}/search/works?query=test`);
 });
 
-test('(3) | The user can find catalogue images', async ({ page, context }) => {
+test('The user can find catalogue images', async ({ page, context }) => {
   await newAllSearch(context, page);
   await searchQuerySubmitAndWait('test', page);
   await page.getByRole('link', { name: 'All image results' }).click();
   await slowExpect(page).toHaveURL(`${baseUrl}/search/images?query=test`);
 });
 
-test.only('(4) | The user gets a message if search yields no results', async ({
+test('The user gets a message if search yields no results', async ({
   page,
   context,
 }) => {
@@ -41,4 +41,11 @@ test.only('(4) | The user gets a message if search yields no results', async ({
   await slowExpect(noResultsMessage).toContainText(
     'We couldn’t find anything that matched bananana'
   );
+});
+
+test('The user can paginate through results', async ({ page, context }) => {
+  await newAllSearch(context, page);
+  await searchQuerySubmitAndWait('test', page);
+  await page.getByRole('link', { name: 'Next (page 2)' }).click();
+  await slowExpect(page).toHaveURL(`${baseUrl}/search?query=test&page=2`);
 });
