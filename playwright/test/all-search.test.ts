@@ -25,7 +25,7 @@ test('The user can find catalogue works', async ({ page, context }) => {
 });
 
 test('The user can find images', async ({ page, context }) => {
-  if (isMobile) return; // hidden on smaller screens
+  if (isMobile(page)) return; // hidden on smaller screens
 
   await newAllSearch(context, page);
   await searchQuerySubmitAndWait('test', page);
@@ -40,7 +40,7 @@ test('The user can find images', async ({ page, context }) => {
 });
 
 test('The user can find work types', async ({ page, context }) => {
-  if (isMobile) return; // hidden on smaller screens
+  if (isMobile(page)) return; // hidden on smaller screens
   await newAllSearch(context, page);
   await searchQuerySubmitAndWait('test', page);
   await page.getByRole('link', { name: /^Books \(/ }).click();
