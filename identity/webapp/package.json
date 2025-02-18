@@ -21,11 +21,11 @@
     "lint:next": "next lint"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^3.2.0",
+    "@auth0/nextjs-auth0": "^3.5.0",
     "@hookform/error-message": "^2.0.1",
     "@koa/router": "^13.1.0",
     "@weco/common": "1.0.0",
-    "axios": "^0.28.0",
+    "axios": "^1.7.9",
     "dotenv": "^16.4.7",
     "jsonwebtoken": "^9.0.0",
     "koa": "^2.15.4",
@@ -35,7 +35,7 @@
     "next-router-mock": "^0.9.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-hook-form": "^7.43.9",
+    "react-hook-form": "^7.54.2",
     "styled-components": "^6.1.12",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0"
