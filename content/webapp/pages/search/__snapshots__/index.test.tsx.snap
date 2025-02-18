@@ -1,0 +1,1440 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`/search does not show a sidebar where there are no works/images 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <main>
+        <div
+          class="Container-sc-1rpw7sp-0 iPJYaE"
+        >
+          <div
+            class="Space-sc-1ntp1c3-0 fOsduC"
+          >
+            <div
+              class="grid"
+            >
+              <div
+                class="grid__cell grid__cell--s12 grid__cell--m10 grid__cell--l10 grid__cell--xl10"
+              >
+                <p
+                  class="font-intr font-size-2 "
+                  data-testid="search-no-results"
+                >
+                  We couldn’t find anything that matched
+                   
+                  <span
+                    class="SearchNoResults__QuerySpan-sc-15t12zq-0 font-intb font-size-2 "
+                  >
+                    test
+                  </span>
+                  .
+                </p>
+                <p
+                  class="font-intr font-size-3 "
+                  style="max-width: 800px;"
+                >
+                  Please adjust your search terms and try again. If you think this search should show some results, please email
+                   
+                  <a
+                    href="mailto:digital@wellcomecollection.org"
+                  >
+                    digital@wellcomecollection.org
+                  </a>
+                  .
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>,
+  "container": <div>
+    <main>
+      <div
+        class="Container-sc-1rpw7sp-0 iPJYaE"
+      >
+        <div
+          class="Space-sc-1ntp1c3-0 fOsduC"
+        >
+          <div
+            class="grid"
+          >
+            <div
+              class="grid__cell grid__cell--s12 grid__cell--m10 grid__cell--l10 grid__cell--xl10"
+            >
+              <p
+                class="font-intr font-size-2 "
+                data-testid="search-no-results"
+              >
+                We couldn’t find anything that matched
+                 
+                <span
+                  class="SearchNoResults__QuerySpan-sc-15t12zq-0 font-intb font-size-2 "
+                >
+                  test
+                </span>
+                .
+              </p>
+              <p
+                class="font-intr font-size-3 "
+                style="max-width: 800px;"
+              >
+                Please adjust your search terms and try again. If you think this search should show some results, please email
+                 
+                <a
+                  href="mailto:digital@wellcomecollection.org"
+                >
+                  digital@wellcomecollection.org
+                </a>
+                .
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
+exports[`/search handles an error fetching addressable results 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <main>
+        <section
+          class="Space-sc-1ntp1c3-0 search__BasicSection-sc-1dtt1xc-3 fOsduC"
+        >
+          <div
+            class="Container-sc-1rpw7sp-0 iPJYaE"
+          >
+            <p
+              class="font-intr font-size-5 "
+            >
+              There was a problem fetching some search results. Please try again. If the problem persists, please contact us.
+            </p>
+          </div>
+          <div
+            class="Container-sc-1rpw7sp-0 search__GridContainer-sc-1dtt1xc-8 iPJYaE iXJVJS"
+          >
+            <div
+              class="Space-sc-1ntp1c3-0 search__CatalogueResults-sc-1dtt1xc-10 jTseEw exjqWc"
+            >
+              <div
+                class="Space-sc-1ntp1c3-0 search__CatalogueResultsInner-sc-1dtt1xc-1 fOtIw dwnUni"
+              >
+                <div
+                  class="Space-sc-1ntp1c3-0 ckjNNX is-hidden-l is-hidden-xl"
+                >
+                  <h3
+                    class="font-intsb font-size-4 "
+                  >
+                    Are you looking for our online collections?
+                  </h3>
+                </div>
+                <div
+                  class="Space-sc-1ntp1c3-0 cwrLfH"
+                >
+                  <h3
+                    class="font-intsb font-size-4  is-hidden-s is-hidden-m"
+                  >
+                    Catalogue results
+                  </h3>
+                </div>
+                <div
+                  class="Space-sc-1ntp1c3-0 search__CatalogueLinks-sc-1dtt1xc-2 jZWkTT erCxnn is-hidden-s is-hidden-m"
+                >
+                  <a
+                    class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                    href="/search/works?query=test&workType=a"
+                  >
+                    Books
+                     (
+                    3.1K
+                    )
+                  </a>
+                  <a
+                    class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                    href="/search/works?query=test&workType=h"
+                  >
+                    Archives and manuscripts
+                     (
+                    2.6K
+                    )
+                  </a>
+                  <a
+                    class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                    href="/search/works?query=test&workType=g"
+                  >
+                    Videos
+                     (
+                    584
+                    )
+                  </a>
+                  <a
+                    class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                    href="/search/works?query=test&workType=v"
+                  >
+                    E-books
+                     (
+                    426
+                    )
+                  </a>
+                  <a
+                    class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                    href="/search/works?query=test&workType=k"
+                  >
+                    Pictures
+                     (
+                    358
+                    )
+                  </a>
+                  <a
+                    class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                    href="/search/works?query=test&workType=l"
+                  >
+                    Ephemera
+                     (
+                    347
+                    )
+                  </a>
+                </div>
+                <a
+                  class="search__AllLink-sc-1dtt1xc-7 efbRgm font-intsb font-size-5 "
+                  href="/search/works?query=test"
+                >
+                  All catalogue results (7.8K)
+                  <span
+                    class="Icon__Wrapper-sc-1q7cbil-0 gxegZl icon"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="icon__svg"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          class="icon__shape"
+                          d="m21.7 11.6-7.5-7.5c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l5.8 5.8H2.9c-.6 0-1 .4-1 1s.4 1 1 1h15.7l-5.8 5.8c-.4.4-.4 1 0 1.4.2.2.5.3.7.3s.5-.1.7-.3l7.5-7.5c.4-.4.4-1 0-1.4"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </svg>
+                  </span>
+                </a>
+                <div
+                  class="Space-sc-1ntp1c3-0 czNAFW is-hidden-s is-hidden-m"
+                >
+                  <div
+                    class="Divider__Rule-sc-1s33mra-0 jeCQyB"
+                  />
+                </div>
+                <div
+                  class="Space-sc-1ntp1c3-0 cwrLfH"
+                >
+                  <h3
+                    class="font-intsb font-size-4  is-hidden-s is-hidden-m"
+                  >
+                    Image results
+                  </h3>
+                </div>
+                <div
+                  class="Space-sc-1ntp1c3-0 search__CatalogueLinks-sc-1dtt1xc-2 jZWkTT erCxnn is-hidden-s is-hidden-m"
+                >
+                  <a
+                    class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                    href="/works/vmwda9zv/images?id=grcmx3xd"
+                    id="grcmx3xd"
+                    style="width: 109.96564px;"
+                  >
+                    <div
+                      class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                    >
+                      <img
+                        alt="AIDS and HIV : HIV antibody : to test or not to test?."
+                        src="https://iiif.wellcomecollection.org/image/b28666112_0001.jp2/full/300%2C/0/default.jpg"
+                        srcset=""
+                      />
+                    </div>
+                  </a>
+                  <a
+                    class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                    href="/works/vmwda9zv/images?id=r4tvvn2f"
+                    id="r4tvvn2f"
+                    style="width: 109.96564px;"
+                  >
+                    <div
+                      class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                    >
+                      <img
+                        alt="AIDS and HIV : HIV antibody : to test or not to test?."
+                        src="https://iiif.wellcomecollection.org/image/b28666112_0002.jp2/full/300%2C/0/default.jpg"
+                        srcset=""
+                      />
+                    </div>
+                  </a>
+                  <a
+                    class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                    href="/works/xje9d9m9/images?id=b6sn765d"
+                    id="b6sn765d"
+                    style="width: 121.673px;"
+                  >
+                    <div
+                      class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                    >
+                      <img
+                        alt="Examining horses: wedge test"
+                        src="https://iiif.wellcomecollection.org/image/A0000755/full/300%2C/0/default.jpg"
+                        srcset=""
+                      />
+                    </div>
+                  </a>
+                  <a
+                    class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                    href="/works/fxdjhxzk/images?id=paw99kme"
+                    id="paw99kme"
+                    style="width: 121.21212000000001px;"
+                  >
+                    <div
+                      class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                    >
+                      <img
+                        alt="Examining horses: wedge test"
+                        src="https://iiif.wellcomecollection.org/image/A0000754/full/300%2C/0/default.jpg"
+                        srcset=""
+                      />
+                    </div>
+                  </a>
+                  <a
+                    class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                    href="/works/zh5tztk2/images?id=n46cztsm"
+                    id="n46cztsm"
+                    style="width: 122.13740000000001px;"
+                  >
+                    <div
+                      class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                    >
+                      <img
+                        alt="Toxoplasmosis: antibody test (ewe)"
+                        src="https://iiif.wellcomecollection.org/image/A0000295/full/300%2C/0/default.jpg"
+                        srcset=""
+                      />
+                    </div>
+                  </a>
+                  <a
+                    class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                    href="/works/hzyjwfpq/images?id=r8mw6gem"
+                    id="r8mw6gem"
+                    style="width: 82.8px;"
+                  >
+                    <div
+                      class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                    >
+                      <img
+                        alt="Trachoma: visual acuity test"
+                        src="https://iiif.wellcomecollection.org/image/W0049928/full/300%2C/0/default.jpg"
+                        srcset=""
+                      />
+                    </div>
+                  </a>
+                  <a
+                    class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                    href="/works/mfmh5ezs/images?id=tcrsnf9g"
+                    id="tcrsnf9g"
+                    style="width: 116.36364000000002px;"
+                  >
+                    <div
+                      class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                    >
+                      <img
+                        alt="Trahcoma: visual acuity test"
+                        src="https://iiif.wellcomecollection.org/image/W0049935/full/300%2C/0/default.jpg"
+                        srcset=""
+                      />
+                    </div>
+                  </a>
+                </div>
+                <a
+                  class="search__AllLink-sc-1dtt1xc-7 efbRgm font-intsb font-size-5 "
+                  href="/search/images?query=test"
+                >
+                  All image results (1.3K)
+                  <span
+                    class="Icon__Wrapper-sc-1q7cbil-0 gxegZl icon"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="icon__svg"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          class="icon__shape"
+                          d="m21.7 11.6-7.5-7.5c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l5.8 5.8H2.9c-.6 0-1 .4-1 1s.4 1 1 1h15.7l-5.8 5.8c-.4.4-.4 1 0 1.4.2.2.5.3.7.3s.5-.1.7-.3l7.5-7.5c.4-.4.4-1 0-1.4"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </svg>
+                  </span>
+                </a>
+              </div>
+            </div>
+            <div
+              class="search__ContentResults-sc-1dtt1xc-9 hCSJt"
+            />
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>,
+  "container": <div>
+    <main>
+      <section
+        class="Space-sc-1ntp1c3-0 search__BasicSection-sc-1dtt1xc-3 fOsduC"
+      >
+        <div
+          class="Container-sc-1rpw7sp-0 iPJYaE"
+        >
+          <p
+            class="font-intr font-size-5 "
+          >
+            There was a problem fetching some search results. Please try again. If the problem persists, please contact us.
+          </p>
+        </div>
+        <div
+          class="Container-sc-1rpw7sp-0 search__GridContainer-sc-1dtt1xc-8 iPJYaE iXJVJS"
+        >
+          <div
+            class="Space-sc-1ntp1c3-0 search__CatalogueResults-sc-1dtt1xc-10 jTseEw exjqWc"
+          >
+            <div
+              class="Space-sc-1ntp1c3-0 search__CatalogueResultsInner-sc-1dtt1xc-1 fOtIw dwnUni"
+            >
+              <div
+                class="Space-sc-1ntp1c3-0 ckjNNX is-hidden-l is-hidden-xl"
+              >
+                <h3
+                  class="font-intsb font-size-4 "
+                >
+                  Are you looking for our online collections?
+                </h3>
+              </div>
+              <div
+                class="Space-sc-1ntp1c3-0 cwrLfH"
+              >
+                <h3
+                  class="font-intsb font-size-4  is-hidden-s is-hidden-m"
+                >
+                  Catalogue results
+                </h3>
+              </div>
+              <div
+                class="Space-sc-1ntp1c3-0 search__CatalogueLinks-sc-1dtt1xc-2 jZWkTT erCxnn is-hidden-s is-hidden-m"
+              >
+                <a
+                  class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                  href="/search/works?query=test&workType=a"
+                >
+                  Books
+                   (
+                  3.1K
+                  )
+                </a>
+                <a
+                  class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                  href="/search/works?query=test&workType=h"
+                >
+                  Archives and manuscripts
+                   (
+                  2.6K
+                  )
+                </a>
+                <a
+                  class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                  href="/search/works?query=test&workType=g"
+                >
+                  Videos
+                   (
+                  584
+                  )
+                </a>
+                <a
+                  class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                  href="/search/works?query=test&workType=v"
+                >
+                  E-books
+                   (
+                  426
+                  )
+                </a>
+                <a
+                  class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                  href="/search/works?query=test&workType=k"
+                >
+                  Pictures
+                   (
+                  358
+                  )
+                </a>
+                <a
+                  class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                  href="/search/works?query=test&workType=l"
+                >
+                  Ephemera
+                   (
+                  347
+                  )
+                </a>
+              </div>
+              <a
+                class="search__AllLink-sc-1dtt1xc-7 efbRgm font-intsb font-size-5 "
+                href="/search/works?query=test"
+              >
+                All catalogue results (7.8K)
+                <span
+                  class="Icon__Wrapper-sc-1q7cbil-0 gxegZl icon"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="icon__svg"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        class="icon__shape"
+                        d="m21.7 11.6-7.5-7.5c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l5.8 5.8H2.9c-.6 0-1 .4-1 1s.4 1 1 1h15.7l-5.8 5.8c-.4.4-.4 1 0 1.4.2.2.5.3.7.3s.5-.1.7-.3l7.5-7.5c.4-.4.4-1 0-1.4"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </svg>
+                </span>
+              </a>
+              <div
+                class="Space-sc-1ntp1c3-0 czNAFW is-hidden-s is-hidden-m"
+              >
+                <div
+                  class="Divider__Rule-sc-1s33mra-0 jeCQyB"
+                />
+              </div>
+              <div
+                class="Space-sc-1ntp1c3-0 cwrLfH"
+              >
+                <h3
+                  class="font-intsb font-size-4  is-hidden-s is-hidden-m"
+                >
+                  Image results
+                </h3>
+              </div>
+              <div
+                class="Space-sc-1ntp1c3-0 search__CatalogueLinks-sc-1dtt1xc-2 jZWkTT erCxnn is-hidden-s is-hidden-m"
+              >
+                <a
+                  class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                  href="/works/vmwda9zv/images?id=grcmx3xd"
+                  id="grcmx3xd"
+                  style="width: 109.96564px;"
+                >
+                  <div
+                    class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                  >
+                    <img
+                      alt="AIDS and HIV : HIV antibody : to test or not to test?."
+                      src="https://iiif.wellcomecollection.org/image/b28666112_0001.jp2/full/300%2C/0/default.jpg"
+                      srcset=""
+                    />
+                  </div>
+                </a>
+                <a
+                  class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                  href="/works/vmwda9zv/images?id=r4tvvn2f"
+                  id="r4tvvn2f"
+                  style="width: 109.96564px;"
+                >
+                  <div
+                    class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                  >
+                    <img
+                      alt="AIDS and HIV : HIV antibody : to test or not to test?."
+                      src="https://iiif.wellcomecollection.org/image/b28666112_0002.jp2/full/300%2C/0/default.jpg"
+                      srcset=""
+                    />
+                  </div>
+                </a>
+                <a
+                  class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                  href="/works/xje9d9m9/images?id=b6sn765d"
+                  id="b6sn765d"
+                  style="width: 121.673px;"
+                >
+                  <div
+                    class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                  >
+                    <img
+                      alt="Examining horses: wedge test"
+                      src="https://iiif.wellcomecollection.org/image/A0000755/full/300%2C/0/default.jpg"
+                      srcset=""
+                    />
+                  </div>
+                </a>
+                <a
+                  class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                  href="/works/fxdjhxzk/images?id=paw99kme"
+                  id="paw99kme"
+                  style="width: 121.21212000000001px;"
+                >
+                  <div
+                    class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                  >
+                    <img
+                      alt="Examining horses: wedge test"
+                      src="https://iiif.wellcomecollection.org/image/A0000754/full/300%2C/0/default.jpg"
+                      srcset=""
+                    />
+                  </div>
+                </a>
+                <a
+                  class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                  href="/works/zh5tztk2/images?id=n46cztsm"
+                  id="n46cztsm"
+                  style="width: 122.13740000000001px;"
+                >
+                  <div
+                    class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                  >
+                    <img
+                      alt="Toxoplasmosis: antibody test (ewe)"
+                      src="https://iiif.wellcomecollection.org/image/A0000295/full/300%2C/0/default.jpg"
+                      srcset=""
+                    />
+                  </div>
+                </a>
+                <a
+                  class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                  href="/works/hzyjwfpq/images?id=r8mw6gem"
+                  id="r8mw6gem"
+                  style="width: 82.8px;"
+                >
+                  <div
+                    class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                  >
+                    <img
+                      alt="Trachoma: visual acuity test"
+                      src="https://iiif.wellcomecollection.org/image/W0049928/full/300%2C/0/default.jpg"
+                      srcset=""
+                    />
+                  </div>
+                </a>
+                <a
+                  class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                  href="/works/mfmh5ezs/images?id=tcrsnf9g"
+                  id="tcrsnf9g"
+                  style="width: 116.36364000000002px;"
+                >
+                  <div
+                    class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                  >
+                    <img
+                      alt="Trahcoma: visual acuity test"
+                      src="https://iiif.wellcomecollection.org/image/W0049935/full/300%2C/0/default.jpg"
+                      srcset=""
+                    />
+                  </div>
+                </a>
+              </div>
+              <a
+                class="search__AllLink-sc-1dtt1xc-7 efbRgm font-intsb font-size-5 "
+                href="/search/images?query=test"
+              >
+                All image results (1.3K)
+                <span
+                  class="Icon__Wrapper-sc-1q7cbil-0 gxegZl icon"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="icon__svg"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        class="icon__shape"
+                        d="m21.7 11.6-7.5-7.5c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l5.8 5.8H2.9c-.6 0-1 .4-1 1s.4 1 1 1h15.7l-5.8 5.8c-.4.4-.4 1 0 1.4.2.2.5.3.7.3s.5-.1.7-.3l7.5-7.5c.4-.4.4-1 0-1.4"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </svg>
+                </span>
+              </a>
+            </div>
+          </div>
+          <div
+            class="search__ContentResults-sc-1dtt1xc-9 hCSJt"
+          />
+        </div>
+      </section>
+    </main>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
+exports[`/search renders full page catalogue and image results when there are no addressable results 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <main>
+        <section
+          class="Space-sc-1ntp1c3-0 search__BasicSection-sc-1dtt1xc-3 fOsduC"
+        >
+          <div
+            class="Container-sc-1rpw7sp-0 iPJYaE"
+          >
+            <p
+              class="font-intr font-size-5 "
+            >
+              9,035
+               result
+              s
+               
+              for 
+              <span
+                class="font-intb font-size-5 "
+              >
+                test
+              </span>
+            </p>
+          </div>
+          <div
+            class="Container-sc-1rpw7sp-0 search__GridContainer-sc-1dtt1xc-8 iPJYaE iXJVJS"
+          >
+            <div
+              class="Space-sc-1ntp1c3-0 search__CatalogueResults-sc-1dtt1xc-10 jTseEw exjqWc"
+            >
+              <div
+                class="Space-sc-1ntp1c3-0 search__CatalogueResultsInner-sc-1dtt1xc-1 fOtIw dwnUni"
+              >
+                <div
+                  class="Space-sc-1ntp1c3-0 ckjNNX is-hidden-l is-hidden-xl"
+                >
+                  <h3
+                    class="font-intsb font-size-4 "
+                  >
+                    Are you looking for our online collections?
+                  </h3>
+                </div>
+                <div
+                  class="Space-sc-1ntp1c3-0 cwrLfH"
+                >
+                  <h3
+                    class="font-intsb font-size-4  is-hidden-s is-hidden-m"
+                  >
+                    Catalogue results
+                  </h3>
+                </div>
+                <div
+                  class="Space-sc-1ntp1c3-0 search__CatalogueLinks-sc-1dtt1xc-2 jZWkTT erCxnn is-hidden-s is-hidden-m"
+                >
+                  <a
+                    class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                    href="/search/works?query=test&workType=a"
+                  >
+                    Books
+                     (
+                    3.1K
+                    )
+                  </a>
+                  <a
+                    class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                    href="/search/works?query=test&workType=h"
+                  >
+                    Archives and manuscripts
+                     (
+                    2.6K
+                    )
+                  </a>
+                  <a
+                    class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                    href="/search/works?query=test&workType=g"
+                  >
+                    Videos
+                     (
+                    584
+                    )
+                  </a>
+                  <a
+                    class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                    href="/search/works?query=test&workType=v"
+                  >
+                    E-books
+                     (
+                    426
+                    )
+                  </a>
+                  <a
+                    class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                    href="/search/works?query=test&workType=k"
+                  >
+                    Pictures
+                     (
+                    358
+                    )
+                  </a>
+                  <a
+                    class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                    href="/search/works?query=test&workType=l"
+                  >
+                    Ephemera
+                     (
+                    347
+                    )
+                  </a>
+                </div>
+                <a
+                  class="search__AllLink-sc-1dtt1xc-7 efbRgm font-intsb font-size-5 "
+                  href="/search/works?query=test"
+                >
+                  All catalogue results (7.8K)
+                  <span
+                    class="Icon__Wrapper-sc-1q7cbil-0 gxegZl icon"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="icon__svg"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          class="icon__shape"
+                          d="m21.7 11.6-7.5-7.5c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l5.8 5.8H2.9c-.6 0-1 .4-1 1s.4 1 1 1h15.7l-5.8 5.8c-.4.4-.4 1 0 1.4.2.2.5.3.7.3s.5-.1.7-.3l7.5-7.5c.4-.4.4-1 0-1.4"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </svg>
+                  </span>
+                </a>
+                <div
+                  class="Space-sc-1ntp1c3-0 czNAFW is-hidden-s is-hidden-m"
+                >
+                  <div
+                    class="Divider__Rule-sc-1s33mra-0 jeCQyB"
+                  />
+                </div>
+                <div
+                  class="Space-sc-1ntp1c3-0 cwrLfH"
+                >
+                  <h3
+                    class="font-intsb font-size-4  is-hidden-s is-hidden-m"
+                  >
+                    Image results
+                  </h3>
+                </div>
+                <div
+                  class="Space-sc-1ntp1c3-0 search__CatalogueLinks-sc-1dtt1xc-2 jZWkTT erCxnn is-hidden-s is-hidden-m"
+                >
+                  <a
+                    class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                    href="/works/vmwda9zv/images?id=grcmx3xd"
+                    id="grcmx3xd"
+                    style="width: 109.96564px;"
+                  >
+                    <div
+                      class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                    >
+                      <img
+                        alt="AIDS and HIV : HIV antibody : to test or not to test?."
+                        src="https://iiif.wellcomecollection.org/image/b28666112_0001.jp2/full/300%2C/0/default.jpg"
+                        srcset=""
+                      />
+                    </div>
+                  </a>
+                  <a
+                    class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                    href="/works/vmwda9zv/images?id=r4tvvn2f"
+                    id="r4tvvn2f"
+                    style="width: 109.96564px;"
+                  >
+                    <div
+                      class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                    >
+                      <img
+                        alt="AIDS and HIV : HIV antibody : to test or not to test?."
+                        src="https://iiif.wellcomecollection.org/image/b28666112_0002.jp2/full/300%2C/0/default.jpg"
+                        srcset=""
+                      />
+                    </div>
+                  </a>
+                  <a
+                    class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                    href="/works/xje9d9m9/images?id=b6sn765d"
+                    id="b6sn765d"
+                    style="width: 121.673px;"
+                  >
+                    <div
+                      class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                    >
+                      <img
+                        alt="Examining horses: wedge test"
+                        src="https://iiif.wellcomecollection.org/image/A0000755/full/300%2C/0/default.jpg"
+                        srcset=""
+                      />
+                    </div>
+                  </a>
+                  <a
+                    class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                    href="/works/fxdjhxzk/images?id=paw99kme"
+                    id="paw99kme"
+                    style="width: 121.21212000000001px;"
+                  >
+                    <div
+                      class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                    >
+                      <img
+                        alt="Examining horses: wedge test"
+                        src="https://iiif.wellcomecollection.org/image/A0000754/full/300%2C/0/default.jpg"
+                        srcset=""
+                      />
+                    </div>
+                  </a>
+                  <a
+                    class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                    href="/works/zh5tztk2/images?id=n46cztsm"
+                    id="n46cztsm"
+                    style="width: 122.13740000000001px;"
+                  >
+                    <div
+                      class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                    >
+                      <img
+                        alt="Toxoplasmosis: antibody test (ewe)"
+                        src="https://iiif.wellcomecollection.org/image/A0000295/full/300%2C/0/default.jpg"
+                        srcset=""
+                      />
+                    </div>
+                  </a>
+                  <a
+                    class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                    href="/works/hzyjwfpq/images?id=r8mw6gem"
+                    id="r8mw6gem"
+                    style="width: 82.8px;"
+                  >
+                    <div
+                      class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                    >
+                      <img
+                        alt="Trachoma: visual acuity test"
+                        src="https://iiif.wellcomecollection.org/image/W0049928/full/300%2C/0/default.jpg"
+                        srcset=""
+                      />
+                    </div>
+                  </a>
+                  <a
+                    class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                    href="/works/mfmh5ezs/images?id=tcrsnf9g"
+                    id="tcrsnf9g"
+                    style="width: 116.36364000000002px;"
+                  >
+                    <div
+                      class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                    >
+                      <img
+                        alt="Trahcoma: visual acuity test"
+                        src="https://iiif.wellcomecollection.org/image/W0049935/full/300%2C/0/default.jpg"
+                        srcset=""
+                      />
+                    </div>
+                  </a>
+                </div>
+                <a
+                  class="search__AllLink-sc-1dtt1xc-7 efbRgm font-intsb font-size-5 "
+                  href="/search/images?query=test"
+                >
+                  All image results (1.3K)
+                  <span
+                    class="Icon__Wrapper-sc-1q7cbil-0 gxegZl icon"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="icon__svg"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          class="icon__shape"
+                          d="m21.7 11.6-7.5-7.5c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l5.8 5.8H2.9c-.6 0-1 .4-1 1s.4 1 1 1h15.7l-5.8 5.8c-.4.4-.4 1 0 1.4.2.2.5.3.7.3s.5-.1.7-.3l7.5-7.5c.4-.4.4-1 0-1.4"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </svg>
+                  </span>
+                </a>
+              </div>
+            </div>
+            <div
+              class="search__ContentResults-sc-1dtt1xc-9 hCSJt"
+            />
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>,
+  "container": <div>
+    <main>
+      <section
+        class="Space-sc-1ntp1c3-0 search__BasicSection-sc-1dtt1xc-3 fOsduC"
+      >
+        <div
+          class="Container-sc-1rpw7sp-0 iPJYaE"
+        >
+          <p
+            class="font-intr font-size-5 "
+          >
+            9,035
+             result
+            s
+             
+            for 
+            <span
+              class="font-intb font-size-5 "
+            >
+              test
+            </span>
+          </p>
+        </div>
+        <div
+          class="Container-sc-1rpw7sp-0 search__GridContainer-sc-1dtt1xc-8 iPJYaE iXJVJS"
+        >
+          <div
+            class="Space-sc-1ntp1c3-0 search__CatalogueResults-sc-1dtt1xc-10 jTseEw exjqWc"
+          >
+            <div
+              class="Space-sc-1ntp1c3-0 search__CatalogueResultsInner-sc-1dtt1xc-1 fOtIw dwnUni"
+            >
+              <div
+                class="Space-sc-1ntp1c3-0 ckjNNX is-hidden-l is-hidden-xl"
+              >
+                <h3
+                  class="font-intsb font-size-4 "
+                >
+                  Are you looking for our online collections?
+                </h3>
+              </div>
+              <div
+                class="Space-sc-1ntp1c3-0 cwrLfH"
+              >
+                <h3
+                  class="font-intsb font-size-4  is-hidden-s is-hidden-m"
+                >
+                  Catalogue results
+                </h3>
+              </div>
+              <div
+                class="Space-sc-1ntp1c3-0 search__CatalogueLinks-sc-1dtt1xc-2 jZWkTT erCxnn is-hidden-s is-hidden-m"
+              >
+                <a
+                  class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                  href="/search/works?query=test&workType=a"
+                >
+                  Books
+                   (
+                  3.1K
+                  )
+                </a>
+                <a
+                  class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                  href="/search/works?query=test&workType=h"
+                >
+                  Archives and manuscripts
+                   (
+                  2.6K
+                  )
+                </a>
+                <a
+                  class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                  href="/search/works?query=test&workType=g"
+                >
+                  Videos
+                   (
+                  584
+                  )
+                </a>
+                <a
+                  class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                  href="/search/works?query=test&workType=v"
+                >
+                  E-books
+                   (
+                  426
+                  )
+                </a>
+                <a
+                  class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                  href="/search/works?query=test&workType=k"
+                >
+                  Pictures
+                   (
+                  358
+                  )
+                </a>
+                <a
+                  class="search__WorksLink-sc-1dtt1xc-0 bgaLzV font-intr font-size-6 "
+                  href="/search/works?query=test&workType=l"
+                >
+                  Ephemera
+                   (
+                  347
+                  )
+                </a>
+              </div>
+              <a
+                class="search__AllLink-sc-1dtt1xc-7 efbRgm font-intsb font-size-5 "
+                href="/search/works?query=test"
+              >
+                All catalogue results (7.8K)
+                <span
+                  class="Icon__Wrapper-sc-1q7cbil-0 gxegZl icon"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="icon__svg"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        class="icon__shape"
+                        d="m21.7 11.6-7.5-7.5c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l5.8 5.8H2.9c-.6 0-1 .4-1 1s.4 1 1 1h15.7l-5.8 5.8c-.4.4-.4 1 0 1.4.2.2.5.3.7.3s.5-.1.7-.3l7.5-7.5c.4-.4.4-1 0-1.4"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </svg>
+                </span>
+              </a>
+              <div
+                class="Space-sc-1ntp1c3-0 czNAFW is-hidden-s is-hidden-m"
+              >
+                <div
+                  class="Divider__Rule-sc-1s33mra-0 jeCQyB"
+                />
+              </div>
+              <div
+                class="Space-sc-1ntp1c3-0 cwrLfH"
+              >
+                <h3
+                  class="font-intsb font-size-4  is-hidden-s is-hidden-m"
+                >
+                  Image results
+                </h3>
+              </div>
+              <div
+                class="Space-sc-1ntp1c3-0 search__CatalogueLinks-sc-1dtt1xc-2 jZWkTT erCxnn is-hidden-s is-hidden-m"
+              >
+                <a
+                  class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                  href="/works/vmwda9zv/images?id=grcmx3xd"
+                  id="grcmx3xd"
+                  style="width: 109.96564px;"
+                >
+                  <div
+                    class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                  >
+                    <img
+                      alt="AIDS and HIV : HIV antibody : to test or not to test?."
+                      src="https://iiif.wellcomecollection.org/image/b28666112_0001.jp2/full/300%2C/0/default.jpg"
+                      srcset=""
+                    />
+                  </div>
+                </a>
+                <a
+                  class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                  href="/works/vmwda9zv/images?id=r4tvvn2f"
+                  id="r4tvvn2f"
+                  style="width: 109.96564px;"
+                >
+                  <div
+                    class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                  >
+                    <img
+                      alt="AIDS and HIV : HIV antibody : to test or not to test?."
+                      src="https://iiif.wellcomecollection.org/image/b28666112_0002.jp2/full/300%2C/0/default.jpg"
+                      srcset=""
+                    />
+                  </div>
+                </a>
+                <a
+                  class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                  href="/works/xje9d9m9/images?id=b6sn765d"
+                  id="b6sn765d"
+                  style="width: 121.673px;"
+                >
+                  <div
+                    class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                  >
+                    <img
+                      alt="Examining horses: wedge test"
+                      src="https://iiif.wellcomecollection.org/image/A0000755/full/300%2C/0/default.jpg"
+                      srcset=""
+                    />
+                  </div>
+                </a>
+                <a
+                  class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                  href="/works/fxdjhxzk/images?id=paw99kme"
+                  id="paw99kme"
+                  style="width: 121.21212000000001px;"
+                >
+                  <div
+                    class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                  >
+                    <img
+                      alt="Examining horses: wedge test"
+                      src="https://iiif.wellcomecollection.org/image/A0000754/full/300%2C/0/default.jpg"
+                      srcset=""
+                    />
+                  </div>
+                </a>
+                <a
+                  class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                  href="/works/zh5tztk2/images?id=n46cztsm"
+                  id="n46cztsm"
+                  style="width: 122.13740000000001px;"
+                >
+                  <div
+                    class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                  >
+                    <img
+                      alt="Toxoplasmosis: antibody test (ewe)"
+                      src="https://iiif.wellcomecollection.org/image/A0000295/full/300%2C/0/default.jpg"
+                      srcset=""
+                    />
+                  </div>
+                </a>
+                <a
+                  class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                  href="/works/hzyjwfpq/images?id=r8mw6gem"
+                  id="r8mw6gem"
+                  style="width: 82.8px;"
+                >
+                  <div
+                    class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                  >
+                    <img
+                      alt="Trachoma: visual acuity test"
+                      src="https://iiif.wellcomecollection.org/image/W0049928/full/300%2C/0/default.jpg"
+                      srcset=""
+                    />
+                  </div>
+                </a>
+                <a
+                  class="ImageCard__StyledLink-sc-1hoq3sy-0 cnxHuT"
+                  href="/works/mfmh5ezs/images?id=tcrsnf9g"
+                  id="tcrsnf9g"
+                  style="width: 116.36364000000002px;"
+                >
+                  <div
+                    class="IIIFImage__StyledImageContainer-sc-1elk0mt-1 crRTtS"
+                  >
+                    <img
+                      alt="Trahcoma: visual acuity test"
+                      src="https://iiif.wellcomecollection.org/image/W0049935/full/300%2C/0/default.jpg"
+                      srcset=""
+                    />
+                  </div>
+                </a>
+              </div>
+              <a
+                class="search__AllLink-sc-1dtt1xc-7 efbRgm font-intsb font-size-5 "
+                href="/search/images?query=test"
+              >
+                All image results (1.3K)
+                <span
+                  class="Icon__Wrapper-sc-1q7cbil-0 gxegZl icon"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="icon__svg"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        class="icon__shape"
+                        d="m21.7 11.6-7.5-7.5c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l5.8 5.8H2.9c-.6 0-1 .4-1 1s.4 1 1 1h15.7l-5.8 5.8c-.4.4-.4 1 0 1.4.2.2.5.3.7.3s.5-.1.7-.3l7.5-7.5c.4-.4.4-1 0-1.4"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </svg>
+                </span>
+              </a>
+            </div>
+          </div>
+          <div
+            class="search__ContentResults-sc-1dtt1xc-9 hCSJt"
+          />
+        </div>
+      </section>
+    </main>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

@@ -133,7 +133,7 @@ type Props = {
   contentQueryFailed?: boolean;
 };
 
-type ImageResults = {
+export type ImageResults = {
   totalResults: number;
   results: (Image & { src: string; width: number; height: number })[];
   requestUrl?: string;
@@ -293,7 +293,7 @@ const StoryPromoContainer = styled(Container)`
   }
 `;
 
-const NewSearchPage: NextPageWithLayout<NewProps> = ({
+export const NewSearchPage: NextPageWithLayout<NewProps> = ({
   queryString,
   contentResults,
   catalogueResults,
