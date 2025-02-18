@@ -6,7 +6,7 @@ import { baseUrl, slowExpect } from './helpers/utils';
 
 test.describe.configure({ mode: 'parallel' });
 
-test('The user can search for addressable site content', async ({
+test('The user can find addressable site content', async ({
   page,
   context,
 }) => {
