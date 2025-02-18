@@ -1,6 +1,6 @@
 import { test } from '@playwright/test';
 
-import { newAllSearch } from './helpers/contexts';
+import { isMobile, newAllSearch } from './helpers/contexts';
 import { searchQuerySubmitAndWait } from './helpers/search';
 import { baseUrl, slowExpect } from './helpers/utils';
 
@@ -22,6 +22,31 @@ test('The user can find catalogue works', async ({ page, context }) => {
   await searchQuerySubmitAndWait('test', page);
   await page.getByRole('link', { name: 'All catalogue results' }).click();
   await slowExpect(page).toHaveURL(`${baseUrl}/search/works?query=test`);
+});
+
+test('The user can find images', async ({ page, context }) => {
+  if (isMobile) return; // hidden on smaller screens
+
+  await newAllSearch(context, page);
+  await searchQuerySubmitAndWait('test', page);
+  await page
+    .getByRole('link', {
+      name: 'AIDS and HIV : HIV antibody : to test or not to test?',
+    })
+    .click();
+  await slowExpect(page).toHaveURL(
+    `${baseUrl}/works/vmwda9zv/images?id=grcmx3xd`
+  );
+});
+
+test('The user can find work types', async ({ page, context }) => {
+  if (isMobile) return; // hidden on smaller screens
+  await newAllSearch(context, page);
+  await searchQuerySubmitAndWait('test', page);
+  await page.getByRole('link', { name: /^Books \(/ }).click();
+  await slowExpect(page).toHaveURL(
+    `${baseUrl}/search/works?query=test&workType=a`
+  );
 });
 
 test('The user can find catalogue images', async ({ page, context }) => {
