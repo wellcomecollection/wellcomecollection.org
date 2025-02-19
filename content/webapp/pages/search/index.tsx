@@ -135,7 +135,42 @@ type Props = {
 
 export type ImageResults = {
   totalResults: number;
-  results: (Image & { src: string; width: number; height: number })[];
+  results: (Image & {
+    src: string;
+    width: number;
+    height: number;
+    averageColor?: string;
+    thumbnail?: {
+      url: string;
+      license: {
+        id: string;
+        label: string;
+        url: string;
+        type: 'License';
+      };
+      accessConditions: [
+        {
+          method: {
+            id: string;
+            label: string;
+            type: 'AccessMethod';
+          };
+          status: {
+            id: string;
+            label: string;
+            type: 'AccessStatus';
+          };
+          type: 'AccessCondition';
+        },
+      ];
+      locationType: {
+        id: string;
+        label: string;
+        type: 'LocationType';
+      };
+      type: 'DigitalLocation';
+    };
+  })[];
   requestUrl?: string;
 };
 

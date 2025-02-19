@@ -4,7 +4,7 @@ import {
   ContentResultsList,
 } from '@weco/content/services/wellcome/content/types/api';
 
-export const clientSideWorkTypesResults = {
+export const clientSideWorkTypesResults: WorkTypes = {
   workTypeBuckets: [
     {
       data: { id: 'a', label: 'Books' },
@@ -87,9 +87,9 @@ export const clientSideWorkTypesResults = {
   totalResults: 7784,
   requestUrl:
     'https://api.wellcomecollection.org/catalogue/v2/works?query=test&aggregations=workType&include=production%2Ccontributors%2CpartOf&pageSize=1',
-} as WorkTypes;
+};
 
-export const clientSideImagesResults = {
+export const clientSideImagesResults: ImageResults = {
   totalResults: 1251,
   results: [
     {
@@ -497,23 +497,23 @@ export const clientSideImagesResults = {
   ],
   requestUrl:
     'https://api.wellcomecollection.org/catalogue/v2/images?query=test&pageSize=7',
-} as ImageResults;
+};
 
-export const clientSideWorkTypesNoResults = {
+export const clientSideWorkTypesNoResults: WorkTypes = {
   workTypeBuckets: [],
   totalResults: 0,
   requestUrl:
     'https://api.wellcomecollection.org/catalogue/v2/works?query=bananana&aggregations=workType&include=production%2Ccontributors%2CpartOf&pageSize=1',
-} as WorkTypes;
+};
 
-export const clientSideImagesNoResults = {
+export const clientSideImagesNoResults: ImageResults = {
   results: [],
   totalResults: 0,
   requestUrl:
     'https://api.wellcomecollection.org/catalogue/v2/works?query=bananana&aggregations=workType&include=production%2Ccontributors%2CpartOf&pageSize=1',
-} as ImageResults;
+};
 
-export const addressablesResults = {
+export const addressablesResults: ContentResultsList<Addressable> = {
   type: 'ResultList' as const,
   results: [
     {
@@ -623,7 +623,7 @@ export const addressablesResults = {
     'https://api.wellcomecollection.org/content/v0/all?query=highlight&page=2',
   prevPage: null,
   _requestUrl: '',
-} as ContentResultsList<Addressable>;
+};
 
 export const addressablesNoResults = {
   type: 'ResultList' as const,
