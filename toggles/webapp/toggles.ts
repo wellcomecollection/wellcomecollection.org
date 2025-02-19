@@ -117,6 +117,14 @@ const toggles = {
         'Displays a new version of the viewer that can render video, audio and pdfs in addition to images',
       type: 'experimental',
     },
+    {
+      id: 'exhibitionAccessContent',
+      title: 'View access content changes in Exhibitions',
+      initialValue: false,
+      description:
+        'Displays the access content changes to the Exhibition pages',
+      type: 'experimental',
+    },
   ] as const,
   tests: [] as ABTest[],
 };
