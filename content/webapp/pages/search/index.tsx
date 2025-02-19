@@ -494,7 +494,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                       <ImageLinks $isSmallGallery={isSmallGallery}>
                         <ImageEndpointSearchResults
                           images={catalogueResults.images.results}
-                          targetRowHeight={80}
+                          targetRowHeight={120}
                         />
                       </ImageLinks>
                       <CatalogueResultsSection>
