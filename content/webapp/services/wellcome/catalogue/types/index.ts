@@ -228,6 +228,7 @@ export type Image = {
   };
   withSimilarFeatures?: Image[];
   aspectRatio?: number;
+  requestUrl?: string;
 };
 
 export type ResultType = Work | Image | Concept;

@@ -37,7 +37,6 @@ import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import theme from '@weco/common/views/themes/default';
 import ContentSearchResult from '@weco/content/components/ContentSearchResult/ContentSearchResult';
 import EventsSearchResults from '@weco/content/components/EventsSearchResults';
-import ImageCard from '@weco/content/components/ImageCard/ImageCard';
 import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
 import Pagination from '@weco/content/components/Pagination/Pagination';
@@ -158,7 +157,6 @@ type SeeMoreButtonProps = {
 };
 
 const CatalogueResultsInner = styled(Space).attrs({
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })`
   position: relative;
@@ -169,13 +167,24 @@ const CatalogueResultsInner = styled(Space).attrs({
   `}
 `;
 
+const CatalogueResultsSection = styled(Space).attrs({
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+})``;
+
 const CatalogueLinks = styled(Space).attrs({
-  $v: { size: 'm', properties: ['margin-bottom'] },
+  $v: { size: 'm', properties: ['margin-top', 'margin-bottom'] },
   className: 'is-hidden-s is-hidden-m',
 })`
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
+`;
+
+const ImageLinks = styled(Space).attrs({
+  className: 'is-hidden-s is-hidden-m',
+})<{ $isSmallGallery?: boolean }>`
+  ${props => `margin-left: ${props.$isSmallGallery ? '16px' : '20px'}`};
+  ${props => `margin-right: ${props.$isSmallGallery ? '16px' : '20px'}`};
 `;
 
 const BasicSection = styled(Space).attrs({
@@ -204,6 +213,18 @@ const SectionTitle = ({ sectionName }: { sectionName: string }) => {
   );
 };
 
+const CatalogueSectionTitle = styled(Space).attrs<{
+  $isSmallGallery?: boolean;
+}>(props => ({
+  as: 'h3',
+  className: `${font('intsb', 4)} is-hidden-s is-hidden-m`,
+  $v: props.$isSmallGallery
+    ? { size: 'm', properties: ['margin-bottom'] }
+    : undefined,
+}))<{ $isSmallGallery?: boolean }>`
+  ${props => !props.$isSmallGallery && `margin-bottom: 0;`}
+`;
+
 const AllLink = styled.a.attrs({
   className: font('intsb', 5),
 })`
@@ -215,16 +236,6 @@ const AllLink = styled.a.attrs({
     margin-left: 8px;
   }
 `;
-
-const CatalogueSectionTitle = ({ sectionName }: { sectionName: string }) => {
-  return (
-    <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
-      <h3 className={`${font('intsb', 4)} is-hidden-s is-hidden-m`}>
-        {sectionName}
-      </h3>
-    </Space>
-  );
-};
 
 const GridContainer = styled(Container)`
   display: grid;
@@ -308,7 +319,8 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
   const totalContentResults = contentResults?.totalResults || 0;
   const totalCatalogueResults = totalWorksResults + totalImagesResults;
   const totalResults = totalContentResults + totalCatalogueResults;
-
+  const isSmallGallery =
+    catalogueResults.images && catalogueResults.images.results.length < 3;
   const pathname = usePathname();
 
   useEffect(() => {
@@ -389,6 +401,10 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                   <Space
                     className="is-hidden-l is-hidden-xl"
                     $v={{ size: 'l', properties: ['margin-bottom'] }}
+                    $h={{
+                      size: 'm',
+                      properties: ['margin-left', 'margin-right'],
+                    }}
                   >
                     <h3 className={font('intsb', 4)}>
                       Are you looking for our online collections?
@@ -396,8 +412,10 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                   </Space>
                   {catalogueResults.works?.totalResults &&
                   catalogueResults.works?.totalResults > 0 ? (
-                    <>
-                      <CatalogueSectionTitle sectionName="Catalogue results" />
+                    <CatalogueResultsSection>
+                      <CatalogueSectionTitle>
+                        Catalogue results
+                      </CatalogueSectionTitle>
                       <CatalogueLinks>
                         {catalogueResults.works.workTypeBuckets
                           ?.slice(0, 6)
@@ -440,7 +458,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                           <Icon icon={arrow} iconColor="black" rotate={360} />
                         </AllLink>
                       </NextLink>
-                    </>
+                    </CatalogueResultsSection>
                   ) : null}
                   {totalWorksResults > 0 && totalImagesResults > 0 && (
                     <Space
@@ -449,6 +467,10 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                         size: 'l',
                         properties: ['margin-top', 'margin-bottom'],
                       }}
+                      $h={{
+                        size: 'm',
+                        properties: ['margin-left', 'margin-right'],
+                      }}
                     >
                       <Divider lineColor="neutral.400" />
                     </Space>
@@ -456,44 +478,42 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                   {catalogueResults.images?.totalResults &&
                   catalogueResults.images.totalResults > 0 ? (
                     <>
-                      <CatalogueSectionTitle sectionName="Image results" />
-                      <CatalogueLinks>
-                        {catalogueResults.images.results.map(image => {
-                          const isPortrait = image.height > image.width;
-                          const width = image.width * (isPortrait ? 1.2 : 0.8);
-                          const height =
-                            image.height * (isPortrait ? 1.2 : 0.8);
-                          return (
-                            <ImageCard
-                              key={image.id}
-                              id={image.id}
-                              workId={image.source.id}
-                              image={{
-                                contentUrl: image.src,
-                                width,
-                                height,
-                                alt: image.source.title,
-                              }}
-                              layout="raw"
-                            />
-                          );
-                        })}
-                      </CatalogueLinks>
-                      <NextLink
-                        {...imagesLink(
-                          {
-                            query: queryString,
-                          },
-                          `images_all_${pathname}`
-                        )}
-                        passHref
-                        legacyBehavior
+                      <CatalogueSectionTitle
+                        $h={{
+                          size: 'm',
+                          properties: ['margin-left', 'margin-right'],
+                        }}
+                        $isSmallGallery={isSmallGallery}
+                        $v={{
+                          size: 'm',
+                          properties: ['margin-bottom'],
+                        }}
                       >
-                        <AllLink>
-                          {`All image results (${formatNumber(totalImagesResults, { isCompact: true })})`}
-                          <Icon icon={arrow} iconColor="black" rotate={360} />
-                        </AllLink>
-                      </NextLink>
+                        Image results
+                      </CatalogueSectionTitle>
+                      <ImageLinks $isSmallGallery={isSmallGallery}>
+                        <ImageEndpointSearchResults
+                          images={catalogueResults.images.results}
+                          targetRowHeight={120}
+                        />
+                      </ImageLinks>
+                      <CatalogueResultsSection>
+                        <NextLink
+                          {...imagesLink(
+                            {
+                              query: queryString,
+                            },
+                            `images_all_${pathname}`
+                          )}
+                          passHref
+                          legacyBehavior
+                        >
+                          <AllLink>
+                            {`All image results (${formatNumber(totalImagesResults, { isCompact: true })})`}
+                            <Icon icon={arrow} iconColor="black" rotate={360} />
+                          </AllLink>
+                        </NextLink>
+                      </CatalogueResultsSection>
                     </>
                   ) : null}
                 </CatalogueResultsInner>
