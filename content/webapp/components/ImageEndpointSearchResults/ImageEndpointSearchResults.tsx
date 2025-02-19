@@ -91,6 +91,14 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
     window.location.hash = id;
   };
 
+  const removeImageIdFromURL = () => {
+    history.pushState(
+      '',
+      document.title,
+      window.location.pathname + window.location.search
+    );
+  };
+
   useEffect(() => {
     const onHashChanged = async () => {
       // to trim the '#' symbol
@@ -127,8 +135,8 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
     if (isActive && expandedImage !== undefined) {
       setImageIdInURL(expandedImage?.id || '');
     } else {
-      // clear the url of the fragments and also removes the # symbol
-      setImageIdInURL('');
+      // clear the url of the fragments and includeing the # symbol
+      removeImageIdFromURL();
     }
   }, [isActive, expandedImage]);
 
