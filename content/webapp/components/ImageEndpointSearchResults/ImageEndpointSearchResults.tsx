@@ -135,7 +135,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
     if (isActive && expandedImage !== undefined) {
       setImageIdInURL(expandedImage?.id || '');
     } else {
-      // clear the url of the fragments and includeing the # symbol
+      // clear the URL of the fragments, including the # symbol
       removeImageIdFromURL();
     }
   }, [isActive, expandedImage]);
