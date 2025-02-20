@@ -17,6 +17,7 @@ import {
   ticket,
   user,
 } from '@weco/common/icons';
+import { useToggles } from '@weco/common/server-data/Context';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { isFuture, isPast } from '@weco/common/utils/dates';
@@ -205,6 +206,7 @@ const Exhibition: FunctionComponent<Props> = ({
 }) => {
   type ExhibitionOf = (ExhibitionType | EventBasic)[];
 
+  const { exhibitionAccessContent } = useToggles();
   const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
   const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout[]>(
     []
