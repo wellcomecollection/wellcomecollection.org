@@ -8,8 +8,7 @@ import {
   selectAndWaitForColourFilter,
   testIfFilterIsApplied,
 } from './helpers/search';
-
-const ItemViewerURLRegex = /\/works\/[a-zA-Z0-9]+\/images[?]id=/;
+import { ItemViewerURLRegex } from './helpers/utils';
 
 test.describe.configure({ mode: 'parallel' });
 
