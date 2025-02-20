@@ -533,7 +533,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                 <Pagination
                   totalPages={contentResults.totalPages}
                   ariaLabel="Content search results pagination"
-                  isHiddenMobile
+                  isHiddenMobile={false}
                 />
               ) : null}
             </ContentResults>
