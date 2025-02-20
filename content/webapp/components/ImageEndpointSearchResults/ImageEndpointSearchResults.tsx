@@ -25,6 +25,7 @@ import { hexToRgb } from '@weco/content/utils/convert-colors';
 type Props = {
   images: Image[];
   background?: string;
+  targetRowHeight?: number;
 };
 
 type GalleryImageProps = Image & {
@@ -74,6 +75,7 @@ const ImageFrame = styled.div`
 const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   images,
   background,
+  targetRowHeight,
 }: Props) => {
   const { isFullSupportBrowser } = useContext(AppContext);
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
@@ -198,7 +200,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
             layout="rows"
             spacing={0}
             padding={12}
-            targetRowHeight={200}
+            targetRowHeight={targetRowHeight || 200}
           />
         </GalleryContainer>
       )}
