@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
 import { ExhibitionsDocument as RawExhibitionsDocument } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
-import { useToggles } from '@weco/common/server-data/Context';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
@@ -196,8 +195,6 @@ const ArticlePage: FunctionComponent<Props> = ({
   const [relatedDocument, setRelatedDocument] = useState<
     ExhibitionBasic | ContentAPIArticle | undefined
   >();
-
-  const { recommendedStories } = useToggles();
 
   useEffect(() => {
     async function setSeries() {
@@ -437,7 +434,6 @@ const ArticlePage: FunctionComponent<Props> = ({
                   ? 'standalone-image-gallery'
                   : undefined
             }
-            hasRecommendations={recommendedStories}
           />
         }
         RelatedContent={Siblings}

@@ -95,14 +95,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'recommendedStories',
-      title: 'Recommended stories',
-      initialValue: false,
-      description:
-        'Displays a static set of recommended stories on story pages',
-      type: 'experimental',
-    },
-    {
       id: 'allSearch',
       title: 'Modified All search page',
       initialValue: false,

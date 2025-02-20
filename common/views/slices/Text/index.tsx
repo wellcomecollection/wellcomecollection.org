@@ -3,10 +3,8 @@ import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
 import { TextSlice as RawTextSlice } from '@weco/common/prismicio-types';
-import { useToggles } from '@weco/common/server-data/Context';
 import { classNames } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import RecommendedStories from '@weco/common/views/components/RecommendedStories';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
   defaultContext,
@@ -20,94 +18,12 @@ import {
 
 export type TextProps = SliceComponentProps<RawTextSlice, SliceZoneContext>;
 
-const RecommendedStoriesTest = ({
-  slice,
-  context,
-  index,
-  shouldBeDroppedCap,
-  options,
-}) => {
-  return (
-    <>
-      <SpacingComponent $sliceType={slice.slice_type}>
-        <LayoutWidth width={options.minWidth}>
-          <div
-            className={classNames({
-              'body-text spaced-text': true,
-              'first-text-slice': options.firstTextSliceIndex === index,
-            })}
-          >
-            {shouldBeDroppedCap ? (
-              <>
-                <PrismicHtmlBlock
-                  html={[slice.primary.text[0]] as prismic.RichTextField}
-                  htmlSerializer={dropCapSerializer}
-                />
-                <PrismicHtmlBlock
-                  html={
-                    slice.primary.text.slice(
-                      1,
-                      context.fifteenthParagraphIndex
-                    ) as prismic.RichTextField
-                  }
-                  htmlSerializer={defaultSerializer}
-                />
-              </>
-            ) : (
-              <PrismicHtmlBlock
-                html={
-                  slice.primary.text.slice(
-                    0,
-                    context.fifteenthParagraphIndex
-                  ) as prismic.RichTextField
-                }
-                htmlSerializer={defaultSerializer}
-              />
-            )}
-          </div>
-        </LayoutWidth>
-      </SpacingComponent>
-
-      <RecommendedStories />
-
-      <SpacingComponent $sliceType={slice.slice_type}>
-        <LayoutWidth width={options.minWidth}>
-          <div
-            className={classNames({
-              'body-text spaced-text': true,
-              'first-text-slice': options.firstTextSliceIndex === index,
-            })}
-          >
-            <PrismicHtmlBlock
-              html={
-                slice.primary.text.slice(
-                  context.fifteenthParagraphIndex
-                ) as prismic.RichTextField
-              }
-              htmlSerializer={defaultSerializer}
-            />
-          </div>
-        </LayoutWidth>
-      </SpacingComponent>
-    </>
-  );
-};
-
-const Text: FunctionComponent<TextProps> = ({ slice, context, index }) => {
+const Text: FunctionComponent<TextProps> = ({ slice, context }) => {
   const options = { ...defaultContext, ...context };
-  const { recommendedStories } = useToggles();
   const shouldBeDroppedCap =
     options.firstTextSliceIndex === slice.id && options.isDropCapped;
 
-  return recommendedStories && context.fifteenthParagraphIndex !== undefined ? (
-    <RecommendedStoriesTest
-      slice={slice}
-      context={context}
-      index={index}
-      shouldBeDroppedCap={shouldBeDroppedCap}
-      options={options}
-    />
-  ) : (
+  return (
     <SpacingComponent $sliceType={slice.slice_type}>
       <LayoutWidth width={options.minWidth}>
         <div
