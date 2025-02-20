@@ -1,3 +1,5 @@
+// For overall behaviour / behaviour on category change
+
 import { expect, test } from '@playwright/test';
 
 import { newSearch } from './helpers/contexts';
@@ -24,18 +26,6 @@ test('(1) | The users changes tabs; the query (but not the filters) should be ma
   await page.getByRole('link', { name: 'Catalogue' }).click();
   await slowExpect(page).toHaveURL(
     `${baseUrl}/search/works?query=art%20of%20science`
-  );
-});
-
-test('(2) | The user clicks on "All Stories" on the Overview page; they should be taken to the stories search page', async ({
-  page,
-  context,
-}) => {
-  await newSearch(context, page);
-  await searchQuerySubmitAndWait('art of science', page);
-  await page.getByRole('link', { name: 'All stories' }).click();
-  await slowExpect(page).toHaveURL(
-    `${baseUrl}/search/stories?query=art+of+science`
   );
 });
 

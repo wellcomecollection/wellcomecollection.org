@@ -224,20 +224,12 @@ const newSearch = async (
     | 'images'
     | 'works' = 'overview'
 ): Promise<void> => {
-  await context.addCookies([...requiredCookies]);
+  await context.addCookies([...requiredCookies, allSearchCookie]);
 
   const searchUrl = `search${
     searchType === 'overview' ? `` : `/${searchType}`
   }`;
   await gotoWithoutCache(`${baseUrl}/${searchUrl}`, page);
-};
-
-const newAllSearch = async (
-  context: BrowserContext,
-  page: Page
-): Promise<void> => {
-  await context.addCookies([...requiredCookies, allSearchCookie]);
-  await gotoWithoutCache(`${baseUrl}/search`, page);
 };
 
 const article = async (
@@ -335,7 +327,6 @@ export {
   itemWithSearchAndStructuresAndQuery,
   mediaOffice,
   multiVolumeItem,
-  newAllSearch,
   newSearch,
   visualStory,
   whatsOn,
