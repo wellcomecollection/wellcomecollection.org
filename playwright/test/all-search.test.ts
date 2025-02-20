@@ -1,10 +1,12 @@
 import { test } from '@playwright/test';
 
 import { isMobile, newAllSearch } from './helpers/contexts';
-import { searchQuerySubmitAndWait } from './helpers/search';
+import {
+  clickImageSearchResultItem,
+  searchQuerySubmitAndWait,
+} from './helpers/search';
 import { baseUrl, slowExpect } from './helpers/utils';
-
-test.describe.configure({ mode: 'parallel' });
+import { ItemViewerURLRegex } from './search-images.test';
 
 test('The user can find addressable site content', async ({
   page,
@@ -29,14 +31,20 @@ test('The user can find images', async ({ page, context }) => {
 
   await newAllSearch(context, page);
   await searchQuerySubmitAndWait('test', page);
-  await page
-    .getByRole('link', {
-      name: 'AIDS and HIV : HIV antibody : to test or not to test?',
-    })
-    .click();
-  await slowExpect(page).toHaveURL(
-    `${baseUrl}/works/vmwda9zv/images?id=grcmx3xd`
-  );
+  await slowExpect(
+    page.getByTestId('image-search-results-container')
+  ).toBeVisible();
+  await clickImageSearchResultItem(1, page);
+
+  // Check we show visually similar images. This could theoretically fail
+  // if the first result doesn't have any similar images, but if it fails
+  // it's much more likely we've broken something on the page.
+  await slowExpect(
+    page.getByRole('heading', { name: 'Visually similar images' })
+  ).toBeVisible();
+
+  await page.getByRole('link', { name: 'View expanded image' }).click();
+  await slowExpect(page).toHaveURL(RegExp(ItemViewerURLRegex));
 });
 
 test('The user can find work types', async ({ page, context }) => {
