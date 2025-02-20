@@ -9,7 +9,7 @@ import {
   testIfFilterIsApplied,
 } from './helpers/search';
 
-const ItemViewerURLRegex = /\/works\/[a-zA-Z0-9]+\/images[?]id=/;
+export const ItemViewerURLRegex = /\/works\/[a-zA-Z0-9]+\/images[?]id=/;
 
 test.describe.configure({ mode: 'parallel' });
 
