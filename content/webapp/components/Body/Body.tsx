@@ -95,7 +95,6 @@ export type Props = {
   staticContent?: ReactElement | null;
   comicPreviousNext?: ComicPreviousNextProps;
   contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
-  hasRecommendations?: boolean;
 };
 
 type SectionTheme = {
@@ -132,7 +131,6 @@ export type SliceZoneContext = {
   isLanding: boolean;
   isDropCapped: boolean;
   contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
-  fifteenthParagraphIndex?: number;
 };
 
 export const defaultContext: SliceZoneContext = {
@@ -145,68 +143,6 @@ export const defaultContext: SliceZoneContext = {
   isLanding: false,
   isDropCapped: false,
   contentType: undefined,
-};
-
-// We're aware this is horrible, it should not be made a permanent fixture.
-// Should the test be successful, we aim to make this a slice, or something better as this isn't
-// fully satisfactory on the front-end, and simply hacky/bad in the code.
-const ShameTransformedSliceZone = ({ slices, components, context }) => {
-  let paragraphCount = 0;
-  let hasFoundFifteenthParagraph = false;
-  let index;
-
-  return slices.map(slice => {
-    let isTheSliceWFifteenthParagraph = false;
-
-    if (slice.slice_type === 'text') {
-      // Go through all Text slices
-      if (
-        !hasFoundFifteenthParagraph &&
-        paragraphCount <= 15 &&
-        Array.isArray(slice.primary?.text)
-      ) {
-        // Find all paragraphs within each Text slice until we find the fifteenth one.
-        slice.primary?.text.forEach((t, textIndex) => {
-          if (
-            !hasFoundFifteenthParagraph &&
-            paragraphCount <= 15 &&
-            t.type === 'paragraph'
-          ) {
-            if (paragraphCount < 15) {
-              paragraphCount++;
-            } else {
-              index = textIndex;
-              hasFoundFifteenthParagraph = true;
-              isTheSliceWFifteenthParagraph = true;
-            }
-          }
-        });
-      }
-
-      return (
-        <SliceZone
-          key={slice.id}
-          slices={[slice]}
-          components={components}
-          context={{
-            ...context,
-            fifteenthParagraphIndex: isTheSliceWFifteenthParagraph
-              ? index
-              : undefined,
-          }}
-        />
-      );
-    }
-
-    return (
-      <SliceZone
-        key={slice.id}
-        slices={[slice]}
-        components={components}
-        context={context}
-      />
-    );
-  });
 };
 
 const Body: FunctionComponent<Props> = ({
@@ -222,7 +158,6 @@ const Body: FunctionComponent<Props> = ({
   staticContent = null,
   comicPreviousNext,
   contentType,
-  hasRecommendations,
 }: Props) => {
   const filteredUntransformedBody = untransformedBody.filter(
     slice => slice.slice_type !== 'standfirst'
@@ -398,40 +333,21 @@ const Body: FunctionComponent<Props> = ({
 
       {isLanding && <LandingPageSections sections={sections} />}
 
-      {hasRecommendations ? (
-        <ShameTransformedSliceZone
-          slices={filteredUntransformedBody}
-          components={components}
-          context={{
-            minWidth,
-            firstTextSliceIndex,
-            isVisualStory,
-            comicPreviousNext,
-            pageId,
-            isLanding,
-            isDropCapped,
-            contentType,
-            isShortFilm,
-            hasRecommendations,
-          }}
-        />
-      ) : (
-        <SliceZone
-          slices={filteredUntransformedBody}
-          components={components}
-          context={{
-            minWidth,
-            firstTextSliceIndex,
-            isVisualStory,
-            comicPreviousNext,
-            pageId,
-            isLanding,
-            isDropCapped,
-            contentType,
-            isShortFilm,
-          }}
-        />
-      )}
+      <SliceZone
+        slices={filteredUntransformedBody}
+        components={components}
+        context={{
+          minWidth,
+          firstTextSliceIndex,
+          isVisualStory,
+          comicPreviousNext,
+          pageId,
+          isLanding,
+          isDropCapped,
+          contentType,
+          isShortFilm,
+        }}
+      />
     </BodyWrapper>
   );
 };
