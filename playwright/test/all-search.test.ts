@@ -6,7 +6,8 @@ import {
   searchQuerySubmitAndWait,
 } from './helpers/search';
 import { baseUrl, slowExpect } from './helpers/utils';
-import { ItemViewerURLRegex } from './search-images.test';
+
+const ItemViewerURLRegex = /\/works\/[a-zA-Z0-9]+\/images[?]id=/;
 
 test('The user can find addressable site content', async ({
   page,
