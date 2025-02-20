@@ -347,7 +347,7 @@ const Exhibition: FunctionComponent<Props> = ({
       // We hide contributors as we show them further up the page
       hideContributors={true}
     >
-      {hasResources && (
+      {hasResources && !exhibitionAccessContent && (
         <>
           <h2
             className={font('wb', 3)}
