@@ -151,9 +151,13 @@ function getPlaceObject(
     }
   );
 }
-
-function getAccessibilityItems(): ExhibitionItem[] {
-  return [
+function getAccessibilityItems(
+  exhibitionAccessContent: boolean | undefined
+): ExhibitionItem[] {
+  const accessibilityItems: {
+    description: prismic.RichTextField;
+    icon: IconSvg;
+  }[] = [
     {
       description: [
         {
@@ -195,15 +199,38 @@ function getAccessibilityItems(): ExhibitionItem[] {
       icon: user,
     },
   ];
+  if (exhibitionAccessContent) {
+    return accessibilityItems.filter(item => {
+      if (item.description[0] && 'text' in item.description[0]) {
+        return item.description[0]?.text !== a11y.largePrintGuides;
+      } else {
+        return true;
+      }
+    });
+  } else {
+    return accessibilityItems.filter(item => {
+      if (item.description[0] && 'text' in item.description[0]) {
+        return (
+          item.description[0]?.text !== a11y.bsl &&
+          item.description[0]?.text !== a11y.accessResources
+        );
+      } else {
+        return true;
+      }
+    });
+  }
 }
 
-export function getInfoItems(exhibition: ExhibitionType): ExhibitionItem[] {
+export function getInfoItems(
+  exhibition: ExhibitionType,
+  exhibitionAccessContent?: boolean
+): ExhibitionItem[] {
   return [
     getUpcomingExhibitionObject(exhibition),
     getadmissionObject(),
     getTodaysHoursObject(),
     getPlaceObject(exhibition),
-    ...getAccessibilityItems(),
+    ...getAccessibilityItems(exhibitionAccessContent),
   ].filter(isNotUndefined);
 }
 
@@ -399,7 +426,10 @@ const Exhibition: FunctionComponent<Props> = ({
       )}
 
       {exhibition.end && !isPast(exhibition.end) && (
-        <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
+        <InfoBox
+          title="Visit us"
+          items={getInfoItems(exhibition, exhibitionAccessContent)}
+        >
           <AccessibilityServices>
             For more information, please visit our{' '}
             <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>{' '}
