@@ -2,7 +2,7 @@
 
 import { expect, test } from '@playwright/test';
 
-import { newSearch } from './helpers/contexts';
+import { search } from './helpers/contexts';
 import {
   searchQuerySubmitAndWait,
   selectAndWaitForColourFilter,
@@ -17,7 +17,7 @@ test('(1) | The users changes tabs; the query (but not the filters) should be ma
   page,
   context,
 }) => {
-  await newSearch(context, page, 'images');
+  await search(context, page, 'images');
   await searchQuerySubmitAndWait('art of science', page);
   await selectAndWaitForColourFilter(page);
   await expect(
@@ -34,7 +34,7 @@ test("(3) | The user does a search with filters that doesn't have results; they 
   context,
 }) => {
   const queryString = 'gsdhg;djs';
-  await newSearch(context, page, 'images');
+  await search(context, page, 'images');
   await selectAndWaitForFilter('Licences', 'pdm', page); // Public Domain Mark
   await testIfFilterIsApplied('Public Domain Mark', page);
   await searchQuerySubmitAndWait(queryString, page);
@@ -48,7 +48,7 @@ test('(4) | The search input stays focussed when submitted', async ({
   context,
   page,
 }) => {
-  await newSearch(context, page, 'works');
+  await search(context, page, 'works');
   await searchQuerySubmitAndWait('worms', page);
   await expect(page.getByRole('searchbox')).toBeFocused();
 });
@@ -57,7 +57,7 @@ test('(5) | The search input does not have focus on initial load', async ({
   context,
   page,
 }) => {
-  await newSearch(context, page, 'works');
+  await search(context, page, 'works');
   await expect(page.getByRole('searchbox')).not.toBeFocused();
 });
 
@@ -65,7 +65,7 @@ test('(6) | Boolean filters are disabled when there are no results that match th
   context,
   page,
 }) => {
-  await newSearch(context, page, 'events');
+  await search(context, page, 'events');
   await selectAndWaitForFilter('Event types', 'W-BjXhEAAASpa8Kb', page); // Shopping
   await expect(
     page.getByLabel('Catch-up events only', { exact: false })

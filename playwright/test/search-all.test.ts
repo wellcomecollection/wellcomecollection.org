@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { isMobile, newSearch } from './helpers/contexts';
+import { isMobile, search } from './helpers/contexts';
 import {
   clickImageSearchResultItem,
   searchQuerySubmitAndWait,
@@ -13,7 +13,7 @@ test('(1) | The user can find addressable site content', async ({
   page,
   context,
 }) => {
-  await newSearch(context, page);
+  await search(context, page);
   await searchQuerySubmitAndWait('opening times', page);
   // In page link (not the one in the footer) goes to the opening times page
   await page.getByRole('link', { name: 'Opening times Find out' }).click();
@@ -21,7 +21,7 @@ test('(1) | The user can find addressable site content', async ({
 });
 
 test('(2) | The user can find catalogue works', async ({ page, context }) => {
-  await newSearch(context, page);
+  await search(context, page);
   await searchQuerySubmitAndWait('test', page);
   await page.getByRole('link', { name: 'All catalogue results' }).click();
   await slowExpect(page).toHaveURL(`${baseUrl}/search/works?query=test`);
@@ -30,7 +30,7 @@ test('(2) | The user can find catalogue works', async ({ page, context }) => {
 test('(3) | The user can find images', async ({ page, context }) => {
   if (isMobile(page)) return; // hidden on smaller screens
 
-  await newSearch(context, page);
+  await search(context, page);
   await searchQuerySubmitAndWait('test', page);
   await slowExpect(
     page.getByTestId('image-search-results-container')
@@ -50,7 +50,7 @@ test('(3) | The user can find images', async ({ page, context }) => {
 
 test('(4) | The user can find work types', async ({ page, context }) => {
   if (isMobile(page)) return; // hidden on smaller screens
-  await newSearch(context, page);
+  await search(context, page);
   await searchQuerySubmitAndWait('test', page);
   await page.getByRole('link', { name: /^Books \(/ }).click();
   await slowExpect(page).toHaveURL(
@@ -59,7 +59,7 @@ test('(4) | The user can find work types', async ({ page, context }) => {
 });
 
 test('(5) | The user can find catalogue images', async ({ page, context }) => {
-  await newSearch(context, page);
+  await search(context, page);
   await searchQuerySubmitAndWait('test', page);
   await page.getByRole('link', { name: 'All image results' }).click();
   await slowExpect(page).toHaveURL(`${baseUrl}/search/images?query=test`);
@@ -69,7 +69,7 @@ test('(6) | The user gets a message if search yields no results', async ({
   page,
   context,
 }) => {
-  await newSearch(context, page);
+  await search(context, page);
   await searchQuerySubmitAndWait('bananana', page);
   const noResultsMessage = page.getByTestId('search-no-results');
   await slowExpect(noResultsMessage).toContainText(
@@ -81,7 +81,7 @@ test('(7) | The user can paginate through results', async ({
   page,
   context,
 }) => {
-  await newSearch(context, page);
+  await search(context, page);
   await searchQuerySubmitAndWait('test', page);
   await page.getByRole('link', { name: 'Next (page 2)' }).click();
   await slowExpect(page).toHaveURL(`${baseUrl}/search?query=test&page=2`);
@@ -99,7 +99,7 @@ test('(8) | The user sees content results even if the Catalogue API is down', as
     await route.fulfill({ status: 500 });
   });
 
-  await newSearch(context, page);
+  await search(context, page);
 
   const allCatalogueResultsLink = await page.getByRole('link', {
     name: 'All catalogue results',

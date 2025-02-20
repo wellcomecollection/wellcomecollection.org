@@ -214,7 +214,7 @@ const workWithBornDigitalDownloads = async (
   await gotoWithoutCache(`${baseUrl}/works/htzhunbw`, page);
 };
 
-const newSearch = async (
+const search = async (
   context: BrowserContext,
   page: Page,
   searchType:
@@ -327,7 +327,7 @@ export {
   itemWithSearchAndStructuresAndQuery,
   mediaOffice,
   multiVolumeItem,
-  newSearch,
+  search,
   visualStory,
   whatsOn,
   workWithBornDigitalDownloads,
