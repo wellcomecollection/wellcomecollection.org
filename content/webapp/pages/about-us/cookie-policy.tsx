@@ -1,6 +1,6 @@
 import { SliceZone } from '@prismicio/react';
 import { GetServerSideProps } from 'next';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 
 import { cookiesTableCopy } from '@weco/common/data/cookies';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
@@ -47,6 +47,10 @@ const CookiePolicy: FunctionComponent<page.Props> = (props: page.Props) => {
       return undefined;
     })
     .filter(isNotUndefined);
+
+  useEffect(() => {
+    window.CookieControl.hide();
+  }, []);
 
   return (
     <PageLayout
