@@ -83,6 +83,10 @@ const stageApiToggleCookie = createCookie({
   name: 'toggle_stagingApi',
   value: 'true',
 });
+const allSearchCookie = createCookie({
+  name: 'toggle_allSearch',
+  value: 'true',
+});
 
 export const requiredCookies = useStageApis
   ? [acceptCookieCookie, stageApiToggleCookie]
@@ -228,6 +232,14 @@ const newSearch = async (
   await gotoWithoutCache(`${baseUrl}/${searchUrl}`, page);
 };
 
+const newAllSearch = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies([...requiredCookies, allSearchCookie]);
+  await gotoWithoutCache(`${baseUrl}/search`, page);
+};
+
 const article = async (
   id: string,
   context: BrowserContext,
@@ -306,29 +318,30 @@ const isMobile = (page: Page): boolean =>
   (page.viewportSize()?.width ?? 0) <= devices['iPhone 11'].viewport.width;
 
 export {
-  multiVolumeItem,
-  itemWithAltText,
-  newSearch,
-  itemWithSearchAndStructures,
-  itemWithSearchAndStructuresAndQuery,
-  itemWithReferenceNumber,
-  workWithPhysicalLocationOnly,
-  workWithDigitalLocationOnly,
-  workWithDigitalLocationAndRestricted,
-  workWithDigitalLocationAndLocationNote,
-  workWithBornDigitalDownloads,
-  itemWithOnlyOpenAccess,
-  itemWithOnlyRestrictedAccess,
-  itemWithRestrictedAndOpenAccess,
-  itemWithRestrictedAndNonRestrictedAccess,
-  itemWithNonRestrictedAndOpenAccess,
   article,
   articleWithMockSiblings,
   concept,
-  isMobile,
-  event,
-  visualStory,
   digitalGuide,
-  whatsOn,
+  event,
+  isMobile,
+  itemWithAltText,
+  itemWithNonRestrictedAndOpenAccess,
+  itemWithOnlyOpenAccess,
+  itemWithOnlyRestrictedAccess,
+  itemWithReferenceNumber,
+  itemWithRestrictedAndNonRestrictedAccess,
+  itemWithRestrictedAndOpenAccess,
+  itemWithSearchAndStructures,
+  itemWithSearchAndStructuresAndQuery,
   mediaOffice,
+  multiVolumeItem,
+  newAllSearch,
+  newSearch,
+  visualStory,
+  whatsOn,
+  workWithBornDigitalDownloads,
+  workWithDigitalLocationAndLocationNote,
+  workWithDigitalLocationAndRestricted,
+  workWithDigitalLocationOnly,
+  workWithPhysicalLocationOnly,
 };
