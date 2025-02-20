@@ -3,8 +3,12 @@ import { FunctionComponent, ReactElement, useContext, useState } from 'react';
 
 import useIsomorphicLayoutEffect from '@weco/common/hooks/useIsomorphicLayoutEffect';
 import { LinkProps } from '@weco/common/model/link-props';
+import { partition } from '@weco/common/utils/arrays';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { Filter } from '@weco/content/services/wellcome/common/filters';
+import {
+  BooleanFilter as BooleanFilterType,
+  Filter,
+} from '@weco/content/services/wellcome/common/filters';
 
 import DateRangeFilter from './SearchFilters.DateRangeFilter';
 import SearchFiltersDesktop from './SearchFilters.Desktop';
@@ -57,11 +61,18 @@ const SearchFilters: FunctionComponent<Props> = ({
       return acc + val;
     }, 0);
 
+  // We need the filters to show in a specific order
+  const [booleanFilters, otherFilters] = partition(
+    filters,
+    (f: BooleanFilterType) => f.type === 'boolean'
+  );
+  const orderedFilters = [...otherFilters, ...booleanFilters];
+
   const sharedProps: SearchFiltersSharedProps = {
     query,
     searchFormId,
     changeHandler,
-    filters,
+    filters: orderedFilters,
     linkResolver,
     activeFiltersCount,
     hasNoResults,

@@ -95,19 +95,20 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
           />
         </FilterDropdownsContainer>
 
-        {booleanFilters?.map(f => (
-          <Space
-            key={f.id}
-            $v={{ size: 'm', properties: ['margin-bottom'] }}
-            style={{ height: '32px', display: 'flex', alignItems: 'center' }}
-          >
-            <BooleanFilter
-              {...(!showMoreFiltersModal && { form: searchFormId })}
-              f={f as BooleanFilterType}
-              changeHandler={changeHandler}
-            />
-          </Space>
-        ))}
+        {isEnhanced &&
+          booleanFilters?.map(f => (
+            <Space
+              key={f.id}
+              $v={{ size: 'm', properties: ['margin-bottom'] }}
+              style={{ height: '32px', display: 'flex', alignItems: 'center' }}
+            >
+              <BooleanFilter
+                {...(!showMoreFiltersModal && { form: searchFormId })}
+                f={f as BooleanFilterType}
+                changeHandler={changeHandler}
+              />
+            </Space>
+          ))}
       </Wrapper>
 
       {activeFiltersCount > 0 && (
