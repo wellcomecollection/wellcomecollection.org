@@ -82,7 +82,7 @@ export type WellcomeResultList<
 export type IdentifiedBucketData = {
   id: string;
   label: string;
-  type?: string;
+  type: string;
 };
 
 export type UnidentifiedBucketData = {
