@@ -174,6 +174,26 @@ function getAccessibilityItems(): ExhibitionItem[] {
       ],
       icon: a11YVisual,
     },
+    {
+      description: [
+        {
+          type: 'paragraph',
+          text: a11y.bsl,
+          spans: [],
+        },
+      ],
+      icon: britishSignLanguageTranslation,
+    },
+    {
+      description: [
+        {
+          type: 'paragraph',
+          text: a11y.accessResources,
+          spans: [],
+        },
+      ],
+      icon: user,
+    },
   ];
 }
 
