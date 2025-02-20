@@ -8,12 +8,14 @@ import {
   a11Y,
   a11YVisual,
   arrow,
+  britishSignLanguageTranslation,
   calendar,
   clock,
   download,
   IconSvg,
   location,
   ticket,
+  user,
 } from '@weco/common/icons';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
