@@ -519,7 +519,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                 </CatalogueResultsInner>
               </CatalogueResults>
             )}
-            <ContentResults>
+            <ContentResults data-testid="search-content-results">
               {contentResults?.results?.map(result => (
                 <Space
                   key={`${result.id}${result.highlightTourType || ''}`}
