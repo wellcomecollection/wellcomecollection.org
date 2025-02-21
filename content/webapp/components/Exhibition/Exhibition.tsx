@@ -7,6 +7,7 @@ import { a11y } from '@weco/common/data/microcopy';
 import {
   a11Y,
   a11YVisual,
+  accessibility,
   arrow,
   britishSignLanguageTranslation,
   calendar,
@@ -15,7 +16,6 @@ import {
   IconSvg,
   location,
   ticket,
-  user,
 } from '@weco/common/icons';
 import { useToggles } from '@weco/common/server-data/Context';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
@@ -196,7 +196,7 @@ function getAccessibilityItems(
           spans: [],
         },
       ],
-      icon: user,
+      icon: accessibility,
     },
   ];
   if (exhibitionAccessContent) {

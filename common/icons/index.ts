@@ -1,5 +1,6 @@
 export { default as a11Y } from './components/A11Y';
 export { default as a11YVisual } from './components/A11YVisual';
+export { default as accessibility } from './components/Accessibility';
 export { default as addToClipboard } from './components/AddToClipboard';
 export { default as archive } from './components/Archive';
 export { default as arrow } from './components/Arrow';
