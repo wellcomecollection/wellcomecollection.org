@@ -19,6 +19,7 @@ declare global {
     // CivicUK
     CookieControl: {
       open: () => void;
+      hide: () => void;
     };
 
     // Meta pixel
