@@ -116,7 +116,7 @@ const DownloadItem: FunctionComponent<{
               />
               {`${itemLabel || canvas?.label}`}
             </td>
-            <td width="120">{`${
+            <td width="120" style={{ textAlign: 'right' }}>{`${
               format ? `${format.split('/').pop()}` : ''
             }`}</td>
             <td width="60">
