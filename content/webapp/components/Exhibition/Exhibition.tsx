@@ -8,6 +8,7 @@ import {
   a11Y,
   a11YVisual,
   arrow,
+  britishSignLanguageTranslation,
   calendar,
   clock,
   download,
@@ -23,9 +24,15 @@ import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import {
+  ContaineredLayout,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
+import Modal from '@weco/common/views/components/Modal/Modal';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
+import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import Body from '@weco/content/components/Body/Body';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
@@ -184,6 +191,20 @@ export function getInfoItems(exhibition: ExhibitionType): ExhibitionItem[] {
   ].filter(isNotUndefined);
 }
 
+const BslLeaftletButtonText = styled(Space).attrs({
+  className: font('intr', 6),
+  $h: { size: 's', properties: ['margin-left'] },
+})``;
+
+const BslLeafletButton = styled.button`
+  display: flex;
+  align-items: center;
+
+  ${BslLeaftletButtonText} {
+    text-decoration: underline;
+  }
+`;
+
 export const AccessibilityServices = styled.p.attrs({
   className: font('intr', 5),
 })`
@@ -207,6 +228,7 @@ const Exhibition: FunctionComponent<Props> = ({
   const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout[]>(
     []
   );
+  const [isModalActive, setIsModalActive] = useState(false);
 
   useEffect(() => {
     const ids = exhibition.relatedIds;
@@ -252,29 +274,78 @@ const Exhibition: FunctionComponent<Props> = ({
   );
 
   const Header = (
-    <PageHeader
-      breadcrumbs={breadcrumbs}
-      labels={{ labels: exhibition.labels }}
-      title={exhibition.title}
-      ContentTypeInfo={
-        <Fragment>
-          {!exhibition.isPermanent && (
-            <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
-              {DateInfo}
+    <>
+      <PageHeader
+        breadcrumbs={breadcrumbs}
+        labels={{ labels: exhibition.labels }}
+        title={exhibition.title}
+        ContentTypeInfo={
+          <Fragment>
+            {!exhibition.isPermanent && (
+              <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
+                {DateInfo}
+              </Space>
+            )}
+            <StatusIndicator
+              start={exhibition.start}
+              end={exhibition.end || new Date()}
+              statusOverride={exhibition.statusOverride}
+            />
+          </Fragment>
+        }
+        FeaturedMedia={maybeFeaturedMedia}
+        HeroPicture={maybeHeroPicture}
+        isFree={true}
+        isContentTypeInfoBeforeMedia={true}
+      />
+      {exhibition.bslLeafletVideo && (
+        <>
+          <Modal
+            id="bsl-leaflet-video-modal"
+            isActive={isModalActive}
+            setIsActive={setIsModalActive}
+            width="80vw"
+            maxWidth="1000px"
+            modalStyle="video"
+          >
+            <Space
+              $h={{ size: 'm', properties: ['padding-left'] }}
+              $v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+            >
+              <Space $h={{ size: 'xl', properties: ['padding-right'] }}>
+                <h3 className={font('intsb', 5)} style={{ marginBottom: 0 }}>
+                  {exhibition.bslLeafletVideo.title}
+                </h3>
+              </Space>
             </Space>
-          )}
-          <StatusIndicator
-            start={exhibition.start}
-            end={exhibition.end || new Date()}
-            statusOverride={exhibition.statusOverride}
-          />
-        </Fragment>
-      }
-      FeaturedMedia={maybeFeaturedMedia}
-      HeroPicture={maybeHeroPicture}
-      isFree={true}
-      isContentTypeInfoBeforeMedia={true}
-    />
+            {isModalActive ? (
+              <VideoEmbed
+                embedUrl={exhibition.bslLeafletVideo.embedUrl}
+                videoProvider={exhibition.bslLeafletVideo.videoProvider}
+                videoThumbnail={exhibition.bslLeafletVideo.videoThumbnail}
+              />
+            ) : null}
+          </Modal>
+          <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+            <Space
+              $v={{ negative: true, size: 'm', properties: ['margin-bottom'] }}
+            >
+              <ContaineredLayout gridSizes={gridSize8()}>
+                <BslLeafletButton onClick={() => setIsModalActive(true)}>
+                  <Icon
+                    icon={britishSignLanguageTranslation}
+                    sizeOverride="width: 32px; height: 32px;"
+                  />{' '}
+                  <BslLeaftletButtonText>
+                    Watch in sign language
+                  </BslLeaftletButtonText>
+                </BslLeafletButton>
+              </ContaineredLayout>
+            </Space>
+          </Space>
+        </>
+      )}
+    </>
   );
 
   const exhibitionFormat =
@@ -362,18 +433,15 @@ const Exhibition: FunctionComponent<Props> = ({
           )}
         </>
       )}
-
       {exhibition.contributors.length > 0 && (
         <Contributors contributors={exhibition.contributors} />
       )}
-
       {(exhibitionOfs.length > 0 || pages.length > 0) && (
         <SearchResults
           items={[...exhibitionOfs, ...pages]}
           title={`In this ${exhibitionFormat.toLowerCase()}`}
         />
       )}
-
       {exhibition.end && !isPast(exhibition.end) && (
         <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
           <AccessibilityServices>
