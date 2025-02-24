@@ -18,6 +18,10 @@ import {
   location,
   ticket,
 } from '@weco/common/icons';
+import {
+  ExhibitionHighlightToursDocument,
+  ExhibitionTextsDocument,
+} from '@weco/common/prismicio-types';
 import { useToggles } from '@weco/common/server-data/Context';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font, grid } from '@weco/common/utils/classnames';
@@ -247,12 +251,16 @@ type Props = {
   exhibition: ExhibitionType;
   pages: PageType[];
   accessResourceLinks: (Link & { type: string })[];
+  exhibitionTexts: ExhibitionTextsDocument[];
+  exhibitionHighlightTours: ExhibitionHighlightToursDocument[];
 };
 
 const Exhibition: FunctionComponent<Props> = ({
   exhibition,
   pages,
   accessResourceLinks,
+  exhibitionTexts,
+  exhibitionHighlightTours,
 }) => {
   type ExhibitionOf = (ExhibitionType | EventBasic)[];
 
@@ -266,6 +274,18 @@ const Exhibition: FunctionComponent<Props> = ({
     link => link.type === 'visual-story'
   );
 
+  // Theoretically, there could be multiple ExhibitionTexts and ExhibitionHighlightTours
+  // attached to an exhibition, but in reality there is only one, so we just take the first
+  // and create links to them.
+  const exhibitionTextLink = linkResolver(exhibitionTexts[0]);
+  const bslTourLink = linkResolver({
+    ...exhibitionHighlightTours[0],
+    highlightTourType: 'bsl',
+  });
+  const audioTourLink = linkResolver({
+    ...exhibitionHighlightTours[0],
+    highlightTourType: 'audio',
+  });
   useEffect(() => {
     const ids = exhibition.relatedIds;
 
