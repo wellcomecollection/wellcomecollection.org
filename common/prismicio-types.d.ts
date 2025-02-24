@@ -3034,6 +3034,17 @@ interface ExhibitionsDocumentData {
   place: prismic.ContentRelationshipField<'places'>;
 
   /**
+   * BSL leaflet video field in *Exhibition*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.bslLeafletVideo
+   * - **Tab**: Exhibition
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  bslLeafletVideo: prismic.EmbedField;
+
+  /**
    * Slice Zone field in *Exhibition*
    *
    * - **Field Type**: Slice Zone
