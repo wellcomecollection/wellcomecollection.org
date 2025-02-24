@@ -1,4 +1,5 @@
 import * as prismic from '@prismicio/client';
+import NextLink from 'next/link';
 import { Fragment, FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -19,7 +20,7 @@ import {
 } from '@weco/common/icons';
 import { useToggles } from '@weco/common/server-data/Context';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font } from '@weco/common/utils/classnames';
+import { font, grid } from '@weco/common/utils/classnames';
 import { isFuture, isPast } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
@@ -30,6 +31,7 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import Accordion from '@weco/content/components/Accordion/Accordion';
 import Body from '@weco/content/components/Body/Body';
 import Contact from '@weco/content/components/Contact/Contact';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
@@ -456,6 +458,159 @@ const Exhibition: FunctionComponent<Props> = ({
       )}
       {exhibitionAccessContent && (
         <>
+          <div className="grid">
+            <div className={grid({ s: 12 })}>
+              <Space
+                as="h2"
+                className={font('wb', 3)}
+                $v={{ size: 'l', properties: ['margin-bottom'] }}
+              >
+                Access resources
+              </Space>
+            </div>
+          </div>
+          <h3>Plan your visit</h3>
+          <p>
+            <a href="/">Exhibition visual story</a> This visual story provides
+            images and information to help you plan and prepare for your visit
+            to the exhibition.
+          </p>
+          <h3>{`When you're here`}</h3>
+          <p>
+            Resources designed to support your visit are available online and in
+            the gallery.
+          </p>
+          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+            {/* TODO get all the proper links */}
+            {/* TODO clarify behaviour of accordion? */}
+            <Accordion
+              id="access-resources"
+              items={[
+                {
+                  summary: 'Digital highlights tour',
+                  content: (
+                    <ul>
+                      {/* TODO links */}
+                      <li>
+                        Find out more about the exhibition with our digital
+                        highlights tour, available in short audio clips with
+                        audio description and transcripts, or as BSL videos.It
+                        can be accessed on your own device, via handheld devices
+                        with tactile buttons, or on an iPad which you can borrow
+                      </li>
+                      <li>
+                        <NextLink href="/">Watch BSL video tour</NextLink>
+                      </li>
+                      <li>
+                        <NextLink href="/">
+                          Listen to audio tour with audio description
+                        </NextLink>
+                      </li>
+                    </ul>
+                  ),
+                },
+                {
+                  summary: 'BSL, transcripts and induction loops',
+                  content: (
+                    <ul>
+                      {/* TODO links */}
+                      <li>
+                        Audiovisual content is available in BSL in the gallery
+                      </li>
+                      <li>
+                        Live BSL tours are available. See our exhibition events
+                        above for more information or contact us in advance to
+                        request a tour
+                      </li>
+                      <li>
+                        <NextLink href="/">
+                          Watch BSL videos of the digital highlights tour on
+                          your own device
+                        </NextLink>
+                      </li>
+                      <li>
+                        Transcripts of all audiovisual content are available in
+                        the gallery and <NextLink href="/">online</NextLink>
+                        {/* TODO labelled-by to give better link text */}
+                      </li>
+                      <li>All videos are subtitled</li>
+                      <li>
+                        There are fixed induction loops in the building and
+                        portable induction loops available to borrow
+                      </li>
+                    </ul>
+                  ),
+                },
+                {
+                  summary: 'Audio description and visual access',
+                  content: (
+                    <ul>
+                      {/* TODO links */}
+                      <li>
+                        <NextLink href="/">
+                          The digital highlights tour is available with audio
+                          description
+                        </NextLink>
+                      </li>
+                      <li>
+                        <NextLink href="/">
+                          Access all the text from the exhibition on your own
+                          device
+                        </NextLink>
+                      </li>
+                      <li>
+                        A large-print guide and magnifiers are available in the
+                        gallery
+                      </li>
+                      <li>There is a tactile line on the gallery floor</li>
+                      <li>
+                        There are brighter and more even lighting conditions
+                        across the gallery during our Lights Up sessions.{' '}
+                        {/* TODO wording correct? why above? */}
+                        {/* TODO should it link to filtered search? */}
+                        <NextLink href="/">
+                          For more information, find our exhibition events
+                          above.
+                        </NextLink>
+                      </li>
+                    </ul>
+                  ),
+                },
+                {
+                  summary: 'Wheelchair and physical access',
+                  content: (
+                    <ul>
+                      Step-free access is available to all floors of the
+                      building We have a Changing Places toilet on level 0 and
+                      accessible toilets on all floors
+                    </ul>
+                  ),
+                },
+                {
+                  summary: 'Sensory access',
+                  content: (
+                    <ul>
+                      {/* TODO links */}
+                      <NextLink href="/">
+                        A visual story with a sensory map is available online
+                      </NextLink>{' '}
+                      and in the building at the start of the exhibition You can
+                      borrow tinted glasses, tinted visors, ear defenders and
+                      weighted lap pads. Please speak to a member of staff in
+                      the building Weekday mornings and Thursday evenings are
+                      usually the quietest times to visit Additional support is
+                      available during our Relaxed Openings.{' '}
+                      {/* TODO is this wording correct */}
+                      {/* should it link to filtered search? */}
+                      <NextLink href="/">
+                        For more information, find our exhibition events above.
+                      </NextLink>
+                    </ul>
+                  ),
+                },
+              ]}
+            />
+          </Space>
           <Space
             as="h3"
             className={font('intb', 3)}
