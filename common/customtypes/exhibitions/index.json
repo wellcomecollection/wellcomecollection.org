@@ -72,6 +72,13 @@
           "placeholder": ""
         }
       },
+      "bslLeafletVideo": {
+        "type": "Embed",
+        "config": {
+          "label": "BSL leaflet video",
+          "placeholder": ""
+        }
+      },
       "body": {
         "type": "Slices",
         "fieldset": "Slice Zone",
