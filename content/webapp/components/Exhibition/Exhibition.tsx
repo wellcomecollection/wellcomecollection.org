@@ -368,7 +368,6 @@ const Exhibition: FunctionComponent<Props> = ({
           <li>
             There are brighter and more even lighting conditions across the
             gallery during our Lights Up sessions.{' '}
-            {/* TODO double check links */}
             <NextLink href="/events">
               For more information, find our exhibition events above.
             </NextLink>
@@ -399,8 +398,6 @@ const Exhibition: FunctionComponent<Props> = ({
           Please speak to a member of staff in the building Weekday mornings and
           Thursday evenings are usually the quietest times to visit Additional
           support is available during our Relaxed Openings.{' '}
-          {/* TODO is this wording correct */}
-          {/* should it link to filtered search? */}
           <NextLink href="/events">
             For more information, find our exhibition events above.
           </NextLink>
