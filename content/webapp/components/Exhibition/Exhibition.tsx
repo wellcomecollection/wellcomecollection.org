@@ -262,6 +262,10 @@ const Exhibition: FunctionComponent<Props> = ({
     []
   );
 
+  const visualStoryLink = accessResourceLinks.find(
+    link => link.type === 'visual-story'
+  );
+
   useEffect(() => {
     const ids = exhibition.relatedIds;
 
@@ -469,12 +473,18 @@ const Exhibition: FunctionComponent<Props> = ({
               </Space>
             </div>
           </div>
-          <h3>Plan your visit</h3>
-          <p>
-            <a href="/">Exhibition visual story</a> This visual story provides
-            images and information to help you plan and prepare for your visit
-            to the exhibition.
-          </p>
+          {visualStoryLink && (
+            <>
+              <h3>Plan your visit</h3>
+              <NextLink href={visualStoryLink.url}>
+                Exhibition visual story
+              </NextLink>{' '}
+              <Space as="p" $v={{ size: 'm', properties: ['margin-top'] }}>
+                This visual story provides images and information to help you
+                plan and prepare for your visit to the exhibition.
+              </Space>
+            </>
+          )}
           <h3>{`When you're here`}</h3>
           <p>
             Resources designed to support your visit are available online and in
