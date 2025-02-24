@@ -1,6 +1,8 @@
 import * as prismic from '@prismicio/client';
 
 import {
+  ExhibitionHighlightToursDocument,
+  ExhibitionTextsDocument,
   ExhibitionsDocument as RawExhibitionsDocument,
   PagesDocument as RawPagesDocument,
   VisualStoriesDocument as RawVisualStoriesDocument,
@@ -83,6 +85,8 @@ export type FetchExhibitionResult = {
     id: string;
     type: string;
   }[];
+  exhibitionTexts: ExhibitionTextsDocument[];
+  exhibitionHighlightTours: ExhibitionHighlightToursDocument[];
 };
 
 export async function fetchExhibition(
@@ -178,6 +182,8 @@ export async function fetchExhibition(
     pages,
     visualStories,
     allGuides,
+    exhibitionTexts: exhibitionTextsQuery.results,
+    exhibitionHighlightTours: exhibitionHighlightToursQuery.results,
   };
 }
 
