@@ -31,6 +31,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import Body from '@weco/content/components/Body/Body';
+import Contact from '@weco/content/components/Contact/Contact';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import Contributors from '@weco/content/components/Contributors/Contributors';
 import DateRange from '@weco/content/components/DateRange/DateRange';
@@ -452,6 +453,21 @@ const Exhibition: FunctionComponent<Props> = ({
       )}
       {exhibitionAbouts.length > 0 && (
         <SearchResults items={exhibitionAbouts} title="Related stories" />
+      )}
+      {exhibitionAccessContent && (
+        <>
+          <h3>Access information and queries</h3>
+          <Contact
+            title={null}
+            subtitle={null}
+            link={{
+              text: 'Visit our accessibility page ',
+              url: '/visit-us/accessibility',
+            }}
+            phone="020 7611 2222"
+            email="access@wellcomecollection.org"
+          />
+        </>
       )}
     </ContentPage>
   );
