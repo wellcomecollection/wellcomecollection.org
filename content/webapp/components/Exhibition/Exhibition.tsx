@@ -325,9 +325,15 @@ const Exhibition: FunctionComponent<Props> = ({
             </NextLink>
           </li>
           <li>
-            Transcripts of all audiovisual content are available in the gallery
-            and{' '}
-            <NextLink id="transcript-link" href={exhibitionTextLink}>
+            <span id="transcript-link-text">
+              Transcripts of all audiovisual content are available
+            </span>{' '}
+            in the gallery and
+            <NextLink
+              id="transcript-link"
+              aria-labelledby="transcript-link-text transcript-link"
+              href={exhibitionTextLink}
+            >
               online
             </NextLink>
           </li>
@@ -625,7 +631,6 @@ const Exhibition: FunctionComponent<Props> = ({
             the gallery.
           </p>
           <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-
             <Accordion id="access-resources" items={accordionContent} />
           </Space>
           <Space
