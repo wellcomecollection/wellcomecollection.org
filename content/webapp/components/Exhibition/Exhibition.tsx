@@ -456,7 +456,13 @@ const Exhibition: FunctionComponent<Props> = ({
       )}
       {exhibitionAccessContent && (
         <>
-          <h3>Access information and queries</h3>
+          <Space
+            as="h3"
+            className={font('intb', 3)}
+            $v={{ size: 'l', properties: ['margin-bottom'] }}
+          >
+            Access information and queries
+          </Space>
           <Contact
             title="Visitor experience"
             link={{
