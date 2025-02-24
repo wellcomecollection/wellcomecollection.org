@@ -289,7 +289,7 @@ const Exhibition: FunctionComponent<Props> = ({
     highlightTourType: 'audio',
   });
 
-  const possibleAccordionContent = [
+  const possibleExhibitionAccessContent = [
     {
       summary: 'Digital highlights tour',
       content: (
@@ -409,7 +409,7 @@ const Exhibition: FunctionComponent<Props> = ({
     },
   ];
 
-  const accordionContent = possibleAccordionContent.filter(section => {
+  const accordionContent = possibleExhibitionAccessContent.filter(section => {
     if (
       !hasExhibitionHighlightTours &&
       section.summary === 'Digital highlights tour'
