@@ -458,8 +458,7 @@ const Exhibition: FunctionComponent<Props> = ({
         <>
           <h3>Access information and queries</h3>
           <Contact
-            title={null}
-            subtitle={null}
+            title="Visitor experience"
             link={{
               text: 'Visit our accessibility page ',
               url: '/visit-us/accessibility',
