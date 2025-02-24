@@ -7,7 +7,9 @@ import { a11y } from '@weco/common/data/microcopy';
 import {
   a11Y,
   a11YVisual,
+  accessibility,
   arrow,
+  britishSignLanguageTranslation,
   calendar,
   clock,
   download,
@@ -15,6 +17,7 @@ import {
   location,
   ticket,
 } from '@weco/common/icons';
+import { useToggles } from '@weco/common/server-data/Context';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { isFuture, isPast } from '@weco/common/utils/dates';
@@ -148,9 +151,13 @@ function getPlaceObject(
     }
   );
 }
-
-function getAccessibilityItems(): ExhibitionItem[] {
-  return [
+function getAccessibilityItems(
+  exhibitionAccessContent: boolean | undefined
+): ExhibitionItem[] {
+  const accessibilityItems: {
+    description: prismic.RichTextField;
+    icon: IconSvg;
+  }[] = [
     {
       description: [
         {
@@ -171,16 +178,59 @@ function getAccessibilityItems(): ExhibitionItem[] {
       ],
       icon: a11YVisual,
     },
+    {
+      description: [
+        {
+          type: 'paragraph',
+          text: a11y.bsl,
+          spans: [],
+        },
+      ],
+      icon: britishSignLanguageTranslation,
+    },
+    {
+      description: [
+        {
+          type: 'paragraph',
+          text: a11y.accessResources,
+          spans: [],
+        },
+      ],
+      icon: accessibility,
+    },
   ];
+  if (exhibitionAccessContent) {
+    return accessibilityItems.filter(item => {
+      if (item.description[0] && 'text' in item.description[0]) {
+        return item.description[0]?.text !== a11y.largePrintGuides;
+      } else {
+        return true;
+      }
+    });
+  } else {
+    return accessibilityItems.filter(item => {
+      if (item.description[0] && 'text' in item.description[0]) {
+        return (
+          item.description[0]?.text !== a11y.bsl &&
+          item.description[0]?.text !== a11y.accessResources
+        );
+      } else {
+        return true;
+      }
+    });
+  }
 }
 
-export function getInfoItems(exhibition: ExhibitionType): ExhibitionItem[] {
+export function getInfoItems(
+  exhibition: ExhibitionType,
+  exhibitionAccessContent?: boolean
+): ExhibitionItem[] {
   return [
     getUpcomingExhibitionObject(exhibition),
     getadmissionObject(),
     getTodaysHoursObject(),
     getPlaceObject(exhibition),
-    ...getAccessibilityItems(),
+    ...getAccessibilityItems(exhibitionAccessContent),
   ].filter(isNotUndefined);
 }
 
@@ -203,6 +253,7 @@ const Exhibition: FunctionComponent<Props> = ({
 }) => {
   type ExhibitionOf = (ExhibitionType | EventBasic)[];
 
+  const { exhibitionAccessContent } = useToggles();
   const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
   const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout[]>(
     []
@@ -375,7 +426,10 @@ const Exhibition: FunctionComponent<Props> = ({
       )}
 
       {exhibition.end && !isPast(exhibition.end) && (
-        <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
+        <InfoBox
+          title="Visit us"
+          items={getInfoItems(exhibition, exhibitionAccessContent)}
+        >
           <AccessibilityServices>
             For more information, please visit our{' '}
             <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>{' '}
