@@ -494,11 +494,50 @@ const Exhibition: FunctionComponent<Props> = ({
       // We hide contributors as we show them further up the page
       hideContributors={true}
     >
+      {exhibition.end && !isPast(exhibition.end) && (
+        <InfoBox
+          title="Visit us"
+          items={getInfoItems(exhibition, exhibitionAccessContent)}
+        >
+          <AccessibilityServices>
+            For more information, please visit our{' '}
+            <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>{' '}
+            page. If you have any queries about accessibility, please email us
+            at{' '}
+            <a href="mailto:access@wellcomecollection.org">
+              access@wellcomecollection.org
+            </a>{' '}
+            or call{' '}
+            {/*
+              This is to ensure phone numbers are read in a sensible way by
+              screen readers.
+            */}
+            <span className="visually-hidden">
+              {createScreenreaderLabel('020 7611 2222')}
+            </span>
+            <span aria-hidden="true">020&nbsp;7611&nbsp;2222.</span>
+          </AccessibilityServices>
+        </InfoBox>
+      )}
+
+      {exhibition.contributors.length > 0 && (
+        <Contributors contributors={exhibition.contributors} />
+      )}
+
+      {(exhibitionOfs.length > 0 || pages.length > 0) && (
+        <SearchResults
+          items={[...exhibitionOfs, ...pages]}
+          title={`In this ${exhibitionFormat.toLowerCase()}`}
+        />
+      )}
+
       {hasResources && !exhibitionAccessContent && (
         <>
-          <h2
+          <Space
+            as="h2"
+            $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
             className={font('wb', 3)}
-          >{`${exhibitionFormat} access content`}</h2>
+          >{`${exhibitionFormat} access content`}</Space>
           {(accessResourceLinks.length > 0 ||
             exhibition.accessResourcesPdfs.length > 0) && (
             <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
@@ -561,45 +600,6 @@ const Exhibition: FunctionComponent<Props> = ({
         </>
       )}
 
-      {exhibition.contributors.length > 0 && (
-        <Contributors contributors={exhibition.contributors} />
-      )}
-
-      {(exhibitionOfs.length > 0 || pages.length > 0) && (
-        <SearchResults
-          items={[...exhibitionOfs, ...pages]}
-          title={`In this ${exhibitionFormat.toLowerCase()}`}
-        />
-      )}
-
-      {exhibition.end && !isPast(exhibition.end) && (
-        <InfoBox
-          title="Visit us"
-          items={getInfoItems(exhibition, exhibitionAccessContent)}
-        >
-          <AccessibilityServices>
-            For more information, please visit our{' '}
-            <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>{' '}
-            page. If you have any queries about accessibility, please email us
-            at{' '}
-            <a href="mailto:access@wellcomecollection.org">
-              access@wellcomecollection.org
-            </a>{' '}
-            or call{' '}
-            {/*
-        This is to ensure phone numbers are read in a sensible way by
-        screen readers.
-      */}
-            <span className="visually-hidden">
-              {createScreenreaderLabel('020 7611 2222')}
-            </span>
-            <span aria-hidden="true">020&nbsp;7611&nbsp;2222.</span>
-          </AccessibilityServices>
-        </InfoBox>
-      )}
-      {exhibitionAbouts.length > 0 && (
-        <SearchResults items={exhibitionAbouts} title="Related stories" />
-      )}
       {exhibitionAccessContent && (
         <>
           <div className="grid">
@@ -650,6 +650,10 @@ const Exhibition: FunctionComponent<Props> = ({
             email="access@wellcomecollection.org"
           />
         </>
+      )}
+
+      {exhibitionAbouts.length > 0 && (
+        <SearchResults items={exhibitionAbouts} title="Related stories" />
       )}
     </ContentPage>
   );
