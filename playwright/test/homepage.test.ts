@@ -17,7 +17,7 @@ test('(1) Website includes the Meta domain verification tag', async ({
   );
 });
 
-test('(2) | Cookie banner displays on first visit from anywhere, except the cookie policy page.', async ({
+test('(2) | Cookie banner displays on first visit from anywhere.', async ({
   page,
 }) => {
   await gotoWithoutCache(baseUrl, page);
@@ -26,9 +26,6 @@ test('(2) | Cookie banner displays on first visit from anywhere, except the cook
 
   await gotoWithoutCache(`${baseUrl}/visit-us`, page);
   await expect(cookieBanner).toBeAttached();
-
-  await gotoWithoutCache(`${baseUrl}/about-us/cookie-policy`, page);
-  await expect(cookieBanner).not.toBeAttached();
 });
 
 test('(3) | Cookie banner only displays if CookieControl cookie has not already been set', async ({
