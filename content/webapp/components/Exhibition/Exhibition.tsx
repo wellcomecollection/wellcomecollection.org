@@ -520,10 +520,6 @@ const Exhibition: FunctionComponent<Props> = ({
         </InfoBox>
       )}
 
-      {exhibition.contributors.length > 0 && (
-        <Contributors contributors={exhibition.contributors} />
-      )}
-
       {(exhibitionOfs.length > 0 || pages.length > 0) && (
         <SearchResults
           items={[...exhibitionOfs, ...pages]}
@@ -654,6 +650,10 @@ const Exhibition: FunctionComponent<Props> = ({
 
       {exhibitionAbouts.length > 0 && (
         <SearchResults items={exhibitionAbouts} title="Related stories" />
+      )}
+
+      {exhibition.contributors.length > 0 && (
+        <Contributors contributors={exhibition.contributors} />
       )}
     </ContentPage>
   );
