@@ -537,11 +537,15 @@ const Exhibition: FunctionComponent<Props> = ({
           )}
 
           {(exhibitionOfs.length > 0 || pages.length > 0) && (
-            <SearchResults
-              id="events-list"
-              items={[...exhibitionOfs, ...pages]}
-              title={`In this ${exhibitionFormat.toLowerCase()}`}
-            />
+            <Space
+              $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
+            >
+              <SearchResults
+                id="events-list"
+                items={[...exhibitionOfs, ...pages]}
+                title={`In this ${exhibitionFormat.toLowerCase()}`}
+              />
+            </Space>
           )}
 
           {exhibitionAccessContent && (
@@ -599,7 +603,11 @@ const Exhibition: FunctionComponent<Props> = ({
           )}
 
           {exhibitionAbouts.length > 0 && (
-            <SearchResults items={exhibitionAbouts} title="Related stories" />
+            <Space
+              $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
+            >
+              <SearchResults items={exhibitionAbouts} title="Related stories" />
+            </Space>
           )}
 
           {exhibition.contributors.length > 0 && (
