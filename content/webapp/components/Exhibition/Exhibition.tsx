@@ -274,20 +274,28 @@ const Exhibition: FunctionComponent<Props> = ({
     link => link.type === 'visual-story'
   );
 
+  const hasExhibtionTexts = exhibitionTexts.length > 0;
+  const hasExhibitionHighlightTours = exhibitionHighlightTours.length > 0;
+
   // Theoretically, there could be multiple ExhibitionTexts and ExhibitionHighlightTours
   // attached to an exhibition, but in reality there is only one, so we just take the first
   // and create links to them.
-  const exhibitionTextLink = linkResolver(exhibitionTexts[0]);
-  const bslTourLink = linkResolver({
-    ...exhibitionHighlightTours[0],
-    highlightTourType: 'bsl',
-  });
-  const audioTourLink = linkResolver({
-    ...exhibitionHighlightTours[0],
-    highlightTourType: 'audio',
-  });
+  const exhibitionTextLink =
+    hasExhibtionTexts && linkResolver(exhibitionTexts[0]);
+  const bslTourLink =
+    hasExhibitionHighlightTours &&
+    linkResolver({
+      ...exhibitionHighlightTours[0],
+      highlightTourType: 'bsl',
+    });
+  const audioTourLink =
+    hasExhibitionHighlightTours &&
+    linkResolver({
+      ...exhibitionHighlightTours[0],
+      highlightTourType: 'audio',
+    });
 
-  const accordionContent = [
+  const possibleExhibitionAccessContent = [
     {
       summary: 'Digital highlights tour',
       content: (
@@ -299,14 +307,18 @@ const Exhibition: FunctionComponent<Props> = ({
             via handheld devices with tactile buttons, or on an iPad which you
             can borrow
           </li>
-          <li>
-            <NextLink href={bslTourLink}>Watch BSL video tour</NextLink>
-          </li>
-          <li>
-            <NextLink href={audioTourLink}>
-              Listen to audio tour with audio description
-            </NextLink>
-          </li>
+          {bslTourLink && (
+            <li>
+              <NextLink href={bslTourLink}>Watch BSL video tour</NextLink>
+            </li>
+          )}
+          {audioTourLink && (
+            <li>
+              <NextLink href={audioTourLink}>
+                Listen to audio tour with audio description
+              </NextLink>
+            </li>
+          )}
         </ul>
       ),
     },
@@ -319,24 +331,34 @@ const Exhibition: FunctionComponent<Props> = ({
             Live BSL tours are available. See our exhibition events above for
             more information or contact us in advance to request a tour
           </li>
-          <li>
-            <NextLink href={bslTourLink}>
-              Watch BSL videos of the digital highlights tour on your own device
-            </NextLink>
-          </li>
+          {bslTourLink && (
+            <li>
+              <NextLink href={bslTourLink}>
+                Watch BSL videos of the digital highlights tour on your own
+                device
+              </NextLink>
+            </li>
+          )}
+
           <li>
             <span id="transcript-link-text">
               Transcripts of all audiovisual content are available
             </span>{' '}
-            in the gallery and{' '}
-            <NextLink
-              id="transcript-link"
-              aria-labelledby="transcript-link-text transcript-link"
-              href={exhibitionTextLink}
-            >
-              online
-            </NextLink>
+            in the gallery
+            {exhibitionTextLink && (
+              <>
+                {` and `}
+                <NextLink
+                  id="transcript-link"
+                  aria-labelledby="transcript-link-text transcript-link"
+                  href={exhibitionTextLink}
+                >
+                  online
+                </NextLink>
+              </>
+            )}
           </li>
+
           <li>All videos are subtitled</li>
           <li>
             There are fixed induction loops in the building and portable
@@ -349,16 +371,20 @@ const Exhibition: FunctionComponent<Props> = ({
       summary: 'Audio description and visual access',
       content: (
         <ul>
-          <li>
-            <NextLink href={audioTourLink}>
-              The digital highlights tour is available with audio description
-            </NextLink>
-          </li>
-          <li>
-            <NextLink href={exhibitionTextLink}>
-              Access all the text from the exhibition on your own device
-            </NextLink>
-          </li>
+          {audioTourLink && (
+            <li>
+              <NextLink href={audioTourLink}>
+                The digital highlights tour is available with audio description
+              </NextLink>
+            </li>
+          )}
+          {exhibitionTextLink && (
+            <li>
+              <NextLink href={exhibitionTextLink}>
+                Access all the text from the exhibition on your own device
+              </NextLink>
+            </li>
+          )}
           <li>
             A large-print guide and magnifiers are available in the gallery
           </li>
@@ -366,9 +392,11 @@ const Exhibition: FunctionComponent<Props> = ({
           <li>
             There are brighter and more even lighting conditions across the
             gallery during our Lights Up sessions.{' '}
-            <NextLink href="#events-list">
-              See our exhibition events for more information and availability
-            </NextLink>
+            {exhibitionOfs.length > 0 && (
+              <NextLink href="#events-list">
+                See our exhibition events for more information and availability
+              </NextLink>
+            )}
           </li>
         </ul>
       ),
@@ -398,7 +426,7 @@ const Exhibition: FunctionComponent<Props> = ({
                 and
               </>
             ) : (
-              'A visual story with a sensory map is available online'
+              'A visual story with a sensory map is available '
             )}{' '}
             in the building at the start of the exhibition
           </li>
@@ -412,14 +440,28 @@ const Exhibition: FunctionComponent<Props> = ({
           </li>
           <li>
             Additional support is available during our Relaxed Openings.{' '}
-            <NextLink href="#events-list">
-              See our exhibition events for more information and availability
-            </NextLink>
+            {exhibitionOfs.length > 0 && (
+              <NextLink href="#events-list">
+                See our exhibition events for more information and availability
+              </NextLink>
+            )}
           </li>
         </ul>
       ),
     },
   ];
+
+  const accordionContent = possibleExhibitionAccessContent.filter(section => {
+    if (
+      !hasExhibitionHighlightTours &&
+      section.summary === 'Digital highlights tour'
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  });
+
   useEffect(() => {
     const ids = exhibition.relatedIds;
 
