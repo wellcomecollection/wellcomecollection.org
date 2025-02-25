@@ -78,6 +78,7 @@ const BslLeafletVideo: FunctionComponent<Props> = ({
               embedUrl={video.embedUrl}
               videoProvider={video.videoProvider}
               videoThumbnail={video.videoThumbnail}
+              hasFullSizePoster={true}
             />
             <NewWindowVideo href={video.embedUrl}>
               Open video in a new window
