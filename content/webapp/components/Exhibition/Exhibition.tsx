@@ -567,6 +567,7 @@ const Exhibition: FunctionComponent<Props> = ({
 
       {(exhibitionOfs.length > 0 || pages.length > 0) && (
         <SearchResults
+          id="events-list"
           items={[...exhibitionOfs, ...pages]}
           title={`In this ${exhibitionFormat.toLowerCase()}`}
         />
