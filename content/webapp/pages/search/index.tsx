@@ -495,12 +495,12 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                 <>
                   {formatNumber(totalResults)} result
                   {totalResults === 1 ? '' : 's'}
-                  {queryString ? (
+                  {queryString && (
                     <>
                       {' '}
                       for <span className={font('intb', 5)}>{queryString}</span>
                     </>
-                  ) : null}
+                  )}
                 </>
               )}
             </p>
@@ -529,7 +529,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                     </h3>
                   </Space>
 
-                  {clientSideWorkTypes?.totalResults ? (
+                  {clientSideWorkTypes?.totalResults && (
                     <CatalogueResultsSection>
                       <CatalogueSectionTitle>
                         Catalogue results
@@ -577,7 +577,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                         </AllLink>
                       </NextLink>
                     </CatalogueResultsSection>
-                  ) : null}
+                  )}
 
                   {totalWorksResults > 0 && totalImagesResults > 0 && (
                     <Space
@@ -595,7 +595,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                     </Space>
                   )}
 
-                  {clientSideImages?.totalResults ? (
+                  {clientSideImages?.totalResults && (
                     <>
                       <CatalogueSectionTitle
                         $h={{
@@ -634,7 +634,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                         </NextLink>
                       </CatalogueResultsSection>
                     </>
-                  ) : null}
+                  )}
                 </CatalogueResultsInner>
               </CatalogueResults>
             )}
@@ -650,13 +650,13 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                   </Space>
                 ))}
 
-                {contentResults?.totalPages ? (
+                {contentResults?.totalPages && (
                   <Pagination
                     totalPages={contentResults.totalPages}
                     ariaLabel="Content search results pagination"
                     isHiddenMobile={false}
                   />
-                ) : null}
+                )}
               </ContentResults>
             )}
           </GridContainer>
