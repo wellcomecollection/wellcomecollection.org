@@ -129,7 +129,7 @@ function transformTeamToContact(team): ContactProps {
 
   return {
     title: asTitle(title),
-    subtitle: asText(subtitle) || null,
+    subtitle: asText(subtitle),
     email,
     phone,
   };
