@@ -508,166 +508,283 @@ const Exhibition: FunctionComponent<Props> = ({
       // We hide contributors as we show them further up the page
       hideContributors={true}
     >
-      {exhibition.end && !isPast(exhibition.end) && (
-        <InfoBox
-          title="Visit us"
-          items={getInfoItems(exhibition, exhibitionAccessContent)}
-        >
-          <AccessibilityServices>
-            For more information, please visit our{' '}
-            <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>{' '}
-            page. If you have any queries about accessibility, please email us
-            at{' '}
-            <a href="mailto:access@wellcomecollection.org">
-              access@wellcomecollection.org
-            </a>{' '}
-            or call{' '}
-            {/*
-              This is to ensure phone numbers are read in a sensible way by
-              screen readers.
-            */}
-            <span className="visually-hidden">
-              {createScreenreaderLabel('020 7611 2222')}
-            </span>
-            <span aria-hidden="true">020&nbsp;7611&nbsp;2222.</span>
-          </AccessibilityServices>
-        </InfoBox>
-      )}
-
-      {(exhibitionOfs.length > 0 || pages.length > 0) && (
-        <SearchResults
-          id="events-list"
-          items={[...exhibitionOfs, ...pages]}
-          title={`In this ${exhibitionFormat.toLowerCase()}`}
-        />
-      )}
-
-      {hasResources && !exhibitionAccessContent && (
+      {exhibitionAccessContent ? (
         <>
-          <Space
-            as="h2"
-            $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
-            className={font('wb', 3)}
-          >{`${exhibitionFormat} access content`}</Space>
-          {(accessResourceLinks.length > 0 ||
-            exhibition.accessResourcesPdfs.length > 0) && (
-            <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
-              <ResourcesList>
-                {accessResourceLinks.map((link, i) => {
-                  const borderColor = getBorderColor({ type: link.type, i });
-                  return (
-                    <ResourcesItem key={link.url}>
-                      <ResourceLink
-                        key={i}
-                        href={link.url}
-                        $borderColor={borderColor}
-                      >
-                        {link.type === 'exhibition-guide' && (
-                          <h3 className={font('intb', 4)}>
-                            Digital exhibition guide
-                          </h3>
-                        )}
-                        {link.type === 'visual-story' && (
-                          <h3 className={font('intb', 4)}>Visual story</h3>
-                        )}
-                        <span className={font('intr', 6)}>{link.text}</span>
-                        <ResourceLinkIconWrapper>
-                          <Icon icon={arrow} />
-                        </ResourceLinkIconWrapper>
-                      </ResourceLink>
-                    </ResourcesItem>
-                  );
-                })}
-                {exhibition.accessResourcesPdfs.map((pdf, i) => {
-                  const borderColor = getBorderColor({ type: undefined, i });
-                  return (
-                    <ResourcesItem key={pdf.url}>
-                      <ResourceLink
-                        key={i}
-                        href={pdf.url}
-                        $borderColor={borderColor}
-                        $underlineText={true}
-                      >
-                        <span className={font('intr', 5)}>
-                          {`${pdf.text} PDF`} {`(${pdf.size}kb)`}
-                        </span>
-                        <ResourceLinkIconWrapper>
-                          <Icon icon={download} />
-                        </ResourceLinkIconWrapper>
-                      </ResourceLink>
-                    </ResourcesItem>
-                  );
-                })}
-              </ResourcesList>
-            </Space>
+          {exhibition.end && !isPast(exhibition.end) && (
+            <InfoBox
+              title="Visit us"
+              items={getInfoItems(exhibition, exhibitionAccessContent)}
+            >
+              <AccessibilityServices>
+                For more information, please visit our{' '}
+                <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>{' '}
+                page. If you have any queries about accessibility, please email
+                us at{' '}
+                <a href="mailto:access@wellcomecollection.org">
+                  access@wellcomecollection.org
+                </a>{' '}
+                or call{' '}
+                {/*
+                  This is to ensure phone numbers are read in a sensible way by
+                  screen readers.
+                */}
+                <span className="visually-hidden">
+                  {createScreenreaderLabel('020 7611 2222')}
+                </span>
+                <span aria-hidden="true">020&nbsp;7611&nbsp;2222.</span>
+              </AccessibilityServices>
+            </InfoBox>
           )}
-          {/* TODO improve styling of download links - defaultSerializer */}
-          {exhibition.accessResourcesText && (
-            <PrismicHtmlBlock
-              html={exhibition.accessResourcesText}
-              htmlSerializer={defaultSerializer}
+
+          {(exhibitionOfs.length > 0 || pages.length > 0) && (
+            <SearchResults
+              id="events-list"
+              items={[...exhibitionOfs, ...pages]}
+              title={`In this ${exhibitionFormat.toLowerCase()}`}
             />
           )}
-        </>
-      )}
 
-      {exhibitionAccessContent && (
-        <>
-          <div className="grid">
-            <div className={grid({ s: 12 })}>
-              <Space
-                as="h2"
-                className={font('wb', 3)}
-                $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
-              >
-                Access resources
-              </Space>
-            </div>
-          </div>
-          {visualStoryLink && (
+          {exhibitionAccessContent && (
             <>
-              <h3 className={font('intb', 4)}>Plan your visit</h3>
-              <NextLink href={visualStoryLink.url}>
-                Exhibition visual story
-              </NextLink>{' '}
-              <Space as="p" $v={{ size: 'm', properties: ['margin-top'] }}>
-                This visual story provides images and information to help you
-                plan and prepare for your visit to the exhibition.
+              <div className="grid">
+                <div className={grid({ s: 12 })}>
+                  <Space
+                    as="h2"
+                    className={font('wb', 3)}
+                    $v={{
+                      size: 'l',
+                      properties: ['margin-top', 'margin-bottom'],
+                    }}
+                  >
+                    Access resources
+                  </Space>
+                </div>
+              </div>
+              {visualStoryLink && (
+                <>
+                  <h3 className={font('intb', 4)}>Plan your visit</h3>
+                  <NextLink href={visualStoryLink.url}>
+                    Exhibition visual story
+                  </NextLink>{' '}
+                  <Space as="p" $v={{ size: 'm', properties: ['margin-top'] }}>
+                    This visual story provides images and information to help
+                    you plan and prepare for your visit to the exhibition.
+                  </Space>
+                </>
+              )}
+              <h3 className={font('intb', 4)}>{`When you're here`}</h3>
+              <p>
+                Resources designed to support your visit are available online
+                and in the gallery.
+              </p>
+              <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <Accordion id="access-resources" items={accordionContent} />
               </Space>
+              <Space
+                as="h3"
+                className={font('intb', 4)}
+                $v={{ size: 'l', properties: ['margin-bottom'] }}
+              >
+                Access information and queries
+              </Space>
+              <Contact
+                link={{
+                  text: 'Visit our accessibility page ',
+                  url: '/visit-us/accessibility',
+                }}
+                phone="020 7611 2222"
+                email="access@wellcomecollection.org"
+              />
             </>
           )}
-          <h3 className={font('intb', 4)}>{`When you're here`}</h3>
-          <p>
-            Resources designed to support your visit are available online and in
-            the gallery.
-          </p>
-          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <Accordion id="access-resources" items={accordionContent} />
-          </Space>
-          <Space
-            as="h3"
-            className={font('intb', 4)}
-            $v={{ size: 'l', properties: ['margin-bottom'] }}
-          >
-            Access information and queries
-          </Space>
-          <Contact
-            link={{
-              text: 'Visit our accessibility page ',
-              url: '/visit-us/accessibility',
-            }}
-            phone="020 7611 2222"
-            email="access@wellcomecollection.org"
-          />
+
+          {exhibitionAbouts.length > 0 && (
+            <SearchResults items={exhibitionAbouts} title="Related stories" />
+          )}
+
+          {exhibition.contributors.length > 0 && (
+            <Contributors contributors={exhibition.contributors} />
+          )}
         </>
-      )}
+      ) : (
+        <>
+          {hasResources && (
+            <>
+              <Space
+                as="h2"
+                $v={{ size: 'm', properties: ['margin-bottom'] }}
+                className={font('wb', 3)}
+              >{`${exhibitionFormat} access content`}</Space>
+              {(accessResourceLinks.length > 0 ||
+                exhibition.accessResourcesPdfs.length > 0) && (
+                <Space $v={{ size: 'xl', properties: ['padding-bottom'] }}>
+                  <ResourcesList>
+                    {accessResourceLinks.map((link, i) => {
+                      const borderColor = getBorderColor({
+                        type: link.type,
+                        i,
+                      });
+                      return (
+                        <ResourcesItem key={link.url}>
+                          <ResourceLink
+                            key={i}
+                            href={link.url}
+                            $borderColor={borderColor}
+                          >
+                            {link.type === 'exhibition-guide' && (
+                              <h3 className={font('intb', 4)}>
+                                Digital exhibition guide
+                              </h3>
+                            )}
+                            {link.type === 'visual-story' && (
+                              <h3 className={font('intb', 4)}>Visual story</h3>
+                            )}
+                            <span className={font('intr', 6)}>{link.text}</span>
+                            <ResourceLinkIconWrapper>
+                              <Icon icon={arrow} />
+                            </ResourceLinkIconWrapper>
+                          </ResourceLink>
+                        </ResourcesItem>
+                      );
+                    })}
+                    {exhibition.accessResourcesPdfs.map((pdf, i) => {
+                      const borderColor = getBorderColor({
+                        type: undefined,
+                        i,
+                      });
+                      return (
+                        <ResourcesItem key={pdf.url}>
+                          <ResourceLink
+                            key={i}
+                            href={pdf.url}
+                            $borderColor={borderColor}
+                            $underlineText={true}
+                          >
+                            <span className={font('intr', 5)}>
+                              {`${pdf.text} PDF`} {`(${pdf.size}kb)`}
+                            </span>
+                            <ResourceLinkIconWrapper>
+                              <Icon icon={download} />
+                            </ResourceLinkIconWrapper>
+                          </ResourceLink>
+                        </ResourcesItem>
+                      );
+                    })}
+                  </ResourcesList>
+                </Space>
+              )}
+              {/* TODO improve styling of download links - defaultSerializer */}
+              {exhibition.accessResourcesText && (
+                <PrismicHtmlBlock
+                  html={exhibition.accessResourcesText}
+                  htmlSerializer={defaultSerializer}
+                />
+              )}
+            </>
+          )}
 
-      {exhibitionAbouts.length > 0 && (
-        <SearchResults items={exhibitionAbouts} title="Related stories" />
-      )}
+          {exhibition.contributors.length > 0 && (
+            <Contributors contributors={exhibition.contributors} />
+          )}
 
-      {exhibition.contributors.length > 0 && (
-        <Contributors contributors={exhibition.contributors} />
+          {(exhibitionOfs.length > 0 || pages.length > 0) && (
+            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <SearchResults
+                id="events-list"
+                items={[...exhibitionOfs, ...pages]}
+                title={`In this ${exhibitionFormat.toLowerCase()}`}
+              />
+            </Space>
+          )}
+
+          {exhibition.end && !isPast(exhibition.end) && (
+            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <InfoBox
+                title="Visit us"
+                items={getInfoItems(exhibition, exhibitionAccessContent)}
+              >
+                <AccessibilityServices>
+                  For more information, please visit our{' '}
+                  <a href={`/visit-us/${prismicPageIds.access}`}>
+                    Accessibility
+                  </a>{' '}
+                  page. If you have any queries about accessibility, please
+                  email us at{' '}
+                  <a href="mailto:access@wellcomecollection.org">
+                    access@wellcomecollection.org
+                  </a>{' '}
+                  or call{' '}
+                  {/*
+                  This is to ensure phone numbers are read in a sensible way by
+                  screen readers.
+                */}
+                  <span className="visually-hidden">
+                    {createScreenreaderLabel('020 7611 2222')}
+                  </span>
+                  <span aria-hidden="true">020&nbsp;7611&nbsp;2222.</span>
+                </AccessibilityServices>
+              </InfoBox>
+            </Space>
+          )}
+
+          {exhibitionAccessContent && (
+            <>
+              <div className="grid">
+                <div className={grid({ s: 12 })}>
+                  <Space
+                    as="h2"
+                    className={font('wb', 3)}
+                    $v={{
+                      size: 'l',
+                      properties: ['margin-top', 'margin-bottom'],
+                    }}
+                  >
+                    Access resources
+                  </Space>
+                </div>
+              </div>
+              {visualStoryLink && (
+                <>
+                  <h3 className={font('intb', 4)}>Plan your visit</h3>
+                  <NextLink href={visualStoryLink.url}>
+                    Exhibition visual story
+                  </NextLink>{' '}
+                  <Space as="p" $v={{ size: 'm', properties: ['margin-top'] }}>
+                    This visual story provides images and information to help
+                    you plan and prepare for your visit to the exhibition.
+                  </Space>
+                </>
+              )}
+              <h3 className={font('intb', 4)}>{`When you're here`}</h3>
+              <p>
+                Resources designed to support your visit are available online
+                and in the gallery.
+              </p>
+              <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <Accordion id="access-resources" items={accordionContent} />
+              </Space>
+              <Space
+                as="h3"
+                className={font('intb', 4)}
+                $v={{ size: 'l', properties: ['margin-bottom'] }}
+              >
+                Access information and queries
+              </Space>
+              <Contact
+                link={{
+                  text: 'Visit our accessibility page ',
+                  url: '/visit-us/accessibility',
+                }}
+                phone="020 7611 2222"
+                email="access@wellcomecollection.org"
+              />
+            </>
+          )}
+
+          {exhibitionAbouts.length > 0 && (
+            <SearchResults items={exhibitionAbouts} title="Related stories" />
+          )}
+        </>
       )}
     </ContentPage>
   );
