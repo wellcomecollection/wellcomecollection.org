@@ -161,10 +161,6 @@ const CatalogueResultsInner = styled(Space).attrs({
 })`
   position: relative;
   background-color: ${props => props.theme.color('warmNeutral.300')};
-  min-height: 90px;
-  ${props => props.theme.media('large')`
-      min-height: 400px;
-  `}
 `;
 
 const CatalogueResultsSection = styled(Space).attrs({
