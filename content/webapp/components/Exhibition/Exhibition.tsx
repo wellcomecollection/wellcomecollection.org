@@ -339,21 +339,25 @@ const Exhibition: FunctionComponent<Props> = ({
               </NextLink>
             </li>
           )}
-          {exhibitionTextLink && (
-            <li>
-              <span id="transcript-link-text">
-                Transcripts of all audiovisual content are available
-              </span>{' '}
-              in the gallery and{' '}
-              <NextLink
-                id="transcript-link"
-                aria-labelledby="transcript-link-text transcript-link"
-                href={exhibitionTextLink}
-              >
-                online
-              </NextLink>
-            </li>
-          )}
+
+          <li>
+            <span id="transcript-link-text">
+              Transcripts of all audiovisual content are available
+            </span>{' '}
+            in the gallery
+            {exhibitionTextLink && (
+              <>
+                {` and `}
+                <NextLink
+                  id="transcript-link"
+                  aria-labelledby="transcript-link-text transcript-link"
+                  href={exhibitionTextLink}
+                >
+                  online
+                </NextLink>
+              </>
+            )}
+          </li>
 
           <li>All videos are subtitled</li>
           <li>
