@@ -254,6 +254,19 @@ const BslLeafletButton = styled.button`
   }
 `;
 
+const NewWindowVideo = styled.a`
+  opacity: 0;
+  position: absolute;
+  bottom: 9px;
+  left: 10px;
+  padding: 5px;
+  background: ${props => props.theme.color('neutral.700')};
+
+  &:focus {
+    opacity: 1;
+  }
+`;
+
 export const AccessibilityServices = styled.p.attrs({
   className: font('intr', 5),
 })`
@@ -369,11 +382,16 @@ const Exhibition: FunctionComponent<Props> = ({
               </Space>
             </Space>
             {isModalActive ? (
-              <VideoEmbed
-                embedUrl={exhibition.bslLeafletVideo.embedUrl}
-                videoProvider={exhibition.bslLeafletVideo.videoProvider}
-                videoThumbnail={exhibition.bslLeafletVideo.videoThumbnail}
-              />
+              <>
+                <VideoEmbed
+                  embedUrl={exhibition.bslLeafletVideo.embedUrl}
+                  videoProvider={exhibition.bslLeafletVideo.videoProvider}
+                  videoThumbnail={exhibition.bslLeafletVideo.videoThumbnail}
+                />
+                <NewWindowVideo href={exhibition.bslLeafletVideo.embedUrl}>
+                  Open video in a new window
+                </NewWindowVideo>
+              </>
             ) : null}
           </Modal>
           <Space $v={{ size: 'l', properties: ['margin-top'] }}>
