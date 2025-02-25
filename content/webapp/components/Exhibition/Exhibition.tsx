@@ -328,7 +328,7 @@ const Exhibition: FunctionComponent<Props> = ({
             <span id="transcript-link-text">
               Transcripts of all audiovisual content are available
             </span>{' '}
-            in the gallery and
+            in the gallery and{' '}
             <NextLink
               id="transcript-link"
               aria-labelledby="transcript-link-text transcript-link"
@@ -366,9 +366,8 @@ const Exhibition: FunctionComponent<Props> = ({
           <li>
             There are brighter and more even lighting conditions across the
             gallery during our Lights Up sessions.{' '}
-            {/* TODO double check links */}
-            <NextLink href="/events">
-              For more information, find our exhibition events above.
+            <NextLink href="#events-list">
+              See our exhibition events for more information and availability
             </NextLink>
           </li>
         </ul>
@@ -378,8 +377,11 @@ const Exhibition: FunctionComponent<Props> = ({
       summary: 'Wheelchair and physical access',
       content: (
         <ul>
-          Step-free access is available to all floors of the building We have a
-          Changing Places toilet on level 0 and accessible toilets on all floors
+          <li>Step-free access is available to all floors of the building</li>
+          <li>
+            We have a Changing Places toilet on level 0 and accessible toilets
+            on all floors
+          </li>
         </ul>
       ),
     },
@@ -387,21 +389,33 @@ const Exhibition: FunctionComponent<Props> = ({
       summary: 'Sensory access',
       content: (
         <ul>
-          {visualStoryLink && (
-            <NextLink href={visualStoryLink?.url}>
-              A visual story with a sensory map is available online
+          <li>
+            {visualStoryLink ? (
+              <>
+                <NextLink href={visualStoryLink?.url}>
+                  A visual story with a sensory map is available online
+                </NextLink>{' '}
+                and
+              </>
+            ) : (
+              'A visual story with a sensory map is available online'
+            )}{' '}
+            in the building at the start of the exhibition
+          </li>
+          <li>
+            You can borrow tinted glasses, tinted visors, ear defenders and
+            weighted lap pads. Please speak to a member of staff in the building
+          </li>
+          <li>
+            Weekday mornings and Thursday evenings are usually the quietest
+            times to visit
+          </li>
+          <li>
+            Additional support is available during our Relaxed Openings.{' '}
+            <NextLink href="#events-list">
+              See our exhibition events for more information and availability
             </NextLink>
-          )}
-          and in the building at the start of the exhibition You can borrow
-          tinted glasses, tinted visors, ear defenders and weighted lap pads.
-          Please speak to a member of staff in the building Weekday mornings and
-          Thursday evenings are usually the quietest times to visit Additional
-          support is available during our Relaxed Openings.{' '}
-          {/* TODO is this wording correct */}
-          {/* should it link to filtered search? */}
-          <NextLink href="/events">
-            For more information, find our exhibition events above.
-          </NextLink>
+          </li>
         </ul>
       ),
     },
