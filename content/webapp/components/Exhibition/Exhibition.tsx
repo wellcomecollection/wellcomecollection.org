@@ -26,17 +26,12 @@ import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import {
-  ContaineredLayout,
-  gridSize8,
-} from '@weco/common/views/components/Layout';
-import Modal from '@weco/common/views/components/Modal/Modal';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
-import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import Body from '@weco/content/components/Body/Body';
+import BslLeafletVideo from '@weco/content/components/BslLeafletVideo';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import Contributors from '@weco/content/components/Contributors/Contributors';
 import DateRange from '@weco/content/components/DateRange/DateRange';
@@ -240,33 +235,6 @@ export function getInfoItems(
   ].filter(isNotUndefined);
 }
 
-const BslLeaftletButtonText = styled(Space).attrs({
-  className: font('intr', 6),
-  $h: { size: 's', properties: ['margin-left'] },
-})``;
-
-const BslLeafletButton = styled.button`
-  display: flex;
-  align-items: center;
-
-  ${BslLeaftletButtonText} {
-    text-decoration: underline;
-  }
-`;
-
-const NewWindowVideo = styled.a`
-  opacity: 0;
-  position: absolute;
-  bottom: 9px;
-  left: 10px;
-  padding: 5px;
-  background: ${props => props.theme.color('neutral.700')};
-
-  &:focus {
-    opacity: 1;
-  }
-`;
-
 export const AccessibilityServices = styled.p.attrs({
   className: font('intr', 5),
 })`
@@ -362,56 +330,11 @@ const Exhibition: FunctionComponent<Props> = ({
         isContentTypeInfoBeforeMedia={true}
       />
       {exhibition.bslLeafletVideo && (
-        <>
-          <Modal
-            id="bsl-leaflet-video-modal"
-            isActive={isModalActive}
-            setIsActive={setIsModalActive}
-            width="80vw"
-            maxWidth="1000px"
-            modalStyle="video"
-          >
-            <Space
-              $h={{ size: 'm', properties: ['padding-left'] }}
-              $v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-            >
-              <Space $h={{ size: 'xl', properties: ['padding-right'] }}>
-                <h3 className={font('intsb', 5)} style={{ marginBottom: 0 }}>
-                  {exhibition.bslLeafletVideo.title}
-                </h3>
-              </Space>
-            </Space>
-            {isModalActive ? (
-              <>
-                <VideoEmbed
-                  embedUrl={exhibition.bslLeafletVideo.embedUrl}
-                  videoProvider={exhibition.bslLeafletVideo.videoProvider}
-                  videoThumbnail={exhibition.bslLeafletVideo.videoThumbnail}
-                />
-                <NewWindowVideo href={exhibition.bslLeafletVideo.embedUrl}>
-                  Open video in a new window
-                </NewWindowVideo>
-              </>
-            ) : null}
-          </Modal>
-          <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-            <Space
-              $v={{ negative: true, size: 'm', properties: ['margin-bottom'] }}
-            >
-              <ContaineredLayout gridSizes={gridSize8()}>
-                <BslLeafletButton onClick={() => setIsModalActive(true)}>
-                  <Icon
-                    icon={britishSignLanguageTranslation}
-                    sizeOverride="width: 32px; height: 32px;"
-                  />{' '}
-                  <BslLeaftletButtonText>
-                    Watch in sign language
-                  </BslLeaftletButtonText>
-                </BslLeafletButton>
-              </ContaineredLayout>
-            </Space>
-          </Space>
-        </>
+        <BslLeafletVideo
+          video={exhibition.bslLeafletVideo}
+          isModalActive={isModalActive}
+          setIsModalActive={setIsModalActive}
+        />
       )}
     </>
   );
