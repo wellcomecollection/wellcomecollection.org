@@ -34,7 +34,7 @@ const SearchResults: FunctionComponent<Props> = ({
   <>
     {title && (
       <Space
-        $v={!summary ? { size: 'l', properties: ['margin-bottom'] } : undefined}
+        $v={!summary ? { size: 'm', properties: ['margin-bottom'] } : undefined}
       >
         <div className="grid">
           <div className={grid({ s: 12 })}>
