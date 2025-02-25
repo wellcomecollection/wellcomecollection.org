@@ -19,6 +19,7 @@ const Result = styled.li`
 `;
 
 export type Props = {
+  id?: string;
   title?: string;
   summary?: string;
   items: readonly (MultiContent | Card)[];
@@ -26,6 +27,7 @@ export type Props = {
 };
 
 const SearchResults: FunctionComponent<Props> = ({
+  id,
   items,
   title,
   summary,
@@ -38,7 +40,9 @@ const SearchResults: FunctionComponent<Props> = ({
       >
         <div className="grid">
           <div className={grid({ s: 12 })}>
-            <h2 className={font('wb', 3)}>{title}</h2>
+            <h2 id={id} className={font('wb', 3)}>
+              {title}
+            </h2>
           </div>
         </div>
       </Space>
