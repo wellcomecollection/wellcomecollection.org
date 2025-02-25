@@ -34,6 +34,7 @@ import {
   transformContributors,
   transformContributorToContributorBasic,
 } from './contributors';
+import { transformVideoEmbed } from './embeds';
 import { noAltTextBecausePromo } from './images';
 import { transformMultiContent } from './multi-content';
 import { transformQuery } from './paginated-results';
@@ -88,6 +89,8 @@ export function transformExhibition(
     .filter((doc): doc is AccessPDF => !!doc);
 
   const accessResourcesText = asRichText(data.accessResourcesText);
+  const bslLeafletVideo =
+    data.bslLeafletVideo && transformVideoEmbed(data.bslLeafletVideo);
 
   // TODO: Work out how to get this to type check without the 'as any'.
   const format = isFilledLinkToDocumentWithData(data.format)
@@ -135,6 +138,7 @@ export function transformExhibition(
     seasons,
     accessResourcesPdfs,
     accessResourcesText,
+    bslLeafletVideo,
   };
 
   const labels = exhibition.isPermanent

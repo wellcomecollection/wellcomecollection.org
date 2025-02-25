@@ -360,6 +360,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                       embedUrl={currentStop.video}
                       videoThumbnail={currentStop.videoThumbnail}
                       videoProvider={currentStop.videoProvider}
+                      hasFullSizePoster={true}
                     />
                   )}
                 </>

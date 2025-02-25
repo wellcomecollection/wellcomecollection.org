@@ -31,6 +31,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import Body from '@weco/content/components/Body/Body';
+import BslLeafletVideo from '@weco/content/components/BslLeafletVideo';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import Contributors from '@weco/content/components/Contributors/Contributors';
 import DateRange from '@weco/content/components/DateRange/DateRange';
@@ -258,6 +259,7 @@ const Exhibition: FunctionComponent<Props> = ({
   const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout[]>(
     []
   );
+  const [isModalActive, setIsModalActive] = useState(false);
 
   useEffect(() => {
     const ids = exhibition.relatedIds;
@@ -303,29 +305,38 @@ const Exhibition: FunctionComponent<Props> = ({
   );
 
   const Header = (
-    <PageHeader
-      breadcrumbs={breadcrumbs}
-      labels={{ labels: exhibition.labels }}
-      title={exhibition.title}
-      ContentTypeInfo={
-        <Fragment>
-          {!exhibition.isPermanent && (
-            <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
-              {DateInfo}
-            </Space>
-          )}
-          <StatusIndicator
-            start={exhibition.start}
-            end={exhibition.end || new Date()}
-            statusOverride={exhibition.statusOverride}
-          />
-        </Fragment>
-      }
-      FeaturedMedia={maybeFeaturedMedia}
-      HeroPicture={maybeHeroPicture}
-      isFree={true}
-      isContentTypeInfoBeforeMedia={true}
-    />
+    <>
+      <PageHeader
+        breadcrumbs={breadcrumbs}
+        labels={{ labels: exhibition.labels }}
+        title={exhibition.title}
+        ContentTypeInfo={
+          <Fragment>
+            {!exhibition.isPermanent && (
+              <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
+                {DateInfo}
+              </Space>
+            )}
+            <StatusIndicator
+              start={exhibition.start}
+              end={exhibition.end || new Date()}
+              statusOverride={exhibition.statusOverride}
+            />
+          </Fragment>
+        }
+        FeaturedMedia={maybeFeaturedMedia}
+        HeroPicture={maybeHeroPicture}
+        isFree={true}
+        isContentTypeInfoBeforeMedia={true}
+      />
+      {exhibition.bslLeafletVideo && (
+        <BslLeafletVideo
+          video={exhibition.bslLeafletVideo}
+          isModalActive={isModalActive}
+          setIsModalActive={setIsModalActive}
+        />
+      )}
+    </>
   );
 
   const exhibitionFormat =
@@ -413,18 +424,15 @@ const Exhibition: FunctionComponent<Props> = ({
           )}
         </>
       )}
-
       {exhibition.contributors.length > 0 && (
         <Contributors contributors={exhibition.contributors} />
       )}
-
       {(exhibitionOfs.length > 0 || pages.length > 0) && (
         <SearchResults
           items={[...exhibitionOfs, ...pages]}
           title={`In this ${exhibitionFormat.toLowerCase()}`}
         />
       )}
-
       {exhibition.end && !isPast(exhibition.end) && (
         <InfoBox
           title="Visit us"

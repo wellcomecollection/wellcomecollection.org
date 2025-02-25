@@ -54,6 +54,10 @@ const VideoTrigger = styled.button<{ $hasFullSizePoster?: boolean }>`
     transform: translateX(-50%);
     z-index: 1;
   }
+
+  &:focus {
+    border: 3px solid ${props => props.theme.color('yellow')};
+  }
 `;
 
 const VideoEmbed: FunctionComponent<Props> = ({
