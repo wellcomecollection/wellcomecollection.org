@@ -2,7 +2,7 @@ import { GetServerSideProps } from 'next';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ParsedUrlQuery } from 'querystring';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { arrow } from '@weco/common/icons';
@@ -144,9 +144,9 @@ type CatalogueResults = {
 };
 
 type NewProps = {
-  contentResults?: ContentResultsList<Addressable>;
-  catalogueResults: CatalogueResults;
+  query: Query;
   queryString?: string;
+  contentResults?: ContentResultsList<Addressable>;
   contentQueryFailed?: boolean;
 };
 
@@ -270,6 +270,19 @@ const CatalogueResults = styled(Space).attrs({
     )}
 `;
 
+const LoaderContainer = styled.div<{ $fullWidth: boolean }>`
+  grid-column: 6;
+
+  ${props => props.theme.media('medium')`
+    grid-column: 6;
+  `}
+
+  ${props =>
+    props.theme.media('large')(
+      `grid-column: ${props => (props.$fullWidth ? 6 : 10)};`
+    )}
+`;
+
 const StoryPromoContainer = styled(Container)`
   ${props =>
     props.theme.mediaBetween(
@@ -305,59 +318,171 @@ const StoryPromoContainer = styled(Container)`
 `;
 
 const NewSearchPage: NextPageWithLayout<NewProps> = ({
+  query,
   queryString,
   contentResults,
-  catalogueResults,
   contentQueryFailed,
 }) => {
   const { extraApiToolbarLinks, setExtraApiToolbarLinks } =
     useContext(SearchContext);
   const { apiToolbar } = useToggles();
+  const params = fromQuery(query);
+  const data = useContext(ServerDataContext);
+  const { setLink } = useContext(SearchContext);
+  const [clientSideWorkTypes, setClientSideWorkTypes] = useState<
+    WorkTypes | undefined
+  >(undefined);
+  const [clientSideImages, setClientSideImages] = useState<
+    ImageResults | undefined
+  >(undefined);
 
-  const totalWorksResults = catalogueResults.works?.totalResults || 0;
-  const totalImagesResults = catalogueResults.images?.totalResults || 0;
+  const [isLoadingImages, setIsLoadingImages] = useState(true);
+  const [isLoadingWorks, setIsLoadingWorks] = useState(true);
+  const [isCatalogueLoading, setIsCatalogueLoading] = useState(true);
+  const [contentResultsLength, setContentResultsLength] = useState(
+    contentResults?.totalResults
+  );
+
+  const totalWorksResults = clientSideWorkTypes?.totalResults || 0;
+  const totalImagesResults = clientSideImages?.totalResults || 0;
   const totalContentResults = contentResults?.totalResults || 0;
   const totalCatalogueResults = totalWorksResults + totalImagesResults;
   const totalResults = totalContentResults + totalCatalogueResults;
   const isSmallGallery =
-    catalogueResults.images && catalogueResults.images.results.length < 3;
+    clientSideImages && clientSideImages.results.length < 3;
   const pathname = usePathname();
 
-  useEffect(() => {
-    if (apiToolbar) {
-      if (
-        catalogueResults.works &&
-        !extraApiToolbarLinks.find(link => link.id === 'catalogue-api-works')
-      ) {
-        setExtraApiToolbarLinks([
-          ...extraApiToolbarLinks,
-          {
-            id: 'catalogue-api-works',
-            label: 'Works API query',
-            link: catalogueResults.works.requestUrl,
-          },
-        ]);
-      }
+  useMemo(() => {
+    if (contentResultsLength !== contentResults?.totalResults)
+      setIsCatalogueLoading(true);
+    setContentResultsLength(contentResults?.totalResults);
+  }, [contentResults?.totalResults]);
 
-      if (
-        catalogueResults.images?.requestUrl &&
-        !extraApiToolbarLinks.find(link => link.id === 'catalogue-api-images')
-      ) {
-        setExtraApiToolbarLinks([
-          ...extraApiToolbarLinks,
-          {
+  async function fetchWorks() {
+    try {
+      setIsLoadingWorks(true);
+
+      const worksResults = await getWorks({
+        params: {
+          ...params,
+          aggregations: ['workType'],
+        },
+        pageSize: 1,
+        toggles: data.toggles,
+      });
+
+      const workTypeBuckets = getQueryWorkTypeBuckets({
+        categoryName: 'works',
+        queryResults: worksResults,
+      });
+
+      setClientSideWorkTypes(() => {
+        setIsLoadingWorks(false);
+        return workTypeBuckets;
+      });
+    } catch (e) {
+      setIsLoadingWorks(false);
+
+      return undefined;
+    }
+  }
+
+  async function fetchImages() {
+    try {
+      setIsLoadingImages(true);
+
+      const imagesResults = await getImages({
+        params,
+        pageSize: 7,
+        toggles: data.toggles,
+      });
+
+      const images = getQueryResults({
+        categoryName: 'images',
+        queryResults: imagesResults,
+      });
+
+      setClientSideImages(() => {
+        setIsLoadingImages(false);
+        return {
+          totalResults: images?.totalResults || 0,
+          results:
+            images?.pageResults.map(image => ({
+              ...image,
+              src: image.locations[0].url,
+              width: (image.aspectRatio || 1) * 100,
+              height: 100,
+            })) || [],
+          requestUrl: images?.requestUrl,
+        };
+      });
+    } catch (e) {
+      setIsLoadingImages(false);
+      return undefined;
+    }
+  }
+
+  useEffect(() => {
+    const pathname = '/search';
+    setLink({
+      href: { pathname, query },
+      as: { pathname, query },
+    });
+
+    setIsCatalogueLoading(true);
+    setClientSideWorkTypes(undefined);
+    setClientSideImages(undefined);
+
+    fetchWorks();
+    fetchImages();
+  }, [query]);
+
+  useEffect(() => {
+    if (apiToolbar && !isCatalogueLoading) {
+      const getImagesLinks = () => {
+        if (
+          clientSideImages?.requestUrl &&
+          !extraApiToolbarLinks.find(link => link.id === 'catalogue-api-images')
+        ) {
+          return {
             id: 'catalogue-api-images',
             label: 'Images API query',
-            link: catalogueResults.images.requestUrl,
-          },
-        ]);
-      }
+            link: clientSideImages.requestUrl,
+          };
+        }
+      };
+
+      const getWorksLinks = () => {
+        if (
+          clientSideWorkTypes &&
+          !extraApiToolbarLinks.find(link => link.id === 'catalogue-api-works')
+        ) {
+          return {
+            id: 'catalogue-api-works',
+            label: 'Works API query',
+            link: clientSideWorkTypes.requestUrl,
+          };
+        }
+      };
+
+      setExtraApiToolbarLinks(
+        [getImagesLinks(), getWorksLinks()].filter(isNotUndefined)
+      );
     }
-  }, [catalogueResults.works, catalogueResults.images]);
+  }, [clientSideWorkTypes, clientSideImages, isCatalogueLoading]);
+
+  useEffect(() => {
+    if ((isLoadingImages || isLoadingWorks) && !isCatalogueLoading) {
+      setIsCatalogueLoading(true);
+    }
+    if (!isLoadingImages && !isLoadingWorks && isCatalogueLoading) {
+      setIsCatalogueLoading(false);
+    }
+  }, [isLoadingImages, isLoadingWorks]);
 
   return (
     <main>
-      {totalResults === 0 ? (
+      {totalResults === 0 && !isCatalogueLoading ? (
         <Container>
           <SearchNoResults query={queryString} />
         </Container>
@@ -384,20 +509,17 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
               )}
             </p>
           </Container>
+
           <GridContainer>
-            {totalCatalogueResults > 0 && (
+            {isCatalogueLoading && (
+              <LoaderContainer $fullWidth={!contentResults?.totalResults}>
+                <LL $position="relative" />
+              </LoaderContainer>
+            )}
+
+            {!isCatalogueLoading && totalCatalogueResults > 0 && (
               <CatalogueResults $fullWidth={!contentResults?.totalResults}>
                 <CatalogueResultsInner>
-                  {!catalogueResults.works && !catalogueResults.images && (
-                    <>
-                      <span className="is-hidden-l is-hidden-xl">
-                        <LL $small />
-                      </span>
-                      <span className="is-hidden-s is-hidden-m">
-                        <LL />
-                      </span>
-                    </>
-                  )}
                   <Space
                     className="is-hidden-l is-hidden-xl"
                     $v={{ size: 'l', properties: ['margin-bottom'] }}
@@ -410,14 +532,14 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                       Are you looking for our online collections?
                     </h3>
                   </Space>
-                  {catalogueResults.works?.totalResults &&
-                  catalogueResults.works?.totalResults > 0 ? (
+
+                  {clientSideWorkTypes?.totalResults ? (
                     <CatalogueResultsSection>
                       <CatalogueSectionTitle>
                         Catalogue results
                       </CatalogueSectionTitle>
                       <CatalogueLinks>
-                        {catalogueResults.works.workTypeBuckets
+                        {clientSideWorkTypes.workTypeBuckets
                           ?.slice(0, 6)
                           .map((bucket, i) => (
                             <NextLink
@@ -460,6 +582,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                       </NextLink>
                     </CatalogueResultsSection>
                   ) : null}
+
                   {totalWorksResults > 0 && totalImagesResults > 0 && (
                     <Space
                       className="is-hidden-s is-hidden-m"
@@ -475,8 +598,8 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                       <Divider lineColor="neutral.400" />
                     </Space>
                   )}
-                  {catalogueResults.images?.totalResults &&
-                  catalogueResults.images.totalResults > 0 ? (
+
+                  {clientSideImages?.totalResults ? (
                     <>
                       <CatalogueSectionTitle
                         $h={{
@@ -493,7 +616,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                       </CatalogueSectionTitle>
                       <ImageLinks $isSmallGallery={isSmallGallery}>
                         <ImageEndpointSearchResults
-                          images={catalogueResults.images.results}
+                          images={clientSideImages.results}
                           targetRowHeight={120}
                         />
                       </ImageLinks>
@@ -519,24 +642,27 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                 </CatalogueResultsInner>
               </CatalogueResults>
             )}
-            <ContentResults data-testid="search-content-results">
-              {contentResults?.results?.map(result => (
-                <Space
-                  key={`${result.id}${result.highlightTourType || ''}`}
-                  $v={{ size: 'xl', properties: ['margin-bottom'] }}
-                >
-                  <ContentSearchResult {...result} />
-                </Space>
-              ))}
 
-              {contentResults?.totalPages ? (
-                <Pagination
-                  totalPages={contentResults.totalPages}
-                  ariaLabel="Content search results pagination"
-                  isHiddenMobile={false}
-                />
-              ) : null}
-            </ContentResults>
+            {contentResults && (
+              <ContentResults data-testid="search-content-results">
+                {contentResults?.results?.map(result => (
+                  <Space
+                    key={`${result.id}${result.highlightTourType || ''}`}
+                    $v={{ size: 'xl', properties: ['margin-bottom'] }}
+                  >
+                    <ContentSearchResult {...result} />
+                  </Space>
+                ))}
+
+                {contentResults?.totalPages ? (
+                  <Pagination
+                    totalPages={contentResults.totalPages}
+                    ariaLabel="Content search results pagination"
+                    isHiddenMobile={false}
+                  />
+                ) : null}
+              </ContentResults>
+            )}
           </GridContainer>
         </BasicSection>
       )}
@@ -555,94 +681,15 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 }) => {
   useHotjar(true);
   const { query: queryString } = query;
-  const { setLink } = useContext(SearchContext);
   const { allSearch } = useToggles();
-  const [clientSideWorkTypes, setClientSideWorkTypes] = useState<
-    WorkTypes | undefined
-  >(undefined);
-  const [clientSideImages, setClientSideImages] = useState<
-    ImageResults | undefined
-  >(undefined);
-  const params = fromQuery(query);
-  const data = useContext(ServerDataContext);
-  async function fetchWorks() {
-    try {
-      const worksResults = await getWorks({
-        params: {
-          ...params,
-          aggregations: ['workType'],
-        },
-        pageSize: 1,
-        toggles: data.toggles,
-      });
-      const workTypeBuckets = getQueryWorkTypeBuckets({
-        categoryName: 'works',
-        queryResults: worksResults,
-      });
-      setClientSideWorkTypes(workTypeBuckets);
-    } catch (e) {
-      return undefined;
-    }
-  }
-
-  async function fetchImages() {
-    try {
-      const imagesResults = await getImages({
-        params,
-        pageSize: 7,
-        toggles: data.toggles,
-      });
-      images = getQueryResults({
-        categoryName: 'images',
-        queryResults: imagesResults,
-      });
-      setClientSideImages({
-        totalResults: images?.totalResults || 0,
-        results:
-          images?.pageResults.map(image => ({
-            ...image,
-            src: image.locations[0].url,
-            width: (image.aspectRatio || 1) * 100,
-            height: 100,
-          })) || [],
-        requestUrl: images?.requestUrl,
-      });
-    } catch (e) {
-      return undefined;
-    }
-  }
-
-  useEffect(() => {
-    const pathname = '/search';
-    const link = {
-      href: {
-        pathname,
-        query,
-      },
-      as: {
-        pathname,
-        query,
-      },
-    };
-    setLink(link);
-    if (allSearch) {
-      setClientSideWorkTypes(undefined);
-      setClientSideImages(undefined);
-      fetchWorks();
-      fetchImages();
-    }
-  }, [query]);
 
   if (allSearch) {
     return (
       <NewSearchPage
+        query={query}
         queryString={queryString}
         contentResults={contentResults}
         contentQueryFailed={contentQueryFailed}
-        catalogueResults={{
-          works: clientSideWorkTypes,
-          images: clientSideImages,
-        }}
       />
     );
   }
@@ -926,10 +973,9 @@ export const getServerSideProps: GetServerSideProps<
         ...(stories && stories.pageResults?.length && { stories }),
         ...(images?.pageResults.length && { images }),
         ...(events?.pageResults.length && { events }),
-        ...(contentResults?.type !== 'Error' &&
-          contentResults?.results.length && {
-            contentResults,
-          }),
+        ...(contentResults?.type !== 'Error' && {
+          contentResults,
+        }),
         contentQueryFailed,
         works:
           works && works.pageResults.length
