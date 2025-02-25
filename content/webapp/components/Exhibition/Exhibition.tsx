@@ -388,9 +388,11 @@ const Exhibition: FunctionComponent<Props> = ({
           <li>
             There are brighter and more even lighting conditions across the
             gallery during our Lights Up sessions.{' '}
-            <NextLink href="#events-list">
-              See our exhibition events for more information and availability
-            </NextLink>
+            {exhibitionOfs.length > 0 && (
+              <NextLink href="#events-list">
+                See our exhibition events for more information and availability
+              </NextLink>
+            )}
           </li>
         </ul>
       ),
@@ -434,9 +436,11 @@ const Exhibition: FunctionComponent<Props> = ({
           </li>
           <li>
             Additional support is available during our Relaxed Openings.{' '}
-            <NextLink href="#events-list">
-              See our exhibition events for more information and availability
-            </NextLink>
+            {exhibitionOfs.length > 0 && (
+              <NextLink href="#events-list">
+                See our exhibition events for more information and availability
+              </NextLink>
+            )}
           </li>
         </ul>
       ),
