@@ -550,10 +550,6 @@ const Exhibition: FunctionComponent<Props> = ({
         </InfoBox>
       )}
 
-      {exhibition.contributors.length > 0 && (
-        <Contributors contributors={exhibition.contributors} />
-      )}
-
       {(exhibitionOfs.length > 0 || pages.length > 0) && (
         <SearchResults
           items={[...exhibitionOfs, ...pages]}
@@ -637,7 +633,7 @@ const Exhibition: FunctionComponent<Props> = ({
               <Space
                 as="h2"
                 className={font('wb', 3)}
-                $v={{ size: 'l', properties: ['margin-bottom'] }}
+                $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
               >
                 Access resources
               </Space>
@@ -645,7 +641,7 @@ const Exhibition: FunctionComponent<Props> = ({
           </div>
           {visualStoryLink && (
             <>
-              <h3>Plan your visit</h3>
+              <h3 className={font('intb', 4)}>Plan your visit</h3>
               <NextLink href={visualStoryLink.url}>
                 Exhibition visual story
               </NextLink>{' '}
@@ -655,7 +651,7 @@ const Exhibition: FunctionComponent<Props> = ({
               </Space>
             </>
           )}
-          <h3>{`When you're here`}</h3>
+          <h3 className={font('intb', 4)}>{`When you're here`}</h3>
           <p>
             Resources designed to support your visit are available online and in
             the gallery.
@@ -665,13 +661,12 @@ const Exhibition: FunctionComponent<Props> = ({
           </Space>
           <Space
             as="h3"
-            className={font('intb', 3)}
+            className={font('intb', 4)}
             $v={{ size: 'l', properties: ['margin-bottom'] }}
           >
             Access information and queries
           </Space>
           <Contact
-            title="Visitor experience"
             link={{
               text: 'Visit our accessibility page ',
               url: '/visit-us/accessibility',
@@ -684,6 +679,10 @@ const Exhibition: FunctionComponent<Props> = ({
 
       {exhibitionAbouts.length > 0 && (
         <SearchResults items={exhibitionAbouts} title="Related stories" />
+      )}
+
+      {exhibition.contributors.length > 0 && (
+        <Contributors contributors={exhibition.contributors} />
       )}
     </ContentPage>
   );
