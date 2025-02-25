@@ -426,7 +426,7 @@ const Exhibition: FunctionComponent<Props> = ({
                 and
               </>
             ) : (
-              'A visual story with a sensory map is available online'
+              'A visual story with a sensory map is available '
             )}{' '}
             in the building at the start of the exhibition
           </li>
