@@ -295,7 +295,7 @@ const Exhibition: FunctionComponent<Props> = ({
           <li>
             Find out more about the exhibition with our digital highlights tour,
             available in short audio clips with audio description and
-            transcripts, or as BSL videos.It can be accessed on your own device,
+            transcripts, or as BSL videos. It can be accessed on your own device,
             via handheld devices with tactile buttons, or on an iPad which you
             can borrow
           </li>
