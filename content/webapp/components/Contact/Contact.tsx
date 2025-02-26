@@ -80,10 +80,12 @@ const Contact: FunctionComponent<Props> = ({
 }: Props): ReactElement => {
   return (
     <Wrapper>
-      <TitleWrapper>
-        {title && <Title>{title}</Title>}
-        {subtitle && <Subtitle>{subtitle}</Subtitle>}
-      </TitleWrapper>
+      {(title || subtitle) && (
+        <TitleWrapper>
+          {title && <Title>{title}</Title>}
+          {subtitle && <Subtitle>{subtitle}</Subtitle>}
+        </TitleWrapper>
+      )}
 
       {link && (
         <WithIconWrapper>
