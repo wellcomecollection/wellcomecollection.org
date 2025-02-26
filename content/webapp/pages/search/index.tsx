@@ -453,7 +453,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                         passHref
                         legacyBehavior
                       >
-                        <AllLink>
+                        <AllLink data-gtm-trigger="all-catalogue-results">
                           {`All catalogue results (${formatNumber(totalWorksResults, { isCompact: true })})`}
                           <Icon icon={arrow} iconColor="black" rotate={360} />
                         </AllLink>
@@ -508,7 +508,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                           passHref
                           legacyBehavior
                         >
-                          <AllLink>
+                          <AllLink data-gtm-trigger="all-image-results">
                             {`All image results (${formatNumber(totalImagesResults, { isCompact: true })})`}
                             <Icon icon={arrow} iconColor="black" rotate={360} />
                           </AllLink>
