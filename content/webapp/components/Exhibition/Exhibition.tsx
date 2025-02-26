@@ -590,59 +590,57 @@ const Exhibition: FunctionComponent<Props> = ({
             </Space>
           )}
 
-          {exhibitionAccessContent && (
-            <>
-              <div className="grid">
-                <div className={grid({ s: 12 })}>
-                  <Space
-                    as="h2"
-                    className={font('wb', 3)}
-                    $v={{
-                      size: 'l',
-                      properties: ['margin-top', 'margin-bottom'],
-                    }}
-                  >
-                    Access resources
-                  </Space>
-                </div>
-              </div>
-              {visualStoryLink && (
-                <>
-                  <h3 className={font('intb', 4)}>Plan your visit</h3>
-                  <NextLink href={visualStoryLink.url}>
-                    Exhibition visual story
-                  </NextLink>{' '}
-                  <Space as="p" $v={{ size: 'm', properties: ['margin-top'] }}>
-                    This visual story provides images and information to help
-                    you plan and prepare for your visit to the exhibition.
-                  </Space>
-                </>
-              )}
-              <h3 className={font('intb', 4)}>{`When you're here`}</h3>
-              <p>
-                Resources designed to support your visit are available online
-                and in the gallery.
-              </p>
-              <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-                <Accordion id="access-resources" items={accordionContent} />
-              </Space>
+          <div className="grid">
+            <div className={grid({ s: 12 })}>
               <Space
-                as="h3"
-                className={font('intb', 4)}
-                $v={{ size: 'l', properties: ['margin-bottom'] }}
-              >
-                Access information and queries
-              </Space>
-              <Contact
-                link={{
-                  text: 'Visit our accessibility page ',
-                  url: '/visit-us/accessibility',
+                as="h2"
+                className={font('wb', 3)}
+                $v={{
+                  size: 'l',
+                  properties: ['margin-top', 'margin-bottom'],
                 }}
-                phone="020 7611 2222"
-                email="access@wellcomecollection.org"
-              />
+              >
+                Access resources
+              </Space>
+            </div>
+          </div>
+
+          {visualStoryLink && (
+            <>
+              <h3 className={font('intb', 4)}>Plan your visit</h3>
+              <NextLink href={visualStoryLink.url}>
+                Exhibition visual story
+              </NextLink>{' '}
+              <Space as="p" $v={{ size: 'm', properties: ['margin-top'] }}>
+                This visual story provides images and information to help you
+                plan and prepare for your visit to the exhibition.
+              </Space>
             </>
           )}
+
+          <h3 className={font('intb', 4)}>{`When you're here`}</h3>
+          <p>
+            Resources designed to support your visit are available online and in
+            the gallery.
+          </p>
+          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Accordion id="access-resources" items={accordionContent} />
+          </Space>
+          <Space
+            as="h3"
+            className={font('intb', 4)}
+            $v={{ size: 'l', properties: ['margin-bottom'] }}
+          >
+            Access information and queries
+          </Space>
+          <Contact
+            link={{
+              text: 'Visit our accessibility page ',
+              url: '/visit-us/accessibility',
+            }}
+            phone="020 7611 2222"
+            email="access@wellcomecollection.org"
+          />
 
           {exhibitionAbouts.length > 0 && (
             <Space
