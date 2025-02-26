@@ -274,14 +274,14 @@ const Exhibition: FunctionComponent<Props> = ({
     link => link.type === 'visual-story'
   );
 
-  const hasExhibtionTexts = exhibitionTexts.length > 0;
+  const hasExhibitionTexts = exhibitionTexts.length > 0;
   const hasExhibitionHighlightTours = exhibitionHighlightTours.length > 0;
 
   // Theoretically, there could be multiple ExhibitionTexts and ExhibitionHighlightTours
   // attached to an exhibition, but in reality there is only one, so we just take the first
   // and create links to them.
   const exhibitionTextLink =
-    hasExhibtionTexts && linkResolver(exhibitionTexts[0]);
+    hasExhibitionTexts && linkResolver(exhibitionTexts[0]);
   const bslTourLink =
     hasExhibitionHighlightTours &&
     linkResolver({
