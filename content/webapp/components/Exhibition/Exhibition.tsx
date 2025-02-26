@@ -295,6 +295,8 @@ const Exhibition: FunctionComponent<Props> = ({
       highlightTourType: 'audio',
     });
 
+  // This contains all the possible content for the access section accordion
+  // We then filter out content that isn't relevant, i.e. if there isn't a highlight tour attached to the exhibition
   const possibleExhibitionAccessContent = [
     {
       summary: 'Digital highlights tour',
@@ -452,14 +454,12 @@ const Exhibition: FunctionComponent<Props> = ({
   ];
 
   const accordionContent = possibleExhibitionAccessContent.filter(section => {
-    if (
-      !hasExhibitionHighlightTours &&
-      section.summary === 'Digital highlights tour'
-    ) {
-      return false;
-    } else {
-      return true;
-    }
+    // If there is no digital highlights tour attached to the exhibition, we want to remove
+    // the section about the digital highlights tour
+    return !(
+      section.summary === 'Digital highlights tour' &&
+      !hasExhibitionHighlightTours
+    );
   });
 
   useEffect(() => {
