@@ -91,7 +91,10 @@ const BslLeafletVideo: FunctionComponent<Props> = ({
           $v={{ negative: true, size: 'm', properties: ['margin-bottom'] }}
         >
           <ContaineredLayout gridSizes={gridSize8()}>
-            <BslLeafletButton onClick={() => setIsModalActive(true)}>
+            <BslLeafletButton
+              aria-controls="bsl-leaflet-video-modal"
+              onClick={() => setIsModalActive(true)}
+            >
               <Icon
                 icon={britishSignLanguageTranslation}
                 sizeOverride="width: 32px; height: 32px;"
