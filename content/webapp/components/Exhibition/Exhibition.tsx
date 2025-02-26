@@ -1,4 +1,5 @@
 import * as prismic from '@prismicio/client';
+import NextLink from 'next/link';
 import { Fragment, FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -17,9 +18,13 @@ import {
   location,
   ticket,
 } from '@weco/common/icons';
+import {
+  ExhibitionHighlightToursDocument,
+  ExhibitionTextsDocument,
+} from '@weco/common/prismicio-types';
 import { useToggles } from '@weco/common/server-data/Context';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font } from '@weco/common/utils/classnames';
+import { font, grid } from '@weco/common/utils/classnames';
 import { isFuture, isPast } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
@@ -30,7 +35,9 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import Accordion from '@weco/content/components/Accordion/Accordion';
 import Body from '@weco/content/components/Body/Body';
+import Contact from '@weco/content/components/Contact/Contact';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import Contributors from '@weco/content/components/Contributors/Contributors';
 import DateRange from '@weco/content/components/DateRange/DateRange';
@@ -244,12 +251,16 @@ type Props = {
   exhibition: ExhibitionType;
   pages: PageType[];
   accessResourceLinks: (Link & { type: string })[];
+  exhibitionTexts: ExhibitionTextsDocument[];
+  exhibitionHighlightTours: ExhibitionHighlightToursDocument[];
 };
 
 const Exhibition: FunctionComponent<Props> = ({
   exhibition,
   pages,
   accessResourceLinks,
+  exhibitionTexts,
+  exhibitionHighlightTours,
 }) => {
   type ExhibitionOf = (ExhibitionType | EventBasic)[];
 
@@ -258,6 +269,198 @@ const Exhibition: FunctionComponent<Props> = ({
   const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout[]>(
     []
   );
+
+  const visualStoryLink = accessResourceLinks.find(
+    link => link.type === 'visual-story'
+  );
+
+  const hasExhibitionTexts = exhibitionTexts.length > 0;
+  const hasExhibitionHighlightTours = exhibitionHighlightTours.length > 0;
+
+  // Theoretically, there could be multiple ExhibitionTexts and ExhibitionHighlightTours
+  // attached to an exhibition, but in reality there is only one, so we just take the first
+  // and create links to them.
+  const exhibitionTextLink =
+    hasExhibitionTexts && linkResolver(exhibitionTexts[0]);
+  const bslTourLink =
+    hasExhibitionHighlightTours &&
+    linkResolver({
+      ...exhibitionHighlightTours[0],
+      highlightTourType: 'bsl',
+    });
+  const audioTourLink =
+    hasExhibitionHighlightTours &&
+    linkResolver({
+      ...exhibitionHighlightTours[0],
+      highlightTourType: 'audio',
+    });
+
+  // This contains all the possible content for the access section accordion
+  // We then filter out content that isn't relevant, i.e. if there isn't a highlight tour attached to the exhibition
+  const possibleExhibitionAccessContent = [
+    {
+      summary: 'Digital highlights tour',
+      content: (
+        <ul>
+          <li>
+            Find out more about the exhibition with our digital highlights tour,
+            available in short audio clips with audio description and
+            transcripts, or as BSL videos. It can be accessed on your own
+            device, via handheld devices with tactile buttons, or on an iPad
+            which you can borrow
+          </li>
+          {bslTourLink && (
+            <li>
+              <NextLink href={bslTourLink}>Watch BSL video tour</NextLink>
+            </li>
+          )}
+          {audioTourLink && (
+            <li>
+              <NextLink href={audioTourLink}>
+                Listen to audio tour with audio description
+              </NextLink>
+            </li>
+          )}
+        </ul>
+      ),
+    },
+    {
+      summary: 'BSL, transcripts and induction loops',
+      content: (
+        <ul>
+          <li>Audiovisual content is available in BSL in the gallery</li>
+          <li>
+            Live BSL tours are available. See our exhibition events above for
+            more information or contact us in advance to request a tour
+          </li>
+          {bslTourLink && (
+            <li>
+              <NextLink href={bslTourLink}>
+                Watch BSL videos of the digital highlights tour on your own
+                device
+              </NextLink>
+            </li>
+          )}
+
+          <li>
+            <span id="transcript-link-text">
+              Transcripts of all audiovisual content are available
+            </span>{' '}
+            in the gallery
+            {exhibitionTextLink && (
+              <>
+                {` and `}
+                <NextLink
+                  id="transcript-link"
+                  aria-labelledby="transcript-link-text transcript-link"
+                  href={exhibitionTextLink}
+                >
+                  online
+                </NextLink>
+              </>
+            )}
+          </li>
+
+          <li>All videos are subtitled</li>
+          <li>
+            There are fixed induction loops in the building and portable
+            induction loops available to borrow
+          </li>
+        </ul>
+      ),
+    },
+    {
+      summary: 'Audio description and visual access',
+      content: (
+        <ul>
+          {audioTourLink && (
+            <li>
+              <NextLink href={audioTourLink}>
+                The digital highlights tour is available with audio description
+              </NextLink>
+            </li>
+          )}
+          {exhibitionTextLink && (
+            <li>
+              <NextLink href={exhibitionTextLink}>
+                Access all the text from the exhibition on your own device
+              </NextLink>
+            </li>
+          )}
+          <li>
+            A large-print guide and magnifiers are available in the gallery
+          </li>
+          <li>There is a tactile line on the gallery floor</li>
+          <li>
+            There are brighter and more even lighting conditions across the
+            gallery during our Lights Up sessions.{' '}
+            {exhibitionOfs.length > 0 && (
+              <NextLink href="#events-list">
+                See our exhibition events for more information and availability
+              </NextLink>
+            )}
+          </li>
+        </ul>
+      ),
+    },
+    {
+      summary: 'Wheelchair and physical access',
+      content: (
+        <ul>
+          <li>Step-free access is available to all floors of the building</li>
+          <li>
+            We have a Changing Places toilet on level 0 and accessible toilets
+            on all floors
+          </li>
+        </ul>
+      ),
+    },
+    {
+      summary: 'Sensory access',
+      content: (
+        <ul>
+          <li>
+            {visualStoryLink ? (
+              <>
+                <NextLink href={visualStoryLink?.url}>
+                  A visual story with a sensory map is available online
+                </NextLink>{' '}
+                and
+              </>
+            ) : (
+              'A visual story with a sensory map is available '
+            )}{' '}
+            in the building at the start of the exhibition
+          </li>
+          <li>
+            You can borrow tinted glasses, tinted visors, ear defenders and
+            weighted lap pads. Please speak to a member of staff in the building
+          </li>
+          <li>
+            Weekday mornings and Thursday evenings are usually the quietest
+            times to visit
+          </li>
+          <li>
+            Additional support is available during our Relaxed Openings.{' '}
+            {exhibitionOfs.length > 0 && (
+              <NextLink href="#events-list">
+                See our exhibition events for more information and availability
+              </NextLink>
+            )}
+          </li>
+        </ul>
+      ),
+    },
+  ];
+
+  const accordionContent = possibleExhibitionAccessContent.filter(section => {
+    // If there is no digital highlights tour attached to the exhibition, we want to remove
+    // the section about the digital highlights tour
+    return !(
+      section.summary === 'Digital highlights tour' &&
+      !hasExhibitionHighlightTours
+    );
+  });
 
   useEffect(() => {
     const ids = exhibition.relatedIds;
@@ -347,111 +550,239 @@ const Exhibition: FunctionComponent<Props> = ({
       // We hide contributors as we show them further up the page
       hideContributors={true}
     >
-      {hasResources && (
+      {exhibitionAccessContent ? (
         <>
-          <h2
-            className={font('wb', 3)}
-          >{`${exhibitionFormat} access content`}</h2>
-          {(accessResourceLinks.length > 0 ||
-            exhibition.accessResourcesPdfs.length > 0) && (
-            <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
-              <ResourcesList>
-                {accessResourceLinks.map((link, i) => {
-                  const borderColor = getBorderColor({ type: link.type, i });
-                  return (
-                    <ResourcesItem key={link.url}>
-                      <ResourceLink
-                        key={i}
-                        href={link.url}
-                        $borderColor={borderColor}
-                      >
-                        {link.type === 'exhibition-guide' && (
-                          <h3 className={font('intb', 4)}>
-                            Digital exhibition guide
-                          </h3>
-                        )}
-                        {link.type === 'visual-story' && (
-                          <h3 className={font('intb', 4)}>Visual story</h3>
-                        )}
-                        <span className={font('intr', 6)}>{link.text}</span>
-                        <ResourceLinkIconWrapper>
-                          <Icon icon={arrow} />
-                        </ResourceLinkIconWrapper>
-                      </ResourceLink>
-                    </ResourcesItem>
-                  );
-                })}
-                {exhibition.accessResourcesPdfs.map((pdf, i) => {
-                  const borderColor = getBorderColor({ type: undefined, i });
-                  return (
-                    <ResourcesItem key={pdf.url}>
-                      <ResourceLink
-                        key={i}
-                        href={pdf.url}
-                        $borderColor={borderColor}
-                        $underlineText={true}
-                      >
-                        <span className={font('intr', 5)}>
-                          {`${pdf.text} PDF`} {`(${pdf.size}kb)`}
-                        </span>
-                        <ResourceLinkIconWrapper>
-                          <Icon icon={download} />
-                        </ResourceLinkIconWrapper>
-                      </ResourceLink>
-                    </ResourcesItem>
-                  );
-                })}
-              </ResourcesList>
+          {exhibition.end && !isPast(exhibition.end) && (
+            <InfoBox
+              title="Visit us"
+              items={getInfoItems(exhibition, exhibitionAccessContent)}
+            >
+              <AccessibilityServices>
+                For more information, please visit our{' '}
+                <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>{' '}
+                page. If you have any queries about accessibility, please email
+                us at{' '}
+                <a href="mailto:access@wellcomecollection.org">
+                  access@wellcomecollection.org
+                </a>{' '}
+                or call{' '}
+                {/*
+                  This is to ensure phone numbers are read in a sensible way by
+                  screen readers.
+                */}
+                <span className="visually-hidden">
+                  {createScreenreaderLabel('020 7611 2222')}
+                </span>
+                <span aria-hidden="true">020&nbsp;7611&nbsp;2222.</span>
+              </AccessibilityServices>
+            </InfoBox>
+          )}
+
+          {(exhibitionOfs.length > 0 || pages.length > 0) && (
+            <Space
+              $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
+            >
+              <SearchResults
+                id="events-list"
+                items={[...exhibitionOfs, ...pages]}
+                title={`In this ${exhibitionFormat.toLowerCase()}`}
+              />
             </Space>
           )}
-          {/* TODO improve styling of download links - defaultSerializer */}
-          {exhibition.accessResourcesText && (
-            <PrismicHtmlBlock
-              html={exhibition.accessResourcesText}
-              htmlSerializer={defaultSerializer}
-            />
+
+          {exhibition.end && !isPast(exhibition.end) && (
+            <>
+              <div className="grid">
+                <div className={grid({ s: 12 })}>
+                  <Space
+                    as="h2"
+                    className={font('wb', 3)}
+                    $v={{
+                      size: 'l',
+                      properties: ['margin-top', 'margin-bottom'],
+                    }}
+                  >
+                    Access resources
+                  </Space>
+                </div>
+              </div>
+
+              {visualStoryLink && (
+                <>
+                  <h3 className={font('intb', 4)}>Plan your visit</h3>
+                  <NextLink href={visualStoryLink.url}>
+                    Exhibition visual story
+                  </NextLink>{' '}
+                  <Space as="p" $v={{ size: 'm', properties: ['margin-top'] }}>
+                    This visual story provides images and information to help
+                    you plan and prepare for your visit to the exhibition.
+                  </Space>
+                </>
+              )}
+
+              <h3 className={font('intb', 4)}>{`When you're here`}</h3>
+              <p>
+                Resources designed to support your visit are available online
+                and in the gallery.
+              </p>
+              <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <Accordion id="access-resources" items={accordionContent} />
+              </Space>
+              <Space
+                as="h3"
+                className={font('intb', 4)}
+                $v={{ size: 'l', properties: ['margin-bottom'] }}
+              >
+                Access information and queries
+              </Space>
+              <Contact
+                link={{
+                  text: 'Visit our accessibility page ',
+                  url: '/visit-us/accessibility',
+                }}
+                phone="020 7611 2222"
+                email="access@wellcomecollection.org"
+              />
+            </>
+          )}
+
+          {exhibitionAbouts.length > 0 && (
+            <Space
+              $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
+            >
+              <SearchResults items={exhibitionAbouts} title="Related stories" />
+            </Space>
+          )}
+
+          {exhibition.contributors.length > 0 && (
+            <Contributors contributors={exhibition.contributors} />
           )}
         </>
-      )}
+      ) : (
+        <>
+          {hasResources && (
+            <>
+              <Space
+                as="h2"
+                $v={{ size: 'm', properties: ['margin-bottom'] }}
+                className={font('wb', 3)}
+              >{`${exhibitionFormat} access content`}</Space>
+              {(accessResourceLinks.length > 0 ||
+                exhibition.accessResourcesPdfs.length > 0) && (
+                <Space $v={{ size: 'xl', properties: ['padding-bottom'] }}>
+                  <ResourcesList>
+                    {accessResourceLinks.map((link, i) => {
+                      const borderColor = getBorderColor({
+                        type: link.type,
+                        i,
+                      });
+                      return (
+                        <ResourcesItem key={link.url}>
+                          <ResourceLink
+                            key={i}
+                            href={link.url}
+                            $borderColor={borderColor}
+                          >
+                            {link.type === 'exhibition-guide' && (
+                              <h3 className={font('intb', 4)}>
+                                Digital exhibition guide
+                              </h3>
+                            )}
+                            {link.type === 'visual-story' && (
+                              <h3 className={font('intb', 4)}>Visual story</h3>
+                            )}
+                            <span className={font('intr', 6)}>{link.text}</span>
+                            <ResourceLinkIconWrapper>
+                              <Icon icon={arrow} />
+                            </ResourceLinkIconWrapper>
+                          </ResourceLink>
+                        </ResourcesItem>
+                      );
+                    })}
+                    {exhibition.accessResourcesPdfs.map((pdf, i) => {
+                      const borderColor = getBorderColor({
+                        type: undefined,
+                        i,
+                      });
+                      return (
+                        <ResourcesItem key={pdf.url}>
+                          <ResourceLink
+                            key={i}
+                            href={pdf.url}
+                            $borderColor={borderColor}
+                            $underlineText={true}
+                          >
+                            <span className={font('intr', 5)}>
+                              {`${pdf.text} PDF`} {`(${pdf.size}kb)`}
+                            </span>
+                            <ResourceLinkIconWrapper>
+                              <Icon icon={download} />
+                            </ResourceLinkIconWrapper>
+                          </ResourceLink>
+                        </ResourcesItem>
+                      );
+                    })}
+                  </ResourcesList>
+                </Space>
+              )}
+              {/* TODO improve styling of download links - defaultSerializer */}
+              {exhibition.accessResourcesText && (
+                <PrismicHtmlBlock
+                  html={exhibition.accessResourcesText}
+                  htmlSerializer={defaultSerializer}
+                />
+              )}
+            </>
+          )}
 
-      {exhibition.contributors.length > 0 && (
-        <Contributors contributors={exhibition.contributors} />
-      )}
+          {exhibition.contributors.length > 0 && (
+            <Contributors contributors={exhibition.contributors} />
+          )}
 
-      {(exhibitionOfs.length > 0 || pages.length > 0) && (
-        <SearchResults
-          items={[...exhibitionOfs, ...pages]}
-          title={`In this ${exhibitionFormat.toLowerCase()}`}
-        />
-      )}
+          {(exhibitionOfs.length > 0 || pages.length > 0) && (
+            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <SearchResults
+                id="events-list"
+                items={[...exhibitionOfs, ...pages]}
+                title={`In this ${exhibitionFormat.toLowerCase()}`}
+              />
+            </Space>
+          )}
 
-      {exhibition.end && !isPast(exhibition.end) && (
-        <InfoBox
-          title="Visit us"
-          items={getInfoItems(exhibition, exhibitionAccessContent)}
-        >
-          <AccessibilityServices>
-            For more information, please visit our{' '}
-            <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>{' '}
-            page. If you have any queries about accessibility, please email us
-            at{' '}
-            <a href="mailto:access@wellcomecollection.org">
-              access@wellcomecollection.org
-            </a>{' '}
-            or call{' '}
-            {/*
-        This is to ensure phone numbers are read in a sensible way by
-        screen readers.
-      */}
-            <span className="visually-hidden">
-              {createScreenreaderLabel('020 7611 2222')}
-            </span>
-            <span aria-hidden="true">020&nbsp;7611&nbsp;2222.</span>
-          </AccessibilityServices>
-        </InfoBox>
-      )}
-      {exhibitionAbouts.length > 0 && (
-        <SearchResults items={exhibitionAbouts} title="Related stories" />
+          {exhibition.end && !isPast(exhibition.end) && (
+            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <InfoBox
+                title="Visit us"
+                items={getInfoItems(exhibition, exhibitionAccessContent)}
+              >
+                <AccessibilityServices>
+                  For more information, please visit our{' '}
+                  <a href={`/visit-us/${prismicPageIds.access}`}>
+                    Accessibility
+                  </a>{' '}
+                  page. If you have any queries about accessibility, please
+                  email us at{' '}
+                  <a href="mailto:access@wellcomecollection.org">
+                    access@wellcomecollection.org
+                  </a>{' '}
+                  or call{' '}
+                  {/*
+                  This is to ensure phone numbers are read in a sensible way by
+                  screen readers.
+                */}
+                  <span className="visually-hidden">
+                    {createScreenreaderLabel('020 7611 2222')}
+                  </span>
+                  <span aria-hidden="true">020&nbsp;7611&nbsp;2222.</span>
+                </AccessibilityServices>
+              </InfoBox>
+            </Space>
+          )}
+
+          {exhibitionAbouts.length > 0 && (
+            <SearchResults items={exhibitionAbouts} title="Related stories" />
+          )}
+        </>
       )}
     </ContentPage>
   );
