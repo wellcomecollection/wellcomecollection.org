@@ -261,9 +261,9 @@ const CatalogueResults = styled(Space).attrs({
   `}
 
   ${props =>
-    props.theme.media('large')(
-      `grid-column: ${props.$fullWidth ? '1 / 13' : '9 / 13'};`
-    )}
+    props.theme.media('large')(`
+      grid-column: ${props.$fullWidth ? '1' : '9'}/13;
+    `)}
 `;
 
 const LoaderContainer = styled.div<{ $fullWidth: boolean }>`
@@ -275,7 +275,7 @@ const LoaderContainer = styled.div<{ $fullWidth: boolean }>`
 
   ${props =>
     props.theme.media('large')(
-      `grid-column: ${props => (props.$fullWidth ? 6 : 10)};`
+      `grid-column: ${props.$fullWidth ? '6' : '10'};`
     )}
 `;
 
@@ -335,9 +335,6 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
   const [isLoadingImages, setIsLoadingImages] = useState(true);
   const [isLoadingWorks, setIsLoadingWorks] = useState(true);
   const [isCatalogueLoading, setIsCatalogueLoading] = useState(true);
-  const [contentResultsLength, setContentResultsLength] = useState(
-    contentResults?.totalResults
-  );
 
   const totalWorksResults = clientSideWorkTypes?.totalResults || 0;
   const totalImagesResults = clientSideImages?.totalResults || 0;
@@ -349,9 +346,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
   const pathname = usePathname();
 
   useMemo(() => {
-    if (contentResultsLength !== contentResults?.totalResults)
-      setIsCatalogueLoading(true);
-    setContentResultsLength(contentResults?.totalResults);
+    setIsCatalogueLoading(true);
   }, [contentResults?.totalResults]);
 
   async function fetchWorks() {
@@ -426,8 +421,6 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
     });
 
     setIsCatalogueLoading(true);
-    setClientSideWorkTypes(undefined);
-    setClientSideImages(undefined);
 
     fetchWorks();
     fetchImages();
@@ -529,7 +522,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                     </h3>
                   </Space>
 
-                  {clientSideWorkTypes?.totalResults && (
+                  {!!clientSideWorkTypes?.totalResults && (
                     <CatalogueResultsSection>
                       <CatalogueSectionTitle>
                         Catalogue results
@@ -595,7 +588,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                     </Space>
                   )}
 
-                  {clientSideImages?.totalResults && (
+                  {!!clientSideImages?.totalResults && (
                     <>
                       <CatalogueSectionTitle
                         $h={{
@@ -650,7 +643,7 @@ const NewSearchPage: NextPageWithLayout<NewProps> = ({
                   </Space>
                 ))}
 
-                {contentResults?.totalPages && (
+                {!!contentResults?.totalPages && (
                   <Pagination
                     totalPages={contentResults.totalPages}
                     ariaLabel="Content search results pagination"
