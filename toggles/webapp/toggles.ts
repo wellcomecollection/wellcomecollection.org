@@ -112,7 +112,7 @@ const toggles = {
     {
       id: 'exhibitionAccessContent',
       title: 'View access content changes in Exhibitions',
-      initialValue: false,
+      initialValue: true,
       description:
         'Displays the access content changes to the Exhibition pages',
       type: 'experimental',
