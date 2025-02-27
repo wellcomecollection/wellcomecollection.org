@@ -596,7 +596,7 @@ const Exhibition: FunctionComponent<Props> = ({
               <SearchResults
                 id="events-list"
                 items={[...exhibitionOfs, ...pages]}
-                title={`In this ${exhibitionFormat.toLowerCase()}`}
+                title={`${exhibitionFormat} events`}
               />
             </Space>
           )}
@@ -755,7 +755,7 @@ const Exhibition: FunctionComponent<Props> = ({
               <SearchResults
                 id="events-list"
                 items={[...exhibitionOfs, ...pages]}
-                title={`In this ${exhibitionFormat.toLowerCase()}`}
+                title={`${exhibitionFormat} events`}
               />
             </Space>
           )}
