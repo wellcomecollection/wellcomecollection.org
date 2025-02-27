@@ -2,6 +2,7 @@ import * as prismic from '@prismicio/client';
 
 import { ImageType } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
+import { Props as VideoEmbedProps } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { Link } from '@weco/content/types/link';
 
 import { Article } from './articles';
@@ -56,6 +57,7 @@ export type Exhibition = GenericContentFields & {
   contributors: Contributor[];
   accessResourcesPdfs: AccessPDF[];
   accessResourcesText?: prismic.RichTextField;
+  bslLeafletVideo?: VideoEmbedProps & { title?: string };
 };
 
 export type Exhibit = {

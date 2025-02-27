@@ -37,6 +37,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import Accordion from '@weco/content/components/Accordion/Accordion';
 import Body from '@weco/content/components/Body/Body';
+import BslLeafletVideo from '@weco/content/components/BslLeafletVideo';
 import Contact from '@weco/content/components/Contact/Contact';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import Contributors from '@weco/content/components/Contributors/Contributors';
@@ -269,6 +270,7 @@ const Exhibition: FunctionComponent<Props> = ({
   const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout[]>(
     []
   );
+  const [isModalActive, setIsModalActive] = useState(false);
 
   const visualStoryLink = accessResourceLinks.find(
     link => link.type === 'visual-story'
@@ -506,29 +508,38 @@ const Exhibition: FunctionComponent<Props> = ({
   );
 
   const Header = (
-    <PageHeader
-      breadcrumbs={breadcrumbs}
-      labels={{ labels: exhibition.labels }}
-      title={exhibition.title}
-      ContentTypeInfo={
-        <Fragment>
-          {!exhibition.isPermanent && (
-            <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
-              {DateInfo}
-            </Space>
-          )}
-          <StatusIndicator
-            start={exhibition.start}
-            end={exhibition.end || new Date()}
-            statusOverride={exhibition.statusOverride}
-          />
-        </Fragment>
-      }
-      FeaturedMedia={maybeFeaturedMedia}
-      HeroPicture={maybeHeroPicture}
-      isFree={true}
-      isContentTypeInfoBeforeMedia={true}
-    />
+    <>
+      <PageHeader
+        breadcrumbs={breadcrumbs}
+        labels={{ labels: exhibition.labels }}
+        title={exhibition.title}
+        ContentTypeInfo={
+          <Fragment>
+            {!exhibition.isPermanent && (
+              <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
+                {DateInfo}
+              </Space>
+            )}
+            <StatusIndicator
+              start={exhibition.start}
+              end={exhibition.end || new Date()}
+              statusOverride={exhibition.statusOverride}
+            />
+          </Fragment>
+        }
+        FeaturedMedia={maybeFeaturedMedia}
+        HeroPicture={maybeHeroPicture}
+        isFree={true}
+        isContentTypeInfoBeforeMedia={true}
+      />
+      {exhibition.bslLeafletVideo && (
+        <BslLeafletVideo
+          video={exhibition.bslLeafletVideo}
+          isModalActive={isModalActive}
+          setIsModalActive={setIsModalActive}
+        />
+      )}
+    </>
   );
 
   const exhibitionFormat =
