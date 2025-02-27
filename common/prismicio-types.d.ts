@@ -2795,11 +2795,11 @@ export interface ExhibitionsDocumentDataArticlesItem {
 }
 
 /**
- * Item in *Exhibition → interpretations*
+ * Item in *Exhibition → Interpretations*
  */
 export interface ExhibitionsDocumentDataInterpretationsItem {
   /**
-   * Interpretation field in *Exhibition → interpretations*
+   * Interpretation field in *Exhibition → Interpretations*
    *
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
@@ -2809,7 +2809,7 @@ export interface ExhibitionsDocumentDataInterpretationsItem {
   interpretationType: prismic.ContentRelationshipField<'interpretation-types'>;
 
   /**
-   * Primary interpretation field in *Exhibition → interpretations*
+   * Primary interpretation field in *Exhibition → Interpretations*
    *
    * - **Field Type**: Boolean
    * - **Placeholder**: *None*
@@ -2820,7 +2820,7 @@ export interface ExhibitionsDocumentDataInterpretationsItem {
   isPrimary: prismic.BooleanField;
 
   /**
-   * Extra information field in *Exhibition → interpretations*
+   * Extra information field in *Exhibition → Interpretations*
    *
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
@@ -3121,7 +3121,7 @@ interface ExhibitionsDocumentData {
   articles: prismic.GroupField<
     Simplify<ExhibitionsDocumentDataArticlesItem>
   > /**
-   * interpretations field in *Exhibition*
+   * Interpretations field in *Exhibition*
    *
    * - **Field Type**: Group
    * - **Placeholder**: *None*

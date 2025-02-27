@@ -201,7 +201,7 @@
       "interpretations": {
         "type": "Group",
         "config": {
-          "label": "",
+          "label": "Interpretations",
           "repeat": true,
           "fields": {
             "interpretationType": {
