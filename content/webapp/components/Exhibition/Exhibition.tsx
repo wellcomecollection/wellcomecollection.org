@@ -129,61 +129,48 @@ function getPlaceObject(
   );
 }
 
-function getAccessibilityItems(): ExhibitionItem[] {
-  const accessibilityItems: {
-    description: prismic.RichTextField;
-    icon: IconSvg;
-  }[] = [
-    {
-      description: [
-        {
-          type: 'paragraph',
-          text: a11y.stepFreeAccess,
-          spans: [],
-        },
-      ],
-      icon: a11Y,
-    },
-    {
-      description: [
-        {
-          type: 'paragraph',
-          text: a11y.largePrintGuides,
-          spans: [],
-        },
-      ],
-      icon: a11YVisual,
-    },
-    {
-      description: [
-        {
-          type: 'paragraph',
-          text: a11y.bsl,
-          spans: [],
-        },
-      ],
-      icon: britishSignLanguageTranslation,
-    },
-    {
-      description: [
-        {
-          type: 'paragraph',
-          text: a11y.accessResources,
-          spans: [],
-        },
-      ],
-      icon: accessibility,
-    },
-  ];
-
-  return accessibilityItems.filter(item => {
-    if (item.description[0] && 'text' in item.description[0]) {
-      return item.description[0]?.text !== a11y.largePrintGuides;
-    } else {
-      return true;
-    }
-  });
-}
+const accessibilityItems: ExhibitionItem[] = [
+  {
+    description: [
+      {
+        type: 'paragraph',
+        text: a11y.stepFreeAccess,
+        spans: [],
+      },
+    ],
+    icon: a11Y,
+  },
+  {
+    description: [
+      {
+        type: 'paragraph',
+        text: a11y.largePrintGuides,
+        spans: [],
+      },
+    ],
+    icon: a11YVisual,
+  },
+  {
+    description: [
+      {
+        type: 'paragraph',
+        text: a11y.bsl,
+        spans: [],
+      },
+    ],
+    icon: britishSignLanguageTranslation,
+  },
+  {
+    description: [
+      {
+        type: 'paragraph',
+        text: a11y.accessResources,
+        spans: [],
+      },
+    ],
+    icon: accessibility,
+  },
+];
 
 export function getInfoItems(exhibition: ExhibitionType): ExhibitionItem[] {
   return [
@@ -191,7 +178,7 @@ export function getInfoItems(exhibition: ExhibitionType): ExhibitionItem[] {
     getadmissionObject(),
     getTodaysHoursObject(),
     getPlaceObject(exhibition),
-    ...getAccessibilityItems(),
+    ...accessibilityItems,
   ].filter(isNotUndefined);
 }
 
