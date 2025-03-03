@@ -525,7 +525,7 @@ const Exhibition: FunctionComponent<Props> = ({
             <SearchResults
               id="events-list"
               items={[...exhibitionOfs, ...pages]}
-              title={`In this ${exhibitionFormat.toLowerCase()}`}
+              title={`${exhibitionFormat} events`}
             />
           </Space>
         )}
@@ -565,9 +565,11 @@ const Exhibition: FunctionComponent<Props> = ({
               Resources designed to support your visit are available online and
               in the gallery.
             </p>
+
             <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
               <Accordion id="access-resources" items={accordionContent} />
             </Space>
+
             <Space
               as="h3"
               className={font('intb', 4)}
