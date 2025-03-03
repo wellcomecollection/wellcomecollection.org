@@ -52,6 +52,18 @@ export type BooleanFilter<Id extends string = string> = {
   excludeFromMoreFilters?: boolean;
 };
 
+export type RadioFilter<Id extends string = string> = {
+  type: 'radio';
+  id: Id;
+  label: string;
+  showEmptyBuckets?: boolean; // TODO
+  options: FilterOption[];
+  // Most filters are to be included in the More Filters Modal,
+  // so this only needs to be set to true in the rare case we
+  // wish to exclude it.
+  excludeFromMoreFilters?: boolean;
+};
+
 export type ColorFilter = {
   type: 'color';
   id: keyof ImagesProps;
@@ -64,6 +76,7 @@ export type Filter<Id extends string = string> =
   | CheckboxFilter<Id>
   | DateRangeFilter<Id>
   | BooleanFilter
+  | RadioFilter
   | ColorFilter;
 
 type FilterOption = {
@@ -683,6 +696,53 @@ const eventsIsAvailableOnlineFilter = ({
   };
 };
 
+const eventsTimespanFilter = ({
+  // events,
+  props,
+}: EventsFilterProps): RadioFilter<keyof EventsProps> => {
+  // const s = events?.aggregations;
+  // const s = events?.aggregations?.timespan.buckets.find(b => b.data.id);
+
+  const timespan = [
+    {
+      id: 'all-events',
+      label: 'All events',
+    },
+    {
+      id: 'this-week',
+      label: 'This week',
+    },
+    {
+      id: 'future',
+      label: 'Future',
+    },
+    {
+      id: 'past',
+      label: 'Past',
+    },
+  ];
+
+  return {
+    type: 'radio',
+    id: 'timespan',
+    label: 'Date',
+    options: filterOptionsWithNonAggregates({
+      options: timespan.map(t => {
+        return {
+          id: t.id,
+          value: t.id,
+          count: 10, // TODO
+          label: t.label,
+          selected: props.timespan
+            ? props.timespan.includes(t.id)
+            : t.id === 'all-events',
+        };
+      }),
+      selectedValues: [props.timespan],
+    }),
+  };
+};
+
 const imagesFilters: (props: ImagesFilterProps) => Filter[] = props =>
   [
     colorFilter,
@@ -721,6 +781,7 @@ const eventsFilters: (
     eventsLocationFilter,
     eventsIsAvailableOnlineFilter,
     eventsInterpretationFilter,
+    eventsTimespanFilter,
   ].map(f => f(props));
 
 export { worksFilters, imagesFilters, storiesFilters, eventsFilters };
