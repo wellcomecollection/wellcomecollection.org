@@ -155,8 +155,84 @@ resource "aws_wafv2_web_acl" "wc_org" {
   }
 
   rule {
-    name     = "blanket-rate-limiting"
+    name     = "geo-rate-limit-APAC"
     priority = 3
+
+    action {
+      block {
+        custom_response {
+          response_code = 429
+        }
+      }
+    }
+
+    statement {
+      rate_based_statement {
+        aggregate_key_type    = "CONSTANT"
+        evaluation_window_sec = 60
+        limit                 = 500
+
+        scope_down_statement {
+          geo_match_statement {
+            // We have seen significant bot traffic from these regions,
+            // so we rate limit to a lower threshold.
+            country_codes = [
+              "CN",
+              "SG",
+              "HK",
+            ]
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "geo-rate-limit-apac-${var.namespace}"
+      sampled_requests_enabled   = true
+    }
+  }
+
+  rule {
+    name     = "geo-rate-limit-LATAM"
+    priority = 4
+
+    action {
+      block {
+        custom_response {
+          response_code = 429
+        }
+      }
+    }
+
+    statement {
+      rate_based_statement {
+        aggregate_key_type    = "CONSTANT"
+        evaluation_window_sec = 60
+        limit                 = 200
+
+        scope_down_statement {
+          geo_match_statement {
+            // We have seen significant bot traffic from these regions,
+            // so we rate limit to a lower threshold.
+            country_codes = [
+              "BR",
+            ]
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "geo-rate-limit-latam-${var.namespace}"
+      sampled_requests_enabled   = true
+    }
+  }
+
+  rule {
+    name     = "blanket-rate-limiting"
+    priority = 5
 
     action {
       block {}
@@ -178,7 +254,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "restrictive-rate-limiting"
-    priority = 4
+    priority = 6
 
     action {
       block {}
@@ -216,7 +292,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
   rule {
     name     = "core-rule-group"
-    priority = 5
+    priority = 7
 
     override_action {
       none {}
@@ -239,7 +315,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
   rule {
     name     = "sqli-rule-group"
-    priority = 6
+    priority = 8
 
     override_action {
       none {}
@@ -262,7 +338,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
   rule {
     name     = "known-bad-inputs-rule-group"
-    priority = 7
+    priority = 9
 
     override_action {
       none {}
@@ -284,7 +360,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-control-rule-group"
-    priority = 8
+    priority = 10
 
     // Because the Bot Control rules are quite aggressive, they block some useful bots
     // such as Updown. While we could add overrides for specific bots, we don"t want to have to
@@ -330,147 +406,8 @@ resource "aws_wafv2_web_acl" "wc_org" {
   }
 
   rule {
-    name     = "geo-block-LATAM"
-    priority = 9
-
-    action {
-      block {
-      }
-    }
-
-    statement {
-      and_statement {
-        statement {
-          geo_match_statement {
-            country_codes = [
-              "BR",
-              "AR",
-            ]
-          }
-        }
-        statement {
-          byte_match_statement {
-            positional_constraint = "CONTAINS"
-            search_string         = "Windows"
-
-            field_to_match {
-              single_header {
-                name = "user-agent"
-              }
-            }
-
-            text_transformation {
-              priority = 0
-              type     = "NONE"
-            }
-          }
-        }
-        statement {
-          byte_match_statement {
-            positional_constraint = "CONTAINS"
-            search_string         = "Trident"
-
-            field_to_match {
-              single_header {
-                name = "user-agent"
-              }
-            }
-
-            text_transformation {
-              priority = 0
-              type     = "NONE"
-            }
-          }
-        }
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "geo-block-latam-${var.namespace}"
-      sampled_requests_enabled   = true
-    }
-  }
-
-  rule {
-    name     = "geo-rate-limit-APAC"
-    priority = 10
-
-    action {
-      block {
-        custom_response {
-          response_code = 429
-        }
-      }
-    }
-
-    statement {
-      rate_based_statement {
-        aggregate_key_type    = "CONSTANT"
-        evaluation_window_sec = 60
-        limit                 = 500
-
-        scope_down_statement {
-          geo_match_statement {
-            // We have seen significant bot traffic from these regions,
-            // so we rate limit to a lower threshold.
-            country_codes = [
-              "CN",
-              "SG",
-              "HK",
-            ]
-          }
-        }
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "geo-rate-limit-apac-${var.namespace}"
-      sampled_requests_enabled   = true
-    }
-  }
-
-  rule {
-    name     = "geo-rate-limit-LATAM"
-    priority = 11
-
-    action {
-      block {
-        custom_response {
-          response_code = 429
-        }
-      }
-    }
-
-    statement {
-      rate_based_statement {
-        aggregate_key_type    = "CONSTANT"
-        evaluation_window_sec = 60
-        limit                 = 200
-
-        scope_down_statement {
-          geo_match_statement {
-            // We have seen significant bot traffic from these regions,
-            // so we rate limit to a lower threshold.
-            country_codes = [
-              "BR",
-            ]
-          }
-        }
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "geo-rate-limit-latam-${var.namespace}"
-      sampled_requests_enabled   = true
-    }
-  }
-
-  rule {
     name     = "bot-user-agent-manual"
-    priority = 12
+    priority = 11
 
     action {
       block {}

@@ -35,3 +35,8 @@ variable "cloudfront_header_secrets" {
   type    = list(string)
   default = []
 }
+
+variable "desired_task_count" {
+  type   = number
+  default = 3
+}

@@ -6,6 +6,8 @@ module "content-prod" {
   environment = data.terraform_remote_state.experience_shared.outputs.prod
   cloudfront_header_secrets = local.cloudfront_header_secrets
 
+  desired_task_count = 6
+
   container_image = local.prod_app_image
   env_suffix      = "prod"
 
