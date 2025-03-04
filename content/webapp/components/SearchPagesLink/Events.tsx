@@ -24,6 +24,7 @@ const emptyEventsProps: EventsProps = {
   interpretation: [],
   location: [],
   isAvailableOnline: false,
+  timespan: '',
 };
 const codecMap = {
   query: stringCodec,
@@ -33,6 +34,7 @@ const codecMap = {
   interpretation: csvCodec,
   location: csvCodec,
   isAvailableOnline: booleanCodec,
+  timespan: stringCodec,
 };
 const fromQuery: (params: ParsedUrlQuery) => EventsProps = params => {
   return decodeQuery<EventsProps>(params, codecMap);
