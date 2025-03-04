@@ -31,9 +31,6 @@ const cookies = {
   // you've been redirected from Wellcome Images.
   wellcomeImagesRedirect: 'WC_wellcomeImagesRedirect',
 
-  // Remembers whether somebody is using the "mini" version of the API toolbar.
-  apiToolbarMini: 'WC_apiToolbarMini',
-
   // Causes Segment session info to be logged to the dev console.
   analyticsDebug: 'WC_analyticsDebug',
 };
@@ -96,11 +93,6 @@ export const cookiesTableCopy = {
       `WC_wellcomeImagesRedirect`,
       `Used to indicate if the user has closed the banner you see when<br />you've been redirected from Wellcome Images`,
       `2036-12-31T23:59:59Z`,
-    ],
-    [
-      `WC_apiToolbarMini`,
-      `Used to indicate if the user is using the "mini" version of the API toolbar`,
-      `Session`,
     ],
     [
       `toggle_*`,
