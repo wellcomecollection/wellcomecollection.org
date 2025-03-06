@@ -3,7 +3,7 @@ module "slack_alerts_for_5xx" {
 
   source_file = "${path.module}/send_slack_alert_for_5xx_errors.js"
   handler     = "send_slack_alert_for_5xx_errors.handler"
-  runtime     = "nodejs16.x"
+  runtime     = "nodejs20.x"
 
   description = "Send alerts to Slack when there are 5xx alerts in the CloudFront logs"
   name        = "send_slack_alert_for_5xx_errors"
