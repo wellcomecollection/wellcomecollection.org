@@ -11,6 +11,8 @@ module "content-service-17092020" {
   container_image = var.container_image
   container_port  = 3000
 
+  desired_task_count = var.desired_task_count
+
   nginx_container_config = {
     image_name    = "uk.ac.wellcome/nginx_frontend"
     container_tag = "552aa56027698be94cbbf3fb206af4f3f2ba267b"
