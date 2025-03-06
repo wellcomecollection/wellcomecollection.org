@@ -203,9 +203,14 @@ export const getServerSideProps: GetServerSideProps<
 
   const query = context.query;
   const params = fromQuery(query);
+  const validTimespan = getQueryPropertyValue(params.timespan) || '';
+  const validParams = {
+    ...params,
+    timespan: validTimespan === 'all-events' ? '' : validTimespan,
+  };
 
   const defaultProps = serialiseProps({
-    eventsRouteProps: params,
+    eventsRouteProps: validParams,
     serverData,
     query,
   });
@@ -239,10 +244,11 @@ export const getServerSideProps: GetServerSideProps<
   // This is a workaround that ensures we only send the page if relevant
   const { page, ...restOfQuery } = query;
   const pageNumber = page !== '1' && getQueryPropertyValue(page);
+  const paramsQuery = { ...restOfQuery, timespan: validTimespan };
 
   const eventResponseList = await getEvents({
     params: {
-      ...restOfQuery,
+      ...paramsQuery,
       sort: getQueryPropertyValue(query.sort),
       sortOrder: getQueryPropertyValue(query.sortOrder),
       ...(pageNumber && { page: Number(pageNumber) }),
