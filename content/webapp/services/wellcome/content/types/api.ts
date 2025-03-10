@@ -138,6 +138,7 @@ export type EventAggregations = BasicAggregations & {
   interpretation: WellcomeAggregation;
   location: WellcomeAggregation;
   isAvailableOnline: WellcomeAggregation<BooleanBucketData>;
+  timespan: WellcomeAggregation;
 };
 
 type AddressableType =
