@@ -19,7 +19,7 @@
  *
  */
 
-const AWS = require('aws-sdk');
+const { S3Client, GetObjectCommand } = require('@aws-sdk/client-s3');
 const events = require('events');
 const https = require('https');
 const readline = require('readline');
@@ -43,12 +43,11 @@ const zlib = require('zlib');
  *
  */
 async function findCloudFrontHitsFromLog(bucket, key) {
-  const s3 = new AWS.S3();
+  const s3Client = new S3Client({ region: 'us-east-1' });
 
-  const input = s3
-    .getObject({ Bucket: bucket, Key: key })
-    .createReadStream()
-    .pipe(zlib.createGunzip());
+  const input = (
+    await s3Client.send(new GetObjectCommand({ Bucket: bucket, Key: key }))
+  ).Body.pipe(zlib.createGunzip());
 
   const lineReader = readline.createInterface({ input });
 
