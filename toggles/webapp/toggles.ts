@@ -117,6 +117,14 @@ const toggles = {
         'Displays the access content changes to the Exhibition pages',
       type: 'experimental',
     },
+    {
+      id: 'newThemePages',
+      title: 'New Theme Pages',
+      initialValue: false,
+      description:
+        'Show new theme pages, with data populated from the catalogue graph.',
+      type: 'experimental',
+    },
   ] as const,
   tests: [] as ABTest[],
 };
