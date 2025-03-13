@@ -527,8 +527,8 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
   // may be presented to the user as part of the representation of the Canvas, or
   // may be presented in a different part of the user interface.
   // We need to do this for two reasons:
-  // 1) to find the pdfs that were added to manifests before DLCS changes, which took place in May 2023.
-  // (N.B. after this time the pdfs follow the Born Digital pattern)
+  // 1) to find the pdfs that are ingested via Goobi.
+  // (N.B. pdfs ingested via Archivematica follow the Born Digital pattern)
   // 2) they can provide alternative content such as transcriptions for Videos
   const supplementings = getAnnotationsOfMotivation(
     canvas.annotations || [],
@@ -539,6 +539,35 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
   const imageService = getImageServiceFromCanvas(canvas);
   const imageServiceId = getImageServiceId(imageService);
   const hasRestrictedImage = isImageRestricted(canvas);
+
+  // // TODO function that returns the type thing we are displaying from the canvas
+  // // TODO move to painting?
+  // // TODO do we put displayItems on the canvas instead of paintings, supplementing and original?
+  // const isVideo = hasItemType([canvas], 'Video');
+  // const isAudio =
+  //   hasItemType([canvas], 'Audio') || hasItemType([canvas], 'Sound');
+  // // We consider a canvas to be a PDF if it has a PDF supplement or if it has no painting and a PDF supplement
+  // const isPdf = // TODO check logic of this
+  //   hasOriginalPdf([canvas]) ||
+  //   ((!canvas?.painting || canvas?.painting.length === 0) &&
+  //     canvas?.supplementing.some(supplement => {
+  //       if (isChoiceBody(supplement)) {
+  //         return supplement.items.some(item => {
+  //           if (typeof item !== 'string') {
+  //             return item.format === 'application/pdf'; // TODO this can be true of video etc. only want this if no painting see above logic
+  //           } else {
+  //             return false;
+  //           }
+  //         });
+  //       } else {
+  //         return supplement.format === 'application/pdf';
+  //       }
+  //     })) ||
+  //   false;
+
+  // console.log('isVideo', isVideo);
+  // console.log('isAudio', isAudio);
+  // console.log('isPdf', isPdf);
 
   return {
     id,
@@ -631,7 +660,7 @@ export function hasItemType(
 ): boolean {
   return (
     canvases?.some(canvas => {
-      return canvas.painting.some(item => {
+      return canvas?.painting.some(item => {
         if (isChoiceBody(item)) {
           return item.items.some(item => {
             if (typeof item !== 'string') {
@@ -653,7 +682,7 @@ export function hasOriginalPdf(
 ): boolean {
   return (
     canvases?.some(canvas => {
-      return canvas.original.some(item => {
+      return canvas?.original.some(item => {
         return 'format' in item && item.format === 'application/pdf';
       });
     }) || false
@@ -726,6 +755,7 @@ export function getCollectionManifests(
 // - no born digital items
 // - a mix of the two.
 // We need to know which we have to determine the required UI.
+// TODO replace with format
 export function getBornDigitalStatus(
   manifest: Manifest | Collection
 ): BornDigitalStatus {
@@ -752,6 +782,7 @@ export function getBornDigitalStatus(
   }
 }
 
+// TODO use displayitems?
 // The viewer uses react-window's FixedSizeList if we are only displaying images
 // If we are displaying other things e.g. audio/video/pdf/other born digital files
 // then we display one item at a time with pagination.
@@ -759,7 +790,6 @@ export function getBornDigitalStatus(
 export function hasNonImages(
   canvases: TransformedCanvas[] | undefined
 ): boolean {
-  canvases?.map(c => console.log(JSON.stringify(c, null, 2)));
   const hasNonImage = canvases?.some(c => {
     return (
       c.painting.some(p => p.type !== 'Image') ||

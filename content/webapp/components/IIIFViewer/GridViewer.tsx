@@ -21,6 +21,11 @@ import ItemViewerContext, {
 import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { TransformedCanvas } from '@weco/content/types/manifest';
+import {
+  hasItemType,
+  hasOriginalPdf,
+  isChoiceBody,
+} from '@weco/content/utils/iiif/v3';
 
 import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';

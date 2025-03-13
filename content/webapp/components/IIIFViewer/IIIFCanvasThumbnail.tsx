@@ -82,6 +82,10 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
     ? iiifImageTemplate(canvas.imageServiceId)
     : undefined;
 
+  // TODO need a way to identify the type of thing
+  // and create fallback images for them
+  // e.g. for audio, video, pdf, etc.
+
   return (
     <IIIFViewerThumb>
       <IIIFViewerThumbInner>

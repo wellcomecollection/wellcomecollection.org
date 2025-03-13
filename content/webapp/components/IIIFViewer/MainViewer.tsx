@@ -57,7 +57,10 @@ const ItemWrapper = styled.div`
   }
 
   video {
+    display: block;
+    margin: auto;
     width: 100%;
+    max-height: 90%;
   }
 
   /*  img { // TODO move this onto image component
@@ -336,8 +339,9 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                   key={item.id}
                   placeholderId={placeholderId}
                   item={item}
-                  canvas={currentCanvas}
                   i={index}
+                  canvas={currentCanvas}
+                  titleOverride={`${index}/${canvases.length}`}
                   exclude={[]}
                   setImageRect={setImageRect}
                   setImageContainerRect={setImageContainerRect}
@@ -413,11 +417,11 @@ const MainViewer: FunctionComponent = () => {
   const firstRenderRef = useRef(firstRender);
   firstRenderRef.current = firstRender;
   const scrollVelocity = useScrollVelocity(newScrollOffset);
-  const debounceHandleOnItemsRendered = useRef(
-    debounce(handleOnItemsRendered, 500)
-  );
+  // const debounceHandleOnItemsRendered = useRef(
+  //   debounce(handleOnItemsRendered, 500)
+  // );
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
-  const { canvases, auth, placeholderId } = {
+  const { canvases, auth, placeholderId, bornDigitalStatus } = {
     ...transformedManifest,
   };
 
@@ -439,37 +443,40 @@ const MainViewer: FunctionComponent = () => {
     }, 500);
   }
 
+  // TODO only for useFixedSizeList
   // We display the canvas indicated by the canvas (index) when the page first loads
-  function handleOnItemsRendered() {
-    let currentCanvas: TransformedCanvas | undefined;
-    if (firstRenderRef.current) {
-      currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
-      const viewer = mainViewerRef?.current;
-      scrollViewer({ currentCanvas, canvas, viewer, mainAreaWidth });
-      setFirstRender(false);
-    }
-  }
+  // function handleOnItemsRendered() {
+  //   let currentCanvas: TransformedCanvas | undefined;
+  //   if (firstRenderRef.current) {
+  //     currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
+  //     const viewer = mainViewerRef?.current;
+  //     scrollViewer({ currentCanvas, canvas, viewer, mainAreaWidth });
+  //     setFirstRender(false);
+  //   }
+  // }
 
   // Scroll to the correct canvas when the canvas changes.
   // But we don't want this to happen if the canvas changes as a result of the viewer being scrolled,
   // so ItemLink href prop can include a shouldScrollToCanvas query param on the href object to prevent this.
-  useEffect(() => {
-    if (shouldScrollToCanvas) {
-      scrollViewer({
-        currentCanvas: canvases?.[queryParamToArrayIndex(canvas)],
-        canvas,
-        viewer: mainViewerRef?.current,
-        mainAreaWidth,
-      });
-    }
-  }, [canvas]);
+  // TODO only for useFixedSizeList
+  // useEffect(() => {
+  //   if (shouldScrollToCanvas) {
+  //     scrollViewer({
+  //       currentCanvas: canvases?.[queryParamToArrayIndex(canvas)],
+  //       canvas,
+  //       viewer: mainViewerRef?.current,
+  //       mainAreaWidth,
+  //     });
+  //   }
+  // }, [canvas]);
 
   const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
   const displayItems = currentCanvas ? getDisplayItems(currentCanvas) : [];
-
+  // doesn't have non images
   const useFixedSizeList = !hasNonImages(canvases);
+  console.log({ useFixedSizeList });
   if (!useFixedSizeList) {
-    setShowFullscreenControl(false);
+    setShowFullscreenControl(false); // TODO not for PDFs
   }
 
   return (
@@ -500,16 +507,17 @@ const MainViewer: FunctionComponent = () => {
         </FixedSizeList>
       ) : (
         <>
-          {displayItems.map(item => {
+          {displayItems.map((item, i) => {
             return (
               <>
                 {currentCanvas ? (
-                  <ItemWrapper key={item.id}>
+                  <ItemWrapper key={i}>
                     <IIIFItem
                       placeholderId={placeholderId}
                       item={item}
-                      canvas={currentCanvas}
                       i={1}
+                      canvas={currentCanvas}
+                      titleOverride={`${canvas}/${canvases?.length}`}
                       exclude={[]}
                     />
                   </ItemWrapper>

@@ -325,8 +325,8 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
       <Main>
         <LeftZone className="viewer-desktop">
           {!showZoomed &&
-            canvases &&
-            canvases.length > 1 &&
+            // canvases &&
+            // canvases.length > 1 &&
             isFullSupportBrowser && (
               <ToolbarSegmentedControl
                 hideLabels={true}
@@ -373,6 +373,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
             <div style={{ display: 'flex', alignItems: 'center' }}>
               {!showZoomed && downloadOptions.length > 0 && (
                 <Space $h={{ size: 's', properties: ['margin-right'] }}>
+                  {/* // TODO not replacing what's there just adding to it */}
                   <Download
                     ariaControlsId="itemDownloads"
                     downloadOptions={downloadOptions}
