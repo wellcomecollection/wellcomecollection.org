@@ -8,7 +8,6 @@ import {
 } from 'react';
 
 import { searchLabelText } from '@weco/common/data/microcopy';
-import { useToggles } from '@weco/common/server-data/Context';
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import { getQueryPropertyValue, linkResolver } from '@weco/common/utils/search';
 import SearchBar, {
@@ -43,7 +42,6 @@ const SearchForm = ({
   const router = useRouter();
   const routerQuery = getQueryPropertyValue(router?.query?.query);
   const { link: searchLink } = useContext(SearchContext);
-  const { allSearch } = useToggles();
   const initialValue =
     routerQuery || searchLink.as.query?.query?.toString() || '';
   const [inputValue, setInputValue] = useState(initialValue);
@@ -76,11 +74,7 @@ const SearchForm = ({
         form={`search-form-${searchCategory}`}
         placeholder={
           searchLabelText[
-            searchCategory !== 'overview'
-              ? searchCategory
-              : allSearch
-                ? 'overviewAllSearch'
-                : 'overview'
+            searchCategory !== 'overview' ? searchCategory : 'overview'
           ]
         }
         inputRef={inputRef}

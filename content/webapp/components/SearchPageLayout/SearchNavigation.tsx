@@ -3,7 +3,6 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { searchLabelText } from '@weco/common/data/microcopy';
-import { useToggles } from '@weco/common/server-data/Context';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import { capitalize } from '@weco/common/utils/grammar';
@@ -47,7 +46,6 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
   currentSearchCategory,
   currentQueryValue: queryValue,
 }) => {
-  const { allSearch } = useToggles();
   const router = useRouter();
 
   // Variable naming note:
@@ -103,7 +101,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
     return router.push(link.href, link.as);
   };
 
-  const allSearchItems = [
+  const tabItems = [
     {
       id: 'overview',
       url: getURL('/search'),
@@ -156,9 +154,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
               searchLabelText[
                 currentSearchCategory !== 'overview'
                   ? currentSearchCategory
-                  : allSearch
-                    ? 'overviewAllSearch'
-                    : 'overview'
+                  : 'overview'
               ]
             }
             form={SEARCH_PAGES_FORM_ID}
@@ -166,42 +162,12 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
           />
         </SearchBarContainer>
       </form>
-      <TabsBorder $visible={allSearch}>
+      <TabsBorder $visible={true}>
         <Tabs
           tabBehaviour="navigate"
-          hideBorder={allSearch || currentSearchCategory === 'overview'}
+          hideBorder={true}
           label="Search Categories"
-          items={
-            allSearch
-              ? allSearchItems
-              : [
-                  {
-                    id: 'overview',
-                    url: getURL('/search'),
-                    text: 'All',
-                  },
-                  {
-                    id: 'stories',
-                    url: getURL('/search/stories'),
-                    text: 'Stories',
-                  },
-                  {
-                    id: 'images',
-                    url: getURL('/search/images'),
-                    text: 'Images',
-                  },
-                  {
-                    id: 'works',
-                    url: getURL('/search/works'),
-                    text: 'Catalogue',
-                  },
-                  {
-                    id: 'events',
-                    url: getURL('/search/events'),
-                    text: 'Events',
-                  },
-                ]
-          }
+          items={tabItems}
           currentSection={currentSearchCategory}
         />
       </TabsBorder>
