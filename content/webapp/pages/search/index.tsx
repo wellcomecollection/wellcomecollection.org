@@ -622,9 +622,7 @@ export const getServerSideProps: GetServerSideProps<
 
     // All/Addressables
     const contentResults = await getAddressables({
-      params: {
-        ...query,
-      },
+      params: query,
       pageSize: 20,
       toggles: serverData.toggles,
     });

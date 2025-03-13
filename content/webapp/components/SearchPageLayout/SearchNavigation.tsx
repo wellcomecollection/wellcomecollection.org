@@ -150,13 +150,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
           <SearchBar
             inputValue={inputValue}
             setInputValue={setInputValue}
-            placeholder={
-              searchLabelText[
-                currentSearchCategory !== 'overview'
-                  ? currentSearchCategory
-                  : 'overview'
-              ]
-            }
+            placeholder={searchLabelText[currentSearchCategory]}
             form={SEARCH_PAGES_FORM_ID}
             location="search"
           />

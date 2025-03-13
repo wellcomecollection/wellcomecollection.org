@@ -72,11 +72,7 @@ const SearchForm = ({
         inputValue={inputValue}
         setInputValue={setInputValue}
         form={`search-form-${searchCategory}`}
-        placeholder={
-          searchLabelText[
-            searchCategory !== 'overview' ? searchCategory : 'overview'
-          ]
-        }
+        placeholder={searchLabelText[searchCategory]}
         inputRef={inputRef}
         location={location}
       />
