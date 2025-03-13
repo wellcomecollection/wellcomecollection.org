@@ -26,9 +26,10 @@ export function transformVideoEmbed(
 export function getVimeoEmbedUrl(embed: prismic.EmbedField): string {
   const urlString = embed.html?.match(/src="([-a-zA-Z0-9://.?=_]+)?/)![1] || '';
   const embedUrl = new URL(urlString);
-  const hasSearchparams = new URLSearchParams(embedUrl.search).size > 0;
-  // The embed URL might already have a query ('?') and if it does we append an '&' instead
-  return `${embedUrl}${hasSearchparams ? '&' : '?'}rel=0`;
+  // There might already be a query so we set 'rel=0' using URL.searchParams
+  // to avoid having to determine if it needs to be preceeded by a ? or an &
+  embedUrl.searchParams.set('rel', '0');
+  return embedUrl.toString();
 }
 
 export function getSoundCloudEmbedUrl(embed: prismic.EmbedField): string {
