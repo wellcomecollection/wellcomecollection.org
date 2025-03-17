@@ -8,6 +8,7 @@ import { links, NavLink } from '@weco/common/views/components/Header/Header';
 import Space from '@weco/common/views/components/styled/Space';
 
 const NavList = styled.ul<{ $isInline?: boolean }>`
+  flex-shrink: 0;
   list-style-type: none;
   display: inline-block;
   padding: 0;
@@ -103,7 +104,7 @@ const FooterNav = ({
     type === 'PoliciesNavigation' ? PoliciesNavigation : InternalNavigation;
 
   return (
-    <nav aria-label={ariaLabel}>
+    <nav style={{ display: 'flex' }} aria-label={ariaLabel}>
       <NavList aria-label="Footer navigation" $isInline={isInline}>
         {itemsList.map((link, i) => {
           // ID for Javascript-less users who tried to click on the Burger menu and will get redirected here
