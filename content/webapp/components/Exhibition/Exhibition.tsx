@@ -623,7 +623,7 @@ const Exhibition: FunctionComponent<Props> = ({
                 className={font('intb', 4)}
                 $v={{ size: 'l', properties: ['margin-bottom'] }}
               >
-                Access information and queries
+                Access information, tours and queries
               </Space>
               <Contact
                 link={{
