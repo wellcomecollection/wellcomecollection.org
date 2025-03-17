@@ -546,26 +546,7 @@ const Exhibition: FunctionComponent<Props> = ({
             <InfoBox
               title="Visit us"
               items={getInfoItems(exhibition, exhibitionAccessContent)}
-            >
-              <AccessibilityServices>
-                For more information, please visit our{' '}
-                <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>{' '}
-                page. If you have any queries about accessibility, please email
-                us at{' '}
-                <a href="mailto:access@wellcomecollection.org">
-                  access@wellcomecollection.org
-                </a>{' '}
-                or call{' '}
-                {/*
-                  This is to ensure phone numbers are read in a sensible way by
-                  screen readers.
-                */}
-                <span className="visually-hidden">
-                  {createScreenreaderLabel('020 7611 2222')}
-                </span>
-                <span aria-hidden="true">020&nbsp;7611&nbsp;2222.</span>
-              </AccessibilityServices>
-            </InfoBox>
+            />
           )}
 
           {(exhibitionOfs.length > 0 || pages.length > 0) && (
