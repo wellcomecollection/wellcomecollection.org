@@ -8,16 +8,29 @@ import Space from '@weco/common/views/components/styled/Space';
 
 const IconLi = styled(Space).attrs({
   as: 'li',
-  $v: { size: 's', properties: ['margin-bottom'] },
+  $v: { size: 'm', properties: ['margin-bottom'] },
 })`
   display: flex;
+  gap: 0.5em;
   align-items: center;
 `;
 
 const IconWrap = styled(Space).attrs({
   'aria-hidden': true,
-  $h: { size: 's', properties: ['margin-right'] },
-})``;
+  $h: {
+    size: 'xs',
+    properties: ['padding-left', 'padding-right'],
+  },
+  $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
+})`
+  display: flex;
+  background: ${props => props.theme.color('white')};
+  border-radius: 6px;
+
+  .icon {
+    color: ${props => props.theme.color('black')};
+  }
+`;
 
 const FooterA11y: FunctionComponent = () => {
   return (
