@@ -1,7 +1,12 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { information } from '@weco/common/icons';
+import {
+  a11YFilled,
+  audioDescribedFilled,
+  britishSignLanguageTranslationFilled,
+  hearingLoopFilled,
+} from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
@@ -24,11 +29,12 @@ const IconWrap = styled(Space).attrs({
   $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
 })`
   display: flex;
-  background: ${props => props.theme.color('white')};
   border-radius: 6px;
 
   .icon {
-    color: ${props => props.theme.color('black')};
+    width: 32px;
+    height: 32px;
+    color: ${props => props.theme.color('white')};
   }
 `;
 
@@ -37,7 +43,7 @@ const FooterA11y: FunctionComponent = () => {
     <PlainList>
       <IconLi>
         <IconWrap>
-          <Icon icon={information} />
+          <Icon icon={a11YFilled} />
         </IconWrap>
         <span>Our building has step-free access.</span>
       </IconLi>
@@ -49,19 +55,19 @@ const FooterA11y: FunctionComponent = () => {
       </IconLi>
       <IconLi>
         <IconWrap>
-          <Icon icon={information} />
+          <Icon icon={britishSignLanguageTranslationFilled} />
         </IconWrap>
         <span>British Sign Language</span>
       </IconLi>
       <IconLi>
         <IconWrap>
-          <Icon icon={information} />
+          <Icon icon={audioDescribedFilled} />
         </IconWrap>
         <span>Audio description</span>
       </IconLi>
       <IconLi>
         <IconWrap>
-          <Icon icon={information} />
+          <Icon icon={hearingLoopFilled} />
         </IconWrap>
         <span>Hearing loop</span>
       </IconLi>
