@@ -55,6 +55,16 @@ const PoliciesAndSocials = styled(FooterBasicSection)`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+
+  ${props =>
+    props.theme.mediaBetween(
+      'medium',
+      'large'
+    )(`
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+  `)}
 `;
 
 const FindUsContainer = styled(Space).attrs({
