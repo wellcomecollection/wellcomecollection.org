@@ -44,10 +44,13 @@ const FooterNavigationContainer = styled(FooterBasicSection)`
 
   ${props => props.theme.media('medium')`
     grid-template-columns: repeat(2, 1fr);
+    grid-gap: 4rem;
   `}
 
   ${props => props.theme.media('xlarge')`
     grid-template-columns: repeat(4, 1fr);
+    grid-gap: 2rem;
+
   `}
 `;
 
@@ -62,7 +65,7 @@ const PoliciesAndSocials = styled(FooterBasicSection)`
       'large'
     )(`
     display: grid;
-    grid-gap: 2rem;
+    grid-gap: 4rem;
     grid-template-columns: 1fr 1fr;
   `)}
 `;
