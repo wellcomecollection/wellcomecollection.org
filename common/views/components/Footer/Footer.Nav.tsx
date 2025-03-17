@@ -8,11 +8,14 @@ import { links, NavLink } from '@weco/common/views/components/Header/Header';
 import Space from '@weco/common/views/components/styled/Space';
 
 const NavList = styled.ul<{ $isInline?: boolean }>`
-  flex-shrink: 0;
   list-style-type: none;
   display: inline-block;
   padding: 0;
   margin: 0;
+
+  ${props => props.theme.media('medium')`
+    flex-shrink: 0;
+  `}
 
   li:first-child a {
     padding-top: 0;
