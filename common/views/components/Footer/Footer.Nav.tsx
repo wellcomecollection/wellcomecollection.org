@@ -7,15 +7,14 @@ import { font } from '@weco/common/utils/classnames';
 import { links, NavLink } from '@weco/common/views/components/Header/Header';
 import Space from '@weco/common/views/components/styled/Space';
 
-const NavList = styled.ul<{ $isInline?: boolean }>`
+const NavList = styled.ul<{
+  $isInline?: boolean;
+  $exhibitionAccessContent?: boolean;
+}>`
   list-style-type: none;
   display: inline-block;
   padding: 0;
   margin: 0;
-
-  ${props => props.theme.media('medium')`
-    flex-shrink: 0;
-  `}
 
   li:first-child a {
     padding-top: 0;
@@ -24,16 +23,27 @@ const NavList = styled.ul<{ $isInline?: boolean }>`
   ${props =>
     props.$isInline &&
     `
-      display: flex;
-      flex-direction: column;
 
-      ${props.theme.media('large')(`
-        flex-direction: row;
+    ${
+      props.$exhibitionAccessContent
+        ? `
+      li {
+        display: inline-block;
+      }
+    `
+        : `
+    display: flex;
+    flex-direction: column;
 
-        li:first-child a {
-          padding-top: 8px;
-        }
-      `)}
+    ${props.theme.media('large')(`
+      flex-direction: row;
+
+      li:first-child a {
+        padding-top: 8px;
+      }
+    `)}
+    `
+    }
 
       li {
         margin-right: 1.1rem;
@@ -98,17 +108,23 @@ const FooterNav = ({
   type,
   ariaLabel,
   isInline,
+  exhibitionAccessContent,
 }: {
   type: 'InternalNavigation' | 'PoliciesNavigation';
   ariaLabel: string;
   isInline?: boolean;
+  exhibitionAccessContent?: boolean;
 }): ReactElement => {
   const itemsList =
     type === 'PoliciesNavigation' ? PoliciesNavigation : InternalNavigation;
 
   return (
     <nav style={{ display: 'flex' }} aria-label={ariaLabel}>
-      <NavList aria-label="Footer navigation" $isInline={isInline}>
+      <NavList
+        aria-label="Footer navigation"
+        $isInline={isInline}
+        $exhibitionAccessContent={exhibitionAccessContent}
+      >
         {itemsList.map((link, i) => {
           // ID for Javascript-less users who tried to click on the Burger menu and will get redirected here
           const isBurgerMenuLink = type === 'InternalNavigation' && i === 0;

@@ -238,6 +238,7 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
           <PoliciesContainer>
             <FooterNav
               isInline
+              exhibitionAccessContent={true}
               type="PoliciesNavigation"
               ariaLabel="Policies navigation"
             />
