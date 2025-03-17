@@ -10,7 +10,7 @@ import {
   a11YVisual,
   accessibility,
   arrow,
-  britishSignLanguageTranslation,
+  britishSignLanguageTranslationFilled,
   calendar,
   clock,
   download,
@@ -194,7 +194,7 @@ function getAccessibilityItems(
           spans: [],
         },
       ],
-      icon: britishSignLanguageTranslation,
+      icon: britishSignLanguageTranslationFilled,
     },
     {
       description: [

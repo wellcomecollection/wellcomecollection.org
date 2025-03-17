@@ -11,7 +11,7 @@ import {
 import { a11y, visualStoryLinkText } from '@weco/common/data/microcopy';
 import {
   arrow,
-  audioDescribed,
+  audioDescribedFilled,
   britishSignLanguageLive,
   email,
   hearingLoop,
@@ -131,7 +131,7 @@ const eventInterpretationIcons: Record<string, IconSvg> = {
   britishSignLanguage: britishSignLanguageLive,
   speechToText,
   hearingLoop,
-  audioDescribed,
+  audioDescribedFilled,
 };
 
 /**
