@@ -26,6 +26,14 @@ const Cell = styled(Space).attrs({
     color: ${props => props.theme.color('neutral.200')};
     background-color: ${props => props.theme.color('black')};
   }
+
+  ${props =>
+    props.theme.mediaBetween(
+      'small',
+      'large'
+    )(`
+    margin-right: 0;
+  `)}
 `;
 
 const Link = styled(Space).attrs({
