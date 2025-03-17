@@ -15,6 +15,7 @@ const IconLi = styled(Space).attrs({
 `;
 
 const IconWrap = styled(Space).attrs({
+  'aria-hidden': true,
   $h: { size: 's', properties: ['margin-right'] },
 })``;
 
