@@ -26,29 +26,37 @@ const FooterA11y: FunctionComponent = () => {
         <IconWrap>
           <Icon icon={information} />
         </IconWrap>
-        Our building has step-free access.
+        <span>Our building has step-free access.</span>
       </IconLi>
       <IconLi>
-        All exhibitions and most events offer BSL, Audio Description, and
-        Hearing Loop support.
-      </IconLi>
-      <IconLi>
-        <IconWrap>
-          <Icon icon={information} />
-        </IconWrap>
-        British Sign Language
+        <span>
+          All exhibitions and most events offer BSL, Audio Description, and
+          Hearing Loop support.
+        </span>
       </IconLi>
       <IconLi>
         <IconWrap>
           <Icon icon={information} />
         </IconWrap>
-        Audio description
+        <span>British Sign Language</span>
       </IconLi>
       <IconLi>
         <IconWrap>
           <Icon icon={information} />
         </IconWrap>
-        Hearing loop
+        <span>Audio description</span>
+      </IconLi>
+      <IconLi>
+        <IconWrap>
+          <Icon icon={information} />
+        </IconWrap>
+        <span>Hearing loop</span>
+      </IconLi>
+      <IconLi>
+        <span>
+          See our <a href="/visit-us/accessibility">accessibility page</a> for
+          details.
+        </span>
       </IconLi>
     </PlainList>
   );
