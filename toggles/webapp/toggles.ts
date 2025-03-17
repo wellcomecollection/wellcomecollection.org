@@ -95,13 +95,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'allSearch',
-      title: 'Modified All search page',
-      initialValue: false,
-      description: 'Displays a new version of the "all" search (/search)',
-      type: 'experimental',
-    },
-    {
       id: 'extendedViewer',
       title: 'Allow viewer to render video, audio and pdfs',
       initialValue: false,

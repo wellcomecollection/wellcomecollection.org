@@ -127,7 +127,7 @@ const VideoEmbed: FunctionComponent<Props> = ({
           ) : (
             <VideoTrigger
               onClick={() => setIsActive(true)}
-              $hasFullSizePoster={hasFullSizePoster}
+              $hasFullSizePoster={hasFullSizePoster || isVimeo}
             >
               <span className="visually-hidden">Play video</span>
               {isYouTube && <YouTubePlay />}
