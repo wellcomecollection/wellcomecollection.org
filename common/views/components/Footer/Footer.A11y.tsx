@@ -11,7 +11,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 
-const IconLi = styled(Space).attrs({
+const Li = styled(Space).attrs({
   as: 'li',
   $v: { size: 'm', properties: ['margin-bottom'] },
 })`
@@ -21,7 +21,6 @@ const IconLi = styled(Space).attrs({
 `;
 
 const IconWrap = styled(Space).attrs({
-  'aria-hidden': true,
   $h: {
     size: 'xs',
     properties: ['padding-left', 'padding-right'],
@@ -41,42 +40,42 @@ const IconWrap = styled(Space).attrs({
 const FooterA11y: FunctionComponent = () => {
   return (
     <PlainList>
-      <IconLi>
+      <Li>
         <IconWrap>
           <Icon icon={a11YFilled} />
         </IconWrap>
         <span>Our building has step-free access.</span>
-      </IconLi>
-      <IconLi>
+      </Li>
+      <Li>
         <span>
           All exhibitions and most events offer BSL, Audio Description, and
           Hearing Loop support.
         </span>
-      </IconLi>
-      <IconLi>
+      </Li>
+      <Li aria-hidden="true">
         <IconWrap>
           <Icon icon={britishSignLanguageTranslationFilled} />
         </IconWrap>
         <span>British Sign Language</span>
-      </IconLi>
-      <IconLi>
+      </Li>
+      <Li aria-hidden="true">
         <IconWrap>
           <Icon icon={audioDescribedFilled} />
         </IconWrap>
         <span>Audio description</span>
-      </IconLi>
-      <IconLi>
+      </Li>
+      <Li aria-hidden="true">
         <IconWrap>
           <Icon icon={hearingLoopFilled} />
         </IconWrap>
         <span>Hearing loop</span>
-      </IconLi>
-      <IconLi>
+      </Li>
+      <Li>
         <span>
           See our <a href="/visit-us/accessibility">accessibility page</a> for
           details.
         </span>
-      </IconLi>
+      </Li>
     </PlainList>
   );
 };
