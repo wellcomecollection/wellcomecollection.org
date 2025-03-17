@@ -10,6 +10,7 @@ import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTime
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 
+import FooterA11y from './Footer.A11y';
 import FooterNav from './Footer.Nav';
 import FooterSocial from './Footer.Social';
 import FooterWellcomeLogo from './Footer.WellcomeLogo';
@@ -38,6 +39,19 @@ const FooterBasicSection = styled(Space).attrs({
 /** ************************ */
 
 const FooterNavigationContainer = styled(FooterBasicSection)`
+  display: grid;
+  grid-gap: 2rem;
+
+  ${props => props.theme.media('medium')`
+    grid-template-columns: repeat(2, 1fr);
+  `}
+
+  ${props => props.theme.media('xlarge')`
+    grid-template-columns: repeat(4, 1fr);
+  `}
+`;
+
+const PoliciesAndSocials = styled(FooterBasicSection)`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -196,13 +210,17 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
             </Space>
           </OpeningTimesContainer>
 
+          <FooterA11y />
+
           <InternalNavigationContainer>
             <FooterNav
               type="InternalNavigation"
               ariaLabel="Useful internal links"
             />
           </InternalNavigationContainer>
+        </FooterNavigationContainer>
 
+        <PoliciesAndSocials>
           <FullWidthDivider>
             <Divider lineColor="neutral.700" />
           </FullWidthDivider>
@@ -218,7 +236,7 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
           <SocialsContainer>
             <FooterSocial />
           </SocialsContainer>
-        </FooterNavigationContainer>
+        </PoliciesAndSocials>
 
         <FooterBottom>
           <FooterLicense>
