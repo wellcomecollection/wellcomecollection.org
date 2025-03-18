@@ -26,6 +26,7 @@ import {
   WobblyEdge,
 } from '@weco/common/views/components/WobblyEdge';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import AccessibilityProvision from '@weco/content/components/AccessibilityProvision/AccessibilityProvision';
 
 import HighlightedHeading from './HighlightedHeading';
 
@@ -115,6 +116,7 @@ type Props = {
   SerialPartNumber?: ReactNode;
   sectionLevelPage?: boolean;
   isSlim?: boolean;
+  fullWidth?: boolean;
 };
 
 const sectionLevelPageGridLayout = { s: 12, m: 12, l: 10, xl: 10 };
@@ -136,6 +138,7 @@ const PageHeader: FunctionComponent<Props> = ({
   SerialPartNumber,
   sectionLevelPage,
   isSlim,
+  fullWidth,
 }) => {
   const Heading =
     highlightHeading && !sectionLevelPage ? (
@@ -161,7 +164,9 @@ const PageHeader: FunctionComponent<Props> = ({
         {Background}
         <ContaineredLayout
           gridSizes={
-            sectionLevelPage ? gridSize12() : sectionLevelPageGridLayout
+            sectionLevelPage || fullWidth
+              ? gridSize12()
+              : sectionLevelPageGridLayout
           }
         >
           <Wrapper
@@ -197,7 +202,6 @@ const PageHeader: FunctionComponent<Props> = ({
               {SerialPartNumber}
               {Heading}
             </ConditionalWrapper>
-
             {isContentTypeInfoBeforeMedia && ContentTypeInfo && (
               <Space
                 $v={{ size: 'm', properties: ['margin-bottom'] }}
@@ -206,9 +210,20 @@ const PageHeader: FunctionComponent<Props> = ({
                 {ContentTypeInfo}
               </Space>
             )}
-            {amendedLabels && amendedLabels.labels.length > 0 && (
-              <LabelsList {...amendedLabels} />
-            )}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'end',
+              }}
+            >
+              {amendedLabels && amendedLabels.labels.length > 0 && (
+                <LabelsList {...amendedLabels} />
+              )}
+              {/* TODO only on exhibition pages */}
+              <div style={{ marginLeft: 'auto' }}>
+                <AccessibilityProvision showText={false} />
+              </div>
+            </div>
           </Wrapper>
         </ContaineredLayout>
 
