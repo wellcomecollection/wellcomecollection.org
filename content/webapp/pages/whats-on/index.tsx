@@ -47,6 +47,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import theme from '@weco/common/views/themes/default';
+import AccessibilityProvision from '@weco/content/components/AccessibilityProvision/AccessibilityProvision';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import EventsByMonth from '@weco/content/components/EventsByMonth/EventsByMonth';
 import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
@@ -487,6 +488,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                       )}
                     </Space>
                   </SpacingComponent>
+
                   <CardGrid
                     items={exhibitions.slice(1)}
                     itemsPerRow={3}
@@ -496,6 +498,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                         url: '/exhibitions',
                       },
                     ]}
+                    optionalComponent={<AccessibilityProvision />}
                   />
                 </SpacingSection>
 
