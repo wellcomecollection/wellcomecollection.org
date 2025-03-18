@@ -16,7 +16,7 @@ import Space from '@weco/common/views/components/styled/Space';
 
 const Cell = styled(Space).attrs({
   $h: { size: 'm', properties: ['margin-right'] },
-})<{ $shameAccessContent?: boolean }>`
+})<{ $exhibitionAccessContent?: boolean }>`
   background-color: ${props => props.theme.color('neutral.200')};
   color: ${props => props.theme.color('black')};
   border-radius: 50%;
@@ -29,7 +29,7 @@ const Cell = styled(Space).attrs({
   }
 
   ${props =>
-    props.$shameAccessContent &&
+    props.$exhibitionAccessContent &&
     props.theme.mediaBetween(
       'small',
       'large'
@@ -96,7 +96,10 @@ const FooterSocial: FunctionComponent = () => {
   return (
     <>
       {items.map(item => (
-        <Cell $shameAccessContent={exhibitionAccessContent} key={item.title}>
+        <Cell
+          $exhibitionAccessContent={exhibitionAccessContent}
+          key={item.title}
+        >
           <Link href={item.url}>
             <Icon icon={item.icon} />
             <span className="visually-hidden">{item.service}</span>
