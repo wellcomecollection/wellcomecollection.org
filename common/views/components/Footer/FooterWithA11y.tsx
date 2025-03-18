@@ -198,7 +198,7 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
 
         <FooterNavigationContainer>
           <FindUsContainer>
-            <FindUs />
+            <FindUs hideAccessibility={true} />
           </FindUsContainer>
 
           <OpeningTimesContainer>
