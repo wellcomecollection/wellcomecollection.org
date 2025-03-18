@@ -101,7 +101,7 @@ export const interpretationTypeIconMap = [
   {
     name: 'hearingLoop',
     prismicId: 'ZuBa6xEAAB4AgZkw',
-    iconName: 'inductionLoop',
+    iconName: 'hearingLoop',
   },
   {
     name: 'limitedAudioDescription',
