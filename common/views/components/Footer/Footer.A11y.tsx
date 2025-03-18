@@ -41,7 +41,7 @@ const IconWrap = styled(Space).attrs({
 const FooterA11y: FunctionComponent = () => {
   return (
     <div>
-      <p>Our building has:</p>
+      <h4>Our building has:</h4>
       <PlainList>
         <Li>
           <IconWrap>
@@ -56,8 +56,8 @@ const FooterA11y: FunctionComponent = () => {
           <span>Hearing loops</span>
         </Li>
       </PlainList>
-      <Space as="p" $v={{ size: 'm', properties: ['margin-top'] }}>
-        Our exhibitions and events include:
+      <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+        <h4>Our exhibitions and events include:</h4>
       </Space>
       <PlainList>
         <Li>
