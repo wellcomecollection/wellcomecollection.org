@@ -80,7 +80,7 @@ export const bodySquabblesSeries = 'body-squabbles';
 // N.B. Not all interpretation types have an obvious icon.
 // Some have a possible icon that wouldn't have displayed using the old method,
 // these are currently left without an icon until we can confirm which is correct before adding.
-// TODO create an issue for this
+// See https://github.com/wellcomecollection/wellcomecollection.org/issues/11704
 export const interpretationTypeIconMap = [
   {
     name: 'speechToTextOnline',
