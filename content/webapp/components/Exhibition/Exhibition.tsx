@@ -6,11 +6,11 @@ import styled from 'styled-components';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { a11y } from '@weco/common/data/microcopy';
 import {
-  a11Y,
   a11YVisual,
   accessibility,
+  accessible,
   arrow,
-  britishSignLanguageTranslationFilled,
+  bslSquare,
   calendar,
   clock,
   download,
@@ -174,7 +174,7 @@ function getAccessibilityItems(
           spans: [],
         },
       ],
-      icon: a11Y,
+      icon: accessible,
     },
     {
       description: [
@@ -194,7 +194,7 @@ function getAccessibilityItems(
           spans: [],
         },
       ],
-      icon: britishSignLanguageTranslationFilled,
+      icon: bslSquare,
     },
     {
       description: [
