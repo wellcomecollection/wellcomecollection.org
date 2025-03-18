@@ -12,11 +12,11 @@ import {
 import { a11y, visualStoryLinkText } from '@weco/common/data/microcopy';
 import {
   arrow,
-  audioDescribed,
-  britishSignLanguageLive,
+  audioDescribedSquare,
+  bslLiveInterpretationSquare,
   email,
-  hearingLoop,
   IconSvg,
+  inductionLoop,
   speechToText,
   ticket,
 } from '@weco/common/icons';
@@ -128,11 +128,11 @@ const getDescription = ({
 };
 
 const eventInterpretationIcons: Record<string, IconSvg> = {
-  britishSignLanguageOnline: britishSignLanguageLive,
-  britishSignLanguage: britishSignLanguageLive,
+  britishSignLanguageOnline: bslLiveInterpretationSquare,
+  britishSignLanguage: bslLiveInterpretationSquare,
   speechToText,
-  hearingLoop,
-  audioDescribed,
+  inductionLoop,
+  audioDescribedSquare,
 };
 
 /**
