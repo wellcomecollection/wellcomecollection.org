@@ -2,11 +2,11 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import {
-  a11YFilled,
-  audioDescribedFilled,
-  britishSignLanguageTranslationFilled,
-  closedCaptioningFilled,
-  hearingLoopFilled,
+  accessibleSquare,
+  audioDescribedSquare,
+  bslSquare,
+  closedCaptioningSquare,
+  inductionLoopSquare,
 } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PlainList from '@weco/common/views/components/styled/PlainList';
@@ -45,13 +45,13 @@ const FooterA11y: FunctionComponent = () => {
       <PlainList>
         <Li>
           <IconWrap>
-            <Icon icon={a11YFilled} />
+            <Icon icon={accessibleSquare} />
           </IconWrap>
           <span>Step free access</span>
         </Li>
         <Li>
           <IconWrap>
-            <Icon icon={hearingLoopFilled} />
+            <Icon icon={inductionLoopSquare} />
           </IconWrap>
           <span>Hearing loops</span>
         </Li>
@@ -62,19 +62,19 @@ const FooterA11y: FunctionComponent = () => {
       <PlainList>
         <Li>
           <IconWrap>
-            <Icon icon={britishSignLanguageTranslationFilled} />
+            <Icon icon={bslSquare} />
           </IconWrap>
           <span>British Sign Language</span>
         </Li>
         <Li>
           <IconWrap>
-            <Icon icon={audioDescribedFilled} />
+            <Icon icon={audioDescribedSquare} />
           </IconWrap>
           <span>Audio description</span>
         </Li>
         <Li>
           <IconWrap>
-            <Icon icon={closedCaptioningFilled} />
+            <Icon icon={closedCaptioningSquare} />
           </IconWrap>
           <span>Captions</span>
         </Li>
