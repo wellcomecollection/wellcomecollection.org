@@ -5,6 +5,7 @@ import {
   a11YFilled,
   audioDescribedFilled,
   britishSignLanguageTranslationFilled,
+  closedCaptioningFilled,
   hearingLoopFilled,
 } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -13,7 +14,7 @@ import Space from '@weco/common/views/components/styled/Space';
 
 const Li = styled(Space).attrs({
   as: 'li',
-  $v: { size: 'm', properties: ['margin-bottom'] },
+  $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   display: flex;
   gap: 0.5em;
@@ -39,44 +40,49 @@ const IconWrap = styled(Space).attrs({
 
 const FooterA11y: FunctionComponent = () => {
   return (
-    <PlainList>
-      <Li>
-        <IconWrap>
-          <Icon icon={a11YFilled} />
-        </IconWrap>
-        <span>Our building has step-free access.</span>
-      </Li>
-      <Li>
-        <span>
-          All exhibitions and most events offer BSL, Audio Description, and
-          Hearing Loop support.
-        </span>
-      </Li>
-      <Li aria-hidden="true">
-        <IconWrap>
-          <Icon icon={britishSignLanguageTranslationFilled} />
-        </IconWrap>
-        <span>British Sign Language</span>
-      </Li>
-      <Li aria-hidden="true">
-        <IconWrap>
-          <Icon icon={audioDescribedFilled} />
-        </IconWrap>
-        <span>Audio description</span>
-      </Li>
-      <Li aria-hidden="true">
-        <IconWrap>
-          <Icon icon={hearingLoopFilled} />
-        </IconWrap>
-        <span>Hearing loop</span>
-      </Li>
-      <Li>
-        <span>
-          See our <a href="/visit-us/accessibility">accessibility page</a> for
-          details.
-        </span>
-      </Li>
-    </PlainList>
+    <div>
+      <p>Our building has:</p>
+      <PlainList>
+        <Li>
+          <IconWrap>
+            <Icon icon={a11YFilled} />
+          </IconWrap>
+          <span>Step free access</span>
+        </Li>
+        <Li>
+          <IconWrap>
+            <Icon icon={hearingLoopFilled} />
+          </IconWrap>
+          <span>Hearing loops</span>
+        </Li>
+      </PlainList>
+      <Space as="p" $v={{ size: 'm', properties: ['margin-top'] }}>
+        Our exhibitions and events include:
+      </Space>
+      <PlainList>
+        <Li>
+          <IconWrap>
+            <Icon icon={britishSignLanguageTranslationFilled} />
+          </IconWrap>
+          <span>British Sign Language</span>
+        </Li>
+        <Li>
+          <IconWrap>
+            <Icon icon={audioDescribedFilled} />
+          </IconWrap>
+          <span>Audio description</span>
+        </Li>
+        <Li>
+          <IconWrap>
+            <Icon icon={closedCaptioningFilled} />
+          </IconWrap>
+          <span>Captions</span>
+        </Li>
+      </PlainList>
+      <Space as="p" $v={{ size: 'm', properties: ['margin-top'] }}>
+        <a href="/visit-us/accessibility">Accessibility</a>
+      </Space>
+    </div>
   );
 };
 
