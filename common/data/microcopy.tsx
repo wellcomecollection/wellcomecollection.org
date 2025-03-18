@@ -67,7 +67,7 @@ export const a11y = {
   stepFreeAccess: 'Step-free access is available to all floors of the building',
   largePrintGuides:
     'Large-print guides, transcripts and magnifiers are available in the gallery',
-  bsl: 'British Sign Language videos and tours are available',
+  bsl: 'British Sign Language videos are available',
   accessResources:
     'Access resources include a visual story, large print guides and audio description',
 
