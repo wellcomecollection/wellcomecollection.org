@@ -29,7 +29,7 @@ const Text = styled.p.attrs<StyleProps>(props => ({
   align-content: center;
 `;
 
-const IconsContainer = styled(Space).attrs<StyleProps>({
+const IconsContainer = styled(Space).attrs({
   $h: { size: 's', properties: ['margin-right'] },
 })<StyleProps>`
   display: flex;
@@ -59,6 +59,7 @@ const AccessibilityProvision: FunctionComponent<Props> = ({
   return exhibitionAccessContent ? (
     <div style={{ display: 'flex', flexWrap: 'wrap', rowGap: '10px' }}>
       <IconsContainer
+        $showText={showText}
         aria-hidden={showText ? 'true' : 'false'}
         aria-labbelledby={!showText ? 'accessibility-provision' : null}
       >
