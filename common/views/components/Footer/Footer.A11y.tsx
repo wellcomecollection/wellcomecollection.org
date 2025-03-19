@@ -1,13 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import {
-  accessibleSquare,
-  audioDescribedSquare,
-  bslSquare,
-  closedCaptioningSquare,
-  inductionLoopSquare,
-} from '@weco/common/icons';
+import { accessibleSquare, inductionLoopSquare } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
@@ -60,35 +54,6 @@ const FooterA11y: FunctionComponent = () => {
             <Icon icon={inductionLoopSquare} />
           </IconWrap>
           <span>Hearing loops</span>
-        </Li>
-      </PlainList>
-      <Space $v={{ size: 'm', properties: ['margin-top'] }}>
-        <Space
-          style={{ font: 'unset' }}
-          $v={{ size: 's', properties: ['margin-bottom'] }}
-          as="h4"
-        >
-          Our exhibitions and events include:
-        </Space>
-      </Space>
-      <PlainList>
-        <Li>
-          <IconWrap>
-            <Icon icon={bslSquare} />
-          </IconWrap>
-          <span>British Sign Language</span>
-        </Li>
-        <Li>
-          <IconWrap>
-            <Icon icon={audioDescribedSquare} />
-          </IconWrap>
-          <span>Audio description</span>
-        </Li>
-        <Li>
-          <IconWrap>
-            <Icon icon={closedCaptioningSquare} />
-          </IconWrap>
-          <span>Captions</span>
         </Li>
       </PlainList>
       <Space as="p" $v={{ size: 'm', properties: ['margin-top'] }}>
