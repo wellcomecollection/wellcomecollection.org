@@ -14,9 +14,8 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
 type StyleProps = { $showText: boolean };
-const Text = styled.p.attrs<StyleProps>(props => ({
-  className: !props.$showText ? `visually-hidden` : font('intr', 5),
-}))`
+
+const Text = styled.p`
   margin: 0;
   align-content: center;
 `;
@@ -60,7 +59,10 @@ const AccessibilityProvision: FunctionComponent<Props> = ({
         <Icon icon={audioDescribedSquare} />
         <Icon icon={inductionLoopSquare} />
       </IconsContainer>
-      <Text $showText={showText} id="accessibility-provision">
+      <Text
+        className={!showText ? `visually-hidden` : font('intr', 5)}
+        id="accessibility-provision"
+      >
         {accessibilityProvisionText}
       </Text>
     </div>
