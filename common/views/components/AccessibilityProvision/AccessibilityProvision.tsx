@@ -52,7 +52,7 @@ const AccessibilityProvision: FunctionComponent<Props> = ({
       <IconsContainer
         $showText={showText}
         aria-hidden={showText ? 'true' : 'false'}
-        aria-labbelledby={!showText ? 'accessibility-provision' : null}
+        aria-labelledby={!showText ? 'accessibility-provision' : undefined}
       >
         <Icon icon={accessibleSquare} />
         <Icon icon={bslSquare} />
