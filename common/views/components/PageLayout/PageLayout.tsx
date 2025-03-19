@@ -25,6 +25,7 @@ import ApiToolbar, {
 } from '@weco/common/views/components/ApiToolbar';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Footer from '@weco/common/views/components/Footer';
+import FooterWithA11y from '@weco/common/views/components/Footer/FooterWithA11y';
 import GlobalInfoBarContext, {
   GlobalInfoBarContextProvider,
 } from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
@@ -84,7 +85,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   apiToolbarLinks = [],
   skipToContentLinks = [],
 }) => {
-  const { apiToolbar, issuesBanner } = useToggles();
+  const { apiToolbar, issuesBanner, exhibitionAccessContent } = useToggles();
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''
@@ -348,7 +349,12 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         {/* The no javascript version of the burger menu relies on the footer being present on the page,
         as we then use an anchor link to take people to the navigation links in the footer.
         We only completely remove the footer if you've got JS. If we've hidden the header, then we don't need to worry about this because the navigation links aren't there at all */}
-        {(!hideFooter || !isEnhanced) && <Footer venues={venues} />}
+        {(!hideFooter || !isEnhanced) &&
+          (exhibitionAccessContent ? (
+            <FooterWithA11y venues={venues} />
+          ) : (
+            <Footer venues={venues} />
+          ))}
       </div>
     </>
   );

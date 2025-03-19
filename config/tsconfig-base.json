@@ -6,15 +6,15 @@
     "incremental": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "lib": ["esnext"], 
+    "lib": ["esnext"],
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": false,
     "strictNullChecks": true,
-    "target": "es6",
+    "target": "es6"
   },
   "exclude": ["/**/node_modules"],
-  "include": ["/**/*.ts", "/**/*.tsx"],
+  "include": ["/**/*.ts", "/**/*.tsx"]
 }

@@ -6,11 +6,11 @@ import styled from 'styled-components';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { a11y } from '@weco/common/data/microcopy';
 import {
-  a11Y,
   a11YVisual,
   accessibility,
+  accessible,
   arrow,
-  britishSignLanguageTranslation,
+  bslSquare,
   calendar,
   clock,
   download,
@@ -174,7 +174,7 @@ function getAccessibilityItems(
           spans: [],
         },
       ],
-      icon: a11Y,
+      icon: accessible,
     },
     {
       description: [
@@ -194,7 +194,7 @@ function getAccessibilityItems(
           spans: [],
         },
       ],
-      icon: britishSignLanguageTranslation,
+      icon: bslSquare,
     },
     {
       description: [
@@ -330,11 +330,7 @@ const Exhibition: FunctionComponent<Props> = ({
       summary: 'BSL, transcripts and induction loops',
       content: (
         <ul>
-          <li>Audiovisual content is available in BSL in the gallery</li>
-          <li>
-            Live BSL tours are available. See our exhibition events above for
-            more information or contact us in advance to request a tour
-          </li>
+          <li>BSL content is available in the gallery</li>
           {bslTourLink && (
             <li>
               <NextLink href={bslTourLink}>
@@ -393,15 +389,6 @@ const Exhibition: FunctionComponent<Props> = ({
             A large-print guide and magnifiers are available in the gallery
           </li>
           <li>There is a tactile line on the gallery floor</li>
-          <li>
-            There are brighter and more even lighting conditions across the
-            gallery during our Lights Up sessions.{' '}
-            {exhibitionOfs.length > 0 && (
-              <NextLink href="#events-list">
-                See our exhibition events for more information and availability
-              </NextLink>
-            )}
-          </li>
         </ul>
       ),
     },
@@ -441,14 +428,6 @@ const Exhibition: FunctionComponent<Props> = ({
           <li>
             Weekday mornings and Thursday evenings are usually the quietest
             times to visit
-          </li>
-          <li>
-            Additional support is available during our Relaxed Openings.{' '}
-            {exhibitionOfs.length > 0 && (
-              <NextLink href="#events-list">
-                See our exhibition events for more information and availability
-              </NextLink>
-            )}
           </li>
         </ul>
       ),
@@ -567,26 +546,7 @@ const Exhibition: FunctionComponent<Props> = ({
             <InfoBox
               title="Visit us"
               items={getInfoItems(exhibition, exhibitionAccessContent)}
-            >
-              <AccessibilityServices>
-                For more information, please visit our{' '}
-                <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>{' '}
-                page. If you have any queries about accessibility, please email
-                us at{' '}
-                <a href="mailto:access@wellcomecollection.org">
-                  access@wellcomecollection.org
-                </a>{' '}
-                or call{' '}
-                {/*
-                  This is to ensure phone numbers are read in a sensible way by
-                  screen readers.
-                */}
-                <span className="visually-hidden">
-                  {createScreenreaderLabel('020 7611 2222')}
-                </span>
-                <span aria-hidden="true">020&nbsp;7611&nbsp;2222.</span>
-              </AccessibilityServices>
-            </InfoBox>
+            />
           )}
 
           {(exhibitionOfs.length > 0 || pages.length > 0) && (
@@ -644,7 +604,7 @@ const Exhibition: FunctionComponent<Props> = ({
                 className={font('intb', 4)}
                 $v={{ size: 'l', properties: ['margin-bottom'] }}
               >
-                Access information and queries
+                Access information, tours and queries
               </Space>
               <Contact
                 link={{

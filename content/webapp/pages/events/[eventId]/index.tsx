@@ -6,16 +6,17 @@ import styled from 'styled-components';
 
 import {
   eventPolicyIds,
+  interpretationTypeIconMap,
   prismicPageIds,
 } from '@weco/common/data/hardcoded-ids';
 import { a11y, visualStoryLinkText } from '@weco/common/data/microcopy';
 import {
   arrow,
-  audioDescribed,
-  britishSignLanguageLive,
+  audioDescribedSquare,
+  bslLiveInterpretationSquare,
   email,
-  hearingLoop,
   IconSvg,
+  inductionLoop,
   speechToText,
   ticket,
 } from '@weco/common/icons';
@@ -127,11 +128,11 @@ const getDescription = ({
 };
 
 const eventInterpretationIcons: Record<string, IconSvg> = {
-  britishSignLanguageOnline: britishSignLanguageLive,
-  britishSignLanguage: britishSignLanguageLive,
+  britishSignLanguageOnline: bslLiveInterpretationSquare,
+  britishSignLanguage: bslLiveInterpretationSquare,
   speechToText,
-  hearingLoop,
-  audioDescribed,
+  inductionLoop,
+  audioDescribedSquare,
 };
 
 /**
@@ -415,14 +416,14 @@ const EventPage: NextPage<EventProps> = ({
               .concat(event.policies)
               .concat(
                 event.interpretations.map(interpretation => {
-                  const iconName = camelize(
-                    interpretation.interpretationType.title
-                  );
-
                   const description = getDescription(interpretation);
-
+                  const matchingInterpretation = interpretationTypeIconMap.find(
+                    item =>
+                      item.prismicId === interpretation.interpretationType.id
+                  );
+                  const iconName = matchingInterpretation?.iconName;
                   return {
-                    icon: eventInterpretationIcons[iconName],
+                    icon: iconName ? eventInterpretationIcons[iconName] : null,
                     title: interpretation.interpretationType.title,
                     description,
                   };

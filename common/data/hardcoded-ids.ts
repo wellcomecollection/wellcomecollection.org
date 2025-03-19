@@ -71,3 +71,57 @@ export const sectionLevelPages = [
 
 // The only series ("webcomic series") that uses the `webcomics` type.
 export const bodySquabblesSeries = 'body-squabbles';
+
+// We use this to add an icon when displaying the type of interpretation available for an event,
+// e.g. in the yellow box on the event page.
+// Prior to this we displayed an icon if the the camelized title of the interpretation type matched the name of an icon.
+// This wasn't very robust and some icons were not displayed when they probably should have been.
+// We now use the prismic id of the interpretation type to determine the icon to display.
+// N.B. Not all interpretation types have an obvious icon.
+// Some have a possible icon that wouldn't have displayed using the old method,
+// these are currently left without an icon until we can confirm which is correct before adding.
+// See https://github.com/wellcomecollection/wellcomecollection.org/issues/11704
+export const interpretationTypeIconMap = [
+  {
+    name: 'speechToTextOnline',
+    prismicId: 'YqiCnxEAACMA8VLW',
+    iconName: undefined,
+  },
+  { name: 'autoCaptioned', prismicId: 'X2jPiRMAACIA8Vzo', iconName: undefined },
+  {
+    name: 'britishSignLanguageOnline',
+    prismicId: 'X2smLBMAACMA-99Z',
+    iconName: undefined, // use 'bslSquare'?,
+  },
+  {
+    name: 'speechToText',
+    prismicId: 'WmXl4iQAACUAnyDr',
+    iconName: 'speechToText',
+  },
+  {
+    name: 'hearingLoop',
+    prismicId: 'ZuBa6xEAAB4AgZkw',
+    iconName: 'inductionLoop',
+  },
+  {
+    name: 'limitedAudioDescription',
+    prismicId: 'X2jPZRMAACEA8VxE',
+    iconName: undefined,
+  },
+  {
+    name: 'britishSignLanguage',
+    prismicId: 'XkFGqxEAACIAIhNH',
+    iconName: undefined,
+  }, // use 'bslSquare'?
+  {
+    name: 'wheelchairAccessible',
+    prismicId: 'YkRhDBAAACAAvSvl',
+    iconName: undefined,
+  }, // use 'accessible'?
+  {
+    name: 'audioDescribed',
+    prismicId: 'WmXhziQAACQAnw7i',
+    iconName: 'audioDescribed',
+  },
+  { name: 'relaxed', prismicId: 'W5JXVSYAACYAGtkh', iconName: undefined },
+];
