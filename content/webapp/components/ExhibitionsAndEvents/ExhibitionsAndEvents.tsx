@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 
-import AccessibilityProvision from '@weco/content/components/AccessibilityProvision/AccessibilityProvision';
+import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision/AccessibilityProvision';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import { EventBasic } from '@weco/content/types/events';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';

@@ -7,6 +7,7 @@ import {
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
+import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision/AccessibilityProvision';
 import Breadcrumb from '@weco/common/views/components/Breadcrumb/Breadcrumb';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
@@ -26,7 +27,6 @@ import {
   WobblyEdge,
 } from '@weco/common/views/components/WobblyEdge';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import AccessibilityProvision from '@weco/content/components/AccessibilityProvision/AccessibilityProvision';
 
 import HighlightedHeading from './HighlightedHeading';
 

@@ -31,6 +31,7 @@ import {
 } from '@weco/common/utils/dates';
 import { formatDate, formatDayName } from '@weco/common/utils/format-date';
 import { serialiseProps } from '@weco/common/utils/json';
+import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision/AccessibilityProvision';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -47,7 +48,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import theme from '@weco/common/views/themes/default';
-import AccessibilityProvision from '@weco/content/components/AccessibilityProvision/AccessibilityProvision';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import EventsByMonth from '@weco/content/components/EventsByMonth/EventsByMonth';
 import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
