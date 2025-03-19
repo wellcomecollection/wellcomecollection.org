@@ -59,7 +59,7 @@ const FooterA11y: FunctionComponent = () => {
           <IconWrap>
             <Icon icon={inductionLoopSquare} />
           </IconWrap>
-          <span>Hearing loop support</span>
+          <span>Hearing loop</span>
         </Li>
       </PlainList>
       <Space $v={{ size: 'm', properties: ['margin-top'] }}>
