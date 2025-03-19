@@ -27,6 +27,9 @@ updates:
       - dependency-name: 'husky'
       - dependency-name: 'openseadragon'
       - dependency-name: '@prismicio/*'
+      - dependency-name: 'node-fetch'
+      - dependency-name: '@types/node'
+      - dependency-name: '@auth0/nextjs-auth0'
     groups:
       all:
         patterns: ['*']

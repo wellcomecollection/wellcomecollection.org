@@ -6,11 +6,11 @@ import styled from 'styled-components';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { a11y } from '@weco/common/data/microcopy';
 import {
-  a11Y,
   a11YVisual,
   accessibility,
+  accessible,
   arrow,
-  britishSignLanguageTranslation,
+  bslSquare,
   calendar,
   clock,
   download,
@@ -37,6 +37,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import Accordion from '@weco/content/components/Accordion/Accordion';
 import Body from '@weco/content/components/Body/Body';
+import BslLeafletVideo from '@weco/content/components/BslLeafletVideo';
 import Contact from '@weco/content/components/Contact/Contact';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import Contributors from '@weco/content/components/Contributors/Contributors';
@@ -173,7 +174,7 @@ function getAccessibilityItems(
           spans: [],
         },
       ],
-      icon: a11Y,
+      icon: accessible,
     },
     {
       description: [
@@ -193,7 +194,7 @@ function getAccessibilityItems(
           spans: [],
         },
       ],
-      icon: britishSignLanguageTranslation,
+      icon: bslSquare,
     },
     {
       description: [
@@ -269,6 +270,7 @@ const Exhibition: FunctionComponent<Props> = ({
   const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout[]>(
     []
   );
+  const [isModalActive, setIsModalActive] = useState(false);
 
   const visualStoryLink = accessResourceLinks.find(
     link => link.type === 'visual-story'
@@ -328,11 +330,7 @@ const Exhibition: FunctionComponent<Props> = ({
       summary: 'BSL, transcripts and induction loops',
       content: (
         <ul>
-          <li>Audiovisual content is available in BSL in the gallery</li>
-          <li>
-            Live BSL tours are available. See our exhibition events above for
-            more information or contact us in advance to request a tour
-          </li>
+          <li>BSL content is available in the gallery</li>
           {bslTourLink && (
             <li>
               <NextLink href={bslTourLink}>
@@ -391,15 +389,6 @@ const Exhibition: FunctionComponent<Props> = ({
             A large-print guide and magnifiers are available in the gallery
           </li>
           <li>There is a tactile line on the gallery floor</li>
-          <li>
-            There are brighter and more even lighting conditions across the
-            gallery during our Lights Up sessions.{' '}
-            {exhibitionOfs.length > 0 && (
-              <NextLink href="#events-list">
-                See our exhibition events for more information and availability
-              </NextLink>
-            )}
-          </li>
         </ul>
       ),
     },
@@ -439,14 +428,6 @@ const Exhibition: FunctionComponent<Props> = ({
           <li>
             Weekday mornings and Thursday evenings are usually the quietest
             times to visit
-          </li>
-          <li>
-            Additional support is available during our Relaxed Openings.{' '}
-            {exhibitionOfs.length > 0 && (
-              <NextLink href="#events-list">
-                See our exhibition events for more information and availability
-              </NextLink>
-            )}
           </li>
         </ul>
       ),
@@ -506,29 +487,38 @@ const Exhibition: FunctionComponent<Props> = ({
   );
 
   const Header = (
-    <PageHeader
-      breadcrumbs={breadcrumbs}
-      labels={{ labels: exhibition.labels }}
-      title={exhibition.title}
-      ContentTypeInfo={
-        <Fragment>
-          {!exhibition.isPermanent && (
-            <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
-              {DateInfo}
-            </Space>
-          )}
-          <StatusIndicator
-            start={exhibition.start}
-            end={exhibition.end || new Date()}
-            statusOverride={exhibition.statusOverride}
-          />
-        </Fragment>
-      }
-      FeaturedMedia={maybeFeaturedMedia}
-      HeroPicture={maybeHeroPicture}
-      isFree={true}
-      isContentTypeInfoBeforeMedia={true}
-    />
+    <>
+      <PageHeader
+        breadcrumbs={breadcrumbs}
+        labels={{ labels: exhibition.labels }}
+        title={exhibition.title}
+        ContentTypeInfo={
+          <Fragment>
+            {!exhibition.isPermanent && (
+              <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
+                {DateInfo}
+              </Space>
+            )}
+            <StatusIndicator
+              start={exhibition.start}
+              end={exhibition.end || new Date()}
+              statusOverride={exhibition.statusOverride}
+            />
+          </Fragment>
+        }
+        FeaturedMedia={maybeFeaturedMedia}
+        HeroPicture={maybeHeroPicture}
+        isFree={true}
+        isContentTypeInfoBeforeMedia={true}
+      />
+      {exhibition.bslLeafletVideo && (
+        <BslLeafletVideo
+          video={exhibition.bslLeafletVideo}
+          isModalActive={isModalActive}
+          setIsModalActive={setIsModalActive}
+        />
+      )}
+    </>
   );
 
   const exhibitionFormat =
@@ -556,26 +546,7 @@ const Exhibition: FunctionComponent<Props> = ({
             <InfoBox
               title="Visit us"
               items={getInfoItems(exhibition, exhibitionAccessContent)}
-            >
-              <AccessibilityServices>
-                For more information, please visit our{' '}
-                <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>{' '}
-                page. If you have any queries about accessibility, please email
-                us at{' '}
-                <a href="mailto:access@wellcomecollection.org">
-                  access@wellcomecollection.org
-                </a>{' '}
-                or call{' '}
-                {/*
-                  This is to ensure phone numbers are read in a sensible way by
-                  screen readers.
-                */}
-                <span className="visually-hidden">
-                  {createScreenreaderLabel('020 7611 2222')}
-                </span>
-                <span aria-hidden="true">020&nbsp;7611&nbsp;2222.</span>
-              </AccessibilityServices>
-            </InfoBox>
+            />
           )}
 
           {(exhibitionOfs.length > 0 || pages.length > 0) && (
@@ -585,7 +556,7 @@ const Exhibition: FunctionComponent<Props> = ({
               <SearchResults
                 id="events-list"
                 items={[...exhibitionOfs, ...pages]}
-                title={`In this ${exhibitionFormat.toLowerCase()}`}
+                title={`${exhibitionFormat} events`}
               />
             </Space>
           )}
@@ -633,7 +604,7 @@ const Exhibition: FunctionComponent<Props> = ({
                 className={font('intb', 4)}
                 $v={{ size: 'l', properties: ['margin-bottom'] }}
               >
-                Access information and queries
+                Access information, tours and queries
               </Space>
               <Contact
                 link={{
@@ -744,7 +715,7 @@ const Exhibition: FunctionComponent<Props> = ({
               <SearchResults
                 id="events-list"
                 items={[...exhibitionOfs, ...pages]}
-                title={`In this ${exhibitionFormat.toLowerCase()}`}
+                title={`${exhibitionFormat} events`}
               />
             </Space>
           )}

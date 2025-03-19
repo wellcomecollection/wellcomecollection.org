@@ -1,9 +1,35 @@
 import * as prismic from '@prismicio/client';
 
-export function getVimeoEmbedUrl(embed: prismic.EmbedField): string {
-  const embedUrl = embed.html?.match(/src="([-a-zA-Z0-9://.?=_]+)?/)![1];
+import { Props as VideoEmbedProps } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 
-  return `${embedUrl}?rel=0`;
+export function transformVideoEmbed(
+  embed: prismic.EmbedField
+): (VideoEmbedProps & { title?: string }) | undefined {
+  if (embed.provider_name === 'Vimeo') {
+    return {
+      embedUrl: getVimeoEmbedUrl(embed),
+      videoProvider: 'Vimeo',
+      videoThumbnail:
+        (embed.thumbnail_url_with_play_button as string) || undefined,
+      title: embed.title || '',
+    };
+  }
+
+  if (embed.provider_name === 'YouTube') {
+    return {
+      embedUrl: getYouTubeEmbedUrl(embed),
+      videoProvider: 'YouTube',
+    };
+  }
+}
+
+export function getVimeoEmbedUrl(embed: prismic.EmbedField): string {
+  const urlString = embed.html?.match(/src="([-a-zA-Z0-9://.?=_]+)?/)![1] || '';
+  const embedUrl = new URL(urlString);
+  // There might already be a query so we set 'rel=0' using URL.searchParams
+  // to avoid having to determine if it needs to be preceeded by a ? or an &
+  embedUrl.searchParams.set('rel', '0');
+  return embedUrl.toString();
 }
 
 export function getSoundCloudEmbedUrl(embed: prismic.EmbedField): string {

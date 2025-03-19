@@ -26,7 +26,11 @@ const PlainLink = styled.a`
   }
 `;
 
-const FindUs: FunctionComponent = () => (
+type Props = {
+  hideAccessibility?: boolean; // In the footer accessibility has its own column
+};
+
+const FindUs: FunctionComponent<Props> = ({ hideAccessibility }) => (
   <>
     <Space $v={{ size: 'm', properties: ['margin-bottom'] }} as="p">
       <PlainLink href={wellcomeCollectionAddress.addressMap}>
@@ -54,12 +58,14 @@ const FindUs: FunctionComponent = () => (
       <Space as="li" $v={{ size: 's', properties: ['padding-bottom'] }}>
         <a href={`/visit-us/${prismicPageIds.gettingHere}`}>Getting here</a>
       </Space>
-      <Space
-        as="li"
-        $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
-      >
-        <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>
-      </Space>
+      {!hideAccessibility && (
+        <Space
+          as="li"
+          $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
+        >
+          <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>
+        </Space>
+      )}
     </PlainList>
   </>
 );

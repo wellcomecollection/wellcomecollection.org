@@ -32,7 +32,7 @@ type Props = PropsWithChildren<{
   openButtonRef?: MutableRefObject<HTMLElement | null>;
   removeCloseButton?: boolean;
   showOverlay?: boolean;
-  modalStyle?: 'filters' | 'calendar';
+  modalStyle?: 'filters' | 'calendar' | 'video';
 }>;
 
 const Overlay = styled.div`
@@ -52,7 +52,7 @@ const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
   as: 'button',
   type: props.type || 'button',
   $v: { size: 'm', properties: ['top'] },
-  $h: { size: 'm', properties: ['left'] },
+  $h: { size: 'm', properties: ['right'] },
 }))`
   position: fixed;
   width: 28px;
@@ -69,7 +69,7 @@ const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%) scale(1.5);
   }
 
   ${props =>
@@ -164,6 +164,16 @@ const FiltersModal = styled(BaseModalWindow).attrs({
   box-shadow: ${props => props.theme.basicBoxShadow};
 `;
 
+const VideoModal = styled(BaseModalWindow)`
+  padding: 0;
+  background-color: ${props => props.theme.color('neutral.700')};
+  color: ${props => props.theme.color('white')};
+
+  ${CloseButton} {
+    color: ${props => props.theme.color('white')};
+  }
+`;
+
 const CalendarModal = styled(BaseModalWindow)`
   padding: 0;
   right: 0;
@@ -181,6 +191,8 @@ function determineModal(modalStyle: Props['modalStyle']) {
       return FiltersModal;
     case 'calendar':
       return CalendarModal;
+    case 'video':
+      return VideoModal;
     default:
       return BaseModalWindow;
   }

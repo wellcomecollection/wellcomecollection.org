@@ -7,6 +7,7 @@ import { font } from '@weco/common/utils/classnames';
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import Space from '@weco/common/views/components/styled/Space';
 import DateRange from '@weco/content/components/DateRange/DateRange';
+import { formatDateRangeWithMessage } from '@weco/content/components/StatusIndicator/StatusIndicator';
 
 type Props = {
   uid: string | null;
@@ -74,20 +75,41 @@ const ContentSearchResult: FunctionComponent<Props> = ({
       {type !== 'Page' && <Type>{type === 'Article' ? 'Story' : type}</Type>}
       <Title>{title}</Title>
       {description ? <Description>{description}</Description> : null}
-      {dates?.end ? (
+      {type === 'Exhibition' && dates?.start && dates?.end && (
         <DatesContributors>
-          <DateRange start={new Date(dates.start)} end={new Date(dates.end)} />
+          {
+            formatDateRangeWithMessage({
+              start: new Date(dates.start),
+              end: new Date(dates.end),
+            }).text
+          }
         </DatesContributors>
-      ) : dates?.start ? (
-        <DatesContributors>
-          <HTMLDate date={new Date(dates.start)} />
-        </DatesContributors>
-      ) : null}
-      {times ? (
-        <DatesContributors>
-          <DateRange start={new Date(times.start)} end={new Date(times.end)} />
-        </DatesContributors>
-      ) : null}
+      )}
+
+      {type !== 'Exhibition' && (
+        <>
+          {dates?.end ? (
+            <DatesContributors>
+              <DateRange
+                start={new Date(dates.start)}
+                end={new Date(dates.end)}
+              />
+            </DatesContributors>
+          ) : dates?.start ? (
+            <DatesContributors>
+              <HTMLDate date={new Date(dates.start)} />
+            </DatesContributors>
+          ) : null}
+          {times ? (
+            <DatesContributors>
+              <DateRange
+                start={new Date(times.start)}
+                end={new Date(times.end)}
+              />
+            </DatesContributors>
+          ) : null}
+        </>
+      )}
       {contributors ? (
         <DatesContributors>{contributors}</DatesContributors>
       ) : null}
