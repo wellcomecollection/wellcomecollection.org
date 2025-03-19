@@ -496,15 +496,21 @@ const Exhibition: FunctionComponent<Props> = ({
         ContentTypeInfo={
           <>
             {!exhibition.isPermanent && (
-              <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
-                {DateInfo}
+              <Space
+                $v={{ size: 'xs', properties: ['margin-bottom'] }}
+                style={{ display: 'flex' }}
+              >
+                <Space $h={{ size: 'm', properties: ['margin-right'] }}>
+                  {DateInfo}
+                </Space>
+                <StatusIndicator
+                  start={exhibition.start}
+                  end={exhibition.end || new Date()}
+                  statusOverride={exhibition.statusOverride}
+                  isLarge={true}
+                />
               </Space>
             )}
-            <StatusIndicator
-              start={exhibition.start}
-              end={exhibition.end || new Date()}
-              statusOverride={exhibition.statusOverride}
-            />
           </>
         }
         FeaturedMedia={maybeFeaturedMedia}
