@@ -63,9 +63,7 @@ const PoliciesAndSocials = styled(Space).attrs({
       'medium',
       'large'
     )(`
-    display: grid;
-    grid-gap: 4rem;
-    grid-template-columns: 1fr 1fr;
+    display: block;
   `)}
 `;
 
@@ -107,7 +105,9 @@ const FullWidthDivider = styled(Space).attrs({
   $v: { size: 'm', properties: ['margin-bottom'] },
 })``;
 
-const PoliciesContainer = styled(Space)`
+const PoliciesContainer = styled(Space).attrs({
+  $v: { size: 'm', properties: ['margin-bottom', 'margin-bottom'] },
+})`
   flex: 1 1 50%;
 
   ${props => props.theme.media('medium')`
@@ -116,16 +116,12 @@ const PoliciesContainer = styled(Space)`
     flex-wrap: wrap;
     flex: 1 1 30%;
   `}
-
-  ${props => props.theme.media('large')`
-    margin-top: 1rem;
-    `}
 `;
 
 const SocialsContainer = styled(Space)`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   align-self: flex-start;
   flex: 1 1 100%;
@@ -134,18 +130,17 @@ const SocialsContainer = styled(Space)`
   ${props => props.theme.media('medium')`
     flex: 0 1 auto;
     margin: 0;
-    `}
+  `}
 
   ${props => props.theme.media('large')`
     flex: 0 1 100%;
-    justify-content: flex-end;
-    margin-top: 1rem;
-    `}
+  `}
 
   ${props => props.theme.media('xlarge')`
     flex: 0 1 auto;
+    justify-content: flex-end;
     justify-content: space-between;
-    `}
+  `}
 `;
 /** ********************** */
 // END OF FOOTER BODY STYLES
