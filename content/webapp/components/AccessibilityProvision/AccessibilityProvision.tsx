@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { accessibilityProvision } from '@weco/common/data/microcopy';
+import { accessibilityProvisionText } from '@weco/common/data/microcopy';
 import {
   accessibleSquare,
   audioDescribedSquare,
@@ -61,7 +61,7 @@ const AccessibilityProvision: FunctionComponent<Props> = ({
         <Icon icon={inductionLoopSquare} />
       </IconsContainer>
       <Text $showText={showText} id="accessibility-provision">
-        {accessibilityProvision}
+        {accessibilityProvisionText}
       </Text>
     </div>
   ) : null;

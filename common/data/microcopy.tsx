@@ -209,5 +209,5 @@ export const restrictedItemMessage = (
   </>
 );
 
-export const accessibilityProvision =
+export const accessibilityProvisionText =
   'Our building has step-free access. All exhibitions offer BSL, Audio Description, and Hearing Loop support.';
