@@ -132,7 +132,6 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
                     formId={SEARCH_PAGES_FORM_ID}
                     options={[
                       // Default value to be left empty as to not be reflected in URL query
-                      // TODO: 'oldest to newest' and 'newest to oldest' should be changed / option to sort should be better reflected
                       {
                         value: '',
                         text: 'Relevance',
@@ -206,7 +205,7 @@ export const getServerSideProps: GetServerSideProps<
   const validTimespan = getQueryPropertyValue(params.timespan) || '';
   const validParams = {
     ...params,
-    timespan: validTimespan === 'all-events' ? '' : validTimespan,
+    timespan: validTimespan === 'all' ? '' : validTimespan,
   };
 
   const defaultProps = serialiseProps({
@@ -258,6 +257,7 @@ export const getServerSideProps: GetServerSideProps<
         'interpretation',
         'location',
         'isAvailableOnline',
+        'timespan',
       ],
     },
     pageSize: 24,

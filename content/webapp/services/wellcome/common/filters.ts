@@ -107,10 +107,12 @@ function filterOptionsWithNonAggregates({
   options = [],
   selectedValues,
   showEmptyBuckets = false,
+  sort = true,
 }: {
   options?: FilterOption[];
   selectedValues: (string | SelectedValue)[];
   showEmptyBuckets?: boolean;
+  sort?: boolean;
 }): FilterOption[] {
   const aggregationValues: string[] = options.map(option => option.value);
   const selectedOptionValues: string[] = selectedValues.map(value =>
@@ -134,9 +136,14 @@ function filterOptionsWithNonAggregates({
     )
     .filter(option => isNotUndefined(option)) as FilterOption[];
 
-  return allOptions
-    .filter(option => showEmptyBuckets || option.count || option.selected)
-    .sort(optionOrder);
+  // TODO change "sort" to something else since we also don't want to filter for Date
+  if (sort) {
+    return allOptions
+      .filter(option => showEmptyBuckets || option.count || option.selected)
+      .sort(optionOrder);
+  }
+
+  return allOptions;
 }
 
 function selectedValueToFilterOption(
@@ -697,48 +704,28 @@ const eventsIsAvailableOnlineFilter = ({
 };
 
 const eventsTimespanFilter = ({
-  // events,
+  events,
   props,
 }: EventsFilterProps): RadioFilter<keyof EventsProps> => {
-  // const s = events?.aggregations;
-  // const s = events?.aggregations?.timespan.buckets.find(b => b.data.id);
-
-  const timespan = [
-    {
-      id: 'all-events',
-      label: 'All events',
-    },
-    {
-      id: 'this-week',
-      label: 'This week',
-    },
-    {
-      id: 'future',
-      label: 'Future',
-    },
-    {
-      id: 'past',
-      label: 'Past',
-    },
-  ];
-
   return {
     type: 'radio',
     id: 'timespan',
     label: 'Date',
     options: filterOptionsWithNonAggregates({
-      options: timespan.map(t => {
+      options: events?.aggregations?.timespan?.buckets.map(bucket => {
+        const isDefaultRadio = bucket.data.id === 'all';
         return {
-          id: t.id,
-          value: t.id,
-          count: 10, // TODO
-          label: t.label,
-          selected: props.timespan
-            ? props.timespan.includes(t.id)
-            : t.id === 'all-events',
+          id: `timespan-${bucket.data.id}`,
+          value: isDefaultRadio ? '' : bucket.data.id,
+          count: bucket.count,
+          label: bucket.data.label,
+          selected: props.timespan.length
+            ? props.timespan.includes(bucket.data.id)
+            : isDefaultRadio,
         };
       }),
-      selectedValues: [props.timespan],
+      selectedValues: [props.timespan || ''],
+      sort: false,
     }),
   };
 };

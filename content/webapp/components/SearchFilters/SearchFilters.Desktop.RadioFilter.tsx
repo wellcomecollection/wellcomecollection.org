@@ -36,6 +36,7 @@ const RadioFilter = ({ f, changeHandler, form }: RadioFilterProps) => {
                 checked={selected}
                 onChange={changeHandler}
                 form={form}
+                disabled={count === 0}
               />
             </li>
           );
