@@ -13,14 +13,6 @@ import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
-// TODO icons size small screens header - why isn't this working?
-
-// TODO fix iconwrapper error
-// TODO new signed off text content
-// TODO text changes in header
-// commit everything so far
-// TODO new icons
-
 type StyleProps = { $showText: boolean };
 const Text = styled.p.attrs<StyleProps>(props => ({
   className: !props.$showText ? `visually-hidden` : font('intr', 5),
