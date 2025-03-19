@@ -421,8 +421,7 @@ const EventPage: NextPage<EventProps> = ({
                     item =>
                       item.prismicId === interpretation.interpretationType.id
                   );
-                  const iconName =
-                    matchingInterpretation?.iconName || undefined;
+                  const iconName = matchingInterpretation?.iconName;
                   return {
                     icon: iconName ? eventInterpretationIcons[iconName] : null,
                     title: interpretation.interpretationType.title,
