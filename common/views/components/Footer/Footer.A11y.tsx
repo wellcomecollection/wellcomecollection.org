@@ -26,8 +26,6 @@ const IconWrap = styled(Space).attrs({
   border-radius: 6px;
 
   .icon {
-    width: 32px;
-    height: 32px;
     color: ${props => props.theme.color('white')};
   }
 `;

@@ -30,21 +30,18 @@ const Wrapper = styled(Space).attrs({
   color: ${props => props.theme.color('white')};
 `;
 
-const FooterBasicSection = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-bottom'] },
-})``;
-
 /** ************************ */
 // START OF FOOTER BODY STYLES
 /** ************************ */
 
-const FooterNavigationContainer = styled(FooterBasicSection)`
+const FooterNavigationContainer = styled(Space).attrs({
+  $v: { size: 'l', properties: ['margin-bottom'] },
+})`
   display: grid;
   grid-gap: 2rem;
 
   ${props => props.theme.media('medium')`
     grid-template-columns: repeat(2, 1fr);
-    grid-gap: 4rem;
   `}
 
   ${props => props.theme.media('xlarge')`
@@ -54,7 +51,9 @@ const FooterNavigationContainer = styled(FooterBasicSection)`
   `}
 `;
 
-const PoliciesAndSocials = styled(FooterBasicSection)`
+const PoliciesAndSocials = styled(Space).attrs({
+  $v: { size: 'l', properties: ['margin-bottom'] },
+})`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -70,9 +69,7 @@ const PoliciesAndSocials = styled(FooterBasicSection)`
   `)}
 `;
 
-const FindUsContainer = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-bottom'] },
-})`
+const FindUsContainer = styled.div`
   flex: 1 1 100%;
 
   ${props => props.theme.media('medium')`
@@ -85,7 +82,7 @@ const FindUsContainer = styled(Space).attrs({
     `}
 `;
 
-const OpeningTimesContainer = styled(FooterBasicSection)`
+const OpeningTimesContainer = styled.div`
   flex: 1 1 100%;
 
   ${props => props.theme.media('medium')`
@@ -98,7 +95,7 @@ const OpeningTimesContainer = styled(FooterBasicSection)`
   `}
 `;
 
-const InternalNavigationContainer = styled(FooterBasicSection)`
+const InternalNavigationContainer = styled.div`
   flex: 1 1 50%;
 
   ${props => props.theme.media('medium')`
@@ -107,10 +104,8 @@ const InternalNavigationContainer = styled(FooterBasicSection)`
 `;
 
 const FullWidthDivider = styled(Space).attrs({
-  className: 'is-hidden-s is-hidden-m',
-})`
-  flex: 1 1 100%;
-`;
+  $v: { size: 'm', properties: ['margin-bottom'] },
+})``;
 
 const PoliciesContainer = styled(Space)`
   flex: 1 1 50%;
@@ -192,9 +187,9 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
   return (
     <Wrapper ref={footer}>
       <Container>
-        <FooterBasicSection as="h3">
+        <h3>
           <FooterWellcomeLogo />
-        </FooterBasicSection>
+        </h3>
 
         <FooterNavigationContainer>
           <FindUsContainer>
@@ -233,11 +228,11 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
           </InternalNavigationContainer>
         </FooterNavigationContainer>
 
-        <PoliciesAndSocials>
-          <FullWidthDivider>
-            <Divider lineColor="neutral.700" />
-          </FullWidthDivider>
+        <FullWidthDivider>
+          <Divider lineColor="neutral.700" />
+        </FullWidthDivider>
 
+        <PoliciesAndSocials>
           <PoliciesContainer>
             <FooterNav
               isInline
