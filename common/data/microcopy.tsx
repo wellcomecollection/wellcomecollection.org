@@ -208,3 +208,6 @@ export const restrictedItemMessage = (
     to request access to the full version.
   </>
 );
+
+export const accessibilityProvisionText =
+  'Our building has step-free access. All exhibitions offer BSL, Audio Description, and Hearing Loop support.';
