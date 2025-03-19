@@ -511,6 +511,7 @@ const Exhibition: FunctionComponent<Props> = ({
         HeroPicture={maybeHeroPicture}
         isFree={true}
         isContentTypeInfoBeforeMedia={true}
+        includeAccessibilityProvision={true}
       />
       {exhibition.bslLeafletVideo && (
         <BslLeafletVideo

@@ -117,6 +117,7 @@ type Props = {
   sectionLevelPage?: boolean;
   isSlim?: boolean;
   fullWidth?: boolean;
+  includeAccessibilityProvision?: boolean;
 };
 
 const sectionLevelPageGridLayout = { s: 12, m: 12, l: 10, xl: 10 };
@@ -139,6 +140,7 @@ const PageHeader: FunctionComponent<Props> = ({
   sectionLevelPage,
   isSlim,
   fullWidth,
+  includeAccessibilityProvision,
 }) => {
   const Heading =
     highlightHeading && !sectionLevelPage ? (
@@ -219,10 +221,12 @@ const PageHeader: FunctionComponent<Props> = ({
               {amendedLabels && amendedLabels.labels.length > 0 && (
                 <LabelsList {...amendedLabels} />
               )}
-              {/* TODO only on exhibition pages */}
-              <div style={{ marginLeft: 'auto' }}>
-                <AccessibilityProvision showText={false} />
-              </div>
+
+              {includeAccessibilityProvision && (
+                <div style={{ marginLeft: 'auto' }}>
+                  <AccessibilityProvision showText={false} />
+                </div>
+              )}
             </div>
           </Wrapper>
         </ContaineredLayout>
