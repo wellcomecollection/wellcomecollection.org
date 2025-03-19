@@ -41,7 +41,13 @@ const IconWrap = styled(Space).attrs({
 const FooterA11y: FunctionComponent = () => {
   return (
     <div>
-      <h4>Our building has:</h4>
+      <Space
+        style={{ font: 'unset' }}
+        $v={{ size: 's', properties: ['margin-bottom'] }}
+        as="h4"
+      >
+        Our building has:
+      </Space>
       <PlainList>
         <Li>
           <IconWrap>
@@ -57,7 +63,13 @@ const FooterA11y: FunctionComponent = () => {
         </Li>
       </PlainList>
       <Space $v={{ size: 'm', properties: ['margin-top'] }}>
-        <h4>Our exhibitions and events include:</h4>
+        <Space
+          style={{ font: 'unset' }}
+          $v={{ size: 's', properties: ['margin-bottom'] }}
+          as="h4"
+        >
+          Our exhibitions and events include:
+        </Space>
       </Space>
       <PlainList>
         <Li>
