@@ -21,7 +21,7 @@
     "lint:next": "next lint"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^4.1.0",
+    "@auth0/nextjs-auth0": "^3.5.0",
     "@hookform/error-message": "^2.0.1",
     "@koa/router": "^13.1.0",
     "@weco/common": "1.0.0",
