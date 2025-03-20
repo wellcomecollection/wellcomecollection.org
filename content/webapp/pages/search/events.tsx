@@ -2,6 +2,7 @@ import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
 
 import { getServerData } from '@weco/common/server-data';
+import { useToggles } from '@weco/common/server-data/Context';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { pluralize } from '@weco/common/utils/grammar';
@@ -65,11 +66,12 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
 }) => {
   useHotjar(true);
   const { query: queryString } = query;
+  const { dateFilter } = useToggles();
 
   const filters = eventsFilters({
     events: eventResponseList,
     props: eventsRouteProps,
-  });
+  }).filter(f => (dateFilter ? true : f.id !== 'timespan'));
 
   const hasNoResults = eventResponseList.totalResults === 0;
   const hasActiveFilters = hasFilters({
