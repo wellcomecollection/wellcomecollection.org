@@ -25,7 +25,7 @@ const test = base.extend<{
 
   songsPage: async ({ context, page }, use) => {
     // A Genre chosen because it has works and images both about and using the technique
-    await concept('cfxnfvnc', context, page);
+    await concept('vb3xq295', context, page);
     const songsPage = new ConceptPage(page, 'type/technique');
     await use(songsPage);
   },
@@ -34,7 +34,7 @@ const test = base.extend<{
     // Chosen because there are works both about and by this person,
     // and his label is punctuated in such a way that would break the page if
     // it is not escaped properly in the API calls.
-    await concept('qe5c6x6f', context, page);
+    await concept('qad4wpqg', context, page);
     const thackrahPage = new ConceptPage(page, 'person');
     await use(thackrahPage);
   },
