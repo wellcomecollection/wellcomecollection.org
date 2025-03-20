@@ -20,6 +20,7 @@ import {
 import {
   DateWrapper,
   FeaturedCardCopy,
+  FeaturedCardLabelWrapper,
   FeaturedCardLeft,
   FeaturedCardLink,
   FeaturedCardRight,
@@ -31,6 +32,7 @@ type FeaturedCardProps = PartialFeaturedCard & {
   background: PaletteColor;
   textColor: PaletteColor;
   isReversed?: boolean;
+  children: React.ReactNode;
 };
 
 type FeaturedCardArticleProps = {
@@ -45,7 +47,7 @@ type FeaturedCardExhibitionProps = {
   textColor: PaletteColor;
 };
 
-const FeaturedCardBasic = props => {
+const FeaturedCardBasic: FunctionComponent<FeaturedCardProps> = props => {
   const {
     image,
     labels,
@@ -59,7 +61,7 @@ const FeaturedCardBasic = props => {
   return (
     <FeaturedCardWrap>
       <FeaturedCardLink href={link.url} $isReversed={isReversed}>
-        <FeaturedCardLeft>
+        <FeaturedCardLeft $isReversed={isReversed}>
           {image && (
             <PrismicImage
               image={image}
@@ -75,21 +77,22 @@ const FeaturedCardBasic = props => {
         </FeaturedCardLeft>
         <div
           className={grid({ s: 12, m: 11, l: 5, xl: 5 })}
-          style={{ display: 'flex' }}
+          style={{ order: isReversed ? 1 : 2 }}
         >
-          <FeaturedCardRight $isReversed={isReversed}>
+          <FeaturedCardRight>
             {labels && labels.length > 0 ? (
-              <LabelsList labels={labels} />
+              <FeaturedCardLabelWrapper $isReversed={isReversed}>
+                <LabelsList labels={labels} />
+              </FeaturedCardLabelWrapper>
             ) : (
               <div style={{ marginBottom: '26px' }} />
             )}
             <FeaturedCardCopy $background={background} $textColor={textColor}>
               {children}
             </FeaturedCardCopy>
+            <FeaturedCardShim $background={background} />
           </FeaturedCardRight>
         </div>
-        <div className={grid({ s: 12, m: 12, l: 7, xl: 7 })}></div>
-        <FeaturedCardShim $background={background} $isReversed={isReversed} />
       </FeaturedCardLink>
     </FeaturedCardWrap>
   );

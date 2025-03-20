@@ -12,9 +12,6 @@ export const DateWrapper = styled(Space).attrs({
 `;
 
 export const FeaturedCardWrap = styled.div`
-  margin-left: -${props => props.theme.gutter.small}px;
-  margin-right: -${props => props.theme.gutter.small}px;
-
   ${props => props.theme.media('medium')`
     margin-left: 0;
     margin-right: 0;
@@ -26,8 +23,7 @@ export const FeaturedCardLink = styled.a.attrs({
   className: 'grid',
   'data-gtm-trigger': 'featured_card_link',
 })<HasIsReversed>`
-  justify-content: flex-end;
-  flex-direction: ${props => (props.$isReversed ? 'row-reverse' : 'row')};
+  gap: 0 !important;
 
   &,
   &:link,
@@ -39,19 +35,18 @@ export const FeaturedCardLink = styled.a.attrs({
 
 export const FeaturedCardLeft = styled.div.attrs({
   className: grid({ s: 12, m: 12, l: 7, xl: 7 }),
-})``;
+})<HasIsReversed>`
+  order: ${props => (props.$isReversed ? 2 : 1)};
+`;
 
-export const FeaturedCardRight = styled.div<HasIsReversed>`
+export const FeaturedCardRight = styled.div`
   display: flex;
   flex-direction: column;
-  padding-left: ${props =>
-    props.$isReversed ? 0 : props.theme.gutter.small}px;
-  padding-right: ${props =>
-    props.$isReversed ? props.theme.gutter.small : 0}px;
   transform: translateY(-28px); /* Height of a label (font size + padding) */
   width: 100%;
   height: 100%;
   min-height: 200px;
+  position: relative;
 
   ${props => props.theme.media('medium')`
     padding-left: 0;
@@ -60,7 +55,6 @@ export const FeaturedCardRight = styled.div<HasIsReversed>`
 
   ${props =>
     props.theme.media('large')(`
-      margin-left: ${props.$isReversed ? 0 : -props.theme.gutter.large + 'px'};
       transform: translateY(0);
     `)}
 `;
@@ -72,24 +66,26 @@ export const FeaturedCardCopy = styled(Space).attrs({
   flex: 1;
   color: ${props => props.theme.color(props.$textColor)};
   background-color: ${props => props.theme.color(props.$background)};
-
-  ${props =>
-    props.theme.media('large')(`
-      margin-right: -${props.theme.gutter.large}px;
-    `)}
 `;
 
 export const FeaturedCardShim = styled.div.attrs<{ $background: PaletteColor }>(
   {
-    className: `is-hidden-s is-hidden-m ${grid({ s: 12, m: 11, l: 5, xl: 5 })}`,
+    className: `is-hidden-s is-hidden-m`,
   }
-)<HasIsReversed & { $background: PaletteColor }>`
-  position: relative;
+)<{ $background: PaletteColor }>`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
   background-color: ${props => props.theme.color(props.$background)};
   height: 21px;
+`;
 
-  /* Prevent a white line appearing above the shim because of browser rounding errors */
-  top: -1px;
-  margin-left: ${props =>
-    props.$isReversed ? props.theme.gutter.large + 'px' : null};
+export const FeaturedCardLabelWrapper = styled.div<HasIsReversed>`
+  display: flex;
+  justify-content: ${props => (props.$isReversed ? 'flex-end' : 'flex-start')};
+  margin-right: ${props =>
+    props.$isReversed
+      ? '-16px' // themeValues.spaceAtBreakpoints.large.m
+      : undefined};
 `;
