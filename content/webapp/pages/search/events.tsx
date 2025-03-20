@@ -201,6 +201,7 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   setCacheControl(context.res, cacheTTL.search);
   const serverData = await getServerData(context);
+  const dateFilter = !!serverData.toggles.dateFilter.value;
 
   const query = context.query;
   const params = fromQuery(query);
@@ -260,7 +261,7 @@ export const getServerSideProps: GetServerSideProps<
         'location',
         'isAvailableOnline',
         'timespan',
-      ],
+      ].filter(f => (dateFilter ? true : f !== 'timespan')),
     },
     pageSize: 24,
     toggles: serverData.toggles,
