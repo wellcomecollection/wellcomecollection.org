@@ -137,22 +137,15 @@ export const WorkPage: NextPage<Props> = ({
         hideNewsletterPromo={true}
       >
         <Container>
-          <Grid>
-            <Space
-              className={grid({ s: 12 })}
-              $v={{ size: 'l', properties: ['padding-top'] }}
-            >
-              <SearchForm searchCategory="works" location="page" />
-            </Space>
-          </Grid>
-          <Grid>
-            <Space
-              className={grid({ s: 12 })}
-              $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
-            >
-              <BackToResults />
-            </Space>
-          </Grid>
+          <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+            <SearchForm searchCategory="works" location="page" />
+          </Space>
+
+          <Space
+            $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
+          >
+            <BackToResults />
+          </Space>
         </Container>
 
         {isArchive ? (
@@ -201,14 +194,12 @@ export const WorkPage: NextPage<Props> = ({
         ) : (
           <>
             <Container>
-              <Grid>
-                <WorkHeader
-                  work={toWorkBasic(work)}
-                  collectionManifestsCount={
-                    shouldShowItemLink ? collectionManifestsCount : undefined
-                  }
-                />
-              </Grid>
+              <WorkHeader
+                work={toWorkBasic(work)}
+                collectionManifestsCount={
+                  shouldShowItemLink ? collectionManifestsCount : undefined
+                }
+              />
             </Container>
             <WorkDetails
               work={work}
