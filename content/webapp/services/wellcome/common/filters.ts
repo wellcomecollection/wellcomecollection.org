@@ -107,12 +107,12 @@ function filterOptionsWithNonAggregates({
   options = [],
   selectedValues,
   showEmptyBuckets = false,
-  sort = true,
+  isManualSort = false,
 }: {
   options?: FilterOption[];
   selectedValues: (string | SelectedValue)[];
   showEmptyBuckets?: boolean;
-  sort?: boolean;
+  isManualSort?: boolean;
 }): FilterOption[] {
   const aggregationValues: string[] = options.map(option => option.value);
   const selectedOptionValues: string[] = selectedValues.map(value =>
@@ -136,8 +136,7 @@ function filterOptionsWithNonAggregates({
     )
     .filter(option => isNotUndefined(option)) as FilterOption[];
 
-  // TODO change "sort" to something else since we also don't want to filter for Date
-  if (sort) {
+  if (!isManualSort) {
     return allOptions
       .filter(option => showEmptyBuckets || option.count || option.selected)
       .sort(optionOrder);
@@ -707,6 +706,11 @@ const eventsTimespanFilter = ({
   events,
   props,
 }: EventsFilterProps): RadioFilter<keyof EventsProps> => {
+  const order = {
+    'timespan-all': 1,
+    'timespan-past': 2,
+    'timespan-future': 3,
+  };
   return {
     type: 'radio',
     id: 'timespan',
@@ -725,7 +729,9 @@ const eventsTimespanFilter = ({
         };
       }),
       selectedValues: [props.timespan || ''],
-      sort: false,
+      isManualSort: true,
+    }).sort((a, b) => {
+      return order[a.id] - order[b.id];
     }),
   };
 };

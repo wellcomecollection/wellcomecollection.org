@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
+import { formatNumber } from '@weco/common/utils/grammar';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
@@ -16,6 +17,7 @@ import {
   CheckboxFilter as CheckboxFilterType,
   Filter,
   filterLabel,
+  RadioFilter as RadioFilterType,
 } from '@weco/content/services/wellcome/common/filters';
 import { searchFilterCheckBox } from '@weco/content/text/aria-labels';
 
@@ -146,6 +148,34 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
     </List>
   );
 };
+type RadioFilterProps = {
+  f: RadioFilterType;
+  changeHandler: () => void;
+  form?: string;
+};
+const RadioFilter = ({ f, changeHandler, form }: RadioFilterProps) => {
+  return (
+    <PlainList>
+      {f.options.map(({ id, label, value, count, selected }) => {
+        return (
+          <li key={`desktop-${id}`}>
+            <CheckboxRadio
+              id={`desktop-${id}`}
+              type="radio"
+              text={`${label} (${formatNumber(count || 0)})`} // Always show even if count is 0
+              value={value}
+              name={f.id}
+              checked={selected}
+              onChange={changeHandler}
+              form={form}
+              disabled={count === 0}
+            />
+          </li>
+        );
+      })}
+    </PlainList>
+  );
+};
 
 export const getFilterLabel = (type: Filter['type'], label: string) => {
   let filterTitle: string | undefined;
@@ -190,6 +220,15 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                         form={form}
                       />
                     )}
+
+                    {f.type === 'radio' && (
+                      <RadioFilter
+                        f={f}
+                        changeHandler={changeHandler}
+                        form={form}
+                      />
+                    )}
+
                     {f.type === 'dateRange' &&
                       !(hasNoResults && !(f.from.value || f.to.value)) && (
                         <DateRangeFilter
@@ -198,6 +237,7 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
                           form={form}
                         />
                       )}
+
                     {f.type === 'color' && !(hasNoResults && !f.color) && (
                       <PaletteColorPicker
                         name={f.id}
