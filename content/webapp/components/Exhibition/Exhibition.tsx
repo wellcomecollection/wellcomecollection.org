@@ -1,6 +1,6 @@
 import * as prismic from '@prismicio/client';
 import NextLink from 'next/link';
-import { Fragment, FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
@@ -492,24 +492,32 @@ const Exhibition: FunctionComponent<Props> = ({
         breadcrumbs={breadcrumbs}
         labels={{ labels: exhibition.labels }}
         title={exhibition.title}
+        fullWidth={true}
         ContentTypeInfo={
-          <Fragment>
+          <>
             {!exhibition.isPermanent && (
-              <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
-                {DateInfo}
+              <Space
+                $v={{ size: 'xs', properties: ['margin-bottom'] }}
+                style={{ display: 'flex' }}
+              >
+                <Space $h={{ size: 'm', properties: ['margin-right'] }}>
+                  {DateInfo}
+                </Space>
+                <StatusIndicator
+                  start={exhibition.start}
+                  end={exhibition.end || new Date()}
+                  statusOverride={exhibition.statusOverride}
+                  isLarge={true}
+                />
               </Space>
             )}
-            <StatusIndicator
-              start={exhibition.start}
-              end={exhibition.end || new Date()}
-              statusOverride={exhibition.statusOverride}
-            />
-          </Fragment>
+          </>
         }
         FeaturedMedia={maybeFeaturedMedia}
         HeroPicture={maybeHeroPicture}
         isFree={true}
         isContentTypeInfoBeforeMedia={true}
+        includeAccessibilityProvision={true}
       />
       {exhibition.bslLeafletVideo && (
         <BslLeafletVideo

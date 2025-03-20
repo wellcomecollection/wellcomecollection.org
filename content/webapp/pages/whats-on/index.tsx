@@ -31,6 +31,7 @@ import {
 } from '@weco/common/utils/dates';
 import { formatDate, formatDayName } from '@weco/common/utils/format-date';
 import { serialiseProps } from '@weco/common/utils/json';
+import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision/AccessibilityProvision';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -487,6 +488,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                       )}
                     </Space>
                   </SpacingComponent>
+
                   <CardGrid
                     items={exhibitions.slice(1)}
                     itemsPerRow={3}
@@ -496,6 +498,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                         url: '/exhibitions',
                       },
                     ]}
+                    optionalComponent={<AccessibilityProvision />}
                   />
                 </SpacingSection>
 

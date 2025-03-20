@@ -16,6 +16,7 @@ type Props = {
   start: Date;
   end: Date;
   statusOverride?: string;
+  isLarge?: boolean;
 };
 
 export function formatDateRangeWithMessage({
@@ -45,13 +46,18 @@ const StatusIndicator: FunctionComponent<Props> = ({
   start,
   end,
   statusOverride,
+  isLarge = false,
 }: Props) => {
   const { color, text } = statusOverride
     ? { color: 'neutral.500' as PaletteColor, text: statusOverride }
     : formatDateRangeWithMessage({ start, end });
 
   return (
-    <TextWithDot className={font('intr', 5)} dotColor={color} text={text} />
+    <TextWithDot
+      className={isLarge ? font('intr', 4) : font('intr', 5)}
+      dotColor={color}
+      text={text}
+    />
   );
 };
 
