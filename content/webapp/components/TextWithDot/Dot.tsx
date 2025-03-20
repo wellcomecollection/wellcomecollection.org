@@ -2,14 +2,15 @@ import styled from 'styled-components';
 
 import { PaletteColor } from '@weco/common/views/themes/config';
 
-const Dot = styled.span.attrs({
+const Dot = styled.div.attrs({
   'aria-hidden': true,
 })<{ $dotColor: PaletteColor }>`
-  font-size: 0.7em;
-  color: ${props => props.theme.color(props.$dotColor)};
-
   &::before {
-    content: '⬤';
+    display: block;
+    border: 6px solid;
+    border-radius: 50%;
+    content: '';
+    border-color: ${props => props.theme.color(props.$dotColor)};
   }
 `;
 
