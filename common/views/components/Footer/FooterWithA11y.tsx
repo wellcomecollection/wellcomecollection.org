@@ -42,12 +42,13 @@ const FooterNavigationContainer = styled(Space).attrs({
 
   ${props => props.theme.media('medium')`
     grid-template-columns: repeat(2, 1fr);
+    grid-gap: 3rem;
+
   `}
 
   ${props => props.theme.media('xlarge')`
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 2rem;
-
   `}
 `;
 
@@ -204,8 +205,9 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
               as="p"
               $v={{
                 size: 'm',
-                properties: [hasVenuesInfo ? 'margin-top' : 'margin-bottom'],
+                properties: hasVenuesInfo ? ['margin-top'] : [],
               }}
+              style={{ marginBottom: 0 }}
             >
               <a href={`/visit-us/${prismicPageIds.openingTimes}`}>
                 Opening times

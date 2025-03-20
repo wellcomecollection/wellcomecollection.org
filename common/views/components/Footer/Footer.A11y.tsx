@@ -54,8 +54,12 @@ const FooterA11y: FunctionComponent = () => {
           <span>Hearing loops</span>
         </Li>
       </PlainList>
-      <Space as="p" $v={{ size: 'm', properties: ['margin-top'] }}>
-        <a href="/visit-us/accessibility">Accessibility</a>
+      <Space
+        as="p"
+        $v={{ size: 'm', properties: ['margin-top'] }}
+        style={{ marginBottom: 0 }}
+      >
+        <a href="/visit-us/accessibility">Access information</a>
       </Space>
     </div>
   );
