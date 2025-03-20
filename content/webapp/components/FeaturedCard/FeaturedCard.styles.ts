@@ -36,7 +36,10 @@ export const FeaturedCardLink = styled.a.attrs({
 export const FeaturedCardLeft = styled.div.attrs({
   className: grid({ s: 12, m: 12, l: 7, xl: 7 }),
 })<HasIsReversed>`
-  order: ${props => (props.$isReversed ? 2 : 1)};
+  ${props =>
+    props.theme.media('large')(`
+    order: ${props.$isReversed ? 2 : 1};
+  `)}
 `;
 
 export const FeaturedCardRight = styled.div`
@@ -81,11 +84,21 @@ export const FeaturedCardShim = styled.div.attrs<{ $background: PaletteColor }>(
   height: 21px;
 `;
 
-export const FeaturedCardLabelWrapper = styled.div<HasIsReversed>`
+export const FeaturedCardLabelWrap = styled.div<HasIsReversed>`
   display: flex;
-  justify-content: ${props => (props.$isReversed ? 'flex-end' : 'flex-start')};
-  margin-right: ${props =>
-    props.$isReversed
-      ? '-16px' // themeValues.spaceAtBreakpoints.large.m
-      : undefined};
+
+  ${props =>
+    props.theme.media('large')(`
+      justify-content: ${props.$isReversed ? 'flex-end' : 'flex-start'};
+      margin-right: ${props.$isReversed ? '-16px' : undefined};
+  `)}
+`;
+
+export const FeaturedCardRightWrap = styled.div.attrs({
+  className: grid({ s: 12, m: 11, l: 5, xl: 5 }),
+})<HasIsReversed>`
+  ${props =>
+    props.theme.media('large')(`
+    order: ${props.$isReversed ? 1 : 2};
+  `)}
 `;

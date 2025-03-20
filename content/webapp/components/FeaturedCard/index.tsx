@@ -2,7 +2,7 @@ import { FunctionComponent, PropsWithChildren } from 'react';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -20,10 +20,11 @@ import {
 import {
   DateWrapper,
   FeaturedCardCopy,
-  FeaturedCardLabelWrapper,
+  FeaturedCardLabelWrap,
   FeaturedCardLeft,
   FeaturedCardLink,
   FeaturedCardRight,
+  FeaturedCardRightWrap,
   FeaturedCardShim,
   FeaturedCardWrap,
 } from './FeaturedCard.styles';
@@ -75,15 +76,12 @@ const FeaturedCardBasic: FunctionComponent<FeaturedCardProps> = props => {
             />
           )}
         </FeaturedCardLeft>
-        <div
-          className={grid({ s: 12, m: 11, l: 5, xl: 5 })}
-          style={{ order: isReversed ? 1 : 2 }}
-        >
+        <FeaturedCardRightWrap $isReversed={isReversed}>
           <FeaturedCardRight>
             {labels && labels.length > 0 ? (
-              <FeaturedCardLabelWrapper $isReversed={isReversed}>
+              <FeaturedCardLabelWrap $isReversed={isReversed}>
                 <LabelsList labels={labels} />
-              </FeaturedCardLabelWrapper>
+              </FeaturedCardLabelWrap>
             ) : (
               <div style={{ marginBottom: '26px' }} />
             )}
@@ -92,7 +90,7 @@ const FeaturedCardBasic: FunctionComponent<FeaturedCardProps> = props => {
             </FeaturedCardCopy>
             <FeaturedCardShim $background={background} />
           </FeaturedCardRight>
-        </div>
+        </FeaturedCardRightWrap>
       </FeaturedCardLink>
     </FeaturedCardWrap>
   );
