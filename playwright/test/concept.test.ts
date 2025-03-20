@@ -40,8 +40,8 @@ const test = base.extend<{
   },
 });
 
-test.describe('a Concept representing an Agent with no Images', () => {
-  // TODO: Temporarily commenting out this test to prevent a deployment deadlock. See: https://wellcome.slack.com/archives/C02ANCYL90E/p1742487720513519?thread_ts=1742485792.254039&cid=C02ANCYL90E
+// TODO: Temporarily commenting out this test to prevent a deployment deadlock. See: https://wellcome.slack.com/archives/C02ANCYL90E/p1742487720513519?thread_ts=1742485792.254039&cid=C02ANCYL90E
+// test.describe('a Concept representing an Agent with no Images', () => {
 //   test('only has works tabs', async ({ thackrahPage }) => {
 //     // It has two tabs for works
 //     await expect(thackrahPage.worksAboutTab).toBeVisible();
