@@ -110,6 +110,13 @@ const toggles = {
         'Displays the access content changes to the Exhibition pages',
       type: 'experimental',
     },
+    {
+      id: 'dateFilter',
+      title: 'Date filter in Events search',
+      initialValue: false,
+      description: 'Adds the Date filter in the Events search',
+      type: 'experimental',
+    },
   ] as const,
   tests: [] as ABTest[],
 };
