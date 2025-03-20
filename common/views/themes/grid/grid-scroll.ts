@@ -1,8 +1,8 @@
 import { themeValues } from '@weco/common/views/themes/config';
 
 export const gridScroll = `
-.css-grid__scroll-container,
-.css-grid__cell.css-grid__scroll-container {
+.grid__scroll-container,
+.grid__cell.grid__scroll-container {
   ${themeValues.mediaBetween(
     'small',
     'medium'
@@ -16,7 +16,7 @@ export const gridScroll = `
 }
 
 .grid--scroll,
-.css-grid.grid--scroll {
+.grid.grid--scroll {
   ${themeValues.mediaBetween(
     'small',
     'medium'
@@ -28,7 +28,7 @@ export const gridScroll = `
     padding-right: ${themeValues.containerPadding.small}px;
 
     .grid__cell,
-    .css-grid__cell {
+    .grid__cell {
       flex: 1;
       min-width: 75vw;
       padding-left: 0;
@@ -37,6 +37,6 @@ export const gridScroll = `
   `)}
 }
 
-.css-grid.grid--scroll {
+.grid.grid--scroll {
   padding: 0;
 }`;

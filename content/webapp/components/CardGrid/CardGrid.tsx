@@ -1,6 +1,6 @@
 import { FunctionComponent, ReactElement } from 'react';
 
-import { classNames, cssGrid } from '@weco/common/utils/classnames';
+import { classNames, grid } from '@weco/common/utils/classnames';
 import {
   ContaineredLayout,
   gridSize12,
@@ -46,12 +46,12 @@ const CardGrid: FunctionComponent<Props> = ({
   return (
     <div>
       <CssGridContainer>
-        <div className="css-grid">
+        <div className="grid">
           {items.map((item, i) => (
             <div
               key={item.id}
               className={classNames({
-                [cssGrid({
+                [grid({
                   s: 12,
                   m: 6,
                   l: gridColumns,
