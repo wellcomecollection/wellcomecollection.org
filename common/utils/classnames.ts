@@ -1,7 +1,6 @@
 export type SizeMap = Record<string, number>;
 
 export function grid(sizes: SizeMap): string {
-  console.log({ sizes });
   const base = 'grid__cell';
   const modifierClasses = Object.keys(sizes).map(key => {
     const size = sizes[key];
