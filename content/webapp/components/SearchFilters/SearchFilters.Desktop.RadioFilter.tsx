@@ -1,18 +1,16 @@
+import { formatNumber } from '@weco/common/utils/grammar';
 import Button from '@weco/common/views/components/Buttons';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import PlainList from '@weco/common/views/components/styled/PlainList';
-import {
-  CheckboxFilter as CheckboxFilterType,
-  filterLabel,
-} from '@weco/content/services/wellcome/common/filters';
+import { RadioFilter as RadioFilterType } from '@weco/content/services/wellcome/common/filters';
 
-type CheckboxFilterProps = {
-  f: CheckboxFilterType;
+type RadioFilterProps = {
+  f: RadioFilterType;
   changeHandler: () => void;
   form?: string;
 };
 
-const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
+const RadioFilter = ({ f, changeHandler, form }: RadioFilterProps) => {
   return (
     <Button
       variant="DropdownButton"
@@ -29,13 +27,14 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
             <li key={id}>
               <CheckboxRadio
                 id={id}
-                type="checkbox"
-                text={filterLabel({ label, count })}
+                type="radio"
+                text={`${label} (${formatNumber(count || 0)})`} // Always show even if count is 0
                 value={value}
                 name={f.id}
                 checked={selected}
                 onChange={changeHandler}
                 form={form}
+                disabled={count === 0}
               />
             </li>
           );
@@ -45,4 +44,4 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
   );
 };
 
-export default CheckboxFilter;
+export default RadioFilter;
