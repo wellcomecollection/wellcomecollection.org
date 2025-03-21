@@ -115,6 +115,7 @@ const toggles = {
       title: 'New Theme Pages',
       initialValue: false,
       description:
+        'Show new theme pages, with data populated from the catalogue graph.',
       type: 'experimental',
     },
     {
