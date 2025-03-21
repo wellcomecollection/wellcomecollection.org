@@ -14,10 +14,7 @@ const Wrapper = styled.span`
 const DotWrapper = styled(Space).attrs({
   as: 'span',
   $h: { size: 'xs', properties: ['margin-right'] },
-})`
-  display: flex;
-  align-items: center;
-`;
+})``;
 
 type Props = { dotColor: PaletteColor; text: string; className?: string };
 

@@ -40,7 +40,7 @@ const FindUs: FunctionComponent<Props> = ({ hideAccessibility }) => (
         {wellcomeCollectionAddress.postalCode}
       </PlainLink>
     </Space>
-    <p>
+    <Space as="p" $v={{ size: 'm', properties: ['margin-bottom'] }}>
       <PlainLink
         href={`tel:${wellcomeCollectionGallery.telephone.replace(/\s/g, '')}`}
         aria-label={createScreenreaderLabel(
@@ -53,7 +53,7 @@ const FindUs: FunctionComponent<Props> = ({ hideAccessibility }) => (
       <a href="mailto:info@wellcomecollection.org">
         info@wellcomecollection.org
       </a>
-    </p>
+    </Space>
     <PlainList>
       <Space as="li" $v={{ size: 's', properties: ['padding-bottom'] }}>
         <a href={`/visit-us/${prismicPageIds.gettingHere}`}>Getting here</a>
@@ -63,7 +63,7 @@ const FindUs: FunctionComponent<Props> = ({ hideAccessibility }) => (
           as="li"
           $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
         >
-          <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>
+          <a href={`/visit-us/${prismicPageIds.access}`}>Access information</a>
         </Space>
       )}
     </PlainList>

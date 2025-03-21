@@ -115,7 +115,13 @@ const toggles = {
       title: 'New Theme Pages',
       initialValue: false,
       description:
-        'Show new theme pages, with data populated from the catalogue graph.',
+      type: 'experimental',
+    },
+    {
+      id: 'dateFilter',
+      title: 'Date filter in Events search',
+      initialValue: false,
+      description: 'Adds the Date filter in the Events search',
       type: 'experimental',
     },
   ] as const,
