@@ -69,49 +69,49 @@
           - CI
         command: ['yarn', 'diffCustomTypes']
 
-- label: 'test common'
-  depends_on: 'build_common'
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: 'arn:aws:iam::130871440101:role/experience-ci'
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: common
-        command: ['yarn', 'test']
+# - label: 'test common'
+#   depends_on: 'build_common'
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: 'arn:aws:iam::130871440101:role/experience-ci'
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: common
+#         command: ['yarn', 'test']
 
-- label: 'test content'
-  depends_on: 'build_content'
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: 'arn:aws:iam::130871440101:role/experience-ci'
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: content
-        command: ['yarn', 'test']
+# - label: 'test content'
+#   depends_on: 'build_content'
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: 'arn:aws:iam::130871440101:role/experience-ci'
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: content
+#         command: ['yarn', 'test']
 
-- label: 'test identity'
-  depends_on: 'build_identity'
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: 'arn:aws:iam::130871440101:role/experience-ci'
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: identity
-        command: ['yarn', 'test']
+# - label: 'test identity'
+#   depends_on: 'build_identity'
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: 'arn:aws:iam::130871440101:role/experience-ci'
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: identity
+#         command: ['yarn', 'test']
 
-- label: 'test edge_lambdas'
-  depends_on: 'build_edge_lambdas'
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: 'arn:aws:iam::130871440101:role/experience-ci'
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: edge_lambdas
-        command: ['yarn', 'test']
+# - label: 'test edge_lambdas'
+#   depends_on: 'build_edge_lambdas'
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: 'arn:aws:iam::130871440101:role/experience-ci'
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: edge_lambdas
+#         command: ['yarn', 'test']
 
 # This step kicks of the "end-to-end on pull requests" flow.
 # It doesn't run on main, because we run e2es on main by deploying

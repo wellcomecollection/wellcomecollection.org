@@ -4,9 +4,10 @@ const cloudfront = new AWS.CloudFront();
 const fs = require('fs');
 
 try {
-  const data = fs.readFileSync(require.resolve('.dist/report.json'), {
-    encoding: 'utf8',
-  });
+  const data = () =>
+    fs.readFileSync(require.resolve('./.dist/report.json'), {
+      encoding: 'utf8',
+    });
 
   const params = {
     Body: data,
