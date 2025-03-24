@@ -5,12 +5,12 @@ const fs = require('fs');
 
 try {
   const data = () =>
-    fs.readFileSync(require.resolve('./.dist/report.json'), {
+    fs.readFileSync(require.resolve('.dist/report.json'), {
       encoding: 'utf8',
     });
 
   const params = {
-    Body: data,
+    Body: data(),
     Bucket: 'dash.wellcomecollection.org',
     Key: 'pa11y/report.json',
     ACL: 'public-read',
