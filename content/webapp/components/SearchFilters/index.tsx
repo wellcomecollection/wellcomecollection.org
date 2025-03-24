@@ -45,6 +45,10 @@ const SearchFilters: FunctionComponent<Props> = ({
           return f.color ? 1 : 0;
         case 'checkbox':
           return f.options.filter(option => option.selected).length;
+        case 'radio':
+          return f.options.filter(
+            option => option.selected && option.value !== ''
+          ).length;
         case 'dateRange':
           return f.from.value || f.to.value ? 1 : 0;
         case 'boolean':

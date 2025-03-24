@@ -2,6 +2,7 @@ import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
 
 import { getServerData } from '@weco/common/server-data';
+import { useToggles } from '@weco/common/server-data/Context';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { pluralize } from '@weco/common/utils/grammar';
@@ -65,11 +66,12 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
 }) => {
   useHotjar(true);
   const { query: queryString } = query;
+  const { dateFilter } = useToggles();
 
   const filters = eventsFilters({
     events: eventResponseList,
     props: eventsRouteProps,
-  });
+  }).filter(f => (dateFilter ? true : f.id !== 'timespan'));
 
   const hasNoResults = eventResponseList.totalResults === 0;
   const hasActiveFilters = hasFilters({
@@ -132,7 +134,6 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
                     formId={SEARCH_PAGES_FORM_ID}
                     options={[
                       // Default value to be left empty as to not be reflected in URL query
-                      // TODO: 'oldest to newest' and 'newest to oldest' should be changed / option to sort should be better reflected
                       {
                         value: '',
                         text: 'Relevance',
@@ -200,12 +201,18 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   setCacheControl(context.res, cacheTTL.search);
   const serverData = await getServerData(context);
+  const dateFilter = !!serverData.toggles.dateFilter.value;
 
   const query = context.query;
   const params = fromQuery(query);
+  const validTimespan = getQueryPropertyValue(params.timespan) || '';
+  const validParams = {
+    ...params,
+    timespan: validTimespan === 'all' ? '' : validTimespan,
+  };
 
   const defaultProps = serialiseProps({
-    eventsRouteProps: params,
+    eventsRouteProps: validParams,
     serverData,
     query,
   });
@@ -239,10 +246,11 @@ export const getServerSideProps: GetServerSideProps<
   // This is a workaround that ensures we only send the page if relevant
   const { page, ...restOfQuery } = query;
   const pageNumber = page !== '1' && getQueryPropertyValue(page);
+  const paramsQuery = { ...restOfQuery, timespan: validTimespan };
 
   const eventResponseList = await getEvents({
     params: {
-      ...restOfQuery,
+      ...paramsQuery,
       sort: getQueryPropertyValue(query.sort),
       sortOrder: getQueryPropertyValue(query.sortOrder),
       ...(pageNumber && { page: Number(pageNumber) }),
@@ -252,7 +260,8 @@ export const getServerSideProps: GetServerSideProps<
         'interpretation',
         'location',
         'isAvailableOnline',
-      ],
+        'timespan',
+      ].filter(f => (dateFilter ? true : f !== 'timespan')),
     },
     pageSize: 24,
     toggles: serverData.toggles,

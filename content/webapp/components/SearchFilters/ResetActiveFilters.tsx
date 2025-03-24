@@ -16,6 +16,7 @@ import {
   ColorFilter,
   DateRangeFilter,
   Filter,
+  RadioFilter,
 } from '@weco/content/services/wellcome/common/filters';
 
 type ResetActiveFilters = {
@@ -80,6 +81,24 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
                 ({ selected, value }) => selected && value !== option.value
               )
               .map(({ value }) => value),
+            source: `cancel_filter/${filter.id}`,
+          })}
+        >
+          <CancelFilter text={option.label} />
+        </NextLink>
+      ));
+
+  const renderRadioLink = (filter: RadioFilter) =>
+    filter.options
+      .filter(({ selected, value }) => selected && value !== '')
+      .map(option => (
+        <NextLink
+          key={`cancel-${option.id}`}
+          passHref
+          {...linkResolver({
+            ...router.query,
+            page: '1',
+            [filter.id]: '',
             source: `cancel_filter/${filter.id}`,
           })}
         >
@@ -163,6 +182,8 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
         switch (f.type) {
           case 'checkbox':
             return renderCheckboxLink(f);
+          case 'radio':
+            return renderRadioLink(f);
           case 'dateRange':
             return renderDateRangeLinks(f);
           case 'color':

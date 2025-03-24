@@ -14,6 +14,7 @@ const CheckboxRadioLabel = styled.label<{ $isDisabled?: boolean }>`
   display: inline-flex;
   align-items: flex-start;
   cursor: ${props => (props.$isDisabled ? ' not-allowed' : 'pointer')};
+  padding: 4px 0;
 `;
 
 const CheckboxRadioBox = styled.span<{
