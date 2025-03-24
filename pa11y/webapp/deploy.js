@@ -5,7 +5,7 @@ const fs = require('fs');
 
 try {
   const data = () =>
-    fs.readFileSync(require.resolve('.dist/report.json'), {
+    fs.readFileSync(require.resolve('./.dist/report.json'), {
       encoding: 'utf8',
     });
 
