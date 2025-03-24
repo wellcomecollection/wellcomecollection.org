@@ -1,4 +1,18 @@
-steps:
+steps:  
+  - label: "Update pa11y dashboard"
+    plugins:
+      - wellcomecollection/aws-assume-role#v0.2.2:
+          role: "arn:aws:iam::130871440101:role/experience-ci"
+      - ecr#v2.1.1:
+          login: true
+      - docker-compose#v3.5.0:
+          run: pa11y
+          command: bash -c "yarn write-report && yarn deploy"
+          env:
+            - AWS_ACCESS_KEY_ID
+            - AWS_SECRET_ACCESS_KEY
+            - AWS_SESSION_TOKEN
+
   - label: "build e2e test image"
     command: ./playwright/get_playwright_image.sh
     plugins:
