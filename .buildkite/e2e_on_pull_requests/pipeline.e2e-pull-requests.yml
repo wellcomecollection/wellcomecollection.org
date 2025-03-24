@@ -45,6 +45,22 @@
 
 - wait
 
+- label: "Update pa11y dashboard"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        run: pa11y
+        command: ["yarn", "deploy"]
+        env:
+          - AWS_ACCESS_KEY_ID
+          - AWS_SECRET_ACCESS_KEY
+          - AWS_SESSION_TOKEN
+
+- wait
+
 - label: "Scale down e2e environment"
   command: .buildkite/e2e_on_pull_requests/set_desired_task_count.sh 0
 
