@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { LinkProps } from 'next/link';
+import NextLink, { LinkProps } from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FunctionComponent, JSX, useState } from 'react';
 import styled from 'styled-components';
@@ -22,7 +22,7 @@ import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/Ca
 import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
 import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink/Images';
-import { toLink as toWorksLink } from '@weco/content/components/SearchPagesLink/Works';
+import { toLink as worksLink, toLink as toWorksLink } from "@weco/content/components/SearchPagesLink/Works";
 import Tabs from '@weco/content/components/Tabs';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
 import useHotjar from '@weco/content/hooks/useHotjar';
@@ -52,6 +52,61 @@ const emptyImageResults: CatalogueResultsList<ImageType> = emptyResultList();
 const emptyWorkResults: CatalogueResultsList<WorkType> = emptyResultList();
 
 const tabOrder = ['by', 'in', 'about'] as const;
+
+const ThemeButtonContainer = styled.div.attrs({
+  className: font('intr', 6),
+})`
+  display: flex;
+    gap: 10px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    align-items: center;
+`;
+
+
+const ThemeButton = styled.a.attrs({
+  className: font('intr', 6),
+})`
+  border: 2px solid;
+  padding: 4px 12px;
+  text-decoration: none;
+    border-radius: 30px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const RelatedToButton = styled.div.attrs({
+  className: font('intr', 6),
+})`
+    display: flex;
+    gap: 8px;
+    align-items: center;
+`;
+
+const AlternativeLabels = styled.div.attrs({
+  className: font('intr', 6),
+})`
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    margin-top: -12px;
+`;
+
+const AlternativeLabel = styled.span.attrs({
+  className: font('intr', 6),
+})`
+  border-right: 1px solid black;
+    padding-right: 12px;
+    
+    &:last-of-type {
+        border-right: 0;
+    }
+`;
+
+
 
 const linkSources = new Map([
   ['worksAbout', 'concept/works_about'],
@@ -331,6 +386,8 @@ export const ConceptPage: NextPage<Props> = ({
     imagesTabs[0]?.id || ''
   );
 
+  console.log(conceptResponse);
+
   return (
     <CataloguePageLayout
       title={conceptResponse.label}
@@ -349,10 +406,122 @@ export const ConceptPage: NextPage<Props> = ({
             $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
           >
             <HeroTitle>{conceptResponse.label}</HeroTitle>
-            {newThemePages && <p>{conceptResponse.description}</p>}
+
+            {newThemePages && conceptResponse.alternativeLabels?.length > 0 &&
+              (<AlternativeLabels>{conceptResponse.alternativeLabels.map(label => (<AlternativeLabel>{capitalize(label)}</AlternativeLabel>))}</AlternativeLabels>)}
+            {newThemePages && conceptResponse.narrowerThan?.length > 0 && (
+              <>
+                <ThemeButtonContainer>
+                  <span>Part of</span>
+                  {conceptResponse.narrowerThan.map(item => (
+                    <NextLink
+                      key={item.id}
+                      href={{
+                        pathname: `/concepts/${item.id}`
+                      }}
+                      passHref
+                      legacyBehavior
+                    >
+                      <ThemeButton>
+                        {capitalize(item.label)}
+                      </ThemeButton>
+                    </NextLink>))}
+                </ThemeButtonContainer>
+              </>
+            )}
+            {newThemePages && conceptResponse.description && <p>{capitalize(conceptResponse.description)}</p>}
           </Space>
+          {newThemePages && conceptResponse.relatedTo?.length > 0 && (
+            <>
+              <h3>Related to</h3>
+              <ThemeButtonContainer>
+              {conceptResponse.relatedTo.map(item => (
+                <RelatedToButton style={{ width: item.relationshipType ? '100%' : 'auto' }}>
+                <NextLink
+                  key={item.id}
+                  href={{
+                    pathname: `/concepts/${item.id}`
+                  }}
+                  passHref
+                  legacyBehavior
+                >
+                    <ThemeButton>
+                      {item.label}
+                    </ThemeButton>
+                </NextLink>
+                  {item.relationshipType?.replace("relationship_", "")}
+                </RelatedToButton>
+              ))}
+                </ThemeButtonContainer>
+
+                </>
+          )}
+
+          {newThemePages && conceptResponse.fieldsOfWork?.length > 0 && (
+            <>
+              <h3>Fields of work</h3>
+              <ThemeButtonContainer>
+              {conceptResponse.fieldsOfWork.map(item => (
+                <NextLink
+                  key={item.id}
+                  href={{
+                    pathname: `/concepts/${item.id}`
+                  }}
+                  passHref
+                  legacyBehavior
+                >
+                  <ThemeButton>
+                    {item.label}
+                  </ThemeButton>
+                </NextLink>))}
+                </ThemeButtonContainer>
+            </>
+          )}
+
+          {newThemePages && conceptResponse.people?.length > 0 && (
+            <>
+              <h3>Notable people in this field</h3>
+              <ThemeButtonContainer>
+                {conceptResponse.people.map(item => (
+                  <NextLink
+                    key={item.id}
+                    href={{
+                      pathname: `/concepts/${item.id}`
+                    }}
+                    passHref
+                    legacyBehavior
+                  >
+                    <ThemeButton>
+                      {item.label}
+                    </ThemeButton>
+                  </NextLink>))}
+              </ThemeButtonContainer>
+            </>
+          )}
+
+          {newThemePages && conceptResponse.broaderThan?.length > 0 && (
+            <>
+              <h3>Broader than</h3>
+              <ThemeButtonContainer>
+                {conceptResponse.broaderThan.map(item => (
+                  <NextLink
+                    key={item.id}
+                    href={{
+                      pathname: `/concepts/${item.id}`
+                    }}
+                    passHref
+                    legacyBehavior
+                  >
+                    <ThemeButton>
+                      {item.label}
+                    </ThemeButton>
+                  </NextLink>))}
+              </ThemeButtonContainer>
+            </>
+          )}
         </Container>
       </ConceptHero>
+
 
       {/* Images */}
       {hasImages && (
