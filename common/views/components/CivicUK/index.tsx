@@ -96,9 +96,8 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => (
     <script
       dangerouslySetInnerHTML={{
         __html: `CookieControl.load({
-            product: 'COMMUNITY',
+            product: 'PRO_MULTISITE',
             apiKey: '${apiKey}',
-            product: 'pro',
             initialState: 'notify',
             consentCookieExpiry: 182,
             layout: 'popup',
