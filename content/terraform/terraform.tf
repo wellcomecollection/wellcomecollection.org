@@ -11,6 +11,9 @@ terraform {
     dynamodb_table = "terraform-locktable"
     region         = "eu-west-1"
     bucket         = "wellcomecollection-infra"
-    role_arn       = "arn:aws:iam::130871440101:role/experience-developer"
+
+    assume_role = {
+      role_arn       = "arn:aws:iam::130871440101:role/experience-developer"
+    }
   }
 }
