@@ -98,7 +98,6 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => (
         __html: `CookieControl.load({
             product: 'PRO_MULTISITE',
             apiKey: '${apiKey}',
-            product: 'pro',
             initialState: 'notify',
             consentCookieExpiry: 182,
             layout: 'popup',
