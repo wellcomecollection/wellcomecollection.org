@@ -56,7 +56,7 @@ function isErrorPage(route: string): boolean {
 
 const dev = process.env.NODE_ENV !== 'production';
 const civicUkApiKey = process.env.NEXT_PUBLIC_CIVICUK_API_KEY;
-console.log({ civicUkApiKey });
+
 export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactElement;
 };
