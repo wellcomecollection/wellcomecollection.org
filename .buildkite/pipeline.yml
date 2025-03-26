@@ -19,7 +19,7 @@
         login: true
     - wellcomecollection/aws-sm:
         env:
-          NEXT_PUBLIC_CIVICUK_API_KEY: '${data.aws_secretsmanager_secret_version.civicuk.secret_string}'
+          NEXT_PUBLIC_CIVICUK_API_KEY: civicuk/api-key::AWSPREVIOUS
     - docker-compose#v3.5.0:
         build:
           - content
@@ -48,7 +48,7 @@
         login: true
     - wellcomecollection/aws-sm:
         env:
-          NEXT_PUBLIC_CIVICUK_API_KEY: '${data.aws_secretsmanager_secret_version.civicuk.secret_string}'
+          NEXT_PUBLIC_CIVICUK_API_KEY: civicuk/api-key::AWSPREVIOUS
     - docker-compose#v3.5.0:
         build:
           - identity
