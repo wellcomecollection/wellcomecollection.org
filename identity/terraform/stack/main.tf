@@ -1,3 +1,8 @@
+data "aws_secretsmanager_secret_version" "civicuk" {
+  secret_id = "civicuk/api_key"
+  version_stage = "AWSCURRENT"
+}
+
 module "identity-service-18012021" {
   source = "../../../infrastructure/modules/service"
 
@@ -28,7 +33,7 @@ module "identity-service-18012021" {
     PRISMIC_ACCESS_TOKEN = "prismic-model/prod/access-token"
     PRISMIC_ACCESS_TOKEN_STAGE = "prismic-model/stage/access-token"
 
-    NEXT_PUBLIC_CIVICUK_API_KEY = "civicuk/api_key"
+    NEXT_PUBLIC_CIVICUK_API_KEY = data.aws_secretsmanager_secret_version.civicuk.secret_string
   }, var.secret_env_vars)
 
   # We have a custom nginx container that redacts the values of

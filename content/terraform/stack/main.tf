@@ -1,3 +1,8 @@
+data "aws_secretsmanager_secret_version" "civicuk" {
+  secret_id = "civicuk/api_key"
+  version_stage = "AWSCURRENT"
+}
+
 module "content-service-17092020" {
   source = "../../../infrastructure/modules/service"
 
@@ -40,7 +45,7 @@ module "content-service-17092020" {
     items_api_key_prod  = "catalogue_api/items/prod/api_key"
     items_api_key_stage = "catalogue_api/items/stage/api_key"
 
-    NEXT_PUBLIC_CIVICUK_API_KEY = "civicuk/api_key"
+    NEXT_PUBLIC_CIVICUK_API_KEY = data.aws_secretsmanager_secret_version.civicuk.secret_string
 
     PRISMIC_ACCESS_TOKEN = "prismic-model/prod/access-token"
     PRISMIC_ACCESS_TOKEN_STAGE = "prismic-model/stage/access-token"
