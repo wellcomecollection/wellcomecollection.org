@@ -16,8 +16,10 @@ export const decorators = [
           <ConditionalWrapper
             condition={context?.parameters?.gridSizes}
             wrapper={children => (
-              <div className={grid(context.parameters.gridSizes)}>
-                {children}
+              <div className="grid">
+                <div className={grid(context.parameters.gridSizes)}>
+                  {children}
+                </div>
               </div>
             )}
           >
