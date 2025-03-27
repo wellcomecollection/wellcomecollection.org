@@ -11,7 +11,12 @@ const meta: Meta<typeof EventPromo> = {
     event,
   },
   parameters: {
-    gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
+    gridSizes: {
+      s: ['auto', 12],
+      m: ['auto', 6],
+      l: ['auto', 4],
+      xl: ['auto', 4],
+    },
   },
 };
 

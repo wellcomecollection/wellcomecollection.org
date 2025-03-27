@@ -1,10 +1,11 @@
 import { FunctionComponent, useContext, useState } from 'react';
 
-import { classNames, grid } from '@weco/common/utils/classnames';
+import { classNames } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
+import { GridCell } from '@weco/common/views/components/styled/GridCell';
 import Space from '@weco/common/views/components/styled/Space';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import Tabs from '@weco/content/components/Tabs';
@@ -47,7 +48,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
       <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
         <CssGridContainer>
           <div className="grid">
-            <div className={grid(gridSize12())}>
+            <GridCell $sizeMap={gridSize12()}>
               <Tabs
                 tabBehaviour="switch"
                 label="Month control"
@@ -56,7 +57,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
                 setSelectedTab={setActiveId}
                 trackWithSegment
               />
-            </div>
+            </GridCell>
           </div>
         </CssGridContainer>
       </Space>
@@ -66,10 +67,10 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
           isEnhanced ? i.id === (activeId || monthsWithEvents[0].id) : true
         )
         .map(({ id, month, events }) => (
-          <div
+          <GridCell
+            $sizeMap={gridSize12()}
             key={id}
             className={classNames({
-              [grid(gridSize12())]: true,
               'is-hidden': Boolean(activeId) && activeId !== id,
             })}
           >
@@ -88,7 +89,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
               links={links}
               fromDate={startOf(month)}
             />
-          </div>
+          </GridCell>
         ))}
     </>
   );

@@ -7,10 +7,11 @@ import {
 import styled from 'styled-components';
 
 import { Label } from '@weco/common/model/labels';
-import { classNames, font, grid } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import ImageType from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { GridCell } from '@weco/common/views/components/styled/GridCell';
 import Space from '@weco/common/views/components/styled/Space';
 import EventDateRange from '@weco/content/components/EventDateRange';
 import ImagePlaceholder from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
@@ -41,8 +42,8 @@ export type Props = {
   postTitleChildren?: ReactElement;
 };
 
-const BaseImageWrapper = styled.div.attrs({
-  className: grid({ s: 3, m: 3, l: 3, xl: 3 }),
+const BaseImageWrapper = styled(GridCell).attrs({
+  $sizeMap: { s: [1, 3], m: [1, 3], l: [1, 3], xl: [1, 3] },
 })``;
 
 const BaseTitleWrapper = styled.h3.attrs({
@@ -56,10 +57,10 @@ export type HasImageProps = {
 };
 
 // Ability to add custom prop types in TS and styled components
-const BaseTextWrapper = styled.div.attrs<HasImageProps>(props => ({
-  className: props.$hasImage
-    ? grid({ s: 9, m: 9, l: 9, xl: 9 })
-    : grid(gridSize12()),
+const BaseTextWrapper = styled(GridCell).attrs<HasImageProps>(props => ({
+  $sizeMap: props.$hasImage
+    ? { s: [4, 9], m: [4, 9], l: [4, 9], xl: [4, 9] }
+    : gridSize12(),
 }))<HasImageProps>``;
 
 type LinkOrDivSpaceAttrs = {

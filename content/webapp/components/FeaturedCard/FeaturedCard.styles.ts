@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
+import { GridCell } from '@weco/common/views/components/styled/GridCell';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
@@ -33,8 +34,13 @@ export const FeaturedCardLink = styled.a.attrs({
   }
 `;
 
-export const FeaturedCardLeft = styled.div.attrs({
-  className: grid({ s: 12, m: 12, l: 7, xl: 7 }),
+export const FeaturedCardLeft = styled(GridCell).attrs({
+  $sizeMap: {
+    s: ['auto', 12],
+    m: ['auto', 12],
+    l: ['auto', 7],
+    xl: ['auto', 7],
+  },
 })<HasIsReversed>`
   ${props =>
     props.theme.media('large')(`
@@ -94,8 +100,13 @@ export const FeaturedCardLabelWrap = styled.div<HasIsReversed>`
   `)}
 `;
 
-export const FeaturedCardRightWrap = styled.div.attrs({
-  className: grid({ s: 12, m: 11, l: 5, xl: 5 }),
+export const FeaturedCardRightWrap = styled(GridCell).attrs({
+  $sizeMap: {
+    s: ['auto', 12],
+    m: ['auto', 11],
+    l: ['auto', 5],
+    xl: ['auto', 5],
+  },
 })<HasIsReversed>`
   ${props =>
     props.theme.media('large')(`

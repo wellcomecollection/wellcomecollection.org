@@ -7,9 +7,10 @@ import {
   mockDataWithPrismicText,
 } from '@weco/common/test/fixtures/components/compact-card';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { GridCell } from '@weco/common/views/components/styled/GridCell';
 
 import MediaObjectBase, { HasImageProps } from './MediaObjectBase';
 
@@ -19,31 +20,56 @@ const getBaseTitleClass = number => {
 
 const mockOnClick = jest.fn();
 
-const grid2 = grid({ s: 2, m: 2, l: 2, xl: 2 });
-const grid3 = grid({ s: 3, m: 3, l: 3, xl: 3 });
-const grid9 = grid({ s: 9, m: 9, l: 9, xl: 9 });
-const grid10 = grid({ s: 10, m: 10, l: 10, xl: 10 });
-const grid12 = grid({ s: 12, m: 12, l: 12, xl: 12 });
+const grid2 = {
+  s: ['auto', 2],
+  m: ['auto', 2],
+  l: ['auto', 2],
+  xl: ['auto', 2],
+};
+const grid3 = {
+  s: ['auto', 3],
+  m: ['auto', 3],
+  l: ['auto', 3],
+  xl: ['auto', 3],
+};
+const grid9 = {
+  s: ['auto', 9],
+  m: ['auto', 9],
+  l: ['auto', 9],
+  xl: ['auto', 9],
+};
+const grid10 = {
+  s: ['auto', 10],
+  m: ['auto', 10],
+  l: ['auto', 10],
+  xl: ['auto', 10],
+};
+const grid12 = {
+  s: ['auto', 12],
+  m: ['auto', 12],
+  l: ['auto', 12],
+  xl: ['auto', 12],
+};
 
-const ImageWrapper = styled.div.attrs<HasImageProps>(props => {
+const ImageWrapper = styled(GridCell).attrs<HasImageProps>(props => {
   if (props.$hasImage) {
     return {
-      className: grid2,
+      $sizeMap: grid2,
     };
   }
   return {
-    className: grid12,
+    $sizeMap: grid12,
   };
 })<HasImageProps>``;
 
-const TextWrapper = styled.div.attrs<HasImageProps>(props => {
+const TextWrapper = styled(GridCell).attrs<HasImageProps>(props => {
   if (props.$hasImage) {
     return {
-      className: grid10,
+      $sizeMap: grid10,
     };
   }
   return {
-    className: grid12,
+    $sizeMap: grid12,
   };
 })<HasImageProps>``;
 

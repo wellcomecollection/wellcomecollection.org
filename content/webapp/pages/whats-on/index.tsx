@@ -240,7 +240,14 @@ const Header: FunctionComponent<HeaderProps> = ({
     <Space $v={{ size: 'l', properties: ['padding-top'] }}>
       <Container>
         <div className="grid">
-          <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
+          <div
+            className={grid({
+              s: ['auto', 12],
+              m: ['auto', 12],
+              l: ['auto', 12],
+              xl: [1, 12],
+            })}
+          >
             <OpeningTimesWrapper>
               <SectionPageHeader $sectionLevelPage={true}>
                 What’s on
@@ -291,7 +298,12 @@ const Header: FunctionComponent<HeaderProps> = ({
             </OpeningTimesWrapper>
           </div>
           <Space
-            className={grid({ s: 12, m: 10, l: 7, xl: 7 })}
+            className={grid({
+              s: ['auto', 12],
+              m: ['auto', 10],
+              l: ['auto', 7],
+              xl: ['auto', 7],
+            })}
             $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
           >
             <Tabs

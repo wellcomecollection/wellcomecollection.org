@@ -1,11 +1,12 @@
 import { FunctionComponent, ReactElement } from 'react';
 
-import { classNames, grid } from '@weco/common/utils/classnames';
+import { classNames } from '@weco/common/utils/classnames';
 import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
+import { GridCell } from '@weco/common/views/components/styled/GridCell';
 import Space from '@weco/common/views/components/styled/Space';
 import BookPromo from '@weco/content/components/BookPromo/BookPromo';
 import Card from '@weco/content/components/Card/Card';
@@ -48,18 +49,18 @@ const CardGrid: FunctionComponent<Props> = ({
       <CssGridContainer>
         <div className="grid">
           {items.map((item, i) => (
-            <div
-              key={item.id}
+            <GridCell
               className={classNames({
-                [grid({
-                  s: 12,
-                  m: 6,
-                  l: gridColumns,
-                  xl: gridColumns,
-                })]: true,
                 'card-theme card-theme--transparent':
                   itemsHaveTransparentBackground,
               })}
+              key={item.id}
+              $sizeMap={{
+                s: ['auto', 12],
+                m: ['auto', 6],
+                l: ['auto', gridColumns],
+                xl: ['auto', gridColumns],
+              }}
             >
               {item.id === 'tours' && <DailyTourPromo />}
 
@@ -96,7 +97,7 @@ const CardGrid: FunctionComponent<Props> = ({
               {item.type === 'visual-stories' && (
                 <Card item={convertItemToCardProps(item)} />
               )}
-            </div>
+            </GridCell>
           ))}
         </div>
       </CssGridContainer>

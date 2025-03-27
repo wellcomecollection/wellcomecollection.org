@@ -5,13 +5,14 @@ import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { AppErrorProps } from '@weco/common/services/app';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import FindUs from '@weco/common/views/components/FindUs/FindUs';
 import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
+import { GridCell } from '@weco/common/views/components/styled/GridCell';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import * as page from '@weco/content/pages/pages/[pageId]';
@@ -25,10 +26,19 @@ const VisitUsStaticContent: FunctionComponent = () => {
     <SpacingSection>
       <ContaineredLayout gridSizes={gridSize12()}>
         <div className="grid">
-          <div className={grid({ s: 12, l: 5, xl: 5 })}>
+          <GridCell
+            $sizeMap={{
+              s: ['auto', 12],
+              l: ['auto', 5],
+              xl: ['auto', 5],
+            }}
+          >
             <FindUs />
-          </div>
-          <div className={`${grid({ s: 12, l: 5, xl: 5 })} ${font('intr', 5)}`}>
+          </GridCell>
+          <GridCell
+            $sizeMap={{ s: ['auto', 12], l: ['auto', 5], xl: ['auto', 5] }}
+            className={font('intr', 5)}
+          >
             <h2 style={{ marginBottom: 0 }} className={font('intb', 5)}>
               Today’s opening times
             </h2>
@@ -38,7 +48,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
                 Opening times
               </a>
             </Space>
-          </div>
+          </GridCell>
         </div>
       </ContaineredLayout>
     </SpacingSection>

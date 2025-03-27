@@ -2,9 +2,10 @@ import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
 import { getCrop } from '@weco/common/model/image';
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { GridCell } from '@weco/common/views/components/styled/GridCell';
 import Space from '@weco/common/views/components/styled/Space';
 import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
 import { Contributor as ContributorType } from '@weco/content/types/contributors';
@@ -83,9 +84,14 @@ const Contributor: FunctionComponent<ContributorType> = ({
 
   return (
     <div className="grid">
-      <div
-        className={grid({ s: 12, m: 12, l: 12, xl: 12 })}
+      <GridCell
         style={{ display: 'flex' }}
+        $sizeMap={{
+          s: ['auto', 12],
+          m: ['auto', 12],
+          l: ['auto', 12],
+          xl: ['auto', 12],
+        }}
       >
         <ContributorImageWrapper>
           {contributor.type === 'people' && (
@@ -143,7 +149,7 @@ const Contributor: FunctionComponent<ContributorType> = ({
             </Description>
           )}
         </div>
-      </div>
+      </GridCell>
     </div>
   );
 };

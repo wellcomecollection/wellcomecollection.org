@@ -94,7 +94,7 @@ const ZoomedImage: FunctionComponent<ZoomedImageProps> = ({
               protocol: 'http://iiif.io/api/image',
               tiles: [
                 {
-                  scaleFactors: [1, 2, 4, 8, 16, 32],
+                  scaleFactors: ['auto', 2, 4, 8, 16, 32],
                   width: 400,
                 },
               ],

@@ -41,14 +41,18 @@ const StoryWrapper = styled(Space).attrs<{
 `;
 
 const ImageWrapper = styled.div.attrs<{ $isDetailed?: boolean }>(props => ({
-  className: props.$isDetailed ? grid({ s: 12, m: 6, l: 4, xl: 4 }) : '',
+  className: props.$isDetailed
+    ? grid({ s: ['auto', 12], m: ['auto', 6], l: ['auto', 4], xl: ['auto', 4] })
+    : '',
 }))`
   position: relative;
   margin-bottom: ${props => props.theme.spacingUnit * 2}px;
 `;
 
 const Details = styled.div.attrs<{ $isDetailed?: boolean }>(props => ({
-  className: props.$isDetailed ? grid({ s: 12, m: 6, l: 8, xl: 8 }) : '',
+  className: props.$isDetailed
+    ? grid({ s: ['auto', 12], m: ['auto', 6], l: ['auto', 8], xl: ['auto', 8] })
+    : '',
 }))<{ $isDetailed?: boolean }>``;
 
 const DesktopLabel = styled(Space).attrs({
