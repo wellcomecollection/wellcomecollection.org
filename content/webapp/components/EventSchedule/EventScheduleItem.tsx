@@ -2,7 +2,7 @@ import { Fragment, FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { eventPolicyIds } from '@weco/common/data/hardcoded-ids';
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { formatDayDate, formatTime } from '@weco/common/utils/format-date';
 import { HTMLTime } from '@weco/common/views/components/HTMLDateAndTime';
@@ -49,27 +49,6 @@ const EventContainer = styled(Space).attrs({
 })`
   display: inline-block;
   background-color: ${props => props.theme.color('yellow')};
-`;
-
-const EventTimesWrapper = styled(Space).attrs({
-  $v: {
-    size: 'm',
-    properties: ['margin-bottom'],
-  },
-  className: grid({
-    s: ['auto', 12],
-    m: ['auto', 12],
-    l: ['auto', 3],
-    xl: ['auto', 2],
-  }),
-})`
-  ${props => props.theme.media('large')`
-    margin: 0;
-  `}
-
-  h4 {
-    margin-bottom: 0;
-  }
 `;
 
 const eventLocations = (locations: Place[], isHybridEvent: boolean) => {
@@ -162,8 +141,15 @@ const EventScheduleItem: FunctionComponent<Props> = ({
 
   return (
     <GridWrapper>
-      <div>
-        <EventTimesWrapper>
+      <div className="grid">
+        <GridCell
+          $sizeMap={{
+            s: ['auto', 12],
+            m: ['auto', 12],
+            l: ['auto', 3],
+            xl: ['auto', 2],
+          }}
+        >
           {event.times.map(t => {
             const startTimeString = t.range.startDateTime.toISOString();
             return (
@@ -177,99 +163,98 @@ const EventScheduleItem: FunctionComponent<Props> = ({
               </h4>
             );
           })}
-        </EventTimesWrapper>
-        <div className="grid">
-          <GridCell
-            $sizeMap={{
-              s: ['auto', 12],
-              m: ['auto', 12],
-              l: ['auto', 9],
-              xl: ['auto', 10],
-            }}
-          >
-            <div>
-              {event.primaryLabels.length > 0 && (
-                <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
-                  <LabelsList labels={event.primaryLabels} />
-                </Space>
-              )}
-              <Space
-                $v={{ size: 's', properties: ['margin-bottom'] }}
-                as="h5"
-                className={font('wb', 3)}
-              >
-                {event.title}
+        </GridCell>
+
+        <GridCell
+          $sizeMap={{
+            s: ['auto', 12],
+            m: ['auto', 12],
+            l: ['auto', 9],
+            xl: ['auto', 10],
+          }}
+        >
+          <div>
+            {event.primaryLabels.length > 0 && (
+              <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+                <LabelsList labels={event.primaryLabels} />
               </Space>
+            )}
+            <Space
+              $v={{ size: 's', properties: ['margin-bottom'] }}
+              as="h5"
+              className={font('wb', 3)}
+            >
+              {event.title}
+            </Space>
 
-              {eventLocations(event.locations, Boolean(isHybridEvent))}
+            {eventLocations(event.locations, Boolean(isHybridEvent))}
 
-              {event.promo?.caption && (
-                <Space
-                  $v={{ size: 'm', properties: ['margin-bottom'] }}
-                  className={font('intr', 5)}
-                  dangerouslySetInnerHTML={{ __html: event.promo?.caption }}
-                />
-              )}
+            {event.promo?.caption && (
+              <Space
+                $v={{ size: 'm', properties: ['margin-bottom'] }}
+                className={font('intr', 5)}
+                dangerouslySetInnerHTML={{ __html: event.promo?.caption }}
+              />
+            )}
 
-              {!isNotLinked && (
-                <Space
-                  $v={{
-                    size: 'm',
-                    properties: ['margin-top', 'margin-bottom'],
-                  }}
-                >
-                  <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
-                    <a href={`/events/${event.id}`}>
-                      Full event details
-                      <span className="visually-hidden">
-                        {' '}
-                        about {event.title}
-                      </span>
-                    </a>
-                  </p>
-                </Space>
-              )}
-
-              {!isEventPast(event) &&
-                event.ticketSalesStart &&
-                waitForTicketSales && (
-                  <EventContainer>
-                    <span>
-                      Booking opens {formatDayDate(event.ticketSalesStart)}{' '}
-                      {formatTime(event.ticketSalesStart)}
+            {!isNotLinked && (
+              <Space
+                $v={{
+                  size: 'm',
+                  properties: ['margin-top', 'margin-bottom'],
+                }}
+              >
+                <p className={font('intr', 5)} style={{ marginBottom: 0 }}>
+                  <a href={`/events/${event.id}`}>
+                    Full event details
+                    <span className="visually-hidden">
+                      {' '}
+                      about {event.title}
                     </span>
-                  </EventContainer>
-                )}
+                  </a>
+                </p>
+              </Space>
+            )}
 
-              {!isEventPast(event) &&
-                (event.eventbriteId || event.onlineEventbriteId) &&
-                !waitForTicketSales && (
-                  <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-                    <EventbriteButtons event={event} />
-                  </Space>
-                )}
+            {!isEventPast(event) &&
+              event.ticketSalesStart &&
+              waitForTicketSales && (
+                <EventContainer>
+                  <span>
+                    Booking opens {formatDayDate(event.ticketSalesStart)}{' '}
+                    {formatTime(event.ticketSalesStart)}
+                  </span>
+                </EventContainer>
+              )}
 
-              {!isEventPast(event) &&
-                event.bookingEnquiryTeam &&
-                !waitForTicketSales && (
-                  <Space $v={{ size: 'm', properties: ['margin-top'] }}>
-                    <EventBookingButton event={event} />
-                  </Space>
-                )}
-
-              <HintText event={event} />
-
-              {event.secondaryLabels.length > 0 && (
-                <Space $v={{ size: 'm', properties: ['margin-top'] }}>
-                  <LabelsList
-                    labels={event.secondaryLabels}
-                    defaultLabelColor="black"
-                  />
+            {!isEventPast(event) &&
+              (event.eventbriteId || event.onlineEventbriteId) &&
+              !waitForTicketSales && (
+                <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+                  <EventbriteButtons event={event} />
                 </Space>
               )}
-            </div>
-          </GridCell>
-        </div>
+
+            {!isEventPast(event) &&
+              event.bookingEnquiryTeam &&
+              !waitForTicketSales && (
+                <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+                  <EventBookingButton event={event} />
+                </Space>
+              )}
+
+            <HintText event={event} />
+
+            {event.secondaryLabels.length > 0 && (
+              <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+                <LabelsList
+                  labels={event.secondaryLabels}
+                  defaultLabelColor="black"
+                />
+              </Space>
+            )}
+          </div>
+        </GridCell>
       </div>
     </GridWrapper>
   );
