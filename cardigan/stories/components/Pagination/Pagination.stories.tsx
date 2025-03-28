@@ -45,7 +45,7 @@ export const Start: Story = {
   },
   argTypes: {
     totalPages: {
-      options: ['auto', 5, 10, 250],
+      options: [1, 5, 10, 250],
     },
   },
 };
