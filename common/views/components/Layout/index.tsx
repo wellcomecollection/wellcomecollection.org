@@ -10,7 +10,7 @@ const gridSize6 = (): BetterSizeMap => ({
   s: [12],
   m: [6, 2],
   l: [6, 2],
-  xl: [3, 6],
+  xl: [6, 3],
 });
 
 const gridSize8 = (shift = true): BetterSizeMap => ({
