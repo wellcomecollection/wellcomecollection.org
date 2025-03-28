@@ -34,13 +34,23 @@ const MetadataWrapper = styled.div`
 `;
 
 const MetadataKey = styled.dt.attrs({
-  className: grid({ s: 4, m: 4, l: 4, xl: 4 }),
+  className: grid({
+    s: [4],
+    m: [4],
+    l: [4],
+    xl: [4],
+  }),
 })`
   margin: 0;
 `;
 
 const MetadataValue = styled.dd.attrs({
-  className: grid({ s: 8, m: 8, l: 8, xl: 8 }),
+  className: grid({
+    s: [8],
+    m: [8],
+    l: [8],
+    xl: [8],
+  }),
 })`
   margin: 0;
 `;

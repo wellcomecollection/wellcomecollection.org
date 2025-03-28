@@ -5,7 +5,6 @@ import { DigitalLocation } from '@weco/common/model/catalogue';
 import { getServerData } from '@weco/common/server-data';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
-import { grid } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { serialiseProps } from '@weco/common/utils/json';
 import Divider from '@weco/common/views/components/Divider/Divider';
@@ -54,10 +53,6 @@ const WorkDetailsWrapper = styled(Space).attrs({
   flex: 1;
   min-width: 0; /* prevent item overflowing its container */
 `;
-
-const Grid = styled.div.attrs({
-  className: 'grid',
-})``;
 
 type Props = {
   work: WorkType;
@@ -137,48 +132,36 @@ export const WorkPage: NextPage<Props> = ({
         hideNewsletterPromo={true}
       >
         <Container>
-          <Grid>
-            <Space
-              className={grid({ s: 12 })}
-              $v={{ size: 'l', properties: ['padding-top'] }}
-            >
-              <SearchForm searchCategory="works" location="page" />
-            </Space>
-          </Grid>
-          <Grid>
-            <Space
-              className={grid({ s: 12 })}
-              $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
-            >
-              <BackToResults />
-            </Space>
-          </Grid>
+          <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+            <SearchForm searchCategory="works" location="page" />
+          </Space>
+
+          <Space
+            $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
+          >
+            <BackToResults />
+          </Space>
         </Container>
 
         {isArchive ? (
           <>
             <Container>
-              <Grid>
-                <Space
-                  className={grid({ s: 12 })}
-                  $v={{
-                    size: 's',
-                    properties: ['padding-top', 'padding-bottom'],
-                  }}
-                >
-                  <ArchiveBreadcrumb work={work} />
-                </Space>
-              </Grid>
+              <Space
+                $v={{
+                  size: 's',
+                  properties: ['padding-top', 'padding-bottom'],
+                }}
+              >
+                <ArchiveBreadcrumb work={work} />
+              </Space>
             </Container>
             <Container>
-              <Grid>
-                <WorkHeader
-                  work={toWorkBasic(work)}
-                  collectionManifestsCount={
-                    shouldShowItemLink ? collectionManifestsCount : undefined
-                  }
-                />
-              </Grid>
+              <WorkHeader
+                work={toWorkBasic(work)}
+                collectionManifestsCount={
+                  shouldShowItemLink ? collectionManifestsCount : undefined
+                }
+              />
             </Container>
 
             <Container>
@@ -201,14 +184,12 @@ export const WorkPage: NextPage<Props> = ({
         ) : (
           <>
             <Container>
-              <Grid>
-                <WorkHeader
-                  work={toWorkBasic(work)}
-                  collectionManifestsCount={
-                    shouldShowItemLink ? collectionManifestsCount : undefined
-                  }
-                />
-              </Grid>
+              <WorkHeader
+                work={toWorkBasic(work)}
+                collectionManifestsCount={
+                  shouldShowItemLink ? collectionManifestsCount : undefined
+                }
+              />
             </Container>
             <WorkDetails
               work={work}

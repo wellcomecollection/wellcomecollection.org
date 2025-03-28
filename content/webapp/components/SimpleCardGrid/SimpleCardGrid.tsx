@@ -1,12 +1,13 @@
 import { FunctionComponent } from 'react';
 
 import { getCrop } from '@weco/common/model/image';
-import { cssGrid, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
+import { GridCell } from '@weco/common/views/components/styled/GridCell';
 import Space from '@weco/common/views/components/styled/Space';
 import Card from '@weco/content/components/Card/Card';
 import FeaturedCard from '@weco/content/components/FeaturedCard';
@@ -81,11 +82,19 @@ const CardGrid: FunctionComponent<Props> = ({
         <CardGridFeaturedCard item={featuredCard} />
       )}
       <CssGridContainer>
-        <div className="css-grid">
+        <div className="grid">
           {threeCards.map((item, i) => (
-            <div key={i} className={cssGrid({ s: 12, m: 4, l: 4, xl: 4 })}>
+            <GridCell
+              key={i}
+              $sizeMap={{
+                s: [12],
+                m: [4],
+                l: [4],
+                xl: [4],
+              }}
+            >
               <Card item={item} />
-            </div>
+            </GridCell>
           ))}
         </div>
       </CssGridContainer>

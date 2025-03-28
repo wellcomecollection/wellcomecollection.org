@@ -120,7 +120,12 @@ type Props = {
   includeAccessibilityProvision?: boolean;
 };
 
-const sectionLevelPageGridLayout = { s: 12, m: 12, l: 10, xl: 10 };
+const sectionLevelPageGridLayout = {
+  s: [12],
+  m: [12],
+  l: [10],
+  xl: [10],
+};
 const PageHeader: FunctionComponent<Props> = ({
   breadcrumbs,
   labels,

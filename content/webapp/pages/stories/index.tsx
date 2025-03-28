@@ -67,7 +67,6 @@ const StoryPromoContainer = styled(Container)`
     max-width: none;
     width: auto;
     overflow: auto;
-    padding: 0;
 
     &::-webkit-scrollbar {
       height: 18px;

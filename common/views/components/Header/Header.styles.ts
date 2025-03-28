@@ -16,10 +16,11 @@ export const NavLoginWrapper = styled.div`
 type WrapperProps = {
   $isBurgerOpen: boolean;
 };
-export const Wrapper = styled.div.attrs({
-  className: 'grid',
-})<WrapperProps>`
-  align-items: center;
+export const Wrapper = styled.div<WrapperProps>`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
   position: relative;
   z-index: 6;
   background-color: ${props => props.theme.color('white')};

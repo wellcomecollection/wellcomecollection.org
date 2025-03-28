@@ -1,9 +1,9 @@
 import { DocsContainer } from '@storybook/addon-docs';
 
 import { ContextDecorator } from '@weco/cardigan/config/decorators';
-import { grid } from '@weco/common/utils/classnames';
 import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import { GridCell } from '@weco/common/views/components/styled/GridCell';
 import theme from '@weco/common/views/themes/default';
 
 import wellcomeTheme from './wellcome-theme';
@@ -16,8 +16,10 @@ export const decorators = [
           <ConditionalWrapper
             condition={context?.parameters?.gridSizes}
             wrapper={children => (
-              <div className={grid(context.parameters.gridSizes)}>
-                {children}
+              <div className="grid">
+                <GridCell $sizeMap={context.parameters.gridSizes}>
+                  {children}
+                </GridCell>
               </div>
             )}
           >

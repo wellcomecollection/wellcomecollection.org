@@ -12,12 +12,6 @@ import Number from '@weco/content/components/Number/Number';
 import WorkTitle from '@weco/content/components/WorkTitle/WorkTitle';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 
-const WorkHeaderContainer = styled.div`
-  display: flex;
-  width: 100%;
-  align-content: flex-start;
-`;
-
 const WorkTitleWrapper = styled.h1.attrs({ className: font('intb', 2) })`
   margin: 0;
   display: inline-block;
@@ -43,9 +37,14 @@ const WorkHeader: FunctionComponent<Props> = ({
 
   return (
     <>
-      <WorkHeaderContainer>
+      <div className="grid">
         <Space
-          className={grid({ s: 12, m: 12, l: 10, xl: 10 })}
+          className={grid({
+            s: [12],
+            m: [12],
+            l: [10],
+            xl: [10],
+          })}
           $v={{ size: 'm', properties: ['margin-bottom'] }}
         >
           <SpacingComponent>
@@ -114,16 +113,19 @@ const WorkHeader: FunctionComponent<Props> = ({
             )}
           </SpacingComponent>
         </Space>
-      </WorkHeaderContainer>
+      </div>
       {!isArchive && (
-        <WorkHeaderContainer>
-          <Space
-            className={grid({ s: 12, m: 12, l: 12, xl: 12 })}
-            $v={{ size: 'm', properties: ['margin-bottom'] }}
-          >
-            <Divider lineColor="neutral.400" />
-          </Space>
-        </WorkHeaderContainer>
+        <Space
+          className={grid({
+            s: [12],
+            m: [12],
+            l: [12],
+            xl: [12],
+          })}
+          $v={{ size: 'm', properties: ['margin-bottom'] }}
+        >
+          <Divider lineColor="neutral.400" />
+        </Space>
       )}
     </>
   );

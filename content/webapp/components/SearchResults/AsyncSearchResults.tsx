@@ -1,6 +1,6 @@
 import { Component, ReactElement } from 'react';
 
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { fetchMultiContentClientSide } from '@weco/content/services/prismic/fetch/multi-content';
 import { MultiContent } from '@weco/content/types/multi-content';
@@ -35,13 +35,9 @@ class AsyncSearchResults extends Component<Props, State> {
       <>
         {this.props.title && (
           <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <div className="grid">
-              <div className={grid({ s: 12 })}>
-                <h2 className={font('wb', 3)} style={{ marginBottom: 0 }}>
-                  {this.props.title}
-                </h2>
-              </div>
-            </div>
+            <h2 className={font('wb', 3)} style={{ marginBottom: 0 }}>
+              {this.props.title}
+            </h2>
           </Space>
         )}
 

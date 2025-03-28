@@ -54,7 +54,12 @@ export const SectionHeading = styled(Space).attrs<SectionHeadingProps>(
 
 export const Intro = styled(Space).attrs({
   as: 'p',
-  className: grid({ s: 12, m: 12, l: 8, xl: 8 }),
+  className: grid({
+    s: [12],
+    m: [12],
+    l: [8],
+    xl: [8],
+  }),
 })`
   padding-left: 0;
 `;

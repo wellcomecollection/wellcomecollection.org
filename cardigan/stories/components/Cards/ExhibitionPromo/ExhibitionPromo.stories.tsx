@@ -10,7 +10,12 @@ const meta: Meta<typeof ExhibitionPromo> = {
     exhibition: exhibitionBasic,
   },
   parameters: {
-    gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
+    gridSizes: {
+      s: [12],
+      m: [6],
+      l: [4],
+      xl: [4],
+    },
   },
 };
 
