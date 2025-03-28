@@ -56,10 +56,10 @@ const CardGrid: FunctionComponent<Props> = ({
               })}
               key={item.id}
               $sizeMap={{
-                s: ['auto', 12],
-                m: ['auto', 6],
-                l: ['auto', gridColumns],
-                xl: ['auto', gridColumns],
+                s: [12],
+                m: [6],
+                l: [gridColumns],
+                xl: [gridColumns],
               }}
             >
               {item.id === 'tours' && <DailyTourPromo />}

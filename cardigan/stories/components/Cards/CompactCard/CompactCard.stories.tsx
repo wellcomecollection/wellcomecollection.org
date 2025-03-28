@@ -23,9 +23,9 @@ const meta: Meta<typeof CompactCard> = {
   },
   parameters: {
     gridSizes: {
-      s: ['auto', 12],
-      m: ['auto', 10],
-      l: ['auto', 8],
+      s: [12],
+      m: [10],
+      l: [8],
       xl: ['auto', 8],
     },
   },

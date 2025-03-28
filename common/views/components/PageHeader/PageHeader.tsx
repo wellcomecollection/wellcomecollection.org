@@ -121,10 +121,10 @@ type Props = {
 };
 
 const sectionLevelPageGridLayout = {
-  s: ['auto', 12],
-  m: ['auto', 12],
-  l: ['auto', 10],
-  xl: [1, 10],
+  s: [12],
+  m: [12],
+  l: [10],
+  xl: [10],
 };
 const PageHeader: FunctionComponent<Props> = ({
   breadcrumbs,

@@ -87,10 +87,10 @@ const CardGrid: FunctionComponent<Props> = ({
             <GridCell
               key={i}
               $sizeMap={{
-                s: ['auto', 12],
-                m: ['auto', 4],
-                l: ['auto', 4],
-                xl: ['auto', 4],
+                s: [12],
+                m: [4],
+                l: [4],
+                xl: [4],
               }}
             >
               <Card item={item} />

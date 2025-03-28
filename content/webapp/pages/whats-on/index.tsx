@@ -242,10 +242,10 @@ const Header: FunctionComponent<HeaderProps> = ({
         <div className="grid">
           <div
             className={grid({
-              s: ['auto', 12],
-              m: ['auto', 12],
-              l: ['auto', 12],
-              xl: [1, 12],
+              s: [12],
+              m: [12],
+              l: [12],
+              xl: [12],
             })}
           >
             <OpeningTimesWrapper>
@@ -299,10 +299,10 @@ const Header: FunctionComponent<HeaderProps> = ({
           </div>
           <Space
             className={grid({
-              s: ['auto', 12],
-              m: ['auto', 10],
-              l: ['auto', 7],
-              xl: ['auto', 7],
+              s: [12],
+              m: [10],
+              l: [7],
+              xl: [7],
             })}
             $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
           >

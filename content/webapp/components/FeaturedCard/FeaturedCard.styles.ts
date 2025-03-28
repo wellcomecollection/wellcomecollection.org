@@ -36,10 +36,10 @@ export const FeaturedCardLink = styled.a.attrs({
 
 export const FeaturedCardLeft = styled(GridCell).attrs({
   $sizeMap: {
-    s: ['auto', 12],
-    m: ['auto', 12],
-    l: ['auto', 7],
-    xl: ['auto', 7],
+    s: [12],
+    m: [12],
+    l: [7],
+    xl: [7],
   },
 })<HasIsReversed>`
   ${props =>
@@ -102,10 +102,10 @@ export const FeaturedCardLabelWrap = styled.div<HasIsReversed>`
 
 export const FeaturedCardRightWrap = styled(GridCell).attrs({
   $sizeMap: {
-    s: ['auto', 12],
-    m: ['auto', 11],
-    l: ['auto', 5],
-    xl: ['auto', 5],
+    s: [12],
+    m: [11],
+    l: [5],
+    xl: [5],
   },
 })<HasIsReversed>`
   ${props =>

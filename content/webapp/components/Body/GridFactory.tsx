@@ -18,27 +18,27 @@ type Props = {
 };
 
 const s12m6l4xl4: BetterSizeMap = {
-  s: ['auto', 12],
-  m: ['auto', 6],
-  l: ['auto', 4],
-  xl: ['auto', 4],
+  s: [12],
+  m: [6],
+  l: [4],
+  xl: [4],
 }; // 3-up on desktop
 const s12m6l6xl6: BetterSizeMap = {
-  s: ['auto', 12],
-  m: ['auto', 6],
-  l: ['auto', 6],
-  xl: ['auto', 6],
+  s: [12],
+  m: [6],
+  l: [6],
+  xl: [6],
 }; // 2-up on desktop
 
 export const sectionLevelPageGrid: GridMap = {
-  1: [{ s: ['auto', 12], m: ['auto', 12], l: ['auto', 12], xl: ['auto', 12] }],
+  1: [{ s: [12], m: [12], l: [12], xl: [12] }],
   2: [
-    { s: ['auto', 12], m: ['auto', 6], l: ['auto', 5], xl: ['auto', 5] },
-    { s: ['auto', 12], m: ['auto', 6], l: ['auto', 5], xl: ['auto', 5] },
+    { s: [12], m: [6], l: [5], xl: [5] },
+    { s: [12], m: [6], l: [5], xl: [5] },
   ],
   4: [
-    { s: ['auto', 12], m: ['auto', 6], l: ['auto', 5], xl: ['auto', 5] },
-    { s: ['auto', 12], m: ['auto', 6], l: ['auto', 5], xl: ['auto', 5] },
+    { s: [12], m: [6], l: [5], xl: [5] },
+    { s: [12], m: [6], l: [5], xl: [5] },
   ],
   default: [s12m6l4xl4],
 };
@@ -56,16 +56,14 @@ const GridFactory: FunctionComponent<Props> = ({
   overrideGridSizes,
 }) => {
   const gridSizesMap = overrideGridSizes || {
-    1: [
-      { s: ['auto', 12], m: ['auto', 12], l: ['auto', 12], xl: ['auto', 12] },
-    ],
+    1: [{ s: [12], m: [12], l: [12], xl: [12] }],
     2: [
-      { s: ['auto', 12], m: ['auto', 6], l: [2, 5], xl: [3, 4] },
-      { s: ['auto', 12], m: ['auto', 6], l: ['auto', 5], xl: ['auto', 4] },
+      { s: [12], m: [6], l: [5, 2], xl: [4, 3] },
+      { s: [12], m: [6], l: [5], xl: [4] },
     ],
     4: [
-      { s: ['auto', 12], m: ['auto', 6], l: [2, 5], xl: [3, 4] },
-      { s: ['auto', 12], m: ['auto', 6], l: ['auto', 5], xl: ['auto', 4] },
+      { s: [12], m: [6], l: [5, 2], xl: [4, 3] },
+      { s: [12], m: [6], l: [5], xl: [4] },
     ],
     default: [s12m6l4xl4],
   };

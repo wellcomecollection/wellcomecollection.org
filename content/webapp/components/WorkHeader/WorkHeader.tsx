@@ -40,10 +40,10 @@ const WorkHeader: FunctionComponent<Props> = ({
       <div className="grid">
         <Space
           className={grid({
-            s: ['auto', 12],
-            m: ['auto', 12],
-            l: ['auto', 10],
-            xl: ['auto', 10],
+            s: [12],
+            m: [12],
+            l: [10],
+            xl: [10],
           })}
           $v={{ size: 'm', properties: ['margin-bottom'] }}
         >
@@ -117,10 +117,10 @@ const WorkHeader: FunctionComponent<Props> = ({
       {!isArchive && (
         <Space
           className={grid({
-            s: ['auto', 12],
-            m: ['auto', 12],
-            l: ['auto', 12],
-            xl: ['auto', 12],
+            s: [12],
+            m: [12],
+            l: [12],
+            xl: [12],
           })}
           $v={{ size: 'm', properties: ['margin-bottom'] }}
         >

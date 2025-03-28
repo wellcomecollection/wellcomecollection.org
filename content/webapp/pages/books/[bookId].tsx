@@ -35,10 +35,10 @@ const MetadataWrapper = styled.div`
 
 const MetadataKey = styled.dt.attrs({
   className: grid({
-    s: ['auto', 4],
-    m: ['auto', 4],
-    l: ['auto', 4],
-    xl: ['auto', 4],
+    s: [4],
+    m: [4],
+    l: [4],
+    xl: [4],
   }),
 })`
   margin: 0;
@@ -46,10 +46,10 @@ const MetadataKey = styled.dt.attrs({
 
 const MetadataValue = styled.dd.attrs({
   className: grid({
-    s: ['auto', 8],
-    m: ['auto', 8],
-    l: ['auto', 8],
-    xl: ['auto', 8],
+    s: [8],
+    m: [8],
+    l: [8],
+    xl: [8],
   }),
 })`
   margin: 0;

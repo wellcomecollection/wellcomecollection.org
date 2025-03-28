@@ -11,9 +11,9 @@ const meta: Meta<typeof ExhibitionPromo> = {
   },
   parameters: {
     gridSizes: {
-      s: ['auto', 12],
-      m: ['auto', 6],
-      l: ['auto', 4],
+      s: [12],
+      m: [6],
+      l: [4],
       xl: ['auto', 4],
     },
   },

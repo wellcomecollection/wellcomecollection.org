@@ -144,10 +144,10 @@ const EventScheduleItem: FunctionComponent<Props> = ({
       <div className="grid">
         <GridCell
           $sizeMap={{
-            s: ['auto', 12],
-            m: ['auto', 12],
-            l: ['auto', 3],
-            xl: ['auto', 2],
+            s: [12],
+            m: [12],
+            l: [3],
+            xl: [2],
           }}
         >
           {event.times.map(t => {
@@ -167,10 +167,10 @@ const EventScheduleItem: FunctionComponent<Props> = ({
 
         <GridCell
           $sizeMap={{
-            s: ['auto', 12],
-            m: ['auto', 12],
-            l: ['auto', 9],
-            xl: ['auto', 10],
+            s: [12],
+            m: [12],
+            l: [9],
+            xl: [10],
           }}
         >
           <div>

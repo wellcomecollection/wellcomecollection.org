@@ -24,13 +24,13 @@ type ImageWrapperProp = {
 
 const ImageWrapper = styled(GridCell).attrs<ImageWrapperProp>(props => ({
   $sizeMap: props.$hasImage
-    ? { s: ['auto', 2], m: ['auto', 2], l: ['auto', 2], xl: ['auto', 2] }
+    ? { s: [2], m: [2], l: [2], xl: [2] }
     : gridSize12(),
 }))<ImageWrapperProp>``;
 
 const TextWrapper = styled(GridCell).attrs<HasImageProps>(props => ({
   $sizeMap: props.$hasImage
-    ? { s: ['auto', 10], m: ['auto', 10], l: ['auto', 10], xl: ['auto', 10] }
+    ? { s: [10], m: [10], l: [10], xl: [10] }
     : gridSize12(),
 }))<HasImageProps>``;
 

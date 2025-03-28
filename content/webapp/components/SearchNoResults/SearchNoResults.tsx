@@ -23,10 +23,10 @@ const SearchNoResults: FunctionComponent<Props> = ({
       <div className="grid">
         <GridCell
           $sizeMap={{
-            s: ['auto', 12],
-            m: ['auto', 10],
-            l: ['auto', 10],
-            xl: ['auto', 10],
+            s: [12],
+            m: [10],
+            l: [10],
+            xl: [10],
           }}
         >
           <p data-testid="search-no-results" className={font('intr', 2)}>

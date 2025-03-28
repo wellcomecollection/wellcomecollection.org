@@ -28,15 +28,15 @@ const VisitUsStaticContent: FunctionComponent = () => {
         <div className="grid">
           <GridCell
             $sizeMap={{
-              s: ['auto', 12],
-              l: ['auto', 5],
-              xl: ['auto', 5],
+              s: [12],
+              l: [5],
+              xl: [5],
             }}
           >
             <FindUs />
           </GridCell>
           <GridCell
-            $sizeMap={{ s: ['auto', 12], l: ['auto', 5], xl: ['auto', 5] }}
+            $sizeMap={{ s: [12], l: [5], xl: [5] }}
             className={font('intr', 5)}
           >
             <h2 style={{ marginBottom: 0 }} className={font('intb', 5)}>

@@ -7,31 +7,31 @@ import {
 } from '@weco/common/views/components/styled/GridCell';
 
 const gridSize6 = (): BetterSizeMap => ({
-  s: ['auto', 12],
-  m: [2, 6],
-  l: [3, 6],
+  s: [12],
+  m: [6, 2],
+  l: [6, 2],
   xl: [3, 6],
 });
 
 const gridSize8 = (shift = true): BetterSizeMap => ({
-  s: ['auto', 12],
-  m: [shift ? 2 : 'auto', 10],
-  l: [shift ? 3 : 'auto', 8],
-  xl: [shift ? 3 : 'auto', 8],
+  s: [12],
+  m: [10, shift ? 2 : 1],
+  l: [8, shift ? 3 : 1],
+  xl: [8, shift ? 3 : 1],
 });
 
 const gridSize10 = (isCentered = true): BetterSizeMap => ({
-  s: ['auto', 12],
-  m: [isCentered ? 2 : 'auto', 10],
-  l: [isCentered ? 2 : 'auto', 10],
-  xl: [isCentered ? 2 : 'auto', 10],
+  s: [12],
+  m: [10, isCentered ? 2 : 1],
+  l: [10, isCentered ? 2 : 1],
+  xl: [10, isCentered ? 2 : 1],
 });
 
 const gridSize12 = (): BetterSizeMap => ({
-  s: ['auto', 12],
-  m: ['auto', 12],
-  l: ['auto', 12],
-  xl: ['auto', 12],
+  s: [12],
+  m: [12],
+  l: [12],
+  xl: [12],
 });
 
 type Props = PropsWithChildren<{

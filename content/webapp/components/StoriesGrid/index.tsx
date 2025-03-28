@@ -42,7 +42,7 @@ const StoryWrapper = styled(Space).attrs<{
 
 const ImageWrapper = styled.div.attrs<{ $isDetailed?: boolean }>(props => ({
   className: props.$isDetailed
-    ? grid({ s: ['auto', 12], m: ['auto', 6], l: ['auto', 4], xl: ['auto', 4] })
+    ? grid({ s: [12], m: [6], l: [4], xl: [4] })
     : '',
 }))`
   position: relative;
@@ -51,7 +51,7 @@ const ImageWrapper = styled.div.attrs<{ $isDetailed?: boolean }>(props => ({
 
 const Details = styled.div.attrs<{ $isDetailed?: boolean }>(props => ({
   className: props.$isDetailed
-    ? grid({ s: ['auto', 12], m: ['auto', 6], l: ['auto', 8], xl: ['auto', 8] })
+    ? grid({ s: [12], m: [6], l: [8], xl: [8] })
     : '',
 }))<{ $isDetailed?: boolean }>``;
 

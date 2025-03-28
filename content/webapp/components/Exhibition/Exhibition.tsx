@@ -573,7 +573,7 @@ const Exhibition: FunctionComponent<Props> = ({
           {exhibition.end && !isPast(exhibition.end) && (
             <>
               <div className="grid">
-                <GridCell $sizeMap={{ s: ['auto', 12] }}>
+                <GridCell $sizeMap={{ s: [12] }}>
                   <Space
                     as="h2"
                     className={font('wb', 3)}
