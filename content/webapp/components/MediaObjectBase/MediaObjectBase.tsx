@@ -43,7 +43,7 @@ export type Props = {
 };
 
 const BaseImageWrapper = styled(GridCell).attrs({
-  $sizeMap: { s: [1, 3], m: [1, 3], l: [1, 3], xl: [1, 3] },
+  $sizeMap: { s: [3, 1], m: [3, 1], l: [3, 1], xl: [3, 1] },
 })``;
 
 const BaseTitleWrapper = styled.h3.attrs({
@@ -59,7 +59,7 @@ export type HasImageProps = {
 // Ability to add custom prop types in TS and styled components
 const BaseTextWrapper = styled(GridCell).attrs<HasImageProps>(props => ({
   $sizeMap: props.$hasImage
-    ? { s: [4, 9], m: [4, 9], l: [4, 9], xl: [4, 9] }
+    ? { s: [9, 4], m: [9, 4], l: [9, 4], xl: [9, 4] }
     : gridSize12(),
 }))<HasImageProps>``;
 
