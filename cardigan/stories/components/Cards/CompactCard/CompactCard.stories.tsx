@@ -26,7 +26,7 @@ const meta: Meta<typeof CompactCard> = {
       s: [12],
       m: [10],
       l: [8],
-      xl: ['auto', 8],
+      xl: [8],
     },
   },
 };

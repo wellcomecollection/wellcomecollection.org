@@ -14,7 +14,7 @@ const meta: Meta<typeof ExhibitionPromo> = {
       s: [12],
       m: [6],
       l: [4],
-      xl: ['auto', 4],
+      xl: [4],
     },
   },
 };

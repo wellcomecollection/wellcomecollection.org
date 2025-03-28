@@ -15,7 +15,7 @@ const meta: Meta<typeof EventPromo> = {
       s: [12],
       m: [6],
       l: [4],
-      xl: ['auto', 4],
+      xl: [4],
     },
   },
 };
