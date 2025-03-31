@@ -20,8 +20,6 @@
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "14.6.1",
     "@weco/toggles": "1.0.0",
-    "babel-plugin-dynamic-import-node": "^2.3.3",
-    "babel-plugin-styled-components": "^2.1.4",
     "cookies-next": "^4.1.1",
     "elastic-apm-node": "^4.11.0",
     "focus-trap-react": "^11.0.3",

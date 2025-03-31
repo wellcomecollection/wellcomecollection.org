@@ -8,8 +8,6 @@
     "deploy": "aws s3 sync ./out s3://dash.wellcomecollection.org --only-show-errors --acl public-read && aws cloudfront create-invalidation --distribution-id EIOS79GG23UUY --paths '/*'"
   },
   "dependencies": {
-    "@babel/core": "^7.24.7",
-    "@babel/runtime": "^7.24.7",
     "@types/react": "^18.3.3",
     "cookies-next": "^4.2.1",
     "next": "14.2.15",
