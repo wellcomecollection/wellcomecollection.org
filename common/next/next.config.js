@@ -99,17 +99,6 @@ const createConfig =
         ...validDefaultConfig.experimental,
         mdxRs: true,
         outputFileTracingRoot: path.join(__dirname, '../../'),
-
-        // This forces Next to use the SWC compiler, which is significantly faster
-        // than Babel.  By default it disables SWC with the error message:
-        //
-        //      Disabled SWC as replacement for Babel because of custom Babel
-        //      configuration "babel.config.js"
-        //      https://nextjs.org/docs/messages/swc-disabled
-        //
-        // but we only have this config file to get our jest tests working; we don't
-        // need it to build the apps themselves.
-        forceSwcTransforms: true,
       },
       reactStrictMode: true,
     };
