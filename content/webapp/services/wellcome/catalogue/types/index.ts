@@ -135,6 +135,7 @@ export type Concept = {
   label: string;
   type: ConceptType;
   sameAs?: string[];
+  description?: string;
 };
 
 type Availability = {

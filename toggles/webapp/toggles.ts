@@ -95,13 +95,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'allSearch',
-      title: 'Modified All search page',
-      initialValue: false,
-      description: 'Displays a new version of the "all" search (/search)',
-      type: 'experimental',
-    },
-    {
       id: 'extendedViewer',
       title: 'Allow viewer to render video, audio and pdfs',
       initialValue: false,
@@ -115,6 +108,21 @@ const toggles = {
       initialValue: false,
       description:
         'Displays the access content changes to the Exhibition pages',
+      type: 'experimental',
+    },
+    {
+      id: 'newThemePages',
+      title: 'New Theme Pages',
+      initialValue: false,
+      description:
+        'Show new theme pages, with data populated from the catalogue graph.',
+      type: 'experimental',
+    },
+    {
+      id: 'dateFilter',
+      title: 'Date filter in Events search',
+      initialValue: false,
+      description: 'Adds the Date filter in the Events search',
       type: 'experimental',
     },
   ] as const,

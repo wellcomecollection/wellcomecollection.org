@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, ReactElement } from 'react';
 
 import { classNames, cssGrid } from '@weco/common/utils/classnames';
 import {
@@ -30,6 +30,7 @@ type Props = {
   itemsHaveTransparentBackground?: boolean;
   links?: Link[];
   fromDate?: Date;
+  optionalComponent?: ReactElement;
 };
 
 const CardGrid: FunctionComponent<Props> = ({
@@ -39,6 +40,7 @@ const CardGrid: FunctionComponent<Props> = ({
   itemsHaveTransparentBackground = false,
   links,
   fromDate,
+  optionalComponent,
 }: Props) => {
   const gridColumns = itemsPerRow === 4 ? 3 : 4;
   return (
@@ -101,10 +103,14 @@ const CardGrid: FunctionComponent<Props> = ({
       {links && links.length > 0 && (
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+            {optionalComponent}
             {links.map(link => (
               <Space
                 key={link.url}
-                $v={{ size: 'm', properties: ['margin-top'] }}
+                $v={{
+                  size: `${optionalComponent ? 'l' : 'm'}`,
+                  properties: ['margin-top'],
+                }}
               >
                 <MoreLink url={link.url} name={link.text} />
               </Space>

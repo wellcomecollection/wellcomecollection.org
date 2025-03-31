@@ -7,6 +7,7 @@ import {
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
+import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision/AccessibilityProvision';
 import Breadcrumb from '@weco/common/views/components/Breadcrumb/Breadcrumb';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
@@ -115,6 +116,8 @@ type Props = {
   SerialPartNumber?: ReactNode;
   sectionLevelPage?: boolean;
   isSlim?: boolean;
+  fullWidth?: boolean;
+  includeAccessibilityProvision?: boolean;
 };
 
 const sectionLevelPageGridLayout = { s: 12, m: 12, l: 10, xl: 10 };
@@ -136,6 +139,8 @@ const PageHeader: FunctionComponent<Props> = ({
   SerialPartNumber,
   sectionLevelPage,
   isSlim,
+  fullWidth,
+  includeAccessibilityProvision,
 }) => {
   const Heading =
     highlightHeading && !sectionLevelPage ? (
@@ -161,7 +166,9 @@ const PageHeader: FunctionComponent<Props> = ({
         {Background}
         <ContaineredLayout
           gridSizes={
-            sectionLevelPage ? gridSize12() : sectionLevelPageGridLayout
+            sectionLevelPage || fullWidth
+              ? gridSize12()
+              : sectionLevelPageGridLayout
           }
         >
           <Wrapper
@@ -197,7 +204,6 @@ const PageHeader: FunctionComponent<Props> = ({
               {SerialPartNumber}
               {Heading}
             </ConditionalWrapper>
-
             {isContentTypeInfoBeforeMedia && ContentTypeInfo && (
               <Space
                 $v={{ size: 'm', properties: ['margin-bottom'] }}
@@ -206,9 +212,22 @@ const PageHeader: FunctionComponent<Props> = ({
                 {ContentTypeInfo}
               </Space>
             )}
-            {amendedLabels && amendedLabels.labels.length > 0 && (
-              <LabelsList {...amendedLabels} />
-            )}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'end',
+              }}
+            >
+              {amendedLabels && amendedLabels.labels.length > 0 && (
+                <LabelsList {...amendedLabels} />
+              )}
+
+              {includeAccessibilityProvision && (
+                <div style={{ marginLeft: 'auto' }}>
+                  <AccessibilityProvision showText={false} />
+                </div>
+              )}
+            </div>
           </Wrapper>
         </ContaineredLayout>
 

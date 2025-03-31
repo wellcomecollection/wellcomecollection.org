@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { britishSignLanguageTranslation } from '@weco/common/icons';
+import { bslSquare } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import {
@@ -78,7 +78,6 @@ const BslLeafletVideo: FunctionComponent<Props> = ({
               embedUrl={video.embedUrl}
               videoProvider={video.videoProvider}
               videoThumbnail={video.videoThumbnail}
-              hasFullSizePoster={true}
             />
             <NewWindowVideo href={video.embedUrl}>
               Open video in a new window
@@ -96,7 +95,7 @@ const BslLeafletVideo: FunctionComponent<Props> = ({
               onClick={() => setIsModalActive(true)}
             >
               <Icon
-                icon={britishSignLanguageTranslation}
+                icon={bslSquare}
                 sizeOverride="width: 32px; height: 32px;"
               />{' '}
               <BslLeaftletButtonText>

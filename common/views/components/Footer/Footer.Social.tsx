@@ -10,12 +10,13 @@ import {
   twitter,
   youtube,
 } from '@weco/common/icons';
+import { useToggles } from '@weco/common/server-data/Context';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
 const Cell = styled(Space).attrs({
   $h: { size: 'm', properties: ['margin-right'] },
-})`
+})<{ $exhibitionAccessContent?: boolean }>`
   background-color: ${props => props.theme.color('neutral.200')};
   color: ${props => props.theme.color('black')};
   border-radius: 50%;
@@ -81,17 +82,23 @@ const items: SocialItem[] = [
   },
 ];
 
-const FooterSocial: FunctionComponent = () => (
-  <>
-    {items.map(item => (
-      <Cell key={item.title}>
-        <Link href={item.url}>
-          <Icon icon={item.icon} />
-          <span className="visually-hidden">{item.service}</span>
-        </Link>
-      </Cell>
-    ))}
-  </>
-);
+const FooterSocial: FunctionComponent = () => {
+  const { exhibitionAccessContent } = useToggles();
+  return (
+    <>
+      {items.map(item => (
+        <Cell
+          $exhibitionAccessContent={exhibitionAccessContent}
+          key={item.title}
+        >
+          <Link href={item.url}>
+            <Icon icon={item.icon} />
+            <span className="visually-hidden">{item.service}</span>
+          </Link>
+        </Cell>
+      ))}
+    </>
+  );
+};
 
 export default FooterSocial;

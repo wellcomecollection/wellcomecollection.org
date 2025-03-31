@@ -26,7 +26,11 @@ const PlainLink = styled.a`
   }
 `;
 
-const FindUs: FunctionComponent = () => (
+type Props = {
+  hideAccessibility?: boolean; // In the footer accessibility has its own column
+};
+
+const FindUs: FunctionComponent<Props> = ({ hideAccessibility }) => (
   <>
     <Space $v={{ size: 'm', properties: ['margin-bottom'] }} as="p">
       <PlainLink href={wellcomeCollectionAddress.addressMap}>
@@ -36,7 +40,7 @@ const FindUs: FunctionComponent = () => (
         {wellcomeCollectionAddress.postalCode}
       </PlainLink>
     </Space>
-    <p>
+    <Space as="p" $v={{ size: 'm', properties: ['margin-bottom'] }}>
       <PlainLink
         href={`tel:${wellcomeCollectionGallery.telephone.replace(/\s/g, '')}`}
         aria-label={createScreenreaderLabel(
@@ -49,17 +53,19 @@ const FindUs: FunctionComponent = () => (
       <a href="mailto:info@wellcomecollection.org">
         info@wellcomecollection.org
       </a>
-    </p>
+    </Space>
     <PlainList>
       <Space as="li" $v={{ size: 's', properties: ['padding-bottom'] }}>
         <a href={`/visit-us/${prismicPageIds.gettingHere}`}>Getting here</a>
       </Space>
-      <Space
-        as="li"
-        $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
-      >
-        <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>
-      </Space>
+      {!hideAccessibility && (
+        <Space
+          as="li"
+          $v={{ size: 's', properties: ['padding-top', 'padding-bottom'] }}
+        >
+          <a href={`/visit-us/${prismicPageIds.access}`}>Access information</a>
+        </Space>
+      )}
     </PlainList>
   </>
 );

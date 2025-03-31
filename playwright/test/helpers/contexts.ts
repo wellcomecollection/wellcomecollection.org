@@ -83,10 +83,6 @@ const stageApiToggleCookie = createCookie({
   name: 'toggle_stagingApi',
   value: 'true',
 });
-const allSearchCookie = createCookie({
-  name: 'toggle_allSearch',
-  value: 'true',
-});
 
 export const requiredCookies = useStageApis
   ? [acceptCookieCookie, stageApiToggleCookie]
@@ -224,7 +220,7 @@ const search = async (
     | 'images'
     | 'works' = 'overview'
 ): Promise<void> => {
-  await context.addCookies([...requiredCookies, allSearchCookie]);
+  await context.addCookies(requiredCookies);
 
   const searchUrl = `search${
     searchType === 'overview' ? `` : `/${searchType}`
