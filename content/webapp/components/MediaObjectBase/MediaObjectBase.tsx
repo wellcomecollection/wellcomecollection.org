@@ -42,9 +42,7 @@ export type Props = {
   postTitleChildren?: ReactElement;
 };
 
-const BaseImageWrapper = styled(GridCell).attrs({
-  $sizeMap: { s: [3, 1], m: [3, 1], l: [3, 1], xl: [3, 1] },
-})``;
+const BaseImageWrapper = styled(GridCell)``;
 
 const BaseTitleWrapper = styled.h3.attrs({
   className: font('wb', 3),
@@ -57,11 +55,7 @@ export type HasImageProps = {
 };
 
 // Ability to add custom prop types in TS and styled components
-const BaseTextWrapper = styled(GridCell).attrs<HasImageProps>(props => ({
-  $sizeMap: props.$hasImage
-    ? { s: [9, 4], m: [9, 4], l: [9, 4], xl: [9, 4] }
-    : gridSize12(),
-}))<HasImageProps>``;
+const BaseTextWrapper = styled(GridCell)``;
 
 type LinkOrDivSpaceAttrs = {
   $url?: string;
@@ -126,8 +120,18 @@ const MediaObjectBase: FunctionComponent<Props> = ({
         if (onClick) onClick();
       }}
     >
-      <ImageWrapper $hasImage={Boolean(Image)}>{Image}</ImageWrapper>
-      <TextWrapper $hasImage={Boolean(Image)}>
+      <ImageWrapper
+        $sizeMap={{ s: [3, 1], m: [3, 1], l: [3, 1], xl: [3, 1] }}
+        $hasImage={Boolean(Image)}
+      >
+        {Image}
+      </ImageWrapper>
+      <TextWrapper
+        $sizeMap={
+          Image ? { s: [9, 4], m: [9, 4], l: [9, 4], xl: [9, 4] } : gridSize12()
+        }
+        $hasImage={Boolean(Image)}
+      >
         {primaryLabels.length > 0 && (
           <Space
             $v={{ size: 's', properties: ['margin-bottom'] }}
