@@ -272,7 +272,7 @@ export const ConceptPage: NextPage<Props> = ({
   apiToolbarLinks,
 }) => {
   useHotjar(true);
-  const { conceptsById } = useToggles();
+  const { conceptsById, newThemePages } = useToggles();
   const linkParams = conceptsById ? queryParams : allRecordsLinkParams;
 
   const pathname = usePathname();
@@ -349,6 +349,7 @@ export const ConceptPage: NextPage<Props> = ({
             $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
           >
             <HeroTitle>{conceptResponse.label}</HeroTitle>
+            {newThemePages && <p>{conceptResponse.description}</p>}
           </Space>
         </Container>
       </ConceptHero>
@@ -423,7 +424,7 @@ function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
     label: 'JSON',
     link: apiUrl,
   };
-
+  
   const identifiers = (concept.identifiers || []).map(id =>
     id.identifierType.id === 'label-derived'
       ? {
