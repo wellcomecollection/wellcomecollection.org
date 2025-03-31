@@ -301,6 +301,7 @@ const Exhibition: FunctionComponent<Props> = ({
   // We then filter out content that isn't relevant, i.e. if there isn't a highlight tour attached to the exhibition
   const possibleExhibitionAccessContent = [
     {
+      gtmHook: 'digital_highlights_tour',
       summary: 'Digital highlights tour',
       content: (
         <ul>
@@ -327,6 +328,7 @@ const Exhibition: FunctionComponent<Props> = ({
       ),
     },
     {
+      gtmHook: 'bsl_transcripts_and_induction_loops',
       summary: 'BSL, transcripts and induction loops',
       content: (
         <ul>
@@ -368,6 +370,7 @@ const Exhibition: FunctionComponent<Props> = ({
       ),
     },
     {
+      gtmHook: 'audio_description_and_visual_access',
       summary: 'Audio description and visual access',
       content: (
         <ul>
@@ -393,6 +396,7 @@ const Exhibition: FunctionComponent<Props> = ({
       ),
     },
     {
+      gtmHook: 'wheelchair_and_physical_access',
       summary: 'Wheelchair and physical access',
       content: (
         <ul>
@@ -405,6 +409,7 @@ const Exhibition: FunctionComponent<Props> = ({
       ),
     },
     {
+      gtmHook: 'sensory_access',
       summary: 'Sensory access',
       content: (
         <ul>
