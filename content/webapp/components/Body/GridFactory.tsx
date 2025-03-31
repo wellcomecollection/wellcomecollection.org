@@ -2,14 +2,14 @@ import { FunctionComponent, ReactElement } from 'react';
 
 import { Container } from '@weco/common/views/components/styled/Container';
 import {
-  BetterSizeMap,
   GridCell,
+  SizeMap,
 } from '@weco/common/views/components/styled/GridCell';
 import Space from '@weco/common/views/components/styled/Space';
 
 type GridMap = {
-  [key: number]: BetterSizeMap[];
-  default: BetterSizeMap[];
+  [key: number]: SizeMap[];
+  default: SizeMap[];
 };
 
 type Props = {
@@ -17,13 +17,13 @@ type Props = {
   overrideGridSizes?: GridMap;
 };
 
-const s12m6l4xl4: BetterSizeMap = {
+const s12m6l4xl4: SizeMap = {
   s: [12],
   m: [6],
   l: [4],
   xl: [4],
 }; // 3-up on desktop
-const s12m6l6xl6: BetterSizeMap = {
+const s12m6l6xl6: SizeMap = {
   s: [12],
   m: [6],
   l: [6],

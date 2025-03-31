@@ -34,14 +34,7 @@ export const FeaturedCardLink = styled.a.attrs({
   }
 `;
 
-export const FeaturedCardLeft = styled(GridCell).attrs({
-  $sizeMap: {
-    s: [12],
-    m: [12],
-    l: [7],
-    xl: [7],
-  },
-})<HasIsReversed>`
+export const FeaturedCardLeft = styled(GridCell)<HasIsReversed>`
   ${props =>
     props.theme.media('large')(`
     order: ${props.$isReversed ? 2 : 1};
@@ -100,14 +93,7 @@ export const FeaturedCardLabelWrap = styled.div<HasIsReversed>`
   `)}
 `;
 
-export const FeaturedCardRightWrap = styled(GridCell).attrs({
-  $sizeMap: {
-    s: [12],
-    m: [11],
-    l: [5],
-    xl: [5],
-  },
-})<HasIsReversed>`
+export const FeaturedCardRightWrap = styled(GridCell)<HasIsReversed>`
   ${props =>
     props.theme.media('large')(`
     order: ${props.$isReversed ? 1 : 2};

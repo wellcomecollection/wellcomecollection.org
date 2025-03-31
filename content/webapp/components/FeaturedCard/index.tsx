@@ -62,7 +62,15 @@ const FeaturedCardBasic: FunctionComponent<FeaturedCardProps> = props => {
   return (
     <FeaturedCardWrap>
       <FeaturedCardLink href={link.url} $isReversed={isReversed}>
-        <FeaturedCardLeft $isReversed={isReversed}>
+        <FeaturedCardLeft
+          $sizeMap={{
+            s: [12],
+            m: [12],
+            l: [7],
+            xl: [7],
+          }}
+          $isReversed={isReversed}
+        >
           {image && (
             <PrismicImage
               image={image}
@@ -76,7 +84,15 @@ const FeaturedCardBasic: FunctionComponent<FeaturedCardProps> = props => {
             />
           )}
         </FeaturedCardLeft>
-        <FeaturedCardRightWrap $isReversed={isReversed}>
+        <FeaturedCardRightWrap
+          $sizeMap={{
+            s: [12],
+            m: [11],
+            l: [5],
+            xl: [5],
+          }}
+          $isReversed={isReversed}
+        >
           <FeaturedCardRight>
             {labels && labels.length > 0 ? (
               <FeaturedCardLabelWrap $isReversed={isReversed}>

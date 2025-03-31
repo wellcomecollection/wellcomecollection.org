@@ -19,6 +19,7 @@ import {
 } from '@weco/common/views/components/Layout';
 import { Picture } from '@weco/common/views/components/Picture/Picture';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { SizeMap } from '@weco/common/views/components/styled/GridCell';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import Space from '@weco/common/views/components/styled/Space';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
@@ -120,7 +121,7 @@ type Props = {
   includeAccessibilityProvision?: boolean;
 };
 
-const sectionLevelPageGridLayout = {
+const sectionLevelPageGridLayout: SizeMap = {
   s: [12],
   m: [12],
   l: [10],
