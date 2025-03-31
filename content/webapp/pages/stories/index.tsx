@@ -20,6 +20,10 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { Container } from '@weco/common/views/components/styled/Container';
+import {
+  GridCellScroll,
+  GridCellScrollContainer,
+} from '@weco/common/views/components/styled/GridCell';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
@@ -213,17 +217,20 @@ const StoriesPage: FunctionComponent<Props> = ({
           <div className="row__wobbly-background" />
           <StoryPromoContainer>
             <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
-              <div className="grid grid--scroll grid--theme-4 card-theme card-theme--transparent">
+              <GridCellScrollContainer className="card-theme card-theme--transparent">
                 {articles.slice(1, 5).map(article => {
                   return (
-                    <div className="grid__cell" key={article.id}>
+                    <GridCellScroll
+                      key={article.id}
+                      $sizeMap={{ m: [6], l: [3], xl: [3] }}
+                    >
                       <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
                         <StoryPromoContentApi article={article} />
                       </Space>
-                    </div>
+                    </GridCellScroll>
                   );
                 })}
-              </div>
+              </GridCellScrollContainer>
             </Space>
           </StoryPromoContainer>
         </ArticlesContainer>

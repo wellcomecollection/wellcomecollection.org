@@ -1,4 +1,7 @@
 import styled from 'styled-components';
+
+import { themeValues } from '@weco/common/views/themes/config';
+
 type StartSpan = [span: number, start?: number];
 export type BetterSizeMap = Record<string, StartSpan>;
 
@@ -30,4 +33,27 @@ export const GridCell = styled.div<{ $sizeMap: BetterSizeMap }>`
     props.theme.media('xlarge')(`
       grid-column: ${props.$sizeMap.xl ? (props.$sizeMap.xl.length === 2 ? `${props.$sizeMap.xl[1]} / span ${props.$sizeMap.xl[0]}` : `span ${props.$sizeMap.xl[0]}`) : '1 / -1'};
 `)}
+`;
+
+export const GridCellScroll = styled(GridCell)`
+  ${props =>
+    props.theme.mediaBetween(
+      'small',
+      'medium'
+    )(`
+      min-width: 75vw;
+      padding-right: ${themeValues.gutter.small}px;
+    `)};
+`;
+
+export const GridCellScrollContainer = styled.div.attrs({
+  className: 'grid',
+})`
+  ${themeValues.mediaBetween(
+    'small',
+    'medium'
+  )(`
+    display: flex !important;
+    flex-wrap: nowrap;
+  `)}
 `;
