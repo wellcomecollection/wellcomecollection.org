@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { themeValues } from '@weco/common/views/themes/config';
 
 type StartSpan = [span: number, start?: number];
-export type BetterSizeMap = Record<string, StartSpan>;
+export type SizeMap = Record<string, StartSpan>;
 
 // If a SizeMap has a key with only one item e.g. { s: [4] } the cell
 // will not be given a starting track and so will layout in the
@@ -16,7 +16,7 @@ export type BetterSizeMap = Record<string, StartSpan>;
 // If a SizeMap doesn't have a key for a given breakpoint, the cell
 // will span the full width of the grid: `grid-column: 1 / -1`
 
-export const GridCell = styled.div<{ $sizeMap: BetterSizeMap }>`
+export const GridCell = styled.div<{ $sizeMap: SizeMap }>`
   ${props =>
     props.theme.media('small')(`
       grid-column: ${props.$sizeMap.s ? (props.$sizeMap.s.length === 2 ? `${props.$sizeMap.s[1]} / span ${props.$sizeMap.s[0]}` : `span ${props.$sizeMap.s[0]}`) : '1 / -1'};

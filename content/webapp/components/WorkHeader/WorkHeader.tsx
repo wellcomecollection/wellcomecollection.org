@@ -1,7 +1,7 @@
 import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import { GridCell } from '@weco/common/views/components/styled/GridCell';
@@ -116,17 +116,18 @@ const WorkHeader: FunctionComponent<Props> = ({
         </GridCell>
       </div>
       {!isArchive && (
-        <Space
-          className={grid({
+        <GridCell
+          $sizeMap={{
             s: [12],
             m: [12],
             l: [12],
             xl: [12],
-          })}
-          $v={{ size: 'm', properties: ['margin-bottom'] }}
+          }}
         >
-          <Divider lineColor="neutral.400" />
-        </Space>
+          <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+            <Divider lineColor="neutral.400" />
+          </Space>
+        </GridCell>
       )}
     </>
   );

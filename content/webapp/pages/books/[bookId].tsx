@@ -8,7 +8,7 @@ import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
@@ -20,6 +20,7 @@ import {
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import { GridCell } from '@weco/common/views/components/styled/GridCell';
 import Space from '@weco/common/views/components/styled/Space';
 import Body from '@weco/content/components/Body/Body';
 import BookImage from '@weco/content/components/BookImage/BookImage';
@@ -33,24 +34,14 @@ const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
 `;
 
-const MetadataKey = styled.dt.attrs({
-  className: grid({
-    s: [4],
-    m: [4],
-    l: [4],
-    xl: [4],
-  }),
+const MetadataKey = styled(GridCell).attrs({
+  as: 'dt',
 })`
   margin: 0;
 `;
 
-const MetadataValue = styled.dd.attrs({
-  className: grid({
-    s: [8],
-    m: [8],
-    l: [8],
-    xl: [8],
-  }),
+const MetadataValue = styled(GridCell).attrs({
+  as: 'dd',
 })`
   margin: 0;
 `;
@@ -62,8 +53,26 @@ type MetadataProps = {
 
 const Metadata: FunctionComponent<MetadataProps> = ({ label, value }) => (
   <>
-    <MetadataKey>{label}</MetadataKey>
-    <MetadataValue>{value}</MetadataValue>
+    <MetadataKey
+      $sizeMap={{
+        s: [4],
+        m: [4],
+        l: [4],
+        xl: [4],
+      }}
+    >
+      {label}
+    </MetadataKey>
+    <MetadataValue
+      $sizeMap={{
+        s: [8],
+        m: [8],
+        l: [8],
+        xl: [8],
+      }}
+    >
+      {value}
+    </MetadataValue>
   </>
 );
 
