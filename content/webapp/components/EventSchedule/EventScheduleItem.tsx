@@ -9,6 +9,7 @@ import { HTMLTime } from '@weco/common/views/components/HTMLDateAndTime';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import { GridCell } from '@weco/common/views/components/styled/GridCell';
 import Space from '@weco/common/views/components/styled/Space';
+import { themeValues } from '@weco/common/views/themes/config';
 import EventbriteButtons from '@weco/content/components/EventbriteButtons/EventbriteButtons';
 import Message from '@weco/content/components/Message/Message';
 import { isEventPast } from '@weco/content/services/prismic/events';
@@ -21,6 +22,22 @@ type Props = {
   event: Event;
   isNotLinked: boolean;
 };
+
+const GridWithRowGap = styled.div.attrs({
+  className: 'grid',
+})`
+  row-gap: ${themeValues.spaceAtBreakpoints.small.m}px;
+
+  ${props =>
+    props.theme.media('medium')(`
+    row-gap: ${themeValues.spaceAtBreakpoints.medium.m}px;
+  `)}
+
+  ${props =>
+    props.theme.media('large')(`
+    row-gap: ${themeValues.spaceAtBreakpoints.large.m}px;
+  `)}
+`;
 
 const GridWrapper = styled(Space).attrs({
   $v: {
@@ -141,7 +158,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
 
   return (
     <GridWrapper>
-      <div className="grid">
+      <GridWithRowGap>
         <GridCell
           $sizeMap={{
             s: [12],
@@ -154,6 +171,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
             const startTimeString = t.range.startDateTime.toISOString();
             return (
               <h4
+                style={{ marginBottom: 0 }}
                 key={`${event.title} ${startTimeString}`}
                 className={font('intb', 5)}
               >
@@ -255,7 +273,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
             )}
           </div>
         </GridCell>
-      </div>
+      </GridWithRowGap>
     </GridWrapper>
   );
 };
