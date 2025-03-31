@@ -31,20 +31,12 @@ const StoryWrapper = styled(Space).attrs({
   }
 `;
 
-// const ImageWrapper = styled.div.attrs<{ $isDetailed?: boolean }>(props => ({
-//   className: props.$isDetailed
-//     ? grid({ s: [12], m: [6], l: [4], xl: [4] })
-//     : '',
-// }))`
-//   position: relative;
-//   margin-bottom: ${props => props.theme.spacingUnit * 2}px;
-// `;
-
-// const Details = styled.div.attrs<{ $isDetailed?: boolean }>(props => ({
-//   className: props.$isDetailed
-//     ? grid({ s: [12], m: [6], l: [8], xl: [8] })
-//     : '',
-// }))<{ $isDetailed?: boolean }>``;
+const ImageWrapper = styled(GridCell).attrs({
+  $sizeMap: { s: [12], m: [6], l: [4], xl: [4] },
+})`
+  position: relative;
+  margin-bottom: ${props => props.theme.spacingUnit * 2}px;
+`;
 
 const DesktopLabel = styled(Space).attrs({
   $v: { size: 's', properties: ['margin-bottom'] },
@@ -114,7 +106,7 @@ const StoriesGrid: FunctionComponent<Props> = ({
             data-testid="story-search-result"
           >
             {croppedImage && (
-              <GridCell $sizeMap={{ s: [12], m: [6], l: [4], xl: [4] }}>
+              <ImageWrapper $sizeMap={{ s: [12], m: [6], l: [4], xl: [4] }}>
                 <PrismicImage
                   image={{
                     // We intentionally omit the alt text on promos, so screen reader
@@ -131,7 +123,7 @@ const StoriesGrid: FunctionComponent<Props> = ({
                 <MobileLabel>
                   <LabelsList labels={[{ text: article.format.label }]} />
                 </MobileLabel>
-              </GridCell>
+              </ImageWrapper>
             )}
             <GridCell $sizeMap={{ s: [12], m: [6], l: [8], xl: [8] }}>
               <DesktopLabel>
