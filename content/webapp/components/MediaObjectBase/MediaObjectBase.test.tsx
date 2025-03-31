@@ -10,7 +10,10 @@ import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 import { font } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { GridCell } from '@weco/common/views/components/styled/GridCell';
+import {
+  GridCell,
+  SizeMap,
+} from '@weco/common/views/components/styled/GridCell';
 
 import MediaObjectBase, { HasImageProps } from './MediaObjectBase';
 
@@ -20,31 +23,19 @@ const getBaseTitleClass = number => {
 
 const mockOnClick = jest.fn();
 
-const grid2 = {
+const grid2: SizeMap = {
   s: [2],
   m: [2],
   l: [2],
   xl: [2],
 };
-const grid3 = {
-  s: [3],
-  m: [3],
-  l: [3],
-  xl: [3],
-};
-const grid9 = {
-  s: [9],
-  m: [9],
-  l: [9],
-  xl: [9],
-};
-const grid10 = {
+const grid10: SizeMap = {
   s: [10],
   m: [10],
   l: [10],
   xl: [10],
 };
-const grid12 = {
+const grid12: SizeMap = {
   s: [12],
   m: [12],
   l: [12],
@@ -236,39 +227,7 @@ describe('MediaObjectBase', () => {
         );
 
         const componentHtml = componentWithoutImage.container.outerHTML;
-        expect(componentHtml.match(grid3)).toBeTruthy();
-        expect(componentHtml.match(grid12)).toBeTruthy();
         expect(componentHtml.match(getBaseTitleClass(3))).toBeTruthy();
-      });
-
-      it('renders the default grid styles image (3) and title (9) if image Prop included', () => {
-        const componentWithImage = renderWithTheme(
-          <MediaObjectBase
-            title={mockData.title}
-            Image={
-              <PrismicImage
-                image={{ ...mockData.image }}
-                sizes={{
-                  xlarge: 1 / 6,
-                  large: 1 / 6,
-                  medium: 1 / 5,
-                  small: 1 / 4,
-                }}
-                quality="low"
-              />
-            }
-            description={mockData.text}
-            primaryLabels={[]}
-            secondaryLabels={[]}
-            extraClasses={extraClass}
-            onClick={mockOnClick}
-            url="/blah"
-            partDescription="Part"
-          />
-        );
-        const componentHtml = componentWithImage.container.outerHTML;
-        expect(componentHtml.match(grid3)).toBeTruthy();
-        expect(componentHtml.match(grid9)).toBeTruthy();
       });
     });
 
@@ -299,8 +258,6 @@ describe('MediaObjectBase', () => {
           />
         );
         const componentHtml = component.container.outerHTML;
-        expect(componentHtml.match(grid2)).toBeTruthy();
-        expect(componentHtml.match(grid10)).toBeTruthy();
         expect(componentHtml.match(getBaseTitleClass(4))).toBeTruthy();
       });
     });
