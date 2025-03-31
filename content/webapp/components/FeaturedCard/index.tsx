@@ -93,7 +93,7 @@ const FeaturedCardBasic: FunctionComponent<FeaturedCardProps> = props => {
           }}
           $isReversed={isReversed}
         >
-          <FeaturedCardRight>
+          <FeaturedCardRight $isReversed={isReversed}>
             {labels && labels.length > 0 ? (
               <FeaturedCardLabelWrap $isReversed={isReversed}>
                 <LabelsList labels={labels} />

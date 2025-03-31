@@ -44,7 +44,7 @@ export const FeaturedCardLeft = styled(GridCell)<HasIsReversed>`
   `)}
 `;
 
-export const FeaturedCardRight = styled.div`
+export const FeaturedCardRight = styled.div<HasIsReversed>`
   display: flex;
   flex-direction: column;
   transform: translateY(-28px); /* Height of a label (font size + padding) */
@@ -52,6 +52,11 @@ export const FeaturedCardRight = styled.div`
   height: 100%;
   min-height: 200px;
   position: relative;
+
+  padding-left: ${props =>
+    props.$isReversed ? 0 : props.theme.gutter.small}px;
+  padding-right: ${props =>
+    props.$isReversed ? props.theme.gutter.small : 0}px;
 
   ${props => props.theme.media('medium')`
     padding-left: 0;
