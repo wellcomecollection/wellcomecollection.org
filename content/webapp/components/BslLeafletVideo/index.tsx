@@ -93,6 +93,7 @@ const BslLeafletVideo: FunctionComponent<Props> = ({
             <BslLeafletButton
               aria-controls="bsl-leaflet-video-modal"
               onClick={() => setIsModalActive(true)}
+              data-gtm-trigger="watch_in_sign_language"
             >
               <Icon
                 icon={bslSquare}
