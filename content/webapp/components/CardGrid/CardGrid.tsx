@@ -5,7 +5,7 @@ import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
-import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
+import { Container } from '@weco/common/views/components/styled/Container';
 import { GridCell } from '@weco/common/views/components/styled/GridCell';
 import Space from '@weco/common/views/components/styled/Space';
 import BookPromo from '@weco/content/components/BookPromo/BookPromo';
@@ -46,7 +46,7 @@ const CardGrid: FunctionComponent<Props> = ({
   const gridColumns = itemsPerRow === 4 ? 3 : 4;
   return (
     <div>
-      <CssGridContainer>
+      <Container>
         <div className="grid">
           {items.map((item, i) => (
             <GridCell
@@ -100,7 +100,7 @@ const CardGrid: FunctionComponent<Props> = ({
             </GridCell>
           ))}
         </div>
-      </CssGridContainer>
+      </Container>
       {links && links.length > 0 && (
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'l', properties: ['margin-top'] }}>

@@ -42,7 +42,6 @@ import {
 } from '@weco/common/views/components/Layout';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { Container } from '@weco/common/views/components/styled/Container';
-import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
@@ -597,7 +596,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
             <SectionHeader title="Try these too" gridSize={gridSize12()} />
           </SpacingComponent>
           <SpacingComponent>
-            <CssGridContainer>
+            <Container>
               <div className="grid card-theme card-theme--transparent">
                 {tryTheseToo.map(promo => (
                   <div
@@ -613,7 +612,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                   </div>
                 ))}
               </div>
-            </CssGridContainer>
+            </Container>
           </SpacingComponent>
         </SpacingSection>
       </>

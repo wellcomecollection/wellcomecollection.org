@@ -4,7 +4,6 @@ import { classNames } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
-import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import { GridCell } from '@weco/common/views/components/styled/GridCell';
 import Space from '@weco/common/views/components/styled/Space';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
@@ -46,7 +45,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
   return (
     <>
       <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-        <CssGridContainer>
+        <Container>
           <div className="grid">
             <GridCell $sizeMap={gridSize12()}>
               <Tabs
@@ -59,7 +58,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
               />
             </GridCell>
           </div>
-        </CssGridContainer>
+        </Container>
       </Space>
 
       {monthsWithEvents
