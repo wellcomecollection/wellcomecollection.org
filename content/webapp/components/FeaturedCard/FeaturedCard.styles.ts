@@ -13,6 +13,9 @@ export const DateWrapper = styled(Space).attrs({
 `;
 
 export const FeaturedCardWrap = styled.div`
+  margin-left: -${props => props.theme.gutter.small}px;
+  margin-right: -${props => props.theme.gutter.small}px;
+
   ${props => props.theme.media('medium')`
     margin-left: 0;
     margin-right: 0;

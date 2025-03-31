@@ -87,7 +87,7 @@ const FeaturedCardBasic: FunctionComponent<FeaturedCardProps> = props => {
         <FeaturedCardRightWrap
           $sizeMap={{
             s: [12],
-            m: [11],
+            m: [11, 2],
             l: [5],
             xl: [5],
           }}
