@@ -553,7 +553,7 @@ const Exhibition: FunctionComponent<Props> = ({
       // We hide contributors as we show them further up the page
       hideContributors={true}
     >
-      {exhibitionAccessContent ? (
+      {exhibitionAccessContent && exhibition.uid !== 'being-human' ? (
         <>
           {exhibition.end && !isPast(exhibition.end) && (
             <InfoBox
