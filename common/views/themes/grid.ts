@@ -1,6 +1,6 @@
 import { themeValues } from '@weco/common/views/themes/config';
 
-export const gridBase = `
+export const grid = `
 .grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
