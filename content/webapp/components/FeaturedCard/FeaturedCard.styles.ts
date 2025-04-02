@@ -17,12 +17,16 @@ const shimHeight = '21px';
 export const FeaturedCardWrap = styled.div`
   margin-left: -${props => props.theme.gutter.small}px;
   margin-right: -${props => props.theme.gutter.small}px;
-  padding-bottom: ${shimHeight};
 
   ${props => props.theme.media('medium')`
     margin-left: 0;
     margin-right: 0;
   `}
+
+  ${props =>
+    props.theme.media('large')(`
+    padding-bottom: ${shimHeight};
+  `)}
 `;
 
 type HasIsReversed = { $isReversed: boolean };
