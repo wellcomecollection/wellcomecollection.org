@@ -91,7 +91,7 @@ export const interpretationTypeIconMap = [
   {
     name: 'britishSignLanguageOnline',
     prismicId: 'X2smLBMAACMA-99Z',
-    iconName: undefined, // use 'bslSquare'?,
+    iconName: 'britishSignLanguageOnline',
   },
   {
     name: 'speechToText',
@@ -111,8 +111,8 @@ export const interpretationTypeIconMap = [
   {
     name: 'britishSignLanguage',
     prismicId: 'XkFGqxEAACIAIhNH',
-    iconName: undefined,
-  }, // use 'bslSquare'?
+    iconName: 'britishSignLanguage',
+  },
   {
     name: 'wheelchairAccessible',
     prismicId: 'YkRhDBAAACAAvSvl',
