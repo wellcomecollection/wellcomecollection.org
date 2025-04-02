@@ -19,6 +19,8 @@ export function transformVideoEmbed(
     return {
       embedUrl: getYouTubeEmbedUrl(embed),
       videoProvider: 'YouTube',
+      videoThumbnail: embed.thumbnail_url || undefined,
+      title: embed.title || '',
     };
   }
 }
