@@ -12,9 +12,12 @@ export const DateWrapper = styled(Space).attrs({
   padding: 0;
 `;
 
+const shimHeight = '21px';
+
 export const FeaturedCardWrap = styled.div`
   margin-left: -${props => props.theme.gutter.small}px;
   margin-right: -${props => props.theme.gutter.small}px;
+  padding-bottom: ${shimHeight};
 
   ${props => props.theme.media('medium')`
     margin-left: 0;
@@ -88,7 +91,7 @@ export const FeaturedCardShim = styled.div.attrs<{ $background: PaletteColor }>(
   left: 0;
   right: 0;
   background-color: ${props => props.theme.color(props.$background)};
-  height: 21px;
+  height: ${shimHeight};
 `;
 
 export const FeaturedCardLabelWrap = styled.div<HasIsReversed>`
