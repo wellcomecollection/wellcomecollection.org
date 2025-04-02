@@ -297,6 +297,8 @@ const Header: FunctionComponent<HeaderProps> = ({
               </OpeningTimes>
             </OpeningTimesWrapper>
           </GridCell>
+        </div>
+        <div className="grid">
           <GridCell
             $sizeMap={{
               s: [12],
