@@ -20,6 +20,7 @@ const BslLeaftletButtonText = styled(Space).attrs({
 })``;
 
 const BslLeafletButton = styled.button`
+  color: inherit;
   display: flex;
   align-items: center;
 
