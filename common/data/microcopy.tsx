@@ -210,4 +210,4 @@ export const restrictedItemMessage = (
 );
 
 export const accessibilityProvisionText =
-  'Our building has step-free access. All exhibitions offer BSL, Audio Description, and Hearing Loop support.';
+  'Our building has step-free access. Exhibitions include audio description, British Sign Language and captions.';

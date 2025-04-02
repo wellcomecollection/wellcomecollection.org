@@ -33,10 +33,10 @@ So that _I can better understand Wellcome’s position on x_
 - [ ] Testing approach agreed
 - [ ] Passes accessibility (eg colour contrast)
 - [ ] Responsive design considered
-- [ ] Design critique or review
+- [ ] Design critique or review with product team and stakeholders
 - [ ] Check with real data (images, copy etc)
 - [ ] Flag new elements that might be incorporated into the design system
 - [ ] Spec designs (interactions, how it works, logic etc)
 - [ ] Does this design have an analytics plan?
-- [ ] Agree final designs with product manager
+- [ ] Agree final designs with the product manager and design lead on team (if relevant)
 - [ ] Create dev tickets and handover
