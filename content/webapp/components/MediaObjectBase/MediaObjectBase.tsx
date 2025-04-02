@@ -42,8 +42,6 @@ export type Props = {
   postTitleChildren?: ReactElement;
 };
 
-const BaseImageWrapper = styled(GridCell)``;
-
 const BaseTitleWrapper = styled.h3.attrs({
   className: font('wb', 3),
 })`
@@ -53,9 +51,6 @@ const BaseTitleWrapper = styled.h3.attrs({
 export type HasImageProps = {
   $hasImage: boolean;
 };
-
-// Ability to add custom prop types in TS and styled components
-const BaseTextWrapper = styled(GridCell)``;
 
 type LinkOrDivSpaceAttrs = {
   $url?: string;
@@ -98,8 +93,8 @@ const MediaObjectBase: FunctionComponent<Props> = ({
   postTitleChildren,
 }: Props): ReactElement<Props> => {
   const { x, y } = xOfY || {};
-  const ImageWrapper = OverrideImageWrapper || BaseImageWrapper;
-  const TextWrapper = OverrideTextWrapper || BaseTextWrapper;
+  const ImageWrapper = OverrideImageWrapper || GridCell;
+  const TextWrapper = OverrideTextWrapper || GridCell;
   const TitleWrapper = OverrideTitleWrapper || BaseTitleWrapper;
   const descriptionIsString = typeof description === 'string';
   const urlProp = urlOverride || url || undefined;
