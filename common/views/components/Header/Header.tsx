@@ -22,7 +22,6 @@ import DesktopSignIn from './DesktopSignIn';
 import {
   Burger,
   BurgerTrigger,
-  GridCell,
   HeaderActions,
   HeaderBrand,
   HeaderContainer,
@@ -128,7 +127,7 @@ const Header: FunctionComponent<Props> = ({
     >
       <header className="is-hidden-print">
         <Wrapper $isBurgerOpen={burgerMenuIsActive}>
-          <GridCell>
+          <div style={{ position: 'relative' }}>
             <HeaderContainer>
               <Burger>
                 <BurgerTrigger
@@ -218,7 +217,7 @@ const Header: FunctionComponent<Props> = ({
                 </HeaderActions>
               </NavLoginWrapper>
             </HeaderContainer>
-          </GridCell>
+          </div>
         </Wrapper>
 
         {!isMinimalHeader && (

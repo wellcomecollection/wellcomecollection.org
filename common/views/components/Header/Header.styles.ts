@@ -265,12 +265,6 @@ export const SearchButton = styled(BorderlessButton)`
   `)}
 `;
 
-export const GridCell = styled.div.attrs({
-  className: 'grid__cell',
-})`
-  position: relative;
-`;
-
 export const HeaderContainer = styled(Container)`
   display: flex;
   align-items: center;
