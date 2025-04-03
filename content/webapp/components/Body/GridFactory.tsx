@@ -73,15 +73,18 @@ const GridFactory: FunctionComponent<Props> = ({
 
   return (
     <Container>
-      <Grid>
-        {items.map((item, index) => (
-          <GridCell $sizeMap={gridSizes[index % gridSizes.length]} key={index}>
-            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+        <Grid>
+          {items.map((item, index) => (
+            <GridCell
+              $sizeMap={gridSizes[index % gridSizes.length]}
+              key={index}
+            >
               {item}
-            </Space>
-          </GridCell>
-        ))}
-      </Grid>
+            </GridCell>
+          ))}
+        </Grid>
+      </Space>
     </Container>
   );
 };

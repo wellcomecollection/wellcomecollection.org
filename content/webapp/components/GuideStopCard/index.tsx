@@ -53,72 +53,69 @@ const GuideStopCard: FunctionComponent<Props> = ({
 
   return (
     <GridCell $sizeMap={threeUpGridSizesMap.default[0]}>
-      <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <CardOuter
-          href={link}
-          style={{ minHeight: '0', viewTransitionName: `player-${number}` }}
-          id={`${number}`}
-        >
-          <CardImageWrapper>
-            {croppedImage ? (
-              <PrismicImage
-                // We intentionally omit the alt text on promos, so screen reader
-                // users don't have to listen to the alt text before hearing the
-                // title of the item in the list.
-                image={{ ...croppedImage, alt: '' }}
-                sizes={{
-                  xlarge: 1 / 4,
-                  large: 1 / 4,
-                  medium: 1 / 2,
-                  small: 1,
-                }}
-                quality="low"
+      <CardOuter
+        href={link}
+        style={{ minHeight: '0', viewTransitionName: `player-${number}` }}
+        id={`${number}`}
+      >
+        <CardImageWrapper>
+          {croppedImage ? (
+            <PrismicImage
+              // We intentionally omit the alt text on promos, so screen reader
+              // users don't have to listen to the alt text before hearing the
+              // title of the item in the list.
+              image={{ ...croppedImage, alt: '' }}
+              sizes={{
+                xlarge: 1 / 4,
+                large: 1 / 4,
+                medium: 1 / 2,
+                small: 1,
+              }}
+              quality="low"
+            />
+          ) : (
+            <div
+              style={{
+                aspectRatio: '16/9',
+                overflow: 'hidden',
+              }}
+            >
+              <ImagePlaceholder
+                backgroundColor={placeholderBackgroundColor(number || 1)}
               />
-            ) : (
-              <div
-                style={{
-                  aspectRatio: '16/9',
-                  overflow: 'hidden',
-                }}
+            </div>
+          )}
+        </CardImageWrapper>
+        <CardBody style={{ display: 'block' }}>
+          <CardTitle>{title}</CardTitle>
+          {number && (
+            <AlignIconFirstLineCenter>
+              <Space
+                style={{ display: 'flex' }}
+                $h={{ size: 's', properties: ['margin-right'] }}
               >
-                <ImagePlaceholder
-                  backgroundColor={placeholderBackgroundColor(number || 1)}
-                />
-              </div>
-            )}
-          </CardImageWrapper>
-          <CardBody style={{ display: 'block' }}>
-            <CardTitle>{title}</CardTitle>
-            {number && (
-              <AlignIconFirstLineCenter>
-                <Space
-                  style={{ display: 'flex' }}
-                  $h={{ size: 's', properties: ['margin-right'] }}
-                >
-                  <Icon icon={map} sizeOverride="width: 16px;" />
-                </Space>
-                <span>
-                  Stop {number}/{totalStops}
-                </span>
-              </AlignIconFirstLineCenter>
-            )}
-            {duration && (
-              <AlignIconFirstLineCenter>
-                <Space
-                  style={{ display: 'flex' }}
-                  $h={{ size: 's', properties: ['margin-right'] }}
-                >
-                  <Icon icon={durationIcon} sizeOverride="width: 16px;" />
-                </Space>
-                <span className={font('intr', 5)}>
-                  {duration} minutes {type === 'audio' ? 'listen' : 'watch'}{' '}
-                  time
-                </span>
-              </AlignIconFirstLineCenter>
-            )}
-          </CardBody>
-        </CardOuter>
-      </Space>
+                <Icon icon={map} sizeOverride="width: 16px;" />
+              </Space>
+              <span>
+                Stop {number}/{totalStops}
+              </span>
+            </AlignIconFirstLineCenter>
+          )}
+          {duration && (
+            <AlignIconFirstLineCenter>
+              <Space
+                style={{ display: 'flex' }}
+                $h={{ size: 's', properties: ['margin-right'] }}
+              >
+                <Icon icon={durationIcon} sizeOverride="width: 16px;" />
+              </Space>
+              <span className={font('intr', 5)}>
+                {duration} minutes {type === 'audio' ? 'listen' : 'watch'} time
+              </span>
+            </AlignIconFirstLineCenter>
+          )}
+        </CardBody>
+      </CardOuter>
     </GridCell>
   );
 };

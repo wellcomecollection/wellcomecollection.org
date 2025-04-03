@@ -18,13 +18,13 @@ export const Grid = styled.div<{ $noGap?: boolean }>`
   ${props =>
     !props.$noGap &&
     props.theme.media('medium')(`
-    gap: ${themeValues.gutter.medium}px};
+    gap: ${themeValues.gutter.medium}px;
   `)}
 
   ${props =>
     !props.$noGap &&
     props.theme.media('large')(`
-    gap: ${themeValues.gutter.large}px};
+    gap: ${themeValues.gutter.large}px;
   `)}
 `;
 

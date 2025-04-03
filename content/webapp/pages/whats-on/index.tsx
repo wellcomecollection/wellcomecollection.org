@@ -603,7 +603,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
           </SpacingComponent>
           <SpacingComponent>
             <Container>
-              <div className="grid card-theme card-theme--transparent">
+              <Grid className="card-theme card-theme--transparent">
                 {tryTheseToo.map(promo => (
                   <GridCell
                     key={promo.id}
@@ -617,7 +617,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                     <FacilityPromo {...promo} />
                   </GridCell>
                 ))}
-              </div>
+              </Grid>
             </Container>
           </SpacingComponent>
         </SpacingSection>
