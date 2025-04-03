@@ -25,10 +25,16 @@ const DropdownWrapper = styled.div`
   position: relative;
 `;
 
-const Dropdown = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-})<{
+const Dropdown = styled(Space).attrs<{ $isTight: boolean }>(props => ({
+  $v: {
+    size: props.$isTight ? 's' : 'm',
+    properties: ['padding-top', 'padding-bottom'],
+  },
+  $h: {
+    size: props.$isTight ? 'm' : 'l',
+    properties: ['padding-left', 'padding-right'],
+  },
+}))<{
   $isActive: boolean;
   $isEnhanced: boolean;
 }>`
@@ -92,6 +98,7 @@ export type DropdownButtonProps = {
   iconLeft?: IconSvg;
   isPill?: boolean;
   hasNoOptions?: boolean;
+  isTight?: boolean;
 };
 
 const DropdownButton: FunctionComponent<
@@ -106,6 +113,7 @@ const DropdownButton: FunctionComponent<
   iconLeft,
   isPill,
   hasNoOptions,
+  isTight,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [focusables, setFocusables] = useState<HTMLElement[]>([]);
@@ -234,6 +242,7 @@ const DropdownButton: FunctionComponent<
                 ref={dropdownRef}
                 $isActive={isActive}
                 $isEnhanced={isEnhanced}
+                $isTight={!!isTight}
               >
                 {children}
               </Dropdown>
@@ -246,6 +255,7 @@ const DropdownButton: FunctionComponent<
               ref={dropdownRef}
               $isActive={isActive}
               $isEnhanced={isEnhanced}
+              $isTight={!!isTight}
             >
               {children}
             </Dropdown>
