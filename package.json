@@ -122,5 +122,11 @@
   },
   "dependencies": {
     "yarn": "^1.22.21"
+  },
+  "nextBundleAnalysis": {
+    "budget": null,
+    "budgetPercentIncreaseRed": 20,
+    "minimumChangeThreshold": 512,
+    "showDetails": true
   }
 }
