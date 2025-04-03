@@ -56,7 +56,7 @@ export type RadioFilter<Id extends string = string> = {
   type: 'radio';
   id: Id;
   label: string;
-  showEmptyBuckets?: boolean; // TODO
+  showEmptyBuckets?: boolean;
   options: FilterOption[];
   // Most filters are to be included in the More Filters Modal,
   // so this only needs to be set to true in the rare case we
@@ -134,12 +134,14 @@ function filterOptionsWithNonAggregates({
         aggregationOptionsByValue.get(value) ||
         selectedOptionsByValue.get(value)
     )
-    .filter(option => isNotUndefined(option)) as FilterOption[];
+    .filter(
+      option =>
+        isNotUndefined(option) &&
+        (showEmptyBuckets || option.count || option.selected)
+    ) as FilterOption[];
 
   if (!isManualSort) {
-    return allOptions
-      .filter(option => showEmptyBuckets || option.count || option.selected)
-      .sort(optionOrder);
+    return allOptions.sort(optionOrder);
   }
 
   return allOptions;
@@ -728,6 +730,7 @@ const eventsTimespanFilter = ({
             : isDefaultRadio,
         };
       }),
+      showEmptyBuckets: true,
       selectedValues: [props.timespan || ''],
       isManualSort: true,
     }).sort((a, b) => {
