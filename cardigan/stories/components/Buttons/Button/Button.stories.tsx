@@ -101,10 +101,12 @@ export const DropdownButton: Story = {
   args: {
     isOnDark: false,
     hasNoOptions: false,
+    isTight: false,
   },
   argTypes: {
     isOnDark: { control: 'boolean' },
     hasNoOptions: { control: 'boolean' },
+    isTight: { control: 'boolean' },
   },
   render: args => (
     <div

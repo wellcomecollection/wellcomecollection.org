@@ -504,7 +504,7 @@ const Exhibition: FunctionComponent<Props> = ({
             {!exhibition.isPermanent && (
               <Space
                 $v={{ size: 'xs', properties: ['margin-bottom'] }}
-                style={{ display: 'flex' }}
+                style={{ display: 'flex', flexWrap: 'wrap' }}
               >
                 <Space $h={{ size: 'm', properties: ['margin-right'] }}>
                   {DateInfo}
