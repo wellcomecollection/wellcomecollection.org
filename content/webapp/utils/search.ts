@@ -31,6 +31,11 @@ export const getActiveFiltersLabel = ({
       if (f.type === 'checkbox') {
         const activeOptions = f.options.filter(option => option.selected);
         return activeOptions.map(o => o.label);
+      } else if (f.type === 'radio') {
+        const activeOptions = f.options.filter(
+          option => option.selected && option.value !== ''
+        );
+        return activeOptions.map(o => o.label);
       } else if (f.type === 'dateRange') {
         let dateRange = '';
         if (f.from.value) dateRange = `From ${f.from.value} `;
