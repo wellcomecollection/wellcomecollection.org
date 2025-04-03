@@ -10,14 +10,14 @@ import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import PrismicImage, {
   BreakpointSizes,
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { GridCell } from '@weco/common/views/components/styled/GridCell';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
 
 const StoryWrapper = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-bottom'] },
-  className: 'grid',
 })`
+  display: block;
   text-decoration: none;
 
   &:last-child {
@@ -105,60 +105,62 @@ const StoriesGrid: FunctionComponent<Props> = ({
             href={linkResolver({ ...article, type: 'articles' })}
             data-testid="story-search-result"
           >
-            {croppedImage && (
-              <ImageWrapper $sizeMap={{ s: [12], m: [6], l: [4], xl: [4] }}>
-                <PrismicImage
-                  image={{
-                    // We intentionally omit the alt text on promos, so screen reader
-                    // users don't have to listen to the alt text before hearing the
-                    // title of the item in the list.
-                    //
-                    // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                    ...croppedImage,
-                    alt: '',
-                  }}
-                  sizes={dynamicImageSizes}
-                  quality="low"
-                />
-                <MobileLabel>
+            <Grid>
+              {croppedImage && (
+                <ImageWrapper $sizeMap={{ s: [12], m: [6], l: [4], xl: [4] }}>
+                  <PrismicImage
+                    image={{
+                      // We intentionally omit the alt text on promos, so screen reader
+                      // users don't have to listen to the alt text before hearing the
+                      // title of the item in the list.
+                      //
+                      // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                      ...croppedImage,
+                      alt: '',
+                    }}
+                    sizes={dynamicImageSizes}
+                    quality="low"
+                  />
+                  <MobileLabel>
+                    <LabelsList labels={[{ text: article.format.label }]} />
+                  </MobileLabel>
+                </ImageWrapper>
+              )}
+              <GridCell $sizeMap={{ s: [12], m: [6], l: [8], xl: [8] }}>
+                <DesktopLabel>
                   <LabelsList labels={[{ text: article.format.label }]} />
-                </MobileLabel>
-              </ImageWrapper>
-            )}
-            <GridCell $sizeMap={{ s: [12], m: [6], l: [8], xl: [8] }}>
-              <DesktopLabel>
-                <LabelsList labels={[{ text: article.format.label }]} />
-              </DesktopLabel>
+                </DesktopLabel>
 
-              <h3 className={font('wb', 4)}>{article.title}</h3>
+                <h3 className={font('wb', 4)}>{article.title}</h3>
 
-              {(article.publicationDate || !!article.contributors.length) && (
-                <StoryInformation>
-                  {article.publicationDate && (
-                    <StoryInformationItem className="searchable-selector">
-                      <HTMLDate date={new Date(article.publicationDate)} />
-                    </StoryInformationItem>
-                  )}
-                  {!!article.contributors.length && (
-                    <>
-                      <StoryInformationItemSeparator>
-                        {' | '}
-                      </StoryInformationItemSeparator>
-                      <StoryInformationItem>
-                        {article.contributors.map(contributor => (
-                          <span key={contributor.contributor?.id}>
-                            {contributor.contributor?.label}
-                          </span>
-                        ))}
+                {(article.publicationDate || !!article.contributors.length) && (
+                  <StoryInformation>
+                    {article.publicationDate && (
+                      <StoryInformationItem className="searchable-selector">
+                        <HTMLDate date={new Date(article.publicationDate)} />
                       </StoryInformationItem>
-                    </>
-                  )}
-                </StoryInformation>
-              )}
-              {article.caption && (
-                <p className={font('intr', 5)}>{article.caption}</p>
-              )}
-            </GridCell>
+                    )}
+                    {!!article.contributors.length && (
+                      <>
+                        <StoryInformationItemSeparator>
+                          {' | '}
+                        </StoryInformationItemSeparator>
+                        <StoryInformationItem>
+                          {article.contributors.map(contributor => (
+                            <span key={contributor.contributor?.id}>
+                              {contributor.contributor?.label}
+                            </span>
+                          ))}
+                        </StoryInformationItem>
+                      </>
+                    )}
+                  </StoryInformation>
+                )}
+                {article.caption && (
+                  <p className={font('intr', 5)}>{article.caption}</p>
+                )}
+              </GridCell>
+            </Grid>
           </StoryWrapper>
         );
       })}

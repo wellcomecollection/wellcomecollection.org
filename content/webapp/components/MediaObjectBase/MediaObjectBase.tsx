@@ -11,7 +11,7 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import ImageType from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { GridCell } from '@weco/common/views/components/styled/GridCell';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import EventDateRange from '@weco/content/components/EventDateRange';
 import ImagePlaceholder from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
@@ -60,6 +60,7 @@ const LinkOrDivSpace = styled(Space).attrs<LinkOrDivSpaceAttrs>(props => ({
   href: props.$url,
 }))<LinkOrDivSpaceAttrs>`
   text-decoration: none;
+  display: block;
 
   &:hover,
   &:focus {
@@ -102,7 +103,6 @@ const MediaObjectBase: FunctionComponent<Props> = ({
   return (
     <LinkOrDivSpace
       className={classNames({
-        grid: true,
         [extraClasses || '']: Boolean(extraClasses),
       })}
       $v={{
@@ -115,53 +115,57 @@ const MediaObjectBase: FunctionComponent<Props> = ({
         if (onClick) onClick();
       }}
     >
-      <ImageWrapper
-        $sizeMap={{ s: [3, 1], m: [3, 1], l: [3, 1], xl: [3, 1] }}
-        $hasImage={Boolean(Image)}
-      >
-        {Image}
-      </ImageWrapper>
-      <TextWrapper
-        $sizeMap={
-          Image ? { s: [9, 4], m: [9, 4], l: [9, 4], xl: [9, 4] } : gridSize12()
-        }
-        $hasImage={Boolean(Image)}
-      >
-        {primaryLabels.length > 0 && (
-          <Space
-            $v={{ size: 's', properties: ['margin-bottom'] }}
-            style={{ display: 'flex' }}
-          >
-            <LabelsList labels={primaryLabels} />
-          </Space>
-        )}
+      <Grid>
+        <ImageWrapper
+          $sizeMap={{ s: [3, 1], m: [3, 1], l: [3, 1], xl: [3, 1] }}
+          $hasImage={Boolean(Image)}
+        >
+          {Image}
+        </ImageWrapper>
+        <TextWrapper
+          $sizeMap={
+            Image
+              ? { s: [9, 4], m: [9, 4], l: [9, 4], xl: [9, 4] }
+              : gridSize12()
+          }
+          $hasImage={Boolean(Image)}
+        >
+          {primaryLabels.length > 0 && (
+            <Space
+              $v={{ size: 's', properties: ['margin-bottom'] }}
+              style={{ display: 'flex' }}
+            >
+              <LabelsList labels={primaryLabels} />
+            </Space>
+          )}
 
-        {partNumber && (
-          <PartNumberIndicator
-            number={partNumber}
-            description={partDescription}
-            backgroundColor={partNumberColor}
-          />
-        )}
-        <TitleWrapper>{title}</TitleWrapper>
-        {postTitleChildren || DateInfo}
-        {StatusIndicator}
-        {ExtraInfo}
+          {partNumber && (
+            <PartNumberIndicator
+              number={partNumber}
+              description={partDescription}
+              backgroundColor={partNumberColor}
+            />
+          )}
+          <TitleWrapper>{title}</TitleWrapper>
+          {postTitleChildren || DateInfo}
+          {StatusIndicator}
+          {ExtraInfo}
 
-        {description && (
-          <div className={`spaced-text ${font('intr', 5)}`}>
-            {descriptionIsString ? <p>{description}</p> : description}
-          </div>
-        )}
-        {secondaryLabels.length > 0 && (
-          <Space
-            $v={{ size: 's', properties: ['margin-top'] }}
-            style={{ display: 'flex' }}
-          >
-            <LabelsList labels={secondaryLabels} defaultLabelColor="black" />
-          </Space>
-        )}
-      </TextWrapper>
+          {description && (
+            <div className={`spaced-text ${font('intr', 5)}`}>
+              {descriptionIsString ? <p>{description}</p> : description}
+            </div>
+          )}
+          {secondaryLabels.length > 0 && (
+            <Space
+              $v={{ size: 's', properties: ['margin-top'] }}
+              style={{ display: 'flex' }}
+            >
+              <LabelsList labels={secondaryLabels} defaultLabelColor="black" />
+            </Space>
+          )}
+        </TextWrapper>
+      </Grid>
     </LinkOrDivSpace>
   );
 };

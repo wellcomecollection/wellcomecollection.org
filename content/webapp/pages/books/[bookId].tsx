@@ -20,7 +20,7 @@ import {
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { GridCell } from '@weco/common/views/components/styled/GridCell';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import Body from '@weco/content/components/Body/Body';
 import BookImage from '@weco/content/components/BookImage/BookImage';
@@ -79,18 +79,19 @@ const Metadata: FunctionComponent<MetadataProps> = ({ label, value }) => (
 const BookMetadata: FunctionComponent<{ book: Book }> = ({ book }) => (
   <Space
     as="dl"
-    className="grid"
     $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
   >
-    {book.datePublished && (
-      <Metadata
-        label="Date published"
-        value={<HTMLDate date={book.datePublished} />}
-      />
-    )}
-    <Metadata label="Format" value={book.format} />
-    <Metadata label="Extent" value={book.extent} />
-    <Metadata label="ISBN" value={book.isbn} />
+    <Grid>
+      {book.datePublished && (
+        <Metadata
+          label="Date published"
+          value={<HTMLDate date={book.datePublished} />}
+        />
+      )}
+      <Metadata label="Format" value={book.format} />
+      <Metadata label="Extent" value={book.extent} />
+      <Metadata label="ISBN" value={book.isbn} />
+    </Grid>
   </Space>
 );
 

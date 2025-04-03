@@ -2,9 +2,10 @@ import { FunctionComponent, ReactElement } from 'react';
 
 import { Container } from '@weco/common/views/components/styled/Container';
 import {
+  Grid,
   GridCell,
   SizeMap,
-} from '@weco/common/views/components/styled/GridCell';
+} from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 
 type GridMap = {
@@ -72,7 +73,7 @@ const GridFactory: FunctionComponent<Props> = ({
 
   return (
     <Container>
-      <div className="grid">
+      <Grid>
         {items.map((item, index) => (
           <GridCell $sizeMap={gridSizes[index % gridSizes.length]} key={index}>
             <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -80,7 +81,7 @@ const GridFactory: FunctionComponent<Props> = ({
             </Space>
           </GridCell>
         ))}
-      </div>
+      </Grid>
     </Container>
   );
 };

@@ -5,6 +5,29 @@ import { themeValues } from '@weco/common/views/themes/config';
 type StartSpan = [span: number, start?: number];
 export type SizeMap = Record<string, StartSpan>;
 
+export const Grid = styled.div<{ $noGap?: boolean }>`
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+
+  ${props =>
+    !props.$noGap &&
+    `
+    gap: ${themeValues.gutter.small}px;
+  `}
+
+  ${props =>
+    !props.$noGap &&
+    props.theme.media('medium')(`
+    gap: ${themeValues.gutter.medium}px};
+  `)}
+
+  ${props =>
+    !props.$noGap &&
+    props.theme.media('large')(`
+    gap: ${themeValues.gutter.large}px};
+  `)}
+`;
+
 // If a SizeMap has a key with only one item e.g. { s: [4] } the cell
 // will not be given a starting track and so will layout in the
 // next available grid column: `grid-column: span 4`
@@ -35,6 +58,16 @@ export const GridCell = styled.div<{ $sizeMap: SizeMap }>`
 `)}
 `;
 
+export const GridScroll = styled(Grid)`
+  ${themeValues.mediaBetween(
+    'small',
+    'medium'
+  )(`
+    display: flex;
+    flex-wrap: nowrap;
+  `)}
+`;
+
 export const GridCellScroll = styled(GridCell)`
   ${props =>
     props.theme.mediaBetween(
@@ -44,16 +77,4 @@ export const GridCellScroll = styled(GridCell)`
       min-width: 75vw;
       padding-right: ${themeValues.gutter.small}px;
     `)};
-`;
-
-export const GridCellScrollContainer = styled.div.attrs({
-  className: 'grid',
-})`
-  ${themeValues.mediaBetween(
-    'small',
-    'medium'
-  )(`
-    display: flex !important;
-    flex-wrap: nowrap;
-  `)}
 `;

@@ -7,7 +7,7 @@ import { font } from '@weco/common/utils/classnames';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { GridCell } from '@weco/common/views/components/styled/GridCell';
+import { GridCell } from '@weco/common/views/components/styled/Grid';
 import MediaObjectBase, {
   HasImageProps,
 } from '@weco/content/components/MediaObjectBase/MediaObjectBase';

@@ -33,7 +33,7 @@ import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import { GridCell } from '@weco/common/views/components/styled/GridCell';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import Accordion from '@weco/content/components/Accordion/Accordion';
@@ -577,7 +577,7 @@ const Exhibition: FunctionComponent<Props> = ({
 
           {exhibition.end && !isPast(exhibition.end) && (
             <>
-              <div className="grid">
+              <Grid>
                 <GridCell $sizeMap={{ s: [12] }}>
                   <Space
                     as="h2"
@@ -590,7 +590,7 @@ const Exhibition: FunctionComponent<Props> = ({
                     Access resources
                   </Space>
                 </GridCell>
-              </div>
+              </Grid>
 
               {visualStoryLink && (
                 <>

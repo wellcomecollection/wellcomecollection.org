@@ -10,10 +10,7 @@ import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 import { font } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import {
-  GridCell,
-  SizeMap,
-} from '@weco/common/views/components/styled/GridCell';
+import { GridCell, SizeMap } from '@weco/common/views/components/styled/Grid';
 
 import MediaObjectBase, { HasImageProps } from './MediaObjectBase';
 

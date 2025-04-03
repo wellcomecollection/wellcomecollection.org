@@ -7,7 +7,7 @@ import { isPast } from '@weco/common/utils/dates';
 import { formatDayDate, formatTime } from '@weco/common/utils/format-date';
 import { HTMLTime } from '@weco/common/views/components/HTMLDateAndTime';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import { GridCell } from '@weco/common/views/components/styled/GridCell';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
 import EventbriteButtons from '@weco/content/components/EventbriteButtons/EventbriteButtons';
@@ -23,9 +23,7 @@ type Props = {
   isNotLinked: boolean;
 };
 
-const GridWithRowGap = styled.div.attrs({
-  className: 'grid',
-})`
+const GridWithRowGap = styled(Grid)`
   row-gap: ${themeValues.spaceAtBreakpoints.small.m}px;
 
   ${props =>

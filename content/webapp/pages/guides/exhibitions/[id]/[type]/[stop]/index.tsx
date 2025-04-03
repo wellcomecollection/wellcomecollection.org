@@ -27,7 +27,7 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { Container } from '@weco/common/views/components/styled/Container';
-import { GridCell } from '@weco/common/views/components/styled/GridCell';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
@@ -326,7 +326,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
         </Header>
         <div style={{ viewTransitionName }}>
           <FlushContainer>
-            <div className="grid">
+            <Grid>
               <GridCell $sizeMap={gridSize8()}>
                 {type !== 'bsl' && (
                   <>
@@ -349,7 +349,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                   </>
                 )}
               </GridCell>
-            </div>
+            </Grid>
           </FlushContainer>
 
           <ContaineredLayout gridSizes={gridSize8()}>

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import { GridCell } from '@weco/common/views/components/styled/GridCell';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
@@ -37,7 +37,7 @@ const WorkHeader: FunctionComponent<Props> = ({
 
   return (
     <>
-      <div className="grid">
+      <Grid>
         <GridCell
           $sizeMap={{
             s: [12],
@@ -114,20 +114,11 @@ const WorkHeader: FunctionComponent<Props> = ({
             </SpacingComponent>
           </Space>
         </GridCell>
-      </div>
+      </Grid>
       {!isArchive && (
-        <GridCell
-          $sizeMap={{
-            s: [12],
-            m: [12],
-            l: [12],
-            xl: [12],
-          }}
-        >
-          <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-            <Divider lineColor="neutral.400" />
-          </Space>
-        </GridCell>
+        <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <Divider lineColor="neutral.400" />
+        </Space>
       )}
     </>
   );

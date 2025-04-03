@@ -42,7 +42,7 @@ import {
 } from '@weco/common/views/components/Layout';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { Container } from '@weco/common/views/components/styled/Container';
-import { GridCell } from '@weco/common/views/components/styled/GridCell';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
@@ -239,7 +239,7 @@ const Header: FunctionComponent<HeaderProps> = ({
   return (
     <Space $v={{ size: 'l', properties: ['padding-top'] }}>
       <Container>
-        <div className="grid">
+        <Grid>
           <GridCell
             $sizeMap={{
               s: [12],
@@ -297,8 +297,8 @@ const Header: FunctionComponent<HeaderProps> = ({
               </OpeningTimes>
             </OpeningTimesWrapper>
           </GridCell>
-        </div>
-        <div className="grid">
+        </Grid>
+        <Grid>
           <GridCell
             $sizeMap={{
               s: [12],
@@ -318,7 +318,7 @@ const Header: FunctionComponent<HeaderProps> = ({
               />
             </Space>
           </GridCell>
-        </div>
+        </Grid>
       </Container>
     </Space>
   );

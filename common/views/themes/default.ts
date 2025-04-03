@@ -11,7 +11,6 @@ import { row } from './base/row';
 import { transitions } from './base/transitions';
 import { wellcomeNormalize } from './base/wellcome-normalize';
 import { Size, spacingUnits, themeValues } from './config';
-import { grid } from './grid';
 import {
   makeFontSizeClasses,
   makeFontSizeOverrideClasses,
@@ -144,7 +143,6 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   ${makeFontSizeClasses()}
   ${makeFontSizeOverrideClasses()}
   ${typography}
-  ${grid}
 `;
 
 export default theme;

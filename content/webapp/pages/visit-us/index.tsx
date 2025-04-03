@@ -12,7 +12,7 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
-import { GridCell } from '@weco/common/views/components/styled/GridCell';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import * as page from '@weco/content/pages/pages/[pageId]';
@@ -25,7 +25,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
   return (
     <SpacingSection>
       <ContaineredLayout gridSizes={gridSize12()}>
-        <div className="grid">
+        <Grid>
           <GridCell
             $sizeMap={{
               s: [12],
@@ -49,7 +49,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
               </a>
             </Space>
           </GridCell>
-        </div>
+        </Grid>
       </ContaineredLayout>
     </SpacingSection>
   );

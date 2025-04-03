@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
-import { GridCell } from '@weco/common/views/components/styled/GridCell';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
@@ -30,12 +30,11 @@ export const FeaturedCardWrap = styled.div`
 `;
 
 type HasIsReversed = { $isReversed: boolean };
-export const FeaturedCardLink = styled.a.attrs({
-  className: 'grid',
+export const FeaturedCardLink = styled(Grid).attrs({
+  $noGap: true,
+  as: 'a',
   'data-gtm-trigger': 'featured_card_link',
 })<HasIsReversed>`
-  gap: 0 !important;
-
   &,
   &:link,
   &:visited {

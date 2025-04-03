@@ -7,7 +7,7 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
-import { GridCell } from '@weco/common/views/components/styled/GridCell';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import Card from '@weco/content/components/Card/Card';
 import FeaturedCard from '@weco/content/components/FeaturedCard';
@@ -82,7 +82,7 @@ const CardGrid: FunctionComponent<Props> = ({
         <CardGridFeaturedCard item={featuredCard} />
       )}
       <Container>
-        <div className="grid">
+        <Grid>
           {threeCards.map((item, i) => (
             <GridCell
               key={i}
@@ -96,7 +96,7 @@ const CardGrid: FunctionComponent<Props> = ({
               <Card item={item} />
             </GridCell>
           ))}
-        </div>
+        </Grid>
       </Container>
       {featuredCard && !isFeaturedFirst && (
         <Space $v={{ size: 'l', properties: ['padding-top'] }}>

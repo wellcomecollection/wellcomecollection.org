@@ -22,8 +22,8 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import { Container } from '@weco/common/views/components/styled/Container';
 import {
   GridCellScroll,
-  GridCellScrollContainer,
-} from '@weco/common/views/components/styled/GridCell';
+  GridScroll,
+} from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
@@ -217,7 +217,7 @@ const StoriesPage: FunctionComponent<Props> = ({
           <div className="row__wobbly-background" />
           <StoryPromoContainer>
             <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
-              <GridCellScrollContainer className="card-theme card-theme--transparent">
+              <GridScroll className="card-theme card-theme--transparent">
                 {articles.slice(1, 5).map(article => {
                   return (
                     <GridCellScroll
@@ -230,7 +230,7 @@ const StoriesPage: FunctionComponent<Props> = ({
                     </GridCellScroll>
                   );
                 })}
-              </GridCellScrollContainer>
+              </GridScroll>
             </Space>
           </StoryPromoContainer>
         </ArticlesContainer>

@@ -2,9 +2,10 @@ import { FunctionComponent, PropsWithChildren } from 'react';
 
 import { Container } from '@weco/common/views/components/styled/Container';
 import {
+  Grid,
   GridCell,
   SizeMap,
-} from '@weco/common/views/components/styled/GridCell';
+} from '@weco/common/views/components/styled/Grid';
 
 const gridSize6 = (): SizeMap => ({
   s: [12],
@@ -43,16 +44,16 @@ const ContaineredLayout: FunctionComponent<Props> = ({
   children,
 }) => (
   <Container>
-    <div className="grid">
+    <Grid>
       <GridCell $sizeMap={gridSizes}>{children}</GridCell>
-    </div>
+    </Grid>
   </Container>
 );
 
 const Layout: FunctionComponent<Props> = ({ gridSizes, children }) => (
-  <div className="grid">
+  <Grid>
     <GridCell $sizeMap={gridSizes}>{children}</GridCell>
-  </div>
+  </Grid>
 );
 
 export { ContaineredLayout, gridSize12, gridSize10, gridSize8, gridSize6 };

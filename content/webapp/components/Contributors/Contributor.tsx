@@ -5,7 +5,7 @@ import { getCrop } from '@weco/common/model/image';
 import { font } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { GridCell } from '@weco/common/views/components/styled/GridCell';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
 import { Contributor as ContributorType } from '@weco/content/types/contributors';
@@ -83,7 +83,7 @@ const Contributor: FunctionComponent<ContributorType> = ({
     getCrop(contributor.image, 'square') || contributor.image;
 
   return (
-    <div className="grid">
+    <Grid>
       <GridCell
         style={{ display: 'flex' }}
         $sizeMap={{
@@ -150,7 +150,7 @@ const Contributor: FunctionComponent<ContributorType> = ({
           )}
         </div>
       </GridCell>
-    </div>
+    </Grid>
   );
 };
 

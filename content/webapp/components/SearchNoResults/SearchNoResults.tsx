@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
-import { GridCell } from '@weco/common/views/components/styled/GridCell';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {
@@ -20,7 +20,7 @@ const SearchNoResults: FunctionComponent<Props> = ({
 }: Props) => {
   return (
     <Space $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
-      <div className="grid">
+      <Grid>
         <GridCell
           $sizeMap={{
             s: [12],
@@ -43,7 +43,7 @@ const SearchNoResults: FunctionComponent<Props> = ({
             .
           </p>
         </GridCell>
-      </div>
+      </Grid>
     </Space>
   );
 };

@@ -4,7 +4,7 @@ import { classNames } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
-import { GridCell } from '@weco/common/views/components/styled/GridCell';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import Tabs from '@weco/content/components/Tabs';
@@ -46,7 +46,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
     <>
       <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
         <Container>
-          <div className="grid">
+          <Grid>
             <GridCell $sizeMap={gridSize12()}>
               <Tabs
                 tabBehaviour="switch"
@@ -57,7 +57,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
                 trackWithSegment
               />
             </GridCell>
-          </div>
+          </Grid>
         </Container>
       </Space>
 

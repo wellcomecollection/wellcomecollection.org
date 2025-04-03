@@ -6,7 +6,7 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
-import { GridCell } from '@weco/common/views/components/styled/GridCell';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import BookPromo from '@weco/content/components/BookPromo/BookPromo';
 import Card from '@weco/content/components/Card/Card';
@@ -47,7 +47,7 @@ const CardGrid: FunctionComponent<Props> = ({
   return (
     <div>
       <Container>
-        <div className="grid">
+        <Grid>
           {items.map((item, i) => (
             <GridCell
               className={classNames({
@@ -99,7 +99,7 @@ const CardGrid: FunctionComponent<Props> = ({
               )}
             </GridCell>
           ))}
-        </div>
+        </Grid>
       </Container>
       {links && links.length > 0 && (
         <ContaineredLayout gridSizes={gridSize12()}>

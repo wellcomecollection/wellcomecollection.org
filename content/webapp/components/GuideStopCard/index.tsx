@@ -6,7 +6,7 @@ import { getCrop, ImageType } from '@weco/common/model/image';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { GridCell } from '@weco/common/views/components/styled/GridCell';
+import { GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { threeUpGridSizesMap } from '@weco/content/components/Body/GridFactory';
 import {
