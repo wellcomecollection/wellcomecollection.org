@@ -1,10 +1,10 @@
 import { FunctionComponent, useContext, useState } from 'react';
 
-import { classNames, cssGrid } from '@weco/common/utils/classnames';
+import { classNames } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
-import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import Tabs from '@weco/content/components/Tabs';
@@ -45,9 +45,9 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
   return (
     <>
       <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-        <CssGridContainer>
-          <div className="css-grid">
-            <div className={cssGrid(gridSize12())}>
+        <Container>
+          <Grid>
+            <GridCell $sizeMap={gridSize12()}>
               <Tabs
                 tabBehaviour="switch"
                 label="Month control"
@@ -56,9 +56,9 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
                 setSelectedTab={setActiveId}
                 trackWithSegment
               />
-            </div>
-          </div>
-        </CssGridContainer>
+            </GridCell>
+          </Grid>
+        </Container>
       </Space>
 
       {monthsWithEvents
@@ -66,10 +66,10 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
           isEnhanced ? i.id === (activeId || monthsWithEvents[0].id) : true
         )
         .map(({ id, month, events }) => (
-          <div
+          <GridCell
+            $sizeMap={gridSize12()}
             key={id}
             className={classNames({
-              [cssGrid(gridSize12())]: true,
               'is-hidden': Boolean(activeId) && activeId !== id,
             })}
           >
@@ -88,7 +88,7 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
               links={links}
               fromDate={startOf(month)}
             />
-          </div>
+          </GridCell>
         ))}
     </>
   );

@@ -24,7 +24,7 @@ import {
 } from '@weco/common/prismicio-types';
 import { useToggles } from '@weco/common/server-data/Context';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { isFuture, isPast } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
@@ -33,6 +33,7 @@ import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import Accordion from '@weco/content/components/Accordion/Accordion';
@@ -576,8 +577,8 @@ const Exhibition: FunctionComponent<Props> = ({
 
           {exhibition.end && !isPast(exhibition.end) && (
             <>
-              <div className="grid">
-                <div className={grid({ s: 12 })}>
+              <Grid>
+                <GridCell $sizeMap={{ s: [12] }}>
                   <Space
                     as="h2"
                     className={font('wb', 3)}
@@ -588,8 +589,8 @@ const Exhibition: FunctionComponent<Props> = ({
                   >
                     Access resources
                   </Space>
-                </div>
-              </div>
+                </GridCell>
+              </Grid>
 
               {visualStoryLink && (
                 <>
