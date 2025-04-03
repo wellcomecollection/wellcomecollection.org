@@ -125,6 +125,14 @@ const toggles = {
       description: 'Adds the Date filter in the Events search',
       type: 'experimental',
     },
+    {
+      id: 'filterEventsListing',
+      title: 'Changes to the Events listing pages',
+      initialValue: false,
+      description:
+        'Have the Events listing pages use the Content API and be filterable',
+      type: 'experimental',
+    },
   ] as const,
   tests: [] as ABTest[],
 };
