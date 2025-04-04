@@ -1,9 +1,0 @@
-## Purpose
-
-To create the impression the video embed from the body is included in the header area.
-
-When an article has the `short film` format applied:
-
-- The page header won't display a featured image
-- The first element in the `Body` will have a split-tone background colour – white at the top, and cream at the bottom
-- The `VideoEmbed` in the `Body` will span the full 12 columns of the grid.
