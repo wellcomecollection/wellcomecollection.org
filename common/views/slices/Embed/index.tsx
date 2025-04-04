@@ -23,10 +23,7 @@ const EmbedSlice: FunctionComponent<EmbedProps> = ({ slice, context }) => {
       {transformedSlice.type === 'videoEmbed' && (
         <SpacingComponent $sliceType={transformedSlice.type}>
           <LayoutWidth width={options.isShortFilm ? 12 : options.minWidth}>
-            <VideoEmbed
-              {...transformedSlice.value}
-              hasFullSizePoster={options.isShortFilm}
-            />
+            <VideoEmbed {...transformedSlice.value} hasFullSizePoster={true} />
           </LayoutWidth>
         </SpacingComponent>
       )}
