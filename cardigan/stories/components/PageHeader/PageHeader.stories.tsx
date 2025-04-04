@@ -1,5 +1,4 @@
 import { Meta, StoryObj } from '@storybook/react';
-import styled from 'styled-components';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import {
@@ -13,51 +12,139 @@ import { font } from '@weco/common/utils/classnames';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import PageHeaderReadme from '@weco/common/views/components/PageHeader/README.mdx';
 import ShortFilmPageHeaderReadme from '@weco/common/views/components/PageHeader/ShortFilm_README.mdx';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import Picture from '@weco/common/views/components/Picture/Picture';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
+import theme from '@weco/common/views/themes/default';
 import Body from '@weco/content/components/Body/Body';
 import BookImage from '@weco/content/components/BookImage/BookImage';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import TextWithDot from '@weco/content/components/TextWithDot';
 
+const Template = args => {
+  const { backgroundTexture: hasBackgroundTexture, ...rest } = args;
+
+  return (
+    <PageHeader
+      {...rest}
+      backgroundTexture={hasBackgroundTexture ? headerBackgroundLs : undefined}
+    />
+  );
+};
+
 const meta: Meta<typeof PageHeader> = {
   title: 'Components/PageHeader',
   component: PageHeader,
-  render: args => (
-    <ReadmeDecorator
-      WrappedComponent={PageHeader}
-      args={args}
-      Readme={PageHeaderReadme}
-    />
-  ),
+  render: Template,
   parameters: {
     chromatic: { diffThreshold: 0.2, delay: 1000 },
+  },
+  args: {
+    breadcrumbs: {
+      items: [],
+    },
+    title: '',
+    isFree: false,
+    isSlim: false,
+    isContentTypeInfoBeforeMedia: false,
+    highlightHeading: false,
+    sectionLevelPage: false,
+    fullWidth: false,
+    includeAccessibilityProvision: false,
+    heroImageBgColor: 'white',
+    // @ts-expect-error it is a boolean for the sake of Storybook
+    backgroundTexture: false,
+  },
+  argTypes: {
+    backgroundTexture: {
+      control: 'boolean',
+      label: 'Has a background texture',
+    },
+    isContentTypeInfoBeforeMedia: {
+      control: 'boolean',
+      name: 'Has content before the Featured media ("isContentTypeInfoBeforeMedia")',
+    },
+    isFree: {
+      control: 'boolean',
+      name: 'Display "Free" label ("isFree")',
+    },
+    sectionLevelPage: {
+      control: 'boolean',
+      name: 'sectionLevelPage', // TODO
+    },
+    includeAccessibilityProvision: {
+      table: {
+        disable: true,
+      },
+    },
+    fullWidth: {
+      table: {
+        disable: true,
+      },
+    },
+    highlightHeading: {
+      table: {
+        disable: true,
+      },
+    },
+    isSlim: {
+      table: {
+        disable: true,
+      },
+    },
+    heroImageBgColor: {
+      table: {
+        disable: true,
+      },
+    },
+    title: {
+      table: {
+        disable: true,
+      },
+    },
+    labels: {
+      table: {
+        disable: true,
+      },
+    },
+    FeaturedMedia: {
+      table: {
+        disable: true,
+      },
+    },
+    Background: {
+      table: {
+        disable: true,
+      },
+    },
+    ContentTypeInfo: {
+      table: {
+        disable: true,
+      },
+    },
+    HeroPicture: {
+      table: {
+        disable: true,
+      },
+    },
+    breadcrumbs: {
+      table: {
+        disable: true,
+      },
+    },
+    SerialPartNumber: {
+      table: {
+        disable: true,
+      },
+    },
   },
 };
 
 export default meta;
 
 type Story = StoryObj<typeof PageHeader>;
-
-const Date = styled.span.attrs({ className: font('intr', 6) })`
-  color: ${props => props.theme.color('neutral.600')};
-`;
-
-const breadcrumbItems = [
-  {
-    text: 'Stories',
-    url: '#',
-  },
-];
-
-const ContentTypeWrapper = styled.div`
-  display: flex;
-  align-items: baseline;
-`;
 
 const ContentTypeInfo = (
   <>
@@ -70,7 +157,7 @@ const ContentTypeInfo = (
         },
       ]}
     />
-    <ContentTypeWrapper>
+    <div style={{ display: 'flex', alignItems: 'baseline' }}>
       <Space
         className={font('intr', 6)}
         $h={{ size: 's', properties: ['margin-right'] }}
@@ -79,20 +166,22 @@ const ContentTypeInfo = (
         <p style={{ marginBottom: 0 }}>
           <span>By </span>
           <span className={font('intb', 6)}>Naomi Paxton</span>{' '}
-          <Date>17 April 2019</Date>
+          <span
+            className={font('intr', 6)}
+            style={{ color: theme.color('neutral.600') }}
+          >
+            17 April 2019
+          </span>
         </p>
       </Space>
-    </ContentTypeWrapper>
+    </div>
   </>
 );
 
 const EventContentTypeInfo = () => (
   <>
     <Space
-      $v={{
-        size: 's',
-        properties: ['margin-bottom'],
-      }}
+      $v={{ size: 's', properties: ['margin-bottom'] }}
       style={{ display: 'flex', flexWrap: 'wrap' }}
     >
       Saturday 8 February 2020, 13:00 – 16:00
@@ -134,7 +223,9 @@ export const Article: Story = {
   name: 'Article',
   args: {
     title: 'How the magician’s assistant creates the illusion',
-    breadcrumbs: { items: breadcrumbItems },
+    breadcrumbs: {
+      items: [{ text: 'Stories', url: '#' }],
+    },
     labels: { labels: [{ text: 'Article' }] },
     HeroPicture: (
       <Picture
@@ -144,7 +235,7 @@ export const Article: Story = {
           }),
           image(florenceWinterfloodImageUrl('3200x3200'), 3200, 3200),
         ]}
-        isFull={true}
+        isFull
       />
     ),
     ContentTypeInfo,
@@ -167,7 +258,7 @@ export const ShortFilm: ShortFilmStory = {
     isCreamy: true,
     Header: (
       <PageHeader
-        isContentTypeInfoBeforeMedia={true}
+        isContentTypeInfoBeforeMedia
         ContentTypeInfo={ContentTypeInfo}
         labels={{ labels: [{ text: 'Short film' }] }}
         title="Audrey's archivist"
@@ -226,10 +317,7 @@ export const Event: Story = {
     ContentTypeInfo: <EventContentTypeInfo />,
     isContentTypeInfoBeforeMedia: true,
     Background: (
-      <HeaderBackground
-        hasWobblyEdge={true}
-        backgroundTexture={headerBackgroundLs}
-      />
+      <HeaderBackground hasWobblyEdge backgroundTexture={headerBackgroundLs} />
     ),
   },
 };
@@ -248,7 +336,7 @@ export const Exhibition: Story = {
           }),
           image(florenceWinterfloodImageUrl('3200x3200'), 3200, 3200),
         ]}
-        isFull={true}
+        isFull
       />
     ),
     ContentTypeInfo: <ExhibitionContentTypeInfo />,
