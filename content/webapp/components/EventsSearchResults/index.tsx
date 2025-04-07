@@ -171,7 +171,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({
                 {!isPast && times.length > 1 && (
                   <p className={font('intb', 6)}>See all dates/times</p>
                 )}
-                {isPast && !event.isAvailableOnline && (
+                {isPast && !event.isAvailableOnline && !isPastListing && (
                   <div>
                     <TextWithDot
                       className={font('intr', 5)}
