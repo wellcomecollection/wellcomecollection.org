@@ -6,7 +6,6 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
-import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision/AccessibilityProvision';
 import Breadcrumb from '@weco/common/views/components/Breadcrumb/Breadcrumb';
@@ -28,9 +27,12 @@ import {
 } from '@weco/common/views/components/WobblyEdge';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
-import NewPageHeader from './PageHeader.New';
+import { SectionPageHeader } from './PageHeader';
 
-const Container = styled.div<{ $backgroundTexture?: string }>`
+const PageHeaderContainer = styled.div<{
+  $backgroundTexture?: string;
+  $hasBackgroundColor?: boolean;
+}>`
   position: relative;
   background-image: ${props =>
     props.$backgroundTexture
@@ -38,6 +40,10 @@ const Container = styled.div<{ $backgroundTexture?: string }>`
       : 'undefined'};
   background-size: ${props =>
     props.$backgroundTexture ? 'cover' : 'undefined'};
+  background-color: ${props =>
+    props.$hasBackgroundColor
+      ? props.theme.color('warmNeutral.300')
+      : 'undefined'};
 `;
 
 const Wrapper = styled(Space)`
@@ -45,43 +51,6 @@ const Wrapper = styled(Space)`
     margin: 0;
     padding: 0;
   }
-`;
-
-const Heading = styled(Space)`
-  background-color: ${props => props.theme.color('white')};
-  display: inline;
-  line-height: calc(1.1em + 12px);
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-`;
-
-const HighlightedHeading: FunctionComponent<{ text: string }> = ({
-  text,
-}: {
-  text: string;
-}) => {
-  return (
-    <h1 className={font('wb', 2)}>
-      <Heading
-        $v={{
-          size: 's',
-          properties: ['padding-top', 'padding-bottom'],
-        }}
-        $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-      >
-        {text}
-      </Heading>
-    </h1>
-  );
-};
-
-export const SectionPageHeader = styled.h1.attrs<{
-  $sectionLevelPage: boolean;
-}>(props => ({
-  className: font('wb', props.$sectionLevelPage ? 0 : 1),
-}))`
-  display: inline-block;
-  margin: 0 !important;
 `;
 
 // The `bottom` values here are coupled to the space
@@ -118,13 +87,6 @@ const HeroPictureContainer = styled.div`
     `}
 `;
 
-export type FeaturedMedia =
-  | ReactElement<typeof PrismicImage>
-  | ReactElement<typeof VideoEmbed>
-  | ReactElement<typeof Picture>;
-
-type BackgroundType = ReactElement<typeof HeaderBackground>;
-
 function addFreeLabel(labelListProps) {
   const freeLabel = {
     text: 'Free',
@@ -135,84 +97,56 @@ function addFreeLabel(labelListProps) {
   return { ...(labelListProps ?? {}), labels };
 }
 
+export type FeaturedMedia =
+  | ReactElement<typeof PrismicImage>
+  | ReactElement<typeof VideoEmbed>
+  | ReactElement<typeof Picture>;
+
+type BackgroundType = ReactElement<typeof HeaderBackground>;
+
 type Props = {
+  title: string;
   breadcrumbs: ComponentProps<typeof Breadcrumb>;
   labels?: ComponentProps<typeof LabelsList>;
-  title: string;
   ContentTypeInfo?: ReactNode;
   Background?: BackgroundType;
   FeaturedMedia?: FeaturedMedia;
   HeroPicture?: ReactElement<typeof Picture>;
-  isFree?: boolean;
   heroImageBgColor?: 'warmNeutral.300' | 'white';
   backgroundTexture?: string;
-  highlightHeading?: boolean;
   isContentTypeInfoBeforeMedia?: boolean;
   SerialPartNumber?: ReactNode;
   sectionLevelPage?: boolean;
+
+  displayFreeLabel?: boolean;
   isSlim?: boolean;
   fullWidth?: boolean;
   includeAccessibilityProvision?: boolean;
 };
 
 const sectionLevelPageGridLayout = { s: 12, m: 12, l: 10, xl: 10 };
-const PageHeader: FunctionComponent<Props> = ({
-  title,
+const NewPageHeader: FunctionComponent<Props> = ({
   breadcrumbs,
   labels,
+  title,
   ContentTypeInfo,
   Background,
   HeroPicture,
   FeaturedMedia,
-  isFree = false,
   isContentTypeInfoBeforeMedia = false,
   // Not a massive fan of this, but it feels overkill to make a new component
   // for it as it's only used on articles and exhibitions
   heroImageBgColor = 'white',
   backgroundTexture,
-  highlightHeading,
   SerialPartNumber,
+  displayFreeLabel,
   sectionLevelPage,
   isSlim,
   fullWidth,
   includeAccessibilityProvision,
 }) => {
-  const { filterEventsListing } = useToggles();
-
-  if (filterEventsListing)
-    return (
-      <NewPageHeader
-        title={title}
-        breadcrumbs={breadcrumbs}
-        labels={labels}
-        ContentTypeInfo={ContentTypeInfo}
-        HeroPicture={HeroPicture}
-        FeaturedMedia={FeaturedMedia}
-        heroImageBgColor={heroImageBgColor}
-        backgroundTexture={backgroundTexture}
-        isContentTypeInfoBeforeMedia={isContentTypeInfoBeforeMedia}
-        SerialPartNumber={SerialPartNumber}
-        sectionLevelPage={sectionLevelPage}
-        isSlim={isSlim}
-        fullWidth={fullWidth}
-        includeAccessibilityProvision={includeAccessibilityProvision}
-        Background={Background}
-        displayFreeLabel={isFree}
-        // highlightHeading={highlightHeading}
-      />
-    );
-
-  const Heading =
-    highlightHeading && !sectionLevelPage ? (
-      <HighlightedHeading text={title} />
-    ) : (
-      <SectionPageHeader $sectionLevelPage={sectionLevelPage ?? false}>
-        {title}
-      </SectionPageHeader>
-    );
-
   const hasMedia = FeaturedMedia || HeroPicture;
-  const amendedLabels = isFree ? addFreeLabel(labels) : labels;
+  const amendedLabels = displayFreeLabel ? addFreeLabel(labels) : labels;
 
   // As <Breadcrumb> will automatically add "Home" as the first breadcrumb unless "noHomeLink" is true
   // This checks whether or not there are actually any items.
@@ -222,7 +156,7 @@ const PageHeader: FunctionComponent<Props> = ({
 
   return (
     <>
-      <Container $backgroundTexture={backgroundTexture}>
+      <PageHeaderContainer $backgroundTexture={backgroundTexture}>
         {Background}
         <ContaineredLayout
           gridSizes={
@@ -253,6 +187,7 @@ const PageHeader: FunctionComponent<Props> = ({
                 <Breadcrumb {...breadcrumbs} />
               </Space>
             )}
+
             <ConditionalWrapper
               condition={sectionLevelPage || !hasBreadcrumbItems}
               wrapper={children => (
@@ -262,8 +197,12 @@ const PageHeader: FunctionComponent<Props> = ({
               )}
             >
               {SerialPartNumber}
-              {Heading}
+
+              <SectionPageHeader $sectionLevelPage={sectionLevelPage ?? false}>
+                {title}
+              </SectionPageHeader>
             </ConditionalWrapper>
+
             {isContentTypeInfoBeforeMedia && ContentTypeInfo && (
               <Space
                 $v={{ size: 'm', properties: ['margin-bottom'] }}
@@ -272,13 +211,9 @@ const PageHeader: FunctionComponent<Props> = ({
                 {ContentTypeInfo}
               </Space>
             )}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'end',
-              }}
-            >
-              {amendedLabels && amendedLabels.labels.length > 0 && (
+
+            <div style={{ display: 'flex', alignItems: 'end' }}>
+              {!!amendedLabels?.labels?.length && (
                 <LabelsList {...amendedLabels} />
               )}
 
@@ -308,7 +243,7 @@ const PageHeader: FunctionComponent<Props> = ({
             </HeroPictureContainer>
           </div>
         )}
-      </Container>
+      </PageHeaderContainer>
 
       {!hasMedia &&
         !isContentTypeInfoBeforeMedia &&
@@ -329,4 +264,4 @@ const PageHeader: FunctionComponent<Props> = ({
   );
 };
 
-export default PageHeader;
+export default NewPageHeader;

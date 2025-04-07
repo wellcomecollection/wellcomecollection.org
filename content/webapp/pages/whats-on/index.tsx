@@ -40,10 +40,10 @@ import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
+import { SectionPageHeader } from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
-import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
