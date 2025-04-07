@@ -35,6 +35,7 @@ import { EventDocument } from '@weco/content/services/wellcome/content/types/api
 
 type Props = {
   events: EventDocument[];
+  isPastListing?: boolean;
 };
 
 const EventsContainer = styled.div`
