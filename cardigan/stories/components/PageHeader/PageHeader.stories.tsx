@@ -7,7 +7,11 @@ import {
   image,
 } from '@weco/cardigan/stories/data/images';
 import { EmbedSlice as RawEmbedSlice } from '@weco/common/prismicio-types';
-import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import {
+  headerBackgroundLs,
+  landingHeaderBackgroundLs,
+  repeatingLsBlack,
+} from '@weco/common/utils/backgrounds';
 import { font } from '@weco/common/utils/classnames';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
@@ -23,21 +27,10 @@ import BookImage from '@weco/content/components/BookImage/BookImage';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
 import TextWithDot from '@weco/content/components/TextWithDot';
 
-const Template = args => {
-  const { backgroundTexture: hasBackgroundTexture, ...rest } = args;
-
-  return (
-    <PageHeader
-      {...rest}
-      backgroundTexture={hasBackgroundTexture ? headerBackgroundLs : undefined}
-    />
-  );
-};
-
 const meta: Meta<typeof PageHeader> = {
   title: 'Components/PageHeader',
   component: PageHeader,
-  render: Template,
+  render: args => <PageHeader {...args} />,
   parameters: {
     chromatic: { diffThreshold: 0.2, delay: 1000 },
   },
@@ -54,13 +47,17 @@ const meta: Meta<typeof PageHeader> = {
     fullWidth: false,
     includeAccessibilityProvision: false,
     heroImageBgColor: 'white',
-    // @ts-expect-error it is a boolean for the sake of Storybook
-    backgroundTexture: false,
   },
   argTypes: {
     backgroundTexture: {
-      control: 'boolean',
-      label: 'Has a background texture',
+      control: 'select',
+      name: 'Background texture',
+      options: [
+        undefined,
+        headerBackgroundLs,
+        repeatingLsBlack,
+        landingHeaderBackgroundLs,
+      ],
     },
     isContentTypeInfoBeforeMedia: {
       control: 'boolean',
@@ -72,7 +69,7 @@ const meta: Meta<typeof PageHeader> = {
     },
     sectionLevelPage: {
       control: 'boolean',
-      name: 'sectionLevelPage', // TODO
+      name: 'Is a section-level/landing page ("sectionLevelPage")',
     },
     includeAccessibilityProvision: {
       table: {
@@ -254,6 +251,23 @@ export const ShortFilm: ShortFilmStory = {
       Readme={ShortFilmPageHeaderReadme}
     />
   ),
+  argTypes: {
+    Body: {
+      table: {
+        disable: true,
+      },
+    },
+    Header: {
+      table: {
+        disable: true,
+      },
+    },
+    isCreamy: {
+      table: {
+        disable: true,
+      },
+    },
+  },
   args: {
     isCreamy: true,
     Header: (
