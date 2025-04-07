@@ -10,7 +10,6 @@ import { EmbedSlice as RawEmbedSlice } from '@weco/common/prismicio-types';
 import {
   headerBackgroundLs,
   landingHeaderBackgroundLs,
-  repeatingLsBlack,
 } from '@weco/common/utils/backgrounds';
 import { font } from '@weco/common/utils/classnames';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
@@ -25,6 +24,7 @@ import theme from '@weco/common/views/themes/default';
 import Body from '@weco/content/components/Body/Body';
 import BookImage from '@weco/content/components/BookImage/BookImage';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
+import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
 import TextWithDot from '@weco/content/components/TextWithDot';
 
 const meta: Meta<typeof PageHeader> = {
@@ -50,43 +50,30 @@ const meta: Meta<typeof PageHeader> = {
   },
   argTypes: {
     backgroundTexture: {
-      control: 'select',
       name: 'Background texture',
-      options: [
-        undefined,
-        headerBackgroundLs,
-        repeatingLsBlack,
-        landingHeaderBackgroundLs,
-      ],
+      control: 'radio',
+      mapping: {
+        None: undefined,
+        'Example 1': headerBackgroundLs,
+        'Example 2': landingHeaderBackgroundLs,
+      },
+      options: ['None', 'Example 1', 'Example 2'],
     },
     isContentTypeInfoBeforeMedia: {
       control: 'boolean',
       name: 'Has content before the Featured media ("isContentTypeInfoBeforeMedia")',
     },
     isFree: {
-      control: 'boolean',
-      name: 'Display "Free" label ("isFree")',
-    },
-    sectionLevelPage: {
-      control: 'boolean',
-      name: 'Is a section-level/landing page ("sectionLevelPage")',
-    },
-    includeAccessibilityProvision: {
       table: {
         disable: true,
       },
     },
-    fullWidth: {
+    sectionLevelPage: {
       table: {
         disable: true,
       },
     },
     highlightHeading: {
-      table: {
-        disable: true,
-      },
-    },
-    isSlim: {
       table: {
         disable: true,
       },
@@ -127,11 +114,6 @@ const meta: Meta<typeof PageHeader> = {
       },
     },
     breadcrumbs: {
-      table: {
-        disable: true,
-      },
-    },
-    SerialPartNumber: {
       table: {
         disable: true,
       },
@@ -218,6 +200,43 @@ const EventFeaturedMedia = () => (
 
 export const Article: Story = {
   name: 'Article',
+  argTypes: {
+    SerialPartNumber: {
+      control: 'radio',
+      mapping: {
+        None: undefined,
+        'Part of series': (
+          <PartNumberIndicator
+            key="part-number-indicator"
+            number={2}
+            backgroundColor="accent.salmon"
+            description="Part"
+          />
+        ),
+      },
+      options: ['None', 'Part of series'],
+    },
+    backgroundTexture: {
+      table: {
+        disable: true,
+      },
+    },
+    isSlim: {
+      table: {
+        disable: true,
+      },
+    },
+    includeAccessibilityProvision: {
+      table: {
+        disable: true,
+      },
+    },
+    fullWidth: {
+      table: {
+        disable: true,
+      },
+    },
+  },
   args: {
     title: 'How the magician’s assistant creates the illusion',
     breadcrumbs: {
@@ -236,6 +255,7 @@ export const Article: Story = {
       />
     ),
     ContentTypeInfo,
+    SerialPartNumber: 'None',
     isContentTypeInfoBeforeMedia: true,
   },
 };
@@ -324,6 +344,33 @@ export const ShortFilm: ShortFilmStory = {
 
 export const Event: Story = {
   name: 'Event',
+  argTypes: {
+    SerialPartNumber: {
+      table: {
+        disable: true,
+      },
+    },
+    backgroundTexture: {
+      table: {
+        disable: true,
+      },
+    },
+    isSlim: {
+      table: {
+        disable: true,
+      },
+    },
+    includeAccessibilityProvision: {
+      table: {
+        disable: true,
+      },
+    },
+    fullWidth: {
+      table: {
+        disable: true,
+      },
+    },
+  },
   args: {
     title: 'DNA, Diversity and Difference',
     breadcrumbs: { items: [{ text: 'Events', url: '#' }] },
@@ -341,6 +388,28 @@ export const Event: Story = {
 
 export const Exhibition: Story = {
   name: 'Exhibition',
+  argTypes: {
+    SerialPartNumber: {
+      table: {
+        disable: true,
+      },
+    },
+    backgroundTexture: {
+      table: {
+        disable: true,
+      },
+    },
+    isContentTypeInfoBeforeMedia: {
+      table: {
+        disable: true,
+      },
+    },
+    isSlim: {
+      table: {
+        disable: true,
+      },
+    },
+  },
   args: {
     title: 'Being Human',
     breadcrumbs: { items: [{ text: 'Exhibitions', url: '#' }] },
@@ -358,11 +427,36 @@ export const Exhibition: Story = {
     ),
     ContentTypeInfo: <ExhibitionContentTypeInfo />,
     isContentTypeInfoBeforeMedia: true,
+    isFree: true,
+    includeAccessibilityProvision: true,
+    fullWidth: true,
   },
 };
 
 export const List: Story = {
   name: 'List',
+  argTypes: {
+    isSlim: {
+      table: {
+        disable: true,
+      },
+    },
+    SerialPartNumber: {
+      table: {
+        disable: true,
+      },
+    },
+    includeAccessibilityProvision: {
+      table: {
+        disable: true,
+      },
+    },
+    fullWidth: {
+      table: {
+        disable: true,
+      },
+    },
+  },
   args: {
     title: 'Books',
     backgroundTexture: headerBackgroundLs,
@@ -374,6 +468,31 @@ export const List: Story = {
 };
 
 export const Page: Story = {
+  argTypes: {
+    isSlim: {
+      control: 'boolean',
+    },
+    SerialPartNumber: {
+      table: {
+        disable: true,
+      },
+    },
+    isContentTypeInfoBeforeMedia: {
+      table: {
+        disable: true,
+      },
+    },
+    includeAccessibilityProvision: {
+      table: {
+        disable: true,
+      },
+    },
+    fullWidth: {
+      table: {
+        disable: true,
+      },
+    },
+  },
   args: {
     title: 'Venue hire terms and conditions',
     backgroundTexture: headerBackgroundLs,
@@ -383,6 +502,33 @@ export const Page: Story = {
 };
 
 export const Book: Story = {
+  argTypes: {
+    SerialPartNumber: {
+      table: {
+        disable: true,
+      },
+    },
+    backgroundTexture: {
+      table: {
+        disable: true,
+      },
+    },
+    isSlim: {
+      table: {
+        disable: true,
+      },
+    },
+    includeAccessibilityProvision: {
+      table: {
+        disable: true,
+      },
+    },
+    fullWidth: {
+      table: {
+        disable: true,
+      },
+    },
+  },
   args: {
     title: 'Together',
     ContentTypeInfo: <BookContentTypeInfo />,
