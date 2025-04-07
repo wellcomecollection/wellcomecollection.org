@@ -3,6 +3,7 @@ import { FunctionComponent } from 'react';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { getServerData } from '@weco/common/server-data';
+import { useToggles } from '@weco/common/server-data/Context';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { Period } from '@weco/common/types/periods';
@@ -24,6 +25,7 @@ import SpacingSection from '@weco/common/views/components/styled/SpacingSection'
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
 import Pagination from '@weco/content/components/Pagination/Pagination';
+import Tabs from '@weco/content/components/Tabs';
 import { orderEventsByNextAvailableDate } from '@weco/content/services/prismic/events';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
@@ -97,6 +99,7 @@ export const getServerSideProps: GetServerSideProps<
 
 const EventsPage: FunctionComponent<Props> = props => {
   const { events, title, period, jsonLd } = props;
+  const { filterEventsListing } = useToggles();
   const convertedPaginatedResults = {
     ...events,
     results:
@@ -105,6 +108,7 @@ const EventsPage: FunctionComponent<Props> = props => {
         : events.results,
   };
   const firstEvent = events.results[0];
+
   return (
     <PageLayout
       title={title}
@@ -133,32 +137,71 @@ const EventsPage: FunctionComponent<Props> = props => {
               />
             )
           }
-          backgroundTexture={headerBackgroundLs}
-          highlightHeading={true}
-          isContentTypeInfoBeforeMedia={false}
+          backgroundTexture={
+            filterEventsListing ? undefined : headerBackgroundLs
+          }
+          highlightHeading={!filterEventsListing}
+          isContentTypeInfoBeforeMedia={filterEventsListing}
+          isSlim={filterEventsListing}
         />
 
-        {convertedPaginatedResults.totalPages > 1 && (
+        {filterEventsListing && (
+          <ContaineredLayout gridSizes={gridSize12()}>
+            <Tabs
+              hasNewLook
+              tabBehaviour="navigate"
+              currentSection={
+                period === 'current-and-coming-up' ? 'upcoming' : 'past'
+              }
+              label="Time-based event filter"
+              items={[
+                {
+                  id: 'upcoming',
+                  url: `/events`,
+                  text: 'Upcoming events',
+                },
+                {
+                  id: 'past',
+                  url: `/events/past`,
+                  text: 'Past events',
+                },
+              ]}
+            />
+          </ContaineredLayout>
+        )}
+
+        {(filterEventsListing || convertedPaginatedResults.totalPages > 1) && (
           <ContaineredLayout gridSizes={gridSize12()}>
             <PaginationWrapper $verticalSpacing="l">
               <span>
                 {pluralize(convertedPaginatedResults.totalResults, 'result')}
               </span>
 
-              <Pagination
-                totalPages={convertedPaginatedResults.totalPages}
-                ariaLabel="Results pagination"
-                isHiddenMobile
-              />
+              {!filterEventsListing && (
+                <Pagination
+                  totalPages={convertedPaginatedResults.totalPages}
+                  ariaLabel="Results pagination"
+                  isHiddenMobile
+                />
+              )}
             </PaginationWrapper>
 
-            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-              <Divider />
-            </Space>
+            {!filterEventsListing && (
+              <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <Divider />
+              </Space>
+            )}
           </ContaineredLayout>
         )}
 
-        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+        <Space
+          {...(!filterEventsListing && {
+            $v: {
+              size: 'l',
+              properties: ['margin-top'],
+            },
+          })}
+        >
           {convertedPaginatedResults.results.length > 0 ? (
             <CardGrid
               items={convertedPaginatedResults.results}
@@ -171,7 +214,7 @@ const EventsPage: FunctionComponent<Props> = props => {
           )}
         </Space>
 
-        {convertedPaginatedResults.totalPages > 1 && (
+        {(filterEventsListing || convertedPaginatedResults.totalPages > 1) && (
           <ContaineredLayout gridSizes={gridSize12()}>
             <PaginationWrapper $verticalSpacing="l" $alignRight>
               <Pagination
@@ -181,7 +224,8 @@ const EventsPage: FunctionComponent<Props> = props => {
             </PaginationWrapper>
           </ContaineredLayout>
         )}
-        {period === 'current-and-coming-up' && (
+
+        {!filterEventsListing && period === 'current-and-coming-up' && (
           <ContaineredLayout gridSizes={gridSize12()}>
             <Space $v={{ size: 'm', properties: ['margin-top'] }}>
               <MoreLink url="/events/past" name="View past events" />
