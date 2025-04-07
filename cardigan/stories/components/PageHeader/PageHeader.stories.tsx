@@ -235,7 +235,7 @@ export const Article: Story = {
           }),
           image(florenceWinterfloodImageUrl('3200x3200'), 3200, 3200),
         ]}
-        isFull
+        isFull={true}
       />
     ),
     ContentTypeInfo,
@@ -258,7 +258,7 @@ export const ShortFilm: ShortFilmStory = {
     isCreamy: true,
     Header: (
       <PageHeader
-        isContentTypeInfoBeforeMedia
+        isContentTypeInfoBeforeMedia={true}
         ContentTypeInfo={ContentTypeInfo}
         labels={{ labels: [{ text: 'Short film' }] }}
         title="Audrey's archivist"
@@ -317,7 +317,10 @@ export const Event: Story = {
     ContentTypeInfo: <EventContentTypeInfo />,
     isContentTypeInfoBeforeMedia: true,
     Background: (
-      <HeaderBackground hasWobblyEdge backgroundTexture={headerBackgroundLs} />
+      <HeaderBackground
+        hasWobblyEdge={true}
+        backgroundTexture={headerBackgroundLs}
+      />
     ),
   },
 };
@@ -336,7 +339,7 @@ export const Exhibition: Story = {
           }),
           image(florenceWinterfloodImageUrl('3200x3200'), 3200, 3200),
         ]}
-        isFull
+        isFull={true}
       />
     ),
     ContentTypeInfo: <ExhibitionContentTypeInfo />,
