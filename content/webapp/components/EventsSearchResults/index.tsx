@@ -61,7 +61,10 @@ const LocationWrapper = styled(Space).attrs({
 
 // Pretty much the equivalent to EventPromo component, but as the data is structured differently, it felt easier to copy here.
 // Should we merge them and make it more complex? As the goal is to only use the Content API at some point, I'm wondering if it's worth the effort?
-const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
+const EventsSearchResults: FunctionComponent<Props> = ({
+  events,
+  isPastListing,
+}: Props) => {
   return (
     <EventsContainer>
       {events.map(event => {
@@ -142,7 +145,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
                   </Space>
                 )}
 
-                {!isPast && (
+                {(!isPast || (isPast && isPastListing)) && (
                   <>
                     <DateInfo>
                       <EventDateRange
