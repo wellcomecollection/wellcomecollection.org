@@ -6,7 +6,6 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
-import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision/AccessibilityProvision';
 import Breadcrumb from '@weco/common/views/components/Breadcrumb/Breadcrumb';
@@ -27,8 +26,6 @@ import {
   WobblyEdge,
 } from '@weco/common/views/components/WobblyEdge';
 import { PaletteColor } from '@weco/common/views/themes/config';
-
-import NewPageHeader from './PageHeader.New';
 
 const Container = styled.div<{ $backgroundTexture?: string }>`
   position: relative;
@@ -177,31 +174,6 @@ const PageHeader: FunctionComponent<Props> = ({
   fullWidth,
   includeAccessibilityProvision,
 }) => {
-  const { filterEventsListing } = useToggles();
-
-  if (filterEventsListing)
-    return (
-      <NewPageHeader
-        title={title}
-        breadcrumbs={breadcrumbs}
-        labels={labels}
-        ContentTypeInfo={ContentTypeInfo}
-        HeroPicture={HeroPicture}
-        FeaturedMedia={FeaturedMedia}
-        heroImageBgColor={heroImageBgColor}
-        backgroundTexture={backgroundTexture}
-        isContentTypeInfoBeforeMedia={isContentTypeInfoBeforeMedia}
-        SerialPartNumber={SerialPartNumber}
-        sectionLevelPage={sectionLevelPage}
-        isSlim={isSlim}
-        fullWidth={fullWidth}
-        includeAccessibilityProvision={includeAccessibilityProvision}
-        Background={Background}
-        displayFreeLabel={isFree}
-        // highlightHeading={highlightHeading}
-      />
-    );
-
   const Heading =
     highlightHeading && !sectionLevelPage ? (
       <HighlightedHeading text={title} />
