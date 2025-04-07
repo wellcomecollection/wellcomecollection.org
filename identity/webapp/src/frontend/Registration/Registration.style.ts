@@ -25,12 +25,12 @@ const AlertBox = styled.div.attrs({ role: 'alert', className: 'font-intr' })`
 `;
 
 export const ErrorAlert = styled(AlertBox)`
-  background-color: rgba(224, 27, 47, 0.1);
+  background-color: rgb(224, 27, 47, 0.1);
   color: ${props => props.theme.color('validation.red')};
 `;
 
 export const SuccessMessage = styled(AlertBox)`
-  background-color: rgba(0, 120, 108, 0.1);
+  background-color: rgb(0, 120, 108, 0.1);
   color: ${props => props.theme.color('validation.green')};
 `;
 

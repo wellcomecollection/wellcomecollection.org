@@ -16,7 +16,7 @@ const Overlay = styled.div.attrs<OverlayProps>(props => ({
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgb(0, 0, 0, 0.6);
   z-index: 9999;
 `;
 

@@ -182,7 +182,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
               background={
                 background ||
                 (rgbColor &&
-                  `rgba(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b}, 0.5)`)
+                  `rgb(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b}, 0.5)`)
               }
             />
           </ImageFrame>
