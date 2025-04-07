@@ -6,17 +6,24 @@ import { getServerData } from '@weco/common/server-data';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { Period } from '@weco/common/types/periods';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import { pluralize } from '@weco/common/utils/grammar';
 import { serialiseProps } from '@weco/common/utils/json';
+import Divider from '@weco/common/views/components/Divider/Divider';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
+import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
+import Pagination from '@weco/content/components/Pagination/Pagination';
 import { orderEventsByNextAvailableDate } from '@weco/content/services/prismic/events';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
@@ -109,11 +116,71 @@ const EventsPage: FunctionComponent<Props> = props => {
       image={firstEvent?.promo?.image}
     >
       <SpacingSection>
-        <LayoutPaginatedResults
+        <PageHeader
+          breadcrumbs={{ items: [] }}
+          labels={undefined}
           title={title}
-          description={pageDescriptions.events}
-          paginatedResults={convertedPaginatedResults}
+          ContentTypeInfo={
+            pageDescriptions.events && (
+              <PrismicHtmlBlock
+                html={[
+                  {
+                    type: 'paragraph',
+                    text: pageDescriptions.events,
+                    spans: [],
+                  },
+                ]}
+              />
+            )
+          }
+          backgroundTexture={headerBackgroundLs}
+          highlightHeading={true}
+          isContentTypeInfoBeforeMedia={false}
         />
+
+        {convertedPaginatedResults.totalPages > 1 && (
+          <ContaineredLayout gridSizes={gridSize12()}>
+            <PaginationWrapper $verticalSpacing="l">
+              <span>
+                {pluralize(convertedPaginatedResults.totalResults, 'result')}
+              </span>
+
+              <Pagination
+                totalPages={convertedPaginatedResults.totalPages}
+                ariaLabel="Results pagination"
+                isHiddenMobile
+              />
+            </PaginationWrapper>
+
+            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <Divider />
+            </Space>
+          </ContaineredLayout>
+        )}
+
+        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+          {convertedPaginatedResults.results.length > 0 ? (
+            <CardGrid
+              items={convertedPaginatedResults.results}
+              itemsPerRow={3}
+            />
+          ) : (
+            <ContaineredLayout gridSizes={gridSize12()}>
+              <p>There are no results.</p>
+            </ContaineredLayout>
+          )}
+        </Space>
+
+        {convertedPaginatedResults.totalPages > 1 && (
+          <ContaineredLayout gridSizes={gridSize12()}>
+            <PaginationWrapper $verticalSpacing="l" $alignRight>
+              <Pagination
+                totalPages={convertedPaginatedResults.totalPages}
+                ariaLabel="Results pagination"
+              />
+            </PaginationWrapper>
+          </ContaineredLayout>
+        )}
         {period === 'current-and-coming-up' && (
           <ContaineredLayout gridSizes={gridSize12()}>
             <Space $v={{ size: 'm', properties: ['margin-top'] }}>
