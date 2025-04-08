@@ -57,6 +57,15 @@ const SkipPlayWrapper = styled.div`
 const SkipButton = styled.button<{ $isDark: boolean }>`
   color: ${props =>
     props.$isDark ? props.theme.color('yellow') : props.theme.color('black')};
+
+  transition:
+    color 0.2s ease-out,
+    transform 0.2s ease-out;
+
+  &:hover {
+    color: ${props => props.theme.color('white')};
+    transform: scale(1.1);
+  }
 `;
 
 const PlayerRateWrapper = styled.div`
@@ -68,15 +77,25 @@ const PlayerRateWrapper = styled.div`
 
 const PlayPauseInner = styled.div`
   color: ${props => props.theme.color('yellow')};
+  transition:
+    color 0.2s ease-out,
+    transform 0.2s ease-out;
+
+  &:hover {
+    color: ${props => props.theme.color('white')};
+    transform: scale(1.1);
+  }
 `;
 
 const AudioPlayerGrid = styled.div.attrs({})<{ $isEnhanced: boolean }>`
   display: ${props => (props.$isEnhanced ? 'grid' : 'none')};
   grid-template-columns: repeat(3, 1fr);
-  align-items: center;
+  align-items: baseline;
 `;
 
-const SecondRow = styled.div`
+const SecondRow = styled(Space).attrs({
+  $v: { size: 's', properties: ['margin-top'] },
+})`
   grid-column: 1 / -1;
 `;
 
@@ -166,7 +185,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
     if (!audioPlayerRef.current) return;
     if (!progressBarRef.current) return;
 
-    const newTime = parseInt(progressBarRef.current.value, 10) - 10;
+    const newTime = parseInt(progressBarRef.current.value, 10) - 15;
 
     audioPlayerRef.current.currentTime = newTime;
     setCurrentTime(newTime);
@@ -177,7 +196,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
     if (!audioPlayerRef.current) return;
     if (!progressBarRef.current) return;
 
-    const newTime = parseInt(progressBarRef.current.value, 10) + 10;
+    const newTime = parseInt(progressBarRef.current.value, 10) + 15;
 
     audioPlayerRef.current.currentTime = newTime;
     setCurrentTime(newTime);

@@ -7,6 +7,7 @@ const RangeSlider = styled.input.attrs({
   type: 'range',
   step: 'any',
 })`
+  cursor: pointer;
   position: relative;
   z-index: 1;
   appearance: none;
@@ -19,6 +20,15 @@ const RangeSlider = styled.input.attrs({
     height: 1rem;
     border-radius: 50%;
     border: 0;
+
+    transition:
+      background 0.2s ease-out,
+      transform 0.2s ease-out;
+
+    &:hover {
+      background: ${props => props.theme.color('white')};
+      transform: scale(1.5);
+    }
   }
 
   &::-moz-range-thumb {
@@ -28,6 +38,15 @@ const RangeSlider = styled.input.attrs({
     height: 1rem;
     border-radius: 50%;
     border: 0;
+
+    transition:
+      background 0.2s ease-out,
+      transform 0.2s ease-out;
+
+    &:hover {
+      background: ${props => props.theme.color('white')};
+      transform: scale(1.5);
+    }
   }
 `;
 
