@@ -7,7 +7,10 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { objToJsonLd } from '@weco/common/utils/json-ld';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { getImageUrlAtSize } from '@weco/content/services/prismic/types/images';
-import { Article as ArticleContentApi } from '@weco/content/services/wellcome/content/types/api';
+import {
+  Article as ArticleContentApi,
+  EventDocument as EventContentApi,
+} from '@weco/content/services/wellcome/content/types/api';
 import { Article } from '@weco/content/types/articles';
 import { Contributor } from '@weco/content/types/contributors';
 import { Event } from '@weco/content/types/events';
@@ -129,6 +132,45 @@ export function eventLd(event: Event): JsonLdObj[] {
             : undefined,
           isAccessibleForFree: !event.cost,
           performers: contributorLd(event.contributors),
+        },
+        { type: 'Event' }
+      );
+    });
+}
+
+export function eventLdContentApi(event: EventContentApi): JsonLdObj[] {
+  const promoImage = event.image;
+
+  return event.times
+    .map(eventTime => {
+      const eventWith1Time = Object.assign({}, event);
+      eventWith1Time.times = [eventTime];
+      return eventWith1Time;
+    })
+    .map(event => {
+      return objToJsonLd(
+        {
+          name: event.title,
+          // Theoretically an event might not be at Wellcome, in which case we'd
+          // want to change this, but we don't have any information about external
+          // locations in our Prismic model (or anywhere else!) so hard-coding this
+          // is fine for now.
+          location: {
+            '@type': 'Place',
+            name: 'Wellcome Collection',
+            address: objToJsonLd(wellcomeCollectionAddress, {
+              type: 'PostalAddress',
+              root: false,
+            }),
+          },
+          startDate: event.times.map(time => time.startDateTime),
+          endDate: event.times.map(time => time.endDateTime),
+          // description: event.promo?.caption, // TODO, add to event result?
+          image: promoImage
+            ? getImageUrlAtSize(promoImage, { w: 600 })
+            : undefined,
+          // isAccessibleForFree: !event.cost, // TODO?
+          // performers: contributorLd(event.contributors), //TODO?
         },
         { type: 'Event' }
       );
