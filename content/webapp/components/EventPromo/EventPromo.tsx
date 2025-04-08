@@ -152,12 +152,10 @@ const EventPromo: FunctionComponent<Props> = ({
                   fromDate={fromDate}
                 />
               </DateInfo>
-
               {dateString && <DateInfo>{dateString}</DateInfo>}
               {timeString && <DateInfo>{timeString}</DateInfo>}
             </>
           )}
-
           {upcomingDatesFullyBooked(event.times) && (
             <Space $v={{ size: 'm', properties: ['margin-top'] }}>
               <TextWithDot
@@ -167,12 +165,10 @@ const EventPromo: FunctionComponent<Props> = ({
               />
             </Space>
           )}
-
           {!isPast && event.times.length > 1 && (
             <p className={font('intb', 6)}>See all dates/times</p>
           )}
-
-          {isPast && !event.availableOnline && (
+          {isPast && !event.availableOnline && !isPastListing && (
             <div>
               <TextWithDot
                 className={font('intr', 5)}
