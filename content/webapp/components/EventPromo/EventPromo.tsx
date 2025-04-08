@@ -131,7 +131,7 @@ const EventPromo: FunctionComponent<Props> = ({
       <CardBody>
         <div>
           <CardTitle>{event.title}</CardTitle>
-          {locationText && (
+          {locationText && !isPastListing && (
             <LocationWrapper>
               <Icon icon={location} matchText />
               <Space $h={{ size: 'xs', properties: ['margin-left'] }}>

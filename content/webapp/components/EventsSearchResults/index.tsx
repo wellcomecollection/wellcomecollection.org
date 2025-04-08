@@ -130,7 +130,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({
               <div>
                 <CardTitle>{event.title}</CardTitle>
 
-                {locationText && (
+                {locationText && !isPastListing && (
                   <LocationWrapper>
                     <Icon icon={location} matchText />
                     <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
