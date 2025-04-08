@@ -139,12 +139,6 @@ const EventsSearchResults: FunctionComponent<Props> = ({
                   </LocationWrapper>
                 )}
 
-                {event.isAvailableOnline && (
-                  <Space $v={{ size: 's', properties: ['margin-top'] }}>
-                    <WatchLabel text="Available to watch" />
-                  </Space>
-                )}
-
                 {(!isPast || (isPast && isPastListing)) && (
                   <>
                     <DateInfo>
@@ -156,6 +150,12 @@ const EventsSearchResults: FunctionComponent<Props> = ({
                       />
                     </DateInfo>
                   </>
+                )}
+
+                {event.isAvailableOnline && (
+                  <Space $v={{ size: 's', properties: ['margin-top'] }}>
+                    <WatchLabel text="Available to watch" />
+                  </Space>
                 )}
 
                 {upcomingDatesFullyBooked(times) && (
