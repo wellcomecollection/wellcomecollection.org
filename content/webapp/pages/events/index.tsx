@@ -113,6 +113,7 @@ const EventsPage: FunctionComponent<Props> = props => {
           title={title}
           description={pageDescriptions.events}
           paginatedResults={convertedPaginatedResults}
+          isPastListing={period === 'past'}
         />
         {period === 'current-and-coming-up' && (
           <ContaineredLayout gridSizes={gridSize12()}>
