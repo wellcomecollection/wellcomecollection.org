@@ -93,7 +93,11 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
 
     <Space $v={{ size: 'l', properties: ['margin-top'] }}>
       {paginatedResults.results.length > 0 ? (
-        <CardGrid items={paginatedResults.results} itemsPerRow={3} />
+        <CardGrid
+          items={paginatedResults.results}
+          itemsPerRow={3}
+          isPastListing={isPastListing}
+        />
       ) : (
         <ContaineredLayout gridSizes={gridSize12()}>
           <p>There are no results.</p>

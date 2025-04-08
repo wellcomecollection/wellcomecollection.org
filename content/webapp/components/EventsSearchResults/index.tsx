@@ -145,8 +145,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({
                       <EventDateRange
                         eventTimes={times}
                         splitTime={true}
-                        // TODO change with date filtering, defaults to today
-                        // fromDate={}
+                        isPastListing={isPastListing}
                       />
                     </DateInfo>
                   </>
