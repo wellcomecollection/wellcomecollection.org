@@ -38,6 +38,7 @@ type Props = {
   paginatedResults: PaginatedResultsTypes;
   children?: ReactElement;
   breadcrumbs?: ComponentProps<typeof Breadcrumb>;
+  isPastListing?: boolean;
 };
 
 const LayoutPaginatedResults: FunctionComponent<Props> = ({
@@ -46,6 +47,7 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
   paginatedResults,
   children,
   breadcrumbs = { items: [] },
+  isPastListing,
 }) => (
   <>
     <PageHeader
