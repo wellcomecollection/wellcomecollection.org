@@ -35,7 +35,7 @@ import { EventDocument } from '@weco/content/services/wellcome/content/types/api
 
 type Props = {
   events: EventDocument[];
-  isPastListing?: boolean;
+  isInPastListing?: boolean;
 };
 
 const EventsContainer = styled.div`
@@ -63,7 +63,7 @@ const LocationWrapper = styled(Space).attrs({
 // Should we merge them and make it more complex? As the goal is to only use the Content API at some point, I'm wondering if it's worth the effort?
 const EventsSearchResults: FunctionComponent<Props> = ({
   events,
-  isPastListing,
+  isInPastListing,
 }: Props) => {
   return (
     <EventsContainer>
@@ -130,7 +130,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({
               <div>
                 <CardTitle>{event.title}</CardTitle>
 
-                {locationText && !isPastListing && (
+                {locationText && !isInPastListing && (
                   <LocationWrapper>
                     <Icon icon={location} matchText />
                     <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
@@ -139,12 +139,12 @@ const EventsSearchResults: FunctionComponent<Props> = ({
                   </LocationWrapper>
                 )}
 
-                {(!isPast || (isPast && isPastListing)) && (
+                {(!isPast || (isPast && isInPastListing)) && (
                   <DateInfo>
                     <EventDateRange
                       eventTimes={times}
                       splitTime={true}
-                      isPastListing={isPastListing}
+                      isInPastListing={isInPastListing}
                     />
                   </DateInfo>
                 )}
@@ -168,7 +168,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({
                 {!isPast && times.length > 1 && (
                   <p className={font('intb', 6)}>See all dates/times</p>
                 )}
-                {isPast && !event.isAvailableOnline && !isPastListing && (
+                {isPast && !event.isAvailableOnline && !isInPastListing && (
                   <div>
                     <TextWithDot
                       className={font('intr', 5)}

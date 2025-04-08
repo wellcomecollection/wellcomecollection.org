@@ -34,7 +34,7 @@ type Props = {
   dateString?: string;
   timeString?: string;
   fromDate?: Date;
-  isPastListing?: boolean;
+  isInPastListing?: boolean;
 };
 
 export function getLocationText(
@@ -89,9 +89,9 @@ const EventPromo: FunctionComponent<Props> = ({
   dateString,
   timeString,
   fromDate,
-  isPastListing,
+  isInPastListing,
 }) => {
-  const isPast = isPastListing || event.isPast;
+  const isPast = isInPastListing || event.isPast;
   const locationText = getLocationText(event.isOnline, event.locations);
   const dateRanges = event.times.sort(
     (a, b) => Number(a.range.startDateTime) - Number(b.range.startDateTime)
@@ -131,7 +131,7 @@ const EventPromo: FunctionComponent<Props> = ({
       <CardBody>
         <div>
           <CardTitle>{event.title}</CardTitle>
-          {locationText && !isPastListing && (
+          {locationText && !isInPastListing && (
             <LocationWrapper>
               <Icon icon={location} matchText />
               <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
@@ -178,7 +178,7 @@ const EventPromo: FunctionComponent<Props> = ({
           {!isPast && event.times.length > 1 && (
             <p className={font('intb', 6)}>See all dates/times</p>
           )}
-          {isPast && !event.availableOnline && !isPastListing && (
+          {isPast && !event.availableOnline && !isInPastListing && (
             <div>
               <TextWithDot
                 className={font('intr', 5)}

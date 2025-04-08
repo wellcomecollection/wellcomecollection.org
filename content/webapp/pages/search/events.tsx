@@ -178,7 +178,7 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
               <main>
                 <EventsSearchResults
                   events={eventResponseList.results}
-                  isPastListing={eventsRouteProps.timespan === 'past'}
+                  isInPastListing={eventsRouteProps.timespan === 'past'}
                 />
               </main>
 

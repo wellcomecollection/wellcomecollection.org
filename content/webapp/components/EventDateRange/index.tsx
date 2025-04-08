@@ -10,7 +10,7 @@ type Props = {
   eventTimes: EventTime[];
   splitTime?: boolean;
   fromDate?: Date;
-  isPastListing?: boolean;
+  isInPastListing?: boolean;
 };
 
 /** Given a list of ranges, returns the first which ends on or after the given
@@ -57,7 +57,7 @@ const EventDateRange: FunctionComponent<Props> = ({
   eventTimes,
   splitTime,
   fromDate,
-  isPastListing,
+  isInPastListing,
 }: Props) => {
   const dateRanges = eventTimes.map(time => ({
     start: time.range.startDateTime,
@@ -69,7 +69,7 @@ const EventDateRange: FunctionComponent<Props> = ({
   );
   const earliestDate = dateRanges[0];
   const latestDate = dateRanges[dateRanges.length - 1];
-  if (isPastListing && dateRanges.length > 1) {
+  if (isInPastListing && dateRanges.length > 1) {
     return (
       <>
         <HTMLDate date={earliestDate.start} /> -{' '}
