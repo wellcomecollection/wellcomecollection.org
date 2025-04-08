@@ -26,7 +26,10 @@ import {
 import PlayRate from './AudioPlayer.PlayRate';
 import Scrubber from './AudioPlayer.Scrubber';
 
-const AudioPlayerWrapper = styled.figure`
+const AudioPlayerWrapper = styled.figure<{ $isDark: boolean }>`
+  padding: 1rem;
+  background: ${props =>
+    props.$isDark ? props.theme.color('black') : props.theme.color('white')};
   margin: 0;
 `;
 
@@ -211,7 +214,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
 
   return (
     <>
-      <AudioPlayerWrapper>
+      <AudioPlayerWrapper $isDark={!!isDark}>
         {title && (
           <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
             <figcaption className={font('intb', 5)} {...titleProps}>

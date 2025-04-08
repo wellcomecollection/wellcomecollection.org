@@ -1,4 +1,5 @@
 import { FunctionComponent, useContext, useEffect, useState } from 'react';
+import { usePopper } from 'react-popper';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
@@ -58,9 +59,20 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
   audioPlayer,
   isDark,
 }) => {
+  const [isSheetActive, setIsSheetActive] = useState(true);
+  const [referenceElement, setReferenceElement] = useState(null);
+  const [popperElement, setPopperElement] = useState(null);
+
+  const { styles, attributes, update } = usePopper(
+    referenceElement,
+    popperElement,
+    {
+      placement: 'top-start',
+    }
+  );
+
   const { audioPlaybackRate, setAudioPlaybackRate } = useContext(AppContext);
   const speeds = [0.5, 1, 1.5, 2];
-  const [isSheetActive, setIsSheetActive] = useState(false);
 
   useEffect(() => {
     audioPlayer.playbackRate = audioPlaybackRate;
@@ -74,15 +86,29 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
 
   function showSheet() {
     setIsSheetActive(true);
+
+    if (update) {
+      update();
+    }
   }
 
   return (
-    <>
-      <OpenSelectButton $isDark={isDark} onClick={showSheet}>
+    <div style={{ position: 'relative', display: 'inline-flex' }}>
+      <OpenSelectButton
+        $isDark={isDark}
+        onClick={showSheet}
+        ref={setReferenceElement}
+      >
         speed
         <span>{audioPlaybackRate}x</span>
       </OpenSelectButton>
-      <PlayRateList $isActive={isSheetActive} $isDark={isDark}>
+      <PlayRateList
+        $isActive={isSheetActive}
+        $isDark={isDark}
+        ref={setPopperElement}
+        style={styles.popper}
+        {...attributes.popper}
+      >
         {speeds.map(speed => {
           return (
             <li key={speed}>
@@ -97,7 +123,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
           );
         })}
       </PlayRateList>
-    </>
+    </div>
   );
 };
 
