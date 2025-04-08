@@ -43,7 +43,7 @@ type TaslIconProps = {
 const TaslIcon = styled.span<TaslIconProps>`
   align-items: center;
   justify-content: center;
-  background: rgba(29, 29, 29, 0.61);
+  background: rgb(29, 29, 29, 0.61);
   color: ${props => props.theme.color('white')};
   width: ${props => `${props.theme.iconDimension}px`};
   height: ${props => `${props.theme.iconDimension}px`};

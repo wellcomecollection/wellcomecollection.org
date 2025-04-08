@@ -1,5 +1,4 @@
 import { Meta, StoryObj } from '@storybook/react';
-import styled from 'styled-components';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import {
@@ -8,56 +7,123 @@ import {
   image,
 } from '@weco/cardigan/stories/data/images';
 import { EmbedSlice as RawEmbedSlice } from '@weco/common/prismicio-types';
-import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import {
+  headerBackgroundLs,
+  landingHeaderBackgroundLs,
+} from '@weco/common/utils/backgrounds';
 import { font } from '@weco/common/utils/classnames';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import PageHeaderReadme from '@weco/common/views/components/PageHeader/README.mdx';
 import ShortFilmPageHeaderReadme from '@weco/common/views/components/PageHeader/ShortFilm_README.mdx';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import Picture from '@weco/common/views/components/Picture/Picture';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
+import theme from '@weco/common/views/themes/default';
 import Body from '@weco/content/components/Body/Body';
 import BookImage from '@weco/content/components/BookImage/BookImage';
 import ContentPage from '@weco/content/components/ContentPage/ContentPage';
+import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
 import TextWithDot from '@weco/content/components/TextWithDot';
 
 const meta: Meta<typeof PageHeader> = {
   title: 'Components/PageHeader',
   component: PageHeader,
-  render: args => (
-    <ReadmeDecorator
-      WrappedComponent={PageHeader}
-      args={args}
-      Readme={PageHeaderReadme}
-    />
-  ),
+  render: args => <PageHeader {...args} />,
   parameters: {
     chromatic: { diffThreshold: 0.2, delay: 1000 },
+  },
+  args: {
+    breadcrumbs: {
+      items: [],
+    },
+    title: '',
+    isFree: false,
+    isSlim: false,
+    isContentTypeInfoBeforeMedia: false,
+    highlightHeading: false,
+    sectionLevelPage: false,
+    fullWidth: false,
+    includeAccessibilityProvision: false,
+    heroImageBgColor: 'white',
+  },
+  argTypes: {
+    backgroundTexture: {
+      name: 'Background texture',
+      control: 'radio',
+      mapping: {
+        None: undefined,
+        'Example 1': headerBackgroundLs,
+        'Example 2': landingHeaderBackgroundLs,
+      },
+      options: ['None', 'Example 1', 'Example 2'],
+    },
+    isContentTypeInfoBeforeMedia: {
+      control: 'boolean',
+      name: 'Has content before the Featured media ("isContentTypeInfoBeforeMedia")',
+    },
+    isFree: {
+      table: {
+        disable: true,
+      },
+    },
+    sectionLevelPage: {
+      table: {
+        disable: true,
+      },
+    },
+    highlightHeading: {
+      table: {
+        disable: true,
+      },
+    },
+    heroImageBgColor: {
+      table: {
+        disable: true,
+      },
+    },
+    title: {
+      table: {
+        disable: true,
+      },
+    },
+    labels: {
+      table: {
+        disable: true,
+      },
+    },
+    FeaturedMedia: {
+      table: {
+        disable: true,
+      },
+    },
+    Background: {
+      table: {
+        disable: true,
+      },
+    },
+    ContentTypeInfo: {
+      table: {
+        disable: true,
+      },
+    },
+    HeroPicture: {
+      table: {
+        disable: true,
+      },
+    },
+    breadcrumbs: {
+      table: {
+        disable: true,
+      },
+    },
   },
 };
 
 export default meta;
 
 type Story = StoryObj<typeof PageHeader>;
-
-const Date = styled.span.attrs({ className: font('intr', 6) })`
-  color: ${props => props.theme.color('neutral.600')};
-`;
-
-const breadcrumbItems = [
-  {
-    text: 'Stories',
-    url: '#',
-  },
-];
-
-const ContentTypeWrapper = styled.div`
-  display: flex;
-  align-items: baseline;
-`;
 
 const ContentTypeInfo = (
   <>
@@ -70,7 +136,7 @@ const ContentTypeInfo = (
         },
       ]}
     />
-    <ContentTypeWrapper>
+    <div style={{ display: 'flex', alignItems: 'baseline' }}>
       <Space
         className={font('intr', 6)}
         $h={{ size: 's', properties: ['margin-right'] }}
@@ -79,20 +145,22 @@ const ContentTypeInfo = (
         <p style={{ marginBottom: 0 }}>
           <span>By </span>
           <span className={font('intb', 6)}>Naomi Paxton</span>{' '}
-          <Date>17 April 2019</Date>
+          <span
+            className={font('intr', 6)}
+            style={{ color: theme.color('neutral.600') }}
+          >
+            17 April 2019
+          </span>
         </p>
       </Space>
-    </ContentTypeWrapper>
+    </div>
   </>
 );
 
 const EventContentTypeInfo = () => (
   <>
     <Space
-      $v={{
-        size: 's',
-        properties: ['margin-bottom'],
-      }}
+      $v={{ size: 's', properties: ['margin-bottom'] }}
       style={{ display: 'flex', flexWrap: 'wrap' }}
     >
       Saturday 8 February 2020, 13:00 – 16:00
@@ -132,9 +200,48 @@ const EventFeaturedMedia = () => (
 
 export const Article: Story = {
   name: 'Article',
+  argTypes: {
+    SerialPartNumber: {
+      control: 'radio',
+      mapping: {
+        None: undefined,
+        'Part of series': (
+          <PartNumberIndicator
+            key="part-number-indicator"
+            number={2}
+            backgroundColor="accent.salmon"
+            description="Part"
+          />
+        ),
+      },
+      options: ['None', 'Part of series'],
+    },
+    backgroundTexture: {
+      table: {
+        disable: true,
+      },
+    },
+    isSlim: {
+      table: {
+        disable: true,
+      },
+    },
+    includeAccessibilityProvision: {
+      table: {
+        disable: true,
+      },
+    },
+    fullWidth: {
+      table: {
+        disable: true,
+      },
+    },
+  },
   args: {
     title: 'How the magician’s assistant creates the illusion',
-    breadcrumbs: { items: breadcrumbItems },
+    breadcrumbs: {
+      items: [{ text: 'Stories', url: '#' }],
+    },
     labels: { labels: [{ text: 'Article' }] },
     HeroPicture: (
       <Picture
@@ -148,6 +255,7 @@ export const Article: Story = {
       />
     ),
     ContentTypeInfo,
+    SerialPartNumber: 'None',
     isContentTypeInfoBeforeMedia: true,
   },
 };
@@ -163,6 +271,23 @@ export const ShortFilm: ShortFilmStory = {
       Readme={ShortFilmPageHeaderReadme}
     />
   ),
+  argTypes: {
+    Body: {
+      table: {
+        disable: true,
+      },
+    },
+    Header: {
+      table: {
+        disable: true,
+      },
+    },
+    isCreamy: {
+      table: {
+        disable: true,
+      },
+    },
+  },
   args: {
     isCreamy: true,
     Header: (
@@ -219,6 +344,33 @@ export const ShortFilm: ShortFilmStory = {
 
 export const Event: Story = {
   name: 'Event',
+  argTypes: {
+    SerialPartNumber: {
+      table: {
+        disable: true,
+      },
+    },
+    backgroundTexture: {
+      table: {
+        disable: true,
+      },
+    },
+    isSlim: {
+      table: {
+        disable: true,
+      },
+    },
+    includeAccessibilityProvision: {
+      table: {
+        disable: true,
+      },
+    },
+    fullWidth: {
+      table: {
+        disable: true,
+      },
+    },
+  },
   args: {
     title: 'DNA, Diversity and Difference',
     breadcrumbs: { items: [{ text: 'Events', url: '#' }] },
@@ -236,6 +388,28 @@ export const Event: Story = {
 
 export const Exhibition: Story = {
   name: 'Exhibition',
+  argTypes: {
+    SerialPartNumber: {
+      table: {
+        disable: true,
+      },
+    },
+    backgroundTexture: {
+      table: {
+        disable: true,
+      },
+    },
+    isContentTypeInfoBeforeMedia: {
+      table: {
+        disable: true,
+      },
+    },
+    isSlim: {
+      table: {
+        disable: true,
+      },
+    },
+  },
   args: {
     title: 'Being Human',
     breadcrumbs: { items: [{ text: 'Exhibitions', url: '#' }] },
@@ -253,11 +427,36 @@ export const Exhibition: Story = {
     ),
     ContentTypeInfo: <ExhibitionContentTypeInfo />,
     isContentTypeInfoBeforeMedia: true,
+    isFree: true,
+    includeAccessibilityProvision: true,
+    fullWidth: true,
   },
 };
 
 export const List: Story = {
   name: 'List',
+  argTypes: {
+    isSlim: {
+      table: {
+        disable: true,
+      },
+    },
+    SerialPartNumber: {
+      table: {
+        disable: true,
+      },
+    },
+    includeAccessibilityProvision: {
+      table: {
+        disable: true,
+      },
+    },
+    fullWidth: {
+      table: {
+        disable: true,
+      },
+    },
+  },
   args: {
     title: 'Books',
     backgroundTexture: headerBackgroundLs,
@@ -269,6 +468,31 @@ export const List: Story = {
 };
 
 export const Page: Story = {
+  argTypes: {
+    isSlim: {
+      control: 'boolean',
+    },
+    SerialPartNumber: {
+      table: {
+        disable: true,
+      },
+    },
+    isContentTypeInfoBeforeMedia: {
+      table: {
+        disable: true,
+      },
+    },
+    includeAccessibilityProvision: {
+      table: {
+        disable: true,
+      },
+    },
+    fullWidth: {
+      table: {
+        disable: true,
+      },
+    },
+  },
   args: {
     title: 'Venue hire terms and conditions',
     backgroundTexture: headerBackgroundLs,
@@ -278,6 +502,33 @@ export const Page: Story = {
 };
 
 export const Book: Story = {
+  argTypes: {
+    SerialPartNumber: {
+      table: {
+        disable: true,
+      },
+    },
+    backgroundTexture: {
+      table: {
+        disable: true,
+      },
+    },
+    isSlim: {
+      table: {
+        disable: true,
+      },
+    },
+    includeAccessibilityProvision: {
+      table: {
+        disable: true,
+      },
+    },
+    fullWidth: {
+      table: {
+        disable: true,
+      },
+    },
+  },
   args: {
     title: 'Together',
     ContentTypeInfo: <BookContentTypeInfo />,
