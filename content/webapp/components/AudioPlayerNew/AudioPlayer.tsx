@@ -239,7 +239,11 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
           </SkipPlayWrapper>
           {audioPlayerRef.current && (
             <PlayerRateWrapper>
-              <PlayRate id={id} audioPlayer={audioPlayerRef.current} />
+              <PlayRate
+                id={id}
+                audioPlayer={audioPlayerRef.current}
+                isDark={!!isDark}
+              />
             </PlayerRateWrapper>
           )}
 

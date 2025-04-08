@@ -1,50 +1,66 @@
-import { FunctionComponent, useContext, useEffect } from 'react';
+import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Space from '@weco/common/views/components/styled/Space';
 
-const PlayRateWrapper = styled(Space).attrs({
-  $h: {
-    size: 'xs',
-    properties: ['column-gap'],
-    overrides: { medium: 1, large: 1 },
-  },
+const OpenSelectButton = styled.button.attrs({
   className: font('intr', 6),
-})`
+})<{ $isDark: boolean }>`
+  color: ${props =>
+    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+
+  span {
+    display: flex;
+    justify-content: end;
+    color: ${props => props.theme.color('yellow')};
+  }
+`;
+
+const PlayRateButton = styled.button.attrs({
+  className: font('intr', 6),
+})<{
+  $isDark: boolean;
+  $isActive?: boolean;
+}>`
   display: flex;
+  color: ${props =>
+    props.$isActive
+      ? props.theme.color('yellow')
+      : props.$isDark
+        ? props.theme.color('white')
+        : props.theme.color('black')};
 `;
 
-const PlayRateRadio = styled.input.attrs({
-  type: 'radio',
-})`
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  appearance: none;
-`;
-
-const PlayRateLabel = styled.label<{ $isActive: boolean }>`
-  position: relative;
-  padding: 0 4px;
-  border-radius: 5px;
-  text-align: center;
-  background: ${props =>
-    props.$isActive ? props.theme.color('yellow') : undefined};
-  font-weight: ${props => (props.$isActive ? 'bold' : 'normal')};
+const PlayRateList = styled(Space).attrs({
+  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+})<{ $isActive: boolean; $isDark: boolean }>`
+  list-style: none;
+  display: ${props => (props.$isActive ? 'block' : 'none')};
+  background-color: ${props =>
+    props.$isDark
+      ? props.theme.color('neutral.700')
+      : props.theme.color('white')};
+  z-index: 1;
+  border-radius: ${props => props.theme.borderRadiusUnit}px;
+  box-shadow: ${props => props.theme.basicBoxShadow};
 `;
 
 type PlayRateProps = {
   audioPlayer: HTMLAudioElement;
   id: string;
+  isDark: boolean;
 };
 
-const PlayRate: FunctionComponent<PlayRateProps> = ({ audioPlayer, id }) => {
+const PlayRate: FunctionComponent<PlayRateProps> = ({
+  audioPlayer,
+  isDark,
+}) => {
   const { audioPlaybackRate, setAudioPlaybackRate } = useContext(AppContext);
   const speeds = [0.5, 1, 1.5, 2];
+  const [isSheetActive, setIsSheetActive] = useState(false);
 
   useEffect(() => {
     audioPlayer.playbackRate = audioPlaybackRate;
@@ -53,43 +69,35 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({ audioPlayer, id }) => {
   function updatePlaybackRate(speed: number) {
     setAudioPlaybackRate(speed);
     audioPlayer.playbackRate = speed;
+    setIsSheetActive(false);
+  }
+
+  function showSheet() {
+    setIsSheetActive(true);
   }
 
   return (
-    <PlayRateWrapper
-      // This ARIA role -- combined with the shared `name` on the individual buttons --
-      // tells screen readers that these radio buttons are part of a single group, and
-      // separate from the other buttons on the page.
-      //
-      // e.g. a screen reader will say "1 of 4" instead of "1 of 112" on an exhibition guide.
-      role="radiogroup"
-    >
-      <span className="visually-hidden">playback rate:</span>
-      {speeds.map(speed => {
-        // We construct this string here rather than directly in the component so these
-        // become a single element on the page.
-        //
-        // If we had them directly in the component, the iOS screen reader would read
-        // the two parts separately,
-        // e.g. "one point five (pause) ex" rather than "one point five ex".
-        const label = `${speed}x`;
-
-        return (
-          <PlayRateLabel
-            key={speed}
-            htmlFor={`playrate-${speed}-${id}`}
-            $isActive={audioPlaybackRate === speed}
-          >
-            <PlayRateRadio
-              id={`playrate-${speed}-${id}`}
-              onClick={() => updatePlaybackRate(speed)}
-              name={`playrate-${id}`}
-            />
-            {label}
-          </PlayRateLabel>
-        );
-      })}
-    </PlayRateWrapper>
+    <>
+      <OpenSelectButton $isDark={isDark} onClick={showSheet}>
+        speed
+        <span>{audioPlaybackRate}x</span>
+      </OpenSelectButton>
+      <PlayRateList $isActive={isSheetActive} $isDark={isDark}>
+        {speeds.map(speed => {
+          return (
+            <li key={speed}>
+              <PlayRateButton
+                $isActive={audioPlaybackRate === speed}
+                $isDark={isDark}
+                onClick={() => updatePlaybackRate(speed)}
+              >
+                {speed}x
+              </PlayRateButton>
+            </li>
+          );
+        })}
+      </PlayRateList>
+    </>
   );
 };
 
