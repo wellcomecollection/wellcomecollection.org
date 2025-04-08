@@ -11,6 +11,7 @@ const OpenSelectButton = styled.button.attrs({
 })<{ $isDark: boolean }>`
   color: ${props =>
     props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+  padding: 0;
 
   span {
     display: flex;
@@ -19,9 +20,9 @@ const OpenSelectButton = styled.button.attrs({
   }
 `;
 
-const PlayRateButton = styled.button.attrs({
-  className: font('intr', 6),
-})<{
+const PlayRateButton = styled.button.attrs<{ $isActive: boolean }>(props => ({
+  className: font(props.$isActive ? 'intb' : 'intr', 6),
+}))<{
   $isDark: boolean;
   $isActive?: boolean;
 }>`
@@ -32,10 +33,14 @@ const PlayRateButton = styled.button.attrs({
       : props.$isDark
         ? props.theme.color('white')
         : props.theme.color('black')};
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const PlayRateList = styled(Space).attrs({
-  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })<{ $isActive: boolean; $isDark: boolean }>`
   list-style: none;
@@ -44,9 +49,13 @@ const PlayRateList = styled(Space).attrs({
     props.$isDark
       ? props.theme.color('neutral.700')
       : props.theme.color('white')};
-  z-index: 1;
-  border-radius: ${props => props.theme.borderRadiusUnit}px;
+  z-index: 2;
+  border-radius: 8px 0 8px 8px;
   box-shadow: ${props => props.theme.basicBoxShadow};
+
+  &[data-popper-placement='top'] {
+    border-radius: 8px 8px 0;
+  }
 `;
 
 type PlayRateProps = {
@@ -59,7 +68,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
   audioPlayer,
   isDark,
 }) => {
-  const [isSheetActive, setIsSheetActive] = useState(true);
+  const [isSheetActive, setIsSheetActive] = useState(false);
   const [referenceElement, setReferenceElement] = useState(null);
   const [popperElement, setPopperElement] = useState(null);
 
@@ -67,7 +76,15 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
     referenceElement,
     popperElement,
     {
-      placement: 'top-start',
+      placement: 'top',
+      modifiers: [
+        {
+          name: 'offset',
+          options: {
+            offset: [-12, 10],
+          },
+        },
+      ],
     }
   );
 
@@ -93,7 +110,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
   }
 
   return (
-    <div style={{ position: 'relative', display: 'inline-flex' }}>
+    <div style={{ position: 'relative' }}>
       <OpenSelectButton
         $isDark={isDark}
         onClick={showSheet}
@@ -109,9 +126,16 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
         style={styles.popper}
         {...attributes.popper}
       >
-        {speeds.map(speed => {
+        {speeds.map((speed, index) => {
           return (
-            <li key={speed}>
+            <Space
+              $v={
+                speeds.length === index + 1
+                  ? undefined
+                  : { size: 'm', properties: ['margin-bottom'] }
+              }
+              key={speed}
+            >
               <PlayRateButton
                 $isActive={audioPlaybackRate === speed}
                 $isDark={isDark}
@@ -119,7 +143,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
               >
                 {speed}x
               </PlayRateButton>
-            </li>
+            </Space>
           );
         })}
       </PlayRateList>
