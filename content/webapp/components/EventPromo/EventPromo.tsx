@@ -33,6 +33,7 @@ type Props = {
   dateString?: string;
   timeString?: string;
   fromDate?: Date;
+  isPastListing?: boolean;
 };
 
 export function getLocationText(
@@ -87,6 +88,7 @@ const EventPromo: FunctionComponent<Props> = ({
   dateString,
   timeString,
   fromDate,
+  isPastListing,
 }) => {
   const isPast = event.isPast;
   const locationText = getLocationText(event.isOnline, event.locations);

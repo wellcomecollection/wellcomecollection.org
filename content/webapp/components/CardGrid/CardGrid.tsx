@@ -32,6 +32,7 @@ type Props = {
   links?: Link[];
   fromDate?: Date;
   optionalComponent?: ReactElement;
+  isPastListing?: boolean;
 };
 
 const CardGrid: FunctionComponent<Props> = ({
@@ -42,6 +43,7 @@ const CardGrid: FunctionComponent<Props> = ({
   links,
   fromDate,
   optionalComponent,
+  isPastListing,
 }: Props) => {
   const gridColumns = itemsPerRow === 4 ? 3 : 4;
   return (

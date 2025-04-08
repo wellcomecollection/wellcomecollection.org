@@ -9,6 +9,7 @@ type Props = {
   eventTimes: EventTime[];
   splitTime?: boolean;
   fromDate?: Date;
+  isPastListing?: boolean;
 };
 
 /** Given a list of ranges, returns the first which ends on or after the given
@@ -55,6 +56,7 @@ const EventDateRange: FunctionComponent<Props> = ({
   eventTimes,
   splitTime,
   fromDate,
+  isPastListing,
 }: Props) => {
   const dateRanges = eventTimes.map(time => ({
     start: time.range.startDateTime,
