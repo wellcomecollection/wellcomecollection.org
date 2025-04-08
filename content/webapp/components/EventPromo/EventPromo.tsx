@@ -7,6 +7,7 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Divider from '@weco/common/views/components/Divider/Divider';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
@@ -92,6 +93,9 @@ const EventPromo: FunctionComponent<Props> = ({
 }) => {
   const isPast = isPastListing || event.isPast;
   const locationText = getLocationText(event.isOnline, event.locations);
+  const dateRanges = event.times.sort(
+    (a, b) => Number(a.range.startDateTime) - Number(b.range.startDateTime)
+  );
 
   return (
     <CardOuter
@@ -127,7 +131,6 @@ const EventPromo: FunctionComponent<Props> = ({
       <CardBody>
         <div>
           <CardTitle>{event.title}</CardTitle>
-
           {locationText && (
             <LocationWrapper>
               <Icon icon={location} matchText />
@@ -136,11 +139,19 @@ const EventPromo: FunctionComponent<Props> = ({
               </Space>
             </LocationWrapper>
           )}
-
           {event.availableOnline && (
             <Space $v={{ size: 's', properties: ['margin-top'] }}>
               <WatchLabel text="Available to watch" />
             </Space>
+          )}
+          {isPast && event.times.length > 1 && (
+            <DateInfo>
+              Multiple dates between <br />
+              <HTMLDate date={dateRanges[0].range.startDateTime} /> -{' '}
+              <HTMLDate
+                date={dateRanges[dateRanges.length - 1].range.endDateTime}
+              />
+            </DateInfo>
           )}
 
           {(!isPast || (isPast && event.times.length === 1)) && (

@@ -2,6 +2,7 @@ import { FunctionComponent } from 'react';
 
 import { DateRange as DateRangeType } from '@weco/common/model/date-range';
 import { isSameDayOrBefore, today } from '@weco/common/utils/dates';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import DateRange from '@weco/content/components/DateRange/DateRange';
 import { EventTime } from '@weco/content/types/events';
 
@@ -66,6 +67,17 @@ const EventDateRange: FunctionComponent<Props> = ({
     dateRanges,
     fromDate
   );
+  const earliestDate = dateRanges[0];
+  const latestDate = dateRanges[dateRanges.length - 1];
+  if (isPastListing && dateRanges.length > 1) {
+    return (
+      <p>
+        Multiple dates between <br />
+        <HTMLDate date={earliestDate.start} /> -{' '}
+        <HTMLDate date={latestDate.end} />
+      </p>
+    );
+  }
   const dateRange =
     earliestFutureDateRange || (dateRanges.length > 0 ? dateRanges[0] : null);
 
