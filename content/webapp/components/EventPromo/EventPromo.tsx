@@ -90,7 +90,7 @@ const EventPromo: FunctionComponent<Props> = ({
   fromDate,
   isPastListing,
 }) => {
-  const isPast = event.isPast;
+  const isPast = isPastListing || event.isPast;
   const locationText = getLocationText(event.isOnline, event.locations);
 
   return (
@@ -143,7 +143,7 @@ const EventPromo: FunctionComponent<Props> = ({
             </Space>
           )}
 
-          {!isPast && (
+          {(!isPast || (isPast && event.times.length === 1)) && (
             <>
               <DateInfo>
                 <EventDateRange
