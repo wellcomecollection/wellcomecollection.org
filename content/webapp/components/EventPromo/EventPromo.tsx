@@ -146,7 +146,6 @@ const EventPromo: FunctionComponent<Props> = ({
           )}
           {isPast && event.times.length > 1 && (
             <DateInfo>
-              Multiple dates between <br />
               <HTMLDate date={dateRanges[0].range.startDateTime} /> -{' '}
               <HTMLDate
                 date={dateRanges[dateRanges.length - 1].range.endDateTime}
