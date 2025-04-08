@@ -47,7 +47,7 @@ const Handle = styled.span.attrs<HandleProps>(({ $leftOffset }) => ({
   height: 24px;
   transform: translate(-50%, -50%);
   background-color: ${props => props.theme.color('white')};
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 1px rgb(0, 0, 0, 0.5);
   border-radius: 2px;
 `;
 

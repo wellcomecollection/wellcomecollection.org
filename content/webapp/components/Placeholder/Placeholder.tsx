@@ -10,7 +10,7 @@ type Props = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getGradient = (theme: any) => {
   const bgColor = theme.colors['neutral.300'];
-  const highlightColor = 'rgba(255, 255, 255, 0.6)';
+  const highlightColor = 'rgb(255, 255, 255, 0.6)';
 
   // We make the background periodic so that it can be animated easily
   return `${bgColor} linear-gradient(to right, ${bgColor}, ${highlightColor} 70%, ${bgColor})`;

@@ -12,7 +12,7 @@ import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isFilledSliceZone } from '@weco/common/services/prismic/types';
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
@@ -27,6 +27,7 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { Container } from '@weco/common/views/components/styled/Container';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
@@ -325,8 +326,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
         </Header>
         <div style={{ viewTransitionName }}>
           <FlushContainer>
-            <div className="grid">
-              <div className={grid(gridSize8())}>
+            <Grid>
+              <GridCell $sizeMap={gridSize8()}>
                 {type !== 'bsl' && (
                   <>
                     {croppedImage ? (
@@ -347,8 +348,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                     )}
                   </>
                 )}
-              </div>
-            </div>
+              </GridCell>
+            </Grid>
           </FlushContainer>
 
           <ContaineredLayout gridSizes={gridSize8()}>

@@ -23,7 +23,7 @@ import {
 } from '@weco/common/services/prismic/opening-times';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import { isOfTypePeriod, Period } from '@weco/common/types/periods';
-import { cssGrid, font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import {
   endOfDay,
   getNextWeekendDateRange,
@@ -43,7 +43,7 @@ import {
 import { SectionPageHeader } from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { Container } from '@weco/common/views/components/styled/Container';
-import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
@@ -239,8 +239,15 @@ const Header: FunctionComponent<HeaderProps> = ({
   return (
     <Space $v={{ size: 'l', properties: ['padding-top'] }}>
       <Container>
-        <div className="grid">
-          <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
+        <Grid>
+          <GridCell
+            $sizeMap={{
+              s: [12],
+              m: [12],
+              l: [12],
+              xl: [12],
+            }}
+          >
             <OpeningTimesWrapper>
               <SectionPageHeader $sectionLevelPage={true}>
                 What’s on
@@ -289,19 +296,29 @@ const Header: FunctionComponent<HeaderProps> = ({
                 </NextLink>
               </OpeningTimes>
             </OpeningTimesWrapper>
-          </div>
-          <Space
-            className={grid({ s: 12, m: 10, l: 7, xl: 7 })}
-            $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
+          </GridCell>
+        </Grid>
+        <Grid>
+          <GridCell
+            $sizeMap={{
+              s: [12],
+              m: [10],
+              l: [7],
+              xl: [7],
+            }}
           >
-            <Tabs
-              tabBehaviour="navigate"
-              label="date filter"
-              currentSection={activeId}
-              items={tabItems}
-            />
-          </Space>
-        </div>
+            <Space
+              $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
+            >
+              <Tabs
+                tabBehaviour="navigate"
+                label="date filter"
+                currentSection={activeId}
+                items={tabItems}
+              />
+            </Space>
+          </GridCell>
+        </Grid>
       </Container>
     </Space>
   );
@@ -585,23 +602,23 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
             <SectionHeader title="Try these too" gridSize={gridSize12()} />
           </SpacingComponent>
           <SpacingComponent>
-            <CssGridContainer>
-              <div className="css-grid card-theme card-theme--transparent">
+            <Container>
+              <Grid className="card-theme card-theme--transparent">
                 {tryTheseToo.map(promo => (
-                  <div
+                  <GridCell
                     key={promo.id}
-                    className={cssGrid({
-                      s: 12,
-                      m: 6,
-                      l: 4,
-                      xl: 4,
-                    })}
+                    $sizeMap={{
+                      s: [12],
+                      m: [6],
+                      l: [4],
+                      xl: [4],
+                    }}
                   >
                     <FacilityPromo {...promo} />
-                  </div>
+                  </GridCell>
                 ))}
-              </div>
-            </CssGridContainer>
+              </Grid>
+            </Container>
           </SpacingComponent>
         </SpacingSection>
       </>

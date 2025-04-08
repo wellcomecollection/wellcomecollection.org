@@ -1,12 +1,13 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { font, SizeMap } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
+import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 
 const YellowBox = styled.div`

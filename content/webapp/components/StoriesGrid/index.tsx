@@ -4,29 +4,20 @@ import styled from 'styled-components';
 import { getCrop } from '@weco/common/model/image';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import PrismicImage, {
   BreakpointSizes,
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
 
-const StoriesContainer = styled.div.attrs<{ $isDetailed?: boolean }>(props => ({
-  className: props.$isDetailed
-    ? ''
-    : 'grid grid--scroll grid--theme-4 card-theme card-theme--transparent',
-}))``;
-
-const StoryWrapper = styled(Space).attrs<{
-  $isDetailed?: boolean;
-}>(props => ({
-  $v: props.$isDetailed
-    ? { size: 'xl', properties: ['padding-bottom'] }
-    : undefined,
-  className: props.$isDetailed ? 'grid' : grid({ s: 6, m: 6, l: 3, xl: 3 }),
-}))`
+const StoryWrapper = styled(Space).attrs({
+  $v: { size: 'xl', properties: ['padding-bottom'] },
+})`
+  display: block;
   text-decoration: none;
 
   &:last-child {
@@ -40,16 +31,12 @@ const StoryWrapper = styled(Space).attrs<{
   }
 `;
 
-const ImageWrapper = styled.div.attrs<{ $isDetailed?: boolean }>(props => ({
-  className: props.$isDetailed ? grid({ s: 12, m: 6, l: 4, xl: 4 }) : '',
-}))`
+const ImageWrapper = styled(GridCell).attrs({
+  $sizeMap: { s: [12], m: [6], l: [4], xl: [4] },
+})`
   position: relative;
   margin-bottom: ${props => props.theme.spacingUnit * 2}px;
 `;
-
-const Details = styled.div.attrs<{ $isDetailed?: boolean }>(props => ({
-  className: props.$isDetailed ? grid({ s: 12, m: 6, l: 8, xl: 8 }) : '',
-}))<{ $isDetailed?: boolean }>``;
 
 const DesktopLabel = styled(Space).attrs({
   $v: { size: 's', properties: ['margin-bottom'] },
@@ -59,20 +46,14 @@ const DesktopLabel = styled(Space).attrs({
     `}
 `;
 
-const MobileLabel = styled.div<{ $isDetailed?: boolean }>`
+const MobileLabel = styled.div`
   position: absolute;
   bottom: 0;
+  left: 18px;
 
-  ${props =>
-    props.$isDetailed
-      ? `
-        left: 18px;
-
-        ${props.theme.media('medium')`
-          display: none;
-        `}
-    `
-      : ``}
+  ${props => props.theme.media('medium')`
+      display: none;
+    `}
 `;
 
 const StoryInformation = styled(Space).attrs({
@@ -105,59 +86,54 @@ const StoryInformationItemSeparator = styled.span`
 type Props = {
   articles: Article[];
   dynamicImageSizes?: BreakpointSizes;
-  isDetailed?: boolean;
 };
 
 const StoriesGrid: FunctionComponent<Props> = ({
   articles,
   dynamicImageSizes,
-  isDetailed,
 }: Props) => {
   return (
-    <StoriesContainer $isDetailed={isDetailed}>
+    <div>
       {articles.map(article => {
         const image = transformImage(article.image);
-        const croppedImage = getCrop(image, isDetailed ? '16:9' : '32:15');
+        const croppedImage = getCrop(image, '16:9');
 
         return (
           <StoryWrapper
             key={article.id}
             as="a"
             href={linkResolver({ ...article, type: 'articles' })}
-            $isDetailed={isDetailed}
             data-testid="story-search-result"
           >
-            {croppedImage && (
-              <ImageWrapper $isDetailed={isDetailed}>
-                <PrismicImage
-                  image={{
-                    // We intentionally omit the alt text on promos, so screen reader
-                    // users don't have to listen to the alt text before hearing the
-                    // title of the item in the list.
-                    //
-                    // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                    ...croppedImage,
-                    alt: '',
-                  }}
-                  sizes={dynamicImageSizes}
-                  quality="low"
-                />
-                <MobileLabel $isDetailed={isDetailed}>
-                  <LabelsList labels={[{ text: article.format.label }]} />
-                </MobileLabel>
-              </ImageWrapper>
-            )}
-            <Details $isDetailed={isDetailed}>
-              {isDetailed && (
+            <Grid>
+              {croppedImage && (
+                <ImageWrapper $sizeMap={{ s: [12], m: [6], l: [4], xl: [4] }}>
+                  <PrismicImage
+                    image={{
+                      // We intentionally omit the alt text on promos, so screen reader
+                      // users don't have to listen to the alt text before hearing the
+                      // title of the item in the list.
+                      //
+                      // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                      ...croppedImage,
+                      alt: '',
+                    }}
+                    sizes={dynamicImageSizes}
+                    quality="low"
+                  />
+                  <MobileLabel>
+                    <LabelsList labels={[{ text: article.format.label }]} />
+                  </MobileLabel>
+                </ImageWrapper>
+              )}
+              <GridCell $sizeMap={{ s: [12], m: [6], l: [8], xl: [8] }}>
                 <DesktopLabel>
                   <LabelsList labels={[{ text: article.format.label }]} />
                 </DesktopLabel>
-              )}
 
-              <h3 className={font('wb', 4)}>{article.title}</h3>
+                <h3 className={font('wb', 4)}>{article.title}</h3>
 
-              {isDetailed &&
-                (article.publicationDate || !!article.contributors.length) && (
+                {(article.publicationDate || !!article.contributors.length) && (
                   <StoryInformation>
                     {article.publicationDate && (
                       <StoryInformationItem className="searchable-selector">
@@ -180,14 +156,15 @@ const StoriesGrid: FunctionComponent<Props> = ({
                     )}
                   </StoryInformation>
                 )}
-              {article.caption && (
-                <p className={font('intr', 5)}>{article.caption}</p>
-              )}
-            </Details>
+                {article.caption && (
+                  <p className={font('intr', 5)}>{article.caption}</p>
+                )}
+              </GridCell>
+            </Grid>
           </StoryWrapper>
         );
       })}
-    </StoriesContainer>
+    </div>
   );
 };
 
