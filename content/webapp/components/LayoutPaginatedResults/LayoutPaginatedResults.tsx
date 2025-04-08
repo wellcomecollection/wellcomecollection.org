@@ -39,7 +39,7 @@ type Props = {
   children?: ReactElement;
   breadcrumbs?: ComponentProps<typeof Breadcrumb>;
 };
-// TODO delete? Only used twice now... Or push to use everywhere?
+
 const LayoutPaginatedResults: FunctionComponent<Props> = ({
   title,
   description,
