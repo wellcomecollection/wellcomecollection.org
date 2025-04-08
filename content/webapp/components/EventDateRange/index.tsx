@@ -71,11 +71,11 @@ const EventDateRange: FunctionComponent<Props> = ({
   const latestDate = dateRanges[dateRanges.length - 1];
   if (isPastListing && dateRanges.length > 1) {
     return (
-      <p>
+      <>
         Multiple dates between <br />
         <HTMLDate date={earliestDate.start} /> -{' '}
         <HTMLDate date={latestDate.end} />
-      </p>
+      </>
     );
   }
   const dateRange =

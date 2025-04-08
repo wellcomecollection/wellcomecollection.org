@@ -140,15 +140,13 @@ const EventsSearchResults: FunctionComponent<Props> = ({
                 )}
 
                 {(!isPast || (isPast && isPastListing)) && (
-                  <>
-                    <DateInfo>
-                      <EventDateRange
-                        eventTimes={times}
-                        splitTime={true}
-                        isPastListing={isPastListing}
-                      />
-                    </DateInfo>
-                  </>
+                  <DateInfo>
+                    <EventDateRange
+                      eventTimes={times}
+                      splitTime={true}
+                      isPastListing={isPastListing}
+                    />
+                  </DateInfo>
                 )}
 
                 {event.isAvailableOnline && (
