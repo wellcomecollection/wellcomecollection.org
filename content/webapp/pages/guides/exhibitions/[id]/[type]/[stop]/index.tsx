@@ -8,6 +8,7 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 import { arrow, cross } from '@weco/common/icons';
 import { getCrop } from '@weco/common/model/image';
 import { getServerData } from '@weco/common/server-data';
+import { useToggles } from '@weco/common/server-data/Context';
 import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
@@ -31,6 +32,7 @@ import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
+import AudioPlayerNew from '@weco/content/components/AudioPlayerNew/AudioPlayer';
 import ImagePlaceholder, {
   placeholderBackgroundColor,
 } from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
@@ -215,7 +217,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   const guideUrl = linkResolver(exhibitionGuide);
   const guideTypeUrl = `${guideUrl}/${type}`;
   const pathname = `${guideTypeUrl}/${stopNumber}`;
-
+  const { audioPlayer } = useToggles();
   const headerRef = useCallback((node: HTMLElement) => {
     if (node) setHeaderEl(node);
   }, []);
@@ -368,9 +370,19 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
               ) : (
                 <>
                   {currentStop.audio && (
-                    <AudioPlayerWrapper>
-                      <AudioPlayer title="" audioFile={currentStop.audio} />
-                    </AudioPlayerWrapper>
+                    <>
+                      {audioPlayer ? (
+                        <AudioPlayerNew
+                          title=""
+                          audioFile={currentStop.audio}
+                          isDark={true}
+                        />
+                      ) : (
+                        <AudioPlayerWrapper>
+                          <AudioPlayer title="" audioFile={currentStop.audio} />
+                        </AudioPlayerWrapper>
+                      )}
+                    </>
                   )}
                 </>
               )}
