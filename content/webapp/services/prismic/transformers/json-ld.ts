@@ -165,12 +165,9 @@ export function eventLdContentApi(event: EventContentApi): JsonLdObj[] {
           },
           startDate: event.times.map(time => time.startDateTime),
           endDate: event.times.map(time => time.endDateTime),
-          // description: event.promo?.caption, // TODO, add to event result?
           image: promoImage
             ? getImageUrlAtSize(promoImage, { w: 600 })
             : undefined,
-          // isAccessibleForFree: !event.cost, // TODO?
-          // performers: contributorLd(event.contributors), //TODO?
         },
         { type: 'Event' }
       );

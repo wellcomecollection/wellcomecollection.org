@@ -80,7 +80,12 @@ export const getServerSideProps: GetServerSideProps<
     const { period = 'future', availableOnline, page } = context.query;
 
     if (availableOnline) {
-      // TODO redirect https://github.com/wellcomecollection/wellcomecollection.org/issues/11775
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/events/past?isAvailableOnline=true',
+        },
+      };
     }
 
     const pageNumber = getQueryPropertyValue(page);
@@ -134,7 +139,7 @@ export const getServerSideProps: GetServerSideProps<
       page,
       period: period as 'current-and-coming-up' | 'past' | undefined,
       pageSize: 100,
-      isOnline: isOnline === 'true', // TODO confirm we don't need to redirect this? Seems unused
+      isOnline: isOnline === 'true',
       availableOnline: availableOnline === 'true',
     });
 
@@ -144,6 +149,7 @@ export const getServerSideProps: GetServerSideProps<
     if (events) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
       const jsonLd = events.results.flatMap(eventLd);
+
       return {
         props: serialiseProps({
           events: {
