@@ -25,6 +25,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import { themeValues } from '@weco/common/views/themes/config';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import EventsSearchResults from '@weco/content/components/EventsSearchResults';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
@@ -203,25 +204,32 @@ const EventsPage: FunctionComponent<Props | NewProps> = props => {
           )}
 
           <ContaineredLayout gridSizes={gridSize12()}>
-            <Tabs
-              tabBehaviour="navigate"
-              currentSection={
-                period === 'future' || !period ? 'future' : 'past'
-              }
-              label="Time-based event filter"
-              items={[
-                {
-                  id: 'future',
-                  url: `/events`,
-                  text: 'Upcoming events',
-                },
-                {
-                  id: 'past',
-                  url: `/events/past`,
-                  text: 'Past events',
-                },
-              ]}
-            />
+            <div
+              style={{
+                borderBottom: `1px solid ${themeValues.color('neutral.300')}`,
+              }}
+            >
+              <Tabs
+                tabBehaviour="navigate"
+                currentSection={
+                  period === 'future' || !period ? 'future' : 'past'
+                }
+                label="Time-based event filter"
+                items={[
+                  {
+                    id: 'future',
+                    url: `/events`,
+                    text: 'Upcoming events',
+                  },
+                  {
+                    id: 'past',
+                    url: `/events/past`,
+                    text: 'Past events',
+                  },
+                ]}
+                hideBorder
+              />
+            </div>
           </ContaineredLayout>
 
           <ContaineredLayout gridSizes={gridSize12()}>
