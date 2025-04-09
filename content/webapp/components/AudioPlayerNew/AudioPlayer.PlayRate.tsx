@@ -1,4 +1,11 @@
-import { FunctionComponent, useContext, useEffect, useState } from 'react';
+import { FocusTrap } from 'focus-trap-react';
+import {
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useId,
+  useState,
+} from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
 
@@ -6,7 +13,7 @@ import { font } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Space from '@weco/common/views/components/styled/Space';
 
-const OpenSelectButton = styled.button.attrs({
+const TogglePlayRateButton = styled.button.attrs({
   className: font('intr', 6),
 })<{ $isDark: boolean }>`
   color: ${props =>
@@ -70,12 +77,13 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
   audioPlayer,
   isDark,
 }) => {
-  const [isSheetActive, setIsSheetActive] = useState(false);
+  const [isPopperActive, setIsPopperActive] = useState(false);
   const [referenceElement, setReferenceElement] =
     useState<HTMLButtonElement | null>(null);
   const [popperElement, setPopperElement] = useState<HTMLUListElement | null>(
     null
   );
+  const id = useId();
 
   const { styles, attributes, update } = usePopper(
     referenceElement,
@@ -103,11 +111,11 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
   function updatePlaybackRate(speed: number) {
     setAudioPlaybackRate(speed);
     audioPlayer.playbackRate = speed;
-    setIsSheetActive(false);
+    setIsPopperActive(false);
   }
 
-  function showSheet() {
-    setIsSheetActive(true);
+  function toggleShowHidePlayRate() {
+    setIsPopperActive(!isPopperActive);
 
     if (update) {
       update();
@@ -122,7 +130,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
         !popperElement.contains(event.target as Node) &&
         !referenceElement.contains(event.target as Node)
       ) {
-        setIsSheetActive(false);
+        setIsPopperActive(false);
       }
     }
 
@@ -137,44 +145,54 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
   }, [popperElement, referenceElement]);
 
   return (
-    <div style={{ position: 'relative' }}>
-      <OpenSelectButton
-        $isDark={isDark}
-        onClick={showSheet}
-        ref={setReferenceElement}
-      >
-        speed
-        <span>{audioPlaybackRate}x</span>
-      </OpenSelectButton>
-      <PlayRateList
-        $isActive={isSheetActive}
-        $isDark={isDark}
-        ref={setPopperElement}
-        style={styles.popper}
-        {...attributes.popper}
-      >
-        {speeds.map((speed, index) => {
-          return (
-            <Space
-              $v={
-                speeds.length === index + 1
-                  ? undefined
-                  : { size: 'm', properties: ['margin-bottom'] }
-              }
-              key={speed}
-            >
-              <PlayRateButton
-                $isActive={audioPlaybackRate === speed}
-                $isDark={isDark}
-                onClick={() => updatePlaybackRate(speed)}
+    <FocusTrap
+      active={isPopperActive}
+      focusTrapOptions={{
+        clickOutsideDeactivates: true,
+      }}
+    >
+      <div style={{ position: 'relative' }}>
+        <TogglePlayRateButton
+          $isDark={isDark}
+          onClick={toggleShowHidePlayRate}
+          ref={setReferenceElement}
+          aria-controls={id}
+          aria-expanded={isPopperActive}
+        >
+          speed
+          <span>{audioPlaybackRate}x</span>
+        </TogglePlayRateButton>
+        <PlayRateList
+          id={id}
+          $isActive={isPopperActive}
+          $isDark={isDark}
+          ref={setPopperElement}
+          style={styles.popper}
+          {...attributes.popper}
+        >
+          {speeds.map((speed, index) => {
+            return (
+              <Space
+                $v={
+                  speeds.length === index + 1
+                    ? undefined
+                    : { size: 'm', properties: ['margin-bottom'] }
+                }
+                key={speed}
               >
-                {speed}x
-              </PlayRateButton>
-            </Space>
-          );
-        })}
-      </PlayRateList>
-    </div>
+                <PlayRateButton
+                  $isActive={audioPlaybackRate === speed}
+                  $isDark={isDark}
+                  onClick={() => updatePlaybackRate(speed)}
+                >
+                  {speed}x
+                </PlayRateButton>
+              </Space>
+            );
+          })}
+        </PlayRateList>
+      </div>
+    </FocusTrap>
   );
 };
 
