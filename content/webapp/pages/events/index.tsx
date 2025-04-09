@@ -206,6 +206,7 @@ const EventsPage: FunctionComponent<Props> = props => {
             <CardGrid
               items={convertedPaginatedResults.results}
               itemsPerRow={3}
+              isInPastListing={period === 'past'}
             />
           ) : (
             <ContaineredLayout gridSizes={gridSize12()}>

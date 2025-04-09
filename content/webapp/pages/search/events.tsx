@@ -175,9 +175,11 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
                   />
                 </SortPaginationWrapper>
               </PaginationWrapper>
-
               <main>
-                <EventsSearchResults events={eventResponseList.results} />
+                <EventsSearchResults
+                  events={eventResponseList.results}
+                  isInPastListing={eventsRouteProps.timespan === 'past'}
+                />
               </main>
 
               <PaginationWrapper $verticalSpacing="l" $alignRight>
