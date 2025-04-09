@@ -106,7 +106,7 @@ const AudioPlayerGrid = styled.div.attrs({})<{ $isEnhanced: boolean }>`
   align-items: baseline;
 `;
 
-const SecondRow = styled(Space).attrs({
+const NowPlayingWrapper = styled(Space).attrs({
   $v: { size: 's', properties: ['margin-top'] },
 })`
   grid-column: 1 / -1;
@@ -256,7 +256,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
         )}
 
         <AudioPlayerGrid $isEnhanced={isEnhanced}>
-          <SecondRow>
+          <NowPlayingWrapper>
             <div>
               <div>
                 <Scrubber
@@ -290,7 +290,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
                 )}
               </TimeWrapper>
             </div>
-          </SecondRow>
+          </NowPlayingWrapper>
           <SkipPlayWrapper>
             <SkipButton $isDark={!!isDark} onClick={handleSkipBackClick}>
               <span className="visually-hidden">rewind 15 seconds</span>
