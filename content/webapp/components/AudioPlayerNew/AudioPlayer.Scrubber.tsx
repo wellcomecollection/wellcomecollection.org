@@ -67,7 +67,7 @@ const PercentComplete = styled.div<{
     top: 50%;
     left: 0;
     content: '';
-    height: 5px;
+    height: 4px;
     width: 100%;
     background-color: ${props =>
       props.$isDark
@@ -82,7 +82,7 @@ const PercentComplete = styled.div<{
     top: 50%;
     left: 0;
     content: '';
-    height: 5px;
+    height: 4px;
     width: ${props => props.$percentComplete}%;
     background-color: ${props => props.theme.color('yellow')};
     border-radius: 4px;
