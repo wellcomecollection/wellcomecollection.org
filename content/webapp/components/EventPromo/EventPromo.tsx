@@ -7,6 +7,7 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Divider from '@weco/common/views/components/Divider/Divider';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
@@ -33,6 +34,7 @@ type Props = {
   dateString?: string;
   timeString?: string;
   fromDate?: Date;
+  isInPastListing?: boolean;
 };
 
 export function getLocationText(
@@ -87,9 +89,13 @@ const EventPromo: FunctionComponent<Props> = ({
   dateString,
   timeString,
   fromDate,
+  isInPastListing,
 }) => {
-  const isPast = event.isPast;
+  const isPast = isInPastListing || event.isPast;
   const locationText = getLocationText(event.isOnline, event.locations);
+  const dateRanges = event.times.sort(
+    (a, b) => Number(a.range.startDateTime) - Number(b.range.startDateTime)
+  );
 
   return (
     <CardOuter
@@ -125,8 +131,7 @@ const EventPromo: FunctionComponent<Props> = ({
       <CardBody>
         <div>
           <CardTitle>{event.title}</CardTitle>
-
-          {locationText && (
+          {locationText && !isInPastListing && (
             <LocationWrapper>
               <Icon icon={location} matchText />
               <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
@@ -134,14 +139,21 @@ const EventPromo: FunctionComponent<Props> = ({
               </Space>
             </LocationWrapper>
           )}
-
           {event.availableOnline && (
             <Space $v={{ size: 's', properties: ['margin-top'] }}>
               <WatchLabel text="Available to watch" />
             </Space>
           )}
+          {isPast && event.times.length > 1 && (
+            <DateInfo>
+              <HTMLDate date={dateRanges[0].range.startDateTime} /> -{' '}
+              <HTMLDate
+                date={dateRanges[dateRanges.length - 1].range.endDateTime}
+              />
+            </DateInfo>
+          )}
 
-          {!isPast && (
+          {(!isPast || (isPast && event.times.length === 1)) && (
             <>
               <DateInfo>
                 <EventDateRange
@@ -150,12 +162,10 @@ const EventPromo: FunctionComponent<Props> = ({
                   fromDate={fromDate}
                 />
               </DateInfo>
-
               {dateString && <DateInfo>{dateString}</DateInfo>}
               {timeString && <DateInfo>{timeString}</DateInfo>}
             </>
           )}
-
           {upcomingDatesFullyBooked(event.times) && (
             <Space $v={{ size: 'm', properties: ['margin-top'] }}>
               <TextWithDot
@@ -165,12 +175,10 @@ const EventPromo: FunctionComponent<Props> = ({
               />
             </Space>
           )}
-
           {!isPast && event.times.length > 1 && (
             <p className={font('intb', 6)}>See all dates/times</p>
           )}
-
-          {isPast && !event.availableOnline && (
+          {isPast && !event.availableOnline && !isInPastListing && (
             <div>
               <TextWithDot
                 className={font('intr', 5)}

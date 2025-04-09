@@ -98,7 +98,7 @@ export const getServerSideProps: GetServerSideProps<
         sortOrder: getQueryPropertyValue(context.query.sortOrder),
         ...(pageNumber && { page: Number(pageNumber) }),
       },
-      pageSize: 9,
+      pageSize: 25,
       toggles: serverData.toggles,
     });
 
@@ -235,7 +235,10 @@ const EventsPage: FunctionComponent<Props | NewProps> = props => {
               <span>{pluralize(events.totalResults, 'result')}</span>
             </PaginationWrapper>
 
-            <EventsSearchResults events={events.results} />
+            <EventsSearchResults
+              events={events.results}
+              isInPastListing={period === 'past'}
+            />
           </ContaineredLayout>
 
           <ContaineredLayout gridSizes={gridSize12()}>
@@ -318,6 +321,7 @@ const EventsPage: FunctionComponent<Props | NewProps> = props => {
               <CardGrid
                 items={convertedPaginatedResults.results}
                 itemsPerRow={3}
+                isInPastListing={period === 'past'}
               />
             ) : (
               <ContaineredLayout gridSizes={gridSize12()}>
