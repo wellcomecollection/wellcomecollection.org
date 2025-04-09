@@ -17,13 +17,12 @@ const TogglePlayRateButton = styled.button.attrs({
   className: font('intr', 6),
 })<{ $isDark: boolean }>`
   color: ${props =>
-    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+    props.$isDark ? props.theme.color('yellow') : props.theme.color('black')};
   padding: 0;
 
   span {
     display: flex;
     justify-content: end;
-    color: ${props => props.theme.color('yellow')};
   }
 `;
 
@@ -159,8 +158,8 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
           aria-controls={id}
           aria-expanded={isPopperActive}
         >
-          speed
-          <span>{audioPlaybackRate}x</span>
+          Speed
+          <span className={font('intsb', 5)}>{audioPlaybackRate}x</span>
         </TogglePlayRateButton>
         <PlayRateList
           id={id}

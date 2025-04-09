@@ -256,34 +256,6 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
         )}
 
         <AudioPlayerGrid $isEnhanced={isEnhanced}>
-          <SkipPlayWrapper>
-            <SkipButton $isDark={!!isDark} onClick={handleSkipBackClick}>
-              <span className="visually-hidden">rewind 15 seconds</span>
-              <SkipBackIcon />
-            </SkipButton>
-            <PlayPauseButton onClick={onTogglePlay} $isPlaying={isPlaying}>
-              <PlayPauseInner $isDark={!!isDark}>
-                <span className="visually-hidden">
-                  {`${title} ${isPlaying ? 'Pause' : 'Play'}`}
-                </span>
-                {isPlaying ? <PauseIcon /> : <PlayIcon />}
-              </PlayPauseInner>
-            </PlayPauseButton>
-            <SkipButton $isDark={!!isDark} onClick={handleSkipForwardClick}>
-              <span className="visually-hidden">fast-forward 15 seconds</span>
-              <SkipForwardIcon />
-            </SkipButton>
-          </SkipPlayWrapper>
-          {audioPlayerRef.current && (
-            <PlayerRateWrapper>
-              <PlayRate
-                id={id}
-                audioPlayer={audioPlayerRef.current}
-                isDark={!!isDark}
-              />
-            </PlayerRateWrapper>
-          )}
-
           <SecondRow>
             <div>
               <div>
@@ -319,6 +291,34 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
               </TimeWrapper>
             </div>
           </SecondRow>
+          <SkipPlayWrapper>
+            <SkipButton $isDark={!!isDark} onClick={handleSkipBackClick}>
+              <span className="visually-hidden">rewind 15 seconds</span>
+              <SkipBackIcon />
+            </SkipButton>
+
+            <PlayPauseButton onClick={onTogglePlay} $isPlaying={isPlaying}>
+              <PlayPauseInner $isDark={!!isDark}>
+                <span className="visually-hidden">
+                  {`${title} ${isPlaying ? 'Pause' : 'Play'}`}
+                </span>
+                {isPlaying ? <PauseIcon /> : <PlayIcon />}
+              </PlayPauseInner>
+            </PlayPauseButton>
+            <SkipButton $isDark={!!isDark} onClick={handleSkipForwardClick}>
+              <span className="visually-hidden">fast-forward 15 seconds</span>
+              <SkipForwardIcon />
+            </SkipButton>
+          </SkipPlayWrapper>
+          {audioPlayerRef.current && (
+            <PlayerRateWrapper>
+              <PlayRate
+                id={id}
+                audioPlayer={audioPlayerRef.current}
+                isDark={!!isDark}
+              />
+            </PlayerRateWrapper>
+          )}
         </AudioPlayerGrid>
 
         <audio
