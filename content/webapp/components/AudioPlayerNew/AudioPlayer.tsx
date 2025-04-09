@@ -245,6 +245,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
         <AudioPlayerGrid $isEnhanced={isEnhanced}>
           <SkipPlayWrapper>
             <SkipButton $isDark={!!isDark} onClick={handleSkipBackClick}>
+              <span className="visually-hidden">rewind 15 seconds</span>
               <SkipBackIcon />
             </SkipButton>
             <PlayPauseButton onClick={onTogglePlay} $isPlaying={isPlaying}>
@@ -256,6 +257,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
               </PlayPauseInner>
             </PlayPauseButton>
             <SkipButton $isDark={!!isDark} onClick={handleSkipForwardClick}>
+              <span className="visually-hidden">fast-forward 15 seconds</span>
               <SkipForwardIcon />
             </SkipButton>
           </SkipPlayWrapper>
