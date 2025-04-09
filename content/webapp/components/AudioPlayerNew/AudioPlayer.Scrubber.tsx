@@ -6,7 +6,7 @@ import { formatPlayerTime } from './AudioPlayer.formatters';
 const RangeSlider = styled.input.attrs({
   type: 'range',
   step: 'any',
-})`
+})<{ $isDark: boolean }>`
   cursor: pointer;
   position: relative;
   z-index: 1;
@@ -26,7 +26,10 @@ const RangeSlider = styled.input.attrs({
       transform 0.2s ease-out;
 
     &:hover {
-      background: ${props => props.theme.color('white')};
+      background: ${props =>
+        props.$isDark
+          ? props.theme.color('white')
+          : props.theme.color('black')};
       transform: scale(1.5);
     }
   }
@@ -44,7 +47,10 @@ const RangeSlider = styled.input.attrs({
       transform 0.2s ease-out;
 
     &:hover {
-      background: ${props => props.theme.color('white')};
+      background: ${props =>
+        props.$isDark
+          ? props.theme.color('white')
+          : props.theme.color('black')};
       transform: scale(1.5);
     }
   }
@@ -117,6 +123,7 @@ const Scrubber: FunctionComponent<ScrubberProps> = ({
       </label>
       <PercentComplete $percentComplete={percentComplete} $isDark={isDark}>
         <RangeSlider
+          $isDark={isDark}
           style={{ width: '100%' }}
           aria-valuetext={`Elapsed time: ${
             formatPlayerTime(startTime).nonVisual

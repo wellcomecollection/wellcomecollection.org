@@ -63,7 +63,8 @@ const SkipButton = styled.button<{ $isDark: boolean }>`
     transform 0.2s ease-out;
 
   &:hover {
-    color: ${props => props.theme.color('white')};
+    color: ${props =>
+      props.$isDark ? props.theme.color('white') : props.theme.color('black')};
     transform: scale(1.1);
   }
 `;
@@ -75,15 +76,27 @@ const PlayerRateWrapper = styled.div`
   justify-content: end;
 `;
 
-const PlayPauseInner = styled.div`
+const PlayPauseInner = styled.div<{ $isDark: boolean }>`
   color: ${props => props.theme.color('yellow')};
   transition:
     color 0.2s ease-out,
     transform 0.2s ease-out;
 
+  .icon__playpause {
+    transition: fill 0.2s ease-out;
+  }
+
   &:hover {
-    color: ${props => props.theme.color('white')};
+    color: ${props =>
+      props.$isDark ? props.theme.color('white') : props.theme.color('black')};
     transform: scale(1.1);
+
+    .icon__playpause {
+      fill: ${props =>
+        props.$isDark
+          ? props.theme.color('black')
+          : props.theme.color('white')};
+    }
   }
 `;
 
@@ -249,7 +262,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
               <SkipBackIcon />
             </SkipButton>
             <PlayPauseButton onClick={onTogglePlay} $isPlaying={isPlaying}>
-              <PlayPauseInner>
+              <PlayPauseInner $isDark={!!isDark}>
                 <span className="visually-hidden">
                   {`${title} ${isPlaying ? 'Pause' : 'Play'}`}
                 </span>
