@@ -26,8 +26,10 @@ import {
 import PlayRate from './AudioPlayer.PlayRate';
 import Scrubber from './AudioPlayer.Scrubber';
 
-const AudioPlayerWrapper = styled.figure<{ $isDark: boolean }>`
-  padding: 1rem;
+const AudioPlayerWrapper = styled(Space).attrs({
+  as: 'figure',
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+})<{ $isDark: boolean }>`
   background: ${props =>
     props.$isDark ? props.theme.color('black') : props.theme.color('white')};
   margin: 0;

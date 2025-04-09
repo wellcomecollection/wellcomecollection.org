@@ -105,7 +105,14 @@ const PrevNext = styled.div.attrs({
   z-index: 2;
   bottom: 0;
   width: 100%;
+  height: 50px;
   background: ${props => props.theme.color('neutral.700')};
+`;
+
+const AudioPlayerNewWrapper = styled.div`
+  position: fixed;
+  bottom: 50px;
+  width: 100%;
 `;
 
 const AlignCenter = styled.div`
@@ -371,13 +378,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                 <>
                   {currentStop.audio && (
                     <>
-                      {audioPlayer ? (
-                        <AudioPlayerNew
-                          title=""
-                          audioFile={currentStop.audio}
-                          isDark={true}
-                        />
-                      ) : (
+                      {!audioPlayer && (
                         <AudioPlayerWrapper>
                           <AudioPlayer title="" audioFile={currentStop.audio} />
                         </AudioPlayerWrapper>
@@ -395,6 +396,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                   size: 'xl',
                   properties: ['padding-bottom', 'margin-bottom'],
                 }}
+                style={{ paddingBottom: audioPlayer ? '200px' : undefined }}
               >
                 <Space $v={{ size: 'l', properties: ['padding-top'] }}>
                   <CollapsibleContent
@@ -409,6 +411,17 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             )}
           </ContaineredLayout>
         </div>
+        {currentStop.audio && audioPlayer && (
+          <AudioPlayerNewWrapper>
+            <Container>
+              <AudioPlayerNew
+                title=""
+                audioFile={currentStop.audio}
+                isDark={true}
+              />
+            </Container>
+          </AudioPlayerNewWrapper>
+        )}
         {/* PrevNext needs a view-transition-name even though it isn't transitioning: https://www.nicchan.me/blog/view-transitions-and-stacking-context/#the-workaround */}
         <PrevNext style={{ viewTransitionName: 'prevnext' }}>
           <Container>
