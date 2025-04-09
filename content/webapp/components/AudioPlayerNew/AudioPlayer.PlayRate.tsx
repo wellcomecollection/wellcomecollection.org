@@ -26,9 +26,9 @@ const TogglePlayRateButton = styled.button.attrs({
   }
 `;
 
-const PlayRateButton = styled.button.attrs<{ $isActive: boolean }>(props => ({
-  className: font(props.$isActive ? 'intb' : 'intr', 6),
-}))<{
+const PlayRateButton = styled.button.attrs<{ $isActive: boolean }>({
+  className: font('intsb', 6),
+})<{
   $isDark: boolean;
   $isActive?: boolean;
 }>`

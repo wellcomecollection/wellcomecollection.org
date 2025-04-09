@@ -43,6 +43,7 @@ const TimeWrapper = styled.div.attrs({
 })<{ $isDark: boolean }>`
   display: flex;
   justify-content: space-between;
+  font-variant-numeric: tabular-nums;
   color: ${props =>
     props.$isDark ? props.theme.color('white') : props.theme.color('black')};
 `;
