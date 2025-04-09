@@ -84,7 +84,7 @@ const Header = styled.header.attrs({
   background-color: ${props => props.theme.color('neutral.700')};
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: 1;
 `;
 
 const HeaderInner = styled(Space).attrs({
