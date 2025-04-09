@@ -77,6 +77,11 @@ const PlayerRateWrapper = styled.div`
   justify-content: end;
 `;
 
+const TitleWrapper = styled.span<{ $isDark: boolean }>`
+  color: ${props =>
+    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+`;
+
 const PlayPauseInner = styled.div<{ $isDark: boolean }>`
   color: ${props => props.theme.color('yellow')};
   transition:
@@ -251,7 +256,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
         {title && (
           <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
             <figcaption className={font('intb', 5)} {...titleProps}>
-              {title}
+              <TitleWrapper $isDark={!!isDark}>{title}</TitleWrapper>
             </figcaption>
           </Space>
         )}
