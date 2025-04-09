@@ -40,6 +40,7 @@ const PlayRateButton = styled.button.attrs<{ $isActive: boolean }>(props => ({
 `;
 
 const PlayRateList = styled(Space).attrs({
+  as: 'ul',
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })<{ $isActive: boolean; $isDark: boolean }>`
@@ -69,8 +70,11 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
   isDark,
 }) => {
   const [isSheetActive, setIsSheetActive] = useState(false);
-  const [referenceElement, setReferenceElement] = useState(null);
-  const [popperElement, setPopperElement] = useState(null);
+  const [referenceElement, setReferenceElement] =
+    useState<HTMLButtonElement | null>(null);
+  const [popperElement, setPopperElement] = useState<HTMLUListElement | null>(
+    null
+  );
 
   const { styles, attributes, update } = usePopper(
     referenceElement,
@@ -108,6 +112,28 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
       update();
     }
   }
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        popperElement &&
+        referenceElement &&
+        !popperElement.contains(event.target as Node) &&
+        !referenceElement.contains(event.target as Node)
+      ) {
+        setIsSheetActive(false);
+      }
+    }
+
+    if (popperElement) {
+      document.addEventListener('click', handleClickOutside);
+    }
+    return () => {
+      if (popperElement) {
+        document.removeEventListener('click', handleClickOutside);
+      }
+    };
+  }, [popperElement, referenceElement]);
 
   return (
     <div style={{ position: 'relative' }}>
