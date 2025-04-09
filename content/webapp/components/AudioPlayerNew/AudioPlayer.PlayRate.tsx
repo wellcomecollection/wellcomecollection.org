@@ -45,6 +45,7 @@ const PlayRateList = styled(Space).attrs({
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })<{ $isActive: boolean; $isDark: boolean }>`
   list-style: none;
+  margin: 0;
   display: ${props => (props.$isActive ? 'block' : 'none')};
   background-color: ${props =>
     props.$isDark
