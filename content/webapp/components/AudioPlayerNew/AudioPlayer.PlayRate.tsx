@@ -46,12 +46,10 @@ const PlayRateButton = styled.button.attrs<{ $isActive: boolean }>({
 `;
 
 const PlayRateList = styled(Space).attrs({
-  as: 'ul',
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })<{ $isActive: boolean; $isDark: boolean }>`
   list-style: none;
-  margin: 0;
   display: ${props => (props.$isActive ? 'block' : 'none')};
   background-color: ${props =>
     props.$isDark
@@ -63,6 +61,11 @@ const PlayRateList = styled(Space).attrs({
 
   &[data-popper-placement='top'] {
     border-radius: 8px 8px 0;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
   }
 `;
 
@@ -79,7 +82,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
   const [isPopperActive, setIsPopperActive] = useState(false);
   const [referenceElement, setReferenceElement] =
     useState<HTMLButtonElement | null>(null);
-  const [popperElement, setPopperElement] = useState<HTMLUListElement | null>(
+  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(
     null
   );
   const id = useId();
@@ -169,26 +172,28 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
           style={styles.popper}
           {...attributes.popper}
         >
-          {speeds.map((speed, index) => {
-            return (
-              <Space
-                $v={
-                  speeds.length === index + 1
-                    ? undefined
-                    : { size: 'm', properties: ['margin-bottom'] }
-                }
-                key={speed}
-              >
-                <PlayRateButton
-                  $isActive={audioPlaybackRate === speed}
-                  $isDark={isDark}
-                  onClick={() => updatePlaybackRate(speed)}
+          <ul>
+            {speeds.map((speed, index) => {
+              return (
+                <Space
+                  $v={
+                    speeds.length === index + 1
+                      ? undefined
+                      : { size: 'm', properties: ['margin-bottom'] }
+                  }
+                  key={speed}
                 >
-                  {speed}x
-                </PlayRateButton>
-              </Space>
-            );
-          })}
+                  <PlayRateButton
+                    $isActive={audioPlaybackRate === speed}
+                    $isDark={isDark}
+                    onClick={() => updatePlaybackRate(speed)}
+                  >
+                    {speed}x
+                  </PlayRateButton>
+                </Space>
+              );
+            })}
+          </ul>
         </PlayRateList>
       </div>
     </FocusTrap>
