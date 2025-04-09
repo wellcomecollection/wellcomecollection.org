@@ -20,7 +20,6 @@ export type Props = {
   items: NavigateSelectableTextLink[];
   currentSection: string;
   isWhite?: boolean;
-  hasNewLook?: boolean;
 };
 
 const TabsNavigate: FunctionComponent<Props> = ({
@@ -29,19 +28,13 @@ const TabsNavigate: FunctionComponent<Props> = ({
   items,
   currentSection,
   isWhite,
-  hasNewLook,
 }: Props) => {
   return (
     <TabsContainer aria-label={label}>
       {items.map(item => {
         const isSelected = currentSection === item.id;
         return (
-          <Tab
-            key={item.id}
-            $selected={isSelected}
-            $hideBorder={hideBorder}
-            $hasNewLook={hasNewLook}
-          >
+          <Tab key={item.id} $selected={isSelected} $hideBorder={hideBorder}>
             <Link
               scroll={false}
               passHref
@@ -52,7 +45,6 @@ const TabsNavigate: FunctionComponent<Props> = ({
                 $selected={isSelected}
                 aria-current={isSelected ? 'page' : 'false'}
                 $isWhite={isWhite}
-                $hasNewLook={hasNewLook}
                 onClick={e => {
                   if (!isSelected) {
                     (e.target as HTMLDivElement).scrollIntoView({

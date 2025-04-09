@@ -204,7 +204,6 @@ const EventsPage: FunctionComponent<Props | NewProps> = props => {
 
           <ContaineredLayout gridSizes={gridSize12()}>
             <Tabs
-              hasNewLook
               tabBehaviour="navigate"
               currentSection={
                 period === 'future' || !period ? 'future' : 'past'
