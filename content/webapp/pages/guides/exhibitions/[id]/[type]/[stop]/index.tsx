@@ -394,10 +394,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                     }}
                     href={`${guideTypeUrl}/${stopNumber - 1}`}
                     shallow={true}
-                    onFocus={() => setViewTransitionName('player-previous')}
-                    onMouseEnter={() =>
-                      setViewTransitionName('player-previous')
-                    }
                   >
                     <Space
                       $v={{
@@ -428,8 +424,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                     }}
                     href={`${guideTypeUrl}/${stopNumber + 1}`}
                     shallow={true}
-                    onFocus={() => setViewTransitionName('player-next')}
-                    onMouseEnter={() => setViewTransitionName('player-next')}
                   >
                     <Space
                       $v={{
