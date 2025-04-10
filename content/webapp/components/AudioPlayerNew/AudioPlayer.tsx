@@ -264,17 +264,6 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
         <AudioPlayerGrid $isEnhanced={isEnhanced}>
           <NowPlayingWrapper>
             <div>
-              <div>
-                <Scrubber
-                  startTime={startTime}
-                  duration={duration}
-                  id={id}
-                  onChange={onScrubberChange}
-                  progressBarRef={progressBarRef}
-                  currentTime={currentTime}
-                  isDark={!!isDark}
-                />
-              </div>
               <TimeWrapper $isDark={!!isDark}>
                 <span>
                   <span className="visually-hidden">
@@ -295,6 +284,22 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
                   </span>
                 )}
               </TimeWrapper>
+              <Space
+                $v={{
+                  size: 's',
+                  properties: ['padding-top', 'padding-bottom'],
+                }}
+              >
+                <Scrubber
+                  startTime={startTime}
+                  duration={duration}
+                  id={id}
+                  onChange={onScrubberChange}
+                  progressBarRef={progressBarRef}
+                  currentTime={currentTime}
+                  isDark={!!isDark}
+                />
+              </Space>
             </div>
           </NowPlayingWrapper>
           <SkipPlayWrapper>
