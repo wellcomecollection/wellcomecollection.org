@@ -48,9 +48,9 @@ type NavItemProps = {
   $hideBorder?: boolean;
 };
 
-export const Tab = styled.div.attrs({
-  className: font('intsb', 5),
-})<NavItemProps>`
+export const Tab = styled.div.attrs<{ $selected?: boolean }>(props => ({
+  className: font(props.$selected ? 'intsb' : 'intm', 5),
+}))<NavItemProps>`
   padding: 0;
   margin: 0;
   flex-shrink: 0;
@@ -103,7 +103,10 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
   position: relative;
   z-index: 1;
   cursor: pointer;
-  color: ${props => props.theme.color(props.$isWhite ? 'white' : 'black')};
+  color: ${props =>
+    props.theme.color(
+      props.$isWhite ? 'white' : props.$selected ? 'black' : 'neutral.600'
+    )};
   transition: all ${props => props.theme.transitionProperties};
 
   &::after {

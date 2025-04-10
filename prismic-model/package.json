@@ -12,10 +12,10 @@
     "tryAllContentPages": "ts-node tryAllContentPages"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudfront": "^3.777.0",
-    "@aws-sdk/client-s3": "^3.777.0",
-    "@aws-sdk/client-secrets-manager": "^3.777.0",
-    "@aws-sdk/client-sts": "^3.777.0",
+    "@aws-sdk/client-cloudfront": "^3.782.0",
+    "@aws-sdk/client-s3": "^3.782.0",
+    "@aws-sdk/client-secrets-manager": "^3.782.0",
+    "@aws-sdk/client-sts": "^3.782.0",
     "@types/node": "^22.13.10",
     "@types/yargs": "^17.0.5",
     "@weco/common": "1.0.0",

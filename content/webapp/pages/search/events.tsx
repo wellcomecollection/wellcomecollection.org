@@ -175,9 +175,11 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
                   />
                 </SortPaginationWrapper>
               </PaginationWrapper>
-
               <main>
-                <EventsSearchResults events={eventResponseList.results} />
+                <EventsSearchResults
+                  events={eventResponseList.results}
+                  isInPastListing={eventsRouteProps.timespan === 'past'}
+                />
               </main>
 
               <PaginationWrapper $verticalSpacing="l" $alignRight>
@@ -242,10 +244,8 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  // Sending page=1 to Prismic skips the two first results, which seems to have to do with the cursor work
-  // This is a workaround that ensures we only send the page if relevant
   const { page, ...restOfQuery } = query;
-  const pageNumber = page !== '1' && getQueryPropertyValue(page);
+  const pageNumber = getQueryPropertyValue(page);
   const paramsQuery = { ...restOfQuery, timespan: validTimespan };
 
   const eventResponseList = await getEvents({

@@ -66,18 +66,18 @@ export const ModalTitle = styled(Space).attrs({
 
 const colours = {
   success: css`
-    background-color: rgba(0, 120, 108, 0.1);
-    border: 1px solid rgba(0, 120, 108, 0.3);
+    background-color: rgb(0, 120, 108, 0.1);
+    border: 1px solid rgb(0, 120, 108, 0.3);
     color: ${props => props.theme.color('black')};
   `,
   failure: css`
-    background-color: rgba(224, 27, 47, 0.1);
-    border: 1px solid rgba(224, 27, 47, 0.3);
+    background-color: rgb(224, 27, 47, 0.1);
+    border: 1px solid rgb(224, 27, 47, 0.3);
     color: ${props => props.theme.color('validation.red')};
   `,
   info: css`
-    background-color: rgba(255, 206, 60, 0.2);
-    border: 1px solid rgba(255, 206, 60, 0.4);
+    background-color: rgb(255, 206, 60, 0.2);
+    border: 1px solid rgb(255, 206, 60, 0.4);
     color: #705400;
   `,
 };
