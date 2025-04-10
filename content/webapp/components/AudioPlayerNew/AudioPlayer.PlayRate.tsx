@@ -26,13 +26,16 @@ const TogglePlayRateButton = styled.button.attrs({
   }
 `;
 
-const PlayRateButton = styled.button.attrs<{ $isActive: boolean }>({
-  className: font('intsb', 6),
-})<{
+const PlayRateButton = styled(Space).attrs<{ $isActive: boolean }>(props => ({
+  as: 'button',
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  className: font(props.$isActive ? 'intsb' : 'intr', 6),
+}))<{
   $isDark: boolean;
   $isActive?: boolean;
 }>`
   display: flex;
+  width: 100%;
   color: ${props =>
     props.$isActive
       ? props.theme.color('yellow')
@@ -46,7 +49,7 @@ const PlayRateButton = styled.button.attrs<{ $isActive: boolean }>({
 `;
 
 const PlayRateList = styled(Space).attrs({
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  // $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })<{ $isActive: boolean; $isDark: boolean }>`
   list-style: none;
@@ -173,24 +176,16 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
           {...attributes.popper}
         >
           <ul>
-            {speeds.map((speed, index) => {
+            {speeds.map(speed => {
               return (
-                <Space
-                  $v={
-                    speeds.length === index + 1
-                      ? undefined
-                      : { size: 'm', properties: ['margin-bottom'] }
-                  }
+                <PlayRateButton
                   key={speed}
+                  $isActive={audioPlaybackRate === speed}
+                  $isDark={isDark}
+                  onClick={() => updatePlaybackRate(speed)}
                 >
-                  <PlayRateButton
-                    $isActive={audioPlaybackRate === speed}
-                    $isDark={isDark}
-                    onClick={() => updatePlaybackRate(speed)}
-                  >
-                    {speed}x
-                  </PlayRateButton>
-                </Space>
+                  {speed}x
+                </PlayRateButton>
               );
             })}
           </ul>
