@@ -84,7 +84,7 @@ const Header = styled.header.attrs({
   background-color: ${props => props.theme.color('neutral.700')};
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: 1;
 `;
 
 const HeaderInner = styled(Space).attrs({
@@ -245,31 +245,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     return () => resizeObserver.disconnect();
   }, [headerEl]);
 
-  const [viewTransitionName, setViewTransitionName] = useState(
-    `player-${currentStop.number}`
-  );
-
-  // Because we've given the page the appearance of a modal, we handle the case
-  // where someone hits 'Escape' as an intention to return to the previous state (page)
-  useEffect(() => {
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape') {
-        const prev = `${guideTypeUrl}#${currentStop.number}`;
-        setViewTransitionName(`player-${currentStop.number}`);
-
-        if (!document.startViewTransition) {
-          router.push(prev);
-        }
-
-        document.startViewTransition(() => router.push(prev));
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
   useEffect(() => {
     setStopNumber(Number(router.query.stop));
     const newStop = allStops.find(s => s.number === Number(router.query.stop));
@@ -307,7 +282,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
     >
       <Page>
         {/* Header needs a view-transition-name even though it isn't transitioning: https://www.nicchan.me/blog/view-transitions-and-stacking-context/#the-workaround */}
-        <Header ref={headerRef} style={{ viewTransitionName: 'header' }}>
+        <Header ref={headerRef}>
           <Container>
             <HeaderInner>
               <div>
@@ -317,15 +292,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                 </h1>
               </div>
               <span>
-                <NextLink
-                  href={`${guideTypeUrl}#${currentStop.number}`}
-                  onFocus={() =>
-                    setViewTransitionName(`player-${currentStop.number}`)
-                  }
-                  onMouseEnter={() =>
-                    setViewTransitionName(`player-${currentStop.number}`)
-                  }
-                >
+                <NextLink href={`${guideTypeUrl}#${currentStop.number}`}>
                   <Icon icon={cross} />
                   <span className="visually-hidden">Back to list of stops</span>
                 </NextLink>
@@ -333,7 +300,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             </HeaderInner>
           </Container>
         </Header>
-        <div style={{ viewTransitionName }}>
+        <div>
           <FlushContainer>
             <Grid>
               <GridCell $sizeMap={gridSize8()}>
@@ -440,10 +407,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                     }}
                     href={`${guideTypeUrl}/${stopNumber - 1}`}
                     shallow={true}
-                    onFocus={() => setViewTransitionName('player-previous')}
-                    onMouseEnter={() =>
-                      setViewTransitionName('player-previous')
-                    }
                   >
                     <Space
                       $v={{
@@ -474,8 +437,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                     }}
                     href={`${guideTypeUrl}/${stopNumber + 1}`}
                     shallow={true}
-                    onFocus={() => setViewTransitionName('player-next')}
-                    onMouseEnter={() => setViewTransitionName('player-next')}
                   >
                     <Space
                       $v={{

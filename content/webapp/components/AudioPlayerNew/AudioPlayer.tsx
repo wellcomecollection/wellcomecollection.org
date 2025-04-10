@@ -9,7 +9,6 @@ import {
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
-import { dasherize } from '@weco/common/utils/grammar';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
@@ -45,6 +44,7 @@ const TimeWrapper = styled.div.attrs({
 })<{ $isDark: boolean }>`
   display: flex;
   justify-content: space-between;
+  font-variant-numeric: tabular-nums;
   color: ${props =>
     props.$isDark ? props.theme.color('white') : props.theme.color('black')};
 `;
@@ -65,7 +65,8 @@ const SkipButton = styled.button<{ $isDark: boolean }>`
     transform 0.2s ease-out;
 
   &:hover {
-    color: ${props => props.theme.color('white')};
+    color: ${props =>
+      props.$isDark ? props.theme.color('white') : props.theme.color('black')};
     transform: scale(1.1);
   }
 `;
@@ -77,25 +78,42 @@ const PlayerRateWrapper = styled.div`
   justify-content: end;
 `;
 
-const PlayPauseInner = styled.div`
+const TitleWrapper = styled.span<{ $isDark: boolean }>`
+  color: ${props =>
+    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+`;
+
+const PlayPauseInner = styled.div<{ $isDark: boolean }>`
   color: ${props => props.theme.color('yellow')};
   transition:
     color 0.2s ease-out,
     transform 0.2s ease-out;
 
+  .icon__playpause {
+    transition: fill 0.2s ease-out;
+  }
+
   &:hover {
-    color: ${props => props.theme.color('white')};
+    color: ${props =>
+      props.$isDark ? props.theme.color('white') : props.theme.color('black')};
     transform: scale(1.1);
+
+    .icon__playpause {
+      fill: ${props =>
+        props.$isDark
+          ? props.theme.color('black')
+          : props.theme.color('white')};
+    }
   }
 `;
 
 const AudioPlayerGrid = styled.div.attrs({})<{ $isEnhanced: boolean }>`
   display: ${props => (props.$isEnhanced ? 'grid' : 'none')};
   grid-template-columns: repeat(3, 1fr);
-  align-items: baseline;
+  align-items: center;
 `;
 
-const SecondRow = styled(Space).attrs({
+const NowPlayingWrapper = styled(Space).attrs({
   $v: { size: 's', properties: ['margin-top'] },
 })`
   grid-column: 1 / -1;
@@ -115,7 +133,6 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   title,
   isDark,
   transcript,
-  idPrefix,
   titleProps = {},
 }) => {
   const { isEnhanced } = useContext(AppContext);
@@ -131,7 +148,6 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
 
   const audioPlayerRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLInputElement>(null);
-  const id = `${idPrefix || ''}${dasherize(title.slice(0, 15))}`;
 
   useEffect(() => {
     // If we change the player dynamically, we need to reset the play/pause
@@ -239,51 +255,14 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
         {title && (
           <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
             <figcaption className={font('intb', 5)} {...titleProps}>
-              {title}
+              <TitleWrapper $isDark={!!isDark}>{title}</TitleWrapper>
             </figcaption>
           </Space>
         )}
 
         <AudioPlayerGrid $isEnhanced={isEnhanced}>
-          <SkipPlayWrapper>
-            <SkipButton $isDark={!!isDark} onClick={handleSkipBackClick}>
-              <SkipBackIcon />
-            </SkipButton>
-            <PlayPauseButton onClick={onTogglePlay} $isPlaying={isPlaying}>
-              <PlayPauseInner>
-                <span className="visually-hidden">
-                  {`${title} ${isPlaying ? 'Pause' : 'Play'}`}
-                </span>
-                {isPlaying ? <PauseIcon /> : <PlayIcon />}
-              </PlayPauseInner>
-            </PlayPauseButton>
-            <SkipButton $isDark={!!isDark} onClick={handleSkipForwardClick}>
-              <SkipForwardIcon />
-            </SkipButton>
-          </SkipPlayWrapper>
-          {audioPlayerRef.current && (
-            <PlayerRateWrapper>
-              <PlayRate
-                id={id}
-                audioPlayer={audioPlayerRef.current}
-                isDark={!!isDark}
-              />
-            </PlayerRateWrapper>
-          )}
-
-          <SecondRow>
+          <NowPlayingWrapper>
             <div>
-              <div>
-                <Scrubber
-                  startTime={startTime}
-                  duration={duration}
-                  id={id}
-                  onChange={onScrubberChange}
-                  progressBarRef={progressBarRef}
-                  currentTime={currentTime}
-                  isDark={!!isDark}
-                />
-              </div>
               <TimeWrapper $isDark={!!isDark}>
                 <span>
                   <span className="visually-hidden">
@@ -304,8 +283,52 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
                   </span>
                 )}
               </TimeWrapper>
+              <Space
+                $v={{
+                  size: 's',
+                  properties: ['padding-top', 'padding-bottom'],
+                }}
+              >
+                <Scrubber
+                  startTime={startTime}
+                  duration={duration}
+                  id={audioFile}
+                  onChange={onScrubberChange}
+                  progressBarRef={progressBarRef}
+                  currentTime={currentTime}
+                  isDark={!!isDark}
+                />
+              </Space>
             </div>
-          </SecondRow>
+          </NowPlayingWrapper>
+          <SkipPlayWrapper>
+            <SkipButton $isDark={!!isDark} onClick={handleSkipBackClick}>
+              <span className="visually-hidden">rewind 15 seconds</span>
+              <SkipBackIcon />
+            </SkipButton>
+
+            <PlayPauseButton onClick={onTogglePlay} $isPlaying={isPlaying}>
+              <PlayPauseInner $isDark={!!isDark}>
+                <span className="visually-hidden">
+                  {`${title} ${isPlaying ? 'Pause' : 'Play'}`}
+                </span>
+                {isPlaying ? <PauseIcon /> : <PlayIcon />}
+              </PlayPauseInner>
+            </PlayPauseButton>
+            <SkipButton $isDark={!!isDark} onClick={handleSkipForwardClick}>
+              <span className="visually-hidden">fast-forward 15 seconds</span>
+              <SkipForwardIcon />
+            </SkipButton>
+          </SkipPlayWrapper>
+          {audioPlayerRef.current && (
+            <PlayerRateWrapper>
+              <PlayRate
+                id={audioFile}
+                audioPlayer={audioPlayerRef.current}
+                isDark={!!isDark}
+              />
+            </PlayerRateWrapper>
+          )}
         </AudioPlayerGrid>
 
         <audio

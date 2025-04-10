@@ -6,7 +6,7 @@ import { formatPlayerTime } from './AudioPlayer.formatters';
 const RangeSlider = styled.input.attrs({
   type: 'range',
   step: 'any',
-})`
+})<{ $isDark: boolean }>`
   cursor: pointer;
   position: relative;
   z-index: 1;
@@ -26,7 +26,10 @@ const RangeSlider = styled.input.attrs({
       transform 0.2s ease-out;
 
     &:hover {
-      background: ${props => props.theme.color('white')};
+      background: ${props =>
+        props.$isDark
+          ? props.theme.color('white')
+          : props.theme.color('black')};
       transform: scale(1.5);
     }
   }
@@ -44,7 +47,10 @@ const RangeSlider = styled.input.attrs({
       transform 0.2s ease-out;
 
     &:hover {
-      background: ${props => props.theme.color('white')};
+      background: ${props =>
+        props.$isDark
+          ? props.theme.color('white')
+          : props.theme.color('black')};
       transform: scale(1.5);
     }
   }
@@ -61,7 +67,7 @@ const PercentComplete = styled.div<{
     top: 50%;
     left: 0;
     content: '';
-    height: 5px;
+    height: 4px;
     width: 100%;
     background-color: ${props =>
       props.$isDark
@@ -76,7 +82,7 @@ const PercentComplete = styled.div<{
     top: 50%;
     left: 0;
     content: '';
-    height: 5px;
+    height: 4px;
     width: ${props => props.$percentComplete}%;
     background-color: ${props => props.theme.color('yellow')};
     border-radius: 4px;
@@ -106,10 +112,9 @@ const Scrubber: FunctionComponent<ScrubberProps> = ({
 }) => {
   const [percentComplete, setPercentComplete] = useState(0);
   useEffect(() => {
-    if (currentTime) {
-      setPercentComplete((100 / duration) * Number(currentTime));
-    }
+    setPercentComplete((100 / duration) * Number(currentTime));
   }, [currentTime]);
+
   return (
     <div style={{ lineHeight: 0 }}>
       <label className="visually-hidden" htmlFor={`scrubber-${id}`}>
@@ -117,6 +122,7 @@ const Scrubber: FunctionComponent<ScrubberProps> = ({
       </label>
       <PercentComplete $percentComplete={percentComplete} $isDark={isDark}>
         <RangeSlider
+          $isDark={isDark}
           style={{ width: '100%' }}
           aria-valuetext={`Elapsed time: ${
             formatPlayerTime(startTime).nonVisual
