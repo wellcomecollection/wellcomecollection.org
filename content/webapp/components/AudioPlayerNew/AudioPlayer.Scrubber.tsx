@@ -1,4 +1,4 @@
-import { FunctionComponent, Ref, useEffect, useState } from 'react';
+import { FunctionComponent, Ref } from 'react';
 import styled from 'styled-components';
 
 import { formatPlayerTime } from './AudioPlayer.formatters';
@@ -110,17 +110,15 @@ const Scrubber: FunctionComponent<ScrubberProps> = ({
   currentTime,
   isDark,
 }) => {
-  const [percentComplete, setPercentComplete] = useState(0);
-  useEffect(() => {
-    setPercentComplete((100 / duration) * Number(currentTime));
-  }, [currentTime]);
-
   return (
     <div style={{ lineHeight: 0 }}>
       <label className="visually-hidden" htmlFor={`scrubber-${id}`}>
         Audio time scrubber
       </label>
-      <PercentComplete $percentComplete={percentComplete} $isDark={isDark}>
+      <PercentComplete
+        $percentComplete={(100 / duration) * Number(currentTime)}
+        $isDark={isDark}
+      >
         <RangeSlider
           $isDark={isDark}
           style={{ width: '100%' }}
