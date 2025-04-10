@@ -344,14 +344,10 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                 </>
               ) : (
                 <>
-                  {currentStop.audio && (
-                    <>
-                      {!audioPlayer && (
-                        <AudioPlayerWrapper>
-                          <AudioPlayer title="" audioFile={currentStop.audio} />
-                        </AudioPlayerWrapper>
-                      )}
-                    </>
+                  {currentStop.audio && !audioPlayer && (
+                    <AudioPlayerWrapper>
+                      <AudioPlayer title="" audioFile={currentStop.audio} />
+                    </AudioPlayerWrapper>
                   )}
                 </>
               )}
@@ -382,11 +378,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
         {currentStop.audio && audioPlayer && (
           <AudioPlayerNewWrapper>
             <Container>
-              <AudioPlayerNew
-                title=""
-                audioFile={currentStop.audio}
-                isDark={true}
-              />
+              <AudioPlayerNew audioFile={currentStop.audio} isDark={true} />
             </Container>
           </AudioPlayerNewWrapper>
         )}
