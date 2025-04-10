@@ -1,8 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import AudioPlayer from '@weco/content/components/AudioPlayerNew/AudioPlayer';
-import Readme from '@weco/content/components/AudioPlayerNew/README.mdx';
 
 const meta: Meta<typeof AudioPlayer> = {
   title: 'Components/AudioPlayerNew',
@@ -21,11 +19,5 @@ type Story = StoryObj<typeof AudioPlayer>;
 
 export const Basic: Story = {
   name: 'AudioPlayerNew',
-  render: args => (
-    <ReadmeDecorator
-      WrappedComponent={AudioPlayer}
-      args={args}
-      Readme={Readme}
-    />
-  ),
+  render: args => <AudioPlayer {...args} />,
 };
