@@ -133,7 +133,7 @@ type RelatedTo = {
   label: string;
   id: string;
   relationshipType?: string;
-}
+};
 
 export type Concept = {
   id?: string;
@@ -142,12 +142,15 @@ export type Concept = {
   type: ConceptType;
   sameAs?: string[];
   description?: string;
-  fieldsOfWork?: Array<RelatedTo>,
-  relatedTo?: Array<RelatedTo>,
-  narrowerThan?: Array<RelatedTo>,
-  broaderThan?: Array<RelatedTo>,
-  people?: Array<RelatedTo>,
-  alternativeLabels?: Array<string>
+  relatedConcepts: {
+    fieldsOfWork?: RelatedTo[];
+    relatedTo?: RelatedTo[];
+    narrowerThan?: RelatedTo[];
+    broaderThan?: RelatedTo[];
+    people?: RelatedTo[];
+    referencedTogether?: RelatedTo[];
+  };
+  alternativeLabels?: string[];
 };
 
 type Availability = {

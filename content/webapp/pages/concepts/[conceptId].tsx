@@ -93,12 +93,13 @@ const AlternativeLabels = styled.div.attrs({
     margin-bottom: 24px;
     flex-wrap: wrap;
     margin-top: -12px;
+    color: #666;
 `;
 
 const AlternativeLabel = styled.span.attrs({
   className: font('intr', 6),
 })`
-  border-right: 1px solid black;
+  border-right: 1px solid #666;
     padding-right: 12px;
     
     &:last-of-type {
@@ -409,11 +410,11 @@ export const ConceptPage: NextPage<Props> = ({
 
             {newThemePages && conceptResponse.alternativeLabels?.length > 0 &&
               (<AlternativeLabels>{conceptResponse.alternativeLabels.map(label => (<AlternativeLabel>{capitalize(label)}</AlternativeLabel>))}</AlternativeLabels>)}
-            {newThemePages && conceptResponse.narrowerThan?.length > 0 && (
+            {newThemePages && conceptResponse.relatedConcepts?.narrowerThan?.length > 0 && (
               <>
                 <ThemeButtonContainer>
                   <span>Part of</span>
-                  {conceptResponse.narrowerThan.map(item => (
+                  {conceptResponse.relatedConcepts.narrowerThan.map(item => (
                     <NextLink
                       key={item.id}
                       href={{
@@ -431,11 +432,54 @@ export const ConceptPage: NextPage<Props> = ({
             )}
             {newThemePages && conceptResponse.description && <p>{capitalize(conceptResponse.description)}</p>}
           </Space>
-          {newThemePages && conceptResponse.relatedTo?.length > 0 && (
+
+          {newThemePages && conceptResponse.relatedConcepts?.fieldsOfWork?.length > 0 && (
+            <>
+              <h3>Fields of work</h3>
+              <ThemeButtonContainer>
+                {conceptResponse.relatedConcepts.fieldsOfWork.map(item => (
+                  <NextLink
+                    key={item.id}
+                    href={{
+                      pathname: `/concepts/${item.id}`
+                    }}
+                    passHref
+                    legacyBehavior
+                  >
+                    <ThemeButton>
+                      {item.label}
+                    </ThemeButton>
+                  </NextLink>))}
+              </ThemeButtonContainer>
+            </>
+          )}
+
+          {newThemePages && conceptResponse.relatedConcepts?.people?.length > 0 && (
+            <>
+              <h3>Notable people in this field</h3>
+              <ThemeButtonContainer>
+                {conceptResponse.relatedConcepts.people.map(item => (
+                  <NextLink
+                    key={item.id}
+                    href={{
+                      pathname: `/concepts/${item.id}`
+                    }}
+                    passHref
+                    legacyBehavior
+                  >
+                    <ThemeButton>
+                      {item.label}
+                    </ThemeButton>
+                  </NextLink>))}
+              </ThemeButtonContainer>
+            </>
+          )}
+
+          {newThemePages && conceptResponse.relatedConcepts?.relatedTo?.length > 0 && (
             <>
               <h3>Related to</h3>
               <ThemeButtonContainer>
-              {conceptResponse.relatedTo.map(item => (
+              {conceptResponse.relatedConcepts.relatedTo.map(item => (
                 <RelatedToButton style={{ width: item.relationshipType ? '100%' : 'auto' }}>
                 <NextLink
                   key={item.id}
@@ -457,32 +501,11 @@ export const ConceptPage: NextPage<Props> = ({
                 </>
           )}
 
-          {newThemePages && conceptResponse.fieldsOfWork?.length > 0 && (
+          {newThemePages && conceptResponse.relatedConcepts?.broaderThan?.length > 0 && (
             <>
-              <h3>Fields of work</h3>
+              <h3>Broader than</h3>
               <ThemeButtonContainer>
-              {conceptResponse.fieldsOfWork.map(item => (
-                <NextLink
-                  key={item.id}
-                  href={{
-                    pathname: `/concepts/${item.id}`
-                  }}
-                  passHref
-                  legacyBehavior
-                >
-                  <ThemeButton>
-                    {item.label}
-                  </ThemeButton>
-                </NextLink>))}
-                </ThemeButtonContainer>
-            </>
-          )}
-
-          {newThemePages && conceptResponse.people?.length > 0 && (
-            <>
-              <h3>Notable people in this field</h3>
-              <ThemeButtonContainer>
-                {conceptResponse.people.map(item => (
+                {conceptResponse.relatedConcepts.broaderThan.map(item => (
                   <NextLink
                     key={item.id}
                     href={{
@@ -499,11 +522,32 @@ export const ConceptPage: NextPage<Props> = ({
             </>
           )}
 
-          {newThemePages && conceptResponse.broaderThan?.length > 0 && (
+          {newThemePages && conceptResponse.relatedConcepts?.referenced_together?.length > 0 && (
             <>
-              <h3>Broader than</h3>
+              <h3>Frequently referenced together</h3>
               <ThemeButtonContainer>
-                {conceptResponse.broaderThan.map(item => (
+                {conceptResponse.relatedConcepts.referenced_together.map(item => (
+                  <NextLink
+                    key={item.id}
+                    href={{
+                      pathname: `/concepts/${item.id}`
+                    }}
+                    passHref
+                    legacyBehavior
+                  >
+                    <ThemeButton>
+                      {item.label}
+                    </ThemeButton>
+                  </NextLink>))}
+              </ThemeButtonContainer>
+            </>
+          )}
+
+          {newThemePages && conceptResponse.relatedConcepts?.referencedTogether?.length > 0 && (
+            <>
+              <h3>Frequently referenced together</h3>
+              <ThemeButtonContainer>
+                {conceptResponse.relatedConcepts.referencedTogether.map(item => (
                   <NextLink
                     key={item.id}
                     href={{
