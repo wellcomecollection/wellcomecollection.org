@@ -1,11 +1,5 @@
 import { FocusTrap } from 'focus-trap-react';
-import {
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useId,
-  useState,
-} from 'react';
+import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
 
@@ -81,6 +75,7 @@ type PlayRateProps = {
 const PlayRate: FunctionComponent<PlayRateProps> = ({
   audioPlayer,
   isDark,
+  id,
 }) => {
   const [isPopperActive, setIsPopperActive] = useState(false);
   const [referenceElement, setReferenceElement] =
@@ -88,7 +83,6 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(
     null
   );
-  const id = useId();
 
   const { styles, attributes, update } = usePopper(
     referenceElement,

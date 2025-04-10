@@ -9,7 +9,6 @@ import {
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
-import { dasherize } from '@weco/common/utils/grammar';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
@@ -132,7 +131,6 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   title,
   isDark,
   transcript,
-  idPrefix,
   titleProps = {},
 }) => {
   const { isEnhanced } = useContext(AppContext);
@@ -148,7 +146,6 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
 
   const audioPlayerRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLInputElement>(null);
-  const id = `${idPrefix || ''}${dasherize(title.slice(0, 15))}`;
 
   useEffect(() => {
     // If we change the player dynamically, we need to reset the play/pause
@@ -293,7 +290,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
                 <Scrubber
                   startTime={startTime}
                   duration={duration}
-                  id={id}
+                  id={audioFile}
                   onChange={onScrubberChange}
                   progressBarRef={progressBarRef}
                   currentTime={currentTime}
@@ -324,7 +321,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
           {audioPlayerRef.current && (
             <PlayerRateWrapper>
               <PlayRate
-                id={id}
+                id={audioFile}
                 audioPlayer={audioPlayerRef.current}
                 isDark={!!isDark}
               />

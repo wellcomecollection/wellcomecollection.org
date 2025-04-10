@@ -112,10 +112,9 @@ const Scrubber: FunctionComponent<ScrubberProps> = ({
 }) => {
   const [percentComplete, setPercentComplete] = useState(0);
   useEffect(() => {
-    if (currentTime) {
-      setPercentComplete((100 / duration) * Number(currentTime));
-    }
+    setPercentComplete((100 / duration) * Number(currentTime));
   }, [currentTime]);
+
   return (
     <div style={{ lineHeight: 0 }}>
       <label className="visually-hidden" htmlFor={`scrubber-${id}`}>
