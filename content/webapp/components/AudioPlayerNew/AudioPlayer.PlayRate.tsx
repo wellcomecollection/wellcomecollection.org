@@ -107,6 +107,10 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
     audioPlayer.playbackRate = audioPlaybackRate;
   }, [audioPlaybackRate]);
 
+  useEffect(() => {
+    audioPlayer.playbackRate = audioPlaybackRate;
+  }, [id]);
+
   function updatePlaybackRate(speed: number) {
     setAudioPlaybackRate(speed);
     audioPlayer.playbackRate = speed;
