@@ -8,7 +8,6 @@ import { inlineFonts } from './base/inline-fonts';
 import { layout } from './base/layout';
 import { normalize } from './base/normalize';
 import { row } from './base/row';
-import { transitions } from './base/transitions';
 import { wellcomeNormalize } from './base/wellcome-normalize';
 import { Size, spacingUnits, themeValues } from './config';
 import {
@@ -135,7 +134,6 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   ${utilityClasses}
   ${normalize}
   ${wellcomeNormalize}
-  ${transitions}
   ${layout}
   ${row}
   ${inlineFonts}
