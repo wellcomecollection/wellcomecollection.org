@@ -49,7 +49,7 @@ const PlayRateButton = styled(Space).attrs<{ $isActive: boolean }>(props => ({
 `;
 
 const PlayRateList = styled(Space).attrs({
-  // $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })<{ $isActive: boolean; $isDark: boolean }>`
   list-style: none;
