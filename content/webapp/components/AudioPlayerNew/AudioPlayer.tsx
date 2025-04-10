@@ -119,9 +119,8 @@ const NowPlayingWrapper = styled(Space).attrs({
 
 export type AudioPlayerProps = {
   audioFile: string;
-  title: string;
+  title?: string;
   transcript?: prismic.RichTextField;
-  idPrefix?: string;
   titleProps?: { role: string; 'aria-level': number };
   isDark?: boolean;
 };
@@ -308,7 +307,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
             <PlayPauseButton onClick={onTogglePlay} $isPlaying={isPlaying}>
               <PlayPauseInner $isDark={!!isDark}>
                 <span className="visually-hidden">
-                  {`${title} ${isPlaying ? 'Pause' : 'Play'}`}
+                  {isPlaying ? 'Pause' : 'Play'}
                 </span>
                 {isPlaying ? <PauseIcon /> : <PlayIcon />}
               </PlayPauseInner>
@@ -357,7 +356,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
       {!!(transcript?.length && transcript.length > 0) && (
         <Space $v={{ size: 'm', properties: ['margin-top'] }}>
           <CollapsibleContent
-            id={`audioPlayerTranscript-${title}`}
+            id={`audioPlayerTranscript-${audioFile}`}
             controlText={{
               contentShowingText: 'Hide the transcript',
               defaultText: 'Read the transcript',
