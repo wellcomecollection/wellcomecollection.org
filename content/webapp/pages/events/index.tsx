@@ -8,6 +8,7 @@ import { transformImage } from '@weco/common/services/prismic/transformers/image
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { Period } from '@weco/common/types/periods';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import { font } from '@weco/common/utils/classnames';
 import { pluralize } from '@weco/common/utils/grammar';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
@@ -16,6 +17,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import {
   ContaineredLayout,
   gridSize12,
+  gridSize8,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -23,6 +25,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import { themeValues } from '@weco/common/views/themes/config';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import EventsSearchResults from '@weco/content/components/EventsSearchResults';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
@@ -57,8 +60,7 @@ export type Props = {
 };
 
 type NewProps = {
-  title: string;
-  contentApiEvents: ContentResultsList<EventDocument>;
+  events: ContentResultsList<EventDocument>;
   period: 'future' | 'past';
   jsonLd: JsonLdObj[];
 };
@@ -111,13 +113,11 @@ export const getServerSideProps: GetServerSideProps<
     }
 
     if (eventResponseList) {
-      const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
       const jsonLd = eventResponseList.results.flatMap(eventLdContentApi);
 
       return {
         props: serialiseProps({
-          contentApiEvents: eventResponseList,
-          title,
+          events: eventResponseList,
           period: period as 'future' | 'past',
           jsonLd,
           serverData,
@@ -169,15 +169,16 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const EventsPage: FunctionComponent<Props | NewProps> = props => {
-  const { title, period, jsonLd } = props;
+  const { period, jsonLd } = props;
 
-  if ('contentApiEvents' in props) {
-    const { contentApiEvents: events } = props;
+  // Only the old page returns a title
+  if (!('title' in props)) {
+    const { events } = props;
     const firstEvent = events.results[0];
 
     return (
       <PageLayout
-        title={title}
+        title="Events"
         description={pageDescriptions.events}
         url={{ pathname: `/events${period ? `/${period}` : ''}` }}
         jsonLd={jsonLd}
@@ -188,51 +189,57 @@ const EventsPage: FunctionComponent<Props | NewProps> = props => {
         <SpacingSection>
           <PageHeader
             breadcrumbs={{ items: [] }}
-            labels={undefined}
-            title={title}
-            ContentTypeInfo={
-              pageDescriptions.events && (
-                <PrismicHtmlBlock
-                  html={[
-                    {
-                      type: 'paragraph',
-                      text: pageDescriptions.events,
-                      spans: [],
-                    },
-                  ]}
-                />
-              )
-            }
-            isContentTypeInfoBeforeMedia={true}
+            title="Events"
             isSlim={true}
           />
 
+          {pageDescriptions.events && (
+            <ContaineredLayout gridSizes={gridSize8(false)}>
+              <div className={`body-text spaced-text ${font('intr', 4)}`}>
+                <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                  <p>{pageDescriptions.events}</p>
+                </Space>
+              </div>
+            </ContaineredLayout>
+          )}
+
           <ContaineredLayout gridSizes={gridSize12()}>
-            <Tabs
-              hasNewLook
-              tabBehaviour="navigate"
-              currentSection={
-                period === 'future' || !period ? 'future' : 'past'
-              }
-              label="Time-based event filter"
-              items={[
-                {
-                  id: 'future',
-                  url: `/events`,
-                  text: 'Upcoming events',
-                },
-                {
-                  id: 'past',
-                  url: `/events/past`,
-                  text: 'Past events',
-                },
-              ]}
-            />
+            <div
+              style={{
+                borderBottom: `1px solid ${themeValues.color('neutral.300')}`,
+              }}
+            >
+              <Tabs
+                tabBehaviour="navigate"
+                currentSection={
+                  period === 'future' || !period ? 'future' : 'past'
+                }
+                label="Time-based event filter"
+                items={[
+                  {
+                    id: 'future',
+                    url: `/events`,
+                    text: 'Upcoming events',
+                  },
+                  {
+                    id: 'past',
+                    url: `/events/past`,
+                    text: 'Past events',
+                  },
+                ]}
+                hideBorder
+              />
+            </div>
           </ContaineredLayout>
 
           <ContaineredLayout gridSizes={gridSize12()}>
             <PaginationWrapper $verticalSpacing="l">
-              <span>{pluralize(events.totalResults, 'result')}</span>
+              <span>
+                {pluralize(
+                  events.totalResults,
+                  (period === 'past' ? 'past ' : '') + 'event'
+                )}
+              </span>
             </PaginationWrapper>
 
             <EventsSearchResults
@@ -266,7 +273,7 @@ const EventsPage: FunctionComponent<Props | NewProps> = props => {
 
     return (
       <PageLayout
-        title={title}
+        title={props.title}
         description={pageDescriptions.events}
         url={{ pathname: `/events${period ? `/${period}` : ''}` }}
         jsonLd={jsonLd}
@@ -278,7 +285,7 @@ const EventsPage: FunctionComponent<Props | NewProps> = props => {
           <PageHeader
             breadcrumbs={{ items: [] }}
             labels={undefined}
-            title={title}
+            title={props.title}
             ContentTypeInfo={
               pageDescriptions.events && (
                 <PrismicHtmlBlock

@@ -55,7 +55,6 @@ export type Props = {
   setSelectedTab: Dispatch<SetStateAction<string>>;
   isWhite?: boolean;
   trackWithSegment?: boolean;
-  hasNewLook?: boolean;
 };
 
 const TabsSwitch: FunctionComponent<Props> = ({
@@ -65,7 +64,6 @@ const TabsSwitch: FunctionComponent<Props> = ({
   selectedTab,
   setSelectedTab,
   isWhite,
-  hasNewLook,
   trackWithSegment = false,
 }: Props) => {
   const { isEnhanced } = useContext(AppContext);
@@ -136,7 +134,6 @@ const TabsSwitch: FunctionComponent<Props> = ({
             $selected={isSelected}
             $isWhite={isWhite}
             $hideBorder={hideBorder}
-            $hasNewLook={hasNewLook}
             onClick={e => {
               if (!(item.id === selectedTab)) {
                 (e.target as HTMLButtonElement).scrollIntoView({
@@ -155,16 +152,11 @@ const TabsSwitch: FunctionComponent<Props> = ({
             <TabButton
               role={isEnhanced ? 'tab' : undefined}
               id={`tab-${item.id}`}
-              $hasNewLook={hasNewLook}
               tabIndex={item.id === selectedTab ? 0 : -1}
               aria-controls={`tabpanel-${item.id}`}
               aria-selected={item.id === selectedTab}
             >
-              <NavItemInner
-                $selected={isSelected}
-                $isWhite={isWhite}
-                $hasNewLook={hasNewLook}
-              >
+              <NavItemInner $selected={isSelected} $isWhite={isWhite}>
                 <ConditionalWrapper
                   condition={Boolean(item.url && !isEnhanced)}
                   wrapper={children => <a href={item.url}>{children}</a>}

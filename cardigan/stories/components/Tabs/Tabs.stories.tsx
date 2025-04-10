@@ -55,7 +55,6 @@ const meta: Meta<typeof Tabs> = {
     tabBehaviour: 'switch',
     isWhite: false,
     hideBorder: false,
-    hasNewLook: false,
     items: [
       {
         id: 'all',
