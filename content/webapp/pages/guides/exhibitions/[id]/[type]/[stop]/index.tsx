@@ -98,6 +98,8 @@ const HeaderInner = styled(Space).attrs({
   align-items: center;
 `;
 
+const prevNextHeight = '50px';
+
 const PrevNext = styled.div.attrs({
   className: font('intr', 5),
 })`
@@ -105,7 +107,14 @@ const PrevNext = styled.div.attrs({
   z-index: 2;
   bottom: 0;
   width: 100%;
+  height: ${prevNextHeight};
   background: ${props => props.theme.color('neutral.700')};
+`;
+
+const AudioPlayerNewWrapper = styled.div`
+  position: fixed;
+  bottom: ${prevNextHeight};
+  width: 100%;
 `;
 
 const AlignCenter = styled.div`
@@ -274,7 +283,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
       apiToolbarLinks={[createPrismicLink(exhibitionGuideId)]}
     >
       <Page>
-        {/* Header needs a view-transition-name even though it isn't transitioning: https://www.nicchan.me/blog/view-transitions-and-stacking-context/#the-workaround */}
         <Header ref={headerRef}>
           <Container>
             <HeaderInner>
@@ -336,19 +344,10 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                 </>
               ) : (
                 <>
-                  {currentStop.audio && (
-                    <>
-                      {audioPlayer ? (
-                        <AudioPlayerNew
-                          audioFile={currentStop.audio}
-                          isDark={true}
-                        />
-                      ) : (
-                        <AudioPlayerWrapper>
-                          <AudioPlayer title="" audioFile={currentStop.audio} />
-                        </AudioPlayerWrapper>
-                      )}
-                    </>
+                  {currentStop.audio && !audioPlayer && (
+                    <AudioPlayerWrapper>
+                      <AudioPlayer title="" audioFile={currentStop.audio} />
+                    </AudioPlayerWrapper>
                   )}
                 </>
               )}
@@ -361,6 +360,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                   size: 'xl',
                   properties: ['padding-bottom', 'margin-bottom'],
                 }}
+                style={{ paddingBottom: audioPlayer ? '200px' : undefined }}
               >
                 <Space $v={{ size: 'l', properties: ['padding-top'] }}>
                   <CollapsibleContent
@@ -375,8 +375,14 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             )}
           </ContaineredLayout>
         </div>
-        {/* PrevNext needs a view-transition-name even though it isn't transitioning: https://www.nicchan.me/blog/view-transitions-and-stacking-context/#the-workaround */}
-        <PrevNext style={{ viewTransitionName: 'prevnext' }}>
+        {currentStop.audio && audioPlayer && (
+          <AudioPlayerNewWrapper>
+            <Container>
+              <AudioPlayerNew audioFile={currentStop.audio} isDark={true} />
+            </Container>
+          </AudioPlayerNewWrapper>
+        )}
+        <PrevNext>
           <Container>
             <div
               style={{
@@ -396,9 +402,9 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                   >
                     <Space
                       $v={{
-                        size: 'm',
+                        size: 's',
                         properties: ['padding-top', 'padding-bottom'],
-                        overrides: { small: 4 },
+                        overrides: { small: 4, medium: 4, large: 4 },
                       }}
                     >
                       <AlignCenter>
@@ -426,9 +432,9 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                   >
                     <Space
                       $v={{
-                        size: 'm',
+                        size: 's',
                         properties: ['padding-top', 'padding-bottom'],
-                        overrides: { small: 4 },
+                        overrides: { small: 4, medium: 4, large: 4 },
                       }}
                     >
                       <AlignCenter>
