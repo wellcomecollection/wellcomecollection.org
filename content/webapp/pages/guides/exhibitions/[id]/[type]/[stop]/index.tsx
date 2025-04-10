@@ -340,7 +340,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                     <>
                       {audioPlayer ? (
                         <AudioPlayerNew
-                          title=""
                           audioFile={currentStop.audio}
                           isDark={true}
                         />
