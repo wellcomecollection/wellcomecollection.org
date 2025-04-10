@@ -98,6 +98,8 @@ const HeaderInner = styled(Space).attrs({
   align-items: center;
 `;
 
+const prevNextHeight = '50px';
+
 const PrevNext = styled.div.attrs({
   className: font('intr', 5),
 })`
@@ -105,13 +107,13 @@ const PrevNext = styled.div.attrs({
   z-index: 2;
   bottom: 0;
   width: 100%;
-  height: 50px;
+  height: ${prevNextHeight};
   background: ${props => props.theme.color('neutral.700')};
 `;
 
 const AudioPlayerNewWrapper = styled.div`
   position: fixed;
-  bottom: 50px;
+  bottom: ${prevNextHeight};
   width: 100%;
 `;
 
@@ -281,7 +283,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
       apiToolbarLinks={[createPrismicLink(exhibitionGuideId)]}
     >
       <Page>
-        {/* Header needs a view-transition-name even though it isn't transitioning: https://www.nicchan.me/blog/view-transitions-and-stacking-context/#the-workaround */}
         <Header ref={headerRef}>
           <Container>
             <HeaderInner>
@@ -389,8 +390,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             </Container>
           </AudioPlayerNewWrapper>
         )}
-        {/* PrevNext needs a view-transition-name even though it isn't transitioning: https://www.nicchan.me/blog/view-transitions-and-stacking-context/#the-workaround */}
-        <PrevNext style={{ viewTransitionName: 'prevnext' }}>
+        <PrevNext>
           <Container>
             <div
               style={{
@@ -410,9 +410,9 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                   >
                     <Space
                       $v={{
-                        size: 'm',
+                        size: 's',
                         properties: ['padding-top', 'padding-bottom'],
-                        overrides: { small: 4 },
+                        overrides: { small: 4, medium: 4, large: 4 },
                       }}
                     >
                       <AlignCenter>
@@ -440,9 +440,9 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                   >
                     <Space
                       $v={{
-                        size: 'm',
+                        size: 's',
                         properties: ['padding-top', 'padding-bottom'],
-                        overrides: { small: 4 },
+                        overrides: { small: 4, medium: 4, large: 4 },
                       }}
                     >
                       <AlignCenter>
