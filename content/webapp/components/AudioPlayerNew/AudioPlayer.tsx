@@ -109,7 +109,7 @@ const PlayPauseInner = styled.div<{ $isDark: boolean }>`
 const AudioPlayerGrid = styled.div.attrs({})<{ $isEnhanced: boolean }>`
   display: ${props => (props.$isEnhanced ? 'grid' : 'none')};
   grid-template-columns: repeat(3, 1fr);
-  align-items: baseline;
+  align-items: center;
 `;
 
 const NowPlayingWrapper = styled(Space).attrs({
