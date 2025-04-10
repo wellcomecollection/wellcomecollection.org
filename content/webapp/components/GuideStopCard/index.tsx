@@ -3,9 +3,10 @@ import styled from 'styled-components';
 
 import { duration as durationIcon, map } from '@weco/common/icons';
 import { getCrop, ImageType } from '@weco/common/model/image';
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { threeUpGridSizesMap } from '@weco/content/components/Body/GridFactory';
 import {
@@ -51,10 +52,7 @@ const GuideStopCard: FunctionComponent<Props> = ({
   const croppedImage = getCrop(image, '16:9');
 
   return (
-    <Space
-      $v={{ size: 'l', properties: ['margin-bottom'] }}
-      className={grid(threeUpGridSizesMap.default[0])}
-    >
+    <GridCell $sizeMap={threeUpGridSizesMap.default[0]}>
       <CardOuter
         href={link}
         style={{ minHeight: '0', viewTransitionName: `player-${number}` }}
@@ -118,7 +116,7 @@ const GuideStopCard: FunctionComponent<Props> = ({
           )}
         </CardBody>
       </CardOuter>
-    </Space>
+    </GridCell>
   );
 };
 

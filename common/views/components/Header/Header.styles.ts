@@ -16,10 +16,11 @@ export const NavLoginWrapper = styled.div`
 type WrapperProps = {
   $isBurgerOpen: boolean;
 };
-export const Wrapper = styled.div.attrs({
-  className: 'grid',
-})<WrapperProps>`
-  align-items: center;
+export const Wrapper = styled.div<WrapperProps>`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
   position: relative;
   z-index: 6;
   background-color: ${props => props.theme.color('white')};
@@ -262,12 +263,6 @@ export const SearchButton = styled(BorderlessButton)`
     props.theme.media('headerMedium')(`
       margin-right:10px;
   `)}
-`;
-
-export const GridCell = styled.div.attrs({
-  className: 'grid__cell',
-})`
-  position: relative;
 `;
 
 export const HeaderContainer = styled(Container)`

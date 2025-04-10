@@ -7,6 +7,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
 type AccordionItem = {
+  gtmHook?: string;
   summary: string;
   content: ReactElement;
 };
@@ -129,7 +130,7 @@ const Accordion: FunctionComponent<Props> = ({
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         <Details key={item.summary} name={closeOthersOnOpen ? id : undefined}>
-          <Summary>
+          <Summary data-gtm-trigger={item.gtmHook}>
             <SummaryInner>
               {item.summary}{' '}
               <span style={{ display: 'flex' }}>

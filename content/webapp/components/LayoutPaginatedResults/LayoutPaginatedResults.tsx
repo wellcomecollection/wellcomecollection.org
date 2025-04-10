@@ -38,6 +38,7 @@ type Props = {
   paginatedResults: PaginatedResultsTypes;
   children?: ReactElement;
   breadcrumbs?: ComponentProps<typeof Breadcrumb>;
+  isInPastListing?: boolean;
 };
 
 const LayoutPaginatedResults: FunctionComponent<Props> = ({
@@ -46,6 +47,7 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
   paginatedResults,
   children,
   breadcrumbs = { items: [] },
+  isInPastListing,
 }) => (
   <>
     <PageHeader
@@ -91,7 +93,11 @@ const LayoutPaginatedResults: FunctionComponent<Props> = ({
 
     <Space $v={{ size: 'l', properties: ['margin-top'] }}>
       {paginatedResults.results.length > 0 ? (
-        <CardGrid items={paginatedResults.results} itemsPerRow={3} />
+        <CardGrid
+          items={paginatedResults.results}
+          itemsPerRow={3}
+          isInPastListing={isInPastListing}
+        />
       ) : (
         <ContaineredLayout gridSizes={gridSize12()}>
           <p>There are no results.</p>

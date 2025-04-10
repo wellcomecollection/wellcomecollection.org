@@ -2,7 +2,7 @@ import { FunctionComponent, PropsWithChildren } from 'react';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -20,9 +20,11 @@ import {
 import {
   DateWrapper,
   FeaturedCardCopy,
+  FeaturedCardLabelWrap,
   FeaturedCardLeft,
   FeaturedCardLink,
   FeaturedCardRight,
+  FeaturedCardRightWrap,
   FeaturedCardShim,
   FeaturedCardWrap,
 } from './FeaturedCard.styles';
@@ -31,6 +33,7 @@ type FeaturedCardProps = PartialFeaturedCard & {
   background: PaletteColor;
   textColor: PaletteColor;
   isReversed?: boolean;
+  children: React.ReactNode;
 };
 
 type FeaturedCardArticleProps = {
@@ -45,7 +48,7 @@ type FeaturedCardExhibitionProps = {
   textColor: PaletteColor;
 };
 
-const FeaturedCardBasic = props => {
+const FeaturedCardBasic: FunctionComponent<FeaturedCardProps> = props => {
   const {
     image,
     labels,
@@ -59,7 +62,15 @@ const FeaturedCardBasic = props => {
   return (
     <FeaturedCardWrap>
       <FeaturedCardLink href={link.url} $isReversed={isReversed}>
-        <FeaturedCardLeft>
+        <FeaturedCardLeft
+          $sizeMap={{
+            s: [12],
+            m: [12],
+            l: [7],
+            xl: [7],
+          }}
+          $isReversed={isReversed}
+        >
           {image && (
             <PrismicImage
               image={image}
@@ -73,23 +84,29 @@ const FeaturedCardBasic = props => {
             />
           )}
         </FeaturedCardLeft>
-        <div
-          className={grid({ s: 12, m: 11, l: 5, xl: 5 })}
-          style={{ display: 'flex' }}
+        <FeaturedCardRightWrap
+          $sizeMap={{
+            s: [12],
+            m: [11, 2],
+            l: [5],
+            xl: [5],
+          }}
+          $isReversed={isReversed}
         >
           <FeaturedCardRight $isReversed={isReversed}>
             {labels && labels.length > 0 ? (
-              <LabelsList labels={labels} />
+              <FeaturedCardLabelWrap $isReversed={isReversed}>
+                <LabelsList labels={labels} />
+              </FeaturedCardLabelWrap>
             ) : (
               <div style={{ marginBottom: '26px' }} />
             )}
             <FeaturedCardCopy $background={background} $textColor={textColor}>
               {children}
             </FeaturedCardCopy>
+            <FeaturedCardShim $background={background} />
           </FeaturedCardRight>
-        </div>
-        <div className={grid({ s: 12, m: 12, l: 7, xl: 7 })}></div>
-        <FeaturedCardShim $background={background} $isReversed={isReversed} />
+        </FeaturedCardRightWrap>
       </FeaturedCardLink>
     </FeaturedCardWrap>
   );

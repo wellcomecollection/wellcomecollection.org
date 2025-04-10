@@ -6,7 +6,7 @@ import {
   accessibleSquare,
   audioDescribedSquare,
   bslSquare,
-  inductionLoopSquare,
+  closedCaptioningSquare,
 } from '@weco/common/icons';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
@@ -57,7 +57,7 @@ const AccessibilityProvision: FunctionComponent<Props> = ({
         <Icon icon={accessibleSquare} />
         <Icon icon={bslSquare} />
         <Icon icon={audioDescribedSquare} />
-        <Icon icon={inductionLoopSquare} />
+        <Icon icon={closedCaptioningSquare} />
       </IconsContainer>
       <Text
         className={!showText ? `visually-hidden` : font('intr', 5)}

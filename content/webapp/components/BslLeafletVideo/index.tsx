@@ -20,6 +20,7 @@ const BslLeaftletButtonText = styled(Space).attrs({
 })``;
 
 const BslLeafletButton = styled.button`
+  color: inherit;
   display: flex;
   align-items: center;
 
@@ -93,6 +94,7 @@ const BslLeafletVideo: FunctionComponent<Props> = ({
             <BslLeafletButton
               aria-controls="bsl-leaflet-video-modal"
               onClick={() => setIsModalActive(true)}
+              data-gtm-trigger="watch_in_sign_language"
             >
               <Icon
                 icon={bslSquare}

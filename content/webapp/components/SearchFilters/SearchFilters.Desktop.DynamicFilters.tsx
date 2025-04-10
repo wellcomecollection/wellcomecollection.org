@@ -5,6 +5,7 @@ import { filter } from '@weco/common/icons';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
+import RadioFilter from '@weco/content/components/SearchFilters/SearchFilters.Desktop.RadioFilter';
 import { Filter } from '@weco/content/services/wellcome/common/filters';
 
 import CheckboxFilter from './SearchFilters.Desktop.CheckboxFilter';
@@ -50,6 +51,15 @@ const DynamicFilterArray = ({
             changeHandler={changeHandler}
           />
         )}
+
+        {f.type === 'radio' && (
+          <RadioFilter
+            {...(!showMoreFiltersModal && { form: searchFormId })}
+            f={f}
+            changeHandler={changeHandler}
+          />
+        )}
+
         {f.type === 'dateRange' && (
           <DesktopDateRangeFilter
             {...(!showMoreFiltersModal && { form: searchFormId })}
@@ -77,6 +87,14 @@ const DynamicFilterArray = ({
       >
         {f.type === 'checkbox' && (
           <CheckboxFilter
+            {...(!showMoreFiltersModal && { form: searchFormId })}
+            f={f}
+            changeHandler={changeHandler}
+          />
+        )}
+
+        {f.type === 'radio' && (
+          <RadioFilter
             {...(!showMoreFiltersModal && { form: searchFormId })}
             f={f}
             changeHandler={changeHandler}

@@ -3,10 +3,11 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { getCrop, ImageType } from '@weco/common/model/image';
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { GridCell } from '@weco/common/views/components/styled/Grid';
 import MediaObjectBase, {
   HasImageProps,
 } from '@weco/content/components/MediaObjectBase/MediaObjectBase';
@@ -21,16 +22,16 @@ type ImageWrapperProp = {
   $hasImage: boolean;
 };
 
-const ImageWrapper = styled.div.attrs<ImageWrapperProp>(props => ({
-  className: props.$hasImage
-    ? grid({ s: 2, m: 2, l: 2, xl: 2 })
-    : grid(gridSize12()),
+const ImageWrapper = styled(GridCell).attrs<ImageWrapperProp>(props => ({
+  $sizeMap: props.$hasImage
+    ? { s: [2], m: [2], l: [2], xl: [2] }
+    : gridSize12(),
 }))<ImageWrapperProp>``;
 
-const TextWrapper = styled.div.attrs<HasImageProps>(props => ({
-  className: props.$hasImage
-    ? grid({ s: 10, m: 10, l: 10, xl: 10 })
-    : grid(gridSize12()),
+const TextWrapper = styled(GridCell).attrs<HasImageProps>(props => ({
+  $sizeMap: props.$hasImage
+    ? { s: [10], m: [10], l: [10], xl: [10] }
+    : gridSize12(),
 }))<HasImageProps>``;
 
 const TitleWrapper = styled.div.attrs({

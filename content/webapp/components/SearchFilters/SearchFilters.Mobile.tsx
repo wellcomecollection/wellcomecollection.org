@@ -19,6 +19,7 @@ import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
 import {
   CheckboxFilter as CheckboxFilterType,
   filterLabel,
+  RadioFilter as RadioFilterType,
 } from '@weco/content/services/wellcome/common/filters';
 import { searchFilterCheckBox } from '@weco/content/text/aria-labels';
 
@@ -110,31 +111,62 @@ type CheckboxFilterProps = {
 };
 const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
   return (
-    <>
-      <PlainList>
-        {f.options.map(({ id, label, value, count, selected }) => {
-          return (
-            <Space
-              as="li"
-              $v={{ size: 'l', properties: ['margin-bottom'] }}
-              key={`mobile-${id}`}
-            >
-              <CheckboxRadio
-                id={`mobile-${id}`}
-                type="checkbox"
-                text={filterLabel({ label, count })}
-                value={value}
-                name={f.id}
-                checked={selected}
-                onChange={changeHandler}
-                ariaLabel={searchFilterCheckBox(label)}
-                form={form}
-              />
-            </Space>
-          );
-        })}
-      </PlainList>
-    </>
+    <PlainList>
+      {f.options.map(({ id, label, value, count, selected }) => {
+        return (
+          <Space
+            as="li"
+            $v={{ size: 'l', properties: ['margin-bottom'] }}
+            key={`mobile-${id}`}
+          >
+            <CheckboxRadio
+              id={`mobile-${id}`}
+              type="checkbox"
+              text={filterLabel({ label, count })}
+              value={value}
+              name={f.id}
+              checked={selected}
+              onChange={changeHandler}
+              ariaLabel={searchFilterCheckBox(label)}
+              form={form}
+            />
+          </Space>
+        );
+      })}
+    </PlainList>
+  );
+};
+
+type RadioFilterProps = {
+  f: RadioFilterType;
+  changeHandler: () => void;
+  form?: string;
+};
+const RadioFilter = ({ f, changeHandler, form }: RadioFilterProps) => {
+  return (
+    <PlainList>
+      {f.options.map(({ id, label, value, count, selected }) => {
+        return (
+          <Space
+            as="li"
+            $v={{ size: 'l', properties: ['margin-bottom'] }}
+            key={`mobile-${id}`}
+          >
+            <CheckboxRadio
+              id={`mobile-${id}`}
+              type="radio"
+              text={filterLabel({ label, count })}
+              value={value}
+              name={f.id}
+              checked={selected}
+              onChange={changeHandler}
+              ariaLabel={searchFilterCheckBox(label)}
+              form={form}
+            />
+          </Space>
+        );
+      })}
+    </PlainList>
   );
 };
 
@@ -253,6 +285,14 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
 
                   {f.type === 'checkbox' && (
                     <CheckboxFilter
+                      f={f}
+                      changeHandler={changeHandler}
+                      form={searchFormId}
+                    />
+                  )}
+
+                  {f.type === 'radio' && (
+                    <RadioFilter
                       f={f}
                       changeHandler={changeHandler}
                       form={searchFormId}

@@ -43,8 +43,8 @@ const Status = styled.div<{ $active?: boolean }>`
 `;
 
 const TextBox = styled.p`
-  border: 1px solid rgba(92, 184, 191, 1);
-  background: rgba(92, 184, 191, 0.25);
+  border: 1px solid rgb(92, 184, 191, 1);
+  background: rgb(92, 184, 191, 0.25);
   padding: 6px 12px;
   margin: 0;
 `;

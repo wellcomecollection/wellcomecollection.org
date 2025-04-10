@@ -29,6 +29,7 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { Container } from '@weco/common/views/components/styled/Container';
+import { Grid } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { components } from '@weco/common/views/slices';
 import RelevantGuideIcons from '@weco/content/components/ExhibitionGuideRelevantIcons';
@@ -305,13 +306,15 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
       {/* For ExhibitionHighlightTours - audio/video */}
       {isExhibitionHighlightTour(exhibitionGuide) && (
         <Container>
-          <div className="grid">
-            <SliceZone
-              slices={exhibitionGuide.stops}
-              components={components}
-              context={{ type, exhibitionGuide }}
-            />
-          </div>
+          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <Grid>
+              <SliceZone
+                slices={exhibitionGuide.stops}
+                components={components}
+                context={{ type, exhibitionGuide }}
+              />
+            </Grid>
+          </Space>
         </Container>
       )}
     </PageLayout>
