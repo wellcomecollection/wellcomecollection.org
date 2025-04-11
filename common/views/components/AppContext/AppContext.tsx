@@ -23,6 +23,7 @@ type AppContextProps = {
   setAudioPlaybackRate: (rate: number) => void;
   hasAcknowledgedCookieBanner: boolean;
   setHasAcknowledgedCookieBanner: (isAcknowledged: boolean) => void;
+  isTouching: boolean;
 };
 
 const appContextDefaults = {
@@ -33,6 +34,7 @@ const appContextDefaults = {
   setAudioPlaybackRate: () => null,
   hasAcknowledgedCookieBanner: false,
   setHasAcknowledgedCookieBanner: () => null,
+  isTouching: false,
 };
 
 export const AppContext = createContext<AppContextProps>(appContextDefaults);
@@ -65,6 +67,7 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
   );
   const [hasAcknowledgedCookieBanner, setHasAcknowledgedCookieBanner] =
     useState(Boolean(getCookies().CookieControl));
+  const [isTouching, setIsTouching] = useState(appContextDefaults.isTouching);
 
   useEffect(() => {
     setIsEnhanced(true);
@@ -120,6 +123,27 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
     }
   }, [hasAcknowledgedCookieBanner]);
 
+  // Set up touch event listeners
+  useEffect(() => {
+    if (isEnhanced) {
+      const handleTouchStart = () => {
+        setIsTouching(true);
+      };
+
+      const handleTouchEnd = () => {
+        setIsTouching(false);
+      };
+
+      window.addEventListener('touchstart', handleTouchStart);
+      window.addEventListener('touchend', handleTouchEnd);
+
+      return () => {
+        window.removeEventListener('touchstart', handleTouchStart);
+        window.removeEventListener('touchend', handleTouchEnd);
+      };
+    }
+  }, [isEnhanced]);
+
   return (
     <AppContext.Provider
       value={{
@@ -130,6 +154,7 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
         setAudioPlaybackRate,
         hasAcknowledgedCookieBanner,
         setHasAcknowledgedCookieBanner,
+        isTouching,
       }}
     >
       {children}
