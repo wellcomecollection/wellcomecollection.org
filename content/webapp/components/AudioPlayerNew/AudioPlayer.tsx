@@ -56,7 +56,7 @@ const SkipPlayWrapper = styled.div`
   justify-content: center;
 `;
 
-const SkipButton = styled.button<{ $isDark: boolean }>`
+const SkipButton = styled.button<{ $isDark: boolean; $isTouching: boolean }>`
   color: ${props =>
     props.$isDark ? props.theme.color('yellow') : props.theme.color('black')};
 
@@ -68,6 +68,20 @@ const SkipButton = styled.button<{ $isDark: boolean }>`
     color: ${props =>
       props.$isDark ? props.theme.color('white') : props.theme.color('black')};
     transform: scale(1.1);
+  }
+
+  @media (pointer: coarse) {
+    &:hover {
+      all: revert-layer;
+    }
+
+    ${props =>
+      props.$isTouching &&
+      `
+      color: ${
+        props.$isDark ? props.theme.color('white') : props.theme.color('black')
+      };
+      transform: scale(1.1);`}
   }
 `;
 
@@ -83,7 +97,7 @@ const TitleWrapper = styled.span<{ $isDark: boolean }>`
     props.$isDark ? props.theme.color('white') : props.theme.color('black')};
 `;
 
-const PlayPauseInner = styled.div<{ $isDark: boolean }>`
+const PlayPauseInner = styled.div<{ $isDark: boolean; $isTouching: boolean }>`
   color: ${props => props.theme.color('yellow')};
   transition:
     color 0.2s ease-out,
@@ -103,6 +117,33 @@ const PlayPauseInner = styled.div<{ $isDark: boolean }>`
         props.$isDark
           ? props.theme.color('black')
           : props.theme.color('white')};
+    }
+  }
+
+  @media (pointer: coarse) {
+    &:hover {
+      &,
+      .icon__playpause {
+        all: revert-layer;
+      }
+
+      ${props =>
+        props.$isTouching &&
+        `
+        color: ${
+          props.$isDark
+            ? props.theme.color('yellow')
+            : props.theme.color('black')
+        };
+
+        .icon__playpause {
+          fill: ${
+            props.$isDark
+              ? props.theme.color('black')
+              : props.theme.color('white')
+          };
+        }
+      `}
     }
   }
 `;
@@ -134,7 +175,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   transcript,
   titleProps = {},
 }) => {
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced, isTouching } = useContext(AppContext);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -301,20 +342,28 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
             </div>
           </NowPlayingWrapper>
           <SkipPlayWrapper>
-            <SkipButton $isDark={!!isDark} onClick={handleSkipBackClick}>
+            <SkipButton
+              $isDark={!!isDark}
+              $isTouching={isTouching}
+              onClick={handleSkipBackClick}
+            >
               <span className="visually-hidden">rewind 15 seconds</span>
               <SkipBackIcon />
             </SkipButton>
 
             <PlayPauseButton onClick={onTogglePlay} $isPlaying={isPlaying}>
-              <PlayPauseInner $isDark={!!isDark}>
+              <PlayPauseInner $isDark={!!isDark} $isTouching={isTouching}>
                 <span className="visually-hidden">
                   {isPlaying ? 'Pause' : 'Play'}
                 </span>
                 {isPlaying ? <PauseIcon /> : <PlayIcon />}
               </PlayPauseInner>
             </PlayPauseButton>
-            <SkipButton $isDark={!!isDark} onClick={handleSkipForwardClick}>
+            <SkipButton
+              $isDark={!!isDark}
+              $isTouching={isTouching}
+              onClick={handleSkipForwardClick}
+            >
               <span className="visually-hidden">fast-forward 15 seconds</span>
               <SkipForwardIcon />
             </SkipButton>
