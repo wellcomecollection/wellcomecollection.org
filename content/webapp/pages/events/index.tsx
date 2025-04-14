@@ -376,6 +376,12 @@ const EventsPage: FunctionComponent<Props | NewProps> = props => {
                       filtered with: {activeFiltersLabels.join(', ')}
                     </span>
                   )}
+
+                  <Pagination
+                    totalPages={events.totalPages}
+                    ariaLabel="Events top pagination"
+                    isHiddenMobile
+                  />
                 </PaginationWrapper>
 
                 <EventsSearchResults
@@ -388,7 +394,7 @@ const EventsPage: FunctionComponent<Props | NewProps> = props => {
                 <PaginationWrapper $verticalSpacing="l" $alignRight>
                   <Pagination
                     totalPages={events.totalPages}
-                    ariaLabel="Results pagination"
+                    ariaLabel="Events bottom pagination"
                   />
                 </PaginationWrapper>
               </ContaineredLayout>
