@@ -18,6 +18,7 @@ import {
   getUrlQueryFromSortValue,
   linkResolver,
 } from '@weco/common/utils/search';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import {
@@ -37,7 +38,6 @@ import EventsSearchResults from '@weco/content/components/EventsSearchResults';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
 import Pagination from '@weco/content/components/Pagination/Pagination';
 import SearchFilters from '@weco/content/components/SearchFilters';
-import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
 import {
   EventsProps,
   fromQuery,
@@ -129,9 +129,8 @@ export const getServerSideProps: GetServerSideProps<
           'audience',
           'interpretation',
           'location',
-          'isAvailableOnline',
-          'timespan',
-        ],
+          period === 'past' ? 'isAvailableOnline' : undefined,
+        ].filter(isNotUndefined),
       },
       pageSize: 25,
       toggles: serverData.toggles,
@@ -359,7 +358,7 @@ const EventsPage: FunctionComponent<Props | NewProps> = props => {
           )}
           {hasNoResults ? (
             <ContaineredLayout gridSizes={gridSize12()}>
-              <SearchNoResults query="" />
+              <p>No {isInPastListing ? 'past ' : 'upcoming'} events found.</p>
             </ContaineredLayout>
           ) : (
             <>
