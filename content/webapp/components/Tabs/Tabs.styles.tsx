@@ -103,10 +103,7 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
   position: relative;
   z-index: 1;
   cursor: pointer;
-  color: ${props =>
-    props.theme.color(
-      props.$isWhite ? 'white' : props.$selected ? 'black' : 'neutral.600'
-    )};
+  color: ${props => props.theme.color(props.$isWhite ? 'white' : 'black')};
   transition: all ${props => props.theme.transitionProperties};
 
   &::after {
@@ -124,7 +121,7 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
     &::after {
       width: 100%;
       background-color: ${props =>
-        props.theme.color(props.$selected ? 'yellow' : 'neutral.300')};
+        props.theme.color(props.$selected ? 'yellow' : 'lightYellow')};
 
       /* Prevent iOS double-tap link issue
        https://css-tricks.com/annoying-mobile-double-tap-link-issue/ */
