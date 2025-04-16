@@ -70,13 +70,13 @@ const SkipButton = styled.button<{ $isDark: boolean }>`
     color 0.2s ease-out,
     transform 0.2s ease-out;
 
-  @media (pointer: fine) {
+  @media (hover: hover) {
     &:hover {
       ${colorTransformHoverActive};
     }
   }
 
-  @media (pointer: coarse) {
+  @media (hover: none) {
     &:active {
       ${colorTransformHoverActive};
     }

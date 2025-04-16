@@ -31,13 +31,13 @@ const RangeSlider = styled.input.attrs({
       background 0.2s ease-out,
       transform 0.2s ease-out;
 
-    @media (pointer: fine) {
+    @media (hover: hover) {
       &:hover {
         ${backgroundTransformHoverActive};
       }
     }
 
-    @media (pointer: coarse) {
+    @media (hover: none) {
       &:active {
         ${backgroundTransformHoverActive};
       }
