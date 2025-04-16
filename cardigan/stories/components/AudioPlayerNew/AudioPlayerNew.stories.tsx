@@ -33,5 +33,11 @@ type Story = StoryObj<typeof AudioPlayer>;
 
 export const Basic: Story = {
   name: 'AudioPlayerNew',
-  render: args => <AudioPlayer {...args} />,
+  render: args => (
+    <div
+      style={{ padding: '20px', background: args.isDark ? '#111' : 'white' }}
+    >
+      <AudioPlayer {...args} />
+    </div>
+  ),
 };
