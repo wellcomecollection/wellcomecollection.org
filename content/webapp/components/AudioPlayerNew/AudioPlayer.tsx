@@ -56,7 +56,7 @@ const SkipPlayWrapper = styled.div`
   justify-content: center;
 `;
 
-const colorTransformHoverActive = css<{ $isDark: boolean }>`
+const colorTransform = css<{ $isDark: boolean }>`
   color: ${props =>
     props.$isDark ? props.theme.color('white') : props.theme.color('black')};
   transform: scale(1.1);
@@ -72,13 +72,13 @@ const SkipButton = styled.button<{ $isDark: boolean }>`
 
   @media (hover: hover) {
     &:hover {
-      ${colorTransformHoverActive};
+      ${colorTransform};
     }
   }
 
   @media (hover: none) {
     &:active {
-      ${colorTransformHoverActive};
+      ${colorTransform};
     }
   }
 `;

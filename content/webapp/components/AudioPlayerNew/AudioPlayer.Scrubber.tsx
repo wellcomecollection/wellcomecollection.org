@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 
 import { formatPlayerTime } from './AudioPlayer.formatters';
 
-const backgroundTransformHoverActive = css<{ $isDark: boolean }>`
+const backgroundTransform = css<{ $isDark: boolean }>`
   background: ${props =>
     props.$isDark ? props.theme.color('white') : props.theme.color('black')};
   transform: scale(1.5);
@@ -33,13 +33,13 @@ const RangeSlider = styled.input.attrs({
 
     @media (hover: hover) {
       &:hover {
-        ${backgroundTransformHoverActive};
+        ${backgroundTransform};
       }
     }
 
     @media (hover: none) {
       &:active {
-        ${backgroundTransformHoverActive};
+        ${backgroundTransform};
       }
     }
   }
@@ -56,15 +56,15 @@ const RangeSlider = styled.input.attrs({
       background 0.2s ease-out,
       transform 0.2s ease-out;
 
-    @media (pointer: fine) {
+    @media (hover: hover) {
       &:hover {
-        ${backgroundTransformHoverActive};
+        ${backgroundTransform};
       }
     }
 
-    @media (pointer: coarse) {
+    @media (hover: none) {
       &:active {
-        ${backgroundTransformHoverActive};
+        ${backgroundTransform};
       }
     }
   }
