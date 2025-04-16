@@ -90,6 +90,17 @@ const PlayerRateWrapper = styled.div`
   justify-content: end;
 `;
 
+const colorTransformIconFill = css<{ $isDark: boolean }>`
+  color: ${props =>
+    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+  transform: scale(1.1);
+
+  .icon__playpause {
+    fill: ${props =>
+      props.$isDark ? props.theme.color('black') : props.theme.color('white')};
+  }
+`;
+
 const TitleWrapper = styled.span<{ $isDark: boolean }>`
   color: ${props =>
     props.$isDark ? props.theme.color('white') : props.theme.color('black')};
@@ -105,37 +116,15 @@ const PlayPauseInner = styled.div<{ $isDark: boolean }>`
     transition: fill 0.2s ease-out;
   }
 
-  @media (pointer: fine) {
+  @media (hover: hover) {
     &:hover {
-      color: ${props =>
-        props.$isDark
-          ? props.theme.color('white')
-          : props.theme.color('black')};
-      transform: scale(1.1);
-
-      .icon__playpause {
-        fill: ${props =>
-          props.$isDark
-            ? props.theme.color('black')
-            : props.theme.color('white')};
-      }
+      ${colorTransformIconFill};
     }
   }
 
-  @media (pointer: coarse) {
+  @media (hover: none) {
     &:active {
-      color: ${props =>
-        props.$isDark
-          ? props.theme.color('white')
-          : props.theme.color('black')};
-      transform: scale(1.1);
-
-      .icon__playpause {
-        fill: ${props =>
-          props.$isDark
-            ? props.theme.color('black')
-            : props.theme.color('white')};
-      }
+      ${colorTransformIconFill};
     }
   }
 `;
