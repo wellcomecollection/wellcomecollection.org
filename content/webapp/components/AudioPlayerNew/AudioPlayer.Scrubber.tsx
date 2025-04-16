@@ -25,12 +25,24 @@ const RangeSlider = styled.input.attrs({
       background 0.2s ease-out,
       transform 0.2s ease-out;
 
-    &:hover {
-      background: ${props =>
-        props.$isDark
-          ? props.theme.color('white')
-          : props.theme.color('black')};
-      transform: scale(1.5);
+    @media (pointer: fine) {
+      &:hover {
+        background: ${props =>
+          props.$isDark
+            ? props.theme.color('white')
+            : props.theme.color('black')};
+        transform: scale(1.5);
+      }
+    }
+
+    @media (pointer: coarse) {
+      &:active {
+        background: ${props =>
+          props.$isDark
+            ? props.theme.color('white')
+            : props.theme.color('black')};
+        transform: scale(1.5);
+      }
     }
   }
 
@@ -46,12 +58,24 @@ const RangeSlider = styled.input.attrs({
       background 0.2s ease-out,
       transform 0.2s ease-out;
 
-    &:hover {
-      background: ${props =>
-        props.$isDark
-          ? props.theme.color('white')
-          : props.theme.color('black')};
-      transform: scale(1.5);
+    @media (pointer: fine) {
+      &:hover {
+        background: ${props =>
+          props.$isDark
+            ? props.theme.color('white')
+            : props.theme.color('black')};
+        transform: scale(1.5);
+      }
+    }
+
+    @media (pointer: coarse) {
+      &:active {
+        background: ${props =>
+          props.$isDark
+            ? props.theme.color('white')
+            : props.theme.color('black')};
+        transform: scale(1.5);
+      }
     }
   }
 `;

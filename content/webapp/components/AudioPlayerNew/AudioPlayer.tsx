@@ -64,10 +64,24 @@ const SkipButton = styled.button<{ $isDark: boolean }>`
     color 0.2s ease-out,
     transform 0.2s ease-out;
 
-  &:hover {
-    color: ${props =>
-      props.$isDark ? props.theme.color('white') : props.theme.color('black')};
-    transform: scale(1.1);
+  @media (pointer: fine) {
+    &:hover {
+      color: ${props =>
+        props.$isDark
+          ? props.theme.color('white')
+          : props.theme.color('black')};
+      transform: scale(1.1);
+    }
+  }
+
+  @media (pointer: coarse) {
+    &:active {
+      color: ${props =>
+        props.$isDark
+          ? props.theme.color('white')
+          : props.theme.color('black')};
+      transform: scale(1.1);
+    }
   }
 `;
 
@@ -93,16 +107,37 @@ const PlayPauseInner = styled.div<{ $isDark: boolean }>`
     transition: fill 0.2s ease-out;
   }
 
-  &:hover {
-    color: ${props =>
-      props.$isDark ? props.theme.color('white') : props.theme.color('black')};
-    transform: scale(1.1);
-
-    .icon__playpause {
-      fill: ${props =>
+  @media (pointer: fine) {
+    &:hover {
+      color: ${props =>
         props.$isDark
-          ? props.theme.color('black')
-          : props.theme.color('white')};
+          ? props.theme.color('white')
+          : props.theme.color('black')};
+      transform: scale(1.1);
+
+      .icon__playpause {
+        fill: ${props =>
+          props.$isDark
+            ? props.theme.color('black')
+            : props.theme.color('white')};
+      }
+    }
+  }
+
+  @media (pointer: coarse) {
+    &:active {
+      color: ${props =>
+        props.$isDark
+          ? props.theme.color('white')
+          : props.theme.color('black')};
+      transform: scale(1.1);
+
+      .icon__playpause {
+        fill: ${props =>
+          props.$isDark
+            ? props.theme.color('black')
+            : props.theme.color('white')};
+      }
     }
   }
 `;
