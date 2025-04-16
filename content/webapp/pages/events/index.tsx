@@ -121,8 +121,8 @@ export const getServerSideProps: GetServerSideProps<
     const eventResponseList = await getEvents({
       params: {
         ...paramsQuery,
-        sort: getQueryPropertyValue(context.query.sort),
-        sortOrder: getQueryPropertyValue(context.query.sortOrder),
+        sort: 'times.startDateTime',
+        sortOrder: period === 'future' ? 'asc' : 'desc',
         ...(pageNumber && { page: Number(pageNumber) }),
         aggregations: [
           'format',
@@ -225,8 +225,8 @@ const EventsPage: FunctionComponent<Props | NewProps> = props => {
       params: {
         ...formValues,
         ...(urlFormattedSort && {
-          sort: urlFormattedSort.sort,
-          sortOrder: urlFormattedSort.sortOrder,
+          sort: 'times.startDateTime',
+          sortOrder: period === 'future' ? 'asc' : 'desc',
         }),
       },
       pathname: `${router.pathname}${isInPastListing ? '/past' : ''}`,
