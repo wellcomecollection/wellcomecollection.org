@@ -1,7 +1,13 @@
 import { FunctionComponent, Ref } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { formatPlayerTime } from './AudioPlayer.formatters';
+
+const backgroundTransformHoverActive = css<{ $isDark: boolean }>`
+  background: ${props =>
+    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+  transform: scale(1.5);
+`;
 
 const RangeSlider = styled.input.attrs({
   type: 'range',
@@ -27,21 +33,13 @@ const RangeSlider = styled.input.attrs({
 
     @media (pointer: fine) {
       &:hover {
-        background: ${props =>
-          props.$isDark
-            ? props.theme.color('white')
-            : props.theme.color('black')};
-        transform: scale(1.5);
+        ${backgroundTransformHoverActive};
       }
     }
 
     @media (pointer: coarse) {
       &:active {
-        background: ${props =>
-          props.$isDark
-            ? props.theme.color('white')
-            : props.theme.color('black')};
-        transform: scale(1.5);
+        ${backgroundTransformHoverActive};
       }
     }
   }
@@ -60,21 +58,13 @@ const RangeSlider = styled.input.attrs({
 
     @media (pointer: fine) {
       &:hover {
-        background: ${props =>
-          props.$isDark
-            ? props.theme.color('white')
-            : props.theme.color('black')};
-        transform: scale(1.5);
+        ${backgroundTransformHoverActive};
       }
     }
 
     @media (pointer: coarse) {
       &:active {
-        background: ${props =>
-          props.$isDark
-            ? props.theme.color('white')
-            : props.theme.color('black')};
-        transform: scale(1.5);
+        ${backgroundTransformHoverActive};
       }
     }
   }

@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
@@ -56,6 +56,12 @@ const SkipPlayWrapper = styled.div`
   justify-content: center;
 `;
 
+const colorTransformHoverActive = css<{ $isDark: boolean }>`
+  color: ${props =>
+    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+  transform: scale(1.1);
+`;
+
 const SkipButton = styled.button<{ $isDark: boolean }>`
   color: ${props =>
     props.$isDark ? props.theme.color('yellow') : props.theme.color('black')};
@@ -66,21 +72,13 @@ const SkipButton = styled.button<{ $isDark: boolean }>`
 
   @media (pointer: fine) {
     &:hover {
-      color: ${props =>
-        props.$isDark
-          ? props.theme.color('white')
-          : props.theme.color('black')};
-      transform: scale(1.1);
+      ${colorTransformHoverActive};
     }
   }
 
   @media (pointer: coarse) {
     &:active {
-      color: ${props =>
-        props.$isDark
-          ? props.theme.color('white')
-          : props.theme.color('black')};
-      transform: scale(1.1);
+      ${colorTransformHoverActive};
     }
   }
 `;
