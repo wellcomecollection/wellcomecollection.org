@@ -8,7 +8,6 @@ import {
   bslSquare,
   closedCaptioningSquare,
 } from '@weco/common/icons';
-import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -45,9 +44,7 @@ type Props = {
 const AccessibilityProvision: FunctionComponent<Props> = ({
   showText = true,
 }) => {
-  const { exhibitionAccessContent } = useToggles();
-
-  return exhibitionAccessContent ? (
+  return (
     <div style={{ display: 'flex', flexWrap: 'wrap', rowGap: '10px' }}>
       <IconsContainer
         $showText={showText}
@@ -66,7 +63,7 @@ const AccessibilityProvision: FunctionComponent<Props> = ({
         {accessibilityProvisionText}
       </Text>
     </div>
-  ) : null;
+  );
 };
 
 export default AccessibilityProvision;
