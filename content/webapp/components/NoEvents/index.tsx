@@ -30,7 +30,7 @@ const NoEvents: FunctionComponent<Props> = ({ period, hasFilters }) => {
   const isPast = period === 'past';
   return (
     <NoResultsWrap>
-      <Space $size="m" $v={{ size: 's', properties: ['margin-bottom'] }}>
+      <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
         <QuestionMark />
       </Space>
       <Space
