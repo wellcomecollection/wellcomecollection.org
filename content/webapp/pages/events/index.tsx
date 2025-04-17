@@ -329,30 +329,36 @@ const EventsPage: FunctionComponent<Props | NewProps> = props => {
                     updateUrl(event.currentTarget);
                   }}
                 >
-                  <SearchFilters
-                    linkResolver={params =>
-                      linkResolver({
-                        params,
-                        pathname: `${router.pathname}${isInPastListing ? '/past' : ''}`,
-                      })
-                    }
-                    searchFormId={EVENTS_LISTING_FORM_ID}
-                    changeHandler={() => {
-                      const form = document.getElementById(
-                        EVENTS_LISTING_FORM_ID
-                      );
-                      form &&
-                        form.dispatchEvent(
-                          new window.Event('submit', {
-                            cancelable: true,
-                            bubbles: true,
-                          })
-                        );
-                    }}
-                    filters={filters}
-                    hasNoResults={hasNoResults}
-                  />
+                  {/* Normally the search input is here but we don't want one in this case..
+                  We need the form for good functioning & No JS behaviour, but we deal with the filters
+                  through Javascript and they can't be wrapped in the form as it causes bugs. Because we have
+                  the filters twice (modal and desktop), we need to control which filters are assigned to the form
+                  instead of including them all. */}
                 </form>
+
+                <SearchFilters
+                  linkResolver={params =>
+                    linkResolver({
+                      params,
+                      pathname: `${router.pathname}${isInPastListing ? '/past' : ''}`,
+                    })
+                  }
+                  searchFormId={EVENTS_LISTING_FORM_ID}
+                  changeHandler={() => {
+                    const form = document.getElementById(
+                      EVENTS_LISTING_FORM_ID
+                    );
+                    form &&
+                      form.dispatchEvent(
+                        new window.Event('submit', {
+                          cancelable: true,
+                          bubbles: true,
+                        })
+                      );
+                  }}
+                  filters={filters}
+                  hasNoResults={hasNoResults}
+                />
               </Space>
             </ContaineredLayout>
           )}
