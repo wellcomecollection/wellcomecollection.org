@@ -385,7 +385,7 @@ const EventsPage: FunctionComponent<Props | NewProps> = props => {
 
                   <Pagination
                     totalPages={events.totalPages}
-                    ariaLabel="Events top pagination"
+                    ariaLabel="Events pagination"
                     isHiddenMobile
                   />
                 </PaginationWrapper>
@@ -400,7 +400,7 @@ const EventsPage: FunctionComponent<Props | NewProps> = props => {
                 <PaginationWrapper $verticalSpacing="l" $alignRight>
                   <Pagination
                     totalPages={events.totalPages}
-                    ariaLabel="Events bottom pagination"
+                    ariaLabel="Events pagination"
                   />
                 </PaginationWrapper>
               </ContaineredLayout>
