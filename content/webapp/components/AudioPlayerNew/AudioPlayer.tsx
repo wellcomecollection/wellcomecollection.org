@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
@@ -56,6 +56,12 @@ const SkipPlayWrapper = styled.div`
   justify-content: center;
 `;
 
+const colorTransform = css<{ $isDark: boolean }>`
+  color: ${props =>
+    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+  transform: scale(1.1);
+`;
+
 const SkipButton = styled.button<{ $isDark: boolean }>`
   color: ${props =>
     props.$isDark ? props.theme.color('yellow') : props.theme.color('black')};
@@ -64,10 +70,16 @@ const SkipButton = styled.button<{ $isDark: boolean }>`
     color 0.2s ease-out,
     transform 0.2s ease-out;
 
-  &:hover {
-    color: ${props =>
-      props.$isDark ? props.theme.color('white') : props.theme.color('black')};
-    transform: scale(1.1);
+  @media (hover: hover) {
+    &:hover {
+      ${colorTransform};
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      ${colorTransform};
+    }
   }
 `;
 
@@ -76,6 +88,17 @@ const PlayerRateWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: end;
+`;
+
+const colorTransformIconFill = css<{ $isDark: boolean }>`
+  color: ${props =>
+    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+  transform: scale(1.1);
+
+  .icon__playpause {
+    fill: ${props =>
+      props.$isDark ? props.theme.color('black') : props.theme.color('white')};
+  }
 `;
 
 const TitleWrapper = styled.span<{ $isDark: boolean }>`
@@ -93,16 +116,15 @@ const PlayPauseInner = styled.div<{ $isDark: boolean }>`
     transition: fill 0.2s ease-out;
   }
 
-  &:hover {
-    color: ${props =>
-      props.$isDark ? props.theme.color('white') : props.theme.color('black')};
-    transform: scale(1.1);
+  @media (hover: hover) {
+    &:hover {
+      ${colorTransformIconFill};
+    }
+  }
 
-    .icon__playpause {
-      fill: ${props =>
-        props.$isDark
-          ? props.theme.color('black')
-          : props.theme.color('white')};
+  @media (hover: none) {
+    &:active {
+      ${colorTransformIconFill};
     }
   }
 `;
