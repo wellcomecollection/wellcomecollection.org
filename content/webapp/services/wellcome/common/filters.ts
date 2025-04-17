@@ -693,7 +693,7 @@ const eventsIsAvailableOnlineFilter = ({
   props,
 }: EventsFilterProps): BooleanFilter<keyof EventsProps> => {
   const isAvailableOnlineTrueBucket =
-    events?.aggregations?.isAvailableOnline.buckets.find(b => b.data.value);
+    events?.aggregations?.isAvailableOnline?.buckets.find(b => b.data.value);
 
   return {
     type: 'boolean',

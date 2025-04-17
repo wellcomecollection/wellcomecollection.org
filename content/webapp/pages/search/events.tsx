@@ -66,7 +66,7 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
 }) => {
   useHotjar(true);
   const { query: queryString } = query;
-  const { dateFilter } = useToggles();
+  const { dateFilter, filterEventsListing } = useToggles();
 
   const filters = eventsFilters({
     events: eventResponseList,
@@ -130,44 +130,46 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
                 </span>
 
                 <SortPaginationWrapper>
-                  <Sort
-                    formId={SEARCH_PAGES_FORM_ID}
-                    options={[
-                      // Default value to be left empty as to not be reflected in URL query
-                      {
-                        value: '',
-                        text: 'Relevance',
-                      },
-                      {
-                        value: 'times.startDateTime.asc',
-                        text: 'Oldest to newest',
-                      },
-                      {
-                        value: 'times.startDateTime.desc',
-                        text: 'Newest to oldest',
-                      },
-                    ]}
-                    jsLessOptions={{
-                      sort: [
+                  {!filterEventsListing && (
+                    <Sort
+                      formId={SEARCH_PAGES_FORM_ID}
+                      options={[
+                        // Default value to be left empty as to not be reflected in URL query
                         {
                           value: '',
                           text: 'Relevance',
                         },
                         {
-                          value: 'times.startDateTime',
-                          text: 'Event date',
+                          value: 'times.startDateTime.asc',
+                          text: 'Oldest to newest',
                         },
-                      ],
-                      sortOrder: [
-                        { value: 'asc', text: 'Ascending' },
-                        { value: 'desc', text: 'Descending' },
-                      ],
-                    }}
-                    defaultValues={{
-                      sort: query.sort,
-                      sortOrder: query.sortOrder,
-                    }}
-                  />
+                        {
+                          value: 'times.startDateTime.desc',
+                          text: 'Newest to oldest',
+                        },
+                      ]}
+                      jsLessOptions={{
+                        sort: [
+                          {
+                            value: '',
+                            text: 'Relevance',
+                          },
+                          {
+                            value: 'times.startDateTime',
+                            text: 'Event date',
+                          },
+                        ],
+                        sortOrder: [
+                          { value: 'asc', text: 'Ascending' },
+                          { value: 'desc', text: 'Descending' },
+                        ],
+                      }}
+                      defaultValues={{
+                        sort: query.sort,
+                        sortOrder: query.sortOrder,
+                      }}
+                    />
+                  )}
                   <Pagination
                     totalPages={eventResponseList.totalPages}
                     ariaLabel="Events search pagination"
