@@ -10,6 +10,7 @@ import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTime
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 
+import FooterA11y from './Footer.A11y';
 import FooterNav from './Footer.Nav';
 import FooterSocial from './Footer.Social';
 import FooterWellcomeLogo from './Footer.WellcomeLogo';
@@ -29,23 +30,45 @@ const Wrapper = styled(Space).attrs({
   color: ${props => props.theme.color('white')};
 `;
 
-const FooterBasicSection = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-bottom'] },
-})``;
-
 /** ************************ */
 // START OF FOOTER BODY STYLES
 /** ************************ */
 
-const FooterNavigationContainer = styled(FooterBasicSection)`
+const FooterNavigationContainer = styled(Space).attrs({
+  $v: { size: 'l', properties: ['margin-bottom'] },
+})`
+  display: grid;
+  grid-gap: 2rem;
+
+  ${props => props.theme.media('medium')`
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 3rem;
+
+  `}
+
+  ${props => props.theme.media('xlarge')`
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 2rem;
+  `}
+`;
+
+const PoliciesAndSocials = styled(Space).attrs({
+  $v: { size: 'l', properties: ['margin-bottom'] },
+})`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+
+  ${props =>
+    props.theme.mediaBetween(
+      'medium',
+      'large'
+    )(`
+    display: block;
+  `)}
 `;
 
-const FindUsContainer = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-bottom'] },
-})`
+const FindUsContainer = styled.div`
   flex: 1 1 100%;
 
   ${props => props.theme.media('medium')`
@@ -58,7 +81,7 @@ const FindUsContainer = styled(Space).attrs({
     `}
 `;
 
-const OpeningTimesContainer = styled(FooterBasicSection)`
+const OpeningTimesContainer = styled.div`
   flex: 1 1 100%;
 
   ${props => props.theme.media('medium')`
@@ -71,7 +94,7 @@ const OpeningTimesContainer = styled(FooterBasicSection)`
   `}
 `;
 
-const InternalNavigationContainer = styled(FooterBasicSection)`
+const InternalNavigationContainer = styled.div`
   flex: 1 1 50%;
 
   ${props => props.theme.media('medium')`
@@ -80,12 +103,12 @@ const InternalNavigationContainer = styled(FooterBasicSection)`
 `;
 
 const FullWidthDivider = styled(Space).attrs({
-  className: 'is-hidden-s is-hidden-m',
-})`
-  flex: 1 1 100%;
-`;
+  $v: { size: 'm', properties: ['margin-bottom'] },
+})``;
 
-const PoliciesContainer = styled(Space)`
+const PoliciesContainer = styled(Space).attrs({
+  $v: { size: 'm', properties: ['margin-bottom', 'margin-bottom'] },
+})`
   flex: 1 1 50%;
 
   ${props => props.theme.media('medium')`
@@ -94,16 +117,12 @@ const PoliciesContainer = styled(Space)`
     flex-wrap: wrap;
     flex: 1 1 30%;
   `}
-
-  ${props => props.theme.media('large')`
-    margin-top: 1rem;
-    `}
 `;
 
 const SocialsContainer = styled(Space)`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   align-self: flex-start;
   flex: 1 1 100%;
@@ -112,18 +131,17 @@ const SocialsContainer = styled(Space)`
   ${props => props.theme.media('medium')`
     flex: 0 1 auto;
     margin: 0;
-    `}
+  `}
 
   ${props => props.theme.media('large')`
     flex: 0 1 100%;
-    justify-content: flex-end;
-    margin-top: 1rem;
-    `}
+  `}
 
   ${props => props.theme.media('xlarge')`
     flex: 0 1 auto;
+    justify-content: flex-end;
     justify-content: space-between;
-    `}
+  `}
 `;
 /** ********************** */
 // END OF FOOTER BODY STYLES
@@ -165,13 +183,13 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
   return (
     <Wrapper ref={footer}>
       <Container>
-        <FooterBasicSection as="h3">
+        <h3>
           <FooterWellcomeLogo />
-        </FooterBasicSection>
+        </h3>
 
         <FooterNavigationContainer>
           <FindUsContainer>
-            <FindUs />
+            <FindUs hideAccessibility={true} />
           </FindUsContainer>
 
           <OpeningTimesContainer>
@@ -187,8 +205,9 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
               as="p"
               $v={{
                 size: 'm',
-                properties: [hasVenuesInfo ? 'margin-top' : 'margin-bottom'],
+                properties: hasVenuesInfo ? ['margin-top'] : [],
               }}
+              style={{ marginBottom: 0 }}
             >
               <a href={`/visit-us/${prismicPageIds.openingTimes}`}>
                 Opening times
@@ -196,17 +215,21 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
             </Space>
           </OpeningTimesContainer>
 
+          <FooterA11y />
+
           <InternalNavigationContainer>
             <FooterNav
               type="InternalNavigation"
               ariaLabel="Useful internal links"
             />
           </InternalNavigationContainer>
+        </FooterNavigationContainer>
 
-          <FullWidthDivider>
-            <Divider lineColor="neutral.700" />
-          </FullWidthDivider>
+        <FullWidthDivider>
+          <Divider lineColor="neutral.700" />
+        </FullWidthDivider>
 
+        <PoliciesAndSocials>
           <PoliciesContainer>
             <FooterNav
               isInline
@@ -218,7 +241,7 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
           <SocialsContainer>
             <FooterSocial />
           </SocialsContainer>
-        </FooterNavigationContainer>
+        </PoliciesAndSocials>
 
         <FooterBottom>
           <FooterLicense>

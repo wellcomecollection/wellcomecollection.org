@@ -358,6 +358,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
       {!!(transcript?.length && transcript.length > 0) && (
         <Space $v={{ size: 'm', properties: ['margin-top'] }}>
           <CollapsibleContent
+            darkTheme={isDark}
             id={`audioPlayerTranscript-${audioFile}`}
             controlText={{
               contentShowingText: 'Hide the transcript',
