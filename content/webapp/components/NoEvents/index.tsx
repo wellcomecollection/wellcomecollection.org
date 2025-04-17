@@ -8,7 +8,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { QuestionMark } from './images';
 
 type Props = {
-  period: 'past' | 'future';
+  isPastListing: boolean;
   hasFilters: boolean;
 };
 
@@ -26,8 +26,7 @@ const ClearFiltersText = styled(Space).attrs({
   color: ${props => props.theme.color('neutral.600')};
 `;
 
-const NoEvents: FunctionComponent<Props> = ({ period, hasFilters }) => {
-  const isPast = period === 'past';
+const NoEvents: FunctionComponent<Props> = ({ isPastListing, hasFilters }) => {
   return (
     <NoResultsWrap>
       <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
@@ -38,14 +37,14 @@ const NoEvents: FunctionComponent<Props> = ({ period, hasFilters }) => {
         $v={{ size: 's', properties: ['margin-bottom'] }}
         className={font('intr', 2)}
       >
-        No {isPast ? 'past' : 'upcoming'} events found
+        No {isPastListing ? 'past' : 'upcoming'} events found
       </Space>
 
       {hasFilters && (
         <>
           <ClearFiltersText>Clear your filters and try again</ClearFiltersText>
           <ButtonSolidLink
-            link={`/events${isPast ? '/past' : ''}`}
+            link={`/events${isPastListing ? '/past' : ''}`}
             text="Clear all filters"
           />
         </>
@@ -55,8 +54,8 @@ const NoEvents: FunctionComponent<Props> = ({ period, hasFilters }) => {
         className={font('intr', 6)}
       >
         {hasFilters ? 'Or check' : 'Check'}{' '}
-        <a href={`/events${isPast ? '' : '/past'}`}>
-          {isPast ? 'upcoming' : 'past'} events
+        <a href={`/events${isPastListing ? '' : '/past'}`}>
+          {isPastListing ? 'upcoming' : 'past'} events
         </a>
       </Space>
     </NoResultsWrap>
