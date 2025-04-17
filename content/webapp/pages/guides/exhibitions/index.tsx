@@ -4,13 +4,24 @@ import { FunctionComponent } from 'react';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { getServerData } from '@weco/common/server-data';
 import { appError, AppErrorProps } from '@weco/common/services/app';
-import type { PaginatedResults } from '@weco/common/services/prismic/types';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import { pluralize } from '@weco/common/utils/grammar';
 import { serialiseProps } from '@weco/common/utils/json';
+import Divider from '@weco/common/views/components/Divider/Divider';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import {
+  ContaineredLayout,
+  gridSize12,
+} from '@weco/common/views/components/Layout';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
+import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import LayoutPaginatedResults from '@weco/content/components/LayoutPaginatedResults/LayoutPaginatedResults';
+import CardGrid from '@weco/content/components/CardGrid/CardGrid';
+import Pagination from '@weco/content/components/Pagination/Pagination';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibitionGuides } from '@weco/content/services/prismic/fetch/exhibition-guides';
 import { fetchExhibitionHighlightTours } from '@weco/content/services/prismic/fetch/exhibition-highlight-tours';
@@ -192,11 +203,51 @@ const ExhibitionGuidesPage: FunctionComponent<Props> = props => {
       hideNewsletterPromo={true}
     >
       <SpacingSection>
-        <LayoutPaginatedResults
-          title="Digital Guides"
-          paginatedResults={exhibitionGuides}
+        <PageHeader
           breadcrumbs={{ items: [], noHomeLink: true }}
+          title="Digital Guides"
+          backgroundTexture={headerBackgroundLs}
+          highlightHeading={true}
         />
+
+        {exhibitionGuides.totalPages > 1 && (
+          <ContaineredLayout gridSizes={gridSize12()}>
+            <PaginationWrapper $verticalSpacing="l">
+              <span>{pluralize(exhibitionGuides.totalResults, 'result')}</span>
+
+              <Pagination
+                totalPages={exhibitionGuides.totalPages}
+                ariaLabel="Results pagination"
+                isHiddenMobile
+              />
+            </PaginationWrapper>
+
+            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <Divider />
+            </Space>
+          </ContaineredLayout>
+        )}
+
+        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+          {exhibitionGuides.results.length > 0 ? (
+            <CardGrid items={exhibitionGuides.results} itemsPerRow={3} />
+          ) : (
+            <ContaineredLayout gridSizes={gridSize12()}>
+              <p>There are no results.</p>
+            </ContaineredLayout>
+          )}
+        </Space>
+
+        {exhibitionGuides.totalPages > 1 && (
+          <ContaineredLayout gridSizes={gridSize12()}>
+            <PaginationWrapper $verticalSpacing="l" $alignRight>
+              <Pagination
+                totalPages={exhibitionGuides.totalPages}
+                ariaLabel="Results pagination"
+              />
+            </PaginationWrapper>
+          </ContaineredLayout>
+        )}
       </SpacingSection>
     </PageLayout>
   );
