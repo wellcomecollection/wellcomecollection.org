@@ -19,23 +19,9 @@ const apiRewrites = [
   },
 ];
 
-const periodTypeRoutes = [
-  {
-    source:
-      '/events/:period(today|this-weekend|current-and-coming-up|past|coming-up|this-week|next-seven-days)',
-    destination: `/events`,
-  },
-  {
-    source:
-      '/exhibitions/:period(today|this-weekend|current-and-coming-up|past|coming-up|this-week|next-seven-days)',
-    destination: `/exhibitions`,
-  },
-];
-
 const rewriteEntries = localConcurrentDevelopment
   ? [
       ...apiRewrites,
-      ...periodTypeRoutes,
       {
         source: '/:path*',
         destination: `/:path*`,
@@ -49,7 +35,7 @@ const rewriteEntries = localConcurrentDevelopment
         destination: `${CATALOGUE_URL}/image`,
       },
     ]
-  : [...apiRewrites, ...periodTypeRoutes];
+  : [...apiRewrites];
 
 module.exports = createConfig({
   applicationName: 'content',

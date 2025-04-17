@@ -59,7 +59,7 @@ export type Props = {
   jsonLd: JsonLdObj[];
 };
 
-type NewProps = {
+export type NewProps = {
   events: ContentResultsList<EventDocument>;
   period: 'future' | 'past';
   jsonLd: JsonLdObj[];
@@ -79,19 +79,8 @@ export const getServerSideProps: GetServerSideProps<
   const isUsingContentAPI = !!serverData.toggles.filterEventsListing.value;
 
   if (isUsingContentAPI) {
-    const { period = 'future', availableOnline, page } = context.query;
-
-    if (availableOnline) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/events/past?isAvailableOnline=true',
-        },
-      };
-    }
-
-    const pageNumber = getQueryPropertyValue(page);
-    const paramsQuery = { timespan: getQueryPropertyValue(period) || '' };
+    const pageNumber = getQueryPropertyValue(context.query.page);
+    const paramsQuery = { timespan: getQueryPropertyValue('future') || '' };
 
     const eventResponseList = await getEvents({
       params: {
@@ -118,7 +107,7 @@ export const getServerSideProps: GetServerSideProps<
       return {
         props: serialiseProps({
           events: eventResponseList,
-          period: period as 'future' | 'past',
+          period: 'future',
           jsonLd,
           serverData,
         }),
@@ -127,17 +116,13 @@ export const getServerSideProps: GetServerSideProps<
 
     return { notFound: true };
   } else {
-    const {
-      period = 'current-and-coming-up',
-      isOnline,
-      availableOnline,
-    } = context.query;
+    const { isOnline, availableOnline } = context.query;
 
     const client = createClient(context);
 
     const eventsQueryPromise = await fetchEvents(client, {
       page,
-      period: period as 'current-and-coming-up' | 'past' | undefined,
+      period: 'current-and-coming-up',
       pageSize: 100,
       isOnline: isOnline === 'true',
       availableOnline: availableOnline === 'true',
@@ -147,7 +132,7 @@ export const getServerSideProps: GetServerSideProps<
     const basicEvents = transformQuery(eventsQueryPromise, transformEventBasic);
 
     if (events) {
-      const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
+      const title = 'Events';
       const jsonLd = events.results.flatMap(eventLd);
 
       return {
@@ -157,7 +142,7 @@ export const getServerSideProps: GetServerSideProps<
             results: basicEvents.results,
           },
           title,
-          period: period as Period,
+          period: 'current-and-coming-up',
           jsonLd,
           serverData,
         }),
