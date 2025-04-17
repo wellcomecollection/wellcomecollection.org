@@ -36,6 +36,7 @@ import { themeValues } from '@weco/common/views/themes/config';
 import CardGrid from '@weco/content/components/CardGrid/CardGrid';
 import EventsSearchResults from '@weco/content/components/EventsSearchResults';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
+import NoEvents from '@weco/content/components/NoEvents';
 import Pagination from '@weco/content/components/Pagination/Pagination';
 import SearchFilters from '@weco/content/components/SearchFilters';
 import {
@@ -364,7 +365,10 @@ const EventsPage: FunctionComponent<Props | NewProps> = props => {
           )}
           {hasNoResults ? (
             <ContaineredLayout gridSizes={gridSize12()}>
-              <p>No {isInPastListing ? 'past ' : 'upcoming'} events found.</p>
+              <NoEvents
+                isPastListing={isInPastListing}
+                hasFilters={hasActiveFilters}
+              />
             </ContaineredLayout>
           ) : (
             <>
