@@ -1,7 +1,13 @@
 import { FunctionComponent, Ref } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { formatPlayerTime } from './AudioPlayer.formatters';
+
+const backgroundTransform = css<{ $isDark: boolean }>`
+  background: ${props =>
+    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+  transform: scale(1.5);
+`;
 
 const RangeSlider = styled.input.attrs({
   type: 'range',
@@ -25,12 +31,16 @@ const RangeSlider = styled.input.attrs({
       background 0.2s ease-out,
       transform 0.2s ease-out;
 
-    &:hover {
-      background: ${props =>
-        props.$isDark
-          ? props.theme.color('white')
-          : props.theme.color('black')};
-      transform: scale(1.5);
+    @media (hover: hover) {
+      &:hover {
+        ${backgroundTransform};
+      }
+    }
+
+    @media (hover: none) {
+      &:active {
+        ${backgroundTransform};
+      }
     }
   }
 
@@ -46,12 +56,16 @@ const RangeSlider = styled.input.attrs({
       background 0.2s ease-out,
       transform 0.2s ease-out;
 
-    &:hover {
-      background: ${props =>
-        props.$isDark
-          ? props.theme.color('white')
-          : props.theme.color('black')};
-      transform: scale(1.5);
+    @media (hover: hover) {
+      &:hover {
+        ${backgroundTransform};
+      }
+    }
+
+    @media (hover: none) {
+      &:active {
+        ${backgroundTransform};
+      }
     }
   }
 `;
