@@ -240,7 +240,7 @@ export function getImageAuthProbeService(
   return Array.isArray(service)
     ? service?.find(s => s.type === 'AuthProbeService2')
     : service?.type === 'AuthProbeService2'
-      ? service
+      ? (service as unknown as AuthProbeService2)
       : undefined;
 }
 
