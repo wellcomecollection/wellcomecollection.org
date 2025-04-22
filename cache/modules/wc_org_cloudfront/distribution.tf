@@ -236,7 +236,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
       }
     }
 
-    cache_policy_id            = var.cache_policies["short-lived-toggles-only"]
+    cache_policy_id            = var.cache_policies["weco-apps"]
     origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
     response_headers_policy_id = var.response_policies["weco-security"]
   }
