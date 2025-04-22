@@ -431,6 +431,15 @@ export const ConceptPage: NextPage<Props> = ({
     imagesTabs[0]?.id || ''
   );
 
+  const {
+    narrowerThan,
+    fieldsOfWork,
+    people,
+    relatedTo,
+    broaderThan,
+    referencedTogether,
+  } = conceptResponse.relatedConcepts || {};
+
   return (
     <CataloguePageLayout
       title={conceptResponse.label}
@@ -460,53 +469,48 @@ export const ConceptPage: NextPage<Props> = ({
                   ))}
                 </AlternativeLabels>
               )}
-            {newThemePages &&
-              conceptResponse.relatedConcepts?.narrowerThan &&
-              conceptResponse.relatedConcepts?.narrowerThan?.length > 0 && (
-                <RelatedConceptsContainer>
-                  <span>Part of</span>
-                  {conceptResponse.relatedConcepts.narrowerThan.map(item => (
-                    <SingleRelatedConcept key={item.id} item={item} />
-                  ))}
-                </RelatedConceptsContainer>
-              )}
+            {newThemePages && narrowerThan && narrowerThan?.length > 0 && (
+              <RelatedConceptsContainer>
+                <span>Part of</span>
+                {narrowerThan.map(item => (
+                  <SingleRelatedConcept key={item.id} item={item} />
+                ))}
+              </RelatedConceptsContainer>
+            )}
             {newThemePages && conceptResponse.description && (
               <p>{capitalize(conceptResponse.description)}</p>
             )}
           </Space>
-          {newThemePages && conceptResponse.relatedConcepts?.fieldsOfWork && (
+          {newThemePages && fieldsOfWork && (
             <RelatedConceptsGroup
               heading="Fields of work"
-              relatedConcepts={conceptResponse.relatedConcepts.fieldsOfWork}
+              relatedConcepts={fieldsOfWork}
             />
           )}
-          {newThemePages && conceptResponse.relatedConcepts?.people && (
+          {newThemePages && people && (
             <RelatedConceptsGroup
               heading="Notable people in this field"
-              relatedConcepts={conceptResponse.relatedConcepts.people}
+              relatedConcepts={people}
             />
           )}
-          {newThemePages && conceptResponse.relatedConcepts?.relatedTo && (
+          {newThemePages && relatedTo && (
             <RelatedConceptsGroup
               heading="Related to"
-              relatedConcepts={conceptResponse.relatedConcepts.relatedTo}
+              relatedConcepts={relatedTo}
             />
           )}
-          {newThemePages && conceptResponse.relatedConcepts?.broaderThan && (
+          {newThemePages && broaderThan && (
             <RelatedConceptsGroup
               heading="Broader than"
-              relatedConcepts={conceptResponse.relatedConcepts.broaderThan}
+              relatedConcepts={broaderThan}
             />
           )}
-          {newThemePages &&
-            conceptResponse.relatedConcepts?.referencedTogether && (
-              <RelatedConceptsGroup
-                heading="Frequently referenced together"
-                relatedConcepts={
-                  conceptResponse.relatedConcepts.referencedTogether
-                }
-              />
-            )}
+          {newThemePages && referencedTogether && (
+            <RelatedConceptsGroup
+              heading="Frequently referenced together"
+              relatedConcepts={referencedTogether}
+            />
+          )}
         </Container>
       </ConceptHero>
 
