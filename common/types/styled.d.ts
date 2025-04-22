@@ -1,7 +1,9 @@
+import 'styled-components';
 import theme from '@weco/common/views/themes/default';
 
 type ThemeInterface = typeof theme;
 
 declare module 'styled-components' {
-  interface DefaultTheme extends ThemeInterface {}
+  export interface DefaultTheme extends ThemeInterface {}
 }
+type Ffr = DefaultTheme;
