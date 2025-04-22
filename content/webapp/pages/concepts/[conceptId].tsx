@@ -22,7 +22,10 @@ import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/Ca
 import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import MoreLink from '@weco/content/components/MoreLink/MoreLink';
 import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink/Images';
-import { toLink as worksLink, toLink as toWorksLink } from "@weco/content/components/SearchPagesLink/Works";
+import {
+  toLink as worksLink,
+  toLink as toWorksLink,
+} from '@weco/content/components/SearchPagesLink/Works';
 import Tabs from '@weco/content/components/Tabs';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
 import useHotjar from '@weco/content/hooks/useHotjar';
@@ -37,6 +40,7 @@ import {
   toWorkBasic,
   WorkBasic,
   Work as WorkType,
+  RelatedConcept,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
 import {
@@ -53,61 +57,101 @@ const emptyWorkResults: CatalogueResultsList<WorkType> = emptyResultList();
 
 const tabOrder = ['by', 'in', 'about'] as const;
 
-const ThemeButtonContainer = styled.div.attrs({
+const RelatedConceptsContainer = styled.div.attrs({
   className: font('intr', 6),
 })`
   display: flex;
-    gap: 10px;
-    margin-bottom: 28px;
-    flex-wrap: wrap;
-    align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  align-items: center;
 `;
 
-
-const ThemeButton = styled.a.attrs({
+const RelatedConceptLink = styled.a.attrs({
   className: font('intr', 6),
 })`
   border: 2px solid;
   padding: 4px 12px;
   text-decoration: none;
-    border-radius: 30px;
+  border-radius: 30px;
 
   &:hover {
     text-decoration: underline;
   }
 `;
 
-const RelatedToButton = styled.div.attrs({
+const RelatedConceptItem = styled.div.attrs({
   className: font('intr', 6),
 })`
-    display: flex;
-    gap: 8px;
-    align-items: center;
+  display: flex;
+  gap: 8px;
+  align-items: center;
 `;
 
 const AlternativeLabels = styled.div.attrs({
   className: font('intr', 6),
 })`
-    display: flex;
-    gap: 10px;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-    margin-top: -12px;
-    color: #666;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  margin-top: -12px;
+  color: #666;
 `;
 
 const AlternativeLabel = styled.span.attrs({
   className: font('intr', 6),
 })`
   border-right: 1px solid #666;
-    padding-right: 12px;
-    
-    &:last-of-type {
-        border-right: 0;
-    }
+  padding-right: 12px;
+
+  &:last-of-type {
+    border-right: 0;
+  }
 `;
 
+type RelatedConceptsProps = {
+  heading: string;
+  relatedConcepts: RelatedConcept[];
+};
 
+const SingleRelatedConcept = ({ item }: { item: RelatedConcept }) => (
+  <RelatedConceptItem
+    style={{ width: item.relationshipType ? '100%' : 'auto' }}
+  >
+    <NextLink
+      key={item.id}
+      href={{
+        pathname: `/concepts/${item.id}`,
+      }}
+      passHref
+      legacyBehavior
+    >
+      <RelatedConceptLink>{item.label}</RelatedConceptLink>
+    </NextLink>
+    {item.relationshipType?.replace('relationship_', '')}
+  </RelatedConceptItem>
+);
+
+const RelatedConceptsGroup = ({
+  heading,
+  relatedConcepts,
+}: RelatedConceptsProps) => {
+  if (relatedConcepts.length === 0) {
+    return null;
+  }
+
+  return (
+    <>
+      <h3>{heading}</h3>
+      <RelatedConceptsContainer>
+        {relatedConcepts.map(item => (
+          <SingleRelatedConcept item={item} />
+        ))}
+      </RelatedConceptsContainer>
+    </>
+  );
+};
 
 const linkSources = new Map([
   ['worksAbout', 'concept/works_about'],
@@ -387,8 +431,6 @@ export const ConceptPage: NextPage<Props> = ({
     imagesTabs[0]?.id || ''
   );
 
-  console.log(conceptResponse);
-
   return (
     <CataloguePageLayout
       title={conceptResponse.label}
@@ -407,165 +449,64 @@ export const ConceptPage: NextPage<Props> = ({
             $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
           >
             <HeroTitle>{conceptResponse.label}</HeroTitle>
-
-            {newThemePages && conceptResponse.alternativeLabels?.length > 0 &&
-              (<AlternativeLabels>{conceptResponse.alternativeLabels.map(label => (<AlternativeLabel>{capitalize(label)}</AlternativeLabel>))}</AlternativeLabels>)}
-            {newThemePages && conceptResponse.relatedConcepts?.narrowerThan?.length > 0 && (
-              <>
-                <ThemeButtonContainer>
+            {newThemePages &&
+              conceptResponse.alternativeLabels &&
+              conceptResponse.alternativeLabels?.length > 0 && (
+                <AlternativeLabels>
+                  {conceptResponse.alternativeLabels.map(label => (
+                    <AlternativeLabel>{capitalize(label)}</AlternativeLabel>
+                  ))}
+                </AlternativeLabels>
+              )}
+            {newThemePages &&
+              conceptResponse.relatedConcepts?.narrowerThan &&
+              conceptResponse.relatedConcepts?.narrowerThan?.length > 0 && (
+                <RelatedConceptsContainer>
                   <span>Part of</span>
                   {conceptResponse.relatedConcepts.narrowerThan.map(item => (
-                    <NextLink
-                      key={item.id}
-                      href={{
-                        pathname: `/concepts/${item.id}`
-                      }}
-                      passHref
-                      legacyBehavior
-                    >
-                      <ThemeButton>
-                        {capitalize(item.label)}
-                      </ThemeButton>
-                    </NextLink>))}
-                </ThemeButtonContainer>
-              </>
+                    <SingleRelatedConcept item={item} />
+                  ))}
+                </RelatedConceptsContainer>
+              )}
+            {newThemePages && conceptResponse.description && (
+              <p>{capitalize(conceptResponse.description)}</p>
             )}
-            {newThemePages && conceptResponse.description && <p>{capitalize(conceptResponse.description)}</p>}
           </Space>
-
-          {newThemePages && conceptResponse.relatedConcepts?.fieldsOfWork?.length > 0 && (
-            <>
-              <h3>Fields of work</h3>
-              <ThemeButtonContainer>
-                {conceptResponse.relatedConcepts.fieldsOfWork.map(item => (
-                  <NextLink
-                    key={item.id}
-                    href={{
-                      pathname: `/concepts/${item.id}`
-                    }}
-                    passHref
-                    legacyBehavior
-                  >
-                    <ThemeButton>
-                      {item.label}
-                    </ThemeButton>
-                  </NextLink>))}
-              </ThemeButtonContainer>
-            </>
+          {newThemePages && conceptResponse.relatedConcepts?.fieldsOfWork && (
+            <RelatedConceptsGroup
+              heading="Fields of work"
+              relatedConcepts={conceptResponse.relatedConcepts.fieldsOfWork}
+            />
           )}
-
-          {newThemePages && conceptResponse.relatedConcepts?.people?.length > 0 && (
-            <>
-              <h3>Notable people in this field</h3>
-              <ThemeButtonContainer>
-                {conceptResponse.relatedConcepts.people.map(item => (
-                  <NextLink
-                    key={item.id}
-                    href={{
-                      pathname: `/concepts/${item.id}`
-                    }}
-                    passHref
-                    legacyBehavior
-                  >
-                    <ThemeButton>
-                      {item.label}
-                    </ThemeButton>
-                  </NextLink>))}
-              </ThemeButtonContainer>
-            </>
+          {newThemePages && conceptResponse.relatedConcepts?.people && (
+            <RelatedConceptsGroup
+              heading="Notable people in this field"
+              relatedConcepts={conceptResponse.relatedConcepts.people}
+            />
           )}
-
-          {newThemePages && conceptResponse.relatedConcepts?.relatedTo?.length > 0 && (
-            <>
-              <h3>Related to</h3>
-              <ThemeButtonContainer>
-              {conceptResponse.relatedConcepts.relatedTo.map(item => (
-                <RelatedToButton style={{ width: item.relationshipType ? '100%' : 'auto' }}>
-                <NextLink
-                  key={item.id}
-                  href={{
-                    pathname: `/concepts/${item.id}`
-                  }}
-                  passHref
-                  legacyBehavior
-                >
-                    <ThemeButton>
-                      {item.label}
-                    </ThemeButton>
-                </NextLink>
-                  {item.relationshipType?.replace("relationship_", "")}
-                </RelatedToButton>
-              ))}
-                </ThemeButtonContainer>
-
-                </>
+          {newThemePages && conceptResponse.relatedConcepts?.relatedTo && (
+            <RelatedConceptsGroup
+              heading="Related to"
+              relatedConcepts={conceptResponse.relatedConcepts.relatedTo}
+            />
           )}
-
-          {newThemePages && conceptResponse.relatedConcepts?.broaderThan?.length > 0 && (
-            <>
-              <h3>Broader than</h3>
-              <ThemeButtonContainer>
-                {conceptResponse.relatedConcepts.broaderThan.map(item => (
-                  <NextLink
-                    key={item.id}
-                    href={{
-                      pathname: `/concepts/${item.id}`
-                    }}
-                    passHref
-                    legacyBehavior
-                  >
-                    <ThemeButton>
-                      {item.label}
-                    </ThemeButton>
-                  </NextLink>))}
-              </ThemeButtonContainer>
-            </>
+          {newThemePages && conceptResponse.relatedConcepts?.broaderThan && (
+            <RelatedConceptsGroup
+              heading="Broader than"
+              relatedConcepts={conceptResponse.relatedConcepts.broaderThan}
+            />
           )}
-
-          {newThemePages && conceptResponse.relatedConcepts?.referenced_together?.length > 0 && (
-            <>
-              <h3>Frequently referenced together</h3>
-              <ThemeButtonContainer>
-                {conceptResponse.relatedConcepts.referenced_together.map(item => (
-                  <NextLink
-                    key={item.id}
-                    href={{
-                      pathname: `/concepts/${item.id}`
-                    }}
-                    passHref
-                    legacyBehavior
-                  >
-                    <ThemeButton>
-                      {item.label}
-                    </ThemeButton>
-                  </NextLink>))}
-              </ThemeButtonContainer>
-            </>
-          )}
-
-          {newThemePages && conceptResponse.relatedConcepts?.referencedTogether?.length > 0 && (
-            <>
-              <h3>Frequently referenced together</h3>
-              <ThemeButtonContainer>
-                {conceptResponse.relatedConcepts.referencedTogether.map(item => (
-                  <NextLink
-                    key={item.id}
-                    href={{
-                      pathname: `/concepts/${item.id}`
-                    }}
-                    passHref
-                    legacyBehavior
-                  >
-                    <ThemeButton>
-                      {item.label}
-                    </ThemeButton>
-                  </NextLink>))}
-              </ThemeButtonContainer>
-            </>
-          )}
+          {newThemePages &&
+            conceptResponse.relatedConcepts?.referencedTogether && (
+              <RelatedConceptsGroup
+                heading="Frequently referenced together"
+                relatedConcepts={
+                  conceptResponse.relatedConcepts.referencedTogether
+                }
+              />
+            )}
         </Container>
       </ConceptHero>
-
 
       {/* Images */}
       {hasImages && (
@@ -637,7 +578,7 @@ function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
     label: 'JSON',
     link: apiUrl,
   };
-  
+
   const identifiers = (concept.identifiers || []).map(id =>
     id.identifierType.id === 'label-derived'
       ? {
