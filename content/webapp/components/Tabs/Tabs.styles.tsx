@@ -46,18 +46,17 @@ type NavItemProps = {
   $selected: boolean;
   $isWhite?: boolean;
   $hideBorder?: boolean;
-  $hasNewLook?: boolean;
 };
 
-export const Tab = styled.div.attrs({
-  className: font('intsb', 5),
-})<NavItemProps>`
+export const Tab = styled.div.attrs<{ $selected?: boolean }>(props => ({
+  className: font(props.$selected ? 'intsb' : 'intm', 5),
+}))<NavItemProps>`
   padding: 0;
   margin: 0;
   flex-shrink: 0;
   border-bottom: ${props =>
     props.$selected
-      ? `3px solid ${props.theme.color(props.$hasNewLook ? 'accent.green' : 'yellow')}`
+      ? `3px solid ${props.theme.color('yellow')}`
       : `1px solid ${props.theme.color(
           props.$hideBorder
             ? 'transparent'
@@ -73,28 +72,18 @@ export const Tab = styled.div.attrs({
     &:focus-visible {
       display: block;
       box-shadow:
-        0 0 0 3px
-          ${props =>
-            props.theme.color(
-              props.$hasNewLook ? 'accent.green' : 'focus.yellow'
-            )}
-          inset,
+        0 0 0 3px ${props => props.theme.color('focus.yellow')} inset,
         0 0 0 6px ${props => props.theme.color('black')} inset;
       outline: 0;
     }
   }
 `;
 
-export const TabButton = styled.div<{ $hasNewLook?: boolean }>`
+export const TabButton = styled.div`
   /* For Tab.Tab */
   &:focus-visible {
     box-shadow:
-      0 0 0 3px
-        ${props =>
-          props.theme.color(
-            props.$hasNewLook ? 'accent.green' : 'focus.yellow'
-          )}
-        inset,
+      0 0 0 3px ${props => props.theme.color('focus.yellow')} inset,
       0 0 0 6px ${props => props.theme.color('black')} inset;
     outline: 0;
   }
@@ -109,21 +98,12 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
       $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
     };
   }
-)<{ $isWhite?: boolean; $hasNewLook?: boolean }>`
+)<{ $isWhite?: boolean }>`
   display: block;
   position: relative;
   z-index: 1;
   cursor: pointer;
-  color: ${props =>
-    props.theme.color(
-      props.$isWhite
-        ? 'white'
-        : props.$hasNewLook
-          ? props.$selected
-            ? 'black'
-            : 'neutral.600'
-          : 'black'
-    )};
+  color: ${props => props.theme.color(props.$isWhite ? 'white' : 'black')};
   transition: all ${props => props.theme.transitionProperties};
 
   &::after {
@@ -141,13 +121,7 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
     &::after {
       width: 100%;
       background-color: ${props =>
-        props.theme.color(
-          props.$selected
-            ? props.$hasNewLook
-              ? 'accent.green'
-              : 'yellow'
-            : 'neutral.300'
-        )};
+        props.theme.color(props.$selected ? 'yellow' : 'lightYellow')};
 
       /* Prevent iOS double-tap link issue
        https://css-tricks.com/annoying-mobile-double-tap-link-issue/ */

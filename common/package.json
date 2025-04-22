@@ -9,7 +9,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@elastic/apm-rum": "^5.12.0",
+    "@elastic/apm-rum": "^5.17.0",
     "@next/bundle-analyzer": "^14.2.23",
     "@popperjs/core": "^2.11.8",
     "@prismicio/client": "^7.8.0",
