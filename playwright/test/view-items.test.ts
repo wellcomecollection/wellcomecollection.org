@@ -15,14 +15,6 @@ import {
 } from './helpers/contexts';
 import { apiResponse } from './mocks/search-within';
 
-const multiVolumeDownloadTest = test.extend({
-  page: async ({ page, context }, use) => {
-    await multiVolumeItem(context, page);
-    await page.getByRole('button', { name: 'Downloads' }).click();
-    await use(page);
-  },
-});
-
 const accessSidebarOnMobile = async (page: Page) => {
   if (isMobile(page)) {
     await page.getByRole('button', { name: 'Show info' }).click();
@@ -63,29 +55,32 @@ test('(2) | The info panel visibility can be toggled', async ({
   }
 });
 
-multiVolumeDownloadTest(
-  '(3) | An image of the current canvas can be downloaded',
-  async ({ page }) => {
-    const smallImageLink = page
-      .getByRole('link')
-      .filter({ hasText: 'This image (760x960 pixels)' });
-    expect(await smallImageLink.getAttribute('href')).toEqual(
-      'https://iiif.wellcomecollection.org/image/b10326947_hin-wel-all-00012266_0001.jp2/full/760%2C/0/default.jpg'
-    );
-  }
-);
+test('(3) | An image of the current canvas can be downloaded', async ({
+  page,
+  context,
+}) => {
+  await multiVolumeItem(context, page);
+  await page.getByRole('button', { name: 'Downloads' }).click();
 
-multiVolumeDownloadTest(
-  '(4) | The entire item can be downloaded',
-  async ({ page }) => {
-    const smallImageLink = page
-      .getByRole('link')
-      .filter({ hasText: 'Whole item' });
-    expect(await smallImageLink.getAttribute('href')).toEqual(
-      'https://iiif.wellcomecollection.org/pdf/b10326947_0001'
-    );
-  }
-);
+  const smallImageLink = page
+    .getByRole('link')
+    .filter({ hasText: 'This image (760x960 pixels)' });
+  expect(await smallImageLink.getAttribute('href')).toEqual(
+    'https://iiif.wellcomecollection.org/image/b10326947_hin-wel-all-00012266_0001.jp2/full/760%2C/0/default.jpg'
+  );
+});
+
+test('(4) | The entire item can be downloaded', async ({ page, context }) => {
+  await multiVolumeItem(context, page);
+  await page.getByRole('button', { name: 'Downloads' }).click();
+
+  const smallImageLink = page
+    .getByRole('link')
+    .filter({ hasText: 'Whole item' });
+  expect(await smallImageLink.getAttribute('href')).toEqual(
+    'https://iiif.wellcomecollection.org/pdf/b10326947_0001'
+  );
+});
 
 test('(5) | The item has contributor information', async ({
   page,
