@@ -66,7 +66,7 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
 }) => {
   useHotjar(true);
   const { query: queryString } = query;
-  const { dateFilter } = useToggles();
+  const { dateFilter, filterEventsListing } = useToggles();
 
   const filters = eventsFilters({
     events: eventResponseList,
@@ -130,44 +130,46 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
                 </span>
 
                 <SortPaginationWrapper>
-                  <Sort
-                    formId={SEARCH_PAGES_FORM_ID}
-                    options={[
-                      // Default value to be left empty as to not be reflected in URL query
-                      {
-                        value: '',
-                        text: 'Relevance',
-                      },
-                      {
-                        value: 'times.startDateTime.asc',
-                        text: 'Oldest to newest',
-                      },
-                      {
-                        value: 'times.startDateTime.desc',
-                        text: 'Newest to oldest',
-                      },
-                    ]}
-                    jsLessOptions={{
-                      sort: [
+                  {!filterEventsListing && (
+                    <Sort
+                      formId={SEARCH_PAGES_FORM_ID}
+                      options={[
+                        // Default value to be left empty as to not be reflected in URL query
                         {
                           value: '',
                           text: 'Relevance',
                         },
                         {
-                          value: 'times.startDateTime',
-                          text: 'Event date',
+                          value: 'times.startDateTime.asc',
+                          text: 'Oldest to newest',
                         },
-                      ],
-                      sortOrder: [
-                        { value: 'asc', text: 'Ascending' },
-                        { value: 'desc', text: 'Descending' },
-                      ],
-                    }}
-                    defaultValues={{
-                      sort: query.sort,
-                      sortOrder: query.sortOrder,
-                    }}
-                  />
+                        {
+                          value: 'times.startDateTime.desc',
+                          text: 'Newest to oldest',
+                        },
+                      ]}
+                      jsLessOptions={{
+                        sort: [
+                          {
+                            value: '',
+                            text: 'Relevance',
+                          },
+                          {
+                            value: 'times.startDateTime',
+                            text: 'Event date',
+                          },
+                        ],
+                        sortOrder: [
+                          { value: 'asc', text: 'Ascending' },
+                          { value: 'desc', text: 'Descending' },
+                        ],
+                      }}
+                      defaultValues={{
+                        sort: query.sort,
+                        sortOrder: query.sortOrder,
+                      }}
+                    />
+                  )}
                   <Pagination
                     totalPages={eventResponseList.totalPages}
                     ariaLabel="Events search pagination"
@@ -244,10 +246,8 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  // Sending page=1 to Prismic skips the two first results, which seems to have to do with the cursor work
-  // This is a workaround that ensures we only send the page if relevant
   const { page, ...restOfQuery } = query;
-  const pageNumber = page !== '1' && getQueryPropertyValue(page);
+  const pageNumber = getQueryPropertyValue(page);
   const paramsQuery = { ...restOfQuery, timespan: validTimespan };
 
   const eventResponseList = await getEvents({

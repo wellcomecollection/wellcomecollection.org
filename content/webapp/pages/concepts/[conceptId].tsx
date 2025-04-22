@@ -120,6 +120,7 @@ const SingleRelatedConcept = ({ item }: { item: RelatedConcept }) => (
     style={{ width: item.relationshipType ? '100%' : 'auto' }}
   >
     <NextLink
+      key={item.id}
       href={{
         pathname: `/concepts/${item.id}`,
       }}

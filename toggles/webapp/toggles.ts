@@ -103,14 +103,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'exhibitionAccessContent',
-      title: 'View access content changes in Exhibitions',
-      initialValue: false,
-      description:
-        'Displays the access content changes to the Exhibition pages',
-      type: 'experimental',
-    },
-    {
       id: 'newThemePages',
       title: 'New Theme Pages',
       initialValue: false,
