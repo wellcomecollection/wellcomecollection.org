@@ -5,6 +5,8 @@ import { getServerData } from '@weco/common/server-data';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { fromQuery } from '@weco/content/components/SearchPagesLink/Events';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
 import {
@@ -36,7 +38,7 @@ export const getServerSideProps: GetServerSideProps<
   const isUsingContentAPI = !!serverData.toggles.filterEventsListing.value;
 
   if (isUsingContentAPI) {
-    const { availableOnline, page } = context.query;
+    const { availableOnline, page, ...restOfQuery } = context.query;
 
     if (availableOnline) {
       return {
@@ -48,14 +50,25 @@ export const getServerSideProps: GetServerSideProps<
     }
 
     const pageNumber = getQueryPropertyValue(page);
-    const paramsQuery = { timespan: getQueryPropertyValue('past') || '' };
+    const params = fromQuery(restOfQuery);
+    const timespan = 'past';
+
+    const allPossibleParams = { ...params, timespan };
+    const queriedParams = { ...restOfQuery, timespan };
 
     const eventResponseList = await getEvents({
       params: {
-        ...paramsQuery,
+        ...queriedParams,
         sort: getQueryPropertyValue(context.query.sort),
         sortOrder: getQueryPropertyValue(context.query.sortOrder),
         ...(pageNumber && { page: Number(pageNumber) }),
+        aggregations: [
+          'format',
+          'audience',
+          'interpretation',
+          'location',
+          'isAvailableOnline',
+        ].filter(isNotUndefined),
       },
       pageSize: 25,
       toggles: serverData.toggles,
@@ -75,7 +88,9 @@ export const getServerSideProps: GetServerSideProps<
       return {
         props: serialiseProps({
           events: eventResponseList,
-          period: 'past',
+          period: timespan,
+          query: context.query,
+          eventsRouteProps: allPossibleParams,
           jsonLd,
           serverData,
         }),
