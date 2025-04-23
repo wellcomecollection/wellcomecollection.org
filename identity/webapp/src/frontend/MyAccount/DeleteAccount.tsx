@@ -6,12 +6,12 @@ import { font } from '@weco/common/utils/classnames';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import { InputErrorMessage } from '@weco/common/views/components/TextInput';
 import { themeValues } from '@weco/common/views/themes/config';
-import { FieldMargin } from '../../../components/styled/forms';
-import { PasswordInput } from '../../../components/PasswordInput';
+import { PasswordInput } from '@weco/identity/components/PasswordInput';
+import { FieldMargin } from '@weco/identity/components/styled/forms';
 import {
   RequestDeleteError,
   useRequestDelete,
-} from '../../../hooks/useRequestDelete';
+} from '@weco/identity/hooks/useRequestDelete';
 
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import { Loading } from './Loading';

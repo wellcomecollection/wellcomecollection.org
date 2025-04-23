@@ -1,4 +1,4 @@
-import auth0 from '../../../utils/auth0';
+import auth0 from '@weco/identity/utils/auth0';
 
 // This will redirect the user directly to the sign-up page.
 //
