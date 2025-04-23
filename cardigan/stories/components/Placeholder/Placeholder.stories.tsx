@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import Placeholder from '@weco/content/components/Placeholder/Placeholder';
+import Placeholder from '@weco/content/components/Placeholder';
 import Readme from '@weco/content/components/Placeholder/README.mdx';
 
 const meta: Meta<typeof Placeholder> = {

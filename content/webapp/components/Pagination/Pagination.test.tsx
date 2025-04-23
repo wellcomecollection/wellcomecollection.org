@@ -1,6 +1,6 @@
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 
-import Pagination from './Pagination';
+import Pagination from '.';
 
 // This approach to mocking useRouter() comes from a comment by Stephen Mason
 // on GitHub: https://github.com/vercel/next.js/issues/7479#issuecomment-520048773

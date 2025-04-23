@@ -9,8 +9,8 @@ import styled from 'styled-components';
 
 import { plus } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import { AppContext } from '@weco/common/views/components/AppContext';
+import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
 const IconContainer = styled.div<{ $darkTheme?: boolean }>`

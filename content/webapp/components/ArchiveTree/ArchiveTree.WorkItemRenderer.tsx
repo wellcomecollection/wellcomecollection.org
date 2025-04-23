@@ -3,15 +3,15 @@ import styled from 'styled-components';
 
 import { chevron } from '@weco/common/icons';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import { AppContext } from '@weco/common/views/components/AppContext';
+import Icon from '@weco/common/views/components/Icon';
 import {
   isRelatedWork,
   UiTreeNode,
 } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
 import { TreeControl } from '@weco/content/components/ArchiveTree/ArchiveTree.styles';
 import WorkLink from '@weco/content/components/WorkLink';
-import WorkTitle from '@weco/content/components/WorkTitle/WorkTitle';
+import WorkTitle from '@weco/content/components/WorkTitle';
 
 import { StyledLink } from './ArchiveTree.styles';
 

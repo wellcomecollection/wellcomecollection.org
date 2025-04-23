@@ -9,7 +9,7 @@ import styled from 'styled-components';
 
 import { partition } from '@weco/common/utils/arrays';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { AppContext } from '@weco/common/views/components/AppContext';
 import Space from '@weco/common/views/components/styled/Space';
 import { BooleanFilter as BooleanFilterType } from '@weco/content/services/wellcome/common/filters';
 

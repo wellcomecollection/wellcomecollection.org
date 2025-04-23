@@ -9,11 +9,11 @@ import {
 import { treeInstructions } from '@weco/common/data/microcopy';
 import { tree } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { AppContext } from '@weco/common/views/components/AppContext';
 import Button from '@weco/common/views/components/Buttons';
-import Modal from '@weco/common/views/components/Modal/Modal';
+import Modal from '@weco/common/views/components/Modal';
 import Space from '@weco/common/views/components/styled/Space';
-import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
+import IsArchiveContext from '@weco/content/components/IsArchiveContext';
 import {
   RelatedWork,
   Work,

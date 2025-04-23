@@ -2,7 +2,7 @@ import * as prismic from '@prismicio/client';
 
 import { ImageType } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
-import { Props as VideoEmbedProps } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
+import { Props as VideoEmbedProps } from '@weco/common/views/components/VideoEmbed';
 import { Link } from '@weco/content/types/link';
 
 import { Article } from './articles';

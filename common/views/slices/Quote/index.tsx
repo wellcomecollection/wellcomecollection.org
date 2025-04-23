@@ -7,8 +7,8 @@ import {
   defaultContext,
   LayoutWidth,
   SliceZoneContext,
-} from '@weco/content/components/Body/Body';
-import Quote from '@weco/content/components/Quote/Quote';
+} from '@weco/content/components/Body';
+import Quote from '@weco/content/components/Quote';
 import { transformQuoteSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type QuoteSliceProps = SliceComponentProps<

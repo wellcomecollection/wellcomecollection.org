@@ -6,8 +6,8 @@ import usePrevious from '@weco/common/hooks/usePrevious';
 import { cross, information } from '@weco/common/icons';
 import { GlobalAlertDocument as RawGlobalAlertDocument } from '@weco/common/prismicio-types';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import Icon from '@weco/common/views/components/Icon';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 
 import {

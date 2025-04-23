@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useRef, useState } from 'react';
 
 import Button from '@weco/common/views/components/Buttons';
-import Modal from '@weco/common/views/components/Modal/Modal';
+import Modal from '@weco/common/views/components/Modal';
 
 const Template = () => {
   const [isActive, setIsActive] = useState(false);

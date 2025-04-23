@@ -34,23 +34,23 @@ import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import Button from '@weco/common/views/components/Buttons';
-import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import HeaderBackground from '@weco/common/views/components/HeaderBackground';
+import Icon from '@weco/common/views/components/Icon';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd';
+import PageHeader from '@weco/common/views/components/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
-import Body from '@weco/content/components/Body/Body';
-import ContentPage from '@weco/content/components/ContentPage/ContentPage';
-import Contributors from '@weco/content/components/Contributors/Contributors';
-import EventbriteButtons from '@weco/content/components/EventbriteButtons/EventbriteButtons';
+import Body from '@weco/content/components/Body';
+import ContentPage from '@weco/content/components/ContentPage';
+import Contributors from '@weco/content/components/Contributors';
+import EventbriteButtons from '@weco/content/components/EventbriteButtons';
 import EventDateList from '@weco/content/components/EventDateList';
 import EventDateRange from '@weco/content/components/EventDateRange';
-import EventDatesLink from '@weco/content/components/EventDatesLink/EventDatesLink';
-import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule';
+import EventDatesLink from '@weco/content/components/EventDatesLink';
+import EventSchedule from '@weco/content/components/EventSchedule';
 import EventStatus from '@weco/content/components/EventStatus';
-import InfoBox from '@weco/content/components/InfoBox/InfoBox';
-import Message from '@weco/content/components/Message/Message';
+import InfoBox from '@weco/content/components/InfoBox';
+import Message from '@weco/content/components/Message';
 import {
   ResourceLink,
   ResourceLinkIconWrapper,

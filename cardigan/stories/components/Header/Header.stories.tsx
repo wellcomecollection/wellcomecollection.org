@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import Header, {
   exhibitionGuidesLinks,
-} from '@weco/common/views/components/Header/Header';
+} from '@weco/common/views/components/Header';
 
 const meta: Meta<typeof Header> = {
   title: 'Components/Header',

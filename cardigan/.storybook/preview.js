@@ -1,8 +1,8 @@
 import { DocsContainer } from '@storybook/addon-docs';
 
 import { ContextDecorator } from '@weco/cardigan/config/decorators';
-import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import { AppContextProvider } from '@weco/common/views/components/AppContext';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import theme from '@weco/common/views/themes/default';
 

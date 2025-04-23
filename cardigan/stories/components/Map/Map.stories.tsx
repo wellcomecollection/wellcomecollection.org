@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import Map from '@weco/content/components/Map/Map';
+import Map from '@weco/content/components/Map';
 
 const meta: Meta<typeof Map> = {
   title: 'Components/Map',

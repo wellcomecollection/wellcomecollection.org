@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { themeColors } from '@weco/cardigan/.storybook/preview';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import Divider from '@weco/common/views/components/Divider/Divider';
+import Divider from '@weco/common/views/components/Divider';
 import Readme from '@weco/common/views/components/Divider/README.mdx';
 
 const meta: Meta<typeof Divider> = {
