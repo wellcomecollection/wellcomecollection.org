@@ -14,7 +14,6 @@ import { searchLabelText } from '@weco/common/data/microcopy';
 import { cross, search } from '@weco/common/icons';
 import WellcomeCollectionBlack from '@weco/common/icons/wellcome_collection_black';
 import { SiteSection } from '@weco/common/model/site-section';
-import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -23,7 +22,6 @@ import DesktopSignIn from './DesktopSignIn';
 import {
   Burger,
   BurgerTrigger,
-  GridCell,
   HeaderActions,
   HeaderBrand,
   HeaderContainer,
@@ -106,7 +104,6 @@ const Header: FunctionComponent<Props> = ({
   const [searchDropdownIsActive, setSearchDropdownIsActive] = useState(false);
   const searchButtonRef = useRef<HTMLButtonElement>(null);
   const { isEnhanced } = useContext(AppContext);
-  const { allSearch } = useToggles();
 
   useEffect(() => {
     if (document && document.documentElement) {
@@ -130,7 +127,7 @@ const Header: FunctionComponent<Props> = ({
     >
       <header className="is-hidden-print">
         <Wrapper $isBurgerOpen={burgerMenuIsActive}>
-          <GridCell>
+          <div style={{ position: 'relative' }}>
             <HeaderContainer>
               <Burger>
                 <BurgerTrigger
@@ -189,9 +186,7 @@ const Header: FunctionComponent<Props> = ({
                               icon={searchDropdownIsActive ? cross : search}
                             />
                             <span className="visually-hidden">
-                              {allSearch
-                                ? searchLabelText.overviewAllSearch
-                                : searchLabelText.overview}
+                              {searchLabelText.overview}
                             </span>
                           </NoJSIconWrapper>
                         </NextLink>
@@ -222,7 +217,7 @@ const Header: FunctionComponent<Props> = ({
                 </HeaderActions>
               </NavLoginWrapper>
             </HeaderContainer>
-          </GridCell>
+          </div>
         </Wrapper>
 
         {!isMinimalHeader && (

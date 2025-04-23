@@ -81,17 +81,19 @@ const items: SocialItem[] = [
   },
 ];
 
-const FooterSocial: FunctionComponent = () => (
-  <>
-    {items.map(item => (
-      <Cell key={item.title}>
-        <Link href={item.url}>
-          <Icon icon={item.icon} />
-          <span className="visually-hidden">{item.service}</span>
-        </Link>
-      </Cell>
-    ))}
-  </>
-);
+const FooterSocial: FunctionComponent = () => {
+  return (
+    <>
+      {items.map(item => (
+        <Cell key={item.title}>
+          <Link href={item.url}>
+            <Icon icon={item.icon} />
+            <span className="visually-hidden">{item.service}</span>
+          </Link>
+        </Cell>
+      ))}
+    </>
+  );
+};
 
 export default FooterSocial;

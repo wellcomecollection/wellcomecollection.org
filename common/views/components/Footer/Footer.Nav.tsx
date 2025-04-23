@@ -7,7 +7,9 @@ import { font } from '@weco/common/utils/classnames';
 import { links, NavLink } from '@weco/common/views/components/Header/Header';
 import Space from '@weco/common/views/components/styled/Space';
 
-const NavList = styled.ul<{ $isInline?: boolean }>`
+const NavList = styled.ul<{
+  $isInline?: boolean;
+}>`
   list-style-type: none;
   display: inline-block;
   padding: 0;
@@ -20,18 +22,8 @@ const NavList = styled.ul<{ $isInline?: boolean }>`
   ${props =>
     props.$isInline &&
     `
-      display: flex;
-      flex-direction: column;
-
-      ${props.theme.media('large')(`
-        flex-direction: row;
-
-        li:first-child a {
-          padding-top: 8px;
-        }
-      `)}
-
       li {
+        display: inline-block;
         margin-right: 1.1rem;
 
         &:last-child {
@@ -103,7 +95,7 @@ const FooterNav = ({
     type === 'PoliciesNavigation' ? PoliciesNavigation : InternalNavigation;
 
   return (
-    <nav aria-label={ariaLabel}>
+    <nav style={{ display: 'flex' }} aria-label={ariaLabel}>
       <NavList aria-label="Footer navigation" $isInline={isInline}>
         {itemsList.map((link, i) => {
           // ID for Javascript-less users who tried to click on the Burger menu and will get redirected here

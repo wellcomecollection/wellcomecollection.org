@@ -35,6 +35,7 @@ import { EventDocument } from '@weco/content/services/wellcome/content/types/api
 
 type Props = {
   events: EventDocument[];
+  isInPastListing?: boolean;
 };
 
 const EventsContainer = styled.div`
@@ -60,7 +61,10 @@ const LocationWrapper = styled(Space).attrs({
 
 // Pretty much the equivalent to EventPromo component, but as the data is structured differently, it felt easier to copy here.
 // Should we merge them and make it more complex? As the goal is to only use the Content API at some point, I'm wondering if it's worth the effort?
-const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
+const EventsSearchResults: FunctionComponent<Props> = ({
+  events,
+  isInPastListing,
+}: Props) => {
   return (
     <EventsContainer>
       {events.map(event => {
@@ -126,7 +130,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
               <div>
                 <CardTitle>{event.title}</CardTitle>
 
-                {locationText && (
+                {locationText && !isInPastListing && (
                   <LocationWrapper>
                     <Icon icon={location} matchText />
                     <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
@@ -135,23 +139,20 @@ const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
                   </LocationWrapper>
                 )}
 
+                {(!isPast || (isPast && isInPastListing)) && (
+                  <DateInfo>
+                    <EventDateRange
+                      eventTimes={times}
+                      splitTime={true}
+                      isInPastListing={isInPastListing}
+                    />
+                  </DateInfo>
+                )}
+
                 {event.isAvailableOnline && (
                   <Space $v={{ size: 's', properties: ['margin-top'] }}>
                     <WatchLabel text="Available to watch" />
                   </Space>
-                )}
-
-                {!isPast && (
-                  <>
-                    <DateInfo>
-                      <EventDateRange
-                        eventTimes={times}
-                        splitTime={true}
-                        // TODO change with date filtering, defaults to today
-                        // fromDate={}
-                      />
-                    </DateInfo>
-                  </>
                 )}
 
                 {upcomingDatesFullyBooked(times) && (
@@ -167,7 +168,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({ events }: Props) => {
                 {!isPast && times.length > 1 && (
                   <p className={font('intb', 6)}>See all dates/times</p>
                 )}
-                {isPast && !event.isAvailableOnline && (
+                {isPast && !event.isAvailableOnline && !isInPastListing && (
                   <div>
                     <TextWithDot
                       className={font('intr', 5)}

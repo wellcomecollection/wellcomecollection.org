@@ -8,11 +8,12 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 import { arrow, cross } from '@weco/common/icons';
 import { getCrop } from '@weco/common/model/image';
 import { getServerData } from '@weco/common/server-data';
+import { useToggles } from '@weco/common/server-data/Context';
 import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isFilledSliceZone } from '@weco/common/services/prismic/types';
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
@@ -27,9 +28,11 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { Container } from '@weco/common/views/components/styled/Container';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
+import AudioPlayerNew from '@weco/content/components/AudioPlayerNew/AudioPlayer';
 import ImagePlaceholder, {
   placeholderBackgroundColor,
 } from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
@@ -81,7 +84,7 @@ const Header = styled.header.attrs({
   background-color: ${props => props.theme.color('neutral.700')};
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: 1;
 `;
 
 const HeaderInner = styled(Space).attrs({
@@ -95,17 +98,26 @@ const HeaderInner = styled(Space).attrs({
   align-items: center;
 `;
 
-export const PrevNext = styled.div.attrs({
+const prevNextHeight = '50px';
+
+const PrevNext = styled.div.attrs({
   className: font('intr', 5),
 })`
   position: fixed;
   z-index: 2;
   bottom: 0;
   width: 100%;
+  height: ${prevNextHeight};
   background: ${props => props.theme.color('neutral.700')};
 `;
 
-export const AlignCenter = styled.div`
+const AudioPlayerNewWrapper = styled.div`
+  position: fixed;
+  bottom: ${prevNextHeight};
+  width: 100%;
+`;
+
+const AlignCenter = styled.div`
   display: flex;
   align-items: center;
 `;
@@ -214,7 +226,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   const guideUrl = linkResolver(exhibitionGuide);
   const guideTypeUrl = `${guideUrl}/${type}`;
   const pathname = `${guideTypeUrl}/${stopNumber}`;
-
+  const { audioPlayer } = useToggles();
   const headerRef = useCallback((node: HTMLElement) => {
     if (node) setHeaderEl(node);
   }, []);
@@ -234,31 +246,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
 
     return () => resizeObserver.disconnect();
   }, [headerEl]);
-
-  const [viewTransitionName, setViewTransitionName] = useState(
-    `player-${currentStop.number}`
-  );
-
-  // Because we've given the page the appearance of a modal, we handle the case
-  // where someone hits 'Escape' as an intention to return to the previous state (page)
-  useEffect(() => {
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape') {
-        const prev = `${guideTypeUrl}#${currentStop.number}`;
-        setViewTransitionName(`player-${currentStop.number}`);
-
-        if (!document.startViewTransition) {
-          router.push(prev);
-        }
-
-        document.startViewTransition(() => router.push(prev));
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
 
   useEffect(() => {
     setStopNumber(Number(router.query.stop));
@@ -296,8 +283,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
       apiToolbarLinks={[createPrismicLink(exhibitionGuideId)]}
     >
       <Page>
-        {/* Header needs a view-transition-name even though it isn't transitioning: https://www.nicchan.me/blog/view-transitions-and-stacking-context/#the-workaround */}
-        <Header ref={headerRef} style={{ viewTransitionName: 'header' }}>
+        <Header ref={headerRef}>
           <Container>
             <HeaderInner>
               <div>
@@ -307,15 +293,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                 </h1>
               </div>
               <span>
-                <NextLink
-                  href={`${guideTypeUrl}#${currentStop.number}`}
-                  onFocus={() =>
-                    setViewTransitionName(`player-${currentStop.number}`)
-                  }
-                  onMouseEnter={() =>
-                    setViewTransitionName(`player-${currentStop.number}`)
-                  }
-                >
+                <NextLink href={`${guideTypeUrl}#${currentStop.number}`}>
                   <Icon icon={cross} />
                   <span className="visually-hidden">Back to list of stops</span>
                 </NextLink>
@@ -323,10 +301,10 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             </HeaderInner>
           </Container>
         </Header>
-        <div style={{ viewTransitionName }}>
+        <div>
           <FlushContainer>
-            <div className="grid">
-              <div className={grid(gridSize8())}>
+            <Grid>
+              <GridCell $sizeMap={gridSize8()}>
                 {type !== 'bsl' && (
                   <>
                     {croppedImage ? (
@@ -347,8 +325,8 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                     )}
                   </>
                 )}
-              </div>
-            </div>
+              </GridCell>
+            </Grid>
           </FlushContainer>
 
           <ContaineredLayout gridSizes={gridSize8()}>
@@ -360,12 +338,13 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                       embedUrl={currentStop.video}
                       videoThumbnail={currentStop.videoThumbnail}
                       videoProvider={currentStop.videoProvider}
+                      hasFullSizePoster={true}
                     />
                   )}
                 </>
               ) : (
                 <>
-                  {currentStop.audio && (
+                  {currentStop.audio && !audioPlayer && (
                     <AudioPlayerWrapper>
                       <AudioPlayer title="" audioFile={currentStop.audio} />
                     </AudioPlayerWrapper>
@@ -381,6 +360,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                   size: 'xl',
                   properties: ['padding-bottom', 'margin-bottom'],
                 }}
+                style={{ paddingBottom: audioPlayer ? '200px' : undefined }}
               >
                 <Space $v={{ size: 'l', properties: ['padding-top'] }}>
                   <CollapsibleContent
@@ -395,8 +375,14 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             )}
           </ContaineredLayout>
         </div>
-        {/* PrevNext needs a view-transition-name even though it isn't transitioning: https://www.nicchan.me/blog/view-transitions-and-stacking-context/#the-workaround */}
-        <PrevNext style={{ viewTransitionName: 'prevnext' }}>
+        {currentStop.audio && audioPlayer && (
+          <AudioPlayerNewWrapper>
+            <Container>
+              <AudioPlayerNew audioFile={currentStop.audio} isDark={true} />
+            </Container>
+          </AudioPlayerNewWrapper>
+        )}
+        <PrevNext>
           <Container>
             <div
               style={{
@@ -413,16 +399,12 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                     }}
                     href={`${guideTypeUrl}/${stopNumber - 1}`}
                     shallow={true}
-                    onFocus={() => setViewTransitionName('player-previous')}
-                    onMouseEnter={() =>
-                      setViewTransitionName('player-previous')
-                    }
                   >
                     <Space
                       $v={{
-                        size: 'm',
+                        size: 's',
                         properties: ['padding-top', 'padding-bottom'],
-                        overrides: { small: 4 },
+                        overrides: { small: 4, medium: 4, large: 4 },
                       }}
                     >
                       <AlignCenter>
@@ -447,14 +429,12 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                     }}
                     href={`${guideTypeUrl}/${stopNumber + 1}`}
                     shallow={true}
-                    onFocus={() => setViewTransitionName('player-next')}
-                    onMouseEnter={() => setViewTransitionName('player-next')}
                   >
                     <Space
                       $v={{
-                        size: 'm',
+                        size: 's',
                         properties: ['padding-top', 'padding-bottom'],
-                        overrides: { small: 4 },
+                        overrides: { small: 4, medium: 4, large: 4 },
                       }}
                     >
                       <AlignCenter>

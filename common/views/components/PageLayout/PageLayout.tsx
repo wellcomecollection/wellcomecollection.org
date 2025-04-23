@@ -109,23 +109,6 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
     ...openingHoursLd(libraryOpeningHours),
   };
 
-  const polyfillVersion = '3.103.0';
-  const polyfillFeatures = [
-    'default',
-    'AbortController',
-    'Array.prototype.find',
-    'Array.prototype.flat',
-    'Array.prototype.flatMap',
-    'Array.prototype.includes',
-    'Intl.DateTimeFormat',
-    'Object.entries',
-    'Object.fromEntries',
-    'Object.values',
-    'WeakMap',
-    'URL',
-    'URLSearchParams',
-  ];
-
   const globalInfoBar = useContext(GlobalInfoBarContext);
   const { extraApiToolbarLinks } = useContext(SearchContext);
   const { isEnhanced } = useContext(AppContext);
@@ -282,12 +265,6 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           When we put <Script> tags in the <Head>, they didn't appear in the rendered page.
 
       */}
-
-      <Script
-        src={`https://polyfill-fastly.io/v3/polyfill.js?version=${polyfillVersion}&features=${polyfillFeatures.join(
-          ','
-        )}`}
-      />
 
       <Script
         src="https://i.wellcomecollection.org/assets/libs/picturefill.min.js"

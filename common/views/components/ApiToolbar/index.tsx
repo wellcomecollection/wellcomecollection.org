@@ -1,11 +1,11 @@
-import { getCookie, setCookie } from 'cookies-next';
+import { setCookie } from 'cookies-next';
 import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
-import cookies from '@weco/common/data/cookies';
-import useIsomorphicLayoutEffect from '@weco/common/hooks/useIsomorphicLayoutEffect';
+import { cross } from '@weco/common/icons';
 import { Contributor, License } from '@weco/common/model/catalogue';
 import { font } from '@weco/common/utils/classnames';
+import Icon from '@weco/common/views/components/Icon/Icon';
 
 export type ApiToolbarLink = {
   id: string;
@@ -14,8 +14,8 @@ export type ApiToolbarLink = {
   link?: string;
 };
 
-const ToolbarContainer = styled.div<{ $mini: boolean }>`
-  display: ${props => (props.$mini ? 'inline-block' : 'flex')};
+const ToolbarContainer = styled.div`
+  display: flex;
   background-color: ${props => props.theme.color('accent.purple')};
   color: ${props => props.theme.color('white')};
   z-index: 100;
@@ -123,18 +123,16 @@ type Props = {
 };
 
 const ApiToolbar: FunctionComponent<Props> = ({ links = [] }) => {
-  const [mini, setMini] = useState<boolean>(false);
-
-  useIsomorphicLayoutEffect(() => {
-    setMini(Boolean(getCookie(cookies.apiToolbarMini)));
-  }, []);
+  const [isClosed, setIsClosed] = useState<boolean>(false);
 
   const propValue = (prop: ApiToolbarLink) => {
     return `${prop.label}${prop.value ? ` : ${prop.value}` : ''}`;
   };
 
+  if (isClosed) return null;
+
   return (
-    <ToolbarContainer $mini={mini}>
+    <ToolbarContainer>
       <div
         style={{
           display: 'flex',
@@ -142,28 +140,24 @@ const ApiToolbar: FunctionComponent<Props> = ({ links = [] }) => {
           flexGrow: 1,
         }}
       >
-        {!mini && (
-          <>
-            <span className={font('wb', 4)} style={{ marginLeft: '10px' }}>
-              API toolbar
-            </span>
-            <LinkList>
-              {links.map(prop => (
-                <li
-                  key={prop.id}
-                  style={{
-                    paddingRight: '10px',
-                    paddingLeft: '10px',
-                    borderLeft: '1px solid #bcbab5',
-                  }}
-                >
-                  {prop.link && <a href={prop.link}>{propValue(prop)}</a>}
-                  {!prop.link && propValue(prop)}
-                </li>
-              ))}
-            </LinkList>
-          </>
-        )}
+        <span className={font('wb', 4)} style={{ marginLeft: '10px' }}>
+          API toolbar
+        </span>
+        <LinkList>
+          {links.map(prop => (
+            <li
+              key={prop.id}
+              style={{
+                paddingRight: '10px',
+                paddingLeft: '10px',
+                borderLeft: '1px solid #bcbab5',
+              }}
+            >
+              {prop.link && <a href={prop.link}>{propValue(prop)}</a>}
+              {!prop.link && propValue(prop)}
+            </li>
+          ))}
+        </LinkList>
       </div>
       <button
         type="button"
@@ -178,16 +172,17 @@ const ApiToolbar: FunctionComponent<Props> = ({ links = [] }) => {
       <button
         type="button"
         onClick={() => {
-          setMini(!mini);
-          setCookie(cookies.apiToolbarMini, !mini, {
+          setCookie('toggle_apiToolbar', false, {
+            domain: 'wellcomecollection.org',
             path: '/',
             secure: true,
           });
+          setIsClosed(true);
         }}
-        style={{ padding: '10px' }}
+        style={{ padding: '5px 10px 0' }}
       >
-        {!mini && <>🤏</>}
-        {mini && <>👐</>}
+        <span className="visually-hidden">Close API Toolbar</span>
+        <Icon iconColor="white" icon={cross} />
       </button>
     </ToolbarContainer>
   );

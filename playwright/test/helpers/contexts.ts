@@ -210,7 +210,7 @@ const workWithBornDigitalDownloads = async (
   await gotoWithoutCache(`${baseUrl}/works/htzhunbw`, page);
 };
 
-const newSearch = async (
+const search = async (
   context: BrowserContext,
   page: Page,
   searchType:
@@ -220,7 +220,7 @@ const newSearch = async (
     | 'images'
     | 'works' = 'overview'
 ): Promise<void> => {
-  await context.addCookies([...requiredCookies]);
+  await context.addCookies(requiredCookies);
 
   const searchUrl = `search${
     searchType === 'overview' ? `` : `/${searchType}`
@@ -306,29 +306,29 @@ const isMobile = (page: Page): boolean =>
   (page.viewportSize()?.width ?? 0) <= devices['iPhone 11'].viewport.width;
 
 export {
-  multiVolumeItem,
-  itemWithAltText,
-  newSearch,
-  itemWithSearchAndStructures,
-  itemWithSearchAndStructuresAndQuery,
-  itemWithReferenceNumber,
-  workWithPhysicalLocationOnly,
-  workWithDigitalLocationOnly,
-  workWithDigitalLocationAndRestricted,
-  workWithDigitalLocationAndLocationNote,
-  workWithBornDigitalDownloads,
-  itemWithOnlyOpenAccess,
-  itemWithOnlyRestrictedAccess,
-  itemWithRestrictedAndOpenAccess,
-  itemWithRestrictedAndNonRestrictedAccess,
-  itemWithNonRestrictedAndOpenAccess,
   article,
   articleWithMockSiblings,
   concept,
-  isMobile,
-  event,
-  visualStory,
   digitalGuide,
-  whatsOn,
+  event,
+  isMobile,
+  itemWithAltText,
+  itemWithNonRestrictedAndOpenAccess,
+  itemWithOnlyOpenAccess,
+  itemWithOnlyRestrictedAccess,
+  itemWithReferenceNumber,
+  itemWithRestrictedAndNonRestrictedAccess,
+  itemWithRestrictedAndOpenAccess,
+  itemWithSearchAndStructures,
+  itemWithSearchAndStructuresAndQuery,
   mediaOffice,
+  multiVolumeItem,
+  search,
+  visualStory,
+  whatsOn,
+  workWithBornDigitalDownloads,
+  workWithDigitalLocationAndLocationNote,
+  workWithDigitalLocationAndRestricted,
+  workWithDigitalLocationOnly,
+  workWithPhysicalLocationOnly,
 };

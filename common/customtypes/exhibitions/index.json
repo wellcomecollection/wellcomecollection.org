@@ -72,6 +72,13 @@
           "placeholder": ""
         }
       },
+      "bslLeafletVideo": {
+        "type": "Embed",
+        "config": {
+          "label": "BSL leaflet video",
+          "placeholder": ""
+        }
+      },
       "body": {
         "type": "Slices",
         "fieldset": "Slice Zone",
@@ -190,7 +197,42 @@
         }
       }
     },
-    "Access content": {
+    "Access": {
+      "interpretations": {
+        "type": "Group",
+        "config": {
+          "label": "Interpretations",
+          "repeat": true,
+          "fields": {
+            "interpretationType": {
+              "type": "Link",
+              "config": {
+                "label": "Interpretation",
+                "select": "document",
+                "customtypes": ["interpretation-types"]
+              }
+            },
+            "isPrimary": {
+              "type": "Boolean",
+              "config": {
+                "label": "Primary interpretation",
+                "placeholder_false": "false",
+                "placeholder_true": "true",
+                "default_value": false
+              }
+            },
+            "extraInformation": {
+              "type": "StructuredText",
+              "config": {
+                "label": "Extra information",
+                "placeholder": "",
+                "allowTargetBlank": true,
+                "multi": "paragraph,hyperlink,strong,em"
+              }
+            }
+          }
+        }
+      },
       "accessResourcesPdfs": {
         "type": "Group",
         "fieldset": "Access pdfs",

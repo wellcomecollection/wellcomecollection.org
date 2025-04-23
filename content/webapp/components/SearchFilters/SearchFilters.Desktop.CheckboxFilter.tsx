@@ -1,4 +1,3 @@
-import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import PlainList from '@weco/common/views/components/styled/PlainList';
@@ -22,8 +21,9 @@ const CheckboxFilter = ({ f, changeHandler, form }: CheckboxFilterProps) => {
       buttonType="inline"
       id={f.id}
       hasNoOptions={f.options.length === 0}
+      isTight
     >
-      <PlainList className={font('intr', 5)}>
+      <PlainList>
         {f.options.map(({ id, label, value, count, selected }) => {
           return (
             <li key={id}>

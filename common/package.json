@@ -9,16 +9,16 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@elastic/apm-rum": "^5.12.0",
+    "@elastic/apm-rum": "^5.17.0",
     "@next/bundle-analyzer": "^14.2.23",
     "@popperjs/core": "^2.11.8",
     "@prismicio/client": "^7.8.0",
     "@prismicio/next": "^1.3.6",
     "@prismicio/react": "^2.7.3",
-    "@segment/snippet": "^4.10.0",
+    "@segment/snippet": "^5.2.1",
     "@testing-library/jest-dom": "^6.6.2",
-    "@testing-library/react": "^16.0.1",
-    "@testing-library/user-event": "14.5.2",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "14.6.1",
     "@weco/toggles": "1.0.0",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-styled-components": "^2.1.4",
@@ -30,7 +30,7 @@
     "jest-environment-jsdom": "^29.5.0",
     "koa-compose": "^4.1.0",
     "lodash.debounce": "^4.0.8",
-    "next": "14.2.15",
+    "next": "14.2.25",
     "nprogress": "^0.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -39,11 +39,11 @@
     "styled-components": "^6.1.12",
     "timezone-mock": "^1.3.6",
     "url-template": "^2.0.8",
-    "uuid": "^11.0.5",
+    "uuid": "^11.1.0",
     "webpack-bundle-analyzer": "^4.8.0"
   },
   "devDependencies": {
     "@slicemachine/adapter-next": "^0.3.36",
-    "slice-machine-ui": "^2.10.0"
+    "slice-machine-ui": "^2.15.0"
   }
 }

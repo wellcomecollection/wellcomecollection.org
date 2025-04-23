@@ -52,9 +52,9 @@ const meta: Meta<typeof Tabs> = {
   title: 'Components/Tabs',
   component: Tabs,
   args: {
+    tabBehaviour: 'switch',
     isWhite: false,
     hideBorder: false,
-    tabBehaviour: 'switch',
     items: [
       {
         id: 'all',
@@ -72,6 +72,11 @@ const meta: Meta<typeof Tabs> = {
         url: '#three',
       },
     ],
+  },
+  argTypes: {
+    items: {
+      table: { disable: true },
+    },
   },
   parameters: {
     chromatic: { delay: 1000 },

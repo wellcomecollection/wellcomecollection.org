@@ -37,20 +37,16 @@ const CollectionVenue: FunctionComponent<CollectionVenueProps> = ({
             gridSizes={
               transformedSlice.value.content.isFeatured
                 ? {
-                    s: 12,
-                    m: 12,
-                    l: 12,
-                    xl: 10,
-                    shiftXL: 1,
+                    s: [12],
+                    m: [12],
+                    l: [12],
+                    xl: [10, 2],
                   }
                 : {
-                    s: 12,
-                    m: 10,
-                    shiftM: 1,
-                    l: 8,
-                    shiftL: 2,
-                    xl: 8,
-                    shiftXL: 2,
+                    s: [12],
+                    m: [10, 2],
+                    l: [8, 3],
+                    xl: [8, 3],
                   }
             }
           >

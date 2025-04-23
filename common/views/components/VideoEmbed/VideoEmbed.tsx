@@ -54,6 +54,10 @@ const VideoTrigger = styled.button<{ $hasFullSizePoster?: boolean }>`
     transform: translateX(-50%);
     z-index: 1;
   }
+
+  &:focus {
+    border: 3px solid ${props => props.theme.color('yellow')};
+  }
 `;
 
 const VideoEmbed: FunctionComponent<Props> = ({
@@ -123,7 +127,7 @@ const VideoEmbed: FunctionComponent<Props> = ({
           ) : (
             <VideoTrigger
               onClick={() => setIsActive(true)}
-              $hasFullSizePoster={hasFullSizePoster}
+              $hasFullSizePoster={hasFullSizePoster || isVimeo}
             >
               <span className="visually-hidden">Play video</span>
               {isYouTube && <YouTubePlay />}

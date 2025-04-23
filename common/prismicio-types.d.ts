@@ -2795,6 +2795,42 @@ export interface ExhibitionsDocumentDataArticlesItem {
 }
 
 /**
+ * Item in *Exhibition → Interpretations*
+ */
+export interface ExhibitionsDocumentDataInterpretationsItem {
+  /**
+   * Interpretation field in *Exhibition → Interpretations*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.interpretations[].interpretationType
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  interpretationType: prismic.ContentRelationshipField<'interpretation-types'>;
+
+  /**
+   * Primary interpretation field in *Exhibition → Interpretations*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: exhibitions.interpretations[].isPrimary
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  isPrimary: prismic.BooleanField;
+
+  /**
+   * Extra information field in *Exhibition → Interpretations*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.interpretations[].extraInformation
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  extraInformation: prismic.RichTextField;
+}
+
+/**
  * Item in *Exhibition → Access pdfs*
  */
 export interface ExhibitionsDocumentDataAccessResourcesPdfsItem {
@@ -3034,6 +3070,17 @@ interface ExhibitionsDocumentData {
   place: prismic.ContentRelationshipField<'places'>;
 
   /**
+   * BSL leaflet video field in *Exhibition*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.bslLeafletVideo
+   * - **Tab**: Exhibition
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  bslLeafletVideo: prismic.EmbedField;
+
+  /**
    * Slice Zone field in *Exhibition*
    *
    * - **Field Type**: Slice Zone
@@ -3074,14 +3121,27 @@ interface ExhibitionsDocumentData {
   articles: prismic.GroupField<
     Simplify<ExhibitionsDocumentDataArticlesItem>
   > /**
+   * Interpretations field in *Exhibition*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: exhibitions.interpretations[]
+   * - **Tab**: Access
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */;
+  interpretations: prismic.GroupField<
+    Simplify<ExhibitionsDocumentDataInterpretationsItem>
+  >;
+
+  /**
    * Access pdfs field in *Exhibition*
    *
    * - **Field Type**: Group
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.accessResourcesPdfs[]
-   * - **Tab**: Access content
+   * - **Tab**: Access
    * - **Documentation**: https://prismic.io/docs/field#group
-   */;
+   */
   accessResourcesPdfs: prismic.GroupField<
     Simplify<ExhibitionsDocumentDataAccessResourcesPdfsItem>
   >;
@@ -3092,7 +3152,7 @@ interface ExhibitionsDocumentData {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.accessResourcesText
-   * - **Tab**: Access content
+   * - **Tab**: Access
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   accessResourcesText: prismic.RichTextField /**
@@ -7353,6 +7413,7 @@ declare module '@prismicio/client' {
       ExhibitionsDocumentDataExhibitsItem,
       ExhibitionsDocumentDataEventsItem,
       ExhibitionsDocumentDataArticlesItem,
+      ExhibitionsDocumentDataInterpretationsItem,
       ExhibitionsDocumentDataAccessResourcesPdfsItem,
       ExhibitionsDocumentDataContributorsItem,
       ExhibitionsDocumentDataPromoEditorialImageSlicePrimary,

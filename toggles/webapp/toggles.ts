@@ -95,26 +95,41 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'recommendedStories',
-      title: 'Recommended stories',
-      initialValue: false,
-      description:
-        'Displays a static set of recommended stories on story pages',
-      type: 'experimental',
-    },
-    {
-      id: 'allSearch',
-      title: 'Modified All search page',
-      initialValue: false,
-      description: 'Displays a new version of the "all" search (/search)',
-      type: 'experimental',
-    },
-    {
       id: 'extendedViewer',
       title: 'Allow viewer to render video, audio and pdfs',
       initialValue: false,
       description:
         'Displays a new version of the viewer that can render video, audio and pdfs in addition to images',
+      type: 'experimental',
+    },
+    {
+      id: 'newThemePages',
+      title: 'New Theme Pages',
+      initialValue: false,
+      description:
+        'Show new theme pages, with data populated from the catalogue graph.',
+      type: 'experimental',
+    },
+    {
+      id: 'dateFilter',
+      title: 'Date filter in Events search',
+      initialValue: false,
+      description: 'Adds the Date filter in the Events search',
+      type: 'experimental',
+    },
+    {
+      id: 'filterEventsListing',
+      title: 'Changes to the Events listing pages',
+      initialValue: false,
+      description:
+        'Have the Events listing pages use the Content API and be filterable',
+      type: 'experimental',
+    },
+    {
+      id: 'audioPlayer',
+      title: 'Changes to the AudioPlayer component',
+      initialValue: false,
+      description: 'Show updated UI and interactions for the AudioPlayer',
       type: 'experimental',
     },
   ] as const,

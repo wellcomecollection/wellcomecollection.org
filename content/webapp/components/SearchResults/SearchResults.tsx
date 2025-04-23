@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { getCrop } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
@@ -19,6 +19,7 @@ const Result = styled.li`
 `;
 
 export type Props = {
+  id?: string;
   title?: string;
   summary?: string;
   items: readonly (MultiContent | Card)[];
@@ -26,6 +27,7 @@ export type Props = {
 };
 
 const SearchResults: FunctionComponent<Props> = ({
+  id,
   items,
   title,
   summary,
@@ -34,13 +36,11 @@ const SearchResults: FunctionComponent<Props> = ({
   <>
     {title && (
       <Space
-        $v={!summary ? { size: 'l', properties: ['margin-bottom'] } : undefined}
+        $v={!summary ? { size: 'm', properties: ['margin-bottom'] } : undefined}
       >
-        <div className="grid">
-          <div className={grid({ s: 12 })}>
-            <h2 className={font('wb', 3)}>{title}</h2>
-          </div>
-        </div>
+        <h2 id={id} className={font('wb', 3)}>
+          {title}
+        </h2>
       </Space>
     )}
     {summary && (

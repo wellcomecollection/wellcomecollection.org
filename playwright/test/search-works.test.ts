@@ -3,7 +3,7 @@ import { URL } from 'url';
 
 import {
   isMobile,
-  newSearch,
+  search,
   workWithDigitalLocationAndLocationNote,
 } from './helpers/contexts';
 import {
@@ -22,7 +22,7 @@ test('(1) | The user is looking for an archive; it should be browsable from the 
   page,
   context,
 }) => {
-  await newSearch(context, page, 'works');
+  await search(context, page, 'works');
   await searchQuerySubmitAndWait('Persian', page);
   await selectAndWaitForFilter('Formats', 'h', page); // Archives and manuscripts
   await navigateToNextPageAndConfirmNavigation(page);
@@ -33,7 +33,7 @@ test('(2) | The user is looking for a video; they can get back to their original
   page,
   context,
 }) => {
-  await newSearch(context, page, 'works');
+  await search(context, page, 'works');
   await searchQuerySubmitAndWait('Britain', page);
   await selectAndWaitForFilter('Formats', 'g', page); // Video
   await navigateToNextPageAndConfirmNavigation(page);
@@ -72,7 +72,7 @@ test('(3) | The user is searching for a work from a particular year; there is a 
   page,
   context,
 }) => {
-  await newSearch(context, page, 'works');
+  await search(context, page, 'works');
   await searchQuerySubmitAndWait('brain', page);
   await openFilterDropdown('Dates', page);
 
@@ -96,7 +96,7 @@ test('(4) | The user is sorting by production dates in search; sort updates URL 
   context,
   page,
 }) => {
-  await newSearch(context, page, 'works');
+  await search(context, page, 'works');
 
   const select = page.locator('select[name="sortOrder"]');
 
@@ -136,7 +136,7 @@ test('(6) | Two options in two different filters have the same label/value; they
   context,
   page,
 }) => {
-  await newSearch(context, page, 'works');
+  await search(context, page, 'works');
   await searchQuerySubmitAndWait('Leonardo da Vinci', page);
 
   await openFilterDropdown('Contributors', page);

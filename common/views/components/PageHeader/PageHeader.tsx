@@ -7,6 +7,7 @@ import {
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
+import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision/AccessibilityProvision';
 import Breadcrumb from '@weco/common/views/components/Breadcrumb/Breadcrumb';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
@@ -18,7 +19,7 @@ import {
 } from '@weco/common/views/components/Layout';
 import { Picture } from '@weco/common/views/components/Picture/Picture';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
+import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import {
@@ -27,11 +28,7 @@ import {
 } from '@weco/common/views/components/WobblyEdge';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
-import HighlightedHeading from './HighlightedHeading';
-
-const Container = styled.div<{
-  $backgroundTexture?: string;
-}>`
+const Container = styled.div<{ $backgroundTexture?: string }>`
   position: relative;
   background-image: ${props =>
     props.$backgroundTexture
@@ -46,6 +43,43 @@ const Wrapper = styled(Space)`
     margin: 0;
     padding: 0;
   }
+`;
+
+const Heading = styled(Space)`
+  background-color: ${props => props.theme.color('white')};
+  display: inline;
+  line-height: calc(1.1em + 12px);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+`;
+
+const HighlightedHeading: FunctionComponent<{ text: string }> = ({
+  text,
+}: {
+  text: string;
+}) => {
+  return (
+    <h1 className={font('wb', 2)}>
+      <Heading
+        $v={{
+          size: 's',
+          properties: ['padding-top', 'padding-bottom'],
+        }}
+        $h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+      >
+        {text}
+      </Heading>
+    </h1>
+  );
+};
+
+export const SectionPageHeader = styled.h1.attrs<{
+  $sectionLevelPage: boolean;
+}>(props => ({
+  className: font('wb', props.$sectionLevelPage ? 0 : 1),
+}))`
+  display: inline-block;
+  margin: 0 !important;
 `;
 
 // The `bottom` values here are coupled to the space
@@ -115,13 +149,20 @@ type Props = {
   SerialPartNumber?: ReactNode;
   sectionLevelPage?: boolean;
   isSlim?: boolean;
+  fullWidth?: boolean;
+  includeAccessibilityProvision?: boolean;
 };
 
-const sectionLevelPageGridLayout = { s: 12, m: 12, l: 10, xl: 10 };
+const sectionLevelPageGridLayout: SizeMap = {
+  s: [12],
+  m: [12],
+  l: [10],
+  xl: [10],
+};
 const PageHeader: FunctionComponent<Props> = ({
+  title,
   breadcrumbs,
   labels,
-  title,
   ContentTypeInfo,
   Background,
   HeroPicture,
@@ -136,6 +177,8 @@ const PageHeader: FunctionComponent<Props> = ({
   SerialPartNumber,
   sectionLevelPage,
   isSlim,
+  fullWidth,
+  includeAccessibilityProvision,
 }) => {
   const Heading =
     highlightHeading && !sectionLevelPage ? (
@@ -161,7 +204,9 @@ const PageHeader: FunctionComponent<Props> = ({
         {Background}
         <ContaineredLayout
           gridSizes={
-            sectionLevelPage ? gridSize12() : sectionLevelPageGridLayout
+            sectionLevelPage || fullWidth
+              ? gridSize12()
+              : sectionLevelPageGridLayout
           }
         >
           <Wrapper
@@ -197,7 +242,6 @@ const PageHeader: FunctionComponent<Props> = ({
               {SerialPartNumber}
               {Heading}
             </ConditionalWrapper>
-
             {isContentTypeInfoBeforeMedia && ContentTypeInfo && (
               <Space
                 $v={{ size: 'm', properties: ['margin-bottom'] }}
@@ -206,9 +250,22 @@ const PageHeader: FunctionComponent<Props> = ({
                 {ContentTypeInfo}
               </Space>
             )}
-            {amendedLabels && amendedLabels.labels.length > 0 && (
-              <LabelsList {...amendedLabels} />
-            )}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'end',
+              }}
+            >
+              {amendedLabels && amendedLabels.labels.length > 0 && (
+                <LabelsList {...amendedLabels} />
+              )}
+
+              {includeAccessibilityProvision && (
+                <div style={{ marginLeft: 'auto' }}>
+                  <AccessibilityProvision showText={false} />
+                </div>
+              )}
+            </div>
           </Wrapper>
         </ContaineredLayout>
 

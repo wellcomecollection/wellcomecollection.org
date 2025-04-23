@@ -67,6 +67,9 @@ export const a11y = {
   stepFreeAccess: 'Step-free access is available to all floors of the building',
   largePrintGuides:
     'Large-print guides, transcripts and magnifiers are available in the gallery',
+  bsl: 'British Sign Language videos are available',
+  accessResources:
+    'Access resources include a visual story, large print guides and audio description',
 
   // This message is hard-coded as part of the yellow box rather than specified
   // on the individual access notices for two reasons:
@@ -162,8 +165,7 @@ export const pastExhibitionsStrapline =
 // This is the label used in the search box, both for the
 // search in the global nav and on the categories in wc.org/search
 export const searchLabelText = {
-  overviewAllSearch: 'Search for anything',
-  overview: 'Search our stories, images, catalogue and events',
+  overview: 'Search for anything',
   stories: 'Search for stories',
   images: 'Search for images',
   works: 'Search the catalogue',
@@ -206,3 +208,6 @@ export const restrictedItemMessage = (
     to request access to the full version.
   </>
 );
+
+export const accessibilityProvisionText =
+  'Our building has step-free access. Exhibitions include audio description, British Sign Language and captions.';

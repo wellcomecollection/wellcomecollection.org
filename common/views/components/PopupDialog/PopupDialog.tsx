@@ -60,7 +60,7 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
     transform 500ms ease;
   transition-delay: ${props => (props.$isActive ? '0ms' : '500ms')};
   border-radius: 9999px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 8px 0 rgb(0, 0, 0, 0.3);
 
   &:hover {
     border: 0;
@@ -93,7 +93,7 @@ const PopupDialogWindow = styled(Space).attrs({
   background-color: ${props => props.theme.color('white')};
   color: ${props => props.theme.color('accent.purple')};
   border-radius: 20px 0;
-  box-shadow: 0 2px 60px 0 rgba(0, 0, 0, 0.7);
+  box-shadow: 0 2px 60px 0 rgb(0, 0, 0, 0.7);
   opacity: ${props => (props.$isActive ? 1 : 0)};
   pointer-events: ${props => (props.$isActive ? 'all' : 'none')};
   transform: ${props =>

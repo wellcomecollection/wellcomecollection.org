@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { isMobile, newSearch } from './helpers/contexts';
+import { isMobile, search } from './helpers/contexts';
 import {
   clickImageSearchResultItem,
   openFilterDropdown,
@@ -8,8 +8,7 @@ import {
   selectAndWaitForColourFilter,
   testIfFilterIsApplied,
 } from './helpers/search';
-
-const ItemViewerURLRegex = /\/works\/[a-zA-Z0-9]+\/images[?]id=/;
+import { ItemViewerURLRegex } from './helpers/utils';
 
 test.describe.configure({ mode: 'parallel' });
 
@@ -17,7 +16,7 @@ test('(1) | Search by term, filter by colour, check results, view image details,
   page,
   context,
 }) => {
-  await newSearch(context, page, 'images');
+  await search(context, page, 'images');
   await searchQuerySubmitAndWait('art of science', page);
 
   await selectAndWaitForColourFilter(page);
@@ -41,7 +40,7 @@ test('(2) | Image Modal | images without contributors still show a title', async
   page,
   context,
 }) => {
-  await newSearch(context, page, 'images');
+  await search(context, page, 'images');
   await searchQuerySubmitAndWait('kd9h6gr3', page);
   await clickImageSearchResultItem(1, page);
 
@@ -54,7 +53,7 @@ test('(3) | Image Modal | images with contributors show both title and contribut
   page,
   context,
 }) => {
-  await newSearch(context, page, 'images');
+  await search(context, page, 'images');
   await searchQuerySubmitAndWait('fcmwqd5u', page);
   await clickImageSearchResultItem(1, page);
 
@@ -69,7 +68,7 @@ test('(4) | Search for images between dates; there is a list of results', async 
   page,
   context,
 }) => {
-  await newSearch(context, page, 'images');
+  await search(context, page, 'images');
   await searchQuerySubmitAndWait('instruments', page);
   await openFilterDropdown('Dates', page);
 

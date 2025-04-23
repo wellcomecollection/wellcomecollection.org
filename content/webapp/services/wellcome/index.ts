@@ -165,12 +165,12 @@ export const wellcomeApiQuery = async (url: string) => {
     const res = await wellcomeApiFetch(url);
     const json = (await res.json()) as { type: string; httpStatus: number };
 
-    // In general we want to know about errors from the catalogue API, but
+    // In general we want to know about errors from our APIs, but
     // HTTP 414 URI Too Long isn't interesting -- it's usually a sign of an
     // automated tool trying to inject malicious data, and thus can be ignored.
     if (json.type === 'Error' && json.httpStatus !== 414) {
       console.warn(
-        `Received HTTP ${json.httpStatus} error from catalogue API query ${url}: ` +
+        `Received HTTP ${json.httpStatus} error from the API query ${url}: ` +
           JSON.stringify(json)
       );
     }
@@ -180,7 +180,7 @@ export const wellcomeApiQuery = async (url: string) => {
       _requestUrl: url,
     };
   } catch (error) {
-    console.error(`Unable to fetch catalogue API URL ${url}`, error);
+    console.error(`Unable to fetch API URL: ${url}`, error);
     return wellcomeApiError();
   }
 };

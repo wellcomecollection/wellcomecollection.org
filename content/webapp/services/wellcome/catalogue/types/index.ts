@@ -135,6 +135,7 @@ export type Concept = {
   label: string;
   type: ConceptType;
   sameAs?: string[];
+  description?: string;
 };
 
 type Availability = {
@@ -228,6 +229,7 @@ export type Image = {
   };
   withSimilarFeatures?: Image[];
   aspectRatio?: number;
+  requestUrl?: string;
 };
 
 export type ResultType = Work | Image | Concept;

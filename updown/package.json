@@ -13,6 +13,6 @@
   },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.624.0",
-    "axios": "^1.7.4"
+    "axios": "^1.8.2"
   }
 }

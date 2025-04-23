@@ -6,16 +6,17 @@ import styled from 'styled-components';
 
 import {
   eventPolicyIds,
+  interpretationTypeIconMap,
   prismicPageIds,
 } from '@weco/common/data/hardcoded-ids';
 import { a11y, visualStoryLinkText } from '@weco/common/data/microcopy';
 import {
   arrow,
-  audioDescribed,
-  britishSignLanguage,
+  audioDescribedSquare,
+  bslLiveInterpretationSquare,
   email,
-  hearingLoop,
   IconSvg,
+  inductionLoop,
   speechToText,
   ticket,
 } from '@weco/common/icons';
@@ -29,7 +30,6 @@ import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { formatDayDate, formatTime } from '@weco/common/utils/format-date';
-import { camelize } from '@weco/common/utils/grammar';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
@@ -127,10 +127,11 @@ const getDescription = ({
 };
 
 const eventInterpretationIcons: Record<string, IconSvg> = {
-  britishSignLanguage,
+  britishSignLanguageOnline: bslLiveInterpretationSquare,
+  britishSignLanguage: bslLiveInterpretationSquare,
   speechToText,
-  hearingLoop,
-  audioDescribed,
+  inductionLoop,
+  audioDescribedSquare,
 };
 
 /**
@@ -414,14 +415,14 @@ const EventPage: NextPage<EventProps> = ({
               .concat(event.policies)
               .concat(
                 event.interpretations.map(interpretation => {
-                  const iconName = camelize(
-                    interpretation.interpretationType.title
-                  );
-
                   const description = getDescription(interpretation);
-
+                  const matchingInterpretation = interpretationTypeIconMap.find(
+                    item =>
+                      item.prismicId === interpretation.interpretationType.id
+                  );
+                  const iconName = matchingInterpretation?.iconName;
                   return {
-                    icon: eventInterpretationIcons[iconName],
+                    icon: iconName ? eventInterpretationIcons[iconName] : null,
                     title: interpretation.interpretationType.title,
                     description,
                   };

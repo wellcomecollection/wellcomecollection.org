@@ -5,6 +5,10 @@ import {
   exhibitionGuideLinkText,
   visualStoryLinkText,
 } from '@weco/common/data/microcopy';
+import {
+  ExhibitionHighlightToursDocument,
+  ExhibitionTextsDocument,
+} from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
@@ -36,6 +40,8 @@ type ExhibitionProps = {
   gaDimensions: GaDimensions;
   pageview: Pageview;
   accessResourceLinks: (Link & { type: string })[];
+  exhibitionTexts: ExhibitionTextsDocument[];
+  exhibitionHighlightTours: ExhibitionHighlightToursDocument[];
 };
 
 /**
@@ -47,6 +53,8 @@ const ExhibitionPage: FunctionComponent<ExhibitionProps> = ({
   exhibition,
   pages,
   accessResourceLinks,
+  exhibitionTexts,
+  exhibitionHighlightTours,
   jsonLd,
 }) => {
   return (
@@ -69,6 +77,8 @@ const ExhibitionPage: FunctionComponent<ExhibitionProps> = ({
           exhibition={exhibition}
           pages={pages}
           accessResourceLinks={accessResourceLinks}
+          exhibitionTexts={exhibitionTexts}
+          exhibitionHighlightTours={exhibitionHighlightTours}
         />
       )}
     </PageLayout>
@@ -89,7 +99,14 @@ export const getServerSideProps: GetServerSideProps<
   const exhibitionDocument = await fetchExhibition(client, exhibitionId);
 
   if (isNotUndefined(exhibitionDocument?.exhibition)) {
-    const { exhibition, pages, visualStories, allGuides } = exhibitionDocument;
+    const {
+      exhibition,
+      pages,
+      visualStories,
+      allGuides,
+      exhibitionTexts,
+      exhibitionHighlightTours,
+    } = exhibitionDocument;
 
     const serverData = await getServerData(context);
     const exhibitionDoc = transformExhibition(exhibition);
@@ -120,6 +137,8 @@ export const getServerSideProps: GetServerSideProps<
         exhibition: exhibitionDoc,
         pages: relatedPages?.results || [],
         accessResourceLinks: [...exhibitionGuidesLinks, ...visualStoriesLinks],
+        exhibitionTexts,
+        exhibitionHighlightTours,
         jsonLd,
         serverData,
         gaDimensions: {

@@ -1,11 +1,12 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, ReactElement } from 'react';
 
-import { classNames, cssGrid } from '@weco/common/utils/classnames';
+import { classNames } from '@weco/common/utils/classnames';
 import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
-import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
+import { Container } from '@weco/common/views/components/styled/Container';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import BookPromo from '@weco/content/components/BookPromo/BookPromo';
 import Card from '@weco/content/components/Card/Card';
@@ -30,6 +31,8 @@ type Props = {
   itemsHaveTransparentBackground?: boolean;
   links?: Link[];
   fromDate?: Date;
+  optionalComponent?: ReactElement;
+  isInPastListing?: boolean;
 };
 
 const CardGrid: FunctionComponent<Props> = ({
@@ -39,25 +42,27 @@ const CardGrid: FunctionComponent<Props> = ({
   itemsHaveTransparentBackground = false,
   links,
   fromDate,
+  optionalComponent,
+  isInPastListing,
 }: Props) => {
   const gridColumns = itemsPerRow === 4 ? 3 : 4;
   return (
     <div>
-      <CssGridContainer>
-        <div className="css-grid">
+      <Container>
+        <Grid>
           {items.map((item, i) => (
-            <div
-              key={item.id}
+            <GridCell
               className={classNames({
-                [cssGrid({
-                  s: 12,
-                  m: 6,
-                  l: gridColumns,
-                  xl: gridColumns,
-                })]: true,
                 'card-theme card-theme--transparent':
                   itemsHaveTransparentBackground,
               })}
+              key={item.id}
+              $sizeMap={{
+                s: [12],
+                m: [6],
+                l: [gridColumns],
+                xl: [gridColumns],
+              }}
             >
               {item.id === 'tours' && <DailyTourPromo />}
 
@@ -65,7 +70,12 @@ const CardGrid: FunctionComponent<Props> = ({
                 <ExhibitionPromo exhibition={item} position={i} />
               )}
               {item.id !== 'tours' && item.type === 'events' && (
-                <EventPromo event={item} position={i} fromDate={fromDate} />
+                <EventPromo
+                  event={item}
+                  position={i}
+                  fromDate={fromDate}
+                  isInPastListing={isInPastListing}
+                />
               )}
               {item.type === 'Article' && (
                 <StoryPromoContentApi
@@ -94,17 +104,21 @@ const CardGrid: FunctionComponent<Props> = ({
               {item.type === 'visual-stories' && (
                 <Card item={convertItemToCardProps(item)} />
               )}
-            </div>
+            </GridCell>
           ))}
-        </div>
-      </CssGridContainer>
+        </Grid>
+      </Container>
       {links && links.length > 0 && (
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+            {optionalComponent}
             {links.map(link => (
               <Space
                 key={link.url}
-                $v={{ size: 'm', properties: ['margin-top'] }}
+                $v={{
+                  size: `${optionalComponent ? 'l' : 'm'}`,
+                  properties: ['margin-top'],
+                }}
               >
                 <MoreLink url={link.url} name={link.text} />
               </Space>

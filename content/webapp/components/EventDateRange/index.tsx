@@ -2,6 +2,7 @@ import { FunctionComponent } from 'react';
 
 import { DateRange as DateRangeType } from '@weco/common/model/date-range';
 import { isSameDayOrBefore, today } from '@weco/common/utils/dates';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import DateRange from '@weco/content/components/DateRange/DateRange';
 import { EventTime } from '@weco/content/types/events';
 
@@ -9,6 +10,7 @@ type Props = {
   eventTimes: EventTime[];
   splitTime?: boolean;
   fromDate?: Date;
+  isInPastListing?: boolean;
 };
 
 /** Given a list of ranges, returns the first which ends on or after the given
@@ -55,6 +57,7 @@ const EventDateRange: FunctionComponent<Props> = ({
   eventTimes,
   splitTime,
   fromDate,
+  isInPastListing,
 }: Props) => {
   const dateRanges = eventTimes.map(time => ({
     start: time.range.startDateTime,
@@ -64,6 +67,16 @@ const EventDateRange: FunctionComponent<Props> = ({
     dateRanges,
     fromDate
   );
+  const earliestDate = dateRanges[0];
+  const latestDate = dateRanges[dateRanges.length - 1];
+  if (isInPastListing && dateRanges.length > 1) {
+    return (
+      <>
+        <HTMLDate date={earliestDate.start} /> -{' '}
+        <HTMLDate date={latestDate.end} />
+      </>
+    );
+  }
   const dateRange =
     earliestFutureDateRange || (dateRanges.length > 0 ? dateRanges[0] : null);
 

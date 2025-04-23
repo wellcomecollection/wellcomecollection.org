@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { newSearch } from './helpers/contexts';
+import { search } from './helpers/contexts';
 import {
   locateAndConfirmContributorInfoMatchesStory,
   navigateToNextPageAndConfirmNavigation,
@@ -16,7 +16,7 @@ test('(1) | The user can search for instances of a topic and filter their result
   page,
   context,
 }) => {
-  await newSearch(context, page, 'stories');
+  await search(context, page, 'stories');
   await searchQuerySubmitAndWait('milk', page);
 
   await selectAndWaitForFilter('Formats', 'W7TfJRAAAJ1D0eLK', page); // Articles
@@ -31,7 +31,7 @@ test(`(2) | The user can see the correct contributor's name below the story titl
   page,
   context,
 }) => {
-  await newSearch(context, page, 'stories');
+  await search(context, page, 'stories');
   // Article ID search
   await searchQuerySubmitAndWait('XLRmEBEAABp4vDEG', page);
 
@@ -46,7 +46,7 @@ test(`(3) | The user can paginate through their search results`, async ({
   page,
   context,
 }) => {
-  await newSearch(context, page, 'stories');
+  await search(context, page, 'stories');
   await searchQuerySubmitAndWait('body', page);
 
   await navigateToNextPageAndConfirmNavigation(page);
@@ -61,7 +61,7 @@ test(`(4) | The user can sort their story search results by oldest and most rece
   page,
   context,
 }) => {
-  await newSearch(context, page, 'stories');
+  await search(context, page, 'stories');
   await searchQuerySubmitAndWait('cats', page);
 
   const select = page.locator('select[name="sortOrder"]');
@@ -82,7 +82,7 @@ test(`(5) | Stories with an overridden date should display and reflect the chron
   page,
   context,
 }) => {
-  await newSearch(context, page, 'stories');
+  await search(context, page, 'stories');
   await searchQuerySubmitAndWait(`ken's ten`, page);
 
   const select = page.locator('select[name="sortOrder"]');
