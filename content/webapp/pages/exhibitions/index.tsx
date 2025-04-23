@@ -13,6 +13,7 @@ import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isFuture } from '@weco/common/utils/dates';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb/Breadcrumb';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import {
   ContaineredLayout,
@@ -117,7 +118,7 @@ const ExhibitionsPage: FunctionComponent<ExhibitionsProps> = props => {
       image={firstExhibition && firstExhibition.image}
     >
       <PageHeader
-        breadcrumbs={{ items: [] }}
+        breadcrumbs={getBreadcrumbItems('whats-on')}
         title={title}
         ContentTypeInfo={
           pageDescriptions.exhibitions && (

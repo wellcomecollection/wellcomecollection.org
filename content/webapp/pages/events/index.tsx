@@ -19,6 +19,7 @@ import {
   linkResolver,
 } from '@weco/common/utils/search';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb/Breadcrumb';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import {
@@ -252,7 +253,7 @@ const EventsPage: FunctionComponent<Props | NewProps> = props => {
       >
         <SpacingSection>
           <PageHeader
-            breadcrumbs={{ items: [] }}
+            breadcrumbs={getBreadcrumbItems('whats-on')}
             title="Events"
             isSlim={true}
           />
@@ -416,7 +417,7 @@ const EventsPage: FunctionComponent<Props | NewProps> = props => {
       >
         <SpacingSection>
           <PageHeader
-            breadcrumbs={{ items: [] }}
+            breadcrumbs={getBreadcrumbItems('whats-on')}
             labels={undefined}
             title={props.title}
             ContentTypeInfo={

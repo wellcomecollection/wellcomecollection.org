@@ -28,6 +28,7 @@ import { isFuture, isPast } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb/Breadcrumb';
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
@@ -444,19 +445,17 @@ const Exhibition: FunctionComponent<Props> = ({
     });
   }, []);
 
-  const breadcrumbs = {
-    items: [
-      {
-        url: '/exhibitions',
-        text: 'Exhibitions',
-      },
-      {
-        url: linkResolver(exhibition),
-        text: exhibition.title,
-        isHidden: true,
-      },
-    ],
-  };
+  const extraBreadcrumbs = [
+    {
+      url: '/exhibitions',
+      text: 'Exhibitions',
+    },
+    {
+      url: linkResolver(exhibition),
+      text: exhibition.title,
+      isHidden: true,
+    },
+  ];
 
   const DateInfo = exhibition.end ? (
     <DateRange start={exhibition.start} end={exhibition.end} />
@@ -479,7 +478,7 @@ const Exhibition: FunctionComponent<Props> = ({
   const Header = (
     <>
       <PageHeader
-        breadcrumbs={breadcrumbs}
+        breadcrumbs={getBreadcrumbItems('whats-on', extraBreadcrumbs)}
         labels={{ labels: exhibition.labels }}
         title={exhibition.title}
         fullWidth={true}
