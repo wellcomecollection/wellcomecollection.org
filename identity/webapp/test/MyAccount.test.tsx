@@ -1,4 +1,4 @@
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from 'styled-components';
 
@@ -13,10 +13,12 @@ import theme from '@weco/common/views/themes/default';
 import AccountPage from '@weco/identity/pages';
 
 // avoid rendering header SVG to help with debugging tests
-jest.mock('@weco/identity/components/PageWrapper', () => ({
-  __esModule: true,
-  PageWrapper: ({ children }) => <>{children}</>,
-}));
+jest.mock('@weco/identity/components/PageWrapper', () => {
+  const PageWrapper = ({ children }: { children: React.ReactNode }) => (
+    <>{children}</>
+  );
+  return PageWrapper;
+});
 
 jest.mock('@weco/common/server-data', () => ({
   __esModule: true,
@@ -167,16 +169,14 @@ describe('MyAccount', () => {
     const changeEmailButton = await screen.findByRole('button', {
       name: /change email/i,
     });
-    await act(async () => userEvent.click(changeEmailButton));
+    await userEvent.click(changeEmailButton);
 
     const emailInput = await screen.findByLabelText(/email address/i);
     const passwordConfirmInput = screen.getByLabelText(/confirm password/i);
 
-    await act(async () => {
-      await userEvent.clear(emailInput);
-      await userEvent.type(emailInput, 'clarkkent@dailybugle.com');
-      await userEvent.type(passwordConfirmInput, 'Superman1938');
-    });
+    await userEvent.clear(emailInput);
+    await userEvent.type(emailInput, 'clarkkent@dailybugle.com');
+    await userEvent.type(passwordConfirmInput, 'Superman1938');
 
     await waitFor(() => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
@@ -185,7 +185,7 @@ describe('MyAccount', () => {
     const updateEmailButton = screen.getByRole('button', {
       name: /update email/i,
     });
-    await act(async () => userEvent.click(updateEmailButton));
+    await userEvent.click(updateEmailButton);
 
     expect(await screen.findByRole('alert')).toHaveTextContent(
       /email updated/i
@@ -198,7 +198,7 @@ describe('MyAccount', () => {
     const changePasswordButton = await screen.findByRole('button', {
       name: /Change password/,
     });
-    await act(async () => userEvent.click(changePasswordButton));
+    await userEvent.click(changePasswordButton);
 
     const currentPasswordInput = screen.getByLabelText(/current password/i);
     const newPasswordInput = screen.getByLabelText(/^create new password/i);
@@ -206,11 +206,9 @@ describe('MyAccount', () => {
       /re-enter new password/i
     );
 
-    await act(async () => {
-      await userEvent.type(currentPasswordInput, 'hunter2');
-      await userEvent.type(newPasswordInput, 'Superman1938');
-      await userEvent.type(confirmPasswordInput, 'Superman1938');
-    });
+    await userEvent.type(currentPasswordInput, 'hunter2');
+    await userEvent.type(newPasswordInput, 'Superman1938');
+    await userEvent.type(confirmPasswordInput, 'Superman1938');
 
     await waitFor(() => {
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
@@ -219,7 +217,7 @@ describe('MyAccount', () => {
     const updatePasswordButton = screen.getByRole('button', {
       name: /update password/i,
     });
-    await act(async () => userEvent.click(updatePasswordButton));
+    await userEvent.click(updatePasswordButton);
 
     expect(await screen.findByRole('alert')).toHaveTextContent(
       /password updated/i
@@ -236,14 +234,14 @@ describe('MyAccount', () => {
     const requestDeletionButton = await screen.findByRole('button', {
       name: /cancel your membership/i,
     });
-    await act(async () => userEvent.click(requestDeletionButton));
+    await userEvent.click(requestDeletionButton);
 
     expect(
       await screen.findByRole('button', { name: /yes, delete my account/i })
     ).toBeInTheDocument();
 
     const closeButton = screen.getByRole('button', { name: /close/i });
-    await act(async () => userEvent.click(closeButton));
+    await userEvent.click(closeButton);
 
     await waitFor(() => {
       expect(

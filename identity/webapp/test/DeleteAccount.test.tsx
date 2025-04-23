@@ -1,15 +1,15 @@
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { rest } from 'msw';
 import { ThemeProvider } from 'styled-components';
 
 import theme from '@weco/common/views/themes/default';
-
-import { server } from './mocks/server';
 import {
   ChangeDetailsModalContentProps,
   DeleteAccount,
-} from '../components/MyAccount';
+} from '@weco/identity/components/MyAccount';
+
+import { server } from './mocks/server';
 
 const defaultProps: ChangeDetailsModalContentProps = {
   onComplete: () => null,
@@ -36,19 +36,19 @@ describe('DeleteAccount', () => {
   it('allows the user to enter their password', async () => {
     renderComponent();
     const currentPasswordInput = screen.getByLabelText(/^password$/i);
-    await act(async () => userEvent.type(currentPasswordInput, 'hunter2'));
+    await userEvent.type(currentPasswordInput, 'hunter2');
     await expect(currentPasswordInput).toHaveValue('hunter2');
   });
 
   it('allows the user to request account deletion after confirming their password', async () => {
     const onComplete = jest.fn();
     renderComponent({ onComplete });
-    await act(async () => {
-      await userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
-      await userEvent.click(
-        screen.getByRole('button', { name: /yes, delete my account/i })
-      );
-    });
+
+    await userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
+    await userEvent.click(
+      screen.getByRole('button', { name: /yes, delete my account/i })
+    );
+
     await waitFor(() => expect(onComplete).toBeCalled());
   });
 
@@ -68,7 +68,7 @@ describe('DeleteAccount', () => {
   it('resets when modal closes', async () => {
     const { rerender } = renderComponent();
     const passwordInput = screen.getByLabelText(/^password$/i);
-    await act(async () => userEvent.type(passwordInput, 'hunter2'));
+    await userEvent.type(passwordInput, 'hunter2');
 
     rerender(
       <ThemeProvider theme={theme}>
@@ -89,10 +89,8 @@ describe('DeleteAccount', () => {
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
-      await act(async () =>
-        userEvent.click(
-          screen.getByRole('button', { name: /yes, delete my account/i })
-        )
+      userEvent.click(
+        screen.getByRole('button', { name: /yes, delete my account/i })
       );
 
       expect(await screen.findByRole('alert')).toHaveTextContent(
@@ -111,12 +109,10 @@ describe('DeleteAccount', () => {
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
-      await act(async () => {
-        await userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
-        await userEvent.click(
-          screen.getByRole('button', { name: /yes, delete my account/i })
-        );
-      });
+      await userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
+      await userEvent.click(
+        screen.getByRole('button', { name: /yes, delete my account/i })
+      );
 
       expect(await screen.findByRole('alert')).toHaveTextContent(
         /incorrect password/i
@@ -132,12 +128,10 @@ describe('DeleteAccount', () => {
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
-      await act(async () => {
-        await userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
-        await userEvent.click(
-          screen.getByRole('button', { name: /yes, delete my account/i })
-        );
-      });
+      await userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
+      await userEvent.click(
+        screen.getByRole('button', { name: /yes, delete my account/i })
+      );
 
       expect(await screen.findByRole('alert')).toHaveTextContent(
         /your account has been blocked/i
@@ -153,12 +147,10 @@ describe('DeleteAccount', () => {
       renderComponent();
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
-      await act(async () => {
-        await userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
-        await userEvent.click(
-          screen.getByRole('button', { name: /yes, delete my account/i })
-        );
-      });
+      await userEvent.type(screen.getByLabelText(/^password$/i), 'hunter2');
+      await userEvent.click(
+        screen.getByRole('button', { name: /yes, delete my account/i })
+      );
 
       expect(await screen.findByRole('alert')).toHaveTextContent(
         /an unknown error occurred/i

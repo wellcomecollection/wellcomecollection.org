@@ -1,4 +1,4 @@
-import { validateEmail } from './validate-email-address';
+import { validateEmail } from '@weco/identity/utils/validate-email-address';
 
 describe('validateEmail', () => {
   it('validates an email address', () => {

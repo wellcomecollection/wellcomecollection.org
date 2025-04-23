@@ -19,6 +19,13 @@ import {
   ValidatedSuccessText,
 } from '@weco/identity/utils/copy';
 
+type Props = {
+  serverData: SimplifiedServerData;
+  success: boolean;
+  message: string | string[];
+  isNewSignUp: boolean;
+};
+
 const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
   const { state: userState } = useUser();
   const urlUsed = message === 'This URL can be used only once';
@@ -54,13 +61,6 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
       </ContaineredLayout>
     </PageWrapper>
   );
-};
-
-type Props = {
-  serverData: SimplifiedServerData;
-  success: boolean;
-  message: string | string[];
-  isNewSignUp: boolean;
 };
 
 export const getServerSideProps: GetServerSideProps<

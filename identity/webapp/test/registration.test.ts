@@ -1,4 +1,4 @@
-import { getDataFromToken } from './registration';
+import { getDataFromToken } from '@weco/identity/pages/api/registration';
 
 describe('getDataFromToken', () => {
   it('rejects an invalid token', () => {

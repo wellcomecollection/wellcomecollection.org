@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useForm } from 'react-hook-form';
 import { ThemeProvider } from 'styled-components';
@@ -45,9 +45,7 @@ describe('PasswordInput', () => {
     renderComponent();
     const input = screen.getByLabelText(/^password$/i);
 
-    await act(async () => {
-      await userEvent.type(input, 'hunter2');
-    });
+    await userEvent.type(input, 'hunter2');
 
     await expect(input).toHaveValue('hunter2');
   });
@@ -57,18 +55,15 @@ describe('PasswordInput', () => {
     const input = screen.getByLabelText(/^password$/i);
     await expect(input).toHaveAttribute('type', 'password');
 
-    await act(async () => {
-      await userEvent.click(
-        screen.getByRole('button', { name: /show password/i })
-      );
-    });
+    await userEvent.click(
+      screen.getByRole('button', { name: /show password/i })
+    );
     await expect(input).toHaveAttribute('type', 'text');
 
-    await act(async () => {
-      await userEvent.click(
-        screen.getByRole('button', { name: /hide password/i })
-      );
-    });
+    await userEvent.click(
+      screen.getByRole('button', { name: /hide password/i })
+    );
+
     await expect(input).toHaveAttribute('type', 'password');
   });
 });
