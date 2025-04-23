@@ -527,8 +527,8 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
   // may be presented to the user as part of the representation of the Canvas, or
   // may be presented in a different part of the user interface.
   // We need to do this for two reasons:
-  // 1) to find the pdfs that were added to manifests before DLCS changes, which took place in May 2023.
-  // (N.B. after this time the pdfs follow the Born Digital pattern)
+  // 1) to find the pdfs that are ingested via Goobi.
+  // (N.B. pdfs ingested via Archivematica follow the Born Digital pattern)
   // 2) they can provide alternative content such as transcriptions for Videos
   const supplementings = getAnnotationsOfMotivation(
     canvas.annotations || [],
