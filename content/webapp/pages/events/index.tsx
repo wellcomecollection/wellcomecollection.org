@@ -110,8 +110,8 @@ export const getServerSideProps: GetServerSideProps<
     const eventResponseList = await getEvents({
       params: {
         ...queriedParams,
-        sort: getQueryPropertyValue(context.query.sort),
-        sortOrder: getQueryPropertyValue(context.query.sortOrder),
+        sort: 'times.startDateTime',
+        sortOrder: 'asc',
         ...(pageNumber && { page: Number(pageNumber) }),
         aggregations: [
           'format',
