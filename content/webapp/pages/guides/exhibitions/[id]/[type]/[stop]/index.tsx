@@ -100,7 +100,7 @@ const HeaderInner = styled(Space).attrs({
 
 const prevNextHeight = '50px';
 
-const PrevNext = styled.div.attrs({
+export const PrevNext = styled.div.attrs({
   className: font('intr', 5),
 })`
   position: fixed;
@@ -117,7 +117,7 @@ const AudioPlayerNewWrapper = styled.div`
   width: 100%;
 `;
 
-const AlignCenter = styled.div`
+export const AlignCenter = styled.div`
   display: flex;
   align-items: center;
 `;
