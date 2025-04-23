@@ -4,8 +4,10 @@ import { useForm } from 'react-hook-form';
 import { ThemeProvider } from 'styled-components';
 
 import theme from '@weco/common/views/themes/default';
-
-import { PasswordInput, PasswordInputProps } from './PasswordInput';
+import {
+  PasswordInput,
+  PasswordInputProps,
+} from '@weco/identity/components/PasswordInput/PasswordInput';
 
 const renderComponent = (props: Partial<PasswordInputProps> = {}) => {
   const Form = () => {

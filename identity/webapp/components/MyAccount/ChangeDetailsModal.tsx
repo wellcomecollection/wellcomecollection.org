@@ -21,7 +21,7 @@ type ChangeDetailsModalProps = {
   render: (props: ChangeDetailsModalContentProps) => ReactElement;
 };
 
-export const ChangeDetailsModal: FunctionComponent<ChangeDetailsModalProps> = ({
+const ChangeDetailsModal: FunctionComponent<ChangeDetailsModalProps> = ({
   id,
   buttonText,
   onComplete,
@@ -64,3 +64,5 @@ export const ChangeDetailsModal: FunctionComponent<ChangeDetailsModalProps> = ({
     </>
   );
 };
+
+export default ChangeDetailsModal;

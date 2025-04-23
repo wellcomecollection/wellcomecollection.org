@@ -14,21 +14,24 @@ import {
 } from '@weco/identity/hooks/useRequestDelete';
 
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
-import { Loading } from './Loading';
+import Loading from './Loading';
 import {
   ButtonAlign,
   ModalContainer,
   ModalTitle,
   StatusAlert,
-} from './MyAccount.style';
+} from './MyAccount.styles';
 
 type DeleteAccountInputs = {
   password: string;
 };
 
-export const DeleteAccount: FunctionComponent<
-  ChangeDetailsModalContentProps
-> = ({ onComplete, onCancel, isActive, setIsModalLoading }) => {
+const DeleteAccount: FunctionComponent<ChangeDetailsModalContentProps> = ({
+  onComplete,
+  onCancel,
+  isActive,
+  setIsModalLoading,
+}) => {
   const defaultValues: DeleteAccountInputs = useMemo(
     () => ({ password: '' }),
     []
@@ -134,3 +137,5 @@ export const DeleteAccount: FunctionComponent<
     </ModalContainer>
   );
 };
+
+export default DeleteAccount;

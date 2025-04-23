@@ -4,10 +4,12 @@ import { rest } from 'msw';
 import { ThemeProvider } from 'styled-components';
 
 import theme from '@weco/common/views/themes/default';
-import { server } from '@weco/identity/src/frontend/mocks/server';
 
-import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
-import { DeleteAccount } from './DeleteAccount';
+import { server } from './mocks/server';
+import {
+  ChangeDetailsModalContentProps,
+  DeleteAccount,
+} from '../components/MyAccount';
 
 const defaultProps: ChangeDetailsModalContentProps = {
   onComplete: () => null,

@@ -24,14 +24,14 @@ import TextInput, {
   InputErrorMessage,
 } from '@weco/common/views/components/TextInput';
 import PageWrapper from '@weco/identity/components/PageWrapper';
-import { Container, Wrapper } from '@weco/identity/components/styled/layouts';
-import { usePageTitle } from '@weco/identity/hooks/usePageTitle';
+import { RegistrationInformation } from '@weco/identity/components/Registration';
 import {
   CheckboxLabel,
   FlexStartCheckbox,
   FullWidthButton,
-} from '@weco/identity/src/frontend/Registration/Registration.style';
-import RegistrationInformation from '@weco/identity/src/frontend/Registration/RegistrationInformation';
+} from '@weco/identity/components/Registration/Registration.styles';
+import { Container, Wrapper } from '@weco/identity/components/styled/layouts';
+import { usePageTitle } from '@weco/identity/hooks/usePageTitle';
 import {
   collectionsResearchAgreementLabel,
   collectionsResearchAgreementTitle,

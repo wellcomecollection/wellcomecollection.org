@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 
 import { UseSendVerificationEmail } from '@weco/identity/hooks/useSendVerificationEmail';
 
-export const UnverifiedEmail: FunctionComponent<UseSendVerificationEmail> = ({
+const UnverifiedEmail: FunctionComponent<UseSendVerificationEmail> = ({
   sendVerificationEmail,
   state,
 }) => {
@@ -39,3 +39,5 @@ export const UnverifiedEmail: FunctionComponent<UseSendVerificationEmail> = ({
     </>
   );
 };
+
+export default UnverifiedEmail;

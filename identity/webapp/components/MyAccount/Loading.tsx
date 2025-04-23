@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import LL from '@weco/common/views/components/styled/LL';
 
-export const Loading: FunctionComponent = () => (
+const Loading: FunctionComponent = () => (
   <>
     <LL $lighten={false} />
     <span className="visually-hidden" role="status" aria-label="loading">
@@ -24,3 +24,5 @@ export const InlineLoading: FunctionComponent = () => (
     <span className="visually-hidden">Loading</span>
   </InlineWrapper>
 );
+
+export default Loading;

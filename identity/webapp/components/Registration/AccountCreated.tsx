@@ -15,9 +15,9 @@ import {
   Wrapper,
 } from '@weco/identity/components/styled/layouts';
 
-import { SuccessMessage } from './Registration.style';
+import { SuccessMessage } from './Registration.styles';
 
-export const AccountCreated: FunctionComponent = () => {
+const AccountCreated: FunctionComponent = () => {
   return (
     <PageWrapper title="Account created">
       <ContaineredLayout gridSizes={gridSize10()}>
@@ -70,3 +70,5 @@ export const AccountCreated: FunctionComponent = () => {
     </PageWrapper>
   );
 };
+
+export default AccountCreated;

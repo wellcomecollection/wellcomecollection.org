@@ -6,10 +6,12 @@ import { ThemeProvider } from 'styled-components';
 import { mockUser } from '@weco/common/test/fixtures/identity/user';
 import UserProvider from '@weco/common/views/components/UserProvider';
 import theme from '@weco/common/views/themes/default';
-import { server } from '@weco/identity/src/frontend/mocks/server';
+import {
+  ChangeDetailsModalContentProps,
+  ChangeEmail,
+} from '@weco/identity/components/MyAccount';
 
-import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
-import { ChangeEmail } from './ChangeEmail';
+import { server } from './mocks/server';
 
 const defaultProps: ChangeDetailsModalContentProps = {
   onComplete: () => null,

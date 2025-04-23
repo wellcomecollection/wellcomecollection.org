@@ -6,7 +6,7 @@ import theme from '@weco/common/views/themes/default';
 import ValidatedPage from '@weco/identity/pages/validated';
 
 // avoid rendering header SVG to help with debugging tests
-jest.mock('@weco/identity/src/frontend/components/PageWrapper', () => ({
+jest.mock('@weco/identity/components/PageWrapper', () => ({
   __esModule: true,
   PageWrapper: ({ children }) => <>{children}</>,
 }));

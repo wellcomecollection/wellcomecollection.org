@@ -18,8 +18,8 @@ import {
 import { validPasswordPattern } from '@weco/identity/utils/validation-patterns';
 
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
-import { Loading } from './Loading';
-import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
+import Loading from './Loading';
+import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.styles';
 
 type ChangePasswordInputs = {
   password: string;
@@ -27,9 +27,11 @@ type ChangePasswordInputs = {
   confirmation: string;
 };
 
-export const ChangePassword: FunctionComponent<
-  ChangeDetailsModalContentProps
-> = ({ onComplete, isActive, setIsModalLoading }) => {
+const ChangePassword: FunctionComponent<ChangeDetailsModalContentProps> = ({
+  onComplete,
+  isActive,
+  setIsModalLoading,
+}) => {
   const defaultValues: ChangePasswordInputs = useMemo(
     () => ({
       password: '',
@@ -205,3 +207,5 @@ export const ChangePassword: FunctionComponent<
     </ModalContainer>
   );
 };
+
+export default ChangePassword;

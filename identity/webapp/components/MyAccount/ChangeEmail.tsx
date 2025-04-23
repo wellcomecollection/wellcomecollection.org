@@ -18,15 +18,15 @@ import {
 import { validEmailPattern } from '@weco/identity/utils/validation-patterns';
 
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
-import { Loading } from './Loading';
-import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
+import Loading from './Loading';
+import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.styles';
 
 type ChangeEmailInputs = {
   email: string;
   password: string;
 };
 
-export const ChangeEmail: FunctionComponent<ChangeDetailsModalContentProps> = ({
+const ChangeEmail: FunctionComponent<ChangeDetailsModalContentProps> = ({
   onComplete,
   isActive,
   setIsModalLoading,
@@ -170,3 +170,5 @@ export const ChangeEmail: FunctionComponent<ChangeDetailsModalContentProps> = ({
     </ModalContainer>
   );
 };
+
+export default ChangeEmail;
