@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const Container = styled(Space).attrs({
@@ -50,11 +50,4 @@ export const SectionHeading = styled(Space).attrs<SectionHeadingProps>(
   })
 )<SectionHeadingProps>`
   font-weight: bold;
-`;
-
-export const Intro = styled(Space).attrs({
-  as: 'p',
-  className: grid({ s: 12, m: 12, l: 8, xl: 8 }),
-})`
-  padding-left: 0;
 `;

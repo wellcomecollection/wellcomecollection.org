@@ -1,7 +1,8 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {
@@ -19,8 +20,15 @@ const SearchNoResults: FunctionComponent<Props> = ({
 }: Props) => {
   return (
     <Space $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
-      <div className="grid">
-        <div className={grid({ s: 12, m: 10, l: 10, xl: 10 })}>
+      <Grid>
+        <GridCell
+          $sizeMap={{
+            s: [12],
+            m: [10],
+            l: [10],
+            xl: [10],
+          }}
+        >
           <p data-testid="search-no-results" className={font('intr', 2)}>
             We couldn&rsquo;t find anything that matched{' '}
             {query ? <QuerySpan>{query}</QuerySpan> : 'your search'}
@@ -34,8 +42,8 @@ const SearchNoResults: FunctionComponent<Props> = ({
             </a>
             .
           </p>
-        </div>
-      </div>
+        </GridCell>
+      </Grid>
     </Space>
   );
 };

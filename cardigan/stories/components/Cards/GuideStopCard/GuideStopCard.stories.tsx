@@ -34,6 +34,14 @@ const meta: Meta<typeof GuideStopCard> = {
       },
     },
   },
+  parameters: {
+    gridSizes: {
+      s: [12],
+      m: [6],
+      l: [4],
+      xl: [4],
+    },
+  },
 };
 
 export default meta;

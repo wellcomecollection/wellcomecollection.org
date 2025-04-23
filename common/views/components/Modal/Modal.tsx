@@ -44,7 +44,7 @@ const Overlay = styled.div`
   bottom: 0;
   background: transparent;
   ${props => props.theme.media('medium')`
-    background: rgba(0, 0, 0, 0.7);
+    background: rgb(0, 0, 0, 0.7);
   `}
 `;
 
@@ -59,7 +59,7 @@ const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
   height: 28px;
   border-radius: 50%;
   appearance: none;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgb(0, 0, 0, 0.7);
   color: ${props => props.theme.color('white')};
   border: 0;
   outline: 0;

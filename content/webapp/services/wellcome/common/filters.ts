@@ -52,6 +52,18 @@ export type BooleanFilter<Id extends string = string> = {
   excludeFromMoreFilters?: boolean;
 };
 
+export type RadioFilter<Id extends string = string> = {
+  type: 'radio';
+  id: Id;
+  label: string;
+  showEmptyBuckets?: boolean;
+  options: FilterOption[];
+  // Most filters are to be included in the More Filters Modal,
+  // so this only needs to be set to true in the rare case we
+  // wish to exclude it.
+  excludeFromMoreFilters?: boolean;
+};
+
 export type ColorFilter = {
   type: 'color';
   id: keyof ImagesProps;
@@ -64,6 +76,7 @@ export type Filter<Id extends string = string> =
   | CheckboxFilter<Id>
   | DateRangeFilter<Id>
   | BooleanFilter
+  | RadioFilter
   | ColorFilter;
 
 type FilterOption = {
@@ -94,10 +107,12 @@ function filterOptionsWithNonAggregates({
   options = [],
   selectedValues,
   showEmptyBuckets = false,
+  isManualSort = false,
 }: {
   options?: FilterOption[];
   selectedValues: (string | SelectedValue)[];
   showEmptyBuckets?: boolean;
+  isManualSort?: boolean;
 }): FilterOption[] {
   const aggregationValues: string[] = options.map(option => option.value);
   const selectedOptionValues: string[] = selectedValues.map(value =>
@@ -119,11 +134,17 @@ function filterOptionsWithNonAggregates({
         aggregationOptionsByValue.get(value) ||
         selectedOptionsByValue.get(value)
     )
-    .filter(option => isNotUndefined(option)) as FilterOption[];
+    .filter(
+      option =>
+        isNotUndefined(option) &&
+        (showEmptyBuckets || option.count || option.selected)
+    ) as FilterOption[];
 
-  return allOptions
-    .filter(option => showEmptyBuckets || option.count || option.selected)
-    .sort(optionOrder);
+  if (!isManualSort) {
+    return allOptions.sort(optionOrder);
+  }
+
+  return allOptions;
 }
 
 function selectedValueToFilterOption(
@@ -672,7 +693,7 @@ const eventsIsAvailableOnlineFilter = ({
   props,
 }: EventsFilterProps): BooleanFilter<keyof EventsProps> => {
   const isAvailableOnlineTrueBucket =
-    events?.aggregations?.isAvailableOnline.buckets.find(b => b.data.value);
+    events?.aggregations?.isAvailableOnline?.buckets.find(b => b.data.value);
 
   return {
     type: 'boolean',
@@ -680,6 +701,41 @@ const eventsIsAvailableOnlineFilter = ({
     label: 'Catch-up events only',
     count: isAvailableOnlineTrueBucket?.count || 0,
     isSelected: !!props.isAvailableOnline,
+  };
+};
+
+const eventsTimespanFilter = ({
+  events,
+  props,
+}: EventsFilterProps): RadioFilter<keyof EventsProps> => {
+  const order = {
+    'timespan-all': 1,
+    'timespan-past': 2,
+    'timespan-future': 3,
+  };
+  return {
+    type: 'radio',
+    id: 'timespan',
+    label: 'Date',
+    options: filterOptionsWithNonAggregates({
+      options: events?.aggregations?.timespan?.buckets.map(bucket => {
+        const isDefaultRadio = bucket.data.id === 'all';
+        return {
+          id: `timespan-${bucket.data.id}`,
+          value: isDefaultRadio ? '' : bucket.data.id,
+          count: bucket.count,
+          label: bucket.data.label,
+          selected: props.timespan.length
+            ? props.timespan.includes(bucket.data.id)
+            : isDefaultRadio,
+        };
+      }),
+      showEmptyBuckets: true,
+      selectedValues: [props.timespan || ''],
+      isManualSort: true,
+    }).sort((a, b) => {
+      return order[a.id] - order[b.id];
+    }),
   };
 };
 
@@ -721,6 +777,7 @@ const eventsFilters: (
     eventsLocationFilter,
     eventsIsAvailableOnlineFilter,
     eventsInterpretationFilter,
+    eventsTimespanFilter,
   ].map(f => f(props));
 
 export { worksFilters, imagesFilters, storiesFilters, eventsFilters };

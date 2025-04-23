@@ -19,6 +19,12 @@ projects: ['wellcomecollection/18']
 
 <!-- What information or research has imformed this request? -->
 
+## Ready when
+
+- [ ]
+- [ ]
+- [ ] 
+
 ## Done when
 
 - [ ]

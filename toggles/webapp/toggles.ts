@@ -103,14 +103,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'exhibitionAccessContent',
-      title: 'View access content changes in Exhibitions',
-      initialValue: false,
-      description:
-        'Displays the access content changes to the Exhibition pages',
-      type: 'experimental',
-    },
-    {
       id: 'newThemePages',
       title: 'New Theme Pages',
       initialValue: false,
@@ -123,6 +115,21 @@ const toggles = {
       title: 'Date filter in Events search',
       initialValue: false,
       description: 'Adds the Date filter in the Events search',
+      type: 'experimental',
+    },
+    {
+      id: 'filterEventsListing',
+      title: 'Changes to the Events listing pages',
+      initialValue: false,
+      description:
+        'Have the Events listing pages use the Content API and be filterable',
+      type: 'experimental',
+    },
+    {
+      id: 'audioPlayer',
+      title: 'Changes to the AudioPlayer component',
+      initialValue: false,
+      description: 'Show updated UI and interactions for the AudioPlayer',
       type: 'experimental',
     },
   ] as const,

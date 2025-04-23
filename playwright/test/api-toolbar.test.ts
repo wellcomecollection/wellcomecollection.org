@@ -1,24 +1,12 @@
-import { test as base, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
-import { gotoWithoutCache } from './helpers/contexts';
-import { baseUrl } from './helpers/utils';
-
-const domain = new URL(baseUrl).host;
-
-const test = base.extend({
-  context: async ({ context }, use) => {
-    await context.addCookies([
-      { name: 'toggle_apiToolbar', value: 'true', domain, path: '/' },
-    ]);
-
-    await use(context);
-  },
-});
+import { apiToolbarPage } from './helpers/contexts';
 
 test('(1) | Does not create a tzitzit link for images in copyright', async ({
   page,
+  context,
 }) => {
-  await gotoWithoutCache(`${baseUrl}/works/fedcvz22/items`, page);
+  await apiToolbarPage('works/fedcvz22/items', context, page);
 
   await expect(
     page.getByText(
@@ -28,8 +16,11 @@ test('(1) | Does not create a tzitzit link for images in copyright', async ({
   ).toBeVisible();
 });
 
-test('(2) | Creates a tzitzit link for item pages', async ({ page }) => {
-  await gotoWithoutCache(`${baseUrl}/works/ccg335hm/items`, page);
+test('(2) | Creates a tzitzit link for item pages', async ({
+  page,
+  context,
+}) => {
+  await apiToolbarPage('works/ccg335hm/items', context, page);
 
   const anchor = await page.getByRole('link', { name: 'tzitzit' });
   await expect(anchor).toBeVisible();
@@ -41,8 +32,11 @@ test('(2) | Creates a tzitzit link for item pages', async ({ page }) => {
   );
 });
 
-test('(3) | Creates a tzitzit link for image pages', async ({ page }) => {
-  await gotoWithoutCache(`${baseUrl}/works/ccg335hm/images?id=srfsqn7t`, page);
+test('(3) | Creates a tzitzit link for image pages', async ({
+  page,
+  context,
+}) => {
+  await apiToolbarPage('works/ccg335hm/images?id=srfsqn7t', context, page);
 
   const anchor = await page.getByRole('link', { name: 'tzitzit' });
   await expect(anchor).toBeVisible();

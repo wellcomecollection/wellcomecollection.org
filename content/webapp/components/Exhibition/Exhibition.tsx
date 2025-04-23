@@ -22,9 +22,8 @@ import {
   ExhibitionHighlightToursDocument,
   ExhibitionTextsDocument,
 } from '@weco/common/prismicio-types';
-import { useToggles } from '@weco/common/server-data/Context';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { isFuture, isPast } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
@@ -33,6 +32,7 @@ import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import Accordion from '@weco/content/components/Accordion/Accordion';
@@ -159,9 +159,7 @@ function getPlaceObject(
     }
   );
 }
-function getAccessibilityItems(
-  exhibitionAccessContent: boolean | undefined
-): ExhibitionItem[] {
+function getAccessibilityItems(): ExhibitionItem[] {
   const accessibilityItems: {
     description: prismic.RichTextField;
     icon: IconSvg;
@@ -207,38 +205,26 @@ function getAccessibilityItems(
       icon: accessibility,
     },
   ];
-  if (exhibitionAccessContent) {
-    return accessibilityItems.filter(item => {
-      if (item.description[0] && 'text' in item.description[0]) {
-        return item.description[0]?.text !== a11y.largePrintGuides;
-      } else {
-        return true;
-      }
-    });
-  } else {
-    return accessibilityItems.filter(item => {
-      if (item.description[0] && 'text' in item.description[0]) {
-        return (
-          item.description[0]?.text !== a11y.bsl &&
-          item.description[0]?.text !== a11y.accessResources
-        );
-      } else {
-        return true;
-      }
-    });
-  }
+
+  return accessibilityItems.filter(item => {
+    if (item.description[0] && 'text' in item.description[0]) {
+      return (
+        item.description[0]?.text !== a11y.bsl &&
+        item.description[0]?.text !== a11y.accessResources
+      );
+    } else {
+      return true;
+    }
+  });
 }
 
-export function getInfoItems(
-  exhibition: ExhibitionType,
-  exhibitionAccessContent?: boolean
-): ExhibitionItem[] {
+export function getInfoItems(exhibition: ExhibitionType): ExhibitionItem[] {
   return [
     getUpcomingExhibitionObject(exhibition),
     getadmissionObject(),
     getTodaysHoursObject(),
     getPlaceObject(exhibition),
-    ...getAccessibilityItems(exhibitionAccessContent),
+    ...getAccessibilityItems(),
   ].filter(isNotUndefined);
 }
 
@@ -265,7 +251,6 @@ const Exhibition: FunctionComponent<Props> = ({
 }) => {
   type ExhibitionOf = (ExhibitionType | EventBasic)[];
 
-  const { exhibitionAccessContent } = useToggles();
   const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
   const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout[]>(
     []
@@ -503,7 +488,7 @@ const Exhibition: FunctionComponent<Props> = ({
             {!exhibition.isPermanent && (
               <Space
                 $v={{ size: 'xs', properties: ['margin-bottom'] }}
-                style={{ display: 'flex' }}
+                style={{ display: 'flex', flexWrap: 'wrap' }}
               >
                 <Space $h={{ size: 'm', properties: ['margin-right'] }}>
                   {DateInfo}
@@ -553,13 +538,10 @@ const Exhibition: FunctionComponent<Props> = ({
       // We hide contributors as we show them further up the page
       hideContributors={true}
     >
-      {exhibitionAccessContent && exhibition.uid !== 'being-human' ? (
+      {exhibition.uid !== 'being-human' ? (
         <>
           {exhibition.end && !isPast(exhibition.end) && (
-            <InfoBox
-              title="Visit us"
-              items={getInfoItems(exhibition, exhibitionAccessContent)}
-            />
+            <InfoBox title="Visit us" items={getInfoItems(exhibition)} />
           )}
 
           {(exhibitionOfs.length > 0 || pages.length > 0) && (
@@ -576,8 +558,8 @@ const Exhibition: FunctionComponent<Props> = ({
 
           {exhibition.end && !isPast(exhibition.end) && (
             <>
-              <div className="grid">
-                <div className={grid({ s: 12 })}>
+              <Grid>
+                <GridCell $sizeMap={{ s: [12] }}>
                   <Space
                     as="h2"
                     className={font('wb', 3)}
@@ -588,8 +570,8 @@ const Exhibition: FunctionComponent<Props> = ({
                   >
                     Access resources
                   </Space>
-                </div>
-              </div>
+                </GridCell>
+              </Grid>
 
               {visualStoryLink && (
                 <>
@@ -735,10 +717,7 @@ const Exhibition: FunctionComponent<Props> = ({
 
           {exhibition.end && !isPast(exhibition.end) && (
             <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-              <InfoBox
-                title="Visit us"
-                items={getInfoItems(exhibition, exhibitionAccessContent)}
-              >
+              <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
                 <AccessibilityServices>
                   For more information, please visit our{' '}
                   <a href={`/visit-us/${prismicPageIds.access}`}>

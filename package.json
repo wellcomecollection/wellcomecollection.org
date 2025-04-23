@@ -44,7 +44,7 @@
     "@babel/preset-typescript": "^7.21.4",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.2",
-    "@testing-library/react": "^16.2.0",
+    "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "14.6.1",
     "@types/gtag.js": "^0.0.12",
     "@types/jest": "^29.5.0",
@@ -91,13 +91,14 @@
     "prettier": "^3.5.0",
     "prop-types": "15.8.1",
     "rimraf": "^6.0.1",
-    "stylelint": "^16.17.0",
-    "stylelint-config-standard": "^37.0.0",
+    "stylelint": "^16.18.0",
+    "stylelint-config-standard": "^38.0.0",
     "ts-jest": "29.3.0",
-    "typescript": "5.6.3",
+    "typescript": "5.8.3",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {
+    "@prismicio/client": "7.8.0",
     "@types/react": "18.2.7"
   },
   "private": true,

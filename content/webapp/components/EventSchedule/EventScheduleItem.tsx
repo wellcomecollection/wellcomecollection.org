@@ -2,12 +2,14 @@ import { Fragment, FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { eventPolicyIds } from '@weco/common/data/hardcoded-ids';
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { formatDayDate, formatTime } from '@weco/common/utils/format-date';
 import { HTMLTime } from '@weco/common/views/components/HTMLDateAndTime';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
+import { themeValues } from '@weco/common/views/themes/config';
 import EventbriteButtons from '@weco/content/components/EventbriteButtons/EventbriteButtons';
 import Message from '@weco/content/components/Message/Message';
 import { isEventPast } from '@weco/content/services/prismic/events';
@@ -20,6 +22,20 @@ type Props = {
   event: Event;
   isNotLinked: boolean;
 };
+
+const GridWithRowGap = styled(Grid)`
+  row-gap: ${themeValues.spaceAtBreakpoints.small.m}px;
+
+  ${props =>
+    props.theme.media('medium')(`
+    row-gap: ${themeValues.spaceAtBreakpoints.medium.m}px;
+  `)}
+
+  ${props =>
+    props.theme.media('large')(`
+    row-gap: ${themeValues.spaceAtBreakpoints.large.m}px;
+  `)}
+`;
 
 const GridWrapper = styled(Space).attrs({
   $v: {
@@ -48,22 +64,6 @@ const EventContainer = styled(Space).attrs({
 })`
   display: inline-block;
   background-color: ${props => props.theme.color('yellow')};
-`;
-
-const EventTimesWrapper = styled(Space).attrs({
-  $v: {
-    size: 'm',
-    properties: ['margin-bottom'],
-  },
-  className: grid({ s: 12, m: 12, l: 3, xl: 2 }),
-})`
-  ${props => props.theme.media('large')`
-    margin: 0;
-  `}
-
-  h4 {
-    margin-bottom: 0;
-  }
 `;
 
 const eventLocations = (locations: Place[], isHybridEvent: boolean) => {
@@ -156,12 +156,20 @@ const EventScheduleItem: FunctionComponent<Props> = ({
 
   return (
     <GridWrapper>
-      <div className="grid">
-        <EventTimesWrapper>
+      <GridWithRowGap>
+        <GridCell
+          $sizeMap={{
+            s: [12],
+            m: [12],
+            l: [3],
+            xl: [2],
+          }}
+        >
           {event.times.map(t => {
             const startTimeString = t.range.startDateTime.toISOString();
             return (
               <h4
+                style={{ marginBottom: 0 }}
                 key={`${event.title} ${startTimeString}`}
                 className={font('intb', 5)}
               >
@@ -171,8 +179,16 @@ const EventScheduleItem: FunctionComponent<Props> = ({
               </h4>
             );
           })}
-        </EventTimesWrapper>
-        <div className={grid({ s: 12, m: 12, l: 9, xl: 10 })}>
+        </GridCell>
+
+        <GridCell
+          $sizeMap={{
+            s: [12],
+            m: [12],
+            l: [9],
+            xl: [10],
+          }}
+        >
           <div>
             {event.primaryLabels.length > 0 && (
               <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
@@ -254,8 +270,8 @@ const EventScheduleItem: FunctionComponent<Props> = ({
               </Space>
             )}
           </div>
-        </div>
-      </div>
+        </GridCell>
+      </GridWithRowGap>
     </GridWrapper>
   );
 };
