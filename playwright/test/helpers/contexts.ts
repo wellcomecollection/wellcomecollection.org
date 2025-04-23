@@ -302,6 +302,23 @@ const mediaOffice = async (
   await gotoWithoutCache(`${baseUrl}/about-us/press`, page);
 };
 
+const apiToolbarPage = async (
+  id: string,
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies([
+    ...requiredCookies,
+    {
+      name: 'toggle_apiToolbar',
+      value: 'true',
+      domain: new URL(baseUrl).host,
+      path: '/',
+    },
+  ]);
+  await gotoWithoutCache(`${baseUrl}/${id}`, page);
+};
+
 const isMobile = (page: Page): boolean =>
   (page.viewportSize()?.width ?? 0) <= devices['iPhone 11'].viewport.width;
 
@@ -323,6 +340,7 @@ export {
   itemWithSearchAndStructuresAndQuery,
   mediaOffice,
   multiVolumeItem,
+  apiToolbarPage,
   search,
   visualStory,
   whatsOn,
