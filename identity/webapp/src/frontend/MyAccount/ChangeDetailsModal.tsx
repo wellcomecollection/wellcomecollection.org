@@ -3,7 +3,7 @@ import { FunctionComponent, ReactElement, useRef, useState } from 'react';
 import Button from '@weco/common/views/components/Buttons';
 import Modal from '@weco/common/views/components/Modal';
 import { themeValues } from '@weco/common/views/themes/config';
-import { UpdateUserSchema } from '@weco/identity/src/types/schemas/update-user';
+import { UpdateUserSchema } from '../../../types/schemas/update-user';
 
 export type ChangeDetailsModalContentProps =
   | Record<string, never>

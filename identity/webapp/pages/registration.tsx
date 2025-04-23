@@ -23,16 +23,9 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import TextInput, {
   InputErrorMessage,
 } from '@weco/common/views/components/TextInput';
-import {
-  collectionsResearchAgreementLabel,
-  collectionsResearchAgreementTitle,
-} from '@weco/identity/copy';
-import {
-  Container,
-  Wrapper,
-} from '@weco/identity/src/frontend/components/Layout.style';
-import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper';
-import { usePageTitle } from '@weco/identity/src/frontend/hooks/usePageTitle';
+import PageWrapper from '@weco/identity/components/PageWrapper';
+import { Container, Wrapper } from '@weco/identity/components/styled/layouts';
+import { usePageTitle } from '@weco/identity/hooks/usePageTitle';
 import {
   CheckboxLabel,
   FlexStartCheckbox,
@@ -40,9 +33,13 @@ import {
 } from '@weco/identity/src/frontend/Registration/Registration.style';
 import RegistrationInformation from '@weco/identity/src/frontend/Registration/RegistrationInformation';
 import {
+  collectionsResearchAgreementLabel,
+  collectionsResearchAgreementTitle,
+} from '@weco/identity/utils/copy';
+import {
   decodeToken,
   RegistrationInputs,
-} from '@weco/identity/src/utility/jwt-codec';
+} from '@weco/identity/utils/jwt-codec';
 
 const { serverRuntimeConfig: config } = getConfig();
 

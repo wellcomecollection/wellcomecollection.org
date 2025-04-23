@@ -11,8 +11,7 @@ import next from 'next';
 
 import { init as initServerData } from '@weco/common/server-data';
 import { apmErrorMiddleware } from '@weco/common/services/apm/errorMiddleware';
-
-import { redactUrl } from './utility/logging';
+import { redactUrl } from '@weco/identity/utils/logging';
 
 /* eslint-enable @typescript-eslint/no-var-requires, import/first */
 

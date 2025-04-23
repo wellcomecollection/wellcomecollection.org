@@ -32,16 +32,16 @@ import StackingTable from '@weco/common/views/components/StackingTable';
 import Space from '@weco/common/views/components/styled/Space';
 import { useUser } from '@weco/common/views/components/UserProvider';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
+import PageWrapper from '@weco/identity/components/PageWrapper';
 import {
   Container,
   Header,
   SectionHeading,
   Title,
   Wrapper,
-} from '@weco/identity/src/frontend/components/Layout.style';
-import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper';
-import { useRequestedItems } from '@weco/identity/src/frontend/hooks/useRequestedItems';
-import { useSendVerificationEmail } from '@weco/identity/src/frontend/hooks/useSendVerificationEmail';
+} from '@weco/identity/components/styled/layouts';
+import { useRequestedItems } from '@weco/identity/hooks/useRequestedItems';
+import { useSendVerificationEmail } from '@weco/identity/hooks/useSendVerificationEmail';
 import { ChangeDetailsModal } from '@weco/identity/src/frontend/MyAccount/ChangeDetailsModal';
 import { ChangeEmail } from '@weco/identity/src/frontend/MyAccount/ChangeEmail';
 import { ChangePassword } from '@weco/identity/src/frontend/MyAccount/ChangePassword';
@@ -60,9 +60,7 @@ import {
   StyledDl,
 } from '@weco/identity/src/frontend/MyAccount/MyAccount.style';
 import { UnverifiedEmail } from '@weco/identity/src/frontend/MyAccount/UnverifiedEmail';
-import auth0, {
-  withPageAuthRequiredSSR,
-} from '@weco/identity/src/utility/auth0';
+import auth0, { withPageAuthRequiredSSR } from '@weco/identity/utils/auth0';
 
 type DetailProps = {
   label: string;

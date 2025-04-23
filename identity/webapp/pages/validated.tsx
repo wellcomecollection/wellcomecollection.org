@@ -11,13 +11,13 @@ import {
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { useUser } from '@weco/common/views/components/UserProvider';
-import { ValidatedFailedText, ValidatedSuccessText } from '@weco/identity/copy';
+import PageWrapper from '@weco/identity/components/PageWrapper';
+import { Container, Wrapper } from '@weco/identity/components/styled/layouts';
+import auth0 from '@weco/identity/utils/auth0';
 import {
-  Container,
-  Wrapper,
-} from '@weco/identity/src/frontend/components/Layout.style';
-import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper';
-import auth0 from '@weco/identity/src/utility/auth0';
+  ValidatedFailedText,
+  ValidatedSuccessText,
+} from '@weco/identity/utils/copy';
 
 const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
   const { state: userState } = useUser();

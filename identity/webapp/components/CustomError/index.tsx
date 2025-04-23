@@ -1,6 +1,7 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
 
-import { SectionHeading } from './Layout.style';
+import { SectionHeading } from '@weco/identity/components/styled/layouts';
+
 type Props = PropsWithChildren<{
   errorDescription: string;
 }>;

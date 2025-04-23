@@ -9,7 +9,7 @@ const config = {
         '<rootDir>/pages/**/*.test.ts',
         '<rootDir>/src/middleware/**/*.test.ts',
         '<rootDir>/src/routes/**/*.test.ts',
-        '<rootDir>/src/utility/**/*.test.ts',
+        '<rootDir>/src/utils/**/*.test.ts',
         '<rootDir>/src/*.test.ts',
       ],
     },

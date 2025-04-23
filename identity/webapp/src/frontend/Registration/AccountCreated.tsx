@@ -8,12 +8,12 @@ import {
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import PageWrapper from '@weco/identity/components/PageWrapper';
 import {
   Container,
   SectionHeading,
   Wrapper,
-} from '@weco/identity/src/frontend/components/Layout.style';
-import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper';
+} from '@weco/identity/components/styled/layouts';
 
 import { SuccessMessage } from './Registration.style';
 

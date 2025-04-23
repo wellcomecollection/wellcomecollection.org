@@ -6,7 +6,7 @@ import Icon from '@weco/common/views/components/Icon';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 
-import { RulesListItem, RulesListWrapper } from './PasswordInput.style';
+import { RulesListItem, RulesListWrapper } from './PasswordInput.styles';
 
 type DotProps = {
   isValid: boolean;

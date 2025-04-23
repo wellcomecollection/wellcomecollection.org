@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
 
-import { UpdatePasswordSchema } from '@weco/identity/src/types/schemas/update-password';
+import { UpdatePasswordSchema } from '@weco/identity/types/schemas/update-password';
 
 export enum UpdatePasswordError {
   INCORRECT_PASSWORD,

@@ -23,7 +23,7 @@ type Props = {
   title: string;
 };
 
-export const PageWrapper: FunctionComponent<PropsWithChildren<Props>> = ({
+const PageWrapper: FunctionComponent<PropsWithChildren<Props>> = ({
   title,
   children,
 }) => {
@@ -44,3 +44,5 @@ export const PageWrapper: FunctionComponent<PropsWithChildren<Props>> = ({
     </>
   );
 };
+
+export default PageWrapper;

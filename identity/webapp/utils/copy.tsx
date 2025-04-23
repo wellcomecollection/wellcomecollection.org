@@ -14,9 +14,8 @@ import { FunctionComponent } from 'react';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import Divider from '@weco/common/views/components/Divider';
 import Space from '@weco/common/views/components/styled/Space';
-
-import { SectionHeading } from './src/frontend/components/Layout.style';
-import { ExternalLink } from './src/frontend/Registration/Registration.style';
+import { SectionHeading } from '@weco/identity/components/styled/layouts';
+import { ExternalLink } from '@weco/identity/src/frontend/Registration/Registration.style';
 
 type ValidatedSuccessTextProps = {
   isNewSignUp: boolean;
