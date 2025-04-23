@@ -80,8 +80,8 @@ export function getOriginal(
 // Ordinarly we would use the painting array to display an item to the user, see https://iiif.io/api/presentation/3.0/#values-for-motivation
 // However, if there is a PDF in the 'original' array we want to display that.
 // If neither of those things are available we fallback to the supplementing array.
-// This is because pdfs that were added to manifests before the DLCS changes, which took place in May 2023,
-// will be in the supplementing array.
+// This is because pdfs that are ingested via Goobi will be in the supplementing array.
+// (N.B. pdfs ingested via Archivematica follow the Born Digital pattern)
 export const getDisplayItems = (canvas: TransformedCanvas) => {
   const originalPdfs = canvas.original.filter(o => {
     if ('format' in o) {
