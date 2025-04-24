@@ -631,7 +631,7 @@ export function hasItemType(
 ): boolean {
   return (
     canvases?.some(canvas => {
-      return canvas.painting.some(item => {
+      return canvas?.painting.some(item => {
         if (isChoiceBody(item)) {
           return item.items.some(item => {
             if (typeof item !== 'string') {
@@ -653,7 +653,7 @@ export function hasOriginalPdf(
 ): boolean {
   return (
     canvases?.some(canvas => {
-      return canvas.original.some(item => {
+      return canvas?.original.some(item => {
         return 'format' in item && item.format === 'application/pdf';
       });
     }) || false
