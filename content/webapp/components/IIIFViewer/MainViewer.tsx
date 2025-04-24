@@ -57,12 +57,11 @@ const ItemWrapper = styled.div`
   }
 
   video {
+    display: block;
+    margin: auto;
     width: 100%;
+    max-height: 90%;
   }
-
-  /*  img { // TODO move this onto image component
-  //     overflow: scroll; /* for alt text, which can be long
-  //   } */
 `;
 
 type OverlayPositionData = {
