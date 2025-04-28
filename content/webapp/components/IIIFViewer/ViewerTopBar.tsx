@@ -1,6 +1,10 @@
 // https://stackoverflow.com/questions/25993861/how-do-i-get-typescript-to-stop-complaining-about-functions-it-doesnt-know-abou
 /* eslint-disable dot-notation */
-import { ChoiceBody, ImageService } from '@iiif/presentation-3';
+import {
+  ChoiceBody,
+  IIIFExternalWebResource,
+  ImageService,
+} from '@iiif/presentation-3';
 import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 
@@ -13,6 +17,7 @@ import {
 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { font } from '@weco/common/utils/classnames';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -22,6 +27,7 @@ import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemVi
 import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
+import { DownloadOption } from '@weco/content/types/manifest';
 import {
   getDownloadOptionsFromCanvasRenderingAndSupplementing,
   getDownloadOptionsFromManifestRendering,
@@ -32,8 +38,7 @@ import { getDownloadOptionsFromImageUrl } from '@weco/content/utils/works';
 
 import { queryParamToArrayIndex } from '.';
 
-// TODO: update this with a more considered button from our system
-export const ShameButton = styled.button.attrs({
+export const ViewerButton = styled.button.attrs({
   className: font('intb', 5),
 })<{ $isDark?: boolean }>`
   line-height: 1.5;
@@ -117,7 +122,9 @@ const TopBar = styled.div<{
   background: ${props => props.theme.color('neutral.700')};
   color: ${props => props.theme.color('white')};
   justify-content: space-between;
-  grid-template-columns: [left-edge] minmax(200px, 3fr) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
+  grid-template-columns:
+    [left-edge] minmax(200px, 3fr)
+    [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
 
   ${props => props.theme.media('medium')`
     display: grid;
@@ -276,11 +283,54 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   const manifestDownloadOptions =
     getDownloadOptionsFromManifestRendering(rendering);
 
+  const videoAudioDownloadOptions = () => {
+    if (!currentCanvas?.painting) return [];
+
+    const formatItemInfo = (item: IIIFExternalWebResource) => ({
+      format: item.format || '',
+      id: item.id || '',
+      label:
+        item.type === 'Video'
+          ? 'This video'
+          : item.type === 'Sound'
+            ? 'This audio'
+            : '',
+    });
+
+    const finalOptions: (DownloadOption | undefined)[] = [];
+
+    if (currentCanvas?.painting?.some(painting => isChoiceBody(painting))) {
+      currentCanvas.painting
+        .filter(painting => isChoiceBody(painting))
+        .forEach(({ items }) => {
+          items.forEach(item => {
+            const externalResourceItem = item as IIIFExternalWebResource;
+
+            if (
+              externalResourceItem.type !== 'Video' &&
+              externalResourceItem.type !== 'Sound'
+            )
+              return undefined;
+
+            finalOptions.push(formatItemInfo(externalResourceItem));
+          });
+        });
+    } else {
+      currentCanvas.painting.forEach(item => {
+        if (item.type !== 'Video' && item.type !== 'Sound') return undefined;
+
+        finalOptions.push(formatItemInfo(item));
+      });
+    }
+    return finalOptions.flat().filter(Boolean).filter(isNotUndefined) || [];
+  };
+
   const downloadOptions = [
     ...iiifImageDownloadOptions,
     ...canvasImageDownloads,
     ...canvasDownloadOptions,
     ...manifestDownloadOptions,
+    ...videoAudioDownloadOptions(),
   ];
 
   return (
@@ -291,7 +341,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
       <Sidebar $isZooming={showZoomed}>
         {isEnhanced && !showZoomed && (
           <>
-            <ShameButton
+            <ViewerButton
               data-gtm-trigger="toggle_side_panel"
               className="viewer-desktop"
               $isDark
@@ -307,9 +357,9 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
               <span className="visually-hidden">
                 {isDesktopSidebarActive ? 'Hide info' : 'Show info'}
               </span>
-            </ShameButton>
+            </ViewerButton>
 
-            <ShameButton
+            <ViewerButton
               className="viewer-mobile"
               $isDark
               onClick={() => {
@@ -317,7 +367,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
               }}
             >
               {isMobileSidebarActive ? 'Hide info' : 'Show info'}
-            </ShameButton>
+            </ViewerButton>
           </>
         )}
       </Sidebar>
@@ -381,7 +431,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                 </Space>
               )}
               {isFullscreenEnabled && (
-                <ShameButton
+                <ViewerButton
                   className="viewer-desktop"
                   $isDark
                   onClick={() => {
@@ -419,7 +469,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                       <span className="btn__text">Full screen</span>
                     </>
                   )}
-                </ShameButton>
+                </ViewerButton>
               )}
             </div>
           )}
