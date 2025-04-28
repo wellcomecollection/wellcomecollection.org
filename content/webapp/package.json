@@ -15,7 +15,7 @@
     "@weco/toggles": "1.0.0",
     "agentkeepalive": "^4.6.0",
     "google-maps": "^4.3.3",
-    "koa": "^2.16.0",
+    "koa": "^3.0.0",
     "koa-bodyparser": "^4.4.0",
     "@koa/router": "^13.1.0",
     "lodash.flattendeep": "^4.4.0",
