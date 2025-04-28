@@ -138,11 +138,14 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const showAccessStatus = !!accessStatus;
   const showAccessMethod = !isOpenShelves;
   const isRequestable = itemIsRequestable(item) && !wasJustRequested(item);
-
-  const showButton =
-    isRequestable && userState === 'signedin' && !disableRequesting;
-
   const userNotLoaded = userState === 'loading' || userState === 'initial';
+
+  const isLoading = accessDataIsStale || (isRequestable && userNotLoaded);
+  const showButton =
+    isRequestable &&
+    userState === 'signedin' &&
+    !disableRequesting &&
+    !isLoading;
 
   const title = item.title || '';
   const itemNote = item.note || '';
@@ -164,7 +167,6 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       </>,
     ];
 
-    const isLoading = accessDataIsStale || (isRequestable && userNotLoaded);
     if (showAccessStatus) {
       dataRow.push(
         <Placeholder isLoading={isLoading} nRows={2} maxWidth="75%">
