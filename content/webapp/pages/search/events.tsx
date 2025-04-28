@@ -206,6 +206,7 @@ export const getServerSideProps: GetServerSideProps<
   setCacheControl(context.res, cacheTTL.search);
   const serverData = await getServerData(context);
   const dateFilter = !!serverData.toggles.dateFilter.value;
+  const filterEventsListing = !!serverData.toggles.filterEventsListing.value;
 
   const query = context.query;
   const params = fromQuery(query);
@@ -253,8 +254,16 @@ export const getServerSideProps: GetServerSideProps<
   const eventResponseList = await getEvents({
     params: {
       ...paramsQuery,
-      sort: getQueryPropertyValue(query.sort),
-      sortOrder: getQueryPropertyValue(query.sortOrder),
+      sort: filterEventsListing
+        ? validTimespan === 'past' || validTimespan === 'future'
+          ? 'times.startDateTime'
+          : 'relevance'
+        : getQueryPropertyValue(query.sort),
+      sortOrder: filterEventsListing
+        ? validTimespan === 'past'
+          ? 'desc'
+          : 'asc'
+        : getQueryPropertyValue(query.sortOrder),
       ...(pageNumber && { page: Number(pageNumber) }),
       aggregations: [
         'format',
