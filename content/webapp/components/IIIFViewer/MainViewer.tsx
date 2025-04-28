@@ -336,7 +336,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
           {displayItems.length > 0 &&
             displayItems.map(item => {
               return (
-                <ItemWrapper key={item.id}>
+                <ItemWrapper key={item.type + item.id}>
                   <IIIFItem
                     placeholderId={placeholderId}
                     item={item}
