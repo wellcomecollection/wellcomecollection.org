@@ -1,5 +1,5 @@
 import { usePathname } from 'next/navigation';
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent, useContext, useMemo } from 'react';
 
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { font } from '@weco/common/utils/classnames';
@@ -120,7 +120,10 @@ const WorkDetails: FunctionComponent<Props> = ({
 
   const seriesPartOfs = work.partOf.filter(p => !p.id);
 
-  const physicalItems = getItemsWithPhysicalLocation(work.items ?? []);
+  const physicalItems = useMemo(
+    () => getItemsWithPhysicalLocation(work.items ?? []),
+    [work.items]
+  );
 
   const locationOfWork = work.notes.find(
     note => note.noteType.id === 'location-of-original'
