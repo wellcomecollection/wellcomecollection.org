@@ -159,7 +159,7 @@ type ItemProps = {
   canvas: TransformedCanvas;
   item: IIIFItemProps;
   i: number;
-  placeholderId: string | undefined;
+  placeholderId?: string;
   titleOverride?: string;
   exclude: (ContentResource['type'] | 'Audio' | ChoiceBody['type'])[]; // Allows us to prevent specific types being rendered
   setImageRect?: (v: DOMRect) => void;
