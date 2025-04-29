@@ -18,15 +18,15 @@ import PaginationWrapper from '@weco/common/views/components/styled/PaginationWr
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import EventsSearchResults from '@weco/content/components/EventsSearchResults';
-import Pagination from '@weco/content/components/Pagination/Pagination';
+import Pagination from '@weco/content/components/Pagination';
 import SearchFilters from '@weco/content/components/SearchFilters';
-import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
-import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
+import SearchNoResults from '@weco/content/components/SearchNoResults';
+import { getSearchLayout } from '@weco/content/components/SearchPageLayout';
 import {
   EventsProps,
   fromQuery,
 } from '@weco/content/components/SearchPagesLink/Events';
-import Sort from '@weco/content/components/Sort/Sort';
+import Sort from '@weco/content/components/Sort';
 import useHotjar from '@weco/content/hooks/useHotjar';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { eventsFilters } from '@weco/content/services/wellcome/common/filters';
@@ -206,6 +206,7 @@ export const getServerSideProps: GetServerSideProps<
   setCacheControl(context.res, cacheTTL.search);
   const serverData = await getServerData(context);
   const dateFilter = !!serverData.toggles.dateFilter.value;
+  const filterEventsListing = !!serverData.toggles.filterEventsListing.value;
 
   const query = context.query;
   const params = fromQuery(query);
@@ -253,8 +254,16 @@ export const getServerSideProps: GetServerSideProps<
   const eventResponseList = await getEvents({
     params: {
       ...paramsQuery,
-      sort: getQueryPropertyValue(query.sort),
-      sortOrder: getQueryPropertyValue(query.sortOrder),
+      sort: filterEventsListing
+        ? validTimespan === 'past' || validTimespan === 'future'
+          ? 'times.startDateTime'
+          : 'relevance'
+        : getQueryPropertyValue(query.sort),
+      sortOrder: filterEventsListing
+        ? validTimespan === 'past'
+          ? 'desc'
+          : 'asc'
+        : getQueryPropertyValue(query.sortOrder),
       ...(pageNumber && { page: Number(pageNumber) }),
       aggregations: [
         'format',

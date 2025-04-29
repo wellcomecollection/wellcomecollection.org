@@ -2,7 +2,7 @@ import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 import { placeHolderImage } from '@weco/content/services/prismic/transformers/images';
 import { MultiContent } from '@weco/content/types/multi-content';
 
-import CardGrid from './CardGrid';
+import CardGrid from '.';
 import '@testing-library/jest-dom';
 
 describe('CardGrid', () => {

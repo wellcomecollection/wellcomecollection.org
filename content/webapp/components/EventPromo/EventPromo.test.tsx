@@ -14,7 +14,7 @@ import {
 } from '@weco/content/__mocks__/events';
 import { Event } from '@weco/content/types/events';
 
-import EventPromo, { getLocationText } from './EventPromo';
+import EventPromo, { getLocationText } from '.';
 
 jest
   .spyOn(Context, 'usePrismicData')

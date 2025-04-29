@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import EventDatesLink from '@weco/content/components/EventDatesLink/EventDatesLink';
+import EventDatesLink from '@weco/content/components/EventDatesLink';
 import Readme from '@weco/content/components/EventDatesLink/README.mdx';
 
 const meta: Meta<typeof EventDatesLink> = {

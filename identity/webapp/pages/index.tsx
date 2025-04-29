@@ -22,15 +22,15 @@ import { font } from '@weco/common/utils/classnames';
 import { serialiseProps } from '@weco/common/utils/json';
 import { allowedRequests } from '@weco/common/values/requests';
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Icon from '@weco/common/views/components/Icon';
 import {
   ContaineredLayout,
   gridSize10,
   gridSize12,
 } from '@weco/common/views/components/Layout';
-import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
+import StackingTable from '@weco/common/views/components/StackingTable';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import { useUser } from '@weco/common/views/components/UserProvider';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import {
   Container,

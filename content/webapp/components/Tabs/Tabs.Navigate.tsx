@@ -2,7 +2,7 @@ import Link, { LinkProps } from 'next/link';
 import { FunctionComponent } from 'react';
 
 import { IconSvg } from '@weco/common/icons';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
 import { IconWrapper, NavItemInner, Tab, TabsContainer } from './Tabs.styles';

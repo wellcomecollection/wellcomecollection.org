@@ -3,7 +3,7 @@ import { useController, UseControllerProps } from 'react-hook-form';
 import styled from 'styled-components';
 
 import { a11YVisual, eye } from '@weco/common/icons';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Icon from '@weco/common/views/components/Icon';
 import {
   TextInputInput,
   TextInputLabel,

@@ -31,33 +31,33 @@ import {
 } from '@weco/common/utils/dates';
 import { formatDate, formatDayName } from '@weco/common/utils/format-date';
 import { serialiseProps } from '@weco/common/utils/json';
-import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision/AccessibilityProvision';
+import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import Icon from '@weco/common/views/components/Icon';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
-import { SectionPageHeader } from '@weco/common/views/components/PageHeader/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import { SectionPageHeader } from '@weco/common/views/components/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import theme from '@weco/common/views/themes/default';
-import CardGrid from '@weco/content/components/CardGrid/CardGrid';
-import EventsByMonth from '@weco/content/components/EventsByMonth/EventsByMonth';
-import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
-import FacilityPromo from '@weco/content/components/FacilityPromo/FacilityPromo';
+import CardGrid from '@weco/content/components/CardGrid';
+import EventsByMonth from '@weco/content/components/EventsByMonth';
+import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents';
+import FacilityPromo from '@weco/content/components/FacilityPromo';
 import FeaturedCard from '@weco/content/components/FeaturedCard';
 import InfoBox, {
   InfoIconWrapper,
-} from '@weco/content/components/InfoBox/InfoBox';
-import MoreLink from '@weco/content/components/MoreLink/MoreLink';
-import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
+} from '@weco/content/components/InfoBox';
+import MoreLink from '@weco/content/components/MoreLink';
+import SectionHeader from '@weco/content/components/SectionHeader';
 import Tabs from '@weco/content/components/Tabs';
 import {
   filterEventsForToday,

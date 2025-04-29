@@ -7,8 +7,8 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import {
   LayoutWidth,
   SliceZoneContext,
-} from '@weco/content/components/Body/Body';
-import VenueClosedPeriods from '@weco/content/components/VenueClosedPeriods/VenueClosedPeriods';
+} from '@weco/content/components/Body';
+import VenueClosedPeriods from '@weco/content/components/VenueClosedPeriods';
 import VenueHours from '@weco/content/components/VenueHours';
 import { transformCollectionVenueSlice } from '@weco/content/services/prismic/transformers/body';
 

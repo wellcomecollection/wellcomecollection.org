@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import Label from '@weco/common/views/components/Label/Label';
+import Label from '@weco/common/views/components/Label';
 
 const meta: Meta<typeof Label> = {
   title: 'Components/Label',

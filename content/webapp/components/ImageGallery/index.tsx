@@ -13,23 +13,23 @@ import { font } from '@weco/common/utils/classnames';
 import { dasherize, pluralize } from '@weco/common/utils/grammar';
 import Button from '@weco/common/views/components/Buttons';
 import Control from '@weco/common/views/components/Control';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Icon from '@weco/common/views/components/Icon';
 import {
   ContaineredLayout,
   gridSize10,
   gridSize12,
   gridSize8,
 } from '@weco/common/views/components/Layout';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
-import Tasl from '@weco/common/views/components/Tasl/Tasl';
+import Tasl from '@weco/common/views/components/Tasl';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import { sizes } from '@weco/common/views/themes/config';
-import CaptionedImage from '@weco/content/components/CaptionedImage/CaptionedImage';
+import CaptionedImage from '@weco/content/components/CaptionedImage';
 import ComicPreviousNext, {
   Props as ComicPreviousNextProps,
-} from '@weco/content/components/ComicPreviousNext/ComicPreviousNext';
-import { PageBackgroundContext } from '@weco/content/components/ContentPage/ContentPage';
+} from '@weco/content/components/ComicPreviousNext';
+import { PageBackgroundContext } from '@weco/content/components/ContentPage';
 
 import {
   ButtonContainer,

@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { exhibitionBasic } from '@weco/cardigan/stories/data/content';
-import ExhibitionPromo from '@weco/content/components/ExhibitionPromo/ExhibitionPromo';
+import ExhibitionPromo from '@weco/content/components/ExhibitionPromo';
 
 const meta: Meta<typeof ExhibitionPromo> = {
   title: 'Components/Cards/ExhibitionPromo',

@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import NewsletterPromo from '@weco/common/views/components/NewsletterPromo/NewsletterPromo';
+import NewsletterPromo from '@weco/common/views/components/NewsletterPromo';
 
 const meta: Meta<typeof NewsletterPromo> = {
   title: 'Components/NewsletterPromo',

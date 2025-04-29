@@ -4,7 +4,7 @@ import { rest } from 'msw';
 import { ThemeProvider } from 'styled-components';
 
 import { mockUser } from '@weco/common/test/fixtures/identity/user';
-import UserProvider from '@weco/common/views/components/UserProvider/UserProvider';
+import UserProvider from '@weco/common/views/components/UserProvider';
 import theme from '@weco/common/views/themes/default';
 import { server } from '@weco/identity/src/frontend/mocks/server';
 

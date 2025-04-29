@@ -6,7 +6,7 @@ import {
 } from 'react';
 
 import { classNames } from '@weco/common/utils/classnames';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Icon from '@weco/common/views/components/Icon';
 
 import {
   BaseButtonInner,

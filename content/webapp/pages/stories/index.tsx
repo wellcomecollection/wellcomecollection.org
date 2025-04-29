@@ -10,15 +10,16 @@ import { AppErrorProps } from '@weco/common/services/app';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { serialiseProps } from '@weco/common/utils/json';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
   gridSize12,
   gridSize8,
 } from '@weco/common/views/components/Layout';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import PageHeader from '@weco/common/views/components/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import { Container } from '@weco/common/views/components/styled/Container';
 import {
   GridCellScroll,
@@ -27,11 +28,11 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import CardGrid from '@weco/content/components/CardGrid/CardGrid';
+import CardGrid from '@weco/content/components/CardGrid';
 import FeaturedCard from '@weco/content/components/FeaturedCard';
-import FeaturedText from '@weco/content/components/FeaturedText/FeaturedText';
-import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
-import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
+import FeaturedText from '@weco/content/components/FeaturedText';
+import { defaultSerializer } from '@weco/content/components/HTMLSerializers';
+import SectionHeader from '@weco/content/components/SectionHeader';
 import StoryPromoContentApi from '@weco/content/components/StoryPromo/StoryPromoContentApi';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import { createClient } from '@weco/content/services/prismic/fetch';
@@ -184,7 +185,7 @@ const StoriesPage: FunctionComponent<Props> = ({
       apiToolbarLinks={[createPrismicLink(storiesLanding.id)]}
     >
       <PageHeader
-        breadcrumbs={{ items: [] }}
+        breadcrumbs={getBreadcrumbItems('stories')}
         title="Stories"
         isContentTypeInfoBeforeMedia={false}
         sectionLevelPage={true}

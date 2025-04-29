@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import MoreLink from '@weco/content/components/MoreLink/MoreLink';
+import MoreLink from '@weco/content/components/MoreLink';
 import Readme from '@weco/content/components/MoreLink/README.mdx';
 
 const meta: Meta<typeof MoreLink> = {

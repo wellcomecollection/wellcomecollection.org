@@ -17,21 +17,21 @@ import { font } from '@weco/common/utils/classnames';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
   gridSize10,
   gridSize12,
 } from '@weco/common/views/components/Layout';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import Standfirst from '@weco/common/views/slices/Standfirst';
-import CardGrid from '@weco/content/components/CardGrid/CardGrid';
-import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
-import SectionHeader from '@weco/content/components/SectionHeader/SectionHeader';
-import SimpleCardGrid from '@weco/content/components/SimpleCardGrid/SimpleCardGrid';
+import CardGrid from '@weco/content/components/CardGrid';
+import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents';
+import SectionHeader from '@weco/content/components/SectionHeader';
+import SimpleCardGrid from '@weco/content/components/SimpleCardGrid';
 import {
   filterEventsForNext7Days,
   orderEventsByNextAvailableDate,

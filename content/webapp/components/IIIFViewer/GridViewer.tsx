@@ -11,13 +11,13 @@ import {
 import { areEqual, FixedSizeGrid } from 'react-window';
 import styled from 'styled-components';
 
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { AppContext } from '@weco/common/views/components/AppContext';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import ItemViewerContext, {
   Query,
-} from '@weco/content/components/ItemViewerContext/ItemViewerContext';
+} from '@weco/content/components/ItemViewerContext';
 import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { TransformedCanvas } from '@weco/content/types/manifest';

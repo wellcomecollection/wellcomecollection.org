@@ -3,16 +3,16 @@ import styled from 'styled-components';
 
 import { bslSquare } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Icon from '@weco/common/views/components/Icon';
 import {
   ContaineredLayout,
   gridSize8,
 } from '@weco/common/views/components/Layout';
-import Modal from '@weco/common/views/components/Modal/Modal';
+import Modal from '@weco/common/views/components/Modal';
 import Space from '@weco/common/views/components/styled/Space';
 import VideoEmbed, {
   Props as VideoEmbedProps,
-} from '@weco/common/views/components/VideoEmbed/VideoEmbed';
+} from '@weco/common/views/components/VideoEmbed';
 
 const BslLeaftletButtonText = styled(Space).attrs({
   className: font('intr', 6),

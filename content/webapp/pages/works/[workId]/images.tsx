@@ -17,8 +17,8 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import BetaMessage from '@weco/content/components/BetaMessage/BetaMessage';
-import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
+import BetaMessage from '@weco/content/components/BetaMessage';
+import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
 import IIIFViewer from '@weco/content/components/IIIFViewer';
 import useHotjar from '@weco/content/hooks/useHotjar';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';

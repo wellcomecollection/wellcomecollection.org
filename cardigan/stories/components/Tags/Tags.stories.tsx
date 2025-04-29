@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import Readme from '@weco/content/components/Tags/README.mdx';
-import Tags from '@weco/content/components/Tags/Tags';
+import Tags from '@weco/content/components/Tags';
 
 const nextLink = {
   href: {

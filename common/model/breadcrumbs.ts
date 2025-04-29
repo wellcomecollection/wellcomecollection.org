@@ -1,4 +1,4 @@
-type Breadcrumbs = {
+export type Breadcrumbs = {
   text: string;
   url?: string;
   prefix?: string;

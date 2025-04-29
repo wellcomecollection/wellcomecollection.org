@@ -18,13 +18,13 @@ import {
   ContaineredLayout,
   gridSize8,
 } from '@weco/common/views/components/Layout';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageHeader from '@weco/common/views/components/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import Body from '@weco/content/components/Body/Body';
-import BookImage from '@weco/content/components/BookImage/BookImage';
-import ContentPage from '@weco/content/components/ContentPage/ContentPage';
+import Body from '@weco/content/components/Body';
+import BookImage from '@weco/content/components/BookImage';
+import ContentPage from '@weco/content/components/ContentPage';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchBook } from '@weco/content/services/prismic/fetch/books';
 import { transformBook } from '@weco/content/services/prismic/transformers/books';

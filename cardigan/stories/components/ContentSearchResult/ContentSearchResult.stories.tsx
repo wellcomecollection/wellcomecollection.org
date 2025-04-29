@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import ContentSearchResult from '@weco/content/components/ContentSearchResult/ContentSearchResult';
+import ContentSearchResult from '@weco/content/components/ContentSearchResult';
 
 const meta: Meta<typeof ContentSearchResult> = {
   title: 'Components/ContentSearchResult',

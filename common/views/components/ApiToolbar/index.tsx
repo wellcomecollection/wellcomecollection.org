@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { cross } from '@weco/common/icons';
 import { Contributor, License } from '@weco/common/model/catalogue';
 import { font } from '@weco/common/utils/classnames';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Icon from '@weco/common/views/components/Icon';
 
 export type ApiToolbarLink = {
   id: string;

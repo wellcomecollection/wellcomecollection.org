@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { image } from '@weco/cardigan/stories/data/images';
 import { smallText } from '@weco/cardigan/stories/data/text';
-import ExhibitionCaptions from '@weco/content/components/ExhibitionCaptions/ExhibitionCaptions';
+import ExhibitionCaptions from '@weco/content/components/ExhibitionCaptions';
 import Readme from '@weco/content/components/ExhibitionCaptions/README.mdx';
 
 const meta: Meta<typeof ExhibitionCaptions> = {

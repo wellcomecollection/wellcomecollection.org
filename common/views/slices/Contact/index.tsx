@@ -6,8 +6,8 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import {
   LayoutWidth,
   SliceZoneContext,
-} from '@weco/content/components/Body/Body';
-import Contact from '@weco/content/components/Contact/Contact';
+} from '@weco/content/components/Body';
+import Contact from '@weco/content/components/Contact';
 import { transformContactSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type ContactProps = SliceComponentProps<

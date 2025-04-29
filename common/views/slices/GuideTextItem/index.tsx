@@ -2,7 +2,7 @@ import { Content } from '@prismicio/client';
 import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
-import TextItem from '@weco/content/components/GuideTextItem/GuideTextItem';
+import TextItem from '@weco/content/components/GuideTextItem';
 import { transformGuideTextItemSlice } from '@weco/content/services/prismic/transformers/exhibition-texts';
 
 export type GuideTextItemProps =

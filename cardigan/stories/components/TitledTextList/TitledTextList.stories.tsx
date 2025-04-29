@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import Readme from '@weco/content/components/TitledTextList/README.mdx';
-import TitledTextList from '@weco/content/components/TitledTextList/TitledTextList';
+import TitledTextList from '@weco/content/components/TitledTextList';
 const items = [
   {
     title: '17th-18th century Burney Collection newspapers',

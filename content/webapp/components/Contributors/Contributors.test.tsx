@@ -3,7 +3,7 @@ import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 import Contributors, {
   Props as ContributorProps,
   dedupeAndPluraliseRoles,
-} from './Contributors';
+} from '.';
 
 const facilitator = 'Facilitator';
 const guide = 'Guide';

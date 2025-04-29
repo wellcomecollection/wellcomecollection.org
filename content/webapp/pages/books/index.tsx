@@ -8,19 +8,20 @@ import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { pluralize } from '@weco/common/utils/grammar';
 import { serialiseProps } from '@weco/common/utils/json';
-import Divider from '@weco/common/views/components/Divider/Divider';
+import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
+import Divider from '@weco/common/views/components/Divider';
 import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import PageHeader from '@weco/common/views/components/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import CardGrid from '@weco/content/components/CardGrid/CardGrid';
-import Pagination from '@weco/content/components/Pagination/Pagination';
+import CardGrid from '@weco/content/components/CardGrid';
+import Pagination from '@weco/content/components/Pagination';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchBooks } from '@weco/content/services/prismic/fetch/books';
 import {
@@ -80,14 +81,7 @@ const BooksPage: FunctionComponent<Props> = ({ books }) => {
     >
       <SpacingSection>
         <PageHeader
-          breadcrumbs={{
-            items: [
-              {
-                text: 'Stories',
-                url: '/stories/',
-              },
-            ],
-          }}
+          breadcrumbs={getBreadcrumbItems('stories')}
           title="Books"
           ContentTypeInfo={
             pageDescriptions.books && (
