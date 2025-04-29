@@ -308,7 +308,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
 
             if (
               externalResourceItem.type !== 'Video' &&
-              isAudio(externalResourceItem)
+              !isAudio(externalResourceItem)
             )
               return undefined;
 
@@ -317,7 +317,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
         });
     } else {
       currentCanvas.painting.forEach(item => {
-        if (item.type !== 'Video' && isAudio(item)) return undefined;
+        if (item.type !== 'Video' && !isAudio(item)) return undefined;
 
         finalOptions.push(formatItemInfo(item));
       });
