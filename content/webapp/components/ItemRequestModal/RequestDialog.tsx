@@ -8,7 +8,7 @@ import { allowedRequests } from '@weco/common/values/requests';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
-import RequestingDayPicker from '@weco/content/components/RequestingDayPicker/RequestingDayPicker';
+import RequestingDayPicker from '@weco/content/components/RequestingDayPicker';
 import {
   PhysicalItem,
   Work,

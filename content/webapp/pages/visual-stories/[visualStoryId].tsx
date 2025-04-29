@@ -16,19 +16,19 @@ import { capitalize } from '@weco/common/utils/grammar';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import Divider from '@weco/common/views/components/Divider/Divider';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import Divider from '@weco/common/views/components/Divider';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageHeader from '@weco/common/views/components/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
 import Standfirst from '@weco/common/views/slices/Standfirst';
-import Body from '@weco/content/components/Body/Body';
-import CardGrid from '@weco/content/components/CardGrid/CardGrid';
-import ContentPage from '@weco/content/components/ContentPage/ContentPage';
+import Body from '@weco/content/components/Body';
+import CardGrid from '@weco/content/components/CardGrid';
+import ContentPage from '@weco/content/components/ContentPage';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   fetchVisualStories,

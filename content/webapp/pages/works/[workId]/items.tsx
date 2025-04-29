@@ -23,16 +23,16 @@ import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
-import Modal from '@weco/common/views/components/Modal/Modal';
+import Modal from '@weco/common/views/components/Modal';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
-import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
-import IIIFItemList from '@weco/content/components/IIIFItemList/IIIFItemList';
+import { useUser } from '@weco/common/views/components/UserProvider';
+import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
+import IIIFItemList from '@weco/content/components/IIIFItemList';
 import IIIFViewer, {
   queryParamToArrayIndex,
 } from '@weco/content/components/IIIFViewer';
 import { fromQuery } from '@weco/content/components/ItemLink';
-import { ParentManifest } from '@weco/content/components/ItemViewerContext/ItemViewerContext';
+import { ParentManifest } from '@weco/content/components/ItemViewerContext';
 import WorkLink from '@weco/content/components/WorkLink';
 import useHotjar from '@weco/content/hooks/useHotjar';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';

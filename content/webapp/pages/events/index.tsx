@@ -19,26 +19,26 @@ import {
   linkResolver,
 } from '@weco/common/utils/search';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb/Breadcrumb';
-import Divider from '@weco/common/views/components/Divider/Divider';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
+import Divider from '@weco/common/views/components/Divider';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
   gridSize12,
   gridSize8,
 } from '@weco/common/views/components/Layout';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import PageHeader from '@weco/common/views/components/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import { themeValues } from '@weco/common/views/themes/config';
-import CardGrid from '@weco/content/components/CardGrid/CardGrid';
+import CardGrid from '@weco/content/components/CardGrid';
 import EventsSearchResults from '@weco/content/components/EventsSearchResults';
-import MoreLink from '@weco/content/components/MoreLink/MoreLink';
+import MoreLink from '@weco/content/components/MoreLink';
 import NoEvents from '@weco/content/components/NoEvents';
-import Pagination from '@weco/content/components/Pagination/Pagination';
+import Pagination from '@weco/content/components/Pagination';
 import SearchFilters from '@weco/content/components/SearchFilters';
 import {
   EventsProps,

@@ -18,20 +18,20 @@ import { capitalize } from '@weco/common/utils/grammar';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb/Breadcrumb';
+import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd';
+import PageHeader from '@weco/common/views/components/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import Standfirst from '@weco/common/views/slices/Standfirst';
-import Body from '@weco/content/components/Body/Body';
-import ContentPage from '@weco/content/components/ContentPage/ContentPage';
+import Body from '@weco/content/components/Body';
+import ContentPage from '@weco/content/components/ContentPage';
 import FeaturedCard from '@weco/content/components/FeaturedCard';
-import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
-import SeriesNavigation from '@weco/content/components/SeriesNavigation/SeriesNavigation';
+import PartNumberIndicator from '@weco/content/components/PartNumberIndicator';
+import SeriesNavigation from '@weco/content/components/SeriesNavigation';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import {
   createClient,

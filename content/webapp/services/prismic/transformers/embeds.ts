@@ -1,6 +1,6 @@
 import * as prismic from '@prismicio/client';
 
-import { Props as VideoEmbedProps } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
+import { Props as VideoEmbedProps } from '@weco/common/views/components/VideoEmbed';
 
 export function transformVideoEmbed(
   embed: prismic.EmbedField

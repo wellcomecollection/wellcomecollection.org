@@ -5,7 +5,7 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { font } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import PrismicImage from '@weco/common/views/components/PrismicImage';
 import {
   CardBody,
   CardImageWrapper,
@@ -13,7 +13,7 @@ import {
   CardOuter,
   CardPostBody,
   CardTitle,
-} from '@weco/content/components/Card/Card';
+} from '@weco/content/components/Card';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
 
 const Caption = styled.p.attrs({

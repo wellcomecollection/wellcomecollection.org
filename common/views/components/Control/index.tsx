@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { IconSvg } from '@weco/common/icons';
 import { LinkProps } from '@weco/common/model/link-props';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Icon from '@weco/common/views/components/Icon';
 
 const ControlInner = styled.div`
   display: inline-flex;

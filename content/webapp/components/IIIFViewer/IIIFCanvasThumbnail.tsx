@@ -5,7 +5,7 @@ import { font } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import { useUser } from '@weco/common/views/components/UserProvider';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 
 import IIIFViewerImage from './IIIFViewerImage';

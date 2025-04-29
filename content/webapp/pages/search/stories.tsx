@@ -16,15 +16,15 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import Pagination from '@weco/content/components/Pagination/Pagination';
+import Pagination from '@weco/content/components/Pagination';
 import SearchFilters from '@weco/content/components/SearchFilters';
-import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
-import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
+import SearchNoResults from '@weco/content/components/SearchNoResults';
+import { getSearchLayout } from '@weco/content/components/SearchPageLayout';
 import {
   fromQuery,
   StoriesProps,
 } from '@weco/content/components/SearchPagesLink/Stories';
-import Sort from '@weco/content/components/Sort/Sort';
+import Sort from '@weco/content/components/Sort';
 import StoriesGrid from '@weco/content/components/StoriesGrid';
 import useHotjar from '@weco/content/hooks/useHotjar';
 import { emptyResultList } from '@weco/content/services/wellcome';

@@ -6,10 +6,10 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { font } from '@weco/common/utils/classnames';
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
-import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import LabelsList from '@weco/common/views/components/LabelsList';
 import PrismicImage, {
   BreakpointSizes,
-} from '@weco/common/views/components/PrismicImage/PrismicImage';
+} from '@weco/common/views/components/PrismicImage';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { Article } from '@weco/content/services/wellcome/content/types/api';

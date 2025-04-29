@@ -3,7 +3,7 @@ import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from 'styled-components';
 
-import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
+import { AppContextProvider } from '@weco/common/views/components/AppContext';
 import theme from '@weco/common/views/themes/default';
 
 import ImageGallery from './';

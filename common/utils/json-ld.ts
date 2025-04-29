@@ -5,7 +5,7 @@ import type {
   SpecialOpeningHours,
 } from '@weco/common/model/opening-hours';
 import { Organization } from '@weco/common/model/organization';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 
 import { convertImageUri } from './convert-image-uri';
 import { formatDate } from './format-date';

@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import PopupDialog from '@weco/common/views/components/PopupDialog/PopupDialog';
+import PopupDialog from '@weco/common/views/components/PopupDialog';
 import Readme from '@weco/common/views/components/PopupDialog/README.mdx';
 
 const meta: Meta<typeof PopupDialog> = {

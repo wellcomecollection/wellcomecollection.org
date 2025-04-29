@@ -10,7 +10,7 @@ import {
   gridSize10,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import { useUser } from '@weco/common/views/components/UserProvider';
 import { ValidatedFailedText, ValidatedSuccessText } from '@weco/identity/copy';
 import {
   Container,

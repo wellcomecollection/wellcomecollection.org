@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 
 import { chevron, closedFolder, openFolder } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Icon from '@weco/common/views/components/Icon';
 import { UiTreeNode } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
 import { TreeControl } from '@weco/content/components/ArchiveTree/ArchiveTree.styles';
 import DownloadItem from '@weco/content/components/WorkDetails/WorkDetails.DownloadItem';

@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { Venue } from '@weco/common/model/opening-hours';
 import { font } from '@weco/common/utils/classnames';
-import Divider from '@weco/common/views/components/Divider/Divider';
-import FindUs from '@weco/common/views/components/FindUs/FindUs';
-import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
+import Divider from '@weco/common/views/components/Divider';
+import FindUs from '@weco/common/views/components/FindUs';
+import OpeningTimes from '@weco/common/views/components/OpeningTimes';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 

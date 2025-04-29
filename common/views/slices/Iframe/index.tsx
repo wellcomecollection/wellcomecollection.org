@@ -2,7 +2,7 @@ import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
 import { IframeSlice as RawIframeSlice } from '@weco/common/prismicio-types';
-import Iframe from '@weco/common/views/components/Iframe/Iframe';
+import Iframe from '@weco/common/views/components/Iframe';
 import {
   ContaineredLayout,
   gridSize10,

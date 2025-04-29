@@ -7,7 +7,7 @@ import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
-import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
+import SearchForm from '@weco/common/views/components/SearchForm';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import useHotjar from '@weco/content/hooks/useHotjar';
 import * as page from '@weco/content/pages/pages/[pageId]';

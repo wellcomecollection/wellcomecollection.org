@@ -3,12 +3,12 @@ import { FunctionComponent, PropsWithChildren } from 'react';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { font } from '@weco/common/utils/classnames';
-import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import LabelsList from '@weco/common/views/components/LabelsList';
+import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import DateRange from '@weco/content/components/DateRange/DateRange';
-import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
+import DateRange from '@weco/content/components/DateRange';
+import StatusIndicator from '@weco/content/components/StatusIndicator';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 

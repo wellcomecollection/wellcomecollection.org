@@ -1,4 +1,4 @@
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio';
 import {
   BooleanFilter as BooleanFilterType,
   filterLabel,

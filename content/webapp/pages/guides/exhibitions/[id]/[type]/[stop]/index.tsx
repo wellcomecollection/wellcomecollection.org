@@ -18,24 +18,24 @@ import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import Icon from '@weco/common/views/components/Icon';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
   gridSize8,
 } from '@weco/common/views/components/Layout';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import PageLayout from '@weco/common/views/components/PageLayout';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
+import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import AudioPlayer from '@weco/content/components/AudioPlayer/AudioPlayer';
-import AudioPlayerNew from '@weco/content/components/AudioPlayerNew/AudioPlayer';
+import VideoEmbed from '@weco/common/views/components/VideoEmbed';
+import AudioPlayer from '@weco/content/components/AudioPlayer';
+import AudioPlayerNew from '@weco/content/components/AudioPlayerNew';
 import ImagePlaceholder, {
   placeholderBackgroundColor,
-} from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
+} from '@weco/content/components/ImagePlaceholder';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibitionHighlightTour } from '@weco/content/services/prismic/fetch/exhibition-highlight-tours';
 import {

@@ -3,7 +3,7 @@ import { RefObject, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import { classNames } from '@weco/common/utils/classnames';
-import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
+import SearchForm from '@weco/common/views/components/SearchForm';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 

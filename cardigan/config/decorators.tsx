@@ -1,7 +1,7 @@
 import { ComponentType, FunctionComponent, PropsWithChildren } from 'react';
 import { ThemeProvider } from 'styled-components';
 
-import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
+import { AppContextProvider } from '@weco/common/views/components/AppContext';
 import Space from '@weco/common/views/components/styled/Space';
 import theme, { GlobalStyle } from '@weco/common/views/themes/default';
 

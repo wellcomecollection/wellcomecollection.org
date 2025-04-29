@@ -6,15 +6,15 @@ import { KnownTarget } from 'styled-components/dist/types';
 import { font } from '@weco/common/utils/classnames';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { AppContext } from '@weco/common/views/components/AppContext';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
+import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import ZoomedPrismicImage from '@weco/content/components/ZoomedPrismicImage/ZoomedPrismicImage';
+import ZoomedPrismicImage from '@weco/content/components/ZoomedPrismicImage';
 import { ExhibitionGuideComponent } from '@weco/content/types/exhibition-guides';
 
 export const StandaloneTitle = styled(Space).attrs({

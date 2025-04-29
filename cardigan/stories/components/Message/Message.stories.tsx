@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import Message from '@weco/content/components/Message/Message';
+import Message from '@weco/content/components/Message';
 import Readme from '@weco/content/components/Message/README.mdx';
 
 const meta: Meta<typeof Message> = {

@@ -13,10 +13,10 @@ import {
 } from '@weco/common/services/prismic/opening-times';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import { font } from '@weco/common/utils/classnames';
-import Divider from '@weco/common/views/components/Divider/Divider';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import Divider from '@weco/common/views/components/Divider';
+import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
-import MoreLink from '@weco/content/components/MoreLink/MoreLink';
+import MoreLink from '@weco/content/components/MoreLink';
 
 import VenueHoursJauntyBox from './VenueHours.JauntyBox';
 import {

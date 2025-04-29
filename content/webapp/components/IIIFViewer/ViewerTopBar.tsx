@@ -14,12 +14,12 @@ import {
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { font } from '@weco/common/utils/classnames';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import { AppContext } from '@weco/common/views/components/AppContext';
+import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import Download from '@weco/content/components/Download/Download';
-import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
-import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
+import Download from '@weco/content/components/Download';
+import ItemViewerContext from '@weco/content/components/ItemViewerContext';
+import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
 import {

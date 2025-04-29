@@ -12,14 +12,14 @@ import styled from 'styled-components';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { useToggles } from '@weco/common/server-data/Context';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { AppContext } from '@weco/common/views/components/AppContext';
 import LL from '@weco/common/views/components/styled/LL';
 import { NoScriptImage } from '@weco/content/components/IIIFViewer/NoScriptImage';
 import { fromQuery } from '@weco/content/components/ItemLink';
 import ItemViewerContext, {
   ParentManifest,
   RotatedImage,
-} from '@weco/content/components/ItemViewerContext/ItemViewerContext';
+} from '@weco/content/components/ItemViewerContext';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import {
   Work,

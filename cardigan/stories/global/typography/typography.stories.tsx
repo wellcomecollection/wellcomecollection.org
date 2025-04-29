@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { fontSizesAtBreakpoints } from '@weco/common/views/themes/typography';
-import MoreLink from '@weco/content/components/MoreLink/MoreLink';
+import MoreLink from '@weco/content/components/MoreLink';
 import Table from '@weco/content/components/Table';
 
 const Font = styled.div`

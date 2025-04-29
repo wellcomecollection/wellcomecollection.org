@@ -29,13 +29,13 @@ import {
   trackPageview,
 } from '@weco/common/services/conversion/track';
 import { deserialiseProps } from '@weco/common/utils/json';
-import { ApmContextProvider } from '@weco/common/views/components/ApmContext/ApmContext';
-import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
+import { ApmContextProvider } from '@weco/common/views/components/ApmContext';
+import { AppContextProvider } from '@weco/common/views/components/AppContext';
 import CivicUK from '@weco/common/views/components/CivicUK';
-import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
-import LoadingIndicator from '@weco/common/views/components/LoadingIndicator/LoadingIndicator';
-import { SearchContextProvider } from '@weco/common/views/components/SearchContext/SearchContext';
-import UserProvider from '@weco/common/views/components/UserProvider/UserProvider';
+import ErrorPage from '@weco/common/views/components/ErrorPage';
+import LoadingIndicator from '@weco/common/views/components/LoadingIndicator';
+import { SearchContextProvider } from '@weco/common/views/components/SearchContext';
+import UserProvider from '@weco/common/views/components/UserProvider';
 import theme, { GlobalStyle } from '@weco/common/views/themes/default';
 
 // Error pages can't send anything via the data fetching methods as

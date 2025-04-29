@@ -12,7 +12,7 @@
 import { FunctionComponent } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import Divider from '@weco/common/views/components/Divider/Divider';
+import Divider from '@weco/common/views/components/Divider';
 import Space from '@weco/common/views/components/styled/Space';
 
 import { SectionHeading } from './src/frontend/components/Layout.style';

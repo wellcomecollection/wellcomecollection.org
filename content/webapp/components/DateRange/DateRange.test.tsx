@@ -5,7 +5,7 @@ import {
   withMarkup,
 } from '@weco/common/test/fixtures/test-helpers';
 
-import DateRange from './DateRange';
+import DateRange from '.';
 
 describe('DateRange', () => {
   it('renders a date + time range if the start/end are on the same day', () => {
