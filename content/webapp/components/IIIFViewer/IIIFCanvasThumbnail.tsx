@@ -11,7 +11,11 @@ import Space from '@weco/common/views/components/styled/Space';
 import { useUser } from '@weco/common/views/components/UserProvider';
 import { IIIFItemProps } from '@weco/content/components/IIIFItem';
 import { TransformedCanvas } from '@weco/content/types/manifest';
-import { isChoiceBody, isPDFCanvas } from '@weco/content/utils/iiif/v3';
+import {
+  isAudioCanvas,
+  isChoiceBody,
+  isPDFCanvas,
+} from '@weco/content/utils/iiif/v3';
 
 import IIIFViewerImage from './IIIFViewerImage';
 import Padlock from './Padlock';
@@ -108,10 +112,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
 
   const hasIconPlaceholder =
     !thumbnailSrc &&
-    (itemType === 'Sound' ||
-      itemType === 'Audio' ||
-      itemType === 'Video' ||
-      isPDFCanvas(canvas));
+    (itemType === 'Sound' || isAudioCanvas(canvas) || isPDFCanvas(canvas));
 
   return (
     <IIIFViewerThumb>

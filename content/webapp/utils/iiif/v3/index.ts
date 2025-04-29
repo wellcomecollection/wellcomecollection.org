@@ -685,6 +685,12 @@ export function isPDFCanvas(canvas?: TransformedCanvas): boolean {
   return hasOriginalPdf([canvas]) || (hasPDFSupplement && !hasPaintings);
 }
 
+export function isAudioCanvas(
+  canvas: TransformedCanvas | IIIFItemProps
+): boolean {
+  return canvas.type === 'Sound' || canvas.type === 'Audio';
+}
+
 export function isCollection(
   manifest: Manifest | Collection
 ): manifest is Collection {
