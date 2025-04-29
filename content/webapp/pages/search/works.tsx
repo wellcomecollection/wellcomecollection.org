@@ -12,22 +12,22 @@ import { pluralize } from '@weco/common/utils/grammar';
 import { serialiseProps } from '@weco/common/utils/json';
 import { linkResolver, SEARCH_PAGES_FORM_ID } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
+import SearchContext from '@weco/common/views/components/SearchContext';
 import { Container } from '@weco/common/views/components/styled/Container';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import Pagination from '@weco/content/components/Pagination/Pagination';
+import Pagination from '@weco/content/components/Pagination';
 import SearchFilters from '@weco/content/components/SearchFilters';
-import SearchNoResults from '@weco/content/components/SearchNoResults/SearchNoResults';
-import { getSearchLayout } from '@weco/content/components/SearchPageLayout/SearchPageLayout';
+import SearchNoResults from '@weco/content/components/SearchNoResults';
+import { getSearchLayout } from '@weco/content/components/SearchPageLayout';
 import {
   fromQuery,
   toLink,
   WorksProps as WorksRouteProps,
 } from '@weco/content/components/SearchPagesLink/Works';
-import Sort from '@weco/content/components/Sort/Sort';
-import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
+import Sort from '@weco/content/components/Sort';
+import WorksSearchResults from '@weco/content/components/WorksSearchResults';
 import useHotjar from '@weco/content/hooks/useHotjar';
 import {
   emptyResultList,

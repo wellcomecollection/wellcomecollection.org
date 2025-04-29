@@ -5,11 +5,11 @@ import styled from 'styled-components';
 import cookies from '@weco/common/data/cookies';
 import { arrow } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Icon from '@weco/common/views/components/Icon';
 import { plainListStyles } from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import { CardBody } from '@weco/content/components/Card/Card';
+import { CardBody } from '@weco/content/components/Card';
 import RelevantGuideIcons from '@weco/content/components/ExhibitionGuideRelevantIcons';
 import { ExhibitionGuideType } from '@weco/content/types/exhibition-guides';
 

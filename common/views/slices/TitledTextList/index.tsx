@@ -7,8 +7,8 @@ import {
   defaultContext,
   LayoutWidth,
   SliceZoneContext,
-} from '@weco/content/components/Body/Body';
-import TitledTextList from '@weco/content/components/TitledTextList/TitledTextList';
+} from '@weco/content/components/Body';
+import TitledTextList from '@weco/content/components/TitledTextList';
 import { transformTitledTextListSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type TitledTextListProps = SliceComponentProps<

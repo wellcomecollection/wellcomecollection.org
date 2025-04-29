@@ -3,13 +3,13 @@ import { FunctionComponent } from 'react';
 
 import { EmbedSlice as RawEmbedSlice } from '@weco/common/prismicio-types';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
+import VideoEmbed from '@weco/common/views/components/VideoEmbed';
 import {
   defaultContext,
   LayoutWidth,
   SliceZoneContext,
-} from '@weco/content/components/Body/Body';
-import SoundCloudEmbed from '@weco/content/components/SoundCloudEmbed/SoundCloudEmbed';
+} from '@weco/content/components/Body';
+import SoundCloudEmbed from '@weco/content/components/SoundCloudEmbed';
 import { transformEmbedSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type EmbedProps = SliceComponentProps<RawEmbedSlice, SliceZoneContext>;

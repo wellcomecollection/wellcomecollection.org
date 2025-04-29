@@ -9,10 +9,10 @@ import { transformImage } from '@weco/common/services/prismic/transformers/image
 import { font } from '@weco/common/utils/classnames';
 import { isPast as checkIfIsPast } from '@weco/common/utils/dates';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import Divider from '@weco/common/views/components/Divider/Divider';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import Divider from '@weco/common/views/components/Divider';
+import Icon from '@weco/common/views/components/Icon';
+import LabelsList from '@weco/common/views/components/LabelsList';
+import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import {
   CardBody,
@@ -21,11 +21,11 @@ import {
   CardOuter,
   CardPostBody,
   CardTitle,
-} from '@weco/content/components/Card/Card';
+} from '@weco/content/components/Card';
 import EventDateRange from '@weco/content/components/EventDateRange';
-import { getLocationText } from '@weco/content/components/EventPromo/EventPromo';
+import { getLocationText } from '@weco/content/components/EventPromo';
 import TextWithDot from '@weco/content/components/TextWithDot';
-import WatchLabel from '@weco/content/components/WatchLabel/WatchLabel';
+import WatchLabel from '@weco/content/components/WatchLabel';
 import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
 import {
   getLastEndTime,

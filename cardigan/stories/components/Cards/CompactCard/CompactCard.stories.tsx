@@ -2,8 +2,8 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { squareImage } from '@weco/cardigan/stories/data/images';
 import { singleLineOfText } from '@weco/cardigan/stories/data/text';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import CompactCard from '@weco/content/components/CompactCard/CompactCard';
+import PrismicImage from '@weco/common/views/components/PrismicImage';
+import CompactCard from '@weco/content/components/CompactCard';
 
 const primaryLabelList = [{ text: 'Study day' }, { text: 'Schools' }];
 const secondaryLabelList = [{ text: 'Speech-to-text' }];

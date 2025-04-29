@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { clock } from '@weco/common/icons';
-import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
+import LinkLabels from '@weco/content/components/LinkLabels';
 import Readme from '@weco/content/components/LinkLabels/README.mdx';
 
 const meta: Meta<typeof LinkLabels> = {

@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { cross } from '@weco/common/icons';
 import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { getColorDisplayName } from '@weco/content/components/PaletteColorPicker';
 import {

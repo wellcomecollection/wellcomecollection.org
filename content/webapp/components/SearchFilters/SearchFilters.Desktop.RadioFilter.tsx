@@ -1,6 +1,6 @@
 import { formatNumber } from '@weco/common/utils/grammar';
 import Button from '@weco/common/views/components/Buttons';
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import { RadioFilter as RadioFilterType } from '@weco/content/services/wellcome/common/filters';
 

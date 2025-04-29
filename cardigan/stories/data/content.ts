@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
 import untransformedBody from '@weco/cardigan/stories/data/untransformed-body';
-import { Props as QuoteProps } from '@weco/content/components/Quote/Quote';
+import { Props as QuoteProps } from '@weco/content/components/Quote';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
 import {
   ArticleBasic,

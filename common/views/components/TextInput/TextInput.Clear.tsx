@@ -2,7 +2,7 @@ import { Dispatch, FunctionComponent, RefObject, SetStateAction } from 'react';
 import styled from 'styled-components';
 
 import { clear } from '@weco/common/icons';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Icon from '@weco/common/views/components/Icon';
 
 const Button = styled.button`
   position: absolute;

@@ -1,7 +1,7 @@
 import { FunctionComponent, useContext } from 'react';
 
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { AppContext } from '@weco/common/views/components/AppContext';
 
 import { ListProps, UiTree } from './ArchiveTree.helpers';
 import ListItem from './ArchiveTree.ListItem';

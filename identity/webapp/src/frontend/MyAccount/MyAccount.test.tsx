@@ -8,7 +8,7 @@ import {
   mockItemRequests,
   mockUser,
 } from '@weco/common/test/fixtures/identity/user';
-import UserProvider from '@weco/common/views/components/UserProvider/UserProvider';
+import UserProvider from '@weco/common/views/components/UserProvider';
 import theme from '@weco/common/views/themes/default';
 import AccountPage from '@weco/identity/pages';
 

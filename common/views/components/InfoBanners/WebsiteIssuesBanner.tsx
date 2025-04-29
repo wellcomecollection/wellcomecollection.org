@@ -4,7 +4,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import cookies from '@weco/common/data/cookies';
 import usePrevious from '@weco/common/hooks/usePrevious';
 import { cross, exclamation } from '@weco/common/icons';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
 import {

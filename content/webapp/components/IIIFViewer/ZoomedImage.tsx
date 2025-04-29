@@ -14,7 +14,7 @@ import { DigitalLocation } from '@weco/common/model/catalogue';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Control from '@weco/common/views/components/Control';
 import Space from '@weco/common/views/components/styled/Space';
-import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
+import ItemViewerContext from '@weco/content/components/ItemViewerContext';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
 
 import { queryParamToArrayIndex } from '.';

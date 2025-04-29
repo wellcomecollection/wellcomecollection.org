@@ -24,7 +24,7 @@ import {
 } from '@iiif/presentation-3';
 
 import { isString } from '@weco/common/utils/type-guards';
-import { IIIFItemProps } from '@weco/content/components/IIIFItem/IIIFItem';
+import { IIIFItemProps } from '@weco/content/components/IIIFItem';
 import {
   Auth,
   AuthClickThroughServiceWithPossibleServiceArray,

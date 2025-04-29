@@ -18,22 +18,22 @@ import { serialiseProps } from '@weco/common/utils/json';
 import { toMaybeString } from '@weco/common/utils/routes';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { exhibitionGuidesLinks } from '@weco/common/views/components/Header';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
   gridSize10,
   gridSize8,
 } from '@weco/common/views/components/Layout';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import PageHeader from '@weco/common/views/components/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { components } from '@weco/common/views/slices';
 import RelevantGuideIcons from '@weco/content/components/ExhibitionGuideRelevantIcons';
-import ExhibitionGuideStops from '@weco/content/components/ExhibitionGuideStops/ExhibitionGuideStops';
+import ExhibitionGuideStops from '@weco/content/components/ExhibitionGuideStops';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibitionGuide } from '@weco/content/services/prismic/fetch/exhibition-guides';
 import { fetchExhibitionHighlightTour } from '@weco/content/services/prismic/fetch/exhibition-highlight-tours';

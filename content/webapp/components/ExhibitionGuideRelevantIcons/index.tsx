@@ -5,8 +5,8 @@ import {
   bslSquare,
   speechToText,
 } from '@weco/common/icons';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
+import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { ExhibitionGuideType } from '@weco/content/types/exhibition-guides';
 

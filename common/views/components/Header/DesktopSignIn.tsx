@@ -6,7 +6,7 @@ import { font } from '@weco/common/utils/classnames';
 import { BorderlessLink } from '@weco/common/views/components/BorderlessClickable';
 import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import { useUser } from '@weco/common/views/components/UserProvider';
 
 type AccountAProps = {
   $last?: true;

@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { duration as durationIcon, map } from '@weco/common/icons';
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { font } from '@weco/common/utils/classnames';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import Icon from '@weco/common/views/components/Icon';
+import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { threeUpGridSizesMap } from '@weco/content/components/Body/GridFactory';
@@ -14,10 +14,10 @@ import {
   CardImageWrapper,
   CardOuter,
   CardTitle,
-} from '@weco/content/components/Card/Card';
+} from '@weco/content/components/Card';
 import ImagePlaceholder, {
   placeholderBackgroundColor,
-} from '@weco/content/components/ImagePlaceholder/ImagePlaceholder';
+} from '@weco/content/components/ImagePlaceholder';
 
 const AlignIconFirstLineCenter = styled.div.attrs({
   className: font('intr', 5),

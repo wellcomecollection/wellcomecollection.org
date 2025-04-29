@@ -8,7 +8,7 @@ import {
   defaultContext,
   LayoutWidth,
   SliceZoneContext,
-} from '@weco/content/components/Body/Body';
+} from '@weco/content/components/Body';
 import AsyncSearchResults from '@weco/content/components/SearchResults/AsyncSearchResults';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 

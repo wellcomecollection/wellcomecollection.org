@@ -7,7 +7,7 @@ import Control from '@weco/common/views/components/Control';
 import Rotator from '@weco/common/views/components/styled/Rotator';
 import Space from '@weco/common/views/components/styled/Space';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
-import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
+import ItemViewerContext from '@weco/content/components/ItemViewerContext';
 
 const PaginatorWrapper = styled.div`
   display: flex;

@@ -10,11 +10,11 @@ import {
   gridSize10,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import { useUser } from '@weco/common/views/components/UserProvider';
 import { themeValues } from '@weco/common/views/themes/config';
 import { toLink as conceptLink } from '@weco/content/components/ConceptLink';
 import { CopyUrl } from '@weco/content/components/CopyButtons';
-import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
+import IsArchiveContext from '@weco/content/components/IsArchiveContext';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import { toLink as imagesLink } from '@weco/content/components/SearchPagesLink/Images';
 import { toLink as worksLink } from '@weco/content/components/SearchPagesLink/Works';

@@ -9,7 +9,7 @@ import {
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { dasherize } from '@weco/common/utils/grammar';
 import { isNotUndefined, isUndefined } from '@weco/common/utils/type-guards';
-import { links as headerLinks } from '@weco/common/views/components/Header/Header';
+import { links as headerLinks } from '@weco/common/views/components/Header';
 import { Link } from '@weco/content/types/link';
 import { Page } from '@weco/content/types/pages';
 

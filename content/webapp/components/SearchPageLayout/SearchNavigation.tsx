@@ -12,7 +12,7 @@ import {
   linkResolver,
   SEARCH_PAGES_FORM_ID,
 } from '@weco/common/utils/search';
-import SearchBar from '@weco/common/views/components/SearchBar/SearchBar';
+import SearchBar from '@weco/common/views/components/SearchBar';
 import Space from '@weco/common/views/components/styled/Space';
 import Tabs from '@weco/content/components/Tabs';
 

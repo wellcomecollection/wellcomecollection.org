@@ -1,6 +1,6 @@
 import Space from '@weco/common/views/components/styled/Space';
-import LibraryMembersBar from '@weco/content/components/LibraryMembersBar/LibraryMembersBar';
-import PhysicalItems from '@weco/content/components/PhysicalItems/PhysicalItems';
+import LibraryMembersBar from '@weco/content/components/LibraryMembersBar';
+import PhysicalItems from '@weco/content/components/PhysicalItems';
 import {
   Note,
   PhysicalItem,

@@ -8,11 +8,11 @@ import {
 } from '@weco/common/test/fixtures/components/compact-card';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 import { font } from '@weco/common/utils/classnames';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
+import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { GridCell, SizeMap } from '@weco/common/views/components/styled/Grid';
 
-import MediaObjectBase, { HasImageProps } from './MediaObjectBase';
+import MediaObjectBase, { HasImageProps } from '.';
 
 const getBaseTitleClass = number => {
   return font('wb', number);

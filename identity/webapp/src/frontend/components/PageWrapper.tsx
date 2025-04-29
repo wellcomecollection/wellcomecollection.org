@@ -5,10 +5,10 @@ import styled from 'styled-components';
 import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import Favicons from '@weco/common/views/components/Favicons/Favicons';
+import { AppContext } from '@weco/common/views/components/AppContext';
+import Favicons from '@weco/common/views/components/Favicons';
 import Footer from '@weco/common/views/components/Footer';
-import Header from '@weco/common/views/components/Header/Header';
+import Header from '@weco/common/views/components/Header';
 import { GlobalStyle } from '@weco/common/views/themes/default';
 
 const Main = styled.div`

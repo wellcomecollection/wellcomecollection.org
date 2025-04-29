@@ -3,11 +3,11 @@ import styled from 'styled-components';
 
 import { getCrop } from '@weco/common/model/image';
 import { font } from '@weco/common/utils/classnames';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
+import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
+import LinkLabels from '@weco/content/components/LinkLabels';
 import { Contributor as ContributorType } from '@weco/content/types/contributors';
 
 const ContributorImageWrapper = styled(Space).attrs({

@@ -6,12 +6,12 @@ import { usePrismicData } from '@weco/common/server-data/Context';
 import { AppErrorProps } from '@weco/common/services/app';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import { font } from '@weco/common/utils/classnames';
-import FindUs from '@weco/common/views/components/FindUs/FindUs';
+import FindUs from '@weco/common/views/components/FindUs';
 import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
-import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
+import OpeningTimes from '@weco/common/views/components/OpeningTimes';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
