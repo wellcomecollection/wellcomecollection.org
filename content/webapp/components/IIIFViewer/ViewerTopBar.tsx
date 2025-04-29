@@ -1,10 +1,6 @@
 // https://stackoverflow.com/questions/25993861/how-do-i-get-typescript-to-stop-complaining-about-functions-it-doesnt-know-abou
 /* eslint-disable dot-notation */
-import {
-  ChoiceBody,
-  IIIFExternalWebResource,
-  ImageService,
-} from '@iiif/presentation-3';
+import { ChoiceBody, ImageService } from '@iiif/presentation-3';
 import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 
@@ -23,6 +19,7 @@ import { AppContext } from '@weco/common/views/components/AppContext';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import Download from '@weco/content/components/Download';
+import { IIIFItemProps } from '@weco/content/components/IIIFItem';
 import ItemViewerContext from '@weco/content/components/ItemViewerContext';
 import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
@@ -286,13 +283,16 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   const videoAudioDownloadOptions = () => {
     if (!currentCanvas?.painting) return [];
 
-    const formatItemInfo = (item: IIIFExternalWebResource) => ({
+    const isAudio = (item: IIIFItemProps) =>
+      item.type === 'Sound' || item.type === 'Audio';
+
+    const formatItemInfo = item => ({
       format: item.format || '',
       id: item.id || '',
       label:
         item.type === 'Video'
           ? 'This video'
-          : item.type === 'Sound'
+          : isAudio(item)
             ? 'This audio'
             : '',
     });
@@ -304,11 +304,11 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
         .filter(painting => isChoiceBody(painting))
         .forEach(({ items }) => {
           items.forEach(item => {
-            const externalResourceItem = item as IIIFExternalWebResource;
+            const externalResourceItem = item as IIIFItemProps;
 
             if (
               externalResourceItem.type !== 'Video' &&
-              externalResourceItem.type !== 'Sound'
+              isAudio(externalResourceItem)
             )
               return undefined;
 
@@ -317,7 +317,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
         });
     } else {
       currentCanvas.painting.forEach(item => {
-        if (item.type !== 'Video' && item.type !== 'Sound') return undefined;
+        if (item.type !== 'Video' && isAudio(item)) return undefined;
 
         finalOptions.push(formatItemInfo(item));
       });
