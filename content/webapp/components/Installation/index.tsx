@@ -5,6 +5,7 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isPast } from '@weco/common/utils/dates';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import Body from '@weco/content/components/Body';
@@ -36,29 +37,27 @@ const Installation: FunctionComponent<Props> = ({ installation }) => {
 
   const FeaturedMedia = getFeaturedMedia(installation);
 
-  const breadcrumbs = {
-    items: [
-      {
-        text: 'Installations',
-      },
-      partOf
-        ? {
-            url: linkResolver(partOf),
-            text: partOf.shortTitle || partOf.title,
-            prefix: 'Part of',
-          }
-        : undefined,
-      {
-        url: linkResolver(installation),
-        text: installation.title,
-        isHidden: true,
-      },
-    ].filter(isNotUndefined),
-  };
+  const extraBreadcrumbs = [
+    {
+      text: 'Installations',
+    },
+    partOf
+      ? {
+          url: linkResolver(partOf),
+          text: partOf.shortTitle || partOf.title,
+          prefix: 'Part of',
+        }
+      : undefined,
+    {
+      url: linkResolver(installation),
+      text: installation.title,
+      isHidden: true,
+    },
+  ].filter(isNotUndefined);
 
   const Header = (
     <PageHeader
-      breadcrumbs={breadcrumbs}
+      breadcrumbs={getBreadcrumbItems('whats-on', extraBreadcrumbs)}
       labels={{ labels: installation.labels }}
       title={installation.title}
       FeaturedMedia={FeaturedMedia}

@@ -10,6 +10,7 @@ import { AppErrorProps } from '@weco/common/services/app';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { serialiseProps } from '@weco/common/utils/json';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
@@ -184,7 +185,7 @@ const StoriesPage: FunctionComponent<Props> = ({
       apiToolbarLinks={[createPrismicLink(storiesLanding.id)]}
     >
       <PageHeader
-        breadcrumbs={{ items: [] }}
+        breadcrumbs={getBreadcrumbItems('stories')}
         title="Stories"
         isContentTypeInfoBeforeMedia={false}
         sectionLevelPage={true}

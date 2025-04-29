@@ -33,6 +33,7 @@ import { formatDayDate, formatTime } from '@weco/common/utils/format-date';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import Button from '@weco/common/views/components/Buttons';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import Icon from '@weco/common/views/components/Icon';
@@ -180,31 +181,29 @@ const EventPage: NextPage<EventProps> = ({
     text: i.interpretationType.title,
   }));
 
-  const breadcrumbs = {
-    items: [
-      {
-        url: '/events',
-        text: 'Events',
-      },
-      ...event.series.map(series => ({
-        url: linkResolver(series),
-        text: series.title || '',
-        prefix: 'Part of',
-      })),
-      scheduledIn
-        ? {
-            url: linkResolver(scheduledIn),
-            text: scheduledIn.title || '',
-            prefix: 'Part of',
-          }
-        : undefined,
-      {
-        url: linkResolver(event),
-        text: event.title,
-        isHidden: true,
-      },
-    ].filter(isNotUndefined),
-  };
+  const extraBreadcrumbs = [
+    {
+      url: '/events',
+      text: 'Events',
+    },
+    ...event.series.map(series => ({
+      url: linkResolver(series),
+      text: series.title || '',
+      prefix: 'Part of',
+    })),
+    scheduledIn
+      ? {
+          url: linkResolver(scheduledIn),
+          text: scheduledIn.title || '',
+          prefix: 'Part of',
+        }
+      : undefined,
+    {
+      url: linkResolver(event),
+      text: event.title,
+      isHidden: true,
+    },
+  ].filter(isNotUndefined);
 
   const labels = {
     labels: eventFormat.concat(eventAudiences, eventInterpretations),
@@ -212,7 +211,7 @@ const EventPage: NextPage<EventProps> = ({
 
   const Header = (
     <PageHeader
-      breadcrumbs={breadcrumbs}
+      breadcrumbs={getBreadcrumbItems('whats-on', extraBreadcrumbs)}
       labels={labels}
       title={event.title}
       FeaturedMedia={maybeFeaturedMedia}

@@ -1,13 +1,17 @@
 import { FunctionComponent } from 'react';
 
-import { BreadcrumbItems } from '@weco/common/model/breadcrumbs';
+import { BreadcrumbItems, Breadcrumbs } from '@weco/common/model/breadcrumbs';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { breadcrumbsLd } from '@weco/common/utils/json-ld';
 import { links } from '@weco/common/views/components/Header';
 import Space from '@weco/common/views/components/styled/Space';
 
-export function getBreadcrumbItems(siteSection?: string): BreadcrumbItems {
+export function getBreadcrumbItems(
+  siteSection?: string,
+  custom?: Breadcrumbs
+): BreadcrumbItems {
   if (!siteSection) return { items: [] };
+
   return {
     items: siteSection
       ? [
@@ -17,6 +21,7 @@ export function getBreadcrumbItems(siteSection?: string): BreadcrumbItems {
               siteSection,
             url: siteSection ? `/${siteSection}` : '',
           },
+          ...(custom || []),
         ]
       : [],
   };

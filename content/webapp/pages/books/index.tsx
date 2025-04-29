@@ -8,6 +8,7 @@ import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { pluralize } from '@weco/common/utils/grammar';
 import { serialiseProps } from '@weco/common/utils/json';
+import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import Divider from '@weco/common/views/components/Divider';
 import {
   ContaineredLayout,
@@ -80,14 +81,7 @@ const BooksPage: FunctionComponent<Props> = ({ books }) => {
     >
       <SpacingSection>
         <PageHeader
-          breadcrumbs={{
-            items: [
-              {
-                text: 'Stories',
-                url: '/stories/',
-              },
-            ],
-          }}
+          breadcrumbs={getBreadcrumbItems('stories')}
           title="Books"
           ContentTypeInfo={
             pageDescriptions.books && (

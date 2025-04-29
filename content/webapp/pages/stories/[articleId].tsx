@@ -18,6 +18,7 @@ import { capitalize } from '@weco/common/utils/grammar';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import PageHeader from '@weco/common/views/components/PageHeader';
@@ -269,29 +270,23 @@ const ArticlePage: FunctionComponent<Props> = ({
     }
   }, []);
 
-  const breadcrumbs = {
-    items: [
-      {
-        url: '/stories',
-        text: 'Stories',
-      },
-      // GOTCHA: we only take the first of the series list as the data is being
-      // used a little bit badly, but we don't have capacity to implement a
-      // better solution
-      ...article.series.slice(0, 1).map(series => {
-        return {
-          url: linkResolver(series),
-          text: series.title || '',
-          prefix: 'Part of',
-        };
-      }),
-      {
-        url: linkResolver(article),
-        text: article.title,
-        isHidden: true,
-      },
-    ],
-  };
+  const extraBreadcrumbs = [
+    // GOTCHA: we only take the first of the series list as the data is being
+    // used a little bit badly, but we don't have capacity to implement a
+    // better solution
+    ...article.series.slice(0, 1).map(series => {
+      return {
+        url: linkResolver(series),
+        text: series.title || '',
+        prefix: 'Part of',
+      };
+    }),
+    {
+      url: linkResolver(article),
+      text: article.title,
+      isHidden: true,
+    },
+  ];
 
   const isPodcast = article.format?.id === ArticleFormatIds.Podcast;
 
@@ -367,7 +362,7 @@ const ArticlePage: FunctionComponent<Props> = ({
 
   const Header = (
     <PageHeader
-      breadcrumbs={breadcrumbs}
+      breadcrumbs={getBreadcrumbItems('stories', extraBreadcrumbs)}
       labels={{ labels: article.labels }}
       title={article.title}
       ContentTypeInfo={ContentTypeInfo}
