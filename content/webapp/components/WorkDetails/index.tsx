@@ -1,5 +1,5 @@
 import { usePathname } from 'next/navigation';
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent, useContext, useMemo } from 'react';
 
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { font } from '@weco/common/utils/classnames';
@@ -10,11 +10,11 @@ import {
   gridSize10,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import { useUser } from '@weco/common/views/components/UserProvider';
 import { themeValues } from '@weco/common/views/themes/config';
 import { toLink as conceptLink } from '@weco/content/components/ConceptLink';
 import { CopyUrl } from '@weco/content/components/CopyButtons';
-import IsArchiveContext from '@weco/content/components/IsArchiveContext/IsArchiveContext';
+import IsArchiveContext from '@weco/content/components/IsArchiveContext';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import { toLink as imagesLink } from '@weco/content/components/SearchPagesLink/Images';
 import { toLink as worksLink } from '@weco/content/components/SearchPagesLink/Works';
@@ -120,7 +120,10 @@ const WorkDetails: FunctionComponent<Props> = ({
 
   const seriesPartOfs = work.partOf.filter(p => !p.id);
 
-  const physicalItems = getItemsWithPhysicalLocation(work.items ?? []);
+  const physicalItems = useMemo(
+    () => getItemsWithPhysicalLocation(work.items ?? []),
+    [work.items]
+  );
 
   const locationOfWork = work.notes.find(
     note => note.noteType.id === 'location-of-original'

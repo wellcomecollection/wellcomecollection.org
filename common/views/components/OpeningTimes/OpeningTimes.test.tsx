@@ -4,7 +4,7 @@ import * as serviceOpeningTimes from '@weco/common/services/prismic/opening-time
 import { shopVenue } from '@weco/common/test/fixtures/components/shop-venue';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 
-import OpeningTimes from './OpeningTimes';
+import OpeningTimes from '.';
 
 describe('OpeningTimes', () => {
   const spyOnGetTodaysVenueHours = jest.spyOn(

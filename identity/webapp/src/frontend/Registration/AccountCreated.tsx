@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 
 import { info2 } from '@weco/common/icons';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Icon from '@weco/common/views/components/Icon';
 import {
   ContaineredLayout,
   gridSize10,

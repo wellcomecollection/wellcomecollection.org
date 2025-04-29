@@ -14,11 +14,11 @@ import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
-import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
-import IIIFItem from '@weco/content/components/IIIFItem/IIIFItem';
+import { useUser } from '@weco/common/views/components/UserProvider';
+import IIIFItem from '@weco/content/components/IIIFItem';
 import ItemViewerContext, {
   RotatedImage,
-} from '@weco/content/components/ItemViewerContext/ItemViewerContext';
+} from '@weco/content/components/ItemViewerContext';
 import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { TransformedCanvas } from '@weco/content/types/manifest';

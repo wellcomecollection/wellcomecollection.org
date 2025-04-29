@@ -14,7 +14,7 @@ import styled from 'styled-components';
 
 import { chevron, IconSvg } from '@weco/common/icons';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { AppContext } from '@weco/common/views/components/AppContext';
 import { BorderlessButton } from '@weco/common/views/components/BorderlessClickable';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';

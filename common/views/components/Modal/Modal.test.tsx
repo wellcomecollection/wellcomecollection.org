@@ -4,8 +4,8 @@ import { useRef, useState } from 'react';
 import { act } from 'react-dom/test-utils';
 import { ThemeProvider } from 'styled-components';
 
-import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
-import Modal from '@weco/common/views/components/Modal/Modal';
+import { AppContextProvider } from '@weco/common/views/components/AppContext';
+import Modal from '@weco/common/views/components/Modal';
 import theme from '@weco/common/views/themes/default';
 
 const renderComponent = () => {

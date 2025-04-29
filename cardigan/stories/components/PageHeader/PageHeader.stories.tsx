@@ -12,19 +12,19 @@ import {
   landingHeaderBackgroundLs,
 } from '@weco/common/utils/backgrounds';
 import { font } from '@weco/common/utils/classnames';
-import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
+import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import PageHeader from '@weco/common/views/components/PageHeader';
 import ShortFilmPageHeaderReadme from '@weco/common/views/components/PageHeader/ShortFilm_README.mdx';
-import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
-import Picture from '@weco/common/views/components/Picture/Picture';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst';
+import Picture from '@weco/common/views/components/Picture';
+import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import theme from '@weco/common/views/themes/default';
-import Body from '@weco/content/components/Body/Body';
-import BookImage from '@weco/content/components/BookImage/BookImage';
-import ContentPage from '@weco/content/components/ContentPage/ContentPage';
-import PartNumberIndicator from '@weco/content/components/PartNumberIndicator/PartNumberIndicator';
+import Body from '@weco/content/components/Body';
+import BookImage from '@weco/content/components/BookImage';
+import ContentPage from '@weco/content/components/ContentPage';
+import PartNumberIndicator from '@weco/content/components/PartNumberIndicator';
 import TextWithDot from '@weco/content/components/TextWithDot';
 
 const meta: Meta<typeof PageHeader> = {

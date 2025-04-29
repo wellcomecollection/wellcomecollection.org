@@ -10,10 +10,10 @@ import {
   ContaineredLayout,
   gridSize8,
 } from '@weco/common/views/components/Layout';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageHeader from '@weco/common/views/components/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
-import NewsletterSignup from '@weco/content/components/NewsletterSignup/NewsletterSignup';
+import NewsletterSignup from '@weco/content/components/NewsletterSignup';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 type Props = {

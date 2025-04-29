@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
 
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio';
 
 const meta: Meta<typeof CheckboxRadio> = {
   title: 'Components/CheckboxRadio',

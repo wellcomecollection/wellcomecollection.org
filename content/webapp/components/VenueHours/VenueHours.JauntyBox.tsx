@@ -5,7 +5,7 @@ import {
 } from '@weco/common/model/opening-hours';
 import { font } from '@weco/common/utils/classnames';
 import { formatDayName } from '@weco/common/utils/format-date';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
 import { JauntyBox, OpeningHours } from './VenueHours.styles';

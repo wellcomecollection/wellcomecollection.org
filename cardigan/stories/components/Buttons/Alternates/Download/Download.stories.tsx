@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import Download from '@weco/content/components/Download/Download';
+import Download from '@weco/content/components/Download';
 
 const meta: Meta<typeof Download> = {
   title: 'Components/Buttons/Alternates/Download',

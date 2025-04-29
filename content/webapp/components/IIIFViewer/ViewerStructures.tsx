@@ -4,14 +4,14 @@ import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { thumbnailsPageSize } from '@weco/content/components/IIIFViewer/Paginators';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import ItemViewerContext, {
   Query,
-} from '@weco/content/components/ItemViewerContext/ItemViewerContext';
+} from '@weco/content/components/ItemViewerContext';
 import {
   Work,
   WorkBasic,

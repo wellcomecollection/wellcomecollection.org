@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import Contact from '@weco/content/components/Contact/Contact';
+import Contact from '@weco/content/components/Contact';
 import Readme from '@weco/content/components/Contact/README.mdx';
 
 const meta: Meta<typeof Contact> = {

@@ -9,7 +9,7 @@ import {
   location,
   ticket,
 } from '@weco/common/icons';
-import InfoBox from '@weco/content/components/InfoBox/InfoBox';
+import InfoBox from '@weco/content/components/InfoBox';
 import Readme from '@weco/content/components/InfoBox/README.mdx';
 
 const meta: Meta<typeof InfoBox> = {

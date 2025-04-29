@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import Breadcrumb from '@weco/common/views/components/Breadcrumb/Breadcrumb';
+import Breadcrumb from '@weco/common/views/components/Breadcrumb';
 
 const meta: Meta<typeof Breadcrumb> = {
   title: 'Components/Breadcrumb',

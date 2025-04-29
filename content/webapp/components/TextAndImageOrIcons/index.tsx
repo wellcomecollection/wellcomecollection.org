@@ -3,11 +3,11 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { ImageType } from '@weco/common/model/image';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
+import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
-import CaptionedImage from '@weco/content/components/CaptionedImage/CaptionedImage';
-import { defaultSerializer } from '@weco/content/components/HTMLSerializers/HTMLSerializers';
+import CaptionedImage from '@weco/content/components/CaptionedImage';
+import { defaultSerializer } from '@weco/content/components/HTMLSerializers';
 
 const MediaAndTextWrap = styled(Space).attrs({
   $h: { size: 'l', properties: ['column-gap'] },

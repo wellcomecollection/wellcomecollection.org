@@ -5,7 +5,7 @@ import {
 import { Organization } from '@weco/common/model/organization';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { objToJsonLd } from '@weco/common/utils/json-ld';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import { getImageUrlAtSize } from '@weco/content/services/prismic/types/images';
 import {
   Article as ArticleContentApi,

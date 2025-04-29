@@ -4,7 +4,7 @@ import { usePopper } from 'react-popper';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { AppContext } from '@weco/common/views/components/AppContext';
 import Space from '@weco/common/views/components/styled/Space';
 
 const TogglePlayRateButton = styled.button.attrs({

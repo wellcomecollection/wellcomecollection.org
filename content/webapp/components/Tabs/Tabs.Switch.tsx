@@ -10,9 +10,9 @@ import {
 
 import { IconSvg } from '@weco/common/icons';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import { AppContext } from '@weco/common/views/components/AppContext';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
+import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
 import {

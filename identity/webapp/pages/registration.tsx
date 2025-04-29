@@ -12,7 +12,7 @@ import { font } from '@weco/common/utils/classnames';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isString } from '@weco/common/utils/type-guards';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio';
 import {
   ContaineredLayout,
   gridSize10,

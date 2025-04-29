@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import InfoBlock from '@weco/content/components/InfoBlock/InfoBlock';
+import InfoBlock from '@weco/content/components/InfoBlock';
 import Readme from '@weco/content/components/InfoBlock/README.mdx';
 
 const meta: Meta<typeof InfoBlock> = {

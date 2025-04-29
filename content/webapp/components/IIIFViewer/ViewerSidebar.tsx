@@ -14,14 +14,14 @@ import { useToggles } from '@weco/common/server-data/Context';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
-import IIIFSearchWithin from '@weco/content/components/IIIFSearchWithin/IIIFSearchWithin';
-import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
-import LinkLabels from '@weco/content/components/LinkLabels/LinkLabels';
+import { useUser } from '@weco/common/views/components/UserProvider';
+import IIIFSearchWithin from '@weco/content/components/IIIFSearchWithin';
+import ItemViewerContext from '@weco/content/components/ItemViewerContext';
+import LinkLabels from '@weco/content/components/LinkLabels';
 import WorkLink from '@weco/content/components/WorkLink';
-import WorkTitle from '@weco/content/components/WorkTitle/WorkTitle';
+import WorkTitle from '@weco/content/components/WorkTitle';
 import {
   getAuthServices,
   getMultiVolumeLabel,

@@ -1,5 +1,5 @@
 import Button from '@weco/common/views/components/Buttons';
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import {
   CheckboxFilter as CheckboxFilterType,
