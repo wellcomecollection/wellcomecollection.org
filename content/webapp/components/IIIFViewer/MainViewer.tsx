@@ -420,6 +420,7 @@ const MainViewer: FunctionComponent = () => {
   const { canvases, auth, placeholderId } = {
     ...transformedManifest,
   };
+  const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
 
   // Only the V2 external service works for providing access so we always attempt to use that first
   const externalAccessService =
@@ -432,7 +433,6 @@ const MainViewer: FunctionComponent = () => {
     setNewScrollOffset(scrollOffset);
 
     timer.current = setTimeout(() => {
-      const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
       if (currentCanvas?.imageServiceId) {
         setShowControls(true);
       }
@@ -443,7 +443,6 @@ const MainViewer: FunctionComponent = () => {
   function handleOnItemsRendered() {
     let currentCanvas: TransformedCanvas | undefined;
     if (firstRenderRef.current) {
-      currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
       const viewer = mainViewerRef?.current;
       scrollViewer({ currentCanvas, canvas, viewer, mainAreaWidth });
       setFirstRender(false);
@@ -456,7 +455,7 @@ const MainViewer: FunctionComponent = () => {
   useEffect(() => {
     if (shouldScrollToCanvas) {
       scrollViewer({
-        currentCanvas: canvases?.[queryParamToArrayIndex(canvas)],
+        currentCanvas,
         canvas,
         viewer: mainViewerRef?.current,
         mainAreaWidth,
@@ -464,7 +463,6 @@ const MainViewer: FunctionComponent = () => {
     }
   }, [canvas]);
 
-  const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
   const displayItems = currentCanvas ? getDisplayItems(currentCanvas) : [];
   const useFixedSizeList = !hasNonImages(canvases);
   if (!useFixedSizeList) {
