@@ -512,10 +512,10 @@ const MainViewer: FunctionComponent = () => {
                     />
                   </ItemWrapper>
                 ) : null}
-                <CanvasPaginator />
               </>
             );
           })}
+          <CanvasPaginator />;
         </>
       )}
     </div>
