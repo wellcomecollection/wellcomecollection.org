@@ -24,7 +24,6 @@ import MoreLink from '@weco/content/components/MoreLink';
 import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink/Images';
 import {
   toLink as toWorksLink,
-  toLink as worksLink,
 } from '@weco/content/components/SearchPagesLink/Works';
 import Tabs from '@weco/content/components/Tabs';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults';
@@ -56,6 +55,8 @@ const emptyImageResults: CatalogueResultsList<ImageType> = emptyResultList();
 const emptyWorkResults: CatalogueResultsList<WorkType> = emptyResultList();
 
 const tabOrder = ['by', 'in', 'about'] as const;
+
+// TODO: Remove these components when we introduce new theme pages.
 
 const RelatedConceptsContainer = styled.div.attrs({
   className: font('intr', 6),
@@ -129,7 +130,7 @@ const SingleRelatedConcept = ({ item }: { item: RelatedConcept }) => (
     >
       <RelatedConceptLink>{item.label}</RelatedConceptLink>
     </NextLink>
-    {item.relationshipType?.replace('relationship_', '')}
+    {item.relationshipType?.replace('has_', '')}
   </RelatedConceptItem>
 );
 
@@ -458,58 +459,66 @@ export const ConceptPage: NextPage<Props> = ({
             $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
           >
             <HeroTitle>{conceptResponse.label}</HeroTitle>
-            {newThemePages &&
-              conceptResponse.alternativeLabels &&
-              conceptResponse.alternativeLabels?.length > 0 && (
-                <AlternativeLabels>
-                  {conceptResponse.alternativeLabels.map(label => (
-                    <AlternativeLabel key={label}>
-                      {capitalize(label)}
-                    </AlternativeLabel>
-                  ))}
-                </AlternativeLabels>
-              )}
-            {newThemePages && narrowerThan && narrowerThan?.length > 0 && (
-              <RelatedConceptsContainer>
-                <span>Part of</span>
-                {narrowerThan.map(item => (
-                  <SingleRelatedConcept key={item.id} item={item} />
-                ))}
-              </RelatedConceptsContainer>
-            )}
-            {newThemePages && conceptResponse.description && (
-              <p>{capitalize(conceptResponse.description)}</p>
+            {newThemePages && (
+              <>
+                {conceptResponse.alternativeLabels &&
+                  conceptResponse.alternativeLabels?.length > 0 && (
+                    <AlternativeLabels>
+                      {conceptResponse.alternativeLabels.map(label => (
+                        <AlternativeLabel key={label}>
+                          {capitalize(label)}
+                        </AlternativeLabel>
+                      ))}
+                    </AlternativeLabels>
+                  )}
+                {narrowerThan && narrowerThan?.length > 0 && (
+                  <RelatedConceptsContainer>
+                    <span>Part of</span>
+                    {narrowerThan.map(item => (
+                      <SingleRelatedConcept key={item.id} item={item} />
+                    ))}
+                  </RelatedConceptsContainer>
+                )}
+                {conceptResponse.description && (
+                  <p>{capitalize(conceptResponse.description)}</p>
+                )}
+              </>
             )}
           </Space>
-          {newThemePages && fieldsOfWork && (
-            <RelatedConceptsGroup
-              heading="Fields of work"
-              relatedConcepts={fieldsOfWork}
-            />
-          )}
-          {newThemePages && people && (
-            <RelatedConceptsGroup
-              heading="Notable people in this field"
-              relatedConcepts={people}
-            />
-          )}
-          {newThemePages && relatedTo && (
-            <RelatedConceptsGroup
-              heading="Related to"
-              relatedConcepts={relatedTo}
-            />
-          )}
-          {newThemePages && broaderThan && (
-            <RelatedConceptsGroup
-              heading="Broader than"
-              relatedConcepts={broaderThan}
-            />
-          )}
-          {newThemePages && referencedTogether && (
-            <RelatedConceptsGroup
-              heading="Frequently referenced together"
-              relatedConcepts={referencedTogether}
-            />
+
+          {newThemePages && (
+            <>
+              {fieldsOfWork && (
+                <RelatedConceptsGroup
+                  heading="Fields of work"
+                  relatedConcepts={fieldsOfWork}
+                />
+              )}
+              {people && (
+                <RelatedConceptsGroup
+                  heading="Notable people in this field"
+                  relatedConcepts={people}
+                />
+              )}
+              {relatedTo && (
+                <RelatedConceptsGroup
+                  heading="Related to"
+                  relatedConcepts={relatedTo}
+                />
+              )}
+              {broaderThan && (
+                <RelatedConceptsGroup
+                  heading="Broader than"
+                  relatedConcepts={broaderThan}
+                />
+              )}
+              {referencedTogether && (
+                <RelatedConceptsGroup
+                  heading="Frequently referenced together"
+                  relatedConcepts={referencedTogether}
+                />
+              )}
+            </>
           )}
         </Container>
       </ConceptHero>
