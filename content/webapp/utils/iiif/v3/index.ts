@@ -508,6 +508,7 @@ export function getDisplayData(
     })
     .filter(Boolean) as (ChoiceBody | ContentResource)[];
 }
+
 export function transformCanvas(canvas: Canvas): TransformedCanvas {
   const label = getCanvasLabel(canvas);
   const textServiceId = getCanvasTextServiceId(canvas);
@@ -648,9 +649,7 @@ export function hasItemType(
   );
 }
 
-export function hasOriginalPdf(
-  canvases: TransformedCanvas[] | undefined
-): boolean {
+export function hasOriginalPdf(canvases?: TransformedCanvas[]): boolean {
   return (
     canvases?.some(canvas => {
       return canvas.original.some(item => {
@@ -658,6 +657,32 @@ export function hasOriginalPdf(
       });
     }) || false
   );
+}
+
+export function isPDFCanvas(canvas?: TransformedCanvas): boolean {
+  if (!canvas) return false;
+
+  const hasPDFSupplement = canvas?.supplementing.some(supplement => {
+    if (isChoiceBody(supplement)) {
+      return supplement.items.some(item => {
+        if (typeof item !== 'string')
+          return 'format' in item ? item.format === 'application/pdf' : false;
+
+        return false;
+      });
+    } else {
+      return 'format' in supplement[0]
+        ? supplement[0].format === 'application/pdf'
+        : false;
+    }
+  });
+
+  const hasPaintings = canvas.painting?.length > 0;
+
+  // 1. Born digital PDFs require a look at originals as their format is "Image"
+  // 2. Because Videos could also have PDF supplements,
+  //    we only want it to return true if it has no paintings.
+  return hasOriginalPdf([canvas]) || (hasPDFSupplement && !hasPaintings);
 }
 
 export function isCollection(
