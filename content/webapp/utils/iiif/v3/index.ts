@@ -759,7 +759,6 @@ export function getBornDigitalStatus(
 export function hasNonImages(
   canvases: TransformedCanvas[] | undefined
 ): boolean {
-  canvases?.map(c => console.log(JSON.stringify(c, null, 2)));
   const hasNonImage = canvases?.some(c => {
     return (
       c.painting.some(p => p.type !== 'Image') ||
