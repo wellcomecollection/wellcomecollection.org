@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react';
 import { DateRange as DateRangeType } from '@weco/common/model/date-range';
 import { isSameDayOrBefore, today } from '@weco/common/utils/dates';
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
-import DateRange from '@weco/content/components/DateRange/DateRange';
+import DateRange from '@weco/content/components/DateRange';
 import { EventTime } from '@weco/content/types/events';
 
 type Props = {

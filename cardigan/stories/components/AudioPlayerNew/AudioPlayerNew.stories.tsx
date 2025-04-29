@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { prismicRichTextMultiline } from '@weco/cardigan/stories/data/text';
-import AudioPlayer from '@weco/content/components/AudioPlayerNew/AudioPlayer';
+import AudioPlayer from '@weco/content/components/AudioPlayerNew';
 
 const meta: Meta<typeof AudioPlayer> = {
   title: 'Components/AudioPlayerNew',

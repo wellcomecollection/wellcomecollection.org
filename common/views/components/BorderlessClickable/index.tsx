@@ -14,7 +14,7 @@ import {
   BasicButton,
   ButtonIconWrapper,
 } from '@weco/common/views/components/Buttons/Buttons.styles';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Icon from '@weco/common/views/components/Icon';
 
 type ClickableElement = 'a' | 'button';
 

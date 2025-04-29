@@ -6,7 +6,7 @@ import {
   List,
 } from '@weco/content/components/IIIFViewer/ViewerStructures';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
-import ItemViewerContext from '@weco/content/components/ItemViewerContext/ItemViewerContext';
+import ItemViewerContext from '@weco/content/components/ItemViewerContext';
 import { volumesNavigationLabel } from '@weco/content/text/aria-labels';
 import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
 

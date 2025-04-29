@@ -9,7 +9,7 @@ import styled from 'styled-components';
 
 import { file, imageFile } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Icon from '@weco/common/views/components/Icon';
 import { controlDimensions } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
 import {
   CustomContentResource,

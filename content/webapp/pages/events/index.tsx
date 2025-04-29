@@ -19,25 +19,25 @@ import {
   linkResolver,
 } from '@weco/common/utils/search';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import Divider from '@weco/common/views/components/Divider/Divider';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import Divider from '@weco/common/views/components/Divider';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
   gridSize12,
   gridSize8,
 } from '@weco/common/views/components/Layout';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import PageHeader from '@weco/common/views/components/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import { themeValues } from '@weco/common/views/themes/config';
-import CardGrid from '@weco/content/components/CardGrid/CardGrid';
+import CardGrid from '@weco/content/components/CardGrid';
 import EventsSearchResults from '@weco/content/components/EventsSearchResults';
-import MoreLink from '@weco/content/components/MoreLink/MoreLink';
+import MoreLink from '@weco/content/components/MoreLink';
 import NoEvents from '@weco/content/components/NoEvents';
-import Pagination from '@weco/content/components/Pagination/Pagination';
+import Pagination from '@weco/content/components/Pagination';
 import SearchFilters from '@weco/content/components/SearchFilters';
 import {
   EventsProps,
@@ -75,7 +75,7 @@ export type Props = {
   jsonLd: JsonLdObj[];
 };
 
-type NewProps = {
+export type NewProps = {
   events: ContentResultsList<EventDocument>;
   eventsRouteProps: EventsProps;
   query: Query;
@@ -99,38 +99,25 @@ export const getServerSideProps: GetServerSideProps<
   const isUsingContentAPI = !!serverData.toggles.filterEventsListing.value;
 
   if (isUsingContentAPI) {
-    const { period = 'future', availableOnline } = context.query;
-
-    if (availableOnline) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/events/past?isAvailableOnline=true',
-        },
-      };
-    }
-
-    const query = context.query;
-    const { page, ...restOfQuery } = query;
-    const params = fromQuery(query);
+    const { page, ...restOfQuery } = context.query;
     const pageNumber = getQueryPropertyValue(page);
-    const paramsQuery = {
-      ...restOfQuery,
-      timespan: getQueryPropertyValue(period),
-    };
+    const params = fromQuery(restOfQuery);
+    const timespan = 'future';
+
+    const allPossibleParams = { ...params, timespan };
+    const queriedParams = { ...restOfQuery, timespan };
 
     const eventResponseList = await getEvents({
       params: {
-        ...paramsQuery,
+        ...queriedParams,
         sort: 'times.startDateTime',
-        sortOrder: period === 'future' ? 'asc' : 'desc',
+        sortOrder: 'asc',
         ...(pageNumber && { page: Number(pageNumber) }),
         aggregations: [
           'format',
           'audience',
           'interpretation',
           'location',
-          period === 'past' ? 'isAvailableOnline' : undefined,
         ].filter(isNotUndefined),
       },
       pageSize: 25,
@@ -151,9 +138,9 @@ export const getServerSideProps: GetServerSideProps<
       return {
         props: serialiseProps({
           events: eventResponseList,
-          eventsRouteProps: params,
-          query,
-          period: period as 'future' | 'past',
+          query: context.query,
+          eventsRouteProps: allPossibleParams,
+          period: timespan,
           jsonLd,
           serverData,
         }),
@@ -162,17 +149,13 @@ export const getServerSideProps: GetServerSideProps<
 
     return { notFound: true };
   } else {
-    const {
-      period = 'current-and-coming-up',
-      isOnline,
-      availableOnline,
-    } = context.query;
+    const { isOnline, availableOnline } = context.query;
 
     const client = createClient(context);
 
     const eventsQueryPromise = await fetchEvents(client, {
       page,
-      period: period as 'current-and-coming-up' | 'past' | undefined,
+      period: 'current-and-coming-up',
       pageSize: 100,
       isOnline: isOnline === 'true',
       availableOnline: availableOnline === 'true',
@@ -182,7 +165,7 @@ export const getServerSideProps: GetServerSideProps<
     const basicEvents = transformQuery(eventsQueryPromise, transformEventBasic);
 
     if (events) {
-      const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
+      const title = 'Events';
       const jsonLd = events.results.flatMap(eventLd);
 
       return {
@@ -192,7 +175,7 @@ export const getServerSideProps: GetServerSideProps<
             results: basicEvents.results,
           },
           title,
-          period: period as Period,
+          period: 'current-and-coming-up',
           jsonLd,
           serverData,
         }),
@@ -230,7 +213,7 @@ const EventsPage: FunctionComponent<Props | NewProps> = props => {
           sortOrder: period === 'future' ? 'asc' : 'desc',
         }),
       },
-      pathname: `${router.pathname}${isInPastListing ? '/past' : ''}`,
+      pathname: router.pathname,
     });
 
     return router.push(link.href, link.as);
@@ -339,10 +322,7 @@ const EventsPage: FunctionComponent<Props | NewProps> = props => {
 
                 <SearchFilters
                   linkResolver={params =>
-                    linkResolver({
-                      params,
-                      pathname: `${router.pathname}${isInPastListing ? '/past' : ''}`,
-                    })
+                    linkResolver({ params, pathname: router.pathname })
                   }
                   searchFormId={EVENTS_LISTING_FORM_ID}
                   changeHandler={() => {

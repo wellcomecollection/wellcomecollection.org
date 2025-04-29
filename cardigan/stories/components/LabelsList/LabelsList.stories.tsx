@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import LabelsList from '@weco/common/views/components/LabelsList';
 
 const meta: Meta<typeof LabelsList> = {
   title: 'Components/LabelsList',

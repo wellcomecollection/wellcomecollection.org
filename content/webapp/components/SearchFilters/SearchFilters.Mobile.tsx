@@ -9,9 +9,9 @@ import Button, {
   ButtonTypes,
   StyledButton,
 } from '@weco/common/views/components/Buttons';
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import Modal from '@weco/common/views/components/Modal/Modal';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio';
+import Icon from '@weco/common/views/components/Icon';
+import Modal from '@weco/common/views/components/Modal';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import PaletteColorPicker from '@weco/content/components/PaletteColorPicker';

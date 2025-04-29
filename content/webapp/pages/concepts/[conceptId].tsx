@@ -18,16 +18,16 @@ import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import theme from '@weco/common/views/themes/default';
-import CataloguePageLayout from '@weco/content/components/CataloguePageLayout/CataloguePageLayout';
-import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults/ImageEndpointSearchResults';
-import MoreLink from '@weco/content/components/MoreLink/MoreLink';
+import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
+import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults';
+import MoreLink from '@weco/content/components/MoreLink';
 import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink/Images';
 import {
   toLink as toWorksLink,
   toLink as worksLink,
 } from '@weco/content/components/SearchPagesLink/Works';
 import Tabs from '@weco/content/components/Tabs';
-import WorksSearchResults from '@weco/content/components/WorksSearchResults/WorksSearchResults';
+import WorksSearchResults from '@weco/content/components/WorksSearchResults';
 import useHotjar from '@weco/content/hooks/useHotjar';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';

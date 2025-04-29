@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors/OnThisPageAnchors';
+import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors';
 import Readme from '@weco/content/components/OnThisPageAnchors/README.mdx';
 
 const meta: Meta<typeof OnThisPageAnchors> = {

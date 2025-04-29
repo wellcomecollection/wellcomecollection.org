@@ -3,17 +3,17 @@ import styled from 'styled-components';
 
 import { getCrop } from '@weco/common/model/image';
 import { font } from '@weco/common/utils/classnames';
-import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import LabelsList from '@weco/common/views/components/LabelsList';
 import {
   ContaineredLayout,
   gridSize10,
   gridSize12,
 } from '@weco/common/views/components/Layout';
-import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import { WobblyBottom } from '@weco/common/views/components/WobblyEdge';
 import Standfirst from '@weco/common/views/slices/Standfirst';
-import DateRange from '@weco/content/components/DateRange/DateRange';
+import DateRange from '@weco/content/components/DateRange';
 import { Season } from '@weco/content/types/seasons';
 
 const HeaderWrapper = styled.div`

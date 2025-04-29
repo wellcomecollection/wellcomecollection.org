@@ -24,7 +24,7 @@ import {
 } from '@iiif/presentation-3';
 
 import { isString } from '@weco/common/utils/type-guards';
-import { IIIFItemProps } from '@weco/content/components/IIIFItem/IIIFItem';
+import { IIIFItemProps } from '@weco/content/components/IIIFItem';
 import {
   Auth,
   AuthClickThroughServiceWithPossibleServiceArray,
@@ -240,7 +240,7 @@ export function getImageAuthProbeService(
   return Array.isArray(service)
     ? service?.find(s => s.type === 'AuthProbeService2')
     : service?.type === 'AuthProbeService2'
-      ? service
+      ? (service as unknown as AuthProbeService2)
       : undefined;
 }
 

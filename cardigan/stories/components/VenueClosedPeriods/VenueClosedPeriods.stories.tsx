@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { libraryVenue } from '@weco/common/test/fixtures/components/library-venue';
-import VenueClosedPeriods from '@weco/content/components/VenueClosedPeriods/VenueClosedPeriods';
+import VenueClosedPeriods from '@weco/content/components/VenueClosedPeriods';
 
 const meta: Meta<typeof VenueClosedPeriods> = {
   title: 'Components/VenueClosedPeriods',

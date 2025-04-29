@@ -1,7 +1,7 @@
 import { ImageType } from '@weco/common/model/image';
 import { LicenseType } from '@weco/common/model/license';
 import { Picture } from '@weco/common/model/picture';
-import { CaptionedImageProps } from '@weco/content/components/CaptionedImage/CaptionedImage';
+import { CaptionedImageProps } from '@weco/content/components/CaptionedImage';
 import { Props as ImageGalleryProps } from '@weco/content/components/ImageGallery';
 import { ContentApiImage } from '@weco/content/services/wellcome/content/types/api';
 

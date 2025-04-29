@@ -13,21 +13,21 @@ import { serialiseProps } from '@weco/common/utils/json';
 import { toMaybeString } from '@weco/common/utils/routes';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { exhibitionGuidesLinks } from '@weco/common/views/components/Header';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
   gridSize10,
 } from '@weco/common/views/components/Layout';
-import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageHeader from '@weco/common/views/components/PageHeader';
+import PageLayout from '@weco/common/views/components/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import {
   ExhibitionGuideLinks,
   ExhibitionResourceLinks,
-} from '@weco/content/components/ExhibitionGuideLinks/ExhibitionGuideLinks';
-import OtherExhibitionGuides from '@weco/content/components/OtherExhibitionGuides/OtherExhibitionGuides';
+} from '@weco/content/components/ExhibitionGuideLinks';
+import OtherExhibitionGuides from '@weco/content/components/OtherExhibitionGuides';
 import { allGuides } from '@weco/content/pages/guides/exhibitions';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import {

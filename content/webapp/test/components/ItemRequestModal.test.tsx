@@ -6,7 +6,7 @@ import { itemRequestDialog } from '@weco/common/data/microcopy';
 import * as Context from '@weco/common/server-data/Context';
 import prismicData from '@weco/common/test/fixtures/prismicData/prismic-data';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
-import ItemRequestModal from '@weco/content/components/ItemRequestModal/ItemRequestModal';
+import ItemRequestModal from '@weco/content/components/ItemRequestModal';
 import { workWithPartOf } from '@weco/content/test/fixtures/catalogueApi/work';
 import { getItemsWithPhysicalLocation } from '@weco/content/utils/works';
 

@@ -5,7 +5,7 @@ import {
   ExhibitionHighlightToursDocumentData as RawExhibitionHighlightToursDocumentData,
   ExhibitionTextsDocumentData as RawExhibitionTextsDocumentData,
 } from '@weco/common/prismicio-types';
-import { VideoProvider } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
+import { VideoProvider } from '@weco/common/views/components/VideoEmbed';
 
 import { ImagePromo } from './image-promo';
 

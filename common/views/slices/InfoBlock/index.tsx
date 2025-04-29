@@ -6,8 +6,8 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import {
   LayoutWidth,
   SliceZoneContext,
-} from '@weco/content/components/Body/Body';
-import InfoBlock from '@weco/content/components/InfoBlock/InfoBlock';
+} from '@weco/content/components/Body';
+import InfoBlock from '@weco/content/components/InfoBlock';
 import { transformInfoBlockSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type InfoBlockProps = SliceComponentProps<

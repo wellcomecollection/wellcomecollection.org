@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import * as icons from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import Icon from '@weco/common/views/components/Icon/Icon';
+import Icon from '@weco/common/views/components/Icon';
 
 const IconWrapper = styled.div`
   display: inline-block;
