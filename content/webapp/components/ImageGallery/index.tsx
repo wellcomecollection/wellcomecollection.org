@@ -29,7 +29,7 @@ import CaptionedImage from '@weco/content/components/CaptionedImage';
 import ComicPreviousNext, {
   Props as ComicPreviousNextProps,
 } from '@weco/content/components/ComicPreviousNext';
-import { PageBackgroundContext } from '@weco/content/components/ContentPage';
+import ContentPageContext from '@weco/content/contexts/ContentPageContext';
 
 import {
   ButtonContainer,
@@ -84,7 +84,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
   const openButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
-  const pageBackground = useContext(PageBackgroundContext);
+  const { pageBackgroundColor } = useContext(ContentPageContext);
 
   useEffect(() => {
     !isStandalone && !isFrames && setIsActive(false);
@@ -156,7 +156,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
         id={id}
         $isActive={isActive}
         $isStandalone={isStandalone || isFrames}
-        $pageBackground={pageBackground}
+        $pageBackground={pageBackgroundColor}
       >
         <div
           className="background"
@@ -184,7 +184,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
             )}
             {!isActive && (
               <WobblyEdgeWrapper>
-                <WobblyEdge backgroundColor={pageBackground} />
+                <WobblyEdge backgroundColor={pageBackgroundColor} />
               </WobblyEdgeWrapper>
             )}
 

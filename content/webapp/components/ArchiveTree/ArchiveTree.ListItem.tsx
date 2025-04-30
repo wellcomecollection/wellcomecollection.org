@@ -1,6 +1,6 @@
 import { FunctionComponent, useContext } from 'react';
 
-import { AppContext } from '@weco/common/views/components/AppContext';
+import AppContext from '@weco/common/contexts/AppContext';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
 
 import {

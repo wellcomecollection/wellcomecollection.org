@@ -11,9 +11,9 @@ import {
 import { CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import { cross } from '@weco/common/icons';
 import { ACTIVE_COOKIE_BANNER_ID } from '@weco/common/services/app/civic-uk';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 

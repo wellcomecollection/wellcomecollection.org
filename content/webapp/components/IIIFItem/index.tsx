@@ -6,6 +6,7 @@ import {
 import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { useUser } from '@weco/common/contexts/UserProvider';
 import {
   restrictedItemMessage,
   unavailableContentMessage,
@@ -19,7 +20,6 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import AudioPlayer from '@weco/content/components/AudioPlayer';
 import BetaMessage from '@weco/content/components/BetaMessage';
 import ImageViewer from '@weco/content/components/IIIFViewer/ImageViewer';

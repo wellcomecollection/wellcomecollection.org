@@ -6,14 +6,14 @@ import {
   useState,
 } from 'react';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import { treeInstructions } from '@weco/common/data/microcopy';
 import { tree } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Button from '@weco/common/views/components/Buttons';
 import Modal from '@weco/common/views/components/Modal';
 import Space from '@weco/common/views/components/styled/Space';
-import IsArchiveContext from '@weco/content/components/IsArchiveContext';
+import IsArchiveContext from '@weco/content/contexts/IsArchiveContext';
 import {
   RelatedWork,
   Work,

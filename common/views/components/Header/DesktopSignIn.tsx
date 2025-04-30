@@ -1,12 +1,12 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import { useUser } from '@weco/common/contexts/UserProvider';
 import { user as userIcon } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { BorderlessLink } from '@weco/common/views/components/BorderlessClickable';
 import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider';
 
 type AccountAProps = {
   $last?: true;

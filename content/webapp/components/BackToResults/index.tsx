@@ -1,8 +1,8 @@
 import NextLink from 'next/link';
 import { FunctionComponent, useContext } from 'react';
 
+import SearchContext from '@weco/common/contexts/SearchContext';
 import { font } from '@weco/common/utils/classnames';
-import SearchContext from '@weco/common/views/components/SearchContext';
 
 const BackToResults: FunctionComponent = () => {
   const { link } = useContext(SearchContext);

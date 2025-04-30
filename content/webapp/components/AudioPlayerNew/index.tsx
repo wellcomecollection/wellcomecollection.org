@@ -8,8 +8,8 @@ import {
 } from 'react';
 import styled, { css } from 'styled-components';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';

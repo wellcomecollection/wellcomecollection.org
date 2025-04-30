@@ -3,10 +3,10 @@ import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 import { KnownTarget } from 'styled-components/dist/types';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import { font } from '@weco/common/utils/classnames';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';

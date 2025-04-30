@@ -35,7 +35,7 @@ const appContextDefaults = {
   setHasAcknowledgedCookieBanner: () => null,
 };
 
-export const AppContext = createContext<AppContextProps>(appContextDefaults);
+const AppContext = createContext<AppContextProps>(appContextDefaults);
 
 function getWindowSize(): Size {
   switch (true) {
@@ -136,3 +136,5 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
     </AppContext.Provider>
   );
 };
+
+export default AppContext;

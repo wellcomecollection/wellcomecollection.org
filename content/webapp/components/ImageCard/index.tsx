@@ -3,8 +3,8 @@ import { usePathname } from 'next/navigation';
 import { FunctionComponent, SyntheticEvent, useContext } from 'react';
 import styled from 'styled-components';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import { ImageType } from '@weco/common/model/image';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import IIIFImage from '@weco/content/components/IIIFImage';
 import { toLink as imageLink } from '@weco/content/components/ImageLink';
 

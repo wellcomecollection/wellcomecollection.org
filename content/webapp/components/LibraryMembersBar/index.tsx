@@ -1,13 +1,13 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import { useUser } from '@weco/common/contexts/UserProvider';
 import { requestingDisabled } from '@weco/common/data/microcopy';
 import { memberCard } from '@weco/common/icons';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import { useLoginURLWithReturnToCurrent } from '@weco/content/utils/useLoginURLWithReturnToCurrent';
 
 const StyledComponent = styled(Space).attrs({

@@ -11,8 +11,8 @@ import PhotoAlbum, {
 } from 'react-photo-album';
 import styled from 'styled-components';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import { ServerDataContext } from '@weco/common/server-data/Context';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Modal from '@weco/common/views/components/Modal';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';

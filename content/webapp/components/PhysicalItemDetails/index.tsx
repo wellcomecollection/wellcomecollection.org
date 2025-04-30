@@ -7,17 +7,17 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
+import { useUser } from '@weco/common/contexts/UserProvider';
 import { sierraAccessMethodtoNewLabel } from '@weco/common/data/microcopy';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import StackingTable from '@weco/common/views/components/StackingTable';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import { themeValues } from '@weco/common/views/themes/config';
-import IsArchiveContext from '@weco/content/components/IsArchiveContext';
 import ItemRequestModal from '@weco/content/components/ItemRequestModal';
 import Placeholder from '@weco/content/components/Placeholder';
+import IsArchiveContext from '@weco/content/contexts/IsArchiveContext';
 import {
   PhysicalItem,
   Work,

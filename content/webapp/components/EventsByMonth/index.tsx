@@ -1,7 +1,7 @@
 import { FunctionComponent, useContext, useState } from 'react';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import { classNames } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';

@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import styled from 'styled-components';
 
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
-import ItemViewerContext from '@weco/content/components/ItemViewerContext';
+import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
 
 import { queryParamToArrayIndex } from '.';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';

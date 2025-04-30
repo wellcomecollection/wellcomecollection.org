@@ -22,7 +22,7 @@ import { thumbnailsPageSize } from '@weco/content/components/IIIFViewer/Paginato
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import ItemViewerContext, {
   results,
-} from '@weco/content/components/ItemViewerContext';
+} from '@weco/content/contexts/ItemViewerContext';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { searchWithinLabel } from '@weco/content/text/aria-labels';
 import { TransformedCanvas } from '@weco/content/types/manifest';

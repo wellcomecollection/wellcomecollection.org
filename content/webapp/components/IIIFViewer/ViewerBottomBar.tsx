@@ -3,12 +3,12 @@
 import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import { expand, gridView, singlePage } from '@weco/common/icons';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import ItemViewerContext from '@weco/content/components/ItemViewerContext';
 import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl';
+import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 
 import { ShameButton } from './ViewerTopBar';

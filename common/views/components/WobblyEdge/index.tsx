@@ -9,8 +9,8 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import { prefixedPropertyStyleObject } from '@weco/common/utils/prefixed-property-style-object';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
 export const WobblyEdgeWrapper = styled.div`

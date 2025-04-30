@@ -1,5 +1,6 @@
 import { GetServerSideProps, NextPage } from 'next';
 
+import { useUser } from '@weco/common/contexts/UserProvider';
 import { getServerData } from '@weco/common/server-data';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
@@ -10,7 +11,6 @@ import {
   gridSize10,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import { ValidatedFailedText, ValidatedSuccessText } from '@weco/identity/copy';
 import {
   Container,

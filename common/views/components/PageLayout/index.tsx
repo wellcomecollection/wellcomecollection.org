@@ -2,6 +2,11 @@ import Head from 'next/head';
 import Script from 'next/script';
 import { FunctionComponent, PropsWithChildren, useContext } from 'react';
 
+import AppContext from '@weco/common/contexts/AppContext';
+import GlobalInfoBarContext, {
+  GlobalInfoBarContextProvider,
+} from '@weco/common/contexts/GlobalInfoBarContext';
+import SearchContext from '@weco/common/contexts/SearchContext';
 import cookies from '@weco/common/data/cookies';
 import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
 import { defaultPageTitle } from '@weco/common/data/microcopy';
@@ -23,11 +28,7 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import ApiToolbar, {
   ApiToolbarLink,
 } from '@weco/common/views/components/ApiToolbar';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Footer from '@weco/common/views/components/Footer';
-import GlobalInfoBarContext, {
-  GlobalInfoBarContextProvider,
-} from '@weco/common/views/components/GlobalInfoBarContext';
 import Header, { NavLink } from '@weco/common/views/components/Header';
 import {
   InfoBanner,
@@ -36,7 +37,6 @@ import {
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import NewsletterPromo from '@weco/common/views/components/NewsletterPromo';
 import PopupDialog from '@weco/common/views/components/PopupDialog';
-import SearchContext from '@weco/common/views/components/SearchContext';
 
 type HeaderProps = {
   customNavLinks: NavLink[];
@@ -325,7 +325,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
               }}
             />
           )}
-        {popupDialog.data.isShown &&
+        {popupDialog?.data?.isShown &&
           (!popupDialog.data.routeRegex ||
             urlString.match(new RegExp(popupDialog.data.routeRegex))) && (
             <PopupDialog document={popupDialog} />

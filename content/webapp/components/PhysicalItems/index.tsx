@@ -1,10 +1,10 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 
+import { useUser } from '@weco/common/contexts/UserProvider';
 import {
   abortErrorHandler,
   useAbortSignalEffect,
 } from '@weco/common/hooks/useAbortSignalEffect';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import ExpandableList from '@weco/content/components/ExpandableList';
 import PhysicalItemDetails from '@weco/content/components/PhysicalItemDetails';
 import {

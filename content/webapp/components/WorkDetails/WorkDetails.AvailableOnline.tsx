@@ -3,6 +3,8 @@ import NextLink from 'next/link';
 import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import AppContext from '@weco/common/contexts/AppContext';
+import { useUser } from '@weco/common/contexts/UserProvider';
 import {
   bornDigitalMessage,
   treeInstructions,
@@ -12,13 +14,11 @@ import { DigitalLocation } from '@weco/common/model/catalogue';
 import { LinkProps } from '@weco/common/model/link-props';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Button from '@weco/common/views/components/Buttons';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import {
   controlDimensions,
   createDownloadTree,

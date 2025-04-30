@@ -1,8 +1,8 @@
 import { FunctionComponent, useContext, useRef } from 'react';
 import styled from 'styled-components';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Button from '@weco/common/views/components/Buttons';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';

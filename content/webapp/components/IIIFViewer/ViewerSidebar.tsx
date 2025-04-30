@@ -8,6 +8,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
+import { useUser } from '@weco/common/contexts/UserProvider';
 import { arrow, chevron, info2 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { useToggles } from '@weco/common/server-data/Context';
@@ -16,12 +17,11 @@ import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import IIIFSearchWithin from '@weco/content/components/IIIFSearchWithin';
-import ItemViewerContext from '@weco/content/components/ItemViewerContext';
 import LinkLabels from '@weco/content/components/LinkLabels';
 import WorkLink from '@weco/content/components/WorkLink';
 import WorkTitle from '@weco/content/components/WorkTitle';
+import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
 import {
   getAuthServices,
   getMultiVolumeLabel,

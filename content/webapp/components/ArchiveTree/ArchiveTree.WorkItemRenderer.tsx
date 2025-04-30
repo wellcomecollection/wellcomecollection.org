@@ -1,9 +1,9 @@
 import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import { chevron } from '@weco/common/icons';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Icon from '@weco/common/views/components/Icon';
 import {
   isRelatedWork,

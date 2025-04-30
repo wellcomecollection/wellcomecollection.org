@@ -7,8 +7,8 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import { check } from '@weco/common/icons';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';

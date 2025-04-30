@@ -1,6 +1,7 @@
 import { GetServerSideProps, NextPage } from 'next';
 import styled from 'styled-components';
 
+import { useUser } from '@weco/common/contexts/UserProvider';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { getServerData } from '@weco/common/server-data';
 import { appError, AppErrorProps } from '@weco/common/services/app';
@@ -11,14 +12,13 @@ import Divider from '@weco/common/views/components/Divider';
 import SearchForm from '@weco/common/views/components/SearchForm';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import ArchiveBreadcrumb from '@weco/content/components/ArchiveBreadcrumb';
 import ArchiveTree from '@weco/content/components/ArchiveTree';
 import BackToResults from '@weco/content/components/BackToResults';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
-import IsArchiveContext from '@weco/content/components/IsArchiveContext';
 import WorkDetails from '@weco/content/components/WorkDetails';
 import WorkHeader from '@weco/content/components/WorkHeader';
+import IsArchiveContext from '@weco/content/contexts/IsArchiveContext';
 import useHotjar from '@weco/content/hooks/useHotjar';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';

@@ -2,10 +2,10 @@ import Head from 'next/head';
 import { FunctionComponent, PropsWithChildren, useContext } from 'react';
 import styled from 'styled-components';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Favicons from '@weco/common/views/components/Favicons';
 import Footer from '@weco/common/views/components/Footer';
 import Header from '@weco/common/views/components/Header';

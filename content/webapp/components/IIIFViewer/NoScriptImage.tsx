@@ -8,7 +8,7 @@ import {
   ThumbnailsPaginator,
 } from '@weco/content/components/IIIFViewer/Paginators';
 import { Thumbnails } from '@weco/content/components/IIIFViewer/Thumbnails';
-import ItemViewerContext from '@weco/content/components/ItemViewerContext';
+import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
 
 import { DelayVisibility, queryParamToArrayIndex } from '.';
 import IIIFViewerImage from './IIIFViewerImage';

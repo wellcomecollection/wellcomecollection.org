@@ -2,10 +2,10 @@ import NextLink from 'next/link';
 import { FunctionComponent, RefObject, useContext } from 'react';
 import styled from 'styled-components';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
 import { formatNumber } from '@weco/common/utils/grammar';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio';
 import Modal from '@weco/common/views/components/Modal';

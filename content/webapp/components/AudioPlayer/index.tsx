@@ -8,10 +8,10 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import { pause, play } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { dasherize } from '@weco/common/utils/grammar';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import Icon from '@weco/common/views/components/Icon';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';

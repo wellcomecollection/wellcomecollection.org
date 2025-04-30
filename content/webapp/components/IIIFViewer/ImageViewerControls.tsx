@@ -6,7 +6,7 @@ import Control from '@weco/common/views/components/Control';
 import Space from '@weco/common/views/components/styled/Space';
 import ItemViewerContext, {
   RotatedImage,
-} from '@weco/content/components/ItemViewerContext';
+} from '@weco/content/contexts/ItemViewerContext';
 
 const ImageViewerControlsEl = styled.div<{ $showControls?: boolean }>`
   position: absolute;

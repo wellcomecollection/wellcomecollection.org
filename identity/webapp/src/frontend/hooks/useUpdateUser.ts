@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useState } from 'react';
 
+import { useUser } from '@weco/common/contexts/UserProvider';
 import { UserInfo } from '@weco/common/model/user';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import { UpdateUserSchema } from '@weco/identity/src/types/schemas/update-user';
 
 export enum UpdateUserError {

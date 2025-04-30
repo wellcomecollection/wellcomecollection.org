@@ -7,8 +7,8 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import { hexToHsv, hsvToHex } from '@weco/content/utils/convert-colors';
 
 import HueSlider from './HueSlider';

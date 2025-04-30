@@ -2,13 +2,13 @@ import { ErrorMessage } from '@hookform/error-message';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
+import { useUser } from '@weco/common/contexts/UserProvider';
 import { font } from '@weco/common/utils/classnames';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import TextInput, {
   InputErrorMessage,
 } from '@weco/common/views/components/TextInput';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import { FieldMargin } from '@weco/identity/src/frontend/components/Form.style';
 import { PasswordInput } from '@weco/identity/src/frontend/components/PasswordInput';
 import { validEmailPattern } from '@weco/identity/src/frontend/components/ValidationPatterns';

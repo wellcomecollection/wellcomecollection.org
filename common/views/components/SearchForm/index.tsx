@@ -7,13 +7,13 @@ import {
   useState,
 } from 'react';
 
+import SearchContext from '@weco/common/contexts/SearchContext';
 import { searchLabelText } from '@weco/common/data/microcopy';
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import { getQueryPropertyValue, linkResolver } from '@weco/common/utils/search';
 import SearchBar, {
   ValidLocations,
 } from '@weco/common/views/components/SearchBar';
-import SearchContext from '@weco/common/views/components/SearchContext';
 
 type SearchCategory = 'overview' | 'works';
 

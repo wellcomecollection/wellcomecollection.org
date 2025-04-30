@@ -9,13 +9,13 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { searchLabelText } from '@weco/common/data/microcopy';
 import { cross, search } from '@weco/common/icons';
 import WellcomeCollectionBlack from '@weco/common/icons/wellcome_collection_black';
 import { SiteSection } from '@weco/common/model/site-section';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Icon from '@weco/common/views/components/Icon';
 
 import DesktopSignIn from './DesktopSignIn';

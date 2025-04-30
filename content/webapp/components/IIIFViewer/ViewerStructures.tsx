@@ -11,7 +11,7 @@ import { thumbnailsPageSize } from '@weco/content/components/IIIFViewer/Paginato
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import ItemViewerContext, {
   Query,
-} from '@weco/content/components/ItemViewerContext';
+} from '@weco/content/contexts/ItemViewerContext';
 import {
   Work,
   WorkBasic,

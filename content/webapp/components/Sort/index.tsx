@@ -2,12 +2,12 @@ import { useRouter } from 'next/router';
 import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import { propsToQuery } from '@weco/common/utils/routes';
 import {
   DefaultSortValuesType,
   getUrlQueryFromSortValue,
 } from '@weco/common/utils/search';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import Select from '@weco/content/components/Select';

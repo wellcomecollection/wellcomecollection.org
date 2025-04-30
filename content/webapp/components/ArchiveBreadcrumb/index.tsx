@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import { archive, folder } from '@weco/common/icons';
 import Button from '@weco/common/views/components/Buttons';
 import Icon from '@weco/common/views/components/Icon';
-import IsArchiveContext from '@weco/content/components/IsArchiveContext';
 import WorkLink from '@weco/content/components/WorkLink';
 import WorkTitle from '@weco/content/components/WorkTitle';
+import IsArchiveContext from '@weco/content/contexts/IsArchiveContext';
 import { Work } from '@weco/content/services/wellcome/catalogue/types';
 import { getArchiveAncestorArray } from '@weco/content/utils/works';
 

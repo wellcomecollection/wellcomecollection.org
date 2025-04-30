@@ -1,9 +1,9 @@
 import { ParsedUrlQuery } from 'querystring';
 import { FunctionComponent, ReactElement, useContext, useState } from 'react';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import useIsomorphicLayoutEffect from '@weco/common/hooks/useIsomorphicLayoutEffect';
 import { LinkProps } from '@weco/common/model/link-props';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import { Filter } from '@weco/content/services/wellcome/common/filters';
 
 import DateRangeFilter from './SearchFilters.DateRangeFilter';

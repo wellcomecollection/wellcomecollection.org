@@ -1,10 +1,10 @@
 import { FunctionComponent, useContext, useState } from 'react';
 import styled from 'styled-components';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import { newsletterAddressBook } from '@weco/common/data/dotdigital';
 import useValidation from '@weco/common/hooks/useValidation';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Button from '@weco/common/views/components/Buttons';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio';
 import {

@@ -4,6 +4,7 @@ import { ChoiceBody, ImageService } from '@iiif/presentation-3';
 import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 
+import AppContext from '@weco/common/contexts/AppContext';
 import {
   chevrons,
   collapse,
@@ -14,12 +15,11 @@ import {
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { font } from '@weco/common/utils/classnames';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import Download from '@weco/content/components/Download';
-import ItemViewerContext from '@weco/content/components/ItemViewerContext';
 import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl';
+import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
 import {
@@ -117,7 +117,9 @@ const TopBar = styled.div<{
   background: ${props => props.theme.color('neutral.700')};
   color: ${props => props.theme.color('white')};
   justify-content: space-between;
-  grid-template-columns: [left-edge] minmax(200px, 3fr) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
+  grid-template-columns:
+    [left-edge] minmax(200px, 3fr)
+    [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
 
   ${props => props.theme.media('medium')`
     display: grid;
