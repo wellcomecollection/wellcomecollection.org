@@ -1,4 +1,4 @@
-import { FunctionComponent, PropsWithChildren, useContext } from 'react';
+import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
 import { archive, folder } from '@weco/common/icons';
@@ -6,7 +6,7 @@ import Button from '@weco/common/views/components/Buttons';
 import Icon from '@weco/common/views/components/Icon';
 import WorkLink from '@weco/content/components/WorkLink';
 import WorkTitle from '@weco/content/components/WorkTitle';
-import IsArchiveContext from '@weco/content/contexts/IsArchiveContext';
+import { useIsArchiveContext } from '@weco/content/contexts/IsArchiveContext';
 import { Work } from '@weco/content/services/wellcome/catalogue/types';
 import { getArchiveAncestorArray } from '@weco/content/utils/works';
 
@@ -108,7 +108,7 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }) => {
     alternativeTitles: work.alternativeTitles,
     referenceNumber: work.referenceNumber,
   };
-  const isArchive = useContext(IsArchiveContext);
+  const isArchive = useIsArchiveContext();
 
   return isArchive ? (
     <ArchiveBreadcrumbNav>

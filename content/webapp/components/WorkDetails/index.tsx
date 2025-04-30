@@ -1,5 +1,5 @@
 import { usePathname } from 'next/navigation';
-import { FunctionComponent, useContext, useMemo } from 'react';
+import { FunctionComponent, useMemo } from 'react';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
@@ -17,7 +17,7 @@ import { CopyUrl } from '@weco/content/components/CopyButtons';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import { toLink as imagesLink } from '@weco/content/components/SearchPagesLink/Images';
 import { toLink as worksLink } from '@weco/content/components/SearchPagesLink/Works';
-import IsArchiveContext from '@weco/content/contexts/IsArchiveContext';
+import { useIsArchiveContext } from '@weco/content/contexts/IsArchiveContext';
 import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
 import {
   toWorkBasic,
@@ -63,7 +63,7 @@ const WorkDetails: FunctionComponent<Props> = ({
   transformedManifest,
 }: Props) => {
   const { userIsStaffWithRestricted } = useUserContext();
-  const isArchive = useContext(IsArchiveContext);
+  const isArchive = useIsArchiveContext();
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
   const { canvases, rendering, bornDigitalStatus } = {
     ...transformedManifest,

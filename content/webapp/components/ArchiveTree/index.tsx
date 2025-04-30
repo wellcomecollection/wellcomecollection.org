@@ -1,10 +1,4 @@
-import {
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { treeInstructions } from '@weco/common/data/microcopy';
@@ -13,7 +7,7 @@ import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import Modal from '@weco/common/views/components/Modal';
 import Space from '@weco/common/views/components/styled/Space';
-import IsArchiveContext from '@weco/content/contexts/IsArchiveContext';
+import { useIsArchiveContext } from '@weco/content/contexts/IsArchiveContext';
 import {
   RelatedWork,
   Work,
@@ -196,7 +190,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
   const [archiveTree, setArchiveTree] = useState(createBasicTree({ work }));
   const [tabbableId, setTabbableId] = useState<string>();
   const openButtonRef = useRef(null);
-  const isArchive = useContext(IsArchiveContext);
+  const isArchive = useIsArchiveContext();
 
   useEffect(() => {
     const elementToFocus = tabbableId && document.getElementById(tabbableId);

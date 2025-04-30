@@ -1,10 +1,4 @@
-import {
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 
 import { cross, gallery } from '@weco/common/icons';
 import { CaptionedImage as CaptionedImageProps } from '@weco/common/model/captioned-image';
@@ -29,7 +23,7 @@ import CaptionedImage from '@weco/content/components/CaptionedImage';
 import ComicPreviousNext, {
   Props as ComicPreviousNextProps,
 } from '@weco/content/components/ComicPreviousNext';
-import ContentPageContext from '@weco/content/contexts/ContentPageContext';
+import { useContentPageContext } from '@weco/content/contexts/ContentPageContext';
 
 import {
   ButtonContainer,
@@ -84,7 +78,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
   const openButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
-  const { pageBackgroundColor } = useContext(ContentPageContext);
+  const { pageBackgroundColor } = useContentPageContext();
 
   useEffect(() => {
     !isStandalone && !isFrames && setIsActive(false);

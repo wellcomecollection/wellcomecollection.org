@@ -1,10 +1,4 @@
-import {
-  FunctionComponent,
-  ReactNode,
-  useContext,
-  useRef,
-  useState,
-} from 'react';
+import { FunctionComponent, ReactNode, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
@@ -17,7 +11,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
 import ItemRequestModal from '@weco/content/components/ItemRequestModal';
 import Placeholder from '@weco/content/components/Placeholder';
-import IsArchiveContext from '@weco/content/contexts/IsArchiveContext';
+import { useIsArchiveContext } from '@weco/content/contexts/IsArchiveContext';
 import {
   PhysicalItem,
   Work,
@@ -83,7 +77,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 }) => {
   const { state: userState } = useUserContext();
   const { disableRequesting } = useToggles();
-  const isArchive = useContext(IsArchiveContext);
+  const isArchive = useIsArchiveContext();
   const requestButtonRef = useRef<HTMLButtonElement | null>(null);
   const [requestModalIsActive, setRequestModalIsActive] = useState(false);
 
