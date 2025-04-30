@@ -1,17 +1,11 @@
 import Router from 'next/router';
-import {
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
-import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useOnScreen from '@weco/content/hooks/useOnScreen';
 import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
 
@@ -72,7 +66,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     query,
     rotatedImages,
     transformedManifest,
-  } = useContext(ItemViewerContext);
+  } = useItemViewerContext();
   const imageWrapperRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const isOnScreen = useOnScreen({

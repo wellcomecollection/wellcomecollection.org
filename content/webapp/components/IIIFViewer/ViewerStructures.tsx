@@ -1,6 +1,6 @@
 import { Manifest } from '@iiif/presentation-3';
 import NextLink from 'next/link';
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
@@ -9,13 +9,12 @@ import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { thumbnailsPageSize } from '@weco/content/components/IIIFViewer/Paginators';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
-import ItemViewerContext, {
-  Query,
-} from '@weco/content/contexts/ItemViewerContext';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import {
   Work,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
+import { ItemViewerQuery } from '@weco/content/types/item-viewer';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import {
   getDisplayLabel,
@@ -59,7 +58,7 @@ type Props = {
   canvases: TransformedCanvas[];
   currentCanvasIndex: number;
   setIsMobileSidebarActive: (v: boolean) => void;
-  query: Query;
+  query: ItemViewerQuery;
   work: WorkBasic & Pick<Work, 'description'>;
 };
 
@@ -146,7 +145,7 @@ const Structures: FunctionComponent<Props> = ({
 // Used to display the structures property of a iiif-manifest: https://iiif.io/api/presentation
 const ViewerStructures: FunctionComponent = () => {
   const { transformedManifest, setIsMobileSidebarActive, query, work } =
-    useContext(ItemViewerContext);
+    useItemViewerContext();
   const { canvas } = query;
   const { structures: ranges, canvases } = { ...transformedManifest };
 

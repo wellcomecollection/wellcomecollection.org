@@ -1,7 +1,7 @@
 // https://stackoverflow.com/questions/25993861/how-do-i-get-typescript-to-stop-complaining-about-functions-it-doesnt-know-abou
 /* eslint-disable dot-notation */
 import { ChoiceBody, ImageService } from '@iiif/presentation-3';
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
@@ -19,7 +19,7 @@ import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import Download from '@weco/content/components/Download';
 import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl';
-import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
 import {
@@ -219,7 +219,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     transformedManifest,
     query,
     viewerRef,
-  } = useContext(ItemViewerContext);
+  } = useItemViewerContext();
   const { canvas } = query;
   const { canvases, rendering } = { ...transformedManifest };
   const currentCanvas = canvases?.[queryParamToArrayIndex(query.canvas)];

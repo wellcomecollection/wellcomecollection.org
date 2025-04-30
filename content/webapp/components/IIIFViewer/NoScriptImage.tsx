@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import styled from 'styled-components';
 
 import { imageSizes } from '@weco/common/utils/image-sizes';
@@ -8,7 +7,7 @@ import {
   ThumbnailsPaginator,
 } from '@weco/content/components/IIIFViewer/Paginators';
 import { Thumbnails } from '@weco/content/components/IIIFViewer/Thumbnails';
-import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 
 import { DelayVisibility, queryParamToArrayIndex } from '.';
 import IIIFViewerImage from './IIIFViewerImage';
@@ -29,7 +28,7 @@ const NoScriptLoadingWrapper = styled.div`
 `;
 
 export const NoScriptImage = ({ urlTemplate, canvasOcr }) => {
-  const { work, query, transformedManifest } = useContext(ItemViewerContext);
+  const { work, query, transformedManifest } = useItemViewerContext();
   const { canvases } = { ...transformedManifest };
   const pageSize = 4;
   const srcSet =

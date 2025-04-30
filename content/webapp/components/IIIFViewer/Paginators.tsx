@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import styled from 'styled-components';
 
 import { arrow } from '@weco/common/icons';
@@ -7,7 +6,7 @@ import Control from '@weco/common/views/components/Control';
 import Rotator from '@weco/common/views/components/styled/Rotator';
 import Space from '@weco/common/views/components/styled/Space';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
-import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 
 const PaginatorWrapper = styled.div`
   display: flex;
@@ -66,7 +65,7 @@ const PaginatorButtons = ({
 export const thumbnailsPageSize = 6;
 
 export const CanvasPaginator = () => {
-  const { work, query, transformedManifest } = useContext(ItemViewerContext);
+  const { work, query, transformedManifest } = useItemViewerContext();
   const { canvases } = { ...transformedManifest };
   const totalResults = canvases?.length || 1;
   const link = itemLink({
@@ -140,7 +139,7 @@ export const CanvasPaginator = () => {
 };
 
 export const ThumbnailsPaginator = () => {
-  const { work, query, transformedManifest } = useContext(ItemViewerContext);
+  const { work, query, transformedManifest } = useItemViewerContext();
   const { canvases } = { ...transformedManifest };
   const totalResults = canvases?.length || 1;
   const link = itemLink({

@@ -2,7 +2,6 @@ import NextLink from 'next/link';
 import {
   FunctionComponent,
   PropsWithChildren,
-  useContext,
   useEffect,
   useState,
 } from 'react';
@@ -21,7 +20,7 @@ import IIIFSearchWithin from '@weco/content/components/IIIFSearchWithin';
 import LinkLabels from '@weco/content/components/LinkLabels';
 import WorkLink from '@weco/content/components/WorkLink';
 import WorkTitle from '@weco/content/components/WorkTitle';
-import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import {
   getAuthServices,
   getMultiVolumeLabel,
@@ -160,8 +159,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   iiifPresentationLocation,
 }) => {
   const { authV2 } = useToggles();
-  const { work, transformedManifest, parentManifest } =
-    useContext(ItemViewerContext);
+  const { work, transformedManifest, parentManifest } = useItemViewerContext();
   const { userIsStaffWithRestricted } = useUserContext();
 
   const matchingManifest =

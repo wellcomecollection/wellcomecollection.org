@@ -10,15 +10,16 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
 import { NoScriptImage } from '@weco/content/components/IIIFViewer/NoScriptImage';
 import { fromQuery } from '@weco/content/components/ItemLink';
-import ItemViewerContext, {
-  ParentManifest,
-  RotatedImage,
-} from '@weco/content/contexts/ItemViewerContext';
+import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import {
   Work,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
+import {
+  CanvasRotatedImage,
+  ParentManifest,
+} from '@weco/content/types/item-viewer';
 import { TransformedManifest } from '@weco/content/types/manifest';
 
 import { DelayVisibility, queryParamToArrayIndex } from '.';
@@ -223,7 +224,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [isDesktopSidebarActive, setIsDesktopSidebarActive] = useState(true);
   const [isMobileSidebarActive, setIsMobileSidebarActive] = useState(false);
   const [showZoomed, setShowZoomed] = useState(false);
-  const [rotatedImages, setRotatedImages] = useState<RotatedImage[]>([]);
+  const [rotatedImages, setRotatedImages] = useState<CanvasRotatedImage[]>([]);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);

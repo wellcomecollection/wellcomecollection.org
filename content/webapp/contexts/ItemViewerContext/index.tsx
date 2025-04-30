@@ -1,30 +1,20 @@
-import { Canvas, Manifest } from '@iiif/presentation-3';
-import { createContext, RefObject } from 'react';
+import { createContext, RefObject, useContext } from 'react';
 
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import {
   Work,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
+import {
+  CanvasRotatedImage,
+  ItemViewerQuery,
+  ParentManifest,
+} from '@weco/content/types/item-viewer';
 import { TransformedManifest } from '@weco/content/types/manifest';
-
-export type RotatedImage = { canvas: number; rotation: number };
-
-export type Query = {
-  canvas: number;
-  manifest: number;
-  query: string;
-  page: number;
-  shouldScrollToCanvas: boolean;
-};
-
-export type ParentManifest = Pick<Manifest, 'behavior'> & {
-  canvases: Pick<Canvas, 'id' | 'label'>[];
-};
 
 type Props = {
   // DATA props:
-  query: Query;
+  query: ItemViewerQuery;
   work: WorkBasic & Pick<Work, 'description'>;
   transformedManifest: TransformedManifest | undefined;
   parentManifest: ParentManifest | undefined;
@@ -49,8 +39,8 @@ type Props = {
   setShowZoomed: (v: boolean) => void;
   showControls: boolean;
   setShowControls: (v: boolean) => void;
-  rotatedImages: RotatedImage[];
-  setRotatedImages: (v: RotatedImage[]) => void;
+  rotatedImages: CanvasRotatedImage[];
+  setRotatedImages: (v: CanvasRotatedImage[]) => void;
   isResizing: boolean;
   errorHandler?: () => void;
 };
@@ -122,4 +112,10 @@ const ItemViewerContext = createContext<Props>({
   isResizing: false,
   errorHandler: () => undefined,
 });
+
+export function useItemViewerContext(): Props {
+  const contextState = useContext(ItemViewerContext);
+  return contextState;
+}
+
 export default ItemViewerContext;

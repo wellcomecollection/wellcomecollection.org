@@ -1,6 +1,6 @@
 // https://stackoverflow.com/questions/25993861/how-do-i-get-typescript-to-stop-complaining-about-functions-it-doesnt-know-abou
 /* eslint-disable dot-notation */
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
@@ -8,7 +8,7 @@ import { expand, gridView, singlePage } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl';
-import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 
 import { ShameButton } from './ViewerTopBar';
@@ -50,7 +50,7 @@ const ViewerBottomBar: FunctionComponent = () => {
     showZoomed,
     isMobileSidebarActive,
     viewerRef,
-  } = useContext(ItemViewerContext);
+  } = useItemViewerContext();
   const { canvases } = { ...transformedManifest };
   return (
     <BottomBar>
