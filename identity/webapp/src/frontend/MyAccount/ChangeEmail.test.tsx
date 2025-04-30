@@ -3,8 +3,8 @@ import userEvent from '@testing-library/user-event';
 import { rest } from 'msw';
 import { ThemeProvider } from 'styled-components';
 
+import { UserContextProvider } from '@weco/common/contexts/UserContext';
 import { mockUser } from '@weco/common/test/fixtures/identity/user';
-import UserProvider from '@weco/common/views/components/UserProvider';
 import theme from '@weco/common/views/themes/default';
 import { server } from '@weco/identity/src/frontend/mocks/server';
 
@@ -21,9 +21,9 @@ const defaultProps: ChangeDetailsModalContentProps = {
 const renderComponent = (props: Partial<ChangeDetailsModalContentProps> = {}) =>
   render(
     <ThemeProvider theme={theme}>
-      <UserProvider>
+      <UserContextProvider>
         <ChangeEmail {...defaultProps} {...props} />
-      </UserProvider>
+      </UserContextProvider>
     </ThemeProvider>
   );
 
@@ -101,16 +101,16 @@ describe('ChangeEmail', () => {
     });
     rerender(
       <ThemeProvider theme={theme}>
-        <UserProvider>
+        <UserContextProvider>
           <ChangeEmail {...defaultProps} isActive={false} />
-        </UserProvider>
+        </UserContextProvider>
       </ThemeProvider>
     );
     rerender(
       <ThemeProvider theme={theme}>
-        <UserProvider>
+        <UserContextProvider>
           <ChangeEmail {...defaultProps} isActive={true} />
-        </UserProvider>
+        </UserContextProvider>
       </ThemeProvider>
     );
     await expect(emailAddressInput).toHaveValue('');

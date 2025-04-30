@@ -33,7 +33,6 @@ import IIIFViewer, {
 } from '@weco/content/components/IIIFViewer';
 import { fromQuery } from '@weco/content/components/ItemLink';
 import WorkLink from '@weco/content/components/WorkLink';
-import { ParentManifest } from '@weco/content/contexts/ItemViewerContext';
 import useHotjar from '@weco/content/hooks/useHotjar';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
@@ -52,6 +51,7 @@ import {
   fromCompressedManifest,
   toCompressedTransformedManifest,
 } from '@weco/content/types/compressed-manifest';
+import { ParentManifest } from '@weco/content/types/item-viewer';
 import { Auth, TransformedManifest } from '@weco/content/types/manifest';
 import { fetchJson } from '@weco/content/utils/http';
 import {

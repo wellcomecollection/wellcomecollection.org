@@ -1,13 +1,7 @@
-import {
-  FunctionComponent,
-  ReactElement,
-  useContext,
-  useRef,
-  useState,
-} from 'react';
+import { FunctionComponent, ReactElement, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import AppContext from '@weco/common/contexts/AppContext';
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { partition } from '@weco/common/utils/arrays';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
