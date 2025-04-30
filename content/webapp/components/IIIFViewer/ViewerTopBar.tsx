@@ -14,14 +14,17 @@ import {
 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { font } from '@weco/common/utils/classnames';
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import Download from '@weco/content/components/Download';
+import { IIIFItemProps } from '@weco/content/components/IIIFItem';
 import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
+import { DownloadOption } from '@weco/content/types/manifest';
 import {
   getDownloadOptionsFromCanvasRenderingAndSupplementing,
   getDownloadOptionsFromManifestRendering,
@@ -32,8 +35,7 @@ import { getDownloadOptionsFromImageUrl } from '@weco/content/utils/works';
 
 import { queryParamToArrayIndex } from '.';
 
-// TODO: update this with a more considered button from our system
-export const ShameButton = styled.button.attrs({
+export const ViewerButton = styled.button.attrs({
   className: font('intb', 5),
 })<{ $isDark?: boolean }>`
   line-height: 1.5;
@@ -219,6 +221,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     transformedManifest,
     query,
     viewerRef,
+    showFullscreenControl,
   } = useItemViewerContext();
   const { canvas } = query;
   const { canvases, rendering } = { ...transformedManifest };
@@ -278,11 +281,57 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   const manifestDownloadOptions =
     getDownloadOptionsFromManifestRendering(rendering);
 
+  const videoAudioDownloadOptions = () => {
+    if (!currentCanvas?.painting) return [];
+
+    const isAudio = (item: IIIFItemProps) =>
+      item.type === 'Sound' || item.type === 'Audio';
+
+    const formatItemInfo = item => ({
+      format: item.format || '',
+      id: item.id || '',
+      label:
+        item.type === 'Video'
+          ? 'This video'
+          : isAudio(item)
+            ? 'This audio'
+            : '',
+    });
+
+    const finalOptions: (DownloadOption | undefined)[] = [];
+
+    if (currentCanvas?.painting?.some(painting => isChoiceBody(painting))) {
+      currentCanvas.painting
+        .filter(painting => isChoiceBody(painting))
+        .forEach(({ items }) => {
+          items.forEach(item => {
+            const externalResourceItem = item as IIIFItemProps;
+
+            if (
+              externalResourceItem.type !== 'Video' &&
+              !isAudio(externalResourceItem)
+            )
+              return undefined;
+
+            finalOptions.push(formatItemInfo(externalResourceItem));
+          });
+        });
+    } else {
+      currentCanvas.painting.forEach(item => {
+        if (item.type !== 'Video' && !isAudio(item)) return undefined;
+
+        finalOptions.push(formatItemInfo(item));
+      });
+    }
+    return finalOptions.flat().filter(Boolean).filter(isNotUndefined) || [];
+  };
+
   const downloadOptions = [
     ...iiifImageDownloadOptions,
     ...canvasImageDownloads,
     ...canvasDownloadOptions,
     ...manifestDownloadOptions,
+    ...videoAudioDownloadOptions(),
   ];
 
   return (
@@ -293,7 +342,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
       <Sidebar $isZooming={showZoomed}>
         {isEnhanced && !showZoomed && (
           <>
-            <ShameButton
+            <ViewerButton
               data-gtm-trigger="toggle_side_panel"
               className="viewer-desktop"
               $isDark
@@ -309,9 +358,9 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
               <span className="visually-hidden">
                 {isDesktopSidebarActive ? 'Hide info' : 'Show info'}
               </span>
-            </ShameButton>
+            </ViewerButton>
 
-            <ShameButton
+            <ViewerButton
               className="viewer-mobile"
               $isDark
               onClick={() => {
@@ -319,7 +368,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
               }}
             >
               {isMobileSidebarActive ? 'Hide info' : 'Show info'}
-            </ShameButton>
+            </ViewerButton>
           </>
         )}
       </Sidebar>
@@ -382,8 +431,9 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                   />
                 </Space>
               )}
-              {isFullscreenEnabled && (
-                <ShameButton
+
+              {isFullscreenEnabled && showFullscreenControl && (
+                <ViewerButton
                   className="viewer-desktop"
                   $isDark
                   onClick={() => {
@@ -421,7 +471,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                       <span className="btn__text">Full screen</span>
                     </>
                   )}
-                </ShameButton>
+                </ViewerButton>
               )}
             </div>
           )}

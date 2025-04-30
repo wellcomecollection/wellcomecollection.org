@@ -225,6 +225,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [isMobileSidebarActive, setIsMobileSidebarActive] = useState(false);
   const [showZoomed, setShowZoomed] = useState(false);
   const [rotatedImages, setRotatedImages] = useState<CanvasRotatedImage[]>([]);
+  const [showFullscreenControl, setShowFullscreenControl] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);
@@ -306,6 +307,8 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setIsMobileSidebarActive,
         showZoomed,
         setShowZoomed,
+        showFullscreenControl,
+        setShowFullscreenControl,
         showControls,
         setShowControls,
         rotatedImages,

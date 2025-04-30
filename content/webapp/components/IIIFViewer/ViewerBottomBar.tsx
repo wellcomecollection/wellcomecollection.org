@@ -11,7 +11,7 @@ import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedCo
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 
-import { ShameButton } from './ViewerTopBar';
+import { ViewerButton } from './ViewerTopBar';
 
 const BottomBar = styled.div`
   position: relative;
@@ -90,7 +90,7 @@ const ViewerBottomBar: FunctionComponent = () => {
         {isEnhanced && isFullscreenEnabled && (
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Space $h={{ size: 'm', properties: ['margin-right'] }}>
-              <ShameButton
+              <ViewerButton
                 $isDark
                 onClick={() => {
                   if (viewerRef?.current) {
@@ -115,7 +115,7 @@ const ViewerBottomBar: FunctionComponent = () => {
               >
                 <Icon icon={expand} />
                 <span className="btn__text">Full screen</span>
-              </ShameButton>
+              </ViewerButton>
             </Space>
           </div>
         )}

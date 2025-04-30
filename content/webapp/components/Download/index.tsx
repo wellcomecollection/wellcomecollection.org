@@ -64,7 +64,8 @@ const Download: FunctionComponent<Props> = ({
                     <DownloadLink
                       href={option.id}
                       linkText={
-                        option.format === 'application/pdf'
+                        option.format === 'application/pdf' &&
+                        option.label !== 'PDF Transcript'
                           ? 'Whole item'
                           : option.label
                       }

@@ -39,7 +39,7 @@ export const Item = styled(Space).attrs({
   ${props =>
     props.$isActive &&
     `
-      background: #222; // FIXME: we don't have a shade between dark-charcoal and black in the palette (light-black?)
+      background: #222;
 
       &::before {
         content: '';
