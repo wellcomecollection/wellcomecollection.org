@@ -12,7 +12,7 @@ import {
 import { areEqual, FixedSizeList } from 'react-window';
 import styled from 'styled-components';
 
-import { useUser } from '@weco/common/contexts/UserProvider';
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import IIIFItem from '@weco/content/components/IIIFItem';
@@ -256,7 +256,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const { scrollVelocity, canvases, externalAccessService, placeholderId } =
     data;
   const currentCanvas = canvases[index];
-  const { userIsStaffWithRestricted } = useUser();
+  const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = currentCanvas.hasRestrictedImage;
   const { searchResults, rotatedImages } = useContext(ItemViewerContext);
   const [imageRect, setImageRect] = useState<DOMRect | undefined>();

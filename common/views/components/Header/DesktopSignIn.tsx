@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { useUser } from '@weco/common/contexts/UserProvider';
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { user as userIcon } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { BorderlessLink } from '@weco/common/views/components/BorderlessClickable';
@@ -32,7 +32,7 @@ const SignedOutWrapper = styled.span.attrs({
 `;
 
 const DesktopSignIn: FunctionComponent = () => {
-  const { state, user } = useUser();
+  const { state, user } = useUserContext();
 
   return state === 'initial' || state === 'loading' ? (
     <span className="display-none headerMedium-display-block">

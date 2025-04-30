@@ -8,7 +8,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
-import { useUser } from '@weco/common/contexts/UserProvider';
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { arrow, chevron, info2 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { useToggles } from '@weco/common/server-data/Context';
@@ -162,7 +162,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   const { authV2 } = useToggles();
   const { work, transformedManifest, parentManifest } =
     useContext(ItemViewerContext);
-  const { userIsStaffWithRestricted } = useUser();
+  const { userIsStaffWithRestricted } = useUserContext();
 
   const matchingManifest =
     parentManifest &&

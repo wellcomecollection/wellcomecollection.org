@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { useUser } from '@weco/common/contexts/UserProvider';
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { requestingDisabled } from '@weco/common/data/microcopy';
 import { memberCard } from '@weco/common/icons';
 import { useToggles } from '@weco/common/server-data/Context';
@@ -73,7 +73,7 @@ const Reload: FunctionComponent<ReloadProps> = ({ reload }) => {
 };
 
 const LibraryMembersBar: FunctionComponent = () => {
-  const { state, reload } = useUser();
+  const { state, reload } = useUserContext();
   const { disableRequesting } = useToggles();
   if (disableRequesting) {
     return (

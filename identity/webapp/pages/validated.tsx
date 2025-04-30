@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from 'next';
 
-import { useUser } from '@weco/common/contexts/UserProvider';
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { getServerData } from '@weco/common/server-data';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
@@ -20,7 +20,7 @@ import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper'
 import auth0 from '@weco/identity/src/utility/auth0';
 
 const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
-  const { state: userState } = useUser();
+  const { state: userState } = useUserContext();
   const urlUsed = message === 'This URL can be used only once';
 
   // As discussed here https://github.com/wellcomecollection/wellcomecollection.org/issues/6952

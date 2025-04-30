@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import AppContext from '@weco/common/contexts/AppContext';
-import { useUser } from '@weco/common/contexts/UserProvider';
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import {
   bornDigitalMessage,
   treeInstructions,
@@ -139,7 +139,7 @@ const ItemPageLink = ({
   digitalLocationInfo,
   authServices,
 }) => {
-  const { userIsStaffWithRestricted } = useUser();
+  const { userIsStaffWithRestricted } = useUserContext();
 
   const isDownloadable =
     digitalLocationInfo?.accessCondition !== 'open-with-advisory' &&
@@ -271,7 +271,7 @@ const WorkDetailsAvailableOnline = ({
   locationOfWork,
   transformedManifest,
 }: Props) => {
-  const { userIsStaffWithRestricted } = useUser();
+  const { userIsStaffWithRestricted } = useUserContext();
 
   const { authV2 } = useToggles();
   const {

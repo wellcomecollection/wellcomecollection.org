@@ -3,7 +3,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { useUser } from '@weco/common/contexts/UserProvider';
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import {
   DigitalLocation,
   isDigitalLocation,
@@ -127,7 +127,7 @@ const ItemPage: NextPage<Props> = ({
   parentManifest,
 }) => {
   useHotjar(true);
-  const { userIsStaffWithRestricted } = useUser();
+  const { userIsStaffWithRestricted } = useUserContext();
   const { authV2, extendedViewer } = useToggles();
   const transformedManifest =
     compressedTransformedManifest &&

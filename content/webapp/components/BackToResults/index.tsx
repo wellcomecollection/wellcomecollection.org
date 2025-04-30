@@ -1,11 +1,11 @@
 import NextLink from 'next/link';
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent } from 'react';
 
-import SearchContext from '@weco/common/contexts/SearchContext';
+import { useSearchContext } from '@weco/common/contexts/SearchContext';
 import { font } from '@weco/common/utils/classnames';
 
 const BackToResults: FunctionComponent = () => {
-  const { link } = useContext(SearchContext);
+  const { link } = useSearchContext();
   const query = link.href?.query;
 
   if (!query) return null;

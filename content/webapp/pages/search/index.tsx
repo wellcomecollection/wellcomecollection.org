@@ -5,7 +5,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import SearchContext from '@weco/common/contexts/SearchContext';
+import { useSearchContext } from '@weco/common/contexts/SearchContext';
 import { arrow } from '@weco/common/icons';
 import { getServerData } from '@weco/common/server-data';
 import {
@@ -234,12 +234,11 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   useHotjar(true);
 
   const { query: queryString } = query;
-  const { extraApiToolbarLinks, setExtraApiToolbarLinks } =
-    useContext(SearchContext);
+  const { extraApiToolbarLinks, setExtraApiToolbarLinks } = useSearchContext();
   const { apiToolbar } = useToggles();
   const params = fromQuery(query);
   const data = useContext(ServerDataContext);
-  const { setLink } = useContext(SearchContext);
+  const { setLink } = useSearchContext();
   const [clientSideWorkTypes, setClientSideWorkTypes] = useState<
     WorkTypes | undefined
   >(undefined);

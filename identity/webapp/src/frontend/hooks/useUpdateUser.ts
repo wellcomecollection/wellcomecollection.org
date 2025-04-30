@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 
-import { useUser } from '@weco/common/contexts/UserProvider';
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { UserInfo } from '@weco/common/model/user';
 import { UpdateUserSchema } from '@weco/identity/src/types/schemas/update-user';
 
@@ -24,7 +24,7 @@ type UseUpdateUserMutation = {
 };
 
 export function useUpdateUser(): UseUpdateUserMutation {
-  const { reload: refreshUserSession } = useUser();
+  const { reload: refreshUserSession } = useUserContext();
   const [state, setState] = useState<State>('initial');
   const [error, setError] = useState<UpdateUserError>();
 

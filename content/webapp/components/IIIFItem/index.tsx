@@ -6,7 +6,7 @@ import {
 import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { useUser } from '@weco/common/contexts/UserProvider';
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import {
   restrictedItemMessage,
   unavailableContentMessage,
@@ -221,7 +221,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   setImageRect,
   setImageContainerRect,
 }) => {
-  const { userIsStaffWithRestricted } = useUser();
+  const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = isItemRestricted(item);
   const shouldShowItem = isItemRestricted(item) && !userIsStaffWithRestricted;
   // N.B. Restricted images are handled differently from restricted audio/video and text.

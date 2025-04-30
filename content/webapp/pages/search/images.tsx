@@ -1,9 +1,9 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
-import SearchContext from '@weco/common/contexts/SearchContext';
+import { useSearchContext } from '@weco/common/contexts/SearchContext';
 import { getServerData } from '@weco/common/server-data';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
@@ -83,7 +83,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
 }) => {
   useHotjar(true);
   const { query: queryString } = query;
-  const { setLink } = useContext(SearchContext);
+  const { setLink } = useSearchContext();
 
   useEffect(() => {
     const link = toLink({ ...imagesRouteProps }, 'images_search_context');

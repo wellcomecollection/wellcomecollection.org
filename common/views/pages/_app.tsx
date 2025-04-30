@@ -11,7 +11,7 @@ import { ThemeProvider } from 'styled-components';
 import { ApmContextProvider } from '@weco/common/contexts/ApmContext';
 import { AppContextProvider } from '@weco/common/contexts/AppContext';
 import { SearchContextProvider } from '@weco/common/contexts/SearchContext';
-import UserProvider from '@weco/common/contexts/UserProvider';
+import { UserContextProvider } from '@weco/common/contexts/UserContext';
 import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
 import { ServerDataContext } from '@weco/common/server-data/Context';
 import {
@@ -182,7 +182,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     <>
       <ApmContextProvider>
         <ServerDataContext.Provider value={serverData}>
-          <UserProvider>
+          <UserContextProvider>
             <AppContextProvider>
               <SearchContextProvider>
                 <ThemeProvider theme={theme}>
@@ -210,7 +210,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                 </ThemeProvider>
               </SearchContextProvider>
             </AppContextProvider>
-          </UserProvider>
+          </UserContextProvider>
         </ServerDataContext.Provider>
       </ApmContextProvider>
     </>

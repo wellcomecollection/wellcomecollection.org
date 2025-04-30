@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 
-import { useUser } from '@weco/common/contexts/UserProvider';
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import {
   abortErrorHandler,
   useAbortSignalEffect,
@@ -45,7 +45,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
   work,
   items: workItems,
 }: Props) => {
-  const { state: userState } = useUser();
+  const { state: userState } = useUserContext();
   const [userHolds, setUserHolds] = useState<Set<string>>();
   const [physicalItems, setPhysicalItems] = useState(workItems);
 

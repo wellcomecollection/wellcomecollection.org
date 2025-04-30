@@ -3,10 +3,11 @@ import Script from 'next/script';
 import { FunctionComponent, PropsWithChildren, useContext } from 'react';
 
 import AppContext from '@weco/common/contexts/AppContext';
-import GlobalInfoBarContext, {
+import {
   GlobalInfoBarContextProvider,
+  useGlobalInfoBarContext,
 } from '@weco/common/contexts/GlobalInfoBarContext';
-import SearchContext from '@weco/common/contexts/SearchContext';
+import { useSearchContext } from '@weco/common/contexts/SearchContext';
 import cookies from '@weco/common/data/cookies';
 import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
 import { defaultPageTitle } from '@weco/common/data/microcopy';
@@ -109,8 +110,8 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
     ...openingHoursLd(libraryOpeningHours),
   };
 
-  const globalInfoBar = useContext(GlobalInfoBarContext);
-  const { extraApiToolbarLinks } = useContext(SearchContext);
+  const globalInfoBar = useGlobalInfoBarContext();
+  const { extraApiToolbarLinks } = useSearchContext();
   const { isEnhanced } = useContext(AppContext);
 
   // For Twitter cards in particular, we prefer a crop as close to 2:1 as

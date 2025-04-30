@@ -7,7 +7,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
-import { useUser } from '@weco/common/contexts/UserProvider';
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { sierraAccessMethodtoNewLabel } from '@weco/common/data/microcopy';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
@@ -81,7 +81,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   userHeldItems,
   isLast,
 }) => {
-  const { state: userState } = useUser();
+  const { state: userState } = useUserContext();
   const { disableRequesting } = useToggles();
   const isArchive = useContext(IsArchiveContext);
   const requestButtonRef = useRef<HTMLButtonElement | null>(null);

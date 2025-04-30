@@ -9,7 +9,7 @@ import {
 } from 'react';
 import { URLSearchParams } from 'url';
 
-import { useUser } from '@weco/common/contexts/UserProvider';
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { sierraStatusCodeToLabel } from '@weco/common/data/microcopy';
 import { info2 } from '@weco/common/icons';
 import {
@@ -223,7 +223,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
     fetchRequests,
   } = useRequestedItems();
   const sendVerificationEmail = useSendVerificationEmail();
-  const { user: contextUser } = useUser();
+  const { user: contextUser } = useUserContext();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
 

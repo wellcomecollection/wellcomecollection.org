@@ -4,12 +4,11 @@ import {
   JSX,
   PropsWithChildren,
   ReactElement,
-  useContext,
   useEffect,
   useState,
 } from 'react';
 
-import SearchContext from '@weco/common/contexts/SearchContext';
+import { useSearchContext } from '@weco/common/contexts/SearchContext';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { SiteSection } from '@weco/common/model/site-section';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
@@ -45,7 +44,7 @@ const SearchLayout: FunctionComponent<SearchLayoutProps> = ({
   const router = useRouter();
   const queryString = getQueryPropertyValue(router?.query?.query);
   const [queryValue, setQueryValue] = useState(queryString || '');
-  const { setExtraApiToolbarLinks } = useContext(SearchContext);
+  const { setExtraApiToolbarLinks } = useSearchContext();
 
   const currentSearchCategory =
     router.pathname === '/search'

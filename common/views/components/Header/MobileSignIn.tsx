@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { useUser } from '@weco/common/contexts/UserProvider';
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { user as userIcon } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
@@ -44,7 +44,7 @@ const StyledComponent = styled.div.attrs({
 `;
 
 const MobileSignIn: FunctionComponent = () => {
-  const { user } = useUser();
+  const { user } = useUserContext();
   return (
     <StyledComponent>
       <Space
