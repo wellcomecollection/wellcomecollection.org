@@ -4,11 +4,10 @@ import {
   forwardRef,
   ForwardRefRenderFunction,
   RefObject,
-  useContext,
 } from 'react';
 import styled from 'styled-components';
 
-import AppContext from '@weco/common/contexts/AppContext';
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { exclamation, tickCircle } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
