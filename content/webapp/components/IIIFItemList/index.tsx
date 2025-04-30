@@ -34,6 +34,7 @@ const IIIFItemList: FunctionComponent<Props> = ({
                   item={item}
                   canvas={canvas}
                   i={i}
+                  titleOverride={`${i + 1}/${canvases?.length}`}
                   exclude={exclude}
                 />
               </Space>

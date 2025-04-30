@@ -527,8 +527,8 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
   // may be presented to the user as part of the representation of the Canvas, or
   // may be presented in a different part of the user interface.
   // We need to do this for two reasons:
-  // 1) to find the pdfs that were added to manifests before DLCS changes, which took place in May 2023.
-  // (N.B. after this time the pdfs follow the Born Digital pattern)
+  // 1) to find the pdfs that are ingested via Goobi.
+  // (N.B. pdfs ingested via Archivematica follow the Born Digital pattern)
   // 2) they can provide alternative content such as transcriptions for Videos
   const supplementings = getAnnotationsOfMotivation(
     canvas.annotations || [],
@@ -631,7 +631,7 @@ export function hasItemType(
 ): boolean {
   return (
     canvases?.some(canvas => {
-      return canvas.painting.some(item => {
+      return canvas?.painting.some(item => {
         if (isChoiceBody(item)) {
           return item.items.some(item => {
             if (typeof item !== 'string') {
@@ -653,7 +653,7 @@ export function hasOriginalPdf(
 ): boolean {
   return (
     canvases?.some(canvas => {
-      return canvas.original.some(item => {
+      return canvas?.original.some(item => {
         return 'format' in item && item.format === 'application/pdf';
       });
     }) || false
@@ -750,6 +750,23 @@ export function getBornDigitalStatus(
   } else {
     return 'noBornDigital';
   }
+}
+
+// The viewer uses react-window's FixedSizeList if we are only displaying images
+// If we are displaying other things e.g. audio/video/pdf/other born digital files
+// then we display one item at a time with pagination.
+// So we need to determine if any of these are types are present.
+export function hasNonImages(
+  canvases: TransformedCanvas[] | undefined
+): boolean {
+  const hasNonImage = canvases?.some(c => {
+    return (
+      c.painting.some(p => p.type !== 'Image') ||
+      c.original.some(p => p.type !== 'Image') ||
+      c.supplementing.some(p => p.type !== 'Image')
+    );
+  });
+  return !!hasNonImage;
 }
 
 export function getFormatString(format: string): string | undefined {

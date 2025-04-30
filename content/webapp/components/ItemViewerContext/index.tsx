@@ -47,6 +47,8 @@ type Props = {
   setIsMobileSidebarActive: (v: boolean) => void;
   showZoomed: boolean;
   setShowZoomed: (v: boolean) => void;
+  showFullscreenControl: boolean;
+  setShowFullscreenControl: (v: boolean) => void;
   showControls: boolean;
   setShowControls: (v: boolean) => void;
   rotatedImages: RotatedImage[];
@@ -117,6 +119,8 @@ const ItemViewerContext = createContext<Props>({
   setShowZoomed: () => undefined,
   showControls: false,
   setShowControls: () => undefined,
+  showFullscreenControl: false,
+  setShowFullscreenControl: () => undefined,
   rotatedImages: [],
   setRotatedImages: () => undefined,
   isResizing: false,

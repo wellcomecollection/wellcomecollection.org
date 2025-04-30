@@ -221,6 +221,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     transformedManifest,
     query,
     viewerRef,
+    showFullscreenControl,
   } = useContext(ItemViewerContext);
   const { canvas } = query;
   const { canvases, rendering } = { ...transformedManifest };
@@ -430,7 +431,8 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                   />
                 </Space>
               )}
-              {isFullscreenEnabled && (
+
+              {isFullscreenEnabled && showFullscreenControl && (
                 <ViewerButton
                   className="viewer-desktop"
                   $isDark
