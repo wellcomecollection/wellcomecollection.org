@@ -111,13 +111,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'dateFilter',
-      title: 'Date filter in Events search',
-      initialValue: false,
-      description: 'Adds the Date filter in the Events search',
-      type: 'experimental',
-    },
-    {
       id: 'filterEventsListing',
       title: 'Changes to the Events listing pages',
       initialValue: false,
