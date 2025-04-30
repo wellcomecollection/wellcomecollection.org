@@ -331,17 +331,18 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
           {displayItems.length > 0 &&
             displayItems.map(item => {
               return (
-                <IIIFItem
-                  key={item.id}
-                  placeholderId={placeholderId}
-                  item={item}
-                  i={index}
-                  canvas={currentCanvas}
-                  titleOverride={`${index}/${canvases.length}`}
-                  exclude={[]}
-                  setImageRect={setImageRect}
-                  setImageContainerRect={setImageContainerRect}
-                />
+                <ItemWrapper key={item.type + item.id}>
+                  <IIIFItem
+                    placeholderId={placeholderId}
+                    item={item}
+                    canvas={currentCanvas}
+                    titleOverride={`${index}/${canvases.length}`}
+                    i={index}
+                    exclude={[]}
+                    setImageRect={setImageRect}
+                    setImageContainerRect={setImageContainerRect}
+                  />
+                </ItemWrapper>
               );
             })}
         </>

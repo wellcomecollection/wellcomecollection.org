@@ -779,7 +779,10 @@ export function getFormatString(format: string): string | undefined {
       return 'JPG';
     case 'video/mp4':
       return 'MP4';
+    case 'video/webm':
+      return 'WebM';
     case 'audio/mp3':
+    case 'audio/x-mpeg-3':
       return 'MP3';
     default:
       return 'unknown format';
