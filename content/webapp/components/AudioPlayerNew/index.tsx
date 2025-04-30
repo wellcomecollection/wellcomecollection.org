@@ -179,10 +179,12 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
     // to reset the time and the range slider thumb correctly
     // after an audioFile change
     setCurrentTime(0);
+    setStartTime(0);
     progressBarRef.current.value = `0`;
   }, [audioFile, progressBarRef.current]);
 
   useEffect(() => {
+    console.log('2');
     if (!audioPlayerRef.current) return;
     if (!progressBarRef.current) return;
 
@@ -249,6 +251,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   };
 
   const onScrubberChange = () => {
+    console.log('oi o i');
     if (!audioPlayerRef.current) return;
     if (!progressBarRef.current) return;
 
