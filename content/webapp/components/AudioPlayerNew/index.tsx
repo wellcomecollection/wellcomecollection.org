@@ -184,7 +184,6 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   }, [audioFile, progressBarRef.current]);
 
   useEffect(() => {
-    console.log('2');
     if (!audioPlayerRef.current) return;
     if (!progressBarRef.current) return;
 
@@ -251,7 +250,6 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   };
 
   const onScrubberChange = () => {
-    console.log('oi o i');
     if (!audioPlayerRef.current) return;
     if (!progressBarRef.current) return;
 
