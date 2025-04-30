@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import Script from 'next/script';
-import { FunctionComponent, PropsWithChildren, useContext } from 'react';
+import { FunctionComponent, PropsWithChildren } from 'react';
 
-import AppContext from '@weco/common/contexts/AppContext';
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import {
   GlobalInfoBarContextProvider,
   useGlobalInfoBarContext,
@@ -112,7 +112,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
 
   const globalInfoBar = useGlobalInfoBarContext();
   const { extraApiToolbarLinks } = useSearchContext();
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
 
   // For Twitter cards in particular, we prefer a crop as close to 2:1 as
   // possible.  This avoids an automated crop by Twitter, which may be less

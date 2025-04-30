@@ -172,7 +172,7 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
   }: Props,
   ref: RefObject<HTMLInputElement>
 ) => {
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
 
   function onChange(event: ChangeEvent<HTMLInputElement>) {
     const isValueValid = event.currentTarget.validity.valid;

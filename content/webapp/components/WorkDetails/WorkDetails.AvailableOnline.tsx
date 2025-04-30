@@ -1,9 +1,9 @@
 import { ContentResource, InternationalString } from '@iiif/presentation-3';
 import NextLink from 'next/link';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import AppContext from '@weco/common/contexts/AppContext';
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import {
   bornDigitalMessage,
@@ -316,7 +316,7 @@ const WorkDetailsAvailableOnline = ({
       elementToFocus.focus();
     }
   }, [archiveTree, tabbableId]);
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
 
   useEffect(() => {
     setOrigin(window.origin);

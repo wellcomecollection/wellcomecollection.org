@@ -1,13 +1,12 @@
 import {
   FunctionComponent,
   PropsWithChildren,
-  useContext,
   useEffect,
   useState,
 } from 'react';
 import styled from 'styled-components';
 
-import AppContext from '@weco/common/contexts/AppContext';
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { plus } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
@@ -72,7 +71,7 @@ const CollapsibleContent: FunctionComponent<Props> = ({
   controlText,
   children,
 }: Props) => {
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   const [showContent, setShowContent] = useState(true);
   useEffect(() => {
     setShowContent(false);

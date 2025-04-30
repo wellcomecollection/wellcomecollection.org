@@ -1,7 +1,7 @@
-import { FunctionComponent, useContext, useRef } from 'react';
+import { FunctionComponent, useRef } from 'react';
 import styled from 'styled-components';
 
-import AppContext from '@weco/common/contexts/AppContext';
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import PlainList from '@weco/common/views/components/styled/PlainList';
@@ -42,7 +42,7 @@ const Download: FunctionComponent<Props> = ({
   isInline = false,
 }: Props) => {
   const downloadsContainer = useRef(null);
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
 
   return (
     <Wrapper $isEnhanced={isEnhanced} ref={downloadsContainer}>

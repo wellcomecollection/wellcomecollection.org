@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react';
 
-import AppContext from '@weco/common/contexts/AppContext';
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { treeInstructions } from '@weco/common/data/microcopy';
 import { tree } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
@@ -189,7 +189,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
 }: {
   work: Work;
 }) => {
-  const { isEnhanced, windowSize } = useContext(AppContext);
+  const { isEnhanced, windowSize } = useAppContext();
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const initialLoad = useRef(true);
   const [showArchiveTreeModal, setShowArchiveTreeModal] = useState(false);

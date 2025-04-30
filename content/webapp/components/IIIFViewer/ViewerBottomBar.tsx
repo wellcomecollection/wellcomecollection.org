@@ -3,7 +3,7 @@
 import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 
-import AppContext from '@weco/common/contexts/AppContext';
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { expand, gridView, singlePage } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -40,7 +40,7 @@ const RightZone = styled(Space).attrs({
 `;
 
 const ViewerBottomBar: FunctionComponent = () => {
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   const isFullscreenEnabled = useIsFullscreenEnabled();
 
   const {

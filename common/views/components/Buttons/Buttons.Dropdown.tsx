@@ -3,7 +3,6 @@ import {
   FunctionComponent,
   PropsWithChildren,
   ReactNode,
-  useContext,
   useEffect,
   useRef,
   useState,
@@ -12,7 +11,7 @@ import { usePopper } from 'react-popper';
 import { CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
 
-import AppContext from '@weco/common/contexts/AppContext';
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { chevron, IconSvg } from '@weco/common/icons';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { BorderlessButton } from '@weco/common/views/components/BorderlessClickable';
@@ -117,7 +116,7 @@ const DropdownButton: FunctionComponent<
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [focusables, setFocusables] = useState<HTMLElement[]>([]);
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   const dropdownWrapperRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const popperRef = useRef(null);

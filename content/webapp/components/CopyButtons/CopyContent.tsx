@@ -1,13 +1,7 @@
-import {
-  FunctionComponent,
-  ReactElement,
-  useContext,
-  useRef,
-  useState,
-} from 'react';
+import { FunctionComponent, ReactElement, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import AppContext from '@weco/common/contexts/AppContext';
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { check } from '@weco/common/icons';
 import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
@@ -33,7 +27,7 @@ const CopyContent: FunctionComponent<Props> = ({
   content,
   displayedContent,
 }: Props): ReactElement<Props> => {
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   const [isTextCopied, setIsTextCopied] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);

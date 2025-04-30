@@ -4,7 +4,7 @@ import { ChoiceBody, ImageService } from '@iiif/presentation-3';
 import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 
-import AppContext from '@weco/common/contexts/AppContext';
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import {
   chevrons,
   collapse,
@@ -203,7 +203,7 @@ type ViewerTopBarProps = OptionalToUndefined<{
 const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   iiifImageLocation,
 }) => {
-  const { isEnhanced, isFullSupportBrowser } = useContext(AppContext);
+  const { isEnhanced, isFullSupportBrowser } = useAppContext();
 
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {

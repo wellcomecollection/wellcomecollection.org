@@ -1,7 +1,7 @@
-import { FunctionComponent, useContext, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
-import AppContext from '@weco/common/contexts/AppContext';
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { newsletterAddressBook } from '@weco/common/data/dotdigital';
 import useValidation from '@weco/common/hooks/useValidation';
 import { font } from '@weco/common/utils/classnames';
@@ -52,7 +52,7 @@ const NewsletterPromo: FunctionComponent = () => {
   const [isSubmitError, setIsSubmitError] = useState(false);
   const [hasCheckedMarketing, setHasCheckedMarketing] = useState(false);
   const [value, setValue] = useState('');
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   const emailValidation = useValidation();
 
   async function handleSubmit(event) {

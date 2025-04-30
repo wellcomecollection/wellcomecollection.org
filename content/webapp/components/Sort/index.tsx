@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
-import { FunctionComponent, useContext, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import AppContext from '@weco/common/contexts/AppContext';
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { propsToQuery } from '@weco/common/utils/routes';
 import {
   DefaultSortValuesType,
@@ -44,7 +44,7 @@ const Sort: FunctionComponent<Props> = ({
   darkBg,
 }) => {
   const router = useRouter();
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   const { sortOrder: currentSortOrder, sort: currentSortType } = router.query;
 
   const [sortOrder, setSortOrder] = useState(currentSortOrder);

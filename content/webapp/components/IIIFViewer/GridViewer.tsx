@@ -11,7 +11,7 @@ import {
 import { areEqual, FixedSizeGrid } from 'react-window';
 import styled from 'styled-components';
 
-import AppContext from '@weco/common/contexts/AppContext';
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
@@ -140,7 +140,7 @@ const GridViewer: FunctionComponent = () => {
     query,
     work,
   } = useContext(ItemViewerContext);
-  const { windowSize } = useContext(AppContext);
+  const { windowSize } = useAppContext();
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
   const itemWidth = windowSize === 'small' ? 250 : 350;

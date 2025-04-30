@@ -3,6 +3,7 @@ import {
   createContext,
   FunctionComponent,
   PropsWithChildren,
+  useContext,
   useEffect,
   useState,
 } from 'react';
@@ -36,6 +37,11 @@ const appContextDefaults = {
 };
 
 const AppContext = createContext<AppContextProps>(appContextDefaults);
+
+export function useAppContext(): AppContextProps {
+  const contextState = useContext(AppContext);
+  return contextState;
+}
 
 function getWindowSize(): Size {
   switch (true) {

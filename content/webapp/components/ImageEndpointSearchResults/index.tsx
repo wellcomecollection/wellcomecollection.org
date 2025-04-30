@@ -77,7 +77,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   background,
   targetRowHeight,
 }: Props) => {
-  const { isFullSupportBrowser } = useContext(AppContext);
+  const { isFullSupportBrowser } = useAppContext();
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
   const [isActive, setIsActive] = useState(false);
   const { toggles } = useContext(ServerDataContext);

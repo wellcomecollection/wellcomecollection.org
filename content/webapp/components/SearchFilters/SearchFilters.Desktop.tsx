@@ -47,7 +47,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   searchFormId,
   hasNoResults,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const openMoreFiltersButtonRef = useRef(null);

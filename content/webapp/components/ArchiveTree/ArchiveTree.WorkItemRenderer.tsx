@@ -1,7 +1,7 @@
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import AppContext from '@weco/common/contexts/AppContext';
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { chevron } from '@weco/common/icons';
 import { classNames, font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
@@ -42,7 +42,7 @@ const WorkItem: FunctionComponent<WorkItemRendererProps> = ({
   currentWorkId,
   highlightCondition,
 }) => {
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   return (
     <div
       style={{

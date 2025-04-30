@@ -1,9 +1,9 @@
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FunctionComponent, SyntheticEvent, useContext } from 'react';
+import { FunctionComponent, SyntheticEvent } from 'react';
 import styled from 'styled-components';
 
-import AppContext from '@weco/common/contexts/AppContext';
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { ImageType } from '@weco/common/model/image';
 import IIIFImage from '@weco/content/components/IIIFImage';
 import { toLink as imageLink } from '@weco/content/components/ImageLink';
@@ -30,7 +30,7 @@ const ImageCard: FunctionComponent<Props> = ({
   onClick,
   background,
 }: Props) => {
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   const pathname = usePathname();
 
   return (

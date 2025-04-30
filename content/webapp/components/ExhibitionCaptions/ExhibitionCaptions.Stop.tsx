@@ -1,9 +1,9 @@
 import * as prismic from '@prismicio/client';
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { KnownTarget } from 'styled-components/dist/types';
 
-import AppContext from '@weco/common/contexts/AppContext';
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { font } from '@weco/common/utils/classnames';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -153,7 +153,7 @@ const Stop: FunctionComponent<{
   const { title, standaloneTitle, tombstone, caption, context, transcription } =
     captionsOrTranscripts;
 
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   const hasShowFullTranscriptionButton =
     (transcription?.length || 0) > 1 && isEnhanced; // We only show the button if there is more than one paragraph
   const hasContext = isNotUndefined(context);

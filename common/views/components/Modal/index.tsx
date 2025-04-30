@@ -4,14 +4,13 @@ import {
   MutableRefObject,
   PropsWithChildren,
   RefObject,
-  useContext,
   useEffect,
   useRef,
 } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
 
-import AppContext from '@weco/common/contexts/AppContext';
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { cross } from '@weco/common/icons';
 import { ACTIVE_COOKIE_BANNER_ID } from '@weco/common/services/app/civic-uk';
 import Icon from '@weco/common/views/components/Icon';
@@ -216,7 +215,7 @@ const Modal: FunctionComponent<Props> = ({
   const initialLoad = useRef(true);
   const nodeRef = useRef(null);
   const { hasAcknowledgedCookieBanner, setHasAcknowledgedCookieBanner } =
-    useContext(AppContext);
+    useAppContext();
 
   useEffect(() => {
     if (isActive) {

@@ -1,6 +1,6 @@
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent } from 'react';
 
-import AppContext from '@weco/common/contexts/AppContext';
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
 
 import {
@@ -145,7 +145,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   ItemRenderer,
   shouldFetchChildren,
 }: ListItemProps) => {
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   const isEndNode = item.work.totalParts === 0;
   const isSelected =
     (tabbableId && tabbableId === item.work.id) ||
