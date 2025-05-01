@@ -66,7 +66,7 @@ const colorTransform = css<{ $isDark: boolean }>`
 `;
 
 const SkipButton = styled.button<{ $isDark: boolean }>`
-  padding: 0;
+  padding: ${props => props.theme.spacingUnits['5']}px 0 0;
   color: ${props =>
     props.$isDark ? props.theme.color('yellow') : props.theme.color('black')};
 
