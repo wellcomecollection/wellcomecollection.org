@@ -114,7 +114,7 @@ const ViewerBottomBar: FunctionComponent = () => {
                 }}
               >
                 <Icon icon={maximise} />
-                <span className="btn__text">Full screen</span>
+                <span style={{ marginLeft: '7px' }}>Full screen</span>
               </ViewerButton>
             </Space>
           </div>

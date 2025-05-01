@@ -81,15 +81,6 @@ export const ViewerButton = styled.button.attrs({
     outline: none;
     transition: all ${props.theme.transitionProperties};
 
-    .btn__text {
-      position: absolute;
-      right: 100%;
-
-      ${props.theme.media('large')`
-        position: static;
-      `}
-    }
-
     &:not([disabled]):hover {
       border: 2px solid ${props.theme.color('white')};
     }
@@ -461,12 +452,14 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                   document['webkitFullscreenElement'] ? (
                     <>
                       <Icon icon={minimise} />
-                      Exit full screen
+                      <span style={{ marginLeft: '7px' }}>
+                        Exit full screen
+                      </span>
                     </>
                   ) : (
                     <>
                       <Icon icon={maximise} />
-                      <span className="btn__text">Full screen</span>
+                      <span style={{ marginLeft: '7px' }}>Full screen</span>
                     </>
                   )}
                 </ViewerButton>
