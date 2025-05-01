@@ -88,10 +88,11 @@ const PercentComplete = styled.div<{
   }
 
   @media (hover: hover) {
-    &:hover
-      ${RangeSlider}::-webkit-slider-thumb,
-      &:hover
-      ${RangeSlider}::-moz-range-thumb {
+    &:hover ${RangeSlider}::-webkit-slider-thumb {
+      ${backgroundTransform};
+    }
+
+    &:hover ${RangeSlider}::-moz-range-thumb {
       ${backgroundTransform};
     }
   }
