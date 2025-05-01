@@ -2,12 +2,12 @@ const { writeFileSync, readdirSync } = require('fs');
 const { resolve, join } = require('path');
 const TJS = require('typescript-json-schema');
 
-const files = readdirSync(join(__dirname, './src/types/schemas')).map(f =>
-  join(__dirname, './src/types/schemas', f)
+const files = readdirSync(join(__dirname, './types/schemas')).map(f =>
+  join(__dirname, './types/schemas', f)
 );
 
 const program = TJS.getProgramFromFiles(files, {
-  baseUrl: './src/types/schemas',
+  baseUrl: './types/schemas',
   skipLibCheck: true,
 });
 
