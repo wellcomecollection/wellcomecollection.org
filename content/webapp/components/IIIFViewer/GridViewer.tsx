@@ -49,6 +49,7 @@ type CellProps = {
     searchResults: SearchResults;
     query: ItemViewerQuery;
     workId: string;
+    placeholderId?: string;
   };
 };
 
@@ -62,6 +63,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
     searchResults,
     query,
     workId,
+    placeholderId,
   } = data;
   const canvasIndex = rowIndex * columnCount + columnIndex;
   const currentCanvas = canvases[canvasIndex];
@@ -103,6 +105,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
             >
               <IIIFCanvasThumbnail
                 canvas={currentCanvas}
+                placeholderId={placeholderId}
                 thumbNumber={arrayIndexToQueryParam(canvasIndex)}
                 highlightImage={hasSearchResults}
               />
@@ -193,6 +196,7 @@ const GridViewer: FunctionComponent = () => {
           mainAreaWidth,
           query,
           workId: work.id,
+          placeholderId: transformedManifest?.placeholderId,
         }}
         onScroll={({ scrollTop }) => setNewScrollOffset(scrollTop)}
         ref={grid}

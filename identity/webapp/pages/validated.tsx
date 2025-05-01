@@ -11,13 +11,20 @@ import {
   gridSize10,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import { ValidatedFailedText, ValidatedSuccessText } from '@weco/identity/copy';
+import PageWrapper from '@weco/identity/components/PageWrapper';
+import { Container, Wrapper } from '@weco/identity/components/styled/layouts';
+import auth0 from '@weco/identity/utils/auth0';
 import {
-  Container,
-  Wrapper,
-} from '@weco/identity/src/frontend/components/Layout.style';
-import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper';
-import auth0 from '@weco/identity/src/utility/auth0';
+  ValidatedFailedText,
+  ValidatedSuccessText,
+} from '@weco/identity/utils/copy';
+
+type Props = {
+  serverData: SimplifiedServerData;
+  success: boolean;
+  message: string | string[];
+  isNewSignUp: boolean;
+};
 
 const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
   const { state: userState } = useUserContext();
@@ -54,13 +61,6 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
       </ContaineredLayout>
     </PageWrapper>
   );
-};
-
-type Props = {
-  serverData: SimplifiedServerData;
-  success: boolean;
-  message: string | string[];
-  isNewSignUp: boolean;
 };
 
 export const getServerSideProps: GetServerSideProps<

@@ -29,6 +29,7 @@ import {
   getDownloadOptionsFromCanvasRenderingAndSupplementing,
   getDownloadOptionsFromManifestRendering,
   getImageServiceFromItem,
+  isAudioCanvas,
   isChoiceBody,
 } from '@weco/content/utils/iiif/v3';
 import { getDownloadOptionsFromImageUrl } from '@weco/content/utils/works';
@@ -284,16 +285,13 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   const videoAudioDownloadOptions = () => {
     if (!currentCanvas?.painting) return [];
 
-    const isAudio = (item: IIIFItemProps) =>
-      item.type === 'Sound' || item.type === 'Audio';
-
     const formatItemInfo = item => ({
       format: item.format || '',
       id: item.id || '',
       label:
         item.type === 'Video'
           ? 'This video'
-          : isAudio(item)
+          : isAudioCanvas(item)
             ? 'This audio'
             : '',
     });
@@ -309,7 +307,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
 
             if (
               externalResourceItem.type !== 'Video' &&
-              !isAudio(externalResourceItem)
+              !isAudioCanvas(externalResourceItem)
             )
               return undefined;
 
@@ -318,7 +316,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
         });
     } else {
       currentCanvas.painting.forEach(item => {
-        if (item.type !== 'Video' && !isAudio(item)) return undefined;
+        if (item.type !== 'Video' && !isAudioCanvas(item)) return undefined;
 
         finalOptions.push(formatItemInfo(item));
       });
