@@ -10,13 +10,10 @@ import {
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import { ApplicationReceived } from '@weco/identity/copy';
-import {
-  Container,
-  Wrapper,
-} from '@weco/identity/src/frontend/components/Layout.style';
-import { PageWrapper } from '@weco/identity/src/frontend/components/PageWrapper';
-import { usePageTitle } from '@weco/identity/src/frontend/hooks/usePageTitle';
+import PageWrapper from '@weco/identity/components/PageWrapper';
+import { Container, Wrapper } from '@weco/identity/components/styled/layouts';
+import { usePageTitle } from '@weco/identity/hooks/usePageTitle';
+import { ApplicationReceived } from '@weco/identity/utils/copy';
 
 type Props = {
   serverData: SimplifiedServerData;
