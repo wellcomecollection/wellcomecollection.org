@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-  <path fill="currentColor" class="icon__shape" d="M5.66,24h2.62v-6.91c0-.83-.55-1.38-1.38-1.38H0v2.62h5.53l.14,5.66Z"/>
-  <path fill="currentColor" class="icon__shape" d="M6.91,8.29c.83,0,1.38-.55,1.38-1.38V0h-2.76v5.53H0v2.76h6.91Z"/>
-  <path fill="currentColor" class="icon__shape" d="M18.47,24v-5.53h5.53v-2.76h-6.91c-.83,0-1.38.55-1.38,1.38v6.91h2.76Z"/>
-  <path fill="currentColor" class="icon__shape" d="M18.34,0h-2.62v6.91c0,.83.55,1.38,1.38,1.38h6.91v-2.76h-5.53L18.34,0Z"/>
-</svg>

@@ -6,9 +6,9 @@ import styled from 'styled-components';
 
 import {
   chevrons,
-  collapse,
-  expand,
   gridView,
+  maximise,
+  minimise,
   singlePage,
 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
@@ -460,12 +460,12 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                   {document.fullscreenElement ||
                   document['webkitFullscreenElement'] ? (
                     <>
-                      <Icon icon={collapse} />
+                      <Icon icon={minimise} />
                       Exit full screen
                     </>
                   ) : (
                     <>
-                      <Icon icon={expand} />
+                      <Icon icon={maximise} />
                       <span className="btn__text">Full screen</span>
                     </>
                   )}

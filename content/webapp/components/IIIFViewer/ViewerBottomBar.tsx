@@ -3,7 +3,7 @@
 import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 
-import { expand, gridView, singlePage } from '@weco/common/icons';
+import { gridView, maximise, singlePage } from '@weco/common/icons';
 import { AppContext } from '@weco/common/views/components/AppContext';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -113,7 +113,7 @@ const ViewerBottomBar: FunctionComponent = () => {
                   }
                 }}
               >
-                <Icon icon={expand} />
+                <Icon icon={maximise} />
                 <span className="btn__text">Full screen</span>
               </ViewerButton>
             </Space>
