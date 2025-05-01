@@ -1,12 +1,21 @@
+import { IIIFExternalWebResource } from '@iiif/presentation-3';
 import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
+import { audio, file, video } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import Icon from '@weco/common/views/components/Icon';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import { useUser } from '@weco/common/views/components/UserProvider';
+import { IIIFItemProps } from '@weco/content/components/IIIFItem';
 import { TransformedCanvas } from '@weco/content/types/manifest';
+import {
+  isAudioCanvas,
+  isChoiceBody,
+  isPDFCanvas,
+} from '@weco/content/utils/iiif/v3';
 
 import IIIFViewerImage from './IIIFViewerImage';
 import Padlock from './Padlock';
@@ -64,16 +73,25 @@ const IIIFViewerThumbNumber = styled.span.attrs({
   }
 `;
 
+const IconWrapper = styled.span`
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 type IIIFCanvasThumbnailProps = {
   canvas: TransformedCanvas;
   thumbNumber: number;
   highlightImage?: boolean;
+  placeholderId?: string;
 };
 
 const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
   canvas,
   thumbNumber,
   highlightImage,
+  placeholderId,
 }: IIIFCanvasThumbnailProps) => {
   const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
   const { userIsStaffWithRestricted } = useUser();
@@ -82,50 +100,85 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
     ? iiifImageTemplate(canvas.imageServiceId)
     : undefined;
 
+  const thumbnailSrc =
+    canvas?.thumbnailImage?.url ||
+    (urlTemplate && urlTemplate({ size: '200,' })) ||
+    placeholderId;
+
+  const itemType = isChoiceBody(canvas?.painting?.[0])
+    ? (canvas.painting[0].items[0] as IIIFExternalWebResource | IIIFItemProps)
+        ?.type
+    : canvas.painting?.[0]?.type;
+
+  const hasIconPlaceholder =
+    !thumbnailSrc &&
+    (itemType === 'Sound' || isAudioCanvas(canvas) || isPDFCanvas(canvas));
+
   return (
     <IIIFViewerThumb>
       <IIIFViewerThumbInner>
         <ImageContainer>
-          {!thumbnailLoaded && !isRestricted && (
-            <LL $small={true} $lighten={true} />
-          )}
-          {isRestricted && !userIsStaffWithRestricted ? (
+          {isRestricted && !userIsStaffWithRestricted && (
             <>
               <Padlock />
               <span className="visually-hidden">
                 Thumbnail image is not available
               </span>
             </>
-          ) : (
-            <IIIFViewerImage
-              highlightImage={highlightImage}
-              width={canvas?.thumbnailImage?.width || 30}
-              src={
-                canvas?.thumbnailImage?.url ||
-                (urlTemplate && urlTemplate({ size: '200,' }))
-              }
-              srcSet=""
-              sizes={`${canvas?.thumbnailImage?.width || 30}px`}
-              alt=""
-              loadHandler={() => {
-                setThumbnailLoaded(true);
-              }}
-            />
+          )}
+
+          {!isRestricted && (
+            <>
+              {thumbnailSrc ? (
+                <>
+                  {!thumbnailLoaded && <LL $small={true} $lighten={true} />}
+
+                  <IIIFViewerImage
+                    highlightImage={highlightImage}
+                    width={canvas?.thumbnailImage?.width || 30}
+                    src={thumbnailSrc}
+                    srcSet=""
+                    sizes={`${canvas?.thumbnailImage?.width || 30}px`}
+                    alt=""
+                    loadHandler={() => {
+                      setThumbnailLoaded(true);
+                    }}
+                  />
+                </>
+              ) : (
+                <>
+                  {hasIconPlaceholder && (
+                    <IconWrapper>
+                      <Icon
+                        icon={
+                          itemType === 'Sound'
+                            ? audio
+                            : itemType === 'Video'
+                              ? video
+                              : file
+                        }
+                        iconColor="white"
+                        sizeOverride="width: 53px; height: 53px;"
+                      />
+                    </IconWrapper>
+                  )}
+                </>
+              )}
+            </>
           )}
         </ImageContainer>
+
         <div>
-          <>
-            <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
-              <IIIFViewerThumbNumber>
-                {canvas.label?.trim() !== '-' && 'page'} {canvas.label}
-              </IIIFViewerThumbNumber>
-            </Space>
-            <div>
-              <IIIFViewerThumbNumber>
-                <span style={{ fontSize: '11px' }}>{`${thumbNumber}`}</span>
-              </IIIFViewerThumbNumber>
-            </div>
-          </>
+          <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+            <IIIFViewerThumbNumber>
+              {canvas.label?.trim() !== '-' && 'page'} {canvas.label}
+            </IIIFViewerThumbNumber>
+          </Space>
+          <div>
+            <IIIFViewerThumbNumber>
+              <span style={{ fontSize: '11px' }}>{`${thumbNumber}`}</span>
+            </IIIFViewerThumbNumber>
+          </div>
         </div>
       </IIIFViewerThumbInner>
     </IIIFViewerThumb>
