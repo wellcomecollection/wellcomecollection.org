@@ -171,10 +171,17 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   const progressBarRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    if (!progressBarRef.current) return;
     // If we change the player dynamically, we need to reset the play/pause
     // button to the appropriate state
     setIsPlaying(false);
-  }, [audioFile]);
+    // iOS needs a manual update to currentTime and the progressBarRef
+    // to reset the time and the range slider thumb correctly
+    // after an audioFile change
+    setCurrentTime(0);
+    setStartTime(0);
+    progressBarRef.current.value = `0`;
+  }, [audioFile, progressBarRef.current]);
 
   useEffect(() => {
     if (!audioPlayerRef.current) return;
