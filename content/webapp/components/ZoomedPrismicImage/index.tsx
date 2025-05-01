@@ -8,7 +8,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
-import { cross, expand } from '@weco/common/icons';
+import { cross, maximise } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
 import Icon from '@weco/common/views/components/Icon';
 import { createPrismicLoader } from '@weco/common/views/components/PrismicImage';
@@ -125,7 +125,7 @@ const ZoomedPrismicImage: FunctionComponent<ZoomedPrismicImageProps> = ({
         onClick={openDialog}
       >
         <span className="visually-hidden">Zoom image</span>
-        <Icon icon={expand} iconColor="white" />
+        <Icon icon={maximise} iconColor="white" />
       </ZoomButton>
       <StyledDialog ref={zoomRef} $isLoaded={isLoaded}>
         {!isLoaded && <LL />}
