@@ -1,4 +1,4 @@
-import auth0 from '@weco/identity/src/utility/auth0';
+import auth0 from '@weco/identity/utils/auth0';
 
 export default auth0.handleAuth({
   callback: async (req, res) => {
