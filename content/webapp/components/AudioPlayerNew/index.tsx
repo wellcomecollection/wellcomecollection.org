@@ -38,7 +38,8 @@ type PlayPauseButtonProps = { $isPlaying: boolean };
 const PlayPauseButton = styled.button.attrs<PlayPauseButtonProps>(props => ({
   'aria-pressed': props.$isPlaying,
 }))<PlayPauseButtonProps>`
-  padding: ${props => props.theme.spacingUnits['6']}px;
+  padding: ${props => props.theme.spacingUnits['5']}px
+    ${props => props.theme.spacingUnits['6']}px 0;
 `;
 
 const TimeWrapper = styled.div.attrs({
