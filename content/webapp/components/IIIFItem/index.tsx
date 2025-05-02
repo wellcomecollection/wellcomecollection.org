@@ -276,7 +276,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
 
     case ((item.type === 'Sound' && !exclude.includes('Sound')) ||
       (item.type === 'Audio' && !exclude.includes('Audio'))) &&
-      Boolean(item.id):
+      !!item.id:
       return (
         <Wrapper
           shouldShowItem={shouldShowItem}
@@ -288,18 +288,14 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           {audioPlayer && extendedViewer ? (
             <AudioPlayerNew
               isDark
-              audioFile={item.id || ''}
-              title={
-                (canvas.label !== '-' && canvas.label) ||
-                `${titleOverride || ''}`
-              }
+              audioFile={item.id}
+              title={(canvas.label !== '-' && canvas.label) || titleOverride}
             />
           ) : (
             <AudioPlayer
-              audioFile={item.id || ''}
+              audioFile={item.id}
               title={
-                (canvas.label !== '-' && canvas.label) ||
-                `${titleOverride || ''}`
+                (canvas.label !== '-' && canvas.label) || titleOverride || ''
               }
             />
           )}
