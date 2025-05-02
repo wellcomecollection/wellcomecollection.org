@@ -9,6 +9,7 @@ import {
   useState,
 } from 'react';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
 
 import Header from '../components/Header';
 
@@ -47,6 +48,12 @@ const TextBox = styled.p`
   background: rgb(92, 184, 191, 0.25);
   padding: 6px 12px;
   margin: 0;
+`;
+
+const MessageBox = styled(TextBox)<{ $isError?: boolean }>`
+  margin-bottom: 1em;
+  color: ${props => (props.$isError ? '#5f0000' : 'green')};
+  background-color: ${props => (props.$isError ? '#fcdddd' : '#d4edda')};
 `;
 
 const setCookieCustom = (key: string, value: 'true' | 'false') => {
@@ -183,6 +190,9 @@ type AbTest = {
 };
 
 const IndexPage: FunctionComponent = () => {
+  const router = useRouter();
+  const { enableToggle, disableToggle } = router.query;
+  const [message, setMessage] = useState<{ text: string; isError?: boolean } | null>(null);
   const [toggleStates, setToggleStates] = useState<ToggleStates>({});
   const [toggles, setToggles] = useState<Toggle[]>([]);
   const [abTests, setAbTests] = useState<AbTest[]>([]);
@@ -206,6 +216,34 @@ const IndexPage: FunctionComponent = () => {
     }, {});
     setToggleStates(initialToggles);
   }, []);
+
+  useEffect(() => {
+    if (enableToggle) {
+      const toggleExists = toggles.some(toggle => toggle.id === enableToggle);
+      if (toggleExists) {
+        setCookieCustom(enableToggle as string, 'true');
+        setToggleStates(prev => ({
+          ...prev,
+          [enableToggle as string]: true,
+        }));
+        setMessage({ text: `✅ Toggle "${enableToggle}" has been enabled.`, isError: false });
+      } else {
+        setMessage({ text: `❌ Toggle "${enableToggle}" does not exist.`, isError: true });
+      }
+    } else if (disableToggle) {
+      const toggleExists = toggles.some(toggle => toggle.id === disableToggle);
+      if (toggleExists) {
+        deleteCookieCustom(disableToggle as string);
+        setToggleStates(prev => ({
+          ...prev,
+          [disableToggle as string]: false,
+        }));
+        setMessage({ text: `✅ Toggle "${disableToggle}" has been disabled.`, isError: false });
+      } else {
+        setMessage({ text: `❌ Toggle "${disableToggle}" does not exist.`, isError: true });
+      }
+    }
+  }, [enableToggle, disableToggle, toggles]);
 
   const reset = useCallback(
     () =>
@@ -238,6 +276,9 @@ const IndexPage: FunctionComponent = () => {
             margin: '0 auto',
           }}
         >
+          {message && (
+            <MessageBox $isError={message.isError}>{message.text}</MessageBox>
+          )}
           <TextBox>
             You can turn on a toggle on (👍) or off (👎), which will only be
             active on the browser you are currently using, so feel free to
