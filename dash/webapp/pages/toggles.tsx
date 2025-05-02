@@ -50,15 +50,18 @@ const TextBox = styled.p`
   margin: 0;
 `;
 
-const MessageBox = styled(TextBox)<{ $isError?: boolean; $isEnable?: boolean }>`
+const MessageBox = styled(TextBox)<{
+  $isError?: boolean;
+  $isEnabled?: boolean;
+}>`
   margin-bottom: 1em;
   color: ${props => {
     if (props.$isError) return 'darkred';
-    return props.$isEnable ? 'darkgreen' : 'darkblue';
+    return props.$isEnabled ? 'darkgreen' : 'darkblue';
   }};
   background-color: ${props => {
     if (props.$isError) return 'lightcoral';
-    return props.$isEnable ? 'lightgreen' : 'lightblue';
+    return props.$isEnabled ? 'lightgreen' : 'lightblue';
   }};
   font-weight: bold;
 `;
@@ -198,11 +201,11 @@ type AbTest = {
 
 const IndexPage: FunctionComponent = () => {
   const router = useRouter();
-  const { enableToggle, disableToggle } = router.query;
+  const { enableToggle, disableToggle, resetToggles } = router.query;
   const [message, setMessage] = useState<{
     text: string;
     isError?: boolean;
-    isEnable?: boolean;
+    isEnabled?: boolean;
   } | null>(null);
   const [toggleStates, setToggleStates] = useState<ToggleStates>({});
   const [toggles, setToggles] = useState<Toggle[]>([]);
@@ -241,7 +244,7 @@ const IndexPage: FunctionComponent = () => {
           setMessage({
             text: `✅ Toggle "${toggleId}" has been successfully enabled!`,
             isError: false,
-            isEnable: true,
+            isEnabled: true,
           });
         } else {
           deleteCookieCustom(toggleId);
@@ -252,7 +255,7 @@ const IndexPage: FunctionComponent = () => {
           setMessage({
             text: `🔵 Toggle "${toggleId}" has been successfully disabled!`,
             isError: false,
-            isEnable: false,
+            isEnabled: false,
           });
         }
       } else {
@@ -265,14 +268,6 @@ const IndexPage: FunctionComponent = () => {
     [toggles]
   );
 
-  useEffect(() => {
-    if (enableToggle) {
-      handleToggle(enableToggle as string, 'enable');
-    } else if (disableToggle) {
-      handleToggle(disableToggle as string, 'disable');
-    }
-  }, [enableToggle, disableToggle, handleToggle]);
-
   const reset = useCallback(
     () =>
       setToggleStates(
@@ -284,6 +279,20 @@ const IndexPage: FunctionComponent = () => {
       ),
     [toggles]
   );
+
+  useEffect(() => {
+    if (resetToggles !== undefined) {
+      reset();
+      setMessage({
+        text: '🔄 All toggles have been reset to their default values.',
+        isError: false,
+      });
+    } else if (enableToggle) {
+      handleToggle(enableToggle as string, 'enable');
+    } else if (disableToggle) {
+      handleToggle(disableToggle as string, 'disable');
+    }
+  }, [enableToggle, disableToggle, resetToggles, handleToggle, reset]);
 
   const generalToggleIds = ['apiToolbar'];
   const generalToggles = toggles.filter(t => generalToggleIds.includes(t.id));
@@ -305,7 +314,10 @@ const IndexPage: FunctionComponent = () => {
           }}
         >
           {message && (
-            <MessageBox $isError={message.isError} $isEnable={message.isEnable}>
+            <MessageBox
+              $isError={message.isError}
+              $isEnabled={message.isEnabled}
+            >
               {message.text}
             </MessageBox>
           )}
