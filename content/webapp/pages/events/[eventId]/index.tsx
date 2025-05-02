@@ -479,8 +479,15 @@ export const getServerSideProps: GetServerSideProps<
   setCacheControl(context.res, cacheTTL.events);
   const { eventId } = context.query;
 
-  if (!looksLikePrismicId(eventId)) {
-    return { notFound: true };
+  if (!looksLikePrismicId(eventId)) return { notFound: true };
+
+  if (eventId === 'current-and-coming-up') {
+    return {
+      redirect: {
+        destination: '/events',
+        permanent: false,
+      },
+    };
   }
 
   const client = createClient(context);
