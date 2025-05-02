@@ -1,5 +1,6 @@
 import { deleteCookie, getCookies, setCookie } from 'cookies-next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import {
   Dispatch,
   FunctionComponent,
@@ -47,6 +48,22 @@ const TextBox = styled.p`
   background: rgb(92, 184, 191, 0.25);
   padding: 6px 12px;
   margin: 0;
+`;
+
+const MessageBox = styled(TextBox)<{
+  $isError?: boolean;
+  $isEnabled?: boolean;
+}>`
+  margin-bottom: 1em;
+  color: ${props => {
+    if (props.$isError) return 'darkred';
+    return props.$isEnabled ? 'darkgreen' : 'darkblue';
+  }};
+  background-color: ${props => {
+    if (props.$isError) return 'lightcoral';
+    return props.$isEnabled ? 'lightgreen' : 'lightblue';
+  }};
+  font-weight: bold;
 `;
 
 const setCookieCustom = (key: string, value: 'true' | 'false') => {
@@ -183,6 +200,13 @@ type AbTest = {
 };
 
 const IndexPage: FunctionComponent = () => {
+  const router = useRouter();
+  const { enableToggle, disableToggle, resetToggles } = router.query;
+  const [message, setMessage] = useState<{
+    text: string;
+    isError?: boolean;
+    isEnabled?: boolean;
+  } | null>(null);
   const [toggleStates, setToggleStates] = useState<ToggleStates>({});
   const [toggles, setToggles] = useState<Toggle[]>([]);
   const [abTests, setAbTests] = useState<AbTest[]>([]);
@@ -207,6 +231,43 @@ const IndexPage: FunctionComponent = () => {
     setToggleStates(initialToggles);
   }, []);
 
+  const handleToggle = useCallback(
+    (toggleId: string, action: 'enable' | 'disable') => {
+      const toggleExists = toggles.some(toggle => toggle.id === toggleId);
+      if (toggleExists) {
+        if (action === 'enable') {
+          setCookieCustom(toggleId, 'true');
+          setToggleStates(prev => ({
+            ...prev,
+            [toggleId]: true,
+          }));
+          setMessage({
+            text: `✅ Toggle "${toggleId}" has been successfully enabled!`,
+            isError: false,
+            isEnabled: true,
+          });
+        } else {
+          deleteCookieCustom(toggleId);
+          setToggleStates(prev => ({
+            ...prev,
+            [toggleId]: false,
+          }));
+          setMessage({
+            text: `🔵 Toggle "${toggleId}" has been successfully disabled!`,
+            isError: false,
+            isEnabled: false,
+          });
+        }
+      } else {
+        setMessage({
+          text: `❌ Toggle "${toggleId}" does not exist.`,
+          isError: true,
+        });
+      }
+    },
+    [toggles]
+  );
+
   const reset = useCallback(
     () =>
       setToggleStates(
@@ -218,6 +279,20 @@ const IndexPage: FunctionComponent = () => {
       ),
     [toggles]
   );
+
+  useEffect(() => {
+    if (resetToggles !== undefined) {
+      reset();
+      setMessage({
+        text: '🔄 All toggles have been reset to their default values.',
+        isError: false,
+      });
+    } else if (enableToggle) {
+      handleToggle(enableToggle as string, 'enable');
+    } else if (disableToggle) {
+      handleToggle(disableToggle as string, 'disable');
+    }
+  }, [enableToggle, disableToggle, resetToggles, handleToggle, reset]);
 
   const generalToggleIds = ['apiToolbar'];
   const generalToggles = toggles.filter(t => generalToggleIds.includes(t.id));
@@ -238,6 +313,14 @@ const IndexPage: FunctionComponent = () => {
             margin: '0 auto',
           }}
         >
+          {message && (
+            <MessageBox
+              $isError={message.isError}
+              $isEnabled={message.isEnabled}
+            >
+              {message.text}
+            </MessageBox>
+          )}
           <TextBox>
             You can turn on a toggle on (👍) or off (👎), which will only be
             active on the browser you are currently using, so feel free to
