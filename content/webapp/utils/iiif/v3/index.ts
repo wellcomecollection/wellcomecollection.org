@@ -687,8 +687,9 @@ export function isPDFCanvas(canvas?: TransformedCanvas): boolean {
 }
 
 export function isAudioCanvas(
-  canvas: TransformedCanvas | IIIFItemProps
+  canvas?: TransformedCanvas | IIIFItemProps
 ): boolean {
+  if (!canvas) return false;
   return canvas.type === 'Sound' || canvas.type === 'Audio';
 }
 
@@ -990,4 +991,14 @@ export const videoAudioDownloadOptions = (canvas?: TransformedCanvas) => {
     });
   }
   return finalOptions.flat().filter(Boolean).filter(isNotUndefined) || [];
+};
+
+export const getCanvasPaintingItem = (canvas?: TransformedCanvas) => {
+  if (!canvas || !canvas?.painting) return undefined;
+
+  return isChoiceBody(canvas.painting[0])
+    ? typeof canvas.painting[0].items[0] !== 'string'
+      ? canvas.painting[0].items[0]
+      : undefined
+    : canvas.painting[0];
 };
