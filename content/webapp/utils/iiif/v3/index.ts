@@ -23,7 +23,7 @@ import {
   TechnicalProperties,
 } from '@iiif/presentation-3';
 
-import { isString } from '@weco/common/utils/type-guards';
+import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
 import { IIIFItemProps } from '@weco/content/components/IIIFItem';
 import {
   Auth,
@@ -58,6 +58,7 @@ export function getMultiVolumeLabel(
   return stringAtIndex1 === itemTitle ? stringAtIndex0 : stringAtIndex1;
 }
 
+// TODO: Should we make this be the same as getAudioVideoLabel but for Video as well etc?
 export function getDisplayLabel(
   internationalString: InternationalString,
   indexProps?: { index: number }
@@ -375,7 +376,7 @@ export function getTokenService(
     : clickThroughService?.service;
 }
 
-type AuthServices = {
+export type AuthServices = {
   active?: TransformedAuthService;
   external?: TransformedAuthService;
 };
@@ -948,3 +949,45 @@ export function transformV2TokenService(
     id: service.id,
   };
 }
+
+export const videoAudioDownloadOptions = (canvas?: TransformedCanvas) => {
+  if (!canvas || !canvas?.painting) return [];
+
+  const formatItemInfo = item => ({
+    format: item.format || '',
+    id: item.id || '',
+    label:
+      item.type === 'Video'
+        ? 'This video'
+        : isAudioCanvas(item)
+          ? 'This audio'
+          : '',
+  });
+
+  const finalOptions: (DownloadOption | undefined)[] = [];
+
+  if (canvas?.painting?.some(painting => isChoiceBody(painting))) {
+    canvas.painting
+      .filter(painting => isChoiceBody(painting))
+      .forEach(({ items }) => {
+        items.forEach(item => {
+          const externalResourceItem = item as IIIFItemProps;
+
+          if (
+            externalResourceItem.type !== 'Video' &&
+            !isAudioCanvas(externalResourceItem)
+          )
+            return undefined;
+
+          finalOptions.push(formatItemInfo(externalResourceItem));
+        });
+      });
+  } else {
+    canvas.painting.forEach(item => {
+      if (item.type !== 'Video' && !isAudioCanvas(item)) return undefined;
+
+      finalOptions.push(formatItemInfo(item));
+    });
+  }
+  return finalOptions.flat().filter(Boolean).filter(isNotUndefined) || [];
+};

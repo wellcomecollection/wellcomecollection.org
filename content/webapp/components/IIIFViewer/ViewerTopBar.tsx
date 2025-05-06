@@ -13,24 +13,21 @@ import {
 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { font } from '@weco/common/utils/classnames';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import { AppContext } from '@weco/common/views/components/AppContext';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import Download from '@weco/content/components/Download';
-import { IIIFItemProps } from '@weco/content/components/IIIFItem';
 import ItemViewerContext from '@weco/content/components/ItemViewerContext';
 import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
-import { DownloadOption } from '@weco/content/types/manifest';
 import {
   getDownloadOptionsFromCanvasRenderingAndSupplementing,
   getDownloadOptionsFromManifestRendering,
   getImageServiceFromItem,
-  isAudioCanvas,
   isChoiceBody,
+  videoAudioDownloadOptions,
 } from '@weco/content/utils/iiif/v3';
 import { getDownloadOptionsFromImageUrl } from '@weco/content/utils/works';
 
@@ -273,54 +270,12 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   const manifestDownloadOptions =
     getDownloadOptionsFromManifestRendering(rendering);
 
-  const videoAudioDownloadOptions = () => {
-    if (!currentCanvas?.painting) return [];
-
-    const formatItemInfo = item => ({
-      format: item.format || '',
-      id: item.id || '',
-      label:
-        item.type === 'Video'
-          ? 'This video'
-          : isAudioCanvas(item)
-            ? 'This audio'
-            : '',
-    });
-
-    const finalOptions: (DownloadOption | undefined)[] = [];
-
-    if (currentCanvas?.painting?.some(painting => isChoiceBody(painting))) {
-      currentCanvas.painting
-        .filter(painting => isChoiceBody(painting))
-        .forEach(({ items }) => {
-          items.forEach(item => {
-            const externalResourceItem = item as IIIFItemProps;
-
-            if (
-              externalResourceItem.type !== 'Video' &&
-              !isAudioCanvas(externalResourceItem)
-            )
-              return undefined;
-
-            finalOptions.push(formatItemInfo(externalResourceItem));
-          });
-        });
-    } else {
-      currentCanvas.painting.forEach(item => {
-        if (item.type !== 'Video' && !isAudioCanvas(item)) return undefined;
-
-        finalOptions.push(formatItemInfo(item));
-      });
-    }
-    return finalOptions.flat().filter(Boolean).filter(isNotUndefined) || [];
-  };
-
   const downloadOptions = [
     ...iiifImageDownloadOptions,
     ...canvasImageDownloads,
     ...canvasDownloadOptions,
     ...manifestDownloadOptions,
-    ...videoAudioDownloadOptions(),
+    ...videoAudioDownloadOptions(currentCanvas),
   ];
 
   return (
