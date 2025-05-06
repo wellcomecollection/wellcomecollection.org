@@ -31,7 +31,10 @@ const AudioPlayerWrapper = styled(Space).attrs({
 type PlayPauseButtonProps = { $isPlaying: boolean };
 const PlayPauseButton = styled.button.attrs<PlayPauseButtonProps>(props => ({
   'aria-pressed': props.$isPlaying,
-}))<PlayPauseButtonProps>``;
+}))<PlayPauseButtonProps>`
+  padding: ${props => props.theme.spacingUnits['5']}px
+    ${props => props.theme.spacingUnits['6']}px 0;
+`;
 
 const TimeWrapper = styled.div.attrs({
   className: font('intr', 5),
@@ -57,6 +60,7 @@ const colorTransform = css<{ $isDark: boolean }>`
 `;
 
 const SkipButton = styled.button<{ $isDark: boolean }>`
+  padding: ${props => props.theme.spacingUnits['5']}px 0 0;
   color: ${props =>
     props.$isDark ? props.theme.color('yellow') : props.theme.color('black')};
 
@@ -165,10 +169,17 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   const progressBarRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    if (!progressBarRef.current) return;
     // If we change the player dynamically, we need to reset the play/pause
     // button to the appropriate state
     setIsPlaying(false);
-  }, [audioFile]);
+    // iOS needs a manual update to currentTime and the progressBarRef
+    // to reset the time and the range slider thumb correctly
+    // after an audioFile change
+    setCurrentTime(0);
+    setStartTime(0);
+    progressBarRef.current.value = `0`;
+  }, [audioFile, progressBarRef.current]);
 
   useEffect(() => {
     if (!audioPlayerRef.current) return;

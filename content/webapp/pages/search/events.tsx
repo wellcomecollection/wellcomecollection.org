@@ -66,12 +66,12 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
 }) => {
   useHotjar(true);
   const { query: queryString } = query;
-  const { dateFilter, filterEventsListing } = useToggles();
+  const { filterEventsListing } = useToggles();
 
   const filters = eventsFilters({
     events: eventResponseList,
     props: eventsRouteProps,
-  }).filter(f => (dateFilter ? true : f.id !== 'timespan'));
+  });
 
   const hasNoResults = eventResponseList.totalResults === 0;
   const hasActiveFilters = hasFilters({
@@ -205,7 +205,6 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   setCacheControl(context.res, cacheTTL.search);
   const serverData = await getServerData(context);
-  const dateFilter = !!serverData.toggles.dateFilter.value;
   const filterEventsListing = !!serverData.toggles.filterEventsListing.value;
 
   const query = context.query;
@@ -272,7 +271,7 @@ export const getServerSideProps: GetServerSideProps<
         'location',
         'isAvailableOnline',
         'timespan',
-      ].filter(f => (dateFilter ? true : f !== 'timespan')),
+      ],
     },
     pageSize: 24,
     toggles: serverData.toggles,

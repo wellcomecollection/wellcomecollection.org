@@ -9,6 +9,31 @@ const backgroundTransform = css<{ $isDark: boolean }>`
   transform: scale(1.5);
 `;
 
+const thumbStyles = css`
+  background: ${props => props.theme.color('yellow')};
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border: 0;
+
+  transition:
+    background 0.2s ease-out,
+    transform 0.2s ease-out;
+
+  @media (hover: hover) {
+    &:hover {
+      ${backgroundTransform};
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      ${backgroundTransform};
+    }
+  }
+`;
+
 const RangeSlider = styled.input.attrs({
   type: 'range',
   step: 'any',
@@ -20,53 +45,11 @@ const RangeSlider = styled.input.attrs({
   background: transparent;
 
   &::-webkit-slider-thumb {
-    background: ${props => props.theme.color('yellow')};
-    appearance: none;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%;
-    border: 0;
-
-    transition:
-      background 0.2s ease-out,
-      transform 0.2s ease-out;
-
-    @media (hover: hover) {
-      &:hover {
-        ${backgroundTransform};
-      }
-    }
-
-    @media (hover: none) {
-      &:active {
-        ${backgroundTransform};
-      }
-    }
+    ${thumbStyles};
   }
 
   &::-moz-range-thumb {
-    background: ${props => props.theme.color('yellow')};
-    appearance: none;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%;
-    border: 0;
-
-    transition:
-      background 0.2s ease-out,
-      transform 0.2s ease-out;
-
-    @media (hover: hover) {
-      &:hover {
-        ${backgroundTransform};
-      }
-    }
-
-    @media (hover: none) {
-      &:active {
-        ${backgroundTransform};
-      }
-    }
+    ${thumbStyles};
   }
 `;
 
@@ -102,6 +85,16 @@ const PercentComplete = styled.div<{
     border-radius: 4px;
     transform: translateY(-50%);
     max-width: 100%;
+  }
+
+  @media (hover: hover) {
+    &:hover ${RangeSlider}::-webkit-slider-thumb {
+      ${backgroundTransform};
+    }
+
+    &:hover ${RangeSlider}::-moz-range-thumb {
+      ${backgroundTransform};
+    }
   }
 `;
 
