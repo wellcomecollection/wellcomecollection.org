@@ -11,6 +11,7 @@ import {
   unavailableContentMessage,
 } from '@weco/common/data/microcopy';
 import { information } from '@weco/common/icons';
+import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Icon from '@weco/common/views/components/Icon';
@@ -21,6 +22,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import { useUser } from '@weco/common/views/components/UserProvider';
 import AudioPlayer from '@weco/content/components/AudioPlayer';
+import AudioPlayerNew from '@weco/content/components/AudioPlayerNew';
 import BetaMessage from '@weco/content/components/BetaMessage';
 import ImageViewer from '@weco/content/components/IIIFViewer/ImageViewer';
 import VideoPlayer from '@weco/content/components/VideoPlayer';
@@ -245,6 +247,8 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   const { userIsStaffWithRestricted } = useUser();
   const isRestricted = isItemRestricted(item);
   const shouldShowItem = isItemRestricted(item) && !userIsStaffWithRestricted;
+  const { audioPlayer, extendedViewer } = useToggles();
+
   // N.B. Restricted images are handled differently from restricted audio/video and text.
   // The isItemRestricted function doesn't account for restricted images.
   // Instead there is a hasRestrictedImage property on the TransformedCanvas which is used by
@@ -269,9 +273,10 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           setImageContainerRect={setImageContainerRect}
         />
       );
+
     case ((item.type === 'Sound' && !exclude.includes('Sound')) ||
       (item.type === 'Audio' && !exclude.includes('Audio'))) &&
-      Boolean(item.id):
+      !!item.id:
       return (
         <Wrapper
           shouldShowItem={shouldShowItem}
@@ -280,14 +285,23 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           canvas={canvas}
           isRestricted={isRestricted}
         >
-          <AudioPlayer
-            audioFile={item.id || ''}
-            title={
-              (canvas.label !== '-' && canvas.label) || `${titleOverride || ''}`
-            }
-          />
+          {audioPlayer && extendedViewer ? (
+            <AudioPlayerNew
+              isDark
+              audioFile={item.id}
+              title={(canvas.label !== '-' && canvas.label) || titleOverride}
+            />
+          ) : (
+            <AudioPlayer
+              audioFile={item.id}
+              title={
+                (canvas.label !== '-' && canvas.label) || titleOverride || ''
+              }
+            />
+          )}
         </Wrapper>
       );
+
     case item.type === 'Video' && !exclude.includes('Video'):
       return (
         <Wrapper
@@ -307,6 +321,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           </>
         </Wrapper>
       );
+
     case item.type === 'Text' && !exclude.includes('Text'):
       if ('label' in item) {
         const itemLabel = item.label
@@ -340,6 +355,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           </Wrapper>
         );
       }
+
     case item.type === 'Image' && !exclude.includes('Image'):
       return (
         <IIIFImage
@@ -350,6 +366,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           setImageContainerRect={setImageContainerRect}
         />
       );
+
     default: // There are other types we don't do anything with at present, e.g. Dataset
       if (!exclude.includes(item.type)) {
         // If the item hasn't been purposefully excluded then we should show a message
