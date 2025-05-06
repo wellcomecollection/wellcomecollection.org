@@ -951,7 +951,7 @@ export function transformV2TokenService(
   };
 }
 
-export const videoAudioDownloadOptions = (canvas?: TransformedCanvas) => {
+export const getVideoAudioDownloadOptions = (canvas?: TransformedCanvas) => {
   if (!canvas || !canvas?.painting) return [];
 
   const formatItemInfo = item => ({

@@ -26,8 +26,8 @@ import {
   getDownloadOptionsFromCanvasRenderingAndSupplementing,
   getDownloadOptionsFromManifestRendering,
   getImageServiceFromItem,
+  getVideoAudioDownloadOptions,
   isChoiceBody,
-  videoAudioDownloadOptions,
 } from '@weco/content/utils/iiif/v3';
 import { getDownloadOptionsFromImageUrl } from '@weco/content/utils/works';
 
@@ -270,12 +270,14 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   const manifestDownloadOptions =
     getDownloadOptionsFromManifestRendering(rendering);
 
+  const videoAudioDownloadOptions = getVideoAudioDownloadOptions(currentCanvas);
+
   const downloadOptions = [
     ...iiifImageDownloadOptions,
     ...canvasImageDownloads,
     ...canvasDownloadOptions,
     ...manifestDownloadOptions,
-    ...videoAudioDownloadOptions(currentCanvas),
+    ...videoAudioDownloadOptions,
   ];
 
   return (

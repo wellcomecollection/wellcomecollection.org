@@ -52,10 +52,10 @@ import {
   getFormatString,
   getIframeTokenSrc,
   getLabelString,
+  getVideoAudioDownloadOptions,
   isAllOriginalPdfs,
   isAudioCanvas,
   isItemRestricted,
-  videoAudioDownloadOptions,
 } from '@weco/content/utils/iiif/v3';
 import {
   DigitalLocationInfo,
@@ -306,7 +306,7 @@ const ItemPageLink = ({
 
                   // Could have more than one download option
                   const downloadableCanvas: DownloadOption[] | undefined =
-                    videoAudioDownloadOptions(canvas);
+                    getVideoAudioDownloadOptions(canvas);
 
                   const viewerQuery = index > 1 ? { canvas: index } : {};
 
