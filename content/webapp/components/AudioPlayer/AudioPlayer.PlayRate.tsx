@@ -1,8 +1,8 @@
-import { FunctionComponent, useContext, useEffect } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Space from '@weco/common/views/components/styled/Space';
 
 const PlayRateWrapper = styled(Space).attrs({
@@ -43,7 +43,7 @@ type PlayRateProps = {
 };
 
 const PlayRate: FunctionComponent<PlayRateProps> = ({ audioPlayer, id }) => {
-  const { audioPlaybackRate, setAudioPlaybackRate } = useContext(AppContext);
+  const { audioPlaybackRate, setAudioPlaybackRate } = useAppContext();
   const speeds = [0.5, 1, 1.5, 2];
 
   useEffect(() => {

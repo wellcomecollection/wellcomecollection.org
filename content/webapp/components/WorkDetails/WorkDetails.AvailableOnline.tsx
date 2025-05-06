@@ -1,8 +1,10 @@
 import { ContentResource, InternationalString } from '@iiif/presentation-3';
 import NextLink from 'next/link';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import {
   bornDigitalMessage,
   treeInstructions,
@@ -12,13 +14,11 @@ import { DigitalLocation } from '@weco/common/model/catalogue';
 import { LinkProps } from '@weco/common/model/link-props';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Button from '@weco/common/views/components/Buttons';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import {
   controlDimensions,
   createDownloadTree,
@@ -139,7 +139,7 @@ const ItemPageLink = ({
   digitalLocationInfo,
   authServices,
 }) => {
-  const { userIsStaffWithRestricted } = useUser();
+  const { userIsStaffWithRestricted } = useUserContext();
 
   const isDownloadable =
     digitalLocationInfo?.accessCondition !== 'open-with-advisory' &&
@@ -271,7 +271,7 @@ const WorkDetailsAvailableOnline = ({
   locationOfWork,
   transformedManifest,
 }: Props) => {
-  const { userIsStaffWithRestricted } = useUser();
+  const { userIsStaffWithRestricted } = useUserContext();
 
   const { authV2 } = useToggles();
   const {
@@ -316,7 +316,7 @@ const WorkDetailsAvailableOnline = ({
       elementToFocus.focus();
     }
   }, [archiveTree, tabbableId]);
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
 
   useEffect(() => {
     setOrigin(window.origin);

@@ -1,7 +1,7 @@
-import { FunctionComponent, useContext, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { classNames } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
@@ -19,7 +19,7 @@ type Props = {
 };
 
 const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   // Group the events into the per-month tabs that we render on the
   // What's On page, e.g. a group for May, June, July, ...
   const monthsWithEvents = groupEventsByMonth(events)

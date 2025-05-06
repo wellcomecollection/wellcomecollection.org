@@ -4,13 +4,12 @@ import {
   KeyboardEvent,
   ReactNode,
   SetStateAction,
-  useContext,
   useRef,
 } from 'react';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { IconSvg } from '@weco/common/icons';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -66,7 +65,7 @@ const TabsSwitch: FunctionComponent<Props> = ({
   isWhite,
   trackWithSegment = false,
 }: Props) => {
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   const tabListRef = useRef<HTMLDivElement>(null);
 
   function focusTabAtIndex(index: number): void {

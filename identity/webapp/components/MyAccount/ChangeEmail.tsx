@@ -2,13 +2,13 @@ import { ErrorMessage } from '@hookform/error-message';
 import { FunctionComponent, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { font } from '@weco/common/utils/classnames';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import TextInput, {
   InputErrorMessage,
 } from '@weco/common/views/components/TextInput';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import { PasswordInput } from '@weco/identity/components/PasswordInput';
 import { FieldMargin } from '@weco/identity/components/styled/forms';
 import {
@@ -32,7 +32,7 @@ const ChangeEmail: FunctionComponent<ChangeDetailsModalContentProps> = ({
   setIsModalLoading,
 }) => {
   const [initialEmail, setInitialEmail] = useState<string>('');
-  const { user, state: userState } = useUser();
+  const { user, state: userState } = useUserContext();
   const { updateUser, state: updateState, error } = useUpdateUser();
 
   const { control, trigger, reset, formState, handleSubmit, setError } =

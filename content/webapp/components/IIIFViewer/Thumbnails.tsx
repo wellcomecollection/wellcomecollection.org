@@ -1,9 +1,8 @@
 import NextLink from 'next/link';
-import { useContext } from 'react';
 import styled from 'styled-components';
 
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
-import ItemViewerContext from '@weco/content/components/ItemViewerContext';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 
 import { queryParamToArrayIndex } from '.';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
@@ -31,7 +30,7 @@ const ThumbnailLink = styled.a`
 `;
 
 export const Thumbnails = () => {
-  const { work, query, transformedManifest } = useContext(ItemViewerContext);
+  const { work, query, transformedManifest } = useItemViewerContext();
   const { canvases } = { ...transformedManifest };
   const navigationCanvases = canvases
     ? [...Array(thumbnailsPageSize)]

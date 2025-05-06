@@ -1,30 +1,25 @@
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import {
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { useToggles } from '@weco/common/server-data/Context';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import LL from '@weco/common/views/components/styled/LL';
 import { NoScriptImage } from '@weco/content/components/IIIFViewer/NoScriptImage';
 import { fromQuery } from '@weco/content/components/ItemLink';
-import ItemViewerContext, {
-  ParentManifest,
-  RotatedImage,
-} from '@weco/content/components/ItemViewerContext';
+import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import {
   Work,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
+import {
+  CanvasRotatedImage,
+  ParentManifest,
+} from '@weco/content/types/item-viewer';
 import { TransformedManifest } from '@weco/content/types/manifest';
 
 import { DelayVisibility, queryParamToArrayIndex } from '.';
@@ -223,14 +218,14 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   } = fromQuery(router.query);
   const { extendedViewer } = useToggles();
   const [gridVisible, setGridVisible] = useState(false);
-  const { isFullSupportBrowser } = useContext(AppContext);
+  const { isFullSupportBrowser } = useAppContext();
   const viewerRef = useRef<HTMLDivElement>(null);
   const mainAreaRef = useRef<HTMLDivElement>(null);
   const [isDesktopSidebarActive, setIsDesktopSidebarActive] = useState(true);
   const [isMobileSidebarActive, setIsMobileSidebarActive] = useState(false);
   const [showZoomed, setShowZoomed] = useState(false);
+  const [rotatedImages, setRotatedImages] = useState<CanvasRotatedImage[]>([]);
   const [showFullscreenControl, setShowFullscreenControl] = useState(true);
-  const [rotatedImages, setRotatedImages] = useState<RotatedImage[]>([]);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
   const [mainAreaWidth, setMainAreaWidth] = useState(1000);

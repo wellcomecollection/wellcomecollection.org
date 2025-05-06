@@ -1,19 +1,13 @@
 import { useRouter } from 'next/router';
-import {
-  ReactElement,
-  RefObject,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { ReactElement, RefObject, useEffect, useState } from 'react';
 
+import { useSearchContext } from '@weco/common/contexts/SearchContext';
 import { searchLabelText } from '@weco/common/data/microcopy';
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import { getQueryPropertyValue, linkResolver } from '@weco/common/utils/search';
 import SearchBar, {
   ValidLocations,
 } from '@weco/common/views/components/SearchBar';
-import SearchContext from '@weco/common/views/components/SearchContext';
 
 type SearchCategory = 'overview' | 'works';
 
@@ -41,7 +35,7 @@ const SearchForm = ({
 }): ReactElement => {
   const router = useRouter();
   const routerQuery = getQueryPropertyValue(router?.query?.query);
-  const { link: searchLink } = useContext(SearchContext);
+  const { link: searchLink } = useSearchContext();
   const initialValue =
     routerQuery || searchLink.as.query?.query?.toString() || '';
   const [inputValue, setInputValue] = useState(initialValue);

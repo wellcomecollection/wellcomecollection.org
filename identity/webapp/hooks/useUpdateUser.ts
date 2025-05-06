@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { useState } from 'react';
 
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { UserInfo } from '@weco/common/model/user';
-import { useUser } from '@weco/common/views/components/UserProvider';
-import { UpdateUserSchema } from '../types/schemas/update-user';
+import { UpdateUserSchema } from '@weco/identity/types/schemas/update-user';
 
 export enum UpdateUserError {
   EMAIL_ALREADY_EXISTS = 'EMAIL_ALREADY_EXISTS',
@@ -24,7 +24,7 @@ type UseUpdateUserMutation = {
 };
 
 export function useUpdateUser(): UseUpdateUserMutation {
-  const { reload: refreshUserSession } = useUser();
+  const { reload: refreshUserSession } = useUserContext();
   const [state, setState] = useState<State>('initial');
   const [error, setError] = useState<UpdateUserError>();
 

@@ -29,14 +29,16 @@ const defaultUserContext: Props = {
   reload: async () => undefined,
 };
 
-export const UserContext = createContext<Props>(defaultUserContext);
+const UserContext = createContext<Props>(defaultUserContext);
 
-export function useUser(): Props {
+export function useUserContext(): Props {
   const contextState = useContext(UserContext);
   return contextState;
 }
 
-const UserProvider: FunctionComponent<PropsWithChildren> = ({ children }) => {
+export const UserContextProvider: FunctionComponent<PropsWithChildren> = ({
+  children,
+}) => {
   const [user, setUser] = useState<UserInfo>();
   const [userIsStaffWithRestricted, setUserIsStaffWithRestricted] =
     useState(false);
@@ -110,4 +112,4 @@ const UserProvider: FunctionComponent<PropsWithChildren> = ({ children }) => {
   );
 };
 
-export default UserProvider;
+export default UserContext;

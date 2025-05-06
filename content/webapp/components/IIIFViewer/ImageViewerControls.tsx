@@ -1,12 +1,11 @@
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { rotateRight, zoomIn } from '@weco/common/icons';
 import Control from '@weco/common/views/components/Control';
 import Space from '@weco/common/views/components/styled/Space';
-import ItemViewerContext, {
-  RotatedImage,
-} from '@weco/content/components/ItemViewerContext';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import { CanvasRotatedImage } from '@weco/content/types/item-viewer';
 
 const ImageViewerControlsEl = styled.div<{ $showControls?: boolean }>`
   position: absolute;
@@ -38,9 +37,9 @@ function updateRotatedImages({
   rotatedImages,
   canvasParam,
 }: {
-  rotatedImages: RotatedImage[];
+  rotatedImages: CanvasRotatedImage[];
   canvasParam: number;
-}): RotatedImage[] {
+}): CanvasRotatedImage[] {
   const matchingIndex = rotatedImages.findIndex(
     rotation => rotation.canvas === canvasParam
   );
@@ -76,7 +75,7 @@ const ImageViewerControls: FunctionComponent = () => {
     query,
     setRotatedImages,
     setShowZoomed,
-  } = useContext(ItemViewerContext);
+  } = useItemViewerContext();
   const { canvas } = query;
 
   return (

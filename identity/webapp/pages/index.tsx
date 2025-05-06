@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { URLSearchParams } from 'url';
 
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { sierraStatusCodeToLabel } from '@weco/common/data/microcopy';
 import { info2 } from '@weco/common/icons';
 import {
@@ -30,7 +31,6 @@ import {
 } from '@weco/common/views/components/Layout';
 import StackingTable from '@weco/common/views/components/StackingTable';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import {
   ChangeDetailsModal,
@@ -223,7 +223,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
     fetchRequests,
   } = useRequestedItems();
   const sendVerificationEmail = useSendVerificationEmail();
-  const { user: contextUser } = useUser();
+  const { user: contextUser } = useUserContext();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
 

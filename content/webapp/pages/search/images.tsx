@@ -1,8 +1,9 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
+import { useSearchContext } from '@weco/common/contexts/SearchContext';
 import { getServerData } from '@weco/common/server-data';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
@@ -11,7 +12,6 @@ import { pluralize } from '@weco/common/utils/grammar';
 import { serialiseProps } from '@weco/common/utils/json';
 import { linkResolver, SEARCH_PAGES_FORM_ID } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import SearchContext from '@weco/common/views/components/SearchContext';
 import { Container } from '@weco/common/views/components/styled/Container';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space, {
@@ -83,7 +83,7 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
 }) => {
   useHotjar(true);
   const { query: queryString } = query;
-  const { setLink } = useContext(SearchContext);
+  const { setLink } = useSearchContext();
 
   useEffect(() => {
     const link = toLink({ ...imagesRouteProps }, 'images_search_context');

@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import { act } from 'react-dom/test-utils';
 import { ThemeProvider } from 'styled-components';
 
-import { AppContextProvider } from '@weco/common/views/components/AppContext';
+import { AppContextProvider } from '@weco/common/contexts/AppContext';
 import Modal from '@weco/common/views/components/Modal';
 import theme from '@weco/common/views/themes/default';
 

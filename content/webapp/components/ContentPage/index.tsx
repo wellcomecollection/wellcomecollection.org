@@ -1,4 +1,4 @@
-import { Children, createContext, ReactElement, ReactNode } from 'react';
+import { Children, ReactElement, ReactNode } from 'react';
 import styled from 'styled-components';
 
 import { sectionLevelPages } from '@weco/common/data/hardcoded-ids';
@@ -17,12 +17,9 @@ import SpacingSection from '@weco/common/views/components/styled/SpacingSection'
 import BannerCard from '@weco/content/components/BannerCard';
 import { Props as BodyProps } from '@weco/content/components/Body';
 import Contributors from '@weco/content/components/Contributors';
+import ContentPageContext from '@weco/content/contexts/ContentPageContext';
 import { Contributor } from '@weco/content/types/contributors';
 import { Season } from '@weco/content/types/seasons';
-
-export const PageBackgroundContext = createContext<'warmNeutral.300' | 'white'>(
-  'white'
-);
 
 type Props = {
   id: string;
@@ -74,8 +71,8 @@ const ContentPage = ({
   }
 
   return (
-    <PageBackgroundContext.Provider
-      value={isCreamy ? 'warmNeutral.300' : 'white'}
+    <ContentPageContext.Provider
+      value={{ pageBackgroundColor: isCreamy ? 'warmNeutral.300' : 'white' }}
     >
       <article data-wio-id={id}>
         {sectionLevelPages.includes(id) ? (
@@ -132,7 +129,7 @@ const ContentPage = ({
             </SpacingSection>
           ))}
       </Wrapper>
-    </PageBackgroundContext.Provider>
+    </ContentPageContext.Provider>
   );
 };
 

@@ -2,13 +2,13 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from 'styled-components';
 
+import { UserContextProvider } from '@weco/common/contexts/UserContext';
 import { ServerData } from '@weco/common/server-data/types';
 import {
   mockAuth0Profile,
   mockItemRequests,
   mockUser,
 } from '@weco/common/test/fixtures/identity/user';
-import UserProvider from '@weco/common/views/components/UserProvider';
 import theme from '@weco/common/views/themes/default';
 import AccountPage from '@weco/identity/pages';
 
@@ -48,9 +48,9 @@ jest.mock('next/router', () => require('next-router-mock'));
 const renderComponent = (user = mockAuth0Profile) =>
   render(
     <ThemeProvider theme={theme}>
-      <UserProvider>
+      <UserContextProvider>
         <AccountPage user={user} serverData={{} as ServerData} />
-      </UserProvider>
+      </UserContextProvider>
     </ThemeProvider>
   );
 

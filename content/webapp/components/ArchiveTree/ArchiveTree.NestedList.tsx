@@ -1,7 +1,7 @@
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent } from 'react';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 
 import { ListProps, UiTree } from './ArchiveTree.helpers';
 import ListItem from './ArchiveTree.ListItem';
@@ -25,7 +25,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
   ItemRenderer,
   shouldFetchChildren,
 }: NestedListProps) => {
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   return (
     <ul
       aria-labelledby={

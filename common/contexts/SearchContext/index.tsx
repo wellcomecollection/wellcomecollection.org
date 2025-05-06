@@ -2,6 +2,7 @@ import {
   createContext,
   FunctionComponent,
   PropsWithChildren,
+  useContext,
   useState,
 } from 'react';
 
@@ -17,17 +18,24 @@ const defaultLink = {
   },
 };
 
-const SearchContext = createContext<{
+type Props = {
   link: LinkProps;
   setLink: (link: LinkProps) => void;
   extraApiToolbarLinks: ApiToolbarLink[];
   setExtraApiToolbarLinks: (toolbarLinks: ApiToolbarLink[]) => void;
-}>({
+};
+
+const SearchContext = createContext<Props>({
   link: defaultLink,
   setLink: link => link,
   extraApiToolbarLinks: [],
   setExtraApiToolbarLinks: () => null,
 });
+
+export function useSearchContext(): Props {
+  const contextState = useContext(SearchContext);
+  return contextState;
+}
 
 export const SearchContextProvider: FunctionComponent<PropsWithChildren> = ({
   children,

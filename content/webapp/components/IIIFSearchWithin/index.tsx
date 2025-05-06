@@ -1,12 +1,6 @@
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import {
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { search } from '@weco/common/icons';
@@ -20,9 +14,10 @@ import { themeValues } from '@weco/common/views/themes/config';
 import { arrayIndexToQueryParam } from '@weco/content/components/IIIFViewer';
 import { thumbnailsPageSize } from '@weco/content/components/IIIFViewer/Paginators';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
-import ItemViewerContext, {
+import {
   results,
-} from '@weco/content/components/ItemViewerContext';
+  useItemViewerContext,
+} from '@weco/content/contexts/ItemViewerContext';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { searchWithinLabel } from '@weco/content/text/aria-labels';
 import { TransformedCanvas } from '@weco/content/types/manifest';
@@ -148,7 +143,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
     setIsMobileSidebarActive,
     query,
     work,
-  } = useContext(ItemViewerContext);
+  } = useItemViewerContext();
   const [value, setValue] = useState(query.query);
   const [isLoading, setIsLoading] = useState(false);
   const [searchError, setSearchError] = useState(false);

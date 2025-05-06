@@ -1,19 +1,13 @@
-import {
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { treeInstructions } from '@weco/common/data/microcopy';
 import { tree } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Button from '@weco/common/views/components/Buttons';
 import Modal from '@weco/common/views/components/Modal';
 import Space from '@weco/common/views/components/styled/Space';
-import IsArchiveContext from '@weco/content/components/IsArchiveContext';
+import { useIsArchiveContext } from '@weco/content/contexts/IsArchiveContext';
 import {
   RelatedWork,
   Work,
@@ -189,14 +183,14 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
 }: {
   work: Work;
 }) => {
-  const { isEnhanced, windowSize } = useContext(AppContext);
+  const { isEnhanced, windowSize } = useAppContext();
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const initialLoad = useRef(true);
   const [showArchiveTreeModal, setShowArchiveTreeModal] = useState(false);
   const [archiveTree, setArchiveTree] = useState(createBasicTree({ work }));
   const [tabbableId, setTabbableId] = useState<string>();
   const openButtonRef = useRef(null);
-  const isArchive = useContext(IsArchiveContext);
+  const isArchive = useIsArchiveContext();
 
   useEffect(() => {
     const elementToFocus = tabbableId && document.getElementById(tabbableId);

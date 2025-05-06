@@ -1,9 +1,10 @@
 // https://stackoverflow.com/questions/25993861/how-do-i-get-typescript-to-stop-complaining-about-functions-it-doesnt-know-abou
 /* eslint-disable dot-notation */
 import { ChoiceBody, ImageService } from '@iiif/presentation-3';
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import {
   chevrons,
   gridView,
@@ -15,13 +16,12 @@ import { DigitalLocation } from '@weco/common/model/catalogue';
 import { font } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import Download from '@weco/content/components/Download';
 import { IIIFItemProps } from '@weco/content/components/IIIFItem';
-import ItemViewerContext from '@weco/content/components/ItemViewerContext';
 import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
 import { DownloadOption } from '@weco/content/types/manifest';
@@ -197,7 +197,7 @@ type ViewerTopBarProps = OptionalToUndefined<{
 const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   iiifImageLocation,
 }) => {
-  const { isEnhanced, isFullSupportBrowser } = useContext(AppContext);
+  const { isEnhanced, isFullSupportBrowser } = useAppContext();
 
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
@@ -214,7 +214,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
     query,
     viewerRef,
     showFullscreenControl,
-  } = useContext(ItemViewerContext);
+  } = useItemViewerContext();
   const { canvas } = query;
   const { canvases, rendering } = { ...transformedManifest };
   const currentCanvas = canvases?.[queryParamToArrayIndex(query.canvas)];

@@ -1,13 +1,13 @@
 import { useRouter } from 'next/router';
-import { FunctionComponent, useContext, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { propsToQuery } from '@weco/common/utils/routes';
 import {
   DefaultSortValuesType,
   getUrlQueryFromSortValue,
 } from '@weco/common/utils/search';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import Select from '@weco/content/components/Select';
@@ -44,7 +44,7 @@ const Sort: FunctionComponent<Props> = ({
   darkBg,
 }) => {
   const router = useRouter();
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   const { sortOrder: currentSortOrder, sort: currentSortType } = router.query;
 
   const [sortOrder, setSortOrder] = useState(currentSortOrder);

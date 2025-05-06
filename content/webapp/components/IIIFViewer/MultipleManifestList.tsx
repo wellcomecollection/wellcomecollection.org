@@ -1,12 +1,12 @@
 import NextLink from 'next/link';
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent } from 'react';
 
 import {
   Item,
   List,
 } from '@weco/content/components/IIIFViewer/ViewerStructures';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
-import ItemViewerContext from '@weco/content/components/ItemViewerContext';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import { volumesNavigationLabel } from '@weco/content/text/aria-labels';
 import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
 
@@ -14,7 +14,7 @@ import { queryParamToArrayIndex } from '.';
 
 const MultipleManifestList: FunctionComponent = () => {
   const { parentManifest, work, query, setIsMobileSidebarActive } =
-    useContext(ItemViewerContext);
+    useItemViewerContext();
   const manifests = parentManifest?.canvases || [];
 
   return (

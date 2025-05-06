@@ -1,14 +1,8 @@
-import {
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import { hexToHsv, hsvToHex } from '@weco/content/utils/convert-colors';
 
 import HueSlider from './HueSlider';
@@ -159,7 +153,7 @@ const PaletteColorPicker: FunctionComponent<PaletteColorPickerProps> = ({
 }) => {
   // Because the form is not controlled we need to maintain state internally
   const [colorState, setColorState] = useState(color);
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   const firstRender = useRef(true);
 
   useEffect(() => {

@@ -1,6 +1,11 @@
 import { ApmBase } from '@elastic/apm-rum';
 import getConfig from 'next/config';
-import { createContext, FunctionComponent, PropsWithChildren } from 'react';
+import {
+  createContext,
+  FunctionComponent,
+  PropsWithChildren,
+  useContext,
+} from 'react';
 
 import useApmRum from './useApmRum';
 
@@ -9,6 +14,11 @@ type ApmContextData = {
 };
 
 export const ApmContext = createContext<ApmContextData>({});
+
+export function useApmContext(): ApmContextData {
+  const contextState = useContext(ApmContext);
+  return contextState;
+}
 
 const { publicRuntimeConfig } = getConfig();
 
