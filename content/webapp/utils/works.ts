@@ -382,6 +382,7 @@ export function showItemLink({
   // This means we rely on there only being one type of thing in a manifest, otherwise non video/sound items will be hidden from the user.
   // This is usually the case, except for manifests with 'Born digital' items.
   // But since we display links to all files when there are 'Born digital' items present, then this should not matter.
+
   const hasVideo = hasItemType(canvases, 'Video');
   const hasSound =
     hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
@@ -394,7 +395,7 @@ export function showItemLink({
   ) {
     return false;
   } else if (
-    hasIIIFManifest &&
+    (hasIIIFManifest || digitalLocation?.locationType.id === 'iiif-image') &&
     digitalLocation &&
     !hasVideo &&
     !hasSound &&
