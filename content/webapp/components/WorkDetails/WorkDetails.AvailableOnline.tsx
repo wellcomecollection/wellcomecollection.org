@@ -5,18 +5,22 @@ import styled from 'styled-components';
 
 import {
   bornDigitalMessage,
+  restrictedItemMessage,
   treeInstructions,
 } from '@weco/common/data/microcopy';
-import { eye, info2 } from '@weco/common/icons';
+import { eye, info2, play } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { LinkProps } from '@weco/common/model/link-props';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
+import { formatDuration } from '@weco/common/utils/format-date';
+import { pluralize } from '@weco/common/utils/grammar';
 import { AppContext } from '@weco/common/views/components/AppContext';
 import Button from '@weco/common/views/components/Buttons';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { useUser } from '@weco/common/views/components/UserProvider';
 import {
@@ -38,16 +42,25 @@ import { DownloadTable } from '@weco/content/components/WorkDetails/WorkDetails.
 import { Note, Work } from '@weco/content/services/wellcome/catalogue/types';
 import {
   DownloadOption,
+  TransformedCanvas,
   TransformedManifest,
 } from '@weco/content/types/manifest';
 import {
+  AuthServices,
   getAuthServices,
+  getCanvasPaintingItem,
   getFormatString,
   getIframeTokenSrc,
   getLabelString,
   isAllOriginalPdfs,
+  isAudioCanvas,
+  isItemRestricted,
+  videoAudioDownloadOptions,
 } from '@weco/content/utils/iiif/v3';
-import { DigitalLocationInfo } from '@weco/content/utils/works';
+import {
+  DigitalLocationInfo,
+  getAudioVideoLabel,
+} from '@weco/content/utils/works';
 
 import WorkDetailsLicence from './WorkDetails.Licence';
 import WorkDetailsSection from './WorkDetails.Section';
@@ -121,8 +134,8 @@ const MessageBox = styled(Space).attrs({
 
 type Props = {
   work: Work;
-  downloadOptions: DownloadOption[];
   itemUrl: LinkProps;
+  downloadOptions: DownloadOption[];
   shouldShowItemLink: boolean;
   digitalLocation?: DigitalLocation;
   digitalLocationInfo?: DigitalLocationInfo;
@@ -130,16 +143,28 @@ type Props = {
   transformedManifest?: TransformedManifest;
 };
 
+type ItemPageLinkProps = {
+  work: Work;
+  itemUrl: LinkProps;
+  downloadOptions: DownloadOption[];
+  collectionManifestsCount?: number;
+  canvasCount?: number;
+  canvases?: TransformedCanvas[];
+  digitalLocationInfo?: DigitalLocationInfo;
+  authServices?: AuthServices;
+};
 const ItemPageLink = ({
   work,
   itemUrl,
   downloadOptions,
   collectionManifestsCount,
   canvasCount,
+  canvases,
   digitalLocationInfo,
   authServices,
-}) => {
+}: ItemPageLinkProps) => {
   const { userIsStaffWithRestricted } = useUser();
+  const { extendedViewer } = useToggles();
 
   const isDownloadable =
     digitalLocationInfo?.accessCondition !== 'open-with-advisory' &&
@@ -152,6 +177,33 @@ const ItemPageLink = ({
   const manifestNeedsRegeneration =
     authServices?.external?.id ===
     'https://iiif.wellcomecollection.org/auth/restrictedlogin';
+
+  const getTypeAndDuration = (
+    canvas: TransformedCanvas
+  ): {
+    type: string;
+    duration?: string;
+  } => {
+    const paintingItem = getCanvasPaintingItem(canvas);
+
+    const duration =
+      paintingItem &&
+      'duration' in paintingItem &&
+      typeof paintingItem.duration === 'number'
+        ? formatDuration(Math.round(paintingItem.duration))
+        : undefined;
+
+    const isAudio = isAudioCanvas(paintingItem);
+
+    return { type: isAudio ? 'Audio' : 'Video', duration };
+  };
+
+  // Make sure paintings are all video or audio
+  const isAllAudioOrVideo = !(
+    canvases?.find(canvas => !isAudioCanvas(getCanvasPaintingItem(canvas))) &&
+    canvases?.find(canvas => getCanvasPaintingItem(canvas)?.type !== 'Video')
+  );
+
   return (
     <>
       {work.thumbnail && (
@@ -173,11 +225,7 @@ const ItemPageLink = ({
             }
           >
             <img
-              style={{
-                width: 'auto',
-                height: 'auto',
-                display: 'block',
-              }}
+              style={{ width: 'auto', height: 'auto', display: 'block' }}
               alt={`view ${work.title}`}
               src={work.thumbnail.url}
             />
@@ -191,7 +239,7 @@ const ItemPageLink = ({
           <Layout gridSizes={gridSize8(false)}>
             <RestrictedMessage>
               <RestrictedMessageTitle>
-                <Icon icon={info2} attrs={{}} />
+                <Icon icon={info2} />
                 <h3 className={font('intsb', 4)}>Restricted item</h3>
               </RestrictedMessageTitle>
 
@@ -210,30 +258,109 @@ const ItemPageLink = ({
           </Layout>
         )}
       >
-        <ConditionalWrapper
-          condition={isWorkVisibleWithPermission}
-          wrapper={children => (
-            <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-              {children}
+        {!extendedViewer &&
+          ((collectionManifestsCount && collectionManifestsCount > 0) ||
+            (canvasCount && canvasCount > 0)) && (
+            <ConditionalWrapper
+              condition={isWorkVisibleWithPermission}
+              wrapper={children => (
+                <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                  {children}
+                </Space>
+              )}
+            >
+              <p className={font('lr', 6)} style={{ marginBottom: 0 }}>
+                Contains:{' '}
+                {collectionManifestsCount && collectionManifestsCount > 0
+                  ? pluralize(collectionManifestsCount, 'volume')
+                  : canvasCount
+                    ? pluralize(canvasCount, 'image')
+                    : null}
+              </p>
+            </ConditionalWrapper>
+          )}
+
+        {extendedViewer &&
+          canvases &&
+          canvases.length > 0 &&
+          isAllAudioOrVideo && (
+            <Space
+              $v={{ size: 's', properties: ['margin-top'] }}
+              style={{ display: 'flex' }}
+            >
+              <PlainList style={{ width: '100%' }}>
+                {canvases.map((canvas, i) => {
+                  const index = i + 1;
+                  const { type, duration } = getTypeAndDuration(canvas);
+                  const canvasLabel = getAudioVideoLabel(
+                    canvas.label,
+                    `${type} ${index}`
+                  );
+
+                  const isRestricted = isItemRestricted(
+                    getCanvasPaintingItem(canvas)
+                  );
+                  const shouldShowItem =
+                    !isRestricted ||
+                    (isRestricted && userIsStaffWithRestricted);
+
+                  // Could have more than one download option
+                  const downloadableCanvas: DownloadOption[] | undefined =
+                    videoAudioDownloadOptions(canvas);
+
+                  const viewerQuery = index > 1 ? { canvas: index } : {};
+
+                  return (
+                    <li
+                      key={canvas.id}
+                      style={{
+                        width: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        marginBottom: '1rem',
+                      }}
+                    >
+                      <span>{canvasLabel}</span>
+
+                      {shouldShowItem && (
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          {duration && (
+                            <span style={{ marginRight: '1rem' }}>
+                              {duration} {type === 'Audio' ? 'listen' : 'watch'}{' '}
+                              time
+                            </span>
+                          )}
+
+                          <Button
+                            variant="ButtonSolidLink"
+                            icon={play}
+                            text="Play"
+                            link={{
+                              ...itemUrl,
+                              href: { ...itemUrl.href, query: viewerQuery },
+                              as: { ...itemUrl.as, query: viewerQuery },
+                            }}
+                          />
+
+                          {downloadableCanvas && (
+                            <Download
+                              ariaControlsId={`itemDownload ` + index}
+                              downloadOptions={downloadableCanvas}
+                            />
+                          )}
+                        </div>
+                      )}
+
+                      {isRestricted && <div>{restrictedItemMessage}</div>}
+                    </li>
+                  );
+                })}
+              </PlainList>
             </Space>
           )}
-        >
-          {(Boolean(collectionManifestsCount && collectionManifestsCount > 0) ||
-            Boolean(canvasCount && canvasCount > 0)) && (
-            <p className={`${font('lr', 6)}`} style={{ marginBottom: 0 }}>
-              Contains:{' '}
-              {collectionManifestsCount && collectionManifestsCount > 0
-                ? `${collectionManifestsCount} ${
-                    collectionManifestsCount === 1 ? 'volume' : 'volumes'
-                  }`
-                : canvasCount && canvasCount > 0
-                  ? `${canvasCount} ${canvasCount === 1 ? 'image' : 'images'}`
-                  : ''}
-            </p>
-          )}
-        </ConditionalWrapper>
 
-        {(itemUrl || isDownloadable) && (
+        {!isAllAudioOrVideo && (itemUrl || isDownloadable) && (
           <Space
             $v={{ size: 's', properties: ['margin-top'] }}
             style={{ display: 'flex' }}
@@ -244,7 +371,7 @@ const ItemPageLink = ({
                   variant="ButtonSolidLink"
                   icon={eye}
                   text="View"
-                  link={{ ...itemUrl }}
+                  link={itemUrl}
                 />
               </Space>
             )}
@@ -272,7 +399,6 @@ const WorkDetailsAvailableOnline = ({
   transformedManifest,
 }: Props) => {
   const { userIsStaffWithRestricted } = useUser();
-
   const { authV2 } = useToggles();
   const {
     collectionManifestsCount,
@@ -347,12 +473,7 @@ const WorkDetailsAvailableOnline = ({
             )}
             <MessageBox>{bornDigitalMessage}</MessageBox>
             <div style={{ overflow: 'visible' }}>
-              <div
-                style={{
-                  display: 'inline-table',
-                  minWidth: '100%',
-                }}
-              >
+              <div style={{ display: 'inline-table', minWidth: '100%' }}>
                 <TreeHeadings aria-hidden="true">
                   <DownloadTable>
                     <thead>
@@ -416,6 +537,7 @@ const WorkDetailsAvailableOnline = ({
                       .includes('transcript')
                       ? `Transcript of ${work.title}`
                       : labelString;
+
                     return (
                       <Space
                         key={rendering.id}
@@ -436,10 +558,12 @@ const WorkDetailsAvailableOnline = ({
                 })}
               </>
             )}
+
             {shouldShowItemLink && (
               <ItemPageLink
                 work={work}
                 itemUrl={itemUrl}
+                canvases={canvases}
                 collectionManifestsCount={collectionManifestsCount}
                 canvasCount={canvasCount}
                 downloadOptions={downloadOptions}
