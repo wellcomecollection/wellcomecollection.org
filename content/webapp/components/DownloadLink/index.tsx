@@ -7,46 +7,57 @@ import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
-const DownloadLinkStyle = styled.a.attrs({
-  className: font('intb', 5),
-})`
+const DownloadLinkStyle = styled.a.attrs<{ $theme: 'dark' | undefined }>(
+  props => ({
+    className: props.$theme === 'dark' ? font('intr', 5) : font('intb', 5),
+  })
+)<{ $theme: 'dark' | undefined }>`
   display: inline-block;
   white-space: nowrap;
-  background: ${props => props.theme.color('white')};
-  color: ${props => props.theme.color('accent.green')};
-
-  text-decoration: underline;
-  text-underline-offset: 0.1em;
+  background: ${props =>
+    props.$theme === 'dark' ? 'none' : props.theme.color('white')};
+  color: ${props =>
+    props.$theme === 'dark'
+      ? props.theme.color('white')
+      : props.theme.color('accent.green')};
   transition: color ${props => props.theme.transitionProperties};
 
   &:hover {
-    color: ${props => props.theme.color('accent.green')};
+    color: ${props =>
+      props.$theme
+        ? props.theme.color('white')
+        : props.theme.color('accent.green')};
     text-decoration-color: transparent;
   }
 `;
 
-const DownloadLinkUnStyled = styled.a`
+const DownloadLinkUnStyled = styled.a<{ $theme?: 'dark' }>`
   position: relative;
 `;
 
-const Format = styled(Space).attrs({
-  className: font('intb', 5),
+const Format = styled(Space).attrs<{ $theme?: 'dark' }>(props => ({
+  className: props.$theme === 'dark' ? font('intr', 5) : font('intb', 5),
   $h: { size: 'm', properties: ['margin-left'] },
-})`
-  color: ${props => props.theme.color('neutral.600')};
+}))<{ $theme?: 'dark' }>`
+  color: ${props =>
+    props.$theme === 'dark'
+      ? props.theme.color('white')
+      : props.theme.color('neutral.600')};
 `;
 
-const TextToDisplay = styled.span`
+const TextToDisplay = styled.span<{ $theme?: 'dark' }>`
   margin: 0;
+  text-decoration: ${props => (props.$theme === 'dark' ? 'underline' : 'none')};
+  text-underline-offset: 0.1em;
 `;
 
 /**
  * TODO: figure out why Icon isn't able to be wrapped by styled...
  */
-const IconWrapper = styled.span<{ $forceInline: boolean }>`
-  div {
-    ${({ $forceInline }) => $forceInline && 'top: 5px;'}
-  }
+const IconWrapper = styled(Space).attrs<{
+  $forceInline: boolean;
+}>({ $h: { size: 's', properties: ['margin-right'] } })`
+  display: inline-flex;
 `;
 
 type DisplayText =
@@ -66,6 +77,7 @@ type Props = {
   width?: 'full' | number;
   mimeType: string;
   trackingTags?: string[];
+  theme?: 'dark';
 } & DisplayText;
 const DownloadLink: FunctionComponent<Props> = ({
   isTabbable = true,
@@ -76,11 +88,13 @@ const DownloadLink: FunctionComponent<Props> = ({
   mimeType,
   trackingTags = [],
   children,
+  theme,
 }: Props) => {
   const Wrapper = linkText ? DownloadLinkStyle : DownloadLinkUnStyled;
-
+  const iconColor = theme === 'dark' ? 'yellow' : 'accent.green';
   return (
     <Wrapper
+      $theme={theme}
       tabIndex={isTabbable ? undefined : -1}
       target="_blank"
       rel="noopener noreferrer"
@@ -100,10 +114,14 @@ const DownloadLink: FunctionComponent<Props> = ({
         }
       >
         <IconWrapper $forceInline={!!children}>
-          <Icon icon={download} matchText={!!children} />
+          <Icon icon={download} matchText={false} iconColor={iconColor} />
         </IconWrapper>
-        <TextToDisplay>{linkText || children}</TextToDisplay>
-        {format && <Format as="span">({format})</Format>}
+        <TextToDisplay $theme={theme}>{linkText || children}</TextToDisplay>
+        {format && (
+          <Format as="span" $theme={theme}>
+            ({format})
+          </Format>
+        )}
       </span>
     </Wrapper>
   );

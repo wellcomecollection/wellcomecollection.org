@@ -12,10 +12,12 @@ import { getFormatString } from '@weco/content/utils/iiif/v3';
 
 type Props = {
   supplementing: (ContentResource | ChoiceBody)[];
+  theme?: 'dark';
 };
 
 const VideoTranscript: FunctionComponent<Props> = ({
   supplementing,
+  theme,
 }: Props) => {
   return (
     <>
@@ -32,6 +34,7 @@ const VideoTranscript: FunctionComponent<Props> = ({
                 format={getFormatString(displayItem.format || '')}
                 mimeType={displayItem.format || ''}
                 trackingTags={['annotation']}
+                theme={theme}
               />
             </Space>
           );
