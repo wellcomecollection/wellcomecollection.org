@@ -375,21 +375,20 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             )}
           </ContaineredLayout>
         </div>
-        {currentStop.audio && audioPlayer && (
-          <AudioPlayerNewWrapper>
-            <Container>
-              <AudioPlayerNew audioFile={currentStop.audio} isDark={true} />
-            </Container>
-          </AudioPlayerNewWrapper>
-        )}
+
+        {type === 'audio-without-descriptions' &&
+          currentStop.audio &&
+          audioPlayer && (
+            <AudioPlayerNewWrapper>
+              <Container>
+                <AudioPlayerNew audioFile={currentStop.audio} isDark={true} />
+              </Container>
+            </AudioPlayerNewWrapper>
+          )}
+
         <PrevNext>
           <Container>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <div>
                 {stopNumber > 1 && (
                   <NextLink
