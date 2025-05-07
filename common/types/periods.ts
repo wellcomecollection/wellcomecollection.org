@@ -1,3 +1,4 @@
+// Remove when filterEventsListing is removed from the toggles
 const Periods = [
   'today',
   'this-weekend',
