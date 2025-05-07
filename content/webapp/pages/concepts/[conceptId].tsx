@@ -373,8 +373,7 @@ export const ConceptPage: NextPage<Props> = ({
   apiToolbarLinks,
 }) => {
   useHotjar(true);
-  const { conceptsById, newThemePages } = useToggles();
-  const linkParams = conceptsById ? queryParams : allRecordsLinkParams;
+  const { newThemePages } = useToggles();
 
   const pathname = usePathname();
   const worksTabs = tabOrder
@@ -389,7 +388,7 @@ export const ConceptPage: NextPage<Props> = ({
         tabLabelText: data.label,
         totalResults: data.totalResults.works,
         link: toWorksLink(
-          linkParams(tabId, conceptResponse),
+          allRecordsLinkParams(tabId, conceptResponse),
           linkSources[tabId]
         ),
       });
@@ -411,7 +410,7 @@ export const ConceptPage: NextPage<Props> = ({
         tabLabelText: sectionsData[relationship].label,
         totalResults: sectionsData[relationship].totalResults.images,
         link: toImagesLink(
-          linkParams(tabId, conceptResponse),
+          allRecordsLinkParams(tabId, conceptResponse),
           `${linkSources[tabId]}_${pathname}` as ImagesLinkSource
         ),
       });
@@ -638,8 +637,6 @@ export const getServerSideProps: GetServerSideProps<
     );
   }
 
-  const conceptsById = serverData.toggles?.conceptsById?.value;
-
   const getConceptDocs = {
     works: {
       byId: (sectionName: string) =>
@@ -819,16 +816,7 @@ export const getServerSideProps: GetServerSideProps<
     };
   };
 
-  const totalResults = conceptsById
-    ? {
-        worksAbout: worksAbout?.totalResults,
-        worksBy: worksBy?.totalResults,
-        worksIn: worksIn?.totalResults,
-        imagesAbout: imagesAbout?.totalResults,
-        imagesBy: imagesBy?.totalResults,
-        imagesIn: imagesIn?.totalResults,
-      }
-    : getLabelTotals();
+  const totalResults = getLabelTotals();
 
   const apiToolbarLinks = createApiToolbarLinks(conceptResponse);
 
