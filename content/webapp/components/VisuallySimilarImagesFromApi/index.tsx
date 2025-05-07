@@ -94,7 +94,7 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
       <Wrapper>
         {similarImages.map(related => (
           <a
-            data-gtm-trigger="visually-similar-image"
+            data-gtm-trigger="visually_similar_image"
             key={related.id}
             onClick={() => {
               onClickImage(related);
