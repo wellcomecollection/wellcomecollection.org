@@ -91,11 +91,7 @@ export const getRedirect = (
     return redirect301(host, literalRedirects[uriSansSlash]);
   }
 
-  if (
-    !literalRedirects[uriSansSlash] &&
-    firstPartOfPath &&
-    pathRedirects[firstPartOfPath]
-  ) {
+  if (firstPartOfPath && pathRedirects[firstPartOfPath]) {
     return redirect301(
       host,
       uriSansSlash.replace(firstPartOfPath, pathRedirects[firstPartOfPath])
@@ -129,6 +125,15 @@ export const getRedirect = (
           : potentialRedirect.redirectPath
       );
     }
+  }
+
+  const subdomainRedirectHosts = [
+    'works.wellcomecollection.org',
+    'content.wellcomecollection.org',
+  ];
+
+  if (parsedHost && subdomainRedirectHosts.includes(parsedHost)) {
+    return redirect301('wellcomecollection.org', request.uri);
   }
 
   return undefined;
