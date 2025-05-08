@@ -52,6 +52,7 @@ export const literalRedirects: Record<string, string> = {
   '/exhibitionsandevents': '/whats-on',
   '/explore': '/stories',
   '/exquisite-bodies': '/exhibitions/exquisite-bodies',
+  '/events/current-and-coming-up': '/events',
   '/foreignbodies': '/exhibitions/foreign-bodies--common-ground',
   '/forensics': '/exhibitions/forensics--the-anatomy-of-crime',
   '/graphic-warnings': '/books/graphic-warnings',
