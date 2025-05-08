@@ -114,7 +114,7 @@ const DownloadLink: FunctionComponent<Props> = ({
         }
       >
         <IconWrapper $forceInline={!!children}>
-          <Icon icon={download} matchText={false} iconColor={iconColor} />
+          <Icon icon={download} matchText={!!children} iconColor={iconColor} />
         </IconWrapper>
         <TextToDisplay $theme={theme}>{linkText || children}</TextToDisplay>
         {format && (
