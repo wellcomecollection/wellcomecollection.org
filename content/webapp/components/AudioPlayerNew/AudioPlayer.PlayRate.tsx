@@ -3,8 +3,11 @@ import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
 
+import { check } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext';
+import Icon from '@weco/common/views/components/Icon';
+import Space from '@weco/common/views/components/styled/Space';
 
 const TogglePlayRateButton = styled.button.attrs({
   className: font('intr', 6),
@@ -25,24 +28,19 @@ const TogglePlayRateButton = styled.button.attrs({
   }
 `;
 
-const PlayRateButton = styled.div.attrs<{ $isActive: boolean }>(props => ({
+const PlayRateButton = styled.div.attrs<{ $isActive: boolean }>({
   as: 'button',
-  className: font(props.$isActive ? 'intsb' : 'intr', 6),
-}))<{
+  className: font('intr', 5),
+})<{
   $isDark: boolean;
-  $isActive?: boolean;
 }>`
   padding: ${props => props.theme.spacingUnits['4']}px;
   line-height: 1.5;
   display: flex;
-  justify-content: right;
+  justify-content: space-between;
   width: 100%;
   color: ${props =>
-    props.$isActive
-      ? props.theme.color('yellow')
-      : props.$isDark
-        ? props.theme.color('white')
-        : props.theme.color('black')};
+    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
 
   &:hover {
     text-decoration: underline;
@@ -50,7 +48,7 @@ const PlayRateButton = styled.div.attrs<{ $isActive: boolean }>(props => ({
 `;
 
 const PlayRateList = styled.div<{ $isActive: boolean; $isDark: boolean }>`
-  padding: ${props => props.theme.spacingUnits['5']}px;
+  padding: ${props => props.theme.spacingUnits['3']}px 0;
   list-style: none;
   display: ${props => (props.$isActive ? 'block' : 'none')};
   background-color: ${props =>
@@ -58,12 +56,8 @@ const PlayRateList = styled.div<{ $isActive: boolean; $isDark: boolean }>`
       ? props.theme.color('neutral.700')
       : props.theme.color('white')};
   z-index: 2;
-  border-radius: 8px 0 8px 8px;
+  border-radius: 8px;
   box-shadow: ${props => props.theme.basicBoxShadow};
-
-  &[data-popper-placement='top'] {
-    border-radius: 8px 8px 0;
-  }
 
   ul {
     margin: 0;
@@ -187,7 +181,18 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
                   $isDark={isDark}
                   onClick={() => updatePlaybackRate(speed)}
                 >
-                  {speed}x
+                  <span style={{ display: 'flex', alignItems: 'end' }}>
+                    {speed}x
+                    {audioPlaybackRate === speed && (
+                      <Space $h={{ size: 'xl', properties: ['margin-left'] }}>
+                        <span
+                          style={{ transform: 'scale(1.5)', display: 'flex' }}
+                        >
+                          <Icon icon={check} matchText={true} />
+                        </span>
+                      </Space>
+                    )}
+                  </span>
                 </PlayRateButton>
               );
             })}
