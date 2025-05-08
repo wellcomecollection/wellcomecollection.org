@@ -14,15 +14,14 @@ const TogglePlayRateButton = styled.button.attrs({
   padding: 0;
 
   span {
-    color: ${props => props.theme.color('yellow')};
     display: flex;
     justify-content: end;
     transition: color 0.2s ease-in-out;
   }
 
-  &:hover span {
+  &:hover {
     color: ${props =>
-      props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+      props.$isDark ? props.theme.color('yellow') : props.theme.color('black')};
   }
 `;
 
