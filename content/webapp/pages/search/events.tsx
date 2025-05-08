@@ -248,7 +248,12 @@ export const getServerSideProps: GetServerSideProps<
 
   const { page, ...restOfQuery } = query;
   const pageNumber = getQueryPropertyValue(page);
-  const paramsQuery = { ...restOfQuery, timespan: validTimespan };
+  const paramsQuery = {
+    ...restOfQuery,
+    timespan: validTimespan,
+    // Remove once we are happy to list exhibitions here.
+    filterOutExhibitions: 'true',
+  };
 
   const eventResponseList = await getEvents({
     params: {
