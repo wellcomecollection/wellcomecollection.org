@@ -205,7 +205,8 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   setCacheControl(context.res, cacheTTL.search);
   const serverData = await getServerData(context);
-  const filterEventsListing = !!serverData.toggles.filterEventsListing.value;
+  const filterEventsListing = !!serverData.toggles.filterEventsListing?.value;
+  const exhibitionsInEvents = !!serverData.toggles.exhibitionsInEvents?.value;
 
   const query = context.query;
   const params = fromQuery(query);
@@ -251,8 +252,7 @@ export const getServerSideProps: GetServerSideProps<
   const paramsQuery = {
     ...restOfQuery,
     timespan: validTimespan,
-    // Remove once we are happy to list exhibitions here.
-    filterOutExhibitions: 'true',
+    filterOutExhibitions: exhibitionsInEvents ? undefined : 'true',
   };
 
   const eventResponseList = await getEvents({
