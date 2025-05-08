@@ -511,7 +511,7 @@ const MainViewer: FunctionComponent = () => {
                       canvas={currentCanvas}
                       titleOverride={`${canvas}/${canvases?.length}`}
                       exclude={[]}
-                      theme="dark"
+                      isDark={true}
                     />
                   </ItemWrapper>
                 ) : null}

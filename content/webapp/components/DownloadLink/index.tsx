@@ -7,47 +7,44 @@ import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
-const DownloadLinkStyle = styled.a.attrs<{ $theme: 'dark' | undefined }>(
-  props => ({
-    className: props.$theme === 'dark' ? font('intr', 5) : font('intb', 5),
-  })
-)<{ $theme: 'dark' | undefined }>`
+const DownloadLinkStyle = styled.a.attrs<{ $isDark?: boolean }>(props => ({
+  className: props.$isDark ? font('intr', 5) : font('intb', 5),
+}))<{ $isDark?: boolean }>`
   display: inline-block;
   white-space: nowrap;
-  background: ${props =>
-    props.$theme === 'dark' ? 'none' : props.theme.color('white')};
+  background: ${props => (props.$isDark ? 'none' : props.theme.color('white'))};
   color: ${props =>
-    props.$theme === 'dark'
+    props.$isDark
       ? props.theme.color('white')
       : props.theme.color('accent.green')};
   transition: color ${props => props.theme.transitionProperties};
 
   &:hover {
     color: ${props =>
-      props.$theme
+      props.$isDark
         ? props.theme.color('white')
         : props.theme.color('accent.green')};
     text-decoration-color: transparent;
   }
 `;
 
-const DownloadLinkUnStyled = styled.a<{ $theme?: 'dark' }>`
+const DownloadLinkUnStyled = styled.a<{ $isDark?: boolean }>`
   position: relative;
 `;
 
-const Format = styled(Space).attrs<{ $theme?: 'dark' }>(props => ({
-  className: props.$theme === 'dark' ? font('intr', 5) : font('intb', 5),
+const Format = styled(Space).attrs<{ $isDark?: boolean }>(props => ({
+  className: props.$isDark ? font('intr', 5) : font('intb', 5),
   $h: { size: 'm', properties: ['margin-left'] },
-}))<{ $theme?: 'dark' }>`
+}))<{ $isDark?: boolean }>`
   color: ${props =>
-    props.$theme === 'dark'
+    props.$isDark
       ? props.theme.color('white')
       : props.theme.color('neutral.600')};
 `;
 
-const TextToDisplay = styled.span<{ $theme?: 'dark' }>`
+const TextToDisplay = styled.span<{ $isDark?: boolean }>`
   margin: 0;
-  text-decoration: ${props => (props.$theme === 'dark' ? 'underline' : 'none')};
+  text-decoration: ${props => (props.$isDark ? 'underline' : 'none')};
   text-underline-offset: 0.1em;
 `;
 
@@ -77,7 +74,7 @@ type Props = {
   width?: 'full' | number;
   mimeType: string;
   trackingTags?: string[];
-  theme?: 'dark';
+  isDark?: boolean;
 } & DisplayText;
 const DownloadLink: FunctionComponent<Props> = ({
   isTabbable = true,
@@ -88,13 +85,13 @@ const DownloadLink: FunctionComponent<Props> = ({
   mimeType,
   trackingTags = [],
   children,
-  theme,
+  isDark,
 }: Props) => {
   const Wrapper = linkText ? DownloadLinkStyle : DownloadLinkUnStyled;
-  const iconColor = theme === 'dark' ? 'yellow' : 'accent.green';
+  const iconColor = isDark ? 'yellow' : 'accent.green';
   return (
     <Wrapper
-      $theme={theme}
+      $isDark={isDark}
       tabIndex={isTabbable ? undefined : -1}
       target="_blank"
       rel="noopener noreferrer"
@@ -116,9 +113,9 @@ const DownloadLink: FunctionComponent<Props> = ({
         <IconWrapper $forceInline={!!children}>
           <Icon icon={download} matchText={!!children} iconColor={iconColor} />
         </IconWrapper>
-        <TextToDisplay $theme={theme}>{linkText || children}</TextToDisplay>
+        <TextToDisplay $isDark={isDark}>{linkText || children}</TextToDisplay>
         {format && (
-          <Format as="span" $theme={theme}>
+          <Format as="span" $isDark={isDark}>
             ({format})
           </Format>
         )}
