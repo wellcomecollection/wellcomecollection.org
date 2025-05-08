@@ -7,13 +7,13 @@ Normally this happens in Buildkite, but you can also build a deployment package 
 1.  Build the Lambda deployment package by running this command in the root of the repo:
 
     ```
-    docker-compose build edge_lambdas
+    docker compose build edge_lambdas
     ```
 
 2.  Upload the Lambda deployment package by running this command in the root of the repo:
 
     ```
-    AWS_PROFILE=experience-dev docker-compose run edge_lambdas yarn deploy
+    AWS_PROFILE=experience-developer docker compose run edge_lambdas yarn deploy
     ```
 
 
