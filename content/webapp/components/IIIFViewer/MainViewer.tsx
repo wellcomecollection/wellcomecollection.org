@@ -62,7 +62,7 @@ const ItemWrapper = styled.div`
     width: 100%;
     max-height: calc(
       100vh - ${props => props.theme.navHeight}px - 140px
-    ); /* 130 px allows for the height of the header and the transcript link */
+    ); /* 140px allows for the height of the header and the transcript link */
   }
 `; // minus height of the header
 type OverlayPositionData = {
