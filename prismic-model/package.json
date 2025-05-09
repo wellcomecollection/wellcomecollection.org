@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-cloudfront": "^3.799.0",
-    "@aws-sdk/client-s3": "^3.800.0",
+    "@aws-sdk/client-s3": "^3.802.0",
     "@aws-sdk/client-secrets-manager": "^3.799.0",
     "@aws-sdk/client-sts": "^3.799.0",
     "@types/node": "^22.13.10",
