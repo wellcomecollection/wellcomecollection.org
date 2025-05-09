@@ -9,8 +9,9 @@ const backgroundTransform = css<{ $isDark: boolean }>`
   transform: scale(1.5);
 `;
 
-const thumbStyles = css`
-  background: ${props => props.theme.color('yellow')};
+const thumbStyles = css<{ $isDark: boolean }>`
+  background: ${props =>
+    props.$isDark ? props.theme.color('yellow') : props.theme.color('black')};
   appearance: none;
   width: 1rem;
   height: 1rem;
