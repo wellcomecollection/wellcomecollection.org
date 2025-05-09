@@ -301,6 +301,13 @@ export function getArchiveAncestorArray(work: Work): RelatedWork[] {
   return makeArchiveAncestorArray([], hierarchicalParentOf(work)).reverse();
 }
 
+export function getAudioVideoLabel(
+  label?: string,
+  titleOverride?: string
+): string | undefined {
+  return (label !== '-' && label) || titleOverride;
+}
+
 export type DigitalLocationInfo = {
   accessCondition: string | undefined;
   license: LicenseData | undefined;
@@ -356,6 +363,47 @@ export function getFirstAccessCondition(
   location?: Location
 ): AccessCondition | undefined {
   return location?.accessConditions?.[0];
+}
+
+// To replace `showItemLink` once `extendedViewer` toggle is removed
+export function newShowItemLink({
+  userIsStaffWithRestricted,
+  allOriginalPdfs,
+  hasIIIFManifest,
+  digitalLocation,
+  accessCondition,
+  bornDigitalStatus,
+}: {
+  userIsStaffWithRestricted: boolean;
+  allOriginalPdfs: boolean;
+  hasIIIFManifest: boolean;
+  digitalLocation?: DigitalLocation;
+  accessCondition?: string;
+  canvases?: TransformedCanvas[];
+  bornDigitalStatus?: BornDigitalStatus;
+}): boolean {
+  // In general we don't show the item link if there are born digital items present, i.e. canvases with a behavior of placeholder, because we display download links on the page instead.
+  // The exception to this is if ALL the items are born digital and they are ALL pdfs, as we know we can show them on the items page.
+  // There is usually only one type of thing per manifest, except for manifests with 'Born digital' items.
+  // But since we display links to all files when there are 'Born digital' items present, then this should not matter.
+
+  if (accessCondition === 'restricted' && userIsStaffWithRestricted) {
+    return true;
+  }
+  if (
+    accessCondition === 'closed' ||
+    (accessCondition === 'restricted' && !userIsStaffWithRestricted)
+  ) {
+    return false;
+  } else if (
+    hasIIIFManifest &&
+    digitalLocation &&
+    (bornDigitalStatus === 'noBornDigital' || allOriginalPdfs)
+  ) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 export function showItemLink({

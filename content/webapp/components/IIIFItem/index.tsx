@@ -40,6 +40,7 @@ import {
   getLabelString,
   isItemRestricted,
 } from '@weco/content/utils/iiif/v3';
+import { getAudioVideoLabel } from '@weco/content/utils/works';
 
 const IframePdfViewer = styled(Space)`
   width: 100%;
@@ -175,14 +176,19 @@ const PublicRestrictedMessage: FunctionComponent<{
   canvas: TransformedCanvas;
   titleOverride?: string;
 }> = ({ canvas, titleOverride }) => {
+  const audioLabel = getAudioVideoLabel(canvas.label, titleOverride);
+
   return (
     <div className="audio">
-      <Space
-        className={font('intb', 5)}
-        $v={{ size: 'm', properties: ['margin-bottom'] }}
-      >
-        {(canvas.label !== '-' && canvas.label) || `${titleOverride}`}
-      </Space>
+      {audioLabel && (
+        <Space
+          className={font('intb', 5)}
+          $v={{ size: 'm', properties: ['margin-bottom'] }}
+        >
+          {audioLabel}
+        </Space>
+      )}
+
       <p className={font('intr', 5)}>{restrictedItemMessage}</p>
     </div>
   );
@@ -250,7 +256,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
 }) => {
   const { userIsStaffWithRestricted } = useUser();
   const isRestricted = isItemRestricted(item);
-  const shouldShowItem = isItemRestricted(item) && !userIsStaffWithRestricted;
+  const shouldShowItem = isRestricted && !userIsStaffWithRestricted;
   const { audioPlayer, extendedViewer } = useToggles();
 
   // N.B. Restricted images are handled differently from restricted audio/video and text.
@@ -294,14 +300,12 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             <AudioPlayerNew
               isDark
               audioFile={item.id}
-              title={(canvas.label !== '-' && canvas.label) || titleOverride}
+              title={getAudioVideoLabel(canvas.label, titleOverride) || ''}
             />
           ) : (
             <AudioPlayer
               audioFile={item.id}
-              title={
-                (canvas.label !== '-' && canvas.label) || titleOverride || ''
-              }
+              title={getAudioVideoLabel(canvas.label, titleOverride) || ''}
             />
           )}
         </Wrapper>
