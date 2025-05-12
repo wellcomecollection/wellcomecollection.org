@@ -32,7 +32,7 @@
     "koa-json": "^2.0.2",
     "koa-logger": "^3.2.1",
     "next": "14.2.25",
-    "next-router-mock": "^0.9.3",
+    "next-router-mock": "^1.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.55.0",
