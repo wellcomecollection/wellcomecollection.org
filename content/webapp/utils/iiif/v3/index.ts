@@ -508,6 +508,7 @@ export function getDisplayData(
     })
     .filter(Boolean) as (ChoiceBody | ContentResource)[];
 }
+
 export function transformCanvas(canvas: Canvas): TransformedCanvas {
   const label = getCanvasLabel(canvas);
   const textServiceId = getCanvasTextServiceId(canvas);
@@ -527,8 +528,8 @@ export function transformCanvas(canvas: Canvas): TransformedCanvas {
   // may be presented to the user as part of the representation of the Canvas, or
   // may be presented in a different part of the user interface.
   // We need to do this for two reasons:
-  // 1) to find the pdfs that were added to manifests before DLCS changes, which took place in May 2023.
-  // (N.B. after this time the pdfs follow the Born Digital pattern)
+  // 1) to find the pdfs that are ingested via Goobi.
+  // (N.B. pdfs ingested via Archivematica follow the Born Digital pattern)
   // 2) they can provide alternative content such as transcriptions for Videos
   const supplementings = getAnnotationsOfMotivation(
     canvas.annotations || [],
@@ -631,7 +632,7 @@ export function hasItemType(
 ): boolean {
   return (
     canvases?.some(canvas => {
-      return canvas.painting.some(item => {
+      return canvas?.painting.some(item => {
         if (isChoiceBody(item)) {
           return item.items.some(item => {
             if (typeof item !== 'string') {
@@ -648,16 +649,46 @@ export function hasItemType(
   );
 }
 
-export function hasOriginalPdf(
-  canvases: TransformedCanvas[] | undefined
-): boolean {
+export function hasOriginalPdf(canvases?: TransformedCanvas[]): boolean {
   return (
     canvases?.some(canvas => {
-      return canvas.original.some(item => {
+      return canvas?.original.some(item => {
         return 'format' in item && item.format === 'application/pdf';
       });
     }) || false
   );
+}
+
+export function isPDFCanvas(canvas?: TransformedCanvas): boolean {
+  if (!canvas) return false;
+
+  const hasPDFSupplement = canvas?.supplementing.some(supplement => {
+    if (isChoiceBody(supplement)) {
+      return supplement.items.some(item => {
+        if (typeof item !== 'string')
+          return 'format' in item ? item.format === 'application/pdf' : false;
+
+        return false;
+      });
+    } else {
+      return 'format' in supplement[0]
+        ? supplement[0].format === 'application/pdf'
+        : false;
+    }
+  });
+
+  const hasPaintings = canvas.painting?.length > 0;
+
+  // 1. Born digital PDFs require a look at originals as their format is "Image"
+  // 2. Because Videos could also have PDF supplements,
+  //    we only want it to return true if it has no paintings.
+  return hasOriginalPdf([canvas]) || (hasPDFSupplement && !hasPaintings);
+}
+
+export function isAudioCanvas(
+  canvas: TransformedCanvas | IIIFItemProps
+): boolean {
+  return canvas.type === 'Sound' || canvas.type === 'Audio';
 }
 
 export function isCollection(
@@ -752,6 +783,23 @@ export function getBornDigitalStatus(
   }
 }
 
+// The viewer uses react-window's FixedSizeList if we are only displaying images
+// If we are displaying other things e.g. audio/video/pdf/other born digital files
+// then we display one item at a time with pagination.
+// So we need to determine if any of these are types are present.
+export function hasNonImages(
+  canvases: TransformedCanvas[] | undefined
+): boolean {
+  const hasNonImage = canvases?.some(c => {
+    return (
+      c.painting.some(p => p.type !== 'Image') ||
+      c.original.some(p => p.type !== 'Image') ||
+      c.supplementing.some(p => p.type !== 'Image')
+    );
+  });
+  return !!hasNonImage;
+}
+
 export function getFormatString(format: string): string | undefined {
   switch (format) {
     case 'application/pdf':
@@ -762,7 +810,10 @@ export function getFormatString(format: string): string | undefined {
       return 'JPG';
     case 'video/mp4':
       return 'MP4';
+    case 'video/webm':
+      return 'WebM';
     case 'audio/mp3':
+    case 'audio/x-mpeg-3':
       return 'MP3';
     default:
       return 'unknown format';

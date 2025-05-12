@@ -78,7 +78,9 @@ const Grid = styled.div<GridProps>`
       ? `calc(100vh - ${props.theme.navHeight}px)`
       : 'auto'};
   overflow: hidden;
-  grid-template-columns: [left-edge] minmax(200px, 3fr) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
+  grid-template-columns:
+    [left-edge] minmax(200px, 3fr)
+    [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
   grid-template-rows: [top-edge] min-content [desktop-main-start desktop-topbar-end] 1fr [mobile-bottombar-start mobile-main-end] min-content [bottom-edge];
 
   .viewer-desktop {
@@ -227,6 +229,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [isDesktopSidebarActive, setIsDesktopSidebarActive] = useState(true);
   const [isMobileSidebarActive, setIsMobileSidebarActive] = useState(false);
   const [showZoomed, setShowZoomed] = useState(false);
+  const [showFullscreenControl, setShowFullscreenControl] = useState(true);
   const [rotatedImages, setRotatedImages] = useState<RotatedImage[]>([]);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [mainAreaHeight, setMainAreaHeight] = useState(500);
@@ -309,6 +312,8 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         setIsMobileSidebarActive,
         showZoomed,
         setShowZoomed,
+        showFullscreenControl,
+        setShowFullscreenControl,
         showControls,
         setShowControls,
         rotatedImages,

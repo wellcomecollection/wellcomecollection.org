@@ -100,7 +100,7 @@ const HeaderInner = styled(Space).attrs({
 
 const prevNextHeight = '50px';
 
-const PrevNext = styled.div.attrs({
+export const PrevNext = styled.div.attrs({
   className: font('intr', 5),
 })`
   position: fixed;
@@ -117,7 +117,7 @@ const AudioPlayerNewWrapper = styled.div`
   width: 100%;
 `;
 
-const AlignCenter = styled.div`
+export const AlignCenter = styled.div`
   display: flex;
   align-items: center;
 `;
@@ -375,21 +375,20 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
             )}
           </ContaineredLayout>
         </div>
-        {currentStop.audio && audioPlayer && (
-          <AudioPlayerNewWrapper>
-            <Container>
-              <AudioPlayerNew audioFile={currentStop.audio} isDark={true} />
-            </Container>
-          </AudioPlayerNewWrapper>
-        )}
+
+        {type === 'audio-without-descriptions' &&
+          currentStop.audio &&
+          audioPlayer && (
+            <AudioPlayerNewWrapper>
+              <Container>
+                <AudioPlayerNew audioFile={currentStop.audio} isDark={true} />
+              </Container>
+            </AudioPlayerNewWrapper>
+          )}
+
         <PrevNext>
           <Container>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <div>
                 {stopNumber > 1 && (
                   <NextLink

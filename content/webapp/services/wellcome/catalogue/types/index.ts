@@ -129,6 +129,12 @@ type ConceptType =
   | 'Place'
   | 'Genre';
 
+export type RelatedConcept = {
+  label: string;
+  id: string;
+  relationshipType?: string;
+};
+
 export type Concept = {
   id?: string;
   identifiers?: Identifier[];
@@ -136,6 +142,15 @@ export type Concept = {
   type: ConceptType;
   sameAs?: string[];
   description?: string;
+  relatedConcepts?: {
+    fieldsOfWork?: RelatedConcept[];
+    relatedTo?: RelatedConcept[];
+    narrowerThan?: RelatedConcept[];
+    broaderThan?: RelatedConcept[];
+    people?: RelatedConcept[];
+    referencedTogether?: RelatedConcept[];
+  };
+  alternativeLabels?: string[];
 };
 
 type Availability = {

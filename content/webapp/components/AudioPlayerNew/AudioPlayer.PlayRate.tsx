@@ -5,7 +5,6 @@ import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { AppContext } from '@weco/common/views/components/AppContext';
-import Space from '@weco/common/views/components/styled/Space';
 
 const TogglePlayRateButton = styled.button.attrs({
   className: font('intr', 6),
@@ -27,15 +26,17 @@ const TogglePlayRateButton = styled.button.attrs({
   }
 `;
 
-const PlayRateButton = styled(Space).attrs<{ $isActive: boolean }>(props => ({
+const PlayRateButton = styled.div.attrs<{ $isActive: boolean }>(props => ({
   as: 'button',
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   className: font(props.$isActive ? 'intsb' : 'intr', 6),
 }))<{
   $isDark: boolean;
   $isActive?: boolean;
 }>`
+  padding: ${props => props.theme.spacingUnits['4']}px;
+  line-height: 1.5;
   display: flex;
+  justify-content: right;
   width: 100%;
   color: ${props =>
     props.$isActive
@@ -49,10 +50,8 @@ const PlayRateButton = styled(Space).attrs<{ $isActive: boolean }>(props => ({
   }
 `;
 
-const PlayRateList = styled(Space).attrs({
-  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-})<{ $isActive: boolean; $isDark: boolean }>`
+const PlayRateList = styled.div<{ $isActive: boolean; $isDark: boolean }>`
+  padding: ${props => props.theme.spacingUnits['5']}px;
   list-style: none;
   display: ${props => (props.$isActive ? 'block' : 'none')};
   background-color: ${props =>

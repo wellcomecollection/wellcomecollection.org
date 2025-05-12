@@ -87,14 +87,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'conceptsById',
-      title: 'Concepts Improvements',
-      initialValue: false,
-      description:
-        'Use the new concept ID filters & aggregations in the search API to query for works & images by ID rather than label.',
-      type: 'experimental',
-    },
-    {
       id: 'extendedViewer',
       title: 'Allow viewer to render video, audio and pdfs',
       initialValue: false,
@@ -108,13 +100,6 @@ const toggles = {
       initialValue: false,
       description:
         'Show new theme pages, with data populated from the catalogue graph.',
-      type: 'experimental',
-    },
-    {
-      id: 'dateFilter',
-      title: 'Date filter in Events search',
-      initialValue: false,
-      description: 'Adds the Date filter in the Events search',
       type: 'experimental',
     },
     {

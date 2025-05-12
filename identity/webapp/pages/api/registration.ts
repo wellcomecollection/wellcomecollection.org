@@ -3,8 +3,8 @@ import jwt from 'jsonwebtoken';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import getConfig from 'next/config';
 
-import { authenticatedInstanceFactory } from '@weco/identity/src/utility/auth';
-import { decodeToken } from '@weco/identity/src/utility/jwt-codec';
+import { authenticatedInstanceFactory } from '@weco/identity/utils/auth';
+import { decodeToken } from '@weco/identity/utils/jwt-codec';
 
 const { serverRuntimeConfig: config } = getConfig();
 

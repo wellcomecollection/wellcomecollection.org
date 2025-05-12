@@ -16,13 +16,17 @@ import { font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { useUser } from '@weco/common/views/components/UserProvider';
 import IIIFItem from '@weco/content/components/IIIFItem';
+import { CanvasPaginator } from '@weco/content/components/IIIFViewer/Paginators';
 import ItemViewerContext, {
   RotatedImage,
 } from '@weco/content/components/ItemViewerContext';
 import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { TransformedCanvas } from '@weco/content/types/manifest';
-import { TransformedAuthService } from '@weco/content/utils/iiif/v3';
+import {
+  hasNonImages,
+  TransformedAuthService,
+} from '@weco/content/utils/iiif/v3';
 import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 
 import { queryParamToArrayIndex } from '.';
@@ -30,24 +34,18 @@ import { queryParamToArrayIndex } from '.';
 // Temporary styling for viewer to display audio, video and pdfs
 // will be tidied up in future work
 const ItemWrapper = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
+  margin: auto;
+  height: 100%;
 
-  right: 0;
-  padding: 0;
-
-  img,
   .item-wrapper {
     margin: auto;
     position: relative;
     top: 50%;
     transform: translateY(-50%);
     display: block;
-    width: auto;
     height: auto;
-    max-width: 80%;
+    width: 90%;
+    max-width: 800px;
     max-height: 95%;
   }
 
@@ -58,17 +56,15 @@ const ItemWrapper = styled.div`
     border: 0;
   }
 
-  .item-wrapper {
-    video {
-      width: 100%;
-    }
+  video {
+    display: block;
+    margin: auto;
+    width: 100%;
+    max-height: calc(
+      100vh - ${props => props.theme.navHeight}px - 140px
+    ); /* 140px allows for the height of the header and the transcript link */
   }
-
-  img {
-    overflow: scroll; /* for alt text, which can be long */
-  }
-`;
-
+`; // minus height of the header
 type OverlayPositionData = {
   canvasNumber: number;
   overlayTop: number;
@@ -336,11 +332,12 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
           {displayItems.length > 0 &&
             displayItems.map(item => {
               return (
-                <ItemWrapper key={item.id}>
+                <ItemWrapper key={item.type + item.id}>
                   <IIIFItem
                     placeholderId={placeholderId}
                     item={item}
                     canvas={currentCanvas}
+                    titleOverride={`${index}/${canvases.length}`}
                     i={index}
                     exclude={[]}
                     setImageRect={setImageRect}
@@ -405,6 +402,7 @@ const MainViewer: FunctionComponent = () => {
     transformedManifest,
     query,
     setShowZoomed,
+    setShowFullscreenControl,
     rotatedImages,
     setShowControls,
     errorHandler,
@@ -414,7 +412,6 @@ const MainViewer: FunctionComponent = () => {
   const mainViewerRef = useRef<FixedSizeList>(null);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const [firstRender, setFirstRender] = useState(true);
-  const [hasImagesOnly, setHasImagesOnly] = useState(false);
   const firstRenderRef = useRef(firstRender);
   firstRenderRef.current = firstRender;
   const scrollVelocity = useScrollVelocity(newScrollOffset);
@@ -425,6 +422,7 @@ const MainViewer: FunctionComponent = () => {
   const { canvases, auth, placeholderId } = {
     ...transformedManifest,
   };
+  const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
 
   // Only the V2 external service works for providing access so we always attempt to use that first
   const externalAccessService =
@@ -437,7 +435,6 @@ const MainViewer: FunctionComponent = () => {
     setNewScrollOffset(scrollOffset);
 
     timer.current = setTimeout(() => {
-      const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
       if (currentCanvas?.imageServiceId) {
         setShowControls(true);
       }
@@ -448,7 +445,6 @@ const MainViewer: FunctionComponent = () => {
   function handleOnItemsRendered() {
     let currentCanvas: TransformedCanvas | undefined;
     if (firstRenderRef.current) {
-      currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
       const viewer = mainViewerRef?.current;
       scrollViewer({ currentCanvas, canvas, viewer, mainAreaWidth });
       setFirstRender(false);
@@ -461,7 +457,7 @@ const MainViewer: FunctionComponent = () => {
   useEffect(() => {
     if (shouldScrollToCanvas) {
       scrollViewer({
-        currentCanvas: canvases?.[queryParamToArrayIndex(canvas)],
+        currentCanvas,
         canvas,
         viewer: mainViewerRef?.current,
         mainAreaWidth,
@@ -469,39 +465,62 @@ const MainViewer: FunctionComponent = () => {
     }
   }, [canvas]);
 
-  useEffect(() => {
-    // Keeping this very simple for now - I think it'll just apply to audio, video and of course mixed works containing either of them.
-    // I would like to also have it return false for PDFs, but they currently do have a thumbnail image.
-    setHasImagesOnly(!canvases?.find(canvas => !canvas.thumbnailImage?.url));
-  }, []);
+  const displayItems = currentCanvas ? getDisplayItems(currentCanvas) : [];
+  const useFixedSizeList = !hasNonImages(canvases);
+  if (!useFixedSizeList) {
+    setShowFullscreenControl(false);
+  }
 
   return (
-    <div data-testid="main-viewer">
-      <FixedSizeList
-        width={mainAreaWidth}
-        style={{ width: `${mainAreaWidth}px`, margin: '0 auto' }}
-        height={mainAreaHeight}
-        itemCount={canvases?.length || 0}
-        itemData={{
-          scrollVelocity,
-          canvases: canvases || [],
-          setShowZoomed,
-          rotatedImages,
-          errorHandler,
-          externalAccessService,
-          canvas,
-          accessToken,
-          placeholderId,
-        }}
-        // We want images to render bigger than their height for readability
-        // But other things should be centered and therefore based on the height.
-        itemSize={hasImagesOnly ? mainAreaWidth : mainAreaHeight}
-        onItemsRendered={debounceHandleOnItemsRendered.current}
-        onScroll={handleOnScroll}
-        ref={mainViewerRef}
-      >
-        {ItemRenderer}
-      </FixedSizeList>
+    <div data-testid="main-viewer" style={{ height: '100%' }}>
+      {useFixedSizeList ? (
+        <FixedSizeList
+          width={mainAreaWidth}
+          style={{ width: `${mainAreaWidth}px`, margin: '0 auto' }}
+          height={mainAreaHeight}
+          itemCount={canvases?.length || 0}
+          itemData={{
+            scrollVelocity,
+            canvases: canvases || [],
+            setShowZoomed,
+            rotatedImages,
+            errorHandler,
+            externalAccessService,
+            canvas,
+            accessToken,
+            placeholderId,
+          }}
+          itemSize={mainAreaWidth}
+          onItemsRendered={debounceHandleOnItemsRendered.current}
+          onScroll={handleOnScroll}
+          ref={mainViewerRef}
+        >
+          {ItemRenderer}
+        </FixedSizeList>
+      ) : (
+        <>
+          {displayItems.map((item, i) => {
+            return (
+              <>
+                {currentCanvas ? (
+                  <ItemWrapper key={i}>
+                    <IIIFItem
+                      placeholderId={placeholderId}
+                      item={item}
+                      i={1}
+                      canvas={currentCanvas}
+                      titleOverride={`${canvas}/${canvases?.length}`}
+                      exclude={[]}
+                      isDark={true}
+                    />
+                  </ItemWrapper>
+                ) : null}
+              </>
+            );
+          })}
+          <CanvasPaginator />;
+        </>
+      )}
     </div>
   );
 };

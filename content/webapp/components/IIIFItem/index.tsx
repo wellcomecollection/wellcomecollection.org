@@ -11,6 +11,7 @@ import {
   unavailableContentMessage,
 } from '@weco/common/data/microcopy';
 import { information } from '@weco/common/icons';
+import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Icon from '@weco/common/views/components/Icon';
@@ -21,6 +22,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import { useUser } from '@weco/common/views/components/UserProvider';
 import AudioPlayer from '@weco/content/components/AudioPlayer';
+import AudioPlayerNew from '@weco/content/components/AudioPlayerNew';
 import BetaMessage from '@weco/content/components/BetaMessage';
 import ImageViewer from '@weco/content/components/IIIFViewer/ImageViewer';
 import VideoPlayer from '@weco/content/components/VideoPlayer';
@@ -73,7 +75,16 @@ const IconContainer = styled(Space).attrs({
 
 const Choice: FunctionComponent<
   ItemProps & { RenderItem: FunctionComponent<ItemProps> }
-> = ({ canvas, item, placeholderId, i, RenderItem, exclude }) => {
+> = ({
+  canvas,
+  item,
+  placeholderId,
+  titleOverride,
+  RenderItem,
+  exclude,
+  i,
+  isDark,
+}) => {
   // We may have multiple items, such as videos of different formats
   // but we only show the first of these currently
   if ('items' in item) {
@@ -84,10 +95,12 @@ const Choice: FunctionComponent<
           <RenderItem
             key={firstItem.id}
             item={firstItem}
+            i={i}
             canvas={canvas}
             placeholderId={placeholderId}
-            i={i}
+            titleOverride={titleOverride}
             exclude={exclude}
+            isDark={isDark}
           />
         </>
       );
@@ -149,24 +162,26 @@ export type IIIFItemProps =
 type ItemProps = {
   canvas: TransformedCanvas;
   item: IIIFItemProps;
-  placeholderId: string | undefined;
   i: number;
+  placeholderId?: string;
+  titleOverride?: string;
   exclude: (ContentResource['type'] | 'Audio' | ChoiceBody['type'])[]; // Allows us to prevent specific types being rendered
   setImageRect?: (v: DOMRect) => void;
   setImageContainerRect?: (v: DOMRect) => void;
+  isDark?: boolean;
 };
 
 const PublicRestrictedMessage: FunctionComponent<{
   canvas: TransformedCanvas;
-  i: number;
-}> = ({ canvas, i }) => {
+  titleOverride?: string;
+}> = ({ canvas, titleOverride }) => {
   return (
     <div className="audio">
       <Space
         className={font('intb', 5)}
         $v={{ size: 'm', properties: ['margin-bottom'] }}
       >
-        {(canvas.label !== '-' && canvas.label) || `${i + 1}`}
+        {(canvas.label !== '-' && canvas.label) || `${titleOverride}`}
       </Space>
       <p className={font('intr', 5)}>{restrictedItemMessage}</p>
     </div>
@@ -188,15 +203,25 @@ const StaffRestrictedMessage: FunctionComponent = () => {
 const Wrapper: FunctionComponent<{
   shouldShowItem: boolean;
   className: string;
-  i: number;
+  titleOverride?: string;
   canvas: TransformedCanvas;
   isRestricted: boolean;
   children: ReactNode | undefined;
-}> = ({ shouldShowItem, className, i, canvas, isRestricted, children }) => {
+}> = ({
+  shouldShowItem,
+  className,
+  titleOverride,
+  canvas,
+  isRestricted,
+  children,
+}) => {
   if (shouldShowItem) {
     return (
       <Outline className="item-wrapper">
-        <PublicRestrictedMessage canvas={canvas} i={i} />
+        <PublicRestrictedMessage
+          canvas={canvas}
+          titleOverride={titleOverride}
+        />
       </Outline>
     );
   } else {
@@ -216,14 +241,18 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   canvas,
   item,
   placeholderId,
+  titleOverride,
   i,
   exclude,
   setImageRect,
   setImageContainerRect,
+  isDark,
 }) => {
   const { userIsStaffWithRestricted } = useUser();
   const isRestricted = isItemRestricted(item);
   const shouldShowItem = isItemRestricted(item) && !userIsStaffWithRestricted;
+  const { audioPlayer, extendedViewer } = useToggles();
+
   // N.B. Restricted images are handled differently from restricted audio/video and text.
   // The isItemRestricted function doesn't account for restricted images.
   // Instead there is a hasRestrictedImage property on the TransformedCanvas which is used by
@@ -238,38 +267,52 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         <Choice
           key={item.id}
           item={item}
+          i={i}
           canvas={canvas}
           placeholderId={placeholderId}
-          i={i}
+          titleOverride={titleOverride}
           RenderItem={IIIFItem}
           exclude={exclude}
           setImageRect={setImageRect}
           setImageContainerRect={setImageContainerRect}
+          isDark={isDark}
         />
       );
+
     case ((item.type === 'Sound' && !exclude.includes('Sound')) ||
       (item.type === 'Audio' && !exclude.includes('Audio'))) &&
-      Boolean(item.id):
+      !!item.id:
       return (
         <Wrapper
           shouldShowItem={shouldShowItem}
           className="item-wrapper"
-          i={i}
+          titleOverride={titleOverride}
           canvas={canvas}
           isRestricted={isRestricted}
         >
-          <AudioPlayer
-            audioFile={item.id || ''}
-            title={(canvas.label !== '-' && canvas.label) || `${i + 1}`}
-          />
+          {audioPlayer && extendedViewer ? (
+            <AudioPlayerNew
+              isDark
+              audioFile={item.id}
+              title={(canvas.label !== '-' && canvas.label) || titleOverride}
+            />
+          ) : (
+            <AudioPlayer
+              audioFile={item.id}
+              title={
+                (canvas.label !== '-' && canvas.label) || titleOverride || ''
+              }
+            />
+          )}
         </Wrapper>
       );
+
     case item.type === 'Video' && !exclude.includes('Video'):
       return (
         <Wrapper
           shouldShowItem={shouldShowItem}
           className="item-wrapper"
-          i={i}
+          titleOverride={titleOverride}
           canvas={canvas}
           isRestricted={isRestricted}
         >
@@ -279,10 +322,14 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
               video={item}
               showDownloadOptions={true}
             />
-            <VideoTranscript supplementing={canvas.supplementing} />
+            <VideoTranscript
+              supplementing={canvas.supplementing}
+              isDark={isDark}
+            />
           </>
         </Wrapper>
       );
+
     case item.type === 'Text' && !exclude.includes('Text'):
       if ('label' in item) {
         const itemLabel = item.label
@@ -292,7 +339,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           <Wrapper
             shouldShowItem={shouldShowItem}
             className="pdf-wrapper"
-            i={i}
+            titleOverride={titleOverride}
             canvas={canvas}
             isRestricted={isRestricted}
           >
@@ -304,8 +351,19 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           </Wrapper>
         );
       } else {
-        return <IframePdfViewer as="iframe" title="PDF" src={item.id} />;
+        return (
+          <Wrapper
+            shouldShowItem={shouldShowItem}
+            className="pdf-wrapper"
+            titleOverride={titleOverride}
+            canvas={canvas}
+            isRestricted={isRestricted}
+          >
+            <IframePdfViewer as="iframe" title="PDF" src={item.id} />
+          </Wrapper>
+        );
       }
+
     case item.type === 'Image' && !exclude.includes('Image'):
       return (
         <IIIFImage
@@ -316,6 +374,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           setImageContainerRect={setImageContainerRect}
         />
       );
+
     default: // There are other types we don't do anything with at present, e.g. Dataset
       if (!exclude.includes(item.type)) {
         // If the item hasn't been purposefully excluded then we should show a message

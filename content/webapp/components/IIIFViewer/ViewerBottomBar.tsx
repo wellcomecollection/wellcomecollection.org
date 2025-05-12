@@ -3,7 +3,7 @@
 import { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 
-import { expand, gridView, singlePage } from '@weco/common/icons';
+import { gridView, maximise, singlePage } from '@weco/common/icons';
 import { AppContext } from '@weco/common/views/components/AppContext';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -11,7 +11,7 @@ import ItemViewerContext from '@weco/content/components/ItemViewerContext';
 import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 
-import { ShameButton } from './ViewerTopBar';
+import { ViewerButton } from './ViewerTopBar';
 
 const BottomBar = styled.div`
   position: relative;
@@ -90,7 +90,7 @@ const ViewerBottomBar: FunctionComponent = () => {
         {isEnhanced && isFullscreenEnabled && (
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Space $h={{ size: 'm', properties: ['margin-right'] }}>
-              <ShameButton
+              <ViewerButton
                 $isDark
                 onClick={() => {
                   if (viewerRef?.current) {
@@ -113,9 +113,9 @@ const ViewerBottomBar: FunctionComponent = () => {
                   }
                 }}
               >
-                <Icon icon={expand} />
-                <span className="btn__text">Full screen</span>
-              </ShameButton>
+                <Icon icon={maximise} />
+                <span style={{ marginLeft: '7px' }}>Full screen</span>
+              </ViewerButton>
             </Space>
           </div>
         )}
