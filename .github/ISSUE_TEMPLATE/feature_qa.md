@@ -1,6 +1,6 @@
 ---
 name: Feature QA
-about: QA a feature 
+about: QA a feature
 title: ''
 labels: ''
 assignees: ''
@@ -17,12 +17,12 @@ Link to design file, if relevant: <!-- Add link here -->
 
 ### QA steps
 *You may need to write more than one set of steps for QAing.*
-1. e.g. Go to [URL]
-2. e.g. Login
-3. e.g. Click on x
+- [ ] 1. e.g. Go to [URL]
+- [ ] 2. e.g. Login
+- [ ] 3. e.g. Click on x
 
 ### Scope
-**Type of feedback required (tick of remove as required):** 
+**Type of feedback required (tick of remove as required):**
 - [ ] Functional
 - [ ] Browser testing
 - [ ] Visual design
@@ -57,15 +57,15 @@ I have ...
 ## To be completed by QA reviewers:
 
 ### Browser testing
-**Browsers** to be tested (latest version ...???)
+**Desktop**
 - [ ] Chrome
 - [ ] Safari
-- [ ] Android Webview
 - [ ] Firefox
-- [ ] Edge
-- [ ] Samsung Internet
-- [ ] Safari (in-app)
-- [ ] Opera Mini (extreme mode)
+
+**Mobile**
+- [ ] Safari (iPhone and iPad)
+- [ ] Chrome (Android)
+- [ ] Samsung internet (Android)
 
 *[Supported browsers](https://app.gitbook.com/o/-LumfFcEMKx4gYXKAZTQ/s/DPDDj27NI2F2kPukWrC1/readme/front-end/front-end-principles#browser-device-support)*
 
@@ -75,4 +75,4 @@ I have ...
 *Remove any discipline if out of scope of the QA*
 - [ ] Visual design
 - [ ] UX
-- [ ] Product Manager final sign off (please comment then close the ticket
+- [ ] Product Manager final sign off (please comment then close the ticket)
