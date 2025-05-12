@@ -209,10 +209,7 @@ function getAccessibilityItems(): ExhibitionItem[] {
 
   return accessibilityItems.filter(item => {
     if (item.description[0] && 'text' in item.description[0]) {
-      return (
-        item.description[0]?.text !== a11y.bsl &&
-        item.description[0]?.text !== a11y.accessResources
-      );
+      return item.description[0]?.text !== a11y.largePrintGuides;
     } else {
       return true;
     }
