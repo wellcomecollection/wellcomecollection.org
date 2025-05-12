@@ -83,6 +83,7 @@ const Choice: FunctionComponent<
   RenderItem,
   exclude,
   i,
+  isDark,
 }) => {
   // We may have multiple items, such as videos of different formats
   // but we only show the first of these currently
@@ -99,6 +100,7 @@ const Choice: FunctionComponent<
             placeholderId={placeholderId}
             titleOverride={titleOverride}
             exclude={exclude}
+            isDark={isDark}
           />
         </>
       );
@@ -166,6 +168,7 @@ type ItemProps = {
   exclude: (ContentResource['type'] | 'Audio' | ChoiceBody['type'])[]; // Allows us to prevent specific types being rendered
   setImageRect?: (v: DOMRect) => void;
   setImageContainerRect?: (v: DOMRect) => void;
+  isDark?: boolean;
 };
 
 const PublicRestrictedMessage: FunctionComponent<{
@@ -243,6 +246,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   exclude,
   setImageRect,
   setImageContainerRect,
+  isDark,
 }) => {
   const { userIsStaffWithRestricted } = useUser();
   const isRestricted = isItemRestricted(item);
@@ -271,6 +275,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           exclude={exclude}
           setImageRect={setImageRect}
           setImageContainerRect={setImageContainerRect}
+          isDark={isDark}
         />
       );
 
@@ -317,7 +322,10 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
               video={item}
               showDownloadOptions={true}
             />
-            <VideoTranscript supplementing={canvas.supplementing} />
+            <VideoTranscript
+              supplementing={canvas.supplementing}
+              isDark={isDark}
+            />
           </>
         </Wrapper>
       );
