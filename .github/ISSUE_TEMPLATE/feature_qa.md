@@ -22,7 +22,7 @@ Link to design file, if relevant: <!-- Add link here -->
 - [ ] 3. e.g. Click on x
 
 ### Scope
-**Type of feedback required (tick of remove as required):**
+**Type of feedback required (tick or remove as required):**
 - [ ] Functional
 - [ ] Browser testing
 - [ ] Visual design
