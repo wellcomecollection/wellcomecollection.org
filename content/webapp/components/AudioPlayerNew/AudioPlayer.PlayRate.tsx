@@ -177,7 +177,6 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
               return (
                 <PlayRateButton
                   key={speed}
-                  $isActive={audioPlaybackRate === speed}
                   $isDark={isDark}
                   onClick={() => updatePlaybackRate(speed)}
                 >
