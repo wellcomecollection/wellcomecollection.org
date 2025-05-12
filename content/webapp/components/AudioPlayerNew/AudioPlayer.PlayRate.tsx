@@ -181,7 +181,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
                   $isDark={isDark}
                   onClick={() => updatePlaybackRate(speed)}
                 >
-                  <span style={{ display: 'flex', alignItems: 'end' }}>
+                  <span style={{ display: 'flex', alignItems: 'center' }}>
                     {speed}x
                     {audioPlaybackRate === speed && (
                       <Space $h={{ size: 'xl', properties: ['margin-left'] }}>
