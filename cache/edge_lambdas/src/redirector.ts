@@ -3,14 +3,18 @@ import { URLSearchParams } from 'url';
 
 import { literalRedirects, pathRedirects, queryRedirects } from './redirects';
 
-export const redirect301 = (host: string, path: string) => ({
+export const redirect301 = (
+  host: string,
+  path: string,
+  querystring: string | null = null
+) => ({
   status: '301',
   statusDescription: 'Found',
   headers: {
     location: [
       {
         key: 'Location',
-        value: `https://${host}${path}`,
+        value: `https://${host}${path}${querystring ? '?' + querystring : ''}`,
       },
     ],
     'x-powered-by': [
@@ -116,24 +120,31 @@ export const getRedirect = (
         potentialRedirect.forwardParams,
         potentialRedirect.modifiedParams
       );
-      const requestParamsString = newParams.toString();
 
       return redirect301(
         host,
-        requestParamsString
-          ? potentialRedirect.redirectPath + '?' + requestParamsString
-          : potentialRedirect.redirectPath
+        potentialRedirect.redirectPath,
+        newParams.toString()
       );
     }
   }
 
+  // Redirect old works.* and content.* URLs to prevent issues with requesting
+  // (see https://github.com/wellcomecollection/platform/issues/6002).
+  // We should not redirect 'content.www-stage' because it is being used to deliver static content
   const subdomainRedirectHosts = [
     'works.wellcomecollection.org',
+    'works.www-stage.wellcomecollection.org',
+    'works.www-e2e.wellcomecollection.org',
     'content.wellcomecollection.org',
   ];
 
   if (parsedHost && subdomainRedirectHosts.includes(parsedHost)) {
-    return redirect301('wellcomecollection.org', request.uri);
+    return redirect301(
+      parsedHost.split('.').slice(1).join('.'), // Remove 'works.' or 'content.' from the URL
+      request.uri,
+      request.querystring
+    );
   }
 
   return undefined;
