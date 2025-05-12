@@ -7,46 +7,54 @@ import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
-const DownloadLinkStyle = styled.a.attrs({
-  className: font('intb', 5),
-})`
+const DownloadLinkStyle = styled.a.attrs<{ $isDark?: boolean }>(props => ({
+  className: props.$isDark ? font('intr', 5) : font('intb', 5),
+}))<{ $isDark?: boolean }>`
   display: inline-block;
   white-space: nowrap;
-  background: ${props => props.theme.color('white')};
-  color: ${props => props.theme.color('accent.green')};
-
-  text-decoration: underline;
-  text-underline-offset: 0.1em;
+  background: ${props => (props.$isDark ? 'none' : props.theme.color('white'))};
+  color: ${props =>
+    props.$isDark
+      ? props.theme.color('white')
+      : props.theme.color('accent.green')};
   transition: color ${props => props.theme.transitionProperties};
 
   &:hover {
-    color: ${props => props.theme.color('accent.green')};
+    color: ${props =>
+      props.$isDark
+        ? props.theme.color('white')
+        : props.theme.color('accent.green')};
     text-decoration-color: transparent;
   }
 `;
 
-const DownloadLinkUnStyled = styled.a`
+const DownloadLinkUnStyled = styled.a<{ $isDark?: boolean }>`
   position: relative;
 `;
 
-const Format = styled(Space).attrs({
-  className: font('intb', 5),
+const Format = styled(Space).attrs<{ $isDark?: boolean }>(props => ({
+  className: props.$isDark ? font('intr', 5) : font('intb', 5),
   $h: { size: 'm', properties: ['margin-left'] },
-})`
-  color: ${props => props.theme.color('neutral.600')};
+}))<{ $isDark?: boolean }>`
+  color: ${props =>
+    props.$isDark
+      ? props.theme.color('white')
+      : props.theme.color('neutral.600')};
 `;
 
-const TextToDisplay = styled.span`
+const TextToDisplay = styled.span<{ $isDark?: boolean }>`
   margin: 0;
+  text-decoration: ${props => (props.$isDark ? 'underline' : 'none')};
+  text-underline-offset: 0.1em;
 `;
 
 /**
  * TODO: figure out why Icon isn't able to be wrapped by styled...
  */
-const IconWrapper = styled.span<{ $forceInline: boolean }>`
-  div {
-    ${({ $forceInline }) => $forceInline && 'top: 5px;'}
-  }
+const IconWrapper = styled(Space).attrs<{
+  $forceInline: boolean;
+}>({ $h: { size: 's', properties: ['margin-right'] } })`
+  display: inline-flex;
 `;
 
 type DisplayText =
@@ -66,6 +74,7 @@ type Props = {
   width?: 'full' | number;
   mimeType: string;
   trackingTags?: string[];
+  isDark?: boolean;
 } & DisplayText;
 const DownloadLink: FunctionComponent<Props> = ({
   isTabbable = true,
@@ -76,11 +85,13 @@ const DownloadLink: FunctionComponent<Props> = ({
   mimeType,
   trackingTags = [],
   children,
+  isDark,
 }: Props) => {
   const Wrapper = linkText ? DownloadLinkStyle : DownloadLinkUnStyled;
-
+  const iconColor = isDark ? 'yellow' : 'accent.green';
   return (
     <Wrapper
+      $isDark={isDark}
       tabIndex={isTabbable ? undefined : -1}
       target="_blank"
       rel="noopener noreferrer"
@@ -100,10 +111,14 @@ const DownloadLink: FunctionComponent<Props> = ({
         }
       >
         <IconWrapper $forceInline={!!children}>
-          <Icon icon={download} matchText={!!children} />
+          <Icon icon={download} matchText={!!children} iconColor={iconColor} />
         </IconWrapper>
-        <TextToDisplay>{linkText || children}</TextToDisplay>
-        {format && <Format as="span">({format})</Format>}
+        <TextToDisplay $isDark={isDark}>{linkText || children}</TextToDisplay>
+        {format && (
+          <Format as="span" $isDark={isDark}>
+            ({format})
+          </Format>
+        )}
       </span>
     </Wrapper>
   );
