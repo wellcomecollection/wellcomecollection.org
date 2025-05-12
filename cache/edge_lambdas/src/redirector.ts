@@ -129,9 +129,11 @@ export const getRedirect = (
     }
   }
 
-  // Redirect old works.* and content.* URLs to prevent issues with requesting
+  // Redirect old 'works' and 'content' URLs to prevent issues with requesting
   // (see https://github.com/wellcomecollection/platform/issues/6002).
-  // We should not redirect 'content.www-stage' because it is being used to deliver static content
+  // Note: We cannot simply redirect everything starting with 'works.' or 'content.', as 'content.www.wellcomecollection.org'
+  // is being used to deliver static content. We also should not redirect 'content.www-stage.wellcomecollection.org'
+  // for the same reason.
   const subdomainRedirectHosts = [
     'works.wellcomecollection.org',
     'works.www-stage.wellcomecollection.org',
