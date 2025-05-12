@@ -20,9 +20,7 @@ Digital Production (digitisation):
 Digital Editorial Content:
  Grace Brewer
  Lalita Kaplish
- Helen Babbs
  Vanesha Singh
- Kate Quarry
 
 Photography:
  Richard Everett
@@ -36,7 +34,6 @@ Photography:
 Digital Platform:
  Gareth Estchild
  David McCormick
- Jamie Parkinson
  Natalie Pollecutt
  Paul Butcher
  Raphaëlle Cantin
@@ -100,6 +97,9 @@ Digital Platform:
  Chloe Guest
  Dave Thompson
  Jason Jaworski
+ Jamie Parkinson
+ Kate Quarry
+ Helen Babbs
 
 /* THANKS */
 
