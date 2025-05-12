@@ -20,11 +20,7 @@ resource "aws_cloudfront_cache_policy" "static_content" {
     }
 
     headers_config {
-      header_behavior = "whitelist"
-
-      headers {
-        items = ["Host"]
-      }
+      header_behavior = "none"
     }
 
     query_strings_config {
@@ -112,11 +108,7 @@ resource "aws_cloudfront_cache_policy" "weco_apps_all_params" {
     }
 
     headers_config {
-      header_behavior = "whitelist"
-
-      headers {
-        items = ["Host"]
-      }
+      header_behavior = "none"
     }
 
     query_strings_config {
@@ -151,11 +143,7 @@ resource "aws_cloudfront_cache_policy" "short_lived_toggles_only" {
     }
 
     headers_config {
-      header_behavior = "whitelist"
-
-      headers {
-        items = ["Host"]
-      }
+      header_behavior = "none"
     }
 
     query_strings_config {
