@@ -58,10 +58,11 @@ const ItemWrapper = styled.div`
     display: block;
     margin: auto;
     width: 100%;
-    max-height: 90%;
+    max-height: calc(
+      100vh - ${props => props.theme.navHeight}px - 140px
+    ); /* 140px allows for the height of the header and the transcript link */
   }
-`;
-
+`; // minus height of the header
 type OverlayPositionData = {
   canvasNumber: number;
   overlayTop: number;
@@ -508,6 +509,7 @@ const MainViewer: FunctionComponent = () => {
                       canvas={currentCanvas}
                       titleOverride={`${canvas}/${canvases?.length}`}
                       exclude={[]}
+                      isDark={true}
                     />
                   </ItemWrapper>
                 ) : null}

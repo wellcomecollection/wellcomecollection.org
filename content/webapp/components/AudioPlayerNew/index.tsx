@@ -55,14 +55,14 @@ const SkipPlayWrapper = styled.div`
 
 const colorTransform = css<{ $isDark: boolean }>`
   color: ${props =>
-    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+    props.$isDark ? props.theme.color('yellow') : props.theme.color('black')};
   transform: scale(1.1);
 `;
 
 const SkipButton = styled.button<{ $isDark: boolean }>`
   padding: ${props => props.theme.spacingUnits['5']}px 0 0;
   color: ${props =>
-    props.$isDark ? props.theme.color('yellow') : props.theme.color('black')};
+    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
 
   transition:
     color 0.2s ease-out,
@@ -90,7 +90,7 @@ const PlayerRateWrapper = styled.div`
 
 const colorTransformIconFill = css<{ $isDark: boolean }>`
   color: ${props =>
-    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+    props.$isDark ? props.theme.color('yellow') : props.theme.color('black')};
   transform: scale(1.1);
 
   .icon__playpause {
@@ -105,12 +105,15 @@ const TitleWrapper = styled.span<{ $isDark: boolean }>`
 `;
 
 const PlayPauseInner = styled.div<{ $isDark: boolean }>`
-  color: ${props => props.theme.color('yellow')};
+  color: ${props =>
+    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
   transition:
     color 0.2s ease-out,
     transform 0.2s ease-out;
 
   .icon__playpause {
+    fill: ${props =>
+      props.$isDark ? props.theme.color('black') : props.theme.color('white')};
     transition: fill 0.2s ease-out;
   }
 
