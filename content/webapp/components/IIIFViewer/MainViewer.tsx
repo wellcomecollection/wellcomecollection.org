@@ -341,6 +341,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                     exclude={[]}
                     setImageRect={setImageRect}
                     setImageContainerRect={setImageContainerRect}
+                    isInViewer
                   />
                 </ItemWrapper>
               );
@@ -510,6 +511,7 @@ const MainViewer: FunctionComponent = () => {
                       canvas={currentCanvas}
                       titleOverride={`${canvas}/${canvases?.length}`}
                       exclude={[]}
+                      isInViewer
                     />
                   </ItemWrapper>
                 ) : null}

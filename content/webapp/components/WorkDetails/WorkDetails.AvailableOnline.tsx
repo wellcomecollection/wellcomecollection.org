@@ -5,22 +5,22 @@ import styled from 'styled-components';
 
 import {
   bornDigitalMessage,
-  restrictedItemMessage,
   treeInstructions,
 } from '@weco/common/data/microcopy';
-import { eye, info2, play } from '@weco/common/icons';
+import { eye, info2 } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { LinkProps } from '@weco/common/model/link-props';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
-import { formatDuration } from '@weco/common/utils/format-date';
 import { pluralize } from '@weco/common/utils/grammar';
 import { AppContext } from '@weco/common/views/components/AppContext';
 import Button from '@weco/common/views/components/Buttons';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon';
-import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
-import PlainList from '@weco/common/views/components/styled/PlainList';
+import Layout, {
+  gridSize12,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { useUser } from '@weco/common/views/components/UserProvider';
 import {
@@ -52,15 +52,10 @@ import {
   getFormatString,
   getIframeTokenSrc,
   getLabelString,
-  getVideoAudioDownloadOptions,
   isAllOriginalPdfs,
   isAudioCanvas,
-  isItemRestricted,
 } from '@weco/content/utils/iiif/v3';
-import {
-  DigitalLocationInfo,
-  getAudioVideoLabel,
-} from '@weco/content/utils/works';
+import { DigitalLocationInfo } from '@weco/content/utils/works';
 
 import WorkDetailsLicence from './WorkDetails.Licence';
 import WorkDetailsSection from './WorkDetails.Section';
@@ -178,26 +173,6 @@ const ItemPageLink = ({
     authServices?.external?.id ===
     'https://iiif.wellcomecollection.org/auth/restrictedlogin';
 
-  const getTypeAndDuration = (
-    canvas: TransformedCanvas
-  ): {
-    type: string;
-    duration?: string;
-  } => {
-    const paintingItem = getCanvasPaintingItem(canvas);
-
-    const duration =
-      paintingItem &&
-      'duration' in paintingItem &&
-      typeof paintingItem.duration === 'number'
-        ? formatDuration(Math.round(paintingItem.duration))
-        : undefined;
-
-    const isAudio = isAudioCanvas(paintingItem);
-
-    return { type: isAudio ? 'Audio' : 'Video', duration };
-  };
-
   // Make sure paintings are all video or audio
   const isAllAudioOrVideo = !(
     canvases?.find(canvas => !isAudioCanvas(getCanvasPaintingItem(canvas))) &&
@@ -233,33 +208,43 @@ const ItemPageLink = ({
         </Space>
       )}
 
-      <ConditionalWrapper
-        condition={isWorkVisibleWithPermission}
-        wrapper={children => (
-          <Layout gridSizes={gridSize8(false)}>
-            <RestrictedMessage>
-              <RestrictedMessageTitle>
-                <Icon icon={info2} />
-                <h3 className={font('intsb', 4)}>Restricted item</h3>
-              </RestrictedMessageTitle>
+      {isAllAudioOrVideo && extendedViewer ? (
+        <IIIFItemList
+          canvases={canvases}
+          exclude={['Image', 'Text']}
+          placeholderId="placeholderId"
+          itemUrl={itemUrl}
+        />
+      ) : (
+        <ConditionalWrapper
+          condition={isWorkVisibleWithPermission}
+          wrapper={children => (
+            <Layout
+              gridSizes={extendedViewer ? gridSize12() : gridSize8(false)}
+            >
+              <RestrictedMessage>
+                <RestrictedMessageTitle>
+                  <Icon icon={info2} />
+                  <h3 className={font('intsb', 4)}>Restricted item</h3>
+                </RestrictedMessageTitle>
 
-              <p style={{ marginBottom: '1rem' }}>
-                Only staff with the right permissions can view this item online.
-              </p>
-
-              {manifestNeedsRegeneration && (
                 <p style={{ marginBottom: '1rem' }}>
-                  The manifest for this work needs to be regenerated in order
-                  for staff with restricted access to be able to view it.
+                  Only staff with the right permissions can view this item
+                  online.
                 </p>
-              )}
-              {children}
-            </RestrictedMessage>
-          </Layout>
-        )}
-      >
-        {!extendedViewer &&
-          ((collectionManifestsCount && collectionManifestsCount > 0) ||
+
+                {manifestNeedsRegeneration && (
+                  <p style={{ marginBottom: '1rem' }}>
+                    The manifest for this work needs to be regenerated in order
+                    for staff with restricted access to be able to view it.
+                  </p>
+                )}
+                {children}
+              </RestrictedMessage>
+            </Layout>
+          )}
+        >
+          {((collectionManifestsCount && collectionManifestsCount > 0) ||
             (canvasCount && canvasCount > 0)) && (
             <ConditionalWrapper
               condition={isWorkVisibleWithPermission}
@@ -280,110 +265,34 @@ const ItemPageLink = ({
             </ConditionalWrapper>
           )}
 
-        {extendedViewer &&
-          canvases &&
-          canvases.length > 0 &&
-          isAllAudioOrVideo && (
+          {(itemUrl || isDownloadable) && (
             <Space
               $v={{ size: 's', properties: ['margin-top'] }}
               style={{ display: 'flex' }}
             >
-              <PlainList style={{ width: '100%' }}>
-                {canvases.map((canvas, i) => {
-                  const index = i + 1;
-                  const { type, duration } = getTypeAndDuration(canvas);
-                  const canvasLabel = getAudioVideoLabel(
-                    canvas.label,
-                    `${type} ${index}`
-                  );
-
-                  const isRestricted = isItemRestricted(
-                    getCanvasPaintingItem(canvas)
-                  );
-                  const shouldShowItem =
-                    !isRestricted ||
-                    (isRestricted && userIsStaffWithRestricted);
-
-                  // Could have more than one download option
-                  const downloadableCanvas: DownloadOption[] | undefined =
-                    getVideoAudioDownloadOptions(canvas);
-
-                  const viewerQuery = index > 1 ? { canvas: index } : {};
-
-                  return (
-                    <li
-                      key={canvas.id}
-                      style={{
-                        width: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        marginBottom: '1rem',
-                      }}
-                    >
-                      <span>{canvasLabel}</span>
-
-                      {shouldShowItem && (
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                          {duration && (
-                            <span style={{ marginRight: '1rem' }}>
-                              {duration} {type === 'Audio' ? 'listen' : 'watch'}{' '}
-                              time
-                            </span>
-                          )}
-
-                          <Button
-                            variant="ButtonSolidLink"
-                            icon={play}
-                            text="Play"
-                            link={{
-                              ...itemUrl,
-                              href: { ...itemUrl.href, query: viewerQuery },
-                              as: { ...itemUrl.as, query: viewerQuery },
-                            }}
-                          />
-
-                          {downloadableCanvas && (
-                            <Download
-                              ariaControlsId={`itemDownload ` + index}
-                              downloadOptions={downloadableCanvas}
-                            />
-                          )}
-                        </div>
-                      )}
-
-                      {isRestricted && <div>{restrictedItemMessage}</div>}
-                    </li>
-                  );
-                })}
-              </PlainList>
+              {itemUrl && (
+                <Space
+                  as="span"
+                  $h={{ size: 'm', properties: ['margin-right'] }}
+                >
+                  <Button
+                    variant="ButtonSolidLink"
+                    icon={eye}
+                    text="View"
+                    link={itemUrl}
+                  />
+                </Space>
+              )}
+              {isDownloadable && (
+                <Download
+                  ariaControlsId="itemDownloads"
+                  downloadOptions={downloadOptions}
+                />
+              )}
             </Space>
           )}
-
-        {!isAllAudioOrVideo && (itemUrl || isDownloadable) && (
-          <Space
-            $v={{ size: 's', properties: ['margin-top'] }}
-            style={{ display: 'flex' }}
-          >
-            {itemUrl && (
-              <Space as="span" $h={{ size: 'm', properties: ['margin-right'] }}>
-                <Button
-                  variant="ButtonSolidLink"
-                  icon={eye}
-                  text="View"
-                  link={itemUrl}
-                />
-              </Space>
-            )}
-            {isDownloadable && (
-              <Download
-                ariaControlsId="itemDownloads"
-                downloadOptions={downloadOptions}
-              />
-            )}
-          </Space>
-        )}
-      </ConditionalWrapper>
+        </ConditionalWrapper>
+      )}
     </>
   );
 };
@@ -523,6 +432,7 @@ const WorkDetailsAvailableOnline = ({
                   canvases={canvases}
                   exclude={['Image', 'Text']}
                   placeholderId={placeholderId}
+                  itemUrl={itemUrl}
                 />
                 {rendering?.map(r => {
                   const rendering = r as ContentResource & {

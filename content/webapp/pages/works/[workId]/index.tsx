@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { getServerData } from '@weco/common/server-data';
-import { useToggles } from '@weco/common/server-data/Context';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -38,7 +37,6 @@ import {
   createApiToolbarWorkLinks,
   getDigitalLocationInfo,
   getDigitalLocationOfType,
-  newShowItemLink,
   showItemLink,
 } from '@weco/content/utils/works';
 
@@ -74,7 +72,6 @@ export const WorkPage: NextPage<Props> = ({
     work.parts.length ||
     (work.partOf.length > 0 && work.partOf[0].totalParts)
   );
-  const { extendedViewer } = useToggles();
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
@@ -94,24 +91,15 @@ export const WorkPage: NextPage<Props> = ({
 
   const allOriginalPdfs = isAllOriginalPdfs(canvases || []);
 
-  const shouldShowItemLink = extendedViewer
-    ? newShowItemLink({
-        userIsStaffWithRestricted,
-        allOriginalPdfs,
-        hasIIIFManifest: !!transformedManifest,
-        digitalLocation,
-        accessCondition: digitalLocationInfo?.accessCondition,
-        bornDigitalStatus,
-      })
-    : showItemLink({
-        userIsStaffWithRestricted,
-        allOriginalPdfs,
-        hasIIIFManifest: !!transformedManifest,
-        digitalLocation,
-        accessCondition: digitalLocationInfo?.accessCondition,
-        canvases,
-        bornDigitalStatus,
-      });
+  const shouldShowItemLink = showItemLink({
+    userIsStaffWithRestricted,
+    allOriginalPdfs,
+    hasIIIFManifest: !!transformedManifest,
+    digitalLocation,
+    accessCondition: digitalLocationInfo?.accessCondition,
+    canvases,
+    bornDigitalStatus,
+  });
 
   const imageUrl =
     iiifImageLocation && iiifImageLocation.url
