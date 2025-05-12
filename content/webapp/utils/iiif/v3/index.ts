@@ -58,7 +58,6 @@ export function getMultiVolumeLabel(
   return stringAtIndex1 === itemTitle ? stringAtIndex0 : stringAtIndex1;
 }
 
-// TODO: Should we make this be the same as getAudioVideoLabel but for Video as well etc?
 export function getDisplayLabel(
   internationalString: InternationalString,
   indexProps?: { index: number }
@@ -131,6 +130,8 @@ export function getTitle(
   label: InternationalString | string | undefined
 ): string {
   if (!label) return '';
+  console.log('label', label);
+
   if (typeof label === 'string') return label;
 
   return getDisplayLabel(label) || '';
