@@ -130,7 +130,6 @@ export function getTitle(
   label: InternationalString | string | undefined
 ): string {
   if (!label) return '';
-  console.log('label', label);
 
   if (typeof label === 'string') return label;
 
