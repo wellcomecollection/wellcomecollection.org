@@ -3,14 +3,18 @@ import { URLSearchParams } from 'url';
 
 import { literalRedirects, pathRedirects, queryRedirects } from './redirects';
 
-export const redirect301 = (host: string, path: string) => ({
+export const redirect301 = (
+  host: string,
+  path: string,
+  querystring: string | null = null
+) => ({
   status: '301',
   statusDescription: 'Found',
   headers: {
     location: [
       {
         key: 'Location',
-        value: `https://${host}${path}`,
+        value: `https://${host}${path}${querystring ? '?' + querystring : ''}`,
       },
     ],
     'x-powered-by': [
@@ -91,11 +95,7 @@ export const getRedirect = (
     return redirect301(host, literalRedirects[uriSansSlash]);
   }
 
-  if (
-    !literalRedirects[uriSansSlash] &&
-    firstPartOfPath &&
-    pathRedirects[firstPartOfPath]
-  ) {
+  if (firstPartOfPath && pathRedirects[firstPartOfPath]) {
     return redirect301(
       host,
       uriSansSlash.replace(firstPartOfPath, pathRedirects[firstPartOfPath])
@@ -120,15 +120,33 @@ export const getRedirect = (
         potentialRedirect.forwardParams,
         potentialRedirect.modifiedParams
       );
-      const requestParamsString = newParams.toString();
 
       return redirect301(
         host,
-        requestParamsString
-          ? potentialRedirect.redirectPath + '?' + requestParamsString
-          : potentialRedirect.redirectPath
+        potentialRedirect.redirectPath,
+        newParams.toString()
       );
     }
+  }
+
+  // Redirect old 'works' and 'content' URLs to prevent issues with requesting
+  // (see https://github.com/wellcomecollection/platform/issues/6002).
+  // Note: We cannot simply redirect everything starting with 'works.' or 'content.', as 'content.www.wellcomecollection.org'
+  // is being used to deliver static content. We also should not redirect 'content.www-stage.wellcomecollection.org'
+  // for the same reason.
+  const subdomainRedirectHosts = [
+    'works.wellcomecollection.org',
+    'works.www-stage.wellcomecollection.org',
+    'works.www-e2e.wellcomecollection.org',
+    'content.wellcomecollection.org',
+  ];
+
+  if (parsedHost && subdomainRedirectHosts.includes(parsedHost)) {
+    return redirect301(
+      parsedHost.split('.').slice(1).join('.'), // Remove 'works.' or 'content.' from the URL
+      request.uri,
+      request.querystring
+    );
   }
 
   return undefined;
