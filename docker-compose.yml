@@ -1,4 +1,3 @@
-version: '3.3'
 services:
   common:
     image: common_webapp
