@@ -30,6 +30,6 @@ volumes:
 Then run:
 
 ```console
-$ docker-compose build identity
-$ docker-compose run -p 3003:3003 identity yarn start:dev
+$ docker compose build identity
+$ docker compose run -p 3003:3003 identity yarn start:dev
 ```

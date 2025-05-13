@@ -42,16 +42,18 @@ const RightZone = styled(Space).attrs({
 const ViewerBottomBar: FunctionComponent = () => {
   const { isEnhanced } = useAppContext();
   const isFullscreenEnabled = useIsFullscreenEnabled();
-
   const {
     transformedManifest,
     gridVisible,
     setGridVisible,
     showZoomed,
     isMobileSidebarActive,
+    showFullscreenControl,
     viewerRef,
   } = useItemViewerContext();
+
   const { canvases } = { ...transformedManifest };
+
   return (
     <BottomBar>
       <LeftZone>
@@ -86,8 +88,8 @@ const ViewerBottomBar: FunctionComponent = () => {
           )}
       </LeftZone>
 
-      <RightZone>
-        {isEnhanced && isFullscreenEnabled && (
+      {isEnhanced && isFullscreenEnabled && showFullscreenControl && (
+        <RightZone>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Space $h={{ size: 'm', properties: ['margin-right'] }}>
               <ViewerButton
@@ -118,8 +120,8 @@ const ViewerBottomBar: FunctionComponent = () => {
               </ViewerButton>
             </Space>
           </div>
-        )}
-      </RightZone>
+        </RightZone>
+      )}
     </BottomBar>
   );
 };

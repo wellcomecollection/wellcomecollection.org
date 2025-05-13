@@ -73,6 +73,11 @@ const promises = urls.map(url =>
       // https://github.com/wellcomecollection/wellcomecollection.org/issues/11269
       'WCAG2AA.Principle2.Guideline2_4.2_4_1.H64.1',
     ],
+    log: {
+      debug: console.log,
+      error: console.error,
+      info: console.info,
+    },
   })
 );
 
@@ -99,7 +104,6 @@ Promise.all(promises)
         console.error(`!!! ${chalk.redBright('Fix these before merging')}`);
         console.log(...resultsLog);
 
-        // TODO do we want it to stop people from merging also when it's of type "warning" or "notice"?
         const hasErrors = results.find(result =>
           result.issues.find(issue => issue.type === 'error')
         );

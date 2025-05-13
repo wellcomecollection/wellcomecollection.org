@@ -301,6 +301,13 @@ export function getArchiveAncestorArray(work: Work): RelatedWork[] {
   return makeArchiveAncestorArray([], hierarchicalParentOf(work)).reverse();
 }
 
+export function getAudioVideoLabel(
+  label?: string,
+  titleOverride?: string
+): string | undefined {
+  return (label !== '-' && label) || titleOverride;
+}
+
 export type DigitalLocationInfo = {
   accessCondition: string | undefined;
   license: LicenseData | undefined;

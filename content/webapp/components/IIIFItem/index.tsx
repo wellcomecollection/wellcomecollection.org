@@ -12,6 +12,7 @@ import {
   unavailableContentMessage,
 } from '@weco/common/data/microcopy';
 import { information } from '@weco/common/icons';
+import { LinkProps } from '@weco/common/model/link-props';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -40,6 +41,9 @@ import {
   getLabelString,
   isItemRestricted,
 } from '@weco/content/utils/iiif/v3';
+import { getAudioVideoLabel } from '@weco/content/utils/works';
+
+import IIIFItemAudioVideoLink from './IIIFItem.AudioVideo';
 
 const IframePdfViewer = styled(Space)`
   width: 100%;
@@ -83,7 +87,9 @@ const Choice: FunctionComponent<
   RenderItem,
   exclude,
   i,
+  itemUrl,
   isDark,
+  isInViewer,
 }) => {
   // We may have multiple items, such as videos of different formats
   // but we only show the first of these currently
@@ -100,7 +106,9 @@ const Choice: FunctionComponent<
             placeholderId={placeholderId}
             titleOverride={titleOverride}
             exclude={exclude}
+            itemUrl={itemUrl}
             isDark={isDark}
+            isInViewer={isInViewer}
           />
         </>
       );
@@ -168,6 +176,8 @@ type ItemProps = {
   exclude: (ContentResource['type'] | 'Audio' | ChoiceBody['type'])[]; // Allows us to prevent specific types being rendered
   setImageRect?: (v: DOMRect) => void;
   setImageContainerRect?: (v: DOMRect) => void;
+  isInViewer?: boolean;
+  itemUrl?: LinkProps;
   isDark?: boolean;
 };
 
@@ -175,14 +185,19 @@ const PublicRestrictedMessage: FunctionComponent<{
   canvas: TransformedCanvas;
   titleOverride?: string;
 }> = ({ canvas, titleOverride }) => {
+  const audioLabel = getAudioVideoLabel(canvas.label, titleOverride);
+
   return (
     <div className="audio">
-      <Space
-        className={font('intb', 5)}
-        $v={{ size: 'm', properties: ['margin-bottom'] }}
-      >
-        {(canvas.label !== '-' && canvas.label) || `${titleOverride}`}
-      </Space>
+      {audioLabel && (
+        <Space
+          className={font('intb', 5)}
+          $v={{ size: 'm', properties: ['margin-bottom'] }}
+        >
+          {audioLabel}
+        </Space>
+      )}
+
       <p className={font('intr', 5)}>{restrictedItemMessage}</p>
     </div>
   );
@@ -200,7 +215,7 @@ const StaffRestrictedMessage: FunctionComponent = () => {
   );
 };
 
-const Wrapper: FunctionComponent<{
+const IIIFItemWrapper: FunctionComponent<{
   shouldShowItem: boolean;
   className: string;
   titleOverride?: string;
@@ -246,11 +261,13 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   exclude,
   setImageRect,
   setImageContainerRect,
+  isInViewer,
+  itemUrl,
   isDark,
 }) => {
   const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = isItemRestricted(item);
-  const shouldShowItem = isItemRestricted(item) && !userIsStaffWithRestricted;
+  const shouldShowItem = isRestricted && !userIsStaffWithRestricted;
   const { audioPlayer, extendedViewer } = useToggles();
 
   // N.B. Restricted images are handled differently from restricted audio/video and text.
@@ -275,7 +292,9 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           exclude={exclude}
           setImageRect={setImageRect}
           setImageContainerRect={setImageContainerRect}
+          itemUrl={itemUrl}
           isDark={isDark}
+          isInViewer={isInViewer}
         />
       );
 
@@ -283,7 +302,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       (item.type === 'Audio' && !exclude.includes('Audio'))) &&
       !!item.id:
       return (
-        <Wrapper
+        <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
           className="item-wrapper"
           titleOverride={titleOverride}
@@ -291,43 +310,61 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           isRestricted={isRestricted}
         >
           {audioPlayer && extendedViewer ? (
-            <AudioPlayerNew
-              isDark
-              audioFile={item.id}
-              title={(canvas.label !== '-' && canvas.label) || titleOverride}
-            />
+            isInViewer ? (
+              <AudioPlayerNew
+                isDark
+                audioFile={item.id}
+                title={getAudioVideoLabel(canvas.label, titleOverride) || ''}
+              />
+            ) : (
+              <IIIFItemAudioVideoLink
+                canvas={canvas}
+                i={i}
+                isRestricted={isRestricted}
+                item={item}
+                itemUrl={itemUrl}
+              />
+            )
           ) : (
             <AudioPlayer
               audioFile={item.id}
-              title={
-                (canvas.label !== '-' && canvas.label) || titleOverride || ''
-              }
+              title={getAudioVideoLabel(canvas.label, titleOverride) || ''}
             />
           )}
-        </Wrapper>
+        </IIIFItemWrapper>
       );
 
     case item.type === 'Video' && !exclude.includes('Video'):
       return (
-        <Wrapper
+        <IIIFItemWrapper
           shouldShowItem={shouldShowItem}
           className="item-wrapper"
           titleOverride={titleOverride}
           canvas={canvas}
           isRestricted={isRestricted}
         >
-          <>
-            <VideoPlayer
-              placeholderId={placeholderId}
-              video={item}
-              showDownloadOptions={true}
+          {extendedViewer && !isInViewer ? (
+            <IIIFItemAudioVideoLink
+              canvas={canvas}
+              i={i}
+              isRestricted={isRestricted}
+              item={item}
+              itemUrl={itemUrl}
             />
-            <VideoTranscript
-              supplementing={canvas.supplementing}
-              isDark={isDark}
-            />
-          </>
-        </Wrapper>
+          ) : (
+            <>
+              <VideoPlayer
+                placeholderId={placeholderId}
+                video={item}
+                showDownloadOptions={true}
+              />
+              <VideoTranscript
+                supplementing={canvas.supplementing}
+                isDark={isDark}
+              />
+            </>
+          )}
+        </IIIFItemWrapper>
       );
 
     case item.type === 'Text' && !exclude.includes('Text'):
@@ -336,7 +373,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           ? getLabelString(item.label as InternationalString)
           : '';
         return (
-          <Wrapper
+          <IIIFItemWrapper
             shouldShowItem={shouldShowItem}
             className="pdf-wrapper"
             titleOverride={titleOverride}
@@ -348,11 +385,11 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
               title={`PDF: ${itemLabel}`}
               src={item.id}
             />
-          </Wrapper>
+          </IIIFItemWrapper>
         );
       } else {
         return (
-          <Wrapper
+          <IIIFItemWrapper
             shouldShowItem={shouldShowItem}
             className="pdf-wrapper"
             titleOverride={titleOverride}
@@ -360,7 +397,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             isRestricted={isRestricted}
           >
             <IframePdfViewer as="iframe" title="PDF" src={item.id} />
-          </Wrapper>
+          </IIIFItemWrapper>
         );
       }
 
