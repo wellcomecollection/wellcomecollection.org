@@ -112,7 +112,7 @@ You can run both apps together with the following command:
 
 ### Running CI steps locally
 
-In order to reproduce a build step locally you can run the same `docker-compose` command that [Buildkite](https://buildkite.com/wellcomecollection/experience) runs.
+In order to reproduce a build step locally you can run the same `docker compose` command that [Buildkite](https://buildkite.com/wellcomecollection/experience) runs.
 
 See an example for `edge_lambdas` below. This example presumes you have an AWS credentials file set up to allow you to assume the CI role.
 
@@ -165,11 +165,11 @@ services:
 
 You will need to add a `command`, `volumes` and `environment` block to specify the required command and mount your AWS credentials in the running container.
 
-You can then run `docker-compose` commands as would occur in the CI environment.
+You can then run `docker compose` commands as would occur in the CI environment.
 
 ```shell script
-docker-compose edge_lambdas build
-docker-compose edge_lambdas run
+docker compose edge_lambdas build
+docker compose edge_lambdas run
 ```
 
 ## Linting
