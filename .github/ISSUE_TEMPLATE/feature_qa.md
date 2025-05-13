@@ -29,6 +29,7 @@ Link to design file, if relevant: <!-- Add link here -->
 - [ ] UX
 - [ ] Content
 - [ ] Accessibility
+- [ ] Analytics
 
 **What is in scope for the QA:**
 

@@ -69,7 +69,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({
     <EventsContainer>
       {events.map(event => {
         const image = transformImage(event.image);
-        const croppedImage = getCrop(image, '32:15');
+        const croppedImage = getCrop(image, '16:9');
 
         const times = transformEventTimes(event.id, event.times);
 
