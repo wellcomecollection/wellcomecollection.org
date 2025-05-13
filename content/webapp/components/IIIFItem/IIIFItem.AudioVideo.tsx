@@ -34,7 +34,7 @@ const getTypeAndDuration = (
   return { type: isAudio ? 'Audio' : 'Video', duration };
 };
 
-const IIIFItemAudioVideo = ({ canvas, item, i, itemUrl, isRestricted }) => {
+const IIIFItemAudioVideoLink = ({ canvas, item, i, itemUrl, isRestricted }) => {
   const { userIsStaffWithRestricted } = useUser();
 
   const showItemToUser =
@@ -86,4 +86,4 @@ const IIIFItemAudioVideo = ({ canvas, item, i, itemUrl, isRestricted }) => {
   );
 };
 
-export default IIIFItemAudioVideo;
+export default IIIFItemAudioVideoLink;

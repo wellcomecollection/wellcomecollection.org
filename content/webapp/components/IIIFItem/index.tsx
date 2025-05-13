@@ -43,7 +43,7 @@ import {
 } from '@weco/content/utils/iiif/v3';
 import { getAudioVideoLabel } from '@weco/content/utils/works';
 
-import IIIFItemAudioVideo from './IIIFItem.AudioVideo';
+import IIIFItemAudioVideoLink from './IIIFItem.AudioVideo';
 
 const IframePdfViewer = styled(Space)`
   width: 100%;
@@ -89,6 +89,7 @@ const Choice: FunctionComponent<
   i,
   itemUrl,
   isDark,
+  isInViewer,
 }) => {
   // We may have multiple items, such as videos of different formats
   // but we only show the first of these currently
@@ -107,6 +108,7 @@ const Choice: FunctionComponent<
             exclude={exclude}
             itemUrl={itemUrl}
             isDark={isDark}
+            isInViewer={isInViewer}
           />
         </>
       );
@@ -292,6 +294,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           setImageContainerRect={setImageContainerRect}
           itemUrl={itemUrl}
           isDark={isDark}
+          isInViewer={isInViewer}
         />
       );
 
@@ -314,7 +317,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
                 title={getAudioVideoLabel(canvas.label, titleOverride) || ''}
               />
             ) : (
-              <IIIFItemAudioVideo
+              <IIIFItemAudioVideoLink
                 canvas={canvas}
                 i={i}
                 isRestricted={isRestricted}
@@ -341,7 +344,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           isRestricted={isRestricted}
         >
           {extendedViewer && !isInViewer ? (
-            <IIIFItemAudioVideo
+            <IIIFItemAudioVideoLink
               canvas={canvas}
               i={i}
               isRestricted={isRestricted}
