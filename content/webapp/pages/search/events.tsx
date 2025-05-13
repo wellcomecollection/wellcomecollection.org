@@ -1,8 +1,6 @@
 import { GetServerSideProps } from 'next';
-import styled from 'styled-components';
 
 import { getServerData } from '@weco/common/server-data';
-import { useToggles } from '@weco/common/server-data/Context';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { pluralize } from '@weco/common/utils/grammar';
@@ -26,7 +24,6 @@ import {
   EventsProps,
   fromQuery,
 } from '@weco/content/components/SearchPagesLink/Events';
-import Sort from '@weco/content/components/Sort';
 import useHotjar from '@weco/content/hooks/useHotjar';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { eventsFilters } from '@weco/content/services/wellcome/common/filters';
@@ -48,17 +45,6 @@ type Props = {
   eventsRouteProps: EventsProps;
 };
 
-const SortPaginationWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-
-  ${props => props.theme.media('medium', 'max-width')`
-    flex: 1 1 50%;
-    justify-content: flex-end;
-  `}
-`;
-
 export const EventsSearchPage: NextPageWithLayout<Props> = ({
   eventResponseList,
   query,
@@ -66,7 +52,6 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
 }) => {
   useHotjar(true);
   const { query: queryString } = query;
-  const { filterEventsListing } = useToggles();
 
   const filters = eventsFilters({
     events: eventResponseList,
@@ -129,53 +114,11 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
                   )}
                 </span>
 
-                <SortPaginationWrapper>
-                  {!filterEventsListing && (
-                    <Sort
-                      formId={SEARCH_PAGES_FORM_ID}
-                      options={[
-                        // Default value to be left empty as to not be reflected in URL query
-                        {
-                          value: '',
-                          text: 'Relevance',
-                        },
-                        {
-                          value: 'times.startDateTime.asc',
-                          text: 'Oldest to newest',
-                        },
-                        {
-                          value: 'times.startDateTime.desc',
-                          text: 'Newest to oldest',
-                        },
-                      ]}
-                      jsLessOptions={{
-                        sort: [
-                          {
-                            value: '',
-                            text: 'Relevance',
-                          },
-                          {
-                            value: 'times.startDateTime',
-                            text: 'Event date',
-                          },
-                        ],
-                        sortOrder: [
-                          { value: 'asc', text: 'Ascending' },
-                          { value: 'desc', text: 'Descending' },
-                        ],
-                      }}
-                      defaultValues={{
-                        sort: query.sort,
-                        sortOrder: query.sortOrder,
-                      }}
-                    />
-                  )}
-                  <Pagination
-                    totalPages={eventResponseList.totalPages}
-                    ariaLabel="Events search pagination"
-                    isHiddenMobile
-                  />
-                </SortPaginationWrapper>
+                <Pagination
+                  totalPages={eventResponseList.totalPages}
+                  ariaLabel="Events search pagination"
+                  isHiddenMobile
+                />
               </PaginationWrapper>
               <main>
                 <EventsSearchResults
@@ -205,7 +148,6 @@ export const getServerSideProps: GetServerSideProps<
 > = async context => {
   setCacheControl(context.res, cacheTTL.search);
   const serverData = await getServerData(context);
-  const filterEventsListing = !!serverData.toggles.filterEventsListing.value;
 
   const query = context.query;
   const params = fromQuery(query);
@@ -253,16 +195,11 @@ export const getServerSideProps: GetServerSideProps<
   const eventResponseList = await getEvents({
     params: {
       ...paramsQuery,
-      sort: filterEventsListing
-        ? validTimespan === 'past' || validTimespan === 'future'
+      sort:
+        validTimespan === 'past' || validTimespan === 'future'
           ? 'times.startDateTime'
-          : 'relevance'
-        : getQueryPropertyValue(query.sort),
-      sortOrder: filterEventsListing
-        ? validTimespan === 'past'
-          ? 'desc'
-          : 'asc'
-        : getQueryPropertyValue(query.sortOrder),
+          : 'relevance',
+      sortOrder: validTimespan === 'past' ? 'desc' : 'asc',
       ...(pageNumber && { page: Number(pageNumber) }),
       aggregations: [
         'format',

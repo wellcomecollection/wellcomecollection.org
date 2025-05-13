@@ -103,14 +103,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'filterEventsListing',
-      title: 'Changes to the Events listing pages',
-      initialValue: false,
-      description:
-        'Have the Events listing pages use the Content API and be filterable',
-      type: 'experimental',
-    },
-    {
       id: 'audioPlayer',
       title: 'Changes to the AudioPlayer component',
       initialValue: false,
