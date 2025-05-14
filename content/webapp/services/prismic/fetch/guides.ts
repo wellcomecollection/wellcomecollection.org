@@ -9,6 +9,7 @@ import {
   guideFetchLinks,
   guideFormatsFetchLinks,
   pagesFetchLinks,
+  teamsFetchLinks,
 } from '@weco/content/services/prismic/types';
 
 import { fetcher, GetByTypeParams, GetServerSidePropsPrismicClient } from '.';
@@ -17,6 +18,7 @@ const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,
   ...guideFormatsFetchLinks,
   ...guideFetchLinks,
+  ...teamsFetchLinks,
 ];
 
 const guidesFetcher = fetcher<RawGuidesDocument>('guides', fetchLinks);
