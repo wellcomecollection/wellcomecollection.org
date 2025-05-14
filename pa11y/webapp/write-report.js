@@ -60,6 +60,7 @@ const urls = [
   '/search/stories?query=human',
   '/search/images?query=human',
   '/search/works?query=human',
+  '/search/events?query=human',
 ].map(u => `${baseUrl}${u}`);
 
 const promises = urls.map(url =>
