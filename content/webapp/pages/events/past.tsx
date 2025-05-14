@@ -52,9 +52,10 @@ export const getServerSideProps: GetServerSideProps<
     const pageNumber = getQueryPropertyValue(page);
     const params = fromQuery(restOfQuery);
     const timespan = 'past';
+    const setParams = { timespan, filterOutExhibitions: 'true' };
 
-    const allPossibleParams = { ...params, timespan };
-    const queriedParams = { ...restOfQuery, timespan };
+    const allPossibleParams = { ...params, ...setParams };
+    const queriedParams = { ...restOfQuery, ...setParams };
 
     const eventResponseList = await getEvents({
       params: {
