@@ -1,15 +1,9 @@
 import * as prismic from '@prismicio/client';
-import {
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
@@ -163,7 +157,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   transcript,
   titleProps = {},
 }) => {
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);

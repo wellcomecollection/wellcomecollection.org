@@ -1,10 +1,10 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import {
   abortErrorHandler,
   useAbortSignalEffect,
 } from '@weco/common/hooks/useAbortSignalEffect';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import ExpandableList from '@weco/content/components/ExpandableList';
 import PhysicalItemDetails from '@weco/content/components/PhysicalItemDetails';
 import {
@@ -79,7 +79,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
   work,
   items: workItems,
 }: Props) => {
-  const { state: userState } = useUser();
+  const { state: userState } = useUserContext();
   const [userHolds, setUserHolds] = useState<Set<string>>();
   const [physicalItems, setPhysicalItems] = useState(workItems);
   const [itemsState, setItemsState] = useItemsState(workItems);

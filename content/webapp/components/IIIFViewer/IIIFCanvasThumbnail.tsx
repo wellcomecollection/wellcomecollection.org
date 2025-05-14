@@ -2,13 +2,13 @@ import { IIIFExternalWebResource } from '@iiif/presentation-3';
 import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { audio, file, video } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Icon from '@weco/common/views/components/Icon';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import { IIIFItemProps } from '@weco/content/components/IIIFItem';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import {
@@ -94,7 +94,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
   placeholderId,
 }: IIIFCanvasThumbnailProps) => {
   const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
-  const { userIsStaffWithRestricted } = useUser();
+  const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = canvas.hasRestrictedImage;
   const urlTemplate = canvas.imageServiceId
     ? iiifImageTemplate(canvas.imageServiceId)

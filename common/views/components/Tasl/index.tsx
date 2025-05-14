@@ -1,11 +1,11 @@
-import { FunctionComponent, MouseEvent, useContext, useState } from 'react';
+import { FunctionComponent, MouseEvent, useState } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { cross, information } from '@weco/common/icons';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
 import { getPrismicLicenseData } from '@weco/common/utils/licenses';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -200,7 +200,7 @@ const Tasl: FunctionComponent<Props> = ({
   copyrightLink,
   idSuffix = '',
 }) => {
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   const [isActive, setIsActive] = useState(false);
   function toggleWithAnalytics(event: MouseEvent<HTMLButtonElement>) {
     event.preventDefault();

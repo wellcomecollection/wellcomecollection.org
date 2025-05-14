@@ -6,6 +6,7 @@ import {
 import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import {
   restrictedItemMessage,
   unavailableContentMessage,
@@ -21,7 +22,6 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import AudioPlayer from '@weco/content/components/AudioPlayer';
 import AudioPlayerNew from '@weco/content/components/AudioPlayerNew';
 import BetaMessage from '@weco/content/components/BetaMessage';
@@ -265,7 +265,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   itemUrl,
   isDark,
 }) => {
-  const { userIsStaffWithRestricted } = useUser();
+  const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = isItemRestricted(item);
   const shouldShowItem = isRestricted && !userIsStaffWithRestricted;
   const { audioPlayer, extendedViewer } = useToggles();

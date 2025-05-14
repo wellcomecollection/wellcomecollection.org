@@ -1,11 +1,11 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { user as userIcon } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider';
 
 const StyledComponent = styled.div.attrs({
   className: font('intr', 5),
@@ -44,7 +44,7 @@ const StyledComponent = styled.div.attrs({
 `;
 
 const MobileSignIn: FunctionComponent = () => {
-  const { user } = useUser();
+  const { user } = useUserContext();
   return (
     <StyledComponent>
       <Space

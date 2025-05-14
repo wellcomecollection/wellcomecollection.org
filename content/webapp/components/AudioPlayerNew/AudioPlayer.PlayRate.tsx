@@ -1,11 +1,11 @@
 import { FocusTrap } from 'focus-trap-react';
-import { FunctionComponent, useContext, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { check } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -99,7 +99,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
     }
   );
 
-  const { audioPlaybackRate, setAudioPlaybackRate } = useContext(AppContext);
+  const { audioPlaybackRate, setAudioPlaybackRate } = useAppContext();
   const speeds = [0.5, 1, 1.5, 2];
 
   useEffect(() => {

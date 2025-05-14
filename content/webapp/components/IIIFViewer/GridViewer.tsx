@@ -3,7 +3,6 @@ import {
   CSSProperties,
   FunctionComponent,
   memo,
-  useContext,
   useEffect,
   useRef,
   useState,
@@ -11,15 +10,14 @@ import {
 import { areEqual, FixedSizeGrid } from 'react-window';
 import styled from 'styled-components';
 
-import { AppContext } from '@weco/common/views/components/AppContext';
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
-import ItemViewerContext, {
-  Query,
-} from '@weco/content/components/ItemViewerContext';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
+import { ItemViewerQuery } from '@weco/content/types/item-viewer';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 
 import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
@@ -49,7 +47,7 @@ type CellProps = {
     setGridVisible: (value: boolean) => void;
     canvases: TransformedCanvas[];
     searchResults: SearchResults;
-    query: Query;
+    query: ItemViewerQuery;
     workId: string;
     placeholderId?: string;
   };
@@ -142,8 +140,8 @@ const GridViewer: FunctionComponent = () => {
     searchResults,
     query,
     work,
-  } = useContext(ItemViewerContext);
-  const { windowSize } = useContext(AppContext);
+  } = useItemViewerContext();
+  const { windowSize } = useAppContext();
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const scrollVelocity = useScrollVelocity(newScrollOffset);
   const itemWidth = windowSize === 'small' ? 250 : 350;

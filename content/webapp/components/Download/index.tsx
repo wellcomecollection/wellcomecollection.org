@@ -1,8 +1,8 @@
-import { FunctionComponent, useContext, useRef } from 'react';
+import { FunctionComponent, useRef } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Button from '@weco/common/views/components/Buttons';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
@@ -42,7 +42,7 @@ const Download: FunctionComponent<Props> = ({
   isInline = false,
 }: Props) => {
   const downloadsContainer = useRef(null);
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
 
   return (
     <Wrapper $isEnhanced={isEnhanced} ref={downloadsContainer}>

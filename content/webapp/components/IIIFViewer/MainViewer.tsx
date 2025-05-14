@@ -4,7 +4,6 @@ import {
   CSSProperties,
   FunctionComponent,
   memo,
-  useContext,
   useEffect,
   useRef,
   useState,
@@ -12,16 +11,15 @@ import {
 import { areEqual, FixedSizeList } from 'react-window';
 import styled from 'styled-components';
 
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import IIIFItem from '@weco/content/components/IIIFItem';
 import { CanvasPaginator } from '@weco/content/components/IIIFViewer/Paginators';
-import ItemViewerContext, {
-  RotatedImage,
-} from '@weco/content/components/ItemViewerContext';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
+import { CanvasRotatedImage } from '@weco/content/types/item-viewer';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import {
   hasNonImages,
@@ -116,7 +114,7 @@ type ItemRendererProps = {
   data: {
     scrollVelocity: number;
     canvases: TransformedCanvas[];
-    rotatedImages: RotatedImage[];
+    rotatedImages: CanvasRotatedImage[];
     errorHandler?: () => void;
     externalAccessService?: TransformedAuthService;
     accessToken?: string;
@@ -203,7 +201,7 @@ function getPositionData({
   currentCanvas: TransformedCanvas;
   searchResults: SearchResults | null;
   canvases: TransformedCanvas[];
-  rotatedImages: RotatedImage[];
+  rotatedImages: CanvasRotatedImage[];
 }): OverlayPositionData[] {
   const searchHitsPositioningData = searchResults?.resources.map(resource => {
     // on: "https://wellcomelibrary.org/iiif/b30330002/canvas/c55#xywh=2301,662,157,47"
@@ -252,9 +250,9 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const { scrollVelocity, canvases, externalAccessService, placeholderId } =
     data;
   const currentCanvas = canvases[index];
-  const { userIsStaffWithRestricted } = useUser();
+  const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = currentCanvas.hasRestrictedImage;
-  const { searchResults, rotatedImages } = useContext(ItemViewerContext);
+  const { searchResults, rotatedImages } = useItemViewerContext();
   const [imageRect, setImageRect] = useState<DOMRect | undefined>();
   const [imageContainerRect, setImageContainerRect] = useState<
     DOMRect | undefined
@@ -408,7 +406,7 @@ const MainViewer: FunctionComponent = () => {
     setShowControls,
     errorHandler,
     accessToken,
-  } = useContext(ItemViewerContext);
+  } = useItemViewerContext();
   const { shouldScrollToCanvas, canvas } = query;
   const mainViewerRef = useRef<FixedSizeList>(null);
   const [newScrollOffset, setNewScrollOffset] = useState(0);

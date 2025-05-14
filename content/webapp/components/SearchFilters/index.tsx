@@ -1,9 +1,9 @@
 import { ParsedUrlQuery } from 'querystring';
-import { FunctionComponent, ReactElement, useContext, useState } from 'react';
+import { FunctionComponent, ReactElement, useState } from 'react';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import useIsomorphicLayoutEffect from '@weco/common/hooks/useIsomorphicLayoutEffect';
 import { LinkProps } from '@weco/common/model/link-props';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import { Filter } from '@weco/content/services/wellcome/common/filters';
 
 import DateRangeFilter from './SearchFilters.DateRangeFilter';
@@ -29,7 +29,7 @@ const SearchFilters: FunctionComponent<Props> = ({
   linkResolver,
   hasNoResults,
 }: Props): ReactElement<Props> => {
-  const { windowSize } = useContext(AppContext);
+  const { windowSize } = useAppContext();
   // We use the setIsomorphicLayoutEffect here as we can't use CSS to
   // create a responsive layout here.
   // See: https://github.com/wellcomecollection/wellcomecollection.org/issues/6268

@@ -1,7 +1,7 @@
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { play } from '@weco/common/icons';
 import { formatDuration } from '@weco/common/utils/format-date';
 import Button from '@weco/common/views/components/Buttons';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import Download from '@weco/content/components/Download';
 import {
   DownloadOption,
@@ -35,7 +35,7 @@ const getTypeAndDuration = (
 };
 
 const IIIFItemAudioVideoLink = ({ canvas, item, i, itemUrl, isRestricted }) => {
-  const { userIsStaffWithRestricted } = useUser();
+  const { userIsStaffWithRestricted } = useUserContext();
 
   const showItemToUser =
     !isRestricted || (isRestricted && userIsStaffWithRestricted);

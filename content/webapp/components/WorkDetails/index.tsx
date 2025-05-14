@@ -1,6 +1,7 @@
 import { usePathname } from 'next/navigation';
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent } from 'react';
 
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { font } from '@weco/common/utils/classnames';
 import { formatDuration } from '@weco/common/utils/format-date';
@@ -10,14 +11,13 @@ import {
   gridSize10,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import { themeValues } from '@weco/common/views/themes/config';
 import { toLink as conceptLink } from '@weco/content/components/ConceptLink';
 import { CopyUrl } from '@weco/content/components/CopyButtons';
-import IsArchiveContext from '@weco/content/components/IsArchiveContext';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import { toLink as imagesLink } from '@weco/content/components/SearchPagesLink/Images';
 import { toLink as worksLink } from '@weco/content/components/SearchPagesLink/Works';
+import { useIsArchiveContext } from '@weco/content/contexts/IsArchiveContext';
 import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
 import {
   toWorkBasic,
@@ -62,8 +62,8 @@ const WorkDetails: FunctionComponent<Props> = ({
   digitalLocationInfo,
   transformedManifest,
 }: Props) => {
-  const { userIsStaffWithRestricted } = useUser();
-  const isArchive = useContext(IsArchiveContext);
+  const { userIsStaffWithRestricted } = useUserContext();
+  const isArchive = useIsArchiveContext();
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
   const { canvases, rendering, bornDigitalStatus } = {
     ...transformedManifest,

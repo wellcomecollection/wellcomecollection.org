@@ -4,13 +4,12 @@ import {
   forwardRef,
   ForwardRefRenderFunction,
   RefObject,
-  useContext,
 } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { exclamation, tickCircle } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import ClearInput from '@weco/common/views/components/TextInput/TextInput.Clear';
@@ -172,7 +171,7 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
   }: Props,
   ref: RefObject<HTMLInputElement>
 ) => {
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
 
   function onChange(event: ChangeEvent<HTMLInputElement>) {
     const isValueValid = event.currentTarget.validity.valid;

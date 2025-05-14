@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
@@ -7,10 +7,10 @@ import LabelsList from '@weco/common/views/components/LabelsList';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import IsArchiveContext from '@weco/content/components/IsArchiveContext';
 import LinkLabels from '@weco/content/components/LinkLabels';
 import Number from '@weco/content/components/Number';
 import WorkTitle from '@weco/content/components/WorkTitle';
+import { useIsArchiveContext } from '@weco/content/contexts/IsArchiveContext';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 const WorkTitleWrapper = styled.h1.attrs({ className: font('intb', 2) })`
   margin: 0;
@@ -26,7 +26,7 @@ const WorkHeader: FunctionComponent<Props> = ({
   work,
   collectionManifestsCount,
 }) => {
-  const isArchive = useContext(IsArchiveContext);
+  const isArchive = useIsArchiveContext();
   const {
     productionDates,
     archiveLabels,

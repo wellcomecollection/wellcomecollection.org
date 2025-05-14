@@ -3,6 +3,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import {
   DigitalLocation,
   isDigitalLocation,
@@ -25,14 +26,12 @@ import {
 } from '@weco/common/views/components/Layout';
 import Modal from '@weco/common/views/components/Modal';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
 import IIIFItemList from '@weco/content/components/IIIFItemList';
 import IIIFViewer, {
   queryParamToArrayIndex,
 } from '@weco/content/components/IIIFViewer';
 import { fromQuery } from '@weco/content/components/ItemLink';
-import { ParentManifest } from '@weco/content/components/ItemViewerContext';
 import WorkLink from '@weco/content/components/WorkLink';
 import useHotjar from '@weco/content/hooks/useHotjar';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
@@ -52,6 +51,7 @@ import {
   fromCompressedManifest,
   toCompressedTransformedManifest,
 } from '@weco/content/types/compressed-manifest';
+import { ParentManifest } from '@weco/content/types/item-viewer';
 import { Auth, TransformedManifest } from '@weco/content/types/manifest';
 import { fetchJson } from '@weco/content/utils/http';
 import {
@@ -127,7 +127,7 @@ const ItemPage: NextPage<Props> = ({
   parentManifest,
 }) => {
   useHotjar(true);
-  const { userIsStaffWithRestricted } = useUser();
+  const { userIsStaffWithRestricted } = useUserContext();
   const { authV2, extendedViewer } = useToggles();
   const transformedManifest =
     compressedTransformedManifest &&

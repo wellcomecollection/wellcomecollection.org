@@ -1,11 +1,11 @@
 import Head from 'next/head';
-import { FunctionComponent, PropsWithChildren, useContext } from 'react';
+import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Favicons from '@weco/common/views/components/Favicons';
 import Footer from '@weco/common/views/components/Footer';
 import Header from '@weco/common/views/components/Header';
@@ -27,7 +27,7 @@ const PageWrapper: FunctionComponent<PropsWithChildren<Props>> = ({
   title,
   children,
 }) => {
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   const { collectionVenues } = usePrismicData();
   const venues = transformCollectionVenues(collectionVenues);
   const fullTitle = `${title} | Wellcome Collection`;

@@ -3,14 +3,13 @@ import {
   FunctionComponent,
   PropsWithChildren,
   ReactElement,
-  useContext,
   useEffect,
   useState,
 } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { prefixedPropertyStyleObject } from '@weco/common/utils/prefixed-property-style-object';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
 export const WobblyEdgeWrapper = styled.div`
@@ -96,7 +95,7 @@ export const WobblyEdge: FunctionComponent<WobblyEdgeProps> = ({
     prefixedPropertyStyleObject('clipPath', makePolygonPoints(0, 0))
   );
   let timer;
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
 
   function makePolygonPoints(totalPoints: number, intensity: number): string {
     // Determine whether wobbly edge should be a mountain or a valley

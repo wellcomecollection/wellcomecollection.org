@@ -1,14 +1,14 @@
 // https://stackoverflow.com/questions/25993861/how-do-i-get-typescript-to-stop-complaining-about-functions-it-doesnt-know-abou
 /* eslint-disable dot-notation */
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { gridView, maximise, singlePage } from '@weco/common/icons';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import ItemViewerContext from '@weco/content/components/ItemViewerContext';
 import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 
 import { ViewerButton } from './ViewerTopBar';
@@ -40,7 +40,7 @@ const RightZone = styled(Space).attrs({
 `;
 
 const ViewerBottomBar: FunctionComponent = () => {
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
     transformedManifest,
@@ -50,7 +50,7 @@ const ViewerBottomBar: FunctionComponent = () => {
     isMobileSidebarActive,
     showFullscreenControl,
     viewerRef,
-  } = useContext(ItemViewerContext);
+  } = useItemViewerContext();
 
   const { canvases } = { ...transformedManifest };
 

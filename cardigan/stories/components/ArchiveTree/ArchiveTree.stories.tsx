@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import collectionTree from '@weco/cardigan/stories/data/collection-tree';
 import ArchiveTree from '@weco/content/components/ArchiveTree';
-import IsArchiveContext from '@weco/content/components/IsArchiveContext';
+import IsArchiveContext from '@weco/content/contexts/IsArchiveContext';
 
 const meta: Meta<typeof ArchiveTree> = {
   title: 'Components/ArchiveTree',

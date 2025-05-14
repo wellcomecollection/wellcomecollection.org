@@ -1,5 +1,5 @@
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
-import IsArchiveContext from '@weco/content/components/IsArchiveContext';
+import IsArchiveContext from '@weco/content/contexts/IsArchiveContext';
 import { Work } from '@weco/content/services/wellcome/catalogue/types';
 
 import ArchiveBreadcrumb from '.';

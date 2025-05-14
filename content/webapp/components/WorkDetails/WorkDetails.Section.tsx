@@ -1,10 +1,10 @@
-import { FunctionComponent, PropsWithChildren, useContext } from 'react';
+import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import IsArchiveContext from '@weco/content/components/IsArchiveContext';
+import { useIsArchiveContext } from '@weco/content/contexts/IsArchiveContext';
 
 type Props = PropsWithChildren<{
   headingText?: string;
@@ -29,7 +29,7 @@ const WorkDetailsSection: FunctionComponent<Props> = ({
   headingText,
   children,
 }) => {
-  const isArchive = useContext(IsArchiveContext);
+  const isArchive = useIsArchiveContext();
 
   return (
     <SectionWithDivider $isArchive={isArchive}>

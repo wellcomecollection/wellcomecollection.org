@@ -1,23 +1,17 @@
-import {
-  FunctionComponent,
-  ReactNode,
-  useContext,
-  useRef,
-  useState,
-} from 'react';
+import { FunctionComponent, ReactNode, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import { sierraAccessMethodtoNewLabel } from '@weco/common/data/microcopy';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import StackingTable from '@weco/common/views/components/StackingTable';
 import Space from '@weco/common/views/components/styled/Space';
-import { useUser } from '@weco/common/views/components/UserProvider';
 import { themeValues } from '@weco/common/views/themes/config';
-import IsArchiveContext from '@weco/content/components/IsArchiveContext';
 import ItemRequestModal from '@weco/content/components/ItemRequestModal';
 import Placeholder from '@weco/content/components/Placeholder';
+import { useIsArchiveContext } from '@weco/content/contexts/IsArchiveContext';
 import {
   PhysicalItem,
   Work,
@@ -81,9 +75,9 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   userHeldItems,
   isLast,
 }) => {
-  const { state: userState } = useUser();
+  const { state: userState } = useUserContext();
   const { disableRequesting } = useToggles();
-  const isArchive = useContext(IsArchiveContext);
+  const isArchive = useIsArchiveContext();
   const requestButtonRef = useRef<HTMLButtonElement | null>(null);
   const [requestModalIsActive, setRequestModalIsActive] = useState(false);
 

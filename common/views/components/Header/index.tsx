@@ -1,21 +1,15 @@
 import { FocusTrap } from 'focus-trap-react';
 import NextLink from 'next/link';
-import {
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { searchLabelText } from '@weco/common/data/microcopy';
 import { cross, search } from '@weco/common/icons';
 import WellcomeCollectionBlack from '@weco/common/icons/wellcome_collection_black';
 import { SiteSection } from '@weco/common/model/site-section';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Icon from '@weco/common/views/components/Icon';
 
 import DesktopSignIn from './DesktopSignIn';
@@ -103,7 +97,7 @@ const Header: FunctionComponent<Props> = ({
   const [burgerMenuIsActive, setBurgerMenuIsActive] = useState(false);
   const [searchDropdownIsActive, setSearchDropdownIsActive] = useState(false);
   const searchButtonRef = useRef<HTMLButtonElement>(null);
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
 
   useEffect(() => {
     if (document && document.documentElement) {

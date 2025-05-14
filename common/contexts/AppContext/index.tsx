@@ -3,6 +3,7 @@ import {
   createContext,
   FunctionComponent,
   PropsWithChildren,
+  useContext,
   useEffect,
   useState,
 } from 'react';
@@ -35,7 +36,12 @@ const appContextDefaults = {
   setHasAcknowledgedCookieBanner: () => null,
 };
 
-export const AppContext = createContext<AppContextProps>(appContextDefaults);
+const AppContext = createContext<AppContextProps>(appContextDefaults);
+
+export function useAppContext(): AppContextProps {
+  const contextState = useContext(AppContext);
+  return contextState;
+}
 
 function getWindowSize(): Size {
   switch (true) {
@@ -136,3 +142,5 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
     </AppContext.Provider>
   );
 };
+
+export default AppContext;

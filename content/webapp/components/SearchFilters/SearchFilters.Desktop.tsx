@@ -1,15 +1,9 @@
-import {
-  FunctionComponent,
-  ReactElement,
-  useContext,
-  useRef,
-  useState,
-} from 'react';
+import { FunctionComponent, ReactElement, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { partition } from '@weco/common/utils/arrays';
 import { font } from '@weco/common/utils/classnames';
-import { AppContext } from '@weco/common/views/components/AppContext';
 import Space from '@weco/common/views/components/styled/Space';
 import { BooleanFilter as BooleanFilterType } from '@weco/content/services/wellcome/common/filters';
 
@@ -47,7 +41,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   searchFormId,
   hasNoResults,
 }: SearchFiltersSharedProps): ReactElement<SearchFiltersSharedProps> => {
-  const { isEnhanced } = useContext(AppContext);
+  const { isEnhanced } = useAppContext();
   const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const openMoreFiltersButtonRef = useRef(null);

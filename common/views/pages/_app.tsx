@@ -8,6 +8,10 @@ import React, {
 } from 'react';
 import { ThemeProvider } from 'styled-components';
 
+import { ApmContextProvider } from '@weco/common/contexts/ApmContext';
+import { AppContextProvider } from '@weco/common/contexts/AppContext';
+import { SearchContextProvider } from '@weco/common/contexts/SearchContext';
+import { UserContextProvider } from '@weco/common/contexts/UserContext';
 import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
 import { ServerDataContext } from '@weco/common/server-data/Context';
 import {
@@ -29,13 +33,9 @@ import {
   trackPageview,
 } from '@weco/common/services/conversion/track';
 import { deserialiseProps } from '@weco/common/utils/json';
-import { ApmContextProvider } from '@weco/common/views/components/ApmContext';
-import { AppContextProvider } from '@weco/common/views/components/AppContext';
 import CivicUK from '@weco/common/views/components/CivicUK';
 import ErrorPage from '@weco/common/views/components/ErrorPage';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator';
-import { SearchContextProvider } from '@weco/common/views/components/SearchContext';
-import UserProvider from '@weco/common/views/components/UserProvider';
 import theme, { GlobalStyle } from '@weco/common/views/themes/default';
 
 // Error pages can't send anything via the data fetching methods as
@@ -182,7 +182,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     <>
       <ApmContextProvider>
         <ServerDataContext.Provider value={serverData}>
-          <UserProvider>
+          <UserContextProvider>
             <AppContextProvider>
               <SearchContextProvider>
                 <ThemeProvider theme={theme}>
@@ -210,7 +210,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                 </ThemeProvider>
               </SearchContextProvider>
             </AppContextProvider>
-          </UserProvider>
+          </UserContextProvider>
         </ServerDataContext.Provider>
       </ApmContextProvider>
     </>
