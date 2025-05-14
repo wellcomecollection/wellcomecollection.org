@@ -15,6 +15,9 @@ on:
       - 'prismic-model/**'
       - 'preview/**'
 
+permissions:
+  contents: read
+
 jobs:
   bundle_size_diff:
     name: Bundle size diff
