@@ -74,11 +74,12 @@ const Map: FunctionComponent<Props> = ({
 
         document.querySelectorAll('script').forEach(script => {
           const url = new URL(script.src);
-          if (
-            url.hostname.includes('googleapis.com/maps') ||
-            url.hostname.includes('maps.gstatic.com') ||
-            url.hostname.includes('earthbuilder.googleapis.com')
-          ) {
+          const allowedHostnames = [
+            'googleapis.com',
+            'maps.gstatic.com',
+            'earthbuilder.googleapis.com',
+          ];
+          if (allowedHostnames.includes(url.hostname)) {
             script.remove();
           }
         });
