@@ -2,6 +2,9 @@ FROM public.ecr.aws/docker/library/node:20-bookworm-slim
 
 VOLUME /dist
 
+
+# Set of system libraries required for running Node.js applications and tools
+# like Puppeteer or Chromium (used for headless browser testing).
 RUN apt-get update && apt-get install -yq --no-install-recommends \
   libasound2 libatk-bridge2.0-0 libatk1.0-0 libatspi2.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
   libdrm2 libexpat1 libgbm1 libgcc1 libglib2.0-0 libnspr4 libnss3 libpango-1.0-0 libpangocairo-1.0-0  \

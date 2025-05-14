@@ -73,11 +73,13 @@ const Map: FunctionComponent<Props> = ({
         delete google.maps;
 
         document.querySelectorAll('script').forEach(script => {
-          if (
-            script.src.includes('googleapis.com/maps') ||
-            script.src.includes('maps.gstatic.com') ||
-            script.src.includes('earthbuilder.googleapis.com')
-          ) {
+          const url = new URL(script.src);
+          const allowedHostnames = [
+            'googleapis.com',
+            'maps.gstatic.com',
+            'earthbuilder.googleapis.com',
+          ];
+          if (allowedHostnames.includes(url.hostname)) {
             script.remove();
           }
         });

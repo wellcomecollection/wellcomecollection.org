@@ -75,9 +75,10 @@ export const getServerSideProps: GetServerSideProps<
   const { page: pageQuery, ...restOfQuery } = context.query;
   const params = fromQuery(restOfQuery);
   const timespan = 'future';
+  const setParams = { timespan, filterOutExhibitions: 'true' };
 
-  const allPossibleParams = { ...params, timespan };
-  const queriedParams = { ...restOfQuery, timespan };
+  const allPossibleParams = { ...params, ...setParams };
+  const queriedParams = { ...restOfQuery, ...setParams };
 
   const eventResponseList = await getEvents({
     params: {

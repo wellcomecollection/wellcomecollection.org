@@ -2,6 +2,9 @@ name: "Typescript"
 on:
   push:
 
+permissions:
+  contents: read
+
 jobs:
   tsc:
     name: tsc

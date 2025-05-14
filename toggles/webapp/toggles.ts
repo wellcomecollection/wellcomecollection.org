@@ -109,6 +109,13 @@ const toggles = {
       description: 'Show updated UI and interactions for the AudioPlayer',
       type: 'experimental',
     },
+    {
+      id: 'exhibitionsInEvents',
+      title: 'Exhibitions in events',
+      initialValue: false,
+      description: 'Adds exhibitions to the events search results',
+      type: 'experimental',
+    },
   ] as const,
   tests: [] as ABTest[],
 };
