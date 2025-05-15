@@ -91,7 +91,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
         {
           name: 'offset',
           options: {
-            offset: [-12, 10],
+            offset: [-25, 10],
           },
         },
       ],
