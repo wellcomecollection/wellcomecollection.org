@@ -21,8 +21,9 @@ import Scrubber from './AudioPlayer.Scrubber';
 
 const AudioPlayerWrapper = styled(Space).attrs({
   as: 'figure',
-  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'm', properties: ['padding-top'] },
 })<{ $isDark: boolean }>`
+  padding-bottom: ${props => props.theme.spacingUnits['4']}px;
   background: ${props =>
     props.$isDark ? props.theme.color('black') : props.theme.color('white')};
   margin: 0;
@@ -37,7 +38,7 @@ const PlayPauseButton = styled.button.attrs<PlayPauseButtonProps>(props => ({
 `;
 
 const TimeWrapper = styled.div.attrs({
-  className: font('intr', 5),
+  className: font('intr', 6),
 })<{ $isDark: boolean }>`
   display: flex;
   justify-content: space-between;
@@ -82,6 +83,7 @@ const SkipButton = styled.button<{ $isDark: boolean }>`
 `;
 
 const PlayerRateWrapper = styled.div`
+  padding-top: ${props => props.theme.spacingUnits['5']}px;
   grid-column: 3;
   display: flex;
   align-items: center;
@@ -315,18 +317,20 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
               <Space
                 $v={{
                   size: 's',
-                  properties: ['padding-top', 'padding-bottom'],
+                  properties: ['padding-top'],
                 }}
               >
-                <Scrubber
-                  startTime={startTime}
-                  duration={duration}
-                  id={audioFile}
-                  onChange={onScrubberChange}
-                  progressBarRef={progressBarRef}
-                  currentTime={currentTime}
-                  isDark={!!isDark}
-                />
+                <Space $v={{ size: 'xs', properties: ['padding-bottom'] }}>
+                  <Scrubber
+                    startTime={startTime}
+                    duration={duration}
+                    id={audioFile}
+                    onChange={onScrubberChange}
+                    progressBarRef={progressBarRef}
+                    currentTime={currentTime}
+                    isDark={!!isDark}
+                  />
+                </Space>
               </Space>
             </div>
           </NowPlayingWrapper>
