@@ -21,9 +21,8 @@ import Scrubber from './AudioPlayer.Scrubber';
 
 const AudioPlayerWrapper = styled(Space).attrs({
   as: 'figure',
-  $v: { size: 'm', properties: ['padding-top'] },
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })<{ $isDark: boolean }>`
-  padding-bottom: ${props => props.theme.spacingUnits['4']}px;
   background: ${props =>
     props.$isDark ? props.theme.color('black') : props.theme.color('white')};
   margin: 0;
