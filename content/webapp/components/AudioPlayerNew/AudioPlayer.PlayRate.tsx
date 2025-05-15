@@ -7,7 +7,6 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import { check } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
-import Space from '@weco/common/views/components/styled/Space';
 
 const TogglePlayRateButton = styled.button.attrs({
   className: font('intr', 6),
@@ -181,15 +180,13 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
                   onClick={() => updatePlaybackRate(speed)}
                 >
                   <span style={{ display: 'flex', alignItems: 'center' }}>
-                    {speed}x
+                    <span style={{ minWidth: '4em' }}>{speed}x</span>
                     {audioPlaybackRate === speed && (
-                      <Space $h={{ size: 'xl', properties: ['margin-left'] }}>
-                        <span
-                          style={{ transform: 'scale(1.5)', display: 'flex' }}
-                        >
-                          <Icon icon={check} matchText={true} />
-                        </span>
-                      </Space>
+                      <span
+                        style={{ transform: 'scale(1.5)', display: 'flex' }}
+                      >
+                        <Icon icon={check} matchText={true} />
+                      </span>
                     )}
                   </span>
                 </PlayRateButton>
