@@ -161,7 +161,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
           aria-expanded={isPopperActive}
         >
           Speed
-          <span className={font('intsb', 5)}>{audioPlaybackRate}x</span>
+          <span className={font('intsb', 4)}>{audioPlaybackRate}x</span>
         </TogglePlayRateButton>
         <PlayRateList
           id={id}
