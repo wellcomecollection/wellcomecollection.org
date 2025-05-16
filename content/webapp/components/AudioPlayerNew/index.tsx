@@ -37,7 +37,7 @@ const PlayPauseButton = styled.button.attrs<PlayPauseButtonProps>(props => ({
 `;
 
 const TimeWrapper = styled.div.attrs({
-  className: font('intr', 5),
+  className: font('intr', 6),
 })<{ $isDark: boolean }>`
   display: flex;
   justify-content: space-between;
@@ -82,6 +82,7 @@ const SkipButton = styled.button<{ $isDark: boolean }>`
 `;
 
 const PlayerRateWrapper = styled.div`
+  padding-top: ${props => props.theme.spacingUnits['5']}px;
   grid-column: 3;
   display: flex;
   align-items: center;
@@ -315,18 +316,20 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
               <Space
                 $v={{
                   size: 's',
-                  properties: ['padding-top', 'padding-bottom'],
+                  properties: ['padding-top'],
                 }}
               >
-                <Scrubber
-                  startTime={startTime}
-                  duration={duration}
-                  id={audioFile}
-                  onChange={onScrubberChange}
-                  progressBarRef={progressBarRef}
-                  currentTime={currentTime}
-                  isDark={!!isDark}
-                />
+                <Space $v={{ size: 'xs', properties: ['padding-bottom'] }}>
+                  <Scrubber
+                    startTime={startTime}
+                    duration={duration}
+                    id={audioFile}
+                    onChange={onScrubberChange}
+                    progressBarRef={progressBarRef}
+                    currentTime={currentTime}
+                    isDark={!!isDark}
+                  />
+                </Space>
               </Space>
             </div>
           </NowPlayingWrapper>
