@@ -687,7 +687,6 @@ const Exhibition: FunctionComponent<Props> = ({
                   </ResourcesList>
                 </Space>
               )}
-              {/* TODO improve styling of download links - defaultSerializer */}
               {exhibition.accessResourcesText && (
                 <PrismicHtmlBlock
                   html={exhibition.accessResourcesText}
