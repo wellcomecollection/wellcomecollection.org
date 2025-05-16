@@ -642,7 +642,13 @@ interface BooksDocumentData {
    * - **Tab**: Book
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  orderLink: prismic.LinkField;
+  orderLink: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
 
   /**
    * Price field in *Book*
@@ -851,7 +857,7 @@ interface CardDocumentData {
    * - **Tab**: Card
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  link: prismic.LinkField;
+  link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 }
 
 /**
@@ -1138,7 +1144,7 @@ interface CollectionVenueDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  link: prismic.LinkField;
+  link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 
   /**
    * Linktext field in *Collection venue*
@@ -1983,6 +1989,17 @@ interface EventsDocumentData {
   times: prismic.GroupField<Simplify<EventsDocumentDataTimesItem>>;
 
   /**
+   * BSL leaflet video field in *Event*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.bslLeafletVideo
+   * - **Tab**: Event
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  bslLeafletVideo: prismic.EmbedField;
+
+  /**
    * Slice Zone field in *Event*
    *
    * - **Field Type**: Slice Zone
@@ -2066,7 +2083,13 @@ interface EventsDocumentData {
    * - **Tab**: Reservation
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  thirdPartyBookingUrl: prismic.LinkField;
+  thirdPartyBookingUrl: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
 
   /**
    * Extra information field in *Event*
@@ -2163,7 +2186,13 @@ interface EventsDocumentData {
    * - **Tab**: Online reservation
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  onlineThirdPartyBookingUrl: prismic.LinkField;
+  onlineThirdPartyBookingUrl: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
 
   /**
    * Extra information field in *Event*
@@ -2440,7 +2469,7 @@ export interface ExhibitionGuidesDocumentDataComponentsItem {
    * - **API ID Path**: exhibition-guides.components[].audio-with-description
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  'audio-with-description': prismic.LinkToMediaField;
+  'audio-with-description': prismic.LinkToMediaField<prismic.FieldState, never>;
 
   /**
    * Audio without description (.mp3 file) field in *Exhibition guide → Guide Component*
@@ -2450,7 +2479,10 @@ export interface ExhibitionGuidesDocumentDataComponentsItem {
    * - **API ID Path**: exhibition-guides.components[].audio-without-description
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  'audio-without-description': prismic.LinkToMediaField;
+  'audio-without-description': prismic.LinkToMediaField<
+    prismic.FieldState,
+    never
+  >;
 
   /**
    * Embed (Youtube) field in *Exhibition guide → Guide Component*
@@ -2852,7 +2884,7 @@ export interface ExhibitionsDocumentDataAccessResourcesPdfsItem {
    * - **API ID Path**: exhibitions.accessResourcesPdfs[].documentLink
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  documentLink: prismic.LinkToMediaField;
+  documentLink: prismic.LinkToMediaField<prismic.FieldState, never>;
 }
 
 /**
@@ -4281,7 +4313,7 @@ interface PopupDialogDocumentData {
    * - **Tab**: Popup dialog
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  link: prismic.LinkField;
+  link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 
   /**
    * Is shown? field in *Popup dialog*
@@ -5824,7 +5856,7 @@ export interface AudioPlayerSliceDefaultPrimary {
    * - **API ID Path**: audioPlayer.default.primary.audio
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  audio: prismic.LinkToMediaField;
+  audio: prismic.LinkToMediaField<prismic.FieldState, never>;
 
   /**
    * Transcript (Collapsible content) field in *AudioPlayer → Default → Primary*
@@ -6300,7 +6332,7 @@ export interface GifVideoSliceDefaultPrimary {
    * - **API ID Path**: gifVideo.default.primary.video
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  video: prismic.LinkToMediaField;
+  video: prismic.LinkToMediaField<prismic.FieldState, never>;
 
   /**
    * Playback rate field in *GifVideo → Default → Primary*
@@ -6496,7 +6528,7 @@ export interface GuideStopSliceDefaultPrimary {
    * - **API ID Path**: guide_stop.default.primary.audio_with_description
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  audio_with_description: prismic.LinkToMediaField;
+  audio_with_description: prismic.LinkToMediaField<prismic.FieldState, never>;
 
   /**
    * Audio transcript field in *GuideStop → Default → Primary*
@@ -7033,7 +7065,7 @@ export interface TagListSliceDefaultItem {
    * - **API ID Path**: tagList.items[].link
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  link: prismic.LinkField;
+  link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 
   /**
    * Link text field in *TagList → Items*
@@ -7276,7 +7308,7 @@ export interface TitledTextListSliceDefaultItem {
    * - **API ID Path**: titledTextList.items[].link
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  link: prismic.LinkField;
+  link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 }
 
 /**
