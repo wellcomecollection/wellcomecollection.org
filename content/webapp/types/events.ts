@@ -2,6 +2,7 @@ import * as prismic from '@prismicio/client';
 
 import { ImageType } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
+import { Props as VideoEmbedProps } from '@weco/common/views/components/VideoEmbed';
 import { LabelField } from '@weco/content/model/label-field';
 
 import { Contributor } from './contributors';
@@ -136,4 +137,5 @@ export type Event = GenericContentFields & {
   onlinePolicies: LabelField[];
   onlineHasEarlyRegistration: boolean;
   onlineCost?: string;
+  bslLeafletVideo?: VideoEmbedProps & { title?: string };
 };

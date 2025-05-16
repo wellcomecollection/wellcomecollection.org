@@ -46,6 +46,7 @@ import {
   transformSingleLevelGroup,
 } from '.';
 import { transformContributors } from './contributors';
+import { transformVideoEmbed } from './embeds';
 import {
   transformEventSeries,
   transformEventSeriesToEventSeriesBasic,
@@ -186,6 +187,10 @@ export function transformEvent(
 ): Event {
   const data = document.data;
   const genericFields = transformGenericFields(document);
+
+  const bslLeafletVideo =
+    data.bslLeafletVideo && transformVideoEmbed(data.bslLeafletVideo);
+
   const eventSchedule =
     scheduleQuery && scheduleQuery.results
       ? scheduleQuery.results.map(doc => transformEvent(doc))
@@ -310,6 +315,7 @@ export function transformEvent(
     locations,
     audiences,
     bookingEnquiryTeam,
+    bslLeafletVideo,
     thirdPartyBooking,
     bookingInformation:
       data.bookingInformation && data.bookingInformation.length > 1

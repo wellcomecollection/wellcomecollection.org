@@ -64,8 +64,10 @@ export function isFilledLinkToMediaField(
   );
 }
 
-export function isFilledSliceZone(
-  sliceZone: prismic.SliceZone
-): sliceZone is prismic.SliceZone<prismic.SharedSlice, 'filled'> {
+export function isFilledSliceZone<
+  T extends prismic.SharedSlice = prismic.SharedSlice,
+>(
+  sliceZone: prismic.SliceZone<T>
+): sliceZone is prismic.SliceZone<T, 'filled'> {
   return prismic.isFilled.sliceZone(sliceZone);
 }

@@ -42,6 +42,7 @@ import PageHeader from '@weco/common/views/components/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
 import Body from '@weco/content/components/Body';
+import BslLeafletVideo from '@weco/content/components/BslLeafletVideo';
 import ContentPage from '@weco/content/components/ContentPage';
 import Contributors from '@weco/content/components/Contributors';
 import EventbriteButtons from '@weco/content/components/EventbriteButtons';
@@ -146,6 +147,7 @@ const EventPage: NextPage<EventProps> = ({
   jsonLd,
 }) => {
   const [scheduledIn, setScheduledIn] = useState<EventBasic>();
+  const [isModalActive, setIsModalActive] = useState(false);
 
   // This is used to populate the 'Part of' in the breadcrumb trail.
   //
@@ -210,43 +212,53 @@ const EventPage: NextPage<EventProps> = ({
   };
 
   const Header = (
-    <PageHeader
-      breadcrumbs={getBreadcrumbItems('whats-on', extraBreadcrumbs)}
-      labels={labels}
-      title={event.title}
-      FeaturedMedia={maybeFeaturedMedia}
-      Background={
-        <HeaderBackground
-          hasWobblyEdge={true}
-          backgroundTexture={headerBackgroundLs}
-        />
-      }
-      ContentTypeInfo={
-        <>
-          <Space
-            $v={{ size: 's', properties: ['margin-bottom'] }}
-            style={{ display: 'flex', flexWrap: 'wrap' }}
-          >
-            <div style={{ display: 'inline' }}>
-              <EventDateRange eventTimes={event.times} />
-            </div>
-            {/*
+    <>
+      <PageHeader
+        breadcrumbs={getBreadcrumbItems('whats-on', extraBreadcrumbs)}
+        labels={labels}
+        title={event.title}
+        FeaturedMedia={maybeFeaturedMedia}
+        Background={
+          <HeaderBackground
+            hasWobblyEdge={true}
+            backgroundTexture={headerBackgroundLs}
+          />
+        }
+        ContentTypeInfo={
+          <>
+            <Space
+              $v={{ size: 's', properties: ['margin-bottom'] }}
+              style={{ display: 'flex', flexWrap: 'wrap' }}
+            >
+              <div style={{ display: 'inline' }}>
+                <EventDateRange eventTimes={event.times} />
+              </div>
+              {/*
               This 'All dates' link takes the user to the complete list of dates
               further down the page, but if there's only one date we can skip it.
              */}
-            <Space $h={{ size: 's', properties: ['margin-left'] }}>
-              {!event.isPast && event.times.length > 1 && <EventDatesLink />}
+              <Space $h={{ size: 's', properties: ['margin-left'] }}>
+                {!event.isPast && event.times.length > 1 && <EventDatesLink />}
+              </Space>
             </Space>
-          </Space>
-          {event.isPast && <EventStatus text="Past" color="neutral.500" />}
-          {upcomingDatesFullyBooked(event.times) && (
-            <EventStatus text="Fully booked" color="validation.red" />
-          )}
-        </>
-      }
-      isFree={!event.cost} // TODO or no online cost
-      isContentTypeInfoBeforeMedia={true}
-    />
+            {event.isPast && <EventStatus text="Past" color="neutral.500" />}
+            {upcomingDatesFullyBooked(event.times) && (
+              <EventStatus text="Fully booked" color="validation.red" />
+            )}
+          </>
+        }
+        isFree={!event.cost}
+        isContentTypeInfoBeforeMedia={true}
+      />
+
+      {event.bslLeafletVideo && (
+        <BslLeafletVideo
+          video={event.bslLeafletVideo}
+          isModalActive={isModalActive}
+          setIsModalActive={setIsModalActive}
+        />
+      )}
+    </>
   );
 
   return (
@@ -294,7 +306,7 @@ const EventPage: NextPage<EventProps> = ({
             <EventbriteButtons event={event} />
             {event.thirdPartyBooking && (
               <>
-                {event.isCompletelySoldOut ? ( // TODO online sold out / versus normal sold out
+                {event.isCompletelySoldOut ? (
                   <>
                     <Button
                       variant="ButtonSolid"
