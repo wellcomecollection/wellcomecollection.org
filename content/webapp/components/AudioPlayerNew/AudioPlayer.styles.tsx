@@ -8,7 +8,7 @@ export const AudioPlayerWrapper = styled(Space).attrs({
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })<{ $isDark: boolean }>`
   background: ${props =>
-    props.$isDark ? props.theme.color('black') : props.theme.color('white')};
+    props.theme.color(props.$isDark ? 'black' : 'transparent')};
   margin: 0;
 `;
 
@@ -28,8 +28,7 @@ export const TimeWrapper = styled.div.attrs({
   display: flex;
   justify-content: space-between;
   font-variant-numeric: tabular-nums;
-  color: ${props =>
-    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+  color: ${props => props.theme.color(props.$isDark ? 'white' : 'black')};
 `;
 
 export const SkipPlayWrapper = styled.div`
@@ -40,15 +39,13 @@ export const SkipPlayWrapper = styled.div`
 `;
 
 export const colorTransform = css<{ $isDark: boolean }>`
-  color: ${props =>
-    props.$isDark ? props.theme.color('yellow') : props.theme.color('black')};
+  color: ${props => props.theme.color(props.$isDark ? 'yellow' : 'black')};
   transform: scale(1.1);
 `;
 
 export const SkipButton = styled.button<{ $isDark: boolean }>`
   padding: ${props => props.theme.spacingUnits['5']}px 0 0;
-  color: ${props =>
-    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+  color: ${props => props.theme.color(props.$isDark ? 'white' : 'black')};
 
   transition:
     color 0.2s ease-out,
@@ -76,31 +73,28 @@ export const PlayerRateWrapper = styled.div`
 `;
 
 export const colorTransformIconFill = css<{ $isDark: boolean }>`
-  color: ${props =>
-    props.$isDark ? props.theme.color('yellow') : props.theme.color('black')};
+  color: ${props => props.theme.color(props.$isDark ? 'yellow' : 'black')};
   transform: scale(1.1);
 
   .icon__playpause {
     fill: ${props =>
-      props.$isDark ? props.theme.color('black') : props.theme.color('white')};
+      props.theme.color(props.$isDark ? 'black' : 'transparent')};
   }
 `;
 
 export const TitleWrapper = styled.span<{ $isDark: boolean }>`
-  color: ${props =>
-    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+  color: ${props => props.theme.color(props.$isDark ? 'white' : 'black')};
 `;
 
 export const PlayPauseInner = styled.div<{ $isDark: boolean }>`
-  color: ${props =>
-    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+  color: ${props => props.theme.color(props.$isDark ? 'white' : 'black')};
   transition:
     color 0.2s ease-out,
     transform 0.2s ease-out;
 
   .icon__playpause {
     fill: ${props =>
-      props.$isDark ? props.theme.color('black') : props.theme.color('white')};
+      props.theme.color(props.$isDark ? 'black' : 'transparent')};
     transition: fill 0.2s ease-out;
   }
 
