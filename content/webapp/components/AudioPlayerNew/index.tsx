@@ -92,9 +92,7 @@ const colorTransformIconFill = css<{ $isDark: boolean }>`
 
   .icon__playpause {
     fill: ${props =>
-      props.$isDark
-        ? props.theme.color('black')
-        : props.theme.color('transparent')};
+      props.theme.color(props.$isDark ? 'black' : 'transparent')};
   }
 `;
 
@@ -110,9 +108,7 @@ const PlayPauseInner = styled.div<{ $isDark: boolean }>`
 
   .icon__playpause {
     fill: ${props =>
-      props.$isDark
-        ? props.theme.color('black')
-        : props.theme.color('transparent')};
+      props.theme.color(props.$isDark ? 'black' : 'transparent')};
     transition: fill 0.2s ease-out;
   }
 
