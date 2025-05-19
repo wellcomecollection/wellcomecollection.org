@@ -124,7 +124,6 @@ export const Stops: FunctionComponent<Props> = ({ stops, type }) => {
                           audioFile={audioWithoutDescription.url}
                           title={stopTitle}
                           titleProps={titleProps}
-                          // isDark
                         />
                       ) : (
                         <AudioPlayer
