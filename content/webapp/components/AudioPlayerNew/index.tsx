@@ -24,7 +24,7 @@ const AudioPlayerWrapper = styled(Space).attrs({
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })<{ $isDark: boolean }>`
   background: ${props =>
-    props.$isDark ? props.theme.color('black') : props.theme.color('white')};
+    props.$isDark ? props.theme.color('black') : undefined};
   margin: 0;
 `;
 
@@ -96,7 +96,9 @@ const colorTransformIconFill = css<{ $isDark: boolean }>`
 
   .icon__playpause {
     fill: ${props =>
-      props.$isDark ? props.theme.color('black') : props.theme.color('white')};
+      props.$isDark
+        ? props.theme.color('black')
+        : props.theme.color('transparent')};
   }
 `;
 
@@ -114,7 +116,9 @@ const PlayPauseInner = styled.div<{ $isDark: boolean }>`
 
   .icon__playpause {
     fill: ${props =>
-      props.$isDark ? props.theme.color('black') : props.theme.color('white')};
+      props.$isDark
+        ? props.theme.color('black')
+        : props.theme.color('transparent')};
     transition: fill 0.2s ease-out;
   }
 
