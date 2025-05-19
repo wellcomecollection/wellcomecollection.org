@@ -1,5 +1,8 @@
 name: 'Pa11y'
 on:
+  push:
+    branches:
+      - pa11y-wf
   schedule:
     - cron: '0 4 * * MON-FRI'
 
