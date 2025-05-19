@@ -1,0 +1,31 @@
+name: 'Pa11y'
+on:
+  schedule:
+    - cron: '0 4 * * MON-FRI'
+
+permissions:
+  contents: read
+
+jobs:
+  pa11y_report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Write pa11y report to S3
+        run: cd pa11y/webapp && yarn && yarn write-report
+
+  # pa11y_deployment:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: aws-actions/configure-aws-credentials@v4
+  #       with:
+  #         aws-region: eu-west-1
+  #         role-to-assume: ${{ secrets.EXPERIENCE_GHA_ROLE_ARN }}
+  #     - uses: aws-actions/amazon-ecr-login@v2
+  #       env:
+  #         AWS_REGION: us-east-1
+  #       with:
+  #         registry-type: public
+  #     - name: Run Prismic linting
+  #       run: docker compose run prismic_model yarn lintPrismicData
