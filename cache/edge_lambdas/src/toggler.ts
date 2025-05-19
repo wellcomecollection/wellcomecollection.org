@@ -21,7 +21,16 @@ type Test = {
 };
 
 // This is mutable for testing
-export let tests: Test[] = [];
+export let tests: Test[] = [
+  {
+    id: 'abTestTest',
+    title: 'Testing the A/B test toggler',
+    range: [0, 100],
+    when: request => {
+      return !!request.uri.match(/\/works\/.*$/);
+    },
+  },
+];
 
 export const setTests = function (newTests: Test[]): void {
   tests = newTests;
