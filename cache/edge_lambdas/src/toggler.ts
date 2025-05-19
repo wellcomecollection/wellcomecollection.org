@@ -23,7 +23,7 @@ type Test = {
 // This is mutable for testing
 export let tests: Test[] = [
   {
-    id: 'abTestTest',
+    id: 'abTestTestTest',
     title: 'Testing the A/B test toggler',
     range: [0, 100],
     when: request => {
