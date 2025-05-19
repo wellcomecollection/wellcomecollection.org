@@ -1,5 +1,5 @@
 import * as prismic from '@prismicio/client';
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { FunctionComponent, useEffect, useId, useRef, useState } from 'react';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { font } from '@weco/common/utils/classnames';
@@ -56,6 +56,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   const [startTime, setStartTime] = useState(currentTime);
   const { trackPlay, trackEnded, trackTimeUpdate } = useAVTracking('audio');
   const { activeAudioPlayerId, setActiveAudioPlayerId } = useAppContext();
+  const randomisedId = useId();
 
   const audioPlayerRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLInputElement>(null);
@@ -119,7 +120,7 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
 
   // Pause playing if another audio player is active
   useEffect(() => {
-    if (activeAudioPlayerId !== audioFile && isPlaying) {
+    if (activeAudioPlayerId !== randomisedId && isPlaying) {
       onTogglePlay();
     }
   }, [activeAudioPlayerId]);
@@ -261,8 +262,8 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
           onPlay={event => {
             trackPlay(event);
             setIsPlaying(true);
-            if (activeAudioPlayerId !== audioFile)
-              setActiveAudioPlayerId(audioFile);
+            if (activeAudioPlayerId !== randomisedId)
+              setActiveAudioPlayerId(randomisedId);
           }}
           onEnded={trackEnded}
           onPause={() => setIsPlaying(false)}
