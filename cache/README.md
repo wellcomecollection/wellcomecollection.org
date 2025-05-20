@@ -71,18 +71,22 @@ end
   },
 }
 ```
-2. Update and upload the lambda deployment package:
+2. Update and upload the lambda deployment package. From the root of the repo, run:
 ```
 docker compose build edge_lambdas
 AWS_PROFILE=experience-developer docker compose run edge_lambdas yarn deploy
 ```
-3. deploy the lambda:
+3. Deploy the toggle to the toggles dashboard. From the `toggles/webapp` directory, run:
+```
+yarn deploy
+```
+4. Deploy the lambda. From inside the `cache` directory, run:
 ```
 terraform plan -out=terraform.plan
 terraform apply terraform.plan
 ```
-4. Make a note of the edge_lambda_request_version and edge_lambda_response_version numbers in the terminal resulting from the terraform command
-5. Check www-stage and verify the test cookie (`toggle_someToggleId`) is set
-6. Check the data is being sent to GA (either `someToggleId` or `!someToggleId`). You should initially be able to see the toggles dataLayer variable being set (`DLV - Toggles`) in GTM, then this data should get sent to GA as a custom dimension (note you might not be able to see this until the next day)
-7. Update [`locals.tf`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/locals.tf) with values from previous terraform and re-run the terraform steps above to get the changes in to production
-8. Use the toggle to conditionally serve different UI in the same way as you would for feature flags
+5. Make a note of the `edge_lambda_request_version` and `edge_lambda_response_version` numbers in the terminal resulting from the terraform command
+6. Check www-stage and verify the test cookie (`toggle_someToggleId`) is set
+7. Check the data is being sent to GA (either `someToggleId` or `!someToggleId`). You should initially be able to see the toggles dataLayer variable being set (`DLV - Toggles`) in GTM, then this data should get sent to GA as a custom dimension (note you might not be able to see this until the next day)
+8. Update [`locals.tf`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/locals.tf) with values from previous terraform and re-run the terraform steps above to get the changes in to production
+9. Use the toggle to conditionally serve different UI in the same way as you would for feature flags
