@@ -60,15 +60,25 @@ end
 `toggler` runs @ the `origin-request` and `origin-response` of [the lambda@edgfe lifecycle](https://docs.aws.amazon.com/lambda/latest/dg/lambda-edge.html).
 
 ### Steps to create an A/B test
-1. Add a test object to [`toggler.ts`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/edge_lambdas/src/toggler.ts) and add an equivalent test object with the same id to [`toggles.ts`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/toggles/webapp/toggles.ts)  – this second object is important because it allows us to determine [what should be sent to GA](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/common/services/app/analytics-scripts/google-analytics.tsx)
+1. Add a test object to [`toggler.ts`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/edge_lambdas/src/toggler.ts) and add an equivalent test object with the same id (without the `when` key) to [`toggles.ts`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/toggles/webapp/toggles.ts)  – this second object is important because it allows us to determine [what should be sent to GA](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/common/services/app/analytics-scripts/google-analytics.tsx)
+
+**toggler.ts**
 ```
 {
   id: 'someToggleId',
-  title: 'New subject tags on works pages',
+  title: 'Some descriptive title',
   range: [0, SOME_PERCENTAGE],
   when: request => {
     return !!request.uri.match(/SOME_REGEX/);
   },
+}
+```
+**toggles.ts**
+```
+{
+  id: 'someToggleId',
+  title: 'Some descriptive title',
+  range: [0, SOME_PERCENTAGE],
 }
 ```
 2. Update and upload the lambda deployment package. From the root of the repo, run:
