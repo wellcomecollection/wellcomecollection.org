@@ -127,7 +127,7 @@ const toggles = {
       },
       type: 'test',
     },
-  ] as ABTest[],
+  ] as ABTest[], // We have to include a reference to any test toggles here as well as in the cache dir because they are deployed separately and consequently can't share a source of truth
 };
 
 export default toggles;
