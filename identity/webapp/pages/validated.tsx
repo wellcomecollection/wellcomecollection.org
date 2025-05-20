@@ -75,7 +75,7 @@ export const getServerSideProps: GetServerSideProps<
     // refresh after fetching a new access token.
     try {
       await auth0.getAccessToken(req, res, { refresh: true });
-      await auth0.getSession(req, res);
+      await auth0.getSession(req, res); // TODO replace?
     } catch (e) {
       // It doesn't matter if this fails; it means the user doesn't currently have a session
     }

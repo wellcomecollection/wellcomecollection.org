@@ -2,7 +2,7 @@
 // eslint-disable-next-line
 // @ts-nocheck
 import {
-  initAuth0,
+  // initAuth0,
   PageRoute,
   WithPageAuthRequiredPageRouterOptions,
 } from '@auth0/nextjs-auth0';
@@ -57,13 +57,13 @@ const profileScopes = [
   'weco:patron_role',
 ];
 
-const identityAuthorizationParams = {
+export const identityAuthorizationParams = {
   audience: config.remoteApi.host,
   scope: [...utilityScopes, ...profileScopes, ...identityApiScopes].join(' '),
 };
 
-const ONE_HOUR_S = 60 * 60;
-const ONE_DAY_S = 24 * ONE_HOUR_S;
+// const ONE_HOUR_S = 60 * 60;
+// const ONE_DAY_S = 24 * ONE_HOUR_S;
 
 /*
  * !!!IMPORTANT!!!
@@ -72,26 +72,27 @@ const ONE_DAY_S = 24 * ONE_HOUR_S;
  */
 
 // See https://auth0.github.io/nextjs-auth0/modules/config.html
-const auth0 = initAuth0({
-  secret: config.sessionKeys,
-  issuerBaseURL: `https://${config.auth0.domain}`,
-  baseURL: config.siteBaseUrl + config.identityBasePath,
-  clientID: config.auth0.clientID,
-  clientSecret: config.auth0.clientSecret,
-  authorizationParams: {
-    response_type: 'code',
-    ...identityAuthorizationParams,
-  },
-  routes: {
-    postLogoutRedirect: config.siteBaseUrl,
-  },
-  session: {
-    rolling: true, // Session expiry time is reset every time the user interacts with the server
-    absoluteDuration: 7 * ONE_DAY_S, // 1 week
-    rollingDuration: 8 * ONE_HOUR_S, // 8 hours
-    name: `wecoIdentitySession_${config.sessionVersion}`,
-  },
-});
+// Old version was here
+// const auth0 = initAuth0({
+//   authorizationParams: {
+//     response_type: 'code',
+//     ...identityAuthorizationParams,
+//   },
+//   baseURL: config.siteBaseUrl + config.identityBasePath,
+//   clientID: config.auth0.clientID,
+//   clientSecret: config.auth0.clientSecret,
+//   issuerBaseURL: `https://${config.auth0.domain}`,
+//   routes: {
+//     postLogoutRedirect: config.siteBaseUrl,
+//   },
+//   secret: config.sessionKeys,
+//   session: {
+//     rolling: true, // Session expiry time is reset every time the user interacts with the server
+//     absoluteDuration: 7 * ONE_DAY_S, // 1 week
+//     rollingDuration: 8 * ONE_HOUR_S, // 8 hours
+//     name: `wecoIdentitySession_${config.sessionVersion}`,
+//   },
+// });
 
 // Wrapping the built-in method as per https://github.com/auth0/nextjs-auth0#base-path-and-internationalized-routing
 // in order to preserve basePath

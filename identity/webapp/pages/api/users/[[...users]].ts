@@ -1,4 +1,4 @@
-import { AccessTokenError } from '@auth0/nextjs-auth0';
+import { AccessTokenError } from '@auth0/nextjs-auth0/errors';
 import axios, { AxiosInstance, Method as AxiosMethod } from 'axios';
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 import getConfig from 'next/config';
