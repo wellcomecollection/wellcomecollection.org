@@ -25,7 +25,7 @@ Create a PR with this change, and once merged and built, run `terraform plan` an
 Test your redirection in staging after a few minutes. Cache might need to be cleared.
 
 If that works, next step is to apply the changes to prod.
-For that, you'll need to change the edge lambda versions in our [locals file](./locals.tf). 
+For that, you'll need to change the edge lambda versions in our [locals file](./locals.tf).
 You can find that version number in the Lambda AWS app.
 
 Once that has been merged and built, you'll need to reapply Terraform.
@@ -35,6 +35,8 @@ Once that has been merged and built, you'll need to reapply Terraform.
 Randomly assign people into A/B buckets against a `key` that is then available to our webapps.
 
 We do this by setting a `toggle_{key}=true|false` that is then read via the standard toggles method.
+
+The steps to create an A/B test are available in [GitBook](https://app.gitbook.com/o/-LumfFcEMKx4gYXKAZTQ/s/DPDDj27NI2F2kPukWrC1/readme/front-end/a-b-testing).
 
 ```mermaid
 sequenceDiagram
