@@ -1,5 +1,3 @@
-import { CloudFrontRequest } from 'aws-lambda';
-
 export type ToggleTypes = 'permanent' | 'experimental' | 'test' | 'stage';
 
 type ToggleBase = {
@@ -21,8 +19,6 @@ export type PublishedToggle = ToggleBase & {
 export type ABTest = {
   id: string;
   title: string;
-  range: [number, number];
-  when: (request: CloudFrontRequest) => boolean;
   type: 'test';
 };
 
