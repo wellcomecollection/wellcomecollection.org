@@ -216,11 +216,11 @@ export const getServerSideProps: GetServerSideProps<
   return {
     props: serialiseProps({
       serverData,
-      user: session.user,
     }),
   };
 };
 
+// User only gets passed in tests, otherwise we rely on the user context
 const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
   const {
     requestedItems,
@@ -228,7 +228,6 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
     fetchRequests,
   } = useRequestedItems();
   const sendVerificationEmail = useSendVerificationEmail();
-  // TODO do we want to use the Auth0 one?
   const { user: contextUser } = useUserContext();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);

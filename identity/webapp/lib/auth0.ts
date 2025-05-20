@@ -1,5 +1,5 @@
 import { Auth0Client } from '@auth0/nextjs-auth0/server';
-import { Auth0ClientOptions } from '@auth0/nextjs-auth0/types';
+import { Auth0ClientOptions, SessionData } from '@auth0/nextjs-auth0/types';
 
 const ONE_HOUR_S = 60 * 60;
 const ONE_DAY_S = 24 * ONE_HOUR_S;
@@ -38,6 +38,11 @@ const auth0ClientOptions: Auth0ClientOptions = {
   domain: process.env.AUTH0_DOMAIN,
   clientId: process.env.AUTH0_CLIENT_ID,
   clientSecret: process.env.AUTH0_CLIENT_SECRET,
+  // This seems to be required to get all the claims in the JWT
+  // even though it looks like it doesn't do anything
+  beforeSessionSaved: async (session: SessionData): Promise<SessionData> => ({
+    ...session,
+  }),
   authorizationParameters: {
     // audience: {
     //   host: process.env.IDENTITY_API_HOST || 'build',
