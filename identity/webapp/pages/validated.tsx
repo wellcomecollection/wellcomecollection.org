@@ -13,7 +13,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import PageWrapper from '@weco/identity/components/PageWrapper';
 import { Container, Wrapper } from '@weco/identity/components/styled/layouts';
-import auth0 from '@weco/identity/utils/auth0';
+import { auth0 } from '@weco/identity/lib/auth0';
 import {
   ValidatedFailedText,
   ValidatedSuccessText,
@@ -75,7 +75,7 @@ export const getServerSideProps: GetServerSideProps<
     // refresh after fetching a new access token.
     try {
       await auth0.getAccessToken(req, res, { refresh: true });
-      await auth0.getSession(req, res); // TODO replace?
+      await auth0.getSession(); // TODO replace?
     } catch (e) {
       // It doesn't matter if this fails; it means the user doesn't currently have a session
     }
