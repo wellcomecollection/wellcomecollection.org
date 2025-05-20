@@ -185,7 +185,7 @@ export const getServerSideProps: GetServerSideProps<
   // [1]: https://wellcome.slack.com/archives/CUA669WHH/p1656325929053499?thread_ts=1656322401.443269&cid=CUA669WHH
   // [2]: https://auth0.com/docs/manage-users/user-accounts/user-profiles#caching-user-profiles
   //
-  const session = await auth0.getSession();
+  const session = await auth0.getSession(context.req);
 
   if (!session)
     return {
