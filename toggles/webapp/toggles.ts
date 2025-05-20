@@ -117,7 +117,17 @@ const toggles = {
       type: 'experimental',
     },
   ] as const,
-  tests: [] as ABTest[],
+  tests: [
+    {
+      id: 'abTestTestTest',
+      title: 'Testing the A/B test toggler',
+      range: [0, 100],
+      when: request => {
+        return !!request.uri.match(/\/works\/.*$/);
+      },
+      type: 'test',
+    },
+  ] as ABTest[], // We have to include a reference to any test toggles here as well as in the cache dir because they are deployed separately and consequently can't share a source of truth
 };
 
 export default toggles;

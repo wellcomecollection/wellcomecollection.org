@@ -21,7 +21,16 @@ type Test = {
 };
 
 // This is mutable for testing
-export let tests: Test[] = [];
+export let tests: Test[] = [
+  {
+    id: 'abTestTestTest',
+    title: 'Testing the A/B test toggler',
+    range: [0, 100],
+    when: request => {
+      return !!request.uri.match(/\/works\/.*$/);
+    },
+  },
+]; // Any test toggles included here also have to be included in the toggles dir because they are deployed separately and consequently can't share a source of truth
 
 export const setTests = function (newTests: Test[]): void {
   tests = newTests;
