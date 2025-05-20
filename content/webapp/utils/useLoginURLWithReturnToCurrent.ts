@@ -5,7 +5,7 @@ export const useLoginURLWithReturnToCurrent = (): string => {
   // This is perhaps overly defensive, but it does make testing easier
   // as we don't need to provide the full NextJS context
   if (!router?.asPath) {
-    return '/account/api/auth/login';
+    return '/account/auth/login';
   }
-  return `/account/api/auth/login?returnTo=${router.asPath}`;
+  return `/account/api/login?returnTo=${router.asPath}`;
 };

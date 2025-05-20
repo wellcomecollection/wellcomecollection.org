@@ -54,17 +54,14 @@ const MobileSignIn: FunctionComponent = () => {
         <Icon icon={userIcon} matchText={true} />
       </Space>
       {!user && (
-        <a
-          href="/account/api/auth/login"
-          data-gtm-trigger="library_account_login"
-        >
+        <a href="/account/auth/login" data-gtm-trigger="library_account_login">
           Sign in to your library account
         </a>
       )}
       {user && (
         <>
           <a href="/account">Library account</a>
-          <a href="/account/api/auth/logout">Sign out</a>
+          <a href="/account/auth/logout">Sign out</a>
         </>
       )}
     </StyledComponent>

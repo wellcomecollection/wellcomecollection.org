@@ -56,7 +56,7 @@ const DesktopSignIn: FunctionComponent = () => {
             buttonType="borderless"
           >
             <a
-              href="/account/api/auth/login"
+              href="/account/auth/login"
               data-gtm-trigger="library_account_login"
             >
               Sign in to your library account
@@ -82,7 +82,7 @@ const DesktopSignIn: FunctionComponent = () => {
               <AccountA as="a" href="/account">
                 Library account
               </AccountA>
-              <AccountA as="a" href="/account/api/auth/logout" $last>
+              <AccountA as="a" href="/account/auth/logout" $last>
                 Sign out
               </AccountA>
             </span>

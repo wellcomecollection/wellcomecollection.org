@@ -206,7 +206,7 @@ export const getServerSideProps: GetServerSideProps<
 
     return {
       redirect: {
-        destination: `/api/auth/logout?${params}`,
+        destination: `/auth/logout?${params}`,
         permanent: false,
       },
     };
@@ -240,7 +240,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
 
   const logoutOnDeletionRequest = () => {
     router.replace(
-      `/api/auth/logout?returnTo=${encodeURIComponent('/delete-requested')}`
+      `/auth/logout?returnTo=${encodeURIComponent('/delete-requested')}`
     );
   };
 
