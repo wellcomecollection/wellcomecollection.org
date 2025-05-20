@@ -116,6 +116,13 @@ const toggles = {
       description: 'Adds exhibitions to the events search results',
       type: 'experimental',
     },
+    {
+      id: 'relatedContentOnWorks',
+      title: 'Related content on works',
+      initialValue: false,
+      description: 'Shows related content on works pages',
+      type: 'experimental',
+    },
   ] as const,
   tests: [
     {
