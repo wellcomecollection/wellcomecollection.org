@@ -61,7 +61,7 @@ end
 
 ### Steps to create an A/B test
 1. Add a test object to [`toggler.ts`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/edge_lambdas/src/toggler.ts) and add an equivalent test object with the same id to [`toggles.ts`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/toggles/webapp/toggles.ts)  – this second object is important because it allows us to determine [what should be sent to GA](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/common/services/app/analytics-scripts/google-analytics.tsx)
-```json
+```
 {
   id: 'someToggleId',
   title: 'New subject tags on works pages',
