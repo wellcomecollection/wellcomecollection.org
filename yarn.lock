@@ -20,7 +20,7 @@
   resolved "https://registry.yarnpkg.com/@antfu/ni/-/ni-0.20.0.tgz#3a24497d8a60d9bd45215f0c32e88cbedc76015e"
   integrity sha512-mBgAuq2b0daSA/14LMyjEjaInD7/Zd7KVXZge7bQPKmtQJFqy9/pWBml6DMkMreeHQEomMtIbbeqReNJ/74kjA==
 
-"@auth0/nextjs-auth0@^4.5.1":
+"@auth0/nextjs-auth0@4.5.1", "@auth0/nextjs-auth0@^4.5.1":
   version "4.5.1"
   resolved "https://registry.yarnpkg.com/@auth0/nextjs-auth0/-/nextjs-auth0-4.5.1.tgz#43db389c8b5346ebfb71db20973a559f9d70a544"
   integrity sha512-fdRnx7BirqTNORXcXwULl0orHcPQJiXaX6B/rdXhhwv6OrV8wKkEd0gJwWvvAIygRgBBly1g+bZmKnigSVofAQ==

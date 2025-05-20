@@ -1,3 +1,4 @@
+import { useUser } from '@auth0/nextjs-auth0';
 import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import {
@@ -8,7 +9,6 @@ import {
 } from 'react';
 import { URLSearchParams } from 'url';
 
-import { useUserContext } from '@weco/common/contexts/UserContext';
 import { sierraStatusCodeToLabel } from '@weco/common/data/microcopy';
 import { info2 } from '@weco/common/icons';
 import {
@@ -216,6 +216,7 @@ export const getServerSideProps: GetServerSideProps<
   return {
     props: serialiseProps({
       serverData,
+      user: session.user,
     }),
   };
 };
@@ -227,7 +228,9 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
     fetchRequests,
   } = useRequestedItems();
   const sendVerificationEmail = useSendVerificationEmail();
-  const { user: contextUser } = useUserContext();
+  // TODO do we want to use the Auth0 one?
+  // const { user: contextUser } = useUserContext();
+  const { user: contextUser } = useUser();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
 

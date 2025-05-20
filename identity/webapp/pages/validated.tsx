@@ -76,6 +76,8 @@ export const getServerSideProps: GetServerSideProps<
     try {
       await auth0.getAccessToken(req, res, { refresh: true });
       await auth0.getSession(req); // TODO replace?
+
+      // if(!session) TODO: do a check here to see if the session is valid?
     } catch (e) {
       // It doesn't matter if this fails; it means the user doesn't currently have a session
     }

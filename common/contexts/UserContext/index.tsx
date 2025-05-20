@@ -1,3 +1,4 @@
+import { useUser } from '@auth0/nextjs-auth0';
 import {
   createContext,
   FunctionComponent,
@@ -39,6 +40,8 @@ export function useUserContext(): Props {
 export const UserContextProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
+  const { user: auth0user } = useUser();
+  console.log({ auth0user }); // TODO remove this before merge
   const [user, setUser] = useState<UserInfo>();
   const [userIsStaffWithRestricted, setUserIsStaffWithRestricted] =
     useState(false);
@@ -54,6 +57,7 @@ export const UserContextProvider: FunctionComponent<PropsWithChildren> = ({
       const resp = await fetch(profileUrl, {
         signal: abortSignal,
       });
+
       switch (resp.status) {
         case 204:
           setState('signedout');
