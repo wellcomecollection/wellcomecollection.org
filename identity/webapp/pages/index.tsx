@@ -189,9 +189,10 @@ export const getServerSideProps: GetServerSideProps<
 
   if (!session)
     return {
-      props: serialiseProps({
-        serverData,
-      }),
+      redirect: {
+        destination: '/auth/login?returnTo=/account',
+        permanent: false,
+      },
     };
 
   if (
