@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState } from 'react';
 
 import { Work } from '@weco/content/services/wellcome/catalogue/types';
 
@@ -7,6 +7,7 @@ type Props = {
 };
 
 const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
+  const [relatedContent, setRelatedContent] = useState([]);
   const subjects = work.subjects.map(subject => subject.label);
   return <h2>Related Works</h2>;
 };
