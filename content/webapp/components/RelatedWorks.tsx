@@ -24,7 +24,9 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
       });
       if (response.type === 'ResultList') {
         setRelatedContent(
-          response.results.filter(content => content.id !== work.id) // Exclude the current work
+          response.results
+            .filter(content => content.id !== work.id) // Exclude the current work
+            .slice(0, 3) // Only show 3 results
         );
       }
     };
