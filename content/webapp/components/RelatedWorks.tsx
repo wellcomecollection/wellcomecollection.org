@@ -2,14 +2,18 @@ import { FunctionComponent, useContext, useEffect, useState } from 'react';
 
 import { ServerDataContext } from '@weco/common/server-data/Context';
 import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
-import { Work } from '@weco/content/services/wellcome/catalogue/types';
+import {
+  toWorkBasic,
+  Work,
+  WorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
 
 type Props = {
   work: Work;
 };
 
 const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
-  const [relatedContent, setRelatedContent] = useState([]);
+  const [relatedContent, setRelatedContent] = useState<WorkBasic[]>([]);
   const subjects = work.subjects.map(subject => subject.label);
   const data = useContext(ServerDataContext);
 
@@ -27,6 +31,7 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
           response.results
             .filter(content => content.id !== work.id) // Exclude the current work
             .slice(0, 3) // Only show 3 results
+            .map(toWorkBasic)
         );
       }
     };
