@@ -30,6 +30,14 @@ export let tests: Test[] = [
       return !!request.uri.match(/\/works\/.*$/);
     },
   },
+  {
+    id: 'newTags',
+    title: 'A/B test for new tags',
+    range: [0, 100],
+    when: request => {
+      return !!request.uri.match(/^\/works\/[^/]+$/); // /works/someid but not /works/someid/otherpath
+    },
+  },
 ]; // Any test toggles included here also have to be included in the toggles dir because they are deployed separately and consequently can't share a source of truth
 
 export const setTests = function (newTests: Test[]): void {

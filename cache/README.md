@@ -60,29 +60,43 @@ end
 `toggler` runs @ the `origin-request` and `origin-response` of [the lambda@edgfe lifecycle](https://docs.aws.amazon.com/lambda/latest/dg/lambda-edge.html).
 
 ### Steps to create an A/B test
-1. Add a test object to [`toggler.ts`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/edge_lambdas/src/toggler.ts) and add an equivalent test object with the same id to [`toggles.ts`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/toggles/webapp/toggles.ts)  – this second object is important because it allows us to determine [what should be sent to GA](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/common/services/app/analytics-scripts/google-analytics.tsx)
+1. Add a test object to [`toggler.ts`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/edge_lambdas/src/toggler.ts) and add an equivalent test object with the same id (without the `when` key) to [`toggles.ts`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/toggles/webapp/toggles.ts)  – this second object is important because it allows us to determine [what should be sent to GA](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/common/services/app/analytics-scripts/google-analytics.tsx)
+
+**toggler.ts**
 ```
 {
   id: 'someToggleId',
-  title: 'New subject tags on works pages',
+  title: 'Some descriptive title',
   range: [0, SOME_PERCENTAGE],
   when: request => {
     return !!request.uri.match(/SOME_REGEX/);
   },
 }
 ```
-2. Update and upload the lambda deployment package:
+**toggles.ts**
+```
+{
+  id: 'someToggleId',
+  title: 'Some descriptive title',
+  range: [0, SOME_PERCENTAGE],
+}
+```
+2. Update and upload the lambda deployment package. From the root of the repo, run:
 ```
 docker compose build edge_lambdas
 AWS_PROFILE=experience-developer docker compose run edge_lambdas yarn deploy
 ```
-3. deploy the lambda:
+3. Deploy the toggle to the toggles dashboard. From the `toggles/webapp` directory, run:
+```
+yarn deploy
+```
+4. Deploy the lambda. From inside the `cache` directory, run:
 ```
 terraform plan -out=terraform.plan
 terraform apply terraform.plan
 ```
-4. Make a note of the edge_lambda_request_version and edge_lambda_response_version numbers in the terminal resulting from the terraform command
-5. Check www-stage and verify the test cookie (`toggle_someToggleId`) is set
-6. Check the data is being sent to GA (either `someToggleId` or `!someToggleId`). You should initially be able to see the toggles dataLayer variable being set (`DLV - Toggles`) in GTM, then this data should get sent to GA as a custom dimension (note you might not be able to see this until the next day)
-7. Update [`locals.tf`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/locals.tf) with values from previous terraform and re-run the terraform steps above to get the changes in to production
-8. Use the toggle to conditionally serve different UI in the same way as you would for feature flags
+5. Make a note of the `edge_lambda_request_version` and `edge_lambda_response_version` numbers in the terminal resulting from the terraform command
+6. Check www-stage and verify the test cookie (`toggle_someToggleId`) is set
+7. Check the data is being sent to GA (either `someToggleId` or `!someToggleId`). You should initially be able to see the toggles dataLayer variable being set (`DLV - Toggles`) in GTM, then this data should get sent to GA as a custom dimension (note you might not be able to see this until the next day)
+8. Update [`locals.tf`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/locals.tf) with values from previous terraform and re-run the terraform steps above to get the changes in to production
+9. Use the toggle to conditionally serve different UI in the same way as you would for feature flags
