@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import Readme from '@weco/content/components/Tags/README.mdx';
 import Tags from '@weco/content/components/Tags';
+import Readme from '@weco/content/components/Tags/README.mdx';
 
 const nextLink = {
   href: {
@@ -26,6 +26,8 @@ const meta: Meta<typeof Tags> = {
   component: Tags,
   args: {
     isFirstPartBold: false,
+    isABTestWorkTag: false,
+    separator: '-',
     tags: [
       {
         textParts: ['Medical illustration'],
@@ -40,6 +42,13 @@ const meta: Meta<typeof Tags> = {
         linkAttributes: nextLink,
       },
     ],
+  },
+  argTypes: {
+    tags: {
+      table: {
+        disable: true,
+      },
+    },
   },
 };
 
