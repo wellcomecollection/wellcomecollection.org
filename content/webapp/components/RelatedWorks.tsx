@@ -3,6 +3,7 @@ import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { ServerDataContext } from '@weco/common/server-data/Context';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
+import WorksSearchResult from '@weco/content/components/WorksSearchResult'; // temporary
 import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
 import {
   toWorkBasic,
@@ -47,6 +48,13 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
       <Container>
         <Space $v={{ size: 'l', properties: ['padding-top'] }}>
           <h2>Related Works</h2>
+          {relatedContent.map((result, i) => (
+            <WorksSearchResult
+              work={result}
+              resultPosition={i}
+              key={result.id}
+            />
+          ))}
         </Space>
       </Container>
     )) ||
