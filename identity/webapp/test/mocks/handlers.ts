@@ -14,7 +14,7 @@ export const handlers = [
   rest.get('/account/api/users/:userId', (req, res, ctx) => {
     return res(ctx.json(mockUser));
   }),
-  rest.get('/account/api/auth/me', (req, res, ctx) => {
+  rest.get('/account/auth/profile', (req, res, ctx) => {
     return res(ctx.json(mockAuth0Profile));
   }),
   rest.put<{ email: string }>('/account/api/users/:userId', (req, res, ctx) => {
