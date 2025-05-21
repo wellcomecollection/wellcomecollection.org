@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { getServerData } from '@weco/common/server-data';
+import { useToggles } from '@weco/common/server-data/Context';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -67,6 +68,7 @@ export const WorkPage: NextPage<Props> = ({
   transformedManifest,
 }) => {
   useHotjar(true);
+  const { relatedContentOnWorks } = useToggles();
   const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = !!(
     work.parts.length ||
