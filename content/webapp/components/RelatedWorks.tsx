@@ -1,6 +1,8 @@
 import { FunctionComponent, useContext, useEffect, useState } from 'react';
 
 import { ServerDataContext } from '@weco/common/server-data/Context';
+import { Container } from '@weco/common/views/components/styled/Container';
+import Space from '@weco/common/views/components/styled/Space';
 import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
 import {
   toWorkBasic,
@@ -40,7 +42,16 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
       fetchRelatedContent();
     }
   }, [work]);
-  return (relatedContent.length > 0 && <h2>Related Works</h2>) || null;
+  return (
+    (relatedContent.length > 0 && (
+      <Container>
+        <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+          <h2>Related Works</h2>
+        </Space>
+      </Container>
+    )) ||
+    null
+  );
 };
 
 export default RelatedWorks;
