@@ -27,7 +27,7 @@ const meta: Meta<typeof Tags> = {
   args: {
     isFirstPartBold: false,
     isABTestWorkTag: false,
-    separator: '-',
+    separator: '–',
     tags: [
       {
         textParts: ['Medical illustration'],
