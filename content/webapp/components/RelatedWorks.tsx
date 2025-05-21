@@ -24,6 +24,7 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
         pageSize: 4, // In case we get the current work back, we will still have 3 to show
         params: {
           'subjects.label': subjects,
+          include: ['production', 'contributors'],
         },
       });
       if (response.type === 'ResultList') {
