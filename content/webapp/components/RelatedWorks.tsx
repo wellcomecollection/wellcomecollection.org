@@ -40,7 +40,7 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
       fetchRelatedContent();
     }
   }, [work]);
-  return <h2>Related Works</h2>;
+  return (relatedContent.length > 0 && <h2>Related Works</h2>) || null;
 };
 
 export default RelatedWorks;
