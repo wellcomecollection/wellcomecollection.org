@@ -4,24 +4,13 @@ import styled from 'styled-components';
 
 import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
-import { StyledButton } from '@weco/common/views/components/Buttons';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
-
-import TagsNew from './Tags.New';
 
 export type TagType = {
   textParts: string[];
   linkAttributes: LinkProps;
 };
-
-const TagInner = styled.span`
-  white-space: normal;
-  display: inline-block;
-  text-align: left;
-  line-height: 1.2;
-`;
 
 type PartWithSeparatorProps = {
   $separator: string;
@@ -41,10 +30,10 @@ const PartWithSeparator = styled.span.attrs({
   }
 `;
 
-const LinkWrapper = styled(Space).attrs({
+const LinkWrapper = styled(Space).attrs<{ $isLast: boolean }>(props => ({
   $v: { size: 's', properties: ['margin-bottom'] },
-  $h: { size: 's', properties: ['margin-right'] },
-})`
+  ...(!props.$isLast && { $h: { size: 'l', properties: ['margin-right'] } }),
+}))`
   display: inline-block;
 `;
 
@@ -52,56 +41,40 @@ export type Props = {
   tags: TagType[];
   isFirstPartBold?: boolean;
   separator?: string;
-  isABTestWorkTag?: boolean;
 };
 
-const Tags: FunctionComponent<Props> = ({
+const TagsNew: FunctionComponent<Props> = ({
   tags,
   isFirstPartBold = true,
   separator = '–',
-  isABTestWorkTag,
 }) => {
-  if (isABTestWorkTag)
-    return (
-      <TagsNew
-        tags={tags}
-        isFirstPartBold={isFirstPartBold}
-        separator={separator}
-      />
-    );
-
   return (
     <Space $v={{ size: 's', negative: true, properties: ['margin-bottom'] }}>
       <PlainList>
         {/* Have to use index for key because some LCSH and MSH are the same and therefore textParts aren't unique */}
         {tags.map(({ textParts, linkAttributes }, i) => {
           return (
-            <LinkWrapper as="li" key={i}>
+            <LinkWrapper as="li" key={i} $isLast={i === tags.length - 1}>
               <NextLink {...linkAttributes} passHref legacyBehavior>
-                <StyledButton
-                  $size="small"
-                  $colors={themeValues.buttonColors.pumiceTransparentCharcoal}
-                >
-                  <TagInner>
-                    {textParts.map((part, i, arr) => (
-                      <PartWithSeparator
-                        key={part}
-                        $separator={i === 0 ? '|' : separator}
-                        $isLast={i === arr.length - 1}
+                <a style={{ textUnderlineOffset: '6px' }}>
+                  {textParts.map((part, i, arr) => (
+                    <PartWithSeparator
+                      key={part}
+                      $separator={i === 0 ? '|' : separator}
+                      $isLast={i === arr.length - 1}
+                    >
+                      <span
+                        className={
+                          i === 0 && isFirstPartBold
+                            ? font('intb', 5)
+                            : font('intr', 5)
+                        }
                       >
-                        <span
-                          className={
-                            i === 0 && isFirstPartBold
-                              ? font('intb', 5)
-                              : font('intr', 5)
-                          }
-                        >
-                          {part}
-                        </span>
-                      </PartWithSeparator>
-                    ))}
-                  </TagInner>
-                </StyledButton>
+                        {part}
+                      </span>
+                    </PartWithSeparator>
+                  ))}
+                </a>
               </NextLink>
             </LinkWrapper>
           );
@@ -111,4 +84,4 @@ const Tags: FunctionComponent<Props> = ({
   );
 };
 
-export default Tags;
+export default TagsNew;
