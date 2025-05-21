@@ -17,7 +17,7 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
     const fetchRelatedContent = async () => {
       const response = await catalogueQuery('works', {
         toggles: data.toggles,
-        pageSize: 3,
+        pageSize: 4, // In case we get the current work back, we will still have 3 to show
         params: {
           'subjects.label': subjects,
         },
