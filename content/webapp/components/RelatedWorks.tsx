@@ -181,10 +181,9 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
 
   useEffect(() => {
     // Once we have the genres labels from the first api request,
-    // we can update the related tab config to include the first one we consider visual
-    // else just the first one
-    // TODO should we add then together until we have at least 3 results
-
+    // we can update the related tab config to include a genre label tab.
+    // We pick the first genre label that is we consider to be visual if there is one,
+    // otherwise we pick the first genre label.
     if (genresLabels.length > 0) {
       const id = genresLabels[0].replace(/[^a-zA-Z0-9]/g, '-');
       setRelatedTabConfig({
