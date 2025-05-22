@@ -18,6 +18,15 @@ type Props = {
   work: Work;
 };
 
+// genres labels we consider visual
+const visualGenres = [
+  'Engravings',
+  'Etchings',
+  'Portrait prints',
+  'Photographs',
+  'Paintings',
+];
+
 // Returns the century range for a string containing exactly four digits
 const getCenturyRange = (
   str: string
