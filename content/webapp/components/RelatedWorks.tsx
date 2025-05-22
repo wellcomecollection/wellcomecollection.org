@@ -20,9 +20,9 @@ type Props = {
 
 // Returns the century range for a string containing exactly four digits
 const getCenturyRange = (
-  str: string
+  str?: string
 ): { tabLabel: string; from: string; to: string } | null => {
-  const match = str.match(/^(\d{4})$/);
+  const match = str?.match(/^(\d{4})$/);
   if (match) {
     const year = parseInt(match[0], 10);
     const centuryStart = Math.floor(year / 100) * 100;
