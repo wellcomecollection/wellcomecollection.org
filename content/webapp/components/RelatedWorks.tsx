@@ -92,7 +92,12 @@ const fetchRelated = async ({
         .slice(0, 3)
         .map(toWorkBasic)
     );
-    setGenresLabels(getGenresLabels(response.aggregations as WorkAggregations));
+    if (aggregations.find(agg => agg === 'genres.label')) {
+      // We only want to set the genres labels if we have a genres.label aggregation
+      setGenresLabels(
+        getGenresLabels(response.aggregations as WorkAggregations)
+      );
+    }
   }
 };
 
