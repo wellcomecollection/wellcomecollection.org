@@ -28,7 +28,7 @@ const getCenturyRange = (
     const centuryStart = Math.floor(year / 100) * 100;
     const centuryEnd = centuryStart + 99;
     return {
-      tabLabel: `From ${centuryStart}`,
+      tabLabel: `From ${centuryStart}s`,
       from: `${centuryStart}-01-01`,
       to: `${centuryEnd}-12-31`,
     };
