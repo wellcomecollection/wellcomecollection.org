@@ -1,4 +1,11 @@
-import { FunctionComponent, useContext, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  FunctionComponent,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 import { ServerDataContext } from '@weco/common/server-data/Context';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
@@ -73,9 +80,9 @@ function getRelatedTabConfig({
 }: {
   work: Work;
   relatedWorks: { [key: string]: WorkBasic[] | undefined };
-  setRelatedWorks: (results: {
-    [key: string]: WorkBasic[] | undefined;
-  }) => void;
+  setRelatedWorks: Dispatch<
+    SetStateAction<{ [key: string]: WorkBasic[] | undefined }>
+  >;
 }) {
   const subjectLabels = work.subjects.map(subject => subject.label).slice(0, 3);
   const dateRange = getCenturyRange(work.production[0]?.dates[0]?.label);
@@ -96,7 +103,10 @@ function getRelatedTabConfig({
       params: { 'subjects.label': [label] },
       related: relatedWorks[`subject-${id}`],
       setRelated: (results: WorkBasic[]) =>
-        setRelatedWorks(prev => ({ ...prev, [`subject-${id}`]: results })),
+        setRelatedWorks((prev: { [key: string]: WorkBasic[] | undefined }) => ({
+          ...prev,
+          [`subject-${id}`]: results,
+        })),
     };
   });
 
