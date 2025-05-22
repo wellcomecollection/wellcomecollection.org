@@ -15,6 +15,21 @@ type Props = {
   work: Work;
 };
 
+const getDecadeRange = (str: string) => {
+  const match = str.match(/^(\d{4})$/);
+  if (match) {
+    const year = parseInt(match[0], 10);
+    const decadeStart = Math.floor(year / 10) * 10;
+    const decadeEnd = decadeStart + 10;
+    return {
+      tabLabel: `From ${decadeStart}`,
+      from: `${decadeStart}-01-01`,
+      to: `${decadeEnd}-12-31`,
+    };
+  }
+  return null;
+};
+
 const fetchRelated = async ({ data, params, setRelated, work }) => {
   const response = await catalogueQuery('works', {
     toggles: data.toggles,
