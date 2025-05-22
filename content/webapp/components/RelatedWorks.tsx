@@ -50,6 +50,48 @@ const fetchRelated = async ({ data, params, setRelated, work }) => {
   }
 };
 
+// Returns a config object for tabs: one per subject label, plus date-range if present
+function getRelatedTabConfig({ work, relatedWorks, setRelatedWorks }) {
+  const subjectLabels = work.subjects.map(subject => subject.label);
+  const dateRange = getDecadeRange(work.production[0].dates[0].label);
+  const config: {
+    [key: string]: {
+      text: string;
+      params: unknown; // TODO type
+      related: WorkBasic[] | undefined;
+      setRelated: (results: WorkBasic[]) => void;
+    };
+  } = {};
+
+  subjectLabels.forEach(label => {
+    config[`subject-${label}`] = {
+      text: label,
+      params: { 'subjects.label': [label] },
+      related: relatedWorks[`subject-${label}`],
+      setRelated: (results: WorkBasic[]) =>
+        setRelatedWorks(prev => ({ ...prev, [`subject-${label}`]: results })),
+    };
+  });
+
+  if (dateRange) {
+    config['date-range'] = {
+      text: dateRange.tabLabel,
+      params: {
+        // TODO do we want to filter by subject labels here too or just dates?
+        // ...(subjectLabels.length > 0
+        //   ? { 'subjects.label': subjectLabels }
+        //   : {}),
+        'production.dates.from': dateRange.from,
+        'production.dates.to': dateRange.to,
+      },
+      related: relatedWorks['date-range'],
+      setRelated: (results: WorkBasic[]) =>
+        setRelatedWorks(prev => ({ ...prev, 'date-range': results })),
+    };
+  }
+
+  return config;
+}
 const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
   const [relatedBySubject, setRelatedBySubject] = useState<WorkBasic[]>([]);
   const subjects = work.subjects.map(subject => subject.label);
