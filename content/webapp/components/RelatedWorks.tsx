@@ -44,11 +44,13 @@ function getGenreLabels(aggregations: unknown): string[] {
 const fetchRelated = async ({
   serverData,
   params,
+  aggregations,
   setRelated,
   work,
 }: {
   serverData: SimplifiedServerData;
   params: { [key: string]: string | string[] };
+  aggregations: string[];
   setRelated: (results: WorkBasic[]) => void;
   work: Work;
 }): Promise<void> => {
@@ -58,8 +60,10 @@ const fetchRelated = async ({
     params: {
       ...params,
       include: ['production', 'contributors'],
+      aggregations: aggregations.length > 0 ? aggregations : undefined,
     },
   });
+
   if (response.type === 'ResultList') {
     setRelated(
       response.results
@@ -78,6 +82,7 @@ function getRelatedTabConfig({ work, relatedWorks, setRelatedWorks }) {
     [key: string]: {
       text: string;
       params: { [key: string]: string | string[] };
+      aggregations: string[];
       related: WorkBasic[] | undefined;
       setRelated: (results: WorkBasic[]) => void;
     };
@@ -88,6 +93,7 @@ function getRelatedTabConfig({ work, relatedWorks, setRelatedWorks }) {
     config[`subject-${id}`] = {
       text: label,
       params: { 'subjects.label': [label] },
+      aggregations: ['genres.label'],
       related: relatedWorks[`subject-${id}`],
       setRelated: (results: WorkBasic[]) =>
         setRelatedWorks(prev => ({ ...prev, [`subject-${id}`]: results })),
@@ -101,6 +107,7 @@ function getRelatedTabConfig({ work, relatedWorks, setRelatedWorks }) {
         'production.dates.from': dateRange.from,
         'production.dates.to': dateRange.to,
       },
+      aggregations: [],
       related: relatedWorks['date-range'],
       setRelated: (results: WorkBasic[]) =>
         setRelatedWorks(prev => ({ ...prev, 'date-range': results })),
@@ -114,12 +121,22 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
   const [relatedWorks, setRelatedWorks] = useState<{
     [key: string]: WorkBasic[] | undefined;
   }>({});
-
-  const relatedTabConfig = getRelatedTabConfig({
-    work,
-    relatedWorks,
-    setRelatedWorks,
-  });
+  const [genreLabels, setGenreLabels] = useState<string[]>([]);
+  const [relatedTabConfig, setRelatedTabConfig] = useState<{
+    [key: string]: {
+      text: string;
+      params: { [key: string]: string | string[] };
+      aggregations: string[];
+      related: WorkBasic[] | undefined;
+      setRelated: (results: WorkBasic[]) => void;
+    };
+  }>(
+    getRelatedTabConfig({
+      work,
+      relatedWorks,
+      setRelatedWorks,
+    })
+  );
 
   // Set initial tab to first subject or date-range if no subjects
   const tabKeys = Object.keys(relatedTabConfig);
@@ -141,6 +158,7 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
         work,
         serverData,
         params: relatedTabConfig[selectedWorksTab].params,
+        aggregations: relatedTabConfig[selectedWorksTab].aggregations,
         setRelated: relatedTabConfig[selectedWorksTab].setRelated,
       });
     }
