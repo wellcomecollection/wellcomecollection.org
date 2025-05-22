@@ -1,6 +1,7 @@
 import { FunctionComponent, useContext, useEffect, useState } from 'react';
 
 import { ServerDataContext } from '@weco/common/server-data/Context';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { classNames } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
@@ -18,7 +19,9 @@ type Props = {
 };
 
 // TODO may change to century range
-const getDecadeRange = (str: string) => {
+const getDecadeRange = (
+  str: string
+): { tabLabel: string; from: string; to: string } | null => {
   const match = str.match(/^(\d{4})$/);
   if (match) {
     const year = parseInt(match[0], 10);
@@ -33,9 +36,19 @@ const getDecadeRange = (str: string) => {
   return null;
 };
 
-const fetchRelated = async ({ data, params, setRelated, work }) => {
+const fetchRelated = async ({
+  serverData,
+  params,
+  setRelated,
+  work,
+}: {
+  serverData: SimplifiedServerData;
+  params: { [key: string]: string | string[] };
+  setRelated: (results: WorkBasic[]) => void;
+  work: Work;
+}): Promise<void> => {
   const response = await catalogueQuery('works', {
-    toggles: data.toggles,
+    toggles: serverData.toggles,
     pageSize: 4, // In case we get the current work back, we will still have 3 to show
     params: {
       ...params,
@@ -59,7 +72,7 @@ function getRelatedTabConfig({ work, relatedWorks, setRelatedWorks }) {
   const config: {
     [key: string]: {
       text: string;
-      params: unknown; // TODO type
+      params: { [key: string]: string | string[] };
       related: WorkBasic[] | undefined;
       setRelated: (results: WorkBasic[]) => void;
     };
@@ -110,12 +123,12 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
   const tabKeys = Object.keys(relatedTabConfig);
   const [selectedWorksTab, setSelectedWorksTab] = useState(tabKeys[0] || '');
 
-  const data = useContext(ServerDataContext);
+  const serverData = useContext(ServerDataContext);
 
   useEffect(() => {
     fetchRelated({
       work,
-      data,
+      serverData,
       params: relatedTabConfig[selectedWorksTab].params,
       setRelated: relatedTabConfig[selectedWorksTab].setRelated,
     });
