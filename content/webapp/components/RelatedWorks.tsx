@@ -93,10 +93,6 @@ function getRelatedTabConfig({ work, relatedWorks, setRelatedWorks }) {
     config['date-range'] = {
       text: dateRange.tabLabel,
       params: {
-        // TODO do we want to filter by subject labels here too or just dates?
-        // ...(subjectLabels.length > 0
-        //   ? { 'subjects.label': subjectLabels }
-        //   : {}),
         'production.dates.from': dateRange.from,
         'production.dates.to': dateRange.to,
       },
