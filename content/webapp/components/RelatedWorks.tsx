@@ -196,9 +196,12 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
           text: chosenGenre,
           params: {
             'genres.label': [chosenGenre],
+            // the genres we chose is based on the query using the first subject label as a filter
+            // this is to avoid having to do a another api call filtered by all the subject labels together
+            // so we also filter here by the first subject label as well as the genre label
             'subjects.label': work.subjects
               .map(subject => subject.label)
-              .slice(0, 1), // TODO we only know what the genres are for the first subject unless we make a second api call
+              .slice(0, 1),
           },
           aggregations: [],
           related: relatedWorks[`genres-${id}`],
