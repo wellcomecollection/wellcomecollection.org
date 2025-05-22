@@ -20,10 +20,22 @@ import {
   Work,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
+import { WorkAggregations } from '@weco/content/services/wellcome/catalogue/types/aggregations';
 
 type Props = {
   work: Work;
 };
+
+// Genres labels we consider visual
+// TODO what should be in this list?
+const visualGenres = [
+  'Caricatures',
+  'Engravings',
+  'Etchings',
+  'Portrait prints',
+  'Photographs',
+  'Paintings',
+];
 
 // Returns the century range for a string containing exactly four digits
 const getCenturyRange = (
@@ -43,15 +55,24 @@ const getCenturyRange = (
   return null;
 };
 
+function getGenresLabels(aggregations?: WorkAggregations): string[] {
+  const buckets = aggregations?.['genres.label']?.buckets ?? [];
+  return buckets.map(bucket => bucket?.data?.label);
+}
+
 const fetchRelated = async ({
   serverData,
   params,
+  aggregations,
   setRelated,
+  setGenresLabels,
   work,
 }: {
   serverData: SimplifiedServerData;
   params: { [key: string]: string | string[] };
+  aggregations: string[];
   setRelated: (results: WorkBasic[]) => void;
+  setGenresLabels: (results: string[]) => void;
   work: Work;
 }): Promise<void> => {
   const response = await catalogueQuery('works', {
@@ -60,8 +81,10 @@ const fetchRelated = async ({
     params: {
       ...params,
       include: ['production', 'contributors'],
+      aggregations: aggregations.length > 0 ? aggregations : undefined,
     },
   });
+
   if (response.type === 'ResultList') {
     setRelated(
       response.results
@@ -69,6 +92,12 @@ const fetchRelated = async ({
         .slice(0, 3)
         .map(toWorkBasic)
     );
+    if (aggregations.find(agg => agg === 'genres.label')) {
+      // We only want to set the genres labels if we have a genres.label aggregation
+      setGenresLabels(
+        getGenresLabels(response.aggregations as WorkAggregations)
+      );
+    }
   }
 };
 
@@ -91,6 +120,7 @@ function getRelatedTabConfig({
     [key: string]: {
       text: string;
       params: { [key: string]: string | string[] };
+      aggregations: string[];
       related: WorkBasic[] | undefined;
       setRelated: (results: WorkBasic[]) => void;
     };
@@ -101,6 +131,7 @@ function getRelatedTabConfig({
     config[`subject-${id}`] = {
       text: label,
       params: { 'subjects.label': [label] },
+      aggregations: ['genres.label'],
       related: relatedWorks[`subject-${id}`],
       setRelated: (results: WorkBasic[]) =>
         setRelatedWorks((prev: { [key: string]: WorkBasic[] | undefined }) => ({
@@ -117,6 +148,7 @@ function getRelatedTabConfig({
         'production.dates.from': dateRange.from,
         'production.dates.to': dateRange.to,
       },
+      aggregations: [],
       related: relatedWorks['date-range'],
       setRelated: (results: WorkBasic[]) =>
         setRelatedWorks(prev => ({ ...prev, 'date-range': results })),
@@ -130,12 +162,22 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
   const [relatedWorks, setRelatedWorks] = useState<{
     [key: string]: WorkBasic[] | undefined;
   }>({});
-
-  const relatedTabConfig = getRelatedTabConfig({
-    work,
-    relatedWorks,
-    setRelatedWorks,
-  });
+  const [genresLabels, setGenresLabels] = useState<string[]>([]);
+  const [relatedTabConfig, setRelatedTabConfig] = useState<{
+    [key: string]: {
+      text: string;
+      params: { [key: string]: string | string[] };
+      aggregations: string[];
+      related: WorkBasic[] | undefined;
+      setRelated: (results: WorkBasic[]) => void;
+    };
+  }>(
+    getRelatedTabConfig({
+      work,
+      relatedWorks,
+      setRelatedWorks,
+    })
+  );
 
   // Set initial tab to first subject or date-range if no subjects
   const tabKeys = Object.keys(relatedTabConfig);
@@ -144,7 +186,7 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
   const serverData = useContext(ServerDataContext);
 
   useEffect(() => {
-    // Only fetch if we haven't already fetched results for hte current tab
+    // Only fetch if we haven't already fetched results for the current tab
     // or if the results for the current tab now include the current work
     const related =
       relatedTabConfig[selectedWorksTab] &&
@@ -157,10 +199,45 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
         work,
         serverData,
         params: relatedTabConfig[selectedWorksTab].params,
+        aggregations: relatedTabConfig[selectedWorksTab].aggregations,
         setRelated: relatedTabConfig[selectedWorksTab].setRelated,
+        setGenresLabels,
       });
     }
   }, [selectedWorksTab, work.id]);
+
+  useEffect(() => {
+    // Once we have the genres labels from the first api request,
+    // we can update the related tab config to include a genre label tab.
+    // We pick the first genre label that is we consider to be visual if there is one,
+    // otherwise we pick the first genre label.
+    if (genresLabels.length > 0) {
+      const visualGenre = genresLabels.find(label =>
+        visualGenres.includes(label)
+      );
+      const chosenGenre = visualGenre || genresLabels[0];
+      const id = chosenGenre.replace(/[^a-zA-Z0-9]/g, '-');
+      setRelatedTabConfig({
+        ...relatedTabConfig,
+        [`genres-${id}`]: {
+          text: chosenGenre,
+          params: {
+            'genres.label': [chosenGenre],
+            // the genres we chose is based on the query using the first subject label as a filter
+            // this is to avoid having to do a another api call filtered by all the subject labels together
+            // so we also filter here by the first subject label as well as the genre label
+            'subjects.label': work.subjects
+              .map(subject => subject.label)
+              .slice(0, 1),
+          },
+          aggregations: [],
+          related: relatedWorks[`genres-${id}`],
+          setRelated: (results: WorkBasic[]) =>
+            setRelatedWorks(prev => ({ ...prev, [`genres-${id}`]: results })),
+        },
+      });
+    }
+  }, [genresLabels]);
 
   return Object.keys(relatedTabConfig).length === 0 ? null : (
     <Container>
