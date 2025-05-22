@@ -58,8 +58,8 @@ const fetchRelated = async ({
   if (response.type === 'ResultList') {
     setRelated(
       response.results
-        .filter(result => result.id !== work.id) // Exclude the current work
-        .slice(0, 3) // Only show 3 results
+        .filter(result => result.id !== work.id)
+        .slice(0, 3)
         .map(toWorkBasic)
     );
   }
@@ -67,7 +67,7 @@ const fetchRelated = async ({
 
 // Returns a config object for tabs: one per subject label, plus date-range if present
 function getRelatedTabConfig({ work, relatedWorks, setRelatedWorks }) {
-  const subjectLabels = work.subjects.map(subject => subject.label);
+  const subjectLabels = work.subjects.map(subject => subject.label).slice(0, 3);
   const dateRange = getDecadeRange(work.production[0].dates[0].label);
   const config: {
     [key: string]: {
