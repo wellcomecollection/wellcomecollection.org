@@ -185,12 +185,16 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
     // We pick the first genre label that is we consider to be visual if there is one,
     // otherwise we pick the first genre label.
     if (genresLabels.length > 0) {
-      const id = genresLabels[0].replace(/[^a-zA-Z0-9]/g, '-');
+      const visualGenre = genresLabels.find(label =>
+        visualGenres.includes(label)
+      );
+      const chosenGenre = visualGenre || genresLabels[0];
+      const id = chosenGenre.replace(/[^a-zA-Z0-9]/g, '-');
       setRelatedTabConfig({
         ...relatedTabConfig,
         [`genres-${id}`]: {
-          text: genresLabels[0],
-          params: { 'genres.label': [genresLabels[0]] },
+          text: chosenGenre,
+          params: { 'genres.label': [chosenGenre] },
           aggregations: [],
           related: relatedWorks[`genres-${id}`],
           setRelated: (results: WorkBasic[]) =>
