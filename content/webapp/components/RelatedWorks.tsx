@@ -92,23 +92,27 @@ function getRelatedTabConfig({ work, relatedWorks, setRelatedWorks }) {
 
   return config;
 }
+
 const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
   const [relatedWorks, setRelatedWorks] = useState<{
     [key: string]: WorkBasic[] | undefined;
   }>({});
 
+  const relatedTabConfig = getRelatedTabConfig({
+    work,
+    relatedWorks,
+    setRelatedWorks,
+  });
   const data = useContext(ServerDataContext);
 
   useEffect(() => {
-    if (subjects.length > 0) {
-      fetchRelated({
-        work,
-        data,
-        params: bySubjectParams,
-        setRelated: setRelatedBySubject,
-      });
-    }
-  }, [work]);
+    fetchRelated({
+      work,
+      data,
+      params: relatedTabConfig[selectedWorksTab].params,
+      setRelated: relatedTabConfig[selectedWorksTab].setRelated,
+    });
+  }, [selectedWorksTab]);
 
   return (
     (relatedBySubject.length > 0 && (
