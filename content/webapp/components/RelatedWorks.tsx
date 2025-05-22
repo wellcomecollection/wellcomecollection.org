@@ -145,7 +145,7 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
     }
   }, [selectedWorksTab, work.id]);
 
-  return (
+  return Object.keys(relatedTabConfig).length === 0 ? null : (
     <Container>
       <Space $v={{ size: 'l', properties: ['padding-top'] }}>
         <h2>Related Works</h2>
