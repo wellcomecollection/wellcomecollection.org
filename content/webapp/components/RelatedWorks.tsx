@@ -1,4 +1,11 @@
-import { FunctionComponent, useContext, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  FunctionComponent,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 import { ServerDataContext } from '@weco/common/server-data/Context';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
@@ -13,12 +20,13 @@ import {
   Work,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
+import { WorkAggregations } from '@weco/content/services/wellcome/catalogue/types/aggregations';
 
 type Props = {
   work: Work;
 };
 
-// genres labels we consider visual
+// Genres labels we consider visual
 // TODO what should be in this list?
 const visualGenres = [
   'Caricatures',
@@ -47,9 +55,9 @@ const getCenturyRange = (
   return null;
 };
 
-function getGenresLabels(aggregations: unknown): string[] {
+function getGenresLabels(aggregations?: WorkAggregations): string[] {
   const buckets = aggregations?.['genres.label']?.buckets ?? [];
-  return buckets.map((bucket: unknown) => bucket?.data?.label); // TODO
+  return buckets.map(bucket => bucket?.data?.label);
 }
 
 const fetchRelated = async ({
@@ -84,7 +92,7 @@ const fetchRelated = async ({
         .slice(0, 3)
         .map(toWorkBasic)
     );
-    setGenresLabels(getGenresLabels(response.aggregations));
+    setGenresLabels(getGenresLabels(response.aggregations as WorkAggregations));
   }
 };
 
@@ -96,9 +104,9 @@ function getRelatedTabConfig({
 }: {
   work: Work;
   relatedWorks: { [key: string]: WorkBasic[] | undefined };
-  setRelatedWorks: (results: {
-    [key: string]: WorkBasic[] | undefined;
-  }) => void;
+  setRelatedWorks: Dispatch<
+    SetStateAction<{ [key: string]: WorkBasic[] | undefined }>
+  >;
 }) {
   const subjectLabels = work.subjects.map(subject => subject.label).slice(0, 3);
   const dateRange = getCenturyRange(work.production[0]?.dates[0]?.label);
@@ -121,7 +129,10 @@ function getRelatedTabConfig({
       aggregations: ['genres.label'],
       related: relatedWorks[`subject-${id}`],
       setRelated: (results: WorkBasic[]) =>
-        setRelatedWorks(prev => ({ ...prev, [`subject-${id}`]: results })),
+        setRelatedWorks((prev: { [key: string]: WorkBasic[] | undefined }) => ({
+          ...prev,
+          [`subject-${id}`]: results,
+        })),
     };
   });
 
