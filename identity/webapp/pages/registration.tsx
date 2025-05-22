@@ -80,7 +80,7 @@ export const getServerSideProps: GetServerSideProps<
     return {
       redirect: {
         permanent: false,
-        destination: '/api/auth/login',
+        destination: '/auth/login',
       },
     };
   }

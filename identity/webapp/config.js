@@ -1,7 +1,8 @@
 require('dotenv').config();
 
-const port = Number(process.env.PORT) || 3000;
+const port = Number(process.env.PORT) || 3003;
 
+// TODO do we still need this, could some be removed?
 // Defaults (ie "build") need to be set here so that there's something available
 // at build time - it never gets used
 const getConfig = () => {
