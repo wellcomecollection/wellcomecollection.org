@@ -1,9 +1,11 @@
 import { FunctionComponent, useContext, useEffect, useState } from 'react';
 
 import { ServerDataContext } from '@weco/common/server-data/Context';
+import { classNames } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
-import WorksSearchResult from '@weco/content/components/WorksSearchResult'; // temporary
+import Tabs from '@weco/content/components/Tabs';
+import WorksSearchResult from '@weco/content/components/WorksSearchResult'; // TODO temporary
 import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
 import {
   toWorkBasic,
@@ -120,21 +122,39 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
   }, [selectedWorksTab]);
 
   return (
-    (relatedBySubject.length > 0 && (
-      <Container>
-        <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-          <h2>Related Works</h2>
-          {relatedBySubject.map((result, i) => (
-            <WorksSearchResult
-              work={result}
-              resultPosition={i}
-              key={result.id}
-            />
-          ))}
-        </Space>
-      </Container>
-    )) ||
-    null
+    <Container>
+      <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+        <h2>Related Works</h2>
+        <Tabs
+          tabBehaviour="switch"
+          label="Related works control"
+          selectedTab={selectedWorksTab}
+          items={Object.entries(relatedTabConfig).map(([id, config]) => ({
+            id,
+            url: `#${id}`,
+            text: config.text,
+          }))}
+          setSelectedTab={setSelectedWorksTab}
+          // trackWithSegment
+        />
+        {Object.keys(relatedTabConfig).map(tabKey => (
+          <div
+            key={tabKey}
+            className={classNames({
+              'is-hidden': selectedWorksTab !== tabKey,
+            })}
+          >
+            {relatedWorks[tabKey]?.map((result, i) => (
+              <WorksSearchResult
+                work={result}
+                resultPosition={i}
+                key={result.id}
+              />
+            ))}
+          </div>
+        ))}
+      </Space>
+    </Container>
   );
 };
 
