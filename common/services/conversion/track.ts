@@ -161,9 +161,14 @@ function track(conversion: Conversion) {
   }
 
   const dimensions = conversion.properties?.dimensions;
+  const pageType = conversion.page.name;
 
   if (dimensions) {
     window.dataLayer?.push({ dimensions });
+  }
+
+  if (pageType) {
+    window.dataLayer?.push({ pageType });
   }
 
   window.analytics.track(eventGroup, {
