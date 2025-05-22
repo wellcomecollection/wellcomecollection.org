@@ -159,7 +159,7 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
             text: config.text,
           }))}
           setSelectedTab={setSelectedWorksTab}
-          // trackWithSegment
+          // TODO trackWithSegment?
         />
         {Object.keys(relatedTabConfig).map(tabKey => (
           <div
@@ -168,6 +168,7 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
               'is-hidden': selectedWorksTab !== tabKey,
             })}
           >
+            {/* TODO loading icon */}
             {relatedWorks[tabKey]?.map((result, i) => (
               <WorksSearchResult
                 work={result}
