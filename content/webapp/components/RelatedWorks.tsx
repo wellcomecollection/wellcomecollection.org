@@ -66,9 +66,20 @@ const fetchRelated = async ({
 };
 
 // Returns a config object for tabs: one per subject label, plus date-range if present
-function getRelatedTabConfig({ work, relatedWorks, setRelatedWorks }) {
+function getRelatedTabConfig({
+  work,
+  relatedWorks,
+  setRelatedWorks,
+}: {
+  work: Work;
+  relatedWorks: { [key: string]: WorkBasic[] | undefined };
+  setRelatedWorks: (results: {
+    [key: string]: WorkBasic[] | undefined;
+  }) => void;
+}) {
   const subjectLabels = work.subjects.map(subject => subject.label).slice(0, 3);
-  const dateRange = getCenturyRange(work.production[0].dates[0].label);
+  const dateRange = getCenturyRange(work.production[0]?.dates[0]?.label);
+
   const config: {
     [key: string]: {
       text: string;
