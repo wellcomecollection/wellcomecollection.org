@@ -43,7 +43,7 @@ const fetchRelated = async ({ data, params, setRelated, work }) => {
   if (response.type === 'ResultList') {
     setRelated(
       response.results
-        .filter(content => content.id !== work.id) // Exclude the current work
+        .filter(result => result.id !== work.id) // Exclude the current work
         .slice(0, 3) // Only show 3 results
         .map(toWorkBasic)
     );
