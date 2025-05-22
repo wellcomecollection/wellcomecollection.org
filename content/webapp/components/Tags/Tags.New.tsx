@@ -37,6 +37,40 @@ const LinkWrapper = styled(Space).attrs<{ $isLast: boolean }>(props => ({
   display: inline-block;
 `;
 
+const FancyLink = styled.a`
+  display: inline-block;
+  text-decoration: none;
+  position: relative;
+  z-index: 1;
+  transition: color 400ms ease;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0.9rem;
+    height: 2px;
+    right: 0;
+    width: 100%;
+    background: ${props => props.theme.color('black')};
+    z-index: -1;
+    transition: width 200ms ease;
+  }
+
+  &:hover {
+    &::after {
+      width: 0;
+
+      /* Prevent iOS double-tap link issue
+      https://css-tricks.com/annoying-mobile-double-tap-link-issue/ */
+      @media (pointer: coarse) {
+        width: 0;
+      }
+    }
+  }
+`;
+
 export type Props = {
   tags: TagType[];
   isFirstPartBold?: boolean;
@@ -56,7 +90,7 @@ const TagsNew: FunctionComponent<Props> = ({
           return (
             <LinkWrapper as="li" key={i} $isLast={i === tags.length - 1}>
               <NextLink {...linkAttributes} passHref legacyBehavior>
-                <a style={{ textUnderlineOffset: '6px' }}>
+                <FancyLink>
                   {textParts.map((part, i, arr) => (
                     <PartWithSeparator
                       key={part}
@@ -74,7 +108,7 @@ const TagsNew: FunctionComponent<Props> = ({
                       </span>
                     </PartWithSeparator>
                   ))}
-                </a>
+                </FancyLink>
               </NextLink>
             </LinkWrapper>
           );
