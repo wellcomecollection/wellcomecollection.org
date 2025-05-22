@@ -79,12 +79,13 @@ function getRelatedTabConfig({ work, relatedWorks, setRelatedWorks }) {
   } = {};
 
   subjectLabels.forEach(label => {
-    config[`subject-${label}`] = {
+    const id = label.replace(/[^a-zA-Z0-9]/g, '-');
+    config[`subject-${id}`] = {
       text: label,
       params: { 'subjects.label': [label] },
-      related: relatedWorks[`subject-${label}`],
+      related: relatedWorks[`subject-${id}`],
       setRelated: (results: WorkBasic[]) =>
-        setRelatedWorks(prev => ({ ...prev, [`subject-${label}`]: results })),
+        setRelatedWorks(prev => ({ ...prev, [`subject-${id}`]: results })),
     };
   });
 
