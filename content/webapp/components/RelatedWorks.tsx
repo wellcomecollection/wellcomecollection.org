@@ -93,11 +93,9 @@ function getRelatedTabConfig({ work, relatedWorks, setRelatedWorks }) {
   return config;
 }
 const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
-  const [relatedBySubject, setRelatedBySubject] = useState<WorkBasic[]>([]);
-  const subjects = work.subjects.map(subject => subject.label);
-  const bySubjectParams = {
-    'subjects.label': subjects,
-  };
+  const [relatedWorks, setRelatedWorks] = useState<{
+    [key: string]: WorkBasic[] | undefined;
+  }>({});
 
   const data = useContext(ServerDataContext);
 
