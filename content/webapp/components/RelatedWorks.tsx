@@ -103,6 +103,11 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
     relatedWorks,
     setRelatedWorks,
   });
+
+  // Set initial tab to first subject or date-range if no subjects
+  const tabKeys = Object.keys(relatedTabConfig);
+  const [selectedWorksTab, setSelectedWorksTab] = useState(tabKeys[0] || '');
+
   const data = useContext(ServerDataContext);
 
   useEffect(() => {
