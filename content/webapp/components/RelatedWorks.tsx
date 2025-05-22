@@ -19,7 +19,9 @@ type Props = {
 };
 
 // genres labels we consider visual
+// TODO what should be in this list?
 const visualGenres = [
+  'Caricatures',
   'Engravings',
   'Etchings',
   'Portrait prints',
