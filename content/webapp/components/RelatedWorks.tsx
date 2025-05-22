@@ -36,6 +36,11 @@ const getCenturyRange = (
   return null;
 };
 
+function getGenreLabels(aggregations: unknown): string[] {
+  const buckets = aggregations?.['genres.label']?.buckets ?? [];
+  return buckets.map((bucket: unknown) => bucket?.data?.label); // TODO
+}
+
 const fetchRelated = async ({
   serverData,
   params,
