@@ -18,19 +18,19 @@ type Props = {
   work: Work;
 };
 
-// TODO may change to century range
-const getDecadeRange = (
+// Returns the century range for a string containing exactly four digits
+const getCenturyRange = (
   str: string
 ): { tabLabel: string; from: string; to: string } | null => {
   const match = str.match(/^(\d{4})$/);
   if (match) {
     const year = parseInt(match[0], 10);
-    const decadeStart = Math.floor(year / 10) * 10;
-    const decadeEnd = decadeStart + 10;
+    const centuryStart = Math.floor(year / 100) * 100;
+    const centuryEnd = centuryStart + 99;
     return {
-      tabLabel: `From ${decadeStart}`,
-      from: `${decadeStart}-01-01`,
-      to: `${decadeEnd}-12-31`,
+      tabLabel: `From ${centuryStart}`,
+      from: `${centuryStart}-01-01`,
+      to: `${centuryEnd}-12-31`,
     };
   }
   return null;
@@ -68,7 +68,7 @@ const fetchRelated = async ({
 // Returns a config object for tabs: one per subject label, plus date-range if present
 function getRelatedTabConfig({ work, relatedWorks, setRelatedWorks }) {
   const subjectLabels = work.subjects.map(subject => subject.label).slice(0, 3);
-  const dateRange = getDecadeRange(work.production[0].dates[0].label);
+  const dateRange = getCenturyRange(work.production[0].dates[0].label);
   const config: {
     [key: string]: {
       text: string;
