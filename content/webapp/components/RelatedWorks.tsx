@@ -36,7 +36,7 @@ const getCenturyRange = (
   return null;
 };
 
-function getGenreLabels(aggregations: unknown): string[] {
+function getGenresLabels(aggregations: unknown): string[] {
   const buckets = aggregations?.['genres.label']?.buckets ?? [];
   return buckets.map((bucket: unknown) => bucket?.data?.label); // TODO
 }
@@ -46,12 +46,14 @@ const fetchRelated = async ({
   params,
   aggregations,
   setRelated,
+  setGenresLabels,
   work,
 }: {
   serverData: SimplifiedServerData;
   params: { [key: string]: string | string[] };
   aggregations: string[];
   setRelated: (results: WorkBasic[]) => void;
+  setGenresLabels: (results: string[]) => void;
   work: Work;
 }): Promise<void> => {
   const response = await catalogueQuery('works', {
@@ -71,6 +73,7 @@ const fetchRelated = async ({
         .slice(0, 3)
         .map(toWorkBasic)
     );
+    setGenresLabels(getGenresLabels(response.aggregations));
   }
 };
 
@@ -121,7 +124,7 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
   const [relatedWorks, setRelatedWorks] = useState<{
     [key: string]: WorkBasic[] | undefined;
   }>({});
-  const [genreLabels, setGenreLabels] = useState<string[]>([]);
+  const [genresLabels, setGenresLabels] = useState<string[]>([]);
   const [relatedTabConfig, setRelatedTabConfig] = useState<{
     [key: string]: {
       text: string;
@@ -160,9 +163,32 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
         params: relatedTabConfig[selectedWorksTab].params,
         aggregations: relatedTabConfig[selectedWorksTab].aggregations,
         setRelated: relatedTabConfig[selectedWorksTab].setRelated,
+        setGenresLabels,
       });
     }
   }, [selectedWorksTab, work.id]);
+
+  useEffect(() => {
+    // Once we have the genres labels from the first api request,
+    // we can update the related tab config to include the first one we consider visual
+    // else just the first one
+    // TODO should we add then together until we have at least 3 results
+
+    if (genresLabels.length > 0) {
+      const id = genresLabels[0].replace(/[^a-zA-Z0-9]/g, '-');
+      setRelatedTabConfig({
+        ...relatedTabConfig,
+        [`genres-${id}`]: {
+          text: genresLabels[0],
+          params: { 'genres.label': [genresLabels[0]] },
+          aggregations: [],
+          related: relatedWorks[`genres-${id}`],
+          setRelated: (results: WorkBasic[]) =>
+            setRelatedWorks(prev => ({ ...prev, [`genres-${id}`]: results })),
+        },
+      });
+    }
+  }, [genresLabels]);
 
   return Object.keys(relatedTabConfig).length === 0 ? null : (
     <Container>
