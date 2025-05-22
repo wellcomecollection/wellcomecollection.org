@@ -126,13 +126,20 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
   const serverData = useContext(ServerDataContext);
 
   useEffect(() => {
-    fetchRelated({
-      work,
-      serverData,
-      params: relatedTabConfig[selectedWorksTab].params,
-      setRelated: relatedTabConfig[selectedWorksTab].setRelated,
-    });
-  }, [selectedWorksTab]);
+    // Only fetch if we haven't already fetched results for hte current tab
+    // or if the results for the current tab now include the current work
+    const related =
+      relatedTabConfig[selectedWorksTab] &&
+      relatedTabConfig[selectedWorksTab].related;
+    if (!related || related.some(result => result.id === work.id)) {
+      fetchRelated({
+        work,
+        serverData,
+        params: relatedTabConfig[selectedWorksTab].params,
+        setRelated: relatedTabConfig[selectedWorksTab].setRelated,
+      });
+    }
+  }, [selectedWorksTab, work.id]);
 
   return (
     <Container>
