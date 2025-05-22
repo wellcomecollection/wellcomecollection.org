@@ -15,6 +15,7 @@ type Props = {
   work: Work;
 };
 
+// TODO may change to century range
 const getDecadeRange = (str: string) => {
   const match = str.match(/^(\d{4})$/);
   if (match) {
