@@ -132,7 +132,10 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
     const related =
       relatedTabConfig[selectedWorksTab] &&
       relatedTabConfig[selectedWorksTab].related;
-    if (!related || related.some(result => result.id === work.id)) {
+    if (
+      relatedTabConfig[selectedWorksTab] &&
+      (!related || related.some(result => result.id === work.id))
+    ) {
       fetchRelated({
         work,
         serverData,
