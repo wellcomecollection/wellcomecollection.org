@@ -194,7 +194,12 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
         ...relatedTabConfig,
         [`genres-${id}`]: {
           text: chosenGenre,
-          params: { 'genres.label': [chosenGenre] },
+          params: {
+            'genres.label': [chosenGenre],
+            'subjects.label': work.subjects
+              .map(subject => subject.label)
+              .slice(0, 1), // TODO we only know what the genres are for the first subject unless we make a second api call
+          },
           aggregations: [],
           related: relatedWorks[`genres-${id}`],
           setRelated: (results: WorkBasic[]) =>
