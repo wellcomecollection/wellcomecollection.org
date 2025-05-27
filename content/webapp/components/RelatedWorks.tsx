@@ -63,16 +63,12 @@ function getGenresLabels(aggregations?: WorkAggregations): string[] {
 const fetchRelated = async ({
   serverData,
   params,
-  aggregations,
   setRelated,
-  setGenresLabels,
   work,
 }: {
   serverData: SimplifiedServerData;
   params: { [key: string]: string | string[] };
-  aggregations: string[];
   setRelated: (results: WorkBasic[]) => void;
-  setGenresLabels: (results: string[]) => void;
   work: Work;
 }): Promise<void> => {
   const response = await catalogueQuery('works', {
@@ -81,7 +77,6 @@ const fetchRelated = async ({
     params: {
       ...params,
       include: ['production', 'contributors'],
-      aggregations: aggregations.length > 0 ? aggregations : undefined,
     },
   });
 
@@ -92,29 +87,40 @@ const fetchRelated = async ({
         .slice(0, 3)
         .map(toWorkBasic)
     );
-    if (aggregations.find(agg => agg === 'genres.label')) {
-      // We only want to set the genres labels if we have a genres.label aggregation
-      setGenresLabels(
-        getGenresLabels(response.aggregations as WorkAggregations)
-      );
-    }
   }
 };
 
-// Returns a config object for tabs: one per subject label, plus date-range if present
-function getRelatedTabConfig({
+// Returns a config object for tabs: one per subject label, date-range if possible, genres if available
+async function getRelatedTabConfig({
   work,
   relatedWorks,
   setRelatedWorks,
+  serverData,
 }: {
   work: Work;
   relatedWorks: { [key: string]: WorkBasic[] | undefined };
   setRelatedWorks: Dispatch<
     SetStateAction<{ [key: string]: WorkBasic[] | undefined }>
   >;
+  serverData: SimplifiedServerData;
 }) {
   const subjectLabels = work.subjects.map(subject => subject.label).slice(0, 3);
   const dateRange = getCenturyRange(work.production[0]?.dates[0]?.label);
+  // TODO we should populate the first tab content from this request too, rather than make another call
+  // We make a request with the first subject label so we can get the genres labels
+  const response = await catalogueQuery('works', {
+    toggles: serverData.toggles,
+    pageSize: 4, // In case we get the current work back, we will still have 3 to show
+    params: {
+      'subjects.label': [`"${subjectLabels[0]}"`],
+      include: ['production', 'contributors'],
+      aggregations: ['genres.label'],
+    },
+  });
+  const genresLabels =
+    response.type === 'ResultList'
+      ? getGenresLabels(response.aggregations as WorkAggregations)
+      : [];
 
   const config: {
     [key: string]: {
@@ -126,8 +132,9 @@ function getRelatedTabConfig({
     };
   } = {};
 
-  subjectLabels.forEach(label => {
+  subjectLabels.forEach(async label => {
     const id = label.replace(/[^a-zA-Z0-9]/g, '-');
+
     config[`subject-${id}`] = {
       text: label,
       params: { 'subjects.label': [`"${label}"`] },
@@ -155,6 +162,32 @@ function getRelatedTabConfig({
     };
   }
 
+  // If we have genres labels from the first subject label,
+  // we can to include a genre labelled tab.
+  // We pick the first genre label that we consider to be visual if there is one,
+  // otherwise we pick the first genre label.
+  if (genresLabels.length > 0) {
+    const visualGenre = genresLabels.find(label =>
+      visualGenres.includes(label)
+    );
+    const chosenGenre = visualGenre || genresLabels[0];
+    const id = chosenGenre.replace(/[^a-zA-Z0-9]/g, '-');
+    config[`genres-${id}`] = {
+      text: chosenGenre,
+      params: {
+        'genres.label': [chosenGenre],
+        // The genres we chosen from what is available when using the first subject label as a filter
+        // so we also filter here by the first subject label as well as the genre label
+        'subjects.label': work.subjects
+          .map(subject => subject.label)
+          .slice(0, 1),
+      },
+      aggregations: [],
+      related: relatedWorks[`genres-${id}`],
+      setRelated: (results: WorkBasic[]) =>
+        setRelatedWorks(prev => ({ ...prev, [`genres-${id}`]: results })),
+    };
+  }
   return config;
 }
 
@@ -162,7 +195,6 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
   const [relatedWorks, setRelatedWorks] = useState<{
     [key: string]: WorkBasic[] | undefined;
   }>({});
-  const [genresLabels, setGenresLabels] = useState<string[]>([]);
   const [relatedTabConfig, setRelatedTabConfig] = useState<{
     [key: string]: {
       text: string;
@@ -171,15 +203,9 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
       related: WorkBasic[] | undefined;
       setRelated: (results: WorkBasic[]) => void;
     };
-  }>(
-    getRelatedTabConfig({
-      work,
-      relatedWorks,
-      setRelatedWorks,
-    })
-  );
+  }>({});
 
-  // Set initial tab to first subject or date-range if no subjects
+  // Set selected tab to first available tab
   const tabKeys = Object.keys(relatedTabConfig);
   const [selectedWorksTab, setSelectedWorksTab] = useState(tabKeys[0] || '');
 
@@ -188,67 +214,32 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
   useEffect(() => {
     // Reset related works and tab config when work changes
     setRelatedWorks({});
-    setRelatedTabConfig(
-      getRelatedTabConfig({
+    (async () => {
+      const config = await getRelatedTabConfig({
         work,
         relatedWorks,
         setRelatedWorks,
-      })
-    );
+        serverData,
+      });
+      setRelatedTabConfig(config);
+    })();
   }, [work.id]);
 
   useEffect(() => {
-    // Only fetch if we haven't already fetched results for the current tab
-    const related =
-      relatedTabConfig[selectedWorksTab] &&
-      relatedTabConfig[selectedWorksTab].related;
-    if (
-      relatedTabConfig[selectedWorksTab] &&
-      (!related || related.some(result => result.id === work.id))
-    ) {
+    setSelectedWorksTab(Object.keys(relatedTabConfig)[0] || '');
+  }, [relatedTabConfig]);
+
+  useEffect(() => {
+    // TODO Only fetch if we haven't already fetched results for the current tab
+    if (relatedTabConfig[selectedWorksTab]) {
       fetchRelated({
         work,
         serverData,
         params: relatedTabConfig[selectedWorksTab].params,
-        aggregations: relatedTabConfig[selectedWorksTab].aggregations,
         setRelated: relatedTabConfig[selectedWorksTab].setRelated,
-        setGenresLabels,
       });
     }
   }, [selectedWorksTab]);
-
-  useEffect(() => {
-    // Once we have the genres labels from the first api request,
-    // we can update the related tab config to include a genre label tab.
-    // We pick the first genre label that is we consider to be visual if there is one,
-    // otherwise we pick the first genre label.
-    if (genresLabels.length > 0) {
-      const visualGenre = genresLabels.find(label =>
-        visualGenres.includes(label)
-      );
-      const chosenGenre = visualGenre || genresLabels[0];
-      const id = chosenGenre.replace(/[^a-zA-Z0-9]/g, '-');
-      setRelatedTabConfig({
-        ...relatedTabConfig,
-        [`genres-${id}`]: {
-          text: chosenGenre,
-          params: {
-            'genres.label': [chosenGenre],
-            // the genres we chose is based on the query using the first subject label as a filter
-            // this is to avoid having to do a another api call filtered by all the subject labels together
-            // so we also filter here by the first subject label as well as the genre label
-            'subjects.label': work.subjects
-              .map(subject => subject.label)
-              .slice(0, 1),
-          },
-          aggregations: [],
-          related: relatedWorks[`genres-${id}`],
-          setRelated: (results: WorkBasic[]) =>
-            setRelatedWorks(prev => ({ ...prev, [`genres-${id}`]: results })),
-        },
-      });
-    }
-  }, [genresLabels]);
 
   return Object.keys(relatedTabConfig).length === 0 ? null : (
     <Container>
