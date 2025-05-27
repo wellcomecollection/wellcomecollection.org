@@ -215,7 +215,7 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
         setGenresLabels,
       });
     }
-  }, [selectedWorksTab, relatedTabConfig]);
+  }, [selectedWorksTab]);
 
   useEffect(() => {
     // Once we have the genres labels from the first api request,
