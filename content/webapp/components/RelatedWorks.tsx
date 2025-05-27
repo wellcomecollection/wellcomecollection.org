@@ -130,7 +130,7 @@ function getRelatedTabConfig({
     const id = label.replace(/[^a-zA-Z0-9]/g, '-');
     config[`subject-${id}`] = {
       text: label,
-      params: { 'subjects.label': [label] },
+      params: { 'subjects.label': [`"${label}"`] },
       aggregations: ['genres.label'],
       related: relatedWorks[`subject-${id}`],
       setRelated: (results: WorkBasic[]) =>
