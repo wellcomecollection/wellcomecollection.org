@@ -262,7 +262,6 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
               'is-hidden': selectedWorksTab !== tabKey,
             })}
           >
-            {/* TODO loading icon */}
             {relatedWorks[tabKey]?.map((result, i) => (
               <WorksSearchResult
                 work={result}
