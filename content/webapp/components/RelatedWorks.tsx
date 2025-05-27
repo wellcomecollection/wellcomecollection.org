@@ -186,8 +186,19 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
   const serverData = useContext(ServerDataContext);
 
   useEffect(() => {
+    // Reset related works and tab config when work changes
+    setRelatedWorks({});
+    setRelatedTabConfig(
+      getRelatedTabConfig({
+        work,
+        relatedWorks,
+        setRelatedWorks,
+      })
+    );
+  }, [work.id]);
+
+  useEffect(() => {
     // Only fetch if we haven't already fetched results for the current tab
-    // or if the results for the current tab now include the current work
     const related =
       relatedTabConfig[selectedWorksTab] &&
       relatedTabConfig[selectedWorksTab].related;
@@ -204,7 +215,7 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
         setGenresLabels,
       });
     }
-  }, [selectedWorksTab, work.id]);
+  }, [selectedWorksTab, relatedTabConfig]);
 
   useEffect(() => {
     // Once we have the genres labels from the first api request,
