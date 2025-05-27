@@ -106,13 +106,12 @@ async function getRelatedTabConfig({
 }) {
   const subjectLabels = work.subjects.map(subject => subject.label).slice(0, 3);
   const dateRange = getCenturyRange(work.production[0]?.dates[0]?.label);
-  // TODO we should populate the first tab content from this request too, rather than make another call
   // We make a request with the first subject label so we can get the genres labels
   const response = await catalogueQuery('works', {
     toggles: serverData.toggles,
     pageSize: 4, // In case we get the current work back, we will still have 3 to show
     params: {
-      'subjects.label': [`"${subjectLabels[0]}"`],
+      'subjects.label': subjectLabels.map(label => `"${label}"`),
       include: ['production', 'contributors'],
       aggregations: ['genres.label'],
     },
@@ -176,11 +175,9 @@ async function getRelatedTabConfig({
       text: chosenGenre,
       params: {
         'genres.label': [chosenGenre],
-        // The genres we chosen from what is available when using the first subject label as a filter
-        // so we also filter here by the first subject label as well as the genre label
-        'subjects.label': work.subjects
-          .map(subject => subject.label)
-          .slice(0, 1),
+        // The genres we chose comes from what is available when using the first subject labels as a filter
+        // so we also wanter to filter here by the subject labels as well as the genre label
+        'subjects.label': subjectLabels.map(label => `"${label}"`),
       },
       aggregations: [],
       related: relatedWorks[`genres-${id}`],
