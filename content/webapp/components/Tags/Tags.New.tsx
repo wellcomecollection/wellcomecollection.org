@@ -31,43 +31,31 @@ const PartWithSeparator = styled.span.attrs({
 `;
 
 const LinkWrapper = styled(Space).attrs<{ $isLast: boolean }>(props => ({
-  $v: { size: 's', properties: ['margin-bottom'] },
   ...(!props.$isLast && { $h: { size: 'l', properties: ['margin-right'] } }),
-}))`
+}))<{ $isLast: boolean }>`
   display: inline-block;
+  margin-bottom: ${props => (props.$isLast ? '6px' : '10px')};
 `;
 
 const FancyLink = styled.a`
-  display: inline-block;
+  --line: ${props => props.theme.color('black')};
   text-decoration: none;
   position: relative;
-  z-index: 1;
-  transition: color 400ms ease;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
 
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0.9rem;
-    height: 2px;
-    right: 0;
-    width: 100%;
-    background: ${props => props.theme.color('black')};
-    z-index: -1;
-    transition: width 200ms ease;
+  & > span {
+    background-image: linear-gradient(0deg, var(--line) 0%, var(--line) 100%);
+    background-position: 100% 100%;
+    background-repeat: no-repeat;
+    background-size: var(--background-size, 100%) 2px;
+    transition: background-size 0.2s linear 300ms;
+    font-size: 16px;
+    line-height: 20px;
+    transform: translateZ(0);
+    padding-bottom: 2px;
   }
 
   &:hover {
-    &::after {
-      width: 0;
-
-      /* Prevent iOS double-tap link issue
-      https://css-tricks.com/annoying-mobile-double-tap-link-issue/ */
-      @media (pointer: coarse) {
-        width: 0;
-      }
-    }
+    --background-size: 0%;
   }
 `;
 
