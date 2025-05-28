@@ -9,23 +9,34 @@ import { Link } from '@weco/content/types/link';
 const Anchor = styled.a.attrs({
   className: font('intb', 5),
 })`
-  color: ${props => props.theme.color('black')};
+  color: ${props => props.theme.color('white')};
+  mix-blend-mode: difference;
 `;
 
 const Root = styled(Space).attrs({
   $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
-  background: ${props => props.theme.color('warmNeutral.300')};
+  // background: ${props => props.theme.color('warmNeutral.300')};
+  mix-blend-mode: difference;
+  color: ${props => props.theme.color('white')};
 `;
 
-type Props = {
+// create new Root function component that takes a sticky prop
+const RootWithSticky = styled(Root)<{ sticky?: boolean }>`
+  position: ${props => (props.sticky ? 'sticky' : 'static')};
+  top: 0px;
+  z-index: 1;
+`;
+
+export type Props = {
+  sticky?: boolean;
   links: Link[];
 };
 
-const OnThisPageAnchors: FunctionComponent<Props> = ({ links }) => {
+const OnThisPageAnchors: FunctionComponent<Props> = ({ sticky, links }) => {
   return (
-    <Root>
+    <RootWithSticky sticky={sticky}>
       <h2 className={font('wb', 4)}>What’s on this page</h2>
       <PlainList>
         {links.map((link: Link) => (
@@ -36,7 +47,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({ links }) => {
           </li>
         ))}
       </PlainList>
-    </Root>
+    </RootWithSticky>
   );
 };
 
