@@ -88,18 +88,6 @@ const Contact: FunctionComponent<Props> = ({
         </TitleWrapper>
       )}
 
-      {phone && (
-        <WithIconWrapper>
-          <Icon icon={phoneIcon} />
-          <div>
-            <span className="visually-hidden">
-              {createScreenreaderLabel(phone)}
-            </span>
-            <PhoneNumber aria-hidden="true">{phone}</PhoneNumber>
-          </div>
-        </WithIconWrapper>
-      )}
-
       {link && (
         <WithIconWrapper>
           <Icon icon={linkIcon} />
@@ -115,6 +103,18 @@ const Contact: FunctionComponent<Props> = ({
               {link.text}
             </a>
           </NextLink>
+        </WithIconWrapper>
+      )}
+
+      {phone && (
+        <WithIconWrapper>
+          <Icon icon={phoneIcon} />
+          <div>
+            <span className="visually-hidden">
+              {createScreenreaderLabel(phone)}
+            </span>
+            <PhoneNumber aria-hidden="true">{phone}</PhoneNumber>
+          </div>
         </WithIconWrapper>
       )}
 
