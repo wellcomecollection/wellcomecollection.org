@@ -20,6 +20,15 @@ const config = {
         '<rootDir>//node_modules/(?!(@panva/hkdf)/).*/',
       ],
       setupFilesAfterEnv: ['<rootDir>/test/jest-setup.ts'],
+      // https://github.com/auth0/nextjs-auth0/issues/1947
+      moduleNameMapper: {
+        '^@auth0/nextjs-auth0$':
+          '<rootDir>/../../node_modules/@auth0/nextjs-auth0/dist/client/index.js',
+        '^@auth0/nextjs-auth0/server$':
+          '<rootDir>/../../node_modules/@auth0/nextjs-auth0/dist/server/index.js',
+        '^@auth0/nextjs-auth0/client$':
+          '<rootDir>/../../node_modules/@auth0/nextjs-auth0/dist/client/index.js',
+      },
     },
   ],
 };

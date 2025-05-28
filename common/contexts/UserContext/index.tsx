@@ -47,13 +47,14 @@ export const UserContextProvider: FunctionComponent<PropsWithChildren> = ({
   const fetchUser = async (abortSignal?: AbortSignal, refetch = false) => {
     setState('loading');
     try {
-      let profileUrl = '/account/api/auth/me';
+      let profileUrl = '/account/auth/profile';
       if (refetch) {
         profileUrl += '?refetch';
       }
       const resp = await fetch(profileUrl, {
         signal: abortSignal,
       });
+
       switch (resp.status) {
         case 204:
           setState('signedout');

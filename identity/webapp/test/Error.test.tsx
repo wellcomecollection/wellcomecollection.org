@@ -14,7 +14,7 @@ jest.mock('@weco/common/server-data', () => ({
 jest.mock('next/router', () => require('next-router-mock'));
 
 const renderComponent = (location: string) => {
-  const url = new URL(`https://localhost:3000/${location}`);
+  const url = new URL(`https://localhost:3003/${location}`);
   const errorDescription = url.searchParams.get('error_description') || '';
 
   render(
