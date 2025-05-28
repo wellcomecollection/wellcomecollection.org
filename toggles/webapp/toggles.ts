@@ -1,5 +1,3 @@
-import { CloudFrontRequest } from 'aws-lambda';
-
 export type ToggleTypes = 'permanent' | 'experimental' | 'test' | 'stage';
 
 type ToggleBase = {
@@ -21,9 +19,8 @@ export type PublishedToggle = ToggleBase & {
 export type ABTest = {
   id: string;
   title: string;
-  range: [number, number];
-  when: (request: CloudFrontRequest) => boolean;
   type: 'test';
+  range: [number, number];
 };
 
 const toggles = {
@@ -116,8 +113,28 @@ const toggles = {
       description: 'Adds exhibitions to the events search results',
       type: 'experimental',
     },
+    {
+      id: 'relatedContentOnWorks',
+      title: 'Related content on works',
+      initialValue: false,
+      description: 'Shows related content on works pages',
+      type: 'experimental',
+    },
   ] as const,
-  tests: [] as ABTest[],
+  tests: [
+    {
+      id: 'abTestTestTest',
+      title: 'Testing the A/B test toggler',
+      type: 'test',
+      range: [0, 100],
+    },
+    {
+      id: 'newTags',
+      title: 'A/B test for new tags',
+      type: 'test',
+      range: [0, 100],
+    },
+  ] as ABTest[], // We have to include a reference to any test toggles here as well as in the cache dir because they are deployed separately and consequently can't share a source of truth
 };
 
 export default toggles;
