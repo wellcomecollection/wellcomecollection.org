@@ -1,12 +1,7 @@
-import NextLink from 'next/link';
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 
-import {
-  email as emailIcon,
-  link as linkIcon,
-  phone as phoneIcon,
-} from '@weco/common/icons';
+import { email as emailIcon, phone as phoneIcon } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 import Icon from '@weco/common/views/components/Icon';
@@ -63,10 +58,6 @@ const WithIconWrapper = styled(Space).attrs({
 export type Props = {
   title?: string;
   subtitle?: string;
-  link?: {
-    text: string;
-    url: string;
-  };
   phone: string;
   email: string;
 };
@@ -74,7 +65,6 @@ export type Props = {
 const Contact: FunctionComponent<Props> = ({
   title,
   subtitle,
-  link,
   phone,
   email,
 }: Props): ReactElement => {
@@ -85,24 +75,6 @@ const Contact: FunctionComponent<Props> = ({
           {title && <Title>{title}</Title>}
           {subtitle && <Subtitle>{subtitle}</Subtitle>}
         </TitleWrapper>
-      )}
-
-      {link && (
-        <WithIconWrapper>
-          <Icon icon={linkIcon} />
-          <NextLink
-            href={{
-              pathname: link.url,
-            }}
-            as={{ pathname: link.url }}
-            passHref
-            legacyBehavior
-          >
-            <a style={{ display: 'block' }} className={font('intr', 4)}>
-              {link.text}
-            </a>
-          </NextLink>
-        </WithIconWrapper>
       )}
 
       {phone && (
