@@ -79,23 +79,25 @@ const TagsNew: FunctionComponent<Props> = ({
             <LinkWrapper as="li" key={i} $isLast={i === tags.length - 1}>
               <NextLink {...linkAttributes} passHref legacyBehavior>
                 <FancyLink>
-                  {textParts.map((part, i, arr) => (
-                    <PartWithSeparator
-                      key={part}
-                      $separator={i === 0 ? '|' : separator}
-                      $isLast={i === arr.length - 1}
-                    >
-                      <span
-                        className={
-                          i === 0 && isFirstPartBold
-                            ? font('intb', 5)
-                            : font('intr', 5)
-                        }
+                  <span>
+                    {textParts.map((part, i, arr) => (
+                      <PartWithSeparator
+                        key={part}
+                        $separator={i === 0 ? '|' : separator}
+                        $isLast={i === arr.length - 1}
                       >
-                        {part}
-                      </span>
-                    </PartWithSeparator>
-                  ))}
+                        <span
+                          className={
+                            i === 0 && isFirstPartBold
+                              ? font('intb', 5)
+                              : font('intr', 5)
+                          }
+                        >
+                          {part}
+                        </span>
+                      </PartWithSeparator>
+                    ))}
+                  </span>
                 </FancyLink>
               </NextLink>
             </LinkWrapper>
