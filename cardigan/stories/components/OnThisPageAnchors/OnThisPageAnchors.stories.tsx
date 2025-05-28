@@ -4,10 +4,16 @@ import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors';
 import Readme from '@weco/content/components/OnThisPageAnchors/README.mdx';
 
+import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
+import { PaletteColor } from '@weco/common/views/themes/config';
+
+import { FunctionComponent } from 'react';
+
 const meta: Meta<typeof OnThisPageAnchors> = {
   title: 'Components/OnThisPageAnchors',
   component: OnThisPageAnchors,
   args: {
+    sticky: false,
     links: [
       { text: 'Getting here', url: '#getting-here' },
       {
@@ -38,6 +44,31 @@ const meta: Meta<typeof OnThisPageAnchors> = {
   },
 };
 
+// create a 3 column grid component that can be used as
+// a wrapper for the OnThisPageAnchors component
+
+const OnThisPageAnchorsInColsContext: FunctionComponent<{
+  links: { text: string; url: string }[];
+}> = (args) => {
+  return (
+    <div style={{ background: 'linear-gradient(5deg, black 50%, white 50%)', display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '16px' }}>
+      <div style={{ gridColumn: 'span 1' }}>
+        <OnThisPageAnchors {...args} />
+      </div>
+      <div style={{ gridColumn: 'span 1', paddingTop: '32px' }}>
+        {args.links.map((link) => (
+          <div key={link.url} id={link.url.replace('#', '')} style={{ padding: '16px', backgroundColor: 'white', marginBottom: '16px' }}>
+            <h2>{link.text}</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default meta;
 
 type Story = StoryObj<typeof OnThisPageAnchors>;
@@ -47,6 +78,17 @@ export const Basic: Story = {
   render: args => (
     <ReadmeDecorator
       WrappedComponent={OnThisPageAnchors}
+      args={args}
+      Readme={Readme}
+    />
+  ),
+};
+
+export const Fancy: Story = {
+  name: 'OnThisPageAnchorsFancy',
+  render: args => (
+    <ReadmeDecorator
+      WrappedComponent={OnThisPageAnchorsInColsContext}
       args={args}
       Readme={Readme}
     />
