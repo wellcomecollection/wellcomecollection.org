@@ -12,10 +12,6 @@ const meta: Meta<typeof Contact> = {
     subtitle: 'Head of Examples',
     phone: '+44 (0)20 7444 4444',
     email: 'j.bloggs@wellcome.ac.uk',
-    link: {
-      text: `Joe's page`,
-      url: '/visit-us',
-    },
   },
 };
 
