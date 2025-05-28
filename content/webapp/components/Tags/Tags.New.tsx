@@ -37,7 +37,7 @@ const LinkWrapper = styled(Space).attrs<{ $isLast: boolean }>(props => ({
   margin-bottom: ${props => (props.$isLast ? '6px' : '10px')};
 `;
 
-const FancyLink = styled.a`
+const AnimatedLink = styled.a`
   --line: ${props => props.theme.color('black')};
   text-decoration: none;
   position: relative;
@@ -78,7 +78,7 @@ const TagsNew: FunctionComponent<Props> = ({
           return (
             <LinkWrapper as="li" key={i} $isLast={i === tags.length - 1}>
               <NextLink {...linkAttributes} passHref legacyBehavior>
-                <FancyLink>
+                <AnimatedLink>
                   <span>
                     {textParts.map((part, i, arr) => (
                       <PartWithSeparator
@@ -98,7 +98,7 @@ const TagsNew: FunctionComponent<Props> = ({
                       </PartWithSeparator>
                     ))}
                   </span>
-                </FancyLink>
+                </AnimatedLink>
               </NextLink>
             </LinkWrapper>
           );
