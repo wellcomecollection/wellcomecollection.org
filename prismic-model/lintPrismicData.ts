@@ -73,12 +73,16 @@ function detectNonHTTPWWWLinks(doc: any): string[] {
           urlIndex + 7,
           urlIndex + 8
         );
+        const next4Characters = JSON.stringify(doc.data).slice(
+          urlIndex + 7,
+          urlIndex + 11
+        );
 
         if (
           nextCharacter !== '/' && // internal, hopefully
-          nextCharacter !== 'h' && // http, hopefully
-          nextCharacter !== 'm' && // mailto, hopefully
-          nextCharacter !== 't' // tel, hopefully
+          next4Characters !== 'http' && // http, hopefully
+          next4Characters !== 'mail' && // mailto, hopefully
+          next4Characters !== 'tel:' // tel, hopefully
         ) {
           allErrors.push(
             'Please review the links in this document as they may not be valid. The URL should start with http[s]:// (if external) or / (if internal).'
