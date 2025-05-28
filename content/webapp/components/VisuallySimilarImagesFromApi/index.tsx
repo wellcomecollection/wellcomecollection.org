@@ -102,6 +102,8 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
                 visuallySimilarImage: {
                   relatedId: related.id,
                   originalId,
+                  resultPosition:
+                    similarImages.findIndex(s => s.id === related.id) + 1,
                 },
               });
               onClickImage(related);

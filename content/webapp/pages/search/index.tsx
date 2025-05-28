@@ -548,12 +548,15 @@ export const SearchPage: NextPageWithLayout<Props> = ({
 
             {contentResults && (
               <ContentResults data-testid="search-content-results">
-                {contentResults?.results?.map(result => (
+                {contentResults?.results?.map((result, index) => (
                   <Space
                     key={`${result.id}${result.highlightTourType || ''}`}
                     $v={{ size: 'xl', properties: ['margin-bottom'] }}
                   >
-                    <ContentSearchResult {...result} />
+                    <ContentSearchResult
+                      {...result}
+                      positionInList={index + 1}
+                    />
                   </Space>
                 ))}
 

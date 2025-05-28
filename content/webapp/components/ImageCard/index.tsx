@@ -15,6 +15,7 @@ type Props = {
   layout: 'raw' | 'fixed';
   onClick?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
   background?: string;
+  positionInList: number;
 };
 
 const StyledLink = styled.a`
@@ -29,6 +30,7 @@ const ImageCard: FunctionComponent<Props> = ({
   layout,
   onClick,
   background,
+  positionInList,
 }: Props) => {
   const { isEnhanced } = useAppContext();
   const pathname = usePathname();
@@ -48,6 +50,7 @@ const ImageCard: FunctionComponent<Props> = ({
         }}
         id={id}
         data-gtm-trigger={isEnhanced ? 'open_image_modal' : undefined}
+        data-gtm-position-in-list={isEnhanced ? positionInList : undefined}
         title={isEnhanced ? 'Open modal window' : undefined}
       >
         <IIIFImage

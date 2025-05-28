@@ -19,6 +19,7 @@ type Props = {
   dates?: { start: string; end?: string };
   times?: { start: string; end: string };
   contributors?: string;
+  positionInList: number;
 };
 
 const Link = styled(NextLink)`
@@ -62,9 +63,12 @@ const ContentSearchResult: FunctionComponent<Props> = ({
   dates,
   times,
   contributors,
+  positionInList,
 }) => {
   return (
     <Link
+      data-gtm-trigger="search_result"
+      data-gtm-position-in-list={positionInList}
       href={linkResolver({
         uid: uid || undefined,
         type,
