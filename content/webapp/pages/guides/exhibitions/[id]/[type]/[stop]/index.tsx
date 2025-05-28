@@ -30,7 +30,7 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
-import AudioPlayerNew from '@weco/content/components/AudioPlayerNew';
+import AudioPlayer from '@weco/content/components/AudioPlayer';
 import ImagePlaceholder, {
   placeholderBackgroundColor,
 } from '@weco/content/components/ImagePlaceholder';
@@ -360,7 +360,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
         {type === 'audio-without-descriptions' && currentStop.audio && (
           <AudioPlayerNewWrapper>
             <Container>
-              <AudioPlayerNew audioFile={currentStop.audio} isDark={true} />
+              <AudioPlayer audioFile={currentStop.audio} isDark={true} />
             </Container>
           </AudioPlayerNewWrapper>
         )}

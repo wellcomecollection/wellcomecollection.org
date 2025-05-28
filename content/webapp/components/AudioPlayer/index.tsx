@@ -1,82 +1,49 @@
 import * as prismic from '@prismicio/client';
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import { FunctionComponent, useEffect, useId, useRef, useState } from 'react';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
-import { pause, play } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import { dasherize } from '@weco/common/utils/grammar';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
-import Icon from '@weco/common/views/components/Icon';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 import { useAVTracking } from '@weco/content/hooks/useAVTracking';
 
 import { formatPlayerTime } from './AudioPlayer.formatters';
+import {
+  PauseIcon,
+  PlayIcon,
+  SkipBackIcon,
+  SkipForwardIcon,
+} from './AudioPlayer.Icons';
 import PlayRate from './AudioPlayer.PlayRate';
 import Scrubber from './AudioPlayer.Scrubber';
-import Volume from './AudioPlayer.Volume';
-
-const AudioPlayerWrapper = styled.figure`
-  margin: 0;
-`;
-
-type PlayPauseButtonProps = { $isPlaying: boolean };
-const PlayPauseButton = styled.button.attrs<PlayPauseButtonProps>(props => ({
-  'aria-pressed': props.$isPlaying,
-}))<PlayPauseButtonProps>`
-  padding: 0;
-
-  svg {
-    transform: translateX(${props => (!props.$isPlaying ? '2px' : '0')});
-  }
-`;
-
-const PlayPauseInner = styled.div`
-  border: 2px solid ${props => props.theme.color('accent.green')};
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const AudioPlayerGrid = styled(Space).attrs({
-  $h: {
-    size: 's',
-    properties: ['column-gap'],
-    overrides: { medium: 2, large: 2 },
-  },
-  $v: {
-    size: 's',
-    properties: ['row-gap'],
-    overrides: { medium: 2, large: 2 },
-  },
-})<{ $isEnhanced: boolean }>`
-  display: ${props => (props.$isEnhanced ? 'grid' : 'none')};
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-`;
-
-const SecondRow = styled.div`
-  grid-column: 1 / -1;
-`;
+import {
+  AudioPlayerGrid,
+  AudioPlayerWrapper,
+  NowPlayingWrapper,
+  PlayerRateWrapper,
+  PlayPauseButton,
+  PlayPauseInner,
+  SkipButton,
+  SkipPlayWrapper,
+  TimeWrapper,
+  TitleWrapper,
+} from './AudioPlayer.styles';
 
 export type AudioPlayerProps = {
   audioFile: string;
-  title: string;
+  title?: string;
   transcript?: prismic.RichTextField;
-  idPrefix?: string;
   titleProps?: { role: string; 'aria-level': number };
+  isDark?: boolean;
 };
 
 export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   audioFile,
   title,
+  isDark,
   transcript,
-  idPrefix,
-  titleProps = {},
+  titleProps,
 }) => {
   const { isEnhanced } = useAppContext();
   const [currentTime, setCurrentTime] = useState(0);
@@ -88,16 +55,24 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
   // announcement every second.
   const [startTime, setStartTime] = useState(currentTime);
   const { trackPlay, trackEnded, trackTimeUpdate } = useAVTracking('audio');
+  const { activeAudioPlayerId, setActiveAudioPlayerId } = useAppContext();
+  const randomisedId = useId();
 
   const audioPlayerRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLInputElement>(null);
-  const id = `${idPrefix || ''}${dasherize(title.slice(0, 15))}`;
 
   useEffect(() => {
+    if (!progressBarRef.current) return;
     // If we change the player dynamically, we need to reset the play/pause
     // button to the appropriate state
     setIsPlaying(false);
-  }, [audioFile]);
+    // iOS needs a manual update to currentTime and the progressBarRef
+    // to reset the time and the range slider thumb correctly
+    // after an audioFile change
+    setCurrentTime(0);
+    setStartTime(0);
+    progressBarRef.current.value = `0`;
+  }, [audioFile, progressBarRef.current]);
 
   useEffect(() => {
     if (!audioPlayerRef.current) return;
@@ -143,6 +118,35 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
     }
   };
 
+  // Pause playing if another audio player is active
+  useEffect(() => {
+    if (activeAudioPlayerId !== randomisedId && isPlaying) {
+      onTogglePlay();
+    }
+  }, [activeAudioPlayerId]);
+
+  const handleSkipBackClick = () => {
+    if (!audioPlayerRef.current) return;
+    if (!progressBarRef.current) return;
+
+    const newTime = parseInt(progressBarRef.current.value, 10) - 15;
+
+    audioPlayerRef.current.currentTime = newTime;
+    setCurrentTime(newTime);
+    setStartTime(newTime);
+  };
+
+  const handleSkipForwardClick = () => {
+    if (!audioPlayerRef.current) return;
+    if (!progressBarRef.current) return;
+
+    const newTime = parseInt(progressBarRef.current.value, 10) + 15;
+
+    audioPlayerRef.current.currentTime = newTime;
+    setCurrentTime(newTime);
+    setStartTime(newTime);
+  };
+
   const onScrubberChange = () => {
     if (!audioPlayerRef.current) return;
     if (!progressBarRef.current) return;
@@ -173,50 +177,19 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
 
   return (
     <>
-      <AudioPlayerWrapper>
+      <AudioPlayerWrapper $isDark={!!isDark}>
         {title && (
           <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
             <figcaption className={font('intb', 5)} {...titleProps}>
-              {title}
+              <TitleWrapper $isDark={!!isDark}>{title}</TitleWrapper>
             </figcaption>
           </Space>
         )}
 
         <AudioPlayerGrid $isEnhanced={isEnhanced}>
-          <PlayPauseButton onClick={onTogglePlay} $isPlaying={isPlaying}>
-            <PlayPauseInner>
-              <span className="visually-hidden">
-                {`${title} ${isPlaying ? 'Pause' : 'Play'}`}
-              </span>
-              <Icon iconColor="accent.green" icon={isPlaying ? pause : play} />
-            </PlayPauseInner>
-          </PlayPauseButton>
-
-          <div style={{ width: '100%' }}>
-            <Scrubber
-              startTime={startTime}
-              duration={duration}
-              id={id}
-              onChange={onScrubberChange}
-              progressBarRef={progressBarRef}
-            />
-          </div>
-          {audioPlayerRef.current && (
-            <Volume
-              audioPlayer={audioPlayerRef.current}
-              id={id}
-              title={title}
-            />
-          )}
-          <SecondRow>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <div
-                className={font('intr', 6)}
-                style={{
-                  fontVariantNumeric: 'tabular-nums',
-                  whiteSpace: 'nowrap',
-                }}
-              >
+          <NowPlayingWrapper>
+            <div>
+              <TimeWrapper $isDark={!!isDark}>
                 <span>
                   <span className="visually-hidden">
                     Elapsed time: {formatPlayerTime(currentTime).nonVisual}
@@ -226,25 +199,61 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
                   </span>
                 </span>
                 {!Number.isNaN(duration) && (
-                  <>
-                    {' '}
-                    <span aria-hidden="true">/</span>{' '}
-                    <span>
-                      <span className="visually-hidden">
-                        Total time: {formatPlayerTime(duration).nonVisual}
-                      </span>
-                      <span aria-hidden="true">
-                        {formatPlayerTime(duration).visual}
-                      </span>
+                  <span>
+                    <span className="visually-hidden">
+                      Total time: {formatPlayerTime(duration).nonVisual}
                     </span>
-                  </>
+                    <span aria-hidden="true">
+                      {formatPlayerTime(duration).visual}
+                    </span>
+                  </span>
                 )}
-              </div>
-              {audioPlayerRef.current && (
-                <PlayRate id={id} audioPlayer={audioPlayerRef.current} />
-              )}
+              </TimeWrapper>
+              <Space $v={{ size: 's', properties: ['padding-top'] }}>
+                <Space $v={{ size: 'xs', properties: ['padding-bottom'] }}>
+                  <Scrubber
+                    startTime={startTime}
+                    duration={duration}
+                    id={audioFile}
+                    onChange={onScrubberChange}
+                    progressBarRef={progressBarRef}
+                    currentTime={currentTime}
+                    isDark={!!isDark}
+                  />
+                </Space>
+              </Space>
             </div>
-          </SecondRow>
+          </NowPlayingWrapper>
+
+          <SkipPlayWrapper>
+            <SkipButton $isDark={!!isDark} onClick={handleSkipBackClick}>
+              <span className="visually-hidden">rewind 15 seconds</span>
+              <SkipBackIcon />
+            </SkipButton>
+
+            <PlayPauseButton onClick={onTogglePlay} $isPlaying={isPlaying}>
+              <PlayPauseInner $isDark={!!isDark}>
+                <span className="visually-hidden">
+                  {isPlaying ? 'Pause' : 'Play'}
+                </span>
+                {isPlaying ? <PauseIcon /> : <PlayIcon />}
+              </PlayPauseInner>
+            </PlayPauseButton>
+            <SkipButton $isDark={!!isDark} onClick={handleSkipForwardClick}>
+              <span className="visually-hidden">fast-forward 15 seconds</span>
+              <SkipForwardIcon />
+            </SkipButton>
+          </SkipPlayWrapper>
+
+          {audioPlayerRef.current && (
+            <PlayerRateWrapper>
+              <PlayRate
+                id={audioFile}
+                audioPlayer={audioPlayerRef.current}
+                isDark={!!isDark}
+              />
+            </PlayerRateWrapper>
+          )}
         </AudioPlayerGrid>
 
         <audio
@@ -253,6 +262,8 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
           onPlay={event => {
             trackPlay(event);
             setIsPlaying(true);
+            if (activeAudioPlayerId !== randomisedId)
+              setActiveAudioPlayerId(randomisedId);
           }}
           onEnded={trackEnded}
           onPause={() => setIsPlaying(false)}
@@ -275,7 +286,8 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
       {!!(transcript?.length && transcript.length > 0) && (
         <Space $v={{ size: 'm', properties: ['margin-top'] }}>
           <CollapsibleContent
-            id={`audioPlayerTranscript-${title}`}
+            darkTheme={isDark}
+            id={`audioPlayerTranscript-${audioFile}`}
             controlText={{
               contentShowingText: 'Hide the transcript',
               defaultText: 'Read the transcript',

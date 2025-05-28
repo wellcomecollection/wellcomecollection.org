@@ -5,7 +5,7 @@ import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import AudioPlayerNew from '@weco/content/components/AudioPlayerNew';
+import AudioPlayer from '@weco/content/components/AudioPlayer';
 import GridFactory, {
   threeUpGridSizesMap,
   twoUpGridSizesMap,
@@ -113,7 +113,7 @@ export const Stops: FunctionComponent<Props> = ({ stops, type }) => {
                 {type === 'audio-without-descriptions' &&
                   audioWithoutDescription?.url && (
                     <>
-                      <AudioPlayerNew
+                      <AudioPlayer
                         audioFile={audioWithoutDescription.url}
                         title={stopTitle}
                         titleProps={titleProps}

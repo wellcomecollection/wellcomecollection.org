@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react';
 
 import { AudioPlayerSlice as RawAudioPlayerSlice } from '@weco/common/prismicio-types';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import AudioPlayerNew from '@weco/content/components/AudioPlayerNew';
+import AudioPlayer from '@weco/content/components/AudioPlayer';
 import { LayoutWidth, SliceZoneContext } from '@weco/content/components/Body';
 import { transformAudioPlayerSlice } from '@weco/content/services/prismic/transformers/body';
 
@@ -20,7 +20,7 @@ const AudioPlayerSlice: FunctionComponent<AudioPlayerProps> = ({
   return (
     <SpacingComponent $sliceType={transformedSlice.type}>
       <LayoutWidth width={context.minWidth}>
-        <AudioPlayerNew {...transformedSlice.value} />
+        <AudioPlayer {...transformedSlice.value} />
       </LayoutWidth>
     </SpacingComponent>
   );

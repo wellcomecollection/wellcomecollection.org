@@ -22,7 +22,7 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import AudioPlayerNew from '@weco/content/components/AudioPlayerNew';
+import AudioPlayer from '@weco/content/components/AudioPlayer';
 import BetaMessage from '@weco/content/components/BetaMessage';
 import ImageViewer from '@weco/content/components/IIIFViewer/ImageViewer';
 import VideoPlayer from '@weco/content/components/VideoPlayer';
@@ -310,7 +310,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         >
           {extendedViewer ? (
             isInViewer ? (
-              <AudioPlayerNew
+              <AudioPlayer
                 isDark
                 audioFile={item.id}
                 title={getAudioVideoLabel(canvas.label, titleOverride) || ''}
@@ -326,7 +326,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             )
           ) : (
             <>
-              <AudioPlayerNew
+              <AudioPlayer
                 audioFile={item.id}
                 title={getAudioVideoLabel(canvas.label, titleOverride) || ''}
               />
