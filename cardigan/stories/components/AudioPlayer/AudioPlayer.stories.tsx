@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { prismicRichTextMultiline } from '@weco/cardigan/stories/data/text';
 import AudioPlayer from '@weco/content/components/AudioPlayer';
+import Readme from '@weco/content/components/AudioPlayer/README.mdx';
 
 const meta: Meta<typeof AudioPlayer> = {
   title: 'Components/AudioPlayer',
@@ -34,10 +36,19 @@ type Story = StoryObj<typeof AudioPlayer>;
 export const Basic: Story = {
   name: 'AudioPlayer',
   render: args => (
-    <div
-      style={{ padding: '20px', background: args.isDark ? '#111' : 'white' }}
-    >
-      <AudioPlayer {...args} />
-    </div>
+    <ReadmeDecorator
+      WrappedComponent={args => (
+        <div
+          style={{
+            padding: '20px',
+            background: args.isDark ? '#111' : 'white',
+          }}
+        >
+          <AudioPlayer {...args} />
+        </div>
+      )}
+      args={args}
+      Readme={Readme}
+    />
   ),
 };
