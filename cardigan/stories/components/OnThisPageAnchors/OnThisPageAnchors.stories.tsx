@@ -4,9 +4,6 @@ import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors';
 import Readme from '@weco/content/components/OnThisPageAnchors/README.mdx';
 
-import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
-import { PaletteColor } from '@weco/common/views/themes/config';
-
 import { FunctionComponent } from 'react';
 
 const meta: Meta<typeof OnThisPageAnchors> = {
@@ -44,13 +41,14 @@ const meta: Meta<typeof OnThisPageAnchors> = {
   },
 };
 
-// create a 3 column grid component that can be used as
+// create a 2 column grid component that can be used as
 // a wrapper for the OnThisPageAnchors component
 
 const OnThisPageAnchorsInColsContext: FunctionComponent<{
   links: { text: string; url: string }[];
 }> = (args) => {
   return (
+    // use existing grid component
     <div style={{ background: 'linear-gradient(5deg, black 50%, white 50%)', display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '16px' }}>
       <div style={{ gridColumn: 'span 1' }}>
         <OnThisPageAnchors {...args} />
