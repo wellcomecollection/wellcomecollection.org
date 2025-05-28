@@ -1,7 +1,12 @@
+import NextLink from 'next/link';
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 
-import { email as emailIcon, phone as phoneIcon } from '@weco/common/icons';
+import {
+  email as emailIcon,
+  link as linkIcon,
+  phone as phoneIcon,
+} from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 import Icon from '@weco/common/views/components/Icon';
@@ -60,6 +65,11 @@ export type Props = {
   subtitle?: string;
   phone: string;
   email: string;
+  // The link is added manually in code at times, but isn't part of the content model.
+  link?: {
+    text: string;
+    url: string;
+  };
 };
 
 const Contact: FunctionComponent<Props> = ({
@@ -67,6 +77,7 @@ const Contact: FunctionComponent<Props> = ({
   subtitle,
   phone,
   email,
+  link,
 }: Props): ReactElement => {
   return (
     <Wrapper>
@@ -86,6 +97,24 @@ const Contact: FunctionComponent<Props> = ({
             </span>
             <PhoneNumber aria-hidden="true">{phone}</PhoneNumber>
           </div>
+        </WithIconWrapper>
+      )}
+
+      {link && (
+        <WithIconWrapper>
+          <Icon icon={linkIcon} />
+          <NextLink
+            href={{
+              pathname: link.url,
+            }}
+            as={{ pathname: link.url }}
+            passHref
+            legacyBehavior
+          >
+            <a style={{ display: 'block' }} className={font('intr', 4)}>
+              {link.text}
+            </a>
+          </NextLink>
         </WithIconWrapper>
       )}
 
