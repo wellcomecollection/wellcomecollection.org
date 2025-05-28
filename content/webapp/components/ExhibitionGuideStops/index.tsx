@@ -1,12 +1,10 @@
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 
-import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import AudioPlayer from '@weco/content/components/AudioPlayer';
 import AudioPlayerNew from '@weco/content/components/AudioPlayerNew';
 import GridFactory, {
   threeUpGridSizesMap,
@@ -66,12 +64,10 @@ type Props = {
 };
 
 export const Stops: FunctionComponent<Props> = ({ stops, type }) => {
-  const { audioPlayer } = useToggles();
-
   return (
     <GridFactory
       overrideGridSizes={
-        type === 'bsl' || (type === 'audio-without-descriptions' && audioPlayer)
+        type === 'bsl' || type === 'audio-without-descriptions'
           ? twoUpGridSizesMap
           : threeUpGridSizesMap
       }
@@ -111,27 +107,17 @@ export const Stops: FunctionComponent<Props> = ({ stops, type }) => {
                 // See e.g. https://accessibility.oit.ncsu.edu/it-accessibility-at-nc-state/developers/accessibility-handbook/mouse-and-keyboard-events/skip-to-main-content/
                 tabIndex={-1}
                 $backgroundColor={
-                  type === 'audio-without-descriptions' && audioPlayer
-                    ? 'white'
-                    : undefined
+                  type === 'audio-without-descriptions' ? 'white' : undefined
                 }
               >
                 {type === 'audio-without-descriptions' &&
                   audioWithoutDescription?.url && (
                     <>
-                      {audioPlayer ? (
-                        <AudioPlayerNew
-                          audioFile={audioWithoutDescription.url}
-                          title={stopTitle}
-                          titleProps={titleProps}
-                        />
-                      ) : (
-                        <AudioPlayer
-                          title={stopTitle}
-                          titleProps={titleProps}
-                          audioFile={audioWithoutDescription.url}
-                        />
-                      )}
+                      <AudioPlayerNew
+                        audioFile={audioWithoutDescription.url}
+                        title={stopTitle}
+                        titleProps={titleProps}
+                      />
                     </>
                   )}
                 {type === 'bsl' && bsl && (

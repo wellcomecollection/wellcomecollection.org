@@ -8,7 +8,6 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 import { arrow, cross } from '@weco/common/icons';
 import { getCrop } from '@weco/common/model/image';
 import { getServerData } from '@weco/common/server-data';
-import { useToggles } from '@weco/common/server-data/Context';
 import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
@@ -31,7 +30,6 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
-import AudioPlayer from '@weco/content/components/AudioPlayer';
 import AudioPlayerNew from '@weco/content/components/AudioPlayerNew';
 import ImagePlaceholder, {
   placeholderBackgroundColor,
@@ -138,14 +136,6 @@ const StickyPlayer = styled.div<{ $sticky: boolean }>`
   z-index: 1;
 `;
 
-const AudioPlayerWrapper = styled(Space).attrs({
-  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 'm', properties: ['padding-bottom', 'padding-top'] },
-})`
-  color: ${props => props.theme.color('black')};
-  background-color: ${props => props.theme.color('neutral.200')};
-`;
-
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
 > = async context => {
@@ -226,7 +216,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
   const guideUrl = linkResolver(exhibitionGuide);
   const guideTypeUrl = `${guideUrl}/${type}`;
   const pathname = `${guideTypeUrl}/${stopNumber}`;
-  const { audioPlayer } = useToggles();
   const headerRef = useCallback((node: HTMLElement) => {
     if (node) setHeaderEl(node);
   }, []);
@@ -331,7 +320,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
 
           <ContaineredLayout gridSizes={gridSize8()}>
             <StickyPlayer $sticky={type !== 'bsl'}>
-              {type === 'bsl' ? (
+              {type === 'bsl' && (
                 <>
                   {currentStop.video && (
                     <VideoEmbed
@@ -340,14 +329,6 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                       videoProvider={currentStop.videoProvider}
                       hasFullSizePoster={true}
                     />
-                  )}
-                </>
-              ) : (
-                <>
-                  {currentStop.audio && !audioPlayer && (
-                    <AudioPlayerWrapper>
-                      <AudioPlayer title="" audioFile={currentStop.audio} />
-                    </AudioPlayerWrapper>
                   )}
                 </>
               )}
@@ -360,7 +341,7 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
                   size: 'xl',
                   properties: ['padding-bottom', 'margin-bottom'],
                 }}
-                style={{ paddingBottom: audioPlayer ? '200px' : undefined }}
+                style={{ paddingBottom: '200px' }}
               >
                 <Space $v={{ size: 'l', properties: ['padding-top'] }}>
                   <CollapsibleContent
@@ -376,15 +357,13 @@ const ExhibitionGuidePage: FunctionComponent<Props> = props => {
           </ContaineredLayout>
         </div>
 
-        {type === 'audio-without-descriptions' &&
-          currentStop.audio &&
-          audioPlayer && (
-            <AudioPlayerNewWrapper>
-              <Container>
-                <AudioPlayerNew audioFile={currentStop.audio} isDark={true} />
-              </Container>
-            </AudioPlayerNewWrapper>
-          )}
+        {type === 'audio-without-descriptions' && currentStop.audio && (
+          <AudioPlayerNewWrapper>
+            <Container>
+              <AudioPlayerNew audioFile={currentStop.audio} isDark={true} />
+            </Container>
+          </AudioPlayerNewWrapper>
+        )}
 
         <PrevNext>
           <Container>

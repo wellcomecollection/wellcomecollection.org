@@ -22,7 +22,6 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import AudioPlayer from '@weco/content/components/AudioPlayer';
 import AudioPlayerNew from '@weco/content/components/AudioPlayerNew';
 import BetaMessage from '@weco/content/components/BetaMessage';
 import ImageViewer from '@weco/content/components/IIIFViewer/ImageViewer';
@@ -268,7 +267,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = isItemRestricted(item);
   const shouldShowItem = isRestricted && !userIsStaffWithRestricted;
-  const { audioPlayer, extendedViewer } = useToggles();
+  const { extendedViewer } = useToggles();
 
   // N.B. Restricted images are handled differently from restricted audio/video and text.
   // The isItemRestricted function doesn't account for restricted images.
@@ -327,17 +326,10 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             )
           ) : (
             <>
-              {audioPlayer ? (
-                <AudioPlayerNew
-                  audioFile={item.id}
-                  title={getAudioVideoLabel(canvas.label, titleOverride) || ''}
-                />
-              ) : (
-                <AudioPlayer
-                  audioFile={item.id}
-                  title={getAudioVideoLabel(canvas.label, titleOverride) || ''}
-                />
-              )}
+              <AudioPlayerNew
+                audioFile={item.id}
+                title={getAudioVideoLabel(canvas.label, titleOverride) || ''}
+              />
             </>
           )}
         </IIIFItemWrapper>
