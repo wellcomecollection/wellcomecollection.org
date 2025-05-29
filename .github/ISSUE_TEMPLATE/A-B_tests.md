@@ -6,24 +6,23 @@ assignees: ''
 projects: ['wellcomecollection/18']
 ---
 
-## Test name
+- Test name: 
+<!-- add the name of the test -->
 
+- Design link: 
+<!-- add link to design to be tested -->
 
-## Design link
-<!-- add link to design to be tested here -->
+- Range of users affected
 
-## Range of users affected
+- URLs which should be affected
+    -
+    -
+    -
 
-
-## URLs which should be affected
--
--
--
-
-## URLs which should NOT be affected
--
--
--
+- URLs which should NOT be affected
+    -
+    -
+    -
 
 ## Definition of done
 - [ ] Analyst has given the go ahead for deployment/Analyst wants it deployed on X date
