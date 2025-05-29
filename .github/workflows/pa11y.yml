@@ -30,7 +30,7 @@ jobs:
           aws-region: eu-west-1
           role-to-assume: ${{ secrets.EXPERIENCE_GHA_ROLE_ARN }}
       - name: Upload report to S3
-        run: cd pa11y/webapp && yarn deploy
+        run: cd pa11y/webapp && yarn && yarn deploy
       - name: Complete deployment
         run: echo "${{ github.event.deployment.environment }} complete!"
         env:
