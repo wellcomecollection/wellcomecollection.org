@@ -4,6 +4,11 @@ import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors';
 import Readme from '@weco/content/components/OnThisPageAnchors/README.mdx';
 
+import { Grid } from '@weco/common/views/components/styled/Grid';
+
+import styled from 'styled-components';
+import { generateWobblySplitSvg } from '@weco/common/utils/backgrounds';
+
 import { FunctionComponent } from 'react';
 
 const meta: Meta<typeof OnThisPageAnchors> = {
@@ -42,17 +47,28 @@ const meta: Meta<typeof OnThisPageAnchors> = {
 
 // create a 2 column grid component that can be used as
 // a wrapper for the OnThisPageAnchors component
+const splitBgSvg = generateWobblySplitSvg({ topColor: 'white', bottomColor: 'black', percent: 20 });
+
+const BackgroundGrid = styled(Grid).attrs({})<{}>`
+  background:
+    url('data:image/svg+xml;utf8,${splitBgSvg}') top left / 100% 100% no-repeat,
+    linear-gradient(to bottom, white 0%, white 20%, black 20%, black 100%);
+  box-sizing: border-box;
+  & > * {
+    min-height: 0;
+  }
+`;
 
 const OnThisPageAnchorsInColsContext: FunctionComponent<{
   links: { text: string; url: string }[];
 }> = (args) => {
   return (
     // TODO: use existing grid component
-    <div style={{ background: 'linear-gradient(5deg, #323232 50%, white 50%)', display: 'grid', gridTemplateColumns: '1fr 3fr', gap: '16px' }}>
-      <div style={{ gridColumn: 'span 1' }}>
+    <BackgroundGrid>
+      <div style={{ gridColumn: 'span 3' }}>
         <OnThisPageAnchors {...args} />
       </div>
-      <div style={{ gridColumn: 'span 1', paddingTop: '32px' }}>
+      <div style={{ gridColumn: 'span 9', paddingTop: '32px' }}>
         {args.links.map((link) => (
           <div key={link.url} id={link.url.replace('#', '')} style={{ padding: '16px', backgroundColor: 'white', marginBottom: '16px' }}>
             <h2>{link.text}</h2>
@@ -62,7 +78,7 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
           </div>
         ))}
       </div>
-    </div>
+    </BackgroundGrid>
   );
 }
 
