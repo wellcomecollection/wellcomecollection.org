@@ -10,7 +10,7 @@ on:
     types: [prod_deployment]
 
 permissions:
-  contents: write
+  id-token: write
 
 jobs:
   pa11y_report:
