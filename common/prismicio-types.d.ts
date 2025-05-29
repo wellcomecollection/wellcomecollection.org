@@ -5228,17 +5228,6 @@ interface TeamsDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   phone: prismic.KeyTextField;
-
-  /**
-   * URL field in *Team*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: teams.url
-   * - **Tab**: Team
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  url: prismic.KeyTextField;
 }
 
 /**

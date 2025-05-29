@@ -121,7 +121,6 @@ function transformBookingEnquiryTeam(
         title: asText(team.data?.title) || '',
         email: team.data!.email!,
         phone: team.data!.phone!,
-        url: team.data!.url!,
       }
     : undefined;
 }
