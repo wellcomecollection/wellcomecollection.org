@@ -1,4 +1,3 @@
- 
 import { FunctionComponent, useState, useEffect } from 'react';
 import { useActiveAnchor } from '@weco/common/hooks/useActiveAnchor';
 import styled from 'styled-components';
@@ -8,7 +7,6 @@ import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { Link } from '@weco/content/types/link';
 
-// Styled li to show a 3px red bar when active and sticky
 const ListItem = styled.li<{ $active?: boolean; $sticky?: boolean }>`
   ${props => props.$sticky ? `
   position: relative;
@@ -97,7 +95,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({ sticky, backgroundBlend, 
     return () => clearTimeout(timeout);
   }, [clickedId]);
 
-
+  // When the user scrolls, clear clickedId if it is set and not locked
   useEffect(() => {
     if (!clickedId || lock) return;
     const handleScroll = () => {
@@ -109,8 +107,17 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({ sticky, backgroundBlend, 
     };
   }, [clickedId, lock]);
 
-  // Only use observedActiveId when sticky
+  // Determine the active id based on whether sticky is enabled
   const activeId = sticky ? (clickedId || observedActiveId) : clickedId;
+
+
+  // Update the URL hash when activeId changes, but only if it doesn't match the current hash
+  useEffect(() => {
+    if (!activeId || typeof window === 'undefined') return;
+    if (window.location.hash.replace('#', '') !== activeId) {
+      history.replaceState(null, '', `#${activeId}`);
+    }
+  }, [activeId]);
 
   const handleClick = (id: string) => () => {
     setClickedId(id);
