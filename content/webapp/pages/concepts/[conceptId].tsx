@@ -49,7 +49,8 @@ import {
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import Button from '@weco/common/views/components/Buttons';
 import { themeValues } from '@weco/common/views/themes/config';
-import Collaborators from '../../components/Collaborators';
+import ThemeCollaborators from '../../components/ThemeCollaborators';
+import ThemeImages from '../../components/ThemeImages';
 
 const emptyImageResults: CatalogueResultsList<ImageType> = emptyResultList();
 
@@ -74,6 +75,10 @@ const RelatedConceptItem = styled(Space).attrs({
   gap: 8px;
   align-items: center;
 `;
+
+const SectionHeading = styled.h2.attrs({
+  className: font('intsb', 2),
+})``;
 
 // TODO: Remove these components when we introduce new theme pages.
 
@@ -116,7 +121,7 @@ const RelatedConceptsGroup = ({
 
   return (
     <>
-      {labelType === 'heading' && <h2>{label}</h2>}
+      {labelType === 'heading' && <SectionHeading>{label}</SectionHeading>}
       <RelatedConceptsContainer>
         {labelType === 'inline' && <span>{label}</span>}
         {relatedConcepts.map(item => (
@@ -158,7 +163,7 @@ const linkSources = new Map([
 const ConceptHero = styled(Space).attrs({
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
-  background-color: ${props => props.theme.color('lightYellow')};
+  background-color: ${props => props.theme.color('accent.lightGreen')};
 `;
 
 const HeroTitle = styled.h1.attrs({ className: font('intb', 1) })`
@@ -346,7 +351,7 @@ type SectionData = {
   totalResults: { works: number | undefined; images: number | undefined };
 };
 
-type SectionsData = {
+export type ThemePageSectionsData = {
   about: SectionData;
   by: SectionData;
   in: SectionData;
@@ -354,7 +359,7 @@ type SectionsData = {
 
 type Props = {
   conceptResponse: ConceptType;
-  sectionsData: SectionsData;
+  sectionsData: ThemePageSectionsData;
   apiToolbarLinks: ApiToolbarLink[];
   pageview: Pageview;
 };
@@ -449,7 +454,9 @@ export const ConceptPage: NextPage<Props> = ({
     >
       <ConceptHero>
         <Container>
-          <TypeLabel>{conceptTypeDisplayName(conceptResponse)}</TypeLabel>
+          {!newThemePages && (
+            <TypeLabel>{conceptTypeDisplayName(conceptResponse)}</TypeLabel>
+          )}
           <Space
             $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
           >
@@ -508,9 +515,10 @@ export const ConceptPage: NextPage<Props> = ({
           )}
         </Container>
       </ConceptHero>
+      {newThemePages && <ThemeImages sectionsData={sectionsData} />}
 
       {/* Images */}
-      {hasImages && (
+      {!newThemePages && hasImages && (
         <ConceptImages as="section" data-testid="images-section">
           <Container>
             <h2 className={`${font('wb', 3)} sectionTitle`}>Images</h2>
@@ -568,7 +576,7 @@ export const ConceptPage: NextPage<Props> = ({
         </>
       )}
       <Container>
-        <Collaborators concepts={frequentCollaborators} />
+        <ThemeCollaborators concepts={frequentCollaborators} />
         <RelatedConceptsGroup
           label="Related topics"
           labelType="heading"
