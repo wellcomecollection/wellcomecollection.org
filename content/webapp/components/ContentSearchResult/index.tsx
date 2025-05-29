@@ -67,7 +67,7 @@ const ContentSearchResult: FunctionComponent<Props> = ({
 }) => {
   return (
     <Link
-      data-gtm-trigger="search_result"
+      data-gtm-trigger="content_search_result"
       data-gtm-position-in-list={positionInList}
       href={linkResolver({
         uid: uid || undefined,

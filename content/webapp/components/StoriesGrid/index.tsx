@@ -104,7 +104,7 @@ const StoriesGrid: FunctionComponent<Props> = ({
             as="a"
             href={linkResolver({ ...article, type: 'articles' })}
             data-testid="story-search-result"
-            data-gtm-trigger="story_search_result"
+            data-gtm-trigger="stories_search_result"
             data-gtm-position-in-list={index + 1}
           >
             <Grid>

@@ -53,7 +53,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
     >
       <Wrapper
         as="a"
-        data-gtm-trigger="search_result"
+        data-gtm-trigger="works_search_result"
         data-gtm-position-in-list={resultPosition + 1}
       >
         <Container>
