@@ -11,7 +11,7 @@ const meta: Meta<typeof OnThisPageAnchors> = {
   component: OnThisPageAnchors,
   args: {
     sticky: false,
-    background: true,
+    backgroundBlend: true,
     links: [
       { text: 'Getting here', url: '#getting-here' },
       {
@@ -50,7 +50,7 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
 }> = (args) => {
   return (
     // TODO: use existing grid component
-    <div style={{ background: 'linear-gradient(5deg, #323232 50%, white 50%)', display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '16px' }}>
+    <div style={{ background: 'linear-gradient(5deg, #323232 50%, white 50%)', display: 'grid', gridTemplateColumns: '1fr 3fr', gap: '16px' }}>
       <div style={{ gridColumn: 'span 1' }}>
         <OnThisPageAnchors {...args} />
       </div>
@@ -83,8 +83,8 @@ export const Basic: Story = {
   ),
 };
 
-export const Fancy: Story = {
-  name: 'OnThisPageAnchorsFancy',
+export const SideBar: Story = {
+  name: 'OnThisPageAnchorsSideBar',
   render: args => (
     <ReadmeDecorator
       WrappedComponent={OnThisPageAnchorsInColsContext}

@@ -3,33 +3,52 @@ import { FunctionComponent, useState, useEffect } from 'react';
 import { useActiveAnchor } from '@weco/common/hooks/useActiveAnchor';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { font, FontFamily } from '@weco/common/utils/classnames';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { Link } from '@weco/content/types/link';
 
+// Styled li to show a 3px red bar when active and sticky
+const ListItem = styled.li<{ $active?: boolean; $sticky?: boolean }>`
+  ${props => props.$sticky ? `
+  position: relative;
+  padding-left: 12px;
+  padding-bottom: 6px;
+  padding-top: 6px;
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: ${props.$active ? '0px' : '1px'};
+    top: 0;
+    bottom: 0;
+    width: ${props.$active ? '3px' : '1px'};
+    background: ${props.$active ? props.theme.color('warmNeutral.400') : props.theme.color('neutral.400')};
+  }
+` : ''}
+`;
 
 const Anchor = styled.a.attrs<{
   $active?: boolean;
-  $background?: boolean;
+  $backgroundBlend?: boolean;
   $sticky?: boolean;
 }>(() => ({
   className: font('intb', 5),
 }))<{
   $active?: boolean;
-  $background?: boolean;
+  $backgroundBlend?: boolean;
   $sticky?: boolean;
 }>`
-  ${props => !props.$background ? `
+  ${props => props.$backgroundBlend ? `
     mix-blend-mode: difference; 
     color: ${props.theme.color('white')};
     ` : ''}
     
   ${props => props.$sticky ? `
     text-decoration: ${props.$active ? 'none' : 'underline'};
+    text-underline-position: under;
     font-weight: ${props.$active ? 'bold' : 'normal'};
     ` : ''}
-    
 `;
 
 const stickyRootAttrs = `
@@ -43,21 +62,21 @@ const Root = styled(Space).attrs({
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })<{
   sticky?: boolean,
-  background?: boolean
+  backgroundBlend?: boolean
 }>`
   ${props => props.sticky ? stickyRootAttrs : ''}
-  ${props => props.background
+  ${props => !props.backgroundBlend
     ? `background: ${props.theme.color('warmNeutral.300')}; color: ${props.theme.color('black')};`
     : `mix-blend-mode: difference; color: ${props.theme.color('white')};`}
 `;
 
 export type Props = {
   sticky?: boolean;
-  background?: boolean;
+  backgroundBlend?: boolean;
   links: Link[];
 };
 
-const OnThisPageAnchors: FunctionComponent<Props> = ({ sticky, background, links }) => {
+const OnThisPageAnchors: FunctionComponent<Props> = ({ sticky, backgroundBlend, links }) => {
   // Extract ids from links (strip leading #)
   const ids = links.map(link => link.url.replace('#', ''));
   const observedActiveId = useActiveAnchor(ids);
@@ -73,6 +92,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({ sticky, background, links
     }, 300); // 300ms lock
     return () => clearTimeout(timeout);
   }, [clickedId]);
+
 
   useEffect(() => {
     if (!clickedId || lock) return;
@@ -92,26 +112,32 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({ sticky, background, links
     setClickedId(id);
   };
 
+  const titleText = sticky ? 'On this page' : 'What’s on this page';
+  const fontStyle = sticky ? font('intr', 4) : font('wb', 4) as FontFamily;
+
   return (
-    <Root sticky={sticky} background={background}>
-      <h2 className={font('wb', 4)}>What’s on this page</h2>
+    <Root sticky={sticky} backgroundBlend={backgroundBlend}>
+      <h2 className={fontStyle}>{titleText}</h2>
       <PlainList>
         {links.map((link: Link) => {
           const id = link.url.replace('#', '');
+          const isActive = activeId === id;
           return (
-            <li key={link.url}>
+            <ListItem key={link.url} $active={isActive} $sticky={sticky}>
               <Anchor
                 data-gtm-trigger="link_click_page_position"
                 href={link.url}
-                $active={activeId === id}
-                $background={background}
+                $active={isActive}
+                $backgroundBlend={backgroundBlend}
                 $sticky={sticky}
                 onClick={handleClick(id)}
               >
                 {link.text}
               </Anchor>
-            </li>
+            </ListItem>
           );
+
+
         })}
       </PlainList>
     </Root>
