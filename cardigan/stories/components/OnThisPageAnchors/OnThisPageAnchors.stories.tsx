@@ -10,8 +10,6 @@ const meta: Meta<typeof OnThisPageAnchors> = {
   title: 'Components/OnThisPageAnchors',
   component: OnThisPageAnchors,
   args: {
-    sticky: false,
-    backgroundBlend: true,
     links: [
       { text: 'Getting here', url: '#getting-here' },
       {
@@ -88,7 +86,7 @@ export const SideBar: Story = {
   render: args => (
     <ReadmeDecorator
       WrappedComponent={OnThisPageAnchorsInColsContext}
-      args={args}
+      args={{...args, backgroundBlend: true, sticky: true}}
       Readme={Readme}
     />
   ),
