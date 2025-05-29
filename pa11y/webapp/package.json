@@ -2,8 +2,7 @@
   "name": "@weco/pa11y",
   "license": "MIT",
   "scripts": {
-    "write-report": "node write-report.js",
-    "deploy": "node deploy.js"
+    "report-and-deploy": "node report-and-deploy.js"
   },
   "dependencies": {
     "aws-sdk": "^2.1659.0",
