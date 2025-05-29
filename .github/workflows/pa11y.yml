@@ -24,6 +24,7 @@ jobs:
     needs:
       - pa11y_report
     steps:
+      - uses: actions/checkout@v4
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: eu-west-1
