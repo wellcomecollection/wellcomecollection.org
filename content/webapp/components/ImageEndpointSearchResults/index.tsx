@@ -167,6 +167,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
             <ImageCard
               id={photo.id}
               workId={photo.source.id}
+              positionInList={layout.index + 1}
               image={{
                 contentUrl: photo.src,
                 width: layout.width,
@@ -207,7 +208,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
       {(!isFullSupportBrowser || isSmallGallery) && (
         <div data-testid="image-search-results-container">
           <ImageCardList>
-            {imagesWithDimensions.map((result: GalleryImageProps) => (
+            {imagesWithDimensions.map((result: GalleryImageProps, index) => (
               <li key={result.id}>
                 <Space
                   $h={{ size: 'l', properties: ['margin-right'] }}
@@ -216,6 +217,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
                   <ImageCard
                     id={result.id}
                     workId={result.source.id}
+                    positionInList={index + 1}
                     image={{
                       contentUrl: result.src,
                       width: result.width * 1.57,

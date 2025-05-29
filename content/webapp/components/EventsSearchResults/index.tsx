@@ -67,7 +67,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({
 }: Props) => {
   return (
     <EventsContainer>
-      {events.map(event => {
+      {events.map((event, index) => {
         const image = transformImage(event.image);
         const croppedImage = getCrop(image, '16:9');
 
@@ -94,6 +94,7 @@ const EventsSearchResults: FunctionComponent<Props> = ({
 
         return (
           <CardOuter
+            data-gtm-position-in-list={index + 1}
             key={event.id}
             href={linkResolver({ ...event, type: 'events' })}
           >

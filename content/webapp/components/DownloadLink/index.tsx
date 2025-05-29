@@ -96,6 +96,8 @@ const DownloadLink: FunctionComponent<Props> = ({
       target="_blank"
       rel="noopener noreferrer"
       href={href}
+      data-gtm-trigger="download_link"
+      data-gtm-mime-type={mimeType}
       onClick={() => {
         trackSegmentEvent({
           name: 'download',

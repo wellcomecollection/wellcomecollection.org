@@ -94,7 +94,7 @@ const StoriesGrid: FunctionComponent<Props> = ({
 }: Props) => {
   return (
     <div>
-      {articles.map(article => {
+      {articles.map((article, index) => {
         const image = transformImage(article.image);
         const croppedImage = getCrop(image, '16:9');
 
@@ -104,6 +104,8 @@ const StoriesGrid: FunctionComponent<Props> = ({
             as="a"
             href={linkResolver({ ...article, type: 'articles' })}
             data-testid="story-search-result"
+            data-gtm-trigger="stories_search_result"
+            data-gtm-position-in-list={index + 1}
           >
             <Grid>
               {croppedImage && (
