@@ -126,8 +126,6 @@ try {
           ContentType: 'application/json',
         };
 
-        console.log({ params });
-
         s3.putObject(params, function (err, data) {
           if (err) {
             console.error(chalk.redBright('Error uploading report.json'));
