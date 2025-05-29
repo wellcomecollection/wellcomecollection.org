@@ -100,13 +100,6 @@ const toggles = {
       type: 'experimental',
     },
     {
-      id: 'audioPlayer',
-      title: 'Changes to the AudioPlayer component',
-      initialValue: false,
-      description: 'Show updated UI and interactions for the AudioPlayer',
-      type: 'experimental',
-    },
-    {
       id: 'exhibitionsInEvents',
       title: 'Exhibitions in events',
       initialValue: false,
