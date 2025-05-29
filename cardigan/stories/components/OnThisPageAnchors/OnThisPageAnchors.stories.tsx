@@ -11,6 +11,7 @@ const meta: Meta<typeof OnThisPageAnchors> = {
   component: OnThisPageAnchors,
   args: {
     sticky: false,
+    background: true,
     links: [
       { text: 'Getting here', url: '#getting-here' },
       {
@@ -48,8 +49,8 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
   links: { text: string; url: string }[];
 }> = (args) => {
   return (
-    // use existing grid component
-    <div style={{ background: 'linear-gradient(5deg, black 50%, white 50%)', display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '16px' }}>
+    // TODO: use existing grid component
+    <div style={{ background: 'linear-gradient(5deg, #323232 50%, white 50%)', display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '16px' }}>
       <div style={{ gridColumn: 'span 1' }}>
         <OnThisPageAnchors {...args} />
       </div>
