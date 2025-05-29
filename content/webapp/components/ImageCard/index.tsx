@@ -49,8 +49,8 @@ const ImageCard: FunctionComponent<Props> = ({
           }
         }}
         id={id}
-        data-gtm-trigger={isEnhanced ? 'open_image_modal' : undefined}
-        data-gtm-position-in-list={isEnhanced ? positionInList : undefined}
+        data-gtm-trigger="open_image_modal"
+        data-gtm-position-in-list={positionInList}
         title={isEnhanced ? 'Open modal window' : undefined}
       >
         <IIIFImage
