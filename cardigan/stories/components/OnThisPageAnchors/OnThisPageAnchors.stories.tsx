@@ -45,14 +45,13 @@ const meta: Meta<typeof OnThisPageAnchors> = {
   },
 };
 
-// create a 2 column grid component that can be used as
-// a wrapper for the OnThisPageAnchors component
-const splitBgSvg = generateWobblySplitSvg({ topColor: 'white', bottomColor: 'black', percent: 20 });
+interface BackgroundGridProps {
+  $percent?: number;
+}
 
-const BackgroundGrid = styled(Grid).attrs({})<{}>`
+const BackgroundGrid = styled(Grid).attrs({})<BackgroundGridProps>`
   background:
-    url('data:image/svg+xml;utf8,${splitBgSvg}') top left / 100% 100% no-repeat,
-    linear-gradient(to bottom, white 0%, white 20%, black 20%, black 100%);
+    linear-gradient(5deg, white 0%, white ${props => props.$percent ?? 40}%, black ${props => props.$percent ?? 40}%, black 100%);
   box-sizing: border-box;
   & > * {
     min-height: 0;
@@ -64,7 +63,7 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
 }> = (args) => {
   return (
     // TODO: use existing grid component
-    <BackgroundGrid>
+    <BackgroundGrid $percent={40}>
       <div style={{ gridColumn: 'span 3' }}>
         <OnThisPageAnchors {...args} />
       </div>
