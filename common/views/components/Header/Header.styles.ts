@@ -211,9 +211,9 @@ export const HeaderLink = styled.a.attrs<HeaderLinkProps>({
   transition: color 400ms ease;
 
   ${props => props.theme.media('headerMedium')`
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-`}
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  `}
 
   &::after {
     content: '';
@@ -227,8 +227,8 @@ export const HeaderLink = styled.a.attrs<HeaderLinkProps>({
     transition: width 200ms ease;
 
     ${props => props.theme.media('headerMedium')`
-    bottom: 0.9rem;
-  `}
+      bottom: 0.9rem;
+    `}
   }
 
   &:hover {
