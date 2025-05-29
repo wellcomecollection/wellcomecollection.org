@@ -9,43 +9,60 @@ import Space from '@weco/common/views/components/styled/Space';
 import { Link } from '@weco/content/types/link';
 
 
-const Anchor = styled.a.attrs<{ $active?: boolean }>(() => ({
+const Anchor = styled.a.attrs<{
+  $active?: boolean;
+  $background?: boolean;
+  $sticky?: boolean;
+}>(() => ({
   className: font('intb', 5),
-}))<{$active?: boolean}>`
-  color: ${props => props.$active ? props.theme.color('yellow') : props.theme.color('white')};
-  mix-blend-mode: difference;
-  text-decoration: ${props => props.$active ? 'underline' : 'none'};
-  font-weight: ${props => props.$active ? 'bold' : 'normal'};
+}))<{
+  $active?: boolean;
+  $background?: boolean;
+  $sticky?: boolean;
+}>`
+  ${props => !props.$background ? `
+    mix-blend-mode: difference; 
+    color: ${props.theme.color('white')};
+    ` : ''}
+    
+  ${props => props.$sticky ? `
+    text-decoration: ${props.$active ? 'none' : 'underline'};
+    font-weight: ${props.$active ? 'bold' : 'normal'};
+    ` : ''}
+    
+`;
+
+const stickyRootAttrs = `
+  position: sticky;
+  top: 0;
+  z-index: 1;
 `;
 
 const Root = styled(Space).attrs({
   $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-})`
-  // background: ${props => props.theme.color('warmNeutral.300')};
-  mix-blend-mode: difference;
-  color: ${props => props.theme.color('white')};
-`;
-
-// create new Root function component that takes a sticky prop
-const RootWithSticky = styled(Root)<{ sticky?: boolean }>`
-  position: ${props => (props.sticky ? 'sticky' : 'static')};
-  top: 0px;
-  z-index: 1;
+})<{
+  sticky?: boolean,
+  background?: boolean
+}>`
+  ${props => props.sticky ? stickyRootAttrs : ''}
+  ${props => props.background
+    ? `background: ${props.theme.color('warmNeutral.300')}; color: ${props.theme.color('black')};`
+    : `mix-blend-mode: difference; color: ${props.theme.color('white')};`}
 `;
 
 export type Props = {
   sticky?: boolean;
+  background?: boolean;
   links: Link[];
 };
 
-const OnThisPageAnchors: FunctionComponent<Props> = ({ sticky, links }) => {
+const OnThisPageAnchors: FunctionComponent<Props> = ({ sticky, background, links }) => {
   // Extract ids from links (strip leading #)
   const ids = links.map(link => link.url.replace('#', ''));
   const observedActiveId = useActiveAnchor(ids);
   const [clickedId, setClickedId] = useState<string | null>(null);
   const [lock, setLock] = useState(false);
-
 
   // When an anchor is clicked, lock for a short time before allowing scroll to clear
   useEffect(() => {
@@ -68,14 +85,15 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({ sticky, links }) => {
     };
   }, [clickedId, lock]);
 
-  const activeId = clickedId || observedActiveId;
+  // Only use observedActiveId when sticky
+  const activeId = sticky ? (clickedId || observedActiveId) : clickedId;
 
   const handleClick = (id: string) => () => {
     setClickedId(id);
   };
 
   return (
-    <RootWithSticky sticky={sticky}>
+    <Root sticky={sticky} background={background}>
       <h2 className={font('wb', 4)}>What’s on this page</h2>
       <PlainList>
         {links.map((link: Link) => {
@@ -86,6 +104,8 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({ sticky, links }) => {
                 data-gtm-trigger="link_click_page_position"
                 href={link.url}
                 $active={activeId === id}
+                $background={background}
+                $sticky={sticky}
                 onClick={handleClick(id)}
               >
                 {link.text}
@@ -94,7 +114,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({ sticky, links }) => {
           );
         })}
       </PlainList>
-    </RootWithSticky>
+    </Root>
   );
 };
 
