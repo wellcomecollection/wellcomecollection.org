@@ -1,5 +1,5 @@
 ---
-name: A/B tests template
+name: A/B tests
 about: Including what's needed for an A/B test
 title: ''
 assignees: ''
