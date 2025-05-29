@@ -167,7 +167,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
             <ImageCard
               id={photo.id}
               workId={photo.source.id}
-              positionInList={layout.photoIndex + 1}
+              positionInList={layout.index + 1}
               image={{
                 contentUrl: photo.src,
                 width: layout.width,
