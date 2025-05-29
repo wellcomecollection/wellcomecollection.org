@@ -7,7 +7,6 @@ import Readme from '@weco/content/components/OnThisPageAnchors/README.mdx';
 import { Grid } from '@weco/common/views/components/styled/Grid';
 
 import styled from 'styled-components';
-import { generateWobblySplitSvg } from '@weco/common/utils/backgrounds';
 
 import { FunctionComponent } from 'react';
 
