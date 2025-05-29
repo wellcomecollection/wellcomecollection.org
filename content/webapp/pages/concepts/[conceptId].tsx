@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
-import NextLink, { LinkProps } from 'next/link';
+import { LinkProps } from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FunctionComponent, JSX, useState } from 'react';
 import styled from 'styled-components';
@@ -22,9 +22,7 @@ import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
 import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults';
 import MoreLink from '@weco/content/components/MoreLink';
 import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink/Images';
-import {
-  toLink as toWorksLink,
-} from '@weco/content/components/SearchPagesLink/Works';
+import { toLink as toWorksLink } from '@weco/content/components/SearchPagesLink/Works';
 import Tabs from '@weco/content/components/Tabs';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults';
 import useHotjar from '@weco/content/hooks/useHotjar';
@@ -49,6 +47,9 @@ import {
   queryParams,
 } from '@weco/content/utils/concepts';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
+import Button from '@weco/common/views/components/Buttons';
+import { themeValues } from '@weco/common/views/themes/config';
+import Collaborators from '../../components/Collaborators';
 
 const emptyImageResults: CatalogueResultsList<ImageType> = emptyResultList();
 
@@ -56,38 +57,25 @@ const emptyWorkResults: CatalogueResultsList<WorkType> = emptyResultList();
 
 const tabOrder = ['by', 'in', 'about'] as const;
 
-// TODO: Remove these components when we introduce new theme pages.
-
-const RelatedConceptsContainer = styled.div.attrs({
+const RelatedConceptsContainer = styled(Space).attrs({
+  $v: { size: 'm', properties: ['margin-top', 'margin-bottom'] },
   className: font('intr', 6),
 })`
   display: flex;
-  gap: 10px;
-  margin-bottom: 28px;
   flex-wrap: wrap;
+  gap: 8px;
   align-items: center;
 `;
 
-const RelatedConceptLink = styled.a.attrs({
-  className: font('intr', 6),
-})`
-  border: 2px solid;
-  padding: 4px 12px;
-  text-decoration: none;
-  border-radius: 30px;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const RelatedConceptItem = styled.div.attrs({
+const RelatedConceptItem = styled(Space).attrs({
   className: font('intr', 6),
 })`
   display: flex;
   gap: 8px;
   align-items: center;
 `;
+
+// TODO: Remove these components when we introduce new theme pages.
 
 const AlternativeLabels = styled.div.attrs({
   className: font('intr', 6),
@@ -112,42 +100,46 @@ const AlternativeLabel = styled.span.attrs({
 `;
 
 type RelatedConceptsProps = {
-  heading: string;
-  relatedConcepts: RelatedConcept[];
+  label: string;
+  labelType: 'inline' | 'heading';
+  relatedConcepts: RelatedConcept[] | undefined;
 };
 
-const SingleRelatedConcept = ({ item }: { item: RelatedConcept }) => (
-  <RelatedConceptItem
-    style={{ width: item.relationshipType ? '100%' : 'auto' }}
-  >
-    <NextLink
-      key={item.id}
-      href={{
-        pathname: `/concepts/${item.id}`,
-      }}
-      passHref
-      legacyBehavior
-    >
-      <RelatedConceptLink>{item.label}</RelatedConceptLink>
-    </NextLink>
-    {item.relationshipType?.replace('has_', '')}
-  </RelatedConceptItem>
-);
-
 const RelatedConceptsGroup = ({
-  heading,
+  label,
+  labelType,
   relatedConcepts,
 }: RelatedConceptsProps) => {
-  if (relatedConcepts.length === 0) {
+  if (!relatedConcepts || relatedConcepts.length === 0) {
     return null;
   }
 
   return (
     <>
-      <h3>{heading}</h3>
+      {labelType === 'heading' && <h2>{label}</h2>}
       <RelatedConceptsContainer>
+        {labelType === 'inline' && <span>{label}</span>}
         {relatedConcepts.map(item => (
-          <SingleRelatedConcept key={item.id} item={item} />
+          <RelatedConceptItem
+            style={{ width: item.relationshipType ? '100%' : 'auto' }}
+          >
+            <Space className={font('intr', 5)}>
+              <Button
+                variant="ButtonSolidLink"
+                colors={
+                  false
+                    ? themeValues.buttonColors.blackTransparentBlack
+                    : themeValues.buttonColors.charcoalTransparentBlack
+                }
+                isPill
+                text={item.label}
+                type="inline"
+                id={item.id}
+                link={`/concepts/${item.id}`}
+              ></Button>
+            </Space>
+            {item.relationshipType?.replace('has_', '')}
+          </RelatedConceptItem>
         ))}
       </RelatedConceptsContainer>
     </>
@@ -438,7 +430,11 @@ export const ConceptPage: NextPage<Props> = ({
     relatedTo,
     broaderThan,
     referencedTogether,
+    frequentCollaborators,
+    relatedTopics,
   } = conceptResponse.relatedConcepts || {};
+
+  console.log(frequentCollaborators);
 
   return (
     <CataloguePageLayout
@@ -470,53 +466,44 @@ export const ConceptPage: NextPage<Props> = ({
                       ))}
                     </AlternativeLabels>
                   )}
-                {narrowerThan && narrowerThan?.length > 0 && (
-                  <RelatedConceptsContainer>
-                    <span>Part of</span>
-                    {narrowerThan.map(item => (
-                      <SingleRelatedConcept key={item.id} item={item} />
-                    ))}
-                  </RelatedConceptsContainer>
-                )}
+                <RelatedConceptsGroup
+                  label="Part of"
+                  labelType="inline"
+                  relatedConcepts={narrowerThan}
+                />
                 {conceptResponse.description && (
                   <p>{capitalize(conceptResponse.description)}</p>
                 )}
               </>
             )}
           </Space>
-
           {newThemePages && (
             <>
-              {fieldsOfWork && (
-                <RelatedConceptsGroup
-                  heading="Fields of work"
-                  relatedConcepts={fieldsOfWork}
-                />
-              )}
-              {people && (
-                <RelatedConceptsGroup
-                  heading="Notable people in this field"
-                  relatedConcepts={people}
-                />
-              )}
-              {relatedTo && (
-                <RelatedConceptsGroup
-                  heading="Related to"
-                  relatedConcepts={relatedTo}
-                />
-              )}
-              {broaderThan && (
-                <RelatedConceptsGroup
-                  heading="Broader than"
-                  relatedConcepts={broaderThan}
-                />
-              )}
-              {referencedTogether && (
-                <RelatedConceptsGroup
-                  heading="Frequently referenced together"
-                  relatedConcepts={referencedTogether}
-                />
-              )}
+              <RelatedConceptsGroup
+                label="Field of work"
+                labelType="inline"
+                relatedConcepts={fieldsOfWork}
+              />
+              <RelatedConceptsGroup
+                label="Notable people in this field"
+                labelType="heading"
+                relatedConcepts={people}
+              />
+              <RelatedConceptsGroup
+                label="Related to"
+                labelType="heading"
+                relatedConcepts={relatedTo}
+              />
+              <RelatedConceptsGroup
+                label="Broader than"
+                labelType="heading"
+                relatedConcepts={broaderThan}
+              />
+              <RelatedConceptsGroup
+                label="Frequently referenced together"
+                labelType="heading"
+                relatedConcepts={referencedTogether}
+              />
             </>
           )}
         </Container>
@@ -580,6 +567,14 @@ export const ConceptPage: NextPage<Props> = ({
           </Space>
         </>
       )}
+      <Container>
+        <Collaborators concepts={frequentCollaborators} />
+        <RelatedConceptsGroup
+          label="Related topics"
+          labelType="heading"
+          relatedConcepts={relatedTopics}
+        />
+      </Container>
     </CataloguePageLayout>
   );
 };

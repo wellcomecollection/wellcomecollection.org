@@ -191,6 +191,19 @@ const charcoalTransparentCharcoal: ButtonColors = {
   text: 'neutral.700', // legacy charcoal color
 };
 
+const charcoalTransparentBlack: ButtonColors = {
+  border: 'neutral.700', // legacy charcoal color
+  background: 'transparent',
+  text: 'black',
+};
+
+const blackTransparentBlack: ButtonColors = {
+  border: 'black',
+  background: 'transparent',
+  text: 'black',
+};
+
+
 const marbleWhiteCharcoal: ButtonColors = {
   border: 'neutral.400', // legacy pumice color
   background: 'white',
@@ -309,6 +322,8 @@ export const themeValues = {
     whiteTransparentWhite,
     pumiceTransparentCharcoal,
     charcoalTransparentCharcoal,
+    charcoalTransparentBlack,
+    blackTransparentBlack,
     marbleWhiteCharcoal,
     yellowYellowBlack,
     whiteWhiteCharcoal,
