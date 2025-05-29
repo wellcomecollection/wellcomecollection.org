@@ -119,7 +119,7 @@ try {
         console.info(chalk.greenBright('Reporting done!'));
 
         const params = {
-          Body: JSON.stringify(results),
+          Body: results,
           Bucket: 'dash.wellcomecollection.org',
           Key: 'pa11y/report.json',
           ACL: 'public-read',
