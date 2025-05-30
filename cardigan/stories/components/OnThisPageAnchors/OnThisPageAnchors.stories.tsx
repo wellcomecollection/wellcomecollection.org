@@ -46,11 +46,15 @@ const meta: Meta<typeof OnThisPageAnchors> = {
 
 interface BackgroundGridProps {
   $percent?: number;
+  topColor?: string;
+  bottomColor?: string;
 }
 
-const BackgroundGrid = styled(Grid).attrs({})<BackgroundGridProps>`
+const BackgroundGrid = styled(Grid).attrs({
+
+})<BackgroundGridProps>`
   background:
-    linear-gradient(5deg, white 0%, white ${props => props.$percent ?? 40}%, black ${props => props.$percent ?? 40}%, black 100%);
+    linear-gradient(5deg, ${props => props.bottomColor ?? 'white'} 0%, ${props => props.bottomColor ?? 'white'} ${props => props.$percent ?? 40}%, ${props => props.topColor ?? 'black'} ${props => props.$percent ?? 40}%, ${props => props.topColor ?? 'black'} 100%);
   box-sizing: border-box;
   & > * {
     min-height: 0;
@@ -62,7 +66,7 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
 }> = (args) => {
   return (
     // TODO: use existing grid component
-    <BackgroundGrid $percent={40}>
+    <BackgroundGrid $percent={40} topColor="#323232">
       <div style={{ gridColumn: 'span 3' }}>
         <OnThisPageAnchors {...args} />
       </div>
@@ -100,7 +104,7 @@ export const SideBar: Story = {
   render: args => (
     <ReadmeDecorator
       WrappedComponent={OnThisPageAnchorsInColsContext}
-      args={{...args, backgroundBlend: true, sticky: true}}
+      args={{...args, backgroundBlend: true, sticky: true, activeColor: '#9BC0AF'}}
       Readme={Readme}
     />
   ),

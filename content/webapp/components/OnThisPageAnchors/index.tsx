@@ -7,7 +7,7 @@ import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { Link } from '@weco/content/types/link';
 
-const ListItem = styled.li<{ $active?: boolean; $sticky?: boolean }>`
+const ListItem = styled.li<{ $active?: boolean; $sticky?: boolean, activeColor?: string }>`
   ${props => props.$sticky ? `
   position: relative;
   padding-left: 12px;
@@ -21,10 +21,11 @@ const ListItem = styled.li<{ $active?: boolean; $sticky?: boolean }>`
     top: 0;
     bottom: 0;
     width: ${props.$active ? '3px' : '1px'};
-    background: ${props.$active ? props.theme.color('warmNeutral.400') : props.theme.color('neutral.400')};
+    background: ${props.$active ? props.activeColor : props.theme.color('black')};
   }
 ` : ''}
 `;
+
 
 const Anchor = styled.a.attrs<{
   $active?: boolean;
@@ -38,7 +39,6 @@ const Anchor = styled.a.attrs<{
   $sticky?: boolean;
 }>`
   ${props => props.$backgroundBlend ? `
-    mix-blend-mode: difference; 
     color: ${props.theme.color('white')};
     ` : ''}
     
@@ -64,17 +64,18 @@ const Root = styled(Space).attrs({
 }>`
   ${props => props.sticky ? stickyRootAttrs : ''}
   ${props => !props.backgroundBlend
-    ? `background: ${props.theme.color('warmNeutral.300')}; color: ${props.theme.color('black')};`
+    ? `background: ${props.theme.color('warmNeutral.300')};`
     : `mix-blend-mode: difference; color: ${props.theme.color('white')};`}
 `;
 
 export type Props = {
   sticky?: boolean;
   backgroundBlend?: boolean;
+  activeColor?: string
   links: Link[];
 };
 
-const OnThisPageAnchors: FunctionComponent<Props> = ({ sticky, backgroundBlend, links }) => {
+const OnThisPageAnchors: FunctionComponent<Props> = ({ sticky, backgroundBlend, activeColor, links }) => {
   // Defaults for props
   sticky = sticky ?? false;
   backgroundBlend = backgroundBlend ?? false;
@@ -134,7 +135,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({ sticky, backgroundBlend, 
           const id = link.url.replace('#', '');
           const isActive = activeId === id;
           return (
-            <ListItem key={link.url} $active={isActive} $sticky={sticky}>
+            <ListItem key={link.url} $active={isActive} $sticky={sticky} activeColor={activeColor}>
               <Anchor
                 data-gtm-trigger="link_click_page_position"
                 href={link.url}
