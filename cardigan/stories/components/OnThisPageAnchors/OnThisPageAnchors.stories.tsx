@@ -4,6 +4,12 @@ import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors';
 import Readme from '@weco/content/components/OnThisPageAnchors/README.mdx';
 
+import { Grid } from '@weco/common/views/components/styled/Grid';
+
+import styled from 'styled-components';
+
+import { FunctionComponent } from 'react';
+
 const meta: Meta<typeof OnThisPageAnchors> = {
   title: 'Components/OnThisPageAnchors',
   component: OnThisPageAnchors,
@@ -38,6 +44,46 @@ const meta: Meta<typeof OnThisPageAnchors> = {
   },
 };
 
+interface BackgroundGridProps {
+  $percent?: number;
+  topColor?: string;
+  bottomColor?: string;
+}
+
+const BackgroundGrid = styled(Grid).attrs({
+
+})<BackgroundGridProps>`
+  background:
+    linear-gradient(5deg, ${props => props.bottomColor ?? 'white'} 0%, ${props => props.bottomColor ?? 'white'} ${props => props.$percent ?? 40}%, ${props => props.topColor ?? 'black'} ${props => props.$percent ?? 40}%, ${props => props.topColor ?? 'black'} 100%);
+  box-sizing: border-box;
+  & > * {
+    min-height: 0;
+  }
+`;
+
+const OnThisPageAnchorsInColsContext: FunctionComponent<{
+  links: { text: string; url: string }[];
+}> = (args) => {
+  return (
+    // TODO: use existing grid component
+    <BackgroundGrid $percent={40} topColor="#323232">
+      <div style={{ gridColumn: 'span 3' }}>
+        <OnThisPageAnchors {...args} />
+      </div>
+      <div style={{ gridColumn: 'span 9', paddingTop: '32px' }}>
+        {args.links.map((link) => (
+          <div key={link.url} id={link.url.replace('#', '')} style={{ padding: '16px', backgroundColor: 'white', marginBottom: '16px' }}>
+            <h2>{link.text}</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+          </div>
+        ))}
+      </div>
+    </BackgroundGrid>
+  );
+}
+
 export default meta;
 
 type Story = StoryObj<typeof OnThisPageAnchors>;
@@ -48,6 +94,17 @@ export const Basic: Story = {
     <ReadmeDecorator
       WrappedComponent={OnThisPageAnchors}
       args={args}
+      Readme={Readme}
+    />
+  ),
+};
+
+export const SideBar: Story = {
+  name: 'OnThisPageAnchorsSideBar',
+  render: args => (
+    <ReadmeDecorator
+      WrappedComponent={OnThisPageAnchorsInColsContext}
+      args={{...args, backgroundBlend: true, sticky: true, activeColor: '#9BC0AF'}}
       Readme={Readme}
     />
   ),
