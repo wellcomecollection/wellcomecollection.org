@@ -13,7 +13,7 @@ import { classNames } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import Tabs from '@weco/content/components/Tabs';
-import WorksSearchResult from '@weco/content/components/WorksSearchResult'; // TODO temporary
+import WorksSearchResult from '@weco/content/components/WorksSearchResult';
 import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
 import {
   toWorkBasic,
@@ -27,7 +27,6 @@ type Props = {
 };
 
 // Genres labels we consider visual
-// TODO what should be in this list?
 const visualGenres = [
   'Caricatures',
   'Engravings',
@@ -254,7 +253,6 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
             text: config.text,
           }))}
           setSelectedTab={setSelectedWorksTab}
-          // TODO trackWithSegment?
         />
         {Object.keys(relatedTabConfig).map(tabKey => (
           <div
