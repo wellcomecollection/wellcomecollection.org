@@ -10,6 +10,7 @@ import {
 import { ServerDataContext } from '@weco/common/server-data/Context';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { classNames } from '@weco/common/utils/classnames';
+import { toHtmlId } from '@weco/common/utils/grammar';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import Tabs from '@weco/content/components/Tabs';
@@ -21,7 +22,6 @@ import {
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { WorkAggregations } from '@weco/content/services/wellcome/catalogue/types/aggregations';
-
 type Props = {
   work: Work;
 };
@@ -131,7 +131,7 @@ async function getRelatedTabConfig({
   } = {};
 
   subjectLabels.forEach(async label => {
-    const id = label.replace(/[^a-zA-Z0-9]/g, '-');
+    const id = toHtmlId(label);
 
     config[`subject-${id}`] = {
       text: label,
@@ -168,7 +168,7 @@ async function getRelatedTabConfig({
       visualGenres.includes(label)
     );
     const chosenGenre = visualGenre || genresLabels[0];
-    const id = chosenGenre.replace(/[^a-zA-Z0-9]/g, '-');
+    const id = toHtmlId(chosenGenre);
     config[`genres-${id}`] = {
       text: chosenGenre,
       params: {
