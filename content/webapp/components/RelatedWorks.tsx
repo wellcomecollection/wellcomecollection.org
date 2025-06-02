@@ -163,7 +163,7 @@ async function getRelatedTabConfig({
     };
   }
 
-  // If we have genres labels, we can to include a genre label (type/technique) tab.
+  // If we have genres labels, we can include a genre label (type/technique) tab.
   // We pick the first genre label that we consider to be visual if there is one,
   // otherwise we pick the first genre label.
   if (genresLabels.length > 0) {
