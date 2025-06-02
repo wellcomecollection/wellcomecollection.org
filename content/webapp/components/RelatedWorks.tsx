@@ -153,6 +153,7 @@ async function getRelatedTabConfig({
     config['date-range'] = {
       text: dateRange.tabLabel,
       params: {
+        'subjects.label': subjectLabels.map(label => `"${label}"`),
         'production.dates.from': dateRange.from,
         'production.dates.to': dateRange.to,
       },
