@@ -9,13 +9,12 @@ const fs = require('fs');
 
 const s3 = new S3Client({ region: 'us-east-1' });
 
-function runCommand(command, options = {}) {
+function runCommand(command) {
   console.log(`Running: ${command}`);
   try {
     return childProcess.execSync(command, {
       encoding: 'utf-8',
       stdio: 'inherit',
-      ...options,
     });
   } catch (error) {
     console.error(`Failed to run command: ${command}`);
