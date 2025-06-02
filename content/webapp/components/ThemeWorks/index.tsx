@@ -62,38 +62,43 @@ const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
   return (
     <>
       <WobblyEdge backgroundColor="white" />
-      <Container>
-        <h2 className={font('intsb', 2)}>Works</h2>
-        <Tabs
-          label="Works tabs"
-          tabBehaviour="switch"
-          selectedTab={selectedTab}
-          items={tabs}
-          setSelectedTab={tab => setSelectedTab(tab as ThemeTabType)}
-          trackWithSegment
-          hideBorder
-        />
-      </Container>
-      <Space
-        as="section"
-        $v={{
-          size: 'xl',
-          properties: ['margin-top', 'margin-bottom'],
-        }}
-        data-testid="works-section"
-      >
+
+      <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
         <Container>
-          <div role="tabpanel">
-            <WorksSearchResults works={activePanel.works!.pageResults} />
-            <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-              <MoreLink
-                name={`All works (${activePanel.works!.totalResults})`}
-                url={getAllWorksLink(selectedTab, concept)}
-                colors={theme.buttonColors.greenWhiteGreen}
-              />
-            </Space>
-          </div>
+          <h2 className={font('intsb', 2)}>Works</h2>
+          {tabs.length > 1 && (
+            <Tabs
+              label="Works tabs"
+              tabBehaviour="switch"
+              selectedTab={selectedTab}
+              items={tabs}
+              setSelectedTab={tab => setSelectedTab(tab as ThemeTabType)}
+              trackWithSegment
+              hideBorder
+            />
+          )}
         </Container>
+        <Space
+          as="section"
+          $v={{
+            size: 'xl',
+            properties: ['margin-top'],
+          }}
+          data-testid="works-section"
+        >
+          <Container>
+            <div role="tabpanel">
+              <WorksSearchResults works={activePanel.works!.pageResults} />
+              <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+                <MoreLink
+                  name={`All works (${formattedTotalCount})`}
+                  url={getAllWorksLink(selectedTab, concept)}
+                  colors={theme.buttonColors.greenWhiteGreen}
+                />
+              </Space>
+            </div>
+          </Container>
+        </Space>
       </Space>
     </>
   );

@@ -12,18 +12,18 @@ const AlternativeLabels = styled.div.attrs({
   margin-bottom: 24px;
   flex-wrap: wrap;
   margin-top: -12px;
-  color: #666;
+  color: ${props => props.theme.color('neutral.700')};
 `;
 
 const AlternativeLabel = styled.span.attrs({
   className: font('intr', 6),
 })`
-  border-right: 1px solid #666;
-  padding-right: 12px;
+    border-right: 1px solid ${props => props.theme.color('neutral.700')};
+    padding-right: 12px;
 
-  &:last-of-type {
-    border-right: 0;
-  }
+    &:last-of-type {
+        border-right: 0;
+    }
 `;
 
 type Props = {

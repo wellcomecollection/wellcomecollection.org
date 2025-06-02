@@ -70,7 +70,7 @@ const linkSources = new Map([
 const ConceptHero = styled(Space).attrs({
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
-    background-color: ${props => props.theme.color('lightYellow')};
+  background-color: ${props => props.theme.color('lightYellow')};
 `;
 
 const HeroTitle = styled.h1.attrs({ className: font('intb', 1) })`
@@ -364,7 +364,9 @@ export const ConceptPage: NextPage<Props> = ({
       )}
 
       {/* Images */}
-      {newThemePages && <ThemeImages sectionsData={sectionsData} concept={conceptResponse}/>}
+      {newThemePages && (
+        <ThemeImages sectionsData={sectionsData} concept={conceptResponse} />
+      )}
       {!newThemePages && hasImages && (
         <ConceptImages as="section" data-testid="images-section">
           <Container>
@@ -390,7 +392,9 @@ export const ConceptPage: NextPage<Props> = ({
       )}
 
       {/* Works */}
-      {newThemePages && <ThemeWorks concept={conceptResponse} sectionsData={sectionsData} />}
+      {newThemePages && (
+        <ThemeWorks concept={conceptResponse} sectionsData={sectionsData} />
+      )}
       {!newThemePages && hasWorks && (
         <>
           <ConceptWorksHeader $hasWorksTabs={hasWorksTabs}>
@@ -423,12 +427,16 @@ export const ConceptPage: NextPage<Props> = ({
       )}
       {newThemePages && (
         <Container>
-          <ThemeCollaborators concepts={frequentCollaborators} />
-          <ThemeRelatedConceptsGroup
-            label="Related topics"
-            labelType="heading"
-            relatedConcepts={relatedTopics}
-          />
+          <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
+            <ThemeCollaborators concepts={frequentCollaborators} />
+          </Space>
+          <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
+            <ThemeRelatedConceptsGroup
+              label="Related topics"
+              labelType="heading"
+              relatedConcepts={relatedTopics}
+            />
+          </Space>
         </Container>
       )}
     </CataloguePageLayout>
@@ -508,13 +516,13 @@ export const getServerSideProps: GetServerSideProps<
         getImages({
           params: queryParams(sectionName, conceptResponse),
           toggles: serverData.toggles,
-          pageSize: 5,
+          pageSize: 12,
         }),
       byLabel: (sectionName: string) =>
         getImages({
           params: allRecordsLinkParams(sectionName, conceptResponse),
           toggles: serverData.toggles,
-          pageSize: 5,
+          pageSize: 12,
         }),
     },
   };

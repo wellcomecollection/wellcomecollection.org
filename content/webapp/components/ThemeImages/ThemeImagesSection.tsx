@@ -1,7 +1,6 @@
 import { FunctionComponent } from 'react';
 
 import Space from '@weco/common/views/components/styled/Space';
-import ImageEndpointSearchResults from '../ImageEndpointSearchResults';
 import MoreLink from '../MoreLink';
 import {
   capitalize,
@@ -18,6 +17,7 @@ import { allRecordsLinkParams } from '../../utils/concepts';
 import { ImagesLinkSource } from '@weco/common/data/segment-values';
 import { usePathname } from 'next/navigation';
 import { ThemeTabType } from '../ThemeWorks';
+import ImageSectionGallery from './ImageSectionGallery';
 
 const getLinkSource = (type, pathname: string) => {
   return `concept/images_${type}_${pathname}` as ImagesLinkSource;
@@ -29,6 +29,14 @@ const getAllImagesLink = (tabType, concept: Concept, pathname: string) => {
   return toImagesLink(allRecordsLinkParams(sectionName, concept), linkSource);
 };
 
+const getReadableType = (type: ThemeTabType) => {
+  if (type === 'about') {
+    return 'featuring';
+  }
+
+  return type;
+};
+
 const SectionHeading = styled(Space).attrs({
   as: 'h3',
   className: font('intsb', 2),
@@ -37,8 +45,9 @@ const SectionHeading = styled(Space).attrs({
   color: white;
 `;
 
-const TotalCount = styled.span.attrs({
+const TotalCount = styled(Space).attrs({
   className: font('intr', 6),
+  $v: { size: 'l', properties: ['margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.400')};
 `;
@@ -66,18 +75,26 @@ const ThemeImagesSection: FunctionComponent<Props> = ({
 
   return (
     <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-      <SectionHeading>Images {type}</SectionHeading>
-      <TotalCount>
-        {pluralize(singleSectionData.totalResults, 'image')} from works
-      </TotalCount>
-      <Space $v={{ size: 's', properties: ['margin-top'] }}>
-        <ImageEndpointSearchResults images={singleSectionData.pageResults} />
+      <SectionHeading>
+        Images {getReadableType(type)} {concept.label}
+      </SectionHeading>
+      <Space
+        $v={{ size: 's', properties: ['margin-top'] }}
+        style={{ position: 'relative' }}
+      >
+        <TotalCount>
+          {pluralize(singleSectionData.totalResults, 'image')} from works
+        </TotalCount>
+        <ImageSectionGallery images={singleSectionData.pageResults} />
         <Space $v={{ size: 'm', properties: ['margin-top'] }}>
-          <MoreLink
-            name={`All images ${type} (${formattedTotalCount})`}
-            url={getAllImagesLink(type, concept, pathname)}
-            colors={theme.buttonColors.greenWhiteGreen}
-          />
+          {singleSectionData.totalResults >
+            singleSectionData.pageResults.length && (
+            <MoreLink
+              name={`All images ${getReadableType(type)} (${formattedTotalCount})`}
+              url={getAllImagesLink(type, concept, pathname)}
+              colors={theme.buttonColors.greenWhiteGreen}
+            />
+          )}
         </Space>
       </Space>
     </Space>
