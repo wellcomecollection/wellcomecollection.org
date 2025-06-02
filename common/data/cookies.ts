@@ -112,7 +112,7 @@ export const cookiesTableCopy = {
 
     [
       'Twilio Segment',
-      'With your permission, we use Segment to collect data about how you use the website. This information helps us to improve the website, such as improving our website search.<br /><a href="https://www.twilio.com/en-us/legal/privacy" target="_blank" rel="noopener noreferrer">Visit Segment’s privacy statement</a>.',
+      'With your permission, we use Segment to collect data about how you use the website. This information helps us to improve the website, such as improving our website search.<br /><a href="https://www.twilio.com/en-us/legal/privacy" target="_blank" rel="noopener noreferrer">Visit Segment&apos;s privacy statement</a>.',
     ],
     [
       'Hotjar',
@@ -131,11 +131,15 @@ export const cookiesTableCopy = {
     ['Provider', 'Purpose'],
     [
       'GoogleAds',
-      `We use tracking technologies to enhance the measurement, optimisation, and targeting of our advertising campaigns on Google.<br /><a href="https://business.safety.google/adscookies/" target="_blank" rel="noopener noreferrer">See the full list of cookies on Google's website</a>.`,
+      `We use tracking technologies to enhance the measurement, optimisation, and targeting of our advertising campaigns on Google.<br /><a href="https://business.safety.google/adscookies/" target="_blank" rel="noopener noreferrer">See the full list of cookies on Google&apos;s website</a>.`,
     ],
     [
       'Meta',
-      `We use tracking technologies to enhance the measurement, optimisation, and targeting of our advertising campaigns on Meta (includes Facebook and Instagram).<br /><a href="https://www.facebook.com/privacy/policies/cookies?annotations[0]=explanation%2F1_common_cookies_and_uses" target="_blank" rel="noopener noreferrer">See the full list of cookies on Meta's website</a>.`,
+      `We use tracking technologies to enhance the measurement, optimisation, and targeting of our advertising campaigns on Meta (includes Facebook and Instagram).<br /><a href="https://www.facebook.com/privacy/policies/cookies?annotations[0]=explanation%2F1_common_cookies_and_uses" target="_blank" rel="noopener noreferrer">See the full list of cookies on Meta&apos;s website</a>.`,
+    ],
+    [
+      'TikTok',
+      `We use tracking technologies to enhance the measurement, optimisation, and targeting of our advertising campaigns on TikTok.<br /><a href="https://www.tiktok.com/legal/page/global/tiktok-website-cookies-policy/en" target="_blank" rel="noopener noreferrer">See TikTok&apos;s cookies policy</a>.`,
     ],
   ],
 };
