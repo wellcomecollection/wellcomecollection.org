@@ -1,10 +1,10 @@
 import { FunctionComponent } from 'react';
 
 import styled from 'styled-components';
-import { StyledLink } from '../ArchiveTree/ArchiveTree.styles';
 import Icon from '@weco/common/views/components/Icon';
 import { user } from '@weco/common/icons';
 import { ConceptType } from '../../services/wellcome/catalogue/types';
+import Link from "next/link";
 
 type Props = {
   id: string;
@@ -12,7 +12,7 @@ type Props = {
   type: ConceptType;
 };
 
-const StyledCard = styled(StyledLink).attrs({ className: 'font-size-6' })`
+const StyledCard = styled(Link).attrs({ className: 'font-size-6' })`
     background-color: ${props => props.theme.color('warmNeutral.300')};
     padding: ${props => props.theme.spacingUnits['3']}px;
     display: flex;

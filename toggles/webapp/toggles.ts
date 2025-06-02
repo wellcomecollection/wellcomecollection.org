@@ -93,7 +93,7 @@ const toggles = {
     },
     {
       id: 'newThemePages',
-      title: 'New Theme Pages',
+      title: 'New theme pages',
       initialValue: false,
       description:
         'Show new theme pages, with data populated from the catalogue graph.',

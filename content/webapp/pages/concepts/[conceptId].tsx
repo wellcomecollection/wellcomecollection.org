@@ -34,7 +34,6 @@ import {
   CatalogueResultsList,
   Concept as ConceptType,
   Image as ImageType,
-  RelatedConcept,
   toWorkBasic,
   WorkBasic,
   Work as WorkType,
@@ -47,109 +46,17 @@ import {
   queryParams,
 } from '@weco/content/utils/concepts';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
-import Button from '@weco/common/views/components/Buttons';
-import { themeValues } from '@weco/common/views/themes/config';
 import ThemeCollaborators from '../../components/ThemeCollaborators';
 import ThemeImages from '../../components/ThemeImages';
+import ThemeWorks from '../../components/ThemeWorks';
+import ThemeRelatedConceptsGroup from '../../components/ThemeRelatedConceptsGroup';
+import ThemeHeader from '../../components/ThemeHeader';
 
 const emptyImageResults: CatalogueResultsList<ImageType> = emptyResultList();
 
 const emptyWorkResults: CatalogueResultsList<WorkType> = emptyResultList();
 
 const tabOrder = ['by', 'in', 'about'] as const;
-
-const RelatedConceptsContainer = styled(Space).attrs({
-  $v: { size: 'm', properties: ['margin-top', 'margin-bottom'] },
-  className: font('intr', 6),
-})`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
-`;
-
-const RelatedConceptItem = styled(Space).attrs({
-  className: font('intr', 6),
-})`
-  display: flex;
-  gap: 8px;
-  align-items: center;
-`;
-
-const SectionHeading = styled.h2.attrs({
-  className: font('intsb', 2),
-})``;
-
-// TODO: Remove these components when we introduce new theme pages.
-
-const AlternativeLabels = styled.div.attrs({
-  className: font('intr', 6),
-})`
-  display: flex;
-  gap: 10px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-  margin-top: -12px;
-  color: #666;
-`;
-
-const AlternativeLabel = styled.span.attrs({
-  className: font('intr', 6),
-})`
-  border-right: 1px solid #666;
-  padding-right: 12px;
-
-  &:last-of-type {
-    border-right: 0;
-  }
-`;
-
-type RelatedConceptsProps = {
-  label: string;
-  labelType: 'inline' | 'heading';
-  relatedConcepts: RelatedConcept[] | undefined;
-};
-
-const RelatedConceptsGroup = ({
-  label,
-  labelType,
-  relatedConcepts,
-}: RelatedConceptsProps) => {
-  if (!relatedConcepts || relatedConcepts.length === 0) {
-    return null;
-  }
-
-  return (
-    <>
-      {labelType === 'heading' && <SectionHeading>{label}</SectionHeading>}
-      <RelatedConceptsContainer>
-        {labelType === 'inline' && <span>{label}</span>}
-        {relatedConcepts.map(item => (
-          <RelatedConceptItem
-            style={{ width: item.relationshipType ? '100%' : 'auto' }}
-          >
-            <Space className={font('intr', 5)}>
-              <Button
-                variant="ButtonSolidLink"
-                colors={
-                  false
-                    ? themeValues.buttonColors.blackTransparentBlack
-                    : themeValues.buttonColors.charcoalTransparentBlack
-                }
-                isPill
-                text={item.label}
-                type="inline"
-                id={item.id}
-                link={`/concepts/${item.id}`}
-              ></Button>
-            </Space>
-            {item.relationshipType?.replace('has_', '')}
-          </RelatedConceptItem>
-        ))}
-      </RelatedConceptsContainer>
-    </>
-  );
-};
 
 const linkSources = new Map([
   ['worksAbout', 'concept/works_about'],
@@ -163,7 +70,7 @@ const linkSources = new Map([
 const ConceptHero = styled(Space).attrs({
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
-  background-color: ${props => props.theme.color('accent.lightGreen')};
+    background-color: ${props => props.theme.color('lightYellow')};
 `;
 
 const HeroTitle = styled.h1.attrs({ className: font('intb', 1) })`
@@ -344,7 +251,7 @@ function toPageSectionDefinition<T>({
     : undefined;
 }
 
-type SectionData = {
+export type SectionData = {
   label: string;
   works: ReturnedResults<WorkBasic> | undefined;
   images: ReturnedResults<ImageType> | undefined;
@@ -428,18 +335,8 @@ export const ConceptPage: NextPage<Props> = ({
     imagesTabs[0]?.id || ''
   );
 
-  const {
-    narrowerThan,
-    fieldsOfWork,
-    people,
-    relatedTo,
-    broaderThan,
-    referencedTogether,
-    frequentCollaborators,
-    relatedTopics,
-  } = conceptResponse.relatedConcepts || {};
-
-  console.log(frequentCollaborators);
+  const { frequentCollaborators, relatedTopics } =
+    conceptResponse.relatedConcepts || {};
 
   return (
     <CataloguePageLayout
@@ -452,72 +349,22 @@ export const ConceptPage: NextPage<Props> = ({
       hideNewsletterPromo={true}
       apiToolbarLinks={apiToolbarLinks}
     >
-      <ConceptHero>
-        <Container>
-          {!newThemePages && (
+      {newThemePages && <ThemeHeader concept={conceptResponse} />}
+      {!newThemePages && (
+        <ConceptHero>
+          <Container>
             <TypeLabel>{conceptTypeDisplayName(conceptResponse)}</TypeLabel>
-          )}
-          <Space
-            $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
-          >
-            <HeroTitle>{conceptResponse.label}</HeroTitle>
-            {newThemePages && (
-              <>
-                {conceptResponse.alternativeLabels &&
-                  conceptResponse.alternativeLabels?.length > 0 && (
-                    <AlternativeLabels>
-                      {conceptResponse.alternativeLabels.map(label => (
-                        <AlternativeLabel key={label}>
-                          {capitalize(label)}
-                        </AlternativeLabel>
-                      ))}
-                    </AlternativeLabels>
-                  )}
-                <RelatedConceptsGroup
-                  label="Part of"
-                  labelType="inline"
-                  relatedConcepts={narrowerThan}
-                />
-                {conceptResponse.description && (
-                  <p>{capitalize(conceptResponse.description)}</p>
-                )}
-              </>
-            )}
-          </Space>
-          {newThemePages && (
-            <>
-              <RelatedConceptsGroup
-                label="Field of work"
-                labelType="inline"
-                relatedConcepts={fieldsOfWork}
-              />
-              <RelatedConceptsGroup
-                label="Notable people in this field"
-                labelType="heading"
-                relatedConcepts={people}
-              />
-              <RelatedConceptsGroup
-                label="Related to"
-                labelType="heading"
-                relatedConcepts={relatedTo}
-              />
-              <RelatedConceptsGroup
-                label="Broader than"
-                labelType="heading"
-                relatedConcepts={broaderThan}
-              />
-              <RelatedConceptsGroup
-                label="Frequently referenced together"
-                labelType="heading"
-                relatedConcepts={referencedTogether}
-              />
-            </>
-          )}
-        </Container>
-      </ConceptHero>
-      {newThemePages && <ThemeImages sectionsData={sectionsData} />}
+            <Space
+              $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
+            >
+              <HeroTitle>{conceptResponse.label}</HeroTitle>
+            </Space>
+          </Container>
+        </ConceptHero>
+      )}
 
       {/* Images */}
+      {newThemePages && <ThemeImages sectionsData={sectionsData} concept={conceptResponse}/>}
       {!newThemePages && hasImages && (
         <ConceptImages as="section" data-testid="images-section">
           <Container>
@@ -543,12 +390,12 @@ export const ConceptPage: NextPage<Props> = ({
       )}
 
       {/* Works */}
-      {hasWorks && (
+      {newThemePages && <ThemeWorks concept={conceptResponse} sectionsData={sectionsData} />}
+      {!newThemePages && hasWorks && (
         <>
           <ConceptWorksHeader $hasWorksTabs={hasWorksTabs}>
             <Container>
               <h2 className={font('wb', 3)}>Catalogue</h2>
-
               {hasWorksTabs && (
                 <Tabs
                   label="Works tabs"
@@ -562,7 +409,6 @@ export const ConceptPage: NextPage<Props> = ({
               )}
             </Container>
           </ConceptWorksHeader>
-
           <Space
             as="section"
             $v={{
@@ -575,14 +421,16 @@ export const ConceptPage: NextPage<Props> = ({
           </Space>
         </>
       )}
-      <Container>
-        <ThemeCollaborators concepts={frequentCollaborators} />
-        <RelatedConceptsGroup
-          label="Related topics"
-          labelType="heading"
-          relatedConcepts={relatedTopics}
-        />
-      </Container>
+      {newThemePages && (
+        <Container>
+          <ThemeCollaborators concepts={frequentCollaborators} />
+          <ThemeRelatedConceptsGroup
+            label="Related topics"
+            labelType="heading"
+            relatedConcepts={relatedTopics}
+          />
+        </Container>
+      )}
     </CataloguePageLayout>
   );
 };

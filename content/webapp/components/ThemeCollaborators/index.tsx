@@ -4,7 +4,7 @@ import { RelatedConcept } from '../../services/wellcome/catalogue/types';
 import CollaboratorCard from './CollaboratorCard';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
-import { font } from "@weco/common/utils/classnames";
+import { font } from '@weco/common/utils/classnames';
 
 const COLLABORATOR_COUNT_LIMIT = 3;
 
@@ -30,7 +30,7 @@ type Props = {
 
 const ThemeCollaborators: FunctionComponent<Props> = ({ concepts }) => {
   if (!concepts || concepts.length === 0) {
-    return;
+    return null;
   }
 
   return (
@@ -39,6 +39,7 @@ const ThemeCollaborators: FunctionComponent<Props> = ({ concepts }) => {
       <CollaboratorsWrapper>
         {concepts.slice(0, COLLABORATOR_COUNT_LIMIT).map(concept => (
           <CollaboratorCard
+            key={concept.id}
             id={concept.id}
             type={concept.conceptType}
             label={concept.label}
