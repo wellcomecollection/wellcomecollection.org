@@ -20,6 +20,8 @@ type AppContextProps = {
   isEnhanced: boolean;
   isFullSupportBrowser: boolean;
   windowSize: Size;
+  activeAudioPlayerId: string | null;
+  setActiveAudioPlayerId: (id: string) => void;
   audioPlaybackRate: number;
   setAudioPlaybackRate: (rate: number) => void;
   hasAcknowledgedCookieBanner: boolean;
@@ -30,6 +32,8 @@ const appContextDefaults = {
   isEnhanced: false,
   isFullSupportBrowser: false,
   windowSize: 'small' as Size,
+  activeAudioPlayerId: null,
+  setActiveAudioPlayerId: () => null,
   audioPlaybackRate: 1,
   setAudioPlaybackRate: () => null,
   hasAcknowledgedCookieBanner: false,
@@ -65,6 +69,9 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
   );
   const [windowSize, setWindowSize] = useState<Size>(
     appContextDefaults.windowSize
+  );
+  const [activeAudioPlayerId, setActiveAudioPlayerId] = useState<string | null>(
+    null
   );
   const [audioPlaybackRate, setAudioPlaybackRate] = useState(
     appContextDefaults.audioPlaybackRate
@@ -132,6 +139,8 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
         isEnhanced,
         isFullSupportBrowser,
         windowSize,
+        activeAudioPlayerId,
+        setActiveAudioPlayerId,
         audioPlaybackRate,
         setAudioPlaybackRate,
         hasAcknowledgedCookieBanner,
