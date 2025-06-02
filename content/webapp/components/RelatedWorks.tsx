@@ -144,7 +144,7 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
   const serverData = useContext(ServerDataContext);
 
   useEffect(() => {
-    // Only fetch if we haven't already fetched results for hte current tab
+    // Only fetch if we haven't already fetched results for the current tab
     // or if the results for the current tab now include the current work
     const related =
       relatedTabConfig[selectedWorksTab] &&
