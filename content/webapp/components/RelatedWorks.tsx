@@ -105,7 +105,7 @@ async function getRelatedTabConfig({
 }) {
   const subjectLabels = work.subjects.map(subject => subject.label).slice(0, 3);
   const dateRange = getCenturyRange(work.production[0]?.dates[0]?.label);
-  // We make a request with the first subject label so we can get the genres labels
+  // We make a request filtered by subject labels to get the genres labels available with them
   const response = await catalogueQuery('works', {
     toggles: serverData.toggles,
     pageSize: 4, // In case we get the current work back, we will still have 3 to show
@@ -160,8 +160,7 @@ async function getRelatedTabConfig({
     };
   }
 
-  // If we have genres labels from the first subject label,
-  // we can to include a genre labelled tab.
+  // If we have genres labels, we can to include a genre label (type/technique) tab.
   // We pick the first genre label that we consider to be visual if there is one,
   // otherwise we pick the first genre label.
   if (genresLabels.length > 0) {
