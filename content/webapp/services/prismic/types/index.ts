@@ -278,7 +278,6 @@ export const teamFetchLinks: FetchLinks<RawTeamsDocument> = [
   'teams.subtitle',
   'teams.email',
   'teams.phone',
-  'teams.url',
 ];
 
 export type WithExhibitionParents = {
@@ -401,7 +400,6 @@ export const teamsFetchLinks: FetchLinks<RawTeamsDocument> = [
   'teams.subtitle',
   'teams.email',
   'teams.phone',
-  'teams.url',
 ];
 
 export const pageFormatsFetchLinks: FetchLinks<RawPageFormatsDocument> = [
