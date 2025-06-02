@@ -210,7 +210,8 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
   const serverData = useContext(ServerDataContext);
 
   useEffect(() => {
-    // Reset related works and tab config when work changes
+    // Reset selected tab, related works and tab config when work changes
+    setSelectedWorksTab('');
     setRelatedWorks({});
     (async () => {
       const config = await getRelatedTabConfig({
