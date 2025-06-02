@@ -106,19 +106,22 @@ async function getRelatedTabConfig({
   const subjectLabels = work.subjects.map(subject => subject.label).slice(0, 3);
   const dateRange = getCenturyRange(work.production[0]?.dates[0]?.label);
   // We make a request filtered by subject labels to get the genres labels available with them
-  const response = await catalogueQuery('works', {
-    toggles: serverData.toggles,
-    pageSize: 4, // In case we get the current work back, we will still have 3 to show
-    params: {
-      'subjects.label': subjectLabels.map(label => `"${label}"`),
-      include: ['production', 'contributors'],
-      aggregations: ['genres.label'],
-    },
-  });
-  const genresLabels =
-    response.type === 'ResultList'
-      ? getGenresLabels(response.aggregations as WorkAggregations)
-      : [];
+  let genresLabels: string[] = [];
+  if (subjectLabels.length > 0) {
+    const response = await catalogueQuery('works', {
+      toggles: serverData.toggles,
+      pageSize: 4, // In case we get the current work back, we will still have 3 to show
+      params: {
+        'subjects.label': subjectLabels.map(label => `"${label}"`),
+        include: ['production', 'contributors'],
+        aggregations: ['genres.label'],
+      },
+    });
+    genresLabels =
+      response.type === 'ResultList'
+        ? getGenresLabels(response.aggregations as WorkAggregations)
+        : [];
+  }
 
   const config: {
     [key: string]: {
