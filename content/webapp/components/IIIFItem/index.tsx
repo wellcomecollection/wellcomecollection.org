@@ -309,7 +309,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
           canvas={canvas}
           isRestricted={isRestricted}
         >
-          {audioPlayer && extendedViewer ? (
+          {extendedViewer ? (
             isInViewer ? (
               <AudioPlayerNew
                 isDark
@@ -326,10 +326,19 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
               />
             )
           ) : (
-            <AudioPlayer
-              audioFile={item.id}
-              title={getAudioVideoLabel(canvas.label, titleOverride) || ''}
-            />
+            <>
+              {audioPlayer ? (
+                <AudioPlayerNew
+                  audioFile={item.id}
+                  title={getAudioVideoLabel(canvas.label, titleOverride) || ''}
+                />
+              ) : (
+                <AudioPlayer
+                  audioFile={item.id}
+                  title={getAudioVideoLabel(canvas.label, titleOverride) || ''}
+                />
+              )}
+            </>
           )}
         </IIIFItemWrapper>
       );
