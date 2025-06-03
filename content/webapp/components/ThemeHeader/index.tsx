@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import ThemeRelatedConceptsGroup from '../ThemeRelatedConceptsGroup';
 import { font } from '@weco/common/utils/classnames';
 import ThemeAlternativeLabels from './ThemeAlternativeLabels';
+import { useToggles } from '@weco/common/server-data/Context';
 
 const ConceptHero = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
@@ -24,6 +25,8 @@ type Props = {
 };
 
 const ThemeHeader: FunctionComponent<Props> = ({ concept }) => {
+  const { themePagesAllFields } = useToggles();
+
   const { narrowerThan, fieldsOfWork, people, relatedTo, broaderThan } =
     concept.relatedConcepts || {};
 
@@ -32,14 +35,18 @@ const ThemeHeader: FunctionComponent<Props> = ({ concept }) => {
       <Container>
         <Space $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}>
           <Title>{concept.label}</Title>
-          <ThemeAlternativeLabels
-            alternativeLabels={concept.alternativeLabels}
-          />
-          <ThemeRelatedConceptsGroup
-            label="Part of"
-            labelType="inline"
-            relatedConcepts={narrowerThan}
-          />
+          {themePagesAllFields && (
+            <>
+              <ThemeAlternativeLabels
+                alternativeLabels={concept.alternativeLabels}
+              />
+              <ThemeRelatedConceptsGroup
+                label="Part of"
+                labelType="inline"
+                relatedConcepts={narrowerThan}
+              />
+            </>
+          )}
           {concept.description && <p>{capitalize(concept.description)}</p>}
         </Space>
         <>
@@ -48,21 +55,25 @@ const ThemeHeader: FunctionComponent<Props> = ({ concept }) => {
             labelType="inline"
             relatedConcepts={fieldsOfWork}
           />
-          <ThemeRelatedConceptsGroup
-            label="Notable people in this field"
-            labelType="heading"
-            relatedConcepts={people}
-          />
-          <ThemeRelatedConceptsGroup
-            label="Related to"
-            labelType="heading"
-            relatedConcepts={relatedTo}
-          />
-          <ThemeRelatedConceptsGroup
-            label="Broader than"
-            labelType="heading"
-            relatedConcepts={broaderThan}
-          />
+          {themePagesAllFields && (
+            <>
+              <ThemeRelatedConceptsGroup
+                label="Notable people in this field"
+                labelType="heading"
+                relatedConcepts={people}
+              />
+              <ThemeRelatedConceptsGroup
+                label="Related to"
+                labelType="heading"
+                relatedConcepts={relatedTo}
+              />
+              <ThemeRelatedConceptsGroup
+                label="Broader than"
+                labelType="heading"
+                relatedConcepts={broaderThan}
+              />
+            </>
+          )}
         </>
       </Container>
     </ConceptHero>

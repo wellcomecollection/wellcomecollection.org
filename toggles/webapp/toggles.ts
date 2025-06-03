@@ -100,6 +100,14 @@ const toggles = {
       type: 'experimental',
     },
     {
+      id: 'themePagesAllFields',
+      title: 'Show all fields on theme pages',
+      initialValue: false,
+      description:
+        'Show all experimental fields on theme pages, including alternative labels, broader topics, etc.',
+      type: 'experimental',
+    },
+    {
       id: 'exhibitionsInEvents',
       title: 'Exhibitions in events',
       initialValue: false,
