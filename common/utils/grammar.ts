@@ -78,3 +78,16 @@ export function camelToKebab(words: string): string {
     .join('-')
     .toLowerCase();
 }
+
+export function toHtmlId(str: string): string {
+  let id = str
+    .trim()
+    .replace(/[^a-zA-Z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .toLowerCase();
+
+  if (!/^[a-z]/.test(id)) {
+    id = `id-${id}`;
+  }
+  return id;
+}
