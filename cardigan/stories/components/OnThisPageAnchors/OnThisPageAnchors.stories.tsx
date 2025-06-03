@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import { Grid } from '@weco/common/views/components/styled/Grid';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors';
 import Readme from '@weco/content/components/OnThisPageAnchors/README.mdx';
 
@@ -62,10 +62,10 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
 }> = args => {
   return (
     <BackgroundGrid $percent={40} $topColor="#323232">
-      <div style={{ gridColumn: 'span 3' }}>
+      <GridCell $sizeMap={{ s: [12], m: [3, 1], l: [3, 1], xl: [3, 1] }}>
         <OnThisPageAnchors {...args} />
-      </div>
-      <div style={{ gridColumn: 'span 9', paddingTop: '32px' }}>
+      </GridCell>
+      <GridCell $sizeMap={{ s: [12], m: [9, 4], l: [9, 4], xl: [9, 4] }}>
         {args.links.map(link => (
           <div
             key={link.url}
@@ -85,7 +85,7 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
             </p>
           </div>
         ))}
-      </div>
+      </GridCell>
     </BackgroundGrid>
   );
 };
