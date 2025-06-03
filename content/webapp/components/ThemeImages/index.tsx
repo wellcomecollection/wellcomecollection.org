@@ -28,11 +28,7 @@ const isSectionEmpty = (section: SectionData) => {
 };
 
 const ThemeImages: FunctionComponent<Props> = ({ sectionsData, concept }) => {
-  if (
-    isSectionEmpty(sectionsData.about) &&
-    isSectionEmpty(sectionsData.by) &&
-    isSectionEmpty(sectionsData.in)
-  ) {
+  if (themeTabOrder.every(tab => isSectionEmpty(sectionsData[tab]))) {
     return null;
   }
 
@@ -45,7 +41,7 @@ const ThemeImages: FunctionComponent<Props> = ({ sectionsData, concept }) => {
             <ThemeImagesSection
               key={tabType}
               singleSectionData={sectionsData[tabType].images}
-              totalResults={sectionsData[tabType].totalResults.images}
+              totalResults={sectionsData[tabType].totalResults.images!}
               concept={concept}
               type={tabType}
             />

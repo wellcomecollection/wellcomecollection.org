@@ -18,7 +18,7 @@ const ImageCardList = styled(PlainList)`
 
 type Props = {
   images: Image[];
-  scrollContainerRef: RefObject<HTMLElement>;
+  scrollContainerRef: RefObject<HTMLUListElement>;
 };
 
 const ImageSectionGallery: FunctionComponent<Props> = ({

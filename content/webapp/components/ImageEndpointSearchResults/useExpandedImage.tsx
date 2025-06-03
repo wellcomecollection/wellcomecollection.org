@@ -1,5 +1,7 @@
 import {
+  Dispatch,
   FunctionComponent,
+  SetStateAction,
   useContext,
   useEffect,
   useMemo,
@@ -22,7 +24,9 @@ import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import { hexToRgb } from '@weco/content/utils/convert-colors';
 
-const useExpandedImage = (images: Image[]) => {
+const useExpandedImage = (
+  images: Image[]
+): [Image | undefined, Dispatch<SetStateAction<Image | undefined>>] => {
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
   const { toggles } = useContext(ServerDataContext);
 

@@ -69,7 +69,8 @@ const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
   }
 
   const activePanel: SectionData = sectionsData[selectedTab];
-  const formattedTotalCount = formatNumber(activePanel.totalResults.works, {
+  const totalWorksCount = activePanel.totalResults.works!
+  const formattedTotalCount = formatNumber(totalWorksCount, {
     isCompact: true,
   });
 
@@ -97,7 +98,7 @@ const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
           <Container>
             <div role="tabpanel">
               <WorksCount>
-                {pluralize(activePanel.totalResults.works, 'work')}
+                {pluralize(totalWorksCount, 'work')}
               </WorksCount>
               <Space $v={{ size: 'l', properties: ['margin-top'] }}>
                 <WorksSearchResults works={activePanel.works!.pageResults} />

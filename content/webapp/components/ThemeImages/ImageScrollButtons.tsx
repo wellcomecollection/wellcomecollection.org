@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {  useEffect, useState } from "react";
 import styled from 'styled-components';
 
 import Icon from '@weco/common/views/components/Icon';
@@ -7,7 +7,7 @@ import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 const ScrollButton = styled('button').attrs({
-  className: font('intr', 6, { small: 1, medium: 1, large: 1 }),
+  className: font('intr', 6),
 })`
   color: white;
   display: flex;
@@ -56,7 +56,7 @@ const ImageScrollButtons = ({ targetRef }) => {
 
   const scrollByChildImageWidth = direction => {
     const currScrollLeft = targetRef.current.scrollLeft;
-    const children = Array.from(targetRef.current.children);
+    const children: HTMLElement[] = Array.from(targetRef.current.children);
 
     // When scrolling right, scroll to the first child whose left offset is higher than the current left scroll.
     // Otherwise, scroll to the last child chose left offset is lower than the current left scroll.

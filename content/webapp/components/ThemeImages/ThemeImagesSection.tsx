@@ -75,7 +75,7 @@ const ThemeImagesSection: FunctionComponent<Props> = ({
   type,
 }) => {
   const pathname = usePathname();
-  const scrollContainerRef = useRef<HTMLElement>(null);
+  const scrollContainerRef = useRef<HTMLUListElement>(null);
 
   if (!singleSectionData || singleSectionData.pageResults.length === 0) {
     return null;

@@ -1,12 +1,12 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, Dispatch, SetStateAction } from 'react';
 import Modal from '@weco/common/views/components/Modal';
 import ExpandedImage from '@weco/content/components/ExpandedImage';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 
 type Props = {
   images: Image[];
-  expandedImage: Image;
-  setExpandedImage: (image: Image) => null;
+  expandedImage: Image | undefined;
+  setExpandedImage: Dispatch<SetStateAction<Image | undefined>>;
 };
 
 const ExpandedImageModal: FunctionComponent<Props> = ({

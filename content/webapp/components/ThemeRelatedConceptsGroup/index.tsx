@@ -14,7 +14,7 @@ const RelatedConceptsContainer = styled(Space).attrs({
   gap: ${props => props.theme.spacingUnits['3']}px;
 `;
 
-const RelatedConceptItem = styled(Space).attrs({
+const RelatedConceptItem = styled(Space).attrs<{ $isFullWidth: boolean }>({
   className: font('intr', 6),
 })`
     display: flex;
@@ -50,7 +50,7 @@ const ThemeRelatedConceptsGroup = ({
         {relatedConcepts.map(item => (
           <RelatedConceptItem
             key={item.id}
-            $isFullWidth={item.relationshipType?.length > 0}
+            $isFullWidth={!!item.relationshipType && item.relationshipType?.length > 0}
           >
             <Space className={font('intr', 5)}>
               <Button
