@@ -63,20 +63,21 @@ const WithIconWrapper = styled(Space).attrs({
 export type Props = {
   title?: string;
   subtitle?: string;
+  phone: string;
+  email: string;
+  // The link is added manually in code at times, but isn't part of the content model.
   link?: {
     text: string;
     url: string;
   };
-  phone: string;
-  email: string;
 };
 
 const Contact: FunctionComponent<Props> = ({
   title,
   subtitle,
-  link,
   phone,
   email,
+  link,
 }: Props): ReactElement => {
   return (
     <Wrapper>

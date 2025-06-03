@@ -59,6 +59,41 @@ function detectEur01Safelinks(doc: any): string[] {
   return [];
 }
 
+function detectNonHTTPWWWLinks(doc: any): string[] {
+  const allUrlIndexes = [...JSON.stringify(doc.data).matchAll(/"url":"/gi)].map(
+    a => a.index
+  );
+
+  const allErrors: string[] = [];
+
+  if (allUrlIndexes.length > 0) {
+    allUrlIndexes.forEach(urlIndex => {
+      if (JSON.stringify(doc.data).indexOf('"url":"') > 0) {
+        const nextCharacter = JSON.stringify(doc.data).slice(
+          urlIndex + 7,
+          urlIndex + 8
+        );
+        const next4Characters = JSON.stringify(doc.data).slice(
+          urlIndex + 7,
+          urlIndex + 11
+        );
+
+        if (
+          nextCharacter !== '/' && // internal, hopefully
+          next4Characters !== 'http' && // http, hopefully
+          next4Characters !== 'mail' && // mailto, hopefully
+          next4Characters !== 'tel:' // tel, hopefully
+        ) {
+          allErrors.push(
+            'Please review the links in this document as they may not be valid. The URL should start with http[s]:// (if external) or / (if internal).'
+          );
+        }
+      }
+    });
+  }
+  return allErrors;
+}
+
 // Look for preview.wellcomecollection.org links.
 //
 // This is a very crude check; we could recurse further down into
@@ -263,6 +298,7 @@ async function run() {
   for (const doc of getPrismicDocuments(snapshotFile)) {
     const errors = [
       ...detectEur01Safelinks(doc),
+      ...detectNonHTTPWWWLinks(doc),
       ...detectPreviewLinks(doc),
       ...detectBrokenInterpretationTypeLinks(doc),
       ...detectNonHttpContributorLinks(doc),

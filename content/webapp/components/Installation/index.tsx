@@ -2,6 +2,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -11,10 +12,7 @@ import PageHeader from '@weco/common/views/components/PageHeader';
 import Body from '@weco/content/components/Body';
 import ContentPage from '@weco/content/components/ContentPage';
 import DateAndStatusIndicator from '@weco/content/components/DateAndStatusIndicator';
-import {
-  AccessibilityServices,
-  getInfoItems,
-} from '@weco/content/components/Exhibition';
+import { getInfoItems } from '@weco/content/components/Exhibition/Exhibition.helpers';
 import InfoBox from '@weco/content/components/InfoBox';
 import StatusIndicator from '@weco/content/components/StatusIndicator';
 import { fetchExhibitExhibition } from '@weco/content/services/prismic/fetch/exhibitions';
@@ -82,6 +80,7 @@ const Installation: FunctionComponent<Props> = ({ installation }) => {
       isContentTypeInfoBeforeMedia={true}
     />
   );
+
   return (
     <ContentPage
       id={installation.id}
@@ -97,7 +96,7 @@ const Installation: FunctionComponent<Props> = ({ installation }) => {
     >
       {installation.end && !isPast(installation.end) && (
         <InfoBox title="Visit us" items={getInfoItems(installation)}>
-          <AccessibilityServices>
+          <p className={font('intr', 5)} style={{ margin: 0 }}>
             For more information, please visit our{' '}
             <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>{' '}
             page. If you have any queries about accessibility, please email us
@@ -107,14 +106,14 @@ const Installation: FunctionComponent<Props> = ({ installation }) => {
             </a>{' '}
             or call{' '}
             {/*
-        This is to ensure phone numbers are read in a sensible way by
-        screen readers.
-      */}
+              This is to ensure phone numbers are read in a sensible way by
+              screen readers.
+            */}
             <span className="visually-hidden">
               {createScreenreaderLabel('020 7611 2222')}
             </span>
             <span aria-hidden="true">020&nbsp;7611&nbsp;2222.</span>
-          </AccessibilityServices>
+          </p>
         </InfoBox>
       )}
     </ContentPage>
