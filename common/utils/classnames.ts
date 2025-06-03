@@ -1,5 +1,5 @@
 // int(r|m|sb|b) = Inter(regular|medium|semi-bold|bold); wb = Wellcome Bold; lr = Lettera Regular
-export type FontFamily = 'intr' | 'intm' | 'intsb' | 'intb' | 'wb' | 'lr';
+type FontFamily = 'intr' | 'intm' | 'intsb' | 'intb' | 'wb' | 'lr';
 type FontSize = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 type FontSizeAll = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 type FontSizeOverrides = {

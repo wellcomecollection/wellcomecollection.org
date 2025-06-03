@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { useActiveAnchor } from '@weco/common/hooks/useActiveAnchor';
-import { font, FontFamily } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { Link } from '@weco/content/types/link';
@@ -142,7 +142,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
   };
 
   const titleText = sticky ? 'On this page' : 'What’s on this page';
-  const fontStyle = sticky ? font('intr', 4) : (font('wb', 4) as FontFamily);
+  const fontStyle = sticky ? font('intr', 4) : font('wb', 4);
 
   return (
     <Root sticky={sticky} backgroundBlend={backgroundBlend}>
