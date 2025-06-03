@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
+import { themeValues } from '@weco/common/views/themes/config';
 import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors';
 import Readme from '@weco/content/components/OnThisPageAnchors/README.mdx';
 
@@ -113,7 +114,7 @@ export const SideBar: Story = {
         ...args,
         hasBackgroundBlend: true,
         isSticky: true,
-        activeColor: '#9BC0AF',
+        activeColor: themeValues.color('accent.lightGreen'),
       }}
       Readme={Readme}
     />

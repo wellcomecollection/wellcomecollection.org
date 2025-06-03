@@ -5,6 +5,7 @@ import { useActiveAnchor } from '@weco/common/hooks/useActiveAnchor';
 import { font } from '@weco/common/utils/classnames';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
+import { PaletteColor } from '@weco/common/views/themes/config';
 import { Link } from '@weco/content/types/link';
 
 const ListItem = styled.li<{
@@ -84,7 +85,7 @@ const Root = styled(Space).attrs({
 export type Props = {
   isSticky?: boolean;
   hasBackgroundBlend?: boolean;
-  activeColor?: string;
+  activeColor?: PaletteColor;
   links: Link[];
 };
 
