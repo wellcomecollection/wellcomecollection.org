@@ -21,20 +21,9 @@ import {
   Work,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
-import { WorkAggregations } from '@weco/content/services/wellcome/catalogue/types/aggregations';
 type Props = {
   work: Work;
 };
-
-// Genres labels we consider visual
-const visualGenres = [
-  'Caricatures',
-  'Engravings',
-  'Etchings',
-  'Portrait prints',
-  'Photographs',
-  'Paintings',
-];
 
 // Returns the century range for a string containing exactly four digits
 const getCenturyRange = (
@@ -53,11 +42,6 @@ const getCenturyRange = (
   }
   return null;
 };
-
-function getGenresLabels(aggregations?: WorkAggregations): string[] {
-  const buckets = aggregations?.['genres.label']?.buckets ?? [];
-  return buckets.map(bucket => bucket?.data?.label);
-}
 
 const fetchRelated = async ({
   serverData,
@@ -94,7 +78,6 @@ async function getRelatedTabConfig({
   work,
   relatedWorks,
   setRelatedWorks,
-  serverData,
 }: {
   work: Work;
   relatedWorks: { [key: string]: WorkBasic[] | undefined };
@@ -105,29 +88,12 @@ async function getRelatedTabConfig({
 }) {
   const subjectLabels = work.subjects.map(subject => subject.label).slice(0, 3);
   const dateRange = getCenturyRange(work.production[0]?.dates[0]?.label);
-  // We make a request filtered by subject labels to get the genres labels available with them
-  let genresLabels: string[] = [];
-  if (subjectLabels.length > 0) {
-    const response = await catalogueQuery('works', {
-      toggles: serverData.toggles,
-      pageSize: 4, // In case we get the current work back, we will still have 3 to show
-      params: {
-        'subjects.label': subjectLabels.map(label => `"${label}"`),
-        include: ['production', 'contributors'],
-        aggregations: ['genres.label'],
-      },
-    });
-    genresLabels =
-      response.type === 'ResultList'
-        ? getGenresLabels(response.aggregations as WorkAggregations)
-        : [];
-  }
+  const typeTechniques = work.genres.map(genres => genres.label).slice(0, 3);
 
   const config: {
     [key: string]: {
       text: string;
       params: { [key: string]: string | string[] };
-      aggregations: string[];
       related: WorkBasic[] | undefined;
       setRelated: (results: WorkBasic[]) => void;
     };
@@ -135,11 +101,9 @@ async function getRelatedTabConfig({
 
   subjectLabels.forEach(async label => {
     const id = toHtmlId(label);
-
     config[`subject-${id}`] = {
       text: label,
       params: { 'subjects.label': [`"${label}"`] },
-      aggregations: ['genres.label'],
       related: relatedWorks[`subject-${id}`],
       setRelated: (results: WorkBasic[]) =>
         setRelatedWorks((prev: { [key: string]: WorkBasic[] | undefined }) => ({
@@ -157,36 +121,29 @@ async function getRelatedTabConfig({
         'production.dates.from': dateRange.from,
         'production.dates.to': dateRange.to,
       },
-      aggregations: [],
       related: relatedWorks['date-range'],
       setRelated: (results: WorkBasic[]) =>
         setRelatedWorks(prev => ({ ...prev, 'date-range': results })),
     };
   }
 
-  // If we have genres labels, we can include a genre label (type/technique) tab.
-  // We pick the first genre label that we consider to be visual if there is one,
-  // otherwise we pick the first genre label.
-  if (genresLabels.length > 0) {
-    const visualGenre = genresLabels.find(label =>
-      visualGenres.includes(label)
-    );
-    const chosenGenre = visualGenre || genresLabels[0];
-    const id = toHtmlId(chosenGenre);
-    config[`genres-${id}`] = {
-      text: chosenGenre,
+  typeTechniques.forEach(async label => {
+    const id = toHtmlId(label);
+    config[`type-${id}`] = {
+      text: label,
       params: {
-        'genres.label': [chosenGenre],
-        // The genres we chose comes from what is available when using the first subject labels as a filter
-        // so we also wanter to filter here by the subject labels as well as the genre label
         'subjects.label': subjectLabels.map(label => `"${label}"`),
+        'genres.label': [`"${label}"`],
       },
-      aggregations: [],
-      related: relatedWorks[`genres-${id}`],
+      related: relatedWorks[`type-${id}`],
       setRelated: (results: WorkBasic[]) =>
-        setRelatedWorks(prev => ({ ...prev, [`genres-${id}`]: results })),
+        setRelatedWorks((prev: { [key: string]: WorkBasic[] | undefined }) => ({
+          ...prev,
+          [`type-${id}`]: results,
+        })),
     };
-  }
+  });
+
   return config;
 }
 
@@ -198,7 +155,6 @@ const RelatedWorks: FunctionComponent<Props> = ({ work }) => {
     [key: string]: {
       text: string;
       params: { [key: string]: string | string[] };
-      aggregations: string[];
       related: WorkBasic[] | undefined;
       setRelated: (results: WorkBasic[]) => void;
     };
