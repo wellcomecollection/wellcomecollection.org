@@ -8,12 +8,12 @@ import Space from '@weco/common/views/components/styled/Space';
 import { Link } from '@weco/content/types/link';
 
 const ListItem = styled.li<{
-  $active?: boolean;
-  $sticky?: boolean;
+  $isActive?: boolean;
+  $isSticky?: boolean;
   activeColor?: string;
 }>`
   ${props =>
-    props.$sticky
+    props.$isSticky
       ? `
   position: relative;
   padding-left: 12px;
@@ -23,36 +23,36 @@ const ListItem = styled.li<{
     content: '';
     display: block;
     position: absolute;
-    left: ${props.$active ? '0px' : '1px'};
+    left: ${props.$isActive ? '0px' : '1px'};
     top: 0;
     bottom: 0;
-    width: ${props.$active ? '3px' : '1px'};
-    background: ${props.$active ? props.activeColor : props.theme.color('black')};
+    width: ${props.$isActive ? '3px' : '1px'};
+    background: ${props.$isActive ? props.activeColor : props.theme.color('black')};
   }
 `
       : ''}
 `;
 
 const Anchor = styled.a.attrs<{
-  $active?: boolean;
-  $backgroundBlend?: boolean;
-  $sticky?: boolean;
+  $isActive?: boolean;
+  $hasBackgroundBlend?: boolean;
+  $isSticky?: boolean;
 }>(() => ({
   className: font('intb', 5),
 }))<{
   $active?: boolean;
-  $backgroundBlend?: boolean;
-  $sticky?: boolean;
+  $hasBackgroundBlend?: boolean;
+  $isSticky?: boolean;
 }>`
   ${props =>
-    props.$backgroundBlend
+    props.$hasBackgroundBlend
       ? `
     color: ${props.theme.color('white')};
     `
       : ''}
 
   ${props =>
-    props.$sticky
+    props.$isSticky
       ? `
     text-decoration: ${props.$active ? 'none' : 'underline'};
     text-underline-position: under;
@@ -71,32 +71,32 @@ const Root = styled(Space).attrs({
   $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })<{
-  sticky?: boolean;
-  backgroundBlend?: boolean;
+  isSticky?: boolean;
+  hasBackgroundBlend?: boolean;
 }>`
-  ${props => (props.sticky ? stickyRootAttrs : '')}
+  ${props => (props.isSticky ? stickyRootAttrs : '')}
   ${props =>
-    !props.backgroundBlend
+    !props.hasBackgroundBlend
       ? `background: ${props.theme.color('warmNeutral.300')};`
       : `mix-blend-mode: difference; color: ${props.theme.color('white')};`}
 `;
 
 export type Props = {
-  sticky?: boolean;
-  backgroundBlend?: boolean;
+  isSticky?: boolean;
+  hasBackgroundBlend?: boolean;
   activeColor?: string;
   links: Link[];
 };
 
 const OnThisPageAnchors: FunctionComponent<Props> = ({
-  sticky,
-  backgroundBlend,
+  isSticky,
+  hasBackgroundBlend,
   activeColor,
   links,
 }) => {
   // Defaults for props
-  sticky = sticky ?? false;
-  backgroundBlend = backgroundBlend ?? false;
+  isSticky = isSticky ?? false;
+  hasBackgroundBlend = hasBackgroundBlend ?? false;
 
   // Extract ids from links (strip leading #)
   const ids = links.map(link => link.url.replace('#', ''));
@@ -127,7 +127,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
   }, [clickedId, lock]);
 
   // Determine the active id based on whether sticky is enabled
-  const activeId = sticky ? clickedId || observedActiveId : clickedId;
+  const activeId = isSticky ? clickedId || observedActiveId : clickedId;
 
   // Update the URL hash when activeId changes, but only if it doesn't match the current hash
   useEffect(() => {
@@ -141,11 +141,11 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
     setClickedId(id);
   };
 
-  const titleText = sticky ? 'On this page' : 'What’s on this page';
-  const fontStyle = sticky ? font('intr', 4) : font('wb', 4);
+  const titleText = isSticky ? 'On this page' : 'What’s on this page';
+  const fontStyle = isSticky ? font('intr', 4) : font('wb', 4);
 
   return (
-    <Root sticky={sticky} backgroundBlend={backgroundBlend}>
+    <Root isSticky={isSticky} hasBackgroundBlend={hasBackgroundBlend}>
       <h2 className={fontStyle}>{titleText}</h2>
       <PlainList>
         {links.map((link: Link) => {
@@ -154,16 +154,16 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
           return (
             <ListItem
               key={link.url}
-              $active={isActive}
-              $sticky={sticky}
+              $isActive={isActive}
+              $isSticky={isSticky}
               activeColor={activeColor}
             >
               <Anchor
                 data-gtm-trigger="link_click_page_position"
                 href={link.url}
                 $active={isActive}
-                $backgroundBlend={backgroundBlend}
-                $sticky={sticky}
+                $hasBackgroundBlend={hasBackgroundBlend}
+                $isSticky={isSticky}
                 onClick={handleClick(id)}
               >
                 {link.text}

@@ -111,8 +111,8 @@ export const SideBar: Story = {
       WrappedComponent={OnThisPageAnchorsInColsContext}
       args={{
         ...args,
-        backgroundBlend: true,
-        sticky: true,
+        hasBackgroundBlend: true,
+        isSticky: true,
         activeColor: '#9BC0AF',
       }}
       Readme={Readme}
