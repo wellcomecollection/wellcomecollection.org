@@ -69,14 +69,13 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
         {args.links.map(link => (
           <div
             key={link.url}
-            id={link.url.replace('#', '')}
             style={{
               padding: '16px',
               backgroundColor: 'white',
               marginBottom: '16px',
             }}
           >
-            <h2>{link.text}</h2>
+            <h2 id={link.url.replace('#', '')}>{link.text}</h2>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
