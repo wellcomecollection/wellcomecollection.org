@@ -17,12 +17,13 @@ const getConfig = () => {
     sessionVersion: 'v1',
 
     // The base URL of the whole website (eg https://wellcomecollection.org)
-    siteBaseUrl: process.env.SITE_BASE_URL ?? `http://localhost:${port}`,
+    siteBaseUrl: process.env.SITE_BASE_URL ?? `http://localhost:${port}`, // TODO why does this not get SITE_BASE_URL correctly?
     identityBasePath: '/account',
 
     // Auth0 configuration.
     auth0: {
       domain: process.env.AUTH0_DOMAIN || 'build',
+      secret: process.env.AUTH0_SECRET || 'build', // TODO do we need this?
       clientID: process.env.AUTH0_CLIENT_ID || 'build',
       clientSecret: process.env.AUTH0_CLIENT_SECRET || 'build',
       actionSecret: process.env.AUTH0_ACTION_SECRET || 'build',
