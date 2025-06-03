@@ -16,9 +16,17 @@ const ConceptHero = styled(Space).attrs({
   background-color: ${props => props.theme.color('accent.lightGreen')};
 `;
 
-const Title = styled.h1.attrs({ className: font('wb', 1) })`
-  margin-bottom: 1rem;
-`;
+const Title = styled(Space).attrs({
+  as: 'h1',
+  className: font('wb', 1),
+  $v: { size: 'xs', properties: ['margin-bottom'] },
+})``;
+
+const ThemeDescription = styled(Space).attrs({
+  as: 'p',
+  className: `${font('intr', 3)} body-text`,
+  $v: { size: 'l', properties: ['margin-bottom'] },
+})``;
 
 type Props = {
   concept: Concept;
@@ -33,22 +41,22 @@ const ThemeHeader: FunctionComponent<Props> = ({ concept }) => {
   return (
     <ConceptHero>
       <Container>
-        <Space $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}>
-          <Title>{concept.label}</Title>
-          {themePagesAllFields && (
-            <>
-              <ThemeAlternativeLabels
-                alternativeLabels={concept.alternativeLabels}
-              />
-              <ThemeRelatedConceptsGroup
-                label="Part of"
-                labelType="inline"
-                relatedConcepts={narrowerThan}
-              />
-            </>
-          )}
-          {concept.description && <p>{capitalize(concept.description)}</p>}
-        </Space>
+        <Title>{concept.label}</Title>
+        {themePagesAllFields && (
+          <>
+            <ThemeAlternativeLabels
+              alternativeLabels={concept.alternativeLabels}
+            />
+            <ThemeRelatedConceptsGroup
+              label="Part of"
+              labelType="inline"
+              relatedConcepts={narrowerThan}
+            />
+          </>
+        )}
+        {concept.description && (
+          <ThemeDescription>{capitalize(concept.description)}</ThemeDescription>
+        )}
         <>
           <ThemeRelatedConceptsGroup
             label="Field of work"

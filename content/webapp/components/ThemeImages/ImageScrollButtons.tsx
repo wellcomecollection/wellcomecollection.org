@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import Icon from '@weco/common/views/components/Icon';
-import { arrow, arrowSmall } from '@weco/common/icons';
+import { arrowSmall } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -23,9 +23,6 @@ const ScrollButton = styled('button').attrs({
 const ScrollButtonsContainer = styled(Space)`
   display: flex;
   justify-content: flex-end;
-  position: absolute;
-  top: 0;
-  right: 0;
 `;
 
 const ImageScrollButtons = ({ targetRef }) => {
@@ -53,7 +50,7 @@ const ImageScrollButtons = ({ targetRef }) => {
 
     targetRef.current.addEventListener('scroll', updateScrollButtons);
     return () => {
-      targetRef.current.removeEventListener('scroll', updateScrollButtons);
+      targetRef.current?.removeEventListener('scroll', updateScrollButtons);
     };
   });
 
@@ -67,6 +64,7 @@ const ImageScrollButtons = ({ targetRef }) => {
       direction === 'right'
         ? children.find(child => child.offsetLeft > currScrollLeft)
         : children.findLast(child => child.offsetLeft < currScrollLeft);
+
     if (!child) return;
 
     targetRef.current.scrollTo({

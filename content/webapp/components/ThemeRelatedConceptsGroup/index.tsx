@@ -1,28 +1,25 @@
 import Space from '@weco/common/views/components/styled/Space';
-import {
-  RelatedConcept,
-} from '../../services/wellcome/catalogue/types';
+import { RelatedConcept } from '../../services/wellcome/catalogue/types';
 import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import { themeValues } from '@weco/common/views/themes/config';
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const RelatedConceptsContainer = styled(Space).attrs({
-  $v: { size: 'm', properties: ['margin-top', 'margin-bottom'] },
-  className: font('intr', 6),
+  className: font('intm', 5),
 })`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: ${props => props.theme.spacingUnits['3']}px;
 `;
 
 const RelatedConceptItem = styled(Space).attrs({
   className: font('intr', 6),
 })`
   display: flex;
-  gap: 8px;
   align-items: center;
+  gap: ${props => props.theme.spacingUnits['3']}px;
 `;
 
 const SectionHeading = styled.h2.attrs({

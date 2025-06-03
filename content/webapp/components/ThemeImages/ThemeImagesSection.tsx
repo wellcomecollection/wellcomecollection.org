@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useRef } from 'react';
 
 import Space from '@weco/common/views/components/styled/Space';
 import MoreLink from '../MoreLink';
@@ -18,6 +18,7 @@ import { ImagesLinkSource } from '@weco/common/data/segment-values';
 import { usePathname } from 'next/navigation';
 import { ThemeTabType } from '../ThemeWorks';
 import ImageSectionGallery from './ImageSectionGallery';
+import ImageScrollButtons from './ImageScrollButtons';
 
 const getLinkSource = (type, pathname: string) => {
   return `concept/images_${type}_${pathname}` as ImagesLinkSource;
@@ -45,11 +46,19 @@ const SectionHeading = styled(Space).attrs({
   color: white;
 `;
 
+const ScrollButtonsContainer = styled(Space).attrs({
+  as: 'h3',
+  className: font('intsb', 2),
+  $v: { size: 'm', properties: ['margin-bottom'] },
+})`
+    display: flex;
+    justify-content: space-between;
+`;
+
 const TotalCount = styled(Space).attrs({
   className: font('intr', 6),
-  $v: { size: 'l', properties: ['margin-bottom'] },
 })`
-  color: ${props => props.theme.color('neutral.400')};
+    color: ${props => props.theme.color('neutral.400')};
 `;
 
 type Props = {
@@ -64,6 +73,7 @@ const ThemeImagesSection: FunctionComponent<Props> = ({
   type,
 }) => {
   const pathname = usePathname();
+  const scrollContainerRef = useRef<HTMLElement>(null);
 
   if (!singleSectionData || singleSectionData.pageResults.length === 0) {
     return null;
@@ -78,15 +88,20 @@ const ThemeImagesSection: FunctionComponent<Props> = ({
       <SectionHeading>
         Images {getReadableType(type)} {concept.label}
       </SectionHeading>
-      <Space
-        $v={{ size: 's', properties: ['margin-top'] }}
-        style={{ position: 'relative' }}
-      >
-        <TotalCount>
-          {pluralize(singleSectionData.totalResults, 'image')} from works
-        </TotalCount>
-        <ImageSectionGallery images={singleSectionData.pageResults} />
-        <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+      <Space $v={{ size: 's', properties: ['margin-top'] }}>
+        <ScrollButtonsContainer>
+          <TotalCount>
+            {pluralize(singleSectionData.totalResults, 'image')} from works
+          </TotalCount>
+          <ImageScrollButtons
+            targetRef={scrollContainerRef}
+          ></ImageScrollButtons>
+        </ScrollButtonsContainer>
+        <ImageSectionGallery
+          images={singleSectionData.pageResults}
+          scrollContainerRef={scrollContainerRef}
+        />
+        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
           {singleSectionData.totalResults >
             singleSectionData.pageResults.length && (
             <MoreLink
