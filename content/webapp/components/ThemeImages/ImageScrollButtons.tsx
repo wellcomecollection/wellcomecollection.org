@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import Icon from '@weco/common/views/components/Icon';
-import { arrow } from '@weco/common/icons';
+import { arrow, arrowSmall } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -21,25 +21,30 @@ const ScrollButton = styled('button').attrs({
 `;
 
 const ScrollButtonsContainer = styled(Space)`
-    display: flex;
-    justify-content: flex-end;
-    position: absolute;
-    top: 0;
-    right: 0
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  top: 0;
+  right: 0;
 `;
 
 const ImageScrollButtons = ({ targetRef }) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
-  const [leftmostVisibleChildIndex, setLeftmostVisibleChildIndex] = useState(0);
+
+  const getMaxScrollLeft = () => {
+    const { scrollWidth, clientWidth } = targetRef.current;
+    return scrollWidth - clientWidth;
+  };
 
   const updateScrollButtons = () => {
     if (!targetRef.current) return;
 
-    const { scrollLeft, scrollWidth, clientWidth } = targetRef.current;
-    const maxScrollLeft = scrollWidth - clientWidth;
+    const { scrollLeft } = targetRef.current;
+    const maxScrollLeft = getMaxScrollLeft();
+
     setCanScrollLeft(scrollLeft > 0);
-    setCanScrollRight(scrollLeft < maxScrollLeft);
+    setCanScrollRight(Math.ceil(scrollLeft) < maxScrollLeft);
   };
 
   useEffect(() => {
@@ -53,26 +58,24 @@ const ImageScrollButtons = ({ targetRef }) => {
   });
 
   const scrollByChildImageWidth = direction => {
-    // When scrolling right, the amount we scroll by is determined by the width of the leftmost visible image.
-    // When scrolling left, it's determined by the width of the image to its left.
-    const index =
+    const currScrollLeft = targetRef.current.scrollLeft;
+    const children = Array.from(targetRef.current.children);
+
+    // When scrolling right, scroll to the first child whose left offset is higher than the current left scroll.
+    // Otherwise, scroll to the last child chose left offset is lower than the current left scroll.
+    const child =
       direction === 'right'
-        ? leftmostVisibleChildIndex
-        : leftmostVisibleChildIndex - 1;
-    const child = targetRef.current.children[index];
+        ? children.find(child => child.offsetLeft > currScrollLeft)
+        : children.findLast(child => child.offsetLeft < currScrollLeft);
     if (!child) return;
 
-    const width = child.getBoundingClientRect().width;
-    const multiplier = direction === 'right' ? 1 : -1;
-    targetRef.current.scrollBy({
-      left: multiplier * width,
+    targetRef.current.scrollTo({
+      left: child.offsetLeft,
       behavior: 'smooth',
     });
-
-    setLeftmostVisibleChildIndex(leftmostVisibleChildIndex + multiplier);
   };
 
-  if(!canScrollLeft && !canScrollRight) {
+  if (!canScrollLeft && !canScrollRight) {
     return null;
   }
 
@@ -82,14 +85,14 @@ const ImageScrollButtons = ({ targetRef }) => {
         disabled={!canScrollLeft}
         onClick={() => scrollByChildImageWidth('left')}
       >
-        <Icon icon={arrow} rotate={180} />
+        <Icon icon={arrowSmall} rotate={180} />
         Prev
       </ScrollButton>
       <ScrollButton
         disabled={!canScrollRight}
         onClick={() => scrollByChildImageWidth('right')}
       >
-        <Icon icon={arrow} />
+        <Icon icon={arrowSmall} />
         Next
       </ScrollButton>
     </ScrollButtonsContainer>
