@@ -41,11 +41,11 @@ const meta: Meta<typeof OnThisPageAnchors> = {
   },
 };
 
-interface BackgroundGridProps {
+type BackgroundGridProps = {
   $percent?: number;
   topColor?: string;
   bottomColor?: string;
-}
+};
 
 const BackgroundGrid = styled(Grid).attrs({})<BackgroundGridProps>`
   background: linear-gradient(
