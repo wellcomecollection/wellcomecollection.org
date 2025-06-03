@@ -38,10 +38,14 @@ const Anchor = styled.a.attrs<{
   $isActive?: boolean;
   $hasBackgroundBlend?: boolean;
   $isSticky?: boolean;
-}>(() => ({
-  className: font('intb', 5),
+}>(props => ({
+  className: props.$isSticky
+    ? props.$isActive
+      ? font('intb', 5)
+      : font('intr', 5)
+    : font('intb', 5),
 }))<{
-  $active?: boolean;
+  $isActive?: boolean;
   $hasBackgroundBlend?: boolean;
   $isSticky?: boolean;
 }>`
@@ -55,9 +59,8 @@ const Anchor = styled.a.attrs<{
   ${props =>
     props.$isSticky
       ? `
-    text-decoration: ${props.$active ? 'none' : 'underline'};
+    text-decoration: ${props.$isActive ? 'none' : 'underline'};
     text-underline-position: under;
-    font-weight: ${props.$active ? 'bold' : 'normal'};
     `
       : ''}
 `;
@@ -162,7 +165,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
               <Anchor
                 data-gtm-trigger="link_click_page_position"
                 href={link.url}
-                $active={isActive}
+                $isActive={isActive}
                 $hasBackgroundBlend={hasBackgroundBlend}
                 $isSticky={isSticky}
                 onClick={handleClick(id)}
