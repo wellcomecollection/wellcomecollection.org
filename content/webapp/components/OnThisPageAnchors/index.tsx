@@ -1,14 +1,20 @@
-import { FunctionComponent, useState, useEffect } from 'react';
-import { useActiveAnchor } from '@weco/common/hooks/useActiveAnchor';
+import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { useActiveAnchor } from '@weco/common/hooks/useActiveAnchor';
 import { font, FontFamily } from '@weco/common/utils/classnames';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { Link } from '@weco/content/types/link';
 
-const ListItem = styled.li<{ $active?: boolean; $sticky?: boolean, activeColor?: string }>`
-  ${props => props.$sticky ? `
+const ListItem = styled.li<{
+  $active?: boolean;
+  $sticky?: boolean;
+  activeColor?: string;
+}>`
+  ${props =>
+    props.$sticky
+      ? `
   position: relative;
   padding-left: 12px;
   padding-bottom: 6px;
@@ -23,9 +29,9 @@ const ListItem = styled.li<{ $active?: boolean; $sticky?: boolean, activeColor?:
     width: ${props.$active ? '3px' : '1px'};
     background: ${props.$active ? props.activeColor : props.theme.color('black')};
   }
-` : ''}
+`
+      : ''}
 `;
-
 
 const Anchor = styled.a.attrs<{
   $active?: boolean;
@@ -38,15 +44,21 @@ const Anchor = styled.a.attrs<{
   $backgroundBlend?: boolean;
   $sticky?: boolean;
 }>`
-  ${props => props.$backgroundBlend ? `
+  ${props =>
+    props.$backgroundBlend
+      ? `
     color: ${props.theme.color('white')};
-    ` : ''}
-    
-  ${props => props.$sticky ? `
+    `
+      : ''}
+
+  ${props =>
+    props.$sticky
+      ? `
     text-decoration: ${props.$active ? 'none' : 'underline'};
     text-underline-position: under;
     font-weight: ${props.$active ? 'bold' : 'normal'};
-    ` : ''}
+    `
+      : ''}
 `;
 
 const stickyRootAttrs = `
@@ -59,23 +71,29 @@ const Root = styled(Space).attrs({
   $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })<{
-  sticky?: boolean,
-  backgroundBlend?: boolean
+  sticky?: boolean;
+  backgroundBlend?: boolean;
 }>`
-  ${props => props.sticky ? stickyRootAttrs : ''}
-  ${props => !props.backgroundBlend
-    ? `background: ${props.theme.color('warmNeutral.300')};`
-    : `mix-blend-mode: difference; color: ${props.theme.color('white')};`}
+  ${props => (props.sticky ? stickyRootAttrs : '')}
+  ${props =>
+    !props.backgroundBlend
+      ? `background: ${props.theme.color('warmNeutral.300')};`
+      : `mix-blend-mode: difference; color: ${props.theme.color('white')};`}
 `;
 
 export type Props = {
   sticky?: boolean;
   backgroundBlend?: boolean;
-  activeColor?: string
+  activeColor?: string;
   links: Link[];
 };
 
-const OnThisPageAnchors: FunctionComponent<Props> = ({ sticky, backgroundBlend, activeColor, links }) => {
+const OnThisPageAnchors: FunctionComponent<Props> = ({
+  sticky,
+  backgroundBlend,
+  activeColor,
+  links,
+}) => {
   // Defaults for props
   sticky = sticky ?? false;
   backgroundBlend = backgroundBlend ?? false;
@@ -109,8 +127,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({ sticky, backgroundBlend, 
   }, [clickedId, lock]);
 
   // Determine the active id based on whether sticky is enabled
-  const activeId = sticky ? (clickedId || observedActiveId) : clickedId;
-
+  const activeId = sticky ? clickedId || observedActiveId : clickedId;
 
   // Update the URL hash when activeId changes, but only if it doesn't match the current hash
   useEffect(() => {
@@ -125,7 +142,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({ sticky, backgroundBlend, 
   };
 
   const titleText = sticky ? 'On this page' : 'What’s on this page';
-  const fontStyle = sticky ? font('intr', 4) : font('wb', 4) as FontFamily;
+  const fontStyle = sticky ? font('intr', 4) : (font('wb', 4) as FontFamily);
 
   return (
     <Root sticky={sticky} backgroundBlend={backgroundBlend}>
@@ -135,7 +152,12 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({ sticky, backgroundBlend, 
           const id = link.url.replace('#', '');
           const isActive = activeId === id;
           return (
-            <ListItem key={link.url} $active={isActive} $sticky={sticky} activeColor={activeColor}>
+            <ListItem
+              key={link.url}
+              $active={isActive}
+              $sticky={sticky}
+              activeColor={activeColor}
+            >
               <Anchor
                 data-gtm-trigger="link_click_page_position"
                 href={link.url}
@@ -148,8 +170,6 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({ sticky, backgroundBlend, 
               </Anchor>
             </ListItem>
           );
-
-
         })}
       </PlainList>
     </Root>
