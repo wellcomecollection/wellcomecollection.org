@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { classNames, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 export const Wrapper = styled.div`
   ${props =>
@@ -46,6 +47,8 @@ type NavItemProps = {
   $selected: boolean;
   $isWhite?: boolean;
   $hideBorder?: boolean;
+  $isThin?: boolean;
+  $selectedBorderColour?: PaletteColor;
 };
 
 export const Tab = styled.div.attrs<{ $selected?: boolean }>(props => ({
@@ -53,10 +56,11 @@ export const Tab = styled.div.attrs<{ $selected?: boolean }>(props => ({
 }))<NavItemProps>`
   padding: 0;
   margin: 0;
+  margin-right: ${props => props.$isThin ? props.theme.spacingUnits['6'] : 0}px;
   flex-shrink: 0;
   border-bottom: ${props =>
     props.$selected
-      ? `3px solid ${props.theme.color('yellow')}`
+      ? `3px solid ${props.theme.color(props.$selectedBorderColour || 'yellow')}`
       : `1px solid ${props.theme.color(
           props.$hideBorder
             ? 'transparent'
@@ -89,13 +93,13 @@ export const TabButton = styled.div`
   }
 `;
 
-export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
+export const NavItemInner = styled(Space).attrs<{ $selected: boolean, $isThin?: boolean }>(
   props => {
     return {
       as: 'span',
       className: classNames({ selected: props.$selected }),
-      $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-      $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+      $h: { size: props.$isThin ? 's' : 'l', properties: ['padding-left', 'padding-right'] },
+      $v: { size: props.$isThin ? 's' : 'm', properties: ['padding-bottom', 'padding-top'] },
     };
   }
 )<{ $isWhite?: boolean }>`

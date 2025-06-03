@@ -21,6 +21,7 @@ import {
   TabButton,
   TabsContainer,
 } from './Tabs.styles';
+import { PaletteColor } from "@weco/common/views/themes/config";
 
 type SendEventProps = {
   id: string;
@@ -54,6 +55,8 @@ export type Props = {
   setSelectedTab: Dispatch<SetStateAction<string>>;
   isWhite?: boolean;
   trackWithSegment?: boolean;
+  isThin?: boolean;
+  selectedBorderColour?: PaletteColor;
 };
 
 const TabsSwitch: FunctionComponent<Props> = ({
@@ -63,7 +66,9 @@ const TabsSwitch: FunctionComponent<Props> = ({
   selectedTab,
   setSelectedTab,
   isWhite,
+  selectedBorderColour,
   trackWithSegment = false,
+  isThin = false
 }: Props) => {
   const { isEnhanced } = useAppContext();
   const tabListRef = useRef<HTMLDivElement>(null);
@@ -133,6 +138,8 @@ const TabsSwitch: FunctionComponent<Props> = ({
             $selected={isSelected}
             $isWhite={isWhite}
             $hideBorder={hideBorder}
+            $selectedBorderColour={selectedBorderColour}
+            $isThin={isThin}
             onClick={e => {
               if (!(item.id === selectedTab)) {
                 (e.target as HTMLButtonElement).scrollIntoView({
@@ -155,7 +162,7 @@ const TabsSwitch: FunctionComponent<Props> = ({
               aria-controls={`tabpanel-${item.id}`}
               aria-selected={item.id === selectedTab}
             >
-              <NavItemInner $selected={isSelected} $isWhite={isWhite}>
+              <NavItemInner $selected={isSelected} $isWhite={isWhite} $isThin={isThin}>
                 <ConditionalWrapper
                   condition={Boolean(item.url && !isEnhanced)}
                   wrapper={children => <a href={item.url}>{children}</a>}

@@ -29,10 +29,10 @@ export const themeTabOrder: ThemeTabType[] = ['by', 'in', 'about'] as const;
 const WorksCount = styled(Space).attrs({
   as: 'p',
   className: font('intr', 6),
-  $v: { size: 's', properties: ['margin-top'] },
+  $v: { size: 's', properties: ['padding-top'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
-  margin-bottom: 0;
+  border-top: 1px solid ${props => props.theme.color('warmNeutral.300')};
 `;
 
 const getLinkSource = (type: ThemeTabType) => {
@@ -76,7 +76,6 @@ const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
   return (
     <>
       <WobblyEdge backgroundColor="white" />
-
       <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
         <Container>
           <h2 className={font('intsb', 2)}>Works</h2>
@@ -89,6 +88,8 @@ const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
               setSelectedTab={tab => setSelectedTab(tab as ThemeTabType)}
               trackWithSegment
               hideBorder
+              selectedBorderColour="black"
+              isThin
             />
           )}
         </Container>
