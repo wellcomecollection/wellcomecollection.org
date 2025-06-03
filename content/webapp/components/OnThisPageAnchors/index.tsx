@@ -11,7 +11,7 @@ import { Link } from '@weco/content/types/link';
 const ListItem = styled.li<{
   $isActive?: boolean;
   $isSticky?: boolean;
-  activeColor?: string;
+  activeColor?: PaletteColor;
 }>`
   ${props =>
     props.$isSticky
@@ -28,7 +28,7 @@ const ListItem = styled.li<{
     top: 0;
     bottom: 0;
     width: ${props.$isActive ? '3px' : '1px'};
-    background: ${props.$isActive ? props.activeColor : props.theme.color('black')};
+    background: ${props.$isActive ? props.theme.color(props.activeColor || 'black') : props.theme.color('black')};
   }
 `
       : ''}

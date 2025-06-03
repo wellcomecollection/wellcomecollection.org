@@ -2,45 +2,10 @@ import { Meta, StoryObj } from '@storybook/react';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { links } from '@weco/cardigan/stories/data/links';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
-import { themeValues } from '@weco/common/views/themes/config';
+import { PaletteColor } from '@weco/common/views/themes/config';
 import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors';
-import Readme from '@weco/content/components/OnThisPageAnchors/README.mdx';
-
-const meta: Meta<typeof OnThisPageAnchors> = {
-  title: 'Components/OnThisPageAnchors',
-  component: OnThisPageAnchors,
-  args: {
-    links: [
-      { text: 'Getting here', url: '#getting-here' },
-      {
-        text: 'Getting around the building',
-        url: '#getting-around-the-building',
-      },
-      {
-        text: 'Accessible exhibitions and events',
-        url: '#accessible-exhibitions-and-events',
-      },
-      {
-        text: 'Visual access',
-        url: '#visual-access',
-      },
-      {
-        text: 'Auditory access',
-        url: '#auditory-access',
-      },
-      {
-        text: 'Wheelchair and physical access',
-        url: '#wheelchair-and-physical-access',
-      },
-      {
-        text: 'Sensory access',
-        url: '#sensory-access',
-      },
-    ],
-  },
-};
 
 type BackgroundGridProps = {
   $percent?: number;
@@ -59,15 +24,21 @@ const BackgroundGrid = styled(Grid).attrs({})<BackgroundGridProps>`
 `;
 
 const OnThisPageAnchorsInColsContext: FunctionComponent<{
-  links: { text: string; url: string }[];
+  activeColor: PaletteColor;
 }> = args => {
+  const fixedArgs = {
+    isSticky: true,
+    hasBackgroundBlend: true,
+    activeColor: args.activeColor,
+    links,
+  };
   return (
     <BackgroundGrid $percent={40} $topColor="#323232">
       <GridCell $sizeMap={{ s: [12], m: [3, 1], l: [3, 1], xl: [3, 1] }}>
-        <OnThisPageAnchors {...args} />
+        <OnThisPageAnchors {...fixedArgs} />
       </GridCell>
       <GridCell $sizeMap={{ s: [12], m: [9, 4], l: [9, 4], xl: [9, 4] }}>
-        {args.links.map(link => (
+        {links.map(link => (
           <div
             key={link.url}
             style={{
@@ -90,33 +61,19 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
   );
 };
 
-export default meta;
-
-type Story = StoryObj<typeof OnThisPageAnchors>;
-
-export const Basic: Story = {
-  name: 'OnThisPageAnchors',
-  render: args => (
-    <ReadmeDecorator
-      WrappedComponent={OnThisPageAnchors}
-      args={args}
-      Readme={Readme}
-    />
-  ),
+const meta: Meta<typeof OnThisPageAnchorsInColsContext> = {
+  title: 'Components/OnThisPageAnchors',
+  component: OnThisPageAnchorsInColsContext,
+  args: {},
 };
 
+export default meta;
+
+type Story = StoryObj<typeof OnThisPageAnchorsInColsContext>;
+
 export const SideBar: Story = {
-  name: 'OnThisPageAnchorsSideBar',
-  render: args => (
-    <ReadmeDecorator
-      WrappedComponent={OnThisPageAnchorsInColsContext}
-      args={{
-        ...args,
-        hasBackgroundBlend: true,
-        isSticky: true,
-        activeColor: themeValues.color('accent.lightGreen'),
-      }}
-      Readme={Readme}
-    />
-  ),
+  name: 'Sticky',
+  args: {
+    activeColor: 'accent.lightGreen',
+  },
 };
