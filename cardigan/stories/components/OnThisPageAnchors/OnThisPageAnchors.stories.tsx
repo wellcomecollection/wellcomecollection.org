@@ -43,30 +43,25 @@ const meta: Meta<typeof OnThisPageAnchors> = {
 
 type BackgroundGridProps = {
   $percent?: number;
-  topColor?: string;
-  bottomColor?: string;
+  $topColor?: string;
+  $bottomColor?: string;
 };
 
 const BackgroundGrid = styled(Grid).attrs({})<BackgroundGridProps>`
   background: linear-gradient(
     5deg,
-    ${props => props.bottomColor ?? 'white'} 0%,
-    ${props => props.bottomColor ?? 'white'} ${props => props.$percent ?? 40}%,
-    ${props => props.topColor ?? 'black'} ${props => props.$percent ?? 40}%,
-    ${props => props.topColor ?? 'black'} 100%
+    ${props => props.$bottomColor ?? 'white'} 0%,
+    ${props => props.$bottomColor ?? 'white'} ${props => props.$percent ?? 40}%,
+    ${props => props.$topColor ?? 'black'} ${props => props.$percent ?? 40}%,
+    ${props => props.$topColor ?? 'black'} 100%
   );
-  box-sizing: border-box;
-  & > * {
-    min-height: 0;
-  }
 `;
 
 const OnThisPageAnchorsInColsContext: FunctionComponent<{
   links: { text: string; url: string }[];
 }> = args => {
   return (
-    // TODO: use existing grid component
-    <BackgroundGrid $percent={40} topColor="#323232">
+    <BackgroundGrid $percent={40} $topColor="#323232">
       <div style={{ gridColumn: 'span 3' }}>
         <OnThisPageAnchors {...args} />
       </div>
