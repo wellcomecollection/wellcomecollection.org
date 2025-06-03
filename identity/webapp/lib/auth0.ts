@@ -52,7 +52,7 @@ const auth0ClientOptions: Auth0ClientOptions = {
   },
   appBaseUrl:
     (process.env.SITE_BASE_URL || `http://localhost:3003`) + '/account',
-  secret: process.env.AUTH0_SECRET, // TODO add in env variables
+  secret: process.env.AUTH0_SECRET,
   signInReturnToPath:
     (process.env.SITE_BASE_URL || `http://localhost:3003`) + '/account', // TODO
   session: {

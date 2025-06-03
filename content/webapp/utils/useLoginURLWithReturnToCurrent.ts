@@ -7,5 +7,5 @@ export const useLoginURLWithReturnToCurrent = (): string => {
   if (!router?.asPath) {
     return '/account/auth/login';
   }
-  return `/account/api/login?returnTo=${router.asPath}`;
+  return `/account/auth/login?returnTo=${router.asPath}`;
 };

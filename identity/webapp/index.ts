@@ -30,6 +30,7 @@ async function main() {
     const credentials = JSON.parse(
       JSON.parse(process.env.CREDENTIALS).SecretString
     );
+
     process.env.AUTH0_CLIENT_ID = credentials.client_id;
     process.env.AUTH0_DOMAIN = 'stage.account.wellcomecollection.org';
     process.env.IDENTITY_API_HOST =
