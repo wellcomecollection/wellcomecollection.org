@@ -45,6 +45,7 @@ const ThemeImages: FunctionComponent<Props> = ({ sectionsData, concept }) => {
             <ThemeImagesSection
               key={tabType}
               singleSectionData={sectionsData[tabType].images}
+              totalResults={sectionsData[tabType].totalResults.images}
               concept={concept}
               type={tabType}
             />

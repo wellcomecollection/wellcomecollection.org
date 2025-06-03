@@ -51,24 +51,26 @@ const ScrollButtonsContainer = styled(Space).attrs({
   className: font('intsb', 2),
   $v: { size: 'm', properties: ['margin-bottom'] },
 })`
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const TotalCount = styled(Space).attrs({
   className: font('intr', 6),
 })`
-    color: ${props => props.theme.color('neutral.400')};
+  color: ${props => props.theme.color('neutral.400')};
 `;
 
 type Props = {
   singleSectionData: ReturnedResults<Image> | undefined;
+  totalResults: number;
   concept: Concept;
   type: ThemeTabType;
 };
 
 const ThemeImagesSection: FunctionComponent<Props> = ({
   singleSectionData,
+  totalResults,
   concept,
   type,
 }) => {
@@ -79,7 +81,7 @@ const ThemeImagesSection: FunctionComponent<Props> = ({
     return null;
   }
 
-  const formattedTotalCount = formatNumber(singleSectionData.totalResults, {
+  const formattedTotalCount = formatNumber(totalResults, {
     isCompact: true,
   });
 
@@ -90,9 +92,7 @@ const ThemeImagesSection: FunctionComponent<Props> = ({
       </SectionHeading>
       <Space $v={{ size: 's', properties: ['margin-top'] }}>
         <ScrollButtonsContainer>
-          <TotalCount>
-            {pluralize(singleSectionData.totalResults, 'image')} from works
-          </TotalCount>
+          <TotalCount>{pluralize(totalResults, 'image')} from works</TotalCount>
           <ImageScrollButtons
             targetRef={scrollContainerRef}
           ></ImageScrollButtons>

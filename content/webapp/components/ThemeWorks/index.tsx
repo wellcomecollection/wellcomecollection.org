@@ -15,11 +15,25 @@ import { Concept } from '../../services/wellcome/catalogue/types';
 import { toLink as toWorksLink } from '../SearchPagesLink/Works';
 import { allRecordsLinkParams } from '../../utils/concepts';
 import { WorksLinkSource } from '@weco/common/data/segment-values';
-import { capitalize, formatNumber } from '@weco/common/utils/grammar';
+import {
+  capitalize,
+  formatNumber,
+  pluralize,
+} from '@weco/common/utils/grammar';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
+import styled from 'styled-components';
 
 export type ThemeTabType = 'by' | 'in' | 'about';
 export const themeTabOrder: ThemeTabType[] = ['by', 'in', 'about'] as const;
+
+const WorksCount = styled(Space).attrs({
+  as: 'p',
+  className: font('intr', 6),
+  $v: { size: 's', properties: ['margin-top'] },
+})`
+  color: ${props => props.theme.color('neutral.600')};
+  margin-bottom: 0;
+`;
 
 const getLinkSource = (type: ThemeTabType) => {
   return `concept/works_${type}` as WorksLinkSource;
@@ -38,7 +52,7 @@ type Props = {
 
 const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
   const tabs = themeTabOrder
-    .filter(tabType => sectionsData[tabType].works?.totalResults)
+    .filter(tabType => sectionsData[tabType].totalResults.works)
     .map(tabType => {
       return {
         id: tabType,
@@ -55,7 +69,7 @@ const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
   }
 
   const activePanel: SectionData = sectionsData[selectedTab];
-  const formattedTotalCount = formatNumber(activePanel.works!.totalResults, {
+  const formattedTotalCount = formatNumber(activePanel.totalResults.works, {
     isCompact: true,
   });
 
@@ -78,17 +92,15 @@ const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
             />
           )}
         </Container>
-        <Space
-          as="section"
-          $v={{
-            size: 'xl',
-            properties: ['margin-top'],
-          }}
-          data-testid="works-section"
-        >
+        <Space as="section" data-testid="works-section">
           <Container>
             <div role="tabpanel">
-              <WorksSearchResults works={activePanel.works!.pageResults} />
+              <WorksCount>
+                {pluralize(activePanel.totalResults.works, 'work')}
+              </WorksCount>
+              <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+                <WorksSearchResults works={activePanel.works!.pageResults} />
+              </Space>
               <Space $v={{ size: 'l', properties: ['padding-top'] }}>
                 <MoreLink
                   name={`All works (${formattedTotalCount})`}
@@ -103,4 +115,5 @@ const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
     </>
   );
 };
+
 export default ThemeWorks;

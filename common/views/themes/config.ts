@@ -203,13 +203,6 @@ const charcoalTransparentBlack: ButtonColors = {
   text: 'black',
 };
 
-const blackTransparentBlack: ButtonColors = {
-  border: 'black',
-  background: 'transparent',
-  text: 'black',
-};
-
-
 const marbleWhiteCharcoal: ButtonColors = {
   border: 'neutral.400', // legacy pumice color
   background: 'white',
@@ -329,7 +322,6 @@ export const themeValues = {
     pumiceTransparentCharcoal,
     charcoalTransparentCharcoal,
     charcoalTransparentBlack,
-    blackTransparentBlack,
     marbleWhiteCharcoal,
     yellowYellowBlack,
     whiteWhiteCharcoal,

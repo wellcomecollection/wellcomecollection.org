@@ -17,9 +17,10 @@ const RelatedConceptsContainer = styled(Space).attrs({
 const RelatedConceptItem = styled(Space).attrs({
   className: font('intr', 6),
 })`
-  display: flex;
-  align-items: center;
-  gap: ${props => props.theme.spacingUnits['3']}px;
+    display: flex;
+    align-items: center;
+    gap: ${props => props.theme.spacingUnits['3']}px;
+    width: ${props => props.$isFullWidth ? '100%' : 'auto'}
 `;
 
 const SectionHeading = styled.h2.attrs({
@@ -49,16 +50,12 @@ const ThemeRelatedConceptsGroup = ({
         {relatedConcepts.map(item => (
           <RelatedConceptItem
             key={item.id}
-            style={{ width: item.relationshipType ? '100%' : 'auto' }}
+            $isFullWidth={item.relationshipType?.length > 0}
           >
             <Space className={font('intr', 5)}>
               <Button
                 variant="ButtonSolidLink"
-                colors={
-                  false
-                    ? themeValues.buttonColors.blackTransparentBlack
-                    : themeValues.buttonColors.charcoalTransparentBlack
-                }
+                colors={themeValues.buttonColors.charcoalTransparentBlack}
                 isPill
                 text={item.label}
                 link={`/concepts/${item.id}`}
