@@ -93,15 +93,11 @@ export type Props = {
 };
 
 const OnThisPageAnchors: FunctionComponent<Props> = ({
-  isSticky,
-  hasBackgroundBlend,
+  isSticky = false,
+  hasBackgroundBlend = false,
   activeColor,
   links,
 }) => {
-  // Defaults for props
-  isSticky = isSticky ?? false;
-  hasBackgroundBlend = hasBackgroundBlend ?? false;
-
   // Extract ids from links (strip leading #)
   const ids = links.map(link => link.url.replace('#', ''));
   const observedActiveId = useActiveAnchor(ids);
