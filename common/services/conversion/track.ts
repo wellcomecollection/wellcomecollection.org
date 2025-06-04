@@ -20,9 +20,6 @@ declare global {
     CookieControl: {
       open: () => void;
     };
-
-    // Meta pixel
-    fbq: (action: 'consent', status: 'grant' | 'revoke') => void;
   }
 }
 

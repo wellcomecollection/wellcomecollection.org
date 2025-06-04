@@ -25,7 +25,6 @@ import {
   SegmentScript,
 } from '@weco/common/services/app/analytics-scripts';
 import { getConsentState } from '@weco/common/services/app/civic-uk';
-import { MetaScript } from '@weco/common/services/app/marketing-scripts';
 import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
 import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
 import {
@@ -85,9 +84,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   const [hasAnalyticsConsent, setHasAnalyticsConsent] = useState(
     pageProps.serverData?.consentStatus?.analytics
   );
-  const [hasMarketingConsent, setHasMarketingConsent] = useState(
-    pageProps.serverData?.consentStatus?.marketing
-  );
 
   // We allow error pages through as they don't need, and can't set
   // serverData as they don't have data fetching methods.exi
@@ -129,17 +125,12 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     if (event.detail.analyticsConsent !== undefined) {
       setHasAnalyticsConsent(event.detail.analyticsConsent === 'granted');
     }
-
-    if (event.detail.marketingConsent !== undefined) {
-      setHasMarketingConsent(event.detail.marketingConsent === 'granted');
-    }
   };
 
   useEffect(() => {
     document.documentElement.classList.add('enhanced');
 
     setHasAnalyticsConsent(getConsentState('analytics'));
-    setHasMarketingConsent(getConsentState('marketing'));
 
     window.addEventListener('consentChanged', onConsentChanged);
 
@@ -205,8 +196,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
                   )}
 
                   <SegmentScript hasAnalyticsConsent={hasAnalyticsConsent} />
-
-                  <MetaScript hasMarketingConsent={hasMarketingConsent} />
                 </ThemeProvider>
               </SearchContextProvider>
             </AppContextProvider>
