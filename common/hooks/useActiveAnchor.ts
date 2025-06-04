@@ -49,9 +49,6 @@ export function useActiveAnchor(ids: string[]): string | null {
 
     elements.forEach(el => observer!.observe(el));
 
-    // Initial check to set the active id based on current scroll position
-    setTimeout(updateActive, 0);
-
     return () => {
       if (observer) {
         elements.forEach(el => observer.unobserve(el));
