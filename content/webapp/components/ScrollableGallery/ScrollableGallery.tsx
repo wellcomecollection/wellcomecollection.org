@@ -18,19 +18,12 @@ const ImageCardList = styled(PlainList)`
   position: relative;
 `;
 
-const GalleryContainer = styled(Space).attrs({
-  $v: { size: 's', properties: ['padding-top'] }
-})`
-  background-color: ${props => props.theme.color('neutral.700')};
-`;
-
 const ScrollButtonsContainer = styled(Space).attrs({
-  as: 'h3',
-  className: font('intsb', 2),
   $v: { size: 'm', properties: ['margin-bottom'] },
 })`
   display: flex;
   justify-content: space-between;
+  gap: ${props => props.theme.spacingUnits['3']}px;
 `;
 
 const Label = styled(Space).attrs({
@@ -52,7 +45,7 @@ const ScrollableGallery: FunctionComponent<Props> = ({
   const scrollContainerRef = useRef<HTMLUListElement>(null);
 
   return (
-    <GalleryContainer>
+    <>
       <ScrollButtonsContainer>
         {label && <Label>{label}</Label>}
         <ScrollableGalleryButtons
@@ -90,7 +83,7 @@ const ScrollableGallery: FunctionComponent<Props> = ({
         expandedImage={expandedImage}
         setExpandedImage={setExpandedImage}
       />
-    </GalleryContainer>
+    </>
   );
 };
 
