@@ -2,7 +2,37 @@
 
 ## Updating the Lambda deployment package
 
-Normally this happens in Buildkite, but you can also build a deployment package locally if you're testing something.
+Normally this happens in Buildkite, but you can also build and deploy a package locally if you're testing something.
+
+### Local deployment
+
+1.  Navigate to the edge_lambdas directory:
+
+    ```
+    cd cache/edge_lambdas
+    ```
+
+2.  Install dependencies (if not already installed):
+
+    ```
+    yarn
+    ```
+
+3.  Build, package, and deploy to S3:
+
+    ```
+    AWS_PROFILE=experience-developer yarn deploy
+    ```
+
+    This command will:
+    - Build the TypeScript project
+    - Package it into a zip file
+    - Upload to S3 (only if changes are detected)
+
+
+### Docker-based deployment
+
+You can still use the Docker-based approach if preferred:
 
 1.  Build the Lambda deployment package by running this command in the root of the repo:
 

@@ -81,7 +81,11 @@ end
   range: [0, SOME_PERCENTAGE],
 }
 ```
-2. Update and upload the lambda deployment package. From the root of the repo, run:
+2. Update and upload the lambda deployment package. From the `cache/edge_lambdas` directory, run:
+```
+AWS_PROFILE=experience-developer yarn deploy
+```
+   Alternatively, you can still use the Docker-based approach from the root of the repo:
 ```
 docker compose build edge_lambdas
 AWS_PROFILE=experience-developer docker compose run edge_lambdas yarn deploy
