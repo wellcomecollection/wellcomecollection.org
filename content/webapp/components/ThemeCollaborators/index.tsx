@@ -1,10 +1,14 @@
 import { FunctionComponent } from 'react';
 
-import { RelatedConcept } from '../../services/wellcome/catalogue/types';
+import {
+  ConceptType,
+  RelatedConcept,
+} from '../../services/wellcome/catalogue/types';
 import CollaboratorCard from './CollaboratorCard';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
+import { user } from '@weco/common/icons';
 
 const COLLABORATOR_COUNT_LIMIT = 3;
 
@@ -28,6 +32,13 @@ type Props = {
   concepts: RelatedConcept[] | undefined;
 };
 
+const iconFromConceptType = (type: ConceptType) => {
+  if (['Person', 'Agent'].includes(type)) return user;
+
+  // TODO: We don't have an organisation icon at the moment.
+  if (type === 'Organisation') return user;
+};
+
 const ThemeCollaborators: FunctionComponent<Props> = ({ concepts }) => {
   if (!concepts || concepts.length === 0) {
     return null;
@@ -40,8 +51,8 @@ const ThemeCollaborators: FunctionComponent<Props> = ({ concepts }) => {
         {concepts.slice(0, COLLABORATOR_COUNT_LIMIT).map(concept => (
           <CollaboratorCard
             key={concept.id}
-            id={concept.id}
-            type={concept.conceptType}
+            href={`/concepts/${concept.id}`}
+            icon={iconFromConceptType(concept.conceptType)}
             label={concept.label}
           />
         ))}
