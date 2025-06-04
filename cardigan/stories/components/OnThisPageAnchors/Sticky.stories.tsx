@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { links } from '@weco/cardigan/stories/data/links';
+import { links } from '@weco/cardigan/stories/components/OnThisPageAnchors/links';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors';

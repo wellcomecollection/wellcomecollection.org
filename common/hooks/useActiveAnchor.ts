@@ -20,43 +20,18 @@ export function useActiveAnchor(ids: string[]): string | null {
     // Map to keep track of elements whose top is visible in the viewport
     let observer: IntersectionObserver | null = null;
 
-    const updateActive = () => {
-      // Consider all elements whose top is visible or above the viewport (but whose bottom is below the top)
-      // This ensures that when scrolling up, the previous section becomes active as soon as its top crosses into view
-      let bestId: string | null = null;
-      let minDelta = Number.POSITIVE_INFINITY;
-      elements.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        // Section is considered if its top is above the viewport but its bottom is below the top (partially visible or just above)
-        if (rect.top <= 0 && rect.bottom > 0) {
-          const delta = Math.abs(rect.top);
-          if (delta < minDelta) {
-            minDelta = delta;
-            bestId = el.id;
-          }
-        }
-        // If no such section, fallback to the first section whose top is visible
-        else if (!bestId && rect.top >= 0 && rect.top < window.innerHeight) {
-          minDelta = rect.top;
-          bestId = el.id;
-        }
-      });
-      setActiveId(bestId);
+    const updateActive = ([el]) => {
+      if (el.boundingClientRect.top < 50) {
+        setActiveId(el.target.id);
+      }
     };
 
-    observer = new IntersectionObserver(
-      () => {
-        updateActive();
-      },
-      {
-        root: null,
-        rootMargin: '0px',
-        threshold: [0],
-      }
-    );
+    observer = new IntersectionObserver(updateActive, {
+      root: document,
+      rootMargin: '-50px',
+    });
 
-    elements.forEach(el => observer!.observe(el));
-
+    elements.forEach(el => observer.observe(el));
     // Initial update
     setTimeout(updateActive, 0);
 
