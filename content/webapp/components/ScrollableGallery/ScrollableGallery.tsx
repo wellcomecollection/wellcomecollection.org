@@ -1,4 +1,4 @@
-import { FunctionComponent, RefObject } from 'react';
+import { FunctionComponent, useRef } from 'react';
 import styled from 'styled-components';
 
 import PlainList from '@weco/common/views/components/styled/PlainList';
@@ -7,6 +7,8 @@ import ImageCard from '@weco/content/components/ImageCard';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import ExpandedImageModal from '../ImageEndpointSearchResults/ExpandedImageModal';
 import useExpandedImage from '../ImageEndpointSearchResults/useExpandedImage';
+import { font } from '@weco/common/utils/classnames';
+import ScrollableGalleryButtons from './ScrollableGalleryButtons';
 
 const IMAGE_HEIGHT = 200;
 
@@ -16,19 +18,47 @@ const ImageCardList = styled(PlainList)`
   position: relative;
 `;
 
+const GalleryContainer = styled(Space).attrs({
+  $v: { size: 's', properties: ['padding-top'] }
+})`
+  background-color: ${props => props.theme.color('neutral.700')};
+`;
+
+const ScrollButtonsContainer = styled(Space).attrs({
+  as: 'h3',
+  className: font('intsb', 2),
+  $v: { size: 'm', properties: ['margin-bottom'] },
+})`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Label = styled(Space).attrs({
+  className: font('intr', 6),
+})`
+  color: ${props => props.theme.color('neutral.400')};
+`;
+
 type Props = {
   images: Image[];
-  scrollContainerRef: RefObject<HTMLUListElement>;
+  label?: string;
 };
 
-const ImageSectionGallery: FunctionComponent<Props> = ({
+const ScrollableGallery: FunctionComponent<Props> = ({
   images,
-  scrollContainerRef,
+  label,
 }: Props) => {
   const [expandedImage, setExpandedImage] = useExpandedImage(images);
+  const scrollContainerRef = useRef<HTMLUListElement>(null);
 
   return (
-    <>
+    <GalleryContainer>
+      <ScrollButtonsContainer>
+        {label && <Label>{label}</Label>}
+        <ScrollableGalleryButtons
+          targetRef={scrollContainerRef}
+        ></ScrollableGalleryButtons>
+      </ScrollButtonsContainer>
       <div data-testid="image-search-results-container">
         <ImageCardList ref={scrollContainerRef}>
           {images.map((image, index) => (
@@ -60,8 +90,8 @@ const ImageSectionGallery: FunctionComponent<Props> = ({
         expandedImage={expandedImage}
         setExpandedImage={setExpandedImage}
       />
-    </>
+    </GalleryContainer>
   );
 };
 
-export default ImageSectionGallery;
+export default ScrollableGallery;

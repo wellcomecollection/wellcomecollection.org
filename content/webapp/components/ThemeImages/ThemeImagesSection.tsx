@@ -1,4 +1,4 @@
-import { FunctionComponent, useRef } from 'react';
+import { FunctionComponent } from 'react';
 
 import Space from '@weco/common/views/components/styled/Space';
 import MoreLink from '../MoreLink';
@@ -17,8 +17,7 @@ import { allRecordsLinkParams } from '../../utils/concepts';
 import { ImagesLinkSource } from '@weco/common/data/segment-values';
 import { usePathname } from 'next/navigation';
 import { ThemeTabType } from '../ThemeWorks';
-import ImageSectionGallery from './ImageSectionGallery';
-import ImageScrollButtons from './ImageScrollButtons';
+import ScrollableGallery from '../ScrollableGallery/ScrollableGallery';
 
 const getLinkSource = (type, pathname: string) => {
   return `concept/images_${type}_${pathname}` as ImagesLinkSource;
@@ -46,21 +45,6 @@ const SectionHeading = styled(Space).attrs({
   color: white;
 `;
 
-const ScrollButtonsContainer = styled(Space).attrs({
-  as: 'h3',
-  className: font('intsb', 2),
-  $v: { size: 'm', properties: ['margin-bottom'] },
-})`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const TotalCount = styled(Space).attrs({
-  className: font('intr', 6),
-})`
-  color: ${props => props.theme.color('neutral.400')};
-`;
-
 type Props = {
   singleSectionData: ReturnedResults<Image> | undefined;
   totalResults: number;
@@ -75,7 +59,6 @@ const ThemeImagesSection: FunctionComponent<Props> = ({
   type,
 }) => {
   const pathname = usePathname();
-  const scrollContainerRef = useRef<HTMLUListElement>(null);
 
   if (!singleSectionData || singleSectionData.pageResults.length === 0) {
     return null;
@@ -90,27 +73,19 @@ const ThemeImagesSection: FunctionComponent<Props> = ({
       <SectionHeading>
         Images {getReadableType(type)} {concept.label}
       </SectionHeading>
-      <Space $v={{ size: 's', properties: ['margin-top'] }}>
-        <ScrollButtonsContainer>
-          <TotalCount>{pluralize(totalResults, 'image')} from works</TotalCount>
-          <ImageScrollButtons
-            targetRef={scrollContainerRef}
-          ></ImageScrollButtons>
-        </ScrollButtonsContainer>
-        <ImageSectionGallery
-          images={singleSectionData.pageResults}
-          scrollContainerRef={scrollContainerRef}
-        />
-        <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-          {singleSectionData.totalResults >
-            singleSectionData.pageResults.length && (
-            <MoreLink
-              name={`All images ${getReadableType(type)} (${formattedTotalCount})`}
-              url={getAllImagesLink(type, concept, pathname)}
-              colors={theme.buttonColors.greenWhiteGreen}
-            />
-          )}
-        </Space>
+      <ScrollableGallery
+        images={singleSectionData.pageResults}
+        label={`${pluralize(totalResults, 'image')} from works`}
+      />
+      <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+        {singleSectionData.totalResults >
+          singleSectionData.pageResults.length && (
+          <MoreLink
+            name={`All images ${getReadableType(type)} (${formattedTotalCount})`}
+            url={getAllImagesLink(type, concept, pathname)}
+            colors={theme.buttonColors.greenWhiteGreen}
+          />
+        )}
       </Space>
     </Space>
   );

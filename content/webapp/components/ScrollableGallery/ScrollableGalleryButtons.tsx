@@ -1,4 +1,4 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import Icon from '@weco/common/views/components/Icon';
@@ -25,7 +25,7 @@ const ScrollButtonsContainer = styled(Space)`
   justify-content: flex-end;
 `;
 
-const ImageScrollButtons = ({ targetRef }) => {
+const ScrollableGalleryButtons = ({ targetRef }) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
@@ -96,4 +96,4 @@ const ImageScrollButtons = ({ targetRef }) => {
     </ScrollButtonsContainer>
   );
 };
-export default ImageScrollButtons;
+export default ScrollableGalleryButtons;
