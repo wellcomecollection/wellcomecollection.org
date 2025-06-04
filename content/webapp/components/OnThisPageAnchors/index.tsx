@@ -28,7 +28,7 @@ const ListItem = styled.li<{
     top: 0;
     bottom: 0;
     width: ${props.$isActive ? '3px' : '1px'};
-    background: ${props.$isActive ? props.theme.color(props.$activeColor || 'black') : props.theme.color('black')};
+    background: ${props.theme.color((props.$isActive && props.$activeColor) || 'black')};
   }
 `
       : ''}
