@@ -12,6 +12,13 @@ const meta: Meta<typeof CollaboratorCard> = {
     label: 'This is some text',
     icon: user,
   },
+  argTypes: {
+    icon: {
+      table: {
+        disable: true,
+      },
+    },
+  }
 };
 
 export default meta;
