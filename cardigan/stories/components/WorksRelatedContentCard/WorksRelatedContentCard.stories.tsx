@@ -7,7 +7,8 @@ import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 // Mock WorkBasic data
 const mockWorkBasic: WorkBasic = {
   id: 'abc123def',
-  title: 'The organization of DNA in chromatin',
+  title:
+    'Testaceographiae ac zoophytographiae parvae et microscopicae ... / in qua minuta et minima testacea ac zoophyta maris nativa vasculis inclusa aeneisque tabulis insculpta describit et explicat Ambrosius Soldani ... accedit supplementum analysim continens marini sedimenti.',
   languageId: undefined,
   referenceNumber: 'PP/CRI/D/2/40/1',
   productionDates: ['1976'],
@@ -30,7 +31,7 @@ const mockWorkBasic: WorkBasic = {
     },
   ],
   thumbnail: {
-    url: 'https://iiif.wellcomecollection.org/thumbs/b21538906_0007.jp2/full/63,100/0/default.jpg',
+    url: 'https://iiif.wellcomecollection.org/thumbs/b21506115_0001.jp2/full/286%2C/0/default.jpg',
     license: {
       id: 'cc-by',
       label: 'Attribution 4.0 International (CC BY 4.0)',

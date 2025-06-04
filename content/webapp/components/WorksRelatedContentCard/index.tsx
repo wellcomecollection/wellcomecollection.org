@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
@@ -12,6 +12,14 @@ type Props = {
   resultIndex: number;
 };
 
+const clampLineStyles = css<{ $linesToClamp: number }>`
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: ${props => props.$linesToClamp};
+`;
+
 const minContainerWidth = '400px';
 
 const Card = styled.div`
@@ -23,7 +31,7 @@ const Card = styled.div`
   flex-wrap: wrap;
 
   @container (min-width: ${minContainerWidth}) {
-    height: 150px;
+    height: 160px;
     flex-wrap: nowrap;
     justify-content: space-between;
   }
@@ -36,17 +44,26 @@ const TextWrapper = styled(Space).attrs({
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 100%;
+  container-type: inline-size;
+
+  li > div {
+    @container (max-width: 300px) {
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
 `;
 
 const Title = styled.h2.attrs({
   className: font('intb', 5),
-})`
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 3;
-  margin-bottom: 1rem;
+})<{ $linesToClamp: number }>`
+  ${clampLineStyles};
+`;
+
+const LineClamp = styled.div<{ $linesToClamp: number }>`
+  ${clampLineStyles};
 `;
 
 const ImageWrapper = styled.div`
@@ -98,20 +115,21 @@ const WorksRelatedContentCard: FunctionComponent<Props> = ({
     <Card data-gtm-position-in-list={resultIndex + 1}>
       <TextWrapper>
         <div>
-          <Space $v={{ size: 's', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
             <LabelsList
               labels={cardLabels}
               defaultLabelColor="warmNeutral.300"
             />
           </Space>
-
-          <Title>{title}</Title>
+          <Title $linesToClamp={3}>{title}</Title>
         </div>
 
         <MetaContainer>
-          {primaryContributorLabel && <div>{primaryContributorLabel}</div>}
+          {primaryContributorLabel && (
+            <LineClamp $linesToClamp={1}>{primaryContributorLabel}</LineClamp>
+          )}
           {productionDates.length > 0 && (
-            <div>Date:&nbsp;{productionDates[0]}</div>
+            <LineClamp $linesToClamp={1}>Date: {productionDates[0]}</LineClamp>
           )}
         </MetaContainer>
       </TextWrapper>
