@@ -39,8 +39,8 @@ const Anchor = styled.a.attrs<{
   $hasBackgroundBlend?: boolean;
   $isSticky?: boolean;
 }>(props => ({
-  className: props.$isSticky && !props.$isActive
-      ? font('intr', 5) : font('intb', 5),
+  className:
+    props.$isSticky && !props.$isActive ? font('intr', 5) : font('intb', 5),
 }))<{
   $isActive?: boolean;
   $hasBackgroundBlend?: boolean;

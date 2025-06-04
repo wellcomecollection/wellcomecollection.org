@@ -17,17 +17,20 @@ type BackgroundGridProps = {
 };
 
 const BackgroundGrid = styled(Grid).attrs({})<BackgroundGridProps>`
+  margin-top: 10px;
   background: linear-gradient(
     5deg,
     ${props => props.$bottomColor ?? 'white'} 0%,
     ${props => props.$bottomColor ?? 'white'} ${props => props.$percent ?? 40}%,
-    ${props => props.$topColor ?? 'black'} ${props => props.$percent ?? 40}%,
-    ${props => props.$topColor ?? 'black'} 100%
+    ${props => props.theme.color(props.$topColor) ?? 'black'}
+      ${props => props.$percent ?? 40}%,
+    ${props => props.theme.color(props.$topColor) ?? 'black'} 100%
   );
 `;
 
 const OnThisPageAnchorsInColsContext: FunctionComponent<{
   activeColor: PaletteColor;
+  topColor?: PaletteColor;
 }> = args => {
   const fixedArgs = {
     isSticky: true,
@@ -42,7 +45,7 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
         breadcrumbs={{ items: [] }}
         title="Sticky On This Page Anchors"
       />
-      <BackgroundGrid $percent={40} $topColor="#323232">
+      <BackgroundGrid $percent={40} $topColor={args.topColor}>
         <GridCell $sizeMap={{ s: [12], m: [3, 1], l: [3, 1], xl: [3, 1] }}>
           <OnThisPageAnchors {...fixedArgs} />
         </GridCell>
@@ -86,12 +89,18 @@ export const SideBar: Story = {
   name: 'Sticky',
   args: {
     activeColor: 'accent.lightGreen',
+    topColor: 'neutral.700',
   },
   argTypes: {
     activeColor: {
       control: 'select',
       options: themeColors.map(c => c.name),
       description: 'Color used for the active link',
+    },
+    topColor: {
+      control: 'select',
+      options: themeColors.map(c => c.name),
+      description: 'Color used for the top background',
     },
   },
 };
