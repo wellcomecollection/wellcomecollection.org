@@ -137,10 +137,6 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
     }
   }, [activeId]);
 
-  const handleClick = (id: string) => () => {
-    setClickedId(id);
-  };
-
   const titleText = isSticky ? 'On this page' : 'What’s on this page';
   const fontStyle = isSticky ? font('intr', 4) : font('wb', 4);
 
@@ -164,7 +160,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
                 $isActive={isActive}
                 $hasBackgroundBlend={hasBackgroundBlend}
                 $isSticky={isSticky}
-                onClick={handleClick(id)}
+                onClick={() => setClickedId(id)}
               >
                 {link.text}
               </Anchor>
