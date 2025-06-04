@@ -36,8 +36,8 @@ export const Basic: Story = {
       WrappedComponent={args => (
         <div
           style={{
-            padding: '40px',
-            background: '#111',
+            padding: '48px',
+            background: '#323232',
           }}
         >
           <ScrollableGallery

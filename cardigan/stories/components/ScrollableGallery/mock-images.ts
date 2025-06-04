@@ -4,6 +4,82 @@ const mockImages: Image[] = [
   {
     locations: [
       {
+        url: 'https://iiif.wellcomecollection.org/image/L0014569/info.json',
+        credit: 'Wellcome Collection',
+        license: {
+          id: 'pdm',
+          label: 'Public Domain Mark',
+          url: 'https://creativecommons.org/share-your-work/public-domain/pdm/',
+          type: 'License',
+        },
+        accessConditions: [
+          {
+            method: {
+              id: 'view-online',
+              label: 'View online',
+              type: 'AccessMethod',
+            },
+            status: {
+              id: 'open',
+              label: 'Open',
+              type: 'AccessStatus',
+            },
+            type: 'AccessCondition',
+          },
+        ],
+        locationType: {
+          id: 'iiif-image',
+          label: 'IIIF Image API',
+          type: 'LocationType',
+        },
+        type: 'DigitalLocation',
+      },
+    ],
+    source: {
+      id: 'pdr4x6bp',
+      title:
+        "Crimean War: Florence Nightingale and Mr Bracebridge at Cathcart's Hill burial ground. Tinted lithograph after W. Simpson.",
+      type: 'Work',
+    },
+    aspectRatio: 1.3605442,
+    thumbnail: {
+      url: 'https://iiif.wellcomecollection.org/image/L0014569/info.json',
+      credit: 'Wellcome Collection',
+      license: {
+        id: 'pdm',
+        label: 'Public Domain Mark',
+        url: 'https://creativecommons.org/share-your-work/public-domain/pdm/',
+        type: 'License',
+      },
+      accessConditions: [
+        {
+          method: {
+            id: 'view-online',
+            label: 'View online',
+            type: 'AccessMethod',
+          },
+          status: {
+            id: 'open',
+            label: 'Open',
+            type: 'AccessStatus',
+          },
+          type: 'AccessCondition',
+        },
+      ],
+      locationType: {
+        id: 'iiif-image',
+        label: 'IIIF Image API',
+        type: 'LocationType',
+      },
+      type: 'DigitalLocation',
+    },
+    averageColor: '#afafaf',
+    id: 'anwfbufu',
+    type: 'Image',
+  },
+  {
+    locations: [
+      {
         url: 'https://iiif.wellcomecollection.org/image/L0078251/info.json',
         credit: 'Wellcome Collection',
         license: {
@@ -74,6 +150,81 @@ const mockImages: Image[] = [
     },
     averageColor: '#c6b39d',
     id: 'a2sahwbs',
+    type: 'Image',
+  },
+  {
+    locations: [
+      {
+        url: 'https://iiif.wellcomecollection.org/image/V0006578/info.json',
+        credit: 'Wellcome Collection',
+        license: {
+          id: 'pdm',
+          label: 'Public Domain Mark',
+          url: 'https://creativecommons.org/share-your-work/public-domain/pdm/',
+          type: 'License',
+        },
+        accessConditions: [
+          {
+            method: {
+              id: 'view-online',
+              label: 'View online',
+              type: 'AccessMethod',
+            },
+            status: {
+              id: 'open',
+              label: 'Open',
+              type: 'AccessStatus',
+            },
+            type: 'AccessCondition',
+          },
+        ],
+        locationType: {
+          id: 'iiif-image',
+          label: 'IIIF Image API',
+          type: 'LocationType',
+        },
+        type: 'DigitalLocation',
+      },
+    ],
+    source: {
+      id: 'rfuspvn9',
+      title: 'Florence Nightingale. Coloured lithograph.',
+      type: 'Work',
+    },
+    aspectRatio: 1.2578616,
+    thumbnail: {
+      url: 'https://iiif.wellcomecollection.org/image/V0006578/info.json',
+      credit: 'Wellcome Collection',
+      license: {
+        id: 'pdm',
+        label: 'Public Domain Mark',
+        url: 'https://creativecommons.org/share-your-work/public-domain/pdm/',
+        type: 'License',
+      },
+      accessConditions: [
+        {
+          method: {
+            id: 'view-online',
+            label: 'View online',
+            type: 'AccessMethod',
+          },
+          status: {
+            id: 'open',
+            label: 'Open',
+            type: 'AccessStatus',
+          },
+          type: 'AccessCondition',
+        },
+      ],
+      locationType: {
+        id: 'iiif-image',
+        label: 'IIIF Image API',
+        type: 'LocationType',
+      },
+      type: 'DigitalLocation',
+    },
+    averageColor: '#584a36',
+    id: 'avgsbjh5',
     type: 'Image',
   },
   {
@@ -378,82 +529,7 @@ const mockImages: Image[] = [
     id: 'aegz5w4d',
     type: 'Image',
   },
-  {
-    locations: [
-      {
-        url: 'https://iiif.wellcomecollection.org/image/L0014569/info.json',
-        credit: 'Wellcome Collection',
-        license: {
-          id: 'pdm',
-          label: 'Public Domain Mark',
-          url: 'https://creativecommons.org/share-your-work/public-domain/pdm/',
-          type: 'License',
-        },
-        accessConditions: [
-          {
-            method: {
-              id: 'view-online',
-              label: 'View online',
-              type: 'AccessMethod',
-            },
-            status: {
-              id: 'open',
-              label: 'Open',
-              type: 'AccessStatus',
-            },
-            type: 'AccessCondition',
-          },
-        ],
-        locationType: {
-          id: 'iiif-image',
-          label: 'IIIF Image API',
-          type: 'LocationType',
-        },
-        type: 'DigitalLocation',
-      },
-    ],
-    source: {
-      id: 'pdr4x6bp',
-      title:
-        "Crimean War: Florence Nightingale and Mr Bracebridge at Cathcart's Hill burial ground. Tinted lithograph after W. Simpson.",
-      type: 'Work',
-    },
-    aspectRatio: 1.3605442,
-    thumbnail: {
-      url: 'https://iiif.wellcomecollection.org/image/L0014569/info.json',
-      credit: 'Wellcome Collection',
-      license: {
-        id: 'pdm',
-        label: 'Public Domain Mark',
-        url: 'https://creativecommons.org/share-your-work/public-domain/pdm/',
-        type: 'License',
-      },
-      accessConditions: [
-        {
-          method: {
-            id: 'view-online',
-            label: 'View online',
-            type: 'AccessMethod',
-          },
-          status: {
-            id: 'open',
-            label: 'Open',
-            type: 'AccessStatus',
-          },
-          type: 'AccessCondition',
-        },
-      ],
-      locationType: {
-        id: 'iiif-image',
-        label: 'IIIF Image API',
-        type: 'LocationType',
-      },
-      type: 'DigitalLocation',
-    },
-    averageColor: '#afafaf',
-    id: 'anwfbufu',
-    type: 'Image',
-  },
+
   {
     locations: [
       {
@@ -528,81 +604,6 @@ const mockImages: Image[] = [
     },
     averageColor: '#888781',
     id: 'auxg2jxw',
-    type: 'Image',
-  },
-  {
-    locations: [
-      {
-        url: 'https://iiif.wellcomecollection.org/image/V0006578/info.json',
-        credit: 'Wellcome Collection',
-        license: {
-          id: 'pdm',
-          label: 'Public Domain Mark',
-          url: 'https://creativecommons.org/share-your-work/public-domain/pdm/',
-          type: 'License',
-        },
-        accessConditions: [
-          {
-            method: {
-              id: 'view-online',
-              label: 'View online',
-              type: 'AccessMethod',
-            },
-            status: {
-              id: 'open',
-              label: 'Open',
-              type: 'AccessStatus',
-            },
-            type: 'AccessCondition',
-          },
-        ],
-        locationType: {
-          id: 'iiif-image',
-          label: 'IIIF Image API',
-          type: 'LocationType',
-        },
-        type: 'DigitalLocation',
-      },
-    ],
-    source: {
-      id: 'rfuspvn9',
-      title: 'Florence Nightingale. Coloured lithograph.',
-      type: 'Work',
-    },
-    aspectRatio: 1.2578616,
-    thumbnail: {
-      url: 'https://iiif.wellcomecollection.org/image/V0006578/info.json',
-      credit: 'Wellcome Collection',
-      license: {
-        id: 'pdm',
-        label: 'Public Domain Mark',
-        url: 'https://creativecommons.org/share-your-work/public-domain/pdm/',
-        type: 'License',
-      },
-      accessConditions: [
-        {
-          method: {
-            id: 'view-online',
-            label: 'View online',
-            type: 'AccessMethod',
-          },
-          status: {
-            id: 'open',
-            label: 'Open',
-            type: 'AccessStatus',
-          },
-          type: 'AccessCondition',
-        },
-      ],
-      locationType: {
-        id: 'iiif-image',
-        label: 'IIIF Image API',
-        type: 'LocationType',
-      },
-      type: 'DigitalLocation',
-    },
-    averageColor: '#584a36',
-    id: 'avgsbjh5',
     type: 'Image',
   },
   {
