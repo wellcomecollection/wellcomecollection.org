@@ -3,6 +3,8 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { links } from '@weco/cardigan/stories/components/OnThisPageAnchors/links';
+import Footer from '@weco/common/views/components/Footer';
+import PageHeader from '@weco/common/views/components/PageHeader';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors';
@@ -32,32 +34,62 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
     activeColor: args.activeColor,
     links,
   };
+
+  // {{
+  //         breadcrumbs: {
+  //           items: [],
+  //         },
+  //         title: '',
+  //         isFree: false,
+  //         isSlim: false,
+  //         isContentTypeInfoBeforeMedia: false,
+  //         highlightHeading: false,
+  //         sectionLevelPage: false,
+  //         fullWidth: false,
+  //         includeAccessibilityProvision: false,
+  //         heroImageBgColor: 'white',
+  //       }} />
   return (
-    <BackgroundGrid $percent={40} $topColor="#323232">
-      <GridCell $sizeMap={{ s: [12], m: [3, 1], l: [3, 1], xl: [3, 1] }}>
-        <OnThisPageAnchors {...fixedArgs} />
-      </GridCell>
-      <GridCell $sizeMap={{ s: [12], m: [9, 4], l: [9, 4], xl: [9, 4] }}>
-        {links.map(link => (
-          <div
-            key={link.url}
-            style={{
-              padding: '16px',
-              backgroundColor: 'white',
-              marginBottom: '16px',
-            }}
-          >
-            <h2 id={link.url.replace('#', '')}>{link.text}</h2>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </p>
-          </div>
-        ))}
-      </GridCell>
-    </BackgroundGrid>
+    <div>
+      <PageHeader
+        breadcrumbs={{ items: [] }}
+        title="Sticky On This Page Anchors"
+        isFree={false}
+        isSlim={false}
+        isContentTypeInfoBeforeMedia={false}
+        highlightHeading={false}
+        sectionLevelPage={false}
+        fullWidth={false}
+        includeAccessibilityProvision={false}
+        heroImageBgColor="white"
+      />
+      <BackgroundGrid $percent={40} $topColor="#323232">
+        <GridCell $sizeMap={{ s: [12], m: [3, 1], l: [3, 1], xl: [3, 1] }}>
+          <OnThisPageAnchors {...fixedArgs} />
+        </GridCell>
+        <GridCell $sizeMap={{ s: [12], m: [9, 4], l: [9, 4], xl: [9, 4] }}>
+          {links.map(link => (
+            <div
+              key={link.url}
+              style={{
+                padding: '16px',
+                backgroundColor: 'white',
+                marginBottom: '16px',
+              }}
+            >
+              <h2 id={link.url.replace('#', '')}>{link.text}</h2>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat.
+              </p>
+            </div>
+          ))}
+        </GridCell>
+      </BackgroundGrid>
+      <Footer venues={[]} />
+    </div>
   );
 };
 
