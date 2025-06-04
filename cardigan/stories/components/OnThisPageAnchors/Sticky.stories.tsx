@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
+import { themeColors } from '@weco/cardigan/.storybook/preview';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
@@ -40,14 +41,6 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
       <PageHeader
         breadcrumbs={{ items: [] }}
         title="Sticky On This Page Anchors"
-        isFree={false}
-        isSlim={false}
-        isContentTypeInfoBeforeMedia={false}
-        highlightHeading={false}
-        sectionLevelPage={false}
-        fullWidth={false}
-        includeAccessibilityProvision={false}
-        heroImageBgColor="white"
       />
       <BackgroundGrid $percent={40} $topColor="#323232">
         <GridCell $sizeMap={{ s: [12], m: [3, 1], l: [3, 1], xl: [3, 1] }}>
@@ -93,5 +86,12 @@ export const SideBar: Story = {
   name: 'Sticky',
   args: {
     activeColor: 'accent.lightGreen',
+  },
+  argTypes: {
+    activeColor: {
+      control: 'select',
+      options: themeColors.map(c => c.name),
+      description: 'Color used for the active link',
+    },
   },
 };
