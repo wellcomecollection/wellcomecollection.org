@@ -46,7 +46,7 @@ const text = {
 };
 
 // This format is required by Civic UK
-export const policyUpdatedDate = '02/06/2025';
+export const policyUpdatedDate = '04/06/2025';
 
 // Should your privacy policy change after a user gives consent,
 // Cookie Control will invalidate prior records of consent and seek the user's preferences using the latest information available.
