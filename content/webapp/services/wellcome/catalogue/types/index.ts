@@ -245,6 +245,8 @@ export type Image = {
   withSimilarFeatures?: Image[];
   aspectRatio?: number;
   requestUrl?: string;
+  thumbnail?: DigitalLocation;
+  averageColor?: string;
 };
 
 export type ResultType = Work | Image | Concept;

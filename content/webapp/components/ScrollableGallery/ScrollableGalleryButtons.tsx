@@ -50,8 +50,10 @@ const ScrollableGalleryButtons = ({ targetRef }) => {
     updateScrollButtons();
 
     targetRef.current.addEventListener('scroll', updateScrollButtons);
+    window.addEventListener('resize', updateScrollButtons);
     return () => {
       targetRef.current?.removeEventListener('scroll', updateScrollButtons);
+      window.removeEventListener('resize', updateScrollButtons);
     };
   });
 
