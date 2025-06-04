@@ -11,7 +11,7 @@ import { Link } from '@weco/content/types/link';
 const ListItem = styled.li<{
   $isActive?: boolean;
   $isSticky?: boolean;
-  activeColor?: PaletteColor;
+  $activeColor?: PaletteColor;
 }>`
   ${props =>
     props.$isSticky
@@ -28,7 +28,7 @@ const ListItem = styled.li<{
     top: 0;
     bottom: 0;
     width: ${props.$isActive ? '3px' : '1px'};
-    background: ${props.$isActive ? props.theme.color(props.activeColor || 'black') : props.theme.color('black')};
+    background: ${props.$isActive ? props.theme.color(props.$activeColor || 'black') : props.theme.color('black')};
   }
 `
       : ''}
@@ -75,12 +75,12 @@ const Root = styled(Space).attrs({
   $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })<{
-  isSticky?: boolean;
-  hasBackgroundBlend?: boolean;
+  $isSticky?: boolean;
+  $hasBackgroundBlend?: boolean;
 }>`
-  ${props => (props.isSticky ? stickyRootAttrs : '')}
+  ${props => (props.$isSticky ? stickyRootAttrs : '')}
   ${props =>
-    !props.hasBackgroundBlend
+    !props.$hasBackgroundBlend
       ? `background: ${props.theme.color('warmNeutral.300')};`
       : `mix-blend-mode: difference; color: ${props.theme.color('white')};`}
 `;
@@ -145,7 +145,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
   const fontStyle = isSticky ? font('intr', 4) : font('wb', 4);
 
   return (
-    <Root isSticky={isSticky} hasBackgroundBlend={hasBackgroundBlend}>
+    <Root $isSticky={isSticky} $hasBackgroundBlend={hasBackgroundBlend}>
       <h2 className={fontStyle}>{titleText}</h2>
       <PlainList>
         {links.map((link: Link) => {
@@ -156,7 +156,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
               key={link.url}
               $isActive={isActive}
               $isSticky={isSticky}
-              activeColor={activeColor}
+              $activeColor={activeColor}
             >
               <Anchor
                 data-gtm-trigger="link_click_page_position"
