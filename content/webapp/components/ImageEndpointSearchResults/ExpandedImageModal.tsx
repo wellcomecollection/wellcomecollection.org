@@ -5,7 +5,7 @@ import { Image } from '@weco/content/services/wellcome/catalogue/types';
 
 type Props = {
   images: Image[];
-  expandedImage: Image | undefined;
+  expandedImage?: Image;
   setExpandedImage: Dispatch<SetStateAction<Image | undefined>>;
 };
 
