@@ -35,20 +35,6 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
     links,
   };
 
-  // {{
-  //         breadcrumbs: {
-  //           items: [],
-  //         },
-  //         title: '',
-  //         isFree: false,
-  //         isSlim: false,
-  //         isContentTypeInfoBeforeMedia: false,
-  //         highlightHeading: false,
-  //         sectionLevelPage: false,
-  //         fullWidth: false,
-  //         includeAccessibilityProvision: false,
-  //         heroImageBgColor: 'white',
-  //       }} />
   return (
     <div>
       <PageHeader
