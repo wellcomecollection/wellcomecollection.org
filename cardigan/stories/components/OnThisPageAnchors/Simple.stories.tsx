@@ -1,12 +1,11 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { FunctionComponent } from 'react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import { links } from '@weco/cardigan/stories/data/links';
+import { links } from '@weco/cardigan/stories/components/OnThisPageAnchors/links';
 import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors';
 import Readme from '@weco/content/components/OnThisPageAnchors/README.mdx';
 
-const OnThisPageAnchorsInSingleCol: FunctionComponent<unknown> = () => {
+const OnThisPageAnchorsInSingleCol = () => {
   const fixedArgs = {
     isSticky: false,
     hasBackgroundBlend: false,
