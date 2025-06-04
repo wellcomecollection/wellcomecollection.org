@@ -56,6 +56,7 @@ export const GridCell = styled.div<{ $sizeMap: SizeMap }>`
     props.theme.media('xlarge')(`
       grid-column: ${props.$sizeMap.xl ? (props.$sizeMap.xl.length === 2 ? `${props.$sizeMap.xl[1]} / span ${props.$sizeMap.xl[0]}` : `span ${props.$sizeMap.xl[0]}`) : '1 / -1'};
 `)}
+    container-type: inline-size;
 `;
 
 export const GridScroll = styled(Grid)`
