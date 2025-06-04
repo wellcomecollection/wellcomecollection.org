@@ -9,10 +9,10 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import ImageCard from '@weco/content/components/ImageCard';
+import ExpandedImageModal from '@weco/content/components/ImageEndpointSearchResults/ExpandedImageModal';
+import useExpandedImage from '@weco/content/components/ImageEndpointSearchResults/useExpandedImage';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import { hexToRgb } from '@weco/content/utils/convert-colors';
-import useExpandedImage from './useExpandedImage';
-import ExpandedImageModal from './ExpandedImageModal';
 
 type Props = {
   images: Image[];

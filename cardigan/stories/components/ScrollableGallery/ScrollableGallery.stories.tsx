@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import ScrollableGallery from '@weco/content/components/ScrollableGallery/ScrollableGallery';
+import mockImages from '@weco/cardigan/stories/components/ScrollableGallery/mock-images';
 import Readme from '@weco/content/components/ScrollableGallery/README.mdx';
-import mockImages from './mock-images';
+import ScrollableGallery from '@weco/content/components/ScrollableGallery/ScrollableGallery';
 
 const meta: Meta = {
   title: 'Components/ScrollableGallery',
@@ -20,7 +20,7 @@ const meta: Meta = {
     images: {
       table: {
         disable: true,
-      }
+      },
     },
   },
 };

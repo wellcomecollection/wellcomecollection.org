@@ -1,14 +1,14 @@
 import { FunctionComponent, useRef } from 'react';
 import styled from 'styled-components';
 
+import { font } from '@weco/common/utils/classnames';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import ImageCard from '@weco/content/components/ImageCard';
+import ExpandedImageModal from '@weco/content/components/ImageEndpointSearchResults/ExpandedImageModal';
+import useExpandedImage from '@weco/content/components/ImageEndpointSearchResults/useExpandedImage';
+import ScrollableGalleryButtons from '@weco/content/components/ScrollableGallery/ScrollableGalleryButtons';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
-import ExpandedImageModal from '../ImageEndpointSearchResults/ExpandedImageModal';
-import useExpandedImage from '../ImageEndpointSearchResults/useExpandedImage';
-import { font } from '@weco/common/utils/classnames';
-import ScrollableGalleryButtons from './ScrollableGalleryButtons';
 
 const IMAGE_HEIGHT = 200;
 
