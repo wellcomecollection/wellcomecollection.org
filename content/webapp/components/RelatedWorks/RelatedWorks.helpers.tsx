@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
-
 import { toHtmlId } from '@weco/common/utils/grammar';
 import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
 import {
@@ -29,105 +27,123 @@ const getCenturyRange = (
   return null;
 };
 
-export const fetchRelated = async ({
+export const fetchRelatedWorks = async ({
+  work,
   toggles,
-  params,
-  setRelated,
-  work,
+  setIsLoading,
 }: {
+  work: Work;
   toggles: Toggles;
-  params: { [key: string]: string | string[] };
-  setRelated: (results: WorkBasic[]) => void;
-  work: Work;
-}): Promise<void> => {
-  const response = await catalogueQuery('works', {
-    toggles,
-    pageSize: 4, // In case we get the current work back, we will still have 3 to show
-    params: {
-      ...params,
-      include: ['production', 'contributors'],
-    },
-  });
+  setIsLoading: (isLoading: boolean) => void;
+}): Promise<{
+  [key: string]: { label: string; results: WorkBasic[] };
+}> => {
+  setIsLoading(true);
 
-  if (response.type === 'ResultList') {
-    setRelated(
-      response.results
-        .filter(result => result.id !== work.id)
-        .slice(0, 3)
-        .map(toWorkBasic)
-    );
-  }
-};
-
-// Returns a config object for tabs: one per subject label, date-range if possible, genres if available
-export async function getRelatedTabConfig({
-  work,
-  relatedWorks,
-  setRelatedWorks,
-}: {
-  work: Work;
-  relatedWorks: { [key: string]: WorkBasic[] | undefined };
-  setRelatedWorks: Dispatch<
-    SetStateAction<{ [key: string]: WorkBasic[] | undefined }>
-  >;
-}) {
   const subjectLabels = work.subjects.map(subject => subject.label).slice(0, 3);
-  const dateRange = getCenturyRange(work.production[0]?.dates[0]?.label);
   const typeTechniques = work.genres.map(genres => genres.label).slice(0, 3);
+  const dateRange = getCenturyRange(work.production[0]?.dates[0]?.label);
 
-  const config: {
-    [key: string]: {
-      text: string;
-      params: { [key: string]: string | string[] };
-      related?: WorkBasic[];
-      setRelated: (results: WorkBasic[]) => void;
-    };
+  const results: {
+    [key: string]: { label: string; results: WorkBasic[] };
   } = {};
 
-  subjectLabels.forEach(async label => {
-    const id = toHtmlId(label);
-    config[`subject-${id}`] = {
-      text: label,
-      params: { 'subjects.label': [`"${label}"`] },
-      related: relatedWorks[`subject-${id}`],
-      setRelated: (results: WorkBasic[]) =>
-        setRelatedWorks((prev: { [key: string]: WorkBasic[] | undefined }) => ({
-          ...prev,
-          [`subject-${id}`]: results,
-        })),
-    };
-  });
+  const basicQueryParams = {
+    toggles,
+    // Always fetch 4 works in case we get the current work back, then we will still have 3 to show.
+    pageSize: 4,
+    params: {
+      include: ['production', 'contributors'], // This returns minimal data
+    },
+  };
 
-  if (dateRange) {
-    config['date-range'] = {
-      text: dateRange.tabLabel,
-      params: {
-        'subjects.label': subjectLabels.map(label => `"${label}"`),
-        'production.dates.from': dateRange.from,
-        'production.dates.to': dateRange.to,
-      },
-      related: relatedWorks['date-range'],
-      setRelated: (results: WorkBasic[]) =>
-        setRelatedWorks(prev => ({ ...prev, 'date-range': results })),
-    };
+  const addToResultsObject = (
+    categoryLabel: string,
+    tabLabel: string,
+    response
+  ) => {
+    if (response.type === 'ResultList' && response.results.length > 0) {
+      results[`${categoryLabel}-${toHtmlId(tabLabel)}`] = {
+        label: tabLabel,
+        results: response.results
+          .filter(result => result.id !== work.id)
+          .slice(0, 3)
+          .map(toWorkBasic),
+      };
+    }
+  };
+
+  try {
+    await Promise.all([
+      ...subjectLabels.map(async label => {
+        const response = await catalogueQuery('works', {
+          ...basicQueryParams,
+          params: {
+            ...basicQueryParams.params,
+            text: label,
+            'subjects.label': [`"${label}"`],
+          },
+        });
+
+        addToResultsObject('subject', label, response);
+      }),
+
+      ...(dateRange
+        ? [
+            (async () => {
+              const response = await catalogueQuery('works', {
+                ...basicQueryParams,
+                params: {
+                  ...basicQueryParams.params,
+                  text: dateRange.tabLabel,
+                  'subjects.label': subjectLabels.map(
+                    subjectLabel => `"${subjectLabel}"`
+                  ),
+                  'production.dates.from': dateRange.from,
+                  'production.dates.to': dateRange.to,
+                },
+              });
+
+              addToResultsObject('date-range', dateRange.tabLabel, response);
+            })(),
+          ]
+        : []),
+
+      ...typeTechniques.map(async label => {
+        const response = await catalogueQuery('works', {
+          ...basicQueryParams,
+          params: {
+            ...basicQueryParams.params,
+            text: label,
+            'subjects.label': subjectLabels.map(
+              subjectLabel => `"${subjectLabel}"`
+            ),
+            'genres.label': [`"${label}"`],
+          },
+        });
+
+        addToResultsObject('type', label, response);
+      }),
+    ]);
+  } catch (error) {
+    console.error('Error fetching related works:', error);
   }
 
-  typeTechniques.forEach(async label => {
-    const id = toHtmlId(label);
-    config[`type-${id}`] = {
-      text: label,
-      params: {
-        'subjects.label': subjectLabels.map(label => `"${label}"`),
-        'genres.label': [`"${label}"`],
-      },
-      related: relatedWorks[`type-${id}`],
-      setRelated: (results: WorkBasic[]) =>
-        setRelatedWorks((prev: { [key: string]: WorkBasic[] | undefined }) => ({
-          ...prev,
-          [`type-${id}`]: results,
-        })),
-    };
+  // Order object keys to ensure consistent order
+  const orderedKeys = Object.keys(results).sort((a, b) => {
+    const order = ['subject-', 'date-range', 'type-'];
+    const aIndex = order.findIndex(prefix => a.startsWith(prefix));
+    const bIndex = order.findIndex(prefix => b.startsWith(prefix));
+    return aIndex - bIndex || a.localeCompare(b);
   });
 
-  return config;
-}
+  // Return ordered results
+  const orderedResults: {
+    [key: string]: { label: string; results: WorkBasic[] };
+  } = {};
+  orderedKeys.forEach(key => {
+    orderedResults[key] = results[key];
+  });
+
+  return orderedResults;
+};
