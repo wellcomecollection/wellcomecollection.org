@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { FunctionComponent, RefObject, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import Icon from '@weco/common/views/components/Icon';
 import { arrowSmall } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
+import useSwipeable, { SwipeDirection } from "@weco/content/components/ScrollableGallery/useSwipeable";
 
 const ScrollButton = styled('button').attrs({
   className: font('intr', 6),
@@ -25,11 +26,17 @@ const ScrollButtonsContainer = styled(Space)`
   justify-content: flex-end;
 `;
 
-const ScrollableGalleryButtons = ({ targetRef }) => {
+type Props = {
+  targetRef: RefObject<HTMLElement>;
+};
+
+const ScrollableGalleryButtons: FunctionComponent<Props> = ({ targetRef }: Props) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
   const getMaxScrollLeft = () => {
+    if(!targetRef.current) return 0;
+
     const { scrollWidth, clientWidth } = targetRef.current;
     return scrollWidth - clientWidth;
   };
@@ -57,9 +64,11 @@ const ScrollableGalleryButtons = ({ targetRef }) => {
     };
   });
 
-  const scrollByChildImageWidth = direction => {
+  const scrollByChildImageWidth = (direction: SwipeDirection) => {
+    if(!targetRef.current) return;
+
     const currScrollLeft = targetRef.current.scrollLeft;
-    const children: HTMLElement[] = Array.from(targetRef.current.children);
+    const children = Array.from(targetRef.current.children) as HTMLElement[];
 
     // When scrolling right, scroll to the first child whose left offset is higher than the current left scroll.
     // Otherwise, scroll to the last child chose left offset is lower than the current left scroll.
@@ -75,6 +84,8 @@ const ScrollableGalleryButtons = ({ targetRef }) => {
       behavior: 'smooth',
     });
   };
+
+  useSwipeable(targetRef, scrollByChildImageWidth);
 
   if (!canScrollLeft && !canScrollRight) {
     return null;
