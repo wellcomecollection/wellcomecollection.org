@@ -48,14 +48,16 @@ export const fetchRelatedWorks = async ({
     [key: string]: { label: string; results: WorkBasic[] };
   } = {};
 
-  const basicQueryParams = {
-    toggles,
-    // Always fetch 4 works in case we get the current work back, then we will still have 3 to show.
-    pageSize: 4,
-    params: {
-      include: ['production', 'contributors'], // This returns minimal data
-    },
-  };
+  const catalogueBasicQuery = async params =>
+    await catalogueQuery('works', {
+      toggles,
+      // Always fetch 4 works in case we get the current work back, then we will still have 3 to show.
+      pageSize: 4,
+      params: {
+        include: ['production', 'contributors'], // This returns minimal data
+        ...params,
+      },
+    });
 
   const addToResultsObject = (
     categoryLabel: string,
@@ -76,13 +78,9 @@ export const fetchRelatedWorks = async ({
   try {
     await Promise.all([
       ...subjectLabels.map(async label => {
-        const response = await catalogueQuery('works', {
-          ...basicQueryParams,
-          params: {
-            ...basicQueryParams.params,
-            text: label,
-            'subjects.label': [`"${label}"`],
-          },
+        const response = await catalogueBasicQuery({
+          text: label,
+          'subjects.label': [`"${label}"`],
         });
 
         addToResultsObject('subject', label, response);
@@ -91,17 +89,13 @@ export const fetchRelatedWorks = async ({
       ...(dateRange
         ? [
             (async () => {
-              const response = await catalogueQuery('works', {
-                ...basicQueryParams,
-                params: {
-                  ...basicQueryParams.params,
-                  text: dateRange.tabLabel,
-                  'subjects.label': subjectLabels.map(
-                    subjectLabel => `"${subjectLabel}"`
-                  ),
-                  'production.dates.from': dateRange.from,
-                  'production.dates.to': dateRange.to,
-                },
+              const response = await catalogueBasicQuery({
+                text: dateRange.tabLabel,
+                'subjects.label': subjectLabels.map(
+                  subjectLabel => `"${subjectLabel}"`
+                ),
+                'production.dates.from': dateRange.from,
+                'production.dates.to': dateRange.to,
               });
 
               addToResultsObject('date-range', dateRange.tabLabel, response);
@@ -110,16 +104,12 @@ export const fetchRelatedWorks = async ({
         : []),
 
       ...typeTechniques.map(async label => {
-        const response = await catalogueQuery('works', {
-          ...basicQueryParams,
-          params: {
-            ...basicQueryParams.params,
-            text: label,
-            'subjects.label': subjectLabels.map(
-              subjectLabel => `"${subjectLabel}"`
-            ),
-            'genres.label': [`"${label}"`],
-          },
+        const response = await catalogueBasicQuery({
+          text: label,
+          'subjects.label': subjectLabels.map(
+            subjectLabel => `"${subjectLabel}"`
+          ),
+          'genres.label': [`"${label}"`],
         });
 
         addToResultsObject('type', label, response);
