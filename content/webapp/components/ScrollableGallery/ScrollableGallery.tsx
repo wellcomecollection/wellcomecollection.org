@@ -77,9 +77,9 @@ const ScrollableGallery: FunctionComponent<Props> = ({
         ))}
       </ImageCardList>
       <ExpandedImageModal
-        images={images}
         expandedImage={expandedImage}
         setExpandedImage={setExpandedImage}
+        images={images}
       />
     </>
   );
