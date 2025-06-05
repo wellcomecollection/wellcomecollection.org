@@ -17,7 +17,7 @@ export const Card = styled.a`
   display: flex;
   padding: ${props => props.theme.spacingUnits['3']}px;
   background-color: ${props => props.theme.color('white')};
-  border-radius: 6px;
+  border-radius: ${props => props.theme.borderRadiusUnit}px;
   flex-wrap: wrap;
   text-decoration: none;
 
