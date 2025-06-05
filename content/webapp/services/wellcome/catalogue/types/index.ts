@@ -119,7 +119,7 @@ type Genre = {
   type: 'Genre';
 };
 
-type ConceptType =
+export type ConceptType =
   | 'Subject'
   | 'Meeting'
   | 'Organisation'
@@ -132,6 +132,7 @@ type ConceptType =
 export type RelatedConcept = {
   label: string;
   id: string;
+  conceptType: ConceptType;
   relationshipType?: string;
 };
 
@@ -149,6 +150,8 @@ export type Concept = {
     broaderThan?: RelatedConcept[];
     people?: RelatedConcept[];
     referencedTogether?: RelatedConcept[];
+    frequentCollaborators?: RelatedConcept[];
+    relatedTopics?: RelatedConcept[];
   };
   alternativeLabels?: string[];
 };
