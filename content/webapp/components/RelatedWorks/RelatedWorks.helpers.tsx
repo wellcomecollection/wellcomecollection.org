@@ -39,14 +39,13 @@ export const fetchRelatedWorks = async ({
   [key: string]: { label: string; results: WorkBasic[] };
 }> => {
   setIsLoading(true);
+  const results: {
+    [key: string]: { label: string; results: WorkBasic[] };
+  } = {};
 
   const subjectLabels = work.subjects.map(subject => subject.label).slice(0, 3);
   const typeTechniques = work.genres.map(genres => genres.label).slice(0, 3);
   const dateRange = getCenturyRange(work.production[0]?.dates[0]?.label);
-
-  const results: {
-    [key: string]: { label: string; results: WorkBasic[] };
-  } = {};
 
   const catalogueBasicQuery = async params =>
     await catalogueQuery('works', {

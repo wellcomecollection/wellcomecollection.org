@@ -56,44 +56,42 @@ const RelatedWorks = ({ work }: { work: Work }) => {
       </div>
     );
 
-  return (
-    selectedTab && (
-      <Container>
-        <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-          <h2>More Works</h2>
+  return relatedWorksTabs && selectedTab ? (
+    <Container>
+      <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+        <h2>More Works</h2>
 
-          <Tabs
-            tabBehaviour="switch"
-            label="Related works control"
-            selectedTab={selectedTab}
-            setSelectedTab={setSelectedTab}
-            items={Object.entries(relatedWorksTabs).map(([key, value]) => ({
-              id: key,
-              url: `#${key}`,
-              text: value.label,
-            }))}
-          />
+        <Tabs
+          tabBehaviour="switch"
+          label="Related works control"
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+          items={Object.entries(relatedWorksTabs).map(([key, value]) => ({
+            id: key,
+            url: `#${key}`,
+            text: value.label,
+          }))}
+        />
 
-          {Object.entries(relatedWorksTabs).map(([key, value]) => (
-            <div
-              key={key}
-              className={classNames({
-                'is-hidden': selectedTab !== key,
-              })}
-            >
-              {value.results.map((result, i) => (
-                <WorksSearchResult
-                  work={result}
-                  resultPosition={i}
-                  key={result.id}
-                />
-              ))}
-            </div>
-          ))}
-        </Space>
-      </Container>
-    )
-  );
+        {Object.entries(relatedWorksTabs).map(([key, value]) => (
+          <div
+            key={key}
+            className={classNames({
+              'is-hidden': selectedTab !== key,
+            })}
+          >
+            {value.results.map((result, i) => (
+              <WorksSearchResult
+                work={result}
+                resultPosition={i}
+                key={result.id}
+              />
+            ))}
+          </div>
+        ))}
+      </Space>
+    </Container>
+  ) : null;
 };
 
 export default RelatedWorks;
