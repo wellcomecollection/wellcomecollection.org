@@ -4,14 +4,19 @@ import CollaboratorCard from '@weco/content/components/CollaboratorCard';
 import { user, wellcome } from '@weco/common/icons';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import styled from 'styled-components';
+import { ComponentProps } from 'react';
 
-const meta: Meta<typeof CollaboratorCard> = {
+type StoryProps = ComponentProps<typeof CollaboratorCard> & {
+  numberOfCards: number;
+};
+
+const meta: Meta<StoryProps> = {
   title: 'Components/Cards/CollaboratorCard',
   component: CollaboratorCard,
   args: {
     href: '/concepts/1234567',
     label: 'This is some text',
-    icon: 'user',
+    icon: user,
     numberOfCards: 1,
   },
   argTypes: {
@@ -41,7 +46,7 @@ const meta: Meta<typeof CollaboratorCard> = {
 
 export default meta;
 
-type Story = StoryObj<typeof CollaboratorCard>;
+type Story = StoryObj<StoryProps>;
 
 const CollaboratorsWrapper = styled(Grid)`
   max-width: 792px;
@@ -61,7 +66,7 @@ export const Basic: Story = {
             l: [4],
             xl: [4],
           }}
-          key={i}
+          key={`card-${i}`}
         >
           <CollaboratorCard {...args} />
         </GridCell>
