@@ -51,6 +51,8 @@ export function transformPage(document: RawPagesDocument): Page {
           ...transformPage(parent as RawPagesDocument),
           order: data.parents[index].order!,
           type: parent.type,
+          tags: parent.tags,
+          siteSection: parent.siteSection,
         };
       })
     : [];
