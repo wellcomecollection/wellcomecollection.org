@@ -12,17 +12,14 @@ import {
   MetaContainer,
   TextWrapper,
   Title,
-} from './WorksRelatedContentCard.styles';
+} from './RelatedWorks.styles';
 
 type Props = {
   work: WorkBasic;
   resultIndex: number;
 };
 
-const WorksRelatedContentCard: FunctionComponent<Props> = ({
-  work,
-  resultIndex,
-}) => {
+const RelatedWorksCard: FunctionComponent<Props> = ({ work, resultIndex }) => {
   const {
     productionDates,
     title,
@@ -94,4 +91,4 @@ const WorksRelatedContentCard: FunctionComponent<Props> = ({
   );
 };
 
-export default WorksRelatedContentCard;
+export default RelatedWorksCard;

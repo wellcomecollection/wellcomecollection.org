@@ -7,12 +7,12 @@ import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import Tabs from '@weco/content/components/Tabs';
-import WorksRelatedContentCard from '@weco/content/components/WorksRelatedContentCard';
 import {
   Work,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 
+import RelatedWorksCard from './RelatedWorks.Card';
 import { fetchRelatedWorks } from './RelatedWorks.helpers';
 import { FullWidthRow } from './RelatedWorks.styles';
 
@@ -92,7 +92,7 @@ const RelatedWorks = ({ work }: { work: Work }) => {
                   key={result.id}
                   $sizeMap={{ s: [12], m: [12], l: [6], xl: [4] }}
                 >
-                  <WorksRelatedContentCard resultIndex={i} work={result} />
+                  <RelatedWorksCard resultIndex={i} work={result} />
                 </GridCell>
               ))}
             </Grid>
