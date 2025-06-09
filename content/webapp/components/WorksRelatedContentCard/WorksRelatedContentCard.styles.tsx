@@ -44,6 +44,10 @@ export const TextWrapper = styled.div`
     justify-content: space-between;
 
     @container text-wrapper (max-width: ${maxTextWrapperWidth}) {
+      /*
+      The line below allows us to truncated the labels based on their lengths so that
+      e.g. 'Archives and manuscripts' is truncated but 'Digital images' is not.
+      */
       max-width: calc(330px - calc(var(--label-length) * 1ch));
       overflow: hidden;
       text-overflow: ellipsis;
@@ -83,8 +87,19 @@ export const ImageWrapper = styled.div`
       width: unset;
       height: 100%;
       max-height: unset;
+
+      max-width: -webkit-fill-available;
+      max-width: -moz-available;
       max-width: stretch;
-      justify-self: end;
+
+      /*
+      This is a hack to target Safari only, because -webkit-fill-available is
+      the property that _should_ work and is required for Chrome > 138 but causes
+      Safari to hide images completely
+      */
+      @supports (-webkit-appearance: none) and (stroke-color: transparent) {
+        max-width: 100%;
+      }
     }
   }
 
@@ -93,6 +108,8 @@ export const ImageWrapper = styled.div`
     width: unset;
     max-width: 50%;
     order: unset;
+    display: flex;
+    justify-content: end;
   }
 `;
 
