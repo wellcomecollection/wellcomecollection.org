@@ -3,10 +3,11 @@ import { useContext, useEffect, useState } from 'react';
 import { ServerDataContext } from '@weco/common/server-data/Context';
 import { classNames } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import Tabs from '@weco/content/components/Tabs';
-import WorksSearchResult from '@weco/content/components/WorksSearchResult';
+import WorksRelatedContentCard from '@weco/content/components/WorksRelatedContentCard';
 import {
   Work,
   WorkBasic,
@@ -80,13 +81,16 @@ const RelatedWorks = ({ work }: { work: Work }) => {
               'is-hidden': selectedTab !== key,
             })}
           >
-            {value.results.map((result, i) => (
-              <WorksSearchResult
-                work={result}
-                resultPosition={i}
-                key={result.id}
-              />
-            ))}
+            <Grid>
+              {value.results.map((result, i) => (
+                <GridCell
+                  key={result.id}
+                  $sizeMap={{ s: [12], m: [12], l: [6], xl: [4] }}
+                >
+                  <WorksRelatedContentCard resultIndex={i} work={result} />
+                </GridCell>
+              ))}
+            </Grid>
           </div>
         ))}
       </Space>
