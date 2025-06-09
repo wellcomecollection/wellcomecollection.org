@@ -106,7 +106,7 @@ const ThemeSourcedDescription: FunctionComponent<Props> = ({
   return (
     <>
       <Paragraph>{description}</Paragraph>
-      <SourcePill tabindex="0" ref={sourcePillRef}>
+      <SourcePill tabIndex={0} ref={sourcePillRef}>
         {source}
         <SourceBoxContainer $marginLeft={sourceBoxMarginLeft}>
           <SourceBox>
