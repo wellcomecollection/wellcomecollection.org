@@ -16,6 +16,7 @@ const ImageCardList = styled(PlainList)`
   display: flex;
   overflow: hidden;
   position: relative;
+  padding: 3px;
 `;
 
 const ScrollButtonsContainer = styled(Space).attrs({
@@ -77,9 +78,9 @@ const ScrollableGallery: FunctionComponent<Props> = ({
         ))}
       </ImageCardList>
       <ExpandedImageModal
-        images={images}
         expandedImage={expandedImage}
         setExpandedImage={setExpandedImage}
+        images={images}
       />
     </>
   );
