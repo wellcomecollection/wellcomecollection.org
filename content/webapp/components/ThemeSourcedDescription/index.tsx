@@ -12,11 +12,13 @@ const SourcePill = styled(Space).attrs({
 })`
   position: relative;
   display: inline-flex;
+  align-items: center;
   border-radius: 20px;
   background-color: ${props => props.theme.color('accent.green')}40;
   cursor: default;
-  padding: 2px 8px;
+  padding: 0 ${props => props.theme.spacingUnits['3']}px;
   height: 22px;
+  vertical-align: middle;
 
   &:is(:hover, :focus-within) .source-box-container {
     display: block;
@@ -30,7 +32,7 @@ const Paragraph = styled(Space).attrs({
   className: font('intr', 3),
 })`
   display: inline;
-  padding-right: 8px;
+  padding-right: ${props => props.theme.spacingUnits['3']}px;
 
   &:has(+ .source-pill:focus-within, + .source-pill:hover) {
     text-decoration: underline dotted;
@@ -68,7 +70,7 @@ const SourceLink = styled(Space).attrs({
   display: flex;
   align-items: center;
   justify-content: start;
-  gap: 8px;
+  gap: ${props => props.theme.spacingUnits['3']}px;
 `;
 
 export type Props = {
