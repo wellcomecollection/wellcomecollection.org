@@ -37,7 +37,6 @@ export const Card = styled.a`
 
 export const TextWrapper = styled.div`
   display: flex;
-  flex: 1;
   padding-top: ${props => props.theme.spacingUnits['5']}px;
   flex-direction: column;
   width: 100%;
@@ -99,6 +98,15 @@ export const ImageWrapper = styled.div`
       max-width: -webkit-fill-available;
       max-width: -moz-available;
       max-width: stretch;
+
+      /*
+      This is a hack to target Safari only, because -webkit-fill-available is
+      the property that _should_ work and is required for Chrome > 138 but causes
+      Safari to hide images completely
+      */
+      @supports (-webkit-appearance: none) and (stroke-color: transparent) {
+        max-width: 100%;
+      }
     }
   }
 
@@ -108,7 +116,6 @@ export const ImageWrapper = styled.div`
     max-width: 50%;
     order: unset;
     display: flex;
-    flex: 1;
     justify-content: end;
   }
 `;
