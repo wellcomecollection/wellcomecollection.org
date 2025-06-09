@@ -47,6 +47,10 @@ export const TextWrapper = styled.div`
     padding-top: 0;
   }
 
+  ul {
+    flex-wrap: nowrap;
+  }
+
   li > div {
     justify-content: space-between;
 
