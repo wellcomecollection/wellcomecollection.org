@@ -44,7 +44,7 @@ export const TextWrapper = styled.div`
     justify-content: space-between;
 
     @container text-wrapper (max-width: ${maxTextWrapperWidth}) {
-      max-width: 100px;
+      max-width: calc(330px - calc(var(--label-length) * 1ch));
       overflow: hidden;
       text-overflow: ellipsis;
     }
