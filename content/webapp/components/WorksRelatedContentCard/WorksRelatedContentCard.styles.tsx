@@ -10,7 +10,7 @@ const clampLineStyles = css<{ $linesToClamp: number }>`
   -webkit-line-clamp: ${props => props.$linesToClamp};
 `;
 
-const minGridCellWidth = '400px';
+const minGridCellWidth = '386px';
 const maxTextWrapperWidth = '270px';
 
 export const Card = styled.a`
@@ -44,7 +44,7 @@ export const TextWrapper = styled.div`
     justify-content: space-between;
 
     @container text-wrapper (max-width: ${maxTextWrapperWidth}) {
-      max-width: 116px;
+      max-width: 100px;
       overflow: hidden;
       text-overflow: ellipsis;
     }
