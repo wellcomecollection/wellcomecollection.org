@@ -14,6 +14,7 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 
 import { fetchRelatedWorks } from './RelatedWorks.helpers';
+import { FullWidthRow } from './RelatedWorks.styles';
 
 const RelatedWorks = ({ work }: { work: Work }) => {
   const { toggles } = useContext(ServerDataContext);
@@ -58,9 +59,11 @@ const RelatedWorks = ({ work }: { work: Work }) => {
     );
 
   return relatedWorksTabs && selectedTab ? (
-    <Container>
-      <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-        <h2>More Works</h2>
+    <>
+      <Container>
+        <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+          <h2>More Works</h2>
+        </Space>
 
         <Tabs
           tabBehaviour="switch"
@@ -73,14 +76,16 @@ const RelatedWorks = ({ work }: { work: Work }) => {
             text: value.label,
           }))}
         />
+      </Container>
 
-        {Object.entries(relatedWorksTabs).map(([key, value]) => (
-          <div
-            key={key}
-            className={classNames({
-              'is-hidden': selectedTab !== key,
-            })}
-          >
+      {Object.entries(relatedWorksTabs).map(([key, value]) => (
+        <FullWidthRow
+          key={key}
+          className={classNames({
+            'is-hidden': selectedTab !== key,
+          })}
+        >
+          <Container>
             <Grid>
               {value.results.map((result, i) => (
                 <GridCell
@@ -91,10 +96,10 @@ const RelatedWorks = ({ work }: { work: Work }) => {
                 </GridCell>
               ))}
             </Grid>
-          </div>
-        ))}
-      </Space>
-    </Container>
+          </Container>
+        </FullWidthRow>
+      ))}
+    </>
   ) : null;
 };
 
