@@ -13,7 +13,7 @@ const SourcePill = styled(Space).attrs({
   position: relative;
   display: inline-flex;
   border-radius: 20px;
-  background-color: ${props => props.theme.color('accent.lightGreen')};
+  background-color: ${props => props.theme.color('accent.green')}40;
   cursor: default;
   padding: 2px 8px;
   height: 22px;
@@ -27,6 +27,7 @@ const SourcePill = styled(Space).attrs({
 
 const Paragraph = styled(Space).attrs({
   as: 'p',
+  className: font('intr', 3),
 })`
   display: inline;
   padding-right: 8px;
