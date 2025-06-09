@@ -2,8 +2,9 @@ import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
-import { capitalize } from '@weco/common/utils/grammar';
 import WikidataLogo from '@weco/content/components/ThemeSourcedDescription/WikidataLogo';
+import MeshLogo from '@weco/content/components/ThemeSourcedDescription/mesh-logo.png';
+import Image from 'next/image';
 
 const SOURCE_BOX_WIDTH = 224;
 
@@ -71,6 +72,11 @@ const SourceLink = styled(Space).attrs({
   align-items: center;
   justify-content: start;
   gap: ${props => props.theme.spacingUnits['3']}px;
+
+  img {
+    height: 16px;
+    width: 16px;
+  }
 `;
 
 export type Props = {
@@ -113,7 +119,7 @@ const ThemeSourcedDescription: FunctionComponent<Props> = ({
             <span className={font('intm', 6)}>Source:</span>
             <SourceLink>
               {source === 'Wikidata' && <WikidataLogo width={16} />}
-              {source === 'MeSH' && <WikidataLogo width={16} />}
+              {source === 'MeSH' && <Image src={MeshLogo} alt="MeSH logo" />}
               <a href={href} target="_blank" rel="noopener noreferrer">
                 {source}
               </a>
