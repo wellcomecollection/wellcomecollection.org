@@ -44,16 +44,9 @@ const ThemeHeader: FunctionComponent<Props> = ({ concept }) => {
       <Container>
         <Title>{concept.label}</Title>
         {themePagesAllFields && (
-          <>
-            <ThemeAlternativeLabels
-              alternativeLabels={concept.alternativeLabels}
-            />
-            <ThemeRelatedConceptsGroup
-              label="Part of"
-              labelType="inline"
-              relatedConcepts={narrowerThan}
-            />
-          </>
+          <ThemeAlternativeLabels
+            alternativeLabels={concept.alternativeLabels}
+          />
         )}
         {concept.description && (
           <ThemeDescription>
@@ -73,6 +66,11 @@ const ThemeHeader: FunctionComponent<Props> = ({ concept }) => {
           />
           {themePagesAllFields && (
             <>
+              <ThemeRelatedConceptsGroup
+                label="Part of"
+                labelType="inline"
+                relatedConcepts={narrowerThan}
+              />
               <ThemeRelatedConceptsGroup
                 label="Notable people in this field"
                 labelType="heading"
