@@ -9,6 +9,7 @@ import ThemeRelatedConceptsGroup from '@weco/content/components/ThemeRelatedConc
 import { font } from '@weco/common/utils/classnames';
 import ThemeAlternativeLabels from '@weco/content/components/ThemeHeader/ThemeAlternativeLabels';
 import { useToggles } from '@weco/common/server-data/Context';
+import ThemeSourcedDescription from '@weco/content/components/ThemeSourcedDescription';
 
 const ConceptHero = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
@@ -55,7 +56,14 @@ const ThemeHeader: FunctionComponent<Props> = ({ concept }) => {
           </>
         )}
         {concept.description && (
-          <ThemeDescription>{capitalize(concept.description)}</ThemeDescription>
+          <ThemeDescription>
+            <ThemeSourcedDescription
+              description={capitalize(concept.description)}
+              source="Wikidata"
+              // TODO: Replace with real link once available from the API
+              href="https://www.wikidata.org/wiki/Wikidata:Main_Page"
+            />
+          </ThemeDescription>
         )}
         <>
           <ThemeRelatedConceptsGroup
