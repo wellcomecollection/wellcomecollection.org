@@ -18,7 +18,6 @@ const clampLineStyles = css<{ $linesToClamp: number }>`
 `;
 
 const minGridCellWidth = '386px';
-const maxTextWrapperWidth = '270px';
 
 export const Card = styled.a`
   display: flex;
@@ -54,12 +53,12 @@ export const TextWrapper = styled.div`
   li > div {
     justify-content: space-between;
 
-    @container text-wrapper (max-width: ${maxTextWrapperWidth}) {
+    @container text-wrapper (min-width: 0) {
       /*
       The line below allows us to truncated the labels based on their lengths so that
       e.g. 'Archives and manuscripts' is truncated but 'Digital images' is not.
       */
-      max-width: calc(330px - calc(var(--label-length) * 1ch));
+      max-width: calc(100cqw - calc(var(--label-length) * 0.25ch));
       overflow: hidden;
       text-overflow: ellipsis;
     }
