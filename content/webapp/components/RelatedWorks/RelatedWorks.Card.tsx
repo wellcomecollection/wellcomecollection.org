@@ -55,8 +55,8 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, resultIndex }) => {
             )}
           </MetaContainer>
         </TextWrapper>
-        <ImageWrapper>
-          {thumbnail && (
+        {thumbnail && (
+          <ImageWrapper>
             <img
               src={convertIiifImageUri(thumbnail.url, 120)}
               alt={work.title}
@@ -64,8 +64,8 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, resultIndex }) => {
               width="200"
               height="200"
             />
-          )}
-        </ImageWrapper>
+          </ImageWrapper>
+        )}
         {resultIndex === 0 && (
           <svg style={{ visibility: 'hidden' }} width="0" height="0">
             <defs>

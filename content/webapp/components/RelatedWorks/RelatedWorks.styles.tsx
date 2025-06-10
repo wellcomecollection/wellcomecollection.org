@@ -34,7 +34,6 @@ export const Card = styled.a`
 
 export const TextWrapper = styled.div`
   display: flex;
-  padding-top: ${props => props.theme.spacingUnits['5']}px;
   flex-direction: column;
   width: 100%;
   container-type: inline-size;
@@ -80,9 +79,10 @@ export const LineClamp = styled.div<{ $linesToClamp: number }>`
 
 export const ImageWrapper = styled.div`
   width: 100%;
-  max-height: 400px;
+  max-height: 250px;
   order: -1;
   margin-left: ${props => props.theme.spacingUnits['3']}px;
+  margin-bottom: ${props => props.theme.spacingUnits['5']}px;
 
   img {
     display: block;
@@ -118,6 +118,7 @@ export const ImageWrapper = styled.div`
     order: unset;
     display: flex;
     justify-content: end;
+    margin-bottom: 0;
   `}
 `;
 
