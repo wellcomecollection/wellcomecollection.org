@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import ThemeSourcedDescription from '@weco/content/components/ThemeSourcedDescription';
 
 const meta: Meta<typeof ThemeSourcedDescription> = {
-  title: 'Components/SourcedDescription',
+  title: 'Components/ThemeSourcedDescription',
   component: ThemeSourcedDescription,
   args: {
     description:
