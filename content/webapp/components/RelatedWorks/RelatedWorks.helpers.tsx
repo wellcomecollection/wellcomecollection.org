@@ -63,16 +63,17 @@ export const fetchRelatedWorks = async ({
     tabLabel: string,
     response
   ) => {
-    // Filter out the current work from the results
-    const filteredResults = response.results.filter(
-      result => result.id !== work.id
-    );
-
-    if (response.type === 'ResultList' && filteredResults.results.length > 0) {
-      results[`${categoryLabel}-${toHtmlId(tabLabel)}`] = {
-        label: tabLabel,
-        results: response.results.slice(0, 3).map(toWorkBasic),
-      };
+    if (response.type === 'ResultList') {
+      // Filter out the current work from the results
+      const filteredResults = response.results.filter(
+        result => result.id !== work.id
+      );
+      if (filteredResults.length > 0) {
+        results[`${categoryLabel}-${toHtmlId(tabLabel)}`] = {
+          label: tabLabel,
+          results: filteredResults.slice(0, 3).map(toWorkBasic),
+        };
+      }
     }
   };
 
