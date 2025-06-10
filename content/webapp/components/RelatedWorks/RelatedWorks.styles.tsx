@@ -96,13 +96,13 @@ export const ImageWrapper = styled.div`
       height: 100%;
       max-height: unset;
 
-      max-width: -webkit-fill-available;
-      max-width: -moz-available;
-      max-width: stretch;
+      max-width: -webkit-fill-available; /* Chrome, Safari, Edge */
+      max-width: -moz-available; /* Firefox */
+      max-width: stretch; /* Future standard */
 
       /*
       This is a hack to target Safari only, because -webkit-fill-available is
-      the property that _should_ work and is required for Chrome > 138 but causes
+      the property that _should_ work and is required for Chrome < 138 but causes
       Safari to hide images completely
       */
       @supports (-webkit-appearance: none) and (stroke-color: transparent) {
