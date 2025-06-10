@@ -59,19 +59,21 @@ const RelatedWorks = ({ work }: { work: Work }) => {
   return relatedWorksTabs && selectedTab ? (
     <Container>
       <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-        <h2>More Works</h2>
+        <h2>Related works</h2>
 
-        <Tabs
-          tabBehaviour="switch"
-          label="Related works control"
-          selectedTab={selectedTab}
-          setSelectedTab={setSelectedTab}
-          items={Object.entries(relatedWorksTabs).map(([key, value]) => ({
-            id: key,
-            url: `#${key}`,
-            text: value.label,
-          }))}
-        />
+        {Object.keys(relatedWorksTabs).length > 1 && (
+          <Tabs
+            tabBehaviour="switch"
+            label="Related works control"
+            selectedTab={selectedTab}
+            setSelectedTab={setSelectedTab}
+            items={Object.entries(relatedWorksTabs).map(([key, value]) => ({
+              id: key,
+              url: `#${key}`,
+              text: value.label,
+            }))}
+          />
+        )}
 
         {Object.entries(relatedWorksTabs).map(([key, value]) => (
           <div
