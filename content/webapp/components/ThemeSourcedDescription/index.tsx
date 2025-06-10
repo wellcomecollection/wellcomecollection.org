@@ -17,7 +17,6 @@ const SourcePill = styled(Space).attrs({
   border-radius: 20px;
   background-color: ${props => props.theme.color('accent.green')}40;
   cursor: default;
-  padding: 0 ${props => props.theme.spacingUnits['3']}px;
   height: 22px;
   vertical-align: middle;
 
@@ -36,7 +35,8 @@ const Paragraph = styled(Space).attrs({
   padding-right: ${props => props.theme.spacingUnits['3']}px;
 
   &:has(+ .source-pill:focus-within, + .source-pill:hover) {
-    text-decoration: underline dotted;
+    text-decoration: underline;
+    text-decoration-style: dotted;
   }
 `;
 
@@ -54,6 +54,7 @@ const SourceBoxContainer = styled(Space).attrs({
     visibility 200ms ease,
     opacity 200ms ease;
   visibility: hidden;
+  z-index: 3;
 `;
 
 const SourceBox = styled(Space).attrs({
@@ -77,6 +78,10 @@ const SourceLink = styled(Space).attrs({
     height: 16px;
     width: 16px;
   }
+`;
+
+const SourceLabel = styled(Space)`
+  padding: 0 ${props => props.theme.spacingUnits['3']}px;
 `;
 
 export type Props = {
@@ -112,8 +117,12 @@ const ThemeSourcedDescription: FunctionComponent<Props> = ({
   return (
     <>
       <Paragraph>{description}</Paragraph>
-      <SourcePill tabIndex={0} ref={sourcePillRef}>
-        {source}
+      <SourcePill
+        tabIndex={0}
+        onMouseEnter={updateSourceBoxPosition}
+        onFocus={updateSourceBoxPosition}
+      >
+        <SourceLabel ref={sourcePillRef}>{source}</SourceLabel>
         <SourceBoxContainer $marginLeft={sourceBoxMarginLeft}>
           <SourceBox>
             <span className={font('intm', 6)}>Source:</span>
