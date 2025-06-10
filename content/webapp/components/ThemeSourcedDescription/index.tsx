@@ -1,10 +1,11 @@
+import Image from 'next/image';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
+
 import { font } from '@weco/common/utils/classnames';
-import { WikidataLogo } from '@weco/content/components/ThemeSourcedDescription/ThemeSourcedDescrption.Icons';
+import Space from '@weco/common/views/components/styled/Space';
 import MeshLogo from '@weco/content/components/ThemeSourcedDescription/mesh-logo.png';
-import Image from 'next/image';
+import { WikidataLogo } from '@weco/content/components/ThemeSourcedDescription/ThemeSourcedDescrption.Icons';
 
 const SOURCE_BOX_WIDTH = 224;
 
