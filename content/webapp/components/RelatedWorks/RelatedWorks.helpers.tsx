@@ -1,6 +1,8 @@
 import { toHtmlId } from '@weco/common/utils/grammar';
+import { WellcomeApiError } from '@weco/content/services/wellcome';
 import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
 import {
+  CatalogueResultsList,
   toWorkBasic,
   Work,
   WorkBasic,
@@ -47,7 +49,9 @@ export const fetchRelatedWorks = async ({
   const typeTechniques = work.genres.map(genres => genres.label).slice(0, 3);
   const dateRange = getCenturyRange(work.production[0]?.dates[0]?.label);
 
-  const catalogueBasicQuery = async params =>
+  const catalogueBasicQuery = async (
+    params
+  ): Promise<WellcomeApiError | CatalogueResultsList<Work>> =>
     await catalogueQuery('works', {
       toggles,
       // Always fetch 4 works in case we get the current work back, then we will still have 3 to show.
@@ -61,7 +65,7 @@ export const fetchRelatedWorks = async ({
   const addToResultsObject = (
     categoryLabel: string,
     tabLabel: string,
-    response
+    response: WellcomeApiError | CatalogueResultsList<Work>
   ) => {
     if (response.type === 'ResultList') {
       // Filter out the current work from the results
