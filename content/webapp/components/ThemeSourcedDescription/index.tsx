@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 const SOURCE_BOX_WIDTH = 224;
 
-const SourcePill = styled(Space).attrs({
+const SourcePill = styled.div.attrs({
   className: `${font('intr', 6)} source-pill`,
 })`
   position: relative;
@@ -26,8 +26,7 @@ const SourcePill = styled(Space).attrs({
   }
 `;
 
-const Paragraph = styled(Space).attrs({
-  as: 'p',
+const Paragraph = styled.p.attrs({
   className: font('intr', 3),
 })`
   display: inline;
@@ -39,7 +38,7 @@ const Paragraph = styled(Space).attrs({
   }
 `;
 
-const SourceBoxContainer = styled(Space).attrs({
+const SourceBoxContainer = styled.div.attrs({
   className: 'source-box-container',
 })<{ $marginLeft: number }>`
   position: absolute;
@@ -78,7 +77,7 @@ const SourceLink = styled(Space).attrs({
   }
 `;
 
-const SourceLabel = styled(Space)`
+const SourceLabel = styled.span`
   padding: 0 ${props => props.theme.spacingUnits['3']}px;
 `;
 
