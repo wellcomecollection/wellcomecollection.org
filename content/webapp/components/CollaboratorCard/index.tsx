@@ -4,8 +4,11 @@ import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon';
 import { IconSvg } from '@weco/common/icons';
 import NextLink from 'next/link';
+import { font } from '@weco/common/utils/classnames';
 
-const StyledLink = styled(NextLink).attrs({ className: 'font-size-6' })`
+const StyledLink = styled(NextLink).attrs({
+  className: font('intr', 6),
+})`
   background-color: ${props => props.theme.color('warmNeutral.300')};
   padding: ${props => props.theme.spacingUnits['3']}px;
   text-decoration: none;
@@ -16,6 +19,7 @@ const StyledLink = styled(NextLink).attrs({ className: 'font-size-6' })`
   gap: ${props => props.theme.spacingUnits['3']}px;
   width: 100%;
   height: 48px;
+  border-radius: 2px;
 
   &:hover {
     text-decoration: underline;
