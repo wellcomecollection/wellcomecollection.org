@@ -19,6 +19,7 @@ const StyledLink = styled(NextLink).attrs({
   gap: ${props => props.theme.spacingUnits['3']}px;
   width: 100%;
   height: 48px;
+  border-radius: 2px;
 
   &:hover {
     text-decoration: underline;
