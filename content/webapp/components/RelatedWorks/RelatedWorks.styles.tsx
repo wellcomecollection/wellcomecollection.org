@@ -26,9 +26,14 @@ export const Card = styled.a`
   text-decoration: none;
 
   ${props => props.theme.media('medium')`
-    height: 10rem;
+    max-height: 10rem;
     flex-wrap: nowrap;
     justify-content: space-between;
+  `}
+
+  ${props => props.theme.media('large')`
+    max-height: unset;
+    height: 10rem;
   `}
 `;
 
