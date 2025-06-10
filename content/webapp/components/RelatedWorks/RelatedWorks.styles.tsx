@@ -17,7 +17,7 @@ const clampLineStyles = css<{ $linesToClamp: number }>`
   -webkit-line-clamp: ${props => props.$linesToClamp};
 `;
 
-const minGridCellWidth = '386px';
+const minGridCellWidth = '386px'; // gridWidth-(2*gridPadding)-(2*gridGap)/3 === (1338-(2*60)-(2*30)/3 === 386
 
 export const Card = styled.a`
   display: flex;
