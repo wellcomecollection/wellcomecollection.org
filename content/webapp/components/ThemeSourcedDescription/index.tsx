@@ -8,39 +8,7 @@ import Image from 'next/image';
 
 const SOURCE_BOX_WIDTH = 224;
 
-const SourcePill = styled.div.attrs({
-  className: `${font('intr', 6)} source-pill`,
-})`
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  border-radius: 20px;
-  background-color: ${props => props.theme.color('accent.green')}40;
-  cursor: default;
-  height: 22px;
-  vertical-align: middle;
-
-  &:is(:hover, :focus-within) .source-box-container {
-    opacity: 1;
-    visibility: visible;
-  }
-`;
-
-const Paragraph = styled.p.attrs({
-  className: font('intr', 3),
-})`
-  display: inline;
-  padding-right: ${props => props.theme.spacingUnits['3']}px;
-
-  &:has(+ .source-pill:focus-within, + .source-pill:hover) {
-    text-decoration: underline;
-    text-decoration-style: dotted;
-  }
-`;
-
-const SourceBoxContainer = styled.div.attrs({
-  className: 'source-box-container',
-})<{ $marginLeft: number }>`
+const SourceBoxContainer = styled.div<{ $marginLeft: number }>`
   position: absolute;
   top: 21px;
   padding-top: 10px;
@@ -55,9 +23,39 @@ const SourceBoxContainer = styled.div.attrs({
   z-index: 3;
 `;
 
+const SourcePill = styled.div.attrs({
+  className: font('intr', 6),
+})`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 20px;
+  background-color: ${props => props.theme.color('accent.green')}40;
+  cursor: default;
+  height: 22px;
+  vertical-align: middle;
+
+  &:is(:hover, :focus-within) ${SourceBoxContainer} {
+    opacity: 1;
+    visibility: visible;
+  }
+`;
+
+const Paragraph = styled.p.attrs({
+  className: font('intr', 3),
+})`
+  display: inline;
+  padding-right: ${props => props.theme.spacingUnits['3']}px;
+
+  &:has(+ ${SourcePill}:focus-within, + ${SourcePill}:hover) {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+  }
+`;
+
 const SourceBox = styled(Space).attrs({
   $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] }
+  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
   background-color: white;
   border-radius: 4px;
