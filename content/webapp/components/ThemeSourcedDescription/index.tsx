@@ -51,6 +51,8 @@ const Paragraph = styled.p.attrs({
   &:has(+ ${SourcePill}:focus-within, + ${SourcePill}:hover) {
     text-decoration: underline;
     text-decoration-style: dotted;
+    text-decoration-color: ${props => props.theme.color('neutral.600')};
+    text-underline-offset: ${props => props.theme.spacingUnits['3']}px;
   }
 `;
 
