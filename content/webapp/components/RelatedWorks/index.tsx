@@ -62,7 +62,7 @@ const RelatedWorks = ({ work }: { work: Work }) => {
     <>
       <Container>
         <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-          <h2>More Works</h2>
+          <h2>Related Works</h2>
         </Space>
 
         <Tabs
