@@ -65,17 +65,19 @@ const RelatedWorks = ({ work }: { work: Work }) => {
           <h2>Related Works</h2>
         </Space>
 
-        <Tabs
-          tabBehaviour="switch"
-          label="Related works control"
-          selectedTab={selectedTab}
-          setSelectedTab={setSelectedTab}
-          items={Object.entries(relatedWorksTabs).map(([key, value]) => ({
-            id: key,
-            url: `#${key}`,
-            text: value.label,
-          }))}
-        />
+        {Object.keys(relatedWorksTabs).length > 1 && (
+          <Tabs
+            tabBehaviour="switch"
+            label="Related works control"
+            selectedTab={selectedTab}
+            setSelectedTab={setSelectedTab}
+            items={Object.entries(relatedWorksTabs).map(([key, value]) => ({
+              id: key,
+              url: `#${key}`,
+              text: value.label,
+            }))}
+          />
+        )}
       </Container>
 
       {Object.entries(relatedWorksTabs).map(([key, value]) => (
