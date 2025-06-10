@@ -17,8 +17,6 @@ const clampLineStyles = css<{ $linesToClamp: number }>`
   -webkit-line-clamp: ${props => props.$linesToClamp};
 `;
 
-const minGridCellWidth = '386px'; // gridWidth-(2*gridPadding)-(2*gridGap)/3 === (1338-(2*60)-(2*30)/3 === 386
-
 export const Card = styled.a`
   display: flex;
   padding: ${props => props.theme.spacingUnits['3']}px;
@@ -27,11 +25,11 @@ export const Card = styled.a`
   flex-wrap: wrap;
   text-decoration: none;
 
-  @container (min-width: ${minGridCellWidth}) {
+  ${props => props.theme.media('medium')`
     height: 10rem;
     flex-wrap: nowrap;
     justify-content: space-between;
-  }
+  `}
 `;
 
 export const TextWrapper = styled.div`
@@ -42,9 +40,9 @@ export const TextWrapper = styled.div`
   container-type: inline-size;
   container-name: text-wrapper;
 
-  @container grid-cell (min-width: ${minGridCellWidth}) {
+  ${props => props.theme.media('medium')`
     padding-top: 0;
-  }
+  `}
 
   ul {
     flex-wrap: nowrap;
@@ -93,7 +91,7 @@ export const ImageWrapper = styled.div`
     max-height: 100%;
     filter: url('#border-radius-mask');
 
-    @container (min-width: ${minGridCellWidth}) {
+    ${props => props.theme.media('medium')`
       width: unset;
       height: 100%;
       max-height: unset;
@@ -110,17 +108,17 @@ export const ImageWrapper = styled.div`
       @supports (-webkit-appearance: none) and (stroke-color: transparent) {
         max-width: 100%;
       }
-    }
+    `}
   }
 
-  @container (min-width: ${minGridCellWidth}) {
+  ${props => props.theme.media('medium')`
     max-height: unset;
     width: unset;
     max-width: 50%;
     order: unset;
     display: flex;
     justify-content: end;
-  }
+  `}
 `;
 
 export const MetaContainer = styled.div.attrs({
