@@ -63,13 +63,15 @@ export const fetchRelatedWorks = async ({
     tabLabel: string,
     response
   ) => {
-    if (response.type === 'ResultList' && response.results.length > 0) {
+    // Filter out the current work from the results
+    const filteredResults = response.results.filter(
+      result => result.id !== work.id
+    );
+
+    if (response.type === 'ResultList' && filteredResults.results.length > 0) {
       results[`${categoryLabel}-${toHtmlId(tabLabel)}`] = {
         label: tabLabel,
-        results: response.results
-          .filter(result => result.id !== work.id)
-          .slice(0, 3)
-          .map(toWorkBasic),
+        results: response.results.slice(0, 3).map(toWorkBasic),
       };
     }
   };
@@ -78,7 +80,6 @@ export const fetchRelatedWorks = async ({
     await Promise.all([
       ...subjectLabels.map(async label => {
         const response = await catalogueBasicQuery({
-          text: label,
           'subjects.label': [`"${label}"`],
         });
 
@@ -89,7 +90,6 @@ export const fetchRelatedWorks = async ({
         ? [
             (async () => {
               const response = await catalogueBasicQuery({
-                text: dateRange.tabLabel,
                 'subjects.label': subjectLabels.map(
                   subjectLabel => `"${subjectLabel}"`
                 ),
@@ -104,7 +104,6 @@ export const fetchRelatedWorks = async ({
 
       ...typeTechniques.map(async label => {
         const response = await catalogueBasicQuery({
-          text: label,
           'subjects.label': subjectLabels.map(
             subjectLabel => `"${subjectLabel}"`
           ),
