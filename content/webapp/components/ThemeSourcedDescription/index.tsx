@@ -58,8 +58,7 @@ const SourceBoxContainer = styled(Space).attrs({
 
 const SourceBox = styled(Space).attrs({
   $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  className: 'source-box',
+  $v: { size: 's', properties: ['padding-top', 'padding-bottom'] }
 })`
   background-color: white;
   border-radius: 4px;
