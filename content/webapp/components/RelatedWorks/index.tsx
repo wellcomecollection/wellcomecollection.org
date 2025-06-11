@@ -105,7 +105,7 @@ const RelatedWorks = ({ work }: { work: Work }) => {
                 message={
                   <>
                     This is a beta feature.{' '}
-                    <a href="mailto:digital@welllcomecollection.org">
+                    <a href="mailto:digital@wellcomecollection.org">
                       Send us your feedback
                     </a>{' '}
                     to help us improve
