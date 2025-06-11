@@ -6,6 +6,7 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
+import BetaMessage from '@weco/content/components/BetaMessage';
 import Tabs from '@weco/content/components/Tabs';
 import {
   Work,
@@ -62,7 +63,7 @@ const RelatedWorks = ({ work }: { work: Work }) => {
     <>
       <Container>
         <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-          <h2>Related Works</h2>
+          <h2>More works</h2>
         </Space>
 
         {Object.keys(relatedWorksTabs).length > 1 && (
@@ -98,6 +99,20 @@ const RelatedWorks = ({ work }: { work: Work }) => {
                 </GridCell>
               ))}
             </Grid>
+
+            <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+              <BetaMessage
+                message={
+                  <>
+                    This feature is new.{' '}
+                    <a href="mailto:digital@wellcomecollection.org?subject=Related works">
+                      Let us know
+                    </a>{' '}
+                    if something doesn’t look right.
+                  </>
+                }
+              />
+            </Space>
           </Container>
         </FullWidthRow>
       ))}
