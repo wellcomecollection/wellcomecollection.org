@@ -104,11 +104,11 @@ const RelatedWorks = ({ work }: { work: Work }) => {
               <BetaMessage
                 message={
                   <>
-                    This is a beta feature.{' '}
-                    <a href="mailto:digital@wellcomecollection.org">
-                      Send us your feedback
+                    This feature is new.{' '}
+                    <a href="mailto:digital@wellcomecollection.org?subject=Related works">
+                      Let us know
                     </a>{' '}
-                    to help us improve
+                    if something doesn’t look right.
                   </>
                 }
               />
