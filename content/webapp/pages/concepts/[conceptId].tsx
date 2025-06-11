@@ -580,6 +580,17 @@ export const ConceptPage: NextPage<Props> = ({
           </Space>
         </>
       )}
+      {
+        // This is a placeholder for the Hotjar embedded survey to be injected
+        // when the concept is a Person. It should be removed when the survey
+        // is no longer used.
+      }
+      {conceptResponse.type === 'Person' && (
+        <div
+          id={`hotjar-embed-placeholder-concept-${conceptResponse.type}`}
+          className="is-hidden"
+        />
+      )}
     </CataloguePageLayout>
   );
 };
