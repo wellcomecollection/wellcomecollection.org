@@ -586,10 +586,7 @@ export const ConceptPage: NextPage<Props> = ({
         // is no longer used.
       }
       {conceptResponse.type === 'Person' && (
-        <div
-          id={`hotjar-embed-placeholder-concept-${conceptResponse.type}`}
-          className="is-hidden"
-        />
+        <div id={`hotjar-embed-placeholder-concept-${conceptResponse.type}`} />
       )}
     </CataloguePageLayout>
   );
