@@ -173,6 +173,12 @@ const greenTransparentGreen: ButtonColors = {
   text: 'accent.green',
 };
 
+const greenWhiteGreen: ButtonColors = {
+  border: 'accent.green',
+  background: 'accent.green',
+  text: 'white',
+};
+
 const whiteTransparentWhite: ButtonColors = {
   border: 'white',
   background: 'transparent',
@@ -189,6 +195,12 @@ const charcoalTransparentCharcoal: ButtonColors = {
   border: 'neutral.700', // legacy charcoal color
   background: 'transparent',
   text: 'neutral.700', // legacy charcoal color
+};
+
+const charcoalTransparentBlack: ButtonColors = {
+  border: 'neutral.700', // legacy charcoal color
+  background: 'transparent',
+  text: 'black',
 };
 
 const marbleWhiteCharcoal: ButtonColors = {
@@ -309,9 +321,11 @@ export const themeValues = {
     whiteTransparentWhite,
     pumiceTransparentCharcoal,
     charcoalTransparentCharcoal,
+    charcoalTransparentBlack,
     marbleWhiteCharcoal,
     yellowYellowBlack,
     whiteWhiteCharcoal,
+    greenWhiteGreen
   },
   spacedTextTopMargin: '1.55em',
 };
