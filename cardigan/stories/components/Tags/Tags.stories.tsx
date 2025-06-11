@@ -26,7 +26,6 @@ const meta: Meta<typeof Tags> = {
   component: Tags,
   args: {
     isFirstPartBold: false,
-    isABTestWorkTag: false,
     separator: '–',
     tags: [
       {
