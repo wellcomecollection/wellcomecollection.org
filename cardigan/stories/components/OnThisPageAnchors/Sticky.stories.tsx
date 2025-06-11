@@ -59,7 +59,14 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
                 marginBottom: '16px',
               }}
             >
-              <h2 id={link.url.replace('#', '')}>{link.text}</h2>
+              <h2
+                id={link.url.replace('#', '')}
+                style={{
+                  scrollMarginTop: '1rem',
+                }}
+              >
+                {link.text}
+              </h2>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
