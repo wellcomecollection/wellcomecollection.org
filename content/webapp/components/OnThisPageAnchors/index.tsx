@@ -157,7 +157,14 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
                 $isActive={isActive}
                 $hasBackgroundBlend={hasBackgroundBlend}
                 $isSticky={isSticky}
-                onClick={() => setClickedId(id)}
+                onClick={e => {
+                  e.preventDefault();
+                  setClickedId(id);
+                  const el = document.getElementById(id);
+                  if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }}
               >
                 {link.text}
               </Anchor>
