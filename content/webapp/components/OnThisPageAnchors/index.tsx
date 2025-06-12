@@ -68,6 +68,7 @@ const InPageNavAnimatedLink = styled(AnimatedLink)<{
   color: ${props =>
     props.$hasBackgroundBlend ? props.theme.color('white') : 'inherit'};
   font-weight: ${props => (props.$isActive ? 'bold' : 'normal')};
+  ${props => (props.$isActive ? '--background-size: 0%;' : '')}
 `;
 
 const stickyRootAttrs = `
