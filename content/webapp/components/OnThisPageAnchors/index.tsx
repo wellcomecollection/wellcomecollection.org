@@ -69,14 +69,15 @@ const InPageNavAnimatedLink = styled(AnimatedLink)<{
   --background-size: ${props => (props.$isActive ? '0%' : '100%')};
   &::before {
     content: '';
-    display: ${props => (props.$isActive ? 'block' : 'none')};
     position: absolute;
     left: -${leftOffset};
-    top: 0;
-    bottom: 0;
-    width: 3px;
+    top: 0px;
     height: 100%;
+    width: 3px;
     background: ${props => props.theme.color('white')};
+    opacity: ${props => (props.$isActive ? 1 : 0)};
+    transform: scaleY(${props => (props.$isActive ? 1 : 0.5)});
+    transition: opacity 0.3s, transform 0.3s;
   }
 `;
 
