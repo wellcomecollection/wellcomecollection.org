@@ -45,7 +45,7 @@ const AnimatedLink = styled.a`
     background-repeat: no-repeat;
     background-size: var(--background-size, 100%) 2px;
     transition: background-size 0.2s linear 300ms;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 20px;
     transform: translateZ(0);
     padding-bottom: 2px;
@@ -67,7 +67,6 @@ const InPageNavAnimatedLink = styled(AnimatedLink)<{
 }>`
   color: ${props =>
     props.$hasBackgroundBlend ? props.theme.color('white') : 'inherit'};
-  font-weight: ${props => (props.$isActive ? 'bold' : 'normal')};
   ${props => (props.$isActive ? '--background-size: 0%;' : '')}
 `;
 
@@ -143,7 +142,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
   }, [activeId]);
 
   const titleText = isSticky ? 'On this page' : 'What’s on this page';
-  const fontStyle = isSticky ? font('intr', 4) : font('wb', 4);
+  const fontStyle = isSticky ? font('intm', 5) : font('wb', 4);
 
   return (
     <Root $isSticky={isSticky} $hasBackgroundBlend={hasBackgroundBlend}>
