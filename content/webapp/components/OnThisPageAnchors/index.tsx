@@ -39,9 +39,9 @@ const AnimatedLink = styled.a`
   position: relative;
   & > span {
     background-image: linear-gradient(0deg, var(--line) 0%, var(--line) 100%);
-    background-position: 100% 100%;
+    background-position: 0% 100%;
     background-repeat: no-repeat;
-    background-size: var(--background-size, 100%) 2px;
+    background-size: var(--background-size, 0%) 2px;
     transition: background-size 0.2s linear 300ms;
     font-size: 14px;
     line-height: 20px;
@@ -49,7 +49,7 @@ const AnimatedLink = styled.a`
     padding-bottom: 2px;
   }
   &:hover {
-    --background-size: 0%;
+    --background-size: 100%;
   }
 `;
 
@@ -66,7 +66,7 @@ const InPageNavAnimatedLink = styled(AnimatedLink)<{
   color: ${props =>
     props.$hasBackgroundBlend ? props.theme.color('white') : 'inherit'};
   position: relative;
-  --background-size: ${props => (props.$isActive ? '0%' : '100%')};
+
   &::before {
     content: '';
     position: absolute;
