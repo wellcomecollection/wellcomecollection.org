@@ -116,6 +116,27 @@ const RelatedWorks = ({ work }: { work: Work }) => {
           </Container>
         </FullWidthRow>
       ))}
+
+      {/* Because we use `object-fit` on the image, border-radius won't work consistently, so we have to add an svg filter
+           This is adapted from https://stackoverflow.com/questions/49567069/image-rounded-corners-issue-with-object-fit-contain/76106794#76106794 */}
+      <svg
+        style={{ position: 'absolute', visibility: 'hidden' }}
+        width="0"
+        height="0"
+      >
+        <defs>
+          <filter id="border-radius-mask">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+            <feColorMatrix
+              in="blur"
+              mode="matrix"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 100 -50"
+              result="mask"
+            />
+            <feComposite in="SourceGraphic" in2="mask" operator="atop" />
+          </filter>
+        </defs>
+      </svg>
     </>
   ) : null;
 };
