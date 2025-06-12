@@ -46,8 +46,16 @@ export const fetchRelatedWorks = async ({
   } = {};
 
   const subjectLabels = work.subjects.map(subject => subject.label).slice(0, 3);
-  const typeTechniques = work.genres.map(genres => genres.label).slice(0, 3);
-  const dateRange = getCenturyRange(work.production[0]?.dates[0]?.label);
+  const hasSubjectLabels = subjectLabels.length > 0;
+
+  // Only fetch type/techniques and date range if there are subject labels,
+  // otherwise results are too generic.
+  const typeTechniques = hasSubjectLabels
+    ? work.genres.map(genres => genres.label).slice(0, 3)
+    : undefined;
+  const dateRange = hasSubjectLabels
+    ? getCenturyRange(work.production[0]?.dates[0]?.label)
+    : undefined;
 
   const catalogueBasicQuery = async (
     params
