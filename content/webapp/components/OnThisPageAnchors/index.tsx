@@ -12,7 +12,6 @@ import { Link } from '@weco/content/types/link';
 const ListItem = styled.li<{
   $isActive?: boolean;
   $isSticky?: boolean;
-  $activeColor?: PaletteColor;
 }>`
   ${props =>
     props.$isSticky
@@ -29,7 +28,8 @@ const ListItem = styled.li<{
     top: 0;
     bottom: 0;
     width: ${props.$isActive ? '3px' : '1px'};
-    background: ${props.theme.color((props.$isActive && props.$activeColor) || 'black')};
+    height: 100%;
+    background: ${props.theme.color((props.$isActive && 'white') || 'black')};
   }
 `
       : ''}
@@ -101,7 +101,6 @@ export type Props = {
 const OnThisPageAnchors: FunctionComponent<Props> = ({
   isSticky = false,
   hasBackgroundBlend = false,
-  activeColor,
   links,
 }) => {
   // Extract ids from links (strip leading #)
@@ -155,17 +154,13 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
           const id = link.url.replace('#', '');
           const isActive = activeId === id;
           return (
-            <ListItem
-              key={link.url}
-              $isActive={isActive}
-              $isSticky={isSticky}
-              $activeColor={activeColor}
-            >
+            <ListItem key={link.url} $isActive={isActive} $isSticky={isSticky}>
               {isSticky ? (
                 <NextLink
                   passHref
                   style={{ textDecoration: 'none' }}
                   href={link.url}
+                  data-gtm-trigger="link_click_page_position"
                   onClick={e => {
                     e.preventDefault();
                     setClickedId(id);

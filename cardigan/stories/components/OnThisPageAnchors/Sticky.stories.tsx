@@ -29,13 +29,11 @@ const BackgroundGrid = styled(Grid).attrs({})<BackgroundGridProps>`
 `;
 
 const OnThisPageAnchorsInColsContext: FunctionComponent<{
-  activeColor: PaletteColor;
   topColor?: PaletteColor;
 }> = args => {
   const fixedArgs = {
     isSticky: true,
     hasBackgroundBlend: true,
-    activeColor: args.activeColor,
     links,
   };
 
@@ -95,15 +93,9 @@ type Story = StoryObj<typeof OnThisPageAnchorsInColsContext>;
 export const SideBar: Story = {
   name: 'Sticky',
   args: {
-    activeColor: 'accent.lightGreen',
     topColor: 'neutral.700',
   },
   argTypes: {
-    activeColor: {
-      control: 'select',
-      options: themeColors.map(c => c.name),
-      description: 'Color used for the active link',
-    },
     topColor: {
       control: 'select',
       options: themeColors.map(c => c.name),
