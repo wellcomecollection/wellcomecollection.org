@@ -108,7 +108,7 @@ terraform apply terraform.plan
 9. Use the toggle to conditionally serve different UI in the same way as you would for feature flags
 
 #### Removing the test
-1. Remove the test objects from `toggler.ts` and `toggles.ts` that were added above and remove any code that responds to the toggle cookie in the same PR.
+1. Remove the test objects from `toggler.ts` and `toggles.ts` that were added above and remove any code that responds to the toggle cookie in the same PR. _Note: if there's clear evidence that we will move ahead with the UI code from the test condition, we may want to keep it and remove the control condition code at this stage rather than going back to the state before the test started_
 2. Deploy the new lambdas and apply the terraform changes as per steps 2–5 of ["adding the test"](#adding-the-test) above.
 3. Make a separate PR to update the [`locals.tf`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/locals.tf) from the result of the previous step
 4. Wait until both PRs are approved
