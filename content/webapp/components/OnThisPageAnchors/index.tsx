@@ -1,3 +1,4 @@
+import NextLink from 'next/link';
 import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -34,32 +35,39 @@ const ListItem = styled.li<{
       : ''}
 `;
 
-const Anchor = styled.a.attrs<{
-  $isActive?: boolean;
-  $hasBackgroundBlend?: boolean;
-  $isSticky?: boolean;
-}>(props => ({
-  className:
-    props.$isSticky && !props.$isActive ? font('intr', 5) : font('intb', 5),
-}))<{
-  $isActive?: boolean;
-  $hasBackgroundBlend?: boolean;
-  $isSticky?: boolean;
-}>`
-  ${props =>
-    props.$hasBackgroundBlend
-      ? `
-    color: ${props.theme.color('white')};
-    `
-      : ''}
+const AnimatedLink = styled.a`
+  --line: ${props => props.theme.color('white')};
+  text-decoration: none;
+  position: relative;
+  & > span {
+    background-image: linear-gradient(0deg, var(--line) 0%, var(--line) 100%);
+    background-position: 100% 100%;
+    background-repeat: no-repeat;
+    background-size: var(--background-size, 100%) 2px;
+    transition: background-size 0.2s linear 300ms;
+    font-size: 16px;
+    line-height: 20px;
+    transform: translateZ(0);
+    padding-bottom: 2px;
+  }
+  &:hover {
+    --background-size: 0%;
+  }
+`;
 
-  ${props =>
-    props.$isSticky
-      ? `
-    text-decoration: ${props.$isActive ? 'none' : 'underline'};
-    text-underline-position: under;
-    `
-      : ''}
+const Anchor = styled.a.attrs({
+  className: font('intb', 5),
+})`
+  color: ${props => props.theme.color('black')};
+`;
+
+const InPageNavAnimatedLink = styled(AnimatedLink)<{
+  $isActive?: boolean;
+  $hasBackgroundBlend?: boolean;
+}>`
+  color: ${props =>
+    props.$hasBackgroundBlend ? props.theme.color('white') : 'inherit'};
+  font-weight: ${props => (props.$isActive ? 'bold' : 'normal')};
 `;
 
 const stickyRootAttrs = `
@@ -140,6 +148,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
   return (
     <Root $isSticky={isSticky} $hasBackgroundBlend={hasBackgroundBlend}>
       <h2 className={fontStyle}>{titleText}</h2>
+
       <PlainList>
         {links.map((link: Link) => {
           const id = link.url.replace('#', '');
@@ -151,23 +160,35 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
               $isSticky={isSticky}
               $activeColor={activeColor}
             >
-              <Anchor
-                data-gtm-trigger="link_click_page_position"
-                href={link.url}
-                $isActive={isActive}
-                $hasBackgroundBlend={hasBackgroundBlend}
-                $isSticky={isSticky}
-                onClick={e => {
-                  e.preventDefault();
-                  setClickedId(id);
-                  const el = document.getElementById(id);
-                  if (el) {
-                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }
-                }}
-              >
-                {link.text}
-              </Anchor>
+              {isSticky ? (
+                <NextLink
+                  passHref
+                  style={{ textDecoration: 'none' }}
+                  href={link.url}
+                  onClick={e => {
+                    e.preventDefault();
+                    setClickedId(id);
+                    const el = document.getElementById(id);
+                    if (el) {
+                      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                  }}
+                >
+                  <InPageNavAnimatedLink
+                    $isActive={isActive}
+                    $hasBackgroundBlend={hasBackgroundBlend}
+                  >
+                    <span>{link.text}</span>
+                  </InPageNavAnimatedLink>
+                </NextLink>
+              ) : (
+                <Anchor
+                  data-gtm-trigger="link_click_page_position"
+                  href={link.url}
+                >
+                  {link.text}
+                </Anchor>
+              )}
             </ListItem>
           );
         })}
