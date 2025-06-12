@@ -13,12 +13,7 @@ import { Link } from '@weco/content/types/link';
 // Used to set the left offset for the active indicator line in sticky mode
 const leftOffset = '12px';
 
-const ListItem = styled.li<{
-  $isSticky?: boolean;
-}>`
-  ${props =>
-    props.$isSticky
-      ? `
+const ListItem = styled.li`
   position: relative;
   padding-left: ${leftOffset};
   padding-bottom: 6px;
@@ -32,10 +27,8 @@ const ListItem = styled.li<{
     bottom: 0;
     width: 1px;
     height: 100%;
-    background: ${props.theme.color('black')};
+    background: ${props => props.theme.color('black')};
   }
-`
-      : ''}
 `;
 
 
@@ -73,6 +66,7 @@ const InPageNavAnimatedLink = styled(AnimatedLink)<{
   color: ${props =>
     props.$hasBackgroundBlend ? props.theme.color('white') : 'inherit'};
   position: relative;
+  --background-size: ${props => (props.$isActive ? '0%' : '100%')};
   &::before {
     content: '';
     display: ${props => (props.$isActive ? 'block' : 'none')};
@@ -164,46 +158,49 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
     <Root $isSticky={isSticky} $hasBackgroundBlend={hasBackgroundBlend}>
       <h2 className={fontStyle}>{titleText}</h2>
 
-      <PlainList>
+      
         {links.map((link: Link) => {
           const id = link.url.replace('#', '');
           const isActive = activeId === id;
           return (
-            <ListItem key={link.url} $isSticky={isSticky}>
+            <PlainList>
               {isSticky ? (
-                <NextLink
-                  passHref
-                  style={{ textDecoration: 'none' }}
-                  href={link.url}
-                  data-gtm-trigger="link_click_page_position"
-                  onClick={e => {
-                    e.preventDefault();
-                    setClickedId(id);
-                    const el = document.getElementById(id);
-                    if (el) {
-                      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                  }}
-                >
-                  <InPageNavAnimatedLink
-                    $isActive={isActive}
-                    $hasBackgroundBlend={hasBackgroundBlend}
+                <ListItem key={link.url}>
+                  <NextLink
+                    passHref
+                    style={{ textDecoration: 'none' }}
+                    href={link.url}
+                    data-gtm-trigger="link_click_page_position"
+                    onClick={e => {
+                      e.preventDefault();
+                      setClickedId(id);
+                      const el = document.getElementById(id);
+                      if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
+                    }}
                   >
-                    <span>{link.text}</span>
-                  </InPageNavAnimatedLink>
-                </NextLink>
+                    <InPageNavAnimatedLink
+                      $isActive={isActive}
+                      $hasBackgroundBlend={hasBackgroundBlend}
+                    >
+                      <span>{link.text}</span>
+                    </InPageNavAnimatedLink>
+                  </NextLink>
+                </ListItem>
               ) : (
-                <Anchor
-                  data-gtm-trigger="link_click_page_position"
-                  href={link.url}
-                >
-                  {link.text}
-                </Anchor>
+                <li>
+                  <Anchor
+                    data-gtm-trigger="link_click_page_position"
+                    href={link.url}
+                  >
+                    {link.text}
+                  </Anchor>
+                </li>
               )}
-            </ListItem>
+            </PlainList>
           );
         })}
-      </PlainList>
     </Root>
   );
 };
