@@ -54,7 +54,7 @@ export const fetchRelatedWorks = async ({
   // Only fetch type/techniques and date range if there are subject labels,
   // otherwise results are too generic.
   const typeTechniques = hasSubjectLabels
-    ? work.genres.map(genres => genres.label).slice(0, 3)
+    ? work.genres.map(genres => genres.label).slice(0, 2)
     : undefined;
   const dateRange = hasSubjectLabels
     ? getCenturyRange(work.production[0]?.dates[0]?.label)
@@ -119,18 +119,16 @@ export const fetchRelatedWorks = async ({
         : []),
 
       ...(typeTechniques
-        ? [
-            typeTechniques.map(async label => {
-              const response = await catalogueBasicQuery({
-                'subjects.label': subjectLabels.map(
-                  subjectLabel => `"${subjectLabel}"`
-                ),
-                'genres.label': [`"${label}"`],
-              });
+        ? typeTechniques.map(async label => {
+            const response = await catalogueBasicQuery({
+              'subjects.label': subjectLabels.map(
+                subjectLabel => `"${subjectLabel}"`
+              ),
+              'genres.label': [`"${label}"`],
+            });
 
-              addToResultsObject('type', label, response);
-            }),
-          ]
+            addToResultsObject('type', label, response);
+          })
         : []),
     ]);
   } catch (error) {
