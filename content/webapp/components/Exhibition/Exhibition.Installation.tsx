@@ -13,8 +13,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import Body from '@weco/content/components/Body';
 import ContentPage from '@weco/content/components/ContentPage';
 import DateAndStatusIndicator from '@weco/content/components/DateAndStatusIndicator';
-import { ExhibitionOf } from '@weco/content/components/Exhibition';
-import { getInfoItems } from '@weco/content/components/Exhibition/Exhibition.helpers';
 import InfoBox from '@weco/content/components/InfoBox';
 import SearchResults from '@weco/content/components/SearchResults';
 import StatusIndicator from '@weco/content/components/StatusIndicator';
@@ -25,6 +23,9 @@ import {
 import { Exhibition as InstallationType } from '@weco/content/types/exhibitions';
 import { Page as PageType } from '@weco/content/types/pages';
 import { getFeaturedMedia } from '@weco/content/utils/page-header';
+
+import { ExhibitionOf } from '.';
+import { getInfoItems } from './Exhibition.helpers';
 
 type Props = {
   installation: InstallationType;

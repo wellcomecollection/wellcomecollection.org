@@ -39,6 +39,7 @@ import {
 import ExhibitionAccessAccordion from './Exhibition.AccessAccordion';
 import ExhibitionBeingHuman from './Exhibition.BeingHuman';
 import { getInfoItems } from './Exhibition.helpers';
+import Installation from './Exhibition.Installation';
 
 type Props = {
   exhibition: ExhibitionType;
@@ -269,4 +270,6 @@ const Exhibition: FunctionComponent<Props> = ({
     </ContentPage>
   );
 };
+
 export default Exhibition;
+export { Installation };
