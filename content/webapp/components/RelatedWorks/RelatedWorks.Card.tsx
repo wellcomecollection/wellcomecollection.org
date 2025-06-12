@@ -16,10 +16,15 @@ import {
 
 type Props = {
   work: WorkBasic;
-  resultIndex: number;
+  gtmData: {
+    cardIndex: number;
+    categoryName: string;
+    categoryPosition: number;
+    parentWorkId: string;
+  };
 };
 
-const RelatedWorksCard: FunctionComponent<Props> = ({ work, resultIndex }) => {
+const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
   const {
     productionDates,
     title,
@@ -27,14 +32,15 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, resultIndex }) => {
     thumbnail,
     primaryContributorLabel,
   } = work;
+
   return (
-    <WorkLink
-      id={work.id}
-      resultPosition={resultIndex}
-      source={`works_search_result_${work.id}`}
-      passHref
-    >
-      <Card data-gtm-position-in-list={resultIndex + 1}>
+    <WorkLink id={work.id} source={`works_search_result_${work.id}`} passHref>
+      <Card
+        data-gtm-category-name={gtmData.categoryName}
+        data-gtm-category-position={gtmData.categoryPosition}
+        data-gtm-parent-work-id={gtmData.parentWorkId} // Do I need to add this? Can't we just know from the page URL?
+        data-gtm-position-in-list={gtmData.cardIndex}
+      >
         <TextWrapper>
           <div>
             <LabelsList
@@ -55,6 +61,7 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, resultIndex }) => {
             )}
           </MetaContainer>
         </TextWrapper>
+
         {thumbnail && (
           <ImageWrapper>
             <img

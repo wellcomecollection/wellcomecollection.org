@@ -88,7 +88,7 @@ const RelatedWorks = ({ work }: { work: Work }) => {
         )}
       </Container>
 
-      {Object.entries(relatedWorksTabs).map(([key, value]) => (
+      {Object.entries(relatedWorksTabs).map(([key, value], tabIndex) => (
         <FullWidthRow
           key={key}
           className={classNames({
@@ -102,7 +102,15 @@ const RelatedWorks = ({ work }: { work: Work }) => {
                   key={result.id}
                   $sizeMap={{ s: [12], m: [12], l: [6], xl: [4] }}
                 >
-                  <RelatedWorksCard resultIndex={i} work={result} />
+                  <RelatedWorksCard
+                    work={result}
+                    gtmData={{
+                      cardIndex: i + 1,
+                      parentWorkId: work.id,
+                      categoryName: value.label,
+                      categoryPosition: tabIndex + 1,
+                    }}
+                  />
                 </GridCell>
               ))}
             </Grid>
@@ -126,7 +134,7 @@ const RelatedWorks = ({ work }: { work: Work }) => {
 
       {hasThumbnails && (
         // Because we use `object-fit` on the image, border-radius won't work consistently, so we have to add an svg filter
-        //  This is adapted from https://stackoverflow.com/questions/49567069/image-rounded-corners-issue-with-object-fit-contain/76106794#76106794
+        // This is adapted from https://stackoverflow.com/questions/49567069/image-rounded-corners-issue-with-object-fit-contain/76106794#76106794 */}
         <svg
           style={{ position: 'absolute', visibility: 'hidden' }}
           width="0"
