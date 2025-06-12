@@ -9,32 +9,37 @@ import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import { Link } from '@weco/content/types/link';
 
+
+// Used to set the left offset for the active indicator line in sticky mode
+const leftOffset = '12px';
+
 const ListItem = styled.li<{
-  $isActive?: boolean;
   $isSticky?: boolean;
 }>`
   ${props =>
     props.$isSticky
       ? `
   position: relative;
-  padding-left: 12px;
+  padding-left: ${leftOffset};
   padding-bottom: 6px;
   padding-top: 6px;
   &::before {
     content: '';
     display: block;
     position: absolute;
-    left: ${props.$isActive ? '0px' : '1px'};
+    left: 1px;
     top: 0;
     bottom: 0;
-    width: ${props.$isActive ? '3px' : '1px'};
+    width: 1px;
     height: 100%;
-    background: ${props.theme.color((props.$isActive && 'white') || 'black')};
+    background: ${props.theme.color('black')};
   }
 `
       : ''}
 `;
 
+
+// If used elsewhere, this could be extracted to a shared styled component
 const AnimatedLink = styled.a`
   --line: ${props => props.theme.color('white')};
   text-decoration: none;
@@ -67,7 +72,18 @@ const InPageNavAnimatedLink = styled(AnimatedLink)<{
 }>`
   color: ${props =>
     props.$hasBackgroundBlend ? props.theme.color('white') : 'inherit'};
-  ${props => (props.$isActive ? '--background-size: 0%;' : '')}
+  position: relative;
+  &::before {
+    content: '';
+    display: ${props => (props.$isActive ? 'block' : 'none')};
+    position: absolute;
+    left: -${leftOffset};
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    height: 100%;
+    background: ${props => props.theme.color('white')};
+  }
 `;
 
 const stickyRootAttrs = `
@@ -153,7 +169,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
           const id = link.url.replace('#', '');
           const isActive = activeId === id;
           return (
-            <ListItem key={link.url} $isActive={isActive} $isSticky={isSticky}>
+            <ListItem key={link.url} $isSticky={isSticky}>
               {isSticky ? (
                 <NextLink
                   passHref
