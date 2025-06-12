@@ -122,6 +122,10 @@ export const fetchRelatedWorks = async ({
     console.error('Error fetching related works:', error);
   }
 
+  if (Object.keys(results).length === 0) {
+    return undefined;
+  }
+
   // Order object keys to ensure consistent order
   const orderedKeys = Object.keys(results).sort((a, b) => {
     const order = ['subject-', 'date-range', 'type-'];
