@@ -71,7 +71,7 @@ const ExhibitionPage: FunctionComponent<ExhibitionProps> = ({
       apiToolbarLinks={[createPrismicLink(exhibition.id)]}
     >
       {exhibition.format && exhibition.format.title === 'Installation' ? (
-        <Installation installation={exhibition} />
+        <Installation installation={exhibition} pages={pages} />
       ) : (
         <Exhibition
           exhibition={exhibition}

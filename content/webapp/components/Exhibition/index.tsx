@@ -48,7 +48,7 @@ type Props = {
   exhibitionHighlightTours: ExhibitionHighlightToursDocument[];
 };
 
-type ExhibitionOf = (ExhibitionType | EventBasic)[];
+export type ExhibitionOf = (ExhibitionType | EventBasic)[];
 
 const Exhibition: FunctionComponent<Props> = ({
   exhibition,
