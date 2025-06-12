@@ -37,9 +37,12 @@ export const fetchRelatedWorks = async ({
   work: Work;
   toggles: Toggles;
   setIsLoading: (isLoading: boolean) => void;
-}): Promise<{
-  [key: string]: { label: string; results: WorkBasic[] };
-}> => {
+}): Promise<
+  | {
+      [key: string]: { label: string; results: WorkBasic[] };
+    }
+  | undefined
+> => {
   setIsLoading(true);
   const results: {
     [key: string]: { label: string; results: WorkBasic[] };
@@ -115,16 +118,20 @@ export const fetchRelatedWorks = async ({
           ]
         : []),
 
-      ...typeTechniques.map(async label => {
-        const response = await catalogueBasicQuery({
-          'subjects.label': subjectLabels.map(
-            subjectLabel => `"${subjectLabel}"`
-          ),
-          'genres.label': [`"${label}"`],
-        });
+      ...(typeTechniques
+        ? [
+            typeTechniques.map(async label => {
+              const response = await catalogueBasicQuery({
+                'subjects.label': subjectLabels.map(
+                  subjectLabel => `"${subjectLabel}"`
+                ),
+                'genres.label': [`"${label}"`],
+              });
 
-        addToResultsObject('type', label, response);
-      }),
+              addToResultsObject('type', label, response);
+            }),
+          ]
+        : []),
     ]);
   } catch (error) {
     console.error('Error fetching related works:', error);
