@@ -2,8 +2,8 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { gridSize12 } from '@weco/common/views/components/Layout';
-import Readme from '@weco/content/components/SectionHeader/README.mdx';
 import SectionHeader from '@weco/content/components/SectionHeader';
+import Readme from '@weco/content/components/SectionHeader/README.mdx';
 
 const Template = args => {
   const { gridSize, ...rest } = args;

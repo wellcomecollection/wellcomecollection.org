@@ -22,9 +22,7 @@ import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
 import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults';
 import MoreLink from '@weco/content/components/MoreLink';
 import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink/Images';
-import {
-  toLink as toWorksLink,
-} from '@weco/content/components/SearchPagesLink/Works';
+import { toLink as toWorksLink } from '@weco/content/components/SearchPagesLink/Works';
 import Tabs from '@weco/content/components/Tabs';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults';
 import useHotjar from '@weco/content/hooks/useHotjar';

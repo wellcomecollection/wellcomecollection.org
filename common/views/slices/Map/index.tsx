@@ -3,10 +3,7 @@ import { FunctionComponent } from 'react';
 
 import { MapSlice as RawMapSlice } from '@weco/common/prismicio-types';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import {
-  LayoutWidth,
-  SliceZoneContext,
-} from '@weco/content/components/Body';
+import { LayoutWidth, SliceZoneContext } from '@weco/content/components/Body';
 import Map from '@weco/content/components/Map';
 import { transformMapSlice } from '@weco/content/services/prismic/transformers/body';
 

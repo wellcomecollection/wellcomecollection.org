@@ -53,9 +53,7 @@ import EventsByMonth from '@weco/content/components/EventsByMonth';
 import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents';
 import FacilityPromo from '@weco/content/components/FacilityPromo';
 import FeaturedCard from '@weco/content/components/FeaturedCard';
-import InfoBox, {
-  InfoIconWrapper,
-} from '@weco/content/components/InfoBox';
+import InfoBox, { InfoIconWrapper } from '@weco/content/components/InfoBox';
 import MoreLink from '@weco/content/components/MoreLink';
 import SectionHeader from '@weco/content/components/SectionHeader';
 import Tabs from '@weco/content/components/Tabs';

@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import Readme from '@weco/content/components/StatusIndicator/README.mdx';
 import StatusIndicator from '@weco/content/components/StatusIndicator';
+import Readme from '@weco/content/components/StatusIndicator/README.mdx';
 
 const now = new Date();
 const tomorrow = new Date();
