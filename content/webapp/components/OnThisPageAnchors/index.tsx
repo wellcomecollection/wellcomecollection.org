@@ -1,3 +1,4 @@
+import NextLink from 'next/link';
 import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -8,58 +9,76 @@ import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import { Link } from '@weco/content/types/link';
 
-const ListItem = styled.li<{
-  $isActive?: boolean;
-  $isSticky?: boolean;
-  $activeColor?: PaletteColor;
-}>`
-  ${props =>
-    props.$isSticky
-      ? `
+
+// Used to set the left offset for the active indicator line in sticky mode
+const leftOffset = '12px';
+
+const ListItem = styled.li`
   position: relative;
-  padding-left: 12px;
+  padding-left: ${leftOffset};
   padding-bottom: 6px;
   padding-top: 6px;
   &::before {
     content: '';
     display: block;
     position: absolute;
-    left: ${props.$isActive ? '0px' : '1px'};
+    left: 1px;
     top: 0;
     bottom: 0;
-    width: ${props.$isActive ? '3px' : '1px'};
-    background: ${props.theme.color((props.$isActive && props.$activeColor) || 'black')};
+    width: 1px;
+    height: 100%;
+    background: ${props => props.theme.color('black')};
   }
-`
-      : ''}
 `;
 
-const Anchor = styled.a.attrs<{
-  $isActive?: boolean;
-  $hasBackgroundBlend?: boolean;
-  $isSticky?: boolean;
-}>(props => ({
-  className:
-    props.$isSticky && !props.$isActive ? font('intr', 5) : font('intb', 5),
-}))<{
-  $isActive?: boolean;
-  $hasBackgroundBlend?: boolean;
-  $isSticky?: boolean;
-}>`
-  ${props =>
-    props.$hasBackgroundBlend
-      ? `
-    color: ${props.theme.color('white')};
-    `
-      : ''}
 
-  ${props =>
-    props.$isSticky
-      ? `
-    text-decoration: ${props.$isActive ? 'none' : 'underline'};
-    text-underline-position: under;
-    `
-      : ''}
+// If used elsewhere, this could be extracted to a shared styled component
+const AnimatedLink = styled.a`
+  --line: ${props => props.theme.color('white')};
+  text-decoration: none;
+  position: relative;
+  & > span {
+    background-image: linear-gradient(0deg, var(--line) 0%, var(--line) 100%);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: var(--background-size, 0%) 2px;
+    transition: background-size 0.2s linear 300ms;
+    font-size: 14px;
+    line-height: 20px;
+    transform: translateZ(0);
+    padding-bottom: 2px;
+  }
+  &:hover {
+    --background-size: 100%;
+  }
+`;
+
+const Anchor = styled.a.attrs({
+  className: font('intb', 5),
+})`
+  color: ${props => props.theme.color('black')};
+`;
+
+const InPageNavAnimatedLink = styled(AnimatedLink)<{
+  $isActive?: boolean;
+  $hasBackgroundBlend?: boolean;
+}>`
+  color: ${props =>
+    props.$hasBackgroundBlend ? props.theme.color('white') : 'inherit'};
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -${leftOffset};
+    top: 0px;
+    height: 100%;
+    width: 3px;
+    background: ${props => props.theme.color('white')};
+    opacity: ${props => (props.$isActive ? 1 : 0)};
+    transform: scaleY(${props => (props.$isActive ? 1 : 0.5)});
+    transition: opacity 0.3s, transform 0.3s;
+  }
 `;
 
 const stickyRootAttrs = `
@@ -92,7 +111,6 @@ export type Props = {
 const OnThisPageAnchors: FunctionComponent<Props> = ({
   isSticky = false,
   hasBackgroundBlend = false,
-  activeColor,
   links,
 }) => {
   // Extract ids from links (strip leading #)
@@ -135,36 +153,55 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
   }, [activeId]);
 
   const titleText = isSticky ? 'On this page' : 'What’s on this page';
-  const fontStyle = isSticky ? font('intr', 4) : font('wb', 4);
+  const fontStyle = isSticky ? font('intm', 5) : font('wb', 4);
 
   return (
     <Root $isSticky={isSticky} $hasBackgroundBlend={hasBackgroundBlend}>
       <h2 className={fontStyle}>{titleText}</h2>
-      <PlainList>
+
+      
         {links.map((link: Link) => {
           const id = link.url.replace('#', '');
           const isActive = activeId === id;
           return (
-            <ListItem
-              key={link.url}
-              $isActive={isActive}
-              $isSticky={isSticky}
-              $activeColor={activeColor}
-            >
-              <Anchor
-                data-gtm-trigger="link_click_page_position"
-                href={link.url}
-                $isActive={isActive}
-                $hasBackgroundBlend={hasBackgroundBlend}
-                $isSticky={isSticky}
-                onClick={() => setClickedId(id)}
-              >
-                {link.text}
-              </Anchor>
-            </ListItem>
+            <PlainList>
+              {isSticky ? (
+                <ListItem key={link.url}>
+                  <NextLink
+                    passHref
+                    style={{ textDecoration: 'none' }}
+                    href={link.url}
+                    data-gtm-trigger="link_click_page_position"
+                    onClick={e => {
+                      e.preventDefault();
+                      setClickedId(id);
+                      const el = document.getElementById(id);
+                      if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
+                    }}
+                  >
+                    <InPageNavAnimatedLink
+                      $isActive={isActive}
+                      $hasBackgroundBlend={hasBackgroundBlend}
+                    >
+                      <span>{link.text}</span>
+                    </InPageNavAnimatedLink>
+                  </NextLink>
+                </ListItem>
+              ) : (
+                <li>
+                  <Anchor
+                    data-gtm-trigger="link_click_page_position"
+                    href={link.url}
+                  >
+                    {link.text}
+                  </Anchor>
+                </li>
+              )}
+            </PlainList>
           );
         })}
-      </PlainList>
     </Root>
   );
 };
