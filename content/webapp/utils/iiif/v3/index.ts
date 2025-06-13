@@ -175,7 +175,7 @@ function getCanvasTextServiceId(canvas: Canvas): string | undefined {
 
 export const isChoiceBody = (
   item: IIIFItemProps | undefined
-): item is ChoiceBody | undefined => {
+): item is ChoiceBody => {
   return Boolean(
     item && typeof item !== 'string' && 'type' in item && item.type === 'Choice'
   );
