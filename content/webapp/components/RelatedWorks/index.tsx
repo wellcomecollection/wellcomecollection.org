@@ -17,15 +17,30 @@ import RelatedWorksCard from './RelatedWorks.Card';
 import { fetchRelatedWorks } from './RelatedWorks.helpers';
 import { FullWidthRow } from './RelatedWorks.styles';
 
-export type WorkWithSubjects = Work & {
-  subjects: [Work['subjects'][number], ...Work['subjects']];
-};
+type SubjectsAtLeastOneSubject = [
+  Work['subjects'][number],
+  ...Work['subjects'],
+];
 
-export function hasAtLeastOneSubject(work: Work): work is WorkWithSubjects {
-  return Array.isArray(work.subjects) && work.subjects.length > 0;
+export function hasAtLeastOneSubject(
+  subjects: Work['subjects']
+): subjects is SubjectsAtLeastOneSubject {
+  return Array.isArray(subjects) && subjects.length > 0;
 }
 
-const RelatedWorks = ({ work }: { work: WorkWithSubjects }) => {
+export type WorkQueryProps = {
+  workId: string;
+  subjects: SubjectsAtLeastOneSubject;
+  typesTechniques?: Work['genres'];
+  date?: string;
+};
+
+const RelatedWorks = ({
+  workId,
+  subjects,
+  typesTechniques,
+  date,
+}: WorkQueryProps) => {
   const { toggles } = useContext(ServerDataContext);
   const [isLoading, setIsLoading] = useState(true);
   const [relatedWorksTabs, setRelatedWorksTabs] = useState<{
@@ -41,7 +56,10 @@ const RelatedWorks = ({ work }: { work: WorkWithSubjects }) => {
 
     const fetchData = async () => {
       await fetchRelatedWorks({
-        work,
+        workId,
+        subjects,
+        typesTechniques,
+        date,
         toggles,
         setIsLoading,
       }).then(data => {
@@ -58,7 +76,7 @@ const RelatedWorks = ({ work }: { work: WorkWithSubjects }) => {
     };
 
     fetchData();
-  }, [work]);
+  }, [workId]);
 
   useEffect(() => {
     if (relatedWorksTabs && !selectedTab) {
