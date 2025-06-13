@@ -173,8 +173,12 @@ function getCanvasTextServiceId(canvas: Canvas): string | undefined {
   return textAnnotation?.id;
 }
 
-export const isChoiceBody = (item: IIIFItemProps): item is ChoiceBody => {
-  return typeof item !== 'string' && 'type' in item && item.type === 'Choice';
+export const isChoiceBody = (
+  item: IIIFItemProps | undefined
+): item is ChoiceBody => {
+  return Boolean(
+    item && typeof item !== 'string' && 'type' in item && item.type === 'Choice'
+  );
 };
 
 // Temporary types, as the provided AnnotationBody doesn't seem to be correct
