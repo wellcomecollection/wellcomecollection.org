@@ -27,7 +27,7 @@ type SendEventProps = {
   trackWithSegment: boolean;
 };
 
-function sendEvent({ id, trackWithSegment }: SendEventProps) {
+function sendSegmentEvent({ id, trackWithSegment }: SendEventProps) {
   if (trackWithSegment) {
     trackSegmentEvent({
       name: 'Click tab nav',
@@ -97,25 +97,25 @@ const TabsSwitch: FunctionComponent<Props> = ({
     if (LEFT.includes(key)) {
       setSelectedTab(items[prevIndex].id);
       focusTabAtIndex(prevIndex);
-      sendEvent({ id: items[prevIndex].id, trackWithSegment });
+      sendSegmentEvent({ id: items[prevIndex].id, trackWithSegment });
     }
 
     if (RIGHT.includes(key)) {
       setSelectedTab(items[nextIndex].id);
       focusTabAtIndex(nextIndex);
-      sendEvent({ id: items[nextIndex].id, trackWithSegment });
+      sendSegmentEvent({ id: items[nextIndex].id, trackWithSegment });
     }
 
     if (HOME.includes(key)) {
       setSelectedTab(items[0].id);
       focusTabAtIndex(0);
-      sendEvent({ id: items[0].id, trackWithSegment });
+      sendSegmentEvent({ id: items[0].id, trackWithSegment });
     }
 
     if (END.includes(key)) {
       setSelectedTab(items[items.length - 1].id);
       focusTabAtIndex(items.length - 1);
-      sendEvent({ id: items[items.length - 1].id, trackWithSegment });
+      sendSegmentEvent({ id: items[items.length - 1].id, trackWithSegment });
     }
   };
 
@@ -143,7 +143,7 @@ const TabsSwitch: FunctionComponent<Props> = ({
 
                 setSelectedTab(item.id);
 
-                sendEvent({ id: item.id, trackWithSegment });
+                sendSegmentEvent({ id: item.id, trackWithSegment });
               }
             }}
             onKeyDown={handleKeyDown}
