@@ -9,6 +9,8 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { Toggles } from '@weco/toggles';
 
+import { WorkWithSubjects } from '.';
+
 // Returns the century range for a string containing exactly four digits
 const getCenturyRange = (
   str?: string
@@ -34,7 +36,7 @@ export const fetchRelatedWorks = async ({
   toggles,
   setIsLoading,
 }: {
-  work: Work;
+  work: WorkWithSubjects;
   toggles: Toggles;
   setIsLoading: (isLoading: boolean) => void;
 }): Promise<
@@ -49,16 +51,8 @@ export const fetchRelatedWorks = async ({
   } = {};
 
   const subjectLabels = work.subjects.map(subject => subject.label).slice(0, 3);
-  const hasSubjectLabels = subjectLabels.length > 0;
-
-  // Only fetch type/techniques and date range if there are subject labels,
-  // otherwise results are too generic.
-  const typeTechniques = hasSubjectLabels
-    ? work.genres.map(genres => genres.label).slice(0, 2)
-    : undefined;
-  const dateRange = hasSubjectLabels
-    ? getCenturyRange(work.production[0]?.dates[0]?.label)
-    : undefined;
+  const typeTechniques = work.genres.map(genres => genres.label).slice(0, 2);
+  const dateRange = getCenturyRange(work.production[0]?.dates[0]?.label);
 
   const catalogueBasicQuery = async (
     params
@@ -118,18 +112,16 @@ export const fetchRelatedWorks = async ({
           ]
         : []),
 
-      ...(typeTechniques
-        ? typeTechniques.map(async label => {
-            const response = await catalogueBasicQuery({
-              'subjects.label': subjectLabels.map(
-                subjectLabel => `"${subjectLabel}"`
-              ),
-              'genres.label': [`"${label}"`],
-            });
+      ...typeTechniques.map(async label => {
+        const response = await catalogueBasicQuery({
+          'subjects.label': subjectLabels.map(
+            subjectLabel => `"${subjectLabel}"`
+          ),
+          'genres.label': [`"${label}"`],
+        });
 
-            addToResultsObject('type', label, response);
-          })
-        : []),
+        addToResultsObject('type', label, response);
+      }),
     ]);
   } catch (error) {
     console.error('Error fetching related works:', error);

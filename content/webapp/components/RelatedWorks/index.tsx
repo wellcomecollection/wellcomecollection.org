@@ -17,7 +17,12 @@ import RelatedWorksCard from './RelatedWorks.Card';
 import { fetchRelatedWorks } from './RelatedWorks.helpers';
 import { FullWidthRow } from './RelatedWorks.styles';
 
-const RelatedWorks = ({ work }: { work: Work }) => {
+// This type is used to ensure that the `subjects` array has at least one item.
+export type WorkWithSubjects = Work & {
+  subjects: [Work['subjects'][0], ...Work['subjects']];
+};
+
+const RelatedWorks = ({ work }: { work: WorkWithSubjects }) => {
   const { toggles } = useContext(ServerDataContext);
   const [isLoading, setIsLoading] = useState(true);
   const [relatedWorksTabs, setRelatedWorksTabs] = useState<{
@@ -58,6 +63,11 @@ const RelatedWorks = ({ work }: { work: Work }) => {
       if (firstTabKey) setSelectedTab(firstTabKey);
     }
   }, [relatedWorksTabs]);
+
+  // Further check to ensure that the work has at least one subject
+  if (work.subjects.length === 0) {
+    throw new Error('work.subjects must have at least one item');
+  }
 
   if (isLoading)
     return (
