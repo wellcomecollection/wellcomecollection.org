@@ -18,7 +18,7 @@ import ArchiveTree from '@weco/content/components/ArchiveTree';
 import BackToResults from '@weco/content/components/BackToResults';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
 import RelatedWorks, {
-  WorkWithSubjects,
+  hasAtLeastOneSubject,
 } from '@weco/content/components/RelatedWorks';
 import WorkDetails from '@weco/content/components/WorkDetails';
 import WorkHeader from '@weco/content/components/WorkHeader';
@@ -208,8 +208,8 @@ export const WorkPage: NextPage<Props> = ({
         )}
 
         {/* If the work has no subjects, it's not worth adding this component */}
-        {relatedContentOnWorks && work.subjects.length > 0 && (
-          <RelatedWorks work={work as WorkWithSubjects} />
+        {relatedContentOnWorks && hasAtLeastOneSubject(work) && (
+          <RelatedWorks work={work} />
         )}
       </CataloguePageLayout>
     </IsArchiveContext.Provider>
