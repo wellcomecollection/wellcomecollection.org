@@ -14,6 +14,7 @@ locals {
 
     secret_env_vars = {
       AUTH0_CLIENT_SECRET = "identity/${env_name}/identity_web_app/auth0_client_secret"
+      AUTH0_SECRET        = "identity/${env_name}/identity_web_app/auth0_secret"
       IDENTITY_API_KEY    = "identity/${env_name}/identity_web_app/api_key"
       SESSION_KEYS        = "identity/${env_name}/identity_web_app/session_keys"
       APM_SERVER_URL      = "elasticsearch/logging/apm_server_url"

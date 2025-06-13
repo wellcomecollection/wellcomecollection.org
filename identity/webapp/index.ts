@@ -37,6 +37,7 @@ async function main() {
       'https://v1-api.stage.account.wellcomecollection.org';
     process.env.SITE_BASE_URL = siteBaseUrl;
     process.env.AUTH0_CLIENT_SECRET = credentials.client_secret;
+    process.env.AUTH0_SECRET = credentials.auth0_secret;
     process.env.IDENTITY_API_KEY = credentials.api_key;
     process.env.SESSION_KEYS = 'correct-horse-battery-staple'; // https://xkcd.com/936/
   }
