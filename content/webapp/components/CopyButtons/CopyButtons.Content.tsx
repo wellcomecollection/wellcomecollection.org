@@ -1,18 +1,31 @@
 import { FunctionComponent, ReactElement, useRef, useState } from 'react';
+import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { check } from '@weco/common/icons';
 import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
-import TextInput from '@weco/common/views/components/TextInput';
 import { themeValues } from '@weco/common/views/themes/config';
 
-type Props = {
-  url: string;
+export type Props = {
+  CTA: string;
+  content: string;
+  displayedContent?: ReactElement;
 };
 
-const CopyUrl: FunctionComponent<Props> = ({
-  url,
+const ButtonContainer = styled(Space).attrs({
+  $v: { size: 'm', properties: ['margin-top'] },
+})`
+  /* This hack is needed to override the spacing caused by being placed within a div with .spaced-text. */
+  span {
+    margin: 0;
+  }
+`;
+
+const CopyContent: FunctionComponent<Props> = ({
+  CTA,
+  content,
+  displayedContent,
 }: Props): ReactElement<Props> => {
   const { isEnhanced } = useAppContext();
   const [isTextCopied, setIsTextCopied] = useState(false);
@@ -21,7 +34,7 @@ const CopyUrl: FunctionComponent<Props> = ({
 
   function getButtonMarkup() {
     if (!isClicked) {
-      return 'Copy URL';
+      return CTA;
     } else if (isTextCopied) {
       return 'Copied';
     } else {
@@ -32,7 +45,7 @@ const CopyUrl: FunctionComponent<Props> = ({
   function handleButtonClick() {
     const textarea = document.createElement('textarea');
     textarea.setAttribute('style', 'position: fixed; left: -9999px;');
-    textarea.innerHTML = url;
+    textarea.innerHTML = content;
     document.body && document.body.appendChild(textarea);
     textarea.select();
 
@@ -51,26 +64,12 @@ const CopyUrl: FunctionComponent<Props> = ({
 
   return (
     <>
-      <TextInput
-        id="share"
-        type="text"
-        label="Page URL"
-        value={url}
-        setValue={() => {
-          // noop
-        }}
-      />
-
+      {displayedContent && displayedContent}
       {isEnhanced && (
-        <Space
-          $v={{
-            size: 'm',
-            properties: ['margin-top'],
-          }}
-        >
+        <ButtonContainer>
           <Button
             variant="ButtonSolid"
-            dataGtmTrigger="copy_url"
+            dataGtmTrigger="copy_content"
             colors={themeValues.buttonColors.pumiceTransparentCharcoal}
             size="small"
             aria-live="assertive"
@@ -80,10 +79,10 @@ const CopyUrl: FunctionComponent<Props> = ({
             icon={isTextCopied ? check : undefined}
             isIconAfter={true}
           />
-        </Space>
+        </ButtonContainer>
       )}
     </>
   );
 };
 
-export default CopyUrl;
+export default CopyContent;
