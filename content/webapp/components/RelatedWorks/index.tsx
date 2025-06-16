@@ -17,7 +17,15 @@ import RelatedWorksCard from './RelatedWorks.Card';
 import { fetchRelatedWorks } from './RelatedWorks.helpers';
 import { FullWidthRow } from './RelatedWorks.styles';
 
-const RelatedWorks = ({ work }: { work: Work }) => {
+export type WorkWithSubjects = Work & {
+  subjects: [Work['subjects'][number], ...Work['subjects']];
+};
+
+export function hasAtLeastOneSubject(work: Work): work is WorkWithSubjects {
+  return Array.isArray(work.subjects) && work.subjects.length > 0;
+}
+
+const RelatedWorks = ({ work }: { work: WorkWithSubjects }) => {
   const { toggles } = useContext(ServerDataContext);
   const [isLoading, setIsLoading] = useState(true);
   const [relatedWorksTabs, setRelatedWorksTabs] = useState<{
