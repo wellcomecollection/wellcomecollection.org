@@ -17,13 +17,37 @@ import RelatedWorksCard from './RelatedWorks.Card';
 import { fetchRelatedWorks } from './RelatedWorks.helpers';
 import { FullWidthRow } from './RelatedWorks.styles';
 
-const RelatedWorks = ({ work }: { work: Work }) => {
+type SubjectsAtLeastOneSubject = [
+  Work['subjects'][number],
+  ...Work['subjects'],
+];
+
+export function hasAtLeastOneSubject(
+  subjects: Work['subjects']
+): subjects is SubjectsAtLeastOneSubject {
+  return Array.isArray(subjects) && subjects.length > 0;
+}
+
+export type WorkQueryProps = {
+  workId: string;
+  subjects: SubjectsAtLeastOneSubject;
+  typesTechniques?: Work['genres'];
+  date?: string;
+};
+
+const RelatedWorks = ({
+  workId,
+  subjects,
+  typesTechniques,
+  date,
+}: WorkQueryProps) => {
   const { toggles } = useContext(ServerDataContext);
   const [isLoading, setIsLoading] = useState(true);
   const [relatedWorksTabs, setRelatedWorksTabs] = useState<{
     [key: string]: { label: string; results: WorkBasic[] };
   }>();
   const [selectedTab, setSelectedTab] = useState<string | undefined>();
+  const [hasThumbnails, setHasThumbnails] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -32,18 +56,27 @@ const RelatedWorks = ({ work }: { work: Work }) => {
 
     const fetchData = async () => {
       await fetchRelatedWorks({
-        work,
+        workId,
+        subjects,
+        typesTechniques,
+        date,
         toggles,
         setIsLoading,
       }).then(data => {
         setRelatedWorksTabs(data);
+        if (data)
+          setHasThumbnails(
+            Object.values(data).some(tab =>
+              tab.results.some(result => result.thumbnail?.url)
+            )
+          );
 
         setIsLoading(false);
       });
     };
 
     fetchData();
-  }, [work]);
+  }, [workId]);
 
   useEffect(() => {
     if (relatedWorksTabs && !selectedTab) {
@@ -116,6 +149,33 @@ const RelatedWorks = ({ work }: { work: Work }) => {
           </Container>
         </FullWidthRow>
       ))}
+
+      {hasThumbnails && (
+        // Because we use `object-fit` on the image, border-radius won't work consistently, so we have to add an svg filter
+        //  This is adapted from https://stackoverflow.com/questions/49567069/image-rounded-corners-issue-with-object-fit-contain/76106794#76106794
+        <svg
+          style={{ position: 'absolute', visibility: 'hidden' }}
+          width="0"
+          height="0"
+        >
+          <defs>
+            <filter id="border-radius-mask">
+              <feGaussianBlur
+                in="SourceGraphic"
+                stdDeviation="2"
+                result="blur"
+              />
+              <feColorMatrix
+                in="blur"
+                mode="matrix"
+                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 100 -50"
+                result="mask"
+              />
+              <feComposite in="SourceGraphic" in2="mask" operator="atop" />
+            </filter>
+          </defs>
+        </svg>
+      )}
     </>
   ) : null;
 };
