@@ -77,7 +77,7 @@ const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
   return (
     <>
       <WobblyEdge backgroundColor="white" />
-      <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+      <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
         <Container>
           <h2 className={font('intsb', 2)}>Works</h2>
           {tabs.length > 1 && (

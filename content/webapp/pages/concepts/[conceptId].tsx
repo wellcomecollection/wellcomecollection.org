@@ -277,7 +277,7 @@ export const ConceptPage: NextPage<Props> = ({
   apiToolbarLinks,
 }) => {
   useHotjar(true);
-  const { newThemePages } = useToggles();
+  const { newThemePages, themePagesAllFields } = useToggles();
 
   const pathname = usePathname();
   const worksTabs = tabOrder
@@ -425,24 +425,25 @@ export const ConceptPage: NextPage<Props> = ({
           </Space>
         </>
       )}
-      {newThemePages && (
-        <Container>
-          <Space
-            $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
-          >
-            <ThemeCollaborators concepts={frequentCollaborators} />
-          </Space>
-          <Space
-            $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
-          >
-            <ThemeRelatedConceptsGroup
-              label="Related topics"
-              labelType="heading"
-              relatedConcepts={relatedTopics}
-            />
-          </Space>
-        </Container>
-      )}
+      {newThemePages &&
+        (conceptResponse.type === 'Person' || themePagesAllFields) && (
+          <Container>
+            <Space
+              $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
+            >
+              <ThemeCollaborators concepts={frequentCollaborators} />
+            </Space>
+            <Space
+              $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
+            >
+              <ThemeRelatedConceptsGroup
+                label="Related topics"
+                labelType="heading"
+                relatedConcepts={relatedTopics}
+              />
+            </Space>
+          </Container>
+        )}
       {
         // This is a placeholder for the Hotjar embedded survey to be injected
         // when the concept is a Person. It should be removed when the survey

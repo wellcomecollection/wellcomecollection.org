@@ -58,11 +58,13 @@ const ThemeHeader: FunctionComponent<Props> = ({ concept }) => {
           </ThemeDescription>
         )}
         <>
-          <ThemeRelatedConceptsGroup
-            label="Field of work"
-            labelType="inline"
-            relatedConcepts={fieldsOfWork}
-          />
+          {(concept.type === 'Person' || themePagesAllFields) && (
+            <ThemeRelatedConceptsGroup
+              label="Field of work"
+              labelType="inline"
+              relatedConcepts={fieldsOfWork}
+            />
+          )}
           {themePagesAllFields && (
             <>
               <ThemeRelatedConceptsGroup
