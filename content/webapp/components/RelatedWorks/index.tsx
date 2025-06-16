@@ -17,7 +17,30 @@ import RelatedWorksCard from './RelatedWorks.Card';
 import { fetchRelatedWorks } from './RelatedWorks.helpers';
 import { FullWidthRow } from './RelatedWorks.styles';
 
-const RelatedWorks = ({ work }: { work: Work }) => {
+type SubjectsAtLeastOneSubject = [
+  Work['subjects'][number],
+  ...Work['subjects'],
+];
+
+export function hasAtLeastOneSubject(
+  subjects: Work['subjects']
+): subjects is SubjectsAtLeastOneSubject {
+  return Array.isArray(subjects) && subjects.length > 0;
+}
+
+export type WorkQueryProps = {
+  workId: string;
+  subjects: SubjectsAtLeastOneSubject;
+  typesTechniques?: Work['genres'];
+  date?: string;
+};
+
+const RelatedWorks = ({
+  workId,
+  subjects,
+  typesTechniques,
+  date,
+}: WorkQueryProps) => {
   const { toggles } = useContext(ServerDataContext);
   const [isLoading, setIsLoading] = useState(true);
   const [relatedWorksTabs, setRelatedWorksTabs] = useState<{
@@ -33,7 +56,10 @@ const RelatedWorks = ({ work }: { work: Work }) => {
 
     const fetchData = async () => {
       await fetchRelatedWorks({
-        work,
+        workId,
+        subjects,
+        typesTechniques,
+        date,
         toggles,
         setIsLoading,
       }).then(data => {
@@ -50,7 +76,7 @@ const RelatedWorks = ({ work }: { work: Work }) => {
     };
 
     fetchData();
-  }, [work]);
+  }, [workId]);
 
   useEffect(() => {
     if (relatedWorksTabs && !selectedTab) {

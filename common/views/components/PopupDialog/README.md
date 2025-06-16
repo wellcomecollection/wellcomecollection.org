@@ -1,7 +1,0 @@
-## Purpose
-A way to present a dialog box with a title, description and linked CTA.
-
-It shows up at the bottom-left of the page after a few seconds.
-
-
-[Edit this Readme on GitHub](https://github.com/wellcomecollection/wellcomecollection.org/edit/main/common/views/components/PopupDialog/README.md)
