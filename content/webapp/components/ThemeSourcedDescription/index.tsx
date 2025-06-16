@@ -5,14 +5,14 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import MeshLogo from '@weco/content/components/ThemeSourcedDescription/mesh-logo.png';
-import { WikidataLogo } from '@weco/content/components/ThemeSourcedDescription/ThemeSourcedDescrption.Icons';
+import { WikidataLogo } from '@weco/content/components/ThemeSourcedDescription/ThemeSourcedDescription.Icons';
 
 const SOURCE_BOX_WIDTH = 224;
 
 const SourceBoxContainer = styled.div<{ $marginLeft: number }>`
   position: absolute;
   top: 21px;
-  padding-top: 10px;
+  padding-top: ${props => props.theme.spacingUnits['3']}px;
   left: 0;
   margin-left: ${props => props.$marginLeft}px;
   width: ${SOURCE_BOX_WIDTH}px;
@@ -57,7 +57,7 @@ const Paragraph = styled.p.attrs({
 `;
 
 const SourceBox = styled(Space).attrs({
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
 })`
   background-color: white;
