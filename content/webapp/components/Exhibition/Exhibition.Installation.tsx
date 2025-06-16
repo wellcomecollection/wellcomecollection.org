@@ -9,28 +9,47 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader';
+import Space from '@weco/common/views/components/styled/Space';
 import Body from '@weco/content/components/Body';
 import ContentPage from '@weco/content/components/ContentPage';
 import DateAndStatusIndicator from '@weco/content/components/DateAndStatusIndicator';
-import { getInfoItems } from '@weco/content/components/Exhibition/Exhibition.helpers';
 import InfoBox from '@weco/content/components/InfoBox';
+import SearchResults from '@weco/content/components/SearchResults';
 import StatusIndicator from '@weco/content/components/StatusIndicator';
-import { fetchExhibitExhibition } from '@weco/content/services/prismic/fetch/exhibitions';
+import {
+  fetchExhibitExhibition,
+  fetchExhibitionRelatedContentClientSide,
+} from '@weco/content/services/prismic/fetch/exhibitions';
 import { Exhibition as InstallationType } from '@weco/content/types/exhibitions';
+import { Page as PageType } from '@weco/content/types/pages';
 import { getFeaturedMedia } from '@weco/content/utils/page-header';
+
+import { ExhibitionOf } from '.';
+import { getInfoItems } from './Exhibition.helpers';
 
 type Props = {
   installation: InstallationType;
+  pages: PageType[];
 };
 
-const Installation: FunctionComponent<Props> = ({ installation }) => {
+const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
   const [partOf, setPartOf] = useState<InstallationType>();
+  const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
+
   useEffect(() => {
     fetchExhibitExhibition(installation.id).then(exhibition => {
       if (isNotUndefined(exhibition)) {
         setPartOf(exhibition);
       }
     });
+
+    fetchExhibitionRelatedContentClientSide(installation.relatedIds).then(
+      relatedContent => {
+        if (isNotUndefined(relatedContent)) {
+          setExhibitionOfs(relatedContent.exhibitionOfs);
+        }
+      }
+    );
   }, []);
 
   const FeaturedMedia = getFeaturedMedia(installation);
@@ -115,6 +134,16 @@ const Installation: FunctionComponent<Props> = ({ installation }) => {
             <span aria-hidden="true">020&nbsp;7611&nbsp;2222.</span>
           </p>
         </InfoBox>
+      )}
+
+      {(exhibitionOfs.length > 0 || pages.length > 0) && (
+        <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
+          <SearchResults
+            id="events-list"
+            items={[...exhibitionOfs, ...pages]}
+            title="Installation events"
+          />
+        </Space>
       )}
     </ContentPage>
   );

@@ -11,8 +11,6 @@ const StyledBetaMessage = styled.div.attrs({
 })`
   display: flex;
   align-items: center;
-  border-left: ${props => `4px solid ${props.theme.color('accent.purple')}`};
-  padding-left: ${props => props.theme.spacingUnit}px;
 `;
 
 type Props = { message: string | ReactNode };
