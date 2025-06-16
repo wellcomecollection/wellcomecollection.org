@@ -6,7 +6,6 @@ import {
   useAbortSignalEffect,
 } from '@weco/common/hooks/useAbortSignalEffect';
 import ExpandableList from '@weco/content/components/ExpandableList';
-import PhysicalItemDetails from '@weco/content/components/PhysicalItemDetails';
 import {
   PhysicalItem,
   Work,
@@ -17,6 +16,8 @@ import {
   itemIsTemporarilyUnavailable,
 } from '@weco/content/utils/requesting';
 import { getItemsWithPhysicalLocation } from '@weco/content/utils/works';
+
+import PhysicalItemDetails from './PhysicalItem.Details';
 
 type Props = {
   work: Work;
