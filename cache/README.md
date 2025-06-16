@@ -110,7 +110,6 @@ terraform apply terraform.plan
 #### Removing the test
 1. Remove the test objects from `toggler.ts` and `toggles.ts` that were added above and remove any code that responds to the toggle cookie in the same PR. _Note: if there's clear evidence that we will move ahead with the UI code from the test condition, we may want to keep it and remove the control condition code at this stage rather than going back to the state before the test started_
 2. Deploy the new lambdas and apply the terraform changes as per steps 2–5 of ["adding the test"](#adding-the-test) above.
-3. Make a separate PR to update the [`locals.tf`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/locals.tf) from the result of the previous step
-4. Wait until both PRs are approved
-5. Apply the terraform change resulting from the updated locals.tf (check the toggle cookie is no longer set in production)
-6. Merge and deploy both PRs
+3. Make a second PR to update the [`locals.tf`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/locals.tf) from the result of the previous step
+4. Merge and deploy the first PR and check the UI and toggle changes have been removed on `www-stage`
+5. Merge the second PR and apply the terraform change resulting from the updated locals.tf and check the UI and toggle changes have been removed in production
