@@ -125,7 +125,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
     setLock(true);
     const timeout = setTimeout(() => {
       setLock(false);
-    }, 600); // 300ms lock
+    }, 600); // 600ms lock
     return () => clearTimeout(timeout);
   }, [clickedId]);
 
