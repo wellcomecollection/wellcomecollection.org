@@ -29,13 +29,11 @@ const BackgroundGrid = styled(Grid).attrs({})<BackgroundGridProps>`
 `;
 
 const OnThisPageAnchorsInColsContext: FunctionComponent<{
-  activeColor: PaletteColor;
   topColor?: PaletteColor;
 }> = args => {
   const fixedArgs = {
     isSticky: true,
     hasBackgroundBlend: true,
-    activeColor: args.activeColor,
     links,
   };
 
@@ -59,7 +57,14 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
                 marginBottom: '16px',
               }}
             >
-              <h2 id={link.url.replace('#', '')}>{link.text}</h2>
+              <h2
+                id={link.url.replace('#', '')}
+                style={{
+                  scrollMarginTop: '1rem',
+                }}
+              >
+                {link.text}
+              </h2>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -88,15 +93,9 @@ type Story = StoryObj<typeof OnThisPageAnchorsInColsContext>;
 export const SideBar: Story = {
   name: 'Sticky',
   args: {
-    activeColor: 'accent.lightGreen',
     topColor: 'neutral.700',
   },
   argTypes: {
-    activeColor: {
-      control: 'select',
-      options: themeColors.map(c => c.name),
-      description: 'Color used for the active link',
-    },
     topColor: {
       control: 'select',
       options: themeColors.map(c => c.name),
