@@ -94,6 +94,7 @@ const ThemeSourcedDescription: FunctionComponent<Props> = ({
   href,
 }) => {
   const sourcePillRef = useRef<HTMLDivElement>(null);
+  const sourcePillContainerRef = useRef<HTMLDivElement>(null);
   const [sourceBoxMarginLeft, setSourceBoxMarginLeft] = useState(0);
 
   const updateSourceBoxPosition = () => {
@@ -107,9 +108,26 @@ const ThemeSourcedDescription: FunctionComponent<Props> = ({
   };
 
   useEffect(() => {
-    updateSourceBoxPosition();
-    window.addEventListener('resize', updateSourceBoxPosition);
-    return () => window.removeEventListener('resize', updateSourceBoxPosition);
+    const hideSourceBox = () => {
+      const active = document.activeElement;
+      if (
+        !active ||
+        !(active instanceof HTMLElement) ||
+        !sourcePillContainerRef.current
+      )
+        return;
+
+      if (
+        active === sourcePillContainerRef.current ||
+        sourcePillContainerRef.current.contains(active)
+      ) {
+        active.blur();
+      }
+    };
+
+    // Hide source box on screen resize to stop it from overflowing the screen
+    window.addEventListener('resize', hideSourceBox);
+    return () => window.removeEventListener('resize', hideSourceBox);
   }, [sourcePillRef]);
 
   return (
@@ -119,6 +137,7 @@ const ThemeSourcedDescription: FunctionComponent<Props> = ({
         tabIndex={0}
         onMouseEnter={updateSourceBoxPosition}
         onFocus={updateSourceBoxPosition}
+        ref={sourcePillContainerRef}
       >
         <SourceLabel ref={sourcePillRef}>{source}</SourceLabel>
         <SourceBoxContainer $marginLeft={sourceBoxMarginLeft}>
