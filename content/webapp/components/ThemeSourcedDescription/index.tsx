@@ -1,6 +1,12 @@
 import Image from 'next/image';
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import {
+  FunctionComponent,
+  TouchEvent,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import styled, { css } from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -24,6 +30,11 @@ const SourceBoxContainer = styled.div<{ $marginLeft: number }>`
   z-index: 3;
 `;
 
+const showSourceBox = css`
+  opacity: 1;
+  visibility: visible;
+`;
+
 const SourcePill = styled.div.attrs({
   className: font('intr', 6),
 })`
@@ -36,10 +47,22 @@ const SourcePill = styled.div.attrs({
   height: 22px;
   vertical-align: middle;
 
-  &:is(:hover, :focus-within) ${SourceBoxContainer} {
-    opacity: 1;
-    visibility: visible;
+  @media (hover: hover) {
+    &:hover ${SourceBoxContainer} {
+      ${showSourceBox}
+    }
   }
+
+  &:focus-within ${SourceBoxContainer} {
+    ${showSourceBox}
+  }
+`;
+
+const underlineParagraph = css`
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: ${props => props.theme.color('neutral.600')};
+  text-underline-offset: ${props => props.theme.spacingUnits['3']}px;
 `;
 
 const Paragraph = styled.p.attrs({
@@ -48,11 +71,14 @@ const Paragraph = styled.p.attrs({
   display: inline;
   padding-right: ${props => props.theme.spacingUnits['3']}px;
 
-  &:has(+ ${SourcePill}:focus-within, + ${SourcePill}:hover) {
-    text-decoration: underline;
-    text-decoration-style: dotted;
-    text-decoration-color: ${props => props.theme.color('neutral.600')};
-    text-underline-offset: ${props => props.theme.spacingUnits['3']}px;
+  @media (hover: hover) {
+    &:has(+ ${SourcePill}:hover) {
+      ${underlineParagraph}
+    }
+  }
+
+  &:has(+ ${SourcePill}:focus-within) {
+    ${underlineParagraph}
   }
 `;
 
@@ -107,22 +133,33 @@ const ThemeSourcedDescription: FunctionComponent<Props> = ({
     );
   };
 
+  const isSourcePilFocused = () => {
+    const active = document.activeElement;
+
+    return (
+      active === sourcePillContainerRef.current ||
+      sourcePillContainerRef.current?.contains(active)
+    );
+  };
+
+  const blurActiveElement = () => {
+    const active = document.activeElement;
+    if (!(active instanceof HTMLElement)) return;
+
+    active.blur();
+  };
+
+  const toggleSourceBoxFocus = (event: TouchEvent<HTMLDivElement>) => {
+    event.preventDefault();
+
+    isSourcePilFocused()
+      ? blurActiveElement()
+      : sourcePillContainerRef.current?.focus();
+  };
+
   useEffect(() => {
     const hideSourceBox = () => {
-      const active = document.activeElement;
-      if (
-        !active ||
-        !(active instanceof HTMLElement) ||
-        !sourcePillContainerRef.current
-      )
-        return;
-
-      if (
-        active === sourcePillContainerRef.current ||
-        sourcePillContainerRef.current.contains(active)
-      ) {
-        active.blur();
-      }
+      if (isSourcePilFocused()) blurActiveElement();
     };
 
     // Hide source box on screen resize to stop it from overflowing the screen
@@ -139,7 +176,13 @@ const ThemeSourcedDescription: FunctionComponent<Props> = ({
         onFocus={updateSourceBoxPosition}
         ref={sourcePillContainerRef}
       >
-        <SourceLabel ref={sourcePillRef}>{source}</SourceLabel>
+        <SourceLabel
+          ref={sourcePillRef}
+          // On touch screens, clicking on the pill while the source box is visible should hide it
+          onTouchEnd={toggleSourceBoxFocus}
+        >
+          {source}
+        </SourceLabel>
         <SourceBoxContainer $marginLeft={sourceBoxMarginLeft}>
           <SourceBox>
             <span className={font('intm', 6)}>Source:</span>
