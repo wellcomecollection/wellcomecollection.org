@@ -208,8 +208,13 @@ export const WorkPage: NextPage<Props> = ({
         )}
 
         {/* If the work has no subjects, it's not worth adding this component */}
-        {relatedContentOnWorks && hasAtLeastOneSubject(work) && (
-          <RelatedWorks work={work} />
+        {relatedContentOnWorks && hasAtLeastOneSubject(work.subjects) && (
+          <RelatedWorks
+            workId={work.id}
+            subjects={work.subjects}
+            typesTechniques={work.genres}
+            date={work.production[0]?.dates[0]?.label}
+          />
         )}
       </CataloguePageLayout>
     </IsArchiveContext.Provider>
