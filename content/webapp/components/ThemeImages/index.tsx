@@ -1,16 +1,16 @@
 import { FunctionComponent } from 'react';
-
-import Space from '@weco/common/views/components/styled/Space';
-import { Container } from '@weco/common/views/components/styled/Container';
-import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import styled from 'styled-components';
+
+import { Container } from '@weco/common/views/components/styled/Container';
+import Space from '@weco/common/views/components/styled/Space';
+import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
+import ThemeImagesSection from '@weco/content/components/ThemeImages/ThemeImagesSection';
+import { themeTabOrder } from '@weco/content/components/ThemeWorks';
 import {
   SectionData,
   ThemePageSectionsData,
 } from '@weco/content/pages/concepts/[conceptId]';
-import ThemeImagesSection from '@weco/content/components/ThemeImages/ThemeImagesSection';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
-import { themeTabOrder } from '@weco/content/components/ThemeWorks';
 
 const ThemeImagesWrapper = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-bottom'] },

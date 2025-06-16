@@ -325,7 +325,7 @@ export const themeValues = {
     marbleWhiteCharcoal,
     yellowYellowBlack,
     whiteWhiteCharcoal,
-    greenWhiteGreen
+    greenWhiteGreen,
   },
   spacedTextTopMargin: '1.55em',
 };

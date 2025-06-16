@@ -1,9 +1,10 @@
-import Space from '@weco/common/views/components/styled/Space';
-import { RelatedConcept } from '@weco/content/services/wellcome/catalogue/types';
+import styled from 'styled-components';
+
 import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
+import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
-import styled from 'styled-components';
+import { RelatedConcept } from '@weco/content/services/wellcome/catalogue/types';
 
 const RelatedConceptsContainer = styled(Space).attrs({
   className: font('intm', 5),

@@ -24,6 +24,11 @@ import MoreLink from '@weco/content/components/MoreLink';
 import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink/Images';
 import { toLink as toWorksLink } from '@weco/content/components/SearchPagesLink/Works';
 import Tabs from '@weco/content/components/Tabs';
+import ThemeCollaborators from '@weco/content/components/ThemeCollaborators';
+import ThemeHeader from '@weco/content/components/ThemeHeader';
+import ThemeImages from '@weco/content/components/ThemeImages';
+import ThemeRelatedConceptsGroup from '@weco/content/components/ThemeRelatedConceptsGroup';
+import ThemeWorks from '@weco/content/components/ThemeWorks';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults';
 import useHotjar from '@weco/content/hooks/useHotjar';
 import { emptyResultList } from '@weco/content/services/wellcome';
@@ -46,12 +51,6 @@ import {
   queryParams,
 } from '@weco/content/utils/concepts';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
-
-import ThemeCollaborators from '../../components/ThemeCollaborators';
-import ThemeHeader from '../../components/ThemeHeader';
-import ThemeImages from '../../components/ThemeImages';
-import ThemeRelatedConceptsGroup from '../../components/ThemeRelatedConceptsGroup';
-import ThemeWorks from '../../components/ThemeWorks';
 
 const emptyImageResults: CatalogueResultsList<ImageType> = emptyResultList();
 

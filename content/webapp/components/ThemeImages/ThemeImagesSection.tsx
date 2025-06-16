@@ -1,26 +1,26 @@
+import { usePathname } from 'next/navigation';
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 
-import Space from '@weco/common/views/components/styled/Space';
-import MoreLink from '@weco/content/components/MoreLink';
+import { ImagesLinkSource } from '@weco/common/data/segment-values';
+import { font } from '@weco/common/utils/classnames';
 import {
   capitalize,
   formatNumber,
   pluralize,
 } from '@weco/common/utils/grammar';
-import theme from '@weco/common/views/themes/default';
 import { ReturnedResults } from '@weco/common/utils/search';
-import styled from 'styled-components';
-import { font } from '@weco/common/utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
+import theme from '@weco/common/views/themes/default';
+import CatalogueImageGallery from '@weco/content/components/CatalogueImageGallery';
+import MoreLink from '@weco/content/components/MoreLink';
+import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink/Images';
+import { ThemeTabType } from '@weco/content/components/ThemeWorks';
 import {
   Concept,
   Image,
 } from '@weco/content/services/wellcome/catalogue/types';
-import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink/Images';
 import { allRecordsLinkParams } from '@weco/content/utils/concepts';
-import { ImagesLinkSource } from '@weco/common/data/segment-values';
-import { usePathname } from 'next/navigation';
-import { ThemeTabType } from '@weco/content/components/ThemeWorks';
-import ScrollableGallery from '@weco/content/components/ScrollableGallery/ScrollableGallery';
 
 const getLinkSource = (type, pathname: string) => {
   return `concept/images_${type}_${pathname}` as ImagesLinkSource;
@@ -76,9 +76,10 @@ const ThemeImagesSection: FunctionComponent<Props> = ({
       <SectionHeading>
         Images {getReadableType(type)} {concept.label}
       </SectionHeading>
-      <ScrollableGallery
+      <CatalogueImageGallery
         images={singleSectionData.pageResults}
         label={`${pluralize(totalResults, 'image')} from works`}
+        variant="scrollable"
       />
       <Space $v={{ size: 'l', properties: ['margin-top'] }}>
         {singleSectionData.totalResults >
