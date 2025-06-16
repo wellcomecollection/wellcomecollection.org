@@ -33,3 +33,6 @@ out/
 
 tsconfig.tsbuildinfo
 .server-data
+
+# Code editor
+.zed/
