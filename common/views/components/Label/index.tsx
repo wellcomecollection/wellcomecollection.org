@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { CSSProperties, FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { LabelColor, Label as LabelType } from '@weco/common/model/labels';
@@ -39,6 +39,7 @@ const Label: FunctionComponent<Props> = ({
 }: Props) => {
   return (
     <LabelContainer
+      style={{ '--label-length': label.text.length } as CSSProperties}
       $v={{
         size: 'xs',
         properties: ['padding-top', 'padding-bottom'],

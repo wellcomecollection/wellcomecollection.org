@@ -124,14 +124,7 @@ const toggles = {
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
-  tests: [
-    {
-      id: 'newTags',
-      title: 'A/B test for new tags',
-      type: 'test',
-      range: [0, 100],
-    },
-  ] as ABTest[],
+  tests: [] as ABTest[],
 };
 
 export default toggles;

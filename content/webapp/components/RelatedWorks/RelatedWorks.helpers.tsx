@@ -9,6 +9,8 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { Toggles } from '@weco/toggles';
 
+import { WorkQueryProps } from '.';
+
 // Returns the century range for a string containing exactly four digits
 const getCenturyRange = (
   str?: string
@@ -30,24 +32,29 @@ const getCenturyRange = (
 };
 
 export const fetchRelatedWorks = async ({
-  work,
+  workId,
+  subjects,
+  typesTechniques,
+  date,
   toggles,
   setIsLoading,
-}: {
-  work: Work;
+}: WorkQueryProps & {
   toggles: Toggles;
   setIsLoading: (isLoading: boolean) => void;
-}): Promise<{
-  [key: string]: { label: string; results: WorkBasic[] };
-}> => {
+}): Promise<
+  | {
+      [key: string]: { label: string; results: WorkBasic[] };
+    }
+  | undefined
+> => {
   setIsLoading(true);
   const results: {
     [key: string]: { label: string; results: WorkBasic[] };
   } = {};
 
-  const subjectLabels = work.subjects.map(subject => subject.label).slice(0, 3);
-  const typeTechniques = work.genres.map(genres => genres.label).slice(0, 3);
-  const dateRange = getCenturyRange(work.production[0]?.dates[0]?.label);
+  const subjectLabels = subjects.map(subject => subject.label).slice(0, 3);
+  const typeTechniques = typesTechniques?.map(genre => genre.label).slice(0, 2);
+  const dateRange = getCenturyRange(date);
 
   const catalogueBasicQuery = async (
     params
@@ -70,7 +77,7 @@ export const fetchRelatedWorks = async ({
     if (response.type === 'ResultList') {
       // Filter out the current work from the results
       const filteredResults = response.results.filter(
-        result => result.id !== work.id
+        result => result.id !== workId
       );
       if (filteredResults.length > 0) {
         results[`${categoryLabel}-${toHtmlId(tabLabel)}`] = {
@@ -107,19 +114,25 @@ export const fetchRelatedWorks = async ({
           ]
         : []),
 
-      ...typeTechniques.map(async label => {
-        const response = await catalogueBasicQuery({
-          'subjects.label': subjectLabels.map(
-            subjectLabel => `"${subjectLabel}"`
-          ),
-          'genres.label': [`"${label}"`],
-        });
+      ...(typeTechniques
+        ? typeTechniques.map(async label => {
+            const response = await catalogueBasicQuery({
+              'subjects.label': subjectLabels.map(
+                subjectLabel => `"${subjectLabel}"`
+              ),
+              'genres.label': [`"${label}"`],
+            });
 
-        addToResultsObject('type', label, response);
-      }),
+            addToResultsObject('type', label, response);
+          })
+        : []),
     ]);
   } catch (error) {
     console.error('Error fetching related works:', error);
+  }
+
+  if (Object.keys(results).length === 0) {
+    return undefined;
   }
 
   // Order object keys to ensure consistent order

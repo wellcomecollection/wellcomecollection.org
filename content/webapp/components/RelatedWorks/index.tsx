@@ -3,24 +3,51 @@ import { useContext, useEffect, useState } from 'react';
 import { ServerDataContext } from '@weco/common/server-data/Context';
 import { classNames } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
+import BetaMessage from '@weco/content/components/BetaMessage';
 import Tabs from '@weco/content/components/Tabs';
-import WorksSearchResult from '@weco/content/components/WorksSearchResult';
 import {
   Work,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 
+import RelatedWorksCard from './RelatedWorks.Card';
 import { fetchRelatedWorks } from './RelatedWorks.helpers';
+import { FullWidthRow } from './RelatedWorks.styles';
 
-const RelatedWorks = ({ work }: { work: Work }) => {
+type SubjectsAtLeastOneSubject = [
+  Work['subjects'][number],
+  ...Work['subjects'],
+];
+
+export function hasAtLeastOneSubject(
+  subjects: Work['subjects']
+): subjects is SubjectsAtLeastOneSubject {
+  return Array.isArray(subjects) && subjects.length > 0;
+}
+
+export type WorkQueryProps = {
+  workId: string;
+  subjects: SubjectsAtLeastOneSubject;
+  typesTechniques?: Work['genres'];
+  date?: string;
+};
+
+const RelatedWorks = ({
+  workId,
+  subjects,
+  typesTechniques,
+  date,
+}: WorkQueryProps) => {
   const { toggles } = useContext(ServerDataContext);
   const [isLoading, setIsLoading] = useState(true);
   const [relatedWorksTabs, setRelatedWorksTabs] = useState<{
     [key: string]: { label: string; results: WorkBasic[] };
   }>();
   const [selectedTab, setSelectedTab] = useState<string | undefined>();
+  const [hasThumbnails, setHasThumbnails] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -29,18 +56,27 @@ const RelatedWorks = ({ work }: { work: Work }) => {
 
     const fetchData = async () => {
       await fetchRelatedWorks({
-        work,
+        workId,
+        subjects,
+        typesTechniques,
+        date,
         toggles,
         setIsLoading,
       }).then(data => {
         setRelatedWorksTabs(data);
+        if (data)
+          setHasThumbnails(
+            Object.values(data).some(tab =>
+              tab.results.some(result => result.thumbnail?.url)
+            )
+          );
 
         setIsLoading(false);
       });
     };
 
     fetchData();
-  }, [work]);
+  }, [workId]);
 
   useEffect(() => {
     if (relatedWorksTabs && !selectedTab) {
@@ -57,9 +93,11 @@ const RelatedWorks = ({ work }: { work: Work }) => {
     );
 
   return relatedWorksTabs && selectedTab ? (
-    <Container>
-      <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-        <h2>Related works</h2>
+    <>
+      <Container>
+        <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+          <h2>More works</h2>
+        </Space>
 
         {Object.keys(relatedWorksTabs).length > 1 && (
           <Tabs
@@ -74,25 +112,71 @@ const RelatedWorks = ({ work }: { work: Work }) => {
             }))}
           />
         )}
+      </Container>
 
-        {Object.entries(relatedWorksTabs).map(([key, value]) => (
-          <div
-            key={key}
-            className={classNames({
-              'is-hidden': selectedTab !== key,
-            })}
-          >
-            {value.results.map((result, i) => (
-              <WorksSearchResult
-                work={result}
-                resultPosition={i}
-                key={result.id}
+      {Object.entries(relatedWorksTabs).map(([key, value]) => (
+        <FullWidthRow
+          key={key}
+          className={classNames({
+            'is-hidden': selectedTab !== key,
+          })}
+        >
+          <Container>
+            <Grid>
+              {value.results.map((result, i) => (
+                <GridCell
+                  key={result.id}
+                  $sizeMap={{ s: [12], m: [12], l: [6], xl: [4] }}
+                >
+                  <RelatedWorksCard resultIndex={i} work={result} />
+                </GridCell>
+              ))}
+            </Grid>
+
+            <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+              <BetaMessage
+                message={
+                  <>
+                    This feature is new.{' '}
+                    <a href="mailto:digital@wellcomecollection.org?subject=Related works">
+                      Let us know
+                    </a>{' '}
+                    if something doesn’t look right.
+                  </>
+                }
               />
-            ))}
-          </div>
-        ))}
-      </Space>
-    </Container>
+            </Space>
+          </Container>
+        </FullWidthRow>
+      ))}
+
+      {hasThumbnails && (
+        // Because we use `object-fit` on the image, border-radius won't work consistently, so we have to add an svg filter
+        //  This is adapted from https://stackoverflow.com/questions/49567069/image-rounded-corners-issue-with-object-fit-contain/76106794#76106794
+        <svg
+          style={{ position: 'absolute', visibility: 'hidden' }}
+          width="0"
+          height="0"
+        >
+          <defs>
+            <filter id="border-radius-mask">
+              <feGaussianBlur
+                in="SourceGraphic"
+                stdDeviation="2"
+                result="blur"
+              />
+              <feColorMatrix
+                in="blur"
+                mode="matrix"
+                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 100 -50"
+                result="mask"
+              />
+              <feComposite in="SourceGraphic" in2="mask" operator="atop" />
+            </filter>
+          </defs>
+        </svg>
+      )}
+    </>
   ) : null;
 };
 
