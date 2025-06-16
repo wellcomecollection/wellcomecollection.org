@@ -8,13 +8,13 @@ import styled from 'styled-components';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
+import ExpandedImageModal from '@weco/content/components/CatalogueImageGallery/ExpandedImageModal';
+import useExpandedImage from '@weco/content/components/CatalogueImageGallery/useExpandedImage';
 import ImageCard from '@weco/content/components/ImageCard';
-import ExpandedImageModal from '@weco/content/components/ImageEndpointSearchResults/ExpandedImageModal';
-import useExpandedImage from '@weco/content/components/ImageEndpointSearchResults/useExpandedImage';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import { hexToRgb } from '@weco/content/utils/convert-colors';
 
-type Props = {
+export type Props = {
   images: Image[];
   background?: string;
   targetRowHeight?: number;
@@ -65,7 +65,7 @@ const ImageFrame = styled.div`
   height: 100%;
 `;
 
-const ImageEndpointSearchResults: FunctionComponent<Props> = ({
+const CatalogueImageGalleryJustified: FunctionComponent<Props> = ({
   images,
   background,
   targetRowHeight,
@@ -181,4 +181,4 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   );
 };
 
-export default ImageEndpointSearchResults;
+export default CatalogueImageGalleryJustified;

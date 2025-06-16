@@ -7,7 +7,7 @@ import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import useSwipeable, {
   SwipeDirection,
-} from '@weco/content/components/ScrollableGallery/useSwipeable';
+} from '@weco/content/components/CatalogueImageGallery/useSwipeable';
 
 const ScrollButton = styled('button').attrs({
   className: font('intr', 6),

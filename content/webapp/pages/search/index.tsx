@@ -30,8 +30,8 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
+import CatalogueImageGallery from '@weco/content/components/CatalogueImageGallery';
 import ContentSearchResult from '@weco/content/components/ContentSearchResult';
-import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults';
 import Pagination from '@weco/content/components/Pagination';
 import SearchNoResults from '@weco/content/components/SearchNoResults';
 import { getSearchLayout } from '@weco/content/components/SearchPageLayout';
@@ -518,9 +518,10 @@ export const SearchPage: NextPageWithLayout<Props> = ({
                         Image results
                       </CatalogueSectionTitle>
                       <ImageLinks $isSmallGallery={isSmallGallery}>
-                        <ImageEndpointSearchResults
+                        <CatalogueImageGallery
                           images={clientSideImages.results}
                           targetRowHeight={120}
+                          variant="justified"
                         />
                       </ImageLinks>
                       <CatalogueResultsSection>
