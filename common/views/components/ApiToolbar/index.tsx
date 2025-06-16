@@ -19,6 +19,7 @@ const ToolbarContainer = styled.div`
   background-color: ${props => props.theme.color('accent.purple')};
   color: ${props => props.theme.color('white')};
   z-index: 100;
+  overflow-x: scroll;
 `;
 
 const LinkList = styled.ul.attrs({
@@ -179,7 +180,7 @@ const ApiToolbar: FunctionComponent<Props> = ({ links = [] }) => {
           });
           setIsClosed(true);
         }}
-        style={{ padding: '5px 10px 0' }}
+        style={{ padding: '5px 10px 0', position: 'relative' }}
       >
         <span className="visually-hidden">Close API Toolbar</span>
         <Icon iconColor="white" icon={cross} />
