@@ -2,7 +2,6 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { font } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
@@ -14,7 +13,12 @@ import {
   CardPostBody,
   CardTitle,
 } from '@weco/content/components/Card';
-import { Article } from '@weco/content/services/wellcome/content/types/api';
+import PartNumberIndicator from '@weco/content/components/PartNumberIndicator';
+import {
+  ArticleBasic,
+  getArticleColor,
+  getPartNumberInSeries,
+} from '@weco/content/types/articles';
 
 const Caption = styled.p.attrs({
   className: font('intr', 5),
@@ -29,22 +33,28 @@ const PartOf = styled.div.attrs({
   margin: 0;
 `;
 
-type Props = {
-  article: Article;
+export type Props = {
+  article: ArticleBasic;
   hidePromoText?: boolean;
   sizesQueries?: string;
 };
 
-const StoryPromoContentApi: FunctionComponent<Props> = ({
+const StoryPromo: FunctionComponent<Props> = ({
   article,
   hidePromoText = false,
 }) => {
-  const { title, caption, seriesTitle, format, uid } = article;
-  const rawImage = article.image?.['16:9'] || article.image;
-  const image = transformImage(rawImage);
-  const url = linkResolver({ uid, type: 'articles' });
+  const image = article.promo?.image;
+  const url = linkResolver(article);
 
-  const labels = format?.label ? [{ text: format.label }] : [];
+  const seriesColor = getArticleColor(article);
+
+  const partNumber = getPartNumberInSeries(article);
+
+  const isSerial = article.series.some(series => series.schedule.length > 0);
+
+  const labels = [article.format?.title, isSerial ? 'Serial' : undefined]
+    .filter(isNotUndefined)
+    .map(text => ({ text }));
 
   return (
     <CardOuter href={url}>
@@ -72,19 +82,29 @@ const StoryPromoContentApi: FunctionComponent<Props> = ({
 
       <CardBody>
         <div>
-          <CardTitle>{title}</CardTitle>
-          {!hidePromoText && caption && <Caption>{caption}</Caption>}
+          {partNumber && (
+            <PartNumberIndicator
+              number={partNumber}
+              backgroundColor={seriesColor}
+            />
+          )}
+          <CardTitle>{article.title}</CardTitle>
+          {!hidePromoText && isNotUndefined(article.promo?.caption) && (
+            <Caption>{article.promo?.caption}</Caption>
+          )}
         </div>
       </CardBody>
-      {seriesTitle && (
+      {article.series.length > 0 && (
         <CardPostBody>
-          <PartOf>
-            <span className={font('intr', 6)}>Part of</span> {seriesTitle}
-          </PartOf>
+          {article.series.map(series => (
+            <PartOf key={series.id}>
+              <span className={font('intr', 6)}>Part of</span> {series.title}
+            </PartOf>
+          ))}
         </CardPostBody>
       )}
     </CardOuter>
   );
 };
 
-export default StoryPromoContentApi;
+export default StoryPromo;
