@@ -1,51 +1,18 @@
+import Image from 'next/image';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import Space from '@weco/common/views/components/styled/Space';
+
 import { font } from '@weco/common/utils/classnames';
-import WikidataLogo from '@weco/content/components/ThemeSourcedDescription/WikidataLogo';
+import Space from '@weco/common/views/components/styled/Space';
 import MeshLogo from '@weco/content/components/ThemeSourcedDescription/mesh-logo.png';
-import Image from 'next/image';
+import { WikidataLogo } from '@weco/content/components/ThemeSourcedDescription/ThemeSourcedDescription.Icons';
 
 const SOURCE_BOX_WIDTH = 224;
 
-const SourcePill = styled(Space).attrs({
-  className: `${font('intr', 6)} source-pill`,
-})`
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  border-radius: 20px;
-  background-color: ${props => props.theme.color('accent.green')}40;
-  cursor: default;
-  height: 22px;
-  vertical-align: middle;
-
-  &:is(:hover, :focus-within) .source-box-container {
-    display: block;
-    opacity: 1;
-    visibility: visible;
-  }
-`;
-
-const Paragraph = styled(Space).attrs({
-  as: 'p',
-  className: font('intr', 3),
-})`
-  display: inline;
-  padding-right: ${props => props.theme.spacingUnits['3']}px;
-
-  &:has(+ .source-pill:focus-within, + .source-pill:hover) {
-    text-decoration: underline;
-    text-decoration-style: dotted;
-  }
-`;
-
-const SourceBoxContainer = styled(Space).attrs({
-  className: 'source-box-container',
-})<{ $marginLeft: number }>`
+const SourceBoxContainer = styled.div<{ $marginLeft: number }>`
   position: absolute;
   top: 21px;
-  padding-top: 10px;
+  padding-top: ${props => props.theme.spacingUnits['3']}px;
   left: 0;
   margin-left: ${props => props.$marginLeft}px;
   width: ${SOURCE_BOX_WIDTH}px;
@@ -57,10 +24,41 @@ const SourceBoxContainer = styled(Space).attrs({
   z-index: 3;
 `;
 
+const SourcePill = styled.div.attrs({
+  className: font('intr', 6),
+})`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 20px;
+  background-color: ${props => props.theme.color('accent.green')}40;
+  cursor: default;
+  height: 22px;
+  vertical-align: middle;
+
+  &:is(:hover, :focus-within) ${SourceBoxContainer} {
+    opacity: 1;
+    visibility: visible;
+  }
+`;
+
+const Paragraph = styled.p.attrs({
+  className: font('intr', 3),
+})`
+  display: inline;
+  padding-right: ${props => props.theme.spacingUnits['3']}px;
+
+  &:has(+ ${SourcePill}:focus-within, + ${SourcePill}:hover) {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: ${props => props.theme.color('neutral.600')};
+    text-underline-offset: ${props => props.theme.spacingUnits['3']}px;
+  }
+`;
+
 const SourceBox = styled(Space).attrs({
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   $v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  className: 'source-box',
 })`
   background-color: white;
   border-radius: 4px;
@@ -80,7 +78,7 @@ const SourceLink = styled(Space).attrs({
   }
 `;
 
-const SourceLabel = styled(Space)`
+const SourceLabel = styled.span`
   padding: 0 ${props => props.theme.spacingUnits['3']}px;
 `;
 
@@ -96,6 +94,7 @@ const ThemeSourcedDescription: FunctionComponent<Props> = ({
   href,
 }) => {
   const sourcePillRef = useRef<HTMLDivElement>(null);
+  const sourcePillContainerRef = useRef<HTMLDivElement>(null);
   const [sourceBoxMarginLeft, setSourceBoxMarginLeft] = useState(0);
 
   const updateSourceBoxPosition = () => {
@@ -109,9 +108,26 @@ const ThemeSourcedDescription: FunctionComponent<Props> = ({
   };
 
   useEffect(() => {
-    updateSourceBoxPosition();
-    window.addEventListener('resize', updateSourceBoxPosition);
-    return () => window.removeEventListener('resize', updateSourceBoxPosition);
+    const hideSourceBox = () => {
+      const active = document.activeElement;
+      if (
+        !active ||
+        !(active instanceof HTMLElement) ||
+        !sourcePillContainerRef.current
+      )
+        return;
+
+      if (
+        active === sourcePillContainerRef.current ||
+        sourcePillContainerRef.current.contains(active)
+      ) {
+        active.blur();
+      }
+    };
+
+    // Hide source box on screen resize to stop it from overflowing the screen
+    window.addEventListener('resize', hideSourceBox);
+    return () => window.removeEventListener('resize', hideSourceBox);
   }, [sourcePillRef]);
 
   return (
@@ -121,6 +137,7 @@ const ThemeSourcedDescription: FunctionComponent<Props> = ({
         tabIndex={0}
         onMouseEnter={updateSourceBoxPosition}
         onFocus={updateSourceBoxPosition}
+        ref={sourcePillContainerRef}
       >
         <SourceLabel ref={sourcePillRef}>{source}</SourceLabel>
         <SourceBoxContainer $marginLeft={sourceBoxMarginLeft}>

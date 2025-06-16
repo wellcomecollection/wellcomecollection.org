@@ -1,6 +1,6 @@
 import { SVGProps } from 'react';
 
-function WikidataLogo(props: SVGProps<SVGSVGElement>) {
+export const WikidataLogo = (props: SVGProps<SVGSVGElement>) => {
   return (
     <svg viewBox="0 0 50 50" {...props}>
       <g fill="none">
@@ -19,6 +19,4 @@ function WikidataLogo(props: SVGProps<SVGSVGElement>) {
       </g>
     </svg>
   );
-}
-
-export default WikidataLogo;
+};
