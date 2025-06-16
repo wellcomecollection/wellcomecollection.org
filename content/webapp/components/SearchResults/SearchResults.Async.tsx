@@ -8,8 +8,8 @@ import { MultiContent } from '@weco/content/types/multi-content';
 import SearchResults from '.';
 
 export type Props = {
-  title?: string;
   query: string;
+  title?: string;
 };
 
 type State = { items: MultiContent[] };
@@ -55,7 +55,7 @@ class AsyncSearchResults extends Component<Props, State> {
         )}
 
         {this.state.items && this.state.items.length > 0 && (
-          <SearchResults items={this.state.items} />
+          <SearchResults variant="default" items={this.state.items} />
         )}
       </>
     );

@@ -185,6 +185,7 @@ const Exhibition: FunctionComponent<Props> = ({
               $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
             >
               <SearchResults
+                variant="default"
                 id="events-list"
                 items={[...exhibitionOfs, ...pages]}
                 title={`${exhibitionFormat} events`}
@@ -258,7 +259,11 @@ const Exhibition: FunctionComponent<Props> = ({
             <Space
               $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
             >
-              <SearchResults items={exhibitionAbouts} title="Related stories" />
+              <SearchResults
+                variant="default"
+                items={exhibitionAbouts}
+                title="Related stories"
+              />
             </Space>
           )}
 

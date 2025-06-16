@@ -139,6 +139,7 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
       {(exhibitionOfs.length > 0 || pages.length > 0) && (
         <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
           <SearchResults
+            variant="default"
             id="events-list"
             items={[...exhibitionOfs, ...pages]}
             title="Installation events"
