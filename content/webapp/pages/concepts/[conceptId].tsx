@@ -492,6 +492,7 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   const serverData = await getServerData(context);
+  const newThemePages = serverData.toggles.newThemePages.value;
 
   const conceptResponse = await getConcept({
     id: conceptId,
@@ -529,13 +530,13 @@ export const getServerSideProps: GetServerSideProps<
         getImages({
           params: queryParams(sectionName, conceptResponse),
           toggles: serverData.toggles,
-          pageSize: 12,
+          pageSize: newThemePages ? 12 : 5,
         }),
       byLabel: (sectionName: string) =>
         getImages({
           params: allRecordsLinkParams(sectionName, conceptResponse),
           toggles: serverData.toggles,
-          pageSize: 12,
+          pageSize: newThemePages ? 12 : 5,
         }),
     },
   };

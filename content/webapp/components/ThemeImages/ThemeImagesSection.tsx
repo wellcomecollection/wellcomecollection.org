@@ -1,5 +1,5 @@
 import { usePathname } from 'next/navigation';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useMemo } from 'react';
 import styled from 'styled-components';
 
 import { ImagesLinkSource } from '@weco/common/data/segment-values';
@@ -62,6 +62,10 @@ const ThemeImagesSection: FunctionComponent<Props> = ({
   type,
 }) => {
   const pathname = usePathname();
+  const firstTenImages = useMemo(
+    () => singleSectionData.pageResults.slice(0, 10),
+    [singleSectionData]
+  );
 
   if (!singleSectionData || singleSectionData.pageResults.length === 0) {
     return null;
@@ -77,7 +81,10 @@ const ThemeImagesSection: FunctionComponent<Props> = ({
         Images {getReadableType(type)} {concept.label}
       </SectionHeading>
       <CatalogueImageGallery
-        images={singleSectionData.pageResults}
+        // Show the first 10 images, unless the total is 12 or fewer, in which case show all images
+        images={
+          totalResults > 12 ? firstTenImages : singleSectionData.pageResults
+        }
         label={`${pluralize(totalResults, 'image')} from works`}
         variant="scrollable"
       />
