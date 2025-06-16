@@ -1,8 +1,9 @@
+import Head from 'next/head';
 import { FunctionComponent } from 'react';
 
 const Favicons: FunctionComponent = () => {
   return (
-    <>
+    <Head>
       <link
         rel="apple-touch-icon"
         sizes="180x180"
@@ -34,7 +35,7 @@ const Favicons: FunctionComponent = () => {
         href="https://i.wellcomecollection.org/assets/icons/safari-pinned-tab.svg"
         color="#000000"
       />
-    </>
+    </Head>
   );
 };
 

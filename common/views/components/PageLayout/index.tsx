@@ -179,7 +179,6 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           name="twitter:card"
           content={imageUrl ? 'summary_large_image' : 'summary'}
         />
-
         <meta
           key="twitter:site"
           name="twitter:site"
@@ -213,8 +212,6 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           content="width=device-width, initial-scale=1"
         />
 
-        <Favicons />
-
         {rssUrl && (
           <link
             rel="alternate"
@@ -224,6 +221,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           />
         )}
       </Head>
+      <Favicons />
 
       {/* Note: these <Script> tags are very deliberately:
 

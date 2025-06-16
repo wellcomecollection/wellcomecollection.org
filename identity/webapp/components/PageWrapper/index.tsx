@@ -35,8 +35,9 @@ const PageWrapper: FunctionComponent<PropsWithChildren<Props>> = ({
     <>
       <Head>
         <title>{fullTitle}</title>
-        <Favicons />
       </Head>
+      <Favicons />
+
       <GlobalStyle isFontsLoaded={useIsFontsLoaded()} />
       <Header siteSection="collections" />
       <Main>{children}</Main>
