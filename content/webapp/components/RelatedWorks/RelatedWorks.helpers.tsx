@@ -37,17 +37,28 @@ export const fetchRelatedWorks = async ({
   work: Work;
   toggles: Toggles;
   setIsLoading: (isLoading: boolean) => void;
-}): Promise<{
-  [key: string]: { label: string; results: WorkBasic[] };
-}> => {
+}): Promise<
+  | {
+      [key: string]: { label: string; results: WorkBasic[] };
+    }
+  | undefined
+> => {
   setIsLoading(true);
   const results: {
     [key: string]: { label: string; results: WorkBasic[] };
   } = {};
 
   const subjectLabels = work.subjects.map(subject => subject.label).slice(0, 3);
-  const typeTechniques = work.genres.map(genres => genres.label).slice(0, 3);
-  const dateRange = getCenturyRange(work.production[0]?.dates[0]?.label);
+  const hasSubjectLabels = subjectLabels.length > 0;
+
+  // Only fetch type/techniques and date range if there are subject labels,
+  // otherwise results are too generic.
+  const typeTechniques = hasSubjectLabels
+    ? work.genres.map(genres => genres.label).slice(0, 2)
+    : undefined;
+  const dateRange = hasSubjectLabels
+    ? getCenturyRange(work.production[0]?.dates[0]?.label)
+    : undefined;
 
   const catalogueBasicQuery = async (
     params
@@ -107,19 +118,25 @@ export const fetchRelatedWorks = async ({
           ]
         : []),
 
-      ...typeTechniques.map(async label => {
-        const response = await catalogueBasicQuery({
-          'subjects.label': subjectLabels.map(
-            subjectLabel => `"${subjectLabel}"`
-          ),
-          'genres.label': [`"${label}"`],
-        });
+      ...(typeTechniques
+        ? typeTechniques.map(async label => {
+            const response = await catalogueBasicQuery({
+              'subjects.label': subjectLabels.map(
+                subjectLabel => `"${subjectLabel}"`
+              ),
+              'genres.label': [`"${label}"`],
+            });
 
-        addToResultsObject('type', label, response);
-      }),
+            addToResultsObject('type', label, response);
+          })
+        : []),
     ]);
   } catch (error) {
     console.error('Error fetching related works:', error);
+  }
+
+  if (Object.keys(results).length === 0) {
+    return undefined;
   }
 
   // Order object keys to ensure consistent order

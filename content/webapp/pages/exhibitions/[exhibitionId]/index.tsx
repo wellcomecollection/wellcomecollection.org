@@ -20,8 +20,7 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import PageLayout from '@weco/common/views/components/PageLayout';
-import Exhibition from '@weco/content/components/Exhibition';
-import Installation from '@weco/content/components/Installation';
+import Exhibition, { Installation } from '@weco/content/components/Exhibition';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibition } from '@weco/content/services/prismic/fetch/exhibitions';
 import { transformExhibition } from '@weco/content/services/prismic/transformers/exhibitions';
@@ -71,7 +70,7 @@ const ExhibitionPage: FunctionComponent<ExhibitionProps> = ({
       apiToolbarLinks={[createPrismicLink(exhibition.id)]}
     >
       {exhibition.format && exhibition.format.title === 'Installation' ? (
-        <Installation installation={exhibition} />
+        <Installation installation={exhibition} pages={pages} />
       ) : (
         <Exhibition
           exhibition={exhibition}
