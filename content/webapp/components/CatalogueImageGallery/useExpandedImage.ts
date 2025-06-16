@@ -1,28 +1,15 @@
 import {
   Dispatch,
-  FunctionComponent,
   SetStateAction,
   useContext,
   useEffect,
   useMemo,
   useState,
 } from 'react';
-import PhotoAlbum, {
-  RenderPhotoProps,
-  RenderRowContainer,
-} from 'react-photo-album';
-import styled from 'styled-components';
 
-import { useAppContext } from '@weco/common/contexts/AppContext';
 import { ServerDataContext } from '@weco/common/server-data/Context';
-import Modal from '@weco/common/views/components/Modal';
-import PlainList from '@weco/common/views/components/styled/PlainList';
-import Space from '@weco/common/views/components/styled/Space';
-import ExpandedImage from '@weco/content/components/ExpandedImage';
-import ImageCard from '@weco/content/components/ImageCard';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
-import { hexToRgb } from '@weco/content/utils/convert-colors';
 
 const useExpandedImage = (
   images: Image[]

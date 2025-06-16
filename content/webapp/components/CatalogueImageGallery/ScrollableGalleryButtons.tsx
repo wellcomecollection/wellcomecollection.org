@@ -1,16 +1,18 @@
 import { FunctionComponent, RefObject, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import Icon from '@weco/common/views/components/Icon';
 import { arrowSmall } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
+import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import useSwipeable, { SwipeDirection } from "@weco/content/components/ScrollableGallery/useSwipeable";
+import useSwipeable, {
+  SwipeDirection,
+} from '@weco/content/components/CatalogueImageGallery/useSwipeable';
 
 const ScrollButton = styled('button').attrs({
   className: font('intr', 6),
 })`
-  color: white;
+  color: ${props => props.theme.color('white')};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -30,12 +32,14 @@ type Props = {
   targetRef: RefObject<HTMLElement>;
 };
 
-const ScrollableGalleryButtons: FunctionComponent<Props> = ({ targetRef }: Props) => {
+const ScrollableGalleryButtons: FunctionComponent<Props> = ({
+  targetRef,
+}: Props) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
   const getMaxScrollLeft = () => {
-    if(!targetRef.current) return 0;
+    if (!targetRef.current) return 0;
 
     const { scrollWidth, clientWidth } = targetRef.current;
     return scrollWidth - clientWidth;
@@ -65,10 +69,12 @@ const ScrollableGalleryButtons: FunctionComponent<Props> = ({ targetRef }: Props
   });
 
   const scrollByChildImageWidth = (direction: SwipeDirection) => {
-    if(!targetRef.current) return;
+    if (!targetRef.current) return;
 
     const currScrollLeft = targetRef.current.scrollLeft;
-    const containerPadding = parseFloat(window.getComputedStyle(targetRef.current).paddingLeft);
+    const containerPadding = parseFloat(
+      window.getComputedStyle(targetRef.current).paddingLeft
+    );
 
     const children = Array.from(targetRef.current.children) as HTMLElement[];
 
@@ -76,8 +82,12 @@ const ScrollableGalleryButtons: FunctionComponent<Props> = ({ targetRef }: Props
     // Otherwise, scroll to the last child chose left offset is lower than the current left scroll.
     const child =
       direction === 'right'
-        ? children.find(child => child.offsetLeft > currScrollLeft + containerPadding)
-        : children.findLast(child => child.offsetLeft < currScrollLeft + containerPadding);
+        ? children.find(
+            child => child.offsetLeft > currScrollLeft + containerPadding
+          )
+        : children.findLast(
+            child => child.offsetLeft < currScrollLeft + containerPadding
+          );
 
     if (!child) return;
 

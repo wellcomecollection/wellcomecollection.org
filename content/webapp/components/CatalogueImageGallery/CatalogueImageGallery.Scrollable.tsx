@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
+import ExpandedImageModal from '@weco/content/components/CatalogueImageGallery/ExpandedImageModal';
+import ScrollableGalleryButtons from '@weco/content/components/CatalogueImageGallery/ScrollableGalleryButtons';
+import useExpandedImage from '@weco/content/components/CatalogueImageGallery/useExpandedImage';
 import ImageCard from '@weco/content/components/ImageCard';
-import ExpandedImageModal from '@weco/content/components/ImageEndpointSearchResults/ExpandedImageModal';
-import useExpandedImage from '@weco/content/components/ImageEndpointSearchResults/useExpandedImage';
-import ScrollableGalleryButtons from '@weco/content/components/ScrollableGallery/ScrollableGalleryButtons';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 
 const IMAGE_HEIGHT = 200;
@@ -33,12 +33,12 @@ const Label = styled(Space).attrs({
   color: ${props => props.theme.color('neutral.400')};
 `;
 
-type Props = {
+export type Props = {
   images: Image[];
   label?: string;
 };
 
-const ScrollableGallery: FunctionComponent<Props> = ({
+const CatalogueImageGalleryScrollable: FunctionComponent<Props> = ({
   images,
   label,
 }: Props) => {
@@ -86,4 +86,4 @@ const ScrollableGallery: FunctionComponent<Props> = ({
   );
 };
 
-export default ScrollableGallery;
+export default CatalogueImageGalleryScrollable;

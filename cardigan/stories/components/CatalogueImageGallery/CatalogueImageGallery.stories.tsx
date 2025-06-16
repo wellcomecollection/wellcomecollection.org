@@ -1,13 +1,13 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import mockImages from '@weco/cardigan/stories/components/ScrollableGallery/mock-images';
-import Readme from '@weco/content/components/ScrollableGallery/README.mdx';
-import ScrollableGallery from '@weco/content/components/ScrollableGallery/ScrollableGallery';
+import mockImages from '@weco/cardigan/stories/components/CatalogueImageGallery/mock-images';
+import CatalogueImageGalleryScrollable from '@weco/content/components/CatalogueImageGallery/CatalogueImageGallery.Scrollable';
+import Readme from '@weco/content/components/CatalogueImageGallery/README.mdx';
 
 const meta: Meta = {
-  title: 'Components/ScrollableGallery',
-  component: ScrollableGallery,
+  title: 'Components/CatalogueImageGallery',
+  component: CatalogueImageGalleryScrollable,
   args: {
     label: 'Hello there, this is some text',
     imageCount: 10,
@@ -27,10 +27,10 @@ const meta: Meta = {
 
 export default meta;
 
-type Story = StoryObj<typeof ScrollableGallery>;
+type Story = StoryObj<typeof CatalogueImageGalleryScrollable>;
 
 export const Basic: Story = {
-  name: 'ScrollableGallery',
+  name: 'CatalogueImageGallery',
   render: args => (
     <ReadmeDecorator
       WrappedComponent={args => (
@@ -40,7 +40,7 @@ export const Basic: Story = {
             background: '#323232',
           }}
         >
-          <ScrollableGallery
+          <CatalogueImageGalleryScrollable
             label={args.label}
             images={mockImages.slice(0, args.imageCount)}
           />

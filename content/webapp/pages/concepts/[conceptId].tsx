@@ -18,8 +18,8 @@ import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import theme from '@weco/common/views/themes/default';
+import CatalogueImageGallery from '@weco/content/components/CatalogueImageGallery';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
-import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults';
 import MoreLink from '@weco/content/components/MoreLink';
 import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink/Images';
 import { toLink as toWorksLink } from '@weco/content/components/SearchPagesLink/Works';
@@ -164,7 +164,7 @@ const ImagesTabPanel: FunctionComponent<ImagesTabPanelProps> = ({
 }) => {
   return (
     <div role="tabpanel" id={`tabpanel-${id}`} aria-labelledby={`tab-${id}`}>
-      <ImageEndpointSearchResults images={results.pageResults} />
+      <CatalogueImageGallery images={results.pageResults} variant="justified" />
       <Space $v={{ size: 'm', properties: ['margin-top'] }}>
         {!!totalResults && (
           <SeeMoreButton

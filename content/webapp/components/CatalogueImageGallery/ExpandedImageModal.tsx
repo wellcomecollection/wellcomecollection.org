@@ -1,4 +1,5 @@
-import { FunctionComponent, Dispatch, SetStateAction } from 'react';
+import { Dispatch, FunctionComponent, SetStateAction } from 'react';
+
 import Modal from '@weco/common/views/components/Modal';
 import ExpandedImage from '@weco/content/components/ExpandedImage';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';

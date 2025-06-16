@@ -1,10 +1,10 @@
-import { FunctionComponent } from 'react';
-
-import styled from 'styled-components';
-import Icon from '@weco/common/views/components/Icon';
-import { IconSvg } from '@weco/common/icons';
 import NextLink from 'next/link';
+import { FunctionComponent } from 'react';
+import styled from 'styled-components';
+
+import { IconSvg } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
+import Icon from '@weco/common/views/components/Icon';
 
 const StyledLink = styled(NextLink).attrs({
   className: font('intr', 6),
