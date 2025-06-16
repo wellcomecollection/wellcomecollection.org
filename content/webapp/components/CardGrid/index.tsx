@@ -22,7 +22,7 @@ import { convertItemToCardProps } from '@weco/content/types/card';
 import { Link } from '@weco/content/types/link';
 import { MultiContent } from '@weco/content/types/multi-content';
 
-import DailyTourPromo from './DailyTourPromo';
+import DailyTourPromo from './CardGrid.DailyTourPromo';
 
 type Props = {
   items: readonly MultiContent[] | Article[];
