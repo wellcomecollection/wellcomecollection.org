@@ -46,11 +46,12 @@ import {
   queryParams,
 } from '@weco/content/utils/concepts';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
+
 import ThemeCollaborators from '../../components/ThemeCollaborators';
-import ThemeImages from '../../components/ThemeImages';
-import ThemeWorks from '../../components/ThemeWorks';
-import ThemeRelatedConceptsGroup from '../../components/ThemeRelatedConceptsGroup';
 import ThemeHeader from '../../components/ThemeHeader';
+import ThemeImages from '../../components/ThemeImages';
+import ThemeRelatedConceptsGroup from '../../components/ThemeRelatedConceptsGroup';
+import ThemeWorks from '../../components/ThemeWorks';
 
 const emptyImageResults: CatalogueResultsList<ImageType> = emptyResultList();
 
@@ -442,6 +443,7 @@ export const ConceptPage: NextPage<Props> = ({
             />
           </Space>
         </Container>
+      )}
       {
         // This is a placeholder for the Hotjar embedded survey to be injected
         // when the concept is a Person. It should be removed when the survey

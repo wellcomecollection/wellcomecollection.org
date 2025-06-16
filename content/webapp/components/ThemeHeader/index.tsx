@@ -1,15 +1,15 @@
 import { FunctionComponent } from 'react';
-
-import Space from '@weco/common/views/components/styled/Space';
-import { Container } from '@weco/common/views/components/styled/Container';
-import { capitalize } from '@weco/common/utils/grammar';
-import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import styled from 'styled-components';
-import ThemeRelatedConceptsGroup from '@weco/content/components/ThemeRelatedConceptsGroup';
-import { font } from '@weco/common/utils/classnames';
-import ThemeAlternativeLabels from '@weco/content/components/ThemeHeader/ThemeAlternativeLabels';
+
 import { useToggles } from '@weco/common/server-data/Context';
+import { font } from '@weco/common/utils/classnames';
+import { capitalize } from '@weco/common/utils/grammar';
+import { Container } from '@weco/common/views/components/styled/Container';
+import Space from '@weco/common/views/components/styled/Space';
+import ThemeAlternativeLabels from '@weco/content/components/ThemeHeader/ThemeAlternativeLabels';
+import ThemeRelatedConceptsGroup from '@weco/content/components/ThemeRelatedConceptsGroup';
 import ThemeSourcedDescription from '@weco/content/components/ThemeSourcedDescription';
+import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 
 const ConceptHero = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
@@ -24,7 +24,6 @@ const Title = styled(Space).attrs({
 })``;
 
 const ThemeDescription = styled(Space).attrs({
-  as: 'p',
   className: `${font('intr', 3)} body-text`,
   $v: { size: 'l', properties: ['margin-bottom'] },
 })``;
