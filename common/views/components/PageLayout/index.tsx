@@ -31,10 +31,7 @@ import ApiToolbar, {
 } from '@weco/common/views/components/ApiToolbar';
 import Footer from '@weco/common/views/components/Footer';
 import Header, { NavLink } from '@weco/common/views/components/Header';
-import {
-  InfoBanner,
-  WebsiteIssuesBanner,
-} from '@weco/common/views/components/InfoBanners';
+import InfoBanner from '@weco/common/views/components/InfoBanner';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import NewsletterPromo from '@weco/common/views/components/NewsletterPromo';
 import PopupDialog from '@weco/common/views/components/PopupDialog';
@@ -287,11 +284,12 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           Skip to main content
         </a>
         {!hideHeader && <Header siteSection={siteSection} {...headerProps} />}
-        {issuesBanner && <WebsiteIssuesBanner />}
+        {issuesBanner && <InfoBanner variant="websiteIssues" />}
         {globalAlert.data.isShown === 'show' &&
           (!globalAlert.data.routeRegex ||
             urlString.match(new RegExp(globalAlert.data.routeRegex))) && (
             <InfoBanner
+              variant="default"
               document={globalAlert}
               cookieName={cookies.globalAlert}
               onVisibilityChange={isVisible => {

@@ -18,13 +18,13 @@ import {
   CopyContainer,
 } from './InfoBanners.styles';
 
-type Props = {
+export type Props = {
   cookieName: string;
   document: { data: InferDataInterface<RawGlobalAlertDocument> };
   onVisibilityChange?: (isVisible: boolean) => void;
 };
 
-const InfoBanner: FunctionComponent<Props> = ({
+const InfoBannerDefault: FunctionComponent<Props> = ({
   cookieName,
   document,
   onVisibilityChange = () => {
@@ -66,7 +66,9 @@ const InfoBanner: FunctionComponent<Props> = ({
     }
   }, []);
 
-  return isVisible ? (
+  if (!isVisible) return null;
+
+  return (
     <BannerContainer role="region" aria-labelledby="note" id="notification">
       <BannerWrapper>
         <CopyContainer>
@@ -91,7 +93,7 @@ const InfoBanner: FunctionComponent<Props> = ({
         </Space>
       </BannerWrapper>
     </BannerContainer>
-  ) : null;
+  );
 };
 
-export default InfoBanner;
+export default InfoBannerDefault;
