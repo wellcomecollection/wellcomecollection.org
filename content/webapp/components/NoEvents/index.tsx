@@ -5,7 +5,7 @@ import { font } from '@weco/common/utils/classnames';
 import ButtonSolidLink from '@weco/common/views/components/Buttons/Buttons.SolidLink';
 import Space from '@weco/common/views/components/styled/Space';
 
-import { QuestionMark } from './images';
+import QuestionMark from './NoEvents.QuestionMark';
 
 type Props = {
   isPastListing: boolean;
