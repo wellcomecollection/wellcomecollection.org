@@ -12,7 +12,7 @@ import useSwipeable, {
 const ScrollButton = styled('button').attrs({
   className: font('intr', 6),
 })`
-  color: white;
+  color: ${props => props.theme.color('white')};
   display: flex;
   flex-direction: column;
   justify-content: center;
