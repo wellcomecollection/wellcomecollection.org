@@ -33,7 +33,7 @@ const PdfLink = styled.a`
 `;
 
 const IIIFItemPdf = ({ src, label }: { src: string; label?: string }) => {
-  const { isMobileOrTablet /*, windowSize TODO */ } = useAppContext();
+  const { isMobileOrTablet } = useAppContext();
   const title = label || 'PDF';
   return (
     <>
