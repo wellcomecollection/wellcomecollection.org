@@ -12,7 +12,7 @@ import type {
   Event as EventType,
 } from '@weco/content/types/events';
 
-import EventScheduleItem from './EventScheduleItem';
+import EventScheduleItem from './EventSchedule.Item';
 
 const EventScheduleList: FunctionComponent<{
   groupedEvents: EventsGroup<EventType>[];

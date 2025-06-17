@@ -1,14 +1,14 @@
 import { FunctionComponent } from 'react';
 
 import { formatDayMonth, formatDayName } from '@weco/common/utils/format-date';
-import { dateAsValue } from '@weco/content/components/ItemRequestModal/format-date';
+import { dateAsValue } from '@weco/content/components/ItemRequestModal/ItemRequestModal.helpers';
 import Select from '@weco/content/components/Select';
 import { AvailabilitySlot } from '@weco/content/services/wellcome/catalogue/types';
 
 type Props = {
   availableDates: AvailabilitySlot[];
-  chosenDate?: string;
-  setChosenDate: (value: string) => void;
+  pickUpDate?: string;
+  setPickUpDate: (date: string) => void;
 };
 
 const availabilitySlotsToSelectOptions = (
@@ -32,19 +32,23 @@ const availabilitySlotsToSelectOptions = (
   );
 };
 
-const CalendarSelect: FunctionComponent<Props> = ({
+const RequestingDayPicker: FunctionComponent<Props> = ({
   availableDates,
-  chosenDate,
-  setChosenDate,
-}) => (
-  <Select
-    name="calendar_dates"
-    label="Select a date"
-    hideLabel={true}
-    options={availabilitySlotsToSelectOptions(availableDates)}
-    value={chosenDate || 'Select a date'}
-    onChange={e => setChosenDate(e.target.value)}
-  />
-);
+  pickUpDate,
+  setPickUpDate,
+}: Props) => {
+  return (
+    <div style={{ position: 'relative' }}>
+      <Select
+        name="calendar_dates"
+        label="Select a date"
+        hideLabel={true}
+        options={availabilitySlotsToSelectOptions(availableDates)}
+        value={pickUpDate || 'Select a date'}
+        onChange={e => setPickUpDate(e.target.value)}
+      />
+    </div>
+  );
+};
 
-export default CalendarSelect;
+export default RequestingDayPicker;
