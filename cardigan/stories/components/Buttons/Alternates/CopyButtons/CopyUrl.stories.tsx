@@ -54,10 +54,6 @@ const CopyButtonsStory = args => {
 };
 
 export const Basic: Story = {
-  args: {
-    variant: 'content',
-  },
-
   name: 'CopyButtons',
   render: args => <CopyButtonsStory {...args} />,
 };
