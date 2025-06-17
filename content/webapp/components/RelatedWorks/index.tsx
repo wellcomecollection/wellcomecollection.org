@@ -83,6 +83,22 @@ const RelatedWorks = ({
       const firstTabKey = Object.keys(relatedWorksTabs)[0];
       if (firstTabKey) setSelectedTab(firstTabKey);
     }
+
+    // Only do this is there are results to display
+    if (!isLoading && relatedWorksTabs && selectedTab) {
+      const dataLayerEvent = {
+        event: 'related_works_displayed',
+        workId,
+        relatedWorks: {
+          tabs: Object.values(relatedWorksTabs).map(value => ({
+            label: value.label,
+            resultsCount: value.results.length,
+          })),
+        },
+      };
+
+      window.dataLayer?.push(dataLayerEvent);
+    }
   }, [relatedWorksTabs]);
 
   if (isLoading)
@@ -132,7 +148,6 @@ const RelatedWorks = ({
                     work={result}
                     gtmData={{
                       cardIndex: i + 1,
-                      parentWorkId: work.id,
                       categoryName: value.label,
                       categoryPosition: tabIndex + 1,
                     }}

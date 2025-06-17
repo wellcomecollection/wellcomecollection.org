@@ -20,7 +20,6 @@ type Props = {
     cardIndex: number;
     categoryName: string;
     categoryPosition: number;
-    parentWorkId: string;
   };
 };
 
@@ -36,9 +35,10 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
   return (
     <WorkLink id={work.id} source={`works_search_result_${work.id}`} passHref>
       <Card
+        data-gtm-trigger="related_card_result"
         data-gtm-category-name={gtmData.categoryName}
         data-gtm-category-position={gtmData.categoryPosition}
-        data-gtm-parent-work-id={gtmData.parentWorkId} // Do I need to add this? Can't we just know from the page URL?
+        data-gtm-result-id={work.id}
         data-gtm-position-in-list={gtmData.cardIndex}
       >
         <TextWrapper>

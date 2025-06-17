@@ -10,6 +10,7 @@ import {
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { IconSvg } from '@weco/common/icons';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
+import { toSnakeCase } from '@weco/common/utils/grammar';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -130,6 +131,9 @@ const TabsSwitch: FunctionComponent<Props> = ({
         return (
           <Tab
             key={item.id}
+            data-gtm-trigger={`tab_${toSnakeCase(label)}`}
+            data-gtm-tab-label={item.text}
+            data-gtm-tab-position={items.indexOf(item) + 1}
             $selected={isSelected}
             $isWhite={isWhite}
             $hideBorder={hideBorder}
