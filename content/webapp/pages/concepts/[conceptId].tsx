@@ -17,6 +17,7 @@ import { getQueryResults, ReturnedResults } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
+import { themeValues } from '@weco/common/views/themes/config';
 import theme from '@weco/common/views/themes/default';
 import CatalogueImageGallery from '@weco/content/components/CatalogueImageGallery';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
@@ -440,6 +441,9 @@ export const ConceptPage: NextPage<Props> = ({
                 label="Related topics"
                 labelType="heading"
                 relatedConcepts={relatedTopics}
+                buttonColors={
+                  themeValues.buttonColors.pumiceTransparentCharcoal
+                }
               />
             </Space>
           </Container>

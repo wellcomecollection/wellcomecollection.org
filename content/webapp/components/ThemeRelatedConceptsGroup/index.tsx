@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
-import Button from '@weco/common/views/components/Buttons';
+import Button, { ButtonColors } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
 import { RelatedConcept } from '@weco/content/services/wellcome/catalogue/types';
@@ -34,12 +34,14 @@ type Props = {
   label: string;
   labelType: 'inline' | 'heading';
   relatedConcepts?: RelatedConcept[];
+  buttonColors?: ButtonColors;
 };
 
 const ThemeRelatedConceptsGroup = ({
   label,
   labelType,
   relatedConcepts,
+  buttonColors,
 }: Props) => {
   if (!relatedConcepts || relatedConcepts.length === 0) {
     return null;
@@ -60,8 +62,10 @@ const ThemeRelatedConceptsGroup = ({
             <Space className={font('intr', 5)}>
               <Button
                 variant="ButtonSolidLink"
-                colors={themeValues.buttonColors.charcoalTransparentBlack}
-                isPill
+                colors={
+                  buttonColors ||
+                  themeValues.buttonColors.charcoalTransparentCharcoal
+                }
                 text={item.label}
                 link={`/concepts/${item.id}`}
                 size="small"
