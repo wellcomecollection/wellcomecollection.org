@@ -63,7 +63,7 @@ const ThemeImagesSection: FunctionComponent<Props> = ({
 }) => {
   const pathname = usePathname();
   const firstTenImages = useMemo(
-    () => singleSectionData.pageResults.slice(0, 10),
+    () => singleSectionData?.pageResults.slice(0, 10) || [],
     [singleSectionData]
   );
 
