@@ -5,7 +5,13 @@ import { IconSvg } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
-import { IconWrapper, NavItemInner, Tab, TabsContainer } from './Tabs.styles';
+import {
+  IconWrapper,
+  NavItemInner,
+  NavItemShim,
+  Tab,
+  TabsContainer,
+} from './Tabs.styles';
 
 export type NavigateSelectableTextLink = {
   id: string;
@@ -42,7 +48,6 @@ const TabsNavigate: FunctionComponent<Props> = ({
               as={typeof item.url === 'string' ? undefined : item.url.as}
             >
               <NavItemInner
-                text={item.text}
                 $selected={isSelected}
                 aria-current={isSelected ? 'page' : 'false'}
                 $isWhite={isWhite}
@@ -56,6 +61,7 @@ const TabsNavigate: FunctionComponent<Props> = ({
                   }
                 }}
               >
+                <NavItemShim>{item.text}</NavItemShim>
                 {item.icon && (
                   <Space
                     as="span"

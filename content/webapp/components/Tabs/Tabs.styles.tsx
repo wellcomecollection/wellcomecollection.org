@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import styled from 'styled-components';
 
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -99,23 +98,13 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
       $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
     };
   }
-)<{ $isWhite?: boolean; text: string | ReactNode }>`
+)<{ $isWhite?: boolean }>`
   display: block;
   position: relative;
   z-index: 1;
   cursor: pointer;
   color: ${props => props.theme.color(props.$isWhite ? 'white' : 'black')};
   transition: all ${props => props.theme.transitionProperties};
-
-  /* Prevent tabs layout shift that would result from diffent font weights
-  by adding a pseudo-element with the bold (widest) text content */
-  &::before {
-    content: '${props => props.text?.toString()}';
-    display: block;
-    font-weight: 700;
-    height: 0;
-    visibility: hidden;
-  }
 
   &::after {
     content: '';
@@ -146,6 +135,14 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
     width: 100%;
     background-color: transparent;
   }
+`;
+
+// Prevent tabs layout shift that would result from diffent font weights
+// by adding an element with the bold (widest) text content
+export const NavItemShim = styled.div`
+  font-weight: 700;
+  height: 0;
+  visibility: hidden;
 `;
 
 export const IconWrapper = styled.span`
