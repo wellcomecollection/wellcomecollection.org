@@ -359,7 +359,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         </IIIFItemWrapper>
       );
 
-    case item.type === 'Text' && !exclude.includes('Text'):
+    case item.type === 'Text' && item.id && !exclude.includes('Text'):
       if ('label' in item) {
         const itemLabel = item.label
           ? getLabelString(item.label as InternationalString)
