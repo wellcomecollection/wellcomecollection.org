@@ -42,6 +42,7 @@ const TabsNavigate: FunctionComponent<Props> = ({
               as={typeof item.url === 'string' ? undefined : item.url.as}
             >
               <NavItemInner
+                text={item.text}
                 $selected={isSelected}
                 aria-current={isSelected ? 'page' : 'false'}
                 $isWhite={isWhite}

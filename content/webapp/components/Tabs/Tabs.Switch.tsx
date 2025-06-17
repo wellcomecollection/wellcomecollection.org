@@ -155,7 +155,11 @@ const TabsSwitch: FunctionComponent<Props> = ({
               aria-controls={`tabpanel-${item.id}`}
               aria-selected={item.id === selectedTab}
             >
-              <NavItemInner $selected={isSelected} $isWhite={isWhite}>
+              <NavItemInner
+                text={item.text}
+                $selected={isSelected}
+                $isWhite={isWhite}
+              >
                 <ConditionalWrapper
                   condition={Boolean(item.url && !isEnhanced)}
                   wrapper={children => <a href={item.url}>{children}</a>}
