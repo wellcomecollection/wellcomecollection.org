@@ -13,6 +13,7 @@ const meta: Meta<typeof StoryPromo> = {
   args: {
     variant: 'contentApi',
     article: contentAPIArticle,
+    hidePromoText: false,
   },
   argTypes: {
     variant: {
