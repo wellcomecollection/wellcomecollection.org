@@ -25,12 +25,12 @@ const meta: Meta<typeof StoryPromo> = {
         'Content API': 'contentApi',
       },
     },
-    article: { table: { disable: true } },
-    sizesQueries: { table: { disable: true } },
     hidePromoText: {
       name: 'Hide promo text',
       control: { type: 'boolean' },
     },
+    article: { table: { disable: true } },
+    sizesQueries: { table: { disable: true } },
   },
   parameters: {
     gridSizes: {
@@ -66,10 +66,6 @@ const StoryPromoStory = args => {
 };
 
 export const Basic: Story = {
-  args: {
-    hidePromoText: true,
-  },
-
   name: 'StoryPromo',
   render: args => <StoryPromoStory {...args} />,
 };
