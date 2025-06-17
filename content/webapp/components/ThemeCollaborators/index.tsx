@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { user } from '@weco/common/icons';
+import { organisation, user } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import CollaboratorCard from '@weco/content/components/CollaboratorCard';
@@ -27,9 +27,7 @@ type Props = {
 };
 
 const iconFromConceptType = (type: ConceptType) => {
-  // TODO: We don't have an organisation icon at the moment.
-  if (type === 'Organisation') return user;
-
+  if (type === 'Organisation') return organisation;
   return user;
 };
 
