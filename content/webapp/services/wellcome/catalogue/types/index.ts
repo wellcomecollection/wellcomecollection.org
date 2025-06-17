@@ -119,6 +119,12 @@ type Genre = {
   type: 'Genre';
 };
 
+export type SourceOntology =
+  | 'nlm-mesh'
+  | 'wikidata'
+  | 'lc-names'
+  | 'lc-subjects';
+
 export type ConceptType =
   | 'Subject'
   | 'Meeting'
@@ -142,7 +148,11 @@ export type Concept = {
   label: string;
   type: ConceptType;
   sameAs?: string[];
-  description?: string;
+  description?: {
+    sourceLabel: SourceOntology;
+    sourceUrl: string;
+    text: string;
+  };
   relatedConcepts?: {
     fieldsOfWork?: RelatedConcept[];
     relatedTo?: RelatedConcept[];

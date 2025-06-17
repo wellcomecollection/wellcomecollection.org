@@ -50,10 +50,9 @@ const ThemeHeader: FunctionComponent<Props> = ({ concept }) => {
         {concept.description && (
           <ThemeDescription>
             <ThemeSourcedDescription
-              description={capitalize(concept.description)}
-              source="Wikidata"
-              // TODO: Replace with real link once available from the API
-              href="https://www.wikidata.org/wiki/Wikidata:Main_Page"
+              description={capitalize(concept.description.text)}
+              source={concept.description.sourceLabel}
+              href={concept.description.sourceUrl}
             />
           </ThemeDescription>
         )}
