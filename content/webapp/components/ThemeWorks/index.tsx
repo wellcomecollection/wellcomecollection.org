@@ -35,13 +35,9 @@ const WorksCount = styled(Space).attrs({
   border-top: 1px solid ${props => props.theme.color('warmNeutral.300')};
 `;
 
-const getLinkSource = (type: ThemeTabType) => {
-  return `concept/works_${type}` as WorksLinkSource;
-};
-
-const getAllWorksLink = (tabType: ThemeTabType, concept: Concept) => {
-  const linkSource = getLinkSource(tabType);
-  const sectionName = `works${capitalize(tabType)}`;
+const getAllWorksLink = (tab: ThemeTabType, concept: Concept) => {
+  const linkSource = `concept/works_${tab}` as WorksLinkSource;
+  const sectionName = `works${capitalize(tab)}`;
   return toWorksLink(allRecordsLinkParams(sectionName, concept), linkSource);
 };
 

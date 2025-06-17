@@ -22,21 +22,18 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { allRecordsLinkParams } from '@weco/content/utils/concepts';
 
-const getLinkSource = (type, pathname: string) => {
-  return `concept/images_${type}_${pathname}` as ImagesLinkSource;
-};
-
-const getAllImagesLink = (tabType, concept: Concept, pathname: string) => {
-  const linkSource = getLinkSource(tabType, pathname);
-  const sectionName = `images${capitalize(tabType)}`;
+const getAllImagesLink = (
+  tab: ThemeTabType,
+  concept: Concept,
+  pathname: string
+) => {
+  const linkSource = `concept/images_${tab}_${pathname}` as ImagesLinkSource;
+  const sectionName = `images${capitalize(tab)}`;
   return toImagesLink(allRecordsLinkParams(sectionName, concept), linkSource);
 };
 
 const getReadableType = (type: ThemeTabType) => {
-  if (type === 'about') {
-    return 'featuring';
-  }
-
+  if (type === 'about') return 'featuring';
   return type;
 };
 
@@ -45,7 +42,7 @@ const SectionHeading = styled(Space).attrs({
   className: font('intsb', 2),
   $v: { size: 's', properties: ['margin-bottom'] },
 })`
-  color: white;
+  color: ${props => props.theme.color('white')};
 `;
 
 type Props = {
