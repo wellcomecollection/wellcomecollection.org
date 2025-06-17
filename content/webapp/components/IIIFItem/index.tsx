@@ -24,6 +24,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import AudioPlayer from '@weco/content/components/AudioPlayer';
 import BetaMessage from '@weco/content/components/BetaMessage';
+import IIIFItemPdf from '@weco/content/components/IIIFItem/IIIFItem.Pdf';
 import ImageViewer from '@weco/content/components/IIIFViewer/ImageViewer';
 import VideoPlayer from '@weco/content/components/VideoPlayer';
 import VideoTranscript from '@weco/content/components/VideoTranscript';
@@ -43,7 +44,6 @@ import {
 import { getAudioVideoLabel } from '@weco/content/utils/works';
 
 import IIIFItemAudioVideoLink from './IIIFItem.AudioVideo';
-import IIIFItemPdf from './IIIFItem.Pdf';
 
 const Outline = styled(Space).attrs({
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
