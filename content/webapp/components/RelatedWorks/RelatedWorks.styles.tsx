@@ -86,7 +86,6 @@ export const ImageWrapper = styled.div`
   width: 100%;
   max-height: 250px;
   order: -1;
-  margin-left: ${props => props.theme.spacingUnits['3']}px;
   margin-bottom: ${props => props.theme.spacingUnits['5']}px;
   display: flex;
 
@@ -96,7 +95,9 @@ export const ImageWrapper = styled.div`
     width: 100%;
     filter: url('#border-radius-mask');
 
-    ${props => props.theme.media('medium')`
+    ${props =>
+      props.theme.media('medium')(`
+      margin-left: ${props.theme.spacingUnits['3']}px;
       width: unset;
       height: 100%;
 
@@ -112,7 +113,7 @@ export const ImageWrapper = styled.div`
       @supports (-webkit-appearance: none) and (stroke-color: transparent) {
         max-width: 100%;
       }
-    `}
+    `)}
   }
 
   ${props => props.theme.media('medium')`
