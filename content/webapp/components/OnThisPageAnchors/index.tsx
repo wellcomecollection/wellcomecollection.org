@@ -17,6 +17,7 @@ const ListItem = styled.li`
   padding-left: ${leftOffset};
   padding-bottom: 6px;
   padding-top: 6px;
+
   &::before {
     content: '';
     display: block;
@@ -35,6 +36,7 @@ const AnimatedLink = styled.a`
   --line: ${props => props.theme.color('white')};
   text-decoration: none;
   position: relative;
+
   & > span {
     background-image: linear-gradient(0deg, var(--line) 0%, var(--line) 100%);
     background-position: 0% 100%;
@@ -46,6 +48,7 @@ const AnimatedLink = styled.a`
     transform: translateZ(0);
     padding-bottom: 2px;
   }
+
   &:hover {
     --background-size: 100%;
   }
@@ -69,7 +72,7 @@ const InPageNavAnimatedLink = styled(AnimatedLink)<{
     content: '';
     position: absolute;
     left: -${leftOffset};
-    top: 0px;
+    top: 0;
     height: 100%;
     width: 3px;
     background: ${props => props.theme.color('white')};
@@ -163,7 +166,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
         const id = link.url.replace('#', '');
         const isActive = activeId === id;
         return (
-          <PlainList>
+          <PlainList key={link.url}>
             {isSticky ? (
               <ListItem key={link.url}>
                 <NextLink

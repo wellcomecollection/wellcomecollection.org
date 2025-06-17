@@ -88,18 +88,17 @@ export const ImageWrapper = styled.div`
   order: -1;
   margin-left: ${props => props.theme.spacingUnits['3']}px;
   margin-bottom: ${props => props.theme.spacingUnits['5']}px;
+  display: flex;
 
   img {
     display: block;
     object-fit: contain;
     width: 100%;
-    max-height: 100%;
     filter: url('#border-radius-mask');
 
     ${props => props.theme.media('medium')`
       width: unset;
       height: 100%;
-      max-height: unset;
 
       max-width: -webkit-fill-available; /* Chrome, Safari, Edge */
       max-width: -moz-available; /* Firefox */
