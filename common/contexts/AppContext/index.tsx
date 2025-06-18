@@ -26,7 +26,7 @@ type AppContextProps = {
   setAudioPlaybackRate: (rate: number) => void;
   hasAcknowledgedCookieBanner: boolean;
   setHasAcknowledgedCookieBanner: (isAcknowledged: boolean) => void;
-  isMobileOrTablet: boolean;
+  supportsPdf: boolean;
 };
 
 const appContextDefaults = {
@@ -39,27 +39,16 @@ const appContextDefaults = {
   setAudioPlaybackRate: () => null,
   hasAcknowledgedCookieBanner: false,
   setHasAcknowledgedCookieBanner: () => null,
-  isMobileOrTablet: true,
+  supportsPdf: false,
 };
 
-function isMobileOrTabletDevice(): boolean {
+function pdfViewerEnabled(): boolean {
   if (typeof window === 'undefined') return false;
-
-  const userAgent = navigator.userAgent.toLowerCase();
-  const mobileKeywords = [
-    'android',
-    'iphone',
-    'ipad',
-    'ipod',
-    'blackberry',
-    'windows phone',
-    'opera mini',
-    'iemobile',
-    'mobile',
-    'tablet',
-  ];
-
-  return mobileKeywords.some(keyword => userAgent.includes(keyword));
+  return (
+    'pdfViewerEnabled' in navigator &&
+    typeof navigator.pdfViewerEnabled === 'boolean' &&
+    navigator.pdfViewerEnabled
+  );
 }
 
 const AppContext = createContext<AppContextProps>(appContextDefaults);
@@ -100,13 +89,13 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
   );
   const [hasAcknowledgedCookieBanner, setHasAcknowledgedCookieBanner] =
     useState(Boolean(getCookies().CookieControl));
-  const [isMobileOrTablet, setisMobileOrTablet] = useState(
-    appContextDefaults.isMobileOrTablet
+  const [supportsPdf, setSupportsPdf] = useState(
+    appContextDefaults.supportsPdf
   );
 
   useEffect(() => {
     setIsEnhanced(true);
-    setisMobileOrTablet(isMobileOrTabletDevice());
+    setSupportsPdf(pdfViewerEnabled());
   }, []);
 
   // We need the initial state to be set before rendering to avoid
@@ -171,7 +160,7 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
         setAudioPlaybackRate,
         hasAcknowledgedCookieBanner,
         setHasAcknowledgedCookieBanner,
-        isMobileOrTablet,
+        supportsPdf,
       }}
     >
       {children}

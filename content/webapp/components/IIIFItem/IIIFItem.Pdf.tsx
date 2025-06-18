@@ -34,17 +34,17 @@ const PdfLink = styled.a`
 `;
 
 const IIIFItemPdf = ({ src, label }: { src: string; label?: string }) => {
-  const { isMobileOrTablet } = useAppContext();
+  const { supportsPdf } = useAppContext();
   const { extendedViewer } = useToggles();
   const title = label || 'PDF';
   return (
     <>
-      {isMobileOrTablet && extendedViewer ? (
+      {supportsPdf || !extendedViewer ? (
+        <IframePdfViewer as="iframe" title={title} src={src} />
+      ) : (
         <PdfLink href={src} target="_blank" rel="noopener noreferrer">
           {title}
         </PdfLink>
-      ) : (
-        <IframePdfViewer as="iframe" title={title} src={src} />
       )}
     </>
   );
