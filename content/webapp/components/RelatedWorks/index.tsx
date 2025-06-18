@@ -87,7 +87,11 @@ const RelatedWorks = ({
     }
 
     // Only do this if there are results to display
-    if (!isLoading && relatedWorksTabs && selectedTab) {
+    if (
+      !isLoading &&
+      relatedWorksTabs &&
+      Object.keys(relatedWorksTabs).length > 0
+    ) {
       const dataLayerEvent = {
         event: 'related_works_displayed',
         relatedWorks: {

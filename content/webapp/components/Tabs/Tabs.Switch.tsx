@@ -134,10 +134,6 @@ const TabsSwitch: FunctionComponent<Props> = ({
         return (
           <Tab
             key={item.id}
-            data-gtm-trigger={`tab_${toSnakeCase(label)}`}
-            data-gtm-label={item.text}
-            data-gtm-tab-category={item.gtmData?.category}
-            data-gtm-position-in-list={items.indexOf(item) + 1}
             $selected={isSelected}
             $isWhite={isWhite}
             $hideBorder={hideBorder}
@@ -163,7 +159,14 @@ const TabsSwitch: FunctionComponent<Props> = ({
               aria-controls={`tabpanel-${item.id}`}
               aria-selected={item.id === selectedTab}
             >
-              <NavItemInner $selected={isSelected} $isWhite={isWhite}>
+              <NavItemInner
+                $selected={isSelected}
+                $isWhite={isWhite}
+                data-gtm-trigger={`tab_${toSnakeCase(label)}`}
+                data-gtm-label={item.text}
+                data-gtm-category={item.gtmData?.category}
+                data-gtm-position-in-list={items.indexOf(item) + 1}
+              >
                 <ConditionalWrapper
                   condition={Boolean(item.url && !isEnhanced)}
                   wrapper={children => <a href={item.url}>{children}</a>}
