@@ -90,7 +90,6 @@ const RelatedWorks = ({
     if (!isLoading && relatedWorksTabs && selectedTab) {
       const dataLayerEvent = {
         event: 'related_works_displayed',
-        workId,
         relatedWorks: {
           tabs: Object.values(relatedWorksTabs).map(value => ({
             label: value.label,
