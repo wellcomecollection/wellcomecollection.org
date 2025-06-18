@@ -17,6 +17,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import {
   IconWrapper,
   NavItemInner,
+  NavItemShim,
   Tab,
   TabButton,
   TabsContainer,
@@ -156,6 +157,7 @@ const TabsSwitch: FunctionComponent<Props> = ({
               aria-selected={item.id === selectedTab}
             >
               <NavItemInner $selected={isSelected} $isWhite={isWhite}>
+                <NavItemShim>{item.text}</NavItemShim>
                 <ConditionalWrapper
                   condition={Boolean(item.url && !isEnhanced)}
                   wrapper={children => <a href={item.url}>{children}</a>}
