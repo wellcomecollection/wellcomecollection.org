@@ -163,11 +163,10 @@ const linkSources = new Map([
 ]);
 
 const HotJarPlaceholder = styled.div`
-  margin: 0 auto;
+  margin: -2rem auto 2rem auto;
   width: 100%;
   max-width: ${themeValues.sizes.xlarge}px;
 
-  margin-bottom: 2rem;
   display: grid;
   justify-items: start;
   padding: 0 ${themeValues.containerPadding.small}px;
