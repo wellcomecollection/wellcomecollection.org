@@ -16,7 +16,9 @@ import { serialiseProps } from '@weco/common/utils/json';
 import { getQueryResults, ReturnedResults } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
+import { themeValues } from '@weco/common/views/themes/config';
 import theme from '@weco/common/views/themes/default';
 import CatalogueImageGallery from '@weco/content/components/CatalogueImageGallery';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
@@ -55,7 +57,15 @@ const emptyWorkResults: CatalogueResultsList<WorkType> = emptyResultList();
 const tabOrder = ['by', 'in', 'about'] as const;
 
 // TODO: Remove these components when we introduce new theme pages.
-
+//
+const TestingImages = styled.div`
+  background-color: #f0f0f0;
+  height: 400px;
+  container-type: inline-size;
+  margin-right: calc(
+    (100vw - min(100cqw, ${themeValues.sizes.xlarge}px)) / 2 * -1
+  );
+`;
 const RelatedConceptsContainer = styled.div.attrs({
   className: font('intr', 6),
 })`
@@ -179,7 +189,15 @@ const TypeLabel = styled.span.attrs({ className: font('intb', 6) })`
 const ConceptImages = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
 })`
+  position: relative;
   background-color: ${props => props.theme.color('black')};
+  container-type: inline-size;
+
+  margin-right: -60px;
+
+  @media (min-width: ${themeValues.sizes.xlarge}px) {
+    margin-right: calc((100vw - ${themeValues.sizes.xlarge}px) / 2 * -1 - 60px);
+  }
 
   .sectionTitle {
     color: ${props => props.theme.color('white')};
@@ -520,72 +538,80 @@ export const ConceptPage: NextPage<Props> = ({
         </Container>
       </ConceptHero>
 
-      {/* Images */}
-      {hasImages && (
-        <ConceptImages as="section" data-testid="images-section">
-          <Container>
-            <h2 className={`${font('wb', 3)} sectionTitle`}>Images</h2>
-            {hasImagesTabs && (
-              <Tabs
-                label="Images tabs"
-                tabBehaviour="switch"
-                items={imagesTabs.map(t => t.tab)}
-                selectedTab={selectedImagesTab}
-                setSelectedTab={setSelectedImagesTab}
-                isWhite
-                trackWithSegment
-              />
+      <Container>
+        <Grid>
+          <GridCell $sizeMap={{ s: [12], m: [3], l: [2], xl: [2] }}>
+            <div style={{ position: 'sticky', top: 0 }}>nav goes here</div>
+          </GridCell>
+          <GridCell $sizeMap={{ s: [12], m: [9], l: [10], xl: [10] }}>
+            {/* Images */}
+            {hasImages && (
+              <TestingImages>images</TestingImages>
+              // <ConceptImages as="section" data-testid="images-section">
+              //   <h2 className={`${font('wb', 3)} sectionTitle`}>Images</h2>
+              //   {hasImagesTabs && (
+              //     <Tabs
+              //       label="Images tabs"
+              //       tabBehaviour="switch"
+              //       items={imagesTabs.map(t => t.tab)}
+              //       selectedTab={selectedImagesTab}
+              //       setSelectedTab={setSelectedImagesTab}
+              //       isWhite
+              //       trackWithSegment
+              //     />
+              //   )}
+              //   <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+              //     <ImagesTabPanel
+              //       {...currentTabPanel(selectedImagesTab, imagesTabs)}
+              //     />
+              //   </Space>
+              // </ConceptImages>
             )}
-            <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-              <ImagesTabPanel
-                {...currentTabPanel(selectedImagesTab, imagesTabs)}
-              />
-            </Space>
-          </Container>
-        </ConceptImages>
-      )}
 
-      {/* Works */}
-      {hasWorks && (
-        <>
-          <ConceptWorksHeader $hasWorksTabs={hasWorksTabs}>
-            <Container>
-              <h2 className={font('wb', 3)}>Catalogue</h2>
+            {/* Works */}
+            {hasWorks && (
+              <>
+                <ConceptWorksHeader $hasWorksTabs={hasWorksTabs}>
+                  <h2 className={font('wb', 3)}>Catalogue</h2>
 
-              {hasWorksTabs && (
-                <Tabs
-                  label="Works tabs"
-                  tabBehaviour="switch"
-                  selectedTab={selectedWorksTab}
-                  items={worksTabs.map(t => t.tab)}
-                  setSelectedTab={setSelectedWorksTab}
-                  trackWithSegment
-                  hideBorder
-                />
-              )}
-            </Container>
-          </ConceptWorksHeader>
+                  {hasWorksTabs && (
+                    <Tabs
+                      label="Works tabs"
+                      tabBehaviour="switch"
+                      selectedTab={selectedWorksTab}
+                      items={worksTabs.map(t => t.tab)}
+                      setSelectedTab={setSelectedWorksTab}
+                      trackWithSegment
+                      hideBorder
+                    />
+                  )}
+                </ConceptWorksHeader>
 
-          <Space
-            as="section"
-            $v={{
-              size: 'xl',
-              properties: ['margin-top', 'margin-bottom'],
-            }}
-            data-testid="works-section"
-          >
-            <WorksTabPanel {...currentTabPanel(selectedWorksTab, worksTabs)} />
-          </Space>
-        </>
-      )}
-      {
-        // This is a placeholder for the Hotjar embedded survey to be injected
-        // when the concept is a Person. It should be removed when the survey
-        // is no longer used.
-      }
-      {conceptResponse.type === 'Person' && (
-        <div id="hotjar-embed-placeholder-concept-person" />
-      )}
+                <Space
+                  as="section"
+                  $v={{
+                    size: 'xl',
+                    properties: ['margin-top', 'margin-bottom'],
+                  }}
+                  data-testid="works-section"
+                >
+                  <WorksTabPanel
+                    {...currentTabPanel(selectedWorksTab, worksTabs)}
+                  />
+                </Space>
+              </>
+            )}
+            {
+              // This is a placeholder for the Hotjar embedded survey to be injected
+              // when the concept is a Person. It should be removed when the survey
+              // is no longer used.
+            }
+            {conceptResponse.type === 'Person' && (
+              <div id="hotjar-embed-placeholder-concept-person" />
+            )}
+          </GridCell>
+        </Grid>
+      </Container>
     </CataloguePageLayout>
   );
 };
