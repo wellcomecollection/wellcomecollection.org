@@ -34,12 +34,12 @@ const PdfLink = styled.a`
 `;
 
 const IIIFItemPdf = ({ src, label }: { src: string; label?: string }) => {
-  const { isMobile } = useAppContext();
+  const { isMobileOrTablet } = useAppContext();
   const { extendedViewer } = useToggles();
   const title = label || 'PDF';
   return (
     <>
-      {isMobile && extendedViewer ? (
+      {isMobileOrTablet && extendedViewer ? (
         <PdfLink href={src} target="_blank" rel="noopener noreferrer">
           {title}
         </PdfLink>

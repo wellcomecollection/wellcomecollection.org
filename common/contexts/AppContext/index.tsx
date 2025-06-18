@@ -26,7 +26,7 @@ type AppContextProps = {
   setAudioPlaybackRate: (rate: number) => void;
   hasAcknowledgedCookieBanner: boolean;
   setHasAcknowledgedCookieBanner: (isAcknowledged: boolean) => void;
-  isMobile: boolean;
+  isMobileOrTablet: boolean;
 };
 
 const appContextDefaults = {
@@ -39,7 +39,7 @@ const appContextDefaults = {
   setAudioPlaybackRate: () => null,
   hasAcknowledgedCookieBanner: false,
   setHasAcknowledgedCookieBanner: () => null,
-  isMobile: true,
+  isMobileOrTablet: true,
 };
 
 const AppContext = createContext<AppContextProps>(appContextDefaults);
@@ -49,8 +49,14 @@ export function useAppContext(): AppContextProps {
   return contextState;
 }
 
-function isMobileDevice(): boolean {
-  return /Mobi|Android/i.test(navigator.userAgent);
+function isMobileOrTabletDevice(): boolean {
+  return (
+    /Mobi|Android|iPad|iPhone|iPod|tablet|Tablet|Silk|Kindle|BlackBerry|PlayBook|KFAPWI|(Android.+Mobile)/i.test(
+      navigator.userAgent
+    ) ||
+    // Alternative approach to detect iPad with iOS 13+ that disguises as desktop
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+  );
 }
 
 function getWindowSize(): Size {
@@ -84,11 +90,13 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
   );
   const [hasAcknowledgedCookieBanner, setHasAcknowledgedCookieBanner] =
     useState(Boolean(getCookies().CookieControl));
-  const [isMobile, setIsMobile] = useState(appContextDefaults.isMobile);
+  const [isMobileOrTablet, setisMobileOrTablet] = useState(
+    appContextDefaults.isMobileOrTablet
+  );
 
   useEffect(() => {
     setIsEnhanced(true);
-    setIsMobile(isMobileDevice());
+    setisMobileOrTablet(isMobileOrTabletDevice());
   }, []);
 
   // We need the initial state to be set before rendering to avoid
@@ -153,7 +161,7 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
         setAudioPlaybackRate,
         hasAcknowledgedCookieBanner,
         setHasAcknowledgedCookieBanner,
-        isMobile,
+        isMobileOrTablet,
       }}
     >
       {children}
