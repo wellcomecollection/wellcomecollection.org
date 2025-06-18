@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
+import { useToggles } from '@weco/common/server-data/Context';
 import Space from '@weco/common/views/components/styled/Space';
 
 const IframePdfViewer = styled(Space)`
@@ -34,10 +35,11 @@ const PdfLink = styled.a`
 
 const IIIFItemPdf = ({ src, label }: { src: string; label?: string }) => {
   const { isMobileOrTablet } = useAppContext();
+  const { extendedViewer } = useToggles();
   const title = label || 'PDF';
   return (
     <>
-      {isMobileOrTablet ? (
+      {isMobileOrTablet && extendedViewer ? (
         <PdfLink href={src} target="_blank" rel="noopener noreferrer">
           {title}
         </PdfLink>
