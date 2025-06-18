@@ -59,12 +59,38 @@ const tabOrder = ['by', 'in', 'about'] as const;
 // TODO: Remove these components when we introduce new theme pages.
 //
 const TestingImages = styled.div`
-  background-color: #f0f0f0;
+  padding-top: 1rem;
+  color: white;
+  background-color: black;
   height: 400px;
-  container-type: inline-size;
-  margin-right: calc(
-    (100vw - min(100cqw, ${themeValues.sizes.xlarge}px)) / 2 * -1
-  );
+  position: relative;
+  margin-right: -${themeValues.containerPadding.small}px;
+
+  ${props =>
+    props.theme.media('medium')(`
+    margin-right: -${themeValues.containerPadding.medium}px;
+    `)}
+
+  ${props =>
+    props.theme.media('large')(`
+    margin-right: -${themeValues.containerPadding.large}px;
+    `)}
+
+  ${props =>
+    props.theme.media('xlarge')(`
+    margin-right: calc((100vw - ${themeValues.sizes.xlarge}px) / 2 * -1 - ${themeValues.containerPadding.xlarge}px);
+  `)};
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: calc(100vw - 100%);
+    height: 100%;
+    background: black;
+    bottom: 0;
+    right: 100%;
+    z-index: 0;
+  }
 `;
 const RelatedConceptsContainer = styled.div.attrs({
   className: font('intr', 6),
@@ -539,9 +565,29 @@ export const ConceptPage: NextPage<Props> = ({
       </ConceptHero>
 
       <Container>
-        <Grid>
+        <Grid style={{ background: 'white' }}>
           <GridCell $sizeMap={{ s: [12], m: [3], l: [2], xl: [2] }}>
-            <div style={{ position: 'sticky', top: 0 }}>nav goes here</div>
+            <div
+              style={{
+                position: 'sticky',
+                top: 0,
+                mixBlendMode: 'difference',
+                color: 'white',
+                zIndex: 1,
+                paddingTop: '1rem',
+              }}
+            >
+              nav goes here
+              <ul>
+                <li>one</li>
+                <li>two</li>
+                <li>three</li>
+                <li>four</li>
+                <li>five</li>
+                <li>six</li>
+                <li>seven</li>
+              </ul>
+            </div>
           </GridCell>
           <GridCell $sizeMap={{ s: [12], m: [9], l: [10], xl: [10] }}>
             {/* Images */}
