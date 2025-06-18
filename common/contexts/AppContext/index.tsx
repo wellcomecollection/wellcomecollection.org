@@ -26,7 +26,7 @@ type AppContextProps = {
   setAudioPlaybackRate: (rate: number) => void;
   hasAcknowledgedCookieBanner: boolean;
   setHasAcknowledgedCookieBanner: (isAcknowledged: boolean) => void;
-  supportsPdf: boolean;
+  isMobile: boolean;
 };
 
 const appContextDefaults = {
@@ -39,23 +39,18 @@ const appContextDefaults = {
   setAudioPlaybackRate: () => null,
   hasAcknowledgedCookieBanner: false,
   setHasAcknowledgedCookieBanner: () => null,
-  supportsPdf: false,
+  isMobile: true,
 };
-
-function pdfViewerEnabled(): boolean {
-  if (typeof window === 'undefined') return false;
-  return (
-    'pdfViewerEnabled' in navigator &&
-    typeof navigator.pdfViewerEnabled === 'boolean' &&
-    navigator.pdfViewerEnabled
-  );
-}
 
 const AppContext = createContext<AppContextProps>(appContextDefaults);
 
 export function useAppContext(): AppContextProps {
   const contextState = useContext(AppContext);
   return contextState;
+}
+
+function isMobileDevice(): boolean {
+  return /Mobi|Android/i.test(navigator.userAgent);
 }
 
 function getWindowSize(): Size {
@@ -89,13 +84,11 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
   );
   const [hasAcknowledgedCookieBanner, setHasAcknowledgedCookieBanner] =
     useState(Boolean(getCookies().CookieControl));
-  const [supportsPdf, setSupportsPdf] = useState(
-    appContextDefaults.supportsPdf
-  );
+  const [isMobile, setIsMobile] = useState(appContextDefaults.isMobile);
 
   useEffect(() => {
     setIsEnhanced(true);
-    setSupportsPdf(pdfViewerEnabled());
+    setIsMobile(isMobileDevice());
   }, []);
 
   // We need the initial state to be set before rendering to avoid
@@ -160,7 +153,7 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
         setAudioPlaybackRate,
         hasAcknowledgedCookieBanner,
         setHasAcknowledgedCookieBanner,
-        supportsPdf,
+        isMobile,
       }}
     >
       {children}
