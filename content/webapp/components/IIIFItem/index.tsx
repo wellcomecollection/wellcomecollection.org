@@ -37,6 +37,7 @@ import {
 } from '@weco/content/types/manifest';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
 import {
+  getFileSize,
   getImageServiceFromItem,
   getLabelString,
   isItemRestricted,
@@ -372,7 +373,11 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             canvas={canvas}
             isRestricted={isRestricted}
           >
-            <IIIFItemPdf src={item.id} label={itemLabel} />
+            <IIIFItemPdf
+              src={item.id}
+              label={itemLabel}
+              fileSize={getFileSize(canvas)}
+            />
           </IIIFItemWrapper>
         );
       } else {

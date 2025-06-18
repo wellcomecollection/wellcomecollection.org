@@ -33,10 +33,20 @@ const PdfLink = styled.a`
   }
 `;
 
-const IIIFItemPdf = ({ src, label }: { src: string; label?: string }) => {
+const IIIFItemPdf = ({
+  src,
+  label,
+  fileSize,
+}: {
+  src: string;
+  label?: string;
+  fileSize?: string;
+}) => {
   const { isMobileOrTabletDevice } = useAppContext();
   const { extendedViewer } = useToggles();
-  const title = label || 'PDF';
+  const title = fileSize
+    ? `${label} ${fileSize}` || `PDF ${fileSize}`
+    : label || 'PDF';
   return (
     <>
       {isMobileOrTabletDevice && extendedViewer ? (
