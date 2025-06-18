@@ -26,7 +26,7 @@ type AppContextProps = {
   setAudioPlaybackRate: (rate: number) => void;
   hasAcknowledgedCookieBanner: boolean;
   setHasAcknowledgedCookieBanner: (isAcknowledged: boolean) => void;
-  isMobileOrTablet: boolean;
+  isMobileOrTabletDevice: boolean;
 };
 
 const appContextDefaults = {
@@ -39,7 +39,7 @@ const appContextDefaults = {
   setAudioPlaybackRate: () => null,
   hasAcknowledgedCookieBanner: false,
   setHasAcknowledgedCookieBanner: () => null,
-  isMobileOrTablet: true,
+  isMobileOrTabletDevice: true,
 };
 
 const AppContext = createContext<AppContextProps>(appContextDefaults);
@@ -49,7 +49,7 @@ export function useAppContext(): AppContextProps {
   return contextState;
 }
 
-function isMobileOrTabletDevice(): boolean {
+function checkForMobileOrTabletDevice(): boolean {
   return (
     /Mobi|Android|iPad|iPhone|iPod|tablet|Tablet|Silk|Kindle|BlackBerry|PlayBook|KFAPWI|(Android.+Mobile)/i.test(
       navigator.userAgent
@@ -90,13 +90,13 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
   );
   const [hasAcknowledgedCookieBanner, setHasAcknowledgedCookieBanner] =
     useState(Boolean(getCookies().CookieControl));
-  const [isMobileOrTablet, setisMobileOrTablet] = useState(
-    appContextDefaults.isMobileOrTablet
+  const [isMobileOrTabletDevice, setisMobileOrTabletDevice] = useState(
+    appContextDefaults.isMobileOrTabletDevice
   );
 
   useEffect(() => {
     setIsEnhanced(true);
-    setisMobileOrTablet(isMobileOrTabletDevice());
+    setisMobileOrTabletDevice(checkForMobileOrTabletDevice());
   }, []);
 
   // We need the initial state to be set before rendering to avoid
@@ -161,7 +161,7 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
         setAudioPlaybackRate,
         hasAcknowledgedCookieBanner,
         setHasAcknowledgedCookieBanner,
-        isMobileOrTablet,
+        isMobileOrTabletDevice,
       }}
     >
       {children}
