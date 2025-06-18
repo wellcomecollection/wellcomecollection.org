@@ -17,6 +17,7 @@ import { getQueryResults, ReturnedResults } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
+import { themeValues } from '@weco/common/views/themes/config';
 import theme from '@weco/common/views/themes/default';
 import CatalogueImageGallery from '@weco/content/components/CatalogueImageGallery';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
@@ -160,6 +161,37 @@ const linkSources = new Map([
   ['imagesBy', 'concept/images_by'],
   ['imagesIn', 'concept/images_in'],
 ]);
+
+const HotJarPlaceholder = styled.div`
+  margin: 0 auto;
+  width: 100%;
+  max-width: ${themeValues.sizes.xlarge}px;
+
+  margin-bottom: 2rem;
+  display: grid;
+  justify-items: start;
+  padding: 0 ${themeValues.containerPadding.small}px;
+
+  div:has(form) {
+    min-width: 250px;
+  }
+
+  grid-template-columns: 1fr auto;
+
+  ${themeValues.media('medium')(`
+    padding: 0 ${themeValues.containerPadding.medium}px;
+    div:has(form) {
+      min-width: 350px;
+    }
+  `)}
+
+  ${themeValues.media('large')(`
+    padding: 0 ${themeValues.containerPadding.large}px;
+    div:has(form) {
+      min-width: 450px;
+    }
+  `)}
+`;
 
 const ConceptHero = styled(Space).attrs({
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
@@ -584,7 +616,7 @@ export const ConceptPage: NextPage<Props> = ({
         // is no longer used.
       }
       {conceptResponse.type === 'Person' && (
-        <div id="hotjar-embed-placeholder-concept-person" />
+        <HotJarPlaceholder id="hotjar-embed-placeholder-concept-person" />
       )}
     </CataloguePageLayout>
   );
