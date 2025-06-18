@@ -18,6 +18,7 @@ type Props = {
   work: WorkBasic;
   gtmData: {
     cardIndex: number;
+    category: string;
     categoryName: string;
     categoryPosition: number;
   };
@@ -38,6 +39,7 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
         data-gtm-trigger="related_card_result"
         data-gtm-result-id={work.id}
         data-gtm-label={gtmData.categoryName}
+        data-gtm-tab-category={gtmData.category}
         data-gtm-category-position-in-list={gtmData.categoryPosition}
         data-gtm-position-in-list={gtmData.cardIndex}
       >

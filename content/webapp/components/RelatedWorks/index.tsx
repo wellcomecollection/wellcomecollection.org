@@ -22,6 +22,10 @@ type SubjectsAtLeastOneSubject = [
   ...Work['subjects'],
 ];
 
+export type RelatedWork = {
+  [key: string]: { label: string; category: string; results: WorkBasic[] };
+};
+
 export function hasAtLeastOneSubject(
   subjects: Work['subjects']
 ): subjects is SubjectsAtLeastOneSubject {
@@ -43,9 +47,7 @@ const RelatedWorks = ({
 }: WorkQueryProps) => {
   const { toggles } = useContext(ServerDataContext);
   const [isLoading, setIsLoading] = useState(true);
-  const [relatedWorksTabs, setRelatedWorksTabs] = useState<{
-    [key: string]: { label: string; results: WorkBasic[] };
-  }>();
+  const [relatedWorksTabs, setRelatedWorksTabs] = useState<RelatedWork>();
   const [selectedTab, setSelectedTab] = useState<string | undefined>();
   const [hasThumbnails, setHasThumbnails] = useState(false);
 
@@ -84,7 +86,7 @@ const RelatedWorks = ({
       if (firstTabKey) setSelectedTab(firstTabKey);
     }
 
-    // Only do this is there are results to display
+    // Only do this if there are results to display
     if (!isLoading && relatedWorksTabs && selectedTab) {
       const dataLayerEvent = {
         event: 'related_works_displayed',
@@ -92,6 +94,7 @@ const RelatedWorks = ({
         relatedWorks: {
           tabs: Object.values(relatedWorksTabs).map(value => ({
             label: value.label,
+            category: value.category,
             resultsCount: value.results.length,
           })),
         },
@@ -125,6 +128,7 @@ const RelatedWorks = ({
               id: key,
               url: `#${key}`,
               text: value.label,
+              gtmData: { category: value.category },
             }))}
           />
         )}
@@ -148,6 +152,7 @@ const RelatedWorks = ({
                     work={result}
                     gtmData={{
                       cardIndex: i + 1,
+                      category: value.category,
                       categoryName: value.label,
                       categoryPosition: tabIndex + 1,
                     }}

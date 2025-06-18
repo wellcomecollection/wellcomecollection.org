@@ -5,11 +5,10 @@ import {
   CatalogueResultsList,
   toWorkBasic,
   Work,
-  WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { Toggles } from '@weco/toggles';
 
-import { WorkQueryProps } from '.';
+import { RelatedWork, WorkQueryProps } from '.';
 
 // Returns the century range for a string containing exactly four digits
 const getCenturyRange = (
@@ -41,16 +40,9 @@ export const fetchRelatedWorks = async ({
 }: WorkQueryProps & {
   toggles: Toggles;
   setIsLoading: (isLoading: boolean) => void;
-}): Promise<
-  | {
-      [key: string]: { label: string; results: WorkBasic[] };
-    }
-  | undefined
-> => {
+}): Promise<RelatedWork | undefined> => {
   setIsLoading(true);
-  const results: {
-    [key: string]: { label: string; results: WorkBasic[] };
-  } = {};
+  const results: RelatedWork = {};
 
   const subjectLabels = subjects.map(subject => subject.label).slice(0, 3);
   const typeTechniques = typesTechniques?.map(genre => genre.label).slice(0, 2);
@@ -82,6 +74,7 @@ export const fetchRelatedWorks = async ({
       if (filteredResults.length > 0) {
         results[`${categoryLabel}-${toHtmlId(tabLabel)}`] = {
           label: tabLabel,
+          category: categoryLabel,
           results: filteredResults.slice(0, 3).map(toWorkBasic),
         };
       }
@@ -109,7 +102,7 @@ export const fetchRelatedWorks = async ({
                 'production.dates.to': dateRange.to,
               });
 
-              addToResultsObject('date-range', dateRange.tabLabel, response);
+              addToResultsObject('period', dateRange.tabLabel, response);
             })(),
           ]
         : []),
@@ -123,7 +116,7 @@ export const fetchRelatedWorks = async ({
               'genres.label': [`"${label}"`],
             });
 
-            addToResultsObject('type', label, response);
+            addToResultsObject('genre', label, response);
           })
         : []),
     ]);
@@ -137,16 +130,14 @@ export const fetchRelatedWorks = async ({
 
   // Order object keys to ensure consistent order
   const orderedKeys = Object.keys(results).sort((a, b) => {
-    const order = ['subject-', 'date-range', 'type-'];
+    const order = ['subject-', 'period-', 'genre-'];
     const aIndex = order.findIndex(prefix => a.startsWith(prefix));
     const bIndex = order.findIndex(prefix => b.startsWith(prefix));
     return aIndex - bIndex || a.localeCompare(b);
   });
 
   // Return ordered results
-  const orderedResults: {
-    [key: string]: { label: string; results: WorkBasic[] };
-  } = {};
+  const orderedResults: RelatedWork = {};
   orderedKeys.forEach(key => {
     orderedResults[key] = results[key];
   });

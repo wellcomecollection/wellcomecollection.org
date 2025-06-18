@@ -45,6 +45,9 @@ type SwitchSelectableTextLink = {
   text: ReactNode;
   url?: string;
   icon?: IconSvg;
+  gtmData?: {
+    category: string;
+  };
 };
 
 export type Props = {
@@ -133,6 +136,7 @@ const TabsSwitch: FunctionComponent<Props> = ({
             key={item.id}
             data-gtm-trigger={`tab_${toSnakeCase(label)}`}
             data-gtm-label={item.text}
+            data-gtm-tab-category={item.gtmData?.category}
             data-gtm-position-in-list={items.indexOf(item) + 1}
             $selected={isSelected}
             $isWhite={isWhite}
