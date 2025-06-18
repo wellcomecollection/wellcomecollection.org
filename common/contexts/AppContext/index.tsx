@@ -49,6 +49,10 @@ export function useAppContext(): AppContextProps {
   return contextState;
 }
 
+// Ideally we'd use feature detection to determine if the browser supports
+// displaying pdfs inline (navigator.pdfViewerEnabled).
+// However, iOS passes this test but does not provide a good user experience
+// We therefore use a user-agent based detection for mobile and tablet devices.
 function checkForMobileOrTabletDevice(): boolean {
   return (
     /Mobi|Android|iPad|iPhone|iPod|tablet|Tablet|Silk|Kindle|BlackBerry|PlayBook|KFAPWI|(Android.+Mobile)/i.test(
