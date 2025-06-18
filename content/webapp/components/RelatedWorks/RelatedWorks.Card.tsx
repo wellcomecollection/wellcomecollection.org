@@ -36,9 +36,9 @@ const RelatedWorksCard: FunctionComponent<Props> = ({ work, gtmData }) => {
     <WorkLink id={work.id} source={`works_search_result_${work.id}`} passHref>
       <Card
         data-gtm-trigger="related_card_result"
-        data-gtm-category-name={gtmData.categoryName}
-        data-gtm-category-position={gtmData.categoryPosition}
         data-gtm-result-id={work.id}
+        data-gtm-label={gtmData.categoryName}
+        data-gtm-category-position-in-list={gtmData.categoryPosition}
         data-gtm-position-in-list={gtmData.cardIndex}
       >
         <TextWrapper>

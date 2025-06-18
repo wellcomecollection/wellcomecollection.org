@@ -132,8 +132,8 @@ const TabsSwitch: FunctionComponent<Props> = ({
           <Tab
             key={item.id}
             data-gtm-trigger={`tab_${toSnakeCase(label)}`}
-            data-gtm-tab-label={item.text}
-            data-gtm-tab-position={items.indexOf(item) + 1}
+            data-gtm-label={item.text}
+            data-gtm-position-in-list={items.indexOf(item) + 1}
             $selected={isSelected}
             $isWhite={isWhite}
             $hideBorder={hideBorder}
