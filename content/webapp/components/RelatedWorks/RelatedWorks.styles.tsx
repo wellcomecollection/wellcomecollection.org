@@ -93,11 +93,15 @@ export const ImageWrapper = styled.div`
     display: block;
     object-fit: contain;
     width: 100%;
+    max-width: 200px; /* The size of the IIIF thumbnails */
+    margin-left: auto;
+    margin-right: auto;
     filter: url('#border-radius-mask');
 
     ${props =>
       props.theme.media('medium')(`
       margin-left: ${props.theme.spacingUnits['3']}px;
+      margin-right: unset;
       width: unset;
       height: 100%;
 

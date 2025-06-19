@@ -18,6 +18,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import {
   IconWrapper,
   NavItemInner,
+  NavItemShim,
   Tab,
   TabButton,
   TabsContainer,
@@ -167,6 +168,7 @@ const TabsSwitch: FunctionComponent<Props> = ({
                 data-gtm-category={item.gtmData?.category}
                 data-gtm-position-in-list={items.indexOf(item) + 1}
               >
+                <NavItemShim>{item.text}</NavItemShim>
                 <ConditionalWrapper
                   condition={Boolean(item.url && !isEnhanced)}
                   wrapper={children => <a href={item.url}>{children}</a>}
