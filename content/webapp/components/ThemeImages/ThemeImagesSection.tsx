@@ -91,7 +91,7 @@ const ThemeImagesSection: FunctionComponent<Props> = ({
           <MoreLink
             name={`All images ${getReadableType(type)} (${formattedTotalCount})`}
             url={getAllImagesLink(type, concept, pathname)}
-            colors={theme.buttonColors.greenWhiteGreen}
+            colors={theme.buttonColors.greenGreenWhite}
           />
         )}
       </Space>

@@ -173,7 +173,7 @@ const greenTransparentGreen: ButtonColors = {
   text: 'accent.green',
 };
 
-const greenWhiteGreen: ButtonColors = {
+const greenGreenWhite: ButtonColors = {
   border: 'accent.green',
   background: 'accent.green',
   text: 'white',
@@ -325,7 +325,7 @@ export const themeValues = {
     marbleWhiteCharcoal,
     yellowYellowBlack,
     whiteWhiteCharcoal,
-    greenWhiteGreen,
+    greenGreenWhite,
   },
   spacedTextTopMargin: '1.55em',
 };

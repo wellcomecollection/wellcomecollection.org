@@ -99,7 +99,7 @@ const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
                 <MoreLink
                   name={`All works (${formattedTotalCount})`}
                   url={getAllWorksLink(selectedTab, concept)}
-                  colors={theme.buttonColors.greenWhiteGreen}
+                  colors={theme.buttonColors.greenGreenWhite}
                 />
               </Space>
             </div>
