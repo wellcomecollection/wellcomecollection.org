@@ -18,6 +18,7 @@ import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
+import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import { themeValues } from '@weco/common/views/themes/config';
 import theme from '@weco/common/views/themes/default';
 import CatalogueImageGallery from '@weco/content/components/CatalogueImageGallery';
@@ -573,7 +574,7 @@ export const ConceptPage: NextPage<Props> = ({
                 top: 0,
                 mixBlendMode: 'difference',
                 color: 'white',
-                zIndex: 1,
+                zIndex: 3,
                 paddingTop: '1rem',
               }}
             >
@@ -586,13 +587,35 @@ export const ConceptPage: NextPage<Props> = ({
                 <li>five</li>
                 <li>six</li>
                 <li>seven</li>
+                <li>seven</li>
               </ul>
             </div>
           </GridCell>
           <GridCell $sizeMap={{ s: [12], m: [9], l: [10], xl: [10] }}>
             {/* Images */}
             {hasImages && (
-              <TestingImages>images</TestingImages>
+              <TestingImages>
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 'calc((100vw - 100%) * -1)',
+                    right: 0,
+                  }}
+                >
+                  <WobblyEdge backgroundColor="black" />
+                </div>
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 'calc((100vw - 100%) * -1)',
+                    right: 0,
+                  }}
+                >
+                  <WobblyEdge backgroundColor="white" isValley={true} />
+                </div>
+              </TestingImages>
               // <ConceptImages as="section" data-testid="images-section">
               //   <h2 className={`${font('wb', 3)} sectionTitle`}>Images</h2>
               //   {hasImagesTabs && (
