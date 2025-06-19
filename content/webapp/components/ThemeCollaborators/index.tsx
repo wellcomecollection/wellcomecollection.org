@@ -16,10 +16,13 @@ const Heading = styled.h2.attrs({
   className: font('intsb', 2),
 })``;
 
-const CollaboratorsWrapper = styled(Grid)`
-  max-width: 784px;
+const CollaboratorsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   gap: ${props => props.theme.spacingUnits['4']}px;
   row-gap: ${props => props.theme.spacingUnits['5']}px;
+
+  ${props => props.theme.media('medium')(`flex-direction: row;`)}
 `;
 
 type Props = {
@@ -41,21 +44,12 @@ const ThemeCollaborators: FunctionComponent<Props> = ({ concepts }) => {
       <Heading>Frequent collaborators</Heading>
       <CollaboratorsWrapper>
         {concepts.slice(0, COLLABORATOR_COUNT_LIMIT).map(concept => (
-          <GridCell
+          <CollaboratorCard
             key={concept.id}
-            $sizeMap={{
-              s: [12],
-              m: [4],
-              l: [4],
-              xl: [4],
-            }}
-          >
-            <CollaboratorCard
-              href={`/concepts/${concept.id}`}
-              icon={iconFromConceptType(concept.conceptType)}
-              label={concept.label}
-            />
-          </GridCell>
+            href={`/concepts/${concept.id}`}
+            icon={iconFromConceptType(concept.conceptType)}
+            label={concept.label}
+          />
         ))}
       </CollaboratorsWrapper>
     </>
