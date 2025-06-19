@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { ComponentProps } from 'react';
 import styled from 'styled-components';
 
-import { user, wellcome } from '@weco/common/icons';
+import { organisation, user } from '@weco/common/icons';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import CollaboratorCard from '@weco/content/components/CollaboratorCard';
 
@@ -26,12 +26,11 @@ const meta: Meta<StoryProps> = {
       },
     },
     icon: {
-      options: ['user', 'wellcome'],
+      options: ['user', 'organisation'],
       control: 'radio',
       mapping: {
         user,
-        // TODO: Replace with organisation icon once available
-        wellcome,
+        organisation,
       },
     },
     numberOfCards: {
