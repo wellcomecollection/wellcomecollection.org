@@ -59,6 +59,53 @@ const tabOrder = ['by', 'in', 'about'] as const;
 
 // TODO: Remove these components when we introduce new theme pages.
 //
+//
+const NavGridCell = styled(GridCell)`
+  position: sticky;
+  top: 0;
+  background-color: ${props => props.theme.color('white')};
+  z-index: 3;
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    bottom: 0;
+    top: 0;
+    z-index: 10;
+    background-color: white;
+  }
+
+  &:before {
+    right: 100%;
+  }
+  &:after {
+    left: 100%;
+  }
+
+  ${props => props.theme.media('medium')`
+    position: unset;
+    background-color: unset;
+    z-index: unset;
+
+    &:before,
+    &:after {
+      display: none;
+    }
+  `}
+`;
+
+const Nav = styled.nav`
+  position: sticky;
+  cursor: pointer;
+  top: 0;
+  mix-blend-mode: difference;
+  color: white;
+  z-index: 3;
+  padding-top: 1rem;
+`;
+
 const TestingImages = styled.div`
   padding-top: 1rem;
   color: white;
@@ -474,6 +521,12 @@ export const ConceptPage: NextPage<Props> = ({
     imagesTabs[0]?.id || ''
   );
 
+  const [isMobileNavHidden, setIsMobileNavHidden] = useState(false);
+
+  function toggleMobileNav() {
+    setIsMobileNavHidden(!isMobileNavHidden);
+  }
+
   const {
     narrowerThan,
     fieldsOfWork,
@@ -567,19 +620,10 @@ export const ConceptPage: NextPage<Props> = ({
 
       <Container>
         <Grid style={{ background: 'white' }}>
-          <GridCell $sizeMap={{ s: [12], m: [3], l: [2], xl: [2] }}>
-            <div
-              style={{
-                position: 'sticky',
-                top: 0,
-                mixBlendMode: 'difference',
-                color: 'white',
-                zIndex: 3,
-                paddingTop: '1rem',
-              }}
-            >
+          <NavGridCell $sizeMap={{ s: [12], m: [3], l: [2], xl: [2] }}>
+            <Nav onClick={toggleMobileNav}>
               nav goes here
-              <ul>
+              <ul className={isMobileNavHidden ? 'is-hidden-s' : ''}>
                 <li>one</li>
                 <li>two</li>
                 <li>three</li>
@@ -589,8 +633,8 @@ export const ConceptPage: NextPage<Props> = ({
                 <li>seven</li>
                 <li>seven</li>
               </ul>
-            </div>
-          </GridCell>
+            </Nav>
+          </NavGridCell>
           <GridCell $sizeMap={{ s: [12], m: [9], l: [10], xl: [10] }}>
             {/* Images */}
             {hasImages && (
