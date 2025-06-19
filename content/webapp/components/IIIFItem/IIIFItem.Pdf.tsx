@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { pdf } from '@weco/common/icons';
 import { useToggles } from '@weco/common/server-data/Context';
+import ButtonSolidLink from '@weco/common/views/components/Buttons/Buttons.SolidLink';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -46,7 +47,6 @@ const IIIFItemPdf = ({
 }) => {
   const { isMobileOrTabletDevice } = useAppContext();
   const { extendedViewer } = useToggles();
-  const title = fileSize
     ? `${label} ${fileSize}` || `PDF ${fileSize}`
     : label || 'PDF';
   return (
@@ -55,6 +55,11 @@ const IIIFItemPdf = ({
         <PdfLink href={src} target="_blank" rel="noopener noreferrer">
           {title}
           <Icon icon={pdf} sizeOverride="width: 48px; height: 48px;" />
+          <ButtonSolidLink
+            link={src}
+            text="Open"
+            ariaLabel={`Open ${(displayLabel !== substituteTitle && label) || 'document'}`}
+          />
         </PdfLink>
       ) : (
         <IframePdfViewer title={displayLabel} src={src} />
