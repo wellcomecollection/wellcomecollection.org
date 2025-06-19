@@ -20,7 +20,10 @@ import {
   SectionData,
   ThemePageSectionsData,
 } from '@weco/content/pages/concepts/[conceptId]';
-import { Concept } from '@weco/content/services/wellcome/catalogue/types';
+import {
+  Concept,
+  ConceptType,
+} from '@weco/content/services/wellcome/catalogue/types';
 import {
   allRecordsLinkParams,
   conceptTypeDisplayName,
@@ -29,8 +32,12 @@ import {
 export type ThemeTabType = 'by' | 'in' | 'about';
 export const themeTabOrder: ThemeTabType[] = ['by', 'in', 'about'] as const;
 
-export const getReadableThemeTabType = (type: ThemeTabType) => {
-  if (type === 'about') return 'featuring';
+export const getThemeTabLabel = (
+  type: ThemeTabType,
+  conceptType: ConceptType
+) => {
+  if (type === 'about' && conceptType === 'Person') return 'featuring';
+  if (type === 'in') return 'using';
   return type;
 };
 
@@ -55,15 +62,15 @@ type Props = {
 };
 
 const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
-  const conceptTypeName = conceptTypeDisplayName(concept).toLowerCase();
   const tabs = themeTabOrder
     .filter(tabType => sectionsData[tabType].totalResults.works)
     .map(tabType => {
+      const tabLabel = getThemeTabLabel(tabType, concept.type);
+      const conceptTypeLabel = conceptTypeDisplayName(concept).toLowerCase();
+
       return {
         id: tabType,
-        text: capitalize(
-          `${getReadableThemeTabType(tabType)} this ${conceptTypeName}`
-        ),
+        text: capitalize(`${tabLabel} this ${conceptTypeLabel}`),
       };
     });
 

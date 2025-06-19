@@ -16,7 +16,7 @@ import CatalogueImageGallery from '@weco/content/components/CatalogueImageGaller
 import MoreLink from '@weco/content/components/MoreLink';
 import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink/Images';
 import {
-  getReadableThemeTabType,
+  getThemeTabLabel,
   ThemeTabType,
 } from '@weco/content/components/ThemeWorks';
 import {
@@ -73,7 +73,7 @@ const ThemeImagesSection: FunctionComponent<Props> = ({
   return (
     <Space $v={{ size: 'l', properties: ['padding-top'] }}>
       <SectionHeading>
-        Images {getReadableThemeTabType(type)} {concept.label}
+        Images {getThemeTabLabel(type, concept.type)} {concept.label}
       </SectionHeading>
       <CatalogueImageGallery
         // Show the first 10 images, unless the total is 12 or fewer, in which case show all images
@@ -87,7 +87,7 @@ const ThemeImagesSection: FunctionComponent<Props> = ({
         {singleSectionData.totalResults >
           singleSectionData.pageResults.length && (
           <MoreLink
-            name={`All images ${getReadableThemeTabType(type)} (${formattedTotalCount})`}
+            name={`All images ${getThemeTabLabel(type, concept.type)} (${formattedTotalCount})`}
             url={getAllImagesLink(type, concept, pathname)}
             colors={theme.buttonColors.greenGreenWhite}
           />
