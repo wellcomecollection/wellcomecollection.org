@@ -261,6 +261,10 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   const isRestricted = isItemRestricted(item);
   const shouldShowItem = isRestricted && !userIsStaffWithRestricted;
   const { extendedViewer } = useToggles();
+  const itemLabel =
+    'label' in item
+      ? getLabelString(item.label as InternationalString)
+      : undefined;
   // N.B. Restricted images are handled differently from restricted audio/video and text.
   // The isItemRestricted function doesn't account for restricted images.
   // Instead there is a hasRestrictedImage property on the TransformedCanvas which is used by
@@ -361,38 +365,21 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       );
 
     case item.type === 'Text' && item.id && !exclude.includes('Text'):
-      if ('label' in item) {
-        const itemLabel = item.label
-          ? getLabelString(item.label as InternationalString)
-          : '';
-        return (
-          <IIIFItemWrapper
-            shouldShowItem={shouldShowItem}
-            className="pdf-wrapper"
-            titleOverride={titleOverride}
-            canvas={canvas}
-            isRestricted={isRestricted}
-          >
-            <IIIFItemPdf
-              src={item.id}
-              label={itemLabel}
-              fileSize={getFileSize(canvas)}
-            />
-          </IIIFItemWrapper>
-        );
-      } else {
-        return (
-          <IIIFItemWrapper
-            shouldShowItem={shouldShowItem}
-            className="pdf-wrapper"
-            titleOverride={titleOverride}
-            canvas={canvas}
-            isRestricted={isRestricted}
-          >
-            <IIIFItemPdf src={item.id} />
-          </IIIFItemWrapper>
-        );
-      }
+      return (
+        <IIIFItemWrapper
+          shouldShowItem={shouldShowItem}
+          className="pdf-wrapper"
+          titleOverride={titleOverride}
+          canvas={canvas}
+          isRestricted={isRestricted}
+        >
+          <IIIFItemPdf
+            src={item.id}
+            label={itemLabel}
+            fileSize={getFileSize(canvas)}
+          />
+        </IIIFItemWrapper>
+      );
 
     case item.type === 'Image' && !exclude.includes('Image'):
       return (
