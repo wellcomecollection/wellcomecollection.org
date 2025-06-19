@@ -21,10 +21,18 @@ import {
   ThemePageSectionsData,
 } from '@weco/content/pages/concepts/[conceptId]';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
-import { allRecordsLinkParams } from '@weco/content/utils/concepts';
+import {
+  allRecordsLinkParams,
+  conceptTypeDisplayName,
+} from '@weco/content/utils/concepts';
 
 export type ThemeTabType = 'by' | 'in' | 'about';
 export const themeTabOrder: ThemeTabType[] = ['by', 'in', 'about'] as const;
+
+export const getReadableThemeTabType = (type: ThemeTabType) => {
+  if (type === 'about') return 'featuring';
+  return type;
+};
 
 const WorksCount = styled(Space).attrs({
   as: 'p',
@@ -47,12 +55,15 @@ type Props = {
 };
 
 const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
+  const conceptTypeName = conceptTypeDisplayName(concept).toLowerCase();
   const tabs = themeTabOrder
     .filter(tabType => sectionsData[tabType].totalResults.works)
     .map(tabType => {
       return {
         id: tabType,
-        text: sectionsData[tabType].label,
+        text: capitalize(
+          `${getReadableThemeTabType(tabType)} this ${conceptTypeName}`
+        ),
       };
     });
 
@@ -60,7 +71,7 @@ const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
     tabs.length > 0 ? tabs[0].id : null
   );
 
-  if (selectedTab == null) {
+  if (!selectedTab) {
     return null;
   }
 

@@ -6,7 +6,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
 import { RelatedConcept } from '@weco/content/services/wellcome/catalogue/types';
 
-const RelatedConceptsContainer = styled(Space).attrs({
+const RelatedConceptsContainer = styled.div.attrs({
   className: font('intm', 5),
 })`
   display: flex;
@@ -15,7 +15,7 @@ const RelatedConceptsContainer = styled(Space).attrs({
   gap: ${props => props.theme.spacingUnits['3']}px;
 `;
 
-const RelatedConceptItem = styled(Space).attrs<{ $isFullWidth: boolean }>({
+const RelatedConceptItem = styled.div.attrs<{ $isFullWidth: boolean }>({
   className: font('intr', 6),
 })`
   display: flex;
