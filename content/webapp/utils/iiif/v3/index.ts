@@ -676,7 +676,7 @@ export function isPDFCanvas(canvas?: TransformedCanvas): boolean {
         return false;
       });
     } else {
-      return 'format' in supplement[0]
+      return supplement[0] && 'format' in supplement[0]
         ? supplement[0].format === 'application/pdf'
         : false;
     }
@@ -806,7 +806,7 @@ export function hasNonImages(
   return !!hasNonImage;
 }
 
-export function getFormatString(format: string): string | undefined {
+export function getFormatString(format?: string): string | undefined {
   switch (format) {
     case 'application/pdf':
       return 'PDF';
