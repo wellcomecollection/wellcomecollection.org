@@ -4,7 +4,7 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useToggles } from '@weco/common/server-data/Context';
 import Space from '@weco/common/views/components/styled/Space';
 
-const IframePdfViewer = styled(Space)`
+const IframePdfViewer = styled.iframe`
   width: 100%;
   height: 90vh;
   display: block;
@@ -54,7 +54,7 @@ const IIIFItemPdf = ({
           {title}
         </PdfLink>
       ) : (
-        <IframePdfViewer as="iframe" title={title} src={src} />
+        <IframePdfViewer title={displayLabel} src={src} />
       )}
     </>
   );
