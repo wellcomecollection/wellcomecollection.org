@@ -462,7 +462,7 @@ export type StructuredSearchQuery = {
   'article-series': string[];
 };
 
-type Label = {
+type PrismicLabel = {
   title: prismic.RichTextField;
   description: prismic.RichTextField;
 };
@@ -482,7 +482,7 @@ export type WithCardFormat = {
     | prismic.ContentRelationshipField<
         'labels',
         'en-gb',
-        InferDataInterface<Label>
+        InferDataInterface<PrismicLabel>
       >;
 };
 

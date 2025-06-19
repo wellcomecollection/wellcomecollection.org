@@ -12,7 +12,9 @@ import { SiteSection } from '@weco/common/model/site-section';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 
-import DesktopSignIn from './DesktopSignIn';
+import HeaderSearch from './Header.Search';
+import DesktopSignIn from './Header.SignIn.Desktop';
+import MobileSignIn from './Header.SignIn.Mobile';
 import {
   Burger,
   BurgerTrigger,
@@ -27,8 +29,6 @@ import {
   SearchButton,
   Wrapper,
 } from './Header.styles';
-import HeaderSearch from './HeaderSearch';
-import MobileSignIn from './MobileSignIn';
 
 const NoJSIconWrapper = styled.div`
   padding: 5px 8px 0;

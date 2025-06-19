@@ -59,7 +59,7 @@ const StyledSelect = styled.div.attrs({
   }
 `;
 
-const Label = styled.label`
+const SelectLabel = styled.label`
   display: flex;
   align-items: center;
 `;
@@ -92,10 +92,10 @@ const SelectContainer: FunctionComponent<Props> = ({
 }) => {
   return (
     <StyledSelect $isPill={isPill} $darkBg={darkBg}>
-      <Label>
+      <SelectLabel>
         <LabelContent $hideLabel={hideLabel}>{label}</LabelContent>
         {children}
-      </Label>
+      </SelectLabel>
       <Icon icon={chevron} />
     </StyledSelect>
   );
