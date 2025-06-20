@@ -264,7 +264,9 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   const itemLabel =
     'label' in item
       ? getLabelString(item.label as InternationalString)
-      : undefined;
+      : canvas.label?.trim() !== '-'
+        ? canvas.label
+        : undefined;
   // N.B. Restricted images are handled differently from restricted audio/video and text.
   // The isItemRestricted function doesn't account for restricted images.
   // Instead there is a hasRestrictedImage property on the TransformedCanvas which is used by
