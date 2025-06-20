@@ -1,3 +1,4 @@
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { bornDigitalWarning } from '@weco/common/data/microcopy';
@@ -38,18 +39,20 @@ const DownloadContainer = styled(Space).attrs({
   }
 `;
 
-const IIIFItemDownload = ({
-  src,
-  label,
-  fileSize,
-  showWarning = false,
-}: {
+type Props = {
   src: string;
   label?: string;
   fileSize?: string;
   format?: string;
   showWarning?: boolean;
-}) => {
+};
+
+const IIIFItemDownload: FunctionComponent<Props> = ({
+  src,
+  label,
+  fileSize,
+  showWarning = false,
+}: Props) => {
   const substituteTitle = 'unknown title';
   const displayLabel = label && label.trim() !== '-' ? label : substituteTitle;
   // const icon = TODO based on format, e.g. audio, video, etc.
