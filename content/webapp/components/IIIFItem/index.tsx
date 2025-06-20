@@ -24,6 +24,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import AudioPlayer from '@weco/content/components/AudioPlayer';
 import BetaMessage from '@weco/content/components/BetaMessage';
+import IIIFItemDownload from '@weco/content/components/IIIFItem/IIIFItem.Download';
 import IIIFItemPdf from '@weco/content/components/IIIFItem/IIIFItem.Pdf';
 import ImageViewer from '@weco/content/components/IIIFViewer/ImageViewer';
 import VideoPlayer from '@weco/content/components/VideoPlayer';
@@ -38,6 +39,7 @@ import {
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
 import {
   getFileSize,
+  getFormatString,
   getImageServiceFromItem,
   getLabelString,
   isItemRestricted,
@@ -385,15 +387,34 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
       );
 
     case item.type === 'Image' && !exclude.includes('Image'):
-      return (
-        <IIIFImage
-          index={i}
-          item={item}
-          canvas={canvas}
-          setImageRect={setImageRect}
-          setImageContainerRect={setImageContainerRect}
-        />
-      );
+      if (canvas.original.length > 0) {
+        return canvas.original.map(original => {
+          return (
+            original.id && (
+              <IIIFItemDownload
+                key={original.id}
+                src={original.id}
+                label={itemLabel}
+                fileSize={getFileSize(canvas)}
+                format={
+                  'format' in item ? getFormatString(item.format) : undefined
+                }
+                showWarning={true}
+              />
+            )
+          );
+        });
+      } else {
+        return (
+          <IIIFImage
+            index={i}
+            item={item}
+            canvas={canvas}
+            setImageRect={setImageRect}
+            setImageContainerRect={setImageContainerRect}
+          />
+        );
+      }
 
     default: // There are other types we don't do anything with at present, e.g. Dataset
       if (!exclude.includes(item.type)) {
