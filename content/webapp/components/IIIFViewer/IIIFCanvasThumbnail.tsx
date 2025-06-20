@@ -3,7 +3,7 @@ import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
-import { audio, file, video } from '@weco/common/icons';
+import { audio, file, pdf, video } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Icon from '@weco/common/views/components/Icon';
@@ -11,11 +11,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import { IIIFItemProps } from '@weco/content/components/IIIFItem';
 import { TransformedCanvas } from '@weco/content/types/manifest';
-import {
-  isAudioCanvas,
-  isChoiceBody,
-  isPDFCanvas,
-} from '@weco/content/utils/iiif/v3';
+import { isChoiceBody, isPDFCanvas } from '@weco/content/utils/iiif/v3';
 
 import IIIFViewerImage from './IIIFViewerImage';
 import Padlock from './Padlock';
@@ -110,9 +106,10 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
         ?.type
     : canvas.painting?.[0]?.type;
 
-  const hasIconPlaceholder =
-    !thumbnailSrc &&
-    (itemType === 'Sound' || isAudioCanvas(canvas) || isPDFCanvas(canvas));
+  const thumbnailSrcIsPlaceholder =
+    thumbnailSrc?.includes('/born-digital/placeholder-thumb/') || false;
+
+  const hasIconPlaceholder = !thumbnailSrc || thumbnailSrcIsPlaceholder;
 
   return (
     <IIIFViewerThumb>
@@ -129,7 +126,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
 
           {!isRestricted && (
             <>
-              {thumbnailSrc ? (
+              {!hasIconPlaceholder ? (
                 <>
                   {!thumbnailLoaded && <LL $small={true} $lighten={true} />}
 
@@ -155,7 +152,9 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
                             ? audio
                             : itemType === 'Video'
                               ? video
-                              : file
+                              : isPDFCanvas(canvas)
+                                ? pdf
+                                : file
                         }
                         iconColor="white"
                         sizeOverride="width: 53px; height: 53px;"
