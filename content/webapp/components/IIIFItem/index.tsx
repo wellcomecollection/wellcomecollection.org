@@ -385,30 +385,36 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
 
     case item.type === 'Image' && !exclude.includes('Image'):
       if (canvas.original.length > 0) {
-        return canvas.original.map(original => {
-          return (
-            original.id && (
-              <IIIFItemWrapper
-                shouldShowItem={shouldShowItem}
-                className="item-wrapper"
-                titleOverride={titleOverride}
-                canvas={canvas}
-                isRestricted={isRestricted}
-              >
-                <IIIFItemDownload
-                  key={original.id}
-                  src={original.id}
-                  label={itemLabel}
-                  fileSize={getFileSize(canvas)}
-                  format={
-                    'format' in item ? getFormatString(item.format) : undefined
-                  }
-                  showWarning={true}
-                />
-              </IIIFItemWrapper>
-            )
-          );
-        });
+        return (
+          <>
+            {canvas.original.map(original => {
+              return (
+                original.id && (
+                  <IIIFItemWrapper
+                    shouldShowItem={shouldShowItem}
+                    className="item-wrapper"
+                    titleOverride={titleOverride}
+                    canvas={canvas}
+                    isRestricted={isRestricted}
+                  >
+                    <IIIFItemDownload
+                      key={original.id}
+                      src={original.id}
+                      label={itemLabel}
+                      fileSize={getFileSize(canvas)}
+                      format={
+                        'format' in item
+                          ? getFormatString(item.format)
+                          : undefined
+                      }
+                      showWarning={true}
+                    />
+                  </IIIFItemWrapper>
+                )
+              );
+            })}
+          </>
+        );
       } else {
         return (
           <IIIFImage
