@@ -388,16 +388,24 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         return canvas.original.map(original => {
           return (
             original.id && (
-              <IIIFItemDownload
-                key={original.id}
-                src={original.id}
-                label={itemLabel}
-                fileSize={getFileSize(canvas)}
-                format={
-                  'format' in item ? getFormatString(item.format) : undefined
-                }
-                showWarning={true}
-              />
+              <IIIFItemWrapper
+                shouldShowItem={shouldShowItem}
+                className="item-wrapper"
+                titleOverride={titleOverride}
+                canvas={canvas}
+                isRestricted={isRestricted}
+              >
+                <IIIFItemDownload
+                  key={original.id}
+                  src={original.id}
+                  label={itemLabel}
+                  fileSize={getFileSize(canvas)}
+                  format={
+                    'format' in item ? getFormatString(item.format) : undefined
+                  }
+                  showWarning={true}
+                />
+              </IIIFItemWrapper>
             )
           );
         });
