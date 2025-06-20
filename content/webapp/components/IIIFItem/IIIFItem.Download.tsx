@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { bornDigitalWarning } from '@weco/common/data/microcopy';
-import { pdf } from '@weco/common/icons';
+import { file, pdf } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import ButtonSolidLink from '@weco/common/views/components/Buttons/Buttons.SolidLink';
 import Icon from '@weco/common/views/components/Icon';
@@ -58,7 +58,10 @@ const IIIFItemDownload: FunctionComponent<Props> = ({
   // const icon = TODO based on format, e.g. audio, video, etc.
   return (
     <DownloadContainer>
-      <Icon icon={pdf} sizeOverride="width: 48px; height: 48px;" />
+      <Icon
+        icon={src.endsWith('.pdf') ? pdf : file}
+        sizeOverride="width: 48px; height: 48px;"
+      />
       <Space
         className={font('intb', 5)}
         $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
