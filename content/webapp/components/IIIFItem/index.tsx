@@ -243,9 +243,6 @@ const IIIFItemWrapper: FunctionComponent<{
   }
 };
 
-// This component will be useful for the IIIFViewer if we want to make that render video, audio, pdfs and Born Digital files in addition to images.
-// Currently it is used on the work page to render Sound or Video
-// and on the /items page to render Sound, Video and Text (i.e. PDF)
 const IIIFItem: FunctionComponent<ItemProps> = ({
   canvas,
   item,
