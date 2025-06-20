@@ -1,3 +1,4 @@
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
@@ -13,17 +14,19 @@ const IframePdfViewer = styled.iframe`
   margin-right: auto;
 `;
 
-const IIIFItemPdf = ({
-  src,
-  label,
-  fileSize,
-  format,
-}: {
+type Props = {
   src: string;
   label?: string;
   fileSize?: string;
   format?: string;
-}) => {
+};
+
+const IIIFItemPdf: FunctionComponent<Props> = ({
+  src,
+  label,
+  fileSize,
+  format,
+}: Props) => {
   const { isMobileOrTabletDevice } = useAppContext();
   const { extendedViewer } = useToggles();
   const substituteTitle = 'unknown title';
