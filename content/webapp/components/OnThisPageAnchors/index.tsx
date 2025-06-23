@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useActiveAnchor } from '@weco/common/hooks/useActiveAnchor';
@@ -42,7 +42,7 @@ const AnimatedLink = styled.a`
     background-position: 0% 100%;
     background-repeat: no-repeat;
     background-size: var(--background-size, 0%) 2px;
-    transition: background-size 0.2s linear 300ms;
+    transition: background-size ${props => props.theme.transitionProperties};
     font-size: 14px;
     line-height: 20px;
     transform: translateZ(0);
@@ -79,8 +79,8 @@ const InPageNavAnimatedLink = styled(AnimatedLink)<{
     opacity: ${props => (props.$isActive ? 1 : 0)};
     transform: scaleY(${props => (props.$isActive ? 1 : 0.5)});
     transition:
-      opacity 0.3s,
-      transform 0.3s;
+      opacity ${props => props.theme.transitionProperties},
+      transform ${props => props.theme.transitionProperties};
   }
 `;
 
@@ -104,6 +104,31 @@ const Root = styled(Space).attrs<{ $isSticky?: boolean }>(props => ({
     !props.$hasBackgroundBlend
       ? `background: ${props.theme.color('warmNeutral.300')};`
       : `mix-blend-mode: difference; color: ${props.theme.color('white')};`}
+
+  h2 {
+    border-top: 1px solid ${props => props.theme.color('white')};
+    border-bottom: 1px solid ${props => props.theme.color('white')};
+    padding: 0.5rem 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &::after {
+      content: '+';
+      font-size: 1.5rem;
+      line-height: 1;
+
+      ${props => props.theme.media('medium')`
+        display: none;
+      `}
+    }
+
+    ${props => props.theme.media('medium')`
+      border: 0;
+      padding: 0;
+    `}
+  }
 `;
 
 export type Props = {
@@ -123,6 +148,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
   const observedActiveId = useActiveAnchor(ids);
   const [clickedId, setClickedId] = useState<string | null>(null);
   const [lock, setLock] = useState(false);
+  const listRef = useRef<HTMLUListElement>(null);
 
   // When an anchor is clicked, lock for a short time before allowing scroll to clear
   useEffect(() => {
@@ -157,55 +183,74 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
     }
   }, [activeId]);
 
+  function toggleList() {
+    if (listRef.current) {
+      listRef.current.classList.toggle('is-hidden-s');
+    }
+  }
+
+  function hideMobileList() {
+    if (listRef.current) {
+      listRef.current.classList.add('is-hidden-s');
+    }
+  }
+
   const titleText = isSticky ? 'On this page' : 'What’s on this page';
   const fontStyle = isSticky ? font('intm', 5) : font('wb', 4);
 
   return (
     <Root $isSticky={isSticky} $hasBackgroundBlend={hasBackgroundBlend}>
-      <h2 className={fontStyle}>{titleText}</h2>
-
-      {links.map((link: Link) => {
-        const id = link.url.replace('#', '');
-        const isActive = activeId === id;
-        return (
-          <PlainList key={link.url}>
-            {isSticky ? (
-              <ListItem key={link.url}>
-                <NextLink
-                  passHref
-                  style={{ textDecoration: 'none' }}
-                  href={link.url}
-                  data-gtm-trigger="link_click_page_position"
-                  onClick={e => {
-                    e.preventDefault();
-                    setClickedId(id);
-                    const el = document.getElementById(id);
-                    if (el) {
-                      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                  }}
-                >
-                  <InPageNavAnimatedLink
-                    $isActive={isActive}
-                    $hasBackgroundBlend={hasBackgroundBlend}
+      <h2 onClick={toggleList} className={fontStyle}>
+        {titleText}
+      </h2>
+      <PlainList ref={listRef} className="is-hidden-s">
+        {links.map((link: Link) => {
+          const id = link.url.replace('#', '');
+          const isActive = activeId === id;
+          return (
+            <>
+              {isSticky ? (
+                <ListItem key={link.url}>
+                  <NextLink
+                    passHref
+                    style={{ textDecoration: 'none' }}
+                    href={link.url}
+                    data-gtm-trigger="link_click_page_position"
+                    onClick={e => {
+                      e.preventDefault();
+                      hideMobileList();
+                      setClickedId(id);
+                      const el = document.getElementById(id);
+                      if (el) {
+                        el.scrollIntoView({
+                          behavior: 'smooth',
+                          block: 'start',
+                        });
+                      }
+                    }}
                   >
-                    <span>{link.text}</span>
-                  </InPageNavAnimatedLink>
-                </NextLink>
-              </ListItem>
-            ) : (
-              <li>
-                <Anchor
-                  data-gtm-trigger="link_click_page_position"
-                  href={link.url}
-                >
-                  {link.text}
-                </Anchor>
-              </li>
-            )}
-          </PlainList>
-        );
-      })}
+                    <InPageNavAnimatedLink
+                      $isActive={isActive}
+                      $hasBackgroundBlend={hasBackgroundBlend}
+                    >
+                      <span>{link.text}</span>
+                    </InPageNavAnimatedLink>
+                  </NextLink>
+                </ListItem>
+              ) : (
+                <li>
+                  <Anchor
+                    data-gtm-trigger="link_click_page_position"
+                    href={link.url}
+                  >
+                    {link.text}
+                  </Anchor>
+                </li>
+              )}
+            </>
+          );
+        })}
+      </PlainList>
     </Root>
   );
 };
