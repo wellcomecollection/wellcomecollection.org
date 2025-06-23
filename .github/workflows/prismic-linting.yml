@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   prismic_linting:
-    runs-on: ubuntu-latest
+    runs-on: default_x64_latest
     steps:
       - uses: actions/checkout@v4
       - uses: aws-actions/configure-aws-credentials@v4
@@ -24,7 +24,7 @@ jobs:
       - name: Run Prismic linting
         run: docker compose run prismic_model yarn lintPrismicData --slackWebhookUrl=${{ secrets.SLACK_WEBHOOK_GA_PRISMIC_LINTING_EDITORIAL_FLAG_URL }}
   on-failure:
-    runs-on: ubuntu-latest
+    runs-on: default_x64_latest
     if: ${{ always() && (needs.prismic_linting.result == 'failure' || needs.prismic_linting.result == 'timed_out') }}
     needs:
       - prismic_linting
