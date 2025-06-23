@@ -36,6 +36,25 @@ type SpaceProperty =
 
 const breakpointNames = ['small', 'medium', 'large'];
 
+function pageGridOffset(property: string): string {
+  return `
+  position: relative;
+  ${property}: -${themeValues.containerPadding.small}px;
+
+  ${themeValues.media('medium')(`
+    ${property}: -${themeValues.containerPadding.medium}px;
+    `)}
+
+  ${themeValues.media('large')(`
+    ${property}: -${themeValues.containerPadding.large}px;
+    `)}
+
+  ${themeValues.media('xlarge')(`
+    ${property}: calc((100vw - ${themeValues.sizes.xlarge}px) / 2 * -1 - ${themeValues.containerPadding.xlarge}px);
+  `)};
+  `;
+}
+
 function makeSpacePropertyValues(
   size: SpaceSize,
   properties: SpaceProperty[],
@@ -63,6 +82,7 @@ function makeSpacePropertyValues(
 const theme = {
   ...themeValues,
   makeSpacePropertyValues,
+  pageGridOffset,
 };
 
 type Classes = typeof classes;
