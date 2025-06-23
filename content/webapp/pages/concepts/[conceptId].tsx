@@ -74,7 +74,7 @@ const linkSources = new Map([
 const NavGridCell = styled(GridCell)`
   position: sticky;
   top: 0;
-  background-color: ${props => props.theme.color('white')};
+  background-color: ${props => props.theme.color('neutral.700')};
   z-index: 3;
 
   &::before,
@@ -85,7 +85,7 @@ const NavGridCell = styled(GridCell)`
     bottom: 0;
     top: 0;
     z-index: 10;
-    background-color: white;
+    background-color: ${props => props.theme.color('neutral.700')};
   }
 
   &::before {
@@ -101,8 +101,8 @@ const NavGridCell = styled(GridCell)`
     background-color: unset;
     z-index: unset;
 
-    &:before,
-    &:after {
+    &::before,
+    &::after {
       display: none;
     }
   `}
@@ -438,7 +438,7 @@ export const ConceptPage: NextPage<Props> = ({
       <ThemeHeader concept={conceptResponse} />
       <WobblyEdge backgroundColor="neutral.700" />
       <Container>
-        <Grid style={{ background: 'white' }}>
+        <Grid style={{ background: 'white', rowGap: 0 }}>
           <NavGridCell $sizeMap={{ s: [12], m: [3], l: [2], xl: [2] }}>
             <OnThisPageAnchors
               links={[
