@@ -8,7 +8,7 @@ permissions:
 jobs:
   tsc:
     name: tsc
-    runs-on: ubuntu-latest
+    runs-on: default_x64_latest
     steps:
     - uses: actions/checkout@v4
     - name: install Node
