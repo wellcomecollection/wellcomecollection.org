@@ -35,6 +35,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   ariaLabel,
   colors,
   isIconAfter,
+  isPill,
 }) => {
   function handleClick(event: SyntheticEvent<HTMLButtonElement>): void {
     clickHandler && clickHandler(event);
@@ -62,8 +63,9 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         $ariaLabel={ariaLabel}
         $size={size}
         $colors={colors}
+        $isPill={isPill}
       >
-        <BaseButtonInner>
+        <BaseButtonInner $isPill={isPill} $isInline={size === 'small'}>
           {isIconAfter && (
             <span
               className={classNames({

@@ -20,7 +20,10 @@ import {
   fetchExhibitExhibition,
   fetchExhibitionRelatedContentClientSide,
 } from '@weco/content/services/prismic/fetch/exhibitions';
-import { Exhibition as InstallationType } from '@weco/content/types/exhibitions';
+import {
+  ExhibitionAbout,
+  Exhibition as InstallationType,
+} from '@weco/content/types/exhibitions';
 import { Page as PageType } from '@weco/content/types/pages';
 import { getFeaturedMedia } from '@weco/content/utils/page-header';
 
@@ -35,6 +38,9 @@ type Props = {
 const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
   const [partOf, setPartOf] = useState<InstallationType>();
   const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
+  const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout[]>(
+    []
+  );
 
   useEffect(() => {
     fetchExhibitExhibition(installation.id).then(exhibition => {
@@ -47,6 +53,7 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
       relatedContent => {
         if (isNotUndefined(relatedContent)) {
           setExhibitionOfs(relatedContent.exhibitionOfs);
+          setExhibitionAbouts(relatedContent.exhibitionAbouts);
         }
       }
     );
@@ -56,7 +63,8 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
 
   const extraBreadcrumbs = [
     {
-      text: 'Installations',
+      url: '/exhibitions',
+      text: 'Exhibitions',
     },
     partOf
       ? {
@@ -144,6 +152,12 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
             items={[...exhibitionOfs, ...pages]}
             title="Installation events"
           />
+        </Space>
+      )}
+
+      {exhibitionAbouts.length > 0 && (
+        <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
+          <SearchResults items={exhibitionAbouts} title="Related stories" />
         </Space>
       )}
     </ContentPage>

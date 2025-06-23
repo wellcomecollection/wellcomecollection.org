@@ -22,6 +22,10 @@ type SubjectsAtLeastOneSubject = [
   ...Work['subjects'],
 ];
 
+export type RelatedWork = {
+  [key: string]: { label: string; category: string; results: WorkBasic[] };
+};
+
 export function hasAtLeastOneSubject(
   subjects: Work['subjects']
 ): subjects is SubjectsAtLeastOneSubject {
@@ -43,9 +47,7 @@ const RelatedWorks = ({
 }: WorkQueryProps) => {
   const { toggles } = useContext(ServerDataContext);
   const [isLoading, setIsLoading] = useState(true);
-  const [relatedWorksTabs, setRelatedWorksTabs] = useState<{
-    [key: string]: { label: string; results: WorkBasic[] };
-  }>();
+  const [relatedWorksTabs, setRelatedWorksTabs] = useState<RelatedWork>();
   const [selectedTab, setSelectedTab] = useState<string | undefined>();
   const [hasThumbnails, setHasThumbnails] = useState(false);
 
@@ -83,6 +85,26 @@ const RelatedWorks = ({
       const firstTabKey = Object.keys(relatedWorksTabs)[0];
       if (firstTabKey) setSelectedTab(firstTabKey);
     }
+
+    // Only do this if there are results to display
+    if (
+      !isLoading &&
+      relatedWorksTabs &&
+      Object.keys(relatedWorksTabs).length > 0
+    ) {
+      const dataLayerEvent = {
+        event: 'related_works_displayed',
+        relatedWorks: {
+          tabs: Object.values(relatedWorksTabs).map(value => ({
+            label: value.label,
+            category: value.category,
+            resultsCount: value.results.length,
+          })),
+        },
+      };
+
+      window.dataLayer?.push(dataLayerEvent);
+    }
   }, [relatedWorksTabs]);
 
   if (isLoading)
@@ -109,12 +131,13 @@ const RelatedWorks = ({
               id: key,
               url: `#${key}`,
               text: value.label,
+              gtmData: { category: value.category },
             }))}
           />
         )}
       </Container>
 
-      {Object.entries(relatedWorksTabs).map(([key, value]) => (
+      {Object.entries(relatedWorksTabs).map(([key, value], tabIndex) => (
         <FullWidthRow
           key={key}
           className={classNames({
@@ -128,7 +151,15 @@ const RelatedWorks = ({
                   key={result.id}
                   $sizeMap={{ s: [12], m: [12], l: [6], xl: [4] }}
                 >
-                  <RelatedWorksCard resultIndex={i} work={result} />
+                  <RelatedWorksCard
+                    work={result}
+                    gtmData={{
+                      cardIndex: i + 1,
+                      category: value.category,
+                      categoryName: value.label,
+                      categoryPosition: tabIndex + 1,
+                    }}
+                  />
                 </GridCell>
               ))}
             </Grid>
@@ -152,7 +183,7 @@ const RelatedWorks = ({
 
       {hasThumbnails && (
         // Because we use `object-fit` on the image, border-radius won't work consistently, so we have to add an svg filter
-        //  This is adapted from https://stackoverflow.com/questions/49567069/image-rounded-corners-issue-with-object-fit-contain/76106794#76106794
+        // This is adapted from https://stackoverflow.com/questions/49567069/image-rounded-corners-issue-with-object-fit-contain/76106794#76106794
         <svg
           style={{ position: 'absolute', visibility: 'hidden' }}
           width="0"
