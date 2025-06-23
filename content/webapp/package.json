@@ -24,6 +24,7 @@
     "next-router-mock": "^0.9.3",
     "openseadragon": "^4.0.0",
     "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "react-photo-album": "^2.0.0",
     "react-window": "^1.8.8",
     "reading-time": "^1.5.0",
