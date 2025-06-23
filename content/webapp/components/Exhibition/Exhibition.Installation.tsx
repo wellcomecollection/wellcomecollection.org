@@ -144,20 +144,36 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
         </InfoBox>
       )}
 
-      {(exhibitionOfs.length > 0 || pages.length > 0) && (
+      {(exhibitionOfs.length > 0 ||
+        pages.length > 0 ||
+        exhibitionAbouts.length > 0) && (
         <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
-          <SearchResults
-            variant="default"
-            id="events-list"
-            items={[...exhibitionOfs, ...pages]}
-            title="Installation events"
-          />
-        </Space>
-      )}
+          {(exhibitionOfs.length > 0 || pages.length > 0) && (
+            <SearchResults
+              variant="default"
+              id="events-list"
+              items={[...exhibitionOfs, ...pages]}
+              title="Installation events"
+            />
+          )}
 
-      {exhibitionAbouts.length > 0 && (
-        <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
-          <SearchResults items={exhibitionAbouts} title="Related stories" />
+          {exhibitionAbouts.length > 0 && (
+            <Space
+              $v={{
+                size: 'xl',
+                properties:
+                  exhibitionOfs.length > 0 || pages.length > 0
+                    ? ['margin-top']
+                    : [],
+              }}
+            >
+              <SearchResults
+                variant="default"
+                items={exhibitionAbouts}
+                title="Related stories"
+              />
+            </Space>
+          )}
         </Space>
       )}
     </ContentPage>
