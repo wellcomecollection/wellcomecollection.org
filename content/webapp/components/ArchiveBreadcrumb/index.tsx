@@ -52,6 +52,8 @@ const ArchiveBreadcrumbNav = styled.nav`
     }
 
     &:last-child {
+      margin-right: 0;
+
       &::after {
         display: none;
       }

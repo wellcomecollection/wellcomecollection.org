@@ -18,7 +18,7 @@ import Space, {
   VerticalSpaceProperty,
 } from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults';
+import CatalogueImageGallery from '@weco/content/components/CatalogueImageGallery';
 import Pagination from '@weco/content/components/Pagination';
 import SearchFilters from '@weco/content/components/SearchFilters';
 import SearchNoResults from '@weco/content/components/SearchNoResults';
@@ -231,7 +231,10 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                 </PaginationWrapper>
 
                 <main>
-                  <ImageEndpointSearchResults images={images.results} />
+                  <CatalogueImageGallery
+                    images={images.results}
+                    variant="justified"
+                  />
                 </main>
 
                 <PaginationWrapper $verticalSpacing="l" $alignRight>

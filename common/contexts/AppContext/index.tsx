@@ -26,6 +26,7 @@ type AppContextProps = {
   setAudioPlaybackRate: (rate: number) => void;
   hasAcknowledgedCookieBanner: boolean;
   setHasAcknowledgedCookieBanner: (isAcknowledged: boolean) => void;
+  isMobileOrTabletDevice: boolean;
 };
 
 const appContextDefaults = {
@@ -38,6 +39,7 @@ const appContextDefaults = {
   setAudioPlaybackRate: () => null,
   hasAcknowledgedCookieBanner: false,
   setHasAcknowledgedCookieBanner: () => null,
+  isMobileOrTabletDevice: true,
 };
 
 const AppContext = createContext<AppContextProps>(appContextDefaults);
@@ -45,6 +47,20 @@ const AppContext = createContext<AppContextProps>(appContextDefaults);
 export function useAppContext(): AppContextProps {
   const contextState = useContext(AppContext);
   return contextState;
+}
+
+// Ideally we'd use feature detection to determine if the browser supports
+// displaying pdfs inline (navigator.pdfViewerEnabled).
+// However, iOS passes this test but does not provide a good user experience
+// We therefore use a user-agent based detection for mobile and tablet devices.
+function checkForMobileOrTabletDevice(): boolean {
+  return (
+    /Mobi|Android|iPad|iPhone|iPod|tablet|Tablet|Silk|Kindle|BlackBerry|PlayBook|KFAPWI|(Android.+Mobile)/i.test(
+      navigator.userAgent
+    ) ||
+    // Alternative approach to detect iPad with iOS 13+ that disguises as desktop
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+  );
 }
 
 function getWindowSize(): Size {
@@ -78,9 +94,13 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
   );
   const [hasAcknowledgedCookieBanner, setHasAcknowledgedCookieBanner] =
     useState(Boolean(getCookies().CookieControl));
+  const [isMobileOrTabletDevice, setisMobileOrTabletDevice] = useState(
+    appContextDefaults.isMobileOrTabletDevice
+  );
 
   useEffect(() => {
     setIsEnhanced(true);
+    setisMobileOrTabletDevice(checkForMobileOrTabletDevice());
   }, []);
 
   // We need the initial state to be set before rendering to avoid
@@ -145,6 +165,7 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
         setAudioPlaybackRate,
         hasAcknowledgedCookieBanner,
         setHasAcknowledgedCookieBanner,
+        isMobileOrTabletDevice,
       }}
     >
       {children}

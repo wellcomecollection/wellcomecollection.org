@@ -86,20 +86,24 @@ export const ImageWrapper = styled.div`
   width: 100%;
   max-height: 250px;
   order: -1;
-  margin-left: ${props => props.theme.spacingUnits['3']}px;
   margin-bottom: ${props => props.theme.spacingUnits['5']}px;
+  display: flex;
 
   img {
     display: block;
     object-fit: contain;
     width: 100%;
-    max-height: 100%;
+    max-width: 200px; /* The size of the IIIF thumbnails */
+    margin-left: auto;
+    margin-right: auto;
     filter: url('#border-radius-mask');
 
-    ${props => props.theme.media('medium')`
+    ${props =>
+      props.theme.media('medium')(`
+      margin-left: ${props.theme.spacingUnits['3']}px;
+      margin-right: unset;
       width: unset;
       height: 100%;
-      max-height: unset;
 
       max-width: -webkit-fill-available; /* Chrome, Safari, Edge */
       max-width: -moz-available; /* Firefox */
@@ -113,7 +117,7 @@ export const ImageWrapper = styled.div`
       @supports (-webkit-appearance: none) and (stroke-color: transparent) {
         max-width: 100%;
       }
-    `}
+    `)}
   }
 
   ${props => props.theme.media('medium')`

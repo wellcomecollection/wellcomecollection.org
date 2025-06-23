@@ -79,6 +79,7 @@ export { default as music } from './components/Music';
 export { default as mute } from './components/Mute';
 export { default as network } from './components/Network';
 export { default as openFolder } from './components/OpenFolder';
+export { default as organisation } from './components/Organisation';
 export { default as pause } from './components/Pause';
 export { default as pdf } from './components/Pdf';
 export { default as phone } from './components/Phone';

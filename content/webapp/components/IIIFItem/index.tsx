@@ -24,6 +24,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import AudioPlayer from '@weco/content/components/AudioPlayer';
 import BetaMessage from '@weco/content/components/BetaMessage';
+import IIIFItemPdf from '@weco/content/components/IIIFItem/IIIFItem.Pdf';
 import ImageViewer from '@weco/content/components/IIIFViewer/ImageViewer';
 import VideoPlayer from '@weco/content/components/VideoPlayer';
 import VideoTranscript from '@weco/content/components/VideoTranscript';
@@ -43,15 +44,6 @@ import {
 import { getAudioVideoLabel } from '@weco/content/utils/works';
 
 import IIIFItemAudioVideoLink from './IIIFItem.AudioVideo';
-
-const IframePdfViewer = styled(Space)`
-  width: 100%;
-  height: 90vh;
-  display: block;
-  border: 0;
-  margin-left: auto;
-  margin-right: auto;
-`;
 
 const Outline = styled(Space).attrs({
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
@@ -268,7 +260,6 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   const isRestricted = isItemRestricted(item);
   const shouldShowItem = isRestricted && !userIsStaffWithRestricted;
   const { extendedViewer } = useToggles();
-
   // N.B. Restricted images are handled differently from restricted audio/video and text.
   // The isItemRestricted function doesn't account for restricted images.
   // Instead there is a hasRestrictedImage property on the TransformedCanvas which is used by
@@ -368,7 +359,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
         </IIIFItemWrapper>
       );
 
-    case item.type === 'Text' && !exclude.includes('Text'):
+    case item.type === 'Text' && item.id && !exclude.includes('Text'):
       if ('label' in item) {
         const itemLabel = item.label
           ? getLabelString(item.label as InternationalString)
@@ -381,11 +372,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             canvas={canvas}
             isRestricted={isRestricted}
           >
-            <IframePdfViewer
-              as="iframe"
-              title={`PDF: ${itemLabel}`}
-              src={item.id}
-            />
+            <IIIFItemPdf src={item.id} label={itemLabel} />
           </IIIFItemWrapper>
         );
       } else {
@@ -397,7 +384,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             canvas={canvas}
             isRestricted={isRestricted}
           >
-            <IframePdfViewer as="iframe" title="PDF" src={item.id} />
+            <IIIFItemPdf src={item.id} />
           </IIIFItemWrapper>
         );
       }
