@@ -81,7 +81,7 @@ const NavGridCell = styled(GridCell)`
   &::after {
     content: '';
     position: absolute;
-    width: 20px;
+    width: ${themeValues.containerPadding.small}px;
     bottom: 0;
     top: 0;
     z-index: 10;
