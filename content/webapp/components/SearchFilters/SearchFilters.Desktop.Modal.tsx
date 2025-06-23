@@ -27,7 +27,7 @@ type ModalMoreFiltersProps = {
   id: string;
   isActive: boolean;
   setIsActive: (arg: boolean) => void;
-  openMoreFiltersButtonRef: RefObject<HTMLInputElement>;
+  openMoreFiltersButtonRef: RefObject<HTMLInputElement | null>;
   changeHandler: () => void;
   resetFilters: LinkProps;
   filters: Filter[];
