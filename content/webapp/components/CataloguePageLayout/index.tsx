@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 
 import cookies from '@weco/common/data/cookies';
 import { wellcomeImagesRedirectBanner } from '@weco/common/data/microcopy';
-import { InfoBanner } from '@weco/common/views/components/InfoBanners';
+import InfoBanner from '@weco/common/views/components/InfoBanner';
 import PageLayout, {
   Props as PageLayoutProps,
 } from '@weco/common/views/components/PageLayout';
@@ -30,6 +30,7 @@ const CataloguePageLayout: FunctionComponent<Props> = ({
         <>
           {isRedirectBannerVisible && (
             <InfoBanner
+              variant="default"
               document={{
                 data: {
                   isShown: 'hide',
