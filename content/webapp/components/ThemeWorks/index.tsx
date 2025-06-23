@@ -8,7 +8,6 @@ import {
   formatNumber,
   pluralize,
 } from '@weco/common/utils/grammar';
-import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import theme from '@weco/common/views/themes/default';
@@ -48,6 +47,13 @@ const WorksCount = styled(Space).attrs({
 })`
   color: ${props => props.theme.color('neutral.600')};
   border-top: 1px solid ${props => props.theme.color('warmNeutral.300')};
+`;
+
+const WobblyEdgeWrapper = styled.div`
+  z-index: 0;
+  position: relative;
+  margin-left: calc((100vw - 100%) * -1);
+  ${props => props.theme.pageGridOffset('margin-right')};
 `;
 
 const getAllWorksLink = (tab: ThemeTabType, concept: Concept) => {
@@ -90,38 +96,37 @@ const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
 
   return (
     <>
-      <WobblyEdge backgroundColor="white" />
+      <WobblyEdgeWrapper>
+        <WobblyEdge backgroundColor="white" />
+      </WobblyEdgeWrapper>
       <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
-        <Container>
-          <h2 className={font('intsb', 2)}>Works</h2>
-          {tabs.length > 1 && (
-            <Tabs
-              label="Works tabs"
-              tabBehaviour="switch"
-              selectedTab={selectedTab}
-              items={tabs}
-              setSelectedTab={tab => setSelectedTab(tab as ThemeTabType)}
-              trackWithSegment
-              hideBorder
-            />
-          )}
-        </Container>
+        <h2 className={font('intsb', 2)}>Works</h2>
+        {tabs.length > 1 && (
+          <Tabs
+            label="Works tabs"
+            tabBehaviour="switch"
+            selectedTab={selectedTab}
+            items={tabs}
+            setSelectedTab={tab => setSelectedTab(tab as ThemeTabType)}
+            trackWithSegment
+            hideBorder
+          />
+        )}
+
         <Space as="section" data-testid="works-section">
-          <Container>
-            <div role="tabpanel">
-              <WorksCount>{pluralize(totalWorksCount, 'work')}</WorksCount>
-              <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-                <WorksSearchResults works={activePanel.works!.pageResults} />
-              </Space>
-              <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-                <MoreLink
-                  name={`All works (${formattedTotalCount})`}
-                  url={getAllWorksLink(selectedTab, concept)}
-                  colors={theme.buttonColors.greenGreenWhite}
-                />
-              </Space>
-            </div>
-          </Container>
+          <div role="tabpanel">
+            <WorksCount>{pluralize(totalWorksCount, 'work')}</WorksCount>
+            <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+              <WorksSearchResults works={activePanel.works!.pageResults} />
+            </Space>
+            <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+              <MoreLink
+                name={`All works (${formattedTotalCount})`}
+                url={getAllWorksLink(selectedTab, concept)}
+                colors={theme.buttonColors.greenGreenWhite}
+              />
+            </Space>
+          </div>
         </Space>
       </Space>
     </>
