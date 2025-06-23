@@ -90,10 +90,12 @@ const stickyRootAttrs = `
   z-index: 1;
 `;
 
-const Root = styled(Space).attrs({
-  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+const Root = styled(Space).attrs<{ $isSticky?: boolean }>(props => ({
+  $h: props.$isSticky
+    ? undefined
+    : { size: 'l', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-})<{
+}))<{
   $isSticky?: boolean;
   $hasBackgroundBlend?: boolean;
 }>`
