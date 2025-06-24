@@ -27,7 +27,7 @@ import {
   ThemePageSectionsData,
   themeTabOrder,
   ThemeTabType,
-} from '@weco/content/views/concepts/concept/helpers';
+} from '@weco/content/views/concepts/concept/concept.helpers';
 
 const WorksCount = styled(Space).attrs({
   as: 'p',
@@ -49,7 +49,7 @@ type Props = {
   sectionsData: ThemePageSectionsData;
 };
 
-const WorksResult: FunctionComponent<Props> = ({ concept, sectionsData }) => {
+const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
   const tabs = themeTabOrder
     .filter(tabType => sectionsData[tabType].totalResults.works)
     .map(tabType => {
@@ -116,4 +116,4 @@ const WorksResult: FunctionComponent<Props> = ({ concept, sectionsData }) => {
   );
 };
 
-export default WorksResult;
+export default WorksResults;

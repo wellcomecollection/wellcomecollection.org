@@ -8,7 +8,8 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import SourcedDescription from '@weco/content/components/SourcedDescription';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
-import { RelatedConceptsGroup } from '@weco/content/views/concepts/concept';
+
+import RelatedConceptsGroup from './concept.RelatedConceptsGroup';
 
 const ConceptHero = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
