@@ -81,3 +81,4 @@ const Page: FunctionComponent<Props> = props => {
 };
 
 export default Page;
+export type { Props } from '@weco/content/views/events';
