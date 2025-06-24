@@ -96,18 +96,6 @@ const SeeMoreButton = ({ text, link, totalResults }: SeeMoreButtonType) => (
   />
 );
 
-const TabLabel = ({
-  text,
-  totalResults,
-}: {
-  text: string;
-  totalResults: number;
-}) => (
-  <>
-    {text} <span className="is-hidden-s">({formatNumber(totalResults)})</span>
-  </>
-);
-
 type ImagesTabPanelProps = {
   id: string;
   link: LinkProps;
@@ -200,10 +188,14 @@ function toPageSectionDefinition<T>({
         id: tabId,
         tab: {
           id: tabId,
-          text: TabLabel({
-            text: tabLabelText,
-            totalResults: resultsGroup.totalResults,
-          }),
+          text: (
+            <>
+              {tabLabelText}{' '}
+              <span className="is-hidden-s">
+                ({formatNumber(resultsGroup.totalResults)})
+              </span>
+            </>
+          ),
         },
         panel: { id: tabId, link, results: resultsGroup, totalResults },
       }
@@ -341,6 +333,7 @@ const ConceptPage: NextPage<Props> = ({
       {newThemePages && (
         <WorksResults concept={conceptResponse} sectionsData={sectionsData} />
       )}
+
       {!newThemePages && hasWorks && (
         <>
           <ConceptWorksHeader $hasWorksTabs={hasWorksTabs}>
