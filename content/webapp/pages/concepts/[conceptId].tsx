@@ -58,16 +58,12 @@ type Props = ConceptPageProps & {
   pageview: Pageview;
 };
 
-export const Page: NextPage<Props> = ({
-  conceptResponse,
-  sectionsData,
-  apiToolbarLinks,
-}) => {
+export const Page: NextPage<Props> = (props: ConceptPageProps) => {
   return (
     <ConceptPage
-      conceptResponse={conceptResponse}
-      sectionsData={sectionsData}
-      apiToolbarLinks={apiToolbarLinks}
+      conceptResponse={props.conceptResponse}
+      sectionsData={props.sectionsData}
+      apiToolbarLinks={props.apiToolbarLinks}
     />
   );
 };
