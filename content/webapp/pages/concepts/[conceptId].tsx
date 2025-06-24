@@ -108,9 +108,11 @@ const NavGridCell = styled(GridCell)<{
     position: unset;
     background-color: unset;
     z-index: unset;
+    transition: unset;
 
     &::before,
     &::after {
+      transition: unset;
       display: none;
     }
   `}
