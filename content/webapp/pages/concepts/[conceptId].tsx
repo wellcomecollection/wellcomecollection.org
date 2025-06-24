@@ -26,7 +26,7 @@ import {
 } from '@weco/content/utils/concepts';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import ConceptPage, {
-  ConceptPageProps,
+  Props as ConceptPageProps,
 } from '@weco/content/views/concepts/concept';
 
 function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
