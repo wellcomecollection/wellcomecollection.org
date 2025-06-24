@@ -16,30 +16,18 @@ import MoreLink from '@weco/content/components/MoreLink';
 import { toLink as toWorksLink } from '@weco/content/components/SearchPagesLink/Works';
 import Tabs from '@weco/content/components/Tabs';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults';
-import {
-  SectionData,
-  ThemePageSectionsData,
-} from '@weco/content/pages/concepts/[conceptId]';
-import {
-  Concept,
-  ConceptType,
-} from '@weco/content/services/wellcome/catalogue/types';
+import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import {
   allRecordsLinkParams,
   conceptTypeDisplayName,
 } from '@weco/content/utils/concepts';
-
-export type ThemeTabType = 'by' | 'in' | 'about';
-export const themeTabOrder: ThemeTabType[] = ['by', 'in', 'about'] as const;
-
-export const getThemeTabLabel = (
-  type: ThemeTabType,
-  conceptType: ConceptType
-) => {
-  if (type === 'about' && conceptType === 'Person') return 'featuring';
-  if (type === 'in') return 'using';
-  return type;
-};
+import {
+  getThemeTabLabel,
+  SectionData,
+  ThemePageSectionsData,
+  themeTabOrder,
+  ThemeTabType,
+} from '@weco/content/views/concepts/concept/helpers';
 
 const WorksCount = styled(Space).attrs({
   as: 'p',

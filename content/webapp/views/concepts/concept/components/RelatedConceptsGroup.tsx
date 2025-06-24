@@ -1,3 +1,4 @@
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
@@ -37,7 +38,7 @@ type Props = {
   buttonColors?: ButtonColors;
 };
 
-const ThemeRelatedConceptsGroup = ({
+const RelatedConceptsGroup: FunctionComponent<Props> = ({
   label,
   labelType,
   relatedConcepts,
@@ -79,4 +80,4 @@ const ThemeRelatedConceptsGroup = ({
   );
 };
 
-export default ThemeRelatedConceptsGroup;
+export default RelatedConceptsGroup;

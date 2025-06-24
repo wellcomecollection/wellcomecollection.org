@@ -10,9 +10,10 @@ import styled, { css } from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import MeshLogo from '@weco/content/components/ThemeSourcedDescription/mesh-logo.png';
-import { WikidataLogo } from '@weco/content/components/ThemeSourcedDescription/ThemeSourcedDescription.Icons';
 import { SourceOntology } from '@weco/content/services/wellcome/catalogue/types';
+
+import MeshLogo from './mesh-logo.png';
+import { WikidataLogo } from './SourcedDescription.Icons';
 
 const getReadableSource = (source: SourceOntology) => {
   if (source === 'nlm-mesh') return 'MeSH';
@@ -116,17 +117,11 @@ const SourceLabel = styled.span`
   padding: 0 ${props => props.theme.spacingUnits['3']}px;
 `;
 
-export type Props = {
+const SourcedDescription: FunctionComponent<{
   source: SourceOntology;
   description: string;
   href: string;
-};
-
-const ThemeSourcedDescription: FunctionComponent<Props> = ({
-  description,
-  source,
-  href,
-}) => {
+}> = ({ description, source, href }) => {
   const sourcePillRef = useRef<HTMLDivElement>(null);
   const sourcePillContainerRef = useRef<HTMLDivElement>(null);
   const [sourceBoxMarginLeft, setSourceBoxMarginLeft] = useState(0);
@@ -210,4 +205,4 @@ const ThemeSourcedDescription: FunctionComponent<Props> = ({
   );
 };
 
-export default ThemeSourcedDescription;
+export default SourcedDescription;
