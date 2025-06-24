@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { FunctionComponent, JSX, useState } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 import { ImagesLinkSource } from '@weco/common/data/segment-values';
 import { getServerData } from '@weco/common/server-data';
@@ -71,8 +72,8 @@ const linkSources = new Map([
   ['imagesIn', 'concept/images_in'],
 ]);
 
-const NavGridCell = styled(GridCell)`
-  position: sticky;
+const NavGridCell = styled(GridCell)<{ $isEnhanced: boolean }>`
+  position: ${props => (props.$isEnhanced ? 'sticky' : 'relative')};
   top: 0;
   background-color: ${props => props.theme.color('neutral.700')};
   z-index: 3;
@@ -364,6 +365,7 @@ export const ConceptPage: NextPage<Props> = ({
 }) => {
   useHotjar(true);
   const { newThemePages, themePagesAllFields } = useToggles();
+  const { isEnhanced } = useAppContext();
 
   const pathname = usePathname();
   const worksTabs = tabOrder
@@ -439,7 +441,10 @@ export const ConceptPage: NextPage<Props> = ({
       <WobblyEdge backgroundColor="neutral.700" />
       <Container>
         <Grid style={{ background: 'white', rowGap: 0 }}>
-          <NavGridCell $sizeMap={{ s: [12], m: [3], l: [2], xl: [2] }}>
+          <NavGridCell
+            $isEnhanced={isEnhanced}
+            $sizeMap={{ s: [12], m: [3], l: [2], xl: [2] }}
+          >
             <OnThisPageAnchors
               links={[
                 {

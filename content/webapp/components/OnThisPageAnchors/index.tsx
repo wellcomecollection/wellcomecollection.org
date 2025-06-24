@@ -1,9 +1,12 @@
 import NextLink from 'next/link';
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { FunctionComponent, useEffect, useId, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useActiveAnchor } from '@weco/common/hooks/useActiveAnchor';
+import { cross } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
+import Icon from '@weco/common/views/components/Icon';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
@@ -91,6 +94,7 @@ const stickyRootAttrs = `
 `;
 
 const Root = styled(Space).attrs<{ $isSticky?: boolean }>(props => ({
+  as: 'nav',
   $h: props.$isSticky
     ? undefined
     : { size: 'l', properties: ['padding-left', 'padding-right'] },
@@ -104,31 +108,35 @@ const Root = styled(Space).attrs<{ $isSticky?: boolean }>(props => ({
     !props.$hasBackgroundBlend
       ? `background: ${props.theme.color('warmNeutral.300')};`
       : `mix-blend-mode: difference; color: ${props.theme.color('white')};`}
+`;
 
-  h2 {
-    border-top: 1px solid ${props => props.theme.color('white')};
-    border-bottom: 1px solid ${props => props.theme.color('white')};
-    padding: 0.5rem 0;
-    margin: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+const MobileNavButton = styled.button`
+  border-top: 1px solid ${props => props.theme.color('white')};
+  border-bottom: 1px solid ${props => props.theme.color('white')};
+  padding: 0.5rem 0;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  color: white;
 
-    &::after {
-      content: '+';
-      font-size: 1.5rem;
-      line-height: 1;
-
-      ${props => props.theme.media('medium')`
-        display: none;
-      `}
-    }
-
-    ${props => props.theme.media('medium')`
-      border: 0;
-      padding: 0;
-    `}
+  .icon {
+    content: '+' / '';
+    transition: transform ${props => props.theme.transitionProperties};
+    font-size: 1.5rem;
+    line-height: 1;
   }
+
+  nav:has(ul.is-hidden-s) & {
+    .icon {
+      transform: rotate(45deg);
+    }
+  }
+
+  ${props => props.theme.media('medium')`
+    display: none;
+  `}
 `;
 
 export type Props = {
@@ -149,6 +157,16 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
   const [clickedId, setClickedId] = useState<string | null>(null);
   const [lock, setLock] = useState(false);
   const listRef = useRef<HTMLUListElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const listId = useId();
+  const { isEnhanced } = useAppContext();
+
+  useEffect(() => {
+    if (!buttonRef.current) return;
+
+    buttonRef.current.setAttribute('aria-expanded', 'false');
+    buttonRef.current.setAttribute('aria-controls', listId);
+  }, [buttonRef.current]);
 
   // When an anchor is clicked, lock for a short time before allowing scroll to clear
   useEffect(() => {
@@ -183,16 +201,28 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
     }
   }, [activeId]);
 
+  useEffect(() => {
+    if (!listRef.current) return;
+    listRef.current.classList.add('is-hidden-s');
+  }, [listRef.current]);
+
   function toggleList() {
-    if (listRef.current) {
-      listRef.current.classList.toggle('is-hidden-s');
+    if (!listRef.current || !buttonRef.current) return;
+
+    if (listRef.current.classList.contains('is-hidden-s')) {
+      listRef.current.classList.remove('is-hidden-s');
+      buttonRef.current.setAttribute('aria-expanded', 'true');
+    } else {
+      listRef.current.classList.add('is-hidden-s');
+      buttonRef.current.setAttribute('aria-expanded', 'false');
     }
   }
 
   function hideMobileList() {
-    if (listRef.current) {
-      listRef.current.classList.add('is-hidden-s');
-    }
+    if (!listRef.current || !buttonRef.current) return;
+
+    listRef.current.classList.add('is-hidden-s');
+    buttonRef.current.setAttribute('aria-expanded', 'false');
   }
 
   const titleText = isSticky ? 'On this page' : 'What’s on this page';
@@ -200,10 +230,12 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
 
   return (
     <Root $isSticky={isSticky} $hasBackgroundBlend={hasBackgroundBlend}>
-      <h2 onClick={toggleList} className={fontStyle}>
+      <h2 className={`${fontStyle} is-hidden-s`}>{titleText}</h2>
+      <MobileNavButton ref={buttonRef} onClick={toggleList}>
         {titleText}
-      </h2>
-      <PlainList ref={listRef} className="is-hidden-s">
+        {isEnhanced && <Icon icon={cross} />}
+      </MobileNavButton>
+      <PlainList ref={listRef} id={listId}>
         {links.map((link: Link) => {
           const id = link.url.replace('#', '');
           const isActive = activeId === id;
