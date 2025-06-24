@@ -27,8 +27,8 @@ import {
 import { Page as PageType } from '@weco/content/types/pages';
 import { getFeaturedMedia } from '@weco/content/utils/page-header';
 
-import { ExhibitionOf } from '.';
-import { getInfoItems } from './Exhibition.helpers';
+import { ExhibitionOf } from './exhibition.Exhibition';
+import { getInfoItems } from './exhibition.helpers';
 
 type Props = {
   installation: InstallationType;

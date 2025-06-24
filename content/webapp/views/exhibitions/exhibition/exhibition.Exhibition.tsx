@@ -36,10 +36,9 @@ import {
   getHeroPicture,
 } from '@weco/content/utils/page-header';
 
-import ExhibitionAccessAccordion from './Exhibition.AccessAccordion';
-import ExhibitionBeingHuman from './Exhibition.BeingHuman';
-import { getInfoItems } from './Exhibition.helpers';
-import Installation from './Exhibition.Installation';
+import ExhibitionAccessAccordion from './exhibition.AccessAccordion';
+import ExhibitionBeingHuman from './exhibition.BeingHuman';
+import { getInfoItems } from './exhibition.helpers';
 
 type Props = {
   exhibition: ExhibitionType;
@@ -277,4 +276,3 @@ const Exhibition: FunctionComponent<Props> = ({
 };
 
 export default Exhibition;
-export { Installation };

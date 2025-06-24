@@ -21,7 +21,7 @@ import {
   ResourcesList,
 } from '@weco/content/components/styled/AccessResources';
 
-import { getInfoItems } from './Exhibition.helpers';
+import { getInfoItems } from './exhibition.helpers';
 
 function getBorderColor({
   type,
