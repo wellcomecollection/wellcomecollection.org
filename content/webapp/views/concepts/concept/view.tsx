@@ -109,7 +109,7 @@ type ImagesTabPanelProps = {
   id: string;
   link: LinkProps;
   results: ReturnedResults<ImageType>;
-  totalResults: number | undefined;
+  totalResults?: number;
 };
 const ImagesTabPanel: FunctionComponent<ImagesTabPanelProps> = ({
   id,
@@ -137,7 +137,7 @@ type WorksTabPanelProps = {
   id: string;
   link: LinkProps;
   results: ReturnedResults<WorkBasic>;
-  totalResults: number | undefined;
+  totalResults?: number;
 };
 const WorksTabPanel: FunctionComponent<WorksTabPanelProps> = ({
   id,
@@ -174,23 +174,23 @@ type PageSectionDefinition<T> = {
     id: string;
     link: LinkProps;
     results: ReturnedResults<T>;
-    totalResults: number | undefined;
+    totalResults?: number;
   };
 };
 type PageSectionDefinitionProps<T> = {
   tabId: string;
-  resultsGroup: ReturnedResults<T> | undefined;
-  tabLabelText: string;
-  totalResults: number | undefined;
   link: LinkProps;
+  resultsGroup?: ReturnedResults<T>;
+  tabLabelText: string;
+  totalResults?: number;
 };
 
 function toPageSectionDefinition<T>({
   tabId,
+  link,
   resultsGroup,
   tabLabelText,
   totalResults,
-  link,
 }: PageSectionDefinitionProps<T>): PageSectionDefinition<T> | undefined {
   return resultsGroup?.totalResults
     ? {
@@ -313,7 +313,7 @@ const ConceptPage: NextPage<Props> = ({
       {!newThemePages && hasImages && (
         <ConceptImages as="section" data-testid="images-section">
           <Container>
-            <h2 className={`${font('wb', 3)} sectionTitle`}>Images</h2>
+            <h2 className={`${font('wb', 3)}`}>Images</h2>
             {hasImagesTabs && (
               <Tabs
                 label="Images tabs"

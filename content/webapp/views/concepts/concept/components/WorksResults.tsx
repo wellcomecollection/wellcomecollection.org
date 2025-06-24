@@ -49,7 +49,7 @@ type Props = {
   sectionsData: ThemePageSectionsData;
 };
 
-const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
+const WorksResult: FunctionComponent<Props> = ({ concept, sectionsData }) => {
   const tabs = themeTabOrder
     .filter(tabType => sectionsData[tabType].totalResults.works)
     .map(tabType => {
@@ -116,4 +116,4 @@ const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
   );
 };
 
-export default ThemeWorks;
+export default WorksResult;

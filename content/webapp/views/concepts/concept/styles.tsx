@@ -54,7 +54,7 @@ export const ConceptImages = styled(Space).attrs({
 })`
   background-color: ${props => props.theme.color('black')};
 
-  .sectionTitle {
+  h2 {
     color: ${props => props.theme.color('white')};
   }
 `;

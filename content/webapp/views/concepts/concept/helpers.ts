@@ -10,9 +10,9 @@ export const themeTabOrder: ThemeTabType[] = ['by', 'in', 'about'];
 
 export type SectionData = {
   label: string;
-  works: ReturnedResults<WorkBasic> | undefined;
-  images: ReturnedResults<ImageType> | undefined;
-  totalResults: { works: number | undefined; images: number | undefined };
+  works?: ReturnedResults<WorkBasic>;
+  images?: ReturnedResults<ImageType>;
+  totalResults: { works?: number; images?: number };
 };
 
 export type ThemePageSectionsData = {
