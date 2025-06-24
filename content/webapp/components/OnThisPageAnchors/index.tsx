@@ -129,10 +129,7 @@ const MobileNavButton = styled.button`
   color: white;
 
   .icon {
-    content: '+' / '';
     transition: transform ${props => props.theme.transitionProperties};
-    font-size: 1.5rem;
-    line-height: 1;
   }
 
   nav:has(ul.is-hidden-s) & {
@@ -240,7 +237,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
       <h2 className={`${fontStyle} is-hidden-s`}>{titleText}</h2>
       <MobileNavButton ref={buttonRef} onClick={toggleList}>
         {titleText}
-        {isEnhanced && <Icon icon={cross} />}
+        {isEnhanced && <Icon icon={cross} matchText />}
       </MobileNavButton>
       <PlainList ref={listRef} id={listId}>
         {links.map((link: Link) => {
