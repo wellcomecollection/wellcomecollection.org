@@ -20,9 +20,7 @@ import { eventLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import { getPage } from '@weco/content/utils/query-params';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import EventSeriesPage, {
-  Props,
-} from '@weco/content/views/event-series/event-series';
+import EventSeriesPage, { Props } from '@weco/content/views/event-series';
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
