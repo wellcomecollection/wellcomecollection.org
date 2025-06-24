@@ -1,5 +1,12 @@
 import NextLink from 'next/link';
-import { FunctionComponent, useEffect, useId, useRef, useState } from 'react';
+import {
+  Fragment,
+  FunctionComponent,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
@@ -240,9 +247,9 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
           const id = link.url.replace('#', '');
           const isActive = activeId === id;
           return (
-            <>
+            <Fragment key={link.url}>
               {isSticky ? (
-                <ListItem key={link.url}>
+                <ListItem>
                   <NextLink
                     passHref
                     style={{ textDecoration: 'none' }}
@@ -279,7 +286,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
                   </Anchor>
                 </li>
               )}
-            </>
+            </Fragment>
           );
         })}
       </PlainList>
