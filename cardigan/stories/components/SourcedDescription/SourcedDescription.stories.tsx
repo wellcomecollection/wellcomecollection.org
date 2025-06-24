@@ -31,7 +31,11 @@ const meta: Meta<
       control: { type: 'boolean' },
       name: 'See raw component',
     },
+    description: {
+      name: 'Copy / Description',
+    },
     source: {
+      name: 'Source ontology',
       options: [
         'Wikidata',
         'MeSH',
