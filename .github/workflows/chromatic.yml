@@ -20,7 +20,7 @@ permissions:
 
 jobs:
   chromatic-deployment:
-    runs-on: default_x64_latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
