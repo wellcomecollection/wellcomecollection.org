@@ -8,27 +8,10 @@ import { getServerData } from '@weco/common/server-data';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
-import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { isFilledLinkToDocument } from '@weco/common/services/prismic/types';
-import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
-import { capitalize } from '@weco/common/utils/grammar';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import Divider from '@weco/common/views/components/Divider';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd';
-import {
-  ContaineredLayout,
-  gridSize12,
-} from '@weco/common/views/components/Layout';
-import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout';
-import Space from '@weco/common/views/components/styled/Space';
-import Standfirst from '@weco/common/views/slices/Standfirst';
-import Body from '@weco/content/components/Body';
-import CardGrid from '@weco/content/components/CardGrid';
-import ContentPage from '@weco/content/components/ContentPage';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   fetchVisualStories,
@@ -40,11 +23,19 @@ import {
 } from '@weco/content/services/prismic/transformers/events';
 import { visualStoryLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformVisualStory } from '@weco/content/services/prismic/transformers/visual-stories';
-import {
-  VisualStoryBasic,
-  VisualStory as VisualStoryProps,
-} from '@weco/content/types/visual-stories';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import VisualStoryPage, {
+  Props as VisualStoryPageProps,
+} from '@weco/content/views/visual-stories/visual-story';
+
+export type Props = VisualStoryPageProps & {
+  pageview: Pageview;
+  serverData: SimplifiedServerData; // TODO should we enforce this?
+};
+
+const VisualStory: FunctionComponent<Props> = (props: VisualStoryPageProps) => {
+  return <VisualStoryPage {...props} />;
+};
 
 export const getOtherVisualStories = ({
   documentId,
@@ -103,13 +94,6 @@ export const getOtherVisualStories = ({
   );
 };
 
-export type Props = {
-  visualStory: VisualStoryProps;
-  visualStories: VisualStoryBasic[];
-  jsonLd: JsonLdObj;
-  pageview: Pageview;
-};
-
 export const returnVisualStoryProps = ({
   visualStoryDocument,
   otherCurrentVisualStories,
@@ -117,7 +101,6 @@ export const returnVisualStoryProps = ({
 }: {
   visualStoryDocument?: RawVisualStoriesDocument;
   otherCurrentVisualStories?: RawVisualStoriesDocument[];
-
   serverData: SimplifiedServerData;
 }) => {
   if (isNotUndefined(visualStoryDocument)) {
@@ -148,7 +131,7 @@ export const returnVisualStoryProps = ({
     const jsonLd = visualStoryLd(visualStory);
 
     return {
-      props: serialiseProps({
+      props: serialiseProps<Props>({
         visualStory,
         visualStories,
         serverData,
@@ -194,108 +177,6 @@ export const getServerSideProps = async context => {
     otherCurrentVisualStories,
     serverData,
   });
-};
-
-const VisualStory: FunctionComponent<Props> = ({
-  visualStory,
-  visualStories,
-  jsonLd,
-}) => {
-  const { relatedDocument } = visualStory;
-
-  const ContentTypeInfo = visualStory.untransformedStandfirst ? (
-    <Standfirst
-      slice={visualStory.untransformedStandfirst}
-      index={0}
-      context={{}}
-      slices={[]}
-    />
-  ) : null;
-
-  const Header = (
-    <PageHeader
-      breadcrumbs={{
-        items:
-          relatedDocument && relatedDocument.title
-            ? [
-                {
-                  text: `${capitalize(relatedDocument.type as string)}`,
-                  url: `/${relatedDocument.type}`,
-                },
-                {
-                  text: relatedDocument.title,
-                  url: linkResolver(relatedDocument),
-                },
-              ]
-            : [],
-      }}
-      labels={{ labels: [] }}
-      title={visualStory.title}
-      isContentTypeInfoBeforeMedia={true}
-      ContentTypeInfo={ContentTypeInfo}
-    />
-  );
-
-  // Related document UIDs are optional, so if that's the case, use ID as plan B
-  const visualStoryPath = visualStory.relatedDocument?.id
-    ? `/${visualStory.relatedDocument.type}/${visualStory.relatedDocument.uid || visualStory.relatedDocument.id}/visual-stories`
-    : `/visual-stories/${visualStory.uid}`;
-
-  const onThisPageLinks =
-    visualStories.length > 0
-      ? [
-          ...visualStory.onThisPage,
-          {
-            text: 'More visual stories',
-            url: '#more-visual-stories',
-          },
-        ]
-      : visualStory.onThisPage;
-
-  return (
-    <PageLayout
-      title={visualStory.title}
-      description={visualStory.promo?.caption || ''}
-      url={{ pathname: visualStoryPath }}
-      jsonLd={jsonLd}
-      openGraphType="website"
-      hideNewsletterPromo={true}
-      siteSection={visualStory.siteSection}
-      apiToolbarLinks={[createPrismicLink(visualStory.id)]}
-    >
-      <ContentPage
-        id={visualStory.id}
-        Header={Header}
-        Body={
-          <Body
-            untransformedBody={visualStory.untransformedBody}
-            pageId={visualStory.id}
-            onThisPage={onThisPageLinks}
-            showOnThisPage={visualStory.showOnThisPage}
-            contentType="visual-story"
-          />
-        }
-      />
-      {visualStories.length > 0 && (
-        <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
-          <ContaineredLayout gridSizes={gridSize12()}>
-            <Divider lineColor="neutral.400" />
-            <Space
-              $v={{
-                size: 'xl',
-                properties: ['padding-top', 'padding-bottom'],
-              }}
-            >
-              <h2 className={font('wb', 2)} id="more-visual-stories">
-                More Visual Stories
-              </h2>
-            </Space>
-          </ContaineredLayout>
-          <CardGrid items={visualStories} itemsPerRow={3} />
-        </Space>
-      )}
-    </PageLayout>
-  );
 };
 
 export default VisualStory;
