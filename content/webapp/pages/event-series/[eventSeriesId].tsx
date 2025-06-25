@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { getServerData } from '@weco/common/server-data';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { today } from '@weco/common/utils/dates';
@@ -20,7 +21,17 @@ import { eventLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import { getPage } from '@weco/content/utils/query-params';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import EventSeriesPage, { Props } from '@weco/content/views/event-series';
+import EventSeriesPage, {
+  Props as EventSeriesPageProps,
+} from '@weco/content/views/event-series';
+
+type Props = EventSeriesPageProps & {
+  serverData: SimplifiedServerData; // TODO should we enforce this?
+};
+
+const Page: FunctionComponent<Props> = (props: EventSeriesPageProps) => {
+  return <EventSeriesPage {...props} />;
+};
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
@@ -80,7 +91,7 @@ export const getServerSideProps: GetServerSideProps<
     const jsonLd = upcomingEventsFull.flatMap(eventLd);
 
     return {
-      props: serialiseProps({
+      props: serialiseProps<Props>({
         series,
         upcomingEvents,
         pastEvents,
@@ -92,18 +103,6 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   return { notFound: true };
-};
-
-const Page: FunctionComponent<Props> = (props: Props) => {
-  return (
-    <EventSeriesPage
-      series={props.series}
-      jsonLd={props.jsonLd}
-      pastEvents={props.pastEvents}
-      upcomingEvents={props.upcomingEvents}
-      page={props.page}
-    />
-  );
 };
 
 export default Page;

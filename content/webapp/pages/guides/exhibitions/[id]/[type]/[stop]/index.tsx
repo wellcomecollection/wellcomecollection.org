@@ -2,6 +2,7 @@ import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { getServerData } from '@weco/common/server-data';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { isFilledSliceZone } from '@weco/common/services/prismic/types';
@@ -17,8 +18,18 @@ import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/j
 import { isValidExhibitionGuideType } from '@weco/content/types/exhibition-guides';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import ExhibitionGuideStopPage, {
-  Props,
+  Props as ExhibitionGuideStopPageProps,
 } from '@weco/content/views/guides/exhibitions/exhibition/type/stop';
+
+type Props = ExhibitionGuideStopPageProps & {
+  serverData: SimplifiedServerData; // TODO should we enforce this?
+};
+
+const Page: FunctionComponent<Props> = (
+  props: ExhibitionGuideStopPageProps
+) => {
+  return <ExhibitionGuideStopPage {...props} />;
+};
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
@@ -62,7 +73,7 @@ export const getServerSideProps: GetServerSideProps<
     }
 
     return {
-      props: serialiseProps({
+      props: serialiseProps<Props>({
         currentStopServerSide,
         jsonLd,
         serverData,
@@ -77,21 +88,6 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   return { notFound: true };
-};
-
-const Page: FunctionComponent<Props> = props => {
-  return (
-    <ExhibitionGuideStopPage
-      allStops={props.allStops}
-      currentStopServerSide={props.currentStopServerSide}
-      stopNumberServerSide={props.stopNumberServerSide}
-      exhibitionGuideId={props.exhibitionGuideId}
-      exhibitionGuide={props.exhibitionGuide}
-      exhibitionTitle={props.exhibitionTitle}
-      jsonLd={props.jsonLd}
-      type={props.type}
-    />
-  );
 };
 
 export default Page;

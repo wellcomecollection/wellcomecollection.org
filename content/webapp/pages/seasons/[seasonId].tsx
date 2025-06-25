@@ -3,19 +3,11 @@ import { GetServerSideProps } from 'next';
 import { ReactElement } from 'react';
 
 import { getServerData } from '@weco/common/server-data';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd';
-import PageLayout from '@weco/common/views/components/PageLayout';
-import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import Body from '@weco/content/components/Body';
-import CardGrid from '@weco/content/components/CardGrid';
-import ContentPage from '@weco/content/components/ContentPage';
-import SeasonsHeader from '@weco/content/components/SeasonsHeader';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
 import { fetchBooks } from '@weco/content/services/prismic/fetch/books';
@@ -41,81 +33,17 @@ import { transformQuery } from '@weco/content/services/prismic/transformers/pagi
 import { transformProject } from '@weco/content/services/prismic/transformers/projects';
 import { transformSeason } from '@weco/content/services/prismic/transformers/seasons';
 import { transformSeries } from '@weco/content/services/prismic/transformers/series';
-import { ArticleBasic } from '@weco/content/types/articles';
-import { BookBasic } from '@weco/content/types/books';
-import { EventBasic } from '@weco/content/types/events';
-import { ExhibitionBasic } from '@weco/content/types/exhibitions';
-import { Page } from '@weco/content/types/pages';
-import { Project } from '@weco/content/types/projects';
-import { Season } from '@weco/content/types/seasons';
-import { Series } from '@weco/content/types/series';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import SeasonPage, {
+  Props as SeasonPageProps,
+} from '@weco/content/views/seasons/season';
 
-type Props = {
-  season: Season;
-  articles: ArticleBasic[];
-  books: BookBasic[];
-  events: EventBasic[];
-  exhibitions: ExhibitionBasic[];
-  pages: Page[];
-  projects: Project[];
-  series: Series[];
-  jsonLd: JsonLdObj;
+type Props = SeasonPageProps & {
+  serverData: SimplifiedServerData; // TODO should we enforce this?
 };
 
-const SeasonPage = ({
-  season,
-  articles,
-  events,
-  exhibitions,
-  pages,
-  series,
-  projects,
-  books,
-  jsonLd,
-}: Props): ReactElement<Props> => {
-  const allItems = [
-    ...exhibitions,
-    ...events,
-    ...articles,
-    ...pages,
-    ...series,
-    ...projects,
-    ...books,
-  ];
-
-  return (
-    <PageLayout
-      title={season.title}
-      description={season.metadataDescription || season.promo?.caption || ''}
-      url={{ pathname: `/seasons/${season.uid}` }}
-      jsonLd={jsonLd}
-      siteSection="whats-on"
-      openGraphType="website"
-      image={season.image}
-      apiToolbarLinks={[createPrismicLink(season.id)]}
-    >
-      <ContentPage
-        id={season.id}
-        Header={<SeasonsHeader season={season} />}
-        Body={
-          <Body
-            untransformedBody={season.untransformedBody}
-            pageId={season.id}
-          />
-        }
-        hideContributors={true}
-      />
-
-      {allItems.length > 0 && (
-        <SpacingSection>
-          <SpacingComponent>
-            <CardGrid items={allItems} itemsPerRow={3} />
-          </SpacingComponent>
-        </SpacingSection>
-      )}
-    </PageLayout>
-  );
+const Page = (props: Props): ReactElement<SeasonPageProps> => {
+  return <SeasonPage {...props} />;
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -209,7 +137,7 @@ export const getServerSideProps: GetServerSideProps<
     const jsonLd = contentLd(season);
 
     return {
-      props: serialiseProps({
+      props: serialiseProps<Props>({
         season,
         articles: articles.results,
         books: books.results,
@@ -227,4 +155,4 @@ export const getServerSideProps: GetServerSideProps<
   return { notFound: true };
 };
 
-export default SeasonPage;
+export default Page;

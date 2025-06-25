@@ -2,6 +2,7 @@ import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { getServerData } from '@weco/common/server-data';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -10,7 +11,17 @@ import { eventLdContentApi } from '@weco/content/services/prismic/transformers/j
 import { getEvents } from '@weco/content/services/wellcome/content/events';
 import { getPage } from '@weco/content/utils/query-params';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
-import EventsPage, { Props } from '@weco/content/views/events';
+import EventsPage, {
+  Props as EventsPageProps,
+} from '@weco/content/views/events';
+
+type Props = EventsPageProps & {
+  serverData: SimplifiedServerData; // TODO should we enforce this?
+};
+
+const Page: FunctionComponent<Props> = (props: EventsPageProps) => {
+  return <EventsPage {...props} />;
+};
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
@@ -54,7 +65,7 @@ export const getServerSideProps: GetServerSideProps<
     const jsonLd = eventResponseList.results.flatMap(eventLdContentApi);
 
     return {
-      props: serialiseProps({
+      props: serialiseProps<Props>({
         events: eventResponseList,
         query: context.query,
         eventsRouteProps: allPossibleParams,
@@ -68,17 +79,5 @@ export const getServerSideProps: GetServerSideProps<
   return { notFound: true };
 };
 
-const Page: FunctionComponent<Props> = props => {
-  return (
-    <EventsPage
-      events={props.events}
-      eventsRouteProps={props.eventsRouteProps}
-      jsonLd={props.jsonLd}
-      query={props.query}
-      period={props.period}
-    />
-  );
-};
-
 export default Page;
-export type { Props } from '@weco/content/views/events';
+export type { Props };

@@ -2,6 +2,7 @@ import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { getServerData } from '@weco/common/server-data';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -24,16 +25,15 @@ import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
 import { getPage } from '@weco/content/utils/query-params';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import ExhibitionGuidesPage, {
-  Props,
+  Props as ExhibitionGuidesPageProps,
 } from '@weco/content/views/guides/exhibitions';
 
+type Props = ExhibitionGuidesPageProps & {
+  serverData: SimplifiedServerData; // TODO should we enforce this?
+};
+
 const Page: FunctionComponent<Props> = props => {
-  return (
-    <ExhibitionGuidesPage
-      exhibitionGuides={props.exhibitionGuides}
-      jsonLd={props.jsonLd}
-    />
-  );
+  return <ExhibitionGuidesPage {...props} />;
 };
 
 // We want a list of all the exhibition guides,
@@ -164,7 +164,7 @@ export const getServerSideProps: GetServerSideProps<
   const jsonLd = guides.results.map(exhibitionGuideLd);
 
   return {
-    props: serialiseProps({
+    props: serialiseProps<Props>({
       exhibitionGuides: guides,
       jsonLd,
       serverData,

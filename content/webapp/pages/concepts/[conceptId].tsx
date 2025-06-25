@@ -1,6 +1,7 @@
 import { GetServerSideProps, NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -56,16 +57,11 @@ function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
 
 type Props = ConceptPageProps & {
   pageview: Pageview;
+  serverData: SimplifiedServerData; // TODO should we enforce this?
 };
 
 export const Page: NextPage<Props> = (props: ConceptPageProps) => {
-  return (
-    <ConceptPage
-      conceptResponse={props.conceptResponse}
-      sectionsData={props.sectionsData}
-      apiToolbarLinks={props.apiToolbarLinks}
-    />
-  );
+  return <ConceptPage {...props} />;
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -325,7 +321,7 @@ export const getServerSideProps: GetServerSideProps<
   };
 
   return {
-    props: serialiseProps({
+    props: serialiseProps<Props>({
       conceptResponse,
       sectionsData,
       apiToolbarLinks,

@@ -3,6 +3,7 @@ import { FunctionComponent } from 'react';
 
 import { isSiteSection } from '@weco/common/model/site-section';
 import { getServerData } from '@weco/common/server-data';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
@@ -28,20 +29,11 @@ import PagePage, {
 
 type Props = PagePageProps & {
   gaDimensions: GaDimensions;
+  serverData: SimplifiedServerData; // TODO should we enforce this?
 };
 
 export const Page: FunctionComponent<Props> = (props: PagePageProps) => {
-  return (
-    <PagePage
-      jsonLd={props.jsonLd}
-      ordersInParents={props.ordersInParents}
-      page={props.page}
-      siblings={props.siblings}
-      staticContent={props.staticContent}
-    >
-      {props.children}
-    </PagePage>
-  );
+  return <PagePage {...props}>{props.children}</PagePage>;
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -138,7 +130,7 @@ export const getServerSideProps: GetServerSideProps<
     const jsonLd = contentLd(page);
 
     return {
-      props: serialiseProps({
+      props: serialiseProps<Props>({
         page,
         siblings,
         children,

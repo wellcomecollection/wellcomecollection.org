@@ -69,7 +69,7 @@ export const getServerSideProps: GetServerSideProps<
     const jsonLd = eventResponseList.results.flatMap(eventLdContentApi);
 
     return {
-      props: serialiseProps({
+      props: serialiseProps<page.Props>({
         events: eventResponseList,
         period: timespan,
         query: context.query,

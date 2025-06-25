@@ -2,6 +2,7 @@ import type { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { getServerData } from '@weco/common/server-data';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Period } from '@weco/common/types/periods';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -12,7 +13,17 @@ import { transformExhibitionsQuery } from '@weco/content/services/prismic/transf
 import { exhibitionLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { getPage } from '@weco/content/utils/query-params';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
-import ExhibitionsPage, { Props } from '@weco/content/views/exhibitions';
+import ExhibitionsPage, {
+  Props as ExhibitionsPageProps,
+} from '@weco/content/views/exhibitions';
+
+type Props = ExhibitionsPageProps & {
+  serverData: SimplifiedServerData; // TODO should we enforce this?
+};
+
+const Page: FunctionComponent<Props> = (props: ExhibitionsPageProps) => {
+  return <ExhibitionsPage {...props} />;
+};
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
@@ -40,7 +51,7 @@ export const getServerSideProps: GetServerSideProps<
     const jsonLd = exhibitions.results.map(exhibitionLd);
 
     return {
-      props: serialiseProps({
+      props: serialiseProps<Props>({
         exhibitions,
         title,
         period: period as Period,
@@ -51,17 +62,6 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   return { notFound: true };
-};
-
-const Page: FunctionComponent<Props> = (props: Props) => {
-  return (
-    <ExhibitionsPage
-      exhibitions={props.exhibitions}
-      jsonLd={props.jsonLd}
-      title={props.title}
-      period={props.period}
-    />
-  );
 };
 
 export default Page;

@@ -2,6 +2,7 @@ import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { getServerData } from '@weco/common/server-data';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -11,10 +12,14 @@ import { fetchGuide } from '@weco/content/services/prismic/fetch/guides';
 import { transformGuide } from '@weco/content/services/prismic/transformers/guides';
 import { contentLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import Guide, { Props } from '@weco/content/views/guides/guide';
+import Guide, { Props as PageGuide } from '@weco/content/views/guides/guide';
 
-export const Page: FunctionComponent<Props> = props => {
-  return <Guide guide={props.guide} jsonLd={props.jsonLd} />;
+type Props = PageGuide & {
+  serverData: SimplifiedServerData; // TODO should we enforce this?
+};
+
+export const Page: FunctionComponent<Props> = (props: PageGuide) => {
+  return <Guide {...props} />;
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -38,7 +43,7 @@ export const getServerSideProps: GetServerSideProps<
     const jsonLd = contentLd(guide);
 
     return {
-      props: serialiseProps({
+      props: serialiseProps<Props>({
         guide,
         jsonLd,
         serverData,

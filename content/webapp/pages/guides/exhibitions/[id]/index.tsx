@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { getServerData } from '@weco/common/server-data';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -36,20 +37,15 @@ import { transformQuery } from '@weco/content/services/prismic/transformers/pagi
 import { getGuidesRedirections } from '@weco/content/utils/digital-guides';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import ExhibitionGuidePage, {
-  Props,
+  Props as ExhibitionGuidePageProps,
 } from '@weco/content/views/guides/exhibitions/exhibition';
 
-const Page: FunctionComponent<Props> = props => {
-  return (
-    <ExhibitionGuidePage
-      jsonLd={props.jsonLd}
-      otherExhibitionGuides={props.otherExhibitionGuides}
-      exhibitionText={props.exhibitionText}
-      exhibitionHighlightTour={props.exhibitionHighlightTour}
-      exhibitionGuide={props.exhibitionGuide}
-      stopNumber={props.stopNumber}
-    />
-  );
+type Props = ExhibitionGuidePageProps & {
+  serverData: SimplifiedServerData; // TODO should we enforce this?
+};
+
+const Page: FunctionComponent<Props> = (props: ExhibitionGuidePageProps) => {
+  return <ExhibitionGuidePage {...props} />;
 };
 
 // N.B. There are quite a lot of requests to Prismic for this page, which are necessary in order to maintain the url structure
@@ -153,7 +149,7 @@ export const getServerSideProps: GetServerSideProps<
       const jsonLd = exhibitionGuideLd(exhibitionGuide);
 
       return {
-        props: serialiseProps({
+        props: serialiseProps<Props>({
           exhibitionGuide,
           jsonLd,
           serverData,
@@ -243,10 +239,9 @@ export const getServerSideProps: GetServerSideProps<
           : undefined;
 
       return {
-        props: serialiseProps({
+        props: serialiseProps<Props>({
           jsonLd,
           serverData,
-          exhibitionId: id,
           exhibitionText: exhibitionText || exhibitionTexts?.results[0], // There should only ever be one of these, so we take the first
           exhibitionHighlightTour:
             exhibitionHighlightTour || exhibitionHighlightTours?.results[0], // There should only ever be one of these, so we take the first

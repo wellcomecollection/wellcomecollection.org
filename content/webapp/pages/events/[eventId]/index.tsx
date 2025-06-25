@@ -2,6 +2,7 @@ import { GetServerSideProps, NextPage } from 'next';
 
 import { visualStoryLinkText } from '@weco/common/data/microcopy';
 import { getServerData } from '@weco/common/server-data';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { Pageview } from '@weco/common/services/conversion/track';
@@ -27,6 +28,7 @@ import EventPage, {
 type Props = EventPageProps & {
   pageview: Pageview;
   gaDimensions: GaDimensions;
+  serverData: SimplifiedServerData; // TODO should we enforce this?
 };
 
 /**
@@ -35,13 +37,7 @@ type Props = EventPageProps & {
  * this setup in the next.config file for this app
  */
 const Page: NextPage<Props> = (props: EventPageProps) => {
-  return (
-    <EventPage
-      event={props.event}
-      jsonLd={props.jsonLd}
-      accessResourceLinks={props.accessResourceLinks}
-    />
-  );
+  return <EventPage {...props} />;
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -82,7 +78,7 @@ export const getServerSideProps: GetServerSideProps<
     });
 
     return {
-      props: serialiseProps({
+      props: serialiseProps<Props>({
         event: eventDoc,
         accessResourceLinks: visualStoriesLinks,
         jsonLd,

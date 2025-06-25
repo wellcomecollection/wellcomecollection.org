@@ -48,7 +48,7 @@ export const getServerSideProps: GetServerSideProps<
   if (looksLikeSpam(query.query)) {
     context.res.statusCode = 400;
     return {
-      props: serialiseProps({
+      props: serialiseProps<Props>({
         ...defaultProps,
         works: emptyResultList(),
         pageview: {
@@ -93,7 +93,7 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   return {
-    props: serialiseProps({
+    props: serialiseProps<Props>({
       ...defaultProps,
       works: {
         ...works,

@@ -6,6 +6,7 @@ import {
   ExhibitionTextsDocument,
 } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -25,8 +26,18 @@ import { exhibitionGuideLd } from '@weco/content/services/prismic/transformers/j
 import { isValidExhibitionGuideType } from '@weco/content/types/exhibition-guides';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import ExhibitionGuideTypePage, {
-  Props,
+  Props as ExhibitionGuideTypePageProps,
 } from '@weco/content/views/guides/exhibitions/exhibition/type';
+
+type Props = ExhibitionGuideTypePageProps & {
+  serverData: SimplifiedServerData; // TODO should we enforce this?
+};
+
+const Page: FunctionComponent<Props> = (
+  props: ExhibitionGuideTypePageProps
+) => {
+  return <ExhibitionGuideTypePage {...props} />;
+};
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
@@ -86,7 +97,7 @@ export const getServerSideProps: GetServerSideProps<
       const jsonLd = exhibitionGuideLd(exhibitionGuide);
 
       return {
-        props: serialiseProps({
+        props: serialiseProps<Props>({
           exhibitionGuide: filteredExhibitionGuide,
           jsonLd,
           serverData,
@@ -104,7 +115,7 @@ export const getServerSideProps: GetServerSideProps<
       );
       const jsonLd = exhibitionGuideLd(exhibitionText);
       return {
-        props: serialiseProps({
+        props: serialiseProps<Props>({
           exhibitionGuide: exhibitionText,
           jsonLd,
           serverData,
@@ -122,7 +133,7 @@ export const getServerSideProps: GetServerSideProps<
       );
       const jsonLd = exhibitionGuideLd(exhibitionHighlightTour);
       return {
-        props: serialiseProps({
+        props: serialiseProps<Props>({
           exhibitionGuide: exhibitionHighlightTour,
           jsonLd,
           serverData,
@@ -135,18 +146,6 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   return { notFound: true };
-};
-
-const Page: FunctionComponent<Props> = props => {
-  return (
-    <ExhibitionGuideTypePage
-      exhibitionGuide={props.exhibitionGuide}
-      jsonLd={props.jsonLd}
-      type={props.type}
-      userPreferenceSet={props.userPreferenceSet}
-      stopId={props.stopId}
-    />
-  );
 };
 
 export default Page;

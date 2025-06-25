@@ -103,7 +103,7 @@ export const getOtherVisualStories = ({
   );
 };
 
-type Props = {
+export type Props = {
   visualStory: VisualStoryProps;
   visualStories: VisualStoryBasic[];
   jsonLd: JsonLdObj;
