@@ -30,6 +30,7 @@ const SeriesNavigation: FunctionComponent<Props> = ({
     <SpacingComponent>
       <ContaineredLayout gridSizes={gridSize8()}>
         <SearchResults
+          variant="default"
           key={series.id}
           title={title}
           summary={series.promo?.caption}

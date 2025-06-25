@@ -50,7 +50,7 @@ import { Props as ImageGalleryProps } from '@weco/content/components/ImageGaller
 import { Props as InfoBlockProps } from '@weco/content/components/InfoBlock';
 import { Props as MapProps } from '@weco/content/components/Map';
 import { Props as QuoteProps } from '@weco/content/components/Quote';
-import { Props as AsyncSearchResultsProps } from '@weco/content/components/SearchResults/AsyncSearchResults';
+import { Props as AsyncSearchResultsProps } from '@weco/content/components/SearchResults/SearchResults.Async';
 import { Props as TagListProps } from '@weco/content/components/TagsGroup';
 import {
   TextAndIconsItem,

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
-import Dot from './Dot';
+import Dot from './TextWithDot.Dot';
 
 const Wrapper = styled.span`
   display: flex;

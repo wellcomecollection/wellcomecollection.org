@@ -4,7 +4,8 @@ import { font } from '@weco/common/utils/classnames';
 import { allowedRequests } from '@weco/common/values/requests';
 import Button from '@weco/common/views/components/Buttons';
 
-import { CTAs, CurrentRequests, Header } from './common';
+import CurrentRequests from './ItemRequestModal.CurrentRequests';
+import { CTAs, Header } from './ItemRequestModal.styles';
 
 type ConfirmedDialogProps = {
   currentHoldNumber?: number;

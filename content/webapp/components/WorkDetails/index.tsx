@@ -13,7 +13,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
 import { toLink as conceptLink } from '@weco/content/components/ConceptLink';
-import { CopyUrl } from '@weco/content/components/CopyButtons';
+import CopyButtons from '@weco/content/components/CopyButtons';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import { toLink as imagesLink } from '@weco/content/components/SearchPagesLink/Images';
 import { toLink as worksLink } from '@weco/content/components/SearchPagesLink/Works';
@@ -448,7 +448,10 @@ const WorkDetails: FunctionComponent<Props> = ({
 
       <WorkDetailsSection headingText="Permanent link">
         <div className={font('intr', 5)}>
-          <CopyUrl url={`https://wellcomecollection.org/works/${work.id}`} />
+          <CopyButtons
+            variant="url"
+            url={`https://wellcomecollection.org/works/${work.id}`}
+          />
         </div>
       </WorkDetailsSection>
 

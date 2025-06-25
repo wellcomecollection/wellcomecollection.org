@@ -16,7 +16,7 @@ import { isEventPast } from '@weco/content/services/prismic/events';
 import { Event } from '@weco/content/types/events';
 import { Place } from '@weco/content/types/places';
 
-import EventBookingButton from './EventBookingButton';
+import EventBookingButton from './EventSchedule.BookingButton';
 
 type Props = {
   event: Event;

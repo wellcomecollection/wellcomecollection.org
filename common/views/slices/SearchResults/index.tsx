@@ -8,7 +8,7 @@ import {
   LayoutWidth,
   SliceZoneContext,
 } from '@weco/content/components/Body';
-import AsyncSearchResults from '@weco/content/components/SearchResults/AsyncSearchResults';
+import SearchResults from '@weco/content/components/SearchResults';
 import { transformSearchResultsSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type SearchResultsProps = SliceComponentProps<
@@ -25,7 +25,7 @@ const SearchResultsSlice: FunctionComponent<SearchResultsProps> = ({
   return (
     <SpacingComponent $sliceType={transformedSlice.type}>
       <LayoutWidth width={options.minWidth}>
-        <AsyncSearchResults {...transformedSlice.value} />
+        <SearchResults variant="async" {...transformedSlice.value} />
       </LayoutWidth>
     </SpacingComponent>
   );

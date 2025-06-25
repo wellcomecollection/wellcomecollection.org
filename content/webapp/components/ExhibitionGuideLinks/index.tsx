@@ -6,7 +6,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import SectionHeader from '@weco/content/components/SectionHeader';
 import { ExhibitionGuide } from '@weco/content/types/exhibition-guides';
 
-import TypeOption, { TypeList } from './TypeOption';
+import TypeOption, { TypeList } from './ExhibitionGuideLinks.TypeOption';
 
 type Props = {
   exhibitionGuide: ExhibitionGuide;

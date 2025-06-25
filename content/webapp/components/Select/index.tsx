@@ -1,6 +1,6 @@
 import { ChangeEvent, FunctionComponent } from 'react';
 
-import SelectContainer from './SelectContainer';
+import SelectContainer from './Select.Container';
 
 export type SelectOption = {
   value?: string;

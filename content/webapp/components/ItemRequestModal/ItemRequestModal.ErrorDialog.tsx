@@ -5,7 +5,7 @@ import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import { themeValues } from '@weco/common/views/themes/config';
 
-import { CTAs, Header } from './common';
+import { CTAs, Header } from './ItemRequestModal.styles';
 
 type ErrorDialogProps = {
   setIsActive: (value: boolean) => void;

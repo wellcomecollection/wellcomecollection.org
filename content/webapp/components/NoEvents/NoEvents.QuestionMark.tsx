@@ -1,4 +1,4 @@
-export const QuestionMark = () => (
+const QuestionMark = () => (
   <svg
     width="74"
     height="122"
@@ -15,3 +15,5 @@ export const QuestionMark = () => (
     />
   </svg>
 );
+
+export default QuestionMark;

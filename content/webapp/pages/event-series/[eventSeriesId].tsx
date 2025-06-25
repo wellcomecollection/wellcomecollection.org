@@ -177,7 +177,11 @@ const EventSeriesPage: FunctionComponent<Props> = ({
         {page === 1 && (
           <>
             {upcomingEvents.length > 0 ? (
-              <SearchResults items={upcomingEvents} title="Coming up" />
+              <SearchResults
+                variant="default"
+                items={upcomingEvents}
+                title="Coming up"
+              />
             ) : (
               <h2 className={font('wb', 3)}>No upcoming events</h2>
             )}
@@ -186,7 +190,11 @@ const EventSeriesPage: FunctionComponent<Props> = ({
 
         {pastEvents.results.length > 0 && (
           <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-            <SearchResults items={pastEvents.results} title="Past events" />
+            <SearchResults
+              variant="default"
+              items={pastEvents.results}
+              title="Past events"
+            />
           </Space>
         )}
         {pastEvents.totalPages > 1 && (
