@@ -3,145 +3,25 @@ import { GetServerSideProps } from 'next';
 import { getServerData } from '@weco/common/server-data';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
-import { pluralize } from '@weco/common/utils/grammar';
 import { serialiseProps } from '@weco/common/utils/json';
-import {
-  getQueryPropertyValue,
-  linkResolver,
-  SEARCH_PAGES_FORM_ID,
-} from '@weco/common/utils/search';
-import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
-import { Container } from '@weco/common/views/components/styled/Container';
-import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
-import Space from '@weco/common/views/components/styled/Space';
+import { getQueryPropertyValue } from '@weco/common/utils/search';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import EventsSearchResults from '@weco/content/components/EventsSearchResults';
-import Pagination from '@weco/content/components/Pagination';
-import SearchFilters from '@weco/content/components/SearchFilters';
-import SearchNoResults from '@weco/content/components/SearchNoResults';
-import { getSearchLayout } from '@weco/content/components/SearchPageLayout';
-import {
-  EventsProps,
-  fromQuery,
-} from '@weco/content/components/SearchPagesLink/Events';
-import useHotjar from '@weco/content/hooks/useHotjar';
+import { fromQuery } from '@weco/content/components/SearchPagesLink/Events';
 import { emptyResultList } from '@weco/content/services/wellcome';
-import { eventsFilters } from '@weco/content/services/wellcome/common/filters';
 import { getEvents } from '@weco/content/services/wellcome/content/events';
-import {
-  ContentResultsList,
-  EventDocument,
-} from '@weco/content/services/wellcome/content/types/api';
-import { Query } from '@weco/content/types/search';
-import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
+import EventsSearchPage, {
+  Props as EventSearchPageProps,
+} from '@weco/content/views/search/events';
 
-type Props = {
-  eventResponseList: ContentResultsList<EventDocument>;
-  query: Query;
+type Props = EventSearchPageProps & {
   pageview: Pageview;
-  apiToolbarLinks: ApiToolbarLink[];
-  eventsRouteProps: EventsProps;
 };
 
-export const EventsSearchPage: NextPageWithLayout<Props> = ({
-  eventResponseList,
-  query,
-  eventsRouteProps,
-}) => {
-  useHotjar(true);
-  const { query: queryString } = query;
-
-  const filters = eventsFilters({
-    events: eventResponseList,
-    props: eventsRouteProps,
-  });
-
-  const hasNoResults = eventResponseList.totalResults === 0;
-  const hasActiveFilters = hasFilters({
-    filters: filters.map(f => f.id),
-    queryParams: query,
-  });
-
-  const activeFiltersLabels = getActiveFiltersLabel({ filters });
-
-  return (
-    <Space $v={{ size: 'l', properties: ['padding-bottom'] }}>
-      {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
-        <Container>
-          <Space
-            $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
-          >
-            <SearchFilters
-              query={queryString}
-              linkResolver={params =>
-                linkResolver({ params, pathname: '/search/events' })
-              }
-              searchFormId={SEARCH_PAGES_FORM_ID}
-              changeHandler={() => {
-                const form = document.getElementById(SEARCH_PAGES_FORM_ID);
-                form &&
-                  form.dispatchEvent(
-                    new window.Event('submit', {
-                      cancelable: true,
-                      bubbles: true,
-                    })
-                  );
-              }}
-              filters={filters}
-              hasNoResults={hasNoResults}
-            />
-          </Space>
-        </Container>
-      )}
-      {eventResponseList && (
-        <>
-          {hasNoResults ? (
-            <Container>
-              <SearchNoResults query={queryString} />
-            </Container>
-          ) : (
-            <Container>
-              <PaginationWrapper $verticalSpacing="l">
-                <span role="status">
-                  {pluralize(eventResponseList.totalResults, 'result')}
-                  {activeFiltersLabels.length > 0 && (
-                    <span className="visually-hidden">
-                      {' '}
-                      filtered with: {activeFiltersLabels.join(', ')}
-                    </span>
-                  )}
-                </span>
-
-                <Pagination
-                  totalPages={eventResponseList.totalPages}
-                  ariaLabel="Events search pagination"
-                  isHiddenMobile
-                />
-              </PaginationWrapper>
-              <main>
-                <EventsSearchResults
-                  events={eventResponseList.results}
-                  isInPastListing={eventsRouteProps.timespan === 'past'}
-                />
-              </main>
-
-              <PaginationWrapper $verticalSpacing="l" $alignRight>
-                <Pagination
-                  totalPages={eventResponseList.totalPages}
-                  ariaLabel="Events search pagination"
-                />
-              </PaginationWrapper>
-            </Container>
-          )}
-        </>
-      )}
-    </Space>
-  );
+const Page: NextPageWithLayout<Props> = (props: EventSearchPageProps) => {
+  return <EventsSearchPage {...props} />;
 };
-
-EventsSearchPage.getLayout = getSearchLayout;
 
 export const getServerSideProps: GetServerSideProps<
   Props | AppErrorProps
@@ -175,7 +55,7 @@ export const getServerSideProps: GetServerSideProps<
   if (looksLikeSpam(query.query)) {
     context.res.statusCode = 400;
     return {
-      props: serialiseProps({
+      props: serialiseProps<Props>({
         ...defaultProps,
         eventResponseList: emptyResultList(),
         pageview: {
@@ -224,7 +104,7 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   return {
-    props: serialiseProps({
+    props: serialiseProps<Props>({
       ...defaultProps,
       eventResponseList,
       pageview: {
@@ -244,4 +124,4 @@ export const getServerSideProps: GetServerSideProps<
   };
 };
 
-export default EventsSearchPage;
+export default Page;

@@ -5,6 +5,14 @@ import { font } from '@weco/common/utils/classnames';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 
+// Extend the Window interface to include dataLayer
+declare global {
+  interface Window {
+    // eslint-disable-next-line
+    dataLayer: Record<string, any>[] | undefined;
+  }
+}
+
 type Props = {
   query?: string;
   hasFilters?: boolean;
@@ -19,9 +27,10 @@ const SearchNoResults: FunctionComponent<Props> = ({
   hasFilters,
 }: Props) => {
   useEffect(() => {
-    window.dataLayer?.push({
-      event: 'noSearchResults',
-    });
+    if (window)
+      window.dataLayer?.push({
+        event: 'noSearchResults',
+      });
   }, []);
   return (
     <Space $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
