@@ -32,7 +32,7 @@ const SearchBarWrapper = styled(Space).attrs({
 type Props = {
   isActive: boolean;
   handleCloseModal: () => void;
-  searchButtonRef: RefObject<HTMLButtonElement>;
+  searchButtonRef: RefObject<HTMLButtonElement | null>;
 };
 
 const HeaderSearch = ({

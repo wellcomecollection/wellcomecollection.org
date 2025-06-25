@@ -31,7 +31,7 @@ const SearchForm = ({
 }: {
   searchCategory?: SearchCategory;
   location?: ValidLocations;
-  inputRef?: RefObject<HTMLInputElement> | undefined;
+  inputRef?: RefObject<HTMLInputElement | null> | undefined;
 }): ReactElement => {
   const router = useRouter();
   const routerQuery = getQueryPropertyValue(router?.query?.query);

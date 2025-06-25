@@ -169,7 +169,7 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
     hasClearButton,
     clearHandler,
   }: Props,
-  ref: RefObject<HTMLInputElement>
+  ref: RefObject<HTMLInputElement | null>
 ) => {
   const { isEnhanced } = useAppContext();
 
