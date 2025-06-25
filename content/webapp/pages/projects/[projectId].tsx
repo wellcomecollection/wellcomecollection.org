@@ -17,7 +17,7 @@ import PageLayout from '@weco/common/views/components/PageLayout';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
 import Body from '@weco/content/components/Body';
 import ContentPage from '@weco/content/components/ContentPage';
-import { getFeaturedPictureWithTasl } from '@weco/content/pages/pages/[pageId]';
+import { getFeaturedPictureWithTasl } from '@weco/content/components/ImageWithTasl';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchProject } from '@weco/content/services/prismic/fetch/projects';
 import { transformEmbedSlice } from '@weco/content/services/prismic/transformers/body';
