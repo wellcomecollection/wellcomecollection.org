@@ -181,6 +181,16 @@ export const exhibitionGuideLinkText =
 export const treeInstructions =
   'Tab into the tree, then use up and down arrows to move through tree items. Use right and left arrows to toggle sub menus open and closed. When focused on an item you can tab to the link it contains.';
 
+export const bornDigitalWarning = (
+  <p>
+    Our born-digital items cover many file formats, some of which modern
+    computer software may no longer support.{' '}
+    <strong>
+      We cannot guarantee that you can view the item once you have downloaded
+      it.
+    </strong>
+  </p>
+);
 export const bornDigitalMessage = (
   <>
     <h2>This contains born-digital items</h2>
@@ -188,14 +198,7 @@ export const bornDigitalMessage = (
       Born-digital items are materials created in a digital format, including
       digital images, documents, websites, audio, video, email, and more.
     </p>
-    <p>
-      Our born-digital items cover many file formats, some of which modern
-      computer software may no longer support.{' '}
-      <strong>
-        We cannot guarantee that you can view the item once you have downloaded
-        it.
-      </strong>
-    </p>
+    {bornDigitalWarning}
   </>
 );
 
