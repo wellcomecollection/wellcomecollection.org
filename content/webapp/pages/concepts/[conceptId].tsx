@@ -31,7 +31,6 @@ import ThemeImages from '@weco/content/components/ThemeImages';
 import ThemeRelatedConceptsGroup from '@weco/content/components/ThemeRelatedConceptsGroup';
 import ThemeWorks from '@weco/content/components/ThemeWorks';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { getConcept } from '@weco/content/services/wellcome/catalogue/concepts';
@@ -69,7 +68,7 @@ const linkSources = new Map([
 ]);
 
 const HotJarPlaceholder = styled.div`
-  margin: -2rem auto 2rem auto;
+  margin: -2rem auto 2rem;
   width: 100%;
   max-width: ${themeValues.sizes.xlarge}px;
 
@@ -307,7 +306,6 @@ export const ConceptPage: NextPage<Props> = ({
   sectionsData,
   apiToolbarLinks,
 }) => {
-  useHotjar(true);
   const { newThemePages, themePagesAllFields } = useToggles();
 
   const pathname = usePathname();

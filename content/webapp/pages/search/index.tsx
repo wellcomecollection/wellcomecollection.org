@@ -37,7 +37,6 @@ import SearchNoResults from '@weco/content/components/SearchNoResults';
 import { getSearchLayout } from '@weco/content/components/SearchPageLayout';
 import { toLink as imagesLink } from '@weco/content/components/SearchPagesLink/Images';
 import { toLink as worksLink } from '@weco/content/components/SearchPagesLink/Works';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import {
   WellcomeAggregation,
   WellcomeApiError,
@@ -231,8 +230,6 @@ export const SearchPage: NextPageWithLayout<Props> = ({
   contentQueryFailed,
   query,
 }) => {
-  useHotjar(true);
-
   const { query: queryString } = query;
   const { extraApiToolbarLinks, setExtraApiToolbarLinks } = useSearchContext();
   const { apiToolbar } = useToggles();
