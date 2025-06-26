@@ -16,7 +16,7 @@ const meta: Meta<
       | 'Library of Congress (subjects)';
   }
 > = {
-  title: 'Components/SourcedDescription',
+  title: 'To be made reusable/SourcedDescription',
   component: SourcedDescription,
   args: {
     description:
