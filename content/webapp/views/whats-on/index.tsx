@@ -27,7 +27,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import CardGrid from '@weco/content/components/CardGrid';
-import EventsByMonth from '@weco/content/components/EventsByMonth';
 import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents';
 import FacilityPromo from '@weco/content/components/FacilityPromo';
 import FeaturedCard from '@weco/content/components/FeaturedCard';
@@ -44,6 +43,7 @@ import { FeaturedText as FeaturedTextType } from '@weco/content/types/text';
 
 import ClosedMessage from './whats-on.ClosedMessage';
 import DateRange from './whats-on.DateRange';
+import EventsByMonth from './whats-on.EventsByMonth';
 import Header from './whats-on.Header';
 
 export const tabItems = [

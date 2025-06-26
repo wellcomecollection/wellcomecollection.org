@@ -11,7 +11,6 @@ import PageLayout from '@weco/common/views/components/PageLayout';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Standfirst from '@weco/common/views/slices/Standfirst';
 import ArticleCard from '@weco/content/components/ArticleCard';
-import ArticleScheduleItemCard from '@weco/content/components/ArticleScheduleItemCard';
 import Body from '@weco/content/components/Body';
 import ContentPage from '@weco/content/components/ContentPage';
 import Pagination from '@weco/content/components/Pagination';
@@ -19,6 +18,8 @@ import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items'
 import { ArticleBasic } from '@weco/content/types/articles';
 import { Series } from '@weco/content/types/series';
 import { getFeaturedMedia } from '@weco/content/utils/page-header';
+
+import ArticleScheduleItemCard from './series.ArticleScheduleItemCard';
 
 const SeriesItem = styled.div<{ $isFirst: boolean }>`
   border-top: ${props =>

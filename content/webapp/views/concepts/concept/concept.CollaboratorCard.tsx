@@ -40,7 +40,7 @@ const CollaboratorLabel = styled.span`
   -webkit-line-clamp: 2;
   overflow: hidden;
 
-  // line-clamp does not work on older browsers, so set a max-height as fallback
+  /** line-clamp does not work on older browsers, so set a max-height as fallback **/
   max-height: 42px;
 `;
 

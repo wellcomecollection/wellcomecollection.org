@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react';
 
 import { RelatedWork } from '@weco/content/services/wellcome/catalogue/types';
+import { DownloadItemRendererProps } from '@weco/content/views/works/work/work.DownloadItemRenderer';
 import { controlDimensions } from '@weco/content/views/works/work/work.helpers';
 import {
   CanvasWork,
@@ -8,7 +9,6 @@ import {
   UiTree,
   UiTreeNode,
 } from '@weco/content/views/works/work/work.types';
-import { DownloadItemRendererProps } from '@weco/content/works/work/work.DownloadItemRenderer';
 
 import { WorkItemRendererProps } from './ArchiveTree.WorkItemRenderer';
 

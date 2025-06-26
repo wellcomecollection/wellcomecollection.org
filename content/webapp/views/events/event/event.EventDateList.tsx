@@ -4,8 +4,9 @@ import styled from 'styled-components';
 import { isPast } from '@weco/common/utils/dates';
 import Space from '@weco/common/views/components/styled/Space';
 import DateRange from '@weco/content/components/DateRange';
-import EventStatus from '@weco/content/components/EventStatus';
 import { HasTimes } from '@weco/content/types/events';
+
+import EventStatus from './event.EventStatus';
 
 const TimeWrapper = styled(Space).attrs({
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },

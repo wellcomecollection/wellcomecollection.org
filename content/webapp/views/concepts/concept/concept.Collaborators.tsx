@@ -3,11 +3,12 @@ import styled from 'styled-components';
 
 import { organisation, user } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import CollaboratorCard from '@weco/content/components/CollaboratorCard';
 import {
   ConceptType,
   RelatedConcept,
 } from '@weco/content/services/wellcome/catalogue/types';
+
+import CollaboratorCard from './concept.CollaboratorCard';
 
 const COLLABORATOR_COUNT_LIMIT = 3;
 

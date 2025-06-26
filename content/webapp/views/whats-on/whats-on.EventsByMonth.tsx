@@ -11,7 +11,7 @@ import Tabs from '@weco/content/components/Tabs';
 import { EventBasic } from '@weco/content/types/events';
 import { Link } from '@weco/content/types/link';
 
-import { groupEventsByMonth, startOf } from './EventsByMonth.helpers';
+import { groupEventsByMonth, startOf } from './whats-on.EventsByMonth.helpers';
 
 type Props = {
   events: EventBasic[];

@@ -12,7 +12,6 @@ import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
 import Body from '@weco/content/components/Body';
 import ContentPage from '@weco/content/components/ContentPage';
-import DateAndStatusIndicator from '@weco/content/components/DateAndStatusIndicator';
 import InfoBox from '@weco/content/components/InfoBox';
 import SearchResults from '@weco/content/components/SearchResults';
 import StatusIndicator from '@weco/content/components/StatusIndicator';
@@ -27,6 +26,7 @@ import {
 import { Page as PageType } from '@weco/content/types/pages';
 import { getFeaturedMedia } from '@weco/content/utils/page-header';
 
+import DateAndStatusIndicator from './exhibition.DateAndStatusIndicator';
 import { ExhibitionOf } from './exhibition.Exhibition';
 import { getInfoItems } from './exhibition.helpers';
 

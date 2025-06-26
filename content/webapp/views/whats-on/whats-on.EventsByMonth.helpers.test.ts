@@ -1,6 +1,9 @@
 import mockToday from '@weco/common/test/utils/date-mocks';
 
-import { getMonthsInDateRange, groupEventsByMonth } from './EventsByMonth.helpers';
+import {
+  getMonthsInDateRange,
+  groupEventsByMonth,
+} from './whats-on.EventsByMonth.helpers';
 
 describe('getMonthsInDateRange', () => {
   it('finds a single month', () => {

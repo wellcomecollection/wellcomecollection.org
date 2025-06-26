@@ -30,11 +30,8 @@ import BslLeafletVideo from '@weco/content/components/BslLeafletVideo';
 import ContentPage from '@weco/content/components/ContentPage';
 import Contributors from '@weco/content/components/Contributors';
 import EventbriteButtons from '@weco/content/components/EventbriteButtons';
-import EventDateList from '@weco/content/components/EventDateList';
 import EventDateRange from '@weco/content/components/EventDateRange';
-import EventDatesLink from '@weco/content/components/EventDatesLink';
 import EventSchedule from '@weco/content/components/EventSchedule';
-import EventStatus from '@weco/content/components/EventStatus';
 import InfoBox from '@weco/content/components/InfoBox';
 import Message from '@weco/content/components/Message';
 import {
@@ -51,6 +48,9 @@ import { Event, EventBasic } from '@weco/content/types/events';
 import { Link } from '@weco/content/types/link';
 import { getFeaturedMedia } from '@weco/content/utils/page-header';
 
+import EventDateList from './event.EventDateList';
+import EventDatesLink from './event.EventDatesLink';
+import EventStatus from './event.EventStatus';
 import {
   eventInterpretationIcons,
   getDescription,

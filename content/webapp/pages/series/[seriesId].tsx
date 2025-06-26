@@ -35,7 +35,7 @@ import { getPage } from '@weco/content/utils/query-params';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import ArticleSeriesPage, {
   Props as ArticleSeriesPageProps,
-} from '@weco/content/views/series/singleSeries';
+} from '@weco/content/views/series/series';
 
 type Props = ArticleSeriesPageProps & {
   gaDimensions: GaDimensions;

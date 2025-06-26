@@ -9,7 +9,6 @@ import Divider from '@weco/common/views/components/Divider';
 import SearchForm from '@weco/common/views/components/SearchForm';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
-import BackToResults from '@weco/content/components/BackToResults';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
 import IsArchiveContext from '@weco/content/contexts/IsArchiveContext';
 import useHotjar from '@weco/content/hooks/useHotjar';
@@ -31,6 +30,7 @@ import {
 import ArchiveTree from './ArchiveTree';
 import RelatedWorks, { hasAtLeastOneSubject } from './RelatedWorks';
 import ArchiveBreadcrumb from './work.ArchiveBreadcrumb';
+import BackToResults from './work.BackToResults';
 import WorkHeader from './work.Header';
 import WorkDetails from './WorkDetails';
 

@@ -8,12 +8,8 @@ import {
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import BookPromo from '@weco/content/components/BookPromo';
 import Card from '@weco/content/components/Card';
 import EventPromo from '@weco/content/components/EventPromo';
-import ExhibitionGuideLinksPromo from '@weco/content/components/ExhibitionGuideLinksPromo';
-import ExhibitionGuidePromo from '@weco/content/components/ExhibitionGuidePromo';
-import ExhibitionPromo from '@weco/content/components/ExhibitionPromo';
 import MoreLink from '@weco/content/components/MoreLink';
 import StoryPromo from '@weco/content/components/StoryPromo';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
@@ -21,7 +17,11 @@ import { convertItemToCardProps } from '@weco/content/types/card';
 import { Link } from '@weco/content/types/link';
 import { MultiContent } from '@weco/content/types/multi-content';
 
+import BookPromo from './CardGrid.BookPromo';
 import DailyTourPromo from './CardGrid.DailyTourPromo';
+import ExhibitionGuideLinksPromo from './CardGrid.ExhibitionGuideLinksPromo';
+import ExhibitionGuidePromo from './CardGrid.ExhibitionGuidePromo';
+import ExhibitionPromo from './CardGrid.ExhibitionPromo';
 
 type Props = {
   items: readonly MultiContent[] | Article[];
