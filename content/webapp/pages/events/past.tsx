@@ -13,6 +13,10 @@ import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 
 import * as page from './index';
 
+const EventsPast: FunctionComponent<page.Props> = props => {
+  return <page.default {...props} />;
+};
+
 export const getServerSideProps: GetServerSideProps<
   page.Props | AppErrorProps
 > = async context => {
@@ -81,10 +85,6 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   return { notFound: true };
-};
-
-const EventsPast: FunctionComponent<page.Props> = (props: page.Props) => {
-  return <page.default {...props}></page.default>;
 };
 
 export default EventsPast;

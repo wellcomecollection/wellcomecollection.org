@@ -19,9 +19,7 @@ type Props = StoriesSearchPageProps & {
   pageview: Pageview;
 };
 
-export const Page: NextPageWithLayout<Props> = (
-  props: StoriesSearchPageProps
-) => {
+export const Page: NextPageWithLayout<StoriesSearchPageProps> = props => {
   return <StoriesSearchPage {...props} />;
 };
 

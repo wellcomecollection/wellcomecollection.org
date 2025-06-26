@@ -13,17 +13,6 @@ import useHotjar from '@weco/content/hooks/useHotjar';
 import * as page from '@weco/content/pages/pages/[pageId]';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
-export const getServerSideProps: GetServerSideProps<
-  page.Props | AppErrorProps
-> = async context => {
-  setCacheControl(context.res);
-  return page.getServerSideProps({
-    ...context,
-    query: { pageId: prismicPageIds.collections },
-    params: { siteSection: 'collections' },
-  });
-};
-
 const CollectionsPage: FunctionComponent<page.Props> = (props: page.Props) => {
   useHotjar(true);
 
@@ -41,4 +30,14 @@ const CollectionsPage: FunctionComponent<page.Props> = (props: page.Props) => {
   );
 };
 
+export const getServerSideProps: GetServerSideProps<
+  page.Props | AppErrorProps
+> = async context => {
+  setCacheControl(context.res);
+  return page.getServerSideProps({
+    ...context,
+    query: { pageId: prismicPageIds.collections },
+    params: { siteSection: 'collections' },
+  });
+};
 export default CollectionsPage;

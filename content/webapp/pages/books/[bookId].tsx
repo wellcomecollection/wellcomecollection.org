@@ -23,7 +23,7 @@ type Props = BookPageProps & {
   serverData: SimplifiedServerData; // TODO should we enforce this?
 };
 
-const Page: FunctionComponent<Props> = (props: BookPageProps) => {
+const Page: FunctionComponent<BookPageProps> = props => {
   return <BookPage {...props} />;
 };
 

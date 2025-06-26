@@ -33,9 +33,7 @@ type Props = ExhibitionGuideTypePageProps & {
   serverData: SimplifiedServerData; // TODO should we enforce this?
 };
 
-const Page: FunctionComponent<Props> = (
-  props: ExhibitionGuideTypePageProps
-) => {
+const Page: FunctionComponent<ExhibitionGuideTypePageProps> = props => {
   return <ExhibitionGuideTypePage {...props} />;
 };
 

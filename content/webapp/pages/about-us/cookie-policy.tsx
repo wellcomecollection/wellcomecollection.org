@@ -31,7 +31,7 @@ const CookieTable = ({ rows }: { rows: string[][] }) => {
   );
 };
 
-const CookiePolicy: FunctionComponent<page.Props> = (props: page.Props) => {
+const CookiePolicy: FunctionComponent<page.Props> = props => {
   // This copy should be exactly what can be found in the text slices representing the tables
   const EXPECTED_TABLE_NAMES = [
     '[necessary_cookies_table]',

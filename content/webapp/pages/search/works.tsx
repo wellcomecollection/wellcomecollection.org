@@ -19,7 +19,7 @@ type Props = WorksSearchPageProps & {
   pageview: Pageview;
 };
 
-const Page: NextPageWithLayout<Props> = (props: WorksSearchPageProps) => {
+const Page: NextPageWithLayout<WorksSearchPageProps> = props => {
   return <WorksSearchPage {...props} />;
 };
 

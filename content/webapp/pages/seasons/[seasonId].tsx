@@ -1,6 +1,5 @@
 import * as prismic from '@prismicio/client';
-import { GetServerSideProps } from 'next';
-import { ReactElement } from 'react';
+import { GetServerSideProps, NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
@@ -42,7 +41,7 @@ type Props = SeasonPageProps & {
   serverData: SimplifiedServerData; // TODO should we enforce this?
 };
 
-const Page = (props: Props): ReactElement<SeasonPageProps> => {
+const Page: NextPage<SeasonPageProps> = props => {
   return <SeasonPage {...props} />;
 };
 

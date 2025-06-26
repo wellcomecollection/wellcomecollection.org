@@ -36,7 +36,7 @@ type Props = EventPageProps & {
  * but instead are rewritten to the index file. Please observe
  * this setup in the next.config file for this app
  */
-const Page: NextPage<Props> = (props: EventPageProps) => {
+const Page: NextPage<EventPageProps> = props => {
   return <EventPage {...props} />;
 };
 

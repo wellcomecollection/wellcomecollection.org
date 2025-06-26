@@ -36,17 +36,8 @@ type Props = ExhibitionPageProps & {
  * but instead are rewritten to the index file. Please observe
  * this setup in the next.config file for this app
  */
-const Page: FunctionComponent<Props> = (props: ExhibitionPageProps) => {
-  return (
-    <ExhibitionPage
-      accessResourceLinks={props.accessResourceLinks}
-      exhibition={props.exhibition}
-      pages={props.pages}
-      exhibitionTexts={props.exhibitionTexts}
-      exhibitionHighlightTours={props.exhibitionHighlightTours}
-      jsonLd={props.jsonLd}
-    />
-  );
+const Page: FunctionComponent<ExhibitionPageProps> = props => {
+  return <ExhibitionPage {...props} />;
 };
 
 export const getServerSideProps: GetServerSideProps<

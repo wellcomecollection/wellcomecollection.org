@@ -33,7 +33,7 @@ export type Props = VisualStoryPageProps & {
   serverData: SimplifiedServerData; // TODO should we enforce this?
 };
 
-const VisualStory: FunctionComponent<Props> = (props: VisualStoryPageProps) => {
+const VisualStory: FunctionComponent<VisualStoryPageProps> = props => {
   return <VisualStoryPage {...props} />;
 };
 

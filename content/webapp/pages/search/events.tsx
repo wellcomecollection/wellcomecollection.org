@@ -19,7 +19,7 @@ type Props = EventSearchPageProps & {
   pageview: Pageview;
 };
 
-const Page: NextPageWithLayout<Props> = (props: EventSearchPageProps) => {
+const Page: NextPageWithLayout<EventSearchPageProps> = props => {
   return <EventsSearchPage {...props} />;
 };
 

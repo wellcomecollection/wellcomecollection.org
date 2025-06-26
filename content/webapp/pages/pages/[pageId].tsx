@@ -32,7 +32,7 @@ type Props = PagePageProps & {
   serverData: SimplifiedServerData; // TODO should we enforce this?
 };
 
-export const Page: FunctionComponent<Props> = (props: PagePageProps) => {
+export const Page: FunctionComponent<PagePageProps> = props => {
   return <PagePage {...props}>{props.children}</PagePage>;
 };
 

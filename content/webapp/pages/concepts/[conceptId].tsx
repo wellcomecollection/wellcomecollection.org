@@ -60,7 +60,7 @@ type Props = ConceptPageProps & {
   serverData: SimplifiedServerData; // TODO should we enforce this?
 };
 
-export const Page: NextPage<Props> = (props: ConceptPageProps) => {
+export const Page: NextPage<ConceptPageProps> = props => {
   return <ConceptPage {...props} />;
 };
 

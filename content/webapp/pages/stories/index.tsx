@@ -27,7 +27,7 @@ type Props = StoriesPageProps & {
   serverData: SimplifiedServerData; // TODO should we enforce this?
 };
 
-const Page: FunctionComponent<Props> = (props: StoriesPageProps) => {
+const Page: FunctionComponent<StoriesPageProps> = props => {
   return <StoriesPage {...props} />;
 };
 

@@ -17,8 +17,8 @@ export const getServerSideProps: GetServerSideProps<
   });
 };
 
-const GetInvolved: FunctionComponent<page.Props> = (props: page.Props) => {
-  return <page.Page {...props}></page.Page>;
+const GetInvolved: FunctionComponent<page.Props> = props => {
+  return <page.Page {...props} />;
 };
 
 export default GetInvolved;

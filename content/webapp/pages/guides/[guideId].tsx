@@ -18,7 +18,7 @@ type Props = PageGuide & {
   serverData: SimplifiedServerData; // TODO should we enforce this?
 };
 
-export const Page: FunctionComponent<Props> = (props: PageGuide) => {
+export const Page: FunctionComponent<PageGuide> = props => {
   return <Guide {...props} />;
 };
 

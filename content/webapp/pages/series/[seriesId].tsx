@@ -43,7 +43,7 @@ type Props = ArticleSeriesPageProps & {
   serverData: SimplifiedServerData; // TODO should we enforce this?
 };
 
-const Page: FunctionComponent<Props> = (props: ArticleSeriesPageProps) => {
+const Page: FunctionComponent<ArticleSeriesPageProps> = props => {
   return <ArticleSeriesPage {...props} />;
 };
 

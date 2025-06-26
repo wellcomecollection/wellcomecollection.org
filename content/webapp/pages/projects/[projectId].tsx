@@ -22,14 +22,8 @@ type Props = ProjectPageProps & {
   serverData: SimplifiedServerData; // TODO should we enforce this?
 };
 
-export const Project: FunctionComponent<Props> = (props: ProjectPageProps) => {
-  return (
-    <ProjectPage
-      jsonLd={props.jsonLd}
-      project={props.project}
-      staticContent={props.staticContent}
-    />
-  );
+export const Project: FunctionComponent<ProjectPageProps> = props => {
+  return <ProjectPage {...props} />;
 };
 
 export const getServerSideProps: GetServerSideProps<

@@ -55,21 +55,22 @@ const VisitUsStaticContent: FunctionComponent = () => {
   );
 };
 
+const VisitUs: FunctionComponent<page.Props> = props => {
+  const staticContent = <VisitUsStaticContent />;
+
+  return <page.Page {...props} staticContent={staticContent} />;
+};
+
 export const getServerSideProps: GetServerSideProps<
   page.Props | AppErrorProps
 > = async context => {
   setCacheControl(context.res);
+
   return page.getServerSideProps({
     ...context,
     query: { pageId: prismicPageIds.visitUs },
     params: { siteSection: 'visit-us' },
   });
-};
-
-const VisitUs: FunctionComponent<page.Props> = (props: page.Props) => {
-  const staticContent = <VisitUsStaticContent />;
-
-  return <page.Page {...props} staticContent={staticContent}></page.Page>;
 };
 
 export default VisitUs;

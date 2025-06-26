@@ -18,7 +18,7 @@ type Props = ImagesSearchPageProps & {
   pageview: Pageview;
 };
 
-const Page: NextPageWithLayout<Props> = (props: ImagesSearchPageProps) => {
+const Page: NextPageWithLayout<ImagesSearchPageProps> = props => {
   return <ImagesSearchPage {...props} />;
 };
 

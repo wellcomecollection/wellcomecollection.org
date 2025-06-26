@@ -29,7 +29,7 @@ type Props = EventSeriesPageProps & {
   serverData: SimplifiedServerData; // TODO should we enforce this?
 };
 
-const Page: FunctionComponent<Props> = (props: EventSeriesPageProps) => {
+const Page: FunctionComponent<EventSeriesPageProps> = props => {
   return <EventSeriesPage {...props} />;
 };
 

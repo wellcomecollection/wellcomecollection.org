@@ -22,7 +22,7 @@ type Props = ArticlePageProps & {
   pageview: Pageview;
 };
 
-const Page: FunctionComponent<Props> = (props: ArticlePageProps) => {
+const Page: FunctionComponent<ArticlePageProps> = props => {
   return <ArticlePage {...props} />;
 };
 
