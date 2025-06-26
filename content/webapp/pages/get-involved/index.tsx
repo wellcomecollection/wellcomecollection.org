@@ -6,6 +6,10 @@ import { AppErrorProps } from '@weco/common/services/app';
 import * as page from '@weco/content/pages/pages/[pageId]';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
+const GetInvolved: FunctionComponent<page.Props> = props => {
+  return <page.Page {...props} />;
+};
+
 export const getServerSideProps: GetServerSideProps<
   page.Props | AppErrorProps
 > = async context => {
@@ -15,10 +19,6 @@ export const getServerSideProps: GetServerSideProps<
     query: { pageId: prismicPageIds.getInvolved },
     params: { siteSection: 'get-involved' },
   });
-};
-
-const GetInvolved: FunctionComponent<page.Props> = props => {
-  return <page.Page {...props} />;
 };
 
 export default GetInvolved;
