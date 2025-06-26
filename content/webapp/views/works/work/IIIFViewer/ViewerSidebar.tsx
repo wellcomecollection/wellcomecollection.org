@@ -26,8 +26,8 @@ import {
 } from '@weco/content/utils/iiif/v3';
 import { removeTrailingFullStop, toHtmlId } from '@weco/content/utils/string';
 import { getDigitalLocationInfo } from '@weco/content/utils/works';
-import IIIFSearchWithin from '@weco/content/views/works/work/IIIFSearchWithin';
 
+import IIIFSearchWithin from './IIIFSearchWithin';
 import MultipleManifestList from './MultipleManifestList';
 import ViewerStructures from './ViewerStructures';
 

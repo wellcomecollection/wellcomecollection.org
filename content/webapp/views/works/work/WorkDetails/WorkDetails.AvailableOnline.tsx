@@ -43,7 +43,6 @@ import {
 } from '@weco/content/utils/iiif/v3';
 import { DigitalLocationInfo } from '@weco/content/utils/works';
 import NestedList from '@weco/content/views/works/work/ArchiveTree/ArchiveTree.NestedList';
-import IIIFClickthrough from '@weco/content/views/works/work/IIIFClickthrough';
 import IIIFItemList from '@weco/content/views/works/work/IIIFItemList';
 import DownloadItemRenderer from '@weco/content/views/works/work/work.DownloadItemRenderer';
 import {
@@ -57,6 +56,7 @@ import {
 import { UiTree } from '@weco/content/views/works/work/work.types';
 
 import { DownloadTable } from './WorkDetails.DownloadItem';
+import IIIFClickthrough from './WorkDetails.IIIFClickthrough';
 import WorkDetailsLicence from './WorkDetails.Licence';
 import WorkDetailsSection from './WorkDetails.Section';
 
