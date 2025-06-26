@@ -68,7 +68,7 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
   );
 };
 
-const CardGrid: FunctionComponent<Props> = ({
+const SimpleCardGrid: FunctionComponent<Props> = ({
   items,
   isFeaturedFirst,
 }: Props) => {
@@ -107,4 +107,4 @@ const CardGrid: FunctionComponent<Props> = ({
   );
 };
 
-export default CardGrid;
+export default SimpleCardGrid;

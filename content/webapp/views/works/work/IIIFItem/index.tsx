@@ -25,7 +25,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import AudioPlayer from '@weco/content/components/AudioPlayer';
 import BetaMessage from '@weco/content/components/BetaMessage';
 import VideoPlayer from '@weco/content/components/VideoPlayer';
-import VideoTranscript from '@weco/content/components/VideoTranscript';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
 import { missingAltTextMessage } from '@weco/content/services/wellcome/catalogue/works';
@@ -44,6 +43,7 @@ import IIIFItemPdf from '@weco/content/views/works/work/IIIFItem/IIIFItem.Pdf';
 import ImageViewer from '@weco/content/views/works/work/IIIFViewer/ImageViewer';
 
 import IIIFItemAudioVideoLink from './IIIFItem.AudioVideo';
+import VideoTranscript from './IIIFItem.VideoTranscript';
 
 const Outline = styled(Space).attrs({
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },

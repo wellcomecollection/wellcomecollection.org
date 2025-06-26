@@ -6,7 +6,7 @@ import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 import { font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
-import IIIFImage from '../IIIFImage';
+import IIIFImage from '@weco/content/components/IIIFImage';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import { Image as ImageType } from '@weco/content/services/wellcome/catalogue/types';
 
@@ -52,7 +52,7 @@ const Wrapper = styled(Space).attrs({
   }
 `;
 
-const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
+const VisuallySimilarImages: FunctionComponent<Props> = ({
   originalId,
   onClickImage,
 }: Props) => {
@@ -147,4 +147,4 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
     </>
   );
 };
-export default VisuallySimilarImagesFromApi;
+export default VisuallySimilarImages;

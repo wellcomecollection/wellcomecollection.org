@@ -12,7 +12,6 @@ import SearchFilters from '@weco/content/components/SearchFilters';
 import { withSearchLayout } from '@weco/content/components/SearchPageLayout';
 import { StoriesProps } from '@weco/content/components/SearchPagesLink/Stories';
 import Sort from '@weco/content/components/Sort';
-import StoriesGrid from '@weco/content/components/StoriesGrid';
 import useHotjar from '@weco/content/hooks/useHotjar';
 import { storiesFilters } from '@weco/content/services/wellcome/common/filters';
 import {
@@ -22,6 +21,8 @@ import {
 import { Query } from '@weco/content/types/search';
 import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
 import SearchNoResults from '@weco/content/views/search/search.NoResults';
+
+import StoriesGrid from './stories.Grid';
 
 const Wrapper = styled(Space)`
   background-color: ${props => props.theme.color('neutral.200')};

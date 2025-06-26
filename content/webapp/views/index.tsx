@@ -22,12 +22,13 @@ import Standfirst from '@weco/common/views/slices/Standfirst';
 import CardGrid from '@weco/content/components/CardGrid';
 import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents';
 import SectionHeader from '@weco/content/components/SectionHeader';
-import SimpleCardGrid from '@weco/content/components/SimpleCardGrid';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
 import { ContentListProps, Slice } from '@weco/content/types/body';
 import { convertItemToCardProps } from '@weco/content/types/card';
 import { EventBasic } from '@weco/content/types/events';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
+
+import SimpleCardGrid from './homepage.SimpleCardGrid';
 
 const CreamBox = styled(Space).attrs({
   $h: { size: 'l', properties: ['padding-left', 'padding-right'] },

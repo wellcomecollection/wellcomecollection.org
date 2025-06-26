@@ -7,10 +7,10 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import { gridView, maximise, singlePage } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 
+import ToolbarSegmentedControl from './ToolbarSegmentedControl';
 import { ViewerButton } from './ViewerTopBar';
 
 const BottomBar = styled.div`

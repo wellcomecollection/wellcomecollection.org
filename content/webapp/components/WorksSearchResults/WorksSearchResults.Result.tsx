@@ -18,7 +18,7 @@ import {
   WorkInformationItemSeparator,
   WorkTitleHeading,
   Wrapper,
-} from './WorksSearchResult.styles';
+} from './WorksSearchResults.styles';
 
 type Props = {
   work: WorkBasic;
