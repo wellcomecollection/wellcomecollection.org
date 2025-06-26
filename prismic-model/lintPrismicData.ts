@@ -52,10 +52,12 @@ function detectEur01Safelinks(doc: any): string[] {
   if (linkIndex !== -1) {
     const textSlice = JSON.stringify(doc).slice(
       linkIndex - 250 > 0 ? linkIndex - 250 : 0,
-      linkIndex + 150
+      linkIndex
     );
 
     const text = textSlice.slice(
+      // "text" alone could be the parent object.
+      // The comma ensure it's preced by "type": "paragraph", or something like it
       textSlice.indexOf(',"text":') + 8,
       textSlice.indexOf('spans')
     );
