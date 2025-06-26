@@ -18,11 +18,9 @@ import Icon from '@weco/common/views/components/Icon';
 
 type ClickableElement = 'a' | 'button';
 
-type StyleProps = {
+const BorderlessClickableStyle = styled(BasicButton)<{
   $isActive?: boolean;
-};
-
-const BorderlessClickableStyle = styled(BasicButton)<StyleProps>`
+}>`
   background: transparent;
   color: ${props => props.theme.color('neutral.700')};
   padding: 10px 8px;

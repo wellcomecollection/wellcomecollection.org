@@ -3,25 +3,12 @@ import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { getServerData } from '@weco/common/server-data';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
-import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
-import { font } from '@weco/common/utils/classnames';
 import { today } from '@weco/common/utils/dates';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import HeaderBackground from '@weco/common/views/components/HeaderBackground';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd';
-import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout';
-import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
-import Space from '@weco/common/views/components/styled/Space';
-import Body from '@weco/content/components/Body';
-import ContentPage from '@weco/content/components/ContentPage';
-import Pagination from '@weco/content/components/Pagination';
-import SearchResults from '@weco/content/components/SearchResults';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchEventSeriesById } from '@weco/content/services/prismic/fetch/event-series';
 import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
@@ -32,18 +19,18 @@ import {
 } from '@weco/content/services/prismic/transformers/events';
 import { eventLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
-import { EventSeries } from '@weco/content/types/event-series';
-import { EventBasic } from '@weco/content/types/events';
-import { getFeaturedMedia } from '@weco/content/utils/page-header';
 import { getPage } from '@weco/content/utils/query-params';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import EventSeriesPage, {
+  Props as EventSeriesPageProps,
+} from '@weco/content/views/event-series';
 
-type Props = {
-  series: EventSeries;
-  jsonLd: JsonLdObj[];
-  pastEvents: PaginatedResults<EventBasic>;
-  upcomingEvents: EventBasic[];
-  page: number;
+type Props = EventSeriesPageProps & {
+  serverData: SimplifiedServerData; // TODO should we enforce this?
+};
+
+const Page: FunctionComponent<EventSeriesPageProps> = props => {
+  return <EventSeriesPage {...props} />;
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -104,7 +91,7 @@ export const getServerSideProps: GetServerSideProps<
     const jsonLd = upcomingEventsFull.flatMap(eventLd);
 
     return {
-      props: serialiseProps({
+      props: serialiseProps<Props>({
         series,
         upcomingEvents,
         pastEvents,
@@ -118,96 +105,4 @@ export const getServerSideProps: GetServerSideProps<
   return { notFound: true };
 };
 
-const EventSeriesPage: FunctionComponent<Props> = ({
-  series,
-  jsonLd,
-  pastEvents,
-  upcomingEvents,
-  page,
-}) => {
-  const breadcrumbs = {
-    items: [
-      {
-        url: '/events',
-        text: 'Events',
-      },
-      {
-        url: linkResolver(series),
-        text: series.title,
-        isHidden: true,
-      },
-    ],
-  };
-
-  const FeaturedMedia = getFeaturedMedia(series);
-  const Header = (
-    <PageHeader
-      breadcrumbs={breadcrumbs}
-      labels={{ labels: series.labels }}
-      title={series.title}
-      Background={<HeaderBackground hasWobblyEdge={true} />}
-      FeaturedMedia={FeaturedMedia}
-    />
-  );
-
-  return (
-    <PageLayout
-      title={series.title}
-      description={series.metadataDescription || series.promo?.caption || ''}
-      url={{ pathname: `/event-series/${series.uid}` }}
-      jsonLd={jsonLd}
-      openGraphType="website"
-      siteSection="whats-on"
-      image={series.image}
-      apiToolbarLinks={[createPrismicLink(series.id)]}
-    >
-      <ContentPage
-        id={series.id}
-        Header={Header}
-        Body={
-          page === 1 ? (
-            <Body
-              untransformedBody={series.untransformedBody}
-              pageId={series.id}
-            />
-          ) : undefined
-        }
-        contributors={series.contributors}
-      >
-        {page === 1 && (
-          <>
-            {upcomingEvents.length > 0 ? (
-              <SearchResults
-                variant="default"
-                items={upcomingEvents}
-                title="Coming up"
-              />
-            ) : (
-              <h2 className={font('wb', 3)}>No upcoming events</h2>
-            )}
-          </>
-        )}
-
-        {pastEvents.results.length > 0 && (
-          <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-            <SearchResults
-              variant="default"
-              items={pastEvents.results}
-              title="Past events"
-            />
-          </Space>
-        )}
-        {pastEvents.totalPages > 1 && (
-          <PaginationWrapper $verticalSpacing="m" $alignRight>
-            <Pagination
-              totalPages={pastEvents.totalPages}
-              ariaLabel="Series pagination"
-            />
-          </PaginationWrapper>
-        )}
-      </ContentPage>
-    </PageLayout>
-  );
-};
-
-export default EventSeriesPage;
+export default Page;

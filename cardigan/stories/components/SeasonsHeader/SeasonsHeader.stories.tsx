@@ -2,8 +2,8 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { imagesBaseUrl } from '@weco/cardigan/stories/data/images';
 import { ImageType } from '@weco/common/model/image';
-import SeasonsHeader from '@weco/content/components/SeasonsHeader';
 import { Season } from '@weco/content/types/seasons';
+import SeasonsHeader from '@weco/content/views/seasons/season/season.Header';
 
 const image: ImageType = {
   contentUrl: `${imagesBaseUrl}/reading-room-3200x1800.jpg`,
