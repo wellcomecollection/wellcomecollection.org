@@ -20,6 +20,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import CatalogueImageGallery from '@weco/content/components/CatalogueImageGallery';
+import ContentSearchResult from '@weco/content/components/ContentSearchResult';
 import Pagination from '@weco/content/components/Pagination';
 import { withSearchLayout } from '@weco/content/components/SearchPageLayout';
 import { toLink as imagesLink } from '@weco/content/components/SearchPagesLink/Images';
@@ -33,7 +34,6 @@ import {
 } from '@weco/content/services/wellcome/content/types/api';
 import { Query } from '@weco/content/types/search';
 
-import ContentSearchResult from './search.ContentSearchResult';
 import {
   fromQuery,
   getQueryWorkTypeBuckets,
