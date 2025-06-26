@@ -7,7 +7,6 @@ import { font } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import { thumbnailsPageSize } from '@weco/content/components/IIIFViewer/Paginators';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import {
@@ -23,6 +22,7 @@ import {
 } from '@weco/content/utils/iiif/v3';
 
 import { arrayIndexToQueryParam } from '.';
+import { thumbnailsPageSize } from './Paginators';
 
 export const List = styled(PlainList)`
   border-left: 1px solid ${props => props.theme.color('neutral.600')};

@@ -2,12 +2,12 @@ import styled from 'styled-components';
 
 import { imageSizes } from '@weco/common/utils/image-sizes';
 import LL from '@weco/common/views/components/styled/LL';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import {
   CanvasPaginator,
   ThumbnailsPaginator,
-} from '@weco/content/components/IIIFViewer/Paginators';
-import { Thumbnails } from '@weco/content/components/IIIFViewer/Thumbnails';
-import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+} from '@weco/content/views/works/work/IIIFViewer/Paginators';
+import { Thumbnails } from '@weco/content/views/works/work/IIIFViewer/Thumbnails';
 
 import { DelayVisibility, queryParamToArrayIndex } from '.';
 import IIIFViewerImage from './IIIFViewerImage';

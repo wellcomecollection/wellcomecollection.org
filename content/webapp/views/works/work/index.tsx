@@ -9,15 +9,8 @@ import Divider from '@weco/common/views/components/Divider';
 import SearchForm from '@weco/common/views/components/SearchForm';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
-import ArchiveBreadcrumb from '@weco/content/components/ArchiveBreadcrumb';
-import ArchiveTree from '@weco/content/components/ArchiveTree';
 import BackToResults from '@weco/content/components/BackToResults';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
-import RelatedWorks, {
-  hasAtLeastOneSubject,
-} from '@weco/content/components/RelatedWorks';
-import WorkDetails from '@weco/content/components/WorkDetails';
-import WorkHeader from '@weco/content/components/WorkHeader';
 import IsArchiveContext from '@weco/content/contexts/IsArchiveContext';
 import useHotjar from '@weco/content/hooks/useHotjar';
 import {
@@ -34,6 +27,12 @@ import {
   getDigitalLocationOfType,
   showItemLink,
 } from '@weco/content/utils/works';
+
+import ArchiveTree from './ArchiveTree';
+import RelatedWorks, { hasAtLeastOneSubject } from './RelatedWorks';
+import ArchiveBreadcrumb from './work.ArchiveBreadcrumb';
+import WorkHeader from './work.Header';
+import WorkDetails from './WorkDetails';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;

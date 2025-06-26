@@ -10,7 +10,6 @@ import styled from 'styled-components';
 import { file, imageFile } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
-import { controlDimensions } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
 import {
   CustomContentResource,
   TransformedCanvas,
@@ -20,6 +19,7 @@ import {
   getLabelString,
   isChoiceBody,
 } from '@weco/content/utils/iiif/v3';
+import { controlDimensions } from '@weco/content/views/works/work/work.helpers';
 
 export const DownloadTable = styled.table.attrs({ className: font('intr', 6) })`
   position: relative;

@@ -14,8 +14,6 @@ import styled from 'styled-components';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
-import IIIFItem from '@weco/content/components/IIIFItem';
-import { CanvasPaginator } from '@weco/content/components/IIIFViewer/Paginators';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
@@ -26,8 +24,10 @@ import {
   TransformedAuthService,
 } from '@weco/content/utils/iiif/v3';
 import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
+import IIIFItem from '@weco/content/views/works/work/IIIFItem';
 
 import { queryParamToArrayIndex } from '.';
+import { CanvasPaginator } from './Paginators';
 
 // Temporary styling for viewer to display audio, video and pdfs
 // will be tidied up in future work

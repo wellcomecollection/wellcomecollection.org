@@ -15,7 +15,6 @@ import {
   ApiToolbarLink,
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
-import { queryParamToArrayIndex } from '@weco/content/components/IIIFViewer';
 import { fromQuery } from '@weco/content/components/ItemLink';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
@@ -34,6 +33,7 @@ import { fetchJson } from '@weco/content/utils/http';
 import { getCollectionManifests } from '@weco/content/utils/iiif/v3';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
+import { queryParamToArrayIndex } from '@weco/content/views/works/work/IIIFViewer';
 import WorkItemPage, {
   Props as WorkItemPageProps,
 } from '@weco/content/views/works/work/items';

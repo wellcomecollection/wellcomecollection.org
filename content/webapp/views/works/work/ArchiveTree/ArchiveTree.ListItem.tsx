@@ -2,13 +2,12 @@ import { FunctionComponent } from 'react';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
+import { UiTree, UiTreeNode } from '@weco/content/views/works/work/work.types';
 
 import {
   getAriaLabel,
   getTabbableIds,
   ListProps,
-  UiTree,
-  UiTreeNode,
   updateChildren,
 } from './ArchiveTree.helpers';
 import NestedList from './ArchiveTree.NestedList';

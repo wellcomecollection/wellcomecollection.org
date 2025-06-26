@@ -15,10 +15,6 @@ import {
 import Modal from '@weco/common/views/components/Modal';
 import Space from '@weco/common/views/components/styled/Space';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
-import IIIFItemList from '@weco/content/components/IIIFItemList';
-import IIIFViewer, {
-  queryParamToArrayIndex,
-} from '@weco/content/components/IIIFViewer';
 import WorkLink from '@weco/content/components/WorkLink';
 import useHotjar from '@weco/content/hooks/useHotjar';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
@@ -37,6 +33,9 @@ import {
   hasOriginalPdf,
 } from '@weco/content/utils/iiif/v3';
 import { removeIdiomaticTextTags } from '@weco/content/utils/string';
+import IIIFItemList from '@weco/content/views/works/work/IIIFItemList';
+
+import IIIFViewer, { queryParamToArrayIndex } from './IIIFViewer';
 
 const IframeAuthMessage = styled.iframe`
   display: none;

@@ -5,15 +5,12 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import { chevron } from '@weco/common/icons';
 import { classNames, font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
-import {
-  isRelatedWork,
-  UiTreeNode,
-} from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
-import { TreeControl } from '@weco/content/components/ArchiveTree/ArchiveTree.styles';
 import WorkLink from '@weco/content/components/WorkLink';
 import WorkTitle from '@weco/content/components/WorkTitle';
+import { UiTreeNode } from '@weco/content/views/works/work/work.types';
 
-import { StyledLink } from './ArchiveTree.styles';
+import { isRelatedWork } from './ArchiveTree.helpers';
+import { StyledLink, TreeControl } from './ArchiveTree.styles';
 
 const RefNumber = styled.span.attrs({
   className: font('intr', 6),

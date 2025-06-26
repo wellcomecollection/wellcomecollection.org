@@ -16,7 +16,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import Download from '@weco/content/components/Download';
-import WorkDetailsText from '@weco/content/components/WorkDetails/WorkDetails.Text';
 import {
   Work,
   WorkBasic,
@@ -28,6 +27,8 @@ import {
 } from '@weco/content/utils/iiif/v3';
 import { removeTrailingFullStop } from '@weco/content/utils/string';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
+
+import WorkDetailsText from './WorkDetails/WorkDetails.Text';
 
 type CreditProps = {
   workId: string;

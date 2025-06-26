@@ -4,9 +4,9 @@ import { FunctionComponent } from 'react';
 import { LinkProps } from '@weco/common/model/link-props';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import IIIFItem from '@weco/content/components/IIIFItem';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
+import IIIFItem from '@weco/content/views/works/work/IIIFItem';
 
 type Props = {
   canvases: TransformedCanvas[] | undefined;

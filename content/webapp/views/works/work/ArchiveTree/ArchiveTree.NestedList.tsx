@@ -2,8 +2,9 @@ import { FunctionComponent } from 'react';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { font } from '@weco/common/utils/classnames';
+import { UiTree } from '@weco/content/views/works/work/work.types';
 
-import { ListProps, UiTree } from './ArchiveTree.helpers';
+import { ListProps } from './ArchiveTree.helpers';
 import ListItem from './ArchiveTree.ListItem';
 
 type NestedListProps = Omit<ListProps, 'item'> & {

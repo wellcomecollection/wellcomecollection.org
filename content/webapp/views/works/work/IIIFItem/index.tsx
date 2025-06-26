@@ -24,8 +24,6 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import AudioPlayer from '@weco/content/components/AudioPlayer';
 import BetaMessage from '@weco/content/components/BetaMessage';
-import IIIFItemPdf from '@weco/content/components/IIIFItem/IIIFItem.Pdf';
-import ImageViewer from '@weco/content/components/IIIFViewer/ImageViewer';
 import VideoPlayer from '@weco/content/components/VideoPlayer';
 import VideoTranscript from '@weco/content/components/VideoTranscript';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
@@ -42,6 +40,8 @@ import {
   isItemRestricted,
 } from '@weco/content/utils/iiif/v3';
 import { getAudioVideoLabel } from '@weco/content/utils/works';
+import IIIFItemPdf from '@weco/content/views/works/work/IIIFItem/IIIFItem.Pdf';
+import ImageViewer from '@weco/content/views/works/work/IIIFViewer/ImageViewer';
 
 import IIIFItemAudioVideoLink from './IIIFItem.AudioVideo';
 

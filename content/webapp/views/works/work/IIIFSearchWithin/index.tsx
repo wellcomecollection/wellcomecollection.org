@@ -11,8 +11,6 @@ import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import TextInput from '@weco/common/views/components/TextInput';
 import { themeValues } from '@weco/common/views/themes/config';
-import { arrayIndexToQueryParam } from '@weco/content/components/IIIFViewer';
-import { thumbnailsPageSize } from '@weco/content/components/IIIFViewer/Paginators';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import {
   results,
@@ -21,6 +19,8 @@ import {
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { searchWithinLabel } from '@weco/content/text/aria-labels';
 import { TransformedCanvas } from '@weco/content/types/manifest';
+import { arrayIndexToQueryParam } from '@weco/content/views/works/work/IIIFViewer';
+import { thumbnailsPageSize } from '@weco/content/views/works/work/IIIFViewer/Paginators';
 
 const Highlight = styled.span`
   background: ${props => props.theme.color('accent.purple')};

@@ -4,12 +4,12 @@ import { styled } from 'styled-components';
 import { chevron, closedFolder, openFolder } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
-import { UiTreeNode } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
-import { TreeControl } from '@weco/content/components/ArchiveTree/ArchiveTree.styles';
-import DownloadItem from '@weco/content/components/WorkDetails/WorkDetails.DownloadItem';
 import { TransformedCanvas } from '@weco/content/types/manifest';
+import { controlDimensions } from '@weco/content/views/works/work/work.helpers';
+import { UiTreeNode } from '@weco/content/views/works/work/work.types';
+import DownloadItem from '@weco/content/views/works/work/WorkDetails/WorkDetails.DownloadItem';
 
-import { controlDimensions } from './ArchiveTree.helpers';
+import { TreeControl } from './ArchiveTree/ArchiveTree.styles';
 
 const ItemWrapper = styled.div.attrs({
   className: font('intr', 6),

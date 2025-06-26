@@ -10,12 +10,13 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import BetaMessage from '@weco/content/components/BetaMessage';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
-import IIIFViewer from '@weco/content/components/IIIFViewer';
 import useHotjar from '@weco/content/hooks/useHotjar'; // TODO remove all HotJars I've moved over
 import {
   Image,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
+
+import IIIFViewer from './IIIFViewer';
 
 export type Props = {
   image: Image;

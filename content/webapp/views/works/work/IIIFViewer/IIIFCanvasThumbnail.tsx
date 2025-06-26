@@ -9,13 +9,13 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Icon from '@weco/common/views/components/Icon';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
-import { IIIFItemProps } from '@weco/content/components/IIIFItem';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import {
   isAudioCanvas,
   isChoiceBody,
   isPDFCanvas,
 } from '@weco/content/utils/iiif/v3';
+import { IIIFItemProps } from '@weco/content/views/works/work/IIIFItem';
 
 import IIIFViewerImage from './IIIFViewerImage';
 import Padlock from './Padlock';

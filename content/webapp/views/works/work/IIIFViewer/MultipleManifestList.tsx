@@ -1,16 +1,13 @@
 import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
-import {
-  Item,
-  List,
-} from '@weco/content/components/IIIFViewer/ViewerStructures';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import { volumesNavigationLabel } from '@weco/content/text/aria-labels';
 import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
 
 import { queryParamToArrayIndex } from '.';
+import { Item, List } from './ViewerStructures';
 
 const MultipleManifestList: FunctionComponent = () => {
   const { parentManifest, work, query, setIsMobileSidebarActive } =

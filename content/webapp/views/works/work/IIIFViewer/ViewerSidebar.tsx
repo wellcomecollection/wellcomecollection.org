@@ -16,7 +16,6 @@ import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import IIIFSearchWithin from '@weco/content/components/IIIFSearchWithin';
 import LinkLabels from '@weco/content/components/LinkLabels';
 import WorkLink from '@weco/content/components/WorkLink';
 import WorkTitle from '@weco/content/components/WorkTitle';
@@ -27,6 +26,7 @@ import {
 } from '@weco/content/utils/iiif/v3';
 import { removeTrailingFullStop, toHtmlId } from '@weco/content/utils/string';
 import { getDigitalLocationInfo } from '@weco/content/utils/works';
+import IIIFSearchWithin from '@weco/content/views/works/work/IIIFSearchWithin';
 
 import MultipleManifestList from './MultipleManifestList';
 import ViewerStructures from './ViewerStructures';

@@ -2,7 +2,7 @@ import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 import IsArchiveContext from '@weco/content/contexts/IsArchiveContext';
 import { Work } from '@weco/content/services/wellcome/catalogue/types';
 
-import ArchiveBreadcrumb from '.';
+import ArchiveBreadcrumb from './work.ArchiveBreadcrumb';
 
 describe('ArchiveBreadcrumb', () => {
   it("includes the reference number in the last crumb if there isn't one", () => {

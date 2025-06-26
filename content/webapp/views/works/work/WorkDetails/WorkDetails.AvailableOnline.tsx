@@ -23,22 +23,8 @@ import Layout, {
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import {
-  controlDimensions,
-  createDownloadTree,
-} from '@weco/content/components/ArchiveTree//ArchiveTree.helpers';
-import {
-  Tree,
-  TreeInstructions,
-} from '@weco/content/components/ArchiveTree//ArchiveTree.styles';
-import DownloadItemRenderer from '@weco/content/components/ArchiveTree/ArchiveTree.DownloadItemRenderer';
-import { UiTree } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
-import NestedList from '@weco/content/components/ArchiveTree/ArchiveTree.NestedList';
 import Download from '@weco/content/components/Download';
 import DownloadLink from '@weco/content/components/DownloadLink';
-import IIIFClickthrough from '@weco/content/components/IIIFClickthrough';
-import IIIFItemList from '@weco/content/components/IIIFItemList';
-import { DownloadTable } from '@weco/content/components/WorkDetails/WorkDetails.DownloadItem';
 import { Note, Work } from '@weco/content/services/wellcome/catalogue/types';
 import {
   DownloadOption,
@@ -56,7 +42,21 @@ import {
   isAudioCanvas,
 } from '@weco/content/utils/iiif/v3';
 import { DigitalLocationInfo } from '@weco/content/utils/works';
+import NestedList from '@weco/content/views/works/work/ArchiveTree/ArchiveTree.NestedList';
+import IIIFClickthrough from '@weco/content/views/works/work/IIIFClickthrough';
+import IIIFItemList from '@weco/content/views/works/work/IIIFItemList';
+import DownloadItemRenderer from '@weco/content/views/works/work/work.DownloadItemRenderer';
+import {
+  controlDimensions,
+  createDownloadTree,
+} from '@weco/content/views/works/work/work.helpers';
+import {
+  Tree,
+  TreeInstructions,
+} from '@weco/content/views/works/work/work.styles';
+import { UiTree } from '@weco/content/views/works/work/work.types';
 
+import { DownloadTable } from './WorkDetails.DownloadItem';
 import WorkDetailsLicence from './WorkDetails.Licence';
 import WorkDetailsSection from './WorkDetails.Section';
 

@@ -14,15 +14,15 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
 import { getArchiveAncestorArray } from '@weco/content/utils/works';
-
-import { UiTree, UiTreeNode, updateChildren } from './ArchiveTree.helpers';
-import NestedList from './ArchiveTree.NestedList';
 import {
-  ButtonWrap,
   Tree,
-  TreeContainer,
   TreeInstructions,
-} from './ArchiveTree.styles';
+} from '@weco/content/views/works/work/work.styles';
+import { UiTree, UiTreeNode } from '@weco/content/views/works/work/work.types';
+
+import { updateChildren } from './ArchiveTree.helpers';
+import NestedList from './ArchiveTree.NestedList';
+import { ButtonWrap, TreeContainer } from './ArchiveTree.styles';
 import WorkItem from './ArchiveTree.WorkItemRenderer';
 
 function createNodeFromWork({
