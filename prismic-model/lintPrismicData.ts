@@ -46,13 +46,21 @@ const { slackWebhookUrl } = yargs(process.argv.slice(2))
 // the object to get more debugging information, but I hope this
 // is good enough for now.
 function detectEur01Safelinks(doc: any): string[] {
-  if (
-    JSON.stringify(doc).indexOf(
-      'https://eur01.safelinks.protection.outlook.com'
-    ) !== -1
-  ) {
+  const linkIndex = JSON.stringify(doc).indexOf(
+    'https://eur01.safelinks.protection.outlook.com'
+  );
+  if (linkIndex !== -1) {
+    const textSlice = JSON.stringify(doc).slice(
+      linkIndex - 250 > 0 ? linkIndex - 250 : 0,
+      linkIndex + 150
+    );
+
+    const text = textSlice.slice(
+      textSlice.indexOf(',"text":') + 8,
+      textSlice.indexOf('spans')
+    );
     return [
-      'One of the links is an eur01.safelinks URL, which has probably been copy/pasted from an email. Replace this URL with an un-safelink’d version.',
+      `One of the links is an eur01.safelinks URL, which has probably been copy/pasted from an email. Replace this URL with an un-safelink’d version. The text around it is potentially: "${text}"`,
     ];
   }
 
