@@ -8,19 +8,19 @@ import { allowedRequests } from '@weco/common/values/requests';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
-import CurrentRequests from '@weco/content/components/ItemRequestModal/ItemRequestModal.CurrentRequests';
-import {
-  dateAsValue,
-  dateFromValue,
-} from '@weco/content/components/ItemRequestModal/ItemRequestModal.helpers';
-import {
-  CTAs,
-  Header,
-} from '@weco/content/components/ItemRequestModal/ItemRequestModal.styles';
 import {
   PhysicalItem,
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
+import CurrentRequests from '@weco/content/views/works/work/WorkDetails/PhysicalItems/ItemRequestModal/ItemRequestModal.CurrentRequests';
+import {
+  dateAsValue,
+  dateFromValue,
+} from '@weco/content/views/works/work/WorkDetails/PhysicalItems/ItemRequestModal/ItemRequestModal.helpers';
+import {
+  CTAs,
+  Header,
+} from '@weco/content/views/works/work/WorkDetails/PhysicalItems/ItemRequestModal/ItemRequestModal.styles';
 
 import RequestingDayPicker from './RequestDialog.RequestingDayPicker';
 

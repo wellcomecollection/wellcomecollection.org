@@ -1,6 +1,4 @@
 import Space from '@weco/common/views/components/styled/Space';
-import LibraryMembersBar from '@weco/content/components/LibraryMembersBar';
-import PhysicalItems from '@weco/content/components/PhysicalItems';
 import {
   Note,
   PhysicalItem,
@@ -11,6 +9,8 @@ import {
   itemIsTemporarilyUnavailable,
 } from '@weco/content/utils/requesting';
 
+import PhysicalItems from './PhysicalItems';
+import LibraryMembersBar from './WorkDetails.LibraryMembersBar';
 import WorkDetailsSection from './WorkDetails.Section';
 import WorkDetailsText from './WorkDetails.Text';
 

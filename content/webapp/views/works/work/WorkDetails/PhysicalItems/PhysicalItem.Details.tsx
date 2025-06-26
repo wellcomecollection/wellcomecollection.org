@@ -9,8 +9,6 @@ import Button from '@weco/common/views/components/Buttons';
 import StackingTable from '@weco/common/views/components/StackingTable';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
-import ItemRequestModal from '@weco/content/components/ItemRequestModal';
-import Placeholder from '@weco/content/components/Placeholder';
 import { useIsArchiveContext } from '@weco/content/contexts/IsArchiveContext';
 import {
   PhysicalItem,
@@ -23,6 +21,9 @@ import {
   getLocationLabel,
   getLocationShelfmark,
 } from '@weco/content/utils/works';
+
+import ItemRequestModal from './ItemRequestModal';
+import Placeholder from './PhysicalItem.Details.Placeholder';
 
 const Wrapper = styled(Space).attrs({
   $v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },

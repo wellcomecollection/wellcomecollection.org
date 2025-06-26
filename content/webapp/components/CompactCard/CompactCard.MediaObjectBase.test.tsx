@@ -12,7 +12,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { GridCell, SizeMap } from '@weco/common/views/components/styled/Grid';
 
-import MediaObjectBase, { HasImageProps } from '.';
+import MediaObjectBase, { HasImageProps } from './CompactCard.MediaObjectBase';
 
 const getBaseTitleClass = number => {
   return font('wb', number);

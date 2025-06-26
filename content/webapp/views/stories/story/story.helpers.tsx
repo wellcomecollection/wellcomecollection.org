@@ -5,7 +5,6 @@ import { ExhibitionsDocument as RawExhibitionsDocument } from '@weco/common/pris
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { isPast } from '@weco/common/utils/dates';
-import SeriesNavigation from '@weco/content/components/SeriesNavigation';
 import { fetchFromClientSide } from '@weco/content/services/prismic/fetch';
 import { fetchArticlesClientSide } from '@weco/content/services/prismic/fetch/articles';
 import {
@@ -19,6 +18,7 @@ import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { Series } from '@weco/content/types/series';
 
 import { ArticleSeriesList } from '.';
+import SeriesNavigation from './story.SeriesNavigation';
 
 export const setSeries = async (
   article: Article,

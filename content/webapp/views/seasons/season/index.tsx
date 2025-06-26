@@ -8,7 +8,6 @@ import SpacingSection from '@weco/common/views/components/styled/SpacingSection'
 import Body from '@weco/content/components/Body';
 import CardGrid from '@weco/content/components/CardGrid';
 import ContentPage from '@weco/content/components/ContentPage';
-import SeasonsHeader from '@weco/content/components/SeasonsHeader';
 import { ArticleBasic } from '@weco/content/types/articles';
 import { BookBasic } from '@weco/content/types/books';
 import { EventBasic } from '@weco/content/types/events';
@@ -17,6 +16,8 @@ import { Page } from '@weco/content/types/pages';
 import { Project } from '@weco/content/types/projects';
 import { Season } from '@weco/content/types/seasons';
 import { Series } from '@weco/content/types/series';
+
+import SeasonsHeader from './season.Header';
 
 export type Props = {
   season: Season;

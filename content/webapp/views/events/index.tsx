@@ -25,7 +25,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import { themeValues } from '@weco/common/views/themes/config';
 import EventsSearchResults from '@weco/content/components/EventsSearchResults';
-import NoEvents from '@weco/content/components/NoEvents';
 import Pagination from '@weco/content/components/Pagination';
 import SearchFilters from '@weco/content/components/SearchFilters';
 import { EventsProps } from '@weco/content/components/SearchPagesLink/Events';
@@ -37,6 +36,8 @@ import {
 } from '@weco/content/services/wellcome/content/types/api';
 import { Query } from '@weco/content/types/search';
 import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
+
+import NoEvents from './events.NoEvents';
 
 export type Props = {
   events: ContentResultsList<EventDocument>;

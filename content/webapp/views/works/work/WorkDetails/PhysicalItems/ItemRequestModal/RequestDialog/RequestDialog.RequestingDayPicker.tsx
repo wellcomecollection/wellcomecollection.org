@@ -1,9 +1,9 @@
 import { FunctionComponent } from 'react';
 
 import { formatDayMonth, formatDayName } from '@weco/common/utils/format-date';
-import { dateAsValue } from '@weco/content/components/ItemRequestModal/ItemRequestModal.helpers';
 import Select from '@weco/content/components/Select';
 import { AvailabilitySlot } from '@weco/content/services/wellcome/catalogue/types';
+import { dateAsValue } from '@weco/content/views/works/work/WorkDetails/PhysicalItems/ItemRequestModal/ItemRequestModal.helpers';
 
 type Props = {
   availableDates: AvailabilitySlot[];
