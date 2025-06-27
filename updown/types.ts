@@ -6,6 +6,7 @@ export type Check = {
   emailAlerts?: boolean;
   slackAlerts?: ('digital-general' | 'alerts-channel')[];
   apdexThreshold?: ApdexThreshold;
+  disabled_locations: string[];
 };
 
 export type UpdownCheck = {
