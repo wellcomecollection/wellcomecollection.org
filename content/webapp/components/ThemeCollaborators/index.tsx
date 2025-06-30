@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import { organisation, user } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import CollaboratorCard from '@weco/content/components/CollaboratorCard';
 import {
   ConceptType,
@@ -41,7 +40,7 @@ const ThemeCollaborators: FunctionComponent<Props> = ({ concepts }) => {
 
   return (
     <>
-      <Heading>Frequent collaborators</Heading>
+      <Heading id="frequent-collaborators">Frequent collaborators</Heading>
       <CollaboratorsWrapper>
         {concepts.slice(0, COLLABORATOR_COUNT_LIMIT).map(concept => (
           <CollaboratorCard

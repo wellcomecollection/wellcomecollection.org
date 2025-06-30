@@ -100,7 +100,9 @@ const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
         <WobblyEdge backgroundColor="white" />
       </WobblyEdgeWrapper>
       <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
-        <h2 className={font('intsb', 2)}>Works</h2>
+        <h2 id="works" className={font('intsb', 2)}>
+          Works
+        </h2>
         {tabs.length > 1 && (
           <Tabs
             label="Works tabs"

@@ -72,7 +72,7 @@ const ThemeImagesSection: FunctionComponent<Props> = ({
 
   return (
     <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-      <SectionHeading>
+      <SectionHeading id={`images-${getThemeTabLabel(type, concept.type)}`}>
         Images {getThemeTabLabel(type, concept.type)} {concept.label}
       </SectionHeading>
       <CatalogueImageGallery
