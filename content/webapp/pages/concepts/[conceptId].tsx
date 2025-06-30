@@ -508,7 +508,7 @@ export const ConceptPage: NextPage<Props> = ({
         <Grid style={{ background: 'white', rowGap: 0 }}>
           <NavGridCell
             $isEnhanced={isEnhanced}
-            $sizeMap={{ s: [12], m: [12], l: [2], xl: [2] }}
+            $sizeMap={{ s: [12], m: [12], l: [3], xl: [2] }}
             $isMobileNavInverted={isMobileNavInverted}
           >
             <OnThisPageAnchors
@@ -518,7 +518,7 @@ export const ConceptPage: NextPage<Props> = ({
             />
           </NavGridCell>
 
-          <GridCell $sizeMap={{ s: [12], m: [12], l: [10], xl: [10] }}>
+          <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [10] }}>
             <StretchWrapper>
               <ThemeImages
                 sectionsData={sectionsData}
