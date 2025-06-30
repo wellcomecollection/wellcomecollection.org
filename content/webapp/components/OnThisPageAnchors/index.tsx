@@ -138,7 +138,7 @@ const MobileNavButton = styled.button`
     }
   }
 
-  ${props => props.theme.media('medium')`
+  ${props => props.theme.media('large')`
     display: none;
   `}
 `;
@@ -208,6 +208,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
   useEffect(() => {
     if (!listRef.current) return;
     listRef.current.classList.add('is-hidden-s');
+    listRef.current.classList.add('is-hidden-m');
   }, [listRef.current]);
 
   function toggleList() {
@@ -215,9 +216,12 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
 
     if (listRef.current.classList.contains('is-hidden-s')) {
       listRef.current.classList.remove('is-hidden-s');
+      listRef.current.classList.remove('is-hidden-m');
+
       buttonRef.current.setAttribute('aria-expanded', 'true');
     } else {
       listRef.current.classList.add('is-hidden-s');
+      listRef.current.classList.add('is-hidden-m');
       buttonRef.current.setAttribute('aria-expanded', 'false');
     }
   }
@@ -226,6 +230,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
     if (!listRef.current || !buttonRef.current) return;
 
     listRef.current.classList.add('is-hidden-s');
+    listRef.current.classList.add('is-hidden-m');
     buttonRef.current.setAttribute('aria-expanded', 'false');
   }
 
@@ -234,7 +239,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
 
   return (
     <Root $isSticky={isSticky} $hasBackgroundBlend={hasBackgroundBlend}>
-      <h2 className={`${fontStyle} is-hidden-s`}>{titleText}</h2>
+      <h2 className={`${fontStyle} is-hidden-s is-hidden-m`}>{titleText}</h2>
       <MobileNavButton ref={buttonRef} onClick={toggleList}>
         {titleText}
         {isEnhanced && <Icon icon={cross} matchText />}

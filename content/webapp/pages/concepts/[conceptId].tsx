@@ -104,7 +104,15 @@ const NavGridCell = styled(GridCell)<{
     left: 100%;
   }
 
-  ${props => props.theme.media('medium')`
+  ${props =>
+    props.theme.media('medium')(`
+      &::before,
+      &::after {
+        width: ${themeValues.containerPadding.medium}px;
+      }
+  `)}
+
+  ${props => props.theme.media('large')`
     position: unset;
     background-color: unset;
     z-index: unset;
@@ -468,7 +476,7 @@ export const ConceptPage: NextPage<Props> = ({
         <Grid style={{ background: 'white', rowGap: 0 }}>
           <NavGridCell
             $isEnhanced={isEnhanced}
-            $sizeMap={{ s: [12], m: [3], l: [2], xl: [2] }}
+            $sizeMap={{ s: [12], m: [12], l: [2], xl: [2] }}
             $isMobileNavInverted={isMobileNavInverted}
           >
             <OnThisPageAnchors
@@ -499,7 +507,7 @@ export const ConceptPage: NextPage<Props> = ({
             />
           </NavGridCell>
 
-          <GridCell $sizeMap={{ s: [12], m: [9], l: [10], xl: [10] }}>
+          <GridCell $sizeMap={{ s: [12], m: [12], l: [10], xl: [10] }}>
             <StretchWrapper>
               <ThemeImages
                 sectionsData={sectionsData}
