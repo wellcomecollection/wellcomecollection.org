@@ -172,17 +172,14 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
     buttonRef.current.setAttribute('aria-controls', listId);
   }, [buttonRef.current]);
 
-  // When an anchor is clicked, wait till scroll has finished
+  // When an anchor is clicked, lock for a short time before allowing scroll to clear
   useEffect(() => {
     if (!clickedId) return;
-
-    function handleScrollEnd() {
-      setLock(false);
-    }
-    document.addEventListener('scrollend', handleScrollEnd, { passive: true });
-
     setLock(true);
-    return () => document.removeEventListener('scrollend', handleScrollEnd);
+    const timeout = setTimeout(() => {
+      setLock(false);
+    }, 1000); // 1s lock
+    return () => clearTimeout(timeout);
   }, [clickedId]);
 
   // When the user scrolls, clear clickedId if it is set and not locked
