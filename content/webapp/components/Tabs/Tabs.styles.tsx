@@ -137,6 +137,14 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
   }
 `;
 
+// Prevent tabs layout shift that would result from diffent font weights
+// by adding an element with the bold (widest) text content
+export const NavItemShim = styled.div`
+  font-weight: 700;
+  height: 0;
+  visibility: hidden;
+`;
+
 export const IconWrapper = styled.span`
   span {
     top: 6px;
