@@ -3,6 +3,7 @@
   "label": "Team",
   "repeatable": true,
   "status": true,
+  "format": "custom",
   "json": {
     "Team": {
       "title": {
@@ -30,14 +31,7 @@
         "config": {
           "label": "Phone"
         }
-      },
-      "url": {
-        "type": "Text",
-        "config": {
-          "label": "URL"
-        }
       }
     }
-  },
-  "format": "custom"
+  }
 }

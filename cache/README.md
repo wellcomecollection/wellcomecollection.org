@@ -60,6 +60,8 @@ end
 `toggler` runs @ the `origin-request` and `origin-response` of [the lambda@edgfe lifecycle](https://docs.aws.amazon.com/lambda/latest/dg/lambda-edge.html).
 
 ### Steps to create an A/B test
+
+#### Adding the test
 1. Add a test object to [`toggler.ts`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/edge_lambdas/src/toggler.ts) and add an equivalent test object with the same id (without the `when` key) to [`toggles.ts`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/toggles/webapp/toggles.ts)  – this second object is important because it allows us to determine [what should be sent to GA](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/common/services/app/analytics-scripts/google-analytics.tsx)
 
 **toggler.ts**
@@ -81,7 +83,11 @@ end
   range: [0, SOME_PERCENTAGE],
 }
 ```
-2. Update and upload the lambda deployment package. From the root of the repo, run:
+2. Update and upload the lambda deployment package. From the `cache/edge_lambdas` directory, run:
+```
+AWS_PROFILE=experience-developer yarn deploy
+```
+Alternatively, you can still use the Docker-based approach from the root of the repo:
 ```
 docker compose build edge_lambdas
 AWS_PROFILE=experience-developer docker compose run edge_lambdas yarn deploy
@@ -100,3 +106,10 @@ terraform apply terraform.plan
 7. Check the data is being sent to GA (either `someToggleId` or `!someToggleId`). You should initially be able to see the toggles dataLayer variable being set (`DLV - Toggles`) in GTM, then this data should get sent to GA as a custom dimension (note you might not be able to see this until the next day)
 8. Update [`locals.tf`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/locals.tf) with values from previous terraform and re-run the terraform steps above to get the changes in to production
 9. Use the toggle to conditionally serve different UI in the same way as you would for feature flags
+
+#### Removing the test
+1. Remove the test objects from `toggler.ts` and `toggles.ts` that were added above and remove any code that responds to the toggle cookie in the same PR. _Note: if there's clear evidence that we will move ahead with the UI code from the test condition, we may want to keep it and remove the control condition code at this stage rather than going back to the state before the test started_
+2. Deploy the new lambdas and apply the terraform changes as per steps 2–5 of ["adding the test"](#adding-the-test) above.
+3. Make a second PR to update the [`locals.tf`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/locals.tf) from the result of the previous step
+4. Merge and deploy the first PR and check the UI and toggle changes have been removed on `www-stage`
+5. Merge the second PR and apply the terraform change resulting from the updated locals.tf and check the UI and toggle changes have been removed in production

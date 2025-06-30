@@ -93,10 +93,18 @@ const toggles = {
     },
     {
       id: 'newThemePages',
-      title: 'New Theme Pages',
+      title: 'New theme pages',
       initialValue: false,
       description:
         'Show new theme pages, with data populated from the catalogue graph.',
+      type: 'experimental',
+    },
+    {
+      id: 'themePagesAllFields',
+      title: 'Show all fields on theme pages',
+      initialValue: false,
+      description:
+        'Show all experimental fields on theme pages, including alternative labels, broader topics, etc.',
       type: 'experimental',
     },
     {
@@ -116,14 +124,7 @@ const toggles = {
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
-  tests: [
-    {
-      id: 'newTags',
-      title: 'A/B test for new tags',
-      type: 'test',
-      range: [0, 100],
-    },
-  ] as ABTest[],
+  tests: [] as ABTest[],
 };
 
 export default toggles;

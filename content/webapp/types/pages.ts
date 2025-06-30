@@ -11,6 +11,7 @@ import { Season } from './seasons';
 export type ParentPage = Page & {
   order: number;
   type: 'pages' | 'exhibitions';
+  tags?: string[];
 };
 
 export type Page = GenericContentFields & {

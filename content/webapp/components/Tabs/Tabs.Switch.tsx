@@ -10,6 +10,7 @@ import {
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { IconSvg } from '@weco/common/icons';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
+import { toSnakeCase } from '@weco/common/utils/grammar';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -17,6 +18,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import {
   IconWrapper,
   NavItemInner,
+  NavItemShim,
   Tab,
   TabButton,
   TabsContainer,
@@ -27,7 +29,7 @@ type SendEventProps = {
   trackWithSegment: boolean;
 };
 
-function sendEvent({ id, trackWithSegment }: SendEventProps) {
+function sendSegmentEvent({ id, trackWithSegment }: SendEventProps) {
   if (trackWithSegment) {
     trackSegmentEvent({
       name: 'Click tab nav',
@@ -44,6 +46,9 @@ type SwitchSelectableTextLink = {
   text: ReactNode;
   url?: string;
   icon?: IconSvg;
+  gtmData?: {
+    category: string;
+  };
 };
 
 export type Props = {
@@ -97,25 +102,25 @@ const TabsSwitch: FunctionComponent<Props> = ({
     if (LEFT.includes(key)) {
       setSelectedTab(items[prevIndex].id);
       focusTabAtIndex(prevIndex);
-      sendEvent({ id: items[prevIndex].id, trackWithSegment });
+      sendSegmentEvent({ id: items[prevIndex].id, trackWithSegment });
     }
 
     if (RIGHT.includes(key)) {
       setSelectedTab(items[nextIndex].id);
       focusTabAtIndex(nextIndex);
-      sendEvent({ id: items[nextIndex].id, trackWithSegment });
+      sendSegmentEvent({ id: items[nextIndex].id, trackWithSegment });
     }
 
     if (HOME.includes(key)) {
       setSelectedTab(items[0].id);
       focusTabAtIndex(0);
-      sendEvent({ id: items[0].id, trackWithSegment });
+      sendSegmentEvent({ id: items[0].id, trackWithSegment });
     }
 
     if (END.includes(key)) {
       setSelectedTab(items[items.length - 1].id);
       focusTabAtIndex(items.length - 1);
-      sendEvent({ id: items[items.length - 1].id, trackWithSegment });
+      sendSegmentEvent({ id: items[items.length - 1].id, trackWithSegment });
     }
   };
 
@@ -143,7 +148,7 @@ const TabsSwitch: FunctionComponent<Props> = ({
 
                 setSelectedTab(item.id);
 
-                sendEvent({ id: item.id, trackWithSegment });
+                sendSegmentEvent({ id: item.id, trackWithSegment });
               }
             }}
             onKeyDown={handleKeyDown}
@@ -155,7 +160,15 @@ const TabsSwitch: FunctionComponent<Props> = ({
               aria-controls={`tabpanel-${item.id}`}
               aria-selected={item.id === selectedTab}
             >
-              <NavItemInner $selected={isSelected} $isWhite={isWhite}>
+              <NavItemInner
+                $selected={isSelected}
+                $isWhite={isWhite}
+                data-gtm-trigger={`tab_${toSnakeCase(label)}`}
+                data-gtm-label={item.text}
+                data-gtm-category={item.gtmData?.category}
+                data-gtm-position-in-list={items.indexOf(item) + 1}
+              >
+                <NavItemShim>{item.text}</NavItemShim>
                 <ConditionalWrapper
                   condition={Boolean(item.url && !isEnhanced)}
                   wrapper={children => <a href={item.url}>{children}</a>}

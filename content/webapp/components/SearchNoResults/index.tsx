@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
@@ -18,6 +18,11 @@ const SearchNoResults: FunctionComponent<Props> = ({
   query,
   hasFilters,
 }: Props) => {
+  useEffect(() => {
+    window.dataLayer?.push({
+      event: 'noSearchResults',
+    });
+  }, []);
   return (
     <Space $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
       <Grid>

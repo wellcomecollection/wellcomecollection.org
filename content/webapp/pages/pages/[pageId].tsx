@@ -72,6 +72,8 @@ type OrderInParent = {
   uid: string;
   title: string;
   order: number;
+  tags?: string[];
+  siteSection?: SiteSection;
   type: 'pages' | 'exhibitions';
 };
 
@@ -181,6 +183,8 @@ export const getServerSideProps: GetServerSideProps<
           title: p.title,
           order: p.order,
           type: p.type,
+          tags: p.tags,
+          siteSection: p.siteSection,
         };
       }) || [];
 

@@ -18,7 +18,7 @@ import Space, {
   VerticalSpaceProperty,
 } from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import ImageEndpointSearchResults from '@weco/content/components/ImageEndpointSearchResults';
+import CatalogueImageGallery from '@weco/content/components/CatalogueImageGallery';
 import Pagination from '@weco/content/components/Pagination';
 import SearchFilters from '@weco/content/components/SearchFilters';
 import SearchNoResults from '@weco/content/components/SearchNoResults';
@@ -29,7 +29,6 @@ import {
   toLink,
 } from '@weco/content/components/SearchPagesLink/Images';
 import Sort from '@weco/content/components/Sort';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import {
@@ -81,7 +80,6 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
   imagesRouteProps,
   query,
 }) => {
-  useHotjar(true);
   const { query: queryString } = query;
   const { setLink } = useSearchContext();
 
@@ -231,7 +229,10 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
                 </PaginationWrapper>
 
                 <main>
-                  <ImageEndpointSearchResults images={images.results} />
+                  <CatalogueImageGallery
+                    images={images.results}
+                    variant="justified"
+                  />
                 </main>
 
                 <PaginationWrapper $verticalSpacing="l" $alignRight>

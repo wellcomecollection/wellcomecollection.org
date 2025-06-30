@@ -36,6 +36,14 @@ export function dasherizeShorten(words: string): string {
     .replace(/\W/g, '-');
 }
 
+export function toSnakeCase(str: string): string {
+  return str
+    .replace(/([a-z])([A-Z])/g, '$1_$2') // camelCase to camel_Case
+    .replace(/[\s-]+/g, '_') // spaces and dashes to underscores
+    .replace(/__+/g, '_') // collapse multiple underscores
+    .toLowerCase();
+}
+
 /** Formats a number with commas for readability, e.g.
  *
  *            1 =>         1
@@ -77,4 +85,17 @@ export function camelToKebab(words: string): string {
     .split(/(?=[A-Z])/)
     .join('-')
     .toLowerCase();
+}
+
+export function toHtmlId(str: string): string {
+  let id = str
+    .trim()
+    .replace(/[^a-zA-Z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .toLowerCase();
+
+  if (!/^[a-z]/.test(id)) {
+    id = `id-${id}`;
+  }
+  return id;
 }

@@ -46,7 +46,7 @@ const text = {
 };
 
 // This format is required by Civic UK
-export const policyUpdatedDate = '17/04/2024';
+export const policyUpdatedDate = '04/06/2025';
 
 // Should your privacy policy change after a user gives consent,
 // Cookie Control will invalidate prior records of consent and seek the user's preferences using the latest information available.
@@ -162,6 +162,10 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => (
                   {
                     name: 'Meta',
                     optOutLink: 'https://www.facebook.com/privacy/policies/cookies',
+                  },
+                  {
+                    name: 'TikTok',
+                    optOutLink: 'https://www.tiktok.com/legal/page/global/tiktok-website-cookies-policy/en',
                   },
                 ],
               },

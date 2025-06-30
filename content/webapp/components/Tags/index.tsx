@@ -9,8 +9,6 @@ import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
 
-import TagsNew from './Tags.New';
-
 export type TagType = {
   textParts: string[];
   linkAttributes: LinkProps;
@@ -52,24 +50,13 @@ export type Props = {
   tags: TagType[];
   isFirstPartBold?: boolean;
   separator?: string;
-  isABTestWorkTag?: boolean;
 };
 
 const Tags: FunctionComponent<Props> = ({
   tags,
   isFirstPartBold = true,
   separator = '–',
-  isABTestWorkTag,
 }) => {
-  if (isABTestWorkTag)
-    return (
-      <TagsNew
-        tags={tags}
-        isFirstPartBold={isFirstPartBold}
-        separator={separator}
-      />
-    );
-
   return (
     <Space $v={{ size: 's', negative: true, properties: ['margin-bottom'] }}>
       <PlainList>

@@ -96,12 +96,17 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
           <a
             key={related.id}
             onClick={() => {
-              // We tried to use data attributes to send these values and pick them up with a GTM clicked links trigger, but The onClickImage function below was updating the originalId before it was sent (making the relatedId and originalId appear the same in GA). By pushing to the dataLayer before onClickImage runs we can get round this.
+              // We tried to use data attributes to send these values and pick them up with a
+              // GTM clicked links trigger, but The onClickImage function below was updating the
+              // originalId before it was sent (making the relatedId and originalId appear the same in GA).
+              // By pushing to the dataLayer before onClickImage runs we can get round this.
               window.dataLayer?.push({
                 event: 'visually_similar_image_click',
                 visuallySimilarImage: {
                   relatedId: related.id,
                   originalId,
+                  resultPosition:
+                    similarImages.findIndex(s => s.id === related.id) + 1,
                 },
               });
               onClickImage(related);

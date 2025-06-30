@@ -16,7 +16,7 @@ Our checks are configured in `updown-checks.ts`.
 Update this file, then either merge a PR or deploy manually with:
 
 ```console
-$ AWS_PROFILE=platform-dev yarn apply
+$ AWS_PROFILE=platform-developer yarn apply
 ```
 
 This will deploy your new checks to Updown.
