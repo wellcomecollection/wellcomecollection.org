@@ -148,7 +148,7 @@ const SearchLayout: FunctionComponent<SearchLayoutProps> = ({
 };
 
 export const getSearchLayout = (page: ReactElement): JSX.Element => (
-  <SearchLayout apiToolbarLinks={(page.props as any)?.apiToolbarLinks}>
+  <SearchLayout apiToolbarLinks={(page.props as { apiToolbarLinks?: ApiToolbarLink[] })?.apiToolbarLinks || []}>
     {page}
   </SearchLayout>
 );
