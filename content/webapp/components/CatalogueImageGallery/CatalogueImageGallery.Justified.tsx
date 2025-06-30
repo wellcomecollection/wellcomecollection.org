@@ -1,5 +1,6 @@
 import { FunctionComponent, useMemo } from 'react';
 import PhotoAlbum, {
+  RenderPhoto,
   RenderPhotoProps,
   RenderRowContainer,
 } from 'react-photo-album';
@@ -92,7 +93,7 @@ const CatalogueImageGalleryJustified: FunctionComponent<Props> = ({
     return <AlbumRow>{children}</AlbumRow>;
   };
 
-  const imageRenderer: FunctionComponent<RenderPhotoProps<GalleryImageProps>> =
+  const imageRenderer: RenderPhoto<GalleryImageProps> =
     // these are values and props that are passed in by the PhotoAlbum component
     ({ photo, layout }) => {
       const rgbColor = hexToRgb(photo.averageColor || '');
@@ -130,7 +131,7 @@ const CatalogueImageGalleryJustified: FunctionComponent<Props> = ({
         <GalleryContainer data-testid="image-search-results-container">
           <PhotoAlbum
             photos={imagesWithDimensions}
-            renderPhoto={imageRenderer as any}
+            renderPhoto={imageRenderer}
             renderRowContainer={renderRowContainer}
             layout="rows"
             spacing={0}
