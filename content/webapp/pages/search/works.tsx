@@ -28,7 +28,6 @@ import {
 } from '@weco/content/components/SearchPagesLink/Works';
 import Sort from '@weco/content/components/Sort';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import {
   emptyResultList,
   WellcomeResultList,
@@ -64,7 +63,6 @@ const CatalogueSearchPage: NextPageWithLayout<Props> = ({
   worksRouteProps,
   query,
 }) => {
-  useHotjar(true);
   const { query: queryString } = query;
 
   const { setLink } = useSearchContext();

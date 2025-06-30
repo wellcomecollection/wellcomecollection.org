@@ -97,7 +97,7 @@ const Exhibition: FunctionComponent<Props> = ({
     <HTMLDate date={exhibition.start} />
   );
 
-  // This is for content that we don't have the crops for in Prismic
+  // This is for content that we don't have the crops for in Prismic.
   const maybeHeroPicture = getHeroPicture(exhibition);
   const maybeFeaturedMedia = !maybeHeroPicture
     ? getFeaturedMedia(exhibition)

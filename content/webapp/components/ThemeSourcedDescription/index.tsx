@@ -12,6 +12,14 @@ import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import MeshLogo from '@weco/content/components/ThemeSourcedDescription/mesh-logo.png';
 import { WikidataLogo } from '@weco/content/components/ThemeSourcedDescription/ThemeSourcedDescription.Icons';
+import { SourceOntology } from '@weco/content/services/wellcome/catalogue/types';
+
+const getReadableSource = (source: SourceOntology) => {
+  if (source === 'nlm-mesh') return 'MeSH';
+  if (source === 'wikidata') return 'Wikidata';
+
+  return 'Library of Congress';
+};
 
 const SOURCE_BOX_WIDTH = 224;
 
@@ -109,7 +117,7 @@ const SourceLabel = styled.span`
 `;
 
 export type Props = {
-  source: 'Wikidata' | 'MeSH';
+  source: SourceOntology;
   description: string;
   href: string;
 };
@@ -181,16 +189,18 @@ const ThemeSourcedDescription: FunctionComponent<Props> = ({
           // On touch screens, clicking on the pill while the source box is visible should hide it
           onTouchEnd={toggleSourceBoxFocus}
         >
-          {source}
+          {getReadableSource(source)}
         </SourceLabel>
         <SourceBoxContainer $marginLeft={sourceBoxMarginLeft}>
           <SourceBox>
             <span className={font('intm', 6)}>Source:</span>
             <SourceLink>
-              {source === 'Wikidata' && <WikidataLogo width={16} />}
-              {source === 'MeSH' && <Image src={MeshLogo} alt="MeSH logo" />}
+              {source === 'wikidata' && <WikidataLogo width={16} />}
+              {source === 'nlm-mesh' && (
+                <Image src={MeshLogo} alt="MeSH logo" />
+              )}
               <a href={href} target="_blank" rel="noopener noreferrer">
-                {source}
+                {getReadableSource(source)}
               </a>
             </SourceLink>
           </SourceBox>
