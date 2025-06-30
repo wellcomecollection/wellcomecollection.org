@@ -254,6 +254,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
                 <ListItem>
                   <NextLink
                     passHref
+                    legacyBehavior
                     style={{ textDecoration: 'none' }}
                     href={link.url}
                     data-gtm-trigger="link_click_page_position"
