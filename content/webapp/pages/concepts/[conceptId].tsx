@@ -466,24 +466,32 @@ export const ConceptPage: NextPage<Props> = ({
   const { frequentCollaborators, relatedTopics } =
     conceptResponse.relatedConcepts || {};
   const relatedConceptsGroupLabel = 'Related topics';
+  const personOrAllFields =
+    conceptResponse.type === 'Person' || themePagesAllFields;
   const navLinks = [
-    sectionsData.by.images
+    sectionsData.by.images?.totalResults
       ? {
           text: `Images ${getThemeTabLabel('by', conceptResponse.type)}`,
           url: `#images-${getThemeTabLabel('by', conceptResponse.type)}`,
         }
       : undefined,
-    sectionsData.about.images
+    sectionsData.about.images?.totalResults
       ? {
           text: `Images ${getThemeTabLabel('about', conceptResponse.type)}`,
           url: `#images-${getThemeTabLabel('about', conceptResponse.type)}`,
         }
       : undefined,
+    sectionsData.in.images?.totalResults
+      ? {
+          text: `Images ${getThemeTabLabel('in', conceptResponse.type)}`,
+          url: `#images-${getThemeTabLabel('in', conceptResponse.type)}`,
+        }
+      : undefined,
     { text: 'Works', url: '#works' },
-    frequentCollaborators
+    frequentCollaborators?.length && personOrAllFields
       ? { text: 'Frequent collaborators', url: '#frequent-collaborators' }
       : undefined,
-    relatedTopics
+    relatedTopics?.length && personOrAllFields
       ? {
           text: relatedConceptsGroupLabel,
           url: `#${dasherize(relatedConceptsGroupLabel)}`,
