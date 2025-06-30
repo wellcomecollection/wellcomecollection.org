@@ -37,7 +37,7 @@ export type Props = {
   xOfY?: { x: number; y: number };
   OverrideImageWrapper?: ComponentType<HasImageProps>;
   OverrideTextWrapper?: ComponentType<HasImageProps>;
-  OverrideTitleWrapper?: ComponentType;
+  OverrideTitleWrapper?: ComponentType<{ children: ReactNode }>;
   onClick?: () => void;
   postTitleChildren?: ReactElement;
 };

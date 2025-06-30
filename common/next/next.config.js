@@ -112,6 +112,8 @@ const createConfig =
       },
       outputFileTracingRoot: path.join(__dirname, '../../'),
       reactStrictMode: true,
+      // TODO: Consider enabling standalone output for easier deployment
+      // output: 'standalone',
     };
     return nextConfig;
   };

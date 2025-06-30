@@ -130,7 +130,7 @@ const CatalogueImageGalleryJustified: FunctionComponent<Props> = ({
         <GalleryContainer data-testid="image-search-results-container">
           <PhotoAlbum
             photos={imagesWithDimensions}
-            renderPhoto={imageRenderer}
+            renderPhoto={imageRenderer as any}
             renderRowContainer={renderRowContainer}
             layout="rows"
             spacing={0}
