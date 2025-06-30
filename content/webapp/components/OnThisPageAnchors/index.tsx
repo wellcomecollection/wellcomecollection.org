@@ -257,23 +257,23 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
                     legacyBehavior
                     style={{ textDecoration: 'none' }}
                     href={link.url}
-                    data-gtm-trigger="link_click_page_position"
-                    onClick={e => {
-                      e.preventDefault();
-                      hideMobileList();
-                      setClickedId(id);
-                      const el = document.getElementById(id);
-                      if (el) {
-                        el.scrollIntoView({
-                          behavior: 'smooth',
-                          block: 'start',
-                        });
-                      }
-                    }}
                   >
                     <InPageNavAnimatedLink
                       $isActive={isActive}
                       $hasBackgroundBlend={hasBackgroundBlend}
+                      data-gtm-trigger="link_click_page_position"
+                      onClick={e => {
+                        e.preventDefault();
+                        hideMobileList();
+                        setClickedId(id);
+                        const el = document.getElementById(id);
+                        if (el) {
+                          el.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start',
+                          });
+                        }
+                      }}
                     >
                       <span>{link.text}</span>
                     </InPageNavAnimatedLink>
