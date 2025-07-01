@@ -1,6 +1,6 @@
 name: 'Pa11y'
 on:
-  push:
+  # push:
     # branches:
     #   - pa11y-wf
   schedule:
