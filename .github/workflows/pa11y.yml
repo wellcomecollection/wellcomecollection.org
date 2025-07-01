@@ -1,8 +1,8 @@
 name: 'Pa11y'
 on:
-  # push:
-    # branches:
-    #   - pa11y-wf
+  push:
+    branches:
+      - pa11y-wf
   schedule:
     - cron: '0 4 * * MON-FRI'
   # Allows external webhook trigger

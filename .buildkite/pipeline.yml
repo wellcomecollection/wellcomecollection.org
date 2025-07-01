@@ -1,8 +1,13 @@
-- label: "Trigger GitHub's pa11y workflow"
-  plugins:
-    - twonds/github-repository-dispatch#v0.7.1:
-        repository: 'wellcomecollection/wellcomecollection.org'
-        event_type: 'prod_deployment'
+# - label: "Trigger GitHub's pa11y workflow"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: 'arn:aws:iam::130871440101:role/experience-ci'
+#     - wellcomecollection/aws-sm:
+#         env:
+#           GITHUB_TOKEN: buildkite/wcorg_repository_dispatch_token
+#     - twonds/github-repository-dispatch#v0.7.1:
+#         repository: 'wellcomecollection/wellcomecollection.org'
+#         event_type: 'prod_deployment'
 
 - label: ':docker: build common'
   key: 'build_common'
