@@ -1,9 +1,11 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useMemo } from 'react';
 import styled from 'styled-components';
 
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
+import ExpandedImageModal from '@weco/content/components/CatalogueImageGallery/ExpandedImageModal';
+import useExpandedImage from '@weco/content/components/CatalogueImageGallery/useExpandedImage';
 import ThemeImagesSection from '@weco/content/components/ThemeImages/ThemeImagesSection';
 import { themeTabOrder } from '@weco/content/components/ThemeWorks';
 import {
@@ -28,6 +30,13 @@ const isSectionEmpty = (section: SectionData) => {
 };
 
 const ThemeImages: FunctionComponent<Props> = ({ sectionsData, concept }) => {
+  const allImages = useMemo(
+    () =>
+      themeTabOrder.map(tab => sectionsData[tab].images?.pageResults).flat(),
+    [sectionsData]
+  );
+  const [expandedImage, setExpandedImage] = useExpandedImage(allImages);
+
   if (themeTabOrder.every(tab => isSectionEmpty(sectionsData[tab]))) {
     return null;
   }
@@ -48,6 +57,11 @@ const ThemeImages: FunctionComponent<Props> = ({ sectionsData, concept }) => {
           ))}
         </Container>
       </ThemeImagesWrapper>
+      <ExpandedImageModal
+        images={allImages}
+        expandedImage={expandedImage}
+        setExpandedImage={setExpandedImage}
+      />
     </>
   );
 };
