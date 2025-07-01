@@ -3,8 +3,9 @@ import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useToggles } from '@weco/common/server-data/Context';
-import IIIFItemDownload from '@weco/content/components/IIIFItem/IIIFItem.Download';
 import { getFileLabel } from '@weco/content/utils/works';
+
+import IIIFItemDownload from './IIIFItem.Download';
 
 const IframePdfViewer = styled.iframe`
   width: 100%;
