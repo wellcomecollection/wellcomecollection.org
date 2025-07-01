@@ -9,13 +9,10 @@ import {
 } from '@weco/common/views/components/Layout';
 import SearchForm from '@weco/common/views/components/SearchForm';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import * as page from '@weco/content/pages/pages/[pageId]';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
 const CollectionsPage: FunctionComponent<page.Props> = (props: page.Props) => {
-  useHotjar(true);
-
   return (
     <page.Page
       {...props}

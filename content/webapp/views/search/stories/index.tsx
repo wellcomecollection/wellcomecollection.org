@@ -12,7 +12,6 @@ import SearchFilters from '@weco/content/components/SearchFilters';
 import { withSearchLayout } from '@weco/content/components/SearchPageLayout';
 import { StoriesProps } from '@weco/content/components/SearchPagesLink/Stories';
 import Sort from '@weco/content/components/Sort';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import { storiesFilters } from '@weco/content/services/wellcome/common/filters';
 import {
   Article,
@@ -48,7 +47,6 @@ export type Props = {
 
 const StoriesSearchPage: NextPageWithLayout<Props> = withSearchLayout(
   ({ storyResponseList, query, storiesRouteProps }) => {
-    useHotjar(true);
     const { query: queryString } = query;
 
     const filters = storiesFilters({

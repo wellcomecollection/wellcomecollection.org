@@ -31,7 +31,7 @@ const VideoTranscript: FunctionComponent<Props> = ({
               <DownloadLink
                 href={displayItem.id}
                 linkText="Transcript of video"
-                format={getFormatString(displayItem.format || '')}
+                format={getFormatString(displayItem.format)}
                 mimeType={displayItem.format || ''}
                 trackingTags={['annotation']}
                 isDark={isDark}

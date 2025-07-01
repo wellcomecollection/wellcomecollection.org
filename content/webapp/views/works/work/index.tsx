@@ -11,7 +11,6 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
 import IsArchiveContext from '@weco/content/contexts/IsArchiveContext';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import {
   toWorkBasic,
   Work as WorkType,
@@ -59,7 +58,6 @@ export const WorkPage: NextPage<Props> = ({
   apiUrl,
   transformedManifest,
 }) => {
-  useHotjar(true);
   const { relatedContentOnWorks } = useToggles();
   const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = !!(

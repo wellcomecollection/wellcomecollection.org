@@ -16,7 +16,6 @@ import Modal from '@weco/common/views/components/Modal';
 import Space from '@weco/common/views/components/styled/Space';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
 import WorkLink from '@weco/content/components/WorkLink';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import {
@@ -82,7 +81,6 @@ const WorkItemPage: NextPage<Props> = ({
   serverSearchResults,
   parentManifest,
 }) => {
-  useHotjar(true);
   const { userIsStaffWithRestricted } = useUserContext();
   const { authV2, extendedViewer } = useToggles();
   const transformedManifest =

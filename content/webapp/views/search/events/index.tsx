@@ -10,7 +10,6 @@ import Pagination from '@weco/content/components/Pagination';
 import SearchFilters from '@weco/content/components/SearchFilters';
 import { withSearchLayout } from '@weco/content/components/SearchPageLayout';
 import { EventsProps } from '@weco/content/components/SearchPagesLink/Events';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import { eventsFilters } from '@weco/content/services/wellcome/common/filters';
 import {
   ContentResultsList,
@@ -29,7 +28,6 @@ export type Props = {
 
 const EventsSearchPage: NextPageWithLayout<Props> = withSearchLayout(
   ({ eventResponseList, query, eventsRouteProps }) => {
-    useHotjar(true);
     const { query: queryString } = query;
 
     const filters = eventsFilters({

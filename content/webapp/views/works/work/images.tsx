@@ -10,7 +10,6 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import BetaMessage from '@weco/content/components/BetaMessage';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
-import useHotjar from '@weco/content/hooks/useHotjar'; // TODO remove all HotJars I've moved over
 import {
   Image,
   WorkBasic,
@@ -33,7 +32,6 @@ const WorkImagesPage: FunctionComponent<Props> = ({
   iiifPresentationLocation,
   apiToolbarLinks,
 }) => {
-  useHotjar(true);
   const title = work.title || '';
 
   return (

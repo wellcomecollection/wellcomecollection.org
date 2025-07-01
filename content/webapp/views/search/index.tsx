@@ -25,7 +25,6 @@ import Pagination from '@weco/content/components/Pagination';
 import { withSearchLayout } from '@weco/content/components/SearchPageLayout';
 import { toLink as imagesLink } from '@weco/content/components/SearchPagesLink/Images';
 import { toLink as worksLink } from '@weco/content/components/SearchPagesLink/Works';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
 import {
@@ -65,8 +64,6 @@ export type Props = {
 
 const SearchPage: NextPageWithLayout<Props> = withSearchLayout(
   ({ contentResults, contentQueryFailed, query }) => {
-    useHotjar(true);
-
     const { query: queryString } = query;
     const { extraApiToolbarLinks, setExtraApiToolbarLinks } =
       useSearchContext();

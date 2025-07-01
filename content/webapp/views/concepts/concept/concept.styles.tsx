@@ -61,9 +61,7 @@ export const ConceptImages = styled(Space).attrs({
 
 export const ConceptWorksHeader = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-top'] },
-})<{
-  $hasWorksTabs: boolean;
-}>`
+})<{ $hasWorksTabs: boolean }>`
   background-color: ${({ $hasWorksTabs, theme }) =>
     theme.color($hasWorksTabs ? 'warmNeutral.300' : 'white')};
 `;

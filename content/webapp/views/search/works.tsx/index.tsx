@@ -21,7 +21,6 @@ import {
 } from '@weco/content/components/SearchPagesLink/Works';
 import Sort from '@weco/content/components/Sort';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import { WellcomeResultList } from '@weco/content/services/wellcome';
 import {
   WorkAggregations,
@@ -47,7 +46,6 @@ const SortPaginationWrapper = styled.div`
 
 const WorksSearchPage: NextPageWithLayout<Props> = withSearchLayout(
   ({ works, worksRouteProps, query }) => {
-    useHotjar(true);
     const { query: queryString } = query;
 
     const { setLink } = useSearchContext();

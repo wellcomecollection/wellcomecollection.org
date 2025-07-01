@@ -22,7 +22,6 @@ import {
   toLink,
 } from '@weco/content/components/SearchPagesLink/Images';
 import Sort from '@weco/content/components/Sort';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import {
   CatalogueResultsList,
   Image,
@@ -67,7 +66,6 @@ const SortPaginationWrapper = styled.div`
 
 const ImagesSearchPage: NextPageWithLayout<Props> = withSearchLayout(
   ({ images, imagesRouteProps, query }) => {
-    useHotjar(true);
     const { query: queryString } = query;
     const { setLink } = useSearchContext();
 

@@ -21,7 +21,6 @@ import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink
 import { toLink as toWorksLink } from '@weco/content/components/SearchPagesLink/Works';
 import Tabs from '@weco/content/components/Tabs';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import {
   Concept as ConceptType,
   Image as ImageType,
@@ -213,7 +212,6 @@ const ConceptPage: NextPage<Props> = ({
   sectionsData,
   apiToolbarLinks,
 }) => {
-  useHotjar(true);
   const { newThemePages, themePagesAllFields } = useToggles();
 
   const pathname = usePathname();
@@ -262,7 +260,7 @@ const ConceptPage: NextPage<Props> = ({
   const hasImagesTabs = imagesTabs.length > 1;
 
   // Set the default tab in each group to the first populated tab
-  // the two tabs lists are ordered consistently as defined by tabOrder,
+  // the two tabs lists are ordered consistently as defined by themeTabOrder,
   // which is ordered so that the more specific tabs come first.
   // Maximally one "more specific" tab is expected to be populated for any given concept.
   const [selectedWorksTab, setSelectedWorksTab] = useState(
