@@ -1,6 +1,5 @@
 name: 'Pa11y'
 on:
-  push:
   schedule:
     - cron: '0 4 * * MON-FRI'
 
