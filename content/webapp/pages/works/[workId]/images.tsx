@@ -20,7 +20,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import BetaMessage from '@weco/content/components/BetaMessage';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
 import IIIFViewer from '@weco/content/components/IIIFViewer';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import {
@@ -61,7 +60,6 @@ const ImagePage: FunctionComponent<Props> = ({
   iiifPresentationLocation,
   apiToolbarLinks,
 }) => {
-  useHotjar(true);
   const title = work.title || '';
 
   return (

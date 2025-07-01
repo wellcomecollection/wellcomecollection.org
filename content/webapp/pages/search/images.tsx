@@ -29,7 +29,6 @@ import {
   toLink,
 } from '@weco/content/components/SearchPagesLink/Images';
 import Sort from '@weco/content/components/Sort';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import {
@@ -81,7 +80,6 @@ const ImagesSearchPage: NextPageWithLayout<Props> = ({
   imagesRouteProps,
   query,
 }) => {
-  useHotjar(true);
   const { query: queryString } = query;
   const { setLink } = useSearchContext();
 

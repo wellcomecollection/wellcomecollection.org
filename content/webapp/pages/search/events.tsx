@@ -24,7 +24,6 @@ import {
   EventsProps,
   fromQuery,
 } from '@weco/content/components/SearchPagesLink/Events';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { eventsFilters } from '@weco/content/services/wellcome/common/filters';
 import { getEvents } from '@weco/content/services/wellcome/content/events';
@@ -50,7 +49,6 @@ export const EventsSearchPage: NextPageWithLayout<Props> = ({
   query,
   eventsRouteProps,
 }) => {
-  useHotjar(true);
   const { query: queryString } = query;
 
   const filters = eventsFilters({
