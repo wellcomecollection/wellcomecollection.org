@@ -7,6 +7,7 @@ import { font } from '@weco/common/utils/classnames';
 import ButtonSolidLink from '@weco/common/views/components/Buttons/Buttons.SolidLink';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
+import { getFileLabel } from '@weco/content/utils/works';
 
 const DownloadContainer = styled(Space).attrs({
   $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
@@ -48,7 +49,7 @@ const IIIFItemDownload: FunctionComponent<Props> = ({
   showWarning = false,
 }: Props) => {
   const substituteTitle = 'unknown title';
-  const displayLabel = label && label.trim() !== '-' ? label : substituteTitle;
+  const displayLabel = getFileLabel(label, substituteTitle);
 
   return (
     <DownloadContainer>

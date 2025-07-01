@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useToggles } from '@weco/common/server-data/Context';
 import IIIFItemDownload from '@weco/content/components/IIIFItem/IIIFItem.Download';
+import { getFileLabel } from '@weco/content/utils/works';
 
 const IframePdfViewer = styled.iframe`
   width: 100%;
@@ -30,7 +31,7 @@ const IIIFItemPdf: FunctionComponent<Props> = ({
   const { isMobileOrTabletDevice } = useAppContext();
   const { extendedViewer } = useToggles();
   const substituteTitle = 'unknown title';
-  const displayLabel = label && label.trim() !== '-' ? label : substituteTitle;
+  const displayLabel = getFileLabel(label, substituteTitle);
   return (
     <>
       {isMobileOrTabletDevice && extendedViewer ? (
