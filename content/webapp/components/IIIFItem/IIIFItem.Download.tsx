@@ -9,14 +9,8 @@ import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
 const DownloadContainer = styled(Space).attrs({
-  $v: {
-    size: 'l',
-    properties: ['padding-top', 'padding-bottom'],
-  },
-  $h: {
-    size: 'l',
-    properties: ['padding-left', 'padding-right'],
-  },
+  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
 })`
   position: absolute;
   top: 50%;
@@ -55,7 +49,7 @@ const IIIFItemDownload: FunctionComponent<Props> = ({
 }: Props) => {
   const substituteTitle = 'unknown title';
   const displayLabel = label && label.trim() !== '-' ? label : substituteTitle;
-  // const icon = TODO based on format, e.g. audio, video, etc.
+
   return (
     <DownloadContainer>
       <Icon
