@@ -42,7 +42,6 @@ import ThemeWorks, {
   getThemeTabLabel,
 } from '@weco/content/components/ThemeWorks';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { getConcept } from '@weco/content/services/wellcome/catalogue/concepts';
@@ -387,7 +386,6 @@ export const ConceptPage: NextPage<Props> = ({
   sectionsData,
   apiToolbarLinks,
 }) => {
-  useHotjar(true);
   const { newThemePages, themePagesAllFields } = useToggles();
   const [isMobileNavInverted, setIsMobileNavInverted] = useState(false);
   const { isEnhanced } = useAppContext();

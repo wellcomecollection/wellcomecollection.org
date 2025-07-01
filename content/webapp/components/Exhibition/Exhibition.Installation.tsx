@@ -11,6 +11,7 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
 import Body from '@weco/content/components/Body';
+import BslLeafletVideo from '@weco/content/components/BslLeafletVideo';
 import ContentPage from '@weco/content/components/ContentPage';
 import DateAndStatusIndicator from '@weco/content/components/DateAndStatusIndicator';
 import InfoBox from '@weco/content/components/InfoBox';
@@ -20,7 +21,10 @@ import {
   fetchExhibitExhibition,
   fetchExhibitionRelatedContentClientSide,
 } from '@weco/content/services/prismic/fetch/exhibitions';
-import { Exhibition as InstallationType } from '@weco/content/types/exhibitions';
+import {
+  ExhibitionAbout,
+  Exhibition as InstallationType,
+} from '@weco/content/types/exhibitions';
 import { Page as PageType } from '@weco/content/types/pages';
 import { getFeaturedMedia } from '@weco/content/utils/page-header';
 
@@ -35,6 +39,10 @@ type Props = {
 const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
   const [partOf, setPartOf] = useState<InstallationType>();
   const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
+  const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout[]>(
+    []
+  );
+  const [isModalActive, setIsModalActive] = useState(false);
 
   useEffect(() => {
     fetchExhibitExhibition(installation.id).then(exhibition => {
@@ -47,6 +55,7 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
       relatedContent => {
         if (isNotUndefined(relatedContent)) {
           setExhibitionOfs(relatedContent.exhibitionOfs);
+          setExhibitionAbouts(relatedContent.exhibitionAbouts);
         }
       }
     );
@@ -56,7 +65,8 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
 
   const extraBreadcrumbs = [
     {
-      text: 'Installations',
+      url: '/exhibitions',
+      text: 'Exhibitions',
     },
     partOf
       ? {
@@ -73,31 +83,41 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
   ].filter(isNotUndefined);
 
   const Header = (
-    <PageHeader
-      breadcrumbs={getBreadcrumbItems('whats-on', extraBreadcrumbs)}
-      labels={{ labels: installation.labels }}
-      title={installation.title}
-      FeaturedMedia={FeaturedMedia}
-      Background={<HeaderBackground hasWobblyEdge={true} />}
-      ContentTypeInfo={
-        <>
-          {installation.start && !installation.statusOverride && (
-            <DateAndStatusIndicator
-              start={installation.start}
-              end={installation.end}
-            />
-          )}
-          {installation.statusOverride && (
-            <StatusIndicator
-              start={installation.start}
-              end={installation.end || new Date()}
-              statusOverride={installation.statusOverride}
-            />
-          )}
-        </>
-      }
-      isContentTypeInfoBeforeMedia={true}
-    />
+    <>
+      <PageHeader
+        breadcrumbs={getBreadcrumbItems('whats-on', extraBreadcrumbs)}
+        labels={{ labels: installation.labels }}
+        title={installation.title}
+        FeaturedMedia={FeaturedMedia}
+        Background={<HeaderBackground hasWobblyEdge={true} />}
+        ContentTypeInfo={
+          <>
+            {installation.start && !installation.statusOverride && (
+              <DateAndStatusIndicator
+                start={installation.start}
+                end={installation.end}
+              />
+            )}
+            {installation.statusOverride && (
+              <StatusIndicator
+                start={installation.start}
+                end={installation.end || new Date()}
+                statusOverride={installation.statusOverride}
+              />
+            )}
+          </>
+        }
+        isContentTypeInfoBeforeMedia={true}
+      />
+
+      {installation.bslLeafletVideo && (
+        <BslLeafletVideo
+          video={installation.bslLeafletVideo}
+          isModalActive={isModalActive}
+          setIsModalActive={setIsModalActive}
+        />
+      )}
+    </>
   );
 
   return (
@@ -136,13 +156,36 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
         </InfoBox>
       )}
 
-      {(exhibitionOfs.length > 0 || pages.length > 0) && (
+      {(exhibitionOfs.length > 0 ||
+        pages.length > 0 ||
+        exhibitionAbouts.length > 0) && (
         <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
-          <SearchResults
-            id="events-list"
-            items={[...exhibitionOfs, ...pages]}
-            title="Installation events"
-          />
+          {(exhibitionOfs.length > 0 || pages.length > 0) && (
+            <SearchResults
+              variant="default"
+              id="events-list"
+              items={[...exhibitionOfs, ...pages]}
+              title="Installation events"
+            />
+          )}
+
+          {exhibitionAbouts.length > 0 && (
+            <Space
+              $v={{
+                size: 'xl',
+                properties:
+                  exhibitionOfs.length > 0 || pages.length > 0
+                    ? ['margin-top']
+                    : [],
+              }}
+            >
+              <SearchResults
+                variant="default"
+                items={exhibitionAbouts}
+                title="Related stories"
+              />
+            </Space>
+          )}
         </Space>
       )}
     </ContentPage>

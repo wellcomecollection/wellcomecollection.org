@@ -12,14 +12,11 @@ import {
   getVideoAudioDownloadOptions,
   isAudioCanvas,
 } from '@weco/content/utils/iiif/v3';
-import { getAudioVideoLabel } from '@weco/content/utils/works';
+import { getFileLabel } from '@weco/content/utils/works';
 
 const getTypeAndDuration = (
   canvas: TransformedCanvas
-): {
-  type: string;
-  duration?: string;
-} => {
+): { type: string; duration?: string } => {
   const paintingItem = getCanvasPaintingItem(canvas);
 
   const duration =
@@ -41,7 +38,7 @@ const IIIFItemAudioVideoLink = ({ canvas, item, i, itemUrl, isRestricted }) => {
     !isRestricted || (isRestricted && userIsStaffWithRestricted);
 
   const index = i + 1;
-  const canvasLabel = getAudioVideoLabel(canvas.label, `${item.type} ${index}`);
+  const canvasLabel = getFileLabel(canvas.label, `${item.type} ${index}`);
   const { type, duration } = getTypeAndDuration(canvas);
   const viewerQuery = index > 1 ? { canvas: index } : {};
 
