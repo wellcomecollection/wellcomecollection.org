@@ -47,6 +47,12 @@ steps:
     soft_fail:
       - exit_status: 1
 
+  - label: "Trigger GitHub's pa11y workflow"
+    plugins:
+      - twonds/github-repository-dispatch#v0.7.1:
+          repository: 'wellcomecollection/wellcomecollection.org'
+          event_type: 'prod_deployment'
+
   - wait
 
   - label: "Complete ${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT} deployment"
