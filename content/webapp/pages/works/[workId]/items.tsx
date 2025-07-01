@@ -33,7 +33,6 @@ import IIIFViewer, {
 } from '@weco/content/components/IIIFViewer';
 import { fromQuery } from '@weco/content/components/ItemLink';
 import WorkLink from '@weco/content/components/WorkLink';
-import useHotjar from '@weco/content/hooks/useHotjar';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
@@ -126,7 +125,6 @@ const ItemPage: NextPage<Props> = ({
   serverSearchResults,
   parentManifest,
 }) => {
-  useHotjar(true);
   const { userIsStaffWithRestricted } = useUserContext();
   const { authV2, extendedViewer } = useToggles();
   const transformedManifest =

@@ -95,51 +95,31 @@ function getPlaceObject(
   );
 }
 
-function getAccessibilityItems(): ExhibitionItem[] {
+function getAccessibilityItems(exhibitionId: string): ExhibitionItem[] {
+  const createContent = (text: string, icon: IconSvg) => ({
+    description: [
+      {
+        type: 'paragraph',
+        text,
+        spans: [],
+      },
+    ] as prismic.RichTextField,
+    icon,
+  });
+
   const accessibilityItems: {
     description: prismic.RichTextField;
     icon: IconSvg;
   }[] = [
-    {
-      description: [
-        {
-          type: 'paragraph',
-          text: a11y.stepFreeAccess,
-          spans: [],
-        },
-      ],
-      icon: accessible,
-    },
-    {
-      description: [
-        {
-          type: 'paragraph',
-          text: a11y.largePrintGuides,
-          spans: [],
-        },
-      ],
-      icon: a11YVisual,
-    },
-    {
-      description: [
-        {
-          type: 'paragraph',
-          text: a11y.bsl,
-          spans: [],
-        },
-      ],
-      icon: bslSquare,
-    },
-    {
-      description: [
-        {
-          type: 'paragraph',
-          text: a11y.accessResources,
-          spans: [],
-        },
-      ],
-      icon: accessibility,
-    },
+    createContent(a11y.stepFreeAccess, accessible),
+    createContent(a11y.largePrintGuides, a11YVisual),
+    // Hopefully temporary condition to hide BSL and access resources from Finger Talks Installation
+    ...(exhibitionId !== 'aEqnVBEAACMA2k3b'
+      ? [
+          createContent(a11y.bsl, bslSquare),
+          createContent(a11y.accessResources, accessibility),
+        ]
+      : []),
   ];
 
   return accessibilityItems.filter(item => {
@@ -157,6 +137,6 @@ export function getInfoItems(exhibition: ExhibitionType): ExhibitionItem[] {
     getAdmissionObject(),
     getTodaysHoursObject(),
     getPlaceObject(exhibition),
-    ...getAccessibilityItems(),
+    ...getAccessibilityItems(exhibition.id),
   ].filter(isNotUndefined);
 }
