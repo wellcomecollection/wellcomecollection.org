@@ -1,13 +1,8 @@
 name: 'Pa11y'
 on:
   push:
-    branches:
-      - pa11y-wf
   schedule:
     - cron: '0 4 * * MON-FRI'
-  # Allows external webhook trigger
-  repository_dispatch:
-    types: [prod_deployment]
 
 permissions:
   id-token: write
