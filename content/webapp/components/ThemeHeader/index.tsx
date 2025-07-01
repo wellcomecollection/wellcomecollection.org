@@ -4,6 +4,10 @@ import styled from 'styled-components';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
+import Layout, {
+  gridSize10,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import ThemeAlternativeLabels from '@weco/content/components/ThemeHeader/ThemeAlternativeLabels';
@@ -41,21 +45,26 @@ const ThemeHeader: FunctionComponent<Props> = ({ concept }) => {
   return (
     <ConceptHero>
       <Container>
-        <Title>{concept.label}</Title>
-        {themePagesAllFields && (
-          <ThemeAlternativeLabels
-            alternativeLabels={concept.alternativeLabels}
-          />
-        )}
-        {concept.description && (
-          <ThemeDescription>
-            <ThemeSourcedDescription
-              description={capitalize(concept.description.text)}
-              source={concept.description.sourceLabel}
-              href={concept.description.sourceUrl}
+        <Layout gridSizes={gridSize10(false)}>
+          <Title>{concept.label}</Title>
+          {themePagesAllFields && (
+            <ThemeAlternativeLabels
+              alternativeLabels={concept.alternativeLabels}
             />
-          </ThemeDescription>
+          )}
+        </Layout>
+        {concept.description && (
+          <Layout gridSizes={gridSize8(false)}>
+            <ThemeDescription>
+              <ThemeSourcedDescription
+                description={capitalize(concept.description.text)}
+                source={concept.description.sourceLabel}
+                href={concept.description.sourceUrl}
+              />
+            </ThemeDescription>
+          </Layout>
         )}
+
         <>
           {(concept.type === 'Person' || themePagesAllFields) && (
             <ThemeRelatedConceptsGroup
