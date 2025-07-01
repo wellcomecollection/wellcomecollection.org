@@ -10,7 +10,7 @@ import PageHeader from '@weco/common/views/components/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
 
-import NewsletterSignup from './about-us/newsletter.Signup';
+import NewsletterSignup from './newsletter.Signup';
 
 export type Props = {
   result?: string;
