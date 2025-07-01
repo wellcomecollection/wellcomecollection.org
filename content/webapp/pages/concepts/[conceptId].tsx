@@ -511,7 +511,7 @@ export const ConceptPage: NextPage<Props> = ({
       apiToolbarLinks={apiToolbarLinks}
     >
       <ThemeHeader concept={conceptResponse} />
-      <WobblyEdge backgroundColor="neutral.700" />
+      {hasImages && <WobblyEdge backgroundColor="neutral.700" />}
       <Container>
         <Grid style={{ background: 'white', rowGap: 0 }}>
           <NavGridCell
