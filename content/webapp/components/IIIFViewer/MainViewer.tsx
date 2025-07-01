@@ -417,7 +417,7 @@ const MainViewer: FunctionComponent = () => {
   const debounceHandleOnItemsRendered = useRef(
     debounce(handleOnItemsRendered, 500)
   );
-  const timer = useRef<ReturnType<typeof setTimeout> | undefined>();
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const { canvases, auth, placeholderId } = {
     ...transformedManifest,
   };

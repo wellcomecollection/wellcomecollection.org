@@ -5,7 +5,7 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 type Callback = () => void;
 
 const useInterval = (callback: Callback, delay: number | undefined) => {
-  const savedCallback = useRef<Callback>();
+  const savedCallback = useRef<Callback | undefined>(undefined);
 
   // Remember the latest callback.
   useEffect(() => {

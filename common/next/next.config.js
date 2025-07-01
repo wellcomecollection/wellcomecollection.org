@@ -98,7 +98,6 @@ const createConfig =
       experimental: {
         ...validDefaultConfig.experimental,
         mdxRs: true,
-        outputFileTracingRoot: path.join(__dirname, '../../'),
 
         // This forces Next to use the SWC compiler, which is significantly faster
         // than Babel.  By default it disables SWC with the error message:
@@ -111,7 +110,10 @@ const createConfig =
         // need it to build the apps themselves.
         forceSwcTransforms: true,
       },
+      outputFileTracingRoot: path.join(__dirname, '../../'),
       reactStrictMode: true,
+      // TODO: Consider enabling standalone output for easier deployment
+      // output: 'standalone',
     };
     return nextConfig;
   };
@@ -137,7 +139,6 @@ const cleanInvalidValues = defaultConfig => {
     delete config[property];
   }
   delete config.amp.canonicalBase;
-  delete config.experimental.outputFileTracingRoot;
 
   return config;
 };

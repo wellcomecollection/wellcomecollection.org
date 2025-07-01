@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 
 import { IconSvg } from '@weco/common/icons';
@@ -87,7 +87,7 @@ const Icon: FunctionComponent<Props> = ({
       {title && <title id={`icon-${title}-title`}>{title}</title>}
       {/* This type guard is here just in case a string icon makes its way */}
       {/* in via Prismic etc - that shouldn't happen but better safe than sorry. */}
-      {typeof icon === 'function' && icon({})}
+      {typeof icon === 'function' && (icon({}) as ReactElement)}
     </svg>
   </Wrapper>
 );

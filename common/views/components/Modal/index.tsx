@@ -210,7 +210,7 @@ const Modal: FunctionComponent<Props> = ({
   showOverlay = true,
   modalStyle,
 }: Props) => {
-  const closeButtonRef: RefObject<HTMLInputElement> = useRef(null);
+  const closeButtonRef: RefObject<HTMLInputElement | null> = useRef(null);
   const ModalWindow = determineModal(modalStyle);
   const initialLoad = useRef(true);
   const nodeRef = useRef(null);
