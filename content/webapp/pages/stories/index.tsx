@@ -33,7 +33,7 @@ import FeaturedCard from '@weco/content/components/FeaturedCard';
 import FeaturedText from '@weco/content/components/FeaturedText';
 import { defaultSerializer } from '@weco/content/components/HTMLSerializers';
 import SectionHeader from '@weco/content/components/SectionHeader';
-import StoryPromoContentApi from '@weco/content/components/StoryPromo/StoryPromoContentApi';
+import StoryPromo from '@weco/content/components/StoryPromo';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
@@ -226,7 +226,7 @@ const StoriesPage: FunctionComponent<Props> = ({
                       $sizeMap={{ m: [6], l: [3], xl: [3] }}
                     >
                       <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
-                        <StoryPromoContentApi article={article} />
+                        <StoryPromo variant="contentApi" article={article} />
                       </Space>
                     </GridCellScroll>
                   );

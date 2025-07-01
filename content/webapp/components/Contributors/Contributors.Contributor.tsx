@@ -35,13 +35,7 @@ const PeopleImage: FunctionComponent<PropsWithChildren> = ({ children }) => (
       overflow: 'hidden',
     }}
   >
-    <div
-      style={{
-        transform: 'rotateZ(6deg) scale(1.2)',
-      }}
-    >
-      {children}
-    </div>
+    <div style={{ transform: 'rotateZ(6deg) scale(1.2)' }}>{children}</div>
   </div>
 );
 

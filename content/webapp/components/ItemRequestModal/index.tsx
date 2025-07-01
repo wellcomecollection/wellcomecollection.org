@@ -13,9 +13,12 @@ import {
   Work,
 } from '@weco/content/services/wellcome/catalogue/types';
 
-import ConfirmedDialog from './ConfirmedDialog';
-import ErrorDialog from './ErrorDialog';
-import { dateAsValue, formatDateForRequestsAPI } from './format-date';
+import ConfirmedDialog from './ItemRequestModal.ConfirmedDialog';
+import ErrorDialog from './ItemRequestModal.ErrorDialog';
+import {
+  dateAsValue,
+  formatDateForRequestsAPI,
+} from './ItemRequestModal.helpers';
 import RequestDialog from './RequestDialog';
 
 type Props = {

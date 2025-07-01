@@ -2,7 +2,7 @@ import {
   dateAsValue,
   dateFromValue,
   formatDateForRequestsAPI,
-} from './format-date';
+} from './ItemRequestModal.helpers';
 
 test.each([
   { d: new Date('2022-09-21T00:00:00Z'), s: '21-09-2022' },
