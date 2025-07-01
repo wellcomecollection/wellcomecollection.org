@@ -16,13 +16,12 @@ import ExhibitionGuidePromo from '@weco/content/components/ExhibitionGuidePromo'
 import ExhibitionPromo from '@weco/content/components/ExhibitionPromo';
 import MoreLink from '@weco/content/components/MoreLink';
 import StoryPromo from '@weco/content/components/StoryPromo';
-import StoryPromoContentApi from '@weco/content/components/StoryPromo/StoryPromoContentApi';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
 import { convertItemToCardProps } from '@weco/content/types/card';
 import { Link } from '@weco/content/types/link';
 import { MultiContent } from '@weco/content/types/multi-content';
 
-import DailyTourPromo from './DailyTourPromo';
+import DailyTourPromo from './CardGrid.DailyTourPromo';
 
 type Props = {
   items: readonly MultiContent[] | Article[];
@@ -78,13 +77,18 @@ const CardGrid: FunctionComponent<Props> = ({
                 />
               )}
               {item.type === 'Article' && (
-                <StoryPromoContentApi
+                <StoryPromo
+                  variant="contentApi"
                   article={item}
                   hidePromoText={hidePromoText}
                 />
               )}
               {item.type === 'articles' && (
-                <StoryPromo article={item} hidePromoText={hidePromoText} />
+                <StoryPromo
+                  variant="prismic"
+                  article={item}
+                  hidePromoText={hidePromoText}
+                />
               )}
               {(item.type === 'exhibition-guides' ||
                 item.type === 'exhibition-highlight-tours' ||

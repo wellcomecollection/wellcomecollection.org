@@ -25,7 +25,7 @@ import {
   TableThead,
   TableTr,
   TableWrap,
-} from './Tables.styles';
+} from './Table.styles';
 
 export type Props = {
   rows: (string | ReactElement)[][];

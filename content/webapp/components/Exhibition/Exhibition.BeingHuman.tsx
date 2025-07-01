@@ -138,6 +138,7 @@ const ExhibitionBeingHuman = ({
       {(exhibitionOfs.length > 0 || pages.length > 0) && (
         <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
           <SearchResults
+            variant="default"
             id="events-list"
             items={[...exhibitionOfs, ...pages]}
             title={`${exhibitionFormat} events`}
@@ -171,7 +172,11 @@ const ExhibitionBeingHuman = ({
       )}
 
       {exhibitionAbouts.length > 0 && (
-        <SearchResults items={exhibitionAbouts} title="Related stories" />
+        <SearchResults
+          variant="default"
+          items={exhibitionAbouts}
+          title="Related stories"
+        />
       )}
     </>
   );
