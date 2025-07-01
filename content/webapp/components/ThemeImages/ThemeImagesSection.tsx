@@ -83,7 +83,7 @@ const ThemeImagesSection: FunctionComponent<Props> = ({
         label={`${pluralize(totalResults, 'image')} from works`}
         variant="scrollable"
       />
-      <Space $v={{ size: 'l', properties: ['margin-top'] }}>
+      <Space $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
         {singleSectionData.totalResults >
           singleSectionData.pageResults.length && (
           <MoreLink

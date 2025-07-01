@@ -469,9 +469,6 @@ export const ConceptPage: NextPage<Props> = ({
                 label="Related topics"
                 labelType="heading"
                 relatedConcepts={relatedTopics}
-                buttonColors={
-                  themeValues.buttonColors.pumiceTransparentCharcoal
-                }
               />
             </Space>
           </Container>
