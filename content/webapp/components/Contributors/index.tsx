@@ -5,7 +5,7 @@ import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Space from '@weco/common/views/components/styled/Space';
 import { Contributor as ContributorType } from '@weco/content/types/contributors';
 
-import Contributor from './Contributor';
+import Contributor from './Contributors.Contributor';
 
 export type Props = {
   titlePrefix?: string;

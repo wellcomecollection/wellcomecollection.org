@@ -9,7 +9,7 @@ import {
   LayoutWidth,
   SliceZoneContext,
 } from '@weco/content/components/Body';
-import AsyncSearchResults from '@weco/content/components/SearchResults/AsyncSearchResults';
+import SearchResults from '@weco/content/components/SearchResults';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type ContentListProps = SliceComponentProps<
@@ -28,7 +28,8 @@ const ContentListSlice: FunctionComponent<ContentListProps> = ({
     return (
       <SpacingComponent $sliceType={transformedSlice.type}>
         <LayoutWidth width={context.minWidth}>
-          <AsyncSearchResults
+          <SearchResults
+            variant="async"
             title={transformedSlice.value.title}
             query={transformedSlice.value.items
               .map(item => ('id' in item ? `id:${item.id}` : undefined))

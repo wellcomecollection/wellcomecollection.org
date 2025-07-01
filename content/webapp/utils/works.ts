@@ -301,7 +301,7 @@ export function getArchiveAncestorArray(work: Work): RelatedWork[] {
   return makeArchiveAncestorArray([], hierarchicalParentOf(work)).reverse();
 }
 
-export function getAudioVideoLabel(
+export function getFileLabel(
   label?: string,
   titleOverride?: string
 ): string | undefined {

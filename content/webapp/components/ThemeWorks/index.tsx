@@ -87,7 +87,9 @@ const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
   }
 
   const activePanel: SectionData = sectionsData[selectedTab];
-  const labelBasedCount = activePanel.totalResults.works!;
+  if (!activePanel.works || !activePanel.totalResults.works) return null;
+
+  const labelBasedCount = activePanel.totalResults.works;
   const formattedLabelBasedCount = formatNumber(labelBasedCount, {
     isCompact: true,
   });
@@ -118,12 +120,12 @@ const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
           <Container>
             <div role="tabpanel">
               <WorksCount>
-                {pluralize(activePanel.works!.totalResults, 'work')}
+                {pluralize(activePanel.works.totalResults, 'work')}
               </WorksCount>
               <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-                <WorksSearchResults works={activePanel.works!.pageResults} />
+                <WorksSearchResults works={activePanel.works.pageResults} />
               </Space>
-              {labelBasedCount > activePanel.works!.pageResults.length && (
+              {labelBasedCount > activePanel.works.pageResults.length && (
                 <Space $v={{ size: 'l', properties: ['padding-top'] }}>
                   <MoreLink
                     name={`All works (${formattedLabelBasedCount})`}
