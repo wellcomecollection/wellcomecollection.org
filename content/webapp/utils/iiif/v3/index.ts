@@ -806,7 +806,7 @@ export function hasNonImages(
   return !!hasNonImage;
 }
 
-export function getFormatString(format?: string): string | undefined {
+export function getFormatString(format?: string): string {
   switch (format) {
     case 'application/pdf':
       return 'PDF';
