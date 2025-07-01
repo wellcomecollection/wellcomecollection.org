@@ -8,7 +8,7 @@ import { serialiseProps } from '@weco/common/utils/json';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import NewsletterPage, {
   Props as NewsletterPageProps,
-} from '@weco/content/views/static/newsletter';
+} from '@weco/content/views/newsletter';
 
 type Props = NewsletterPageProps & {
   serverData: SimplifiedServerData; // TODO should we enforce this?

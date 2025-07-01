@@ -2,9 +2,7 @@ import { useRouter } from 'next/router';
 import {
   ComponentType,
   FunctionComponent,
-  JSX,
   PropsWithChildren,
-  ReactElement,
   useEffect,
   useState,
 } from 'react';
@@ -147,12 +145,6 @@ const SearchLayout: FunctionComponent<SearchLayoutProps> = ({
     </CataloguePageLayout>
   );
 };
-
-export const getSearchLayout = (page: ReactElement): JSX.Element => (
-  <SearchLayout apiToolbarLinks={page.props.apiToolbarLinks}>
-    {page}
-  </SearchLayout>
-);
 
 // Higher-order component to wrap a component with SearchLayout
 export function withSearchLayout<

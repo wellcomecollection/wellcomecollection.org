@@ -5,7 +5,7 @@ import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { AppErrorProps } from '@weco/common/services/app';
 import * as page from '@weco/content/pages/pages/[pageId]';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import CookiePolicyPage from '@weco/content/views/static/cookie-policy';
+import CookiePolicyPage from '@weco/content/views/about-us/cookie-policy';
 
 const Page: FunctionComponent<page.Props> = props => {
   return <CookiePolicyPage {...props} />;

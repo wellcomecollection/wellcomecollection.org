@@ -28,7 +28,7 @@ import { convertItemToCardProps } from '@weco/content/types/card';
 import { EventBasic } from '@weco/content/types/events';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 
-import SimpleCardGrid from './homepage.SimpleCardGrid';
+import SimpleCardGrid from './index.SimpleCardGrid';
 
 const CreamBox = styled(Space).attrs({
   $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
