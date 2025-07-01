@@ -44,7 +44,7 @@ import {
   getLabelString,
   isItemRestricted,
 } from '@weco/content/utils/iiif/v3';
-import { getAudioVideoLabel } from '@weco/content/utils/works';
+import { getFileLabel } from '@weco/content/utils/works';
 
 import IIIFItemAudioVideoLink from './IIIFItem.AudioVideo';
 
@@ -179,7 +179,7 @@ const PublicRestrictedMessage: FunctionComponent<{
   canvas: TransformedCanvas;
   titleOverride?: string;
 }> = ({ canvas, titleOverride }) => {
-  const audioLabel = getAudioVideoLabel(canvas.label, titleOverride);
+  const audioLabel = getFileLabel(canvas.label, titleOverride);
 
   return (
     <div className="audio">
@@ -310,7 +310,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
               <AudioPlayer
                 isDark
                 audioFile={item.id}
-                title={getAudioVideoLabel(canvas.label, titleOverride) || ''}
+                title={getFileLabel(canvas.label, titleOverride) || ''}
               />
             ) : (
               <IIIFItemAudioVideoLink
@@ -325,7 +325,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             <>
               <AudioPlayer
                 audioFile={item.id}
-                title={getAudioVideoLabel(canvas.label, titleOverride) || ''}
+                title={getFileLabel(canvas.label, titleOverride) || ''}
               />
             </>
           )}
