@@ -63,7 +63,11 @@ type Props = {
 
 const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
   const tabs = themeTabOrder
-    .filter(tabType => sectionsData[tabType].totalResults.works)
+    .filter(
+      tabType =>
+        sectionsData[tabType].works &&
+        sectionsData[tabType].works.pageResults.length > 0
+    )
     .map(tabType => {
       const tabLabel = getThemeTabLabel(tabType, concept.type);
       const conceptTypeLabel = conceptTypeDisplayName(concept).toLowerCase();
@@ -83,15 +87,15 @@ const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
   }
 
   const activePanel: SectionData = sectionsData[selectedTab];
-  const totalWorksCount = activePanel.totalResults.works!;
-  const formattedTotalCount = formatNumber(totalWorksCount, {
+  const labelBasedCount = activePanel.totalResults.works!;
+  const formattedLabelBasedCount = formatNumber(labelBasedCount, {
     isCompact: true,
   });
 
   return (
     <>
       <WobblyEdge backgroundColor="white" />
-      <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
+      <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
         <Container>
           <h2 className={font('intsb', 2)}>Works</h2>
           {tabs.length > 1 && (
@@ -106,20 +110,28 @@ const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
             />
           )}
         </Container>
-        <Space as="section" data-testid="works-section">
+        <Space
+          $v={{ size: 'xl', properties: ['margin-bottom'] }}
+          as="section"
+          data-testid="works-section"
+        >
           <Container>
             <div role="tabpanel">
-              <WorksCount>{pluralize(totalWorksCount, 'work')}</WorksCount>
+              <WorksCount>
+                {pluralize(activePanel.works!.totalResults, 'work')}
+              </WorksCount>
               <Space $v={{ size: 'l', properties: ['margin-top'] }}>
                 <WorksSearchResults works={activePanel.works!.pageResults} />
               </Space>
-              <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-                <MoreLink
-                  name={`All works (${formattedTotalCount})`}
-                  url={getAllWorksLink(selectedTab, concept)}
-                  colors={theme.buttonColors.greenGreenWhite}
-                />
-              </Space>
+              {labelBasedCount > activePanel.works!.pageResults.length && (
+                <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+                  <MoreLink
+                    name={`All works (${formattedLabelBasedCount})`}
+                    url={getAllWorksLink(selectedTab, concept)}
+                    colors={theme.buttonColors.greenGreenWhite}
+                  />
+                </Space>
+              )}
             </div>
           </Container>
         </Space>

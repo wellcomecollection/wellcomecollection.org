@@ -45,14 +45,14 @@ const SectionHeading = styled(Space).attrs({
 
 type Props = {
   singleSectionData?: ReturnedResults<Image>;
-  totalResults: number;
+  labelBasedCount: number;
   concept: Concept;
   type: ThemeTabType;
 };
 
 const ThemeImagesSection: FunctionComponent<Props> = ({
   singleSectionData,
-  totalResults,
+  labelBasedCount,
   concept,
   type,
 }) => {
@@ -66,7 +66,7 @@ const ThemeImagesSection: FunctionComponent<Props> = ({
     return null;
   }
 
-  const formattedTotalCount = formatNumber(totalResults, {
+  const formattedLabelBasedCount = formatNumber(labelBasedCount, {
     isCompact: true,
   });
 
@@ -78,16 +78,17 @@ const ThemeImagesSection: FunctionComponent<Props> = ({
       <CatalogueImageGallery
         // Show the first 10 images, unless the total is 12 or fewer, in which case show all images
         images={
-          totalResults > 12 ? firstTenImages : singleSectionData.pageResults
+          singleSectionData.totalResults > 12
+            ? firstTenImages
+            : singleSectionData.pageResults
         }
-        label={`${pluralize(totalResults, 'image')} from works`}
+        label={`${pluralize(singleSectionData.totalResults, 'image')} from works`}
         variant="scrollable"
       />
       <Space $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
-        {singleSectionData.totalResults >
-          singleSectionData.pageResults.length && (
+        {labelBasedCount > singleSectionData.pageResults.length && (
           <MoreLink
-            name={`All images ${getThemeTabLabel(type, concept.type)} (${formattedTotalCount})`}
+            name={`All images ${getThemeTabLabel(type, concept.type)} (${formattedLabelBasedCount})`}
             url={getAllImagesLink(type, concept, pathname)}
             colors={theme.buttonColors.greenGreenWhite}
           />

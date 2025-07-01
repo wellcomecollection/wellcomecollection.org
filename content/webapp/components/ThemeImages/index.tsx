@@ -32,7 +32,9 @@ const isSectionEmpty = (section: SectionData) => {
 const ThemeImages: FunctionComponent<Props> = ({ sectionsData, concept }) => {
   const allImages = useMemo(
     () =>
-      themeTabOrder.map(tab => sectionsData[tab].images?.pageResults).flat(),
+      themeTabOrder
+        .map(tab => sectionsData[tab].images?.pageResults || [])
+        .flat(),
     [sectionsData]
   );
   const [expandedImage, setExpandedImage] = useExpandedImage(allImages);
@@ -50,7 +52,7 @@ const ThemeImages: FunctionComponent<Props> = ({ sectionsData, concept }) => {
             <ThemeImagesSection
               key={tabType}
               singleSectionData={sectionsData[tabType].images}
-              totalResults={sectionsData[tabType].totalResults.images!}
+              labelBasedCount={sectionsData[tabType].totalResults.images!}
               concept={concept}
               type={tabType}
             />
