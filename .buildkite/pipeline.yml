@@ -3,7 +3,6 @@
     - twonds/github-repository-dispatch#v0.7.1:
         repository: 'wellcomecollection/wellcomecollection.org'
         event_type: 'prod_deployment'
-        token: '${GH_TOKEN}'
 
 - label: ':docker: build common'
   key: 'build_common'
