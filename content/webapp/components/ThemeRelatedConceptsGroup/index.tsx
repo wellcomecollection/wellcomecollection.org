@@ -24,10 +24,8 @@ const RelatedConceptItem = styled.div.attrs<{ $isFullWidth: boolean }>({
   width: ${props => (props.$isFullWidth ? '100%' : 'auto')};
 `;
 
-const SectionHeading = styled(Space).attrs({
-  as: 'h2',
+const SectionHeading = styled.h2.attrs({
   className: font('intsb', 2),
-  $v: { size: 'l', properties: ['margin-top'] },
 })``;
 
 type Props = {
@@ -48,7 +46,7 @@ const ThemeRelatedConceptsGroup = ({
   }
 
   return (
-    <>
+    <Space $v={{ size: 'l', properties: ['margin-top'] }}>
       {labelType === 'heading' && <SectionHeading>{label}</SectionHeading>}
       <RelatedConceptsContainer>
         {labelType === 'inline' && <span>{label}</span>}
@@ -75,7 +73,7 @@ const ThemeRelatedConceptsGroup = ({
           </RelatedConceptItem>
         ))}
       </RelatedConceptsContainer>
-    </>
+    </Space>
   );
 };
 

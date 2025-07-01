@@ -27,9 +27,8 @@ const Title = styled(Space).attrs({
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })``;
 
-const ThemeDescription = styled(Space).attrs({
+const ThemeDescription = styled.div.attrs({
   className: `${font('intr', 3)} body-text`,
-  $v: { size: 'l', properties: ['margin-bottom'] },
 })``;
 
 type Props = {

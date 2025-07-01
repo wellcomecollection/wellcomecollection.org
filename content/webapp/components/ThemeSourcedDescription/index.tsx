@@ -70,7 +70,8 @@ const underlineParagraph = css`
   text-decoration: underline;
   text-decoration-style: dotted;
   text-decoration-color: ${props => props.theme.color('neutral.600')};
-  text-underline-offset: ${props => props.theme.spacingUnits['3']}px;
+  text-underline-offset: 26%;
+  text-decoration-thickness: 8%;
 `;
 
 const Paragraph = styled.p.attrs({
