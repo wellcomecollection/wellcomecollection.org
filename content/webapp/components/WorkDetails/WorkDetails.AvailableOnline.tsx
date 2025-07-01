@@ -457,7 +457,7 @@ const WorkDetailsAvailableOnline = ({
                         <DownloadLink
                           href={rendering.id}
                           linkText={label || 'Download'}
-                          format={getFormatString(rendering.format || '')}
+                          format={getFormatString(rendering.format)}
                           mimeType={rendering.format || ''}
                           trackingTags={['annotation']}
                         />

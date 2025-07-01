@@ -24,6 +24,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import AudioPlayer from '@weco/content/components/AudioPlayer';
 import BetaMessage from '@weco/content/components/BetaMessage';
+import IIIFItemDownload from '@weco/content/components/IIIFItem/IIIFItem.Download';
 import IIIFItemPdf from '@weco/content/components/IIIFItem/IIIFItem.Pdf';
 import ImageViewer from '@weco/content/components/IIIFViewer/ImageViewer';
 import VideoPlayer from '@weco/content/components/VideoPlayer';
@@ -38,11 +39,12 @@ import {
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
 import {
   getFileSize,
+  getFormatString,
   getImageServiceFromItem,
   getLabelString,
   isItemRestricted,
 } from '@weco/content/utils/iiif/v3';
-import { getAudioVideoLabel } from '@weco/content/utils/works';
+import { getFileLabel } from '@weco/content/utils/works';
 
 import IIIFItemAudioVideoLink from './IIIFItem.AudioVideo';
 
@@ -177,7 +179,7 @@ const PublicRestrictedMessage: FunctionComponent<{
   canvas: TransformedCanvas;
   titleOverride?: string;
 }> = ({ canvas, titleOverride }) => {
-  const audioLabel = getAudioVideoLabel(canvas.label, titleOverride);
+  const audioLabel = getFileLabel(canvas.label, titleOverride);
 
   return (
     <div className="audio">
@@ -241,9 +243,6 @@ const IIIFItemWrapper: FunctionComponent<{
   }
 };
 
-// This component will be useful for the IIIFViewer if we want to make that render video, audio, pdfs and Born Digital files in addition to images.
-// Currently it is used on the work page to render Sound or Video
-// and on the /items page to render Sound, Video and Text (i.e. PDF)
 const IIIFItem: FunctionComponent<ItemProps> = ({
   canvas,
   item,
@@ -264,7 +263,9 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
   const itemLabel =
     'label' in item
       ? getLabelString(item.label as InternationalString)
-      : undefined;
+      : canvas.label?.trim() !== '-'
+        ? canvas.label
+        : undefined;
   // N.B. Restricted images are handled differently from restricted audio/video and text.
   // The isItemRestricted function doesn't account for restricted images.
   // Instead there is a hasRestrictedImage property on the TransformedCanvas which is used by
@@ -309,7 +310,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
               <AudioPlayer
                 isDark
                 audioFile={item.id}
-                title={getAudioVideoLabel(canvas.label, titleOverride) || ''}
+                title={getFileLabel(canvas.label, titleOverride) || ''}
               />
             ) : (
               <IIIFItemAudioVideoLink
@@ -324,7 +325,7 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             <>
               <AudioPlayer
                 audioFile={item.id}
-                title={getAudioVideoLabel(canvas.label, titleOverride) || ''}
+                title={getFileLabel(canvas.label, titleOverride) || ''}
               />
             </>
           )}
@@ -377,20 +378,54 @@ const IIIFItem: FunctionComponent<ItemProps> = ({
             src={item.id}
             label={itemLabel}
             fileSize={getFileSize(canvas)}
+            format={'format' in item ? getFormatString(item.format) : undefined}
           />
         </IIIFItemWrapper>
       );
 
     case item.type === 'Image' && !exclude.includes('Image'):
-      return (
-        <IIIFImage
-          index={i}
-          item={item}
-          canvas={canvas}
-          setImageRect={setImageRect}
-          setImageContainerRect={setImageContainerRect}
-        />
-      );
+      if (canvas.original.length > 0) {
+        return (
+          <>
+            {canvas.original.map(original => {
+              return (
+                original.id && (
+                  <IIIFItemWrapper
+                    shouldShowItem={shouldShowItem}
+                    className="item-wrapper"
+                    titleOverride={titleOverride}
+                    canvas={canvas}
+                    isRestricted={isRestricted}
+                  >
+                    <IIIFItemDownload
+                      key={original.id}
+                      src={original.id}
+                      label={itemLabel}
+                      fileSize={getFileSize(canvas)}
+                      format={
+                        'format' in item
+                          ? getFormatString(item.format)
+                          : undefined
+                      }
+                      showWarning={true}
+                    />
+                  </IIIFItemWrapper>
+                )
+              );
+            })}
+          </>
+        );
+      } else {
+        return (
+          <IIIFImage
+            index={i}
+            item={item}
+            canvas={canvas}
+            setImageRect={setImageRect}
+            setImageContainerRect={setImageContainerRect}
+          />
+        );
+      }
 
     default: // There are other types we don't do anything with at present, e.g. Dataset
       if (!exclude.includes(item.type)) {
