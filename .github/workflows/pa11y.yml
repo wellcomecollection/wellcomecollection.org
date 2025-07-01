@@ -1,5 +1,6 @@
 name: 'Pa11y'
 on:
+  deployment:
   schedule:
     - cron: '0 4 * * MON-FRI'
 
@@ -8,6 +9,7 @@ permissions:
 
 jobs:
   pa11y_report:
+    if: github.event_name == 'schedule' || (github.event.deployment && github.event.deployment.environment && github.event.deployment.environment == 'prod')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
