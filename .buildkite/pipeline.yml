@@ -4,7 +4,6 @@
       repository: 'wellcomecollection/wellcomecollection.org'
       event_type: 'prod_deployment'
 
-
 - label: ':docker: build common'
   key: 'build_common'
   plugins:
