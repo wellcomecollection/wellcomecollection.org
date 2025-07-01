@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { LabelColor, Label as LabelType } from '@weco/common/model/labels';
 import Space from '@weco/common/views/components/styled/Space';
 
-import Label from './Labels.Label';
+import Label from './LabelsList.Label';
 
 const List = styled(Space).attrs({
   $v: { size: 'xs', properties: ['row-gap'] },
