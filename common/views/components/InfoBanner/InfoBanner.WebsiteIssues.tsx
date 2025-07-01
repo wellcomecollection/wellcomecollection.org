@@ -15,7 +15,7 @@ import {
   CopyContainer,
 } from './InfoBanners.styles';
 
-type Props = {
+export type Props = {
   onVisibilityChange?: (isVisible: boolean) => void;
 };
 
@@ -58,7 +58,9 @@ const WebsiteIssuesBanner: FunctionComponent<Props> = ({
     }
   }, []);
 
-  return isVisible ? (
+  if (!isVisible) return null;
+
+  return (
     <BannerContainer
       role="region"
       aria-labelledby="note"
@@ -90,7 +92,7 @@ const WebsiteIssuesBanner: FunctionComponent<Props> = ({
         </Space>
       </BannerWrapper>
     </BannerContainer>
-  ) : null;
+  );
 };
 
 export default WebsiteIssuesBanner;

@@ -31,13 +31,12 @@ import ApiToolbar, {
 } from '@weco/common/views/components/ApiToolbar';
 import Footer from '@weco/common/views/components/Footer';
 import Header, { NavLink } from '@weco/common/views/components/Header';
-import {
-  InfoBanner,
-  WebsiteIssuesBanner,
-} from '@weco/common/views/components/InfoBanners';
+import InfoBanner from '@weco/common/views/components/InfoBanner';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import NewsletterPromo from '@weco/common/views/components/NewsletterPromo';
 import PopupDialog from '@weco/common/views/components/PopupDialog';
+
+import Favicons from './PageLayout.Favicons';
 
 type HeaderProps = {
   customNavLinks: NavLink[];
@@ -180,7 +179,6 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           name="twitter:card"
           content={imageUrl ? 'summary_large_image' : 'summary'}
         />
-
         <meta
           key="twitter:site"
           name="twitter:site"
@@ -213,37 +211,6 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           name="viewport"
           content="width=device-width, initial-scale=1"
         />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="https://i.wellcomecollection.org/assets/icons/apple-touch-icon.png"
-        />
-        <link
-          rel="shortcut icon"
-          href="https://i.wellcomecollection.org/assets/icons/favicon.ico"
-          type="image/ico"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          href="https://i.wellcomecollection.org/assets/icons/favicon-32x32.png"
-          sizes="32x32"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          href="https://i.wellcomecollection.org/assets/icons/favicon-16x16.png"
-          sizes="16x16"
-        />
-        <link
-          rel="manifest"
-          href="https://i.wellcomecollection.org/assets/icons/manifest.json"
-        />
-        <link
-          rel="mask-icon"
-          href="https://i.wellcomecollection.org/assets/icons/safari-pinned-tab.svg"
-          color="#000000"
-        />
 
         {rssUrl && (
           <link
@@ -254,6 +221,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           />
         )}
       </Head>
+      <Favicons />
 
       {/* Note: these <Script> tags are very deliberately:
 
@@ -314,11 +282,12 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           Skip to main content
         </a>
         {!hideHeader && <Header siteSection={siteSection} {...headerProps} />}
-        {issuesBanner && <WebsiteIssuesBanner />}
+        {issuesBanner && <InfoBanner variant="websiteIssues" />}
         {globalAlert.data.isShown === 'show' &&
           (!globalAlert.data.routeRegex ||
             urlString.match(new RegExp(globalAlert.data.routeRegex))) && (
             <InfoBanner
+              variant="default"
               document={globalAlert}
               cookieName={cookies.globalAlert}
               onVisibilityChange={isVisible => {
@@ -364,3 +333,4 @@ const PageLayout: FunctionComponent<Props> = (props: Props) => {
 };
 
 export default PageLayout;
+export { Favicons };

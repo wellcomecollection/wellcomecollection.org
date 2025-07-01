@@ -85,7 +85,7 @@ const CheckBoxWrapper = styled.div`
   top: 1px;
 `;
 
-const Label = styled.span<{ $isDisabled?: boolean }>`
+const CheckboxLabel = styled.span<{ $isDisabled?: boolean }>`
   ${props =>
     props.$isDisabled
       ? `color: ${props.theme.color('neutral.600')}`
@@ -133,7 +133,7 @@ const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
         </CheckboxRadioBox>
       </CheckBoxWrapper>
       <Space $h={{ size: 's', properties: ['margin-left'] }}>
-        <Label $isDisabled={disabled}>{text}</Label>
+        <CheckboxLabel $isDisabled={disabled}>{text}</CheckboxLabel>
       </Space>
     </CheckboxRadioLabel>
   );
