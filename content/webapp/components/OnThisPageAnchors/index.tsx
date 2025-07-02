@@ -207,21 +207,17 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (!listRef.current || !isSticky) return;
-    listRef.current.classList.add('is-hidden-s');
-    listRef.current.classList.add('is-hidden-m');
+    listRef.current.classList.add('is-hidden-s', 'is-hidden-m');
   }, [listRef.current]);
 
   function toggleList() {
     if (!listRef.current || !buttonRef.current) return;
 
     if (listRef.current.classList.contains('is-hidden-s')) {
-      listRef.current.classList.remove('is-hidden-s');
-      listRef.current.classList.remove('is-hidden-m');
-
+      listRef.current.classList.remove('is-hidden-s', 'is-hidden-m');
       buttonRef.current.setAttribute('aria-expanded', 'true');
     } else {
-      listRef.current.classList.add('is-hidden-s');
-      listRef.current.classList.add('is-hidden-m');
+      listRef.current.classList.add('is-hidden-s', 'is-hidden-m');
       buttonRef.current.setAttribute('aria-expanded', 'false');
     }
   }
@@ -229,8 +225,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
   function hideMobileList() {
     if (!listRef.current || !buttonRef.current) return;
 
-    listRef.current.classList.add('is-hidden-s');
-    listRef.current.classList.add('is-hidden-m');
+    listRef.current.classList.add('is-hidden-s', 'is-hidden-m');
     buttonRef.current.setAttribute('aria-expanded', 'false');
   }
 
