@@ -61,8 +61,7 @@ const ThemeRelatedConceptsGroup = ({
               <Button
                 variant="ButtonSolidLink"
                 colors={
-                  buttonColors ||
-                  themeValues.buttonColors.charcoalTransparentCharcoal
+                  buttonColors || themeValues.buttonColors.slateTransparentBlack
                 }
                 text={item.label}
                 link={`/concepts/${item.id}`}
