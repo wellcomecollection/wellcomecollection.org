@@ -532,6 +532,8 @@ export const ConceptPage: NextPage<Props> = ({
                 concept={conceptResponse}
               />
             </StretchWrapper>
+            {/* This empty div is used in conjuction with an IntersectionObserver to
+              determine when to change the colour of the mobile nav */}
             <div ref={mobileNavColorChangeRef}></div>
             <ThemeWorks concept={conceptResponse} sectionsData={sectionsData} />
 
