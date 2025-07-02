@@ -17,6 +17,7 @@ type BackgroundGridProps = {
 };
 
 const BackgroundGrid = styled(Grid).attrs({})<BackgroundGridProps>`
+  padding: 0 20px;
   margin-top: 10px;
   background: linear-gradient(
     5deg,
@@ -44,10 +45,10 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
         title="Sticky On This Page Anchors"
       />
       <BackgroundGrid $percent={40} $topColor={args.topColor}>
-        <GridCell $sizeMap={{ s: [12], m: [3, 1], l: [3, 1], xl: [3, 1] }}>
+        <GridCell $sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}>
           <OnThisPageAnchors {...fixedArgs} />
         </GridCell>
-        <GridCell $sizeMap={{ s: [12], m: [9, 4], l: [9, 4], xl: [9, 4] }}>
+        <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
           {links.map(link => (
             <div
               key={link.url}

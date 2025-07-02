@@ -206,7 +206,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
   }, [activeId]);
 
   useEffect(() => {
-    if (!listRef.current) return;
+    if (!listRef.current || !isSticky) return;
     listRef.current.classList.add('is-hidden-s');
     listRef.current.classList.add('is-hidden-m');
   }, [listRef.current]);
@@ -240,10 +240,12 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
   return (
     <Root $isSticky={isSticky} $hasBackgroundBlend={hasBackgroundBlend}>
       <h2 className={`${fontStyle} is-hidden-s is-hidden-m`}>{titleText}</h2>
-      <MobileNavButton ref={buttonRef} onClick={toggleList}>
-        {titleText}
-        {isEnhanced && <Icon icon={cross} matchText />}
-      </MobileNavButton>
+      {isSticky && (
+        <MobileNavButton ref={buttonRef} onClick={toggleList}>
+          {titleText}
+          {isEnhanced && <Icon icon={cross} matchText />}
+        </MobileNavButton>
+      )}
       <PlainList ref={listRef} id={listId}>
         {links.map((link: Link) => {
           const id = link.url.replace('#', '');
