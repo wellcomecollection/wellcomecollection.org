@@ -64,7 +64,7 @@ export type Props = PropsWithChildren<{
   headerProps?: HeaderProps;
   apiToolbarLinks?: (ApiToolbarLink | undefined)[];
   skipToContentLinks?: SkipToContentLink[];
-  hideOverflowX?: boolean; // See pageGridOffset
+  clipOverflowX?: boolean; // See pageGridOffset
 }>;
 
 const PageLayoutComponent: FunctionComponent<Props> = ({
@@ -84,7 +84,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   headerProps,
   apiToolbarLinks = [],
   skipToContentLinks = [],
-  hideOverflowX = false,
+  clipOverflowX = false,
 }) => {
   const { apiToolbar, issuesBanner } = useToggles();
   const urlString = convertUrlToString(url);
@@ -305,7 +305,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         <div
           id="main"
           className="main"
-          style={{ overflowX: hideOverflowX ? 'hidden' : 'visible' }}
+          style={{ overflowX: clipOverflowX ? 'clip' : 'visible' }}
           role={excludeRoleMain ? undefined : 'main'}
           // We need tabIndex="-1" so the "Skip to main content" link works for
           // screen readers.

@@ -507,7 +507,7 @@ export const ConceptPage: NextPage<Props> = ({
       jsonLd={{ '@type': 'WebPage' }}
       hideNewsletterPromo={true}
       apiToolbarLinks={apiToolbarLinks}
-      hideOverflowX={true}
+      clipOverflowX={true}
     >
       <ThemeHeader concept={conceptResponse} />
       {hasImages && <WobblyEdge backgroundColor="neutral.700" />}
