@@ -1,4 +1,3 @@
-// TODO should this be removed or made reusable?
 import { Meta, StoryObj } from '@storybook/react';
 import { ComponentProps } from 'react';
 import styled from 'styled-components';
