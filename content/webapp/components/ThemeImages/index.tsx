@@ -1,9 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
-import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import ThemeImagesSection from '@weco/content/components/ThemeImages/ThemeImagesSection';
 import { themeTabOrder } from '@weco/content/components/ThemeWorks';
 import {
@@ -34,19 +32,16 @@ const ThemeImages: FunctionComponent<Props> = ({ sectionsData, concept }) => {
 
   return (
     <>
-      <WobblyEdge backgroundColor="neutral.700" />
       <ThemeImagesWrapper as="section" data-testid="images-section">
-        <Container>
-          {themeTabOrder.map(tabType => (
-            <ThemeImagesSection
-              key={tabType}
-              singleSectionData={sectionsData[tabType].images}
-              totalResults={sectionsData[tabType].totalResults.images!}
-              concept={concept}
-              type={tabType}
-            />
-          ))}
-        </Container>
+        {themeTabOrder.map(tabType => (
+          <ThemeImagesSection
+            key={tabType}
+            singleSectionData={sectionsData[tabType].images}
+            totalResults={sectionsData[tabType].totalResults.images!}
+            concept={concept}
+            type={tabType}
+          />
+        ))}
       </ThemeImagesWrapper>
     </>
   );

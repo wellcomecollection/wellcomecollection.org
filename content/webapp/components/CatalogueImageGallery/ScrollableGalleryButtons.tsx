@@ -26,6 +26,7 @@ const ScrollButton = styled('button').attrs({
 const ScrollButtonsContainer = styled(Space)`
   display: flex;
   justify-content: flex-end;
+  ${props => props.theme.pageGridOffset('left')};
 `;
 
 type Props = {

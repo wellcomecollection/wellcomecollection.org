@@ -1,9 +1,10 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { LinkProps } from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FunctionComponent, JSX, useState } from 'react';
+import { FunctionComponent, JSX, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 import { ImagesLinkSource } from '@weco/common/data/segment-values';
 import { getServerData } from '@weco/common/server-data';
@@ -11,17 +12,24 @@ import { useToggles } from '@weco/common/server-data/Context';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { font } from '@weco/common/utils/classnames';
-import { capitalize, formatNumber } from '@weco/common/utils/grammar';
+import {
+  capitalize,
+  dasherize,
+  formatNumber,
+} from '@weco/common/utils/grammar';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getQueryResults, ReturnedResults } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
+import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
+import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import { themeValues } from '@weco/common/views/themes/config';
 import theme from '@weco/common/views/themes/default';
 import CatalogueImageGallery from '@weco/content/components/CatalogueImageGallery';
 import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
 import MoreLink from '@weco/content/components/MoreLink';
+import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors';
 import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink/Images';
 import { toLink as toWorksLink } from '@weco/content/components/SearchPagesLink/Works';
 import Tabs from '@weco/content/components/Tabs';
@@ -29,7 +37,9 @@ import ThemeCollaborators from '@weco/content/components/ThemeCollaborators';
 import ThemeHeader from '@weco/content/components/ThemeHeader';
 import ThemeImages from '@weco/content/components/ThemeImages';
 import ThemeRelatedConceptsGroup from '@weco/content/components/ThemeRelatedConceptsGroup';
-import ThemeWorks from '@weco/content/components/ThemeWorks';
+import ThemeWorks, {
+  getThemeTabLabel,
+} from '@weco/content/components/ThemeWorks';
 import WorksSearchResults from '@weco/content/components/WorksSearchResults';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
@@ -44,6 +54,7 @@ import {
   Work as WorkType,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
+import { Link } from '@weco/content/types/link';
 import {
   allRecordsLinkParams,
   conceptTypeDisplayName,
@@ -66,6 +77,75 @@ const linkSources = new Map([
   ['imagesBy', 'concept/images_by'],
   ['imagesIn', 'concept/images_in'],
 ]);
+
+const NavGridCell = styled(GridCell)<{
+  $isEnhanced: boolean;
+  $isMobileNavInverted: boolean;
+}>`
+  position: ${props => (props.$isEnhanced ? 'sticky' : 'relative')};
+  top: 0;
+  transition: background-color ${props => props.theme.transitionProperties};
+  background-color: ${props =>
+    props.theme.color(props.$isMobileNavInverted ? 'white' : 'neutral.700')};
+  z-index: 3;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: ${themeValues.containerPadding.small}px;
+    bottom: 0;
+    top: 0;
+    z-index: 10;
+    transition: background-color ${props => props.theme.transitionProperties};
+    background-color: ${props =>
+      props.theme.color(props.$isMobileNavInverted ? 'white' : 'neutral.700')};
+  }
+
+  &::before {
+    right: 100%;
+  }
+
+  &::after {
+    left: 100%;
+  }
+
+  ${props =>
+    props.theme.media('medium')(`
+      &::before,
+      &::after {
+        width: ${themeValues.containerPadding.medium}px;
+      }
+  `)}
+
+  ${props => props.theme.media('large')`
+    position: unset;
+    background-color: unset;
+    z-index: unset;
+    transition: unset;
+
+    &::before,
+    &::after {
+      transition: unset;
+      display: none;
+    }
+  `}
+`;
+
+const StretchWrapper = styled.div`
+  ${props => props.theme.pageGridOffset('margin-right')};
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: calc(100vw - 100%);
+    top: 0;
+    background: ${props => props.theme.color('neutral.700')};
+    bottom: 0;
+    right: 100%;
+    z-index: 0;
+  }
+`;
 
 const HotJarPlaceholder = styled.div`
   margin: -2rem auto 2rem;
@@ -307,6 +387,23 @@ export const ConceptPage: NextPage<Props> = ({
   apiToolbarLinks,
 }) => {
   const { newThemePages, themePagesAllFields } = useToggles();
+  const [isMobileNavInverted, setIsMobileNavInverted] = useState(false);
+  const { isEnhanced } = useAppContext();
+  const mobileNavColorChangeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+        setIsMobileNavInverted(true);
+      } else if (entry.boundingClientRect.top >= 0) {
+        setIsMobileNavInverted(false);
+      }
+    });
+    if (!mobileNavColorChangeRef.current) return;
+    observer.observe(mobileNavColorChangeRef.current);
+
+    return () => observer.disconnect();
+  }, [mobileNavColorChangeRef.current]);
 
   const pathname = usePathname();
   const worksTabs = tabOrder
@@ -366,8 +463,128 @@ export const ConceptPage: NextPage<Props> = ({
 
   const { frequentCollaborators, relatedTopics } =
     conceptResponse.relatedConcepts || {};
+  const relatedConceptsGroupLabel = 'Related topics';
+  const personOrAllFields =
+    conceptResponse.type === 'Person' || themePagesAllFields;
+  const buildNavLinks = () => {
+    const links: Link[] = [];
 
-  return (
+    // Add image sections
+    for (const section of tabOrder) {
+      if (sectionsData[section].images?.totalResults) {
+        const themeLabel = getThemeTabLabel(section, conceptResponse.type);
+        links.push({
+          text: `Images ${themeLabel}`,
+          url: `#images-${themeLabel}`,
+        });
+      }
+    }
+
+    // Add works section
+    links.push({ text: 'Works', url: '#works' });
+
+    // Add frequent collaborators
+    if (frequentCollaborators?.length && personOrAllFields) {
+      links.push({
+        text: 'Frequent collaborators',
+        url: '#frequent-collaborators',
+      });
+    }
+
+    // Add related topics
+    if (relatedTopics?.length && personOrAllFields) {
+      links.push({
+        text: relatedConceptsGroupLabel,
+        url: `#${dasherize(relatedConceptsGroupLabel)}`,
+      });
+    }
+
+    return links;
+  };
+
+  const navLinks = buildNavLinks();
+
+  return newThemePages ? (
+    <CataloguePageLayout
+      title={conceptResponse.label}
+      description={pageDescriptionConcepts(conceptResponse.label)}
+      url={{ pathname: `/concepts/${conceptResponse.id}`, query: {} }}
+      openGraphType="website"
+      siteSection="collections"
+      jsonLd={{ '@type': 'WebPage' }}
+      hideNewsletterPromo={true}
+      apiToolbarLinks={apiToolbarLinks}
+      clipOverflowX={true}
+    >
+      <ThemeHeader concept={conceptResponse} />
+      {hasImages && <WobblyEdge backgroundColor="neutral.700" />}
+      <Container>
+        <Grid style={{ background: 'white', rowGap: 0 }}>
+          <NavGridCell
+            $isEnhanced={isEnhanced}
+            $sizeMap={{ s: [12], m: [12], l: [3], xl: [2] }}
+            $isMobileNavInverted={isMobileNavInverted}
+          >
+            <OnThisPageAnchors
+              links={navLinks}
+              isSticky={true}
+              hasBackgroundBlend={true}
+            />
+          </NavGridCell>
+
+          <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [10] }}>
+            <StretchWrapper>
+              <ThemeImages
+                sectionsData={sectionsData}
+                concept={conceptResponse}
+              />
+            </StretchWrapper>
+            {/* This empty div is used in conjuction with an IntersectionObserver to
+              determine when to change the colour of the mobile nav */}
+            <div ref={mobileNavColorChangeRef}></div>
+            <ThemeWorks concept={conceptResponse} sectionsData={sectionsData} />
+
+            {(conceptResponse.type === 'Person' || themePagesAllFields) && (
+              <>
+                <Space
+                  $v={{
+                    size: 'xl',
+                    properties: ['margin-top', 'margin-bottom'],
+                  }}
+                >
+                  <ThemeCollaborators concepts={frequentCollaborators} />
+                </Space>
+                <Space
+                  $v={{
+                    size: 'xl',
+                    properties: ['margin-top', 'margin-bottom'],
+                  }}
+                >
+                  <ThemeRelatedConceptsGroup
+                    label={relatedConceptsGroupLabel}
+                    labelType="heading"
+                    relatedConcepts={relatedTopics}
+                    buttonColors={
+                      themeValues.buttonColors.pumiceTransparentCharcoal
+                    }
+                  />
+                </Space>
+              </>
+            )}
+          </GridCell>
+        </Grid>
+      </Container>
+
+      {
+        // This is a placeholder for the Hotjar embedded survey to be injected
+        // when the concept is a Person. It should be removed when the survey
+        // is no longer used.
+      }
+      {conceptResponse.type === 'Person' && (
+        <HotJarPlaceholder id="hotjar-embed-placeholder-concept-person" />
+      )}
+    </CataloguePageLayout>
+  ) : (
     <CataloguePageLayout
       title={conceptResponse.label}
       description={pageDescriptionConcepts(conceptResponse.label)}
@@ -378,25 +595,18 @@ export const ConceptPage: NextPage<Props> = ({
       hideNewsletterPromo={true}
       apiToolbarLinks={apiToolbarLinks}
     >
-      {newThemePages && <ThemeHeader concept={conceptResponse} />}
-      {!newThemePages && (
-        <ConceptHero>
-          <Container>
-            <TypeLabel>{conceptTypeDisplayName(conceptResponse)}</TypeLabel>
-            <Space
-              $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
-            >
-              <HeroTitle>{conceptResponse.label}</HeroTitle>
-            </Space>
-          </Container>
-        </ConceptHero>
-      )}
+      <ConceptHero>
+        <Container>
+          <TypeLabel>{conceptTypeDisplayName(conceptResponse)}</TypeLabel>
+          <Space
+            $v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
+          >
+            <HeroTitle>{conceptResponse.label}</HeroTitle>
+          </Space>
+        </Container>
+      </ConceptHero>
 
-      {/* Images */}
-      {newThemePages && (
-        <ThemeImages sectionsData={sectionsData} concept={conceptResponse} />
-      )}
-      {!newThemePages && hasImages && (
+      {hasImages && (
         <ConceptImages as="section" data-testid="images-section">
           <Container>
             <h2 className={`${font('wb', 3)} sectionTitle`}>Images</h2>
@@ -420,11 +630,7 @@ export const ConceptPage: NextPage<Props> = ({
         </ConceptImages>
       )}
 
-      {/* Works */}
-      {newThemePages && (
-        <ThemeWorks concept={conceptResponse} sectionsData={sectionsData} />
-      )}
-      {!newThemePages && hasWorks && (
+      {hasWorks && (
         <>
           <ConceptWorksHeader $hasWorksTabs={hasWorksTabs}>
             <Container>
@@ -454,28 +660,7 @@ export const ConceptPage: NextPage<Props> = ({
           </Space>
         </>
       )}
-      {newThemePages &&
-        (conceptResponse.type === 'Person' || themePagesAllFields) && (
-          <Container>
-            <Space
-              $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
-            >
-              <ThemeCollaborators concepts={frequentCollaborators} />
-            </Space>
-            <Space
-              $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
-            >
-              <ThemeRelatedConceptsGroup
-                label="Related topics"
-                labelType="heading"
-                relatedConcepts={relatedTopics}
-                buttonColors={
-                  themeValues.buttonColors.pumiceTransparentCharcoal
-                }
-              />
-            </Space>
-          </Container>
-        )}
+
       {
         // This is a placeholder for the Hotjar embedded survey to be injected
         // when the concept is a Person. It should be removed when the survey
