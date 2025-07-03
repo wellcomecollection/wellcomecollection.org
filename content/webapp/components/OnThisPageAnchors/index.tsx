@@ -164,6 +164,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
   const buttonRef = useRef<HTMLButtonElement>(null);
   const listId = useId();
   const { isEnhanced } = useAppContext();
+  const [isListActive, setIsListActive] = useState(false);
 
   useEffect(() => {
     if (!buttonRef.current) return;
@@ -210,33 +211,30 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
     listRef.current.classList.add('is-hidden-s', 'is-hidden-m');
   }, [listRef.current]);
 
-  function toggleList() {
-    if (!listRef.current || !buttonRef.current) return;
-
-    if (listRef.current.classList.contains('is-hidden-s')) {
-      listRef.current.classList.remove('is-hidden-s', 'is-hidden-m');
-      buttonRef.current.setAttribute('aria-expanded', 'true');
-    } else {
-      listRef.current.classList.add('is-hidden-s', 'is-hidden-m');
-      buttonRef.current.setAttribute('aria-expanded', 'false');
-    }
-  }
-
-  function hideMobileList() {
-    if (!listRef.current || !buttonRef.current) return;
-
-    listRef.current.classList.add('is-hidden-s', 'is-hidden-m');
-    buttonRef.current.setAttribute('aria-expanded', 'false');
-  }
-
   const titleText = isSticky ? 'On this page' : 'What’s on this page';
   const fontStyle = isSticky ? font('intm', 5) : font('wb', 4);
+
+  useEffect(() => {
+    if (!listRef.current || !buttonRef.current) return;
+
+    listRef.current.classList[isListActive ? 'remove' : 'add'](
+      'is-hidden-s',
+      'is-hidden-m'
+    );
+    buttonRef.current.setAttribute(
+      'aria-expanded',
+      isListActive ? 'false' : 'true'
+    );
+  }, [isListActive]);
 
   return (
     <Root $isSticky={isSticky} $hasBackgroundBlend={hasBackgroundBlend}>
       <h2 className={`${fontStyle} is-hidden-s is-hidden-m`}>{titleText}</h2>
       {isSticky && (
-        <MobileNavButton ref={buttonRef} onClick={toggleList}>
+        <MobileNavButton
+          ref={buttonRef}
+          onClick={() => setIsListActive(!isListActive)}
+        >
           {titleText}
           {isEnhanced && <Icon icon={cross} matchText />}
         </MobileNavButton>
@@ -261,7 +259,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
                       data-gtm-trigger="link_click_page_position"
                       onClick={e => {
                         e.preventDefault();
-                        hideMobileList();
+                        setIsListActive(false);
                         setClickedId(id);
                         const el = document.getElementById(id);
                         if (el) {
