@@ -6,7 +6,7 @@ export type SwipeDirection = 'left' | 'right';
  Listen to swipe events on `targetRef` and call `onSwipe` when a left/right swipe is detected.
  */
 const useSwipeable = (
-  targetRef: RefObject<HTMLElement>,
+  targetRef: RefObject<HTMLElement | null>,
   onSwipe: (direction: SwipeDirection) => void,
   swipeDistanceThreshold = 50
 ) => {

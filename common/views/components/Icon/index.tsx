@@ -85,9 +85,21 @@ const Icon: FunctionComponent<Props> = ({
       {...attrs}
     >
       {title && <title id={`icon-${title}-title`}>{title}</title>}
-      {/* This type guard is here just in case a string icon makes its way */}
-      {/* in via Prismic etc - that shouldn't happen but better safe than sorry. */}
-      {typeof icon === 'function' && icon({})}
+
+      {/* This type guard is here just in case a string icon makes its way
+       in via Prismic etc - that shouldn't happen but better safe than sorry.  */}
+      {typeof icon === 'function' &&
+        (() => {
+          const result = icon({});
+          // Only render if result is not a Promise
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          if (result && typeof (result as any).then === 'function') {
+            // If it's a Promise, do not render anything
+            return null;
+          }
+          // Only render if result is not a Promise (i.e., is a valid ReactNode)
+          return result as React.ReactNode;
+        })()}
     </svg>
   </Wrapper>
 );

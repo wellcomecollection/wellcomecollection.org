@@ -114,12 +114,13 @@ const DropdownButton: FunctionComponent<
   hasNoOptions,
   isTight,
 }) => {
-  const [isActive, setIsActive] = useState(false);
-  const [focusables, setFocusables] = useState<HTMLElement[]>([]);
   const { isEnhanced } = useAppContext();
   const dropdownWrapperRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const popperRef = useRef(null);
+
+  const [isActive, setIsActive] = useState(false);
+  const [focusables, setFocusables] = useState<HTMLElement[]>([]);
   const [isPopperVisible, setIsPopperVisible] = useState(false);
   const { styles, attributes } = usePopper(
     dropdownWrapperRef.current,
@@ -231,6 +232,7 @@ const DropdownButton: FunctionComponent<
             $isVisible={isPopperVisible}
           >
             <CSSTransition
+              nodeRef={dropdownRef}
               in={isActive}
               classNames="fade"
               timeout={350}

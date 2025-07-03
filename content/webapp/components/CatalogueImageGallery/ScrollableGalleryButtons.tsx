@@ -30,7 +30,7 @@ const ScrollButtonsContainer = styled(Space)`
 `;
 
 type Props = {
-  targetRef: RefObject<HTMLElement>;
+  targetRef: RefObject<HTMLElement | null>;
 };
 
 const ScrollableGalleryButtons: FunctionComponent<Props> = ({

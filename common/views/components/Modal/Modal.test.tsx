@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useRef, useState } from 'react';
-import { act } from 'react-dom/test-utils';
 import { ThemeProvider } from 'styled-components';
 
 import { AppContextProvider } from '@weco/common/contexts/AppContext';
@@ -46,9 +45,8 @@ describe('Modal', () => {
   it('should focus the close button when opened', async () => {
     renderComponent();
     const openButton = screen.getByText(/^Open modal window$/i);
-    await act(async () => {
-      await userEvent.click(openButton);
-    });
+    await userEvent.click(openButton);
+
     const closeButton = screen.getByTestId('close-modal-button');
     await expect(document.activeElement).toEqual(closeButton);
   });
@@ -56,13 +54,11 @@ describe('Modal', () => {
   it('should focus the open button when closed', async () => {
     renderComponent();
     const openButton = screen.getByText(/^Open modal window$/i);
-    await act(async () => {
-      await userEvent.click(openButton);
-    });
+    await userEvent.click(openButton);
+
     const closeButton = screen.getByTestId('close-modal-button');
-    await act(async () => {
-      await userEvent.click(closeButton);
-    });
+    await userEvent.click(closeButton);
+
     await expect(document.activeElement).toEqual(openButton);
   });
 });
