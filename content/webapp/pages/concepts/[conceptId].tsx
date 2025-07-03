@@ -470,9 +470,7 @@ export const ConceptPage: NextPage<Props> = ({
     const links: Link[] = [];
 
     // Add image sections
-    const imageSections = ['by', 'about', 'in'] as const;
-
-    for (const section of imageSections) {
+    for (const section of tabOrder) {
       if (sectionsData[section].images?.totalResults) {
         const themeLabel = getThemeTabLabel(section, conceptResponse.type);
         links.push({
