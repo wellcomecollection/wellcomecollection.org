@@ -1,0 +1,26 @@
+name: 'Pa11y'
+on:
+  deployment:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 4 * * MON-FRI'
+
+permissions:
+  id-token: write
+
+jobs:
+  pa11y_report:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event.deployment && github.event.deployment.environment && github.event.deployment.environment == 'prod')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-west-1
+          role-to-assume: ${{ secrets.EXPERIENCE_GHA_ROLE_ARN }}
+      - name: Write pa11y report and deploy it
+        run: cd pa11y/webapp && yarn && yarn report-and-deploy 
+      - name: Complete deployment
+        run: echo "${{ github.event.deployment.environment }} complete!"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -47,21 +47,6 @@ steps:
     soft_fail:
       - exit_status: 1
 
-  - label: "Update pa11y dashboard"
-    if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "prod"
-    plugins:
-      - wellcomecollection/aws-assume-role#v0.2.2:
-          role: "arn:aws:iam::130871440101:role/experience-ci"
-      - ecr#v2.1.1:
-          login: true
-      - docker-compose#v3.5.0:
-          run: pa11y
-          command: [ "yarn", "deploy" ]
-          env:
-            - AWS_ACCESS_KEY_ID
-            - AWS_SECRET_ACCESS_KEY
-            - AWS_SESSION_TOKEN
-
   - wait
 
   - label: "Complete ${BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT} deployment"
