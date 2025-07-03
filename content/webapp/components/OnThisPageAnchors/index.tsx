@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
@@ -16,7 +17,7 @@ import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { PaletteColor, themeValues } from '@weco/common/views/themes/config';
 import { Link } from '@weco/content/types/link';
 
 // Used to set the left offset for the active indicator line in sticky mode
@@ -97,24 +98,58 @@ const InPageNavAnimatedLink = styled(AnimatedLink)<{
 const stickyRootAttrs = `
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 20;
 `;
 
-const Root = styled(Space).attrs<{ $isSticky?: boolean }>(props => ({
-  as: 'nav',
-  $h: props.$isSticky
-    ? undefined
-    : { size: 'l', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-}))<{
+const Root = styled(Space).attrs<{ $isSticky?: boolean; $hasStuck: boolean }>(
+  props => ({
+    as: 'nav',
+    $h: props.$isSticky
+      ? undefined
+      : { size: 'l', properties: ['padding-left', 'padding-right'] },
+    $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+    className: props.$hasStuck ? 'has-stuck' : '',
+  })
+)<{
   $isSticky?: boolean;
   $hasBackgroundBlend?: boolean;
+  $hasStuck: boolean;
 }>`
   ${props => (props.$isSticky ? stickyRootAttrs : '')}
   ${props =>
-    !props.$hasBackgroundBlend
-      ? `background: ${props.theme.color('warmNeutral.300')};`
-      : `mix-blend-mode: difference; color: ${props.theme.color('white')};`}
+    props.$hasStuck &&
+    `
+    margin-left: -${themeValues.containerPadding.small}px;
+    margin-right: -${themeValues.containerPadding.small}px;
+    padding-left: ${themeValues.containerPadding.small}px;
+    padding-right: ${themeValues.containerPadding.small}px;
+
+    ${props.theme.mediaBetween(
+      'medium',
+      'large'
+    )(`
+      margin-left: -${themeValues.containerPadding.medium}px;
+      margin-right: -${themeValues.containerPadding.medium}px;
+      padding-left: ${props.theme.containerPadding.medium}px;
+      padding-right: ${props.theme.containerPadding.medium}px;
+    `)}
+  `}
+
+  ${props =>
+    props.theme.mediaBetween(
+      'small',
+      'large'
+    )(`
+    transition: background ${props.theme.transitionProperties};
+    background: ${props.$isSticky && props.$hasStuck ? props.theme.color('accent.lightGreen') : undefined};
+  `)}
+
+  ${props =>
+    props.theme.media('large')(`
+      background: ${props.$hasBackgroundBlend ? undefined : props.theme.color('warmNeutral.300')};
+      mix-blend-mode: ${props.$hasBackgroundBlend ? 'difference' : undefined};
+      color: ${props.$hasBackgroundBlend ? props.theme.color('white') : undefined};
+    `)}
 `;
 
 const MobileNavButton = styled.button`
@@ -143,6 +178,14 @@ const MobileNavButton = styled.button`
   `}
 `;
 
+const AnimatedTextContainer = styled.div`
+  position: relative;
+  overflow: hidden;
+  height: 20px;
+  line-height: 20px;
+  width: 100%;
+`;
+
 export type Props = {
   isSticky?: boolean;
   hasBackgroundBlend?: boolean;
@@ -161,9 +204,11 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
   const [clickedId, setClickedId] = useState<string | null>(null);
   const [lock, setLock] = useState(false);
   const listRef = useRef<HTMLUListElement>(null);
+  const onThisPageAnchorsStickyRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const listId = useId();
   const { isEnhanced } = useAppContext();
+  const [hasStuck, setHasStuck] = useState(false);
 
   useEffect(() => {
     if (!buttonRef.current) return;
@@ -171,6 +216,28 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
     buttonRef.current.setAttribute('aria-expanded', 'false');
     buttonRef.current.setAttribute('aria-controls', listId);
   }, [buttonRef.current]);
+
+  useEffect(() => {
+    if (!onThisPageAnchorsStickyRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setHasStuck(!entry.isIntersecting);
+        document.documentElement.style.setProperty(
+          '--nav',
+          entry.isIntersecting
+            ? themeValues.color('neutral.700')
+            : themeValues.color('accent.lightGreen')
+        );
+      },
+      {
+        root: null,
+        rootMargin: '-1px',
+      }
+    );
+
+    observer.observe(onThisPageAnchorsStickyRef.current);
+  }, [onThisPageAnchorsStickyRef.current]);
 
   // When an anchor is clicked, lock for a short time before allowing scroll to clear
   useEffect(() => {
@@ -210,87 +277,149 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
     listRef.current.classList.add('is-hidden-s', 'is-hidden-m');
   }, [listRef.current]);
 
-  function toggleList() {
-    if (!listRef.current || !buttonRef.current) return;
-
-    if (listRef.current.classList.contains('is-hidden-s')) {
-      listRef.current.classList.remove('is-hidden-s', 'is-hidden-m');
-      buttonRef.current.setAttribute('aria-expanded', 'true');
-    } else {
-      listRef.current.classList.add('is-hidden-s', 'is-hidden-m');
-      buttonRef.current.setAttribute('aria-expanded', 'false');
-    }
-  }
-
-  function hideMobileList() {
-    if (!listRef.current || !buttonRef.current) return;
-
-    listRef.current.classList.add('is-hidden-s', 'is-hidden-m');
-    buttonRef.current.setAttribute('aria-expanded', 'false');
-  }
-
   const titleText = isSticky ? 'On this page' : 'What’s on this page';
   const fontStyle = isSticky ? font('intm', 5) : font('wb', 4);
+  const [activeLinkText, setActiveLinkText] = useState(titleText);
+  const [isListActive, setIsListActive] = useState(false);
+  const textRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (!listRef.current || !buttonRef.current) return;
+
+    listRef.current.classList[isListActive ? 'remove' : 'add'](
+      'is-hidden-s',
+      'is-hidden-m'
+    );
+    buttonRef.current.setAttribute(
+      'aria-expanded',
+      isListActive ? 'false' : 'true'
+    );
+  }, [isListActive]);
+
+  useEffect(() => {
+    setActiveLinkText(
+      links.find(link => link.url.replace('#', '') === activeId)?.text ||
+        titleText
+    );
+  }, [activeId]);
 
   return (
-    <Root $isSticky={isSticky} $hasBackgroundBlend={hasBackgroundBlend}>
-      <h2 className={`${fontStyle} is-hidden-s is-hidden-m`}>{titleText}</h2>
-      {isSticky && (
-        <MobileNavButton ref={buttonRef} onClick={toggleList}>
-          {titleText}
-          {isEnhanced && <Icon icon={cross} matchText />}
-        </MobileNavButton>
-      )}
-      <PlainList ref={listRef} id={listId}>
-        {links.map((link: Link) => {
-          const id = link.url.replace('#', '');
-          const isActive = activeId === id;
-          return (
-            <Fragment key={link.url}>
-              {isSticky ? (
-                <ListItem>
-                  <NextLink
-                    passHref
-                    legacyBehavior
-                    style={{ textDecoration: 'none' }}
-                    href={link.url}
+    <>
+      <div ref={onThisPageAnchorsStickyRef}></div>
+      <Root
+        $isSticky={isSticky}
+        $hasBackgroundBlend={hasBackgroundBlend}
+        $hasStuck={hasStuck}
+      >
+        <h2 className={`${fontStyle} is-hidden-s is-hidden-m`}>{titleText}</h2>
+        {isSticky && (
+          <MobileNavButton
+            ref={buttonRef}
+            onClick={() => setIsListActive(!isListActive)}
+          >
+            <AnimatedTextContainer>
+              <SwitchTransition mode="out-in">
+                <CSSTransition
+                  key={hasStuck && !isListActive ? activeLinkText : titleText}
+                  timeout={300}
+                  nodeRef={textRef}
+                  onEnter={() => {
+                    if (textRef.current) {
+                      textRef.current.style.opacity = '0';
+                      textRef.current.style.transform = 'translateY(20px)';
+                    }
+                  }}
+                  onEntering={() => {
+                    if (textRef.current) {
+                      textRef.current.style.opacity = '1';
+                      textRef.current.style.transform = 'translateY(0)';
+                    }
+                  }}
+                  onExit={() => {
+                    if (textRef.current) {
+                      textRef.current.style.opacity = '1';
+                      textRef.current.style.transform = 'translateY(0)';
+                    }
+                  }}
+                  onExiting={() => {
+                    if (textRef.current) {
+                      textRef.current.style.opacity = '0';
+                      textRef.current.style.transform = 'translateY(-20px)';
+                    }
+                  }}
+                >
+                  <span
+                    ref={textRef}
+                    style={{
+                      display: 'block',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      whiteSpace: 'nowrap',
+                      transition: 'all 300ms ease-in-out',
+                    }}
                   >
-                    <InPageNavAnimatedLink
-                      $isActive={isActive}
-                      $hasBackgroundBlend={hasBackgroundBlend}
-                      data-gtm-trigger="link_click_page_position"
-                      onClick={e => {
-                        e.preventDefault();
-                        hideMobileList();
-                        setClickedId(id);
-                        const el = document.getElementById(id);
-                        if (el) {
-                          el.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start',
-                          });
-                        }
-                      }}
+                    {hasStuck && !isListActive ? activeLinkText : titleText}
+                  </span>
+                </CSSTransition>
+              </SwitchTransition>
+            </AnimatedTextContainer>
+
+            {isEnhanced && <Icon icon={cross} matchText />}
+          </MobileNavButton>
+        )}
+        <PlainList ref={listRef} id={listId}>
+          {links.map((link: Link) => {
+            const id = link.url.replace('#', '');
+            const isActive = activeId === id;
+            return (
+              <Fragment key={link.url}>
+                {isSticky ? (
+                  <ListItem>
+                    <NextLink
+                      passHref
+                      legacyBehavior
+                      style={{ textDecoration: 'none' }}
+                      href={link.url}
                     >
-                      <span>{link.text}</span>
-                    </InPageNavAnimatedLink>
-                  </NextLink>
-                </ListItem>
-              ) : (
-                <li>
-                  <Anchor
-                    data-gtm-trigger="link_click_page_position"
-                    href={link.url}
-                  >
-                    {link.text}
-                  </Anchor>
-                </li>
-              )}
-            </Fragment>
-          );
-        })}
-      </PlainList>
-    </Root>
+                      <InPageNavAnimatedLink
+                        $isActive={isActive}
+                        $hasBackgroundBlend={hasBackgroundBlend}
+                        data-gtm-trigger="link_click_page_position"
+                        onClick={e => {
+                          e.preventDefault();
+                          setClickedId(id);
+                          setIsListActive(false);
+                          const el = document.getElementById(id);
+                          if (el) {
+                            el.scrollIntoView({
+                              behavior: 'smooth',
+                              block: 'start',
+                            });
+                          }
+                        }}
+                      >
+                        <span>{link.text}</span>
+                      </InPageNavAnimatedLink>
+                    </NextLink>
+                  </ListItem>
+                ) : (
+                  <li>
+                    <Anchor
+                      data-gtm-trigger="link_click_page_position"
+                      href={link.url}
+                    >
+                      {link.text}
+                    </Anchor>
+                  </li>
+                )}
+              </Fragment>
+            );
+          })}
+        </PlainList>
+      </Root>
+    </>
   );
 };
 

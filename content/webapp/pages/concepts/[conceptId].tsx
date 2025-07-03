@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { LinkProps } from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FunctionComponent, JSX, useEffect, useRef, useState } from 'react';
+import { FunctionComponent, JSX, useState } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
@@ -80,13 +80,11 @@ const linkSources = new Map([
 
 const NavGridCell = styled(GridCell)<{
   $isEnhanced: boolean;
-  $isMobileNavInverted: boolean;
 }>`
   position: ${props => (props.$isEnhanced ? 'sticky' : 'relative')};
   top: 0;
   transition: background-color ${props => props.theme.transitionProperties};
-  background-color: ${props =>
-    props.theme.color(props.$isMobileNavInverted ? 'white' : 'neutral.700')};
+  background-color: ${props => props.theme.color('neutral.700')};
   z-index: 3;
 
   &::before,
@@ -98,8 +96,7 @@ const NavGridCell = styled(GridCell)<{
     top: 0;
     z-index: 10;
     transition: background-color ${props => props.theme.transitionProperties};
-    background-color: ${props =>
-      props.theme.color(props.$isMobileNavInverted ? 'white' : 'neutral.700')};
+    background-color: ${props => props.theme.color('neutral.700')};
   }
 
   &::before {
@@ -387,23 +384,7 @@ export const ConceptPage: NextPage<Props> = ({
   apiToolbarLinks,
 }) => {
   const { newThemePages, themePagesAllFields } = useToggles();
-  const [isMobileNavInverted, setIsMobileNavInverted] = useState(false);
   const { isEnhanced } = useAppContext();
-  const mobileNavColorChangeRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
-        setIsMobileNavInverted(true);
-      } else if (entry.boundingClientRect.top >= 0) {
-        setIsMobileNavInverted(false);
-      }
-    });
-    if (!mobileNavColorChangeRef.current) return;
-    observer.observe(mobileNavColorChangeRef.current);
-
-    return () => observer.disconnect();
-  }, [mobileNavColorChangeRef.current]);
 
   const pathname = usePathname();
   const worksTabs = tabOrder
@@ -516,7 +497,6 @@ export const ConceptPage: NextPage<Props> = ({
           <NavGridCell
             $isEnhanced={isEnhanced}
             $sizeMap={{ s: [12], m: [12], l: [3], xl: [2] }}
-            $isMobileNavInverted={isMobileNavInverted}
           >
             <OnThisPageAnchors
               links={navLinks}
@@ -532,9 +512,6 @@ export const ConceptPage: NextPage<Props> = ({
                 concept={conceptResponse}
               />
             </StretchWrapper>
-            {/* This empty div is used in conjuction with an IntersectionObserver to
-              determine when to change the colour of the mobile nav */}
-            <div ref={mobileNavColorChangeRef}></div>
             <ThemeWorks concept={conceptResponse} sectionsData={sectionsData} />
 
             {(conceptResponse.type === 'Person' || themePagesAllFields) && (
