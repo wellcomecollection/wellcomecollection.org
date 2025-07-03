@@ -116,15 +116,20 @@ const Root = styled(Space).attrs<{ $isSticky?: boolean; $hasStuck: boolean }>(
   $hasStuck: boolean;
 }>`
   ${props => (props.$isSticky ? stickyRootAttrs : '')}
-  ${props =>
-    props.$hasStuck &&
-    `
-    margin-left: -${themeValues.containerPadding.small}px;
-    margin-right: -${themeValues.containerPadding.small}px;
-    padding-left: ${themeValues.containerPadding.small}px;
-    padding-right: ${themeValues.containerPadding.small}px;
 
-    ${props.theme.mediaBetween(
+  ${props =>
+    props.theme.mediaBetween(
+      'small',
+      'medium'
+    )(`
+      margin-left: -${themeValues.containerPadding.small}px;
+      margin-right: -${themeValues.containerPadding.small}px;
+      padding-left: ${themeValues.containerPadding.small}px;
+      padding-right: ${themeValues.containerPadding.small}px;
+    `)}
+
+  ${props =>
+    props.theme.mediaBetween(
       'medium',
       'large'
     )(`
@@ -133,7 +138,7 @@ const Root = styled(Space).attrs<{ $isSticky?: boolean; $hasStuck: boolean }>(
       padding-left: ${props.theme.containerPadding.medium}px;
       padding-right: ${props.theme.containerPadding.medium}px;
     `)}
-  `}
+
 
   ${props =>
     props.theme.mediaBetween(
