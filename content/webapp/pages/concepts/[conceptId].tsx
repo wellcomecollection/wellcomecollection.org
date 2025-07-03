@@ -19,7 +19,6 @@ import {
 } from '@weco/common/utils/grammar';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getQueryResults, ReturnedResults } from '@weco/common/utils/search';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
@@ -55,6 +54,7 @@ import {
   Work as WorkType,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
+import { Link } from '@weco/content/types/link';
 import {
   allRecordsLinkParams,
   conceptTypeDisplayName,
@@ -466,36 +466,45 @@ export const ConceptPage: NextPage<Props> = ({
   const relatedConceptsGroupLabel = 'Related topics';
   const personOrAllFields =
     conceptResponse.type === 'Person' || themePagesAllFields;
-  const navLinks = [
-    sectionsData.by.images?.totalResults
-      ? {
-          text: `Images ${getThemeTabLabel('by', conceptResponse.type)}`,
-          url: `#images-${getThemeTabLabel('by', conceptResponse.type)}`,
-        }
-      : undefined,
-    sectionsData.about.images?.totalResults
-      ? {
-          text: `Images ${getThemeTabLabel('about', conceptResponse.type)}`,
-          url: `#images-${getThemeTabLabel('about', conceptResponse.type)}`,
-        }
-      : undefined,
-    sectionsData.in.images?.totalResults
-      ? {
-          text: `Images ${getThemeTabLabel('in', conceptResponse.type)}`,
-          url: `#images-${getThemeTabLabel('in', conceptResponse.type)}`,
-        }
-      : undefined,
-    { text: 'Works', url: '#works' },
-    frequentCollaborators?.length && personOrAllFields
-      ? { text: 'Frequent collaborators', url: '#frequent-collaborators' }
-      : undefined,
-    relatedTopics?.length && personOrAllFields
-      ? {
-          text: relatedConceptsGroupLabel,
-          url: `#${dasherize(relatedConceptsGroupLabel)}`,
-        }
-      : undefined,
-  ].filter(isNotUndefined);
+  const buildNavLinks = () => {
+    const links: Link[] = [];
+
+    // Add image sections
+    const imageSections = ['by', 'about', 'in'] as const;
+
+    for (const section of imageSections) {
+      if (sectionsData[section].images?.totalResults) {
+        const themeLabel = getThemeTabLabel(section, conceptResponse.type);
+        links.push({
+          text: `Images ${themeLabel}`,
+          url: `#images-${themeLabel}`,
+        });
+      }
+    }
+
+    // Add works section
+    links.push({ text: 'Works', url: '#works' });
+
+    // Add frequent collaborators
+    if (frequentCollaborators?.length && personOrAllFields) {
+      links.push({
+        text: 'Frequent collaborators',
+        url: '#frequent-collaborators',
+      });
+    }
+
+    // Add related topics
+    if (relatedTopics?.length && personOrAllFields) {
+      links.push({
+        text: relatedConceptsGroupLabel,
+        url: `#${dasherize(relatedConceptsGroupLabel)}`,
+      });
+    }
+
+    return links;
+  };
+
+  const navLinks = buildNavLinks();
 
   return newThemePages ? (
     <CataloguePageLayout
