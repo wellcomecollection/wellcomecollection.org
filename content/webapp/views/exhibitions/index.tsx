@@ -16,7 +16,6 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout';
 import Pagination from '@weco/common/views/components/Pagination';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import SectionHeader from '@weco/common/views/components/SectionHeader';
@@ -24,6 +23,7 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 
 export type Props = {

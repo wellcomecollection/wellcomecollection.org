@@ -16,7 +16,6 @@ import {
 import { ReturnedResults } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import CatalogueImageGallery from '@weco/common/views/components/CatalogueImageGallery';
-import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout';
 import MoreLink from '@weco/common/views/components/MoreLink';
 import OnThisPageAnchors from '@weco/common/views/components/OnThisPageAnchors';
 import { toLink as toImagesLink } from '@weco/common/views/components/SearchPagesLink/Images';
@@ -27,6 +26,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import Tabs from '@weco/common/views/components/Tabs';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import WorksSearchResults from '@weco/common/views/components/WorksSearchResults';
+import CataloguePageLayout from '@weco/common/views/layouts/CataloguePageLayout';
 import { themeValues } from '@weco/common/views/themes/config';
 import theme from '@weco/common/views/themes/default';
 import {

@@ -10,7 +10,6 @@ import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import CatalogueImageGallery from '@weco/common/views/components/CatalogueImageGallery';
 import Pagination from '@weco/common/views/components/Pagination';
 import SearchFilters from '@weco/common/views/components/SearchFilters';
-import { withSearchLayout } from '@weco/common/views/components/SearchPageLayout';
 import {
   ImagesProps,
   toLink,
@@ -21,6 +20,7 @@ import PaginationWrapper from '@weco/common/views/components/styled/PaginationWr
 import Space, {
   VerticalSpaceProperty,
 } from '@weco/common/views/components/styled/Space';
+import { withSearchLayout } from '@weco/common/views/layouts/SearchPageLayout';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import {
   CatalogueResultsList,

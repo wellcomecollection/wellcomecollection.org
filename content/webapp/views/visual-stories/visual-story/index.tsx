@@ -14,8 +14,8 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import Standfirst from '@weco/common/views/slices/Standfirst';
 import {
   VisualStoryBasic,

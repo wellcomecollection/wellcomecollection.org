@@ -16,7 +16,6 @@ import {
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import SectionHeader from '@weco/common/views/components/SectionHeader';
 import StoryPromo from '@weco/common/views/components/StoryPromo';
@@ -28,6 +27,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
 import { SeriesBasic } from '@weco/content/types/series';
 import { StoriesLanding } from '@weco/content/types/stories-landing';

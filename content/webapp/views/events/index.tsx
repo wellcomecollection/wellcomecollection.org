@@ -20,7 +20,6 @@ import {
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout';
 import Pagination from '@weco/common/views/components/Pagination';
 import SearchFilters from '@weco/common/views/components/SearchFilters';
 import { EventsProps } from '@weco/common/views/components/SearchPagesLink/Events';
@@ -28,6 +27,7 @@ import PaginationWrapper from '@weco/common/views/components/styled/PaginationWr
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import Tabs from '@weco/common/views/components/Tabs';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { themeValues } from '@weco/common/views/themes/config';
 import { eventsFilters } from '@weco/content/services/wellcome/common/filters';
 import {

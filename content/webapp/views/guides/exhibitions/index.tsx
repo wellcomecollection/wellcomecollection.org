@@ -13,11 +13,11 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout';
 import Pagination from '@weco/common/views/components/Pagination';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
 
 export type Props = {

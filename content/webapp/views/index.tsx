@@ -16,11 +16,11 @@ import {
   gridSize10,
   gridSize12,
 } from '@weco/common/views/components/Layout';
-import PageLayout from '@weco/common/views/components/PageLayout';
 import SectionHeader from '@weco/common/views/components/SectionHeader';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import Standfirst from '@weco/common/views/slices/Standfirst';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
 import { ContentListProps, Slice } from '@weco/content/types/body';

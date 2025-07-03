@@ -4,7 +4,7 @@ import { unavailableContentMessage } from '@weco/common/data/microcopy';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import BetaMessage from '@weco/common/views/components/BetaMessage';
-import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout';
+import CataloguePageLayout from '@weco/common/views/layouts/CataloguePageLayout';
 import {
   ContaineredLayout,
   gridSize12,

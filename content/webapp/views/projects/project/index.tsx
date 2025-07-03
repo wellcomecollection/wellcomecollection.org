@@ -10,8 +10,8 @@ import { getFeaturedPictureWithTasl } from '@weco/common/views/components/ImageW
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import { makeLabels } from '@weco/common/views/components/LabelsList';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { transformEmbedSlice } from '@weco/content/services/prismic/transformers/body';
 import { isEditorialImage, isVideoEmbed } from '@weco/content/types/body';
 import { Project as ProjectType } from '@weco/content/types/projects';

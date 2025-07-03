@@ -18,12 +18,12 @@ import ContentSearchResult from '@weco/common/views/components/ContentSearchResu
 import Divider from '@weco/common/views/components/Divider';
 import Icon from '@weco/common/views/components/Icon';
 import Pagination from '@weco/common/views/components/Pagination';
-import { withSearchLayout } from '@weco/common/views/components/SearchPageLayout';
 import { toLink as imagesLink } from '@weco/common/views/components/SearchPagesLink/Images';
 import { toLink as worksLink } from '@weco/common/views/components/SearchPagesLink/Works';
 import { Container } from '@weco/common/views/components/styled/Container';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
+import { withSearchLayout } from '@weco/common/views/layouts/SearchPageLayout';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';

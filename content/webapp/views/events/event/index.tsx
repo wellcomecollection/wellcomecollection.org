@@ -32,7 +32,6 @@ import InfoBox from '@weco/common/views/components/InfoBox';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import Message from '@weco/common/views/components/Message';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout';
 import {
   ResourceLink,
   ResourceLinkIconWrapper,
@@ -40,6 +39,7 @@ import {
   ResourcesList,
 } from '@weco/common/views/components/styled/AccessResources';
 import Space from '@weco/common/views/components/styled/Space';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { LabelField } from '@weco/content/model/label-field';
 import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
 import { fetchEventsClientSide } from '@weco/content/services/prismic/fetch/events';

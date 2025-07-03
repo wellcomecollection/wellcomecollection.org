@@ -10,10 +10,10 @@ import {
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import Table from '@weco/common/views/components/Table';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { components } from '@weco/common/views/slices';
 import * as page from '@weco/content/pages/pages/[pageId]';
 

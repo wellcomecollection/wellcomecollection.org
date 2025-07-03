@@ -6,7 +6,7 @@ import { wellcomeImagesRedirectBanner } from '@weco/common/data/microcopy';
 import InfoBanner from '@weco/common/views/components/InfoBanner';
 import PageLayout, {
   Props as PageLayoutProps,
-} from '@weco/common/views/components/PageLayout';
+} from '@weco/common/views/layouts/PageLayout';
 
 type Props = {
   hideTopContent?: boolean;

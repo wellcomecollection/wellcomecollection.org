@@ -8,7 +8,6 @@ import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import Button from '@weco/common/views/components/Buttons';
-import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout';
 import {
   ContaineredLayout,
   gridSize12,
@@ -16,6 +15,7 @@ import {
 import Modal from '@weco/common/views/components/Modal';
 import Space from '@weco/common/views/components/styled/Space';
 import WorkLink from '@weco/common/views/components/WorkLink';
+import CataloguePageLayout from '@weco/common/views/layouts/CataloguePageLayout';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import {
