@@ -16,15 +16,15 @@ import { LinkProps } from '@weco/common/model/link-props';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import AudioPlayer from '@weco/common/views/components/AudioPlayer';
+import BetaMessage from '@weco/common/views/components/BetaMessage';
 import Icon from '@weco/common/views/components/Icon';
 import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import AudioPlayer from '@weco/content/components/AudioPlayer';
-import BetaMessage from '@weco/content/components/BetaMessage';
-import VideoPlayer from '@weco/content/components/VideoPlayer';
+import VideoPlayer from '@weco/common/views/components/VideoPlayer';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
 import { missingAltTextMessage } from '@weco/content/services/wellcome/catalogue/works';

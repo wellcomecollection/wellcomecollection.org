@@ -2,8 +2,8 @@ import { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import CopyButtons from '@weco/content/components/CopyButtons';
-import Readme from '@weco/content/components/CopyButtons/README.mdx';
+import CopyButtons from '@weco/common/views/components/CopyButtons';
+import Readme from '@weco/common/views/components/CopyButtons/README.mdx';
 
 const contentArgs = {
   CTA: 'Copy content',

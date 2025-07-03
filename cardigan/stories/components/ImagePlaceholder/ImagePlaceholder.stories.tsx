@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import ImagePlaceholder from '@weco/content/components/ImagePlaceholder';
-import Readme from '@weco/content/components/ImagePlaceholder/README.mdx';
+import ImagePlaceholder from '@weco/common/views/components/ImagePlaceholder';
+import Readme from '@weco/common/views/components/ImagePlaceholder/README.mdx';
 
 const meta: Meta<typeof ImagePlaceholder> = {
   title: 'Components/ImagePlaceholder',

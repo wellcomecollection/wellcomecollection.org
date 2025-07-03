@@ -1,4 +1,5 @@
 import { deleteCookie, getCookies, setCookie } from 'cookies-next';
+import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
@@ -87,7 +88,7 @@ type ListOfTogglesProps = {
   setToggleStates: Dispatch<SetStateAction<ToggleStates>>;
 };
 
-const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
+const ListOfToggles: NextPage<ListOfTogglesProps> = ({
   toggles,
   toggleStates,
   setToggleStates,

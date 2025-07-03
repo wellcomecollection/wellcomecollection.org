@@ -4,10 +4,10 @@ import {
   ContaineredLayout,
   gridSize8,
 } from '@weco/common/views/components/Layout';
+import MoreLink from '@weco/common/views/components/MoreLink';
+import SearchResults from '@weco/common/views/components/SearchResults';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import MoreLink from '@weco/content/components/MoreLink';
-import SearchResults from '@weco/content/components/SearchResults';
 import { ArticleBasic } from '@weco/content/types/articles';
 import { Series } from '@weco/content/types/series';
 

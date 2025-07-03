@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { linkResolver } from '@weco/common/utils/search';
-import SearchFilters from '@weco/content/components/SearchFilters';
+import SearchFilters from '@weco/common/views/components/SearchFilters';
 
 const meta: Meta<typeof SearchFilters> = {
   title: 'Components/Buttons/Alternates/SearchFilters',

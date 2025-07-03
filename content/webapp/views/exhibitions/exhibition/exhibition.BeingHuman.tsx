@@ -6,20 +6,20 @@ import { arrow, download } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
+import Contributors from '@weco/common/views/components/Contributors';
+import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import Icon from '@weco/common/views/components/Icon';
+import InfoBox from '@weco/common/views/components/InfoBox';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
-import Space from '@weco/common/views/components/styled/Space';
-import { PaletteColor } from '@weco/common/views/themes/config';
-import Contributors from '@weco/content/components/Contributors';
-import { defaultSerializer } from '@weco/content/components/HTMLSerializers';
-import InfoBox from '@weco/content/components/InfoBox';
-import SearchResults from '@weco/content/components/SearchResults';
+import SearchResults from '@weco/common/views/components/SearchResults';
 import {
   ResourceLink,
   ResourceLinkIconWrapper,
   ResourcesItem,
   ResourcesList,
-} from '@weco/content/components/styled/AccessResources';
+} from '@weco/common/views/components/styled/AccessResources';
+import Space from '@weco/common/views/components/styled/Space';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 import { getInfoItems } from './exhibition.helpers';
 

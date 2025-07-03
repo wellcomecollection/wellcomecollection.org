@@ -2,7 +2,7 @@ import { Content } from '@prismicio/client';
 import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
-import SectionHeading from '@weco/content/components/GuideSectionHeading';
+import SectionHeading from '@weco/common/views/components/GuideSectionHeading';
 import { transformGuideSectionHeadingSlice } from '@weco/content/services/prismic/transformers/exhibition-texts';
 export type GuideSectionHeadingProps =
   SliceComponentProps<Content.GuideSectionHeadingSlice>;

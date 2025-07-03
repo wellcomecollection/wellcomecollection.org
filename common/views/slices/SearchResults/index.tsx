@@ -2,13 +2,13 @@ import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
 import { SearchResultsSlice as RawSearchResultsSlice } from '@weco/common/prismicio-types';
-import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
   defaultContext,
   LayoutWidth,
   SliceZoneContext,
-} from '@weco/content/components/Body';
-import SearchResults from '@weco/content/components/SearchResults';
+} from '@weco/common/views/components/Body';
+import SearchResults from '@weco/common/views/components/SearchResults';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { transformSearchResultsSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type SearchResultsProps = SliceComponentProps<
@@ -19,7 +19,7 @@ export type SearchResultsProps = SliceComponentProps<
 const SearchResultsSlice: FunctionComponent<SearchResultsProps> = ({
   slice,
   context,
-}: SearchResultsProps): JSX.Element => {
+}: SearchResultsProps) => {
   const options = { ...defaultContext, ...context };
   const transformedSlice = transformSearchResultsSlice(slice);
   return (

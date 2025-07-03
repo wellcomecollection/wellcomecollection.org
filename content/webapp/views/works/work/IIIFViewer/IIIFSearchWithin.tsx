@@ -7,11 +7,11 @@ import { search } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { pluralize } from '@weco/common/utils/grammar';
 import Button from '@weco/common/views/components/Buttons';
+import { toLink as itemLink } from '@weco/common/views/components/ItemLink';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import TextInput from '@weco/common/views/components/TextInput';
 import { themeValues } from '@weco/common/views/themes/config';
-import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import {
   results,
   useItemViewerContext,

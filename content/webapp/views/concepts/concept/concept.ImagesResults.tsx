@@ -10,11 +10,11 @@ import {
   pluralize,
 } from '@weco/common/utils/grammar';
 import { ReturnedResults } from '@weco/common/utils/search';
+import CatalogueImageGallery from '@weco/common/views/components/CatalogueImageGallery';
+import MoreLink from '@weco/common/views/components/MoreLink';
+import { toLink as toImagesLink } from '@weco/common/views/components/SearchPagesLink/Images';
 import Space from '@weco/common/views/components/styled/Space';
 import theme from '@weco/common/views/themes/default';
-import CatalogueImageGallery from '@weco/content/components/CatalogueImageGallery';
-import MoreLink from '@weco/content/components/MoreLink';
-import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink/Images';
 import {
   Concept,
   Image,

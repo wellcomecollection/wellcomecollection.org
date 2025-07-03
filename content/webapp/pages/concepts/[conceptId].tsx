@@ -1,12 +1,14 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { appError, AppErrorProps } from '@weco/common/services/app';
-import { Pageview } from '@weco/common/services/conversion/track';
+import { appError } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getQueryResults } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { getConcept } from '@weco/content/services/wellcome/catalogue/concepts';
@@ -55,17 +57,14 @@ function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
   return [apiLink, ...identifiers];
 }
 
-type Props = ConceptPageProps & {
-  pageview: Pageview;
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
-
 export const Page: NextPage<ConceptPageProps> = props => {
   return <ConceptPage {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<ConceptPageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res, cacheTTL.search);
   const { conceptId } = context.query;

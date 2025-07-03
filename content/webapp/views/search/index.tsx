@@ -1,3 +1,4 @@
+import { NextPage } from 'next';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useContext, useEffect, useMemo, useState } from 'react';
@@ -13,18 +14,17 @@ import { formatNumber } from '@weco/common/utils/grammar';
 import { getQueryResults } from '@weco/common/utils/search';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
+import CatalogueImageGallery from '@weco/common/views/components/CatalogueImageGallery';
+import ContentSearchResult from '@weco/common/views/components/ContentSearchResult';
 import Divider from '@weco/common/views/components/Divider';
 import Icon from '@weco/common/views/components/Icon';
+import Pagination from '@weco/common/views/components/Pagination';
+import { toLink as imagesLink } from '@weco/common/views/components/SearchPagesLink/Images';
+import { toLink as worksLink } from '@weco/common/views/components/SearchPagesLink/Works';
 import { Container } from '@weco/common/views/components/styled/Container';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
-import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import CatalogueImageGallery from '@weco/content/components/CatalogueImageGallery';
-import ContentSearchResult from '@weco/content/components/ContentSearchResult';
-import Pagination from '@weco/content/components/Pagination';
-import { withSearchLayout } from '@weco/content/components/SearchPageLayout';
-import { toLink as imagesLink } from '@weco/content/components/SearchPagesLink/Images';
-import { toLink as worksLink } from '@weco/content/components/SearchPagesLink/Works';
+import { withSearchLayout } from '@weco/common/views/layouts/SearchPageLayout';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
 import {
@@ -62,7 +62,7 @@ export type Props = {
   apiToolbarLinks?: ApiToolbarLink[];
 };
 
-const SearchPage: NextPageWithLayout<Props> = withSearchLayout(
+const SearchPage: NextPage<Props> = withSearchLayout(
   ({ contentResults, contentQueryFailed, query }) => {
     const { query: queryString } = query;
     const { extraApiToolbarLinks, setExtraApiToolbarLinks } =

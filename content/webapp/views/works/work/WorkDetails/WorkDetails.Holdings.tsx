@@ -1,6 +1,6 @@
 import { font } from '@weco/common/utils/classnames';
+import ExpandableList from '@weco/common/views/components/ExpandableList';
 import Space from '@weco/common/views/components/styled/Space';
-import ExpandableList from '@weco/content/components/ExpandableList';
 import { Holding } from '@weco/content/services/wellcome/catalogue/types';
 import {
   getLocationLabel,

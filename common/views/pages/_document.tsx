@@ -13,7 +13,6 @@ import { ConsentStatusProps } from '@weco/common/server-data/types';
 import {
   CoreWebVitalsScript,
   Ga4DataLayer,
-  GaDimensions,
   GoogleTagManager,
   PerformanceTimingTrackingScript,
 } from '@weco/common/services/app/analytics-scripts';
@@ -22,7 +21,6 @@ import { Toggles } from '@weco/toggles';
 
 type DocumentInitialPropsWithTogglesAndGa = DocumentInitialProps & {
   toggles: Toggles;
-  gaDimensions?: GaDimensions;
   consentStatus: ConsentStatusProps;
 };
 class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
@@ -50,7 +48,6 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
       return {
         ...initialProps,
         toggles: pageProps.serverData?.toggles,
-        gaDimensions: pageProps.gaDimensions,
         consentStatus,
         styles: (
           <>

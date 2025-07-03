@@ -2,8 +2,8 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { captionedImage } from '@weco/cardigan/stories/data/images';
-import ImageGallery from '@weco/content/components/ImageGallery';
-import Readme from '@weco/content/components/ImageGallery/README.mdx';
+import ImageGallery from '@weco/common/views/components/ImageGallery';
+import Readme from '@weco/common/views/components/ImageGallery/README.mdx';
 
 const images = [...new Array(5)].map(() => captionedImage());
 

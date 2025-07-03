@@ -2,14 +2,14 @@ import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
 import { EmbedSlice as RawEmbedSlice } from '@weco/common/prismicio-types';
-import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import VideoEmbed from '@weco/common/views/components/VideoEmbed';
 import {
   defaultContext,
   LayoutWidth,
   SliceZoneContext,
-} from '@weco/content/components/Body';
-import SoundCloudEmbed from '@weco/content/components/SoundCloudEmbed';
+} from '@weco/common/views/components/Body';
+import SoundCloudEmbed from '@weco/common/views/components/SoundCloudEmbed';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import VideoEmbed from '@weco/common/views/components/VideoEmbed';
 import { transformEmbedSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type EmbedProps = SliceComponentProps<RawEmbedSlice, SliceZoneContext>;

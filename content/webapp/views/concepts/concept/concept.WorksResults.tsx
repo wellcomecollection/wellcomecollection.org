@@ -8,13 +8,13 @@ import {
   formatNumber,
   pluralize,
 } from '@weco/common/utils/grammar';
+import MoreLink from '@weco/common/views/components/MoreLink';
+import { toLink as toWorksLink } from '@weco/common/views/components/SearchPagesLink/Works';
 import Space from '@weco/common/views/components/styled/Space';
+import Tabs from '@weco/common/views/components/Tabs';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
+import WorksSearchResults from '@weco/common/views/components/WorksSearchResults';
 import theme from '@weco/common/views/themes/default';
-import MoreLink from '@weco/content/components/MoreLink';
-import { toLink as toWorksLink } from '@weco/content/components/SearchPagesLink/Works';
-import Tabs from '@weco/content/components/Tabs';
-import WorksSearchResults from '@weco/content/components/WorksSearchResults';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import {
   allRecordsLinkParams,

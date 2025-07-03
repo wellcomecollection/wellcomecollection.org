@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { Venue } from '@weco/common/model/opening-hours';
 import { galleriesVenue } from '@weco/common/test/fixtures/components/galleries-venue';
-import VenueHours from '@weco/content/components/VenueHours';
-import Readme from '@weco/content/components/VenueHours/README.mdx';
+import VenueHours from '@weco/common/views/components/VenueHours';
+import Readme from '@weco/common/views/components/VenueHours/README.mdx';
 
 const VenueHoursComponent = ({
   hasUnusualHours,

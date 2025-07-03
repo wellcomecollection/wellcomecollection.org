@@ -1,8 +1,8 @@
 import { FunctionComponent } from 'react';
 
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
+import SectionHeader from '@weco/common/views/components/SectionHeader';
 import Space from '@weco/common/views/components/styled/Space';
-import SectionHeader from '@weco/content/components/SectionHeader';
 
 import TypeOption, { TypeList } from './exhibition.TypeOption';
 

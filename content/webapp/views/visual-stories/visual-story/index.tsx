@@ -4,6 +4,9 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import Body from '@weco/common/views/components/Body';
+import CardGrid from '@weco/common/views/components/CardGrid';
+import ContentPage from '@weco/common/views/components/ContentPage';
 import Divider from '@weco/common/views/components/Divider';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
@@ -11,12 +14,9 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import Standfirst from '@weco/common/views/slices/Standfirst';
-import Body from '@weco/content/components/Body';
-import CardGrid from '@weco/content/components/CardGrid';
-import ContentPage from '@weco/content/components/ContentPage';
 import {
   VisualStoryBasic,
   VisualStory as VisualStoryProps,

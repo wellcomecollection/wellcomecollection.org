@@ -6,7 +6,7 @@ import {
 } from '@weco/common/prismicio-types';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
-import PageLayout from '@weco/common/views/components/PageLayout';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { Exhibition as ExhibitionType } from '@weco/content/types/exhibitions';
 import { Link } from '@weco/content/types/link';
 import { Page as PageType } from '@weco/content/types/pages';

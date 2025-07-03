@@ -1,6 +1,7 @@
 import { act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { FunctionComponent, useRef, useState } from 'react';
+import '@testing-library/jest-dom';
 
 import { itemRequestDialog } from '@weco/common/data/microcopy';
 import * as Context from '@weco/common/server-data/Context';

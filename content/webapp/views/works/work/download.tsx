@@ -7,15 +7,15 @@ import {
   getCatalogueLicenseData,
   LicenseData,
 } from '@weco/common/utils/licenses';
+import Download from '@weco/common/views/components/Download';
 import {
   ContaineredLayout,
   gridSize8,
 } from '@weco/common/views/components/Layout';
-import PageLayout from '@weco/common/views/components/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import Download from '@weco/content/components/Download';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import {
   Work,
   WorkBasic,

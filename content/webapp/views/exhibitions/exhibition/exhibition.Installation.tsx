@@ -6,16 +6,16 @@ import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import Body from '@weco/common/views/components/Body';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
+import BslLeafletVideo from '@weco/common/views/components/BslLeafletVideo';
+import ContentPage from '@weco/common/views/components/ContentPage';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
+import InfoBox from '@weco/common/views/components/InfoBox';
 import PageHeader from '@weco/common/views/components/PageHeader';
+import SearchResults from '@weco/common/views/components/SearchResults';
+import StatusIndicator from '@weco/common/views/components/StatusIndicator';
 import Space from '@weco/common/views/components/styled/Space';
-import Body from '@weco/content/components/Body';
-import BslLeafletVideo from '@weco/content/components/BslLeafletVideo';
-import ContentPage from '@weco/content/components/ContentPage';
-import InfoBox from '@weco/content/components/InfoBox';
-import SearchResults from '@weco/content/components/SearchResults';
-import StatusIndicator from '@weco/content/components/StatusIndicator';
 import {
   fetchExhibitExhibition,
   fetchExhibitionRelatedContentClientSide,

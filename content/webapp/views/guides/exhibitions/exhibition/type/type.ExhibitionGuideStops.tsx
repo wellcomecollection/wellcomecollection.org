@@ -2,15 +2,15 @@ import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
-import Space from '@weco/common/views/components/styled/Space';
-import VideoEmbed from '@weco/common/views/components/VideoEmbed';
-import { PaletteColor } from '@weco/common/views/themes/config';
-import AudioPlayer from '@weco/content/components/AudioPlayer';
+import AudioPlayer from '@weco/common/views/components/AudioPlayer';
 import GridFactory, {
   threeUpGridSizesMap,
   twoUpGridSizesMap,
-} from '@weco/content/components/Body/GridFactory';
-import ExhibitionCaptions from '@weco/content/components/ExhibitionCaptions';
+} from '@weco/common/views/components/Body/GridFactory';
+import ExhibitionCaptions from '@weco/common/views/components/ExhibitionCaptions';
+import Space from '@weco/common/views/components/styled/Space';
+import VideoEmbed from '@weco/common/views/components/VideoEmbed';
+import { PaletteColor } from '@weco/common/views/themes/config';
 import {
   ExhibitionGuideComponent,
   ExhibitionGuideType,

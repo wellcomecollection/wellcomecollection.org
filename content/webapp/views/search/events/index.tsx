@@ -1,15 +1,16 @@
+import { NextPage } from 'next';
+
 import { pluralize } from '@weco/common/utils/grammar';
 import { linkResolver, SEARCH_PAGES_FORM_ID } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
+import EventsSearchResults from '@weco/common/views/components/EventsSearchResults';
+import Pagination from '@weco/common/views/components/Pagination';
+import SearchFilters from '@weco/common/views/components/SearchFilters';
+import { EventsProps } from '@weco/common/views/components/SearchPagesLink/Events';
 import { Container } from '@weco/common/views/components/styled/Container';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
-import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import EventsSearchResults from '@weco/content/components/EventsSearchResults';
-import Pagination from '@weco/content/components/Pagination';
-import SearchFilters from '@weco/content/components/SearchFilters';
-import { withSearchLayout } from '@weco/content/components/SearchPageLayout';
-import { EventsProps } from '@weco/content/components/SearchPagesLink/Events';
+import { withSearchLayout } from '@weco/common/views/layouts/SearchPageLayout';
 import { eventsFilters } from '@weco/content/services/wellcome/common/filters';
 import {
   ContentResultsList,
@@ -26,7 +27,7 @@ export type Props = {
   eventsRouteProps: EventsProps;
 };
 
-const EventsSearchPage: NextPageWithLayout<Props> = withSearchLayout(
+const EventsSearchPage: NextPage<Props> = withSearchLayout(
   ({ eventResponseList, query, eventsRouteProps }) => {
     const { query: queryString } = query;
 

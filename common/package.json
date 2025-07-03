@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "sideEffects": false,
   "scripts": {
-    "test": "jest",
+    "test": "NODE_ENV=test jest --no-cache",
     "test:watch": "yarn test -- --watchAll",
     "test:updateSnapshots": "yarn test -- --updateSnapshot"
   },

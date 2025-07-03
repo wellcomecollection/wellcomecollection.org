@@ -7,8 +7,8 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { useToggles } from '@weco/common/server-data/Context';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import { fromQuery } from '@weco/common/views/components/ItemLink';
 import LL from '@weco/common/views/components/styled/LL';
-import { fromQuery } from '@weco/content/components/ItemLink';
 import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import {

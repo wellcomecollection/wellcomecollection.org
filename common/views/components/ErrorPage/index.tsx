@@ -20,10 +20,10 @@ import {
 import PageHeader, {
   headerSpaceSize,
 } from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import togglesList from '@weco/toggles/toggles';
 
 const MessageBar = styled(Space).attrs({

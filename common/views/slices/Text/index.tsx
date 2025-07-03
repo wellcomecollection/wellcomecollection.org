@@ -4,17 +4,17 @@ import { FunctionComponent } from 'react';
 
 import { TextSlice as RawTextSlice } from '@weco/common/prismicio-types';
 import { classNames } from '@weco/common/utils/classnames';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
-import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
   defaultContext,
   LayoutWidth,
   SliceZoneContext,
-} from '@weco/content/components/Body';
+} from '@weco/common/views/components/Body';
 import {
   defaultSerializer,
   dropCapSerializer,
-} from '@weco/content/components/HTMLSerializers';
+} from '@weco/common/views/components/HTMLSerializers';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 
 export type TextProps = SliceComponentProps<RawTextSlice, SliceZoneContext>;
 

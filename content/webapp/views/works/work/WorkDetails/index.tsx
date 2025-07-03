@@ -6,17 +6,17 @@ import { DigitalLocation } from '@weco/common/model/catalogue';
 import { font } from '@weco/common/utils/classnames';
 import { formatDuration } from '@weco/common/utils/format-date';
 import Button from '@weco/common/views/components/Buttons';
+import { toLink as conceptLink } from '@weco/common/views/components/ConceptLink';
+import CopyButtons from '@weco/common/views/components/CopyButtons';
+import { toLink as itemLink } from '@weco/common/views/components/ItemLink';
 import {
   ContaineredLayout,
   gridSize10,
 } from '@weco/common/views/components/Layout';
+import { toLink as imagesLink } from '@weco/common/views/components/SearchPagesLink/Images';
+import { toLink as worksLink } from '@weco/common/views/components/SearchPagesLink/Works';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
-import { toLink as conceptLink } from '@weco/content/components/ConceptLink';
-import CopyButtons from '@weco/content/components/CopyButtons';
-import { toLink as itemLink } from '@weco/content/components/ItemLink';
-import { toLink as imagesLink } from '@weco/content/components/SearchPagesLink/Images';
-import { toLink as worksLink } from '@weco/content/components/SearchPagesLink/Works';
 import { useIsArchiveContext } from '@weco/content/contexts/IsArchiveContext';
 import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
 import {

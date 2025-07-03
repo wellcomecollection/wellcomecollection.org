@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { bookImageUrl, image } from '@weco/cardigan/stories/data/images';
 import { singleLineOfText } from '@weco/cardigan/stories/data/text';
-import BookPromo from '@weco/content/components/CardGrid/CardGrid.BookPromo';
+import BookPromo from '@weco/common/views/components/CardGrid/CardGrid.BookPromo';
 
 const meta: Meta<typeof BookPromo> = {
   title: 'Components/Cards/BookPromo',

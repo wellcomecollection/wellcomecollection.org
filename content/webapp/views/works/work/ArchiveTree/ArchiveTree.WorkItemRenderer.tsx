@@ -5,8 +5,8 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import { chevron } from '@weco/common/icons';
 import { classNames, font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
-import WorkLink from '@weco/content/components/WorkLink';
-import WorkTitle from '@weco/content/components/WorkTitle';
+import WorkLink from '@weco/common/views/components/WorkLink';
+import WorkTitle from '@weco/common/views/components/WorkTitle';
 import { UiTreeNode } from '@weco/content/views/works/work/work.types';
 
 import { isRelatedWork } from './ArchiveTree.helpers';

@@ -2,12 +2,12 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
+import CardGrid from '@weco/common/views/components/CardGrid';
 import {
   ContaineredLayout,
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import CardGrid from '@weco/content/components/CardGrid';
 import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
 
 const PromoContainer = styled.div`
