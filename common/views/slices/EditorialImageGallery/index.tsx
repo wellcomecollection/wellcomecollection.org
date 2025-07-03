@@ -2,12 +2,12 @@ import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
 import { EditorialImageGallerySlice as RawEditorialImageGallerySlice } from '@weco/common/prismicio-types';
-import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
   defaultContext,
   SliceZoneContext,
-} from '@weco/content/components/Body';
-import ImageGallery from '@weco/content/components/ImageGallery';
+} from '@weco/common/views/components/Body';
+import ImageGallery from '@weco/common/views/components/ImageGallery';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { transformEditorialImageGallerySlice } from '@weco/content/services/prismic/transformers/body';
 
 export type EditorialImageGalleryProps = SliceComponentProps<

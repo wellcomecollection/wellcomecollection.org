@@ -7,6 +7,7 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import RelevantGuideIcons from '@weco/common/views/components/ExhibitionGuideRelevantIcons';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
@@ -21,7 +22,6 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { components } from '@weco/common/views/slices';
-import RelevantGuideIcons from '@weco/content/components/ExhibitionGuideRelevantIcons';
 import {
   ExhibitionGuide,
   ExhibitionGuideType,

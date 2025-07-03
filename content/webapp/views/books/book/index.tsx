@@ -4,7 +4,10 @@ import styled from 'styled-components';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import Body from '@weco/common/views/components/Body';
+import BookImage from '@weco/common/views/components/BookImage';
 import Button from '@weco/common/views/components/Buttons';
+import ContentPage from '@weco/common/views/components/ContentPage';
 import {
   ContaineredLayout,
   gridSize8,
@@ -12,9 +15,6 @@ import {
 import PageHeader from '@weco/common/views/components/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
-import Body from '@weco/content/components/Body';
-import BookImage from '@weco/content/components/BookImage';
-import ContentPage from '@weco/content/components/ContentPage';
 import { Book } from '@weco/content/types/books';
 
 import BookMetadata from './book.Metadata';

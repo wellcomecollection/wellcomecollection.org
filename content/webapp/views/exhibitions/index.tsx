@@ -9,6 +9,7 @@ import { Period } from '@weco/common/types/periods';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isFuture } from '@weco/common/utils/dates';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
+import CardGrid from '@weco/common/views/components/CardGrid';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
@@ -16,14 +17,13 @@ import {
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout';
+import Pagination from '@weco/common/views/components/Pagination';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
+import SectionHeader from '@weco/common/views/components/SectionHeader';
 import { Container } from '@weco/common/views/components/styled/Container';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import CardGrid from '@weco/content/components/CardGrid';
-import Pagination from '@weco/content/components/Pagination';
-import SectionHeader from '@weco/content/components/SectionHeader';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 
 export type Props = {

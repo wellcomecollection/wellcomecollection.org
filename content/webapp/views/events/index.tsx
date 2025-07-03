@@ -12,6 +12,7 @@ import {
   linkResolver,
 } from '@weco/common/utils/search';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
+import EventsSearchResults from '@weco/common/views/components/EventsSearchResults';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
@@ -20,15 +21,14 @@ import {
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout';
+import Pagination from '@weco/common/views/components/Pagination';
+import SearchFilters from '@weco/common/views/components/SearchFilters';
+import { EventsProps } from '@weco/common/views/components/SearchPagesLink/Events';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import Tabs from '@weco/common/views/components/Tabs';
 import { themeValues } from '@weco/common/views/themes/config';
-import EventsSearchResults from '@weco/content/components/EventsSearchResults';
-import Pagination from '@weco/content/components/Pagination';
-import SearchFilters from '@weco/content/components/SearchFilters';
-import { EventsProps } from '@weco/content/components/SearchPagesLink/Events';
-import Tabs from '@weco/content/components/Tabs';
 import { eventsFilters } from '@weco/content/services/wellcome/common/filters';
 import {
   ContentResultsList,

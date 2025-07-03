@@ -2,8 +2,8 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { organisation, person } from '@weco/cardigan/stories/data/content';
-import Contributors from '@weco/content/components/Contributors';
-import Readme from '@weco/content/components/Contributors/README.mdx';
+import Contributors from '@weco/common/views/components/Contributors';
+import Readme from '@weco/common/views/components/Contributors/README.mdx';
 
 const meta: Meta<typeof Contributors> = {
   title: 'Components/Contributors',

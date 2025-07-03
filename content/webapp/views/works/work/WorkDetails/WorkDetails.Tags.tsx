@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Space from '@weco/common/views/components/styled/Space';
-import Tags, { Props as TagsProps } from '@weco/content/components/Tags';
+import Tags, { Props as TagsProps } from '@weco/common/views/components/Tags';
 
 import WorkDetailsProperty from './WorkDetails.Property';
 

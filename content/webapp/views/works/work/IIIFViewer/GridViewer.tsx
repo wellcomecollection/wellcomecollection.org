@@ -11,9 +11,9 @@ import { areEqual, FixedSizeGrid } from 'react-window';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
+import { toLink as itemLink } from '@weco/common/views/components/ItemLink';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
-import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';

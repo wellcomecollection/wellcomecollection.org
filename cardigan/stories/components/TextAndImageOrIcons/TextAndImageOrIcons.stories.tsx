@@ -4,8 +4,8 @@ import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { image as genericImage } from '@weco/cardigan/stories/data/images';
 import { smallText } from '@weco/cardigan/stories/data/text';
 import { mockIcons } from '@weco/common/test/fixtures/components/text-and-icons';
-import TextAndImageOrIcons from '@weco/content/components/TextAndImageOrIcons';
-import Readme from '@weco/content/components/TextAndImageOrIcons/README.mdx';
+import TextAndImageOrIcons from '@weco/common/views/components/TextAndImageOrIcons';
+import Readme from '@weco/common/views/components/TextAndImageOrIcons/README.mdx';
 
 const meta: Meta<typeof TextAndImageOrIcons> = {
   title: 'Components/TextAndImageOrIcons',

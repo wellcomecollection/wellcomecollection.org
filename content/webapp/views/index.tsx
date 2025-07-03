@@ -8,6 +8,8 @@ import { ImageType } from '@weco/common/model/image';
 import { StandfirstSlice as RawStandfirstSlice } from '@weco/common/prismicio-types';
 import { font } from '@weco/common/utils/classnames';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import CardGrid from '@weco/common/views/components/CardGrid';
+import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
@@ -15,13 +17,11 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import PageLayout from '@weco/common/views/components/PageLayout';
+import SectionHeader from '@weco/common/views/components/SectionHeader';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import Standfirst from '@weco/common/views/slices/Standfirst';
-import CardGrid from '@weco/content/components/CardGrid';
-import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents';
-import SectionHeader from '@weco/content/components/SectionHeader';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
 import { ContentListProps, Slice } from '@weco/content/types/body';
 import { convertItemToCardProps } from '@weco/content/types/card';

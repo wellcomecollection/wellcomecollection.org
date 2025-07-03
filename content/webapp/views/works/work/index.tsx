@@ -5,11 +5,11 @@ import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { useToggles } from '@weco/common/server-data/Context';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout';
 import Divider from '@weco/common/views/components/Divider';
 import SearchForm from '@weco/common/views/components/SearchForm';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
-import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
 import IsArchiveContext from '@weco/content/contexts/IsArchiveContext';
 import {
   toWorkBasic,

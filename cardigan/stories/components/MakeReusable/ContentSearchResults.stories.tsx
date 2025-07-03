@@ -6,7 +6,7 @@ import {
   contentAPIAddressableEvent,
   contentAPIAddressableExhibition,
 } from '@weco/cardigan/stories/data/content';
-import ContentSearchResult from '@weco/content/components/ContentSearchResult';
+import ContentSearchResult from '@weco/common/views/components/ContentSearchResult';
 
 const meta: Meta<typeof ContentSearchResult> = {
   title: 'To be made reusable/ContentSearchResult',

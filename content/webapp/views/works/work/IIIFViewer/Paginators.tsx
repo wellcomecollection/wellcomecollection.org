@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { arrow } from '@weco/common/icons';
 import { LinkProps } from '@weco/common/model/link-props';
 import Control from '@weco/common/views/components/Control';
+import { toLink as itemLink } from '@weco/common/views/components/ItemLink';
 import Rotator from '@weco/common/views/components/styled/Rotator';
 import Space from '@weco/common/views/components/styled/Space';
-import { toLink as itemLink } from '@weco/content/components/ItemLink';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 
 const PaginatorWrapper = styled.div`

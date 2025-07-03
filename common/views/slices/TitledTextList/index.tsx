@@ -2,13 +2,13 @@ import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
 import { TitledTextListSlice as RawTitledTextListSlice } from '@weco/common/prismicio-types';
-import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
   defaultContext,
   LayoutWidth,
   SliceZoneContext,
-} from '@weco/content/components/Body';
-import TitledTextList from '@weco/content/components/TitledTextList';
+} from '@weco/common/views/components/Body';
+import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import TitledTextList from '@weco/common/views/components/TitledTextList';
 import { transformTitledTextListSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type TitledTextListProps = SliceComponentProps<

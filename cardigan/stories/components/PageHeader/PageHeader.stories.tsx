@@ -21,11 +21,11 @@ import Picture from '@weco/common/views/components/Picture';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import theme from '@weco/common/views/themes/default';
-import Body from '@weco/content/components/Body';
-import BookImage from '@weco/content/components/BookImage';
-import ContentPage from '@weco/content/components/ContentPage';
-import PartNumberIndicator from '@weco/content/components/PartNumberIndicator';
-import TextWithDot from '@weco/content/components/TextWithDot';
+import Body from '@weco/common/views/components/Body';
+import BookImage from '@weco/common/views/components/BookImage';
+import ContentPage from '@weco/common/views/components/ContentPage';
+import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator';
+import TextWithDot from '@weco/common/views/components/TextWithDot';
 
 const meta: Meta<typeof PageHeader> = {
   title: 'Components/PageHeader',

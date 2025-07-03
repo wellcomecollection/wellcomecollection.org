@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider';
 import LabelsList from '@weco/common/views/components/LabelsList';
+import LinkLabels from '@weco/common/views/components/LinkLabels';
+import Number from '@weco/common/views/components/Number';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import LinkLabels from '@weco/content/components/LinkLabels';
-import Number from '@weco/content/components/Number';
-import WorkTitle from '@weco/content/components/WorkTitle';
+import WorkTitle from '@weco/common/views/components/WorkTitle';
 import { useIsArchiveContext } from '@weco/content/contexts/IsArchiveContext';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 const WorkTitleWrapper = styled.h1.attrs({ className: font('intb', 2) })`

@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
+import SourcedDescription from '@weco/common/views/components/SourcedDescription';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
-import SourcedDescription from '@weco/content/components/SourcedDescription';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 
 import RelatedConceptsGroup from './concept.RelatedConceptsGroup';

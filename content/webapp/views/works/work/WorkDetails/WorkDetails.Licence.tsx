@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 import { LicenseData } from '@weco/common/utils/licenses';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
+import CopyButtons from '@weco/common/views/components/CopyButtons';
 import Space from '@weco/common/views/components/styled/Space';
-import CopyButtons from '@weco/content/components/CopyButtons';
 import { Note } from '@weco/content/services/wellcome/catalogue/types';
 import { removeTrailingFullStop } from '@weco/content/utils/string';
 

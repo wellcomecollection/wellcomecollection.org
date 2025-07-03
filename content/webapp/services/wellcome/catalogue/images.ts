@@ -3,7 +3,7 @@ import {
   emptyImagesProps,
   ImagesProps,
   toQuery,
-} from '@weco/content/components/SearchPagesLink/Images';
+} from '@weco/common/views/components/SearchPagesLink/Images';
 import {
   globalApiOptions,
   QueryProps,

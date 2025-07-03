@@ -4,6 +4,7 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { pluralize } from '@weco/common/utils/grammar';
+import CardGrid from '@weco/common/views/components/CardGrid';
 import Divider from '@weco/common/views/components/Divider';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
@@ -13,11 +14,10 @@ import {
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout';
+import Pagination from '@weco/common/views/components/Pagination';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import CardGrid from '@weco/content/components/CardGrid';
-import Pagination from '@weco/content/components/Pagination';
 import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
 
 export type Props = {

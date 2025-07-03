@@ -2,12 +2,12 @@ import { FunctionComponent, useState } from 'react';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { classNames } from '@weco/common/utils/classnames';
+import CardGrid from '@weco/common/views/components/CardGrid';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import CardGrid from '@weco/content/components/CardGrid';
-import Tabs from '@weco/content/components/Tabs';
+import Tabs from '@weco/common/views/components/Tabs';
 import { EventBasic } from '@weco/content/types/events';
 import { Link } from '@weco/content/types/link';
 

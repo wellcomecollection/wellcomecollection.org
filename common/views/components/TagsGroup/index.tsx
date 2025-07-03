@@ -1,0 +1,28 @@
+import { FunctionComponent } from 'react';
+
+import { font } from '@weco/common/utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
+import Tags, { TagType } from '@weco/common/views/components/Tags';
+
+export type Props = {
+  title: string | undefined;
+  tags: TagType[];
+};
+
+const TagsGroup: FunctionComponent<Props> = ({ tags, title }: Props) => {
+  return (
+    <>
+      {title && (
+        <Space
+          as="h2"
+          className={font('wb', 5)}
+          $v={{ size: 'm', properties: ['margin-bottom'] }}
+        >
+          {title}
+        </Space>
+      )}
+      <Tags tags={tags} isFirstPartBold={false} />
+    </>
+  );
+};
+export default TagsGroup;

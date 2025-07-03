@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import Tags from '@weco/content/components/Tags';
-import Readme from '@weco/content/components/Tags/README.mdx';
+import Tags from '@weco/common/views/components/Tags';
+import Readme from '@weco/common/views/components/Tags/README.mdx';
 
 const nextLink = {
   href: {

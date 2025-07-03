@@ -1,12 +1,12 @@
 import { getServerData } from '@weco/common/server-data';
 import { appError } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
+import { fromQuery } from '@weco/common/views/components/SearchPagesLink/Images';
 import {
   NextPageWithLayout,
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
-import { fromQuery } from '@weco/content/components/SearchPagesLink/Images';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';

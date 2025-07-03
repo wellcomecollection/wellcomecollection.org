@@ -15,20 +15,20 @@ import {
 } from '@weco/common/utils/grammar';
 import { ReturnedResults } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
+import CatalogueImageGallery from '@weco/common/views/components/CatalogueImageGallery';
+import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout';
+import MoreLink from '@weco/common/views/components/MoreLink';
+import OnThisPageAnchors from '@weco/common/views/components/OnThisPageAnchors';
+import { toLink as toImagesLink } from '@weco/common/views/components/SearchPagesLink/Images';
+import { toLink as toWorksLink } from '@weco/common/views/components/SearchPagesLink/Works';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
+import Tabs from '@weco/common/views/components/Tabs';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
+import WorksSearchResults from '@weco/common/views/components/WorksSearchResults';
 import { themeValues } from '@weco/common/views/themes/config';
 import theme from '@weco/common/views/themes/default';
-import CatalogueImageGallery from '@weco/content/components/CatalogueImageGallery';
-import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
-import MoreLink from '@weco/content/components/MoreLink';
-import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors';
-import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink/Images';
-import { toLink as toWorksLink } from '@weco/content/components/SearchPagesLink/Works';
-import Tabs from '@weco/content/components/Tabs';
-import WorksSearchResults from '@weco/content/components/WorksSearchResults';
 import {
   Concept as ConceptType,
   Image as ImageType,

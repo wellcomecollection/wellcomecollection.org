@@ -15,22 +15,22 @@ import { Period } from '@weco/common/types/periods';
 import { font } from '@weco/common/utils/classnames';
 import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import CardGrid from '@weco/common/views/components/CardGrid';
+import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents';
+import FacilityPromo from '@weco/common/views/components/FacilityPromo';
+import FeaturedCard from '@weco/common/views/components/FeaturedCard';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import PageLayout from '@weco/common/views/components/PageLayout';
+import SectionHeader from '@weco/common/views/components/SectionHeader';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import CardGrid from '@weco/content/components/CardGrid';
-import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents';
-import FacilityPromo from '@weco/content/components/FacilityPromo';
-import FeaturedCard from '@weco/content/components/FeaturedCard';
-import SectionHeader from '@weco/content/components/SectionHeader';
 import {
   filterEventsForToday,
   filterEventsForWeekend,

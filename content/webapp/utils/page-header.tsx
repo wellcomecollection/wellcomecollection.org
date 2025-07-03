@@ -1,11 +1,11 @@
 import { ReactElement } from 'react';
 
 import { getCrop } from '@weco/common/model/image';
+import ImageWithTasl from '@weco/common/views/components/ImageWithTasl';
 import { FeaturedMedia } from '@weco/common/views/components/PageHeader';
 import Picture from '@weco/common/views/components/Picture';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
-import ImageWithTasl from '@weco/content/components/ImageWithTasl';
 import { transformEmbedSlice } from '@weco/content/services/prismic/transformers/body';
 import { isVideoEmbed } from '@weco/content/types/body';
 import { GenericContentFields } from '@weco/content/types/generic-content-fields';

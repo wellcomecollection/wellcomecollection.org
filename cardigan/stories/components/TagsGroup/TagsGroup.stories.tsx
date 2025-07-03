@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import TagsGroup from '@weco/content/components/TagsGroup';
-import Readme from '@weco/content/components/TagsGroup/README.mdx';
+import TagsGroup from '@weco/common/views/components/TagsGroup';
+import Readme from '@weco/common/views/components/TagsGroup/README.mdx';
 
 const meta: Meta<typeof TagsGroup> = {
   title: 'Components/TagsGroup',

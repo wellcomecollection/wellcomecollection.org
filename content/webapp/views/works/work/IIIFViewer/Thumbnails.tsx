@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
-import { toLink as itemLink } from '@weco/content/components/ItemLink';
+import { toLink as itemLink } from '@weco/common/views/components/ItemLink';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 
 import { queryParamToArrayIndex } from '.';

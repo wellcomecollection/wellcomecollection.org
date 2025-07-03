@@ -5,7 +5,7 @@ import {
   articleBasic,
   contentAPIArticle,
 } from '@weco/cardigan/stories/data/content';
-import StoryPromo from '@weco/content/components/StoryPromo';
+import StoryPromo from '@weco/common/views/components/StoryPromo';
 
 const meta: Meta<typeof StoryPromo> = {
   title: 'Components/Cards/StoryPromo',

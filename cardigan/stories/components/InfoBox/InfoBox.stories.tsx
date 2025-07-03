@@ -9,8 +9,8 @@ import {
   location,
   ticket,
 } from '@weco/common/icons';
-import InfoBox from '@weco/content/components/InfoBox';
-import Readme from '@weco/content/components/InfoBox/README.mdx';
+import InfoBox from '@weco/common/views/components/InfoBox';
+import Readme from '@weco/common/views/components/InfoBox/README.mdx';
 
 const meta: Meta<typeof InfoBox> = {
   title: 'Components/InfoBox',

@@ -5,6 +5,10 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
+import CardGrid from '@weco/common/views/components/CardGrid';
+import FeaturedCard from '@weco/common/views/components/FeaturedCard';
+import FeaturedText from '@weco/common/views/components/FeaturedText';
+import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
@@ -14,6 +18,8 @@ import {
 import PageHeader from '@weco/common/views/components/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
+import SectionHeader from '@weco/common/views/components/SectionHeader';
+import StoryPromo from '@weco/common/views/components/StoryPromo';
 import { Container } from '@weco/common/views/components/styled/Container';
 import {
   GridCellScroll,
@@ -22,12 +28,6 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import CardGrid from '@weco/content/components/CardGrid';
-import FeaturedCard from '@weco/content/components/FeaturedCard';
-import FeaturedText from '@weco/content/components/FeaturedText';
-import { defaultSerializer } from '@weco/content/components/HTMLSerializers';
-import SectionHeader from '@weco/content/components/SectionHeader';
-import StoryPromo from '@weco/content/components/StoryPromo';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
 import { SeriesBasic } from '@weco/content/types/series';
 import { StoriesLanding } from '@weco/content/types/stories-landing';

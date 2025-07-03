@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import Message from '@weco/content/components/Message';
-import Readme from '@weco/content/components/Message/README.mdx';
+import Message from '@weco/common/views/components/Message';
+import Readme from '@weco/common/views/components/Message/README.mdx';
 
 const meta: Meta<typeof Message> = {
   title: 'Components/Message',

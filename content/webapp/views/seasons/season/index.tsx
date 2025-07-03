@@ -1,13 +1,13 @@
 import { ReactElement } from 'react';
 
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import Body from '@weco/common/views/components/Body';
+import CardGrid from '@weco/common/views/components/CardGrid';
+import ContentPage from '@weco/common/views/components/ContentPage';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import PageLayout from '@weco/common/views/components/PageLayout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import Body from '@weco/content/components/Body';
-import CardGrid from '@weco/content/components/CardGrid';
-import ContentPage from '@weco/content/components/ContentPage';
 import { ArticleBasic } from '@weco/content/types/articles';
 import { BookBasic } from '@weco/content/types/books';
 import { EventBasic } from '@weco/content/types/events';

@@ -2,8 +2,8 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { isPast } from '@weco/common/utils/dates';
+import DateRange from '@weco/common/views/components/DateRange';
 import Space from '@weco/common/views/components/styled/Space';
-import DateRange from '@weco/content/components/DateRange';
 import { HasTimes } from '@weco/content/types/events';
 
 import EventStatus from './event.EventStatus';

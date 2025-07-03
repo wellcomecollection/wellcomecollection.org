@@ -2,12 +2,12 @@ import { getServerData } from '@weco/common/server-data';
 import { appError } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
+import { fromQuery } from '@weco/common/views/components/SearchPagesLink/Stories';
 import {
   NextPageWithLayout,
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
-import { fromQuery } from '@weco/content/components/SearchPagesLink/Stories';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';

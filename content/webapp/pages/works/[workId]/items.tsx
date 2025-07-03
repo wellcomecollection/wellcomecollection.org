@@ -14,11 +14,11 @@ import {
   ApiToolbarLink,
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
+import { fromQuery } from '@weco/common/views/components/ItemLink';
 import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
-import { fromQuery } from '@weco/content/components/ItemLink';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';

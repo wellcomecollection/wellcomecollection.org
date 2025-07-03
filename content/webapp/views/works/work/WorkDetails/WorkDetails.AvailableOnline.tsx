@@ -17,14 +17,14 @@ import { font } from '@weco/common/utils/classnames';
 import { pluralize } from '@weco/common/utils/grammar';
 import Button from '@weco/common/views/components/Buttons';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
+import Download from '@weco/common/views/components/Download';
+import DownloadLink from '@weco/common/views/components/DownloadLink';
 import Icon from '@weco/common/views/components/Icon';
 import Layout, {
   gridSize12,
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import Download from '@weco/content/components/Download';
-import DownloadLink from '@weco/content/components/DownloadLink';
 import { Note, Work } from '@weco/content/services/wellcome/catalogue/types';
 import {
   DownloadOption,

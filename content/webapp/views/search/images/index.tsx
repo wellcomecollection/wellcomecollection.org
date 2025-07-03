@@ -7,21 +7,21 @@ import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { pluralize } from '@weco/common/utils/grammar';
 import { linkResolver, SEARCH_PAGES_FORM_ID } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
+import CatalogueImageGallery from '@weco/common/views/components/CatalogueImageGallery';
+import Pagination from '@weco/common/views/components/Pagination';
+import SearchFilters from '@weco/common/views/components/SearchFilters';
+import { withSearchLayout } from '@weco/common/views/components/SearchPageLayout';
+import {
+  ImagesProps,
+  toLink,
+} from '@weco/common/views/components/SearchPagesLink/Images';
+import Sort from '@weco/common/views/components/Sort';
 import { Container } from '@weco/common/views/components/styled/Container';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space, {
   VerticalSpaceProperty,
 } from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import CatalogueImageGallery from '@weco/content/components/CatalogueImageGallery';
-import Pagination from '@weco/content/components/Pagination';
-import SearchFilters from '@weco/content/components/SearchFilters';
-import { withSearchLayout } from '@weco/content/components/SearchPageLayout';
-import {
-  ImagesProps,
-  toLink,
-} from '@weco/content/components/SearchPagesLink/Images';
-import Sort from '@weco/content/components/Sort';
 import {
   CatalogueResultsList,
   Image,

@@ -7,8 +7,12 @@ import { arrow, cross } from '@weco/common/icons';
 import { getCrop } from '@weco/common/model/image';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
+import AudioPlayer from '@weco/common/views/components/AudioPlayer';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import Icon from '@weco/common/views/components/Icon';
+import ImagePlaceholder, {
+  placeholderBackgroundColor,
+} from '@weco/common/views/components/ImagePlaceholder';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import {
   ContaineredLayout,
@@ -21,10 +25,6 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
-import AudioPlayer from '@weco/content/components/AudioPlayer';
-import ImagePlaceholder, {
-  placeholderBackgroundColor,
-} from '@weco/content/components/ImagePlaceholder';
 import {
   ExhibitionGuideType,
   ExhibitionHighlightTour,

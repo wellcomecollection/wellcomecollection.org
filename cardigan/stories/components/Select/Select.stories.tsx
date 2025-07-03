@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import Select from '@weco/content/components/Select';
+import Select from '@weco/common/views/components/Select';
 
 const meta: Meta<typeof Select> = {
   title: 'Components/Select',
