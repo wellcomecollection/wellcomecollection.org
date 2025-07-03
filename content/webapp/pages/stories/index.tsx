@@ -1,12 +1,13 @@
 import * as prismic from '@prismicio/client';
-import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { StoriesLandingDocument as RawStoriesLandingDocument } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
@@ -23,16 +24,14 @@ import StoriesPage, {
   Props as StoriesPageProps,
 } from '@weco/content/views/stories';
 
-type Props = StoriesPageProps & {
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
-
 const Page: FunctionComponent<StoriesPageProps> = props => {
   return <StoriesPage {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<StoriesPageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   const serverData = await getServerData(context);

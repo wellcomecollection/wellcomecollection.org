@@ -1,18 +1,20 @@
-import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import { AppErrorProps } from '@weco/common/services/app';
 import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import SearchForm from '@weco/common/views/components/SearchForm';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import * as page from '@weco/content/pages/pages/[pageId]';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
-const CollectionsPage: FunctionComponent<page.Props> = (props: page.Props) => {
+const Page: FunctionComponent<page.Props> = (props: page.Props) => {
   return (
     <page.Page
       {...props}
@@ -26,9 +28,10 @@ const CollectionsPage: FunctionComponent<page.Props> = (props: page.Props) => {
     />
   );
 };
+type Props = ServerSideProps<page.Props>;
 
-export const getServerSideProps: GetServerSideProps<
-  page.Props | AppErrorProps
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   return page.getServerSideProps({
@@ -37,4 +40,4 @@ export const getServerSideProps: GetServerSideProps<
     params: { siteSection: 'collections' },
   });
 };
-export default CollectionsPage;
+export default Page;

@@ -1,14 +1,16 @@
 import * as prismic from '@prismicio/client';
-import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { appError, AppErrorProps } from '@weco/common/services/app';
+import { appError } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { today } from '@weco/common/utils/dates';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchEventSeriesById } from '@weco/content/services/prismic/fetch/event-series';
 import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
@@ -25,16 +27,14 @@ import EventSeriesPage, {
   Props as EventSeriesPageProps,
 } from '@weco/content/views/event-series';
 
-type Props = EventSeriesPageProps & {
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
-
 const Page: FunctionComponent<EventSeriesPageProps> = props => {
   return <EventSeriesPage {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<EventSeriesPageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   const { eventSeriesId } = context.query;

@@ -1,13 +1,14 @@
-import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { isFilledSliceZone } from '@weco/common/services/prismic/types';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibitionHighlightTour } from '@weco/content/services/prismic/fetch/exhibition-highlight-tours';
 import {
@@ -21,16 +22,14 @@ import ExhibitionGuideStopPage, {
   Props as ExhibitionGuideStopPageProps,
 } from '@weco/content/views/guides/exhibitions/exhibition/type/stop';
 
-type Props = ExhibitionGuideStopPageProps & {
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
-
 const Page: FunctionComponent<ExhibitionGuideStopPageProps> = props => {
   return <ExhibitionGuideStopPage {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<ExhibitionGuideStopPageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   const { id, type, stop } = context.query;

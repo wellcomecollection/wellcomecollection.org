@@ -1,4 +1,3 @@
-import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import {
@@ -6,13 +5,14 @@ import {
   visualStoryLinkText,
 } from '@weco/common/data/microcopy';
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { AppErrorProps } from '@weco/common/services/app';
-import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibition } from '@weco/content/services/prismic/fetch/exhibitions';
 import { transformExhibition } from '@weco/content/services/prismic/transformers/exhibitions';
@@ -24,11 +24,6 @@ import ExhibitionPage, {
   Props as ExhibitionPageProps,
 } from '@weco/content/views/exhibitions/exhibition';
 
-type Props = ExhibitionPageProps & {
-  pageview: Pageview;
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
-
 /**
  * Please note that the /exhibitions/{period} routes do not arrive here
  * but instead are rewritten to the index file. Please observe
@@ -38,8 +33,10 @@ const Page: FunctionComponent<ExhibitionPageProps> = props => {
   return <ExhibitionPage {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<ExhibitionPageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res, cacheTTL.events);
   const { exhibitionId } = context.query;

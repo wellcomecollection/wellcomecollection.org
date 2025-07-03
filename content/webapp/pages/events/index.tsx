@@ -1,11 +1,13 @@
-import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { appError, AppErrorProps } from '@weco/common/services/app';
+import { appError } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { fromQuery } from '@weco/content/components/SearchPagesLink/Events';
 import { eventLdContentApi } from '@weco/content/services/prismic/transformers/json-ld';
 import { getEvents } from '@weco/content/services/wellcome/content/events';
@@ -15,16 +17,14 @@ import EventsPage, {
   Props as EventsPageProps,
 } from '@weco/content/views/events';
 
-type Props = EventsPageProps & {
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
-
 const Page: FunctionComponent<EventsPageProps> = props => {
   return <EventsPage {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<EventsPageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res, cacheTTL.events);
   const page = getPage(context.query);

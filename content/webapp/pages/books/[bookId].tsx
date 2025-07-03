@@ -1,13 +1,13 @@
-import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { AppErrorProps } from '@weco/common/services/app';
-import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchBook } from '@weco/content/services/prismic/fetch/books';
 import { transformBook } from '@weco/content/services/prismic/transformers/books';
@@ -16,17 +16,14 @@ import BookPage, {
   Props as BookPageProps,
 } from '@weco/content/views/books/book';
 
-type Props = BookPageProps & {
-  pageview: Pageview;
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
-
 const Page: FunctionComponent<BookPageProps> = props => {
   return <BookPage {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<BookPageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   const { bookId } = context.query;

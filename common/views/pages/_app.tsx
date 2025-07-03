@@ -1,4 +1,4 @@
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { AppProps } from 'next/app';
 import React, {
   FunctionComponent,
@@ -18,6 +18,7 @@ import {
   defaultServerData,
   isServerData,
   ServerData,
+  SimplifiedServerData,
 } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
 import { SegmentScript } from '@weco/common/services/app/analytics-scripts';
@@ -66,6 +67,15 @@ type WecoAppProps = Omit<AppProps, 'pageProps'> & {
   pageProps: GlobalProps;
   Component: NextPageWithLayout;
 };
+
+// Utility type to prevent 'any'
+type NotAny<T> = 0 extends 1 & T ? never : T;
+export type ServerSideProps<T> = NotAny<T> & {
+  serverData: SimplifiedServerData;
+  pageview?: Pageview;
+};
+export type ServerSidePropsOrAppError<T extends ServerSideProps<unknown>> =
+  GetServerSideProps<T | AppErrorProps>;
 
 const WecoApp: FunctionComponent<WecoAppProps> = ({
   pageProps,
