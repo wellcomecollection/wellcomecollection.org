@@ -5,7 +5,6 @@ import { isSiteSection } from '@weco/common/model/site-section';
 import { getServerData } from '@weco/common/server-data';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
-import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
 import { toMaybeString } from '@weco/common/utils/routes';
@@ -28,7 +27,6 @@ import PagePage, {
 } from '@weco/content/views/pages/page';
 
 type Props = PagePageProps & {
-  gaDimensions: GaDimensions;
   serverData: SimplifiedServerData; // TODO should we enforce this?
 };
 
@@ -138,9 +136,6 @@ export const getServerSideProps: GetServerSideProps<
         staticContent: null,
         jsonLd,
         serverData,
-        gaDimensions: {
-          partOf: page.seasons?.map(season => season.id),
-        },
       }),
     };
   }

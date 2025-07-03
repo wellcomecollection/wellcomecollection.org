@@ -4,7 +4,6 @@ import { FunctionComponent } from 'react';
 import { getServerData } from '@weco/common/server-data';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
-import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -18,7 +17,6 @@ import BookPage, {
 } from '@weco/content/views/books/book';
 
 type Props = BookPageProps & {
-  gaDimensions: GaDimensions;
   pageview: Pageview;
   serverData: SimplifiedServerData; // TODO should we enforce this?
 };
@@ -47,9 +45,6 @@ export const getServerSideProps: GetServerSideProps<
       props: serialiseProps<Props>({
         book,
         serverData,
-        gaDimensions: {
-          partOf: book.seasons.map(season => season.id),
-        },
         pageview: {
           name: 'story',
           properties: { type: bookDocument.type },
