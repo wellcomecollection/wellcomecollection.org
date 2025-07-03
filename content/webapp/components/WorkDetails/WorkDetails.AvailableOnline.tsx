@@ -316,7 +316,7 @@ const WorkDetailsAvailableOnline = ({
     canvasCount,
     auth,
     structures,
-    bornDigitalStatus,
+    itemsStatus,
     canvases,
     placeholderId,
     rendering,
@@ -332,9 +332,7 @@ const WorkDetailsAvailableOnline = ({
 
   const authServices = getAuthServices({ auth, authV2 });
 
-  const isBornDigital =
-    bornDigitalStatus === 'mixedBornDigital' ||
-    bornDigitalStatus === 'allBornDigital';
+  const hasNonStandardItems = itemsStatus !== 'allStandard';
 
   const [tabbableId, setTabbableId] = useState<string>();
   const [archiveTree, setArchiveTree] = useState<UiTree>([]);
@@ -360,7 +358,7 @@ const WorkDetailsAvailableOnline = ({
 
   return (
     <WorkDetailsSection
-      headingText={`Available ${isBornDigital ? 'to download' : 'online'}`}
+      headingText={`Available ${hasNonStandardItems ? 'to download' : 'online'}`}
     >
       <ConditionalWrapper
         condition={Boolean(
@@ -376,7 +374,7 @@ const WorkDetailsAvailableOnline = ({
           </IIIFClickthrough>
         )}
       >
-        {isBornDigital && !allOriginalPdfs && (
+        {hasNonStandardItems && !allOriginalPdfs && (
           <>
             {Number(canvases?.length) > 0 && (
               <p className={font('lr', 6)}>Contains {canvases?.length} files</p>
@@ -425,7 +423,7 @@ const WorkDetailsAvailableOnline = ({
           </>
         )}
 
-        {(!isBornDigital || allOriginalPdfs) && (
+        {(!hasNonStandardItems || allOriginalPdfs) && (
           <>
             {!shouldShowItemLink && (
               <>
