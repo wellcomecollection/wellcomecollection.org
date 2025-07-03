@@ -3,7 +3,6 @@ import { FunctionComponent } from 'react';
 
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/services/app';
-import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -18,7 +17,6 @@ import ArticlePage, {
 } from '@weco/content/views/stories/story';
 
 type Props = ArticlePageProps & {
-  gaDimensions: GaDimensions;
   pageview: Pageview;
 };
 
@@ -49,11 +47,6 @@ export const getServerSideProps: GetServerSideProps<
         article,
         jsonLd,
         serverData,
-        gaDimensions: {
-          partOf: article.seasons
-            .map(season => season.id)
-            .concat(article.series.map(series => series.id)),
-        },
         pageview: {
           name: 'story',
           properties: { type: articleDocument.type },

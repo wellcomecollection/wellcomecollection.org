@@ -4,7 +4,6 @@ import { visualStoryLinkText } from '@weco/common/data/microcopy';
 import { getServerData } from '@weco/common/server-data';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
-import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
@@ -27,7 +26,6 @@ import EventPage, {
 
 type Props = EventPageProps & {
   pageview: Pageview;
-  gaDimensions: GaDimensions;
   serverData: SimplifiedServerData; // TODO should we enforce this?
 };
 
@@ -83,11 +81,6 @@ export const getServerSideProps: GetServerSideProps<
         accessResourceLinks: visualStoriesLinks,
         jsonLd,
         serverData,
-        gaDimensions: {
-          partOf: eventDoc.seasons
-            .map(season => season.id)
-            .concat(eventDoc.series.map(series => series.id)),
-        },
         pageview: {
           name: 'event',
           properties: {},

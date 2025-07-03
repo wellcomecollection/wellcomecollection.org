@@ -20,10 +20,7 @@ import {
   ServerData,
 } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
-import {
-  GaDimensions,
-  SegmentScript,
-} from '@weco/common/services/app/analytics-scripts';
+import { SegmentScript } from '@weco/common/services/app/analytics-scripts';
 import { getConsentState } from '@weco/common/services/app/civic-uk';
 import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
 import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
@@ -63,7 +60,6 @@ export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
 type GlobalProps = {
   serverData: ServerData;
   pageview?: Pageview;
-  gaDimensions?: GaDimensions;
 } & Partial<AppErrorProps>;
 
 type WecoAppProps = Omit<AppProps, 'pageProps'> & {
@@ -143,10 +139,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     if (pageProps.pageview) {
       trackPageview({
         name: pageProps.pageview.name,
-        properties: {
-          ...pageProps.pageview.properties,
-          dimensions: pageProps.gaDimensions,
-        },
+        properties: pageProps.pageview.properties,
         eventGroup: pageProps.pageview.eventGroup,
       });
     }

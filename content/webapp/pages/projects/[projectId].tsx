@@ -4,7 +4,6 @@ import { FunctionComponent } from 'react';
 import { getServerData } from '@weco/common/server-data';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
-import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -18,7 +17,6 @@ import ProjectPage, {
 } from '@weco/content/views/projects/project';
 
 type Props = ProjectPageProps & {
-  gaDimensions: GaDimensions;
   serverData: SimplifiedServerData; // TODO should we enforce this?
 };
 
@@ -53,9 +51,6 @@ export const getServerSideProps: GetServerSideProps<
         staticContent: null,
         jsonLd,
         serverData,
-        gaDimensions: {
-          partOf: project.seasons?.map(season => season.id),
-        },
       }),
     };
   }
