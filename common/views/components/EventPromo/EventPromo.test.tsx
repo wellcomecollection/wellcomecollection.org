@@ -16,8 +16,6 @@ import { Event } from '@weco/content/types/events';
 
 import EventPromo, { getLocationText } from '.';
 
-jest.mock('node-fetch', () => jest.fn());
-
 jest
   .spyOn(Context, 'usePrismicData')
   /* eslint-disable @typescript-eslint/no-explicit-any */
