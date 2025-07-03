@@ -10,9 +10,7 @@ import {
   pluralize,
 } from '@weco/common/utils/grammar';
 import { ReturnedResults } from '@weco/common/utils/search';
-import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
-import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import theme from '@weco/common/views/themes/default';
 import CatalogueImageGallery from '@weco/content/components/CatalogueImageGallery';
 import MoreLink from '@weco/content/components/MoreLink';
@@ -83,7 +81,7 @@ const ImageSection: FunctionComponent<Props> = ({
 
   return (
     <Space $v={{ size: 'l', properties: ['padding-top'] }}>
-      <SectionHeading>
+      <SectionHeading id={`images-${getThemeTabLabel(type, concept.type)}`}>
         Images {getThemeTabLabel(type, concept.type)} {concept.label}
       </SectionHeading>
       <CatalogueImageGallery
@@ -122,19 +120,16 @@ const ImagesResults: FunctionComponent<{
 
   return (
     <>
-      <WobblyEdge backgroundColor="neutral.700" />
       <ThemeImagesWrapper as="section" data-testid="images-section">
-        <Container>
-          {themeTabOrder.map(tabType => (
-            <ImageSection
-              key={tabType}
-              singleSectionData={sectionsData[tabType].images}
-              totalResults={sectionsData[tabType].totalResults.images!}
-              concept={concept}
-              type={tabType}
-            />
-          ))}
-        </Container>
+        {themeTabOrder.map(tabType => (
+          <ImageSection
+            key={tabType}
+            singleSectionData={sectionsData[tabType].images}
+            totalResults={sectionsData[tabType].totalResults.images!}
+            concept={concept}
+            type={tabType}
+          />
+        ))}
       </ThemeImagesWrapper>
     </>
   );

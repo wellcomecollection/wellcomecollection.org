@@ -163,12 +163,18 @@ const SourcedDescription: FunctionComponent<{
   useEffect(() => {
     const hideSourceBox = () => {
       if (isSourcePilFocused()) blurActiveElement();
+      updateSourceBoxPosition();
     };
 
     // Hide source box on screen resize to stop it from overflowing the screen
     window.addEventListener('resize', hideSourceBox);
     return () => window.removeEventListener('resize', hideSourceBox);
   }, [sourcePillRef]);
+
+  useEffect(() => {
+    // Prevent horizontal scroll on initial render
+    updateSourceBoxPosition();
+  }, []);
 
   return (
     <>

@@ -2,6 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
+import { dasherize } from '@weco/common/utils/grammar';
 import Button, { ButtonColors } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
@@ -50,7 +51,9 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
 
   return (
     <>
-      {labelType === 'heading' && <SectionHeading>{label}</SectionHeading>}
+      {labelType === 'heading' && (
+        <SectionHeading id={dasherize(label)}>{label}</SectionHeading>
+      )}
       <RelatedConceptsContainer>
         {labelType === 'inline' && <span>{label}</span>}
         {relatedConcepts.map(item => (

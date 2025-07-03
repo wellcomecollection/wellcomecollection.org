@@ -89,15 +89,6 @@ const DownloadItem: FunctionComponent<{
   if (typeof displayItem !== 'string') {
     return (
       <DownloadTable>
-        {/* TODO would like to put this back but it casues spacing issues in Safari */}
-        {/* <thead className="visually-hidden">
-          <tr>
-            <th>Name</th>
-            <th>File format</th>
-            <th>Size</th>
-            <th>Download</th>
-          </tr>
-        </thead> */}
         <tbody>
           <tr>
             <td>

@@ -1,8 +1,78 @@
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
+import { GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
+
+export const NavGridCell = styled(GridCell)<{
+  $isEnhanced: boolean;
+  $isMobileNavInverted: boolean;
+}>`
+  position: ${props => (props.$isEnhanced ? 'sticky' : 'relative')};
+  top: 0;
+  transition: background-color ${props => props.theme.transitionProperties};
+  background-color: ${props =>
+    props.theme.color(props.$isMobileNavInverted ? 'white' : 'neutral.700')};
+  z-index: 3;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: ${themeValues.containerPadding.small}px;
+    bottom: 0;
+    top: 0;
+    z-index: 10;
+    transition: background-color ${props => props.theme.transitionProperties};
+    background-color: ${props =>
+      props.theme.color(props.$isMobileNavInverted ? 'white' : 'neutral.700')};
+  }
+
+  &::before {
+    right: 100%;
+  }
+
+  &::after {
+    left: 100%;
+  }
+
+  ${props =>
+    props.theme.media('medium')(`
+      &::before,
+      &::after {
+        width: ${themeValues.containerPadding.medium}px;
+      }
+  `)}
+
+  ${props => props.theme.media('large')`
+    position: unset;
+    background-color: unset;
+    z-index: unset;
+    transition: unset;
+
+    &::before,
+    &::after {
+      transition: unset;
+      display: none;
+    }
+  `}
+`;
+
+export const StretchWrapper = styled.div`
+  ${props => props.theme.pageGridOffset('margin-right')};
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: calc(100vw - 100%);
+    top: 0;
+    background: ${props => props.theme.color('neutral.700')};
+    bottom: 0;
+    right: 100%;
+    z-index: 0;
+  }
+`;
 
 export const HotJarPlaceholder = styled.div`
   margin: -2rem auto 2rem;

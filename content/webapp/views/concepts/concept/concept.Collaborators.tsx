@@ -8,7 +8,7 @@ import {
   RelatedConcept,
 } from '@weco/content/services/wellcome/catalogue/types';
 
-import CollaboratorCard from './concept.CollaboratorCard';
+import CollaboratorCard from './concept.Collaborators.Card';
 
 const COLLABORATOR_COUNT_LIMIT = 3;
 
@@ -35,7 +35,9 @@ const Collaborators: FunctionComponent<{
 
   return (
     <>
-      <h2 className={font('intsb', 2)}>Frequent collaborators</h2>
+      <h2 className={font('intsb', 2)} id="frequent-collaborators">
+        Frequent collaborators
+      </h2>
       <CollaboratorsWrapper>
         {concepts.slice(0, COLLABORATOR_COUNT_LIMIT).map(concept => (
           <CollaboratorCard

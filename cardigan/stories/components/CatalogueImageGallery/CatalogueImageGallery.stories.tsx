@@ -36,7 +36,7 @@ export const Basic: Story = {
       WrappedComponent={args => (
         <div
           style={{
-            padding: '48px',
+            padding: '48px 0 48px 48px',
             background: '#323232',
           }}
         >
