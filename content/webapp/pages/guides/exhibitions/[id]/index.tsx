@@ -1,14 +1,15 @@
 import * as prismic from '@prismicio/client';
-import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
 import { toMaybeString } from '@weco/common/utils/routes';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { allGuides } from '@weco/content/pages/guides/exhibitions';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import {
@@ -40,10 +41,6 @@ import ExhibitionGuidePage, {
   Props as ExhibitionGuidePageProps,
 } from '@weco/content/views/guides/exhibitions/exhibition';
 
-type Props = ExhibitionGuidePageProps & {
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
-
 const Page: FunctionComponent<ExhibitionGuidePageProps> = props => {
   return <ExhibitionGuidePage {...props} />;
 };
@@ -52,8 +49,11 @@ const Page: FunctionComponent<ExhibitionGuidePageProps> = props => {
 // while supporting both the deprecated ExhibitionGuide type and new custom types
 // We are looking to change the url structure for this and related pages, see: https://docs.google.com/document/d/17xPEfOFAFzBeFopkKUAWUTyBo89lPzoSSV5o_4Ri8NQ/edit#heading=h.l7pem7f5wz3f
 // At which point we'll have the exhibition id in the url and can query the types directly, filtering by the exhibition id
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+
+type Props = ServerSideProps<ExhibitionGuidePageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   const { id, stopNumber } = context.query;

@@ -1,11 +1,8 @@
-import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { PagesDocument as RawPagesDocument } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { AppErrorProps } from '@weco/common/services/app';
 import { isOfTypePeriod, Period } from '@weco/common/types/periods';
 import {
   endOfDay,
@@ -14,6 +11,10 @@ import {
 } from '@weco/common/utils/dates';
 import { serialiseProps } from '@weco/common/utils/json';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchEvents } from '@weco/content/services/prismic/fetch/events';
 import { fetchExhibitions } from '@weco/content/services/prismic/fetch/exhibitions';
@@ -35,32 +36,14 @@ import WhatsOnPage, {
   Props as WhatsOnPageProps,
 } from '@weco/content/views/whats-on';
 
-type Props = WhatsOnPageProps & {
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
-
 const Page: FunctionComponent<WhatsOnPageProps> = props => {
   return <WhatsOnPage {...props} />;
 };
 
-export function getRangeForPeriod(period: Period): { start: Date; end?: Date } {
-  const today = new Date();
+type Props = ServerSideProps<WhatsOnPageProps>;
 
-  switch (period) {
-    case 'today':
-      return {
-        start: startOfDay(today),
-        end: endOfDay(today),
-      };
-    case 'this-weekend':
-      return getNextWeekendDateRange(today);
-    default:
-      return { start: startOfDay(today) };
-  }
-}
-
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res, cacheTTL.events);
   const serverData = await getServerData(context);
@@ -148,5 +131,21 @@ export const getServerSideProps: GetServerSideProps<
     return { notFound: true };
   }
 };
+
+export function getRangeForPeriod(period: Period): { start: Date; end?: Date } {
+  const today = new Date();
+
+  switch (period) {
+    case 'today':
+      return {
+        start: startOfDay(today),
+        end: endOfDay(today),
+      };
+    case 'this-weekend':
+      return getNextWeekendDateRange(today);
+    default:
+      return { start: startOfDay(today) };
+  }
+}
 
 export default Page;

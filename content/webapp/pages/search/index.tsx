@@ -1,11 +1,13 @@
-import { GetServerSideProps } from 'next';
-
 import { getServerData } from '@weco/common/server-data';
-import { appError, AppErrorProps } from '@weco/common/services/app';
+import { appError } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { NextPageWithLayout } from '@weco/common/views/pages/_app';
+import {
+  NextPageWithLayout,
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { getAddressables } from '@weco/content/services/wellcome/content/all';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
@@ -13,16 +15,14 @@ import SearchPage, {
   Props as SearchPageProps,
 } from '@weco/content/views/search';
 
-type Props = SearchPageProps & {
-  pageview: Pageview;
-};
-
 export const Page: NextPageWithLayout<SearchPageProps> = props => {
   return <SearchPage {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<SearchPageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res, cacheTTL.search);
   const serverData = await getServerData(context);

@@ -1,12 +1,14 @@
 import * as prismic from '@prismicio/client';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
 import { fetchBooks } from '@weco/content/services/prismic/fetch/books';
@@ -37,16 +39,13 @@ import SeasonPage, {
   Props as SeasonPageProps,
 } from '@weco/content/views/seasons/season';
 
-type Props = SeasonPageProps & {
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
-
 const Page: NextPage<SeasonPageProps> = props => {
   return <SeasonPage {...props} />;
 };
+type Props = ServerSideProps<SeasonPageProps>;
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   const { seasonId } = context.query;

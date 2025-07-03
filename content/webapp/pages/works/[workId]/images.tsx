@@ -1,16 +1,17 @@
-import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { appError, AppErrorProps } from '@weco/common/services/app';
-import { Pageview } from '@weco/common/services/conversion/track';
+import { appError } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   ApiToolbarLink,
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import {
@@ -37,18 +38,14 @@ function createTzitzitImageLink(
   });
 }
 
-type Props = WorkImagesPageProps & {
-  apiToolbarLinks: ApiToolbarLink[];
-  pageview: Pageview;
-  serverData: SimplifiedServerData;
-};
-
 const ImagePage: FunctionComponent<WorkImagesPageProps> = props => {
   return <WorkImagesPage {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<WorkImagesPageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   const serverData = await getServerData(context);

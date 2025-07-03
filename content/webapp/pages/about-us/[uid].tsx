@@ -1,15 +1,18 @@
-import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
-import { AppErrorProps } from '@weco/common/services/app';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import * as page from '@weco/content/pages/pages/[pageId]';
 
-const AboutUsPage: FunctionComponent<page.Props> = props => {
+const Page: FunctionComponent<page.Props> = props => {
   return <page.Page {...props} />;
 };
+type Props = ServerSideProps<page.Props>;
 
-export const getServerSideProps: GetServerSideProps<
-  page.Props | AppErrorProps
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   const { uid } = context.query;
 
@@ -20,4 +23,4 @@ export const getServerSideProps: GetServerSideProps<
   });
 };
 
-export default AboutUsPage;
+export default Page;

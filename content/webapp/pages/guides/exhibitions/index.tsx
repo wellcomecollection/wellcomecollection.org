@@ -1,11 +1,13 @@
-import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { appError, AppErrorProps } from '@weco/common/services/app';
+import { appError } from '@weco/common/services/app';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { serialiseProps } from '@weco/common/utils/json';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibitionGuides } from '@weco/content/services/prismic/fetch/exhibition-guides';
 import { fetchExhibitionHighlightTours } from '@weco/content/services/prismic/fetch/exhibition-highlight-tours';
@@ -28,12 +30,75 @@ import ExhibitionGuidesPage, {
   Props as ExhibitionGuidesPageProps,
 } from '@weco/content/views/guides/exhibitions';
 
-type Props = ExhibitionGuidesPageProps & {
-  serverData: SimplifiedServerData; // TODO should we enforce this?
+const Page: FunctionComponent<ExhibitionGuidesPageProps> = props => {
+  return <ExhibitionGuidesPage {...props} />;
 };
 
-const Page: FunctionComponent<Props> = props => {
-  return <ExhibitionGuidesPage {...props} />;
+type Props = ServerSideProps<ExhibitionGuidesPageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
+> = async context => {
+  setCacheControl(context.res);
+  const serverData = await getServerData(context);
+  const page = getPage(context.query);
+
+  if (typeof page !== 'number') {
+    return appError(context, 400, page.message);
+  }
+
+  const client = createClient(context);
+  // ExhibitionGuides are deprecated in Prismic, we fetch them for the old content
+  const exhibitionGuidesQueryPromise = fetchExhibitionGuides(client, { page });
+  // What was ExhibitionGuides is now split into ExhibitionTexts and ExhibitionHighlightTours
+  // We look for both of these and later combine any that share the same related exhibition
+  // for the purpose of rendering links to the exhibition guide index page.
+  const exhibitionTextsQueryPromise = fetchExhibitionTexts(client, { page });
+  const exhibitionHighlightsToursQueryPromise = fetchExhibitionHighlightTours(
+    client,
+    { page }
+  );
+
+  const [
+    exhibitionGuidesQuery,
+    exhibitionTextsQuery,
+    exhibitionHighlightsToursQuery,
+  ] = await Promise.all([
+    exhibitionGuidesQueryPromise,
+    exhibitionTextsQueryPromise,
+    exhibitionHighlightsToursQueryPromise,
+  ]);
+
+  const exhibitionGuides = transformQuery(
+    exhibitionGuidesQuery,
+    transformExhibitionGuide
+  );
+
+  const exhibitionTexts = transformQuery(
+    exhibitionTextsQuery,
+    transformExhibitionTexts
+  );
+
+  const exhibitionHighlightTours = transformQuery(
+    exhibitionHighlightsToursQuery,
+    transformExhibitionHighlightTours
+  );
+
+  const guides = allGuides({
+    exhibitionTexts,
+    exhibitionHighlightTours,
+    exhibitionGuides,
+  });
+
+  const jsonLd = guides.results.map(exhibitionGuideLd);
+
+  return {
+    props: serialiseProps<Props>({
+      exhibitionGuides: guides,
+      jsonLd,
+      serverData,
+    }),
+  };
 };
 
 // We want a list of all the exhibition guides,
@@ -107,68 +172,4 @@ export function allGuides({
   };
 }
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
-> = async context => {
-  setCacheControl(context.res);
-  const serverData = await getServerData(context);
-  const page = getPage(context.query);
-
-  if (typeof page !== 'number') {
-    return appError(context, 400, page.message);
-  }
-
-  const client = createClient(context);
-  // ExhibitionGuides are deprecated in Prismic, we fetch them for the old content
-  const exhibitionGuidesQueryPromise = fetchExhibitionGuides(client, { page });
-  // What was ExhibitionGuides is now split into ExhibitionTexts and ExhibitionHighlightTours
-  // We look for both of these and later combine any that share the same related exhibition
-  // for the purpose of rendering links to the exhibition guide index page.
-  const exhibitionTextsQueryPromise = fetchExhibitionTexts(client, { page });
-  const exhibitionHighlightsToursQueryPromise = fetchExhibitionHighlightTours(
-    client,
-    { page }
-  );
-
-  const [
-    exhibitionGuidesQuery,
-    exhibitionTextsQuery,
-    exhibitionHighlightsToursQuery,
-  ] = await Promise.all([
-    exhibitionGuidesQueryPromise,
-    exhibitionTextsQueryPromise,
-    exhibitionHighlightsToursQueryPromise,
-  ]);
-
-  const exhibitionGuides = transformQuery(
-    exhibitionGuidesQuery,
-    transformExhibitionGuide
-  );
-
-  const exhibitionTexts = transformQuery(
-    exhibitionTextsQuery,
-    transformExhibitionTexts
-  );
-
-  const exhibitionHighlightTours = transformQuery(
-    exhibitionHighlightsToursQuery,
-    transformExhibitionHighlightTours
-  );
-
-  const guides = allGuides({
-    exhibitionTexts,
-    exhibitionHighlightTours,
-    exhibitionGuides,
-  });
-
-  const jsonLd = guides.results.map(exhibitionGuideLd);
-
-  return {
-    props: serialiseProps<Props>({
-      exhibitionGuides: guides,
-      jsonLd,
-      serverData,
-    }),
-  };
-};
 export default Page;

@@ -1,17 +1,21 @@
-import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import { AppErrorProps } from '@weco/common/services/app';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import * as page from '@weco/content/pages/pages/[pageId]';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
-const AboutUs: FunctionComponent<page.Props> = props => {
+const Page: FunctionComponent<page.Props> = props => {
   return <page.Page {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  page.Props | AppErrorProps
+type Props = ServerSideProps<page.Props>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   return page.getServerSideProps({
@@ -21,4 +25,4 @@ export const getServerSideProps: GetServerSideProps<
   });
 };
 
-export default AboutUs;
+export default Page;

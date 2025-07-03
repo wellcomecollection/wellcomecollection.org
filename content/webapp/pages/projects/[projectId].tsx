@@ -1,12 +1,13 @@
-import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchProject } from '@weco/content/services/prismic/fetch/projects';
 import { contentLd } from '@weco/content/services/prismic/transformers/json-ld';
@@ -16,16 +17,13 @@ import ProjectPage, {
   Props as ProjectPageProps,
 } from '@weco/content/views/projects/project';
 
-type Props = ProjectPageProps & {
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
-
 export const Project: FunctionComponent<ProjectPageProps> = props => {
   return <ProjectPage {...props} />;
 };
+type Props = ServerSideProps<ProjectPageProps>;
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   const { projectId } = context.query;
