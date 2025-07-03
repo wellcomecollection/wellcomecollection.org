@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
 import { appError } from '@weco/common/services/app';
@@ -38,7 +38,7 @@ function createTzitzitImageLink(
   });
 }
 
-const ImagePage: FunctionComponent<WorkImagesPageProps> = props => {
+const ImagePage: NextPage<WorkImagesPageProps> = props => {
   return <WorkImagesPage {...props} />;
 };
 

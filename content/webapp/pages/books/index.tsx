@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
 import { appError } from '@weco/common/services/app';
@@ -18,7 +18,7 @@ import { getPage } from '@weco/content/utils/query-params';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import BooksPage, { Props as BooksPageProps } from '@weco/content/views/books';
 
-const Page: FunctionComponent<BooksPageProps> = props => {
+const Page: NextPage<BooksPageProps> = props => {
   return <BooksPage {...props} />;
 };
 

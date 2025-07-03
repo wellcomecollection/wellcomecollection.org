@@ -1,11 +1,6 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { AppProps } from 'next/app';
-import React, {
-  FunctionComponent,
-  ReactElement,
-  useEffect,
-  useState,
-} from 'react';
+import type { AppProps } from 'next/app';
+import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import { ApmContextProvider } from '@weco/common/contexts/ApmContext';
@@ -54,10 +49,6 @@ function isErrorPage(route: string): boolean {
 const dev = process.env.NODE_ENV !== 'production';
 const civicUkApiKey = process.env.NEXT_PUBLIC_CIVICUK_API_KEY;
 
-export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
-  getLayout?: (page: ReactElement) => ReactElement;
-};
-
 type GlobalProps = {
   serverData: ServerData;
   pageview?: Pageview;
@@ -65,7 +56,6 @@ type GlobalProps = {
 
 type WecoAppProps = Omit<AppProps, 'pageProps'> & {
   pageProps: GlobalProps;
-  Component: NextPageWithLayout;
 };
 
 // Utility type to prevent 'any'
@@ -77,11 +67,7 @@ export type ServerSideProps<T> = NotAny<T> & {
 export type ServerSidePropsOrAppError<T extends ServerSideProps<unknown>> =
   GetServerSideProps<T | AppErrorProps>;
 
-const WecoApp: FunctionComponent<WecoAppProps> = ({
-  pageProps,
-  router,
-  Component,
-}) => {
+const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
   // You can set `skipServerData: true` to explicitly bypass this
   // e.g. for error pages
   const isServerDataSet = isServerData(pageProps.serverData);
@@ -161,8 +147,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   usePrismicPreview(() => Boolean(document.cookie.match('isPreview=true')));
 
-  const getLayout = Component.getLayout || (page => <>{page}</>);
-
   const isCookieBannerException = () => {
     // Banner shouldn't appear in Prismic's Slice Simulator (or Page Builder)
     if (router.route === '/slice-simulator') return true;
@@ -189,8 +173,9 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
                   {displayCookieBanner && <CivicUK apiKey={civicUkApiKey} />}
 
-                  {!pageProps.err &&
-                    getLayout(<Component {...deserialiseProps(pageProps)} />)}
+                  {!pageProps.err && (
+                    <Component {...deserialiseProps(pageProps)} />
+                  )}
                   {pageProps.err && (
                     <ErrorPage
                       statusCode={pageProps.err.statusCode}

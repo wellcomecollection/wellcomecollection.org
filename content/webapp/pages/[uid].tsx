@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import {
   ServerSideProps,
@@ -7,7 +7,7 @@ import {
 import * as page from '@weco/content/pages/pages/[pageId]';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
-const Page: FunctionComponent<page.Props> = (props: page.Props) => {
+const Page: NextPage<page.Props> = (props: page.Props) => {
   return <page.Page {...props} />;
 };
 

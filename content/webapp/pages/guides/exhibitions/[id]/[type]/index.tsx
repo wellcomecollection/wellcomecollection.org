@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import {
   ExhibitionHighlightToursDocument,
@@ -30,7 +30,7 @@ import ExhibitionGuideTypePage, {
   Props as ExhibitionGuideTypePageProps,
 } from '@weco/content/views/guides/exhibitions/exhibition/type';
 
-const Page: FunctionComponent<ExhibitionGuideTypePageProps> = props => {
+const Page: NextPage<ExhibitionGuideTypePageProps> = props => {
   return <ExhibitionGuideTypePage {...props} />;
 };
 

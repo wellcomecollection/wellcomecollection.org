@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -11,7 +11,7 @@ import NewsletterPage, {
   Props as NewsletterPageProps,
 } from '@weco/content/views/newsletter';
 
-const Page: FunctionComponent<NewsletterPageProps> = props => {
+const Page: NextPage<NewsletterPageProps> = props => {
   return <NewsletterPage {...props} />;
 };
 

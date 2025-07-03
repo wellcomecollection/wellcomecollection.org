@@ -1,3 +1,4 @@
+import { NextPage } from 'next';
 import styled from 'styled-components';
 
 import { pluralize } from '@weco/common/utils/grammar';
@@ -11,7 +12,6 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import { withSearchLayout } from '@weco/common/views/layouts/SearchPageLayout';
-import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { storiesFilters } from '@weco/content/services/wellcome/common/filters';
 import {
   Article,
@@ -45,7 +45,7 @@ export type Props = {
   apiToolbarLinks?: ApiToolbarLink[];
 };
 
-const StoriesSearchPage: NextPageWithLayout<Props> = withSearchLayout(
+const StoriesSearchPage: NextPage<Props> = withSearchLayout(
   ({ storyResponseList, query, storiesRouteProps }) => {
     const { query: queryString } = query;
 

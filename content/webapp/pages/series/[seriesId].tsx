@@ -1,5 +1,5 @@
 import * as prismic from '@prismicio/client';
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { bodySquabblesSeries as bodySquabblesSeriesId } from '@weco/common/data/hardcoded-ids';
 import {
@@ -37,7 +37,7 @@ import ArticleSeriesPage, {
   Props as ArticleSeriesPageProps,
 } from '@weco/content/views/series/series';
 
-const Page: FunctionComponent<ArticleSeriesPageProps> = props => {
+const Page: NextPage<ArticleSeriesPageProps> = props => {
   return <ArticleSeriesPage {...props} />;
 };
 type Props = ServerSideProps<ArticleSeriesPageProps>;

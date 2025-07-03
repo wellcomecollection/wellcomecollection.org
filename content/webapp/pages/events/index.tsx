@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
 import { appError } from '@weco/common/services/app';
@@ -17,7 +17,7 @@ import EventsPage, {
   Props as EventsPageProps,
 } from '@weco/content/views/events';
 
-const Page: FunctionComponent<EventsPageProps> = props => {
+const Page: NextPage<EventsPageProps> = props => {
   return <EventsPage {...props} />;
 };
 

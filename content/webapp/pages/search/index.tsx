@@ -1,10 +1,11 @@
+import { NextPage } from 'next';
+
 import { getServerData } from '@weco/common/server-data';
 import { appError } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
-  NextPageWithLayout,
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
@@ -15,7 +16,7 @@ import SearchPage, {
   Props as SearchPageProps,
 } from '@weco/content/views/search';
 
-export const Page: NextPageWithLayout<SearchPageProps> = props => {
+export const Page: NextPage<SearchPageProps> = props => {
   return <SearchPage {...props} />;
 };
 

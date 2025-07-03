@@ -19,7 +19,7 @@ export type SearchResultsProps = SliceComponentProps<
 const SearchResultsSlice: FunctionComponent<SearchResultsProps> = ({
   slice,
   context,
-}: SearchResultsProps): JSX.Element => {
+}: SearchResultsProps) => {
   const options = { ...defaultContext, ...context };
   const transformedSlice = transformSearchResultsSlice(slice);
   return (

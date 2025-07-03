@@ -1,5 +1,5 @@
 import * as prismic from '@prismicio/client';
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { StoriesLandingDocument as RawStoriesLandingDocument } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
@@ -24,7 +24,7 @@ import StoriesPage, {
   Props as StoriesPageProps,
 } from '@weco/content/views/stories';
 
-const Page: FunctionComponent<StoriesPageProps> = props => {
+const Page: NextPage<StoriesPageProps> = props => {
   return <StoriesPage {...props} />;
 };
 

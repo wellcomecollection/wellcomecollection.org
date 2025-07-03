@@ -73,14 +73,14 @@ type DetailListProps = {
   listItems: DetailProps[];
 };
 
-const Detail: FunctionComponent<DetailProps> = ({ label, value }) => (
+const Detail: NextPage<DetailProps> = ({ label, value }) => (
   <>
     <dt className={font('intb', 5)}>{label}</dt>
     <StyledDd className={font('intr', 5)}>{value}</StyledDd>
   </>
 );
 
-const DetailList: FunctionComponent<DetailListProps> = ({ listItems }) => {
+const DetailList: NextPage<DetailListProps> = ({ listItems }) => {
   return (
     <StyledDl>
       {listItems.map(item => (
@@ -90,7 +90,7 @@ const DetailList: FunctionComponent<DetailListProps> = ({ listItems }) => {
   );
 };
 
-const TextButton: FunctionComponent<ComponentPropsWithoutRef<'button'>> = ({
+const TextButton: NextPage<ComponentPropsWithoutRef<'button'>> = ({
   children,
   ...props
 }) => (
@@ -108,7 +108,7 @@ const TextButton: FunctionComponent<ComponentPropsWithoutRef<'button'>> = ({
   </button>
 );
 
-const RequestsFailed: FunctionComponent<{ retry: () => void }> = ({
+const RequestsFailed: NextPage<{ retry: () => void }> = ({
   retry,
 }) => (
   <p className={font('intr', 5)}>
@@ -123,7 +123,7 @@ const RequestsFailed: FunctionComponent<{ retry: () => void }> = ({
   </p>
 );
 
-const AccountStatus: FunctionComponent<PropsWithChildren<StatusAlertProps>> = ({
+const AccountStatus: NextPage<PropsWithChildren<StatusAlertProps>> = ({
   type,
   children,
 }) => {

@@ -87,7 +87,7 @@ type ListOfTogglesProps = {
   setToggleStates: Dispatch<SetStateAction<ToggleStates>>;
 };
 
-const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
+const ListOfToggles: NextPage<ListOfTogglesProps> = ({
   toggles,
   toggleStates,
   setToggleStates,

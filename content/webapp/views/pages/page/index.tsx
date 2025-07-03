@@ -1,4 +1,5 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { NextPage } from 'next';
+import { ReactElement } from 'react';
 
 import {
   prismicPageIds,
@@ -52,8 +53,7 @@ export type OrderInParent = {
   siteSection?: SiteSection;
   type: 'pages' | 'exhibitions';
 };
-
-export const PagePage: FunctionComponent<Props> = ({
+export const PagePage: NextPage<Props> = ({
   page,
   siblings,
   children,

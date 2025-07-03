@@ -1,5 +1,5 @@
 import * as prismic from '@prismicio/client';
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { homepageId } from '@weco/common/data/hardcoded-ids';
 import {
@@ -32,7 +32,7 @@ import { isContentList } from '@weco/content/types/body';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import Homepage, { Props as HomepageProps } from '@weco/content/views';
 
-const Page: FunctionComponent<HomepageProps> = props => {
+const Page: NextPage<HomepageProps> = props => {
   return <Homepage {...props} />;
 };
 
