@@ -24,10 +24,7 @@ import {
   Concept,
   ConceptType,
 } from '@weco/content/services/wellcome/catalogue/types';
-import {
-  allRecordsLinkParams,
-  conceptTypeDisplayName,
-} from '@weco/content/utils/concepts';
+import { allRecordsLinkParams } from '@weco/content/utils/concepts';
 
 export type ThemeTabType = 'by' | 'in' | 'about';
 export const themeTabOrder: ThemeTabType[] = ['by', 'in', 'about'] as const;
@@ -39,6 +36,12 @@ export const getThemeTabLabel = (
   if (type === 'about' && conceptType === 'Person') return 'featuring';
   if (type === 'in') return 'using';
   return type;
+};
+
+export const getThemeTypeLabel = (conceptType: ConceptType) => {
+  if (conceptType === 'Genre') return 'type/technique';
+  if (conceptType === 'Concept') return 'topic';
+  return conceptType;
 };
 
 const WorksCount = styled(Space).attrs({
@@ -70,7 +73,7 @@ const ThemeWorks: FunctionComponent<Props> = ({ concept, sectionsData }) => {
     )
     .map(tabType => {
       const tabLabel = getThemeTabLabel(tabType, concept.type);
-      const conceptTypeLabel = conceptTypeDisplayName(concept).toLowerCase();
+      const conceptTypeLabel = getThemeTypeLabel(concept.type);
 
       return {
         id: tabType,
