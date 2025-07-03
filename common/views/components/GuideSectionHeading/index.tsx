@@ -1,9 +1,6 @@
 import * as prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
 
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
-import { Container } from '@weco/common/views/components/styled/Container';
-import Space from '@weco/common/views/components/styled/Space';
 import {
   ContextContainer as Background,
   Tombstone as Spacer,
@@ -11,6 +8,9 @@ import {
   CaptionTranscription as TextWrapper,
   StandaloneTitle as Title,
 } from '@weco/common/views/components/ExhibitionCaptions/ExhibitionCaptions.Stop';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
+import { Container } from '@weco/common/views/components/styled/Container';
+import Space from '@weco/common/views/components/styled/Space';
 
 const GuideSectionHeading: FunctionComponent<{
   index: number;

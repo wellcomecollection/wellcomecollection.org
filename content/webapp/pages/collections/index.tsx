@@ -28,6 +28,7 @@ const Page: NextPage<page.Props> = (props: page.Props) => {
     />
   );
 };
+
 type Props = ServerSideProps<page.Props>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<

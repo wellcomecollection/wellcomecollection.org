@@ -2,9 +2,9 @@ import { ReactElement } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
-import { fontSizesAtBreakpoints } from '@weco/common/views/themes/typography';
 import MoreLink from '@weco/common/views/components/MoreLink';
 import Table from '@weco/common/views/components/Table';
+import { fontSizesAtBreakpoints } from '@weco/common/views/themes/typography';
 
 const Font = styled.div`
   padding: 10px 0 25px;

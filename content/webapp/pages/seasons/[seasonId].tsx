@@ -42,6 +42,7 @@ import SeasonPage, {
 const Page: NextPage<SeasonPageProps> = props => {
   return <SeasonPage {...props} />;
 };
+
 type Props = ServerSideProps<SeasonPageProps>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<

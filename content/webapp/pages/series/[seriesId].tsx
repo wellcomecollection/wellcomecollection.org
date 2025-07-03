@@ -40,6 +40,7 @@ import ArticleSeriesPage, {
 const Page: NextPage<ArticleSeriesPageProps> = props => {
   return <ArticleSeriesPage {...props} />;
 };
+
 type Props = ServerSideProps<ArticleSeriesPageProps>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<

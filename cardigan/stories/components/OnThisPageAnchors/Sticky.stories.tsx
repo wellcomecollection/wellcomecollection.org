@@ -5,10 +5,10 @@ import styled from 'styled-components';
 
 import { links } from '@weco/cardigan/stories/components/OnThisPageAnchors/links';
 import Footer from '@weco/common/views/components/Footer';
+import OnThisPageAnchors from '@weco/common/views/components/OnThisPageAnchors';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import OnThisPageAnchors from '@weco/common/views/components/OnThisPageAnchors';
 
 type BackgroundGridProps = {
   $percent?: number;

@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import { ServerDataContext } from '@weco/common/server-data/Context';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 import { font } from '@weco/common/utils/classnames';
+import IIIFImage from '@weco/common/views/components/IIIFImage';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
-import IIIFImage from '@weco/common/views/components/IIIFImage';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import { Image as ImageType } from '@weco/content/services/wellcome/catalogue/types';
 

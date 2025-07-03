@@ -12,6 +12,7 @@ import CookiePolicyPage from '@weco/content/views/about-us/cookie-policy';
 const Page: NextPage<page.Props> = props => {
   return <CookiePolicyPage {...props} />;
 };
+
 type Props = ServerSideProps<page.Props>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<

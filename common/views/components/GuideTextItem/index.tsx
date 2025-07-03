@@ -4,15 +4,15 @@ import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import { camelize } from '@weco/common/utils/grammar';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
-import { Container } from '@weco/common/views/components/styled/Container';
-import Space from '@weco/common/views/components/styled/Space';
 import {
   Caption,
   Tombstone,
   TombstoneTitle,
   CaptionTranscription as Wrapper,
 } from '@weco/common/views/components/ExhibitionCaptions/ExhibitionCaptions.Stop';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
+import { Container } from '@weco/common/views/components/styled/Container';
+import Space from '@weco/common/views/components/styled/Space';
 
 const GuideTextItem: FunctionComponent<{
   number: number | undefined;

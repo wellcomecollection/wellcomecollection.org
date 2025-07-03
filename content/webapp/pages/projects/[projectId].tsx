@@ -20,6 +20,7 @@ import ProjectPage, {
 export const Project: NextPage<ProjectPageProps> = props => {
   return <ProjectPage {...props} />;
 };
+
 type Props = ServerSideProps<ProjectPageProps>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<

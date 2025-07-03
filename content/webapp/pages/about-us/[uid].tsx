@@ -9,6 +9,7 @@ import * as page from '@weco/content/pages/pages/[pageId]';
 const Page: NextPage<page.Props> = props => {
   return <page.Page {...props} />;
 };
+
 type Props = ServerSideProps<page.Props>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<

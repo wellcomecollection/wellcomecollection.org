@@ -3,11 +3,11 @@ import styled from 'styled-components';
 
 import { arrowSmall } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
-import Icon from '@weco/common/views/components/Icon';
-import Space from '@weco/common/views/components/styled/Space';
 import useSwipeable, {
   SwipeDirection,
 } from '@weco/common/views/components/CatalogueImageGallery/useSwipeable';
+import Icon from '@weco/common/views/components/Icon';
+import Space from '@weco/common/views/components/styled/Space';
 
 const ScrollButton = styled('button').attrs({
   className: font('intr', 6),

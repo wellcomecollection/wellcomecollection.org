@@ -4,10 +4,10 @@ import styled from 'styled-components';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
-import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
-import Space from '@weco/common/views/components/styled/Space';
 import DateRange from '@weco/common/views/components/DateRange';
+import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import { formatDateRangeWithMessage } from '@weco/common/views/components/StatusIndicator';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {
   uid: string | null;

@@ -9,8 +9,8 @@ import {
   getUrlQueryFromSortValue,
 } from '@weco/common/utils/search';
 import { ButtonTypes } from '@weco/common/views/components/Buttons';
-import Space from '@weco/common/views/components/styled/Space';
 import Select from '@weco/common/views/components/Select';
+import Space from '@weco/common/views/components/styled/Space';
 
 const Wrapper = styled(Space)`
   ${props => props.theme.media('medium')`

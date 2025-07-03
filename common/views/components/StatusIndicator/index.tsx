@@ -9,8 +9,8 @@ import {
   isSameDayOrBefore,
   today,
 } from '@weco/common/utils/dates';
-import { PaletteColor } from '@weco/common/views/themes/config';
 import TextWithDot from '@weco/common/views/components/TextWithDot';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 type Props = {
   start: Date;

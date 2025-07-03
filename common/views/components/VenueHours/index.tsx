@@ -14,9 +14,9 @@ import {
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import { font } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider';
+import MoreLink from '@weco/common/views/components/MoreLink';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
-import MoreLink from '@weco/common/views/components/MoreLink';
 
 import VenueHoursJauntyBox from './VenueHours.JauntyBox';
 import {

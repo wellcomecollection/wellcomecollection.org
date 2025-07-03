@@ -1,12 +1,7 @@
 import { Claims } from '@auth0/nextjs-auth0';
 import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
-import {
-  ComponentPropsWithoutRef,
-  FunctionComponent,
-  PropsWithChildren,
-  useState,
-} from 'react';
+import { ComponentPropsWithoutRef, PropsWithChildren, useState } from 'react';
 import { URLSearchParams } from 'url';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
@@ -108,9 +103,7 @@ const TextButton: NextPage<ComponentPropsWithoutRef<'button'>> = ({
   </button>
 );
 
-const RequestsFailed: NextPage<{ retry: () => void }> = ({
-  retry,
-}) => (
+const RequestsFailed: NextPage<{ retry: () => void }> = ({ retry }) => (
   <p className={font('intr', 5)}>
     Something went wrong fetching your item requests.
     <TextButton
