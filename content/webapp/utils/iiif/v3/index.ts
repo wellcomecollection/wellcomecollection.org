@@ -28,10 +28,10 @@ import { IIIFItemProps } from '@weco/content/components/IIIFItem';
 import {
   Auth,
   AuthClickThroughServiceWithPossibleServiceArray,
-  BornDigitalStatus,
   CustomContentResource,
   CustomSpecificationBehaviors,
   DownloadOption,
+  ItemsStatus,
   TransformedCanvas,
 } from '@weco/content/types/manifest';
 
@@ -768,25 +768,27 @@ export function getCollectionManifests(
 // - only non standard items
 // - a mix of standard and non standard items
 // We need to know which of these we have in order to determine the required UI.
+export function getItemsStatus(manifest: Manifest | Collection): ItemsStatus {
+  const hasStandard = manifest?.items.some(canvas => {
     const behavior = canvas?.behavior as
       | CustomSpecificationBehaviors[]
       | undefined;
-    return behavior?.includes('placeholder') || false;
+    return !behavior?.includes('placeholder');
   });
 
-  const hasNonBornDigital = manifest?.items.some(canvas => {
+  const hasNonStandard = manifest?.items.some(canvas => {
     const behavior = canvas?.behavior as
       | CustomSpecificationBehaviors[]
       | undefined;
-    return !behavior?.includes('placeholder') || false;
+    return behavior?.includes('placeholder');
   });
 
-  if (hasBornDigital && !hasNonBornDigital) {
-    return 'allBornDigital';
-  } else if (hasBornDigital && hasNonBornDigital) {
-    return 'mixedBornDigital';
+  if (!hasStandard && hasNonStandard) {
+    return 'noStandard';
+  } else if (hasStandard && hasNonStandard) {
+    return 'mixedStandardAndNonStandard';
   } else {
-    return 'noBornDigital';
+    return 'allStandard';
   }
 }
 
