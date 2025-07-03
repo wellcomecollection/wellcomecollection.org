@@ -229,7 +229,11 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
 
   return (
     <Root $isSticky={isSticky} $hasBackgroundBlend={hasBackgroundBlend}>
-      <h2 className={`${fontStyle} is-hidden-s is-hidden-m`}>{titleText}</h2>
+      <h2
+        className={`${fontStyle} ${isSticky ? 'is-hidden-s is-hidden-m' : ''}`}
+      >
+        {titleText}
+      </h2>
       {isSticky && (
         <MobileNavButton
           ref={buttonRef}
