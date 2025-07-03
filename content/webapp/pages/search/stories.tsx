@@ -46,7 +46,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   if (looksLikeSpam(query.query)) {
     context.res.statusCode = 400;
     return {
-      props: serialiseProps({
+      props: serialiseProps<Props>({
         ...defaultProps,
         storyResponseList: emptyResultList(),
         pageview: {
