@@ -11,12 +11,14 @@ import { setCacheControl } from '@weco/content/utils/setCacheControl';
 const Page: FunctionComponent<page.Props> = props => {
   return <page.Page {...props} />;
 };
+
 type Props = ServerSideProps<page.Props>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<
   Props
 > = async context => {
   setCacheControl(context.res);
+
   return page.getServerSideProps({
     ...context,
     query: { pageId: prismicPageIds.getInvolved },

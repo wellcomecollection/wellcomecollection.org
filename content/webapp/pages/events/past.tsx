@@ -14,13 +14,13 @@ import { getEvents } from '@weco/content/services/wellcome/content/events';
 import { getPage } from '@weco/content/utils/query-params';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 
-import * as page from './index';
+import EventsPage, { Props as EventsPageProps } from './index';
 
-const Page: FunctionComponent<page.Props> = props => {
-  return <page.default {...props} />;
+const Page: FunctionComponent<EventsPageProps> = props => {
+  return <EventsPage {...props} />;
 };
 
-type Props = ServerSideProps<page.Props>;
+type Props = ServerSideProps<EventsPageProps>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<
   Props
@@ -78,7 +78,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     const jsonLd = eventResponseList.results.flatMap(eventLdContentApi);
 
     return {
-      props: serialiseProps<page.Props>({
+      props: serialiseProps<Props>({
         events: eventResponseList,
         period: timespan,
         query: context.query,

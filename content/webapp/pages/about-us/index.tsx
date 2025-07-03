@@ -18,6 +18,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   Props
 > = async context => {
   setCacheControl(context.res);
+
   return page.getServerSideProps({
     ...context,
     query: { pageId: prismicPageIds.aboutUs },

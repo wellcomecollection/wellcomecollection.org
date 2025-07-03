@@ -9,12 +9,14 @@ import * as page from '@weco/content/pages/pages/[pageId]';
 const CollectionsPage: FunctionComponent<page.Props> = props => {
   return <page.Page {...props} />;
 };
+
 type Props = ServerSideProps<page.Props>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<
   Props
 > = async context => {
   const { uid } = context.query;
+
   return page.getServerSideProps({
     ...context,
     query: { pageId: uid },
