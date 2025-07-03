@@ -1,4 +1,4 @@
-import { UiTree } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
+import { UiTree } from '@weco/content/views/works/work/work.types';
 
 export const uiTree: UiTree = [
   {

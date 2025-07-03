@@ -12,17 +12,6 @@ import SpacingSection from '@weco/common/views/components/styled/SpacingSection'
 import * as page from '@weco/content/pages/pages/[pageId]';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
-export const getServerSideProps: GetServerSideProps<
-  page.Props | AppErrorProps
-> = async context => {
-  setCacheControl(context.res);
-  return page.getServerSideProps({
-    ...context,
-    query: { pageId: prismicPageIds.collections },
-    params: { siteSection: 'collections' },
-  });
-};
-
 const CollectionsPage: FunctionComponent<page.Props> = (props: page.Props) => {
   return (
     <page.Page
@@ -38,4 +27,14 @@ const CollectionsPage: FunctionComponent<page.Props> = (props: page.Props) => {
   );
 };
 
+export const getServerSideProps: GetServerSideProps<
+  page.Props | AppErrorProps
+> = async context => {
+  setCacheControl(context.res);
+  return page.getServerSideProps({
+    ...context,
+    query: { pageId: prismicPageIds.collections },
+    params: { siteSection: 'collections' },
+  });
+};
 export default CollectionsPage;

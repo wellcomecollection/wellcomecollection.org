@@ -1,5 +1,5 @@
-import { Props as WhatsOnProps } from '@weco/content/pages/whats-on';
 import { Exhibition } from '@weco/content/types/exhibitions';
+import { Props as WhatsOnProps } from '@weco/content/views/whats-on';
 
 const beingHuman: Exhibition = {
   id: 'XNFfsxAAANwqbNWD',

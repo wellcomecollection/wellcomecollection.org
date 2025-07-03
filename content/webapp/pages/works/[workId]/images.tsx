@@ -1,9 +1,8 @@
 import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
 
-import { unavailableContentMessage } from '@weco/common/data/microcopy';
-import { DigitalLocation } from '@weco/common/model/catalogue';
 import { getServerData } from '@weco/common/server-data';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -12,25 +11,19 @@ import {
   ApiToolbarLink,
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
-import {
-  ContaineredLayout,
-  gridSize12,
-} from '@weco/common/views/components/Layout';
-import Space from '@weco/common/views/components/styled/Space';
-import BetaMessage from '@weco/content/components/BetaMessage';
-import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
-import IIIFViewer from '@weco/content/components/IIIFViewer';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import {
   Image,
   toWorkBasic,
   Work,
-  WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
+import WorkImagesPage, {
+  Props as WorkImagesPageProps,
+} from '@weco/content/views/works/work/images';
 
 function createTzitzitImageLink(
   work: Work,
@@ -44,59 +37,14 @@ function createTzitzitImageLink(
   });
 }
 
-type Props = {
-  image: Image;
-  work: WorkBasic;
-  iiifImageLocation?: DigitalLocation;
-  iiifPresentationLocation?: DigitalLocation;
+type Props = WorkImagesPageProps & {
   apiToolbarLinks: ApiToolbarLink[];
   pageview: Pageview;
+  serverData: SimplifiedServerData;
 };
 
-const ImagePage: FunctionComponent<Props> = ({
-  image,
-  work,
-  iiifImageLocation,
-  iiifPresentationLocation,
-  apiToolbarLinks,
-}) => {
-  const title = work.title || '';
-
-  return (
-    <CataloguePageLayout
-      title={title}
-      description=""
-      url={{
-        pathname: `/works/${work.id}/images`,
-        query: { id: image.id },
-      }}
-      openGraphType="website"
-      jsonLd={{ '@type': 'WebPage' }}
-      siteSection="collections"
-      apiToolbarLinks={apiToolbarLinks}
-      hideNewsletterPromo={true}
-      hideFooter={true}
-      hideTopContent={true}
-    >
-      {iiifImageLocation ? (
-        <IIIFViewer
-          work={work}
-          iiifImageLocation={iiifImageLocation}
-          iiifPresentationLocation={iiifPresentationLocation}
-          searchResults={null}
-          setSearchResults={() => null}
-        />
-      ) : (
-        <ContaineredLayout gridSizes={gridSize12()}>
-          <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <div style={{ marginTop: '98px' }}>
-              <BetaMessage message={unavailableContentMessage} />
-            </div>
-          </Space>
-        </ContaineredLayout>
-      )}
-    </CataloguePageLayout>
-  );
+const ImagePage: FunctionComponent<WorkImagesPageProps> = props => {
+  return <WorkImagesPage {...props} />;
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -158,7 +106,7 @@ export const getServerSideProps: GetServerSideProps<
   );
 
   return {
-    props: serialiseProps({
+    props: serialiseProps<Props>({
       image,
       work: toWorkBasic(work),
       iiifImageLocation,

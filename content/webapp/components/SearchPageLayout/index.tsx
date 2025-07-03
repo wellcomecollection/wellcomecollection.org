@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router';
 import {
+  ComponentType,
   FunctionComponent,
-  JSX,
   PropsWithChildren,
-  ReactElement,
   useEffect,
   useState,
 } from 'react';
@@ -147,10 +146,17 @@ const SearchLayout: FunctionComponent<SearchLayoutProps> = ({
   );
 };
 
-export const getSearchLayout = (page: ReactElement): JSX.Element => (
-  <SearchLayout apiToolbarLinks={page.props.apiToolbarLinks}>
-    {page}
-  </SearchLayout>
-);
+// Higher-order component to wrap a component with SearchLayout
+export function withSearchLayout<
+  P extends { apiToolbarLinks?: ApiToolbarLink[] },
+>(WrappedComponent: ComponentType<P>): FunctionComponent<P> {
+  return function SearchLayoutHOC(props: P) {
+    return (
+      <SearchLayout apiToolbarLinks={props.apiToolbarLinks || []}>
+        <WrappedComponent {...props} />
+      </SearchLayout>
+    );
+  };
+}
 
 export default SearchLayout;

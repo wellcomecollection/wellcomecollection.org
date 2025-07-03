@@ -39,6 +39,7 @@ export const getServerSideProps = async context => {
   });
 
   const serverData = await getServerData(context);
+
   return returnVisualStoryProps({
     visualStoryDocument,
     otherCurrentVisualStories,

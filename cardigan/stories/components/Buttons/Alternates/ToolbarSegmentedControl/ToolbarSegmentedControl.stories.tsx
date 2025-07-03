@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
 import { digitalImage, gridView } from '@weco/common/icons';
-import ToolbarSegmentedControl from '@weco/content/components/ToolbarSegmentedControl';
+import ToolbarSegmentedControl from '@weco/content/views/works/work/IIIFViewer/ToolbarSegmentedControl';
 
 const meta: Meta<typeof ToolbarSegmentedControl> = {
   title: 'Components/Buttons/Alternates/ToolbarSegmentedControl',

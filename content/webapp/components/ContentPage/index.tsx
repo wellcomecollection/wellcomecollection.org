@@ -14,12 +14,13 @@ import PageHeader, {
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import BannerCard from '@weco/content/components/BannerCard';
 import { Props as BodyProps } from '@weco/content/components/Body';
 import Contributors from '@weco/content/components/Contributors';
 import ContentPageContext from '@weco/content/contexts/ContentPageContext';
 import { Contributor } from '@weco/content/types/contributors';
 import { Season } from '@weco/content/types/seasons';
+
+import BannerCard from './ContentPage.BannerCard';
 
 type Props = {
   id: string;

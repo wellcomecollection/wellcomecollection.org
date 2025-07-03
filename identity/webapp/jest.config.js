@@ -8,6 +8,7 @@ const config = {
       testMatch: [
         '<rootDir>/pages/**/*.test.ts',
         '<rootDir>/components/**/*.test.ts',
+        '<rootDir>/views/**/*.test.ts',
         '<rootDir>/test/*.test.ts',
       ],
     },
