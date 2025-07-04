@@ -426,7 +426,8 @@ const WorkDetailsAvailableOnline = ({
           </>
         )}
 
-        {(!hasNonStandardItems || allOriginalPdfs) && (
+        {(!hasNonStandardItems ||
+          (allOriginalPdfs && canvases?.length === 1)) && (
           <>
             {!shouldShowItemLink && (
               <>
