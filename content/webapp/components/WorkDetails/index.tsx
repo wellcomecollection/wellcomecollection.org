@@ -65,7 +65,7 @@ const WorkDetails: FunctionComponent<Props> = ({
   const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = useIsArchiveContext();
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
-  const { canvases, rendering, bornDigitalStatus } = {
+  const { canvases, rendering, itemsStatus } = {
     ...transformedManifest,
   };
   const pathname = usePathname();
@@ -156,8 +156,7 @@ const WorkDetails: FunctionComponent<Props> = ({
   const hasVideo = hasItemType(canvases, 'Video');
   const hasSound =
     hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
-  const hasBornDigital =
-    bornDigitalStatus && bornDigitalStatus !== 'noBornDigital';
+  const hasNonStandardItems = itemsStatus && itemsStatus !== 'allStandard';
 
   const treatAsRestricted =
     digitalLocationInfo?.accessCondition === 'restricted' &&
@@ -167,7 +166,7 @@ const WorkDetails: FunctionComponent<Props> = ({
     ((digitalLocation && shouldShowItemLink) ||
       hasVideo ||
       hasSound ||
-      hasBornDigital) &&
+      hasNonStandardItems) &&
     !treatAsRestricted;
 
   const renderContent = () => (

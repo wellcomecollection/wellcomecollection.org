@@ -10897,7 +10897,7 @@ export const manifestWithClickThroughService = {
   ],
 };
 
-export const manifestAllBornDigital = {
+export const manifestNoStandard = {
   items: [
     {
       id: 'https://iiif-test.wellcomecollection.org/presentation/ARTCOO/B/10/canvases/ARTCOO_B_10---1_English_Ver.pdf',
@@ -11076,7 +11076,7 @@ export const manifestAllBornDigital = {
   ],
 };
 
-export const manifestMixedBornDigital = {
+export const manifestMixedStandardAndNonStandard = {
   items: [
     {
       id: 'https://iiif-stage.wellcomecollection.org/presentation/SAWFO/J/4/canvases/SAWFO_J_4---Disc_2---WFOT_ms.pps',

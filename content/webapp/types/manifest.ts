@@ -55,10 +55,10 @@ export type AuthClickThroughServiceWithPossibleServiceArray = Omit<
   service: AuthAccessTokenService | AuthAccessTokenService[];
 };
 
-export type BornDigitalStatus =
-  | 'allBornDigital'
-  | 'noBornDigital'
-  | 'mixedBornDigital';
+export type ItemsStatus =
+  | 'allStandard'
+  | 'noStandard'
+  | 'mixedStandardAndNonStandard';
 
 export type TransformedRange = Omit<Range, 'items'> & {
   items: (TransformedRange | TransformedCanvas)[];
@@ -81,7 +81,7 @@ export type Auth = {
 
 export type TransformedManifest = {
   firstCollectionManifestLocation?: string;
-  bornDigitalStatus: BornDigitalStatus;
+  itemsStatus: ItemsStatus;
   title: string;
   id: string;
   services: Service[];

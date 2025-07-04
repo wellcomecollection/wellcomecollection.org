@@ -3,17 +3,17 @@ import { Manifest, Range } from '@iiif/presentation-3';
 import {
   clickThroughService,
   manifest,
-  manifestAllBornDigital,
-  manifestMixedBornDigital,
+  manifestMixedStandardAndNonStandard,
+  manifestNoStandard,
   manifestWithClickThroughService,
   manifestWithTranscript,
   physicalDescriptionMetadataItem,
 } from '@weco/content/__mocks__/iiif-manifest-v3';
 import {
-  getBornDigitalStatus,
   getClickThroughService,
   getIIIFMetadata,
   getIIIFPresentationCredit,
+  getItemsStatus,
   getMultiVolumeLabel,
   getTransformedCanvases,
   groupRanges,
@@ -214,21 +214,21 @@ describe('getIIIFPresentationCredit', () => {
   });
 });
 
-describe('Determines if a iiif-manifest includes born digital items', () => {
-  it('returns a status of "noBornDigital" for manifests with no born digital items', () => {
-    const bornDigitalStatus = getBornDigitalStatus(manifest as Manifest);
-    expect(bornDigitalStatus).toEqual('noBornDigital');
+describe('Determines if a iiif-manifest includes non standard items', () => {
+  it('returns a status of "allStandard" for manifests with only standard items', () => {
+    const itemsStatus = getItemsStatus(manifest as Manifest);
+    expect(itemsStatus).toEqual('allStandard');
   });
-  it('returns a status of "mixedBornDigital" for manifests with a mix of born digital and non born digital items', () => {
-    const bornDigitalStatus = getBornDigitalStatus(
-      manifestMixedBornDigital as unknown as Manifest
+  it('returns a status of "mixedStandardAndNonStandard" for manifests with a mix of standard and non standard items', () => {
+    const itemsStatus = getItemsStatus(
+      manifestMixedStandardAndNonStandard as unknown as Manifest
     );
-    expect(bornDigitalStatus).toEqual('mixedBornDigital');
+    expect(itemsStatus).toEqual('mixedStandardAndNonStandard');
   });
-  it('returns a status of "allBornDigital" for manifests with only born digital items', () => {
-    const bornDigitalStatus = getBornDigitalStatus(
-      manifestAllBornDigital as unknown as Manifest
+  it('returns a status of "noStandard" for manifests with only non standard items', () => {
+    const itemsStatus = getItemsStatus(
+      manifestNoStandard as unknown as Manifest
     );
-    expect(bornDigitalStatus).toEqual('allBornDigital');
+    expect(itemsStatus).toEqual('noStandard');
   });
 });
