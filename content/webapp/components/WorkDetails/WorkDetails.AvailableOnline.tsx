@@ -338,6 +338,9 @@ const WorkDetailsAvailableOnline = ({
   const [archiveTree, setArchiveTree] = useState<UiTree>([]);
   const allOriginalPdfs = isAllOriginalPdfs(canvases || []);
   const clickThroughService = authServices?.active;
+  const shouldShowDownloadTree =
+    hasNonStandardItems &&
+    (!allOriginalPdfs || (allOriginalPdfs && Number(canvases?.length) > 1));
 
   useEffect(() => {
     const downloads = createDownloadTree(structures, canvases);
@@ -374,7 +377,7 @@ const WorkDetailsAvailableOnline = ({
           </IIIFClickthrough>
         )}
       >
-        {hasNonStandardItems && !allOriginalPdfs && (
+        {shouldShowDownloadTree && (
           <>
             {Number(canvases?.length) > 0 && (
               <p className={font('lr', 6)}>Contains {canvases?.length} files</p>
