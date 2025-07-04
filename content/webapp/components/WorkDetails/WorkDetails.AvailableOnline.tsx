@@ -338,6 +338,9 @@ const WorkDetailsAvailableOnline = ({
   const [archiveTree, setArchiveTree] = useState<UiTree>([]);
   const allOriginalPdfs = isAllOriginalPdfs(canvases || []);
   const clickThroughService = authServices?.active;
+
+  // We temporarily want to show the download tree for multiple PDFs
+  // See: https://github.com/wellcomecollection/wellcomecollection.org/issues/12089
   const shouldShowDownloadTree =
     hasNonStandardItems &&
     (!allOriginalPdfs || (allOriginalPdfs && Number(canvases?.length) > 1));
@@ -426,6 +429,10 @@ const WorkDetailsAvailableOnline = ({
           </>
         )}
 
+        {/*
+          We temporarily want to prevent showing the link for multiple pdfs
+          See: https://github.com/wellcomecollection/wellcomecollection.org/issues/12089
+        */}
         {(!hasNonStandardItems ||
           (allOriginalPdfs && canvases?.length === 1)) && (
           <>
