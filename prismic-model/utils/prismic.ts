@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 import { secrets } from '@weco/prismic-model/config';
 import { setEnvsFromSecrets } from '@weco/ts-aws';
 

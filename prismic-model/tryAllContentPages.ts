@@ -8,7 +8,6 @@
  * a non-catastrophic way.
  */
 
-import fetch from 'node-fetch';
 import tqdm from 'tqdm';
 
 import { error } from './console';

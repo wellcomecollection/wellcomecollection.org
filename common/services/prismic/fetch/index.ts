@@ -1,5 +1,4 @@
 import * as prismic from '@prismicio/client';
-import fetch from 'node-fetch';
 
 import sliceMachineConfig from '@weco/common/slicemachine.config.json';
 import { isUndefined } from '@weco/common/utils/type-guards';
