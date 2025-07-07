@@ -174,7 +174,9 @@ const Root = styled(Space).attrs<{ $isSticky?: boolean; $hasStuck: boolean }>(
       : { size: 'l', properties: ['padding-left', 'padding-right'] },
     $v: {
       size: 'l',
-      properties: ['padding-top'],
+      properties: props.$isSticky
+        ? ['padding-top']
+        : ['padding-top', 'padding-bottom'],
     },
   })
 )<{
@@ -182,6 +184,8 @@ const Root = styled(Space).attrs<{ $isSticky?: boolean; $hasStuck: boolean }>(
   $hasBackgroundBlend?: boolean;
   $hasStuck: boolean;
 }>`
+  background: ${props =>
+    !props.$hasBackgroundBlend && props.theme.color('warmNeutral.300')};
   ${props => (props.$isSticky ? stickyRootAttrs : '')}
   ${props =>
     props.$hasStuck &&
@@ -195,6 +199,7 @@ const Root = styled(Space).attrs<{ $isSticky?: boolean; $hasStuck: boolean }>(
   `)}
 
   ${props =>
+    props.$isSticky &&
     props.theme.mediaBetween(
       'small',
       'medium'
@@ -207,6 +212,7 @@ const Root = styled(Space).attrs<{ $isSticky?: boolean; $hasStuck: boolean }>(
     `)}
 
   ${props =>
+    props.$isSticky &&
     props.theme.mediaBetween(
       'medium',
       'large'
@@ -217,23 +223,19 @@ const Root = styled(Space).attrs<{ $isSticky?: boolean; $hasStuck: boolean }>(
       padding-right: ${props.theme.containerPadding.medium}px;
     `)}
 
-
   ${props =>
+    props.$isSticky &&
     props.theme.mediaBetween(
       'small',
       'large'
     )(`
-    transition: background ${props.theme.transitionProperties};
-    background: ${props.$isSticky && props.$hasStuck && props.theme.color('accent.lightGreen')};
-    ${
-      props.$isSticky &&
-      `
+      transition: background ${props.theme.transitionProperties};
+      background: ${props.$hasStuck && props.theme.color('accent.lightGreen')};
       padding-top: 0;
-    `
-    }
-  `)}
+    `)}
 
   ${props =>
+    props.$isSticky &&
     props.theme.media('large')(`
       background: ${!props.$hasBackgroundBlend && props.theme.color('warmNeutral.300')};
       mix-blend-mode: ${props.$hasBackgroundBlend && 'difference'};
