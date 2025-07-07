@@ -57,7 +57,7 @@
     "@types/node": "20.2.3",
     "@types/node-fetch": "2.6.12",
     "@types/prompts": "^2.4.4",
-    "@types/react": "18.2.7",
+    "@types/react": "19.1.8",
     "@types/react-window": "^1.8.5",
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
@@ -100,7 +100,7 @@
   },
   "resolutions": {
     "@prismicio/client": "7.8.0",
-    "@types/react": "18.2.7"
+    "@types/react": "19.1.8"
   },
   "private": true,
   "workspaces": [

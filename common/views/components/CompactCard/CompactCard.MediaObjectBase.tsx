@@ -37,7 +37,7 @@ export type Props = {
   xOfY?: { x: number; y: number };
   OverrideImageWrapper?: ComponentType<HasImageProps>;
   OverrideTextWrapper?: ComponentType<HasImageProps>;
-  OverrideTitleWrapper?: ComponentType;
+  OverrideTitleWrapper?: ComponentType<{ children: ReactNode }>;
   onClick?: () => void;
   postTitleChildren?: ReactElement;
 };
@@ -96,7 +96,8 @@ const MediaObjectBase: FunctionComponent<Props> = ({
   const { x, y } = xOfY || {};
   const ImageWrapper = OverrideImageWrapper || GridCell;
   const TextWrapper = OverrideTextWrapper || GridCell;
-  const TitleWrapper = OverrideTitleWrapper || BaseTitleWrapper;
+  const TitleWrapper: ComponentType<{ children: ReactNode }> =
+    OverrideTitleWrapper || BaseTitleWrapper;
   const descriptionIsString = typeof description === 'string';
   const urlProp = urlOverride || url || undefined;
 
