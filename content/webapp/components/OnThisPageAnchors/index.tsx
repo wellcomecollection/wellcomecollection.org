@@ -224,7 +224,7 @@ const Root = styled(Space).attrs<{ $isSticky?: boolean; $hasStuck: boolean }>(
       'large'
     )(`
     transition: background ${props.theme.transitionProperties};
-    background: ${props.$isSticky && props.$hasStuck ? props.theme.color('accent.lightGreen') : undefined};
+    background: ${props.$isSticky && props.$hasStuck && props.theme.color('accent.lightGreen')};
     ${
       props.$isSticky &&
       `
@@ -235,9 +235,9 @@ const Root = styled(Space).attrs<{ $isSticky?: boolean; $hasStuck: boolean }>(
 
   ${props =>
     props.theme.media('large')(`
-      background: ${props.$hasBackgroundBlend ? undefined : props.theme.color('warmNeutral.300')};
-      mix-blend-mode: ${props.$hasBackgroundBlend ? 'difference' : undefined};
-      color: ${props.$hasBackgroundBlend ? props.theme.color('white') : undefined};
+      background: ${!props.$hasBackgroundBlend && props.theme.color('warmNeutral.300')};
+      mix-blend-mode: ${props.$hasBackgroundBlend && 'difference'};
+      color: ${props.$hasBackgroundBlend && props.theme.color('white')};
     `)}
 `;
 
@@ -245,9 +245,9 @@ const MobileNavButton = styled.button.attrs({
   className: font('intm', 5),
 })<{ $hasStuck: boolean }>`
   border-top: ${props =>
-    !props.$hasStuck ? `1px solid ${props.theme.color('white')}` : undefined};
+    !props.$hasStuck && `1px solid ${props.theme.color('white')}`};
   border-bottom: ${props =>
-    !props.$hasStuck ? `1px solid ${props.theme.color('white')}` : undefined};
+    !props.$hasStuck && `1px solid ${props.theme.color('white')}`};
   padding: 12px 0;
   margin: 0;
   display: flex;
@@ -317,15 +317,9 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
     const observer = new IntersectionObserver(
       ([entry]) => {
         setHasStuck(!entry.isIntersecting);
-        document.documentElement.style.setProperty(
-          '--nav',
-          entry.isIntersecting
-            ? themeValues.color('neutral.700')
-            : themeValues.color('accent.lightGreen')
-        );
       },
       {
-        root: null,
+        root: document,
         rootMargin: '-1px',
       }
     );
