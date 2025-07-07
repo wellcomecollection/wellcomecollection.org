@@ -1,58 +1,58 @@
 import { useEffect, useState } from 'react';
 
+import { isNotUndefined } from '@weco/common/utils/type-guards';
 /**
- * Tracks which element (by id) is closest to the top of the viewport.
+ * Tracks which intersecting element (by id) is closest to the top of the viewport.
  * @param ids Array of element ids to observe
- * @returns The id of the element closest to the top of the viewport
+ * @returns The id of the intersecting section with the highest boundingClientRect.top
  */
 export function useActiveAnchor(ids: string[]): string | null {
   const [activeId, setActiveId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!ids.length) return;
-    const elements = ids
-      .map(id => document.getElementById(id))
-      .filter(Boolean) as HTMLElement[];
 
-    // We ignore the passed element from the IntersectionObserver, as there are situations
-    // like on initial call where we must still consider the other elements as candidates,
-    // in this case it is simpler to perform the check each time a candidate is observed.
-    const updateActive = () => {
-      // Consider all elements whose top is visible or above the viewport (but whose bottom is below the top)
-      // This ensures that when scrolling up, the previous section becomes active as soon as its top crosses into view
-      let bestId: string | null = null;
-      let minDelta = Number.POSITIVE_INFINITY;
-      elements.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        // Section is considered if its top is above the viewport but its bottom is below the top (partially visible or just above)
-        if (rect.top <= 0 && rect.bottom > 0) {
-          const delta = Math.abs(rect.top);
-          if (delta < minDelta) {
-            minDelta = delta;
-            bestId = el.id;
-          }
-        }
-        // If no such section, fallback to the first section whose top is visible
-        else if (!bestId && rect.top >= 0 && rect.top < window.innerHeight) {
-          minDelta = rect.top;
-          bestId = el.id;
-        }
+    // Track ids of currently intersecting elements
+    const intersectingIds = new Set();
+
+    const sections = ids
+      .map(id => document.getElementById(id)?.parentElement)
+      .filter(isNotUndefined) as HTMLElement[];
+
+    const sectionObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        intersectingIds[entry.isIntersecting ? 'add' : 'delete'](
+          (entry.target?.firstChild as HTMLHeadingElement)?.id
+        );
       });
 
-      setActiveId(bestId);
-    };
+      const sectionTops = Array.from(intersectingIds)
+        .map(i => {
+          const section = sections.find(
+            section => (section?.firstChild as HTMLHeadingElement).id === i
+          );
+          const top = section?.getBoundingClientRect().top;
+          return (section?.firstChild as HTMLHeadingElement).id &&
+            top !== undefined
+            ? {
+                id: (section?.firstChild as HTMLHeadingElement).id,
+                top,
+              }
+            : undefined;
+        })
+        .filter(isNotUndefined);
 
-    const observer = new IntersectionObserver(updateActive, {
-      root: document,
-      rootMargin: '-50px',
+      // Sort to get the element that is currently intersecting and has the highest `boundingClientRect.top`
+      const activeSection = sectionTops.sort((a, b) => a.top - b.top)?.[0];
+      setActiveId(activeSection?.id || null);
     });
 
-    elements.forEach(el => observer!.observe(el));
+    sections.forEach(section => sectionObserver.observe(section));
 
     return () => {
-      if (observer) {
-        elements.forEach(el => observer.unobserve(el));
-        observer.disconnect();
+      if (sectionObserver) {
+        sections.forEach(section => sectionObserver.unobserve(section));
+        sectionObserver.disconnect();
       }
     };
   }, [ids.join(',')]);
