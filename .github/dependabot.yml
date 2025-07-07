@@ -25,7 +25,6 @@ updates:
       - dependency-name: 'husky'
       - dependency-name: 'openseadragon'
       - dependency-name: '@prismicio/*'
-      - dependency-name: 'node-fetch'
       - dependency-name: '@types/node'
       - dependency-name: '@auth0/nextjs-auth0'
       # Needs Node >= 20.15, update when we get there.

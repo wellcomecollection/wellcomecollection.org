@@ -1,5 +1,4 @@
 import { createClient } from '@prismicio/client';
-import fetch from 'node-fetch';
 import fs from 'node:fs';
 import yargs from 'yargs';
 
