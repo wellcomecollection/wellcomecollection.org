@@ -77,11 +77,6 @@ const CatalogueImageGalleryScrollable: FunctionComponent<Props> = ({
           </li>
         ))}
       </ImageCardList>
-      <ExpandedImageModal
-        expandedImage={expandedImage}
-        setExpandedImage={setExpandedImage}
-        images={images}
-      />
     </>
   );
 };

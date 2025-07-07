@@ -77,7 +77,7 @@ export const WorkPage: NextPage<Props> = ({
     iiifPresentationLocation || iiifImageLocation;
   const digitalLocationInfo =
     digitalLocation && getDigitalLocationInfo(digitalLocation);
-  const { collectionManifestsCount, canvases, bornDigitalStatus } = {
+  const { collectionManifestsCount, canvases, itemsStatus } = {
     ...transformedManifest,
   };
 
@@ -90,7 +90,7 @@ export const WorkPage: NextPage<Props> = ({
     digitalLocation,
     accessCondition: digitalLocationInfo?.accessCondition,
     canvases,
-    bornDigitalStatus,
+    itemsStatus,
   });
 
   const imageUrl =

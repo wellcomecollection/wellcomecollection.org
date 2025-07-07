@@ -13,6 +13,8 @@ import { ReturnedResults } from '@weco/common/utils/search';
 import Space from '@weco/common/views/components/styled/Space';
 import theme from '@weco/common/views/themes/default';
 import CatalogueImageGallery from '@weco/content/components/CatalogueImageGallery';
+import ExpandedImageModal from '@weco/content/components/CatalogueImageGallery/ExpandedImageModal';
+import useExpandedImage from '@weco/content/components/CatalogueImageGallery/useExpandedImage';
 import MoreLink from '@weco/content/components/MoreLink';
 import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink/Images';
 import {
@@ -54,14 +56,14 @@ const getAllImagesLink = (
 
 type Props = {
   singleSectionData?: ReturnedResults<Image>;
-  totalResults: number;
+  labelBasedCount: number;
   concept: Concept;
   type: ThemeTabType;
 };
 
 const ImageSection: FunctionComponent<Props> = ({
   singleSectionData,
-  totalResults,
+  labelBasedCount,
   concept,
   type,
 }) => {
@@ -75,7 +77,7 @@ const ImageSection: FunctionComponent<Props> = ({
     return null;
   }
 
-  const formattedTotalCount = formatNumber(totalResults, {
+  const formattedLabelBasedCount = formatNumber(labelBasedCount, {
     isCompact: true,
   });
 
@@ -87,16 +89,17 @@ const ImageSection: FunctionComponent<Props> = ({
       <CatalogueImageGallery
         // Show the first 10 images, unless the total is 12 or fewer, in which case show all images
         images={
-          totalResults > 12 ? firstTenImages : singleSectionData.pageResults
+          singleSectionData.totalResults > 12
+            ? firstTenImages
+            : singleSectionData.pageResults
         }
-        label={`${pluralize(totalResults, 'image')} from works`}
+        label={`${pluralize(singleSectionData.totalResults, 'image')} from works`}
         variant="scrollable"
       />
-      <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-        {singleSectionData.totalResults >
-          singleSectionData.pageResults.length && (
+      <Space $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+        {labelBasedCount > singleSectionData.pageResults.length && (
           <MoreLink
-            name={`All images ${getThemeTabLabel(type, concept.type)} (${formattedTotalCount})`}
+            name={`All images ${getThemeTabLabel(type, concept.type)} (${formattedLabelBasedCount})`}
             url={getAllImagesLink(type, concept, pathname)}
             colors={theme.buttonColors.greenGreenWhite}
           />
@@ -110,6 +113,15 @@ const ImagesResults: FunctionComponent<{
   sectionsData: ThemePageSectionsData;
   concept: Concept;
 }> = ({ sectionsData, concept }) => {
+  const allImages = useMemo(
+    () =>
+      themeTabOrder
+        .map(tab => sectionsData[tab].images?.pageResults || [])
+        .flat(),
+    [sectionsData]
+  );
+  const [expandedImage, setExpandedImage] = useExpandedImage(allImages);
+
   const isSectionEmpty = (section: SectionData) => {
     return !section.images || section.images.totalResults === 0;
   };
@@ -125,12 +137,17 @@ const ImagesResults: FunctionComponent<{
           <ImageSection
             key={tabType}
             singleSectionData={sectionsData[tabType].images}
-            totalResults={sectionsData[tabType].totalResults.images!}
+            labelBasedCount={sectionsData[tabType].totalResults.images!}
             concept={concept}
             type={tabType}
           />
         ))}
       </ThemeImagesWrapper>
+      <ExpandedImageModal
+        images={allImages}
+        expandedImage={expandedImage}
+        setExpandedImage={setExpandedImage}
+      />
     </>
   );
 };

@@ -4,6 +4,10 @@ import styled from 'styled-components';
 import { useToggles } from '@weco/common/server-data/Context';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
+import Layout, {
+  gridSize10,
+  gridSize8,
+} from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import SourcedDescription from '@weco/content/components/SourcedDescription';
@@ -23,9 +27,8 @@ const Title = styled(Space).attrs({
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })``;
 
-const ThemeDescription = styled(Space).attrs({
+const ThemeDescription = styled.div.attrs({
   className: `${font('intr', 3)} body-text`,
-  $v: { size: 'l', properties: ['margin-bottom'] },
 })``;
 
 const AlternativeLabels = styled(Space).attrs({
@@ -76,21 +79,26 @@ const ThemeHeader: FunctionComponent<{
   return (
     <ConceptHero>
       <Container>
-        <Title>{concept.label}</Title>
-        {themePagesAllFields && (
-          <ThemeAlternativeLabels
-            alternativeLabels={concept.alternativeLabels}
-          />
-        )}
-        {concept.description && (
-          <ThemeDescription>
-            <SourcedDescription
-              description={capitalize(concept.description.text)}
-              source={concept.description.sourceLabel}
-              href={concept.description.sourceUrl}
+        <Layout gridSizes={gridSize10(false)}>
+          <Title>{concept.label}</Title>
+          {themePagesAllFields && (
+            <ThemeAlternativeLabels
+              alternativeLabels={concept.alternativeLabels}
             />
-          </ThemeDescription>
+          )}
+        </Layout>
+        {concept.description && (
+          <Layout gridSizes={gridSize8(false)}>
+            <ThemeDescription>
+              <SourcedDescription
+                description={capitalize(concept.description.text)}
+                source={concept.description.sourceLabel}
+                href={concept.description.sourceUrl}
+              />
+            </ThemeDescription>
+          </Layout>
         )}
+
         <>
           {(concept.type === 'Person' || themePagesAllFields) && (
             <RelatedConceptsGroup
