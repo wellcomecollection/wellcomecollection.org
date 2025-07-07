@@ -5,15 +5,21 @@ import { GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
 
+export const MobileNavBackground = styled(Space).attrs({
+  className: 'is-hidden-l is-hidden-xl',
+  $v: { size: 'l', properties: ['height'] },
+})`
+  display: block;
+  background-color: ${props => props.theme.color('neutral.700')};
+`;
+
 export const NavGridCell = styled(GridCell)<{
   $isEnhanced: boolean;
-  $isMobileNavInverted: boolean;
 }>`
   position: ${props => (props.$isEnhanced ? 'sticky' : 'relative')};
   top: 0;
   transition: background-color ${props => props.theme.transitionProperties};
-  background-color: ${props =>
-    props.theme.color(props.$isMobileNavInverted ? 'white' : 'neutral.700')};
+  background-color: ${props => props.theme.color('neutral.700')};
   z-index: 3;
 
   &::before,
@@ -25,8 +31,7 @@ export const NavGridCell = styled(GridCell)<{
     top: 0;
     z-index: 10;
     transition: background-color ${props => props.theme.transitionProperties};
-    background-color: ${props =>
-      props.theme.color(props.$isMobileNavInverted ? 'white' : 'neutral.700')};
+    background-color: ${props => props.theme.color('neutral.700')};
   }
 
   &::before {
