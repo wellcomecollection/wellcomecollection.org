@@ -1,5 +1,4 @@
 import { idArray, uiTree } from '@weco/content/__mocks__/uiTree';
-import { getTabbableIds } from '@weco/content/components/ArchiveTree/ArchiveTree.helpers';
 import {
   workFixture,
   workWithLibrarySeriesPartOf,
@@ -14,6 +13,7 @@ import {
   getItemsWith,
   getProductionDates,
 } from '@weco/content/utils/works';
+import { getTabbableIds } from '@weco/content/views/works/work/ArchiveTree/ArchiveTree.helpers';
 
 describe('getProductionDates', () => {
   it('extracts date labels from a work', () => {
