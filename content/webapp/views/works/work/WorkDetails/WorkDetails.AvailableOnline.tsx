@@ -316,7 +316,7 @@ const WorkDetailsAvailableOnline = ({
     canvasCount,
     auth,
     structures,
-    bornDigitalStatus,
+    itemsStatus,
     canvases,
     placeholderId,
     rendering,
@@ -332,14 +332,18 @@ const WorkDetailsAvailableOnline = ({
 
   const authServices = getAuthServices({ auth, authV2 });
 
-  const isBornDigital =
-    bornDigitalStatus === 'mixedBornDigital' ||
-    bornDigitalStatus === 'allBornDigital';
+  const hasNonStandardItems = itemsStatus !== 'allStandard';
 
   const [tabbableId, setTabbableId] = useState<string>();
   const [archiveTree, setArchiveTree] = useState<UiTree>([]);
   const allOriginalPdfs = isAllOriginalPdfs(canvases || []);
   const clickThroughService = authServices?.active;
+
+  // We temporarily want to show the download tree for multiple PDFs
+  // See: https://github.com/wellcomecollection/wellcomecollection.org/issues/12089
+  const shouldShowDownloadTree =
+    hasNonStandardItems &&
+    (!allOriginalPdfs || (allOriginalPdfs && Number(canvases?.length) > 1));
 
   useEffect(() => {
     const downloads = createDownloadTree(structures, canvases);
@@ -360,7 +364,7 @@ const WorkDetailsAvailableOnline = ({
 
   return (
     <WorkDetailsSection
-      headingText={`Available ${isBornDigital ? 'to download' : 'online'}`}
+      headingText={`Available ${hasNonStandardItems ? 'to download' : 'online'}`}
     >
       <ConditionalWrapper
         condition={Boolean(
@@ -376,7 +380,7 @@ const WorkDetailsAvailableOnline = ({
           </IIIFClickthrough>
         )}
       >
-        {isBornDigital && !allOriginalPdfs && (
+        {shouldShowDownloadTree && (
           <>
             {Number(canvases?.length) > 0 && (
               <p className={font('lr', 6)}>Contains {canvases?.length} files</p>
@@ -425,7 +429,12 @@ const WorkDetailsAvailableOnline = ({
           </>
         )}
 
-        {(!isBornDigital || allOriginalPdfs) && (
+        {/*
+          We temporarily want to prevent showing the link for multiple pdfs
+          See: https://github.com/wellcomecollection/wellcomecollection.org/issues/12089
+        */}
+        {(!hasNonStandardItems ||
+          (allOriginalPdfs && canvases?.length === 1)) && (
           <>
             {!shouldShowItemLink && (
               <>
