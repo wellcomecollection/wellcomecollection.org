@@ -29,7 +29,6 @@ export const NavGridCell = styled(GridCell)<{
     width: ${themeValues.containerPadding.small}px;
     bottom: 0;
     top: 0;
-    z-index: 10;
     transition: background-color ${props => props.theme.transitionProperties};
     background-color: ${props => props.theme.color('neutral.700')};
   }
