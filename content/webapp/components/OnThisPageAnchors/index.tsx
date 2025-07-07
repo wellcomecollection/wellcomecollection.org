@@ -23,10 +23,23 @@ import { Link } from '@weco/content/types/link';
 // Used to set the left offset for the active indicator line in sticky mode
 const leftOffset = '12px';
 
+const BackgroundOverlay = styled.div<{ $isActive: boolean }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: ${props =>
+    props.$isActive ? props.theme.color('black') : 'transparent'};
+  opacity: ${props => (props.$isActive ? 0.7 : 0)};
+  transition: opacity ${props => props.theme.transitionProperties};
+  z-index: ${props => (props.$isActive ? '10' : '-1')};
+`;
+
 const ListItem = styled.li<{ $hasStuck: boolean }>`
   position: relative;
-  padding-bottom: 6px;
-  padding-top: 6px;
+  padding-bottom: 12px;
+  padding-top: 12px;
   border-top: 1px solid
     ${props => props.theme.color(props.$hasStuck ? 'white' : 'transparent')};
 
@@ -66,8 +79,7 @@ const ListItem = styled.li<{ $hasStuck: boolean }>`
   ${props =>
     props.theme.media('large')(`
     border-top: 0;
-    padding-left: ${leftOffset};
-    padding-right: 0;
+    padding: 6px 0  6px ${leftOffset};
     margin: 0;
 
     &::before {
@@ -82,6 +94,11 @@ const AnimatedLink = styled.a<{ $hasStuck: boolean }>`
   --line: ${props => props.theme.color(props.$hasStuck ? 'black' : 'white')};
   text-decoration: none;
   position: relative;
+
+  ${props =>
+    props.theme.media('large')(`
+    --line: ${props.theme.color('white')};
+    `)}
 
   & > span {
     background-image: linear-gradient(0deg, var(--line) 0%, var(--line) 100%);
@@ -116,6 +133,7 @@ const InPageNavAnimatedLink = styled(AnimatedLink)<{
       ? props.theme.color(props.$hasStuck ? 'black' : 'white')
       : 'inherit'};
   position: relative;
+  display: block;
 
   &::before {
     content: '';
@@ -223,12 +241,14 @@ const Root = styled(Space).attrs<{ $isSticky?: boolean; $hasStuck: boolean }>(
     `)}
 `;
 
-const MobileNavButton = styled.button<{ $hasStuck: boolean }>`
+const MobileNavButton = styled.button.attrs({
+  className: font('intm', 5),
+})<{ $hasStuck: boolean }>`
   border-top: ${props =>
     !props.$hasStuck ? `1px solid ${props.theme.color('white')}` : undefined};
   border-bottom: ${props =>
     !props.$hasStuck ? `1px solid ${props.theme.color('white')}` : undefined};
-  padding: 0.5rem 0;
+  padding: 12px 0;
   margin: 0;
   display: flex;
   justify-content: space-between;
@@ -365,7 +385,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
     );
     buttonRef.current.setAttribute(
       'aria-expanded',
-      isListActive ? 'false' : 'true'
+      isListActive ? 'true' : 'false'
     );
   }, [isListActive]);
 
@@ -376,21 +396,12 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
     );
   }, [activeId]);
 
-  useEffect(() => {
-    if (!listRef.current || !buttonRef.current) return;
-
-    listRef.current.classList[isListActive ? 'remove' : 'add'](
-      'is-hidden-s',
-      'is-hidden-m'
-    );
-    buttonRef.current.setAttribute(
-      'aria-expanded',
-      isListActive ? 'false' : 'true'
-    );
-  }, [isListActive]);
-
   return (
     <>
+      <BackgroundOverlay
+        $isActive={isListActive}
+        onClick={() => setIsListActive(false)}
+      />
       <div ref={onThisPageAnchorsStickyRef}></div>
       <Root
         $isSticky={isSticky}
