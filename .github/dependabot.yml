@@ -29,6 +29,8 @@ updates:
       - dependency-name: '@auth0/nextjs-auth0'
       # Needs Node >= 20.15, update when we get there.
       - dependency-name: 'lint-staged'
+      # Would love to get rid of this, but is needed for exhibitions.test.ts so a bigger thing to think about
+      - dependency-name: 'node-fetch'
     groups:
       all:
         patterns: ['*']
