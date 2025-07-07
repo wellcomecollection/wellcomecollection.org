@@ -17,7 +17,7 @@
     "typecheck": "tsc --build tsconfig.json",
     "storybook": "start-storybook -p 4009",
     "build-storybook": "build-storybook",
-    "test": "jest",
+    "test": "NODE_ENV=test jest --no-cache",
     "lint:next": "next lint"
   },
   "dependencies": {

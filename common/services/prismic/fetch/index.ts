@@ -1,4 +1,7 @@
 import * as prismic from '@prismicio/client';
+// We would rather not use node-fetch as Node comes with its own built-in fetch,
+// but Jest is causing issues as its not able to access it and we need it for exhibitions.test.ts
+import fetch from 'node-fetch';
 
 import sliceMachineConfig from '@weco/common/slicemachine.config.json';
 import { isUndefined } from '@weco/common/utils/type-guards';
