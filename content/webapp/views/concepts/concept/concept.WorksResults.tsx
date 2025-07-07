@@ -81,7 +81,8 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
   }
 
   const activePanel: SectionData = sectionsData[selectedTab];
-  if (!activePanel.works || !activePanel.totalResults.works) return null;
+  if (!activePanel.works || activePanel.totalResults.works === undefined)
+    return null;
 
   const labelBasedCount = activePanel.totalResults.works;
   const formattedLabelBasedCount = formatNumber(labelBasedCount, {
