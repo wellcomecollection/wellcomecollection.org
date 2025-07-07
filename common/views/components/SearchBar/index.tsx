@@ -38,7 +38,7 @@ type Props = {
   setInputValue: Dispatch<SetStateAction<string>>;
   placeholder: string;
   form: string;
-  inputRef?: RefObject<HTMLInputElement>;
+  inputRef?: RefObject<HTMLInputElement | null>;
   location: ValidLocations;
 };
 

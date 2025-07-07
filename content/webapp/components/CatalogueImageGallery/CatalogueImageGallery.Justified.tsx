@@ -92,38 +92,40 @@ const CatalogueImageGalleryJustified: FunctionComponent<Props> = ({
     return <AlbumRow>{children}</AlbumRow>;
   };
 
-  const imageRenderer: FunctionComponent<RenderPhotoProps<GalleryImageProps>> =
+  const imageRenderer = ({
     // these are values and props that are passed in by the PhotoAlbum component
-    ({ photo, layout }) => {
-      const rgbColor = hexToRgb(photo.averageColor || '');
-      return (
-        <li style={{ padding: 12 }}>
-          <ImageFrame>
-            <ImageCard
-              id={photo.id}
-              workId={photo.source.id}
-              positionInList={layout.index + 1}
-              image={{
-                contentUrl: photo.src,
-                width: layout.width,
-                height: layout.height,
-                alt: photo.source.title,
-              }}
-              onClick={event => {
-                event.preventDefault();
-                setExpandedImage(photo);
-              }}
-              layout="fixed"
-              background={
-                background ||
-                (rgbColor &&
-                  `rgb(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b}, 0.5)`)
-              }
-            />
-          </ImageFrame>
-        </li>
-      );
-    };
+    photo,
+    layout,
+  }: RenderPhotoProps<GalleryImageProps>) => {
+    const rgbColor = hexToRgb(photo.averageColor || '');
+    return (
+      <li style={{ padding: 12 }}>
+        <ImageFrame>
+          <ImageCard
+            id={photo.id}
+            workId={photo.source.id}
+            positionInList={layout.index + 1}
+            image={{
+              contentUrl: photo.src,
+              width: layout.width,
+              height: layout.height,
+              alt: photo.source.title,
+            }}
+            onClick={event => {
+              event.preventDefault();
+              setExpandedImage(photo);
+            }}
+            layout="fixed"
+            background={
+              background ||
+              (rgbColor &&
+                `rgb(${rgbColor.r}, ${rgbColor.g}, ${rgbColor.b}, 0.5)`)
+            }
+          />
+        </ImageFrame>
+      </li>
+    );
+  };
   return (
     <>
       {isFullSupportBrowser && !isSmallGallery && (

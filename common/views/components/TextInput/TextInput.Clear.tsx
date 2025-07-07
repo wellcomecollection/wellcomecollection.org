@@ -13,7 +13,7 @@ const Button = styled.button`
 `;
 
 type Props = {
-  inputRef: RefObject<HTMLInputElement>;
+  inputRef: RefObject<HTMLInputElement | null>;
   setValue: Dispatch<SetStateAction<string>>;
   clickHandler?: () => void;
   right?: number;

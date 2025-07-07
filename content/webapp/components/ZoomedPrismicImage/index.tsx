@@ -85,7 +85,7 @@ const ZoomedPrismicImage: FunctionComponent<ZoomedPrismicImageProps> = ({
   const [isLoaded, setIsLoaded] = useState(false);
   const [imageWidth, setImageWidth] = useState(0);
   const [isZoom, setIsZoom] = useState(false);
-  const zoomRef: RefObject<HTMLDialogElement> = useRef(null);
+  const zoomRef: RefObject<HTMLDialogElement | null> = useRef(null);
 
   function openDialog() {
     zoomRef?.current?.showModal();

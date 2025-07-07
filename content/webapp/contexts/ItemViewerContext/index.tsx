@@ -23,8 +23,8 @@ type Props = {
   accessToken: string | undefined;
 
   // UI props:
-  viewerRef: RefObject<HTMLDivElement> | undefined;
-  mainAreaRef: RefObject<HTMLDivElement> | undefined;
+  viewerRef: RefObject<HTMLDivElement | null> | undefined;
+  mainAreaRef: RefObject<HTMLDivElement | null> | undefined;
   mainAreaWidth: number;
   mainAreaHeight: number;
   gridVisible: boolean;
