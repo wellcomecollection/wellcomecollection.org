@@ -21,8 +21,8 @@ import {
   Work as WorkType,
 } from '@weco/content/services/wellcome/catalogue/types';
 import {
-  BornDigitalStatus,
   DownloadOption,
+  ItemsStatus,
   TransformedCanvas,
 } from '@weco/content/types/manifest';
 import { hasItemType } from '@weco/content/utils/iiif/v3';
@@ -372,7 +372,7 @@ export function showItemLink({
   digitalLocation,
   accessCondition,
   canvases,
-  bornDigitalStatus,
+  itemsStatus,
 }: {
   userIsStaffWithRestricted: boolean;
   allOriginalPdfs: boolean;
@@ -380,7 +380,7 @@ export function showItemLink({
   digitalLocation?: DigitalLocation;
   accessCondition?: string;
   canvases?: TransformedCanvas[];
-  bornDigitalStatus?: BornDigitalStatus;
+  itemsStatus?: ItemsStatus;
 }): boolean {
   // In general we don't show the item link if there are born digital items present, i.e. canvases with a behavior of placeholder, because we display download links on the page instead.
   // The exception to this is if ALL the items are born digital and they are ALL pdfs, as we know we can show them on the items page.
@@ -405,7 +405,7 @@ export function showItemLink({
     digitalLocation &&
     !hasVideo &&
     !hasSound &&
-    (bornDigitalStatus === 'noBornDigital' || allOriginalPdfs)
+    (itemsStatus === 'allStandard' || allOriginalPdfs)
   ) {
     return true;
   } else {
