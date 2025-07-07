@@ -26,7 +26,7 @@ export function useActiveAnchor(ids: string[]): string | null {
         );
       });
 
-      const sectionTops = Array.from(intersectingIds)
+      const sectionTops = [...intersectingIds]
         .map(i => {
           const section = sections.find(
             section => (section?.firstChild as HTMLHeadingElement).id === i
