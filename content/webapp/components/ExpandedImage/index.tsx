@@ -13,7 +13,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import IIIFImage from '@weco/content/components/IIIFImage';
 import { toLink as imageLink } from '@weco/content/components/ImageLink';
 import { toLink as itemLink } from '@weco/content/components/ItemLink';
-import VisuallySimilarImagesFromApi from '@weco/content/components/VisuallySimilarImagesFromApi';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
 import {
@@ -25,6 +24,8 @@ import {
   getDigitalLocationOfType,
   getProductionDates,
 } from '@weco/content/utils/works';
+
+import VisuallySimilarImagesFromApi from './ExpandedImage.VisuallySimilarImages';
 
 type Props = {
   image: ImageType | undefined;

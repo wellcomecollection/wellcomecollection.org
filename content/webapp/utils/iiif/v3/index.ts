@@ -24,7 +24,6 @@ import {
 } from '@iiif/presentation-3';
 
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
-import { IIIFItemProps } from '@weco/content/components/IIIFItem';
 import {
   Auth,
   AuthClickThroughServiceWithPossibleServiceArray,
@@ -34,6 +33,7 @@ import {
   DownloadOption,
   TransformedCanvas,
 } from '@weco/content/types/manifest';
+import { IIIFItemProps } from '@weco/content/views/works/work/IIIFItem';
 
 import { getOriginal, getThumbnailImage } from './canvas';
 
