@@ -23,28 +23,63 @@ import { Link } from '@weco/content/types/link';
 // Used to set the left offset for the active indicator line in sticky mode
 const leftOffset = '12px';
 
-const ListItem = styled.li`
+const ListItem = styled.li<{ $hasStuck: boolean }>`
   position: relative;
-  padding-left: ${leftOffset};
   padding-bottom: 6px;
   padding-top: 6px;
+  border-top: 1px solid
+    ${props => props.theme.color(props.$hasStuck ? 'white' : 'transparent')};
+
+  margin-left: -${themeValues.containerPadding.small}px;
+  margin-right: -${themeValues.containerPadding.small}px;
+  padding-left: calc(${themeValues.containerPadding.small}px + ${leftOffset});
+  /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
+  padding-right: ${themeValues.containerPadding.small}px;
+
+  ${props =>
+    props.theme.media('medium')(`
+    margin-left: -${themeValues.containerPadding.medium}px;
+    margin-right: -${themeValues.containerPadding.medium}px;
+    padding-left: calc(${themeValues.containerPadding.medium}px + ${leftOffset});
+    padding-right: ${themeValues.containerPadding.medium}px;
+  `)}
 
   &::before {
     content: '';
-    display: block;
+    display: ${props => (props.$hasStuck ? 'none' : 'block')};
     position: absolute;
-    left: 1px;
+    left: calc(${themeValues.containerPadding.small}px + 1px);
     top: 0;
     bottom: 0;
     width: 1px;
     height: 100%;
     background: ${props => props.theme.color('black')};
   }
+
+  ${props =>
+    props.theme.media('medium')(`
+      &::before {
+        left: calc(${themeValues.containerPadding.medium}px + 1px);
+      }
+    `)}
+
+  ${props =>
+    props.theme.media('large')(`
+    border-top: 0;
+    padding-left: ${leftOffset};
+    padding-right: 0;
+    margin: 0;
+
+    &::before {
+      display: block;
+      left: 1px;
+    }
+    `)}
 `;
 
 // If used elsewhere, this could be extracted to a shared styled component
-const AnimatedLink = styled.a`
-  --line: ${props => props.theme.color('white')};
+const AnimatedLink = styled.a<{ $hasStuck: boolean }>`
+  --line: ${props => props.theme.color(props.$hasStuck ? 'black' : 'white')};
   text-decoration: none;
   position: relative;
 
@@ -74,9 +109,12 @@ const Anchor = styled.a.attrs({
 const InPageNavAnimatedLink = styled(AnimatedLink)<{
   $isActive?: boolean;
   $hasBackgroundBlend?: boolean;
+  $hasStuck: boolean;
 }>`
   color: ${props =>
-    props.$hasBackgroundBlend ? props.theme.color('white') : 'inherit'};
+    props.$hasBackgroundBlend
+      ? props.theme.color(props.$hasStuck ? 'black' : 'white')
+      : 'inherit'};
   position: relative;
 
   &::before {
@@ -86,13 +124,22 @@ const InPageNavAnimatedLink = styled(AnimatedLink)<{
     top: 0;
     height: 100%;
     width: 3px;
-    background: ${props => props.theme.color('white')};
+    background: ${props =>
+      props.theme.color(props.$hasStuck ? 'accent.green' : 'white')};
     opacity: ${props => (props.$isActive ? 1 : 0)};
     transform: scaleY(${props => (props.$isActive ? 1 : 0.5)});
     transition:
       opacity ${props => props.theme.transitionProperties},
       transform ${props => props.theme.transitionProperties};
   }
+
+  ${props =>
+    props.theme.media('large')(`
+    color: ${props.$hasBackgroundBlend ? props.theme.color('white') : 'inherit'};
+
+    &::before {
+      background: ${props.theme.color('white')};
+    `)}
 `;
 
 const stickyRootAttrs = `
@@ -420,7 +467,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
             return (
               <Fragment key={link.url}>
                 {isSticky ? (
-                  <ListItem>
+                  <ListItem $hasStuck={hasStuck}>
                     <NextLink
                       passHref
                       legacyBehavior
@@ -428,6 +475,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
                       href={link.url}
                     >
                       <InPageNavAnimatedLink
+                        $hasStuck={hasStuck}
                         $isActive={isActive}
                         $hasBackgroundBlend={hasBackgroundBlend}
                         data-gtm-trigger="link_click_page_position"
