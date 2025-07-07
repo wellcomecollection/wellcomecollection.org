@@ -1,7 +1,6 @@
 import * as prismic from '@prismicio/client';
 import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
 
 import { bodySquabblesSeries as bodySquabblesSeriesId } from '@weco/common/data/hardcoded-ids';
 import {
@@ -9,25 +8,12 @@ import {
   WebcomicSeriesDocument,
 } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
-import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
-import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { serialiseProps } from '@weco/common/utils/json';
-import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
-import HeaderBackground from '@weco/common/views/components/HeaderBackground';
-import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout';
-import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
-import Standfirst from '@weco/common/views/slices/Standfirst';
-import ArticleCard from '@weco/content/components/ArticleCard';
-import ArticleScheduleItemCard from '@weco/content/components/ArticleScheduleItemCard';
-import Body from '@weco/content/components/Body';
-import ContentPage from '@weco/content/components/ContentPage';
-import Pagination from '@weco/content/components/Pagination';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
 import { fetchSeriesById } from '@weco/content/services/prismic/fetch/series';
@@ -45,26 +31,20 @@ import {
   transformWebcomicSeries,
 } from '@weco/content/services/prismic/transformers/series';
 import { seasonsFetchLinks } from '@weco/content/services/prismic/types';
-import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items';
-import { ArticleBasic } from '@weco/content/types/articles';
-import { Series } from '@weco/content/types/series';
-import { getFeaturedMedia } from '@weco/content/utils/page-header';
 import { getPage } from '@weco/content/utils/query-params';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
+import ArticleSeriesPage, {
+  Props as ArticleSeriesPageProps,
+} from '@weco/content/views/series/series';
 
-const SeriesItem = styled.div<{ $isFirst: boolean }>`
-  border-top: ${props =>
-    `${props.$isFirst ? '0' : '1px'} solid ${props.theme.color(
-      'warmNeutral.400'
-    )}`};
-`;
-
-type Props = {
-  series: Series;
-  articles: PaginatedResults<ArticleBasic>;
-  scheduledItems: ArticleScheduleItem[];
+type Props = ArticleSeriesPageProps & {
   gaDimensions: GaDimensions;
   pageview: Pageview;
+  serverData: SimplifiedServerData; // TODO should we enforce this?
+};
+
+const Page: FunctionComponent<ArticleSeriesPageProps> = props => {
+  return <ArticleSeriesPage {...props} />;
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -136,7 +116,7 @@ export const getServerSideProps: GetServerSideProps<
   });
 
   return {
-    props: serialiseProps({
+    props: serialiseProps<Props>({
       series,
       articles: {
         ...articles,
@@ -158,108 +138,4 @@ export const getServerSideProps: GetServerSideProps<
   };
 };
 
-const ArticleSeriesPage: FunctionComponent<Props> = props => {
-  const { series, articles, scheduledItems } = props;
-  const breadcrumbs = {
-    items: [
-      {
-        url: '/stories',
-        text: 'Stories',
-      },
-      {
-        url: linkResolver(series),
-        text: series.title,
-        isHidden: true,
-      },
-    ],
-  };
-
-  const ContentTypeInfo = series.untransformedStandfirst ? (
-    <Standfirst
-      slice={series.untransformedStandfirst}
-      index={0}
-      context={{}}
-      slices={[]}
-    />
-  ) : null;
-
-  const FeaturedMedia = getFeaturedMedia(series);
-  const Header = (
-    <PageHeader
-      breadcrumbs={breadcrumbs}
-      labels={{ labels: series.labels }}
-      title={series.title}
-      ContentTypeInfo={ContentTypeInfo}
-      Background={
-        <HeaderBackground
-          hasWobblyEdge={true}
-          backgroundTexture={headerBackgroundLs}
-        />
-      }
-      FeaturedMedia={FeaturedMedia}
-      isContentTypeInfoBeforeMedia={true}
-    />
-  );
-
-  return (
-    <PageLayout
-      title={series.title}
-      description={series.metadataDescription || series.promo?.caption || ''}
-      url={{ pathname: `/series/${series.uid}` }}
-      jsonLd={{ '@type': 'WebPage' }}
-      siteSection="stories"
-      openGraphType="website"
-      image={series.image}
-      apiToolbarLinks={[createPrismicLink(series.id)]}
-    >
-      <ContentPage
-        id={series.id}
-        Header={Header}
-        Body={
-          <Body
-            untransformedBody={series.untransformedBody}
-            pageId={series.id}
-          />
-        }
-        contributors={series.contributors}
-        seasons={series.seasons}
-      >
-        <>
-          {articles.results.map((article, index) => (
-            <SeriesItem key={index} $isFirst={index === 0}>
-              <ArticleCard
-                article={article}
-                showPosition={true}
-                xOfY={{
-                  x: index + 1,
-                  y: articles.results.length + scheduledItems.length,
-                }}
-              />
-            </SeriesItem>
-          ))}
-          {scheduledItems.map((item, index) => (
-            <SeriesItem key={index} $isFirst={false}>
-              <ArticleScheduleItemCard
-                item={item}
-                xOfY={{
-                  x: articles.results.length + index + 1,
-                  y: articles.results.length + scheduledItems.length,
-                }}
-              />
-            </SeriesItem>
-          ))}
-        </>
-        {articles.totalPages > 1 && (
-          <PaginationWrapper $verticalSpacing="m" $alignRight>
-            <Pagination
-              totalPages={articles.totalPages}
-              ariaLabel="Series pagination"
-            />
-          </PaginationWrapper>
-        )}
-      </ContentPage>
-    </PageLayout>
-  );
-};
-
-export default ArticleSeriesPage;
+export default Page;

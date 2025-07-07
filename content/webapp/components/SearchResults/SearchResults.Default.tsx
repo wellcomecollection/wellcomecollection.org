@@ -10,9 +10,10 @@ import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import ArticleCard from '@weco/content/components/ArticleCard';
 import CompactCard from '@weco/content/components/CompactCard';
-import EventCard from '@weco/content/components/EventCard';
 import { Card } from '@weco/content/types/card';
 import { MultiContent } from '@weco/content/types/multi-content';
+
+import EventCard from './SearchResults.EventCard';
 
 const Result = styled.li`
   border-top: 1px solid ${props => props.theme.color('warmNeutral.400')};

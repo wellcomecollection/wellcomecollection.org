@@ -36,6 +36,28 @@ type SpaceProperty =
 
 const breakpointNames = ['small', 'medium', 'large'];
 
+// When using this vw calc approach (e.g. in [conceptId]) the scrollbar width is not taken into account resulting in
+// possible horizontal scroll. The simplest solution to get around this is to use pageGridOffset in conjuction
+// with the hideOverflowX prop on PageLayout
+function pageGridOffset(property: string): string {
+  return `
+  position: relative;
+  ${property}: -${themeValues.containerPadding.small}px;
+
+  ${themeValues.media('medium')(`
+    ${property}: -${themeValues.containerPadding.medium}px;
+    `)}
+
+  ${themeValues.media('large')(`
+    ${property}: -${themeValues.containerPadding.large}px;
+    `)}
+
+  ${themeValues.media('xlarge')(`
+    ${property}: calc((100vw - ${themeValues.sizes.xlarge}px) / 2 * -1 - ${themeValues.containerPadding.xlarge}px);
+  `)};
+  `;
+}
+
 function makeSpacePropertyValues(
   size: SpaceSize,
   properties: SpaceProperty[],
@@ -63,6 +85,7 @@ function makeSpacePropertyValues(
 const theme = {
   ...themeValues,
   makeSpacePropertyValues,
+  pageGridOffset,
 };
 
 type Classes = typeof classes;

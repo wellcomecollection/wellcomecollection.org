@@ -47,6 +47,7 @@ const Dropdown = styled(Space).attrs<{ $isTight: boolean }>(props => ({
     transform 350ms ease;
   border-radius: ${props => props.theme.borderRadiusUnit}px;
   box-shadow: ${props => props.theme.basicBoxShadow};
+  max-height: 40vh;
 
   &,
   &.fade-exit-done {

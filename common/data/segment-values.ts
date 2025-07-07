@@ -29,7 +29,8 @@ export type PageviewName =
   | 'story'
   | 'stories'
   | 'work'
-  | 'works';
+  | 'works'
+  | 'visual-story';
 
 export type ConceptLinkSource =
   | `work_details/contributors_${string}`
