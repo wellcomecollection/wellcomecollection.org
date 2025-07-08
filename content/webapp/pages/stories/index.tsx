@@ -22,7 +22,7 @@ import { Series } from '@weco/content/types/series';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import StoriesPage, {
   Props as StoriesPageProps,
-} from '@weco/content/views/stories';
+} from '@weco/content/views/pages/stories';
 
 const Page: FunctionComponent<StoriesPageProps> = props => {
   return <StoriesPage {...props} />;

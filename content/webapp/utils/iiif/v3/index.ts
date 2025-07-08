@@ -33,7 +33,7 @@ import {
   ItemsStatus,
   TransformedCanvas,
 } from '@weco/content/types/manifest';
-import { IIIFItemProps } from '@weco/content/views/works/work/IIIFItem';
+import { IIIFItemProps } from '@weco/content/views/pages/works/work/IIIFItem';
 
 import { getOriginal, getThumbnailImage } from './canvas';
 

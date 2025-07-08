@@ -14,7 +14,7 @@ import { transformBook } from '@weco/content/services/prismic/transformers/books
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import BookPage, {
   Props as BookPageProps,
-} from '@weco/content/views/books/book';
+} from '@weco/content/views/pages/books/book';
 
 const Page: FunctionComponent<BookPageProps> = props => {
   return <BookPage {...props} />;

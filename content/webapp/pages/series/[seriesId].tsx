@@ -35,7 +35,7 @@ import { getPage } from '@weco/content/utils/query-params';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import ArticleSeriesPage, {
   Props as ArticleSeriesPageProps,
-} from '@weco/content/views/series/series';
+} from '@weco/content/views/pages/series/series';
 
 const Page: FunctionComponent<ArticleSeriesPageProps> = props => {
   return <ArticleSeriesPage {...props} />;

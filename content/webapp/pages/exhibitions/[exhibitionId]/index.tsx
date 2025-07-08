@@ -22,7 +22,7 @@ import { transformQuery } from '@weco/content/services/prismic/transformers/pagi
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import ExhibitionPage, {
   Props as ExhibitionPageProps,
-} from '@weco/content/views/exhibitions/exhibition';
+} from '@weco/content/views/pages/exhibitions/exhibition';
 
 /**
  * Please note that the /exhibitions/{period} routes do not arrive here

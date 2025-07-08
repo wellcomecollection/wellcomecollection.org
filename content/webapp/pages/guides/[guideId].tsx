@@ -13,7 +13,7 @@ import { fetchGuide } from '@weco/content/services/prismic/fetch/guides';
 import { transformGuide } from '@weco/content/services/prismic/transformers/guides';
 import { contentLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import Guide, { Props as PageGuide } from '@weco/content/views/guides/guide';
+import Guide, { Props as PageGuide } from '@weco/content/views/pages/guides/guide';
 
 export const Page: FunctionComponent<PageGuide> = props => {
   return <Guide {...props} />;

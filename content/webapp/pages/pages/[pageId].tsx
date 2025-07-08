@@ -25,7 +25,7 @@ import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import PagePage, {
   OrderInParent,
   Props as PagePageProps,
-} from '@weco/content/views/pages/page';
+} from '@weco/content/views/pages/pages/page';
 
 export const Page: FunctionComponent<PagePageProps> = props => {
   return <PagePage {...props}>{props.children}</PagePage>;

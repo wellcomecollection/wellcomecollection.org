@@ -36,10 +36,10 @@ import { fetchJson } from '@weco/content/utils/http';
 import { getCollectionManifests } from '@weco/content/utils/iiif/v3';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
-import { queryParamToArrayIndex } from '@weco/content/views/works/work/IIIFViewer';
+import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/IIIFViewer';
 import WorkItemPage, {
   Props as WorkItemPageProps,
-} from '@weco/content/views/works/work/items';
+} from '@weco/content/views/pages/works/work/items';
 
 // Note: the `description` field on works can be large, which is why we omit it
 // from the standard WorkBasic model.  We include it here because we use it for

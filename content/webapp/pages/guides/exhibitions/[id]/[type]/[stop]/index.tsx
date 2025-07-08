@@ -20,7 +20,7 @@ import { isValidExhibitionGuideType } from '@weco/content/types/exhibition-guide
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import ExhibitionGuideStopPage, {
   Props as ExhibitionGuideStopPageProps,
-} from '@weco/content/views/guides/exhibitions/exhibition/type/stop';
+} from '@weco/content/views/pages/guides/exhibitions/exhibition/type/stop';
 
 const Page: FunctionComponent<ExhibitionGuideStopPageProps> = props => {
   return <ExhibitionGuideStopPage {...props} />;

@@ -16,7 +16,7 @@ import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
 import WorkDownloadPage, {
   Props as WorkDownloadPageProps,
-} from '@weco/content/views/works/work/download';
+} from '@weco/content/views/pages/works/work/download';
 
 const Page: NextPage<WorkDownloadPageProps> = props => {
   return <WorkDownloadPage {...props} />;

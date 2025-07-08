@@ -37,7 +37,7 @@ import { transformSeries } from '@weco/content/services/prismic/transformers/ser
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import SeasonPage, {
   Props as SeasonPageProps,
-} from '@weco/content/views/seasons/season';
+} from '@weco/content/views/pages/seasons/season';
 
 const Page: NextPage<SeasonPageProps> = props => {
   return <SeasonPage {...props} />;

@@ -7,7 +7,7 @@ import {
 } from '@weco/common/views/pages/_app';
 import * as page from '@weco/content/pages/pages/[pageId]';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import VisitUsPage from '@weco/content/views/visit-us';
+import VisitUsPage from '@weco/content/views/pages/visit-us';
 
 const Page: FunctionComponent<page.Props> = props => {
   return <VisitUsPage {...props} />;

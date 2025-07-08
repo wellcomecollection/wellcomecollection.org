@@ -30,7 +30,7 @@ import {
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import ConceptPage, {
   Props as ConceptPageProps,
-} from '@weco/content/views/concepts/concept';
+} from '@weco/content/views/pages/concepts/concept';
 
 function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
   const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/concepts/${concept.id}`;

@@ -13,7 +13,7 @@ import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 import SearchPage, {
   Props as SearchPageProps,
-} from '@weco/content/views/search';
+} from '@weco/content/views/pages/search';
 
 export const Page: NextPageWithLayout<SearchPageProps> = props => {
   return <SearchPage {...props} />;

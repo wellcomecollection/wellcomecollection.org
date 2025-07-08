@@ -29,7 +29,7 @@ import { transformVisualStory } from '@weco/content/services/prismic/transformer
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import VisualStoryPage, {
   Props as VisualStoryPageProps,
-} from '@weco/content/views/visual-stories/visual-story';
+} from '@weco/content/views/pages/visual-stories/visual-story';
 
 const VisualStory: FunctionComponent<VisualStoryPageProps> = props => {
   return <VisualStoryPage {...props} />;

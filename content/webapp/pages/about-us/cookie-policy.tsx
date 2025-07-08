@@ -7,7 +7,7 @@ import {
 } from '@weco/common/views/pages/_app';
 import * as page from '@weco/content/pages/pages/[pageId]';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import CookiePolicyPage from '@weco/content/views/about-us/cookie-policy';
+import CookiePolicyPage from '@weco/content/views/pages/about-us/cookie-policy';
 
 const Page: FunctionComponent<page.Props> = props => {
   return <CookiePolicyPage {...props} />;

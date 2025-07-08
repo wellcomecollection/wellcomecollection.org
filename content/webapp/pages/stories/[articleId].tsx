@@ -15,7 +15,7 @@ import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import ArticlePage, {
   Props as ArticlePageProps,
-} from '@weco/content/views/stories/story';
+} from '@weco/content/views/pages/stories/story';
 
 const Page: FunctionComponent<ArticlePageProps> = props => {
   return <ArticlePage {...props} />;

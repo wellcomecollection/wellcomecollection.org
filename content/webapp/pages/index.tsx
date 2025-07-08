@@ -30,7 +30,7 @@ import { transformQuery } from '@weco/content/services/prismic/transformers/pagi
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
 import { isContentList } from '@weco/content/types/body';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import Homepage, { Props as HomepageProps } from '@weco/content/views';
+import Homepage, { Props as HomepageProps } from '@weco/content/views/pages';
 
 const Page: FunctionComponent<HomepageProps> = props => {
   return <Homepage {...props} />;

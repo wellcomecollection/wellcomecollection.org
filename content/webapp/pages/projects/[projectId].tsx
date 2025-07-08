@@ -15,7 +15,7 @@ import { transformProject } from '@weco/content/services/prismic/transformers/pr
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import ProjectPage, {
   Props as ProjectPageProps,
-} from '@weco/content/views/projects/project';
+} from '@weco/content/views/pages/projects/project';
 
 export const Project: FunctionComponent<ProjectPageProps> = props => {
   return <ProjectPage {...props} />;

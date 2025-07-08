@@ -9,7 +9,7 @@ import {
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import NewsletterPage, {
   Props as NewsletterPageProps,
-} from '@weco/content/views/newsletter';
+} from '@weco/content/views/pages/newsletter';
 
 const Page: FunctionComponent<NewsletterPageProps> = props => {
   return <NewsletterPage {...props} />;

@@ -39,7 +39,7 @@ import { getGuidesRedirections } from '@weco/content/utils/digital-guides';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import ExhibitionGuidePage, {
   Props as ExhibitionGuidePageProps,
-} from '@weco/content/views/guides/exhibitions/exhibition';
+} from '@weco/content/views/pages/guides/exhibitions/exhibition';
 
 const Page: FunctionComponent<ExhibitionGuidePageProps> = props => {
   return <ExhibitionGuidePage {...props} />;

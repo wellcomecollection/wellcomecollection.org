@@ -23,7 +23,7 @@ import { eventLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import EventPage, {
   Props as EventPageProps,
-} from '@weco/content/views/events/event';
+} from '@weco/content/views/pages/events/event';
 
 /**
  * Please note that the /events/{period} routes do not arrive here

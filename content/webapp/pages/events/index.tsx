@@ -15,7 +15,7 @@ import { getPage } from '@weco/content/utils/query-params';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import EventsPage, {
   Props as EventsPageProps,
-} from '@weco/content/views/events';
+} from '@weco/content/views/pages/events';
 
 const Page: FunctionComponent<EventsPageProps> = props => {
   return <EventsPage {...props} />;

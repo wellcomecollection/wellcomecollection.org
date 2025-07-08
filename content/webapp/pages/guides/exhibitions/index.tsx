@@ -28,7 +28,7 @@ import { getPage } from '@weco/content/utils/query-params';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import ExhibitionGuidesPage, {
   Props as ExhibitionGuidesPageProps,
-} from '@weco/content/views/guides/exhibitions';
+} from '@weco/content/views/pages/guides/exhibitions';
 
 const Page: FunctionComponent<ExhibitionGuidesPageProps> = props => {
   return <ExhibitionGuidesPage {...props} />;

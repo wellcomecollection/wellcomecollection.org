@@ -14,7 +14,7 @@ import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 import WorksSearchPage, {
   Props as WorksSearchPageProps,
-} from '@weco/content/views/search/works.tsx';
+} from '@weco/content/views/pages/search/works.tsx';
 
 const Page: NextPageWithLayout<WorksSearchPageProps> = props => {
   return <WorksSearchPage {...props} />;

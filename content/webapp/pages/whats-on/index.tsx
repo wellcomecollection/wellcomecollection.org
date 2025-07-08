@@ -34,7 +34,7 @@ import { getTryTheseTooPromos } from '@weco/content/services/prismic/transformer
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import WhatsOnPage, {
   Props as WhatsOnPageProps,
-} from '@weco/content/views/whats-on';
+} from '@weco/content/views/pages/whats-on';
 
 const Page: FunctionComponent<WhatsOnPageProps> = props => {
   return <WhatsOnPage {...props} />;

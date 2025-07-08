@@ -24,7 +24,7 @@ import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
 import WorkImagesPage, {
   Props as WorkImagesPageProps,
-} from '@weco/content/views/works/work/images';
+} from '@weco/content/views/pages/works/work/images';
 
 function createTzitzitImageLink(
   work: Work,

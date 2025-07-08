@@ -14,7 +14,7 @@ import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
 import EventsSearchPage, {
   Props as EventSearchPageProps,
-} from '@weco/content/views/search/events';
+} from '@weco/content/views/pages/search/events';
 
 const Page: NextPageWithLayout<EventSearchPageProps> = props => {
   return <EventsSearchPage {...props} />;
