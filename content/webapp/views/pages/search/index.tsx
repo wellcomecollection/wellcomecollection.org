@@ -22,7 +22,7 @@ import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
 import ContentSearchResult from '@weco/content/views/components/ContentSearchResult';
 import Pagination from '@weco/content/views/components/Pagination';
-import { withSearchLayout } from '@weco/content/views/components/SearchPageLayout';
+import { withSearchLayout } from '../../layouts/SearchPageLayout';
 import { toLink as imagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
 import { toLink as worksLink } from '@weco/content/views/components/SearchPagesLink/Works';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';

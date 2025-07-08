@@ -14,8 +14,6 @@ import {
 } from '@weco/common/views/components/Layout';
 import Modal from '@weco/common/views/components/Modal';
 import Space from '@weco/common/views/components/styled/Space';
-import CataloguePageLayout from '@weco/content/views/components/CataloguePageLayout';
-import WorkLink from '@weco/content/views/components/WorkLink';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import {
@@ -32,6 +30,8 @@ import {
   hasOriginalPdf,
 } from '@weco/content/utils/iiif/v3';
 import { removeIdiomaticTextTags } from '@weco/content/utils/string';
+import WorkLink from '@weco/content/views/components/WorkLink';
+import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
 import IIIFItemList from '@weco/content/views/pages/works/work/IIIFItemList';
 
 import IIIFViewer, { queryParamToArrayIndex } from './IIIFViewer';

@@ -13,7 +13,7 @@ import { SiteSection } from '@weco/common/model/site-section';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
-import CataloguePageLayout from '@weco/content/views/components/CataloguePageLayout';
+import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
 
 import SearchNavigation from './SearchNavigation';
 

@@ -10,7 +10,7 @@ import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import { makeLabels } from '@weco/common/views/components/LabelsList';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
 import Body from '@weco/content/views/components/Body';
 import ContentPage from '@weco/content/views/components/ContentPage';

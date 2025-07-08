@@ -12,7 +12,7 @@ import {
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import { Container } from '@weco/common/views/components/styled/Container';
 import {

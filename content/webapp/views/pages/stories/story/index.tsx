@@ -8,7 +8,7 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import Body from '@weco/content/views/components/Body';

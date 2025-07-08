@@ -19,7 +19,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import { makeLabels } from '@weco/common/views/components/LabelsList';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';

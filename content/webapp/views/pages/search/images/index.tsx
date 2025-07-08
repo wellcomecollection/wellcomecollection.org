@@ -16,7 +16,7 @@ import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
 import Pagination from '@weco/content/views/components/Pagination';
 import SearchFilters from '@weco/content/views/components/SearchFilters';
-import { withSearchLayout } from '@weco/content/views/components/SearchPageLayout';
+import { withSearchLayout } from '../../../layouts/SearchPageLayout';
 import {
   ImagesProps,
   toLink,

@@ -23,7 +23,7 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import Icon from '@weco/common/views/components/Icon';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
 import Body from '@weco/content/views/components/Body';
 import BslLeafletVideo from '@weco/content/views/components/BslLeafletVideo';

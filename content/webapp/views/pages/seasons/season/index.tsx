@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
-import PageLayout from '@weco/common/views/components/PageLayout';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import Body from '@weco/content/views/components/Body';

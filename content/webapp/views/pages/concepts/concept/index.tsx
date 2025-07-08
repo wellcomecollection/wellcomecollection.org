@@ -21,14 +21,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import { themeValues } from '@weco/common/views/themes/config';
 import theme from '@weco/common/views/themes/default';
-import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
-import CataloguePageLayout from '@weco/content/views/components/CataloguePageLayout';
-import MoreLink from '@weco/content/views/components/MoreLink';
-import OnThisPageAnchors from '@weco/content/views/components/OnThisPageAnchors';
-import { toLink as toImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
-import { toLink as toWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
-import Tabs from '@weco/content/views/components/Tabs';
-import WorksSearchResults from '@weco/content/views/components/WorksSearchResults';
 import {
   Concept as ConceptType,
   Image as ImageType,
@@ -39,6 +31,14 @@ import {
   allRecordsLinkParams,
   conceptTypeDisplayName,
 } from '@weco/content/utils/concepts';
+import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
+import MoreLink from '@weco/content/views/components/MoreLink';
+import OnThisPageAnchors from '@weco/content/views/components/OnThisPageAnchors';
+import { toLink as toImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
+import { toLink as toWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
+import Tabs from '@weco/content/views/components/Tabs';
+import WorksSearchResults from '@weco/content/views/components/WorksSearchResults';
+import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
 
 import Collaborators from './concept.Collaborators';
 import Header from './concept.Header';

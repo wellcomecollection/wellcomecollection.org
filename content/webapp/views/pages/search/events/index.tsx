@@ -8,7 +8,7 @@ import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import EventsSearchResults from '@weco/content/views/components/EventsSearchResults';
 import Pagination from '@weco/content/views/components/Pagination';
 import SearchFilters from '@weco/content/views/components/SearchFilters';
-import { withSearchLayout } from '@weco/content/views/components/SearchPageLayout';
+import { withSearchLayout } from '../../../layouts/SearchPageLayout';
 import { EventsProps } from '@weco/content/views/components/SearchPagesLink/Events';
 import { eventsFilters } from '@weco/content/services/wellcome/common/filters';
 import {

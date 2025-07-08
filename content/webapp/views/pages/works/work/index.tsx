@@ -9,7 +9,6 @@ import Divider from '@weco/common/views/components/Divider';
 import SearchForm from '@weco/common/views/components/SearchForm';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
-import CataloguePageLayout from '@weco/content/views/components/CataloguePageLayout';
 import IsArchiveContext from '@weco/content/contexts/IsArchiveContext';
 import {
   toWorkBasic,
@@ -25,6 +24,7 @@ import {
   getDigitalLocationOfType,
   showItemLink,
 } from '@weco/content/utils/works';
+import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
 
 import ArchiveTree from './ArchiveTree';
 import RelatedWorks, { hasAtLeastOneSubject } from './RelatedWorks';

@@ -7,7 +7,7 @@ import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/components/PageLayout';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Standfirst from '@weco/common/views/slices/Standfirst';
 import ArticleCard from '@weco/content/views/components/ArticleCard';

@@ -14,7 +14,7 @@ import {
   ContaineredLayout,
   gridSize8,
 } from '@weco/common/views/components/Layout';
-import PageLayout from '@weco/common/views/components/PageLayout';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { Container } from '@weco/common/views/components/styled/Container';

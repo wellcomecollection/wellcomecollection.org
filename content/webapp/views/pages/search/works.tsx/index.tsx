@@ -14,7 +14,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import Pagination from '@weco/content/views/components/Pagination';
 import SearchFilters from '@weco/content/views/components/SearchFilters';
-import { withSearchLayout } from '@weco/content/views/components/SearchPageLayout';
+import { withSearchLayout } from '../../../layouts/SearchPageLayout';
 import {
   toLink,
   WorksProps as WorksRouteProps,

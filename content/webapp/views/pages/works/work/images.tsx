@@ -8,12 +8,12 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import BetaMessage from '@weco/content/views/components/BetaMessage';
-import CataloguePageLayout from '@weco/content/views/components/CataloguePageLayout';
 import {
   Image,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
+import BetaMessage from '@weco/content/views/components/BetaMessage';
+import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
 
 import IIIFViewer from './IIIFViewer';
 
