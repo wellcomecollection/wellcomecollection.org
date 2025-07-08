@@ -1,9 +1,10 @@
+import { NextPage } from 'next';
+
 import { getServerData } from '@weco/common/server-data';
 import { appError } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
 import {
-  NextPageWithLayout,
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
@@ -16,7 +17,7 @@ import EventsSearchPage, {
   Props as EventSearchPageProps,
 } from '@weco/content/views/pages/search/events';
 
-const Page: NextPageWithLayout<EventSearchPageProps> = props => {
+const Page: NextPage<EventSearchPageProps> = props => {
   return <EventsSearchPage {...props} />;
 };
 

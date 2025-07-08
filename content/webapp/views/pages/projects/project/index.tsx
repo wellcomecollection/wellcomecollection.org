@@ -1,4 +1,5 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { NextPage } from 'next';
+import { ReactElement } from 'react';
 
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -22,7 +23,7 @@ export type Props = {
   jsonLd: JsonLdObj;
 };
 
-export const ProjectPage: FunctionComponent<Props> = ({
+export const ProjectPage: NextPage<Props> = ({
   project,
   staticContent,
   jsonLd,

@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 import styled from 'styled-components';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
@@ -34,7 +34,7 @@ export type Props = {
   scheduledItems: ArticleScheduleItem[];
 };
 
-const ArticleSeriesPage: FunctionComponent<Props> = props => {
+const ArticleSeriesPage: NextPage<Props> = props => {
   const { series, articles, scheduledItems } = props;
   const breadcrumbs = {
     items: [

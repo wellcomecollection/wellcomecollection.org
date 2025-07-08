@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import {
   ExhibitionHighlightToursDocument,
@@ -28,7 +28,7 @@ export type Props = {
  * but instead are rewritten to the index file. Please observe
  * this setup in the next.config file for this app
  */
-const ExhibitionPage: FunctionComponent<Props> = ({
+const ExhibitionPage: NextPage<Props> = ({
   exhibition,
   pages,
   accessResourceLinks,

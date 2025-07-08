@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import {
   pageDescriptions,
@@ -33,7 +33,7 @@ export type Props = {
   jsonLd: JsonLdObj[];
 };
 
-const ExhibitionsPage: FunctionComponent<Props> = props => {
+const ExhibitionsPage: NextPage<Props> = props => {
   const { exhibitions, period, title, jsonLd } = props;
   const firstExhibition = exhibitions[0];
 

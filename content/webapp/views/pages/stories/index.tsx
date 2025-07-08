@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 import styled from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
@@ -77,7 +77,7 @@ const StoryPromoContainer = styled(Container)`
   }
 `;
 
-const StoriesPage: FunctionComponent<Props> = ({
+const StoriesPage: NextPage<Props> = ({
   articles,
   comicSeries,
   jsonLd,

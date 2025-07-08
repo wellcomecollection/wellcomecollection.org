@@ -58,7 +58,7 @@ export const getServerSideProps: GetServerSideProps<
     : query.error_description;
 
   return {
-    props: serialiseProps({
+    props: serialiseProps<Props>({
       serverData,
       errorDescription: errorDescription || 'Error',
     }),

@@ -28,7 +28,7 @@ export const getServerSideProps: GetServerSideProps<
   const { email } = context.query;
 
   return {
-    props: serialiseProps({
+    props: serialiseProps<Props>({
       serverData,
       email: email as string,
     }),

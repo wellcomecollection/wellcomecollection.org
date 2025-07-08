@@ -1,4 +1,5 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { NextPage } from 'next';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { SimplifiedServerData } from '@weco/common/server-data/types';
@@ -48,11 +49,7 @@ export type ArticleSeriesList = {
   articles: ArticleBasic[];
 }[];
 
-const ArticlePage: FunctionComponent<Props> = ({
-  article,
-  serverData,
-  jsonLd,
-}) => {
+const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
   const [relatedDocument, setRelatedDocument] = useState<
     ExhibitionBasic | ContentAPIArticle | undefined

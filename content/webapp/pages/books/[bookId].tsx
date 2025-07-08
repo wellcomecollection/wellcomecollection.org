@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
@@ -16,7 +16,7 @@ import BookPage, {
   Props as BookPageProps,
 } from '@weco/content/views/pages/books/book';
 
-const Page: FunctionComponent<BookPageProps> = props => {
+const Page: NextPage<BookPageProps> = props => {
   return <BookPage {...props} />;
 };
 

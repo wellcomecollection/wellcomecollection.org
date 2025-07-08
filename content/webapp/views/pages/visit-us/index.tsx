@@ -1,3 +1,4 @@
+import { NextPage } from 'next';
 import { FunctionComponent } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
@@ -13,7 +14,7 @@ import OpeningTimes from '@weco/common/views/components/OpeningTimes';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import * as page from '@weco/content/pages/pages/[pageId]';
+import Page, { Props as PageProps } from '@weco/content/pages/pages/[pageId]';
 
 const VisitUsStaticContent: FunctionComponent = () => {
   const { collectionVenues } = usePrismicData();
@@ -52,10 +53,10 @@ const VisitUsStaticContent: FunctionComponent = () => {
   );
 };
 
-const VisitUsPage: FunctionComponent<page.Props> = props => {
+const VisitUsPage: NextPage<PageProps> = props => {
   const staticContent = <VisitUsStaticContent />;
 
-  return <page.Page {...props} staticContent={staticContent} />;
+  return <Page {...props} staticContent={staticContent} />;
 };
 
 export default VisitUsPage;

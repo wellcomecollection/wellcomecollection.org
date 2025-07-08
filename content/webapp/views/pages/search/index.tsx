@@ -1,3 +1,4 @@
+import { NextPage } from 'next';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useContext, useEffect, useMemo, useState } from 'react';
@@ -18,7 +19,6 @@ import Icon from '@weco/common/views/components/Icon';
 import { Container } from '@weco/common/views/components/styled/Container';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
-import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
 import {
@@ -62,7 +62,7 @@ export type Props = {
   apiToolbarLinks?: ApiToolbarLink[];
 };
 
-const SearchPage: NextPageWithLayout<Props> = withSearchLayout(
+const SearchPage: NextPage<Props> = withSearchLayout(
   ({ contentResults, contentQueryFailed, query }) => {
     const { query: queryString } = query;
     const { extraApiToolbarLinks, setExtraApiToolbarLinks } =

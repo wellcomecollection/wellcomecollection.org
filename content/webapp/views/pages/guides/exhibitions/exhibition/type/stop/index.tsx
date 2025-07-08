@@ -1,6 +1,7 @@
+import { NextPage } from 'next';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import { FunctionComponent, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { arrow, cross } from '@weco/common/icons';
@@ -53,7 +54,7 @@ export type Props = {
   allStops: GuideHighlightTour[];
 };
 
-const ExhibitionGuideStopPage: FunctionComponent<Props> = ({
+const ExhibitionGuideStopPage: NextPage<Props> = ({
   jsonLd,
   type,
   currentStopServerSide,

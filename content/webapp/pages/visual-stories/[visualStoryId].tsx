@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import {
   EventsDocumentData,
@@ -31,7 +31,7 @@ import VisualStoryPage, {
   Props as VisualStoryPageProps,
 } from '@weco/content/views/pages/visual-stories/visual-story';
 
-const VisualStory: FunctionComponent<VisualStoryPageProps> = props => {
+const VisualStory: NextPage<VisualStoryPageProps> = props => {
   return <VisualStoryPage {...props} />;
 };
 

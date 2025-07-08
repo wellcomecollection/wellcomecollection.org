@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import {
   collectionVenueId,
@@ -76,7 +76,7 @@ export type Props = {
   jsonLd: JsonLdObj[];
 };
 
-const WhatsOnPage: FunctionComponent<Props> = props => {
+const WhatsOnPage: NextPage<Props> = props => {
   const {
     pageId,
     period,

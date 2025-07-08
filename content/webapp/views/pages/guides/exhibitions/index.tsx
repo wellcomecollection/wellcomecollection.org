@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
@@ -25,7 +25,7 @@ export type Props = {
   jsonLd: JsonLdObj[];
 };
 
-const ExhibitionGuidesPage: FunctionComponent<Props> = props => {
+const ExhibitionGuidesPage: NextPage<Props> = props => {
   const { exhibitionGuides } = props;
 
   const image = exhibitionGuides.results[0]?.image;

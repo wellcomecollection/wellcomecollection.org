@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
@@ -17,9 +17,10 @@ import ProjectPage, {
   Props as ProjectPageProps,
 } from '@weco/content/views/pages/projects/project';
 
-export const Project: FunctionComponent<ProjectPageProps> = props => {
+export const Page: NextPage<ProjectPageProps> = props => {
   return <ProjectPage {...props} />;
 };
+
 type Props = ServerSideProps<ProjectPageProps>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<
@@ -56,4 +57,4 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   return { notFound: true };
 };
 
-export default Project;
+export default Page;

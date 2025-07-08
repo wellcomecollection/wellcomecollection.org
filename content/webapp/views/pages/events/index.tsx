@@ -1,5 +1,5 @@
+import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { FunctionComponent } from 'react';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
@@ -49,7 +49,7 @@ export type Props = {
 
 const EVENTS_LISTING_FORM_ID = 'events-listing-form';
 
-const EventsPage: FunctionComponent<Props> = props => {
+const EventsPage: NextPage<Props> = props => {
   const { period, jsonLd } = props;
   const router = useRouter();
 

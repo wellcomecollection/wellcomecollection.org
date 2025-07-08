@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
@@ -17,7 +17,7 @@ import Guide, {
   Props as PageGuide,
 } from '@weco/content/views/pages/guides/guide';
 
-export const Page: FunctionComponent<PageGuide> = props => {
+export const Page: NextPage<PageGuide> = props => {
   return <Guide {...props} />;
 };
 

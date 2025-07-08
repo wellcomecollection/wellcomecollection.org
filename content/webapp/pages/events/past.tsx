@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
 import { appError } from '@weco/common/services/app';
@@ -14,13 +14,13 @@ import { getPage } from '@weco/content/utils/query-params';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { fromQuery } from '@weco/content/views/components/SearchPagesLink/Events';
 
-import * as page from './index';
+import EventsPage, { Props as EventsPageProps } from './index';
 
-const Page: FunctionComponent<page.Props> = props => {
-  return <page.default {...props} />;
+const Page: NextPage<EventsPageProps> = props => {
+  return <EventsPage {...props} />;
 };
 
-type Props = ServerSideProps<page.Props>;
+type Props = ServerSideProps<EventsPageProps>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<
   Props
@@ -78,7 +78,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     const jsonLd = eventResponseList.results.flatMap(eventLdContentApi);
 
     return {
-      props: serialiseProps<page.Props>({
+      props: serialiseProps<EventsPageProps>({
         events: eventResponseList,
         period: timespan,
         query: context.query,

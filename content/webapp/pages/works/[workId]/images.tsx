@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
 import { appError } from '@weco/common/services/app';
@@ -26,6 +26,10 @@ import WorkImagesPage, {
   Props as WorkImagesPageProps,
 } from '@weco/content/views/pages/works/work/images';
 
+const Page: NextPage<WorkImagesPageProps> = props => {
+  return <WorkImagesPage {...props} />;
+};
+
 function createTzitzitImageLink(
   work: Work,
   image: Image
@@ -37,10 +41,6 @@ function createTzitzitImageLink(
     contributors: work.contributors,
   });
 }
-
-const ImagePage: FunctionComponent<WorkImagesPageProps> = props => {
-  return <WorkImagesPage {...props} />;
-};
 
 type Props = ServerSideProps<WorkImagesPageProps>;
 
@@ -135,4 +135,4 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   };
 };
 
-export default ImagePage;
+export default Page;

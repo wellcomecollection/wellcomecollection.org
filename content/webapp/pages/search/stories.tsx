@@ -1,9 +1,10 @@
+import { NextPage } from 'next';
+
 import { getServerData } from '@weco/common/server-data';
 import { appError } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
 import {
-  NextPageWithLayout,
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
@@ -16,7 +17,7 @@ import StoriesSearchPage, {
   Props as StoriesSearchPageProps,
 } from '@weco/content/views/pages/search/stories';
 
-export const Page: NextPageWithLayout<StoriesSearchPageProps> = props => {
+export const Page: NextPage<StoriesSearchPageProps> = props => {
   return <StoriesSearchPage {...props} />;
 };
 
@@ -46,7 +47,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   if (looksLikeSpam(query.query)) {
     context.res.statusCode = 400;
     return {
-      props: serialiseProps({
+      props: serialiseProps<Props>({
         ...defaultProps,
         storyResponseList: emptyResultList(),
         pageview: {

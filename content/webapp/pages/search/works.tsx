@@ -1,8 +1,9 @@
+import { NextPage } from 'next';
+
 import { getServerData } from '@weco/common/server-data';
 import { appError } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import {
-  NextPageWithLayout,
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
@@ -16,7 +17,7 @@ import WorksSearchPage, {
   Props as WorksSearchPageProps,
 } from '@weco/content/views/pages/search/works.tsx';
 
-const Page: NextPageWithLayout<WorksSearchPageProps> = props => {
+const Page: NextPage<WorksSearchPageProps> = props => {
   return <WorksSearchPage {...props} />;
 };
 

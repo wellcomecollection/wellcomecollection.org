@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
@@ -24,7 +24,7 @@ export type Props = {
   books: PaginatedResults<BookBasic>;
 };
 
-const BooksPage: FunctionComponent<Props> = ({ books }) => {
+const BooksPage: NextPage<Props> = ({ books }) => {
   const firstBook = books.results[0];
 
   return (

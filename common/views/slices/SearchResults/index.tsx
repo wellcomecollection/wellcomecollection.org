@@ -1,5 +1,5 @@
 import { SliceComponentProps } from '@prismicio/react';
-import { FunctionComponent, type JSX } from 'react';
+import { FunctionComponent } from 'react';
 
 import { SearchResultsSlice as RawSearchResultsSlice } from '@weco/common/prismicio-types';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
@@ -19,7 +19,7 @@ export type SearchResultsProps = SliceComponentProps<
 const SearchResultsSlice: FunctionComponent<SearchResultsProps> = ({
   slice,
   context,
-}: SearchResultsProps): JSX.Element => {
+}: SearchResultsProps) => {
   const options = { ...defaultContext, ...context };
   const transformedSlice = transformSearchResultsSlice(slice);
   return (

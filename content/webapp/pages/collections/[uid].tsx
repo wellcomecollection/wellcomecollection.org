@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import {
   ServerSideProps,
@@ -6,9 +6,10 @@ import {
 } from '@weco/common/views/pages/_app';
 import * as page from '@weco/content/pages/pages/[pageId]';
 
-const CollectionsPage: FunctionComponent<page.Props> = props => {
+const CollectionsPage: NextPage<page.Props> = props => {
   return <page.Page {...props} />;
 };
+
 type Props = ServerSideProps<page.Props>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<

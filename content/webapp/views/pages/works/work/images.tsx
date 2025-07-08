@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { unavailableContentMessage } from '@weco/common/data/microcopy';
 import { DigitalLocation } from '@weco/common/model/catalogue';
@@ -25,7 +25,7 @@ export type Props = {
   apiToolbarLinks: ApiToolbarLink[];
 };
 
-const WorkImagesPage: FunctionComponent<Props> = ({
+const WorkImagesPage: NextPage<Props> = ({
   image,
   work,
   iiifImageLocation,

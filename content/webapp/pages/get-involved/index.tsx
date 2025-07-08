@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import {
@@ -8,9 +8,10 @@ import {
 import * as page from '@weco/content/pages/pages/[pageId]';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
-const Page: FunctionComponent<page.Props> = props => {
+const Page: NextPage<page.Props> = props => {
   return <page.Page {...props} />;
 };
+
 type Props = ServerSideProps<page.Props>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<

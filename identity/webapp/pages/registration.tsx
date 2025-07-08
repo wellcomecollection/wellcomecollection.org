@@ -90,7 +90,7 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   return {
-    props: serialiseProps({
+    props: serialiseProps<Props>({
       serverData,
       sessionToken,
       auth0State,

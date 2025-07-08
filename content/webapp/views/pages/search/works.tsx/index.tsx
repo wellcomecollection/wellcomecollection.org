@@ -1,3 +1,4 @@
+import { NextPage } from 'next';
 import Head from 'next/head';
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
@@ -11,7 +12,6 @@ import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
-import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import { WellcomeResultList } from '@weco/content/services/wellcome';
 import {
   WorkAggregations,
@@ -44,7 +44,7 @@ const SortPaginationWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const WorksSearchPage: NextPageWithLayout<Props> = withSearchLayout(
+const WorksSearchPage: NextPage<Props> = withSearchLayout(
   ({ works, worksRouteProps, query }) => {
     const { query: queryString } = query;
 

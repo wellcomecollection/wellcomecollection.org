@@ -41,16 +41,16 @@ import WorkItemPage, {
   Props as WorkItemPageProps,
 } from '@weco/content/views/pages/works/work/items';
 
+const Page: NextPage<WorkItemPageProps> = props => {
+  return <WorkItemPage {...props} />;
+};
+
 // Note: the `description` field on works can be large, which is why we omit it
 // from the standard WorkBasic model.  We include it here because we use it for
 // alt text in the IIIFViewer component, but we don't want it in other places
 // where we use WorkBasic.
 type WorkWithDescription = WorkBasic & {
   description?: string | null | undefined;
-};
-
-const Page: NextPage<WorkItemPageProps> = props => {
-  return <WorkItemPage {...props} />;
 };
 
 type Props = ServerSideProps<

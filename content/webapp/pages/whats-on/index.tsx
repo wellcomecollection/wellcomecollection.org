@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { PagesDocument as RawPagesDocument } from '@weco/common/prismicio-types';
@@ -36,7 +36,7 @@ import WhatsOnPage, {
   Props as WhatsOnPageProps,
 } from '@weco/content/views/pages/whats-on';
 
-const Page: FunctionComponent<WhatsOnPageProps> = props => {
+const Page: NextPage<WhatsOnPageProps> = props => {
   return <WhatsOnPage {...props} />;
 };
 

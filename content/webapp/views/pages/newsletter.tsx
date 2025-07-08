@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { newsletterDescription } from '@weco/common/data/microcopy';
 import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
@@ -16,7 +16,7 @@ export type Props = {
   result?: string;
 };
 
-const NewsletterPage: FunctionComponent<Props> = ({ result }) => {
+const NewsletterPage: NextPage<Props> = ({ result }) => {
   return (
     <PageLayout
       title="Sign up to our newsletter"

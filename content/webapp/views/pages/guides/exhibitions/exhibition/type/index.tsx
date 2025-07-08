@@ -1,6 +1,6 @@
 import { SliceZone } from '@prismicio/react';
 import { deleteCookie } from 'cookies-next';
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import cookies from '@weco/common/data/cookies';
 import { pageDescriptions } from '@weco/common/data/microcopy';
@@ -70,7 +70,7 @@ export type Props = {
   stopId?: string;
 };
 
-const ExhibitionGuideTypePage: FunctionComponent<Props> = ({
+const ExhibitionGuideTypePage: NextPage<Props> = ({
   exhibitionGuide,
   jsonLd,
   type,

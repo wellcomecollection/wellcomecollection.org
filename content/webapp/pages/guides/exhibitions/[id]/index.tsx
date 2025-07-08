@@ -1,5 +1,5 @@
 import * as prismic from '@prismicio/client';
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
@@ -41,7 +41,7 @@ import ExhibitionGuidePage, {
   Props as ExhibitionGuidePageProps,
 } from '@weco/content/views/pages/guides/exhibitions/exhibition';
 
-const Page: FunctionComponent<ExhibitionGuidePageProps> = props => {
+const Page: NextPage<ExhibitionGuidePageProps> = props => {
   return <ExhibitionGuidePage {...props} />;
 };
 

@@ -1,5 +1,5 @@
+import { NextPage } from 'next';
 import Head from 'next/head';
-import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
@@ -56,7 +56,7 @@ const pageImage: ImageType = {
   alt: '',
 };
 
-const Homepage: FunctionComponent<Props> = ({
+const Homepage: NextPage<Props> = ({
   nextSevenDaysEvents,
   exhibitions,
   articles,

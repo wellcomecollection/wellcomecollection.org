@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { GuideStopSlice as RawGuideStopSlice } from '@weco/common/prismicio-types';
@@ -35,7 +35,7 @@ export type Props = {
   stopNumber?: string;
 };
 
-const ExhibitionGuidePage: FunctionComponent<Props> = ({
+const ExhibitionGuidePage: NextPage<Props> = ({
   exhibitionGuide,
   exhibitionText,
   exhibitionHighlightTour,

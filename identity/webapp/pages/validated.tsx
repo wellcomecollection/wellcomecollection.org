@@ -84,7 +84,7 @@ export const getServerSideProps: GetServerSideProps<
   const serverData = await getServerData(context);
 
   return {
-    props: serialiseProps({
+    props: serialiseProps<Props>({
       serverData,
       success: didSucceed,
       message: message || '',

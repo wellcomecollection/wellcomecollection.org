@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
@@ -26,7 +26,7 @@ export type Props = {
   page: number;
 };
 
-const EventSeriesPage: FunctionComponent<Props> = ({
+const EventSeriesPage: NextPage<Props> = ({
   series,
   jsonLd,
   pastEvents,

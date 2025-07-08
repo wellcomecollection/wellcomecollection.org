@@ -1,3 +1,4 @@
+import { NextPage } from 'next';
 import Head from 'next/head';
 import Script from 'next/script';
 import { FunctionComponent, PropsWithChildren } from 'react';
@@ -67,7 +68,7 @@ export type Props = PropsWithChildren<{
   clipOverflowX?: boolean; // See pageGridOffset
 }>;
 
-const PageLayoutComponent: FunctionComponent<Props> = ({
+const PageLayoutComponent: NextPage<Props> = ({
   title,
   description,
   url,

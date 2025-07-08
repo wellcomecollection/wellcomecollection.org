@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { isSiteSection } from '@weco/common/model/site-section';
 import { getServerData } from '@weco/common/server-data';
@@ -27,7 +27,7 @@ import PagePage, {
   Props as PagePageProps,
 } from '@weco/content/views/pages/pages/page';
 
-export const Page: FunctionComponent<PagePageProps> = props => {
+export const Page: NextPage<PagePageProps> = props => {
   return <PagePage {...props}>{props.children}</PagePage>;
 };
 

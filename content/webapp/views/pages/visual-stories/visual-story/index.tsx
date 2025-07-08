@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
@@ -28,7 +28,7 @@ export type Props = {
   jsonLd: JsonLdObj;
 };
 
-const VisualStoryPage: FunctionComponent<Props> = ({
+const VisualStoryPage: NextPage<Props> = ({
   visualStory,
   visualStories,
   jsonLd,

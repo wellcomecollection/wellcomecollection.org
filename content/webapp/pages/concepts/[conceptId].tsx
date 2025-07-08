@@ -32,6 +32,10 @@ import ConceptPage, {
   Props as ConceptPageProps,
 } from '@weco/content/views/pages/concepts/concept';
 
+export const Page: NextPage<ConceptPageProps> = props => {
+  return <ConceptPage {...props} />;
+};
+
 function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
   const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/concepts/${concept.id}`;
 
@@ -56,10 +60,6 @@ function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
 
   return [apiLink, ...identifiers];
 }
-
-export const Page: NextPage<ConceptPageProps> = props => {
-  return <ConceptPage {...props} />;
-};
 
 type Props = ServerSideProps<ConceptPageProps>;
 

@@ -1,3 +1,4 @@
+import { NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect } from 'react';
 import styled from 'styled-components';
@@ -12,7 +13,6 @@ import PaginationWrapper from '@weco/common/views/components/styled/PaginationWr
 import Space, {
   VerticalSpaceProperty,
 } from '@weco/common/views/components/styled/Space';
-import { NextPageWithLayout } from '@weco/common/views/pages/_app';
 import {
   CatalogueResultsList,
   Image,
@@ -64,7 +64,7 @@ const SortPaginationWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const ImagesSearchPage: NextPageWithLayout<Props> = withSearchLayout(
+const ImagesSearchPage: NextPage<Props> = withSearchLayout(
   ({ images, imagesRouteProps, query }) => {
     const { query: queryString } = query;
     const { setLink } = useSearchContext();

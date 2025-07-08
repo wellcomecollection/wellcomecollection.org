@@ -1,5 +1,5 @@
 import { SliceZone } from '@prismicio/react';
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { cookiesTableCopy } from '@weco/common/data/cookies';
 import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
@@ -27,7 +27,7 @@ const CookieTable = ({ rows }: { rows: string[][] }) => {
   );
 };
 
-const CookiePolicyPage: FunctionComponent<page.Props> = props => {
+const CookiePolicyPage: NextPage<page.Props> = props => {
   // This copy should be exactly what can be found in the text slices representing the tables
   const EXPECTED_TABLE_NAMES = [
     '[necessary_cookies_table]',

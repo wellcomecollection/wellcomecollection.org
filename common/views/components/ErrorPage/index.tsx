@@ -1,4 +1,5 @@
 import { getCookies } from 'cookies-next';
+import { NextPage } from 'next';
 import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -162,7 +163,7 @@ type Props = {
   title?: string;
 };
 
-const ErrorPage: FunctionComponent<Props> = ({ statusCode = 500, title }) => {
+const ErrorPage: NextPage<Props> = ({ statusCode = 500, title }) => {
   const errorMessage = isNotUndefined(title)
     ? title
     : statusCode in errorMessages

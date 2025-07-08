@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import {
   exhibitionGuideLinkText,
@@ -29,7 +29,7 @@ import ExhibitionPage, {
  * but instead are rewritten to the index file. Please observe
  * this setup in the next.config file for this app
  */
-const Page: FunctionComponent<ExhibitionPageProps> = props => {
+const Page: NextPage<ExhibitionPageProps> = props => {
   return <ExhibitionPage {...props} />;
 };
 

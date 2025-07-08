@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 import styled from 'styled-components';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
@@ -33,7 +33,7 @@ export type Props = {
   book: Book;
 };
 
-const BookPage: FunctionComponent<Props> = props => {
+const BookPage: NextPage<Props> = props => {
   if (!('book' in props)) return null;
 
   const { book } = props;
