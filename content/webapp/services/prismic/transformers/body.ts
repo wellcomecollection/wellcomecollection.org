@@ -42,6 +42,7 @@ import {
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { Props as IframeProps } from '@weco/common/views/components/Iframe';
 import { Props as EmbedProps } from '@weco/common/views/components/VideoEmbed';
+import { ContentListProps, Slice } from '@weco/content/types/body';
 import { AudioPlayerProps } from '@weco/content/views/components/AudioPlayer';
 import { CaptionedImageProps } from '@weco/content/views/components/CaptionedImage';
 import { Props as ContactProps } from '@weco/content/views/components/Contact';
@@ -57,7 +58,6 @@ import {
   TextAndImageItem,
 } from '@weco/content/views/components/TextAndImageOrIcons';
 import { Props as TitledTextListProps } from '@weco/content/views/components/TitledTextList';
-import { ContentListProps, Slice } from '@weco/content/types/body';
 
 import { asRichText, asText, asTitle } from '.';
 import { transformArticle } from './articles';

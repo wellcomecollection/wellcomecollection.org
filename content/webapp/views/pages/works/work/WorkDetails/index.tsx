@@ -12,11 +12,6 @@ import {
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
-import { toLink as conceptLink } from '@weco/content/views/components/ConceptLink';
-import CopyButtons from '@weco/content/views/components/CopyButtons';
-import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
-import { toLink as imagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
-import { toLink as worksLink } from '@weco/content/views/components/SearchPagesLink/Works';
 import { useIsArchiveContext } from '@weco/content/contexts/IsArchiveContext';
 import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
 import {
@@ -35,6 +30,11 @@ import {
   getHoldings,
   getItemsWithPhysicalLocation,
 } from '@weco/content/utils/works';
+import { toLink as conceptLink } from '@weco/content/views/components/ConceptLink';
+import CopyButtons from '@weco/content/views/components/CopyButtons';
+import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
+import { toLink as imagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
+import { toLink as worksLink } from '@weco/content/views/components/SearchPagesLink/Works';
 
 import WorkDetailsAvailableOnline from './WorkDetails.AvailableOnline';
 import WorkDetailsHoldings from './WorkDetails.Holdings';

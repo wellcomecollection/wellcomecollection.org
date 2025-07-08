@@ -1,9 +1,9 @@
 import { FunctionComponent } from 'react';
 
 import { formatDate } from '@weco/common/utils/format-date';
+import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items';
 import CompactCard from '@weco/content/views/components/CompactCard';
 import ImagePlaceholder from '@weco/content/views/components/ImagePlaceholder';
-import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items';
 
 type Props = {
   item: ArticleScheduleItem;

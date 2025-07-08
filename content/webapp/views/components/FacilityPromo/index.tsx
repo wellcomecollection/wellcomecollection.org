@@ -5,8 +5,8 @@ import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
-import { CardBody, CardOuter } from '@weco/content/views/components/Card';
 import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility-promo';
+import { CardBody, CardOuter } from '@weco/content/views/components/Card';
 
 const ImageWrapper = styled.div`
   border-radius: ${props => props.theme.borderRadiusUnit}px;

@@ -5,8 +5,8 @@ import styled from 'styled-components';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { dasherize } from '@weco/common/utils/grammar';
-import DownloadLink from '@weco/content/views/components/DownloadLink';
 import { getMimeTypeFromExtension } from '@weco/content/utils/mime';
+import DownloadLink from '@weco/content/views/components/DownloadLink';
 
 const DocumentType = styled.span`
   color: ${props => props.theme.color('neutral.600')};

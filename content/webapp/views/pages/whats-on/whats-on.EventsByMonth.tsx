@@ -6,10 +6,10 @@ import { gridSize12 } from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import CardGrid from '@weco/content/views/components/CardGrid';
-import Tabs from '@weco/content/views/components/Tabs';
 import { EventBasic } from '@weco/content/types/events';
 import { Link } from '@weco/content/types/link';
+import CardGrid from '@weco/content/views/components/CardGrid';
+import Tabs from '@weco/content/views/components/Tabs';
 
 import { groupEventsByMonth, startOf } from './whats-on.EventsByMonth.helpers';
 

@@ -10,8 +10,8 @@ import Button from '@weco/common/views/components/Buttons';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
-import DateRange from '@weco/content/views/components/DateRange';
 import { Season } from '@weco/content/types/seasons';
+import DateRange from '@weco/content/views/components/DateRange';
 
 type CardOuterProps = {
   $background: 'neutral.700' | 'warmNeutral.300';

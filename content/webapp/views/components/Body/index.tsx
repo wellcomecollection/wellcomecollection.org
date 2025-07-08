@@ -21,6 +21,10 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import { components } from '@weco/common/views/slices';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
+import { isContentList } from '@weco/content/types/body';
+import { convertItemToCardProps } from '@weco/content/types/card';
+import { Link } from '@weco/content/types/link';
 import Card from '@weco/content/views/components/Card';
 import { Props as ComicPreviousNextProps } from '@weco/content/views/components/ComicPreviousNext';
 import FeaturedCard, {
@@ -31,10 +35,6 @@ import FeaturedText from '@weco/content/views/components/FeaturedText';
 import { defaultSerializer } from '@weco/content/views/components/HTMLSerializers';
 import OnThisPageAnchors from '@weco/content/views/components/OnThisPageAnchors';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
-import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
-import { isContentList } from '@weco/content/types/body';
-import { convertItemToCardProps } from '@weco/content/types/card';
-import { Link } from '@weco/content/types/link';
 
 import GridFactory, { sectionLevelPageGrid } from './GridFactory';
 

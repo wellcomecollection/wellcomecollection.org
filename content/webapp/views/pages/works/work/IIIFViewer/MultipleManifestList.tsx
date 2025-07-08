@@ -1,10 +1,10 @@
 import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
-import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import { volumesNavigationLabel } from '@weco/content/text/aria-labels';
 import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
+import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
 
 import { queryParamToArrayIndex } from '.';
 import { Item, List } from './ViewerStructures';

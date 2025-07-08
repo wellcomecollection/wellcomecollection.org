@@ -14,15 +14,6 @@ import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import Body from '@weco/content/views/components/Body';
-import BslLeafletVideo from '@weco/content/views/components/BslLeafletVideo';
-import Contact from '@weco/content/views/components/Contact';
-import ContentPage from '@weco/content/views/components/ContentPage';
-import Contributors from '@weco/content/views/components/Contributors';
-import DateRange from '@weco/content/views/components/DateRange';
-import InfoBox from '@weco/content/views/components/InfoBox';
-import SearchResults from '@weco/content/views/components/SearchResults';
-import StatusIndicator from '@weco/content/views/components/StatusIndicator';
 import { fetchExhibitionRelatedContentClientSide } from '@weco/content/services/prismic/fetch/exhibitions';
 import { EventBasic } from '@weco/content/types/events';
 import {
@@ -35,6 +26,15 @@ import {
   getFeaturedMedia,
   getHeroPicture,
 } from '@weco/content/utils/page-header';
+import Body from '@weco/content/views/components/Body';
+import BslLeafletVideo from '@weco/content/views/components/BslLeafletVideo';
+import Contact from '@weco/content/views/components/Contact';
+import ContentPage from '@weco/content/views/components/ContentPage';
+import Contributors from '@weco/content/views/components/Contributors';
+import DateRange from '@weco/content/views/components/DateRange';
+import InfoBox from '@weco/content/views/components/InfoBox';
+import SearchResults from '@weco/content/views/components/SearchResults';
+import StatusIndicator from '@weco/content/views/components/StatusIndicator';
 
 import ExhibitionAccessAccordion from './exhibition.AccessAccordion';
 import ExhibitionBeingHuman from './exhibition.BeingHuman';

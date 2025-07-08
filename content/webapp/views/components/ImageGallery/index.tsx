@@ -19,11 +19,11 @@ import Space from '@weco/common/views/components/styled/Space';
 import Tasl from '@weco/common/views/components/Tasl';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import { sizes } from '@weco/common/views/themes/config';
+import { useContentPageContext } from '@weco/content/contexts/ContentPageContext';
 import CaptionedImage from '@weco/content/views/components/CaptionedImage';
 import ComicPreviousNext, {
   Props as ComicPreviousNextProps,
 } from '@weco/content/views/components/ComicPreviousNext';
-import { useContentPageContext } from '@weco/content/contexts/ContentPageContext';
 
 import {
   ButtonContainer,

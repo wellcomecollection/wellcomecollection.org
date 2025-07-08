@@ -7,11 +7,6 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import Pagination from '@weco/content/views/components/Pagination';
-import SearchFilters from '@weco/content/views/components/SearchFilters';
-import { withSearchLayout } from '../../../layouts/SearchPageLayout';
-import { StoriesProps } from '@weco/content/views/components/SearchPagesLink/Stories';
-import Sort from '@weco/content/views/components/Sort';
 import { storiesFilters } from '@weco/content/services/wellcome/common/filters';
 import {
   Article,
@@ -19,6 +14,11 @@ import {
 } from '@weco/content/services/wellcome/content/types/api';
 import { Query } from '@weco/content/types/search';
 import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
+import Pagination from '@weco/content/views/components/Pagination';
+import SearchFilters from '@weco/content/views/components/SearchFilters';
+import { StoriesProps } from '@weco/content/views/components/SearchPagesLink/Stories';
+import Sort from '@weco/content/views/components/Sort';
+import { withSearchLayout } from '@weco/content/views/layouts/SearchPageLayout';
 import SearchNoResults from '@weco/content/views/pages/search/search.NoResults';
 
 import StoriesGrid from './stories.Grid';

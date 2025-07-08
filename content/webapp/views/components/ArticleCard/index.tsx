@@ -6,14 +6,14 @@ import { isNotUndefined, isUndefined } from '@weco/common/utils/type-guards';
 import { HTMLDate } from '@weco/common/views/components/HTMLDateAndTime';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
-import CompactCard from '@weco/content/views/components/CompactCard';
-import WatchLabel from '@weco/content/views/components/WatchLabel';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import {
   ArticleBasic,
   getArticleColor,
   getPartNumberInSeries,
 } from '@weco/content/types/articles';
+import CompactCard from '@weco/content/views/components/CompactCard';
+import WatchLabel from '@weco/content/views/components/WatchLabel';
 
 type Props = {
   article: ArticleBasic;

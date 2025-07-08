@@ -7,8 +7,8 @@ import {
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import TextAndImageOrIcons from '@weco/content/views/components/TextAndImageOrIcons';
 import { transformTextAndIcons } from '@weco/content/services/prismic/transformers/body';
+import TextAndImageOrIcons from '@weco/content/views/components/TextAndImageOrIcons';
 
 export type TextAndIconsProps = SliceComponentProps<RawTextAndIconsSlice>;
 

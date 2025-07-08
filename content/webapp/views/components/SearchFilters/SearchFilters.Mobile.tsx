@@ -14,7 +14,6 @@ import Icon from '@weco/common/views/components/Icon';
 import Modal from '@weco/common/views/components/Modal';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import PaletteColorPicker from '@weco/content/views/components/PaletteColorPicker';
 import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
 import {
   CheckboxFilter as CheckboxFilterType,
@@ -22,6 +21,7 @@ import {
   RadioFilter as RadioFilterType,
 } from '@weco/content/services/wellcome/common/filters';
 import { searchFilterCheckBox } from '@weco/content/text/aria-labels';
+import PaletteColorPicker from '@weco/content/views/components/PaletteColorPicker';
 
 import { SearchFiltersSharedProps } from '.';
 import { BooleanFilter } from './SearchFilters.BooleanFilter';

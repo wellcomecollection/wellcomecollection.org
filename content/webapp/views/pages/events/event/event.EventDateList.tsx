@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 import { isPast } from '@weco/common/utils/dates';
 import Space from '@weco/common/views/components/styled/Space';
-import DateRange from '@weco/content/views/components/DateRange';
 import { HasTimes } from '@weco/content/types/events';
+import DateRange from '@weco/content/views/components/DateRange';
 
 import EventStatus from './event.EventStatus';
 

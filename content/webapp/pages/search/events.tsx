@@ -7,11 +7,11 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
-import { fromQuery } from '@weco/content/views/components/SearchPagesLink/Events';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { getEvents } from '@weco/content/services/wellcome/content/events';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
+import { fromQuery } from '@weco/content/views/components/SearchPagesLink/Events';
 import EventsSearchPage, {
   Props as EventSearchPageProps,
 } from '@weco/content/views/pages/search/events';

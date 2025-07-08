@@ -13,11 +13,11 @@ import { gridSize12 } from '@weco/common/views/components/Layout';
 import ImageType from '@weco/common/views/components/PrismicImage';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
+import { ColorSelection } from '@weco/content/types/color-selections';
 import EventDateRange from '@weco/content/views/components/EventDateRange';
 import ImagePlaceholder from '@weco/content/views/components/ImagePlaceholder';
 import PartNumberIndicator from '@weco/content/views/components/PartNumberIndicator';
 import StatusIndicator from '@weco/content/views/components/StatusIndicator';
-import { ColorSelection } from '@weco/content/types/color-selections';
 
 export type Props = {
   url?: string;

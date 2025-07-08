@@ -5,8 +5,8 @@ import { LinkProps } from '@weco/common/model/link-props';
 import Control from '@weco/common/views/components/Control';
 import Rotator from '@weco/common/views/components/styled/Rotator';
 import Space from '@weco/common/views/components/styled/Space';
-import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
 
 const PaginatorWrapper = styled.div`
   display: flex;

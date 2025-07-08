@@ -13,12 +13,12 @@ import styled from 'styled-components';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
-import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { ItemViewerQuery } from '@weco/content/types/item-viewer';
 import { TransformedCanvas } from '@weco/content/types/manifest';
+import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
 
 import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';

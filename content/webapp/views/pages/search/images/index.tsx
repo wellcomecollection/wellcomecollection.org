@@ -13,15 +13,6 @@ import Space, {
   VerticalSpaceProperty,
 } from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
-import Pagination from '@weco/content/views/components/Pagination';
-import SearchFilters from '@weco/content/views/components/SearchFilters';
-import { withSearchLayout } from '../../../layouts/SearchPageLayout';
-import {
-  ImagesProps,
-  toLink,
-} from '@weco/content/views/components/SearchPagesLink/Images';
-import Sort from '@weco/content/views/components/Sort';
 import {
   CatalogueResultsList,
   Image,
@@ -29,6 +20,15 @@ import {
 import { imagesFilters } from '@weco/content/services/wellcome/common/filters';
 import { Query } from '@weco/content/types/search';
 import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
+import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
+import Pagination from '@weco/content/views/components/Pagination';
+import SearchFilters from '@weco/content/views/components/SearchFilters';
+import {
+  ImagesProps,
+  toLink,
+} from '@weco/content/views/components/SearchPagesLink/Images';
+import Sort from '@weco/content/views/components/Sort';
+import { withSearchLayout } from '@weco/content/views/layouts/SearchPageLayout';
 import SearchNoResults from '@weco/content/views/pages/search/search.NoResults';
 
 export type Props = {

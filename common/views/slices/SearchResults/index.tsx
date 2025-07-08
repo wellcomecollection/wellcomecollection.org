@@ -3,13 +3,13 @@ import { FunctionComponent, type JSX } from 'react';
 
 import { SearchResultsSlice as RawSearchResultsSlice } from '@weco/common/prismicio-types';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import { transformSearchResultsSlice } from '@weco/content/services/prismic/transformers/body';
 import {
   defaultContext,
   LayoutWidth,
   SliceZoneContext,
 } from '@weco/content/views/components/Body';
 import SearchResults from '@weco/content/views/components/SearchResults';
-import { transformSearchResultsSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type SearchResultsProps = SliceComponentProps<
   RawSearchResultsSlice,

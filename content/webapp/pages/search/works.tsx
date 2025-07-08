@@ -6,12 +6,12 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
-import { fromQuery } from '@weco/content/views/components/SearchPagesLink/Works';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { toWorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
+import { fromQuery } from '@weco/content/views/components/SearchPagesLink/Works';
 import WorksSearchPage, {
   Props as WorksSearchPageProps,
 } from '@weco/content/views/pages/search/works.tsx';

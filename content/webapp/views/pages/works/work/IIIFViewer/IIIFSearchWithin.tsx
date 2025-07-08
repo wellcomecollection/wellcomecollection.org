@@ -11,7 +11,6 @@ import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import TextInput from '@weco/common/views/components/TextInput';
 import { themeValues } from '@weco/common/views/themes/config';
-import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
 import {
   results,
   useItemViewerContext,
@@ -19,6 +18,7 @@ import {
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { searchWithinLabel } from '@weco/content/text/aria-labels';
 import { TransformedCanvas } from '@weco/content/types/manifest';
+import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
 import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/IIIFViewer';
 import { thumbnailsPageSize } from '@weco/content/views/pages/works/work/IIIFViewer/Paginators';
 

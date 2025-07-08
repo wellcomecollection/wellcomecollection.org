@@ -7,10 +7,10 @@ import LabelsList from '@weco/common/views/components/LabelsList';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import DateRange from '@weco/content/views/components/DateRange';
-import StatusIndicator from '@weco/content/views/components/StatusIndicator';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
+import DateRange from '@weco/content/views/components/DateRange';
+import StatusIndicator from '@weco/content/views/components/StatusIndicator';
 
 import {
   convertCardToFeaturedCardProps,

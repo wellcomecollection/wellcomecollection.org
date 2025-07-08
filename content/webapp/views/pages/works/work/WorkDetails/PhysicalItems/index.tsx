@@ -5,7 +5,6 @@ import {
   abortErrorHandler,
   useAbortSignalEffect,
 } from '@weco/common/hooks/useAbortSignalEffect';
-import ExpandableList from '@weco/content/views/components/ExpandableList';
 import {
   PhysicalItem,
   Work,
@@ -16,6 +15,7 @@ import {
   itemIsTemporarilyUnavailable,
 } from '@weco/content/utils/requesting';
 import { getItemsWithPhysicalLocation } from '@weco/content/utils/works';
+import ExpandableList from '@weco/content/views/components/ExpandableList';
 
 import PhysicalItemDetails from './PhysicalItem.Details';
 

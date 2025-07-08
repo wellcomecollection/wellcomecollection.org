@@ -4,7 +4,9 @@ import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import theme from '@weco/common/views/themes/default';
-import InfoBox, { InfoIconWrapper } from '@weco/content/views/components/InfoBox';
+import InfoBox, {
+  InfoIconWrapper,
+} from '@weco/content/views/components/InfoBox';
 import MoreLink from '@weco/content/views/components/MoreLink';
 
 const ClosedMessage = () => (

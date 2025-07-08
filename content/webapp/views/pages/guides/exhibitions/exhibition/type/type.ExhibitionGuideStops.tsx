@@ -5,16 +5,16 @@ import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import {
+  ExhibitionGuideComponent,
+  ExhibitionGuideType,
+} from '@weco/content/types/exhibition-guides';
 import AudioPlayer from '@weco/content/views/components/AudioPlayer';
 import GridFactory, {
   threeUpGridSizesMap,
   twoUpGridSizesMap,
 } from '@weco/content/views/components/Body/GridFactory';
 import ExhibitionCaptions from '@weco/content/views/components/ExhibitionCaptions';
-import {
-  ExhibitionGuideComponent,
-  ExhibitionGuideType,
-} from '@weco/content/types/exhibition-guides';
 
 export const Stop = styled(Space).attrs({
   $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },

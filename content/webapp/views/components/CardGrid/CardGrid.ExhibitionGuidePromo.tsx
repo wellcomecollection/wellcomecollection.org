@@ -5,16 +5,16 @@ import { font } from '@weco/common/utils/classnames';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import {
+  ExhibitionGuideBasic,
+  ExhibitionGuideType,
+} from '@weco/content/types/exhibition-guides';
+import {
   CardBody,
   CardImageWrapper,
   CardOuter,
   CardTitle,
 } from '@weco/content/views/components/Card';
 import RelevantGuideIcons from '@weco/content/views/components/ExhibitionGuideRelevantIcons';
-import {
-  ExhibitionGuideBasic,
-  ExhibitionGuideType,
-} from '@weco/content/types/exhibition-guides';
 type Props = {
   exhibitionGuide: ExhibitionGuideBasic;
 };

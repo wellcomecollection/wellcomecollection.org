@@ -2,7 +2,10 @@ import { FunctionComponent } from 'react';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
-import { UiTree, UiTreeNode } from '@weco/content/views/pages/works/work/work.types';
+import {
+  UiTree,
+  UiTreeNode,
+} from '@weco/content/views/pages/works/work/work.types';
 
 import {
   getAriaLabel,

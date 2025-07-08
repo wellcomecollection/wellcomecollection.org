@@ -4,10 +4,10 @@ import styled from 'styled-components';
 
 import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
-import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useOnScreen from '@weco/content/hooks/useOnScreen';
 import useSkipInitialEffect from '@weco/content/hooks/useSkipInitialEffect';
+import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
 
 import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
 import IIIFViewerImage from './IIIFViewerImage';

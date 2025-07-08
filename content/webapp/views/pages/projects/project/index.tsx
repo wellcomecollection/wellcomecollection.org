@@ -7,14 +7,14 @@ import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import { makeLabels } from '@weco/common/views/components/LabelsList';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/layouts/PageLayout';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
-import Body from '@weco/content/views/components/Body';
-import ContentPage from '@weco/content/views/components/ContentPage';
-import { getFeaturedPictureWithTasl } from '@weco/content/views/components/ImageWithTasl';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { transformEmbedSlice } from '@weco/content/services/prismic/transformers/body';
 import { isEditorialImage, isVideoEmbed } from '@weco/content/types/body';
 import { Project as ProjectType } from '@weco/content/types/projects';
+import Body from '@weco/content/views/components/Body';
+import ContentPage from '@weco/content/views/components/ContentPage';
+import { getFeaturedPictureWithTasl } from '@weco/content/views/components/ImageWithTasl';
 
 export type Props = {
   project: ProjectType;

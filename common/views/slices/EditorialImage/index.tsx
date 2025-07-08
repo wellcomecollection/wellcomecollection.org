@@ -3,13 +3,13 @@ import { FunctionComponent } from 'react';
 
 import { EditorialImageSlice as RawEditorialImageSlice } from '@weco/common/prismicio-types';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import { transformEditorialImageSlice } from '@weco/content/services/prismic/transformers/body';
 import {
   defaultContext,
   LayoutWidth,
   SliceZoneContext,
 } from '@weco/content/views/components/Body';
 import CaptionedImage from '@weco/content/views/components/CaptionedImage';
-import { transformEditorialImageSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type EditorialImageSliceProps = SliceComponentProps<
   RawEditorialImageSlice,

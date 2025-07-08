@@ -4,13 +4,13 @@ import { FunctionComponent } from 'react';
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 import {
   defaultContext,
   LayoutWidth,
   SliceZoneContext,
 } from '@weco/content/views/components/Body';
 import SearchResults from '@weco/content/views/components/SearchResults';
-import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type ContentListProps = SliceComponentProps<
   RawContentListSlice,

@@ -8,11 +8,11 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
-import { fromQuery } from '@weco/content/views/components/SearchPagesLink/Events';
 import { eventLdContentApi } from '@weco/content/services/prismic/transformers/json-ld';
 import { getEvents } from '@weco/content/services/wellcome/content/events';
 import { getPage } from '@weco/content/utils/query-params';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
+import { fromQuery } from '@weco/content/views/components/SearchPagesLink/Events';
 
 import * as page from './index';
 

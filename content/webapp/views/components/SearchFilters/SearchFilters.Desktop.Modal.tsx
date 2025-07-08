@@ -11,8 +11,6 @@ import CheckboxRadio from '@weco/common/views/components/CheckboxRadio';
 import Modal from '@weco/common/views/components/Modal';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import PaletteColorPicker from '@weco/content/views/components/PaletteColorPicker';
-import { BooleanFilter } from '@weco/content/views/components/SearchFilters/SearchFilters.BooleanFilter';
 import {
   CheckboxFilter as CheckboxFilterType,
   Filter,
@@ -20,6 +18,8 @@ import {
   RadioFilter as RadioFilterType,
 } from '@weco/content/services/wellcome/common/filters';
 import { searchFilterCheckBox } from '@weco/content/text/aria-labels';
+import PaletteColorPicker from '@weco/content/views/components/PaletteColorPicker';
+import { BooleanFilter } from '@weco/content/views/components/SearchFilters/SearchFilters.BooleanFilter';
 
 import DateRangeFilter from './SearchFilters.DateRangeFilter';
 

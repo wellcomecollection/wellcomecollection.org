@@ -1,8 +1,8 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
-import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
 
 import { queryParamToArrayIndex } from '.';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';

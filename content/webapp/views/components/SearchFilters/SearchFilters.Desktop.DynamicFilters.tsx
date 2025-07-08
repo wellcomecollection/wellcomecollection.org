@@ -5,8 +5,8 @@ import { filter } from '@weco/common/icons';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
-import RadioFilter from '@weco/content/views/components/SearchFilters/SearchFilters.Desktop.RadioFilter';
 import { Filter } from '@weco/content/services/wellcome/common/filters';
+import RadioFilter from '@weco/content/views/components/SearchFilters/SearchFilters.Desktop.RadioFilter';
 
 import CheckboxFilter from './SearchFilters.Desktop.CheckboxFilter';
 import DesktopColorFilter from './SearchFilters.Desktop.ColorFilter';

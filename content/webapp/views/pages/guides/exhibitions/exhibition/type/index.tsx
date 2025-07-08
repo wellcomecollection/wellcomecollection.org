@@ -15,19 +15,19 @@ import {
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/layouts/PageLayout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { components } from '@weco/common/views/slices';
-import RelevantGuideIcons from '@weco/content/views/components/ExhibitionGuideRelevantIcons';
 import {
   ExhibitionGuide,
   ExhibitionGuideType,
   ExhibitionHighlightTour,
   ExhibitionText,
 } from '@weco/content/types/exhibition-guides';
+import RelevantGuideIcons from '@weco/content/views/components/ExhibitionGuideRelevantIcons';
 
 import ExhibitionGuideStops from './type.ExhibitionGuideStops';
 

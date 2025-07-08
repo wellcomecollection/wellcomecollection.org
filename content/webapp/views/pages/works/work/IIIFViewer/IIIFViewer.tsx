@@ -8,7 +8,6 @@ import { DigitalLocation } from '@weco/common/model/catalogue';
 import { useToggles } from '@weco/common/server-data/Context';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
-import { fromQuery } from '@weco/content/views/components/ItemLink';
 import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import {
@@ -20,6 +19,7 @@ import {
   ParentManifest,
 } from '@weco/content/types/item-viewer';
 import { TransformedManifest } from '@weco/content/types/manifest';
+import { fromQuery } from '@weco/content/views/components/ItemLink';
 
 import { DelayVisibility, queryParamToArrayIndex } from '.';
 import GridViewer from './GridViewer';

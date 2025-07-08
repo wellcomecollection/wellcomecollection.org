@@ -6,10 +6,10 @@ import {
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import MoreLink from '@weco/content/views/components/MoreLink';
-import SearchResults from '@weco/content/views/components/SearchResults';
 import { ArticleBasic } from '@weco/content/types/articles';
 import { Series } from '@weco/content/types/series';
+import MoreLink from '@weco/content/views/components/MoreLink';
+import SearchResults from '@weco/content/views/components/SearchResults';
 
 type Props = {
   series: Series;

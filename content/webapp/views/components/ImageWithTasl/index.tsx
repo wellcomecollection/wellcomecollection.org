@@ -5,8 +5,8 @@ import { getCrop } from '@weco/common/model/image';
 import { EditorialImageSlice as RawEditorialImageSlice } from '@weco/common/prismicio-types';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Tasl from '@weco/common/views/components/Tasl';
-import HeightRestrictedPrismicImage from '@weco/content/views/components/HeightRestrictedPrismicImage';
 import { transformEditorialImageSlice } from '@weco/content/services/prismic/transformers/body';
+import HeightRestrictedPrismicImage from '@weco/content/views/components/HeightRestrictedPrismicImage';
 
 type TaslProps = ComponentProps<typeof Tasl>;
 

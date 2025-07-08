@@ -2,8 +2,8 @@ import { FunctionComponent } from 'react';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import Space from '@weco/common/views/components/styled/Space';
-import SectionHeader from '@weco/content/views/components/SectionHeader';
 import { ExhibitionGuide } from '@weco/content/types/exhibition-guides';
+import SectionHeader from '@weco/content/views/components/SectionHeader';
 
 import TypeOption, { TypeList } from './exhibition.TypeOption';
 

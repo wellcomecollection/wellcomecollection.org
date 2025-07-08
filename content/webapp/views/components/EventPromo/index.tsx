@@ -12,6 +12,10 @@ import Icon from '@weco/common/views/components/Icon';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
+import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
+import { EventDocumentPlace } from '@weco/content/services/wellcome/content/types/api';
+import { EventBasic } from '@weco/content/types/events';
+import { PlaceBasic } from '@weco/content/types/places';
 import {
   CardBody,
   CardImageWrapper,
@@ -23,10 +27,6 @@ import {
 import EventDateRange from '@weco/content/views/components/EventDateRange';
 import TextWithDot from '@weco/content/views/components/TextWithDot';
 import WatchLabel from '@weco/content/views/components/WatchLabel';
-import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
-import { EventDocumentPlace } from '@weco/content/services/wellcome/content/types/api';
-import { EventBasic } from '@weco/content/types/events';
-import { PlaceBasic } from '@weco/content/types/places';
 
 type Props = {
   event: EventBasic;

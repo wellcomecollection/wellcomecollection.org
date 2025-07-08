@@ -6,6 +6,7 @@ import { font } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
+import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import {
   CardBody,
   CardImageWrapper,
@@ -15,7 +16,6 @@ import {
 } from '@weco/content/views/components/Card';
 import DateRange from '@weco/content/views/components/DateRange';
 import StatusIndicator from '@weco/content/views/components/StatusIndicator';
-import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 
 const DateWrapper = styled(Space).attrs({
   className: font('intr', 5),

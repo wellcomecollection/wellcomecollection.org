@@ -6,6 +6,11 @@ import { font } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import {
+  ArticleBasic,
+  getArticleColor,
+  getPartNumberInSeries,
+} from '@weco/content/types/articles';
+import {
   CardBody,
   CardImageWrapper,
   CardLabels,
@@ -14,11 +19,6 @@ import {
   CardTitle,
 } from '@weco/content/views/components/Card';
 import PartNumberIndicator from '@weco/content/views/components/PartNumberIndicator';
-import {
-  ArticleBasic,
-  getArticleColor,
-  getPartNumberInSeries,
-} from '@weco/content/types/articles';
 
 const Caption = styled.p.attrs({
   className: font('intr', 5),

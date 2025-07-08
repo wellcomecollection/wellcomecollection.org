@@ -14,6 +14,12 @@ import Icon from '@weco/common/views/components/Icon';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
+import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
+import {
+  getLastEndTime,
+  transformEventTimes,
+} from '@weco/content/services/prismic/transformers/events';
+import { EventDocument } from '@weco/content/services/wellcome/content/types/api';
 import {
   CardBody,
   CardImageWrapper,
@@ -26,12 +32,6 @@ import EventDateRange from '@weco/content/views/components/EventDateRange';
 import { getLocationText } from '@weco/content/views/components/EventPromo';
 import TextWithDot from '@weco/content/views/components/TextWithDot';
 import WatchLabel from '@weco/content/views/components/WatchLabel';
-import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
-import {
-  getLastEndTime,
-  transformEventTimes,
-} from '@weco/content/services/prismic/transformers/events';
-import { EventDocument } from '@weco/content/services/wellcome/content/types/api';
 
 type Props = {
   events: EventDocument[];

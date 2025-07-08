@@ -1,10 +1,5 @@
 import { propsToQuery } from '@weco/common/utils/routes';
 import {
-  emptyWorksProps,
-  toQuery,
-  WorksProps,
-} from '@weco/content/views/components/SearchPagesLink/Works';
-import {
   globalApiOptions,
   QueryProps,
   rootUris,
@@ -13,6 +8,11 @@ import {
   wellcomeApiFetch,
 } from '@weco/content/services/wellcome';
 import { toIsoDateString } from '@weco/content/services/wellcome/catalogue/index';
+import {
+  emptyWorksProps,
+  toQuery,
+  WorksProps,
+} from '@weco/content/views/components/SearchPagesLink/Works';
 import { Toggles } from '@weco/toggles';
 
 import { catalogueQuery, looksLikeCanonicalId, notFound } from '.';

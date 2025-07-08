@@ -7,8 +7,8 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import LinkLabels from '@weco/content/views/components/LinkLabels';
 import { Contributor as ContributorType } from '@weco/content/types/contributors';
+import LinkLabels from '@weco/content/views/components/LinkLabels';
 
 const ContributorImageWrapper = styled(Space).attrs({
   $h: { size: 'm', properties: ['margin-right'] },

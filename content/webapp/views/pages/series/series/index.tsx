@@ -7,17 +7,17 @@ import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/layouts/PageLayout';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import Standfirst from '@weco/common/views/slices/Standfirst';
-import ArticleCard from '@weco/content/views/components/ArticleCard';
-import Body from '@weco/content/views/components/Body';
-import ContentPage from '@weco/content/views/components/ContentPage';
-import Pagination from '@weco/content/views/components/Pagination';
 import { ArticleScheduleItem } from '@weco/content/types/article-schedule-items';
 import { ArticleBasic } from '@weco/content/types/articles';
 import { Series } from '@weco/content/types/series';
 import { getFeaturedMedia } from '@weco/content/utils/page-header';
+import ArticleCard from '@weco/content/views/components/ArticleCard';
+import Body from '@weco/content/views/components/Body';
+import ContentPage from '@weco/content/views/components/ContentPage';
+import Pagination from '@weco/content/views/components/Pagination';
 
 import ArticleScheduleItemCard from './series.ArticleScheduleItemCard';
 

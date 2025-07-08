@@ -23,8 +23,15 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import Icon from '@weco/common/views/components/Icon';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/layouts/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
+import { LabelField } from '@weco/content/model/label-field';
+import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
+import { fetchEventsClientSide } from '@weco/content/services/prismic/fetch/events';
+import { isVideoEmbed } from '@weco/content/types/body';
+import { Event, EventBasic } from '@weco/content/types/events';
+import { Link } from '@weco/content/types/link';
+import { getFeaturedMedia } from '@weco/content/utils/page-header';
 import Body from '@weco/content/views/components/Body';
 import BslLeafletVideo from '@weco/content/views/components/BslLeafletVideo';
 import ContentPage from '@weco/content/views/components/ContentPage';
@@ -40,13 +47,6 @@ import {
   ResourcesItem,
   ResourcesList,
 } from '@weco/content/views/components/styled/AccessResources';
-import { LabelField } from '@weco/content/model/label-field';
-import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
-import { fetchEventsClientSide } from '@weco/content/services/prismic/fetch/events';
-import { isVideoEmbed } from '@weco/content/types/body';
-import { Event, EventBasic } from '@weco/content/types/events';
-import { Link } from '@weco/content/types/link';
-import { getFeaturedMedia } from '@weco/content/utils/page-header';
 
 import EventDateList from './event.EventDateList';
 import EventDatesLink from './event.EventDatesLink';

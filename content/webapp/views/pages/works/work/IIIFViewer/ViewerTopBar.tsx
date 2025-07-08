@@ -17,7 +17,6 @@ import { font } from '@weco/common/utils/classnames';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import Download from '@weco/content/views/components/Download';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
@@ -29,6 +28,7 @@ import {
   isChoiceBody,
 } from '@weco/content/utils/iiif/v3';
 import { getDownloadOptionsFromImageUrl } from '@weco/content/utils/works';
+import Download from '@weco/content/views/components/Download';
 
 import { queryParamToArrayIndex } from '.';
 import ToolbarSegmentedControl from './ToolbarSegmentedControl';

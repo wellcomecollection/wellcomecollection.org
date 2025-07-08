@@ -5,8 +5,8 @@ import { email, ticketAvailable } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
-import Message from '@weco/content/views/components/Message';
 import { Event } from '@weco/content/types/events';
+import Message from '@weco/content/views/components/Message';
 
 type Props = {
   event: Event;

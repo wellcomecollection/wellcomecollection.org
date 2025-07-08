@@ -1,9 +1,9 @@
 import { ImageType } from '@weco/common/model/image';
 import { LicenseType } from '@weco/common/model/license';
 import { Picture } from '@weco/common/model/picture';
+import { ContentApiImage } from '@weco/content/services/wellcome/content/types/api';
 import { CaptionedImageProps } from '@weco/content/views/components/CaptionedImage';
 import { Props as ImageGalleryProps } from '@weco/content/views/components/ImageGallery';
-import { ContentApiImage } from '@weco/content/services/wellcome/content/types/api';
 
 import { singleLineOfText } from './text';
 

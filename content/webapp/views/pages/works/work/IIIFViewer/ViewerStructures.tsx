@@ -7,7 +7,6 @@ import { font } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import {
   Work,
@@ -20,6 +19,7 @@ import {
   isCanvas,
   isRange,
 } from '@weco/content/utils/iiif/v3';
+import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
 
 import { arrayIndexToQueryParam } from '.';
 import { thumbnailsPageSize } from './Paginators';

@@ -11,11 +11,10 @@ import {
   ContaineredLayout,
   gridSize8,
 } from '@weco/common/views/components/Layout';
-import PageLayout from '@weco/common/views/layouts/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import Download from '@weco/content/views/components/Download';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import {
   Work,
   WorkBasic,
@@ -27,6 +26,7 @@ import {
 } from '@weco/content/utils/iiif/v3';
 import { removeTrailingFullStop } from '@weco/content/utils/string';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
+import Download from '@weco/content/views/components/Download';
 
 import WorkDetailsText from './WorkDetails/WorkDetails.Text';
 

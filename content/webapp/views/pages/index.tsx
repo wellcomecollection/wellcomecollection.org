@@ -14,19 +14,19 @@ import {
   gridSize10,
   gridSize12,
 } from '@weco/common/views/components/Layout';
-import PageLayout from '@weco/common/views/layouts/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import Standfirst from '@weco/common/views/slices/Standfirst';
-import CardGrid from '@weco/content/views/components/CardGrid';
-import ExhibitionsAndEvents from '@weco/content/views/components/ExhibitionsAndEvents';
-import SectionHeader from '@weco/content/views/components/SectionHeader';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
 import { ContentListProps, Slice } from '@weco/content/types/body';
 import { convertItemToCardProps } from '@weco/content/types/card';
 import { EventBasic } from '@weco/content/types/events';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
+import CardGrid from '@weco/content/views/components/CardGrid';
+import ExhibitionsAndEvents from '@weco/content/views/components/ExhibitionsAndEvents';
+import SectionHeader from '@weco/content/views/components/SectionHeader';
 
 import SimpleCardGrid from './index.SimpleCardGrid';
 

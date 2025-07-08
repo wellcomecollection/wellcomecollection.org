@@ -10,11 +10,11 @@ import LabelsList from '@weco/common/views/components/LabelsList';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
-import EventbriteButtons from '@weco/content/views/components/EventbriteButtons';
-import Message from '@weco/content/views/components/Message';
 import { isEventPast } from '@weco/content/services/prismic/events';
 import { Event } from '@weco/content/types/events';
 import { Place } from '@weco/content/types/places';
+import EventbriteButtons from '@weco/content/views/components/EventbriteButtons';
+import Message from '@weco/content/views/components/Message';
 
 import EventBookingButton from './EventSchedule.BookingButton';
 

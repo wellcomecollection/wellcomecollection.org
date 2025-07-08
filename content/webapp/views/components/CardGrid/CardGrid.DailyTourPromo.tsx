@@ -1,8 +1,8 @@
 import { FunctionComponent } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import EventPromo from '@weco/content/views/components/EventPromo';
 import { EventBasic } from '@weco/content/types/events';
+import EventPromo from '@weco/content/views/components/EventPromo';
 
 const image = {
   contentUrl:

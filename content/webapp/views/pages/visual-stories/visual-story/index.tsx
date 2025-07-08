@@ -11,16 +11,16 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/layouts/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import Standfirst from '@weco/common/views/slices/Standfirst';
-import Body from '@weco/content/views/components/Body';
-import CardGrid from '@weco/content/views/components/CardGrid';
-import ContentPage from '@weco/content/views/components/ContentPage';
 import {
   VisualStoryBasic,
   VisualStory as VisualStoryProps,
 } from '@weco/content/types/visual-stories';
+import Body from '@weco/content/views/components/Body';
+import CardGrid from '@weco/content/views/components/CardGrid';
+import ContentPage from '@weco/content/views/components/ContentPage';
 
 export type Props = {
   visualStory: VisualStoryProps;

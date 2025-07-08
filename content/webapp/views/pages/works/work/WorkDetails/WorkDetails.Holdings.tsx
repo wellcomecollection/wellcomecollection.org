@@ -1,12 +1,12 @@
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import ExpandableList from '@weco/content/views/components/ExpandableList';
 import { Holding } from '@weco/content/services/wellcome/catalogue/types';
 import {
   getLocationLabel,
   getLocationLink,
   getLocationShelfmark,
 } from '@weco/content/utils/works';
+import ExpandableList from '@weco/content/views/components/ExpandableList';
 
 import WorkDetailsSection from './WorkDetails.Section';
 import WorkDetailsText from './WorkDetails.Text';

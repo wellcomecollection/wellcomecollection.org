@@ -8,10 +8,10 @@ import { font } from '@weco/common/utils/classnames';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import ArticleCard from '@weco/content/views/components/ArticleCard';
-import CompactCard from '@weco/content/views/components/CompactCard';
 import { Card } from '@weco/content/types/card';
 import { MultiContent } from '@weco/content/types/multi-content';
+import ArticleCard from '@weco/content/views/components/ArticleCard';
+import CompactCard from '@weco/content/views/components/CompactCard';
 
 import EventCard from './SearchResults.EventCard';
 

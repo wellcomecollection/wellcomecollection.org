@@ -7,11 +7,11 @@ import LabelsList from '@weco/common/views/components/LabelsList';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import { useIsArchiveContext } from '@weco/content/contexts/IsArchiveContext';
+import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import LinkLabels from '@weco/content/views/components/LinkLabels';
 import Number from '@weco/content/views/components/Number';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
-import { useIsArchiveContext } from '@weco/content/contexts/IsArchiveContext';
-import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 const WorkTitleWrapper = styled.h1.attrs({ className: font('intb', 2) })`
   margin: 0;
   display: inline-block;

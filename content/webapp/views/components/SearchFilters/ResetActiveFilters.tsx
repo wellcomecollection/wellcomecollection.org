@@ -9,7 +9,6 @@ import { LinkProps } from '@weco/common/model/link-props';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { getColorDisplayName } from '@weco/content/views/components/PaletteColorPicker';
 import {
   BooleanFilter,
   CheckboxFilter,
@@ -18,6 +17,7 @@ import {
   Filter,
   RadioFilter,
 } from '@weco/content/services/wellcome/common/filters';
+import { getColorDisplayName } from '@weco/content/views/components/PaletteColorPicker';
 
 type ResetActiveFilters = {
   resetFilters: LinkProps;

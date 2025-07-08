@@ -12,15 +12,6 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import Pagination from '@weco/content/views/components/Pagination';
-import SearchFilters from '@weco/content/views/components/SearchFilters';
-import { withSearchLayout } from '../../../layouts/SearchPageLayout';
-import {
-  toLink,
-  WorksProps as WorksRouteProps,
-} from '@weco/content/views/components/SearchPagesLink/Works';
-import Sort from '@weco/content/views/components/Sort';
-import WorksSearchResults from '@weco/content/views/components/WorksSearchResults';
 import { WellcomeResultList } from '@weco/content/services/wellcome';
 import {
   WorkAggregations,
@@ -29,6 +20,15 @@ import {
 import { worksFilters } from '@weco/content/services/wellcome/common/filters';
 import { Query } from '@weco/content/types/search';
 import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
+import Pagination from '@weco/content/views/components/Pagination';
+import SearchFilters from '@weco/content/views/components/SearchFilters';
+import {
+  toLink,
+  WorksProps as WorksRouteProps,
+} from '@weco/content/views/components/SearchPagesLink/Works';
+import Sort from '@weco/content/views/components/Sort';
+import WorksSearchResults from '@weco/content/views/components/WorksSearchResults';
+import { withSearchLayout } from '@weco/content/views/layouts/SearchPageLayout';
 import SearchNoResults from '@weco/content/views/pages/search/search.NoResults';
 
 export type Props = {

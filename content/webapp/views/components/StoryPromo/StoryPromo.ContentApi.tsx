@@ -6,6 +6,7 @@ import { transformImage } from '@weco/common/services/prismic/transformers/image
 import { font } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
+import { Article } from '@weco/content/services/wellcome/content/types/api';
 import {
   CardBody,
   CardImageWrapper,
@@ -14,7 +15,6 @@ import {
   CardPostBody,
   CardTitle,
 } from '@weco/content/views/components/Card';
-import { Article } from '@weco/content/services/wellcome/content/types/api';
 
 const Caption = styled.p.attrs({
   className: font('intr', 5),

@@ -23,8 +23,6 @@ import Layout, {
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import Download from '@weco/content/views/components/Download';
-import DownloadLink from '@weco/content/views/components/DownloadLink';
 import { Note, Work } from '@weco/content/services/wellcome/catalogue/types';
 import {
   DownloadOption,
@@ -42,6 +40,8 @@ import {
   isAudioCanvas,
 } from '@weco/content/utils/iiif/v3';
 import { DigitalLocationInfo } from '@weco/content/utils/works';
+import Download from '@weco/content/views/components/Download';
+import DownloadLink from '@weco/content/views/components/DownloadLink';
 import NestedList from '@weco/content/views/pages/works/work/ArchiveTree/ArchiveTree.NestedList';
 import IIIFItemList from '@weco/content/views/pages/works/work/IIIFItemList';
 import DownloadItemRenderer from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';

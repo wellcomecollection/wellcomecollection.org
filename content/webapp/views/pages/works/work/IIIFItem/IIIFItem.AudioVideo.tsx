@@ -2,7 +2,6 @@ import { useUserContext } from '@weco/common/contexts/UserContext';
 import { play } from '@weco/common/icons';
 import { formatDuration } from '@weco/common/utils/format-date';
 import Button from '@weco/common/views/components/Buttons';
-import Download from '@weco/content/views/components/Download';
 import {
   DownloadOption,
   TransformedCanvas,
@@ -13,6 +12,7 @@ import {
   isAudioCanvas,
 } from '@weco/content/utils/iiif/v3';
 import { getFileLabel } from '@weco/content/utils/works';
+import Download from '@weco/content/views/components/Download';
 
 const getTypeAndDuration = (
   canvas: TransformedCanvas

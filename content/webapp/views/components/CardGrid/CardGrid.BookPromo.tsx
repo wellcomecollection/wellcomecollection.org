@@ -5,8 +5,8 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
-import BookImage from '@weco/content/views/components/BookImage';
 import { BookBasic } from '@weco/content/types/books';
+import BookImage from '@weco/content/views/components/BookImage';
 
 type LinkSpaceAttrs = {
   $url: string;

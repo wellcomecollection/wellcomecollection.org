@@ -18,7 +18,10 @@ import {
   Tree,
   TreeInstructions,
 } from '@weco/content/views/pages/works/work/work.styles';
-import { UiTree, UiTreeNode } from '@weco/content/views/pages/works/work/work.types';
+import {
+  UiTree,
+  UiTreeNode,
+} from '@weco/content/views/pages/works/work/work.types';
 
 import { updateChildren } from './ArchiveTree.helpers';
 import NestedList from './ArchiveTree.NestedList';

@@ -7,8 +7,8 @@ import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
-import PartNumberIndicator from '@weco/content/views/components/PartNumberIndicator';
 import { Card as CardType } from '@weco/content/types/card';
+import PartNumberIndicator from '@weco/content/views/components/PartNumberIndicator';
 
 export const CardImageWrapper = styled.div`
   position: relative;

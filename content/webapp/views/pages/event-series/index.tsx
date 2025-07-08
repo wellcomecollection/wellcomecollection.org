@@ -7,16 +7,16 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/layouts/PageLayout';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
+import { EventSeries } from '@weco/content/types/event-series';
+import { EventBasic } from '@weco/content/types/events';
+import { getFeaturedMedia } from '@weco/content/utils/page-header';
 import Body from '@weco/content/views/components/Body';
 import ContentPage from '@weco/content/views/components/ContentPage';
 import Pagination from '@weco/content/views/components/Pagination';
 import SearchResults from '@weco/content/views/components/SearchResults';
-import { EventSeries } from '@weco/content/types/event-series';
-import { EventBasic } from '@weco/content/types/events';
-import { getFeaturedMedia } from '@weco/content/utils/page-header';
 
 export type Props = {
   series: EventSeries;

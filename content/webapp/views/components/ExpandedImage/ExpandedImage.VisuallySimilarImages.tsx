@@ -6,9 +6,9 @@ import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 import { font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
-import IIIFImage from '@weco/content/views/components/IIIFImage';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import { Image as ImageType } from '@weco/content/services/wellcome/catalogue/types';
+import IIIFImage from '@weco/content/views/components/IIIFImage';
 
 type Props = {
   originalId: string;

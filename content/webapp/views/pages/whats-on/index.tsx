@@ -20,17 +20,12 @@ import {
   ContaineredLayout,
   gridSize12,
 } from '@weco/common/views/components/Layout';
-import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import CardGrid from '@weco/content/views/components/CardGrid';
-import ExhibitionsAndEvents from '@weco/content/views/components/ExhibitionsAndEvents';
-import FacilityPromo from '@weco/content/views/components/FacilityPromo';
-import FeaturedCard from '@weco/content/views/components/FeaturedCard';
-import SectionHeader from '@weco/content/views/components/SectionHeader';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import {
   filterEventsForToday,
   filterEventsForWeekend,
@@ -40,6 +35,11 @@ import { EventBasic } from '@weco/content/types/events';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { FacilityPromo as FacilityPromoType } from '@weco/content/types/facility-promo';
 import { FeaturedText as FeaturedTextType } from '@weco/content/types/text';
+import CardGrid from '@weco/content/views/components/CardGrid';
+import ExhibitionsAndEvents from '@weco/content/views/components/ExhibitionsAndEvents';
+import FacilityPromo from '@weco/content/views/components/FacilityPromo';
+import FeaturedCard from '@weco/content/views/components/FeaturedCard';
+import SectionHeader from '@weco/content/views/components/SectionHeader';
 
 import ClosedMessage from './whats-on.ClosedMessage';
 import DateRange from './whats-on.DateRange';

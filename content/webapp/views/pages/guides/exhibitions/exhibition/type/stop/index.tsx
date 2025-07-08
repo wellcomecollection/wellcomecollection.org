@@ -14,22 +14,22 @@ import {
   ContaineredLayout,
   gridSize8,
 } from '@weco/common/views/components/Layout';
-import PageLayout from '@weco/common/views/layouts/PageLayout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
-import AudioPlayer from '@weco/content/views/components/AudioPlayer';
-import ImagePlaceholder, {
-  placeholderBackgroundColor,
-} from '@weco/content/views/components/ImagePlaceholder';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import {
   ExhibitionGuideType,
   ExhibitionHighlightTour,
   GuideHighlightTour,
 } from '@weco/content/types/exhibition-guides';
+import AudioPlayer from '@weco/content/views/components/AudioPlayer';
+import ImagePlaceholder, {
+  placeholderBackgroundColor,
+} from '@weco/content/views/components/ImagePlaceholder';
 
 import {
   AlignCenter,

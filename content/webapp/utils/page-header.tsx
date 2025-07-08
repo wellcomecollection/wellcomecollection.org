@@ -5,11 +5,11 @@ import { FeaturedMedia } from '@weco/common/views/components/PageHeader';
 import Picture from '@weco/common/views/components/Picture';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
-import ImageWithTasl from '@weco/content/views/components/ImageWithTasl';
 import { transformEmbedSlice } from '@weco/content/services/prismic/transformers/body';
 import { isVideoEmbed } from '@weco/content/types/body';
 import { GenericContentFields } from '@weco/content/types/generic-content-fields';
 import { breakpoints } from '@weco/content/utils/breakpoints';
+import ImageWithTasl from '@weco/content/views/components/ImageWithTasl';
 
 export function getFeaturedMedia(
   fields: GenericContentFields

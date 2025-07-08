@@ -14,8 +14,8 @@ import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import ZoomedPrismicImage from '@weco/content/views/components/ZoomedPrismicImage';
 import { ExhibitionGuideComponent } from '@weco/content/types/exhibition-guides';
+import ZoomedPrismicImage from '@weco/content/views/components/ZoomedPrismicImage';
 
 export const StandaloneTitle = styled(Space).attrs({
   as: 'h2',

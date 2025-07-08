@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
+import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import ScrollableGalleryButtons from '@weco/content/views/components/CatalogueImageGallery/ScrollableGalleryButtons';
 import useExpandedImage from '@weco/content/views/components/CatalogueImageGallery/useExpandedImage';
 import ImageCard from '@weco/content/views/components/ImageCard';
-import { Image } from '@weco/content/services/wellcome/catalogue/types';
 
 const IMAGE_HEIGHT = 200;
 

@@ -10,9 +10,6 @@ import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import Button from '@weco/common/views/components/Buttons';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
-import IIIFImage from '@weco/content/views/components/IIIFImage';
-import { toLink as imageLink } from '@weco/content/views/components/ImageLink';
-import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
 import {
@@ -24,6 +21,9 @@ import {
   getDigitalLocationOfType,
   getProductionDates,
 } from '@weco/content/utils/works';
+import IIIFImage from '@weco/content/views/components/IIIFImage';
+import { toLink as imageLink } from '@weco/content/views/components/ImageLink';
+import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
 
 import VisuallySimilarImagesFromApi from './ExpandedImage.VisuallySimilarImages';
 

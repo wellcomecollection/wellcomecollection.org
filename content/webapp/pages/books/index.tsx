@@ -16,7 +16,9 @@ import {
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import { getPage } from '@weco/content/utils/query-params';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import BooksPage, { Props as BooksPageProps } from '@weco/content/views/pages/books';
+import BooksPage, {
+  Props as BooksPageProps,
+} from '@weco/content/views/pages/books';
 
 const Page: FunctionComponent<BooksPageProps> = props => {
   return <BooksPage {...props} />;

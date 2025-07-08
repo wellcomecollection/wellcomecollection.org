@@ -8,14 +8,14 @@ import {
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import Card from '@weco/content/views/components/Card';
-import EventPromo from '@weco/content/views/components/EventPromo';
-import MoreLink from '@weco/content/views/components/MoreLink';
-import StoryPromo from '@weco/content/views/components/StoryPromo';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
 import { convertItemToCardProps } from '@weco/content/types/card';
 import { Link } from '@weco/content/types/link';
 import { MultiContent } from '@weco/content/types/multi-content';
+import Card from '@weco/content/views/components/Card';
+import EventPromo from '@weco/content/views/components/EventPromo';
+import MoreLink from '@weco/content/views/components/MoreLink';
+import StoryPromo from '@weco/content/views/components/StoryPromo';
 
 import BookPromo from './CardGrid.BookPromo';
 import DailyTourPromo from './CardGrid.DailyTourPromo';

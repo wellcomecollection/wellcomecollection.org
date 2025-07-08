@@ -2,8 +2,8 @@ import { FunctionComponent } from 'react';
 
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import LabelsList from '@weco/common/views/components/LabelsList';
-import WorkLink from '@weco/content/views/components/WorkLink';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+import WorkLink from '@weco/content/views/components/WorkLink';
 
 import {
   Card,

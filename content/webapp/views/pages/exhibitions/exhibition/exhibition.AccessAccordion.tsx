@@ -5,8 +5,8 @@ import {
   ExhibitionTextsDocument,
 } from '@weco/common/prismicio-types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import Accordion from '@weco/content/views/components/Accordion';
 import { Link } from '@weco/content/types/link';
+import Accordion from '@weco/content/views/components/Accordion';
 
 const ExhibitionAccessAccordion = ({
   exhibitionTexts,

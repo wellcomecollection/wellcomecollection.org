@@ -8,13 +8,9 @@ import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
-import Body from '@weco/content/views/components/Body';
-import ContentPage from '@weco/content/views/components/ContentPage';
-import FeaturedCard from '@weco/content/views/components/FeaturedCard';
-import PartNumberIndicator from '@weco/content/views/components/PartNumberIndicator';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import { Article as ContentAPIArticle } from '@weco/content/services/wellcome/content/types/api';
 import {
@@ -28,6 +24,10 @@ import {
   getFeaturedMedia,
   getHeroPicture,
 } from '@weco/content/utils/page-header';
+import Body from '@weco/content/views/components/Body';
+import ContentPage from '@weco/content/views/components/ContentPage';
+import FeaturedCard from '@weco/content/views/components/FeaturedCard';
+import PartNumberIndicator from '@weco/content/views/components/PartNumberIndicator';
 
 import ContentTypeInfo from './story.ContentTypeInfo';
 import { getNextUp, getRelatedDoc, setSeries } from './story.helpers';

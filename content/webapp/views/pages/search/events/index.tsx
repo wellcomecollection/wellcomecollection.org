@@ -5,11 +5,6 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import EventsSearchResults from '@weco/content/views/components/EventsSearchResults';
-import Pagination from '@weco/content/views/components/Pagination';
-import SearchFilters from '@weco/content/views/components/SearchFilters';
-import { withSearchLayout } from '../../../layouts/SearchPageLayout';
-import { EventsProps } from '@weco/content/views/components/SearchPagesLink/Events';
 import { eventsFilters } from '@weco/content/services/wellcome/common/filters';
 import {
   ContentResultsList,
@@ -17,6 +12,11 @@ import {
 } from '@weco/content/services/wellcome/content/types/api';
 import { Query } from '@weco/content/types/search';
 import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
+import EventsSearchResults from '@weco/content/views/components/EventsSearchResults';
+import Pagination from '@weco/content/views/components/Pagination';
+import SearchFilters from '@weco/content/views/components/SearchFilters';
+import { EventsProps } from '@weco/content/views/components/SearchPagesLink/Events';
+import { withSearchLayout } from '@weco/content/views/layouts/SearchPageLayout';
 import SearchNoResults from '@weco/content/views/pages/search/search.NoResults';
 
 export type Props = {

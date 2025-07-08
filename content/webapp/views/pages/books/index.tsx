@@ -11,14 +11,14 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/layouts/PageLayout';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
+import { BookBasic } from '@weco/content/types/books';
 import CardGrid from '@weco/content/views/components/CardGrid';
 import Pagination from '@weco/content/views/components/Pagination';
-import { BookBasic } from '@weco/content/types/books';
 
 export type Props = {
   books: PaginatedResults<BookBasic>;

@@ -19,20 +19,20 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import { makeLabels } from '@weco/common/views/components/LabelsList';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/layouts/PageLayout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
-import Body from '@weco/content/views/components/Body';
-import CardGrid from '@weco/content/views/components/CardGrid';
-import ContentPage from '@weco/content/views/components/ContentPage';
-import { getFeaturedPictureWithTasl } from '@weco/content/views/components/ImageWithTasl';
-import SectionHeader from '@weco/content/views/components/SectionHeader';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { PageFormatIds } from '@weco/content/data/content-format-ids';
 import { transformEmbedSlice } from '@weco/content/services/prismic/transformers/body';
 import { isEditorialImage, isVideoEmbed } from '@weco/content/types/body';
 import { Page as PageType } from '@weco/content/types/pages';
 import { SiblingsGroup } from '@weco/content/types/siblings-group';
+import Body from '@weco/content/views/components/Body';
+import CardGrid from '@weco/content/views/components/CardGrid';
+import ContentPage from '@weco/content/views/components/ContentPage';
+import { getFeaturedPictureWithTasl } from '@weco/content/views/components/ImageWithTasl';
+import SectionHeader from '@weco/content/views/components/SectionHeader';
 
 export type Props = {
   page: PageType;

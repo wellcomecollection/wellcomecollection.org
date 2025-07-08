@@ -5,11 +5,11 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { font } from '@weco/common/utils/classnames';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
+import { EventBasic } from '@weco/content/types/events';
 import CompactCard from '@weco/content/views/components/CompactCard';
 import EventDateRange from '@weco/content/views/components/EventDateRange';
 import StatusIndicator from '@weco/content/views/components/StatusIndicator';
 import WatchLabel from '@weco/content/views/components/WatchLabel';
-import { EventBasic } from '@weco/content/types/events';
 
 type Props = {
   event: EventBasic;

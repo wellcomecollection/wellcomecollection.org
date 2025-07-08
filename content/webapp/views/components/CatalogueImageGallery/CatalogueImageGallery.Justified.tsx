@@ -8,11 +8,11 @@ import styled from 'styled-components';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
+import { Image } from '@weco/content/services/wellcome/catalogue/types';
+import { hexToRgb } from '@weco/content/utils/convert-colors';
 import ExpandedImageModal from '@weco/content/views/components/CatalogueImageGallery/ExpandedImageModal';
 import useExpandedImage from '@weco/content/views/components/CatalogueImageGallery/useExpandedImage';
 import ImageCard from '@weco/content/views/components/ImageCard';
-import { Image } from '@weco/content/services/wellcome/catalogue/types';
-import { hexToRgb } from '@weco/content/utils/convert-colors';
 
 export type Props = {
   images: Image[];

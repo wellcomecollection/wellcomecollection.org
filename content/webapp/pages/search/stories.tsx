@@ -7,11 +7,11 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
-import { fromQuery } from '@weco/content/views/components/SearchPagesLink/Stories';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { getArticles } from '@weco/content/services/wellcome/content/articles';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
+import { fromQuery } from '@weco/content/views/components/SearchPagesLink/Stories';
 import StoriesSearchPage, {
   Props as StoriesSearchPageProps,
 } from '@weco/content/views/pages/search/stories';

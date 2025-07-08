@@ -19,16 +19,11 @@ import {
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import PageLayout from '@weco/common/views/layouts/PageLayout';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { themeValues } from '@weco/common/views/themes/config';
-import EventsSearchResults from '@weco/content/views/components/EventsSearchResults';
-import Pagination from '@weco/content/views/components/Pagination';
-import SearchFilters from '@weco/content/views/components/SearchFilters';
-import { EventsProps } from '@weco/content/views/components/SearchPagesLink/Events';
-import Tabs from '@weco/content/views/components/Tabs';
 import { eventsFilters } from '@weco/content/services/wellcome/common/filters';
 import {
   ContentResultsList,
@@ -36,6 +31,11 @@ import {
 } from '@weco/content/services/wellcome/content/types/api';
 import { Query } from '@weco/content/types/search';
 import { getActiveFiltersLabel, hasFilters } from '@weco/content/utils/search';
+import EventsSearchResults from '@weco/content/views/components/EventsSearchResults';
+import Pagination from '@weco/content/views/components/Pagination';
+import SearchFilters from '@weco/content/views/components/SearchFilters';
+import { EventsProps } from '@weco/content/views/components/SearchPagesLink/Events';
+import Tabs from '@weco/content/views/components/Tabs';
 
 import NoEvents from './events.NoEvents';
 

@@ -7,8 +7,8 @@ import {
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import CardGrid from '@weco/content/views/components/CardGrid';
 import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
+import CardGrid from '@weco/content/views/components/CardGrid';
 
 const PromoContainer = styled.div`
   background: ${props => props.theme.color('warmNeutral.300')};

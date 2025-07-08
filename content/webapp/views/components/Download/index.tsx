@@ -6,9 +6,9 @@ import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import DownloadLink from '@weco/content/views/components/DownloadLink';
 import { DownloadOption } from '@weco/content/types/manifest';
 import { getFormatString } from '@weco/content/utils/iiif/v3';
+import DownloadLink from '@weco/content/views/components/DownloadLink';
 
 export const DownloadOptions = styled.div.attrs({
   className: font('intb', 4),

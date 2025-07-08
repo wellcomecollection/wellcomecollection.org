@@ -1,8 +1,8 @@
 import { Dispatch, FunctionComponent, SetStateAction } from 'react';
 
 import Modal from '@weco/common/views/components/Modal';
-import ExpandedImage from '@weco/content/views/components/ExpandedImage';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
+import ExpandedImage from '@weco/content/views/components/ExpandedImage';
 
 type Props = {
   images: Image[];
