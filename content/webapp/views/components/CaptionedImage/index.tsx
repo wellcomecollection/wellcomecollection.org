@@ -4,8 +4,12 @@ import styled from 'styled-components';
 import { CaptionedImage as CaptionedImageType } from '@weco/common/model/captioned-image';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
 import Caption from '@weco/common/views/components/Caption';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
+import Space from '@weco/common/views/components/styled/Space';
 import HeightRestrictedPrismicImage from '@weco/content/views/components/HeightRestrictedPrismicImage';
-import ImageWithTasl from '@weco/content/views/components/ImageWithTasl';
+import ImageWithTasl, {
+  hasLinkedWork as getHasLinkedWork,
+} from '@weco/content/views/components/ImageWithTasl';
 import ZoomedPrismicImage from '@weco/content/views/components/ZoomedPrismicImage';
 
 type CaptionedImageFigureProps = {
@@ -73,6 +77,7 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
   hasRoundedCorners,
   isZoomable,
 }) => {
+  const hasLinkedWork = getHasLinkedWork(image.tasl?.sourceLink);
   // Note: the default quality here was originally 45, but this caused images to
   // appear very fuzzy on stories.
   //
@@ -90,6 +95,7 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
         $hasRoundedCorners={hasRoundedCorners}
       >
         {isZoomable && <ZoomedPrismicImage image={image} />}
+
         <ImageWithTasl
           Image={<HeightRestrictedPrismicImage image={image} quality="high" />}
           tasl={{
@@ -97,8 +103,18 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
             idSuffix: dasherizeShorten(image.contentUrl),
           }}
         />
+
         {caption.length > 0 && (
-          <Caption caption={caption} preCaptionNode={preCaptionNode} />
+          <ConditionalWrapper
+            condition={hasLinkedWork}
+            wrapper={children => (
+              <Space $v={{ size: 'm', properties: ['margin-top'] }}>
+                {children}
+              </Space>
+            )}
+          >
+            <Caption caption={caption} preCaptionNode={preCaptionNode} />
+          </ConditionalWrapper>
         )}
       </ImageContainerInner>
     </CaptionedImageFigure>
