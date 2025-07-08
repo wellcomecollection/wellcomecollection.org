@@ -13,7 +13,7 @@ import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import { WobblyBottom } from '@weco/common/views/components/WobblyEdge';
 import Standfirst from '@weco/common/views/slices/Standfirst';
-import DateRange from '@weco/content/components/DateRange';
+import DateRange from '@weco/content/views/components/DateRange';
 import { Season } from '@weco/content/types/seasons';
 
 const HeaderWrapper = styled.div`

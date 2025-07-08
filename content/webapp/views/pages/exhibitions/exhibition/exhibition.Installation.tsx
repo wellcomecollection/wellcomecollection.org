@@ -10,12 +10,12 @@ import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
-import Body from '@weco/content/components/Body';
-import BslLeafletVideo from '@weco/content/components/BslLeafletVideo';
-import ContentPage from '@weco/content/components/ContentPage';
-import InfoBox from '@weco/content/components/InfoBox';
-import SearchResults from '@weco/content/components/SearchResults';
-import StatusIndicator from '@weco/content/components/StatusIndicator';
+import Body from '@weco/content/views/components/Body';
+import BslLeafletVideo from '@weco/content/views/components/BslLeafletVideo';
+import ContentPage from '@weco/content/views/components/ContentPage';
+import InfoBox from '@weco/content/views/components/InfoBox';
+import SearchResults from '@weco/content/views/components/SearchResults';
+import StatusIndicator from '@weco/content/views/components/StatusIndicator';
 import {
   fetchExhibitExhibition,
   fetchExhibitionRelatedContentClientSide,

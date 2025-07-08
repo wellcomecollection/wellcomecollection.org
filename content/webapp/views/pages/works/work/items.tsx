@@ -14,8 +14,8 @@ import {
 } from '@weco/common/views/components/Layout';
 import Modal from '@weco/common/views/components/Modal';
 import Space from '@weco/common/views/components/styled/Space';
-import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
-import WorkLink from '@weco/content/components/WorkLink';
+import CataloguePageLayout from '@weco/content/views/components/CataloguePageLayout';
+import WorkLink from '@weco/content/views/components/WorkLink';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import {

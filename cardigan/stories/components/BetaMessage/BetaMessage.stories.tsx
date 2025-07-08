@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import BetaMessage from '@weco/content/components/BetaMessage';
+import BetaMessage from '@weco/content/views/components/BetaMessage';
 
 const meta: Meta<typeof BetaMessage> = {
   title: 'Components/BetaMessage',

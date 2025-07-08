@@ -12,11 +12,11 @@ import {
 import { ReturnedResults } from '@weco/common/utils/search';
 import Space from '@weco/common/views/components/styled/Space';
 import theme from '@weco/common/views/themes/default';
-import CatalogueImageGallery from '@weco/content/components/CatalogueImageGallery';
-import ExpandedImageModal from '@weco/content/components/CatalogueImageGallery/ExpandedImageModal';
-import useExpandedImage from '@weco/content/components/CatalogueImageGallery/useExpandedImage';
-import MoreLink from '@weco/content/components/MoreLink';
-import { toLink as toImagesLink } from '@weco/content/components/SearchPagesLink/Images';
+import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
+import ExpandedImageModal from '@weco/content/views/components/CatalogueImageGallery/ExpandedImageModal';
+import useExpandedImage from '@weco/content/views/components/CatalogueImageGallery/useExpandedImage';
+import MoreLink from '@weco/content/views/components/MoreLink';
+import { toLink as toImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
 import {
   Concept,
   Image,

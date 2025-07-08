@@ -24,11 +24,11 @@ import PaginationWrapper from '@weco/common/views/components/styled/PaginationWr
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import { themeValues } from '@weco/common/views/themes/config';
-import EventsSearchResults from '@weco/content/components/EventsSearchResults';
-import Pagination from '@weco/content/components/Pagination';
-import SearchFilters from '@weco/content/components/SearchFilters';
-import { EventsProps } from '@weco/content/components/SearchPagesLink/Events';
-import Tabs from '@weco/content/components/Tabs';
+import EventsSearchResults from '@weco/content/views/components/EventsSearchResults';
+import Pagination from '@weco/content/views/components/Pagination';
+import SearchFilters from '@weco/content/views/components/SearchFilters';
+import { EventsProps } from '@weco/content/views/components/SearchPagesLink/Events';
+import Tabs from '@weco/content/views/components/Tabs';
 import { eventsFilters } from '@weco/content/services/wellcome/common/filters';
 import {
   ContentResultsList,

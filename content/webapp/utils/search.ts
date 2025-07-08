@@ -1,5 +1,5 @@
 import { isNotUndefined } from '@weco/common/utils/type-guards';
-import { getColorDisplayName } from '@weco/content/components/PaletteColorPicker';
+import { getColorDisplayName } from '@weco/content/views/components/PaletteColorPicker';
 import { Filter } from '@weco/content/services/wellcome/common/filters';
 
 // FILTERS

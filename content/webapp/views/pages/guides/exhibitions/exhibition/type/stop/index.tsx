@@ -21,10 +21,10 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
-import AudioPlayer from '@weco/content/components/AudioPlayer';
+import AudioPlayer from '@weco/content/views/components/AudioPlayer';
 import ImagePlaceholder, {
   placeholderBackgroundColor,
-} from '@weco/content/components/ImagePlaceholder';
+} from '@weco/content/views/components/ImagePlaceholder';
 import {
   ExhibitionGuideType,
   ExhibitionHighlightTour,

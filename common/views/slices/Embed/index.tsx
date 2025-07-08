@@ -8,8 +8,8 @@ import {
   defaultContext,
   LayoutWidth,
   SliceZoneContext,
-} from '@weco/content/components/Body';
-import SoundCloudEmbed from '@weco/content/components/SoundCloudEmbed';
+} from '@weco/content/views/components/Body';
+import SoundCloudEmbed from '@weco/content/views/components/SoundCloudEmbed';
 import { transformEmbedSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type EmbedProps = SliceComponentProps<RawEmbedSlice, SliceZoneContext>;

@@ -5,7 +5,7 @@ import {
   abortErrorHandler,
   useAbortSignalEffect,
 } from '@weco/common/hooks/useAbortSignalEffect';
-import ExpandableList from '@weco/content/components/ExpandableList';
+import ExpandableList from '@weco/content/views/components/ExpandableList';
 import {
   PhysicalItem,
   Work,

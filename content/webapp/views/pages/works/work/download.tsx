@@ -15,7 +15,7 @@ import PageLayout from '@weco/common/views/components/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import Download from '@weco/content/components/Download';
+import Download from '@weco/content/views/components/Download';
 import {
   Work,
   WorkBasic,

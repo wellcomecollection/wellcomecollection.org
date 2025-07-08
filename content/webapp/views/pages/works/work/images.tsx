@@ -8,8 +8,8 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import BetaMessage from '@weco/content/components/BetaMessage';
-import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
+import BetaMessage from '@weco/content/views/components/BetaMessage';
+import CataloguePageLayout from '@weco/content/views/components/CataloguePageLayout';
 import {
   Image,
   WorkBasic,

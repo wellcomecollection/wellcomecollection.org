@@ -7,8 +7,8 @@ import {
   defaultContext,
   LayoutWidth,
   SliceZoneContext,
-} from '@weco/content/components/Body';
-import CaptionedImage from '@weco/content/components/CaptionedImage';
+} from '@weco/content/views/components/Body';
+import CaptionedImage from '@weco/content/views/components/CaptionedImage';
 import { transformEditorialImageSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type EditorialImageSliceProps = SliceComponentProps<

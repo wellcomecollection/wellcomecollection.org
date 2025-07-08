@@ -8,8 +8,8 @@ import {
   defaultContext,
   LayoutWidth,
   SliceZoneContext,
-} from '@weco/content/components/Body';
-import SearchResults from '@weco/content/components/SearchResults';
+} from '@weco/content/views/components/Body';
+import SearchResults from '@weco/content/views/components/SearchResults';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type ContentListProps = SliceComponentProps<

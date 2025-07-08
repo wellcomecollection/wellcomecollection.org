@@ -10,11 +10,11 @@ import {
   defaultContext,
   LayoutWidth,
   SliceZoneContext,
-} from '@weco/content/components/Body';
+} from '@weco/content/views/components/Body';
 import {
   defaultSerializer,
   dropCapSerializer,
-} from '@weco/content/components/HTMLSerializers';
+} from '@weco/content/views/components/HTMLSerializers';
 
 export type TextProps = SliceComponentProps<RawTextSlice, SliceZoneContext>;
 

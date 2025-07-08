@@ -11,10 +11,10 @@ import PageHeader from '@weco/common/views/components/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
-import Body from '@weco/content/components/Body';
-import ContentPage from '@weco/content/components/ContentPage';
-import FeaturedCard from '@weco/content/components/FeaturedCard';
-import PartNumberIndicator from '@weco/content/components/PartNumberIndicator';
+import Body from '@weco/content/views/components/Body';
+import ContentPage from '@weco/content/views/components/ContentPage';
+import FeaturedCard from '@weco/content/views/components/FeaturedCard';
+import PartNumberIndicator from '@weco/content/views/components/PartNumberIndicator';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import { Article as ContentAPIArticle } from '@weco/content/services/wellcome/content/types/api';
 import {

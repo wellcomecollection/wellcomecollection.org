@@ -2,7 +2,7 @@ import { useUserContext } from '@weco/common/contexts/UserContext';
 import { play } from '@weco/common/icons';
 import { formatDuration } from '@weco/common/utils/format-date';
 import Button from '@weco/common/views/components/Buttons';
-import Download from '@weco/content/components/Download';
+import Download from '@weco/content/views/components/Download';
 import {
   DownloadOption,
   TransformedCanvas,

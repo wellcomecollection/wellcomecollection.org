@@ -26,11 +26,11 @@ import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import CardGrid from '@weco/content/components/CardGrid';
-import ExhibitionsAndEvents from '@weco/content/components/ExhibitionsAndEvents';
-import FacilityPromo from '@weco/content/components/FacilityPromo';
-import FeaturedCard from '@weco/content/components/FeaturedCard';
-import SectionHeader from '@weco/content/components/SectionHeader';
+import CardGrid from '@weco/content/views/components/CardGrid';
+import ExhibitionsAndEvents from '@weco/content/views/components/ExhibitionsAndEvents';
+import FacilityPromo from '@weco/content/views/components/FacilityPromo';
+import FeaturedCard from '@weco/content/views/components/FeaturedCard';
+import SectionHeader from '@weco/content/views/components/SectionHeader';
 import {
   filterEventsForToday,
   filterEventsForWeekend,

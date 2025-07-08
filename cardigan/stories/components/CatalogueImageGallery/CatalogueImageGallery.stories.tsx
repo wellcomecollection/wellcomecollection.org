@@ -2,8 +2,8 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import mockImages from '@weco/cardigan/stories/components/CatalogueImageGallery/mock-images';
-import CatalogueImageGalleryScrollable from '@weco/content/components/CatalogueImageGallery/CatalogueImageGallery.Scrollable';
-import Readme from '@weco/content/components/CatalogueImageGallery/README.mdx';
+import CatalogueImageGalleryScrollable from '@weco/content/views/components/CatalogueImageGallery/CatalogueImageGallery.Scrollable';
+import Readme from '@weco/content/views/components/CatalogueImageGallery/README.mdx';
 
 const meta: Meta = {
   title: 'Components/CatalogueImageGallery',

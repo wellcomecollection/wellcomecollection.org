@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { ComponentProps } from 'react';
 
-import SourcedDescription from '@weco/content/components/SourcedDescription';
+import SourcedDescription from '@weco/content/views/components/SourcedDescription';
 
 type Props = ComponentProps<typeof SourcedDescription> & {
   seeRawComponent?: boolean;

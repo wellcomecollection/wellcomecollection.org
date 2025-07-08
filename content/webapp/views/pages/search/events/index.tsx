@@ -5,11 +5,11 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import EventsSearchResults from '@weco/content/components/EventsSearchResults';
-import Pagination from '@weco/content/components/Pagination';
-import SearchFilters from '@weco/content/components/SearchFilters';
-import { withSearchLayout } from '@weco/content/components/SearchPageLayout';
-import { EventsProps } from '@weco/content/components/SearchPagesLink/Events';
+import EventsSearchResults from '@weco/content/views/components/EventsSearchResults';
+import Pagination from '@weco/content/views/components/Pagination';
+import SearchFilters from '@weco/content/views/components/SearchFilters';
+import { withSearchLayout } from '@weco/content/views/components/SearchPageLayout';
+import { EventsProps } from '@weco/content/views/components/SearchPagesLink/Events';
 import { eventsFilters } from '@weco/content/services/wellcome/common/filters';
 import {
   ContentResultsList,

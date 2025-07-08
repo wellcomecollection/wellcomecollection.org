@@ -14,7 +14,7 @@ import { SectionPageHeader } from '@weco/common/views/components/PageHeader';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import Tabs from '@weco/content/components/Tabs';
+import Tabs from '@weco/content/views/components/Tabs';
 import { FeaturedText as FeaturedTextType } from '@weco/content/types/text';
 
 import { tabItems } from '.';

@@ -16,9 +16,9 @@ import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import LinkLabels from '@weco/content/components/LinkLabels';
-import WorkLink from '@weco/content/components/WorkLink';
-import WorkTitle from '@weco/content/components/WorkTitle';
+import LinkLabels from '@weco/content/views/components/LinkLabels';
+import WorkLink from '@weco/content/views/components/WorkLink';
+import WorkTitle from '@weco/content/views/components/WorkTitle';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import {
   getAuthServices,

@@ -21,7 +21,7 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { components } from '@weco/common/views/slices';
-import RelevantGuideIcons from '@weco/content/components/ExhibitionGuideRelevantIcons';
+import RelevantGuideIcons from '@weco/content/views/components/ExhibitionGuideRelevantIcons';
 import {
   ExhibitionGuide,
   ExhibitionGuideType,

@@ -9,8 +9,8 @@ import {
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import Card from '@weco/content/components/Card';
-import FeaturedCard from '@weco/content/components/FeaturedCard';
+import Card from '@weco/content/views/components/Card';
+import FeaturedCard from '@weco/content/views/components/FeaturedCard';
 import { Card as CardType } from '@weco/content/types/card';
 
 type Props = {

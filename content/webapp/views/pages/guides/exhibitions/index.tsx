@@ -16,8 +16,8 @@ import PageLayout from '@weco/common/views/components/PageLayout';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import CardGrid from '@weco/content/components/CardGrid';
-import Pagination from '@weco/content/components/Pagination';
+import CardGrid from '@weco/content/views/components/CardGrid';
+import Pagination from '@weco/content/views/components/Pagination';
 import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
 
 export type Props = {

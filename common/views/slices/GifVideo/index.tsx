@@ -7,7 +7,7 @@ import {
   gridSize10,
 } from '@weco/common/views/components/Layout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import GifVideo from '@weco/content/components/GifVideo';
+import GifVideo from '@weco/content/views/components/GifVideo';
 import { transformGifVideoSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type GifVideoProps = SliceComponentProps<RawGifVideoSlice>;

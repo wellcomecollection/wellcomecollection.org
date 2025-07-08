@@ -21,9 +21,9 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import CardGrid from '@weco/content/components/CardGrid';
-import Pagination from '@weco/content/components/Pagination';
-import SectionHeader from '@weco/content/components/SectionHeader';
+import CardGrid from '@weco/content/views/components/CardGrid';
+import Pagination from '@weco/content/views/components/Pagination';
+import SectionHeader from '@weco/content/views/components/SectionHeader';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 
 export type Props = {

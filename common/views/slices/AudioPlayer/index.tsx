@@ -3,8 +3,8 @@ import { FunctionComponent } from 'react';
 
 import { AudioPlayerSlice as RawAudioPlayerSlice } from '@weco/common/prismicio-types';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import AudioPlayer from '@weco/content/components/AudioPlayer';
-import { LayoutWidth, SliceZoneContext } from '@weco/content/components/Body';
+import AudioPlayer from '@weco/content/views/components/AudioPlayer';
+import { LayoutWidth, SliceZoneContext } from '@weco/content/views/components/Body';
 import { transformAudioPlayerSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type AudioPlayerProps = SliceComponentProps<

@@ -7,7 +7,7 @@ import {
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import CardGrid from '@weco/content/components/CardGrid';
+import CardGrid from '@weco/content/views/components/CardGrid';
 import { ExhibitionGuideBasic } from '@weco/content/types/exhibition-guides';
 
 const PromoContainer = styled.div`

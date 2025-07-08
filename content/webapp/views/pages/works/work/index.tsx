@@ -9,7 +9,7 @@ import Divider from '@weco/common/views/components/Divider';
 import SearchForm from '@weco/common/views/components/SearchForm';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
-import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
+import CataloguePageLayout from '@weco/content/views/components/CataloguePageLayout';
 import IsArchiveContext from '@weco/content/contexts/IsArchiveContext';
 import {
   toWorkBasic,

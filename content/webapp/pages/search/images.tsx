@@ -6,7 +6,7 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
-import { fromQuery } from '@weco/content/components/SearchPagesLink/Images';
+import { fromQuery } from '@weco/content/views/components/SearchPagesLink/Images';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';

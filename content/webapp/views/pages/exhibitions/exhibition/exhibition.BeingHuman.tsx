@@ -10,16 +10,16 @@ import Icon from '@weco/common/views/components/Icon';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import Contributors from '@weco/content/components/Contributors';
-import { defaultSerializer } from '@weco/content/components/HTMLSerializers';
-import InfoBox from '@weco/content/components/InfoBox';
-import SearchResults from '@weco/content/components/SearchResults';
+import Contributors from '@weco/content/views/components/Contributors';
+import { defaultSerializer } from '@weco/content/views/components/HTMLSerializers';
+import InfoBox from '@weco/content/views/components/InfoBox';
+import SearchResults from '@weco/content/views/components/SearchResults';
 import {
   ResourceLink,
   ResourceLinkIconWrapper,
   ResourcesItem,
   ResourcesList,
-} from '@weco/content/components/styled/AccessResources';
+} from '@weco/content/views/components/styled/AccessResources';
 
 import { getInfoItems } from './exhibition.helpers';
 

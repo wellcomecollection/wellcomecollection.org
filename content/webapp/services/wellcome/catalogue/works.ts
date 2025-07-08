@@ -3,7 +3,7 @@ import {
   emptyWorksProps,
   toQuery,
   WorksProps,
-} from '@weco/content/components/SearchPagesLink/Works';
+} from '@weco/content/views/components/SearchPagesLink/Works';
 import {
   globalApiOptions,
   QueryProps,

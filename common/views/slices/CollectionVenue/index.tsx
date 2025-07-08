@@ -4,9 +4,9 @@ import { FunctionComponent } from 'react';
 import { CollectionVenueSlice as RawCollectionVenueSlice } from '@weco/common/prismicio-types';
 import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import { LayoutWidth, SliceZoneContext } from '@weco/content/components/Body';
-import VenueClosedPeriods from '@weco/content/components/VenueClosedPeriods';
-import VenueHours from '@weco/content/components/VenueHours';
+import { LayoutWidth, SliceZoneContext } from '@weco/content/views/components/Body';
+import VenueClosedPeriods from '@weco/content/views/components/VenueClosedPeriods';
+import VenueHours from '@weco/content/views/components/VenueHours';
 import { transformCollectionVenueSlice } from '@weco/content/services/prismic/transformers/body';
 
 export type CollectionVenueProps = SliceComponentProps<

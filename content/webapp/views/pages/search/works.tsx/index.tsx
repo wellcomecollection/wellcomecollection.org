@@ -12,15 +12,15 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import Pagination from '@weco/content/components/Pagination';
-import SearchFilters from '@weco/content/components/SearchFilters';
-import { withSearchLayout } from '@weco/content/components/SearchPageLayout';
+import Pagination from '@weco/content/views/components/Pagination';
+import SearchFilters from '@weco/content/views/components/SearchFilters';
+import { withSearchLayout } from '@weco/content/views/components/SearchPageLayout';
 import {
   toLink,
   WorksProps as WorksRouteProps,
-} from '@weco/content/components/SearchPagesLink/Works';
-import Sort from '@weco/content/components/Sort';
-import WorksSearchResults from '@weco/content/components/WorksSearchResults';
+} from '@weco/content/views/components/SearchPagesLink/Works';
+import Sort from '@weco/content/views/components/Sort';
+import WorksSearchResults from '@weco/content/views/components/WorksSearchResults';
 import { WellcomeResultList } from '@weco/content/services/wellcome';
 import {
   WorkAggregations,

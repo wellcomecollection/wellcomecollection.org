@@ -19,12 +19,12 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import CatalogueImageGallery from '@weco/content/components/CatalogueImageGallery';
-import ContentSearchResult from '@weco/content/components/ContentSearchResult';
-import Pagination from '@weco/content/components/Pagination';
-import { withSearchLayout } from '@weco/content/components/SearchPageLayout';
-import { toLink as imagesLink } from '@weco/content/components/SearchPagesLink/Images';
-import { toLink as worksLink } from '@weco/content/components/SearchPagesLink/Works';
+import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
+import ContentSearchResult from '@weco/content/views/components/ContentSearchResult';
+import Pagination from '@weco/content/views/components/Pagination';
+import { withSearchLayout } from '@weco/content/views/components/SearchPageLayout';
+import { toLink as imagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
+import { toLink as worksLink } from '@weco/content/views/components/SearchPagesLink/Works';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
 import {

@@ -1,5 +1,5 @@
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
-import { data as uiEventData } from '@weco/content/components/CardGrid/CardGrid.DailyTourPromo';
+import { data as uiEventData } from '@weco/content/views/components/CardGrid/CardGrid.DailyTourPromo';
 import { groupEventsByDay } from '@weco/content/services/prismic/events';
 import { EventTime } from '@weco/content/types/events';
 

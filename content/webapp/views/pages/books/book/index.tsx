@@ -12,10 +12,10 @@ import {
 import PageHeader from '@weco/common/views/components/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
-import Body from '@weco/content/components/Body';
-import BookImage from '@weco/content/components/BookImage';
-import ContentPage from '@weco/content/components/ContentPage';
 import { Book } from '@weco/content/types/books';
+import Body from '@weco/content/views/components/Body';
+import BookImage from '@weco/content/views/components/BookImage';
+import ContentPage from '@weco/content/views/components/ContentPage';
 
 import BookMetadata from './book.Metadata';
 

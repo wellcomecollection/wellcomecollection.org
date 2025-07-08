@@ -11,10 +11,10 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import theme from '@weco/common/views/themes/default';
-import MoreLink from '@weco/content/components/MoreLink';
-import { toLink as toWorksLink } from '@weco/content/components/SearchPagesLink/Works';
-import Tabs from '@weco/content/components/Tabs';
-import WorksSearchResults from '@weco/content/components/WorksSearchResults';
+import MoreLink from '@weco/content/views/components/MoreLink';
+import { toLink as toWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
+import Tabs from '@weco/content/views/components/Tabs';
+import WorksSearchResults from '@weco/content/views/components/WorksSearchResults';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import {
   allRecordsLinkParams,

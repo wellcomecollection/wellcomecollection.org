@@ -25,21 +25,21 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import PageLayout from '@weco/common/views/components/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
-import Body from '@weco/content/components/Body';
-import BslLeafletVideo from '@weco/content/components/BslLeafletVideo';
-import ContentPage from '@weco/content/components/ContentPage';
-import Contributors from '@weco/content/components/Contributors';
-import EventbriteButtons from '@weco/content/components/EventbriteButtons';
-import EventDateRange from '@weco/content/components/EventDateRange';
-import EventSchedule from '@weco/content/components/EventSchedule';
-import InfoBox from '@weco/content/components/InfoBox';
-import Message from '@weco/content/components/Message';
+import Body from '@weco/content/views/components/Body';
+import BslLeafletVideo from '@weco/content/views/components/BslLeafletVideo';
+import ContentPage from '@weco/content/views/components/ContentPage';
+import Contributors from '@weco/content/views/components/Contributors';
+import EventbriteButtons from '@weco/content/views/components/EventbriteButtons';
+import EventDateRange from '@weco/content/views/components/EventDateRange';
+import EventSchedule from '@weco/content/views/components/EventSchedule';
+import InfoBox from '@weco/content/views/components/InfoBox';
+import Message from '@weco/content/views/components/Message';
 import {
   ResourceLink,
   ResourceLinkIconWrapper,
   ResourcesItem,
   ResourcesList,
-} from '@weco/content/components/styled/AccessResources';
+} from '@weco/content/views/components/styled/AccessResources';
 import { LabelField } from '@weco/content/model/label-field';
 import { upcomingDatesFullyBooked } from '@weco/content/services/prismic/events';
 import { fetchEventsClientSide } from '@weco/content/services/prismic/fetch/events';

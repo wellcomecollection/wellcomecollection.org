@@ -6,8 +6,8 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import {
   defaultContext,
   SliceZoneContext,
-} from '@weco/content/components/Body';
-import ImageGallery from '@weco/content/components/ImageGallery';
+} from '@weco/content/views/components/Body';
+import ImageGallery from '@weco/content/views/components/ImageGallery';
 import { transformEditorialImageGallerySlice } from '@weco/content/services/prismic/transformers/body';
 
 export type EditorialImageGalleryProps = SliceComponentProps<

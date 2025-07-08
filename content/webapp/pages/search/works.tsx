@@ -6,7 +6,7 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
-import { fromQuery } from '@weco/content/components/SearchPagesLink/Works';
+import { fromQuery } from '@weco/content/views/components/SearchPagesLink/Works';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { toWorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';

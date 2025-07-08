@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import Table, { Props } from '@weco/content/components/Table';
+import Table, { Props } from '@weco/content/views/components/Table';
 
 const headerInFirstRow = [
   ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],

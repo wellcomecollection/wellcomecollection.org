@@ -14,7 +14,7 @@ import PageLayout from '@weco/common/views/components/PageLayout';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { components } from '@weco/common/views/slices';
-import Table from '@weco/content/components/Table';
+import Table from '@weco/content/views/components/Table';
 import * as page from '@weco/content/pages/pages/[pageId]';
 
 const CookieTable = ({ rows }: { rows: string[][] }) => {

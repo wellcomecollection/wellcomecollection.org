@@ -4,8 +4,8 @@ import { Meta, StoryObj } from '@storybook/react';
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { darkCloudImageUrl } from '@weco/cardigan/stories/data/images';
 import untransformedbody from '@weco/cardigan/stories/data/untransformed-body';
-import EventSchedule from '@weco/content/components/EventSchedule';
-import Readme from '@weco/content/components/EventSchedule/README.mdx';
+import EventSchedule from '@weco/content/views/components/EventSchedule';
+import Readme from '@weco/content/views/components/EventSchedule/README.mdx';
 import { Place } from '@weco/content/types/places';
 
 const schedule = [

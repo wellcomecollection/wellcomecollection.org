@@ -9,8 +9,8 @@ import Icon from '@weco/common/views/components/Icon';
 import { plainListStyles } from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import { CardBody } from '@weco/content/components/Card';
-import RelevantGuideIcons from '@weco/content/components/ExhibitionGuideRelevantIcons';
+import { CardBody } from '@weco/content/views/components/Card';
+import RelevantGuideIcons from '@weco/content/views/components/ExhibitionGuideRelevantIcons';
 import { ExhibitionGuideType } from '@weco/content/types/exhibition-guides';
 
 export const TypeList = styled(Space).attrs({

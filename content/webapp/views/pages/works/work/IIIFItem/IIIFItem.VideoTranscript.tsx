@@ -7,7 +7,7 @@ import {
 import { FunctionComponent } from 'react';
 
 import Space from '@weco/common/views/components/styled/Space';
-import DownloadLink from '@weco/content/components/DownloadLink';
+import DownloadLink from '@weco/content/views/components/DownloadLink';
 import { getFormatString } from '@weco/content/utils/iiif/v3';
 
 type Props = {

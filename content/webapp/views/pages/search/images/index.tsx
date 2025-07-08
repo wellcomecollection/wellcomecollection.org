@@ -13,15 +13,15 @@ import Space, {
   VerticalSpaceProperty,
 } from '@weco/common/views/components/styled/Space';
 import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import CatalogueImageGallery from '@weco/content/components/CatalogueImageGallery';
-import Pagination from '@weco/content/components/Pagination';
-import SearchFilters from '@weco/content/components/SearchFilters';
-import { withSearchLayout } from '@weco/content/components/SearchPageLayout';
+import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
+import Pagination from '@weco/content/views/components/Pagination';
+import SearchFilters from '@weco/content/views/components/SearchFilters';
+import { withSearchLayout } from '@weco/content/views/components/SearchPageLayout';
 import {
   ImagesProps,
   toLink,
-} from '@weco/content/components/SearchPagesLink/Images';
-import Sort from '@weco/content/components/Sort';
+} from '@weco/content/views/components/SearchPagesLink/Images';
+import Sort from '@weco/content/views/components/Sort';
 import {
   CatalogueResultsList,
   Image,

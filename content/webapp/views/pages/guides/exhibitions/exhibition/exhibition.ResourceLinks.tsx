@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Space from '@weco/common/views/components/styled/Space';
-import SectionHeader from '@weco/content/components/SectionHeader';
+import SectionHeader from '@weco/content/views/components/SectionHeader';
 
 import TypeOption, { TypeList } from './exhibition.TypeOption';
 

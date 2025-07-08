@@ -23,8 +23,8 @@ import Layout, {
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import Download from '@weco/content/components/Download';
-import DownloadLink from '@weco/content/components/DownloadLink';
+import Download from '@weco/content/views/components/Download';
+import DownloadLink from '@weco/content/views/components/DownloadLink';
 import { Note, Work } from '@weco/content/services/wellcome/catalogue/types';
 import {
   DownloadOption,

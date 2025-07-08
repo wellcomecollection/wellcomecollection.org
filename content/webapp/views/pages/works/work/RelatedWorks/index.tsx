@@ -6,8 +6,8 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
-import BetaMessage from '@weco/content/components/BetaMessage';
-import Tabs from '@weco/content/components/Tabs';
+import BetaMessage from '@weco/content/views/components/BetaMessage';
+import Tabs from '@weco/content/views/components/Tabs';
 import {
   Work,
   WorkBasic,

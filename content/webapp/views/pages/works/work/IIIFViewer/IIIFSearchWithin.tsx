@@ -11,7 +11,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import TextInput from '@weco/common/views/components/TextInput';
 import { themeValues } from '@weco/common/views/themes/config';
-import { toLink as itemLink } from '@weco/content/components/ItemLink';
+import { toLink as itemLink } from '@weco/content/views/components/ItemLink';
 import {
   results,
   useItemViewerContext,

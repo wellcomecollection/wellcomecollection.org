@@ -22,9 +22,9 @@ import {
   gridSize12,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import AudioPlayer from '@weco/content/components/AudioPlayer';
-import BetaMessage from '@weco/content/components/BetaMessage';
-import VideoPlayer from '@weco/content/components/VideoPlayer';
+import AudioPlayer from '@weco/content/views/components/AudioPlayer';
+import BetaMessage from '@weco/content/views/components/BetaMessage';
+import VideoPlayer from '@weco/content/views/components/VideoPlayer';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
 import { missingAltTextMessage } from '@weco/content/services/wellcome/catalogue/works';

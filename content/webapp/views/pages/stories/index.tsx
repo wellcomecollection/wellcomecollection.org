@@ -22,12 +22,12 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
-import CardGrid from '@weco/content/components/CardGrid';
-import FeaturedCard from '@weco/content/components/FeaturedCard';
-import FeaturedText from '@weco/content/components/FeaturedText';
-import { defaultSerializer } from '@weco/content/components/HTMLSerializers';
-import SectionHeader from '@weco/content/components/SectionHeader';
-import StoryPromo from '@weco/content/components/StoryPromo';
+import CardGrid from '@weco/content/views/components/CardGrid';
+import FeaturedCard from '@weco/content/views/components/FeaturedCard';
+import FeaturedText from '@weco/content/views/components/FeaturedText';
+import { defaultSerializer } from '@weco/content/views/components/HTMLSerializers';
+import SectionHeader from '@weco/content/views/components/SectionHeader';
+import StoryPromo from '@weco/content/views/components/StoryPromo';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
 import { SeriesBasic } from '@weco/content/types/series';
 import { StoriesLanding } from '@weco/content/types/stories-landing';
