@@ -11,8 +11,7 @@ You can get a new set of pa11y results by running:
 
 ```console
 $ cd webapp
-$ yarn write-report
-$ AWS_PROFILE=experience-developer yarn deploy
+$ AWS_PROFILE=experience-developer yarn report-and-deploy
 ```
 
 Alternatively, we re-run pa11y on every deployment to prod.
@@ -25,4 +24,4 @@ We have to specify a list of URLs for pa11y to check – it doesn't crawl the si
 
 We want it to test a representative sample – any time you create a new page type, add an example to pa11y.
 
-To add a new URL, add to the list in `write-report.js`.
+To add a new URL, add to the list in `report-and-deploy.js`.
