@@ -1,7 +1,7 @@
 import { RefObject, useEffect, useState } from 'react';
 
 type UseOnScreenProps = {
-  ref?: RefObject<HTMLDivElement>;
+  ref?: RefObject<HTMLDivElement | null>;
   root?: HTMLDivElement;
   threshold: number[];
 };

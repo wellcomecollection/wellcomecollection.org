@@ -18,7 +18,6 @@ const SearchResultUnorderedList = styled(PlainList)`
 const SearchResultListItem = styled.li`
   flex-basis: 100%;
   max-width: 100%;
-  border-top: 1px solid ${props => props.theme.color('neutral.300')};
 
   &:first-child {
     border-top: 0;

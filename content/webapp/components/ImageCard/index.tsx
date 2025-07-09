@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { ImageType } from '@weco/common/model/image';
-import IIIFImage from '../IIIFImage';
+import IIIFImage from '@weco/content/components/IIIFImage';
 import { toLink as imageLink } from '@weco/content/components/ImageLink';
 
 type Props = {

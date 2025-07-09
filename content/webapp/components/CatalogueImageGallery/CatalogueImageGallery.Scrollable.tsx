@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
-import ExpandedImageModal from '@weco/content/components/CatalogueImageGallery/ExpandedImageModal';
 import ScrollableGalleryButtons from '@weco/content/components/CatalogueImageGallery/ScrollableGalleryButtons';
 import useExpandedImage from '@weco/content/components/CatalogueImageGallery/useExpandedImage';
 import ImageCard from '@weco/content/components/ImageCard';
@@ -42,7 +41,7 @@ const CatalogueImageGalleryScrollable: FunctionComponent<Props> = ({
   images,
   label,
 }: Props) => {
-  const [expandedImage, setExpandedImage] = useExpandedImage(images);
+  const [, setExpandedImage] = useExpandedImage(images);
   const scrollContainerRef = useRef<HTMLUListElement>(null);
 
   return (
@@ -77,11 +76,6 @@ const CatalogueImageGalleryScrollable: FunctionComponent<Props> = ({
           </li>
         ))}
       </ImageCardList>
-      <ExpandedImageModal
-        expandedImage={expandedImage}
-        setExpandedImage={setExpandedImage}
-        images={images}
-      />
     </>
   );
 };

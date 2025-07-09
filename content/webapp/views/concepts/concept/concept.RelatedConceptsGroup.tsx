@@ -26,10 +26,8 @@ const RelatedConceptItem = styled.div.attrs<{ $isFullWidth: boolean }>({
   width: ${props => (props.$isFullWidth ? '100%' : 'auto')};
 `;
 
-const SectionHeading = styled(Space).attrs({
-  as: 'h2',
+const SectionHeading = styled.h2.attrs({
   className: font('intsb', 2),
-  $v: { size: 'l', properties: ['margin-top'] },
 })``;
 
 type Props = {
@@ -50,7 +48,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
   }
 
   return (
-    <>
+    <Space $v={{ size: 'l', properties: ['margin-top'] }}>
       {labelType === 'heading' && (
         <SectionHeading id={dasherize(label)}>{label}</SectionHeading>
       )}
@@ -67,8 +65,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
               <Button
                 variant="ButtonSolidLink"
                 colors={
-                  buttonColors ||
-                  themeValues.buttonColors.charcoalTransparentCharcoal
+                  buttonColors || themeValues.buttonColors.slateTransparentBlack
                 }
                 text={item.label}
                 link={`/concepts/${item.id}`}
@@ -79,7 +76,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
           </RelatedConceptItem>
         ))}
       </RelatedConceptsContainer>
-    </>
+    </Space>
   );
 };
 

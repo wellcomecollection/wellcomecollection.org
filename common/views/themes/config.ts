@@ -224,6 +224,18 @@ const whiteWhiteCharcoal: ButtonColors = {
   text: 'neutral.700', // legacy charcoal color
 };
 
+const silverTransparentBlack: ButtonColors = {
+  border: 'neutral.300',
+  background: 'transparent',
+  text: 'black',
+};
+
+const slateTransparentBlack: ButtonColors = {
+  border: 'neutral.600',
+  background: 'transparent',
+  text: 'black',
+};
+
 export type Size = keyof typeof sizes;
 const media =
   (sizeLabel: Size, minOrMaxWidth: 'min-width' | 'max-width' = 'min-width') =>
@@ -325,6 +337,8 @@ export const themeValues = {
     marbleWhiteCharcoal,
     yellowYellowBlack,
     whiteWhiteCharcoal,
+    silverTransparentBlack,
+    slateTransparentBlack,
     greenGreenWhite,
   },
   spacedTextTopMargin: '1.55em',

@@ -393,7 +393,7 @@ const ConceptPage: NextPage<Props> = ({
                     labelType="heading"
                     relatedConcepts={relatedTopics}
                     buttonColors={
-                      themeValues.buttonColors.pumiceTransparentCharcoal
+                      themeValues.buttonColors.silverTransparentBlack
                     }
                   />
                 </Space>
