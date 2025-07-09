@@ -146,6 +146,7 @@ export type Concept = {
   id?: string;
   identifiers?: Identifier[];
   label: string;
+  displayLabel?: string;
   type: ConceptType;
   sameAs?: string[];
   description?: {
