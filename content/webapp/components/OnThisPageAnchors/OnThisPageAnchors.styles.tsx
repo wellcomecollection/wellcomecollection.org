@@ -158,6 +158,7 @@ export const Root = styled(Space).attrs<{
   $isSticky?: boolean;
   $hasStuck: boolean;
 }>(props => ({
+  'data-scroll-smooth': `${props.$isSticky}`,
   as: 'nav',
   $h: props.$isSticky
     ? undefined

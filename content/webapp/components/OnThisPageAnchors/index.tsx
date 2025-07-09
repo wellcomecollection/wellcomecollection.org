@@ -1,3 +1,4 @@
+import { FocusTrap } from 'focus-trap-react';
 import NextLink from 'next/link';
 import {
   Fragment,
@@ -102,12 +103,12 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
   const activeId = isSticky ? clickedId || observedActiveId : clickedId;
 
   // Update the URL hash when activeId changes, but only if it doesn't match the current hash
-  useEffect(() => {
-    if (!activeId || typeof window === 'undefined') return;
-    if (window.location.hash.replace('#', '') !== activeId) {
-      history.replaceState(null, '', `#${activeId}`);
-    }
-  }, [activeId]);
+  // useEffect(() => {
+  //   if (!activeId || typeof window === 'undefined') return;
+  //   if (window.location.hash.replace('#', '') !== activeId) {
+  //     history.replaceState(null, '', `#${activeId}`);
+  //   }
+  // }, [activeId]);
 
   useEffect(() => {
     if (!listRef.current || !isSticky) return;
@@ -141,127 +142,130 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
   return (
     <>
       <BackgroundOverlay
+        data-lock-scroll={`${isListActive}`}
         $isActive={isListActive}
         onClick={() => setIsListActive(false)}
       />
       <div ref={onThisPageAnchorsStickyRef}></div>
-      <Root
-        $isSticky={isSticky}
-        $hasBackgroundBlend={hasBackgroundBlend}
-        $hasStuck={hasStuck}
+      <FocusTrap
+        active={isListActive}
+        focusTrapOptions={{
+          returnFocusOnDeactivate: false,
+        }}
       >
-        <h2 className={headingClasses}>{titleText}</h2>
-        {isSticky && (
-          <MobileNavButton
-            $hasStuck={hasStuck}
-            ref={buttonRef}
-            onClick={() => setIsListActive(!isListActive)}
-          >
-            <AnimatedTextContainer>
-              <SwitchTransition mode="out-in">
-                <CSSTransition
-                  key={hasStuck && !isListActive ? activeLinkText : titleText}
-                  timeout={300}
-                  nodeRef={textRef}
-                  onEnter={() => {
-                    if (textRef.current) {
-                      textRef.current.style.opacity = '0';
-                      textRef.current.style.transform = 'translateY(20px)';
-                    }
-                  }}
-                  onEntering={() => {
-                    if (textRef.current) {
-                      textRef.current.style.opacity = '1';
-                      textRef.current.style.transform = 'translateY(0)';
-                    }
-                  }}
-                  onExit={() => {
-                    if (textRef.current) {
-                      textRef.current.style.opacity = '1';
-                      textRef.current.style.transform = 'translateY(0)';
-                    }
-                  }}
-                  onExiting={() => {
-                    if (textRef.current) {
-                      textRef.current.style.opacity = '0';
-                      textRef.current.style.transform = 'translateY(-20px)';
-                    }
-                  }}
-                >
-                  <span
-                    ref={textRef}
-                    style={{
-                      display: 'block',
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      whiteSpace: 'nowrap',
-                      transition: 'all 300ms ease-in-out',
+        <Root
+          $isSticky={isSticky}
+          $hasBackgroundBlend={hasBackgroundBlend}
+          $hasStuck={hasStuck}
+        >
+          <h2 className={headingClasses}>{titleText}</h2>
+          {isSticky && (
+            <MobileNavButton
+              $hasStuck={hasStuck}
+              ref={buttonRef}
+              onClick={() => setIsListActive(!isListActive)}
+            >
+              <AnimatedTextContainer>
+                <SwitchTransition mode="out-in">
+                  <CSSTransition
+                    key={hasStuck && !isListActive ? activeLinkText : titleText}
+                    timeout={300}
+                    nodeRef={textRef}
+                    onEnter={() => {
+                      if (textRef.current) {
+                        textRef.current.style.opacity = '0';
+                        textRef.current.style.transform = 'translateY(20px)';
+                      }
+                    }}
+                    onEntering={() => {
+                      if (textRef.current) {
+                        textRef.current.style.opacity = '1';
+                        textRef.current.style.transform = 'translateY(0)';
+                      }
+                    }}
+                    onExit={() => {
+                      if (textRef.current) {
+                        textRef.current.style.opacity = '1';
+                        textRef.current.style.transform = 'translateY(0)';
+                      }
+                    }}
+                    onExiting={() => {
+                      if (textRef.current) {
+                        textRef.current.style.opacity = '0';
+                        textRef.current.style.transform = 'translateY(-20px)';
+                      }
                     }}
                   >
-                    {hasStuck && !isListActive ? activeLinkText : titleText}
-                  </span>
-                </CSSTransition>
-              </SwitchTransition>
-            </AnimatedTextContainer>
+                    <span
+                      ref={textRef}
+                      style={{
+                        display: 'block',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        whiteSpace: 'nowrap',
+                        transition: 'all 300ms ease-in-out',
+                      }}
+                    >
+                      {hasStuck && !isListActive ? activeLinkText : titleText}
+                    </span>
+                  </CSSTransition>
+                </SwitchTransition>
+              </AnimatedTextContainer>
 
-            {isEnhanced && <Icon icon={cross} matchText />}
-          </MobileNavButton>
-        )}
-        <PlainList ref={listRef} id={listId}>
-          {links.map((link: Link) => {
-            const id = link.url.replace('#', '');
-            const isActive = activeId === id;
-            return (
-              <Fragment key={link.url}>
-                {isSticky ? (
-                  <ListItem $hasStuck={hasStuck}>
-                    <NextLink
-                      passHref
-                      legacyBehavior
-                      style={{ textDecoration: 'none' }}
-                      href={link.url}
-                    >
-                      <InPageNavAnimatedLink
-                        $hasStuck={hasStuck}
-                        $isActive={isActive}
-                        $hasBackgroundBlend={hasBackgroundBlend}
-                        data-gtm-trigger="link_click_page_position"
-                        onClick={e => {
-                          e.preventDefault();
-                          setClickedId(id);
-                          setIsListActive(false);
-                          const el = document.getElementById(id);
-                          if (el) {
-                            el.scrollIntoView({
-                              behavior: 'smooth',
-                              block: 'start',
-                            });
-                            el.tabIndex = -1;
-                            el.focus();
-                          }
-                        }}
+              {isEnhanced && <Icon icon={cross} matchText />}
+            </MobileNavButton>
+          )}
+          <PlainList ref={listRef} id={listId}>
+            {links.map((link: Link) => {
+              const id = link.url.replace('#', '');
+              const isActive = activeId === id;
+              return (
+                <Fragment key={link.url}>
+                  {isSticky ? (
+                    <ListItem $hasStuck={hasStuck}>
+                      <NextLink
+                        passHref
+                        legacyBehavior
+                        style={{ textDecoration: 'none' }}
+                        href={link.url}
                       >
-                        <span>{link.text}</span>
-                      </InPageNavAnimatedLink>
-                    </NextLink>
-                  </ListItem>
-                ) : (
-                  <li>
-                    <Anchor
-                      data-gtm-trigger="link_click_page_position"
-                      href={link.url}
-                    >
-                      {link.text}
-                    </Anchor>
-                  </li>
-                )}
-              </Fragment>
-            );
-          })}
-        </PlainList>
-      </Root>
+                        <InPageNavAnimatedLink
+                          $hasStuck={hasStuck}
+                          $isActive={isActive}
+                          $hasBackgroundBlend={hasBackgroundBlend}
+                          data-gtm-trigger="link_click_page_position"
+                          onClick={() => {
+                            setClickedId(id);
+                            setIsListActive(false);
+                            const el = document.getElementById(id);
+                            if (el) {
+                              el.tabIndex = -1;
+                              el.focus();
+                            }
+                          }}
+                        >
+                          <span>{link.text}</span>
+                        </InPageNavAnimatedLink>
+                      </NextLink>
+                    </ListItem>
+                  ) : (
+                    <li>
+                      <Anchor
+                        data-gtm-trigger="link_click_page_position"
+                        href={link.url}
+                      >
+                        {link.text}
+                      </Anchor>
+                    </li>
+                  )}
+                </Fragment>
+              );
+            })}
+          </PlainList>
+        </Root>
+      </FocusTrap>
     </>
   );
 };
