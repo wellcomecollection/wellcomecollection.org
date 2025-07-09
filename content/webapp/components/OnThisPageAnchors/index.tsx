@@ -496,6 +496,8 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
                               behavior: 'smooth',
                               block: 'start',
                             });
+                            el.tabIndex = -1;
+                            el.focus();
                           }
                         }}
                       >
