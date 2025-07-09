@@ -126,10 +126,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
       'is-hidden-s',
       'is-hidden-m'
     );
-    buttonRef.current.setAttribute(
-      'aria-expanded',
-      isListActive ? 'true' : 'false'
-    );
+    buttonRef.current.setAttribute('aria-expanded', `${isListActive}`);
   }, [isListActive]);
 
   useEffect(() => {
