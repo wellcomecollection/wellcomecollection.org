@@ -25,8 +25,7 @@ const WorkIcon = styled.img`
 export const hasLinkedWork = (taslSourceLink?: string) => {
   return Boolean(
     taslSourceLink &&
-      (taslSourceLink.indexOf('wellcomecollection.org/works/') > -1 ||
-        taslSourceLink.indexOf('wellcomelibrary.org/item/') > -1)
+      taslSourceLink.indexOf('wellcomecollection.org/works/') > -1
   );
 };
 
