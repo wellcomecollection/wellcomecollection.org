@@ -115,7 +115,9 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
   }, [listRef.current]);
 
   const titleText = isSticky ? 'On this page' : 'What’s on this page';
-  const fontStyle = isSticky ? font('intm', 5) : font('wb', 4);
+  const headingClasses = isSticky
+    ? `${font('intm', 5)} is-hidden-s is-hidden-m`
+    : font('wb', 4);
   const [activeLinkText, setActiveLinkText] = useState(titleText);
   const textRef = useRef<HTMLSpanElement>(null);
 
@@ -148,11 +150,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
         $hasBackgroundBlend={hasBackgroundBlend}
         $hasStuck={hasStuck}
       >
-        <h2
-          className={`${fontStyle} ${isSticky ? 'is-hidden-s is-hidden-m' : ''}`}
-        >
-          {titleText}
-        </h2>
+        <h2 className={headingClasses}>{titleText}</h2>
         {isSticky && (
           <MobileNavButton
             $hasStuck={hasStuck}
