@@ -41,7 +41,7 @@
   plugins:
     - docker-compose#v3.5.0:
         run: pa11y
-        command: [ "yarn", "write-report", "--isPullRequestRun" ]
+        command: [ "yarn", "report-and-deploy", "--isPullRequestRun" ]
 
 - wait
 

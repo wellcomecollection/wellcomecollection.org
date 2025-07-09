@@ -1,43 +1,25 @@
 import { Manifest } from '@iiif/presentation-3';
 import { GetServerSideProps, NextPage } from 'next';
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-import { useUserContext } from '@weco/common/contexts/UserContext';
 import {
   DigitalLocation,
   isDigitalLocation,
 } from '@weco/common/model/catalogue';
 import { getServerData } from '@weco/common/server-data';
-import { useToggles } from '@weco/common/server-data/Context';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { appError, AppErrorProps } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
-import { font } from '@weco/common/utils/classnames';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   ApiToolbarLink,
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
-import Button from '@weco/common/views/components/Buttons';
-import {
-  ContaineredLayout,
-  gridSize12,
-} from '@weco/common/views/components/Layout';
-import Modal from '@weco/common/views/components/Modal';
-import Space from '@weco/common/views/components/styled/Space';
-import CataloguePageLayout from '@weco/content/components/CataloguePageLayout';
-import IIIFItemList from '@weco/content/components/IIIFItemList';
-import IIIFViewer, {
-  queryParamToArrayIndex,
-} from '@weco/content/components/IIIFViewer';
 import { fromQuery } from '@weco/content/components/ItemLink';
-import WorkLink from '@weco/content/components/WorkLink';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
-import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import {
   toWorkBasic,
@@ -45,36 +27,43 @@ import {
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
-import {
-  CompressedTransformedManifest,
-  fromCompressedManifest,
-  toCompressedTransformedManifest,
-} from '@weco/content/types/compressed-manifest';
-import { ParentManifest } from '@weco/content/types/item-viewer';
-import { Auth, TransformedManifest } from '@weco/content/types/manifest';
+import { toCompressedTransformedManifest } from '@weco/content/types/compressed-manifest';
+import { TransformedManifest } from '@weco/content/types/manifest';
 import { fetchJson } from '@weco/content/utils/http';
-import {
-  checkModalRequired,
-  getAuthServices,
-  getCollectionManifests,
-  getIframeTokenSrc,
-  hasItemType,
-  hasOriginalPdf,
-} from '@weco/content/utils/iiif/v3';
+import { getCollectionManifests } from '@weco/content/utils/iiif/v3';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import { removeIdiomaticTextTags } from '@weco/content/utils/string';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
+import { queryParamToArrayIndex } from '@weco/content/views/works/work/IIIFViewer';
+import WorkItemPage, {
+  Props as WorkItemPageProps,
+} from '@weco/content/views/works/work/items';
 
-const IframeAuthMessage = styled.iframe`
-  display: none;
-`;
+// Note: the `description` field on works can be large, which is why we omit it
+// from the standard WorkBasic model.  We include it here because we use it for
+// alt text in the IIIFViewer component, but we don't want it in other places
+// where we use WorkBasic.
+type WorkWithDescription = WorkBasic & {
+  description?: string | null | undefined;
+};
 
-const iframeId = 'authMessage';
-function reloadAuthIframe(document: Document, id: string) {
-  const authMessageIframe = document.getElementById(id) as HTMLIFrameElement;
-  // assigning the iframe src to itself reloads the iframe and refires the window.message event
-  // eslint-disable-next-line no-self-assign
-  if (authMessageIframe) authMessageIframe.src = authMessageIframe.src;
+type Props = WorkItemPageProps & {
+  work: WorkWithDescription;
+  pageview: Pageview;
+  serverData: SimplifiedServerData; // TODO should we enforce this?
+};
+
+const Page: NextPage<WorkItemPageProps> = props => {
+  return <WorkItemPage {...props} />;
+};
+
+async function getParentManifest(
+  parentManifestUrl: string | undefined
+): Promise<Manifest | undefined> {
+  try {
+    return parentManifestUrl && (await fetchJson(parentManifestUrl));
+  } catch (error) {
+    return undefined;
+  }
 }
 
 function createTzitzitWorkLink(work: Work): ApiToolbarLink | undefined {
@@ -89,276 +78,6 @@ function createTzitzitWorkLink(work: Work): ApiToolbarLink | undefined {
     licence: digitalLocation?.license,
     contributors: work.contributors,
   });
-}
-
-function getIsTotallyRestricted({
-  auth,
-  authV2,
-}: {
-  auth: Auth | undefined;
-  authV2: boolean | undefined;
-}) {
-  return authV2 ? auth?.v2.isTotallyRestricted : auth?.v1.isTotallyRestricted;
-}
-
-type Props = {
-  compressedTransformedManifest?: CompressedTransformedManifest;
-  work: WorkBasic;
-  canvas: number;
-  canvasOcr?: string;
-  iiifImageLocation?: DigitalLocation;
-  iiifPresentationLocation?: DigitalLocation;
-  apiToolbarLinks: ApiToolbarLink[];
-  pageview: Pageview;
-  serverSearchResults: SearchResults | null;
-  parentManifest?: ParentManifest;
-};
-
-const ItemPage: NextPage<Props> = ({
-  compressedTransformedManifest,
-  work,
-  canvasOcr,
-  iiifImageLocation,
-  iiifPresentationLocation,
-  apiToolbarLinks,
-  canvas,
-  serverSearchResults,
-  parentManifest,
-}) => {
-  const { userIsStaffWithRestricted } = useUserContext();
-  const { authV2, extendedViewer } = useToggles();
-  const transformedManifest =
-    compressedTransformedManifest &&
-    fromCompressedManifest(compressedTransformedManifest);
-
-  const workId = work.id;
-  const [origin, setOrigin] = useState<string>();
-  const [showModal, setShowModal] = useState(false);
-  const [showViewer, setShowViewer] = useState(true);
-  const { title, isAnyImageOpen, canvases, placeholderId, auth } = {
-    ...transformedManifest,
-  };
-
-  const needsModal = checkModalRequired({
-    userIsStaffWithRestricted,
-    auth,
-    isAnyImageOpen,
-    authV2,
-  });
-  const [accessToken, setAccessToken] = useState();
-  const [searchResults, setSearchResults] = useState(serverSearchResults);
-  const authServices = getAuthServices({ auth, authV2 });
-  const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
-
-  const displayTitle =
-    title || (work && removeIdiomaticTextTags(work.title)) || '';
-  const { imageServiceId = '' } = { ...currentCanvas };
-  const mainImageService = imageServiceId && {
-    '@id': imageServiceId,
-  };
-
-  const hasImage = hasItemType(canvases, 'Image');
-  const hasPdf = hasOriginalPdf(canvases);
-  const isTotallyRestricted = getIsTotallyRestricted({ auth, authV2 });
-  const shouldUseAuthMessageIframe =
-    ((authV2 && auth?.v2.tokenService) || (!authV2 && auth?.v1.tokenService)) &&
-    origin;
-  const tryAndGetRestrictedAuthCookie =
-    userIsStaffWithRestricted &&
-    authServices?.external?.id ===
-      'https://iiif.wellcomecollection.org/auth/v2/access/restrictedlogin';
-  // showViewer is true by default, so the noScriptViewer is available without javascript
-  // if javascript is available we set it to false and then determine whether the clickthrough modal is required
-  // before setting it to true
-  useEffect(() => {
-    setShowViewer(false);
-  }, []);
-
-  // We have iiif manifests that contain both active and external (restricted login) services
-  // If this happens we want to show the active service (clickthrough) message and link rather than the external one.
-  // This will enable most users to view the images with an active service (those with a restricted service won't display)
-  // For staff with a role of 'StaffWithRestricted' they will be able to see both types of image.
-  const modalContent = authServices?.active || authServices?.external;
-
-  useEffect(() => {
-    setOrigin(`${window.origin}`);
-  }, []);
-
-  useEffect(() => {
-    if (tryAndGetRestrictedAuthCookie) {
-      const authServiceWindow = window.open(
-        `${authServices?.external?.id || ''}?origin=${window.origin}`
-      );
-      authServiceWindow &&
-        authServiceWindow.addEventListener('unload', function () {
-          reloadAuthIframe(document, iframeId);
-        });
-    }
-  }, [tryAndGetRestrictedAuthCookie]);
-
-  useEffect(() => {
-    function receiveMessage(event: MessageEvent) {
-      const data = event.data;
-      const tokenService = getIframeTokenSrc({
-        userIsStaffWithRestricted,
-        workId: work.id,
-        origin: window.origin,
-        auth,
-        authV2,
-      });
-      const service = (tokenService && new URL(tokenService)) as
-        | URL
-        | undefined;
-
-      // We check this is the event we are interested in
-      // N.B. locally react dev tools will create a lot of events
-      if (service?.origin === event.origin) {
-        if (Object.prototype.hasOwnProperty.call(data, 'accessToken')) {
-          setAccessToken(data.accessToken);
-          setShowModal(Boolean(isTotallyRestricted));
-          setShowViewer(!isTotallyRestricted);
-        } else {
-          setShowModal(true);
-          setShowViewer(false);
-        }
-      }
-    }
-    if (needsModal) {
-      window.addEventListener('message', receiveMessage);
-      return () => window.removeEventListener('message', receiveMessage);
-    } else {
-      setShowModal(false);
-      setShowViewer(true);
-    }
-  }, [needsModal]);
-
-  return (
-    <CataloguePageLayout
-      title={displayTitle}
-      description=""
-      url={{ pathname: `/works/${workId}/items` }}
-      openGraphType="website"
-      jsonLd={{ '@type': 'WebPage' }}
-      siteSection="collections"
-      apiToolbarLinks={apiToolbarLinks}
-      hideNewsletterPromo={true}
-      hideFooter={true}
-      hideTopContent={true}
-    >
-      {shouldUseAuthMessageIframe && (
-        <IframeAuthMessage
-          id={iframeId}
-          title="Authentication"
-          src={getIframeTokenSrc({
-            userIsStaffWithRestricted,
-            workId: work.id,
-            origin,
-            auth,
-            authV2,
-          })}
-        />
-      )}
-
-      {/*
-      Pdfs that have been added to the iiif manifest using the born digital pattern
-      will have a hasImage value of true.
-      However, we don't show the viewer for these items,
-      so we check for the presence of a pdf in the original property of the canvas.
-      If it has one we show the IIIFItemList, unless we are using the extended viewer.
-      */}
-      {(!hasImage || hasPdf) && showViewer && !extendedViewer && (
-        <ContaineredLayout gridSizes={gridSize12()}>
-          <Space
-            className="body-text"
-            $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
-          >
-            <IIIFItemList
-              canvases={canvases}
-              exclude={['Image']}
-              placeholderId={placeholderId}
-            />
-          </Space>
-        </ContaineredLayout>
-      )}
-
-      <Modal
-        id="auth-modal"
-        isActive={showModal}
-        setIsActive={setShowModal}
-        removeCloseButton={true}
-        openButtonRef={{ current: null }}
-      >
-        <div className={font('intr', 5)}>
-          {modalContent?.label && (
-            <h2 className={font('intb', 4)}>{modalContent?.label}</h2>
-          )}
-          {modalContent?.description && (
-            <div
-              dangerouslySetInnerHTML={{
-                __html: modalContent?.description,
-              }}
-            />
-          )}
-          {isAnyImageOpen && origin && (
-            <Space
-              style={{ display: 'inline-flex' }}
-              $h={{ size: 'm', properties: ['margin-right'] }}
-              $v={{ size: 'm', properties: ['margin-top'] }}
-            >
-              <Button
-                variant="ButtonSolid"
-                dataGtmTrigger="show_the_content"
-                text="Show the content"
-                clickHandler={() => {
-                  const authServiceWindow = window.open(
-                    `${modalContent?.id || ''}?origin=${origin}`
-                  );
-                  authServiceWindow &&
-                    authServiceWindow.addEventListener('unload', function () {
-                      reloadAuthIframe(document, iframeId);
-                    });
-                }}
-              />
-            </Space>
-          )}
-          <WorkLink id={workId} source="item_auth_modal_back_to_work_link">
-            <a>Take me back to the item page</a>
-          </WorkLink>
-        </div>
-      </Modal>
-
-      {showViewer &&
-        ((mainImageService && currentCanvas) ||
-          iiifImageLocation ||
-          extendedViewer) && (
-          <IIIFViewer
-            work={work}
-            transformedManifest={transformedManifest}
-            canvasOcr={canvasOcr}
-            iiifImageLocation={iiifImageLocation}
-            iiifPresentationLocation={iiifPresentationLocation}
-            handleImageError={() => {
-              // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
-              reloadAuthIframe(document, iframeId);
-            }}
-            searchResults={searchResults}
-            setSearchResults={setSearchResults}
-            parentManifest={parentManifest}
-            accessToken={accessToken}
-          />
-        )}
-    </CataloguePageLayout>
-  );
-};
-
-async function getParentManifest(
-  parentManifestUrl: string | undefined
-): Promise<Manifest | undefined> {
-  try {
-    return parentManifestUrl && (await fetchJson(parentManifestUrl));
-  } catch (error) {
-    return undefined;
-  }
 }
 
 export const getServerSideProps: GetServerSideProps<
@@ -476,7 +195,7 @@ export const getServerSideProps: GetServerSideProps<
     const serverSearchResults = await getSearchResults();
 
     return {
-      props: serialiseProps({
+      props: serialiseProps<Props>({
         compressedTransformedManifest:
           toCompressedTransformedManifest(displayManifest),
         canvasOcr,
@@ -487,13 +206,9 @@ export const getServerSideProps: GetServerSideProps<
         pageview,
         serverData,
         serverSearchResults,
-        // Note: the `description` field on works can be large, which is why we omit it
-        // from the standard WorkBasic model.  We include it here because we use it for
-        // alt text in the IIIFViewer component, but we don't want it in other places
-        // where we use WorkBasic.
         work: {
           ...toWorkBasic(work),
-          description: work.description,
+          description: work.description, // See type comments above
         },
         // Note: the parentManifest data can be enormous; for /works/cf4mdjzg/items it's
         // over 12MB in size (!).
@@ -520,11 +235,10 @@ export const getServerSideProps: GetServerSideProps<
 
   if (iiifImageLocation) {
     return {
-      props: serialiseProps({
+      props: serialiseProps<Props>({
         compressedTransformedManifest: undefined,
         work: toWorkBasic(work),
         canvas,
-        canvases: [],
         iiifImageLocation,
         iiifPresentationLocation,
         apiToolbarLinks,
@@ -540,4 +254,4 @@ export const getServerSideProps: GetServerSideProps<
   };
 };
 
-export default ItemPage;
+export default Page;

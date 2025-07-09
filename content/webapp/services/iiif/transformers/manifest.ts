@@ -8,13 +8,13 @@ import {
   getActiveAuthAccessService,
   getAnnotationsOfMotivation,
   getAuthAccessServices,
-  getBornDigitalStatus,
   getClickThroughService,
   getCollectionManifests,
   getDisplayData,
   getExternalAuthAccessService,
   getFirstCollectionManifestLocation,
   getIIIFPresentationCredit,
+  getItemsStatus,
   getRestrictedLoginService,
   getSearchService,
   getStructures,
@@ -103,7 +103,7 @@ export function transformManifest(
     structures || []
   );
 
-  const bornDigitalStatus = getBornDigitalStatus(manifestV3);
+  const itemsStatus = getItemsStatus(manifestV3);
   // Manifests can have a placeholderCanvas: https://iiif.io/api/presentation/3.0/#placeholdercanvas
   // "...that provides additional content for use before the main content of the resource.."
   // We use this to provide a poster image for video content.
@@ -131,7 +131,7 @@ export function transformManifest(
   const rendering = manifestV3.rendering || [];
 
   return {
-    bornDigitalStatus,
+    itemsStatus,
     id,
     firstCollectionManifestLocation,
     services,

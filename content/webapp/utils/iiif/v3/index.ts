@@ -24,16 +24,16 @@ import {
 } from '@iiif/presentation-3';
 
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
-import { IIIFItemProps } from '@weco/content/components/IIIFItem';
 import {
   Auth,
   AuthClickThroughServiceWithPossibleServiceArray,
-  BornDigitalStatus,
   CustomContentResource,
   CustomSpecificationBehaviors,
   DownloadOption,
+  ItemsStatus,
   TransformedCanvas,
 } from '@weco/content/types/manifest';
+import { IIIFItemProps } from '@weco/content/views/works/work/IIIFItem';
 
 import { getOriginal, getThumbnailImage } from './canvas';
 
@@ -757,35 +757,38 @@ export function getCollectionManifests(
   }
 }
 
-// Whether something is born digital or not is determined at the canvas level within a iiifManifest
-// It is therefore possible to have a iiifManifest that contains:
-// - only born digital items
-// - no born digital items
-// - a mix of the two.
-// We need to know which we have to determine the required UI.
-export function getBornDigitalStatus(
-  manifest: Manifest | Collection
-): BornDigitalStatus {
-  const hasBornDigital = manifest?.items.some(canvas => {
+// Our IIIF manifests can contain a mix of standard and non-standard items.
+// Standard items are those that the IIIF Presentation API was designed for;
+// namely content that is spatial, temporal, or both, i.e images, audio and video.
+// Non standard items can be any other type of file, such as text streams and binary documents.
+// Non standard items are identified by having a behavior value of 'placeholder'
+// see https://github.com/wellcomecollection/docs/tree/main/rfcs/046-born-digital-iiif
+// It is possible to have a iiifManifest that contains:
+// - only standard items
+// - only non standard items
+// - a mix of standard and non standard items
+// We need to know which of these we have in order to determine the required UI.
+export function getItemsStatus(manifest: Manifest | Collection): ItemsStatus {
+  const hasStandard = manifest?.items.some(canvas => {
     const behavior = canvas?.behavior as
       | CustomSpecificationBehaviors[]
       | undefined;
-    return behavior?.includes('placeholder') || false;
+    return !behavior?.includes('placeholder');
   });
 
-  const hasNonBornDigital = manifest?.items.some(canvas => {
+  const hasNonStandard = manifest?.items.some(canvas => {
     const behavior = canvas?.behavior as
       | CustomSpecificationBehaviors[]
       | undefined;
-    return !behavior?.includes('placeholder') || false;
+    return behavior?.includes('placeholder');
   });
 
-  if (hasBornDigital && !hasNonBornDigital) {
-    return 'allBornDigital';
-  } else if (hasBornDigital && hasNonBornDigital) {
-    return 'mixedBornDigital';
+  if (!hasStandard && hasNonStandard) {
+    return 'noStandard';
+  } else if (hasStandard && hasNonStandard) {
+    return 'mixedStandardAndNonStandard';
   } else {
-    return 'noBornDigital';
+    return 'allStandard';
   }
 }
 

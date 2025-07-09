@@ -89,7 +89,7 @@ const GifVideo: FunctionComponent<Props> = ({
   );
   const [computedVideoWidth, setComputedVideoWidth] = useState<number>(0);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const canPlayRef = useRef<boolean>();
+  const canPlayRef = useRef<boolean>(false);
   canPlayRef.current = canPlay;
 
   const playVideo = (video: HTMLMediaElement) => {

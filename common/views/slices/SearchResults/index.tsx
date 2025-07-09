@@ -1,5 +1,5 @@
 import { SliceComponentProps } from '@prismicio/react';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, type JSX } from 'react';
 
 import { SearchResultsSlice as RawSearchResultsSlice } from '@weco/common/prismicio-types';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';

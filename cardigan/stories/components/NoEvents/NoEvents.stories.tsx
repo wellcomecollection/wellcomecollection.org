@@ -1,6 +1,7 @@
+// TODO remove this from Cardigan? Only used once?
 import type { Meta, StoryObj } from '@storybook/react';
 
-import NoEvents from '@weco/content/components/NoEvents';
+import NoEvents from '@weco/content/views/events/events.NoEvents';
 
 const meta: Meta<typeof NoEvents> = {
   title: 'Components/NoEvents',
