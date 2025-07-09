@@ -12,11 +12,9 @@ import ImageWithTasl, {
 } from '@weco/content/views/components/ImageWithTasl';
 import ZoomedPrismicImage from '@weco/content/views/components/ZoomedPrismicImage';
 
-type CaptionedImageFigureProps = {
+const CaptionedImageFigure = styled.figure<{
   $isBody?: boolean;
-};
-
-const CaptionedImageFigure = styled.figure<CaptionedImageFigureProps>`
+}>`
   margin: 0;
   display: inline-block;
   width: 100%;
@@ -34,12 +32,10 @@ const CaptionedImageFigure = styled.figure<CaptionedImageFigureProps>`
   `}
 `;
 
-type ImageContainerInnerProps = {
+const ImageContainerInner = styled.div<{
   $aspectRatio: number;
   $hasRoundedCorners: boolean;
-};
-
-const ImageContainerInner = styled.div<ImageContainerInnerProps>`
+}>`
   position: relative;
   max-height: 80vh;
   aspect-ratio: ${props => props.$aspectRatio};
@@ -67,6 +63,7 @@ const ImageContainerInner = styled.div<ImageContainerInnerProps>`
 export type CaptionedImageProps = CaptionedImageType & {
   isBody?: boolean;
   preCaptionNode?: ReactNode;
+  displayWorkLink?: boolean;
 };
 
 const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
@@ -76,6 +73,7 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
   isBody,
   hasRoundedCorners,
   isZoomable,
+  displayWorkLink = true,
 }) => {
   const hasLinkedWork = getHasLinkedWork(image.tasl?.sourceLink);
   // Note: the default quality here was originally 45, but this caused images to
@@ -102,6 +100,7 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
             ...image.tasl,
             idSuffix: dasherizeShorten(image.contentUrl),
           }}
+          displayWorkLink={displayWorkLink}
         />
 
         {caption.length > 0 && (

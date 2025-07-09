@@ -14,10 +14,12 @@ type ImageWithTaslProps = {
     typeof PrismicImage | typeof HeightRestrictedPrismicImage
   >;
   tasl?: ComponentProps<typeof Tasl>;
+  displayWorkLink?: boolean;
 };
 const ImageWithTasl: FunctionComponent<ImageWithTaslProps> = ({
   Image,
   tasl,
+  displayWorkLink,
 }) => {
   return (
     <>
@@ -26,16 +28,14 @@ const ImageWithTasl: FunctionComponent<ImageWithTaslProps> = ({
         {tasl && <Tasl {...tasl} />}
       </div>
 
-      {tasl && hasLinkedWork(tasl.sourceLink) && (
+      {tasl && hasLinkedWork(tasl.sourceLink) && displayWorkLink && (
         <WorkLinkComponent taslSourceLink={tasl.sourceLink} />
       )}
     </>
   );
 };
 
-export function getFeaturedPictureWithTasl(
-  editorialImage: RawEditorialImageSlice
-) {
+function getFeaturedPictureWithTasl(editorialImage: RawEditorialImageSlice) {
   const featuredPicture = transformEditorialImageSlice(editorialImage);
   const image =
     getCrop(featuredPicture.value.image, '16:9') || featuredPicture.value.image;
@@ -60,4 +60,4 @@ export function getFeaturedPictureWithTasl(
 }
 
 export default ImageWithTasl;
-export { hasLinkedWork };
+export { getFeaturedPictureWithTasl, hasLinkedWork };
