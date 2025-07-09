@@ -102,14 +102,6 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
   // Determine the active id based on whether sticky is enabled
   const activeId = isSticky ? clickedId || observedActiveId : clickedId;
 
-  // Update the URL hash when activeId changes, but only if it doesn't match the current hash
-  // useEffect(() => {
-  //   if (!activeId || typeof window === 'undefined') return;
-  //   if (window.location.hash.replace('#', '') !== activeId) {
-  //     history.replaceState(null, '', `#${activeId}`);
-  //   }
-  // }, [activeId]);
-
   useEffect(() => {
     if (!listRef.current || !isSticky) return;
     listRef.current.classList.add('is-hidden-s', 'is-hidden-m');
