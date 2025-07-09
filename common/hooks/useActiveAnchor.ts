@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { isNotUndefined } from '@weco/common/utils/type-guards';
+import { isNotNull, isNotUndefined } from '@weco/common/utils/type-guards';
 /**
  * Tracks which intersecting element (by id) is closest to the top of the viewport.
  * @param ids Array of element ids to observe
@@ -16,35 +16,34 @@ export function useActiveAnchor(ids: string[]): string | null {
     const intersectingIds = new Set();
 
     const sections = ids
-      .map(id => document.getElementById(id)?.parentElement)
-      .filter(isNotUndefined) as HTMLElement[];
+      .map(id => document.getElementById(id)?.closest('section'))
+      .filter(isNotNull)
+      .filter(isNotUndefined);
 
     const sectionObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         intersectingIds[entry.isIntersecting ? 'add' : 'delete'](
-          (entry.target?.firstChild as HTMLHeadingElement)?.id
+          (entry.target as HTMLElement)?.dataset.id
         );
       });
 
       const sectionTops = [...intersectingIds]
         .map(i => {
-          const section = sections.find(
-            section => (section?.firstChild as HTMLHeadingElement).id === i
-          );
+          const section = sections.find(section => section?.dataset.id === i);
           const top = section?.getBoundingClientRect().top;
-          return (section?.firstChild as HTMLHeadingElement).id &&
-            top !== undefined
+          return section?.dataset.id && top !== undefined
             ? {
-                id: (section?.firstChild as HTMLHeadingElement).id,
+                id: section?.dataset.id,
                 top,
               }
             : undefined;
         })
-        .filter(isNotUndefined);
+        .filter(isNotUndefined)
+        .filter(isNotNull);
 
       // Sort to get the element that is currently intersecting and has the highest `boundingClientRect.top`
       const activeSection = sectionTops.sort((a, b) => a.top - b.top)?.[0];
-      setActiveId(activeSection?.id || null);
+      setActiveId(activeSection?.id);
     });
 
     sections.forEach(section => sectionObserver.observe(section));

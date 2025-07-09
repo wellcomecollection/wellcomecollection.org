@@ -94,7 +94,11 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
       <WobblyEdgeWrapper>
         <WobblyEdge backgroundColor="white" />
       </WobblyEdgeWrapper>
-      <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+      <Space
+        $v={{ size: 'xl', properties: ['margin-top'] }}
+        as="section"
+        data-id="works"
+      >
         <h2 id="works" className={font('intsb', 2)}>
           Works
         </h2>
