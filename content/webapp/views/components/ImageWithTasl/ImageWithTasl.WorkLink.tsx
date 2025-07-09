@@ -25,7 +25,8 @@ const WorkIcon = styled.img`
 export const hasLinkedWork = (taslSourceLink?: string) => {
   return Boolean(
     taslSourceLink &&
-      taslSourceLink.indexOf('wellcomecollection.org/works/') > -1
+      (taslSourceLink.indexOf('wellcomecollection.org/works/') > -1 ||
+        taslSourceLink.indexOf('wellcomelibrary.org/item/') > -1)
   );
 };
 
@@ -33,13 +34,15 @@ const WorkLinkComponent = ({ taslSourceLink }: { taslSourceLink?: string }) => {
   if (!taslSourceLink) return null;
 
   return (
-    <WorkLinkContainer className={font('intm', 5)}>
-      <WorkIcon
-        src="https://i.wellcomecollection.org/assets/icons/favicon-32x32.png"
-        alt=""
-      />
-      <WorkLink href={taslSourceLink}>View in catalogue</WorkLink>
-    </WorkLinkContainer>
+    <div style={{ display: 'block' }}>
+      <WorkLinkContainer className={font('intm', 5)}>
+        <WorkIcon
+          src="https://i.wellcomecollection.org/assets/icons/favicon-32x32.png"
+          alt=""
+        />
+        <WorkLink href={taslSourceLink}>View in catalogue</WorkLink>
+      </WorkLinkContainer>
+    </div>
   );
 };
 
