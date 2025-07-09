@@ -32,6 +32,9 @@ import {
 import StackingTable from '@weco/common/views/components/StackingTable';
 import Space from '@weco/common/views/components/styled/Space';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
+import { useRequestedItems } from '@weco/identity/hooks/useRequestedItems';
+import { useSendVerificationEmail } from '@weco/identity/hooks/useSendVerificationEmail';
+import auth0, { withPageAuthRequiredSSR } from '@weco/identity/utils/auth0';
 import {
   ChangeDetailsModal,
   ChangeEmail,
@@ -39,7 +42,7 @@ import {
   DeleteAccount,
   InlineLoading,
   UnverifiedEmail,
-} from '@weco/identity/components/MyAccount';
+} from '@weco/identity/views/components/MyAccount';
 import {
   ButtonWrapper,
   ItemPickup,
@@ -51,18 +54,15 @@ import {
   StatusAlertProps,
   StyledDd,
   StyledDl,
-} from '@weco/identity/components/MyAccount/MyAccount.styles';
-import PageWrapper from '@weco/identity/components/PageWrapper';
+} from '@weco/identity/views/components/MyAccount/MyAccount.styles';
+import PageWrapper from '@weco/identity/views/components/PageWrapper';
 import {
   Container,
   Header,
   SectionHeading,
   Title,
   Wrapper,
-} from '@weco/identity/components/styled/layouts';
-import { useRequestedItems } from '@weco/identity/hooks/useRequestedItems';
-import { useSendVerificationEmail } from '@weco/identity/hooks/useSendVerificationEmail';
-import auth0, { withPageAuthRequiredSSR } from '@weco/identity/utils/auth0';
+} from '@weco/identity/views/components/styled/layouts';
 
 type DetailProps = {
   label: string;

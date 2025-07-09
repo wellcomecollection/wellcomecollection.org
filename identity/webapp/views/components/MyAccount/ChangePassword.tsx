@@ -5,17 +5,17 @@ import { useForm, useWatch } from 'react-hook-form';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { InputErrorMessage } from '@weco/common/views/components/TextInput';
-import {
-  PasswordInput,
-  PasswordRules,
-} from '@weco/identity/components/PasswordInput';
-import { FieldMargin } from '@weco/identity/components/styled/forms';
 import usePasswordRules from '@weco/identity/hooks/usePasswordRules';
 import {
   UpdatePasswordError,
   useUpdatePassword,
 } from '@weco/identity/hooks/useUpdatePassword';
 import { validPasswordPattern } from '@weco/identity/utils/validation-patterns';
+import {
+  PasswordInput,
+  PasswordRules,
+} from '@weco/identity/views/components/PasswordInput';
+import { FieldMargin } from '@weco/identity/views/components/styled/forms';
 
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import Loading from './Loading';

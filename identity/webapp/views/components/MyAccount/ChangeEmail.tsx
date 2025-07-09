@@ -9,13 +9,13 @@ import Space from '@weco/common/views/components/styled/Space';
 import TextInput, {
   InputErrorMessage,
 } from '@weco/common/views/components/TextInput';
-import { PasswordInput } from '@weco/identity/components/PasswordInput';
-import { FieldMargin } from '@weco/identity/components/styled/forms';
 import {
   UpdateUserError,
   useUpdateUser,
 } from '@weco/identity/hooks/useUpdateUser';
 import { validEmailPattern } from '@weco/identity/utils/validation-patterns';
+import { PasswordInput } from '@weco/identity/views/components/PasswordInput';
+import { FieldMargin } from '@weco/identity/views/components/styled/forms';
 
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import Loading from './Loading';

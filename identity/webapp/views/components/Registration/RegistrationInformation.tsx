@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react';
 import { font } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider';
 import Space from '@weco/common/views/components/styled/Space';
-import { SectionHeading } from '@weco/identity/components/styled/layouts';
+import { SectionHeading } from '@weco/identity/views/components/styled/layouts';
 
 type Props = {
   email: string;

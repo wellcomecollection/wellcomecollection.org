@@ -7,7 +7,7 @@ import theme from '@weco/common/views/themes/default';
 import {
   ChangeDetailsModalContentProps,
   DeleteAccount,
-} from '@weco/identity/components/MyAccount';
+} from '@weco/identity/views/components/MyAccount';
 
 import { server } from './mocks/server';
 

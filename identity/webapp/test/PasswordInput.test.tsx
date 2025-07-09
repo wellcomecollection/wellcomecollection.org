@@ -7,7 +7,7 @@ import theme from '@weco/common/views/themes/default';
 import {
   PasswordInput,
   PasswordInputProps,
-} from '@weco/identity/components/PasswordInput/PasswordInput';
+} from '@weco/identity/views/components/PasswordInput/PasswordInput';
 
 const renderComponent = (props: Partial<PasswordInputProps> = {}) => {
   const Form = () => {

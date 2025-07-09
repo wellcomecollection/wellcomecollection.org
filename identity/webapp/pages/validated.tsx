@@ -11,13 +11,16 @@ import {
   gridSize10,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import PageWrapper from '@weco/identity/components/PageWrapper';
-import { Container, Wrapper } from '@weco/identity/components/styled/layouts';
 import auth0 from '@weco/identity/utils/auth0';
 import {
   ValidatedFailedText,
   ValidatedSuccessText,
 } from '@weco/identity/utils/copy';
+import PageWrapper from '@weco/identity/views/components/PageWrapper';
+import {
+  Container,
+  Wrapper,
+} from '@weco/identity/views/components/styled/layouts';
 
 type Props = {
   serverData: SimplifiedServerData;
