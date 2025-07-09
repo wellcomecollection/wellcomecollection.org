@@ -74,17 +74,22 @@ export const ListItem = styled.li<{ $hasStuck: boolean }>`
 
 // If used elsewhere, this could be extracted to a shared styled component
 const AnimatedLink = styled.a<{ $hasStuck: boolean }>`
-  --line: ${props => props.theme.color(props.$hasStuck ? 'black' : 'white')};
+  --line-color: ${props =>
+    props.theme.color(props.$hasStuck ? 'black' : 'white')};
   text-decoration: none;
   position: relative;
 
   ${props =>
     props.theme.media('large')(`
-    --line: ${props.theme.color('white')};
+    --line-color: ${props.theme.color('white')};
     `)}
 
   & > span {
-    background-image: linear-gradient(0deg, var(--line) 0%, var(--line) 100%);
+    background-image: linear-gradient(
+      0deg,
+      var(--line-color) 0%,
+      var(--line-color) 100%
+    );
     background-position: 0% 100%;
     background-repeat: no-repeat;
     background-size: var(--background-size, 0%) 2px;
