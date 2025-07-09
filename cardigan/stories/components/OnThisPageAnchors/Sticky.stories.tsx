@@ -50,7 +50,8 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
         </GridCell>
         <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
           {links.map(link => (
-            <div
+            <section
+              data-id={link.url.replace('#', '')}
               key={link.url}
               style={{
                 padding: '16px',
@@ -72,7 +73,7 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
                 enim ad minim veniam, quis nostrud exercitation ullamco laboris
                 nisi ut aliquip ex ea commodo consequat.
               </p>
-            </div>
+            </section>
           ))}
         </GridCell>
       </BackgroundGrid>
