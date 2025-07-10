@@ -247,6 +247,14 @@ const ExpandedImage: FunctionComponent<Props> = ({
     }
   }, [detailedWork]);
 
+  useEffect(() => {
+    document?.documentElement?.classList.add('is-scroll-locked');
+
+    return () => {
+      document?.documentElement?.classList.remove('is-scroll-locked');
+    };
+  }, []);
+
   const iiifImageLocation = image?.locations[0];
   const license =
     iiifImageLocation?.license &&
