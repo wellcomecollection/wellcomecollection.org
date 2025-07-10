@@ -496,7 +496,9 @@ const ConceptPage: NextPage<Props> = ({
         // is no longer used.
       }
       {conceptResponse.type === 'Person' && (
-        <HotJarPlaceholder id="hotjar-embed-placeholder-concept-person" />
+        <Container>
+          <HotJarPlaceholder id="hotjar-embed-placeholder-concept-person" />
+        </Container>
       )}
     </CataloguePageLayout>
   );
