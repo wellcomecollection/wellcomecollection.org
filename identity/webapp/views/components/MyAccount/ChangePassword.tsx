@@ -11,15 +11,16 @@ import {
   useUpdatePassword,
 } from '@weco/identity/hooks/useUpdatePassword';
 import { validPasswordPattern } from '@weco/identity/utils/validation-patterns';
+import { ChangeDetailsModalContentProps } from '@weco/identity/views/components/ChangeDetailsModal';
 import Loading from '@weco/identity/views/components/Loading';
-import {
-  PasswordInput,
-  PasswordRules,
-} from '@weco/identity/views/components/PasswordInput';
+import { PasswordInput } from '@weco/identity/views/components/PasswordInput';
+import PasswordRules from '@weco/identity/views/components/PasswordRules';
+import { StatusAlert } from '@weco/identity/views/components/styled/alert';
 import { FieldMargin } from '@weco/identity/views/components/styled/forms';
-
-import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
-import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.styles';
+import {
+  ModalContainer,
+  ModalTitle,
+} from '@weco/identity/views/components/styled/modal';
 
 type ChangePasswordInputs = {
   password: string;

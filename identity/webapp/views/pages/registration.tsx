@@ -1,11 +1,13 @@
 import { ErrorMessage } from '@hookform/error-message';
 import { NextPage } from 'next';
-import { FormEvent } from 'react';
+import { FormEvent, FunctionComponent } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio';
+import Divider from '@weco/common/views/components/Divider';
 import {
   ContaineredLayout,
   gridSize10,
@@ -22,14 +24,9 @@ import {
   collectionsResearchAgreementTitle,
 } from '@weco/identity/utils/copy';
 import { RegistrationInputs } from '@weco/identity/utils/jwt-codec';
-import { RegistrationInformation } from '@weco/identity/views/components/Registration';
-import {
-  CheckboxLabel,
-  FlexStartCheckbox,
-  FullWidthButton,
-} from '@weco/identity/views/components/Registration/Registration.styles';
 import {
   Container,
+  SectionHeading,
   Wrapper,
 } from '@weco/identity/views/components/styled/layouts';
 import IdentityPageLayout from '@weco/identity/views/layouts/IdentityPageLayout';
@@ -39,6 +36,36 @@ export type Props = {
   auth0State: string;
   email: string;
 };
+
+const RegistrationInformation: FunctionComponent<{
+  email: string;
+}> = ({ email }) => {
+  return (
+    <>
+      <SectionHeading as="h1">Apply for a library membership</SectionHeading>
+
+      <h2 className={font('intb', 4)}>Your details</h2>
+      <p style={{ marginBottom: 0 }}>
+        Email address: <strong className={font('intb', 5)}>{email}</strong>
+      </p>
+      <Space $v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
+        <Divider />
+      </Space>
+    </>
+  );
+};
+
+const FullWidthButton = styled.div`
+  * {
+    width: 100%;
+  }
+`;
+
+const FlexStartCheckbox = styled.div`
+  label {
+    align-items: flex-start;
+  }
+`;
 
 const RegistrationPage: NextPage<Props> = ({
   sessionToken,
@@ -156,9 +183,9 @@ const RegistrationPage: NextPage<Props> = ({
                               }
                               checked={value}
                               text={
-                                <CheckboxLabel>
+                                <div style={{ marginLeft: '0.333em' }}>
                                   {collectionsResearchAgreementLabel}
-                                </CheckboxLabel>
+                                </div>
                               }
                             />
                           </FlexStartCheckbox>

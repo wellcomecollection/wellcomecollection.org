@@ -4,10 +4,8 @@ import { rest } from 'msw';
 import { ThemeProvider } from 'styled-components';
 
 import theme from '@weco/common/views/themes/default';
-import {
-  ChangeDetailsModalContentProps,
-  ChangePassword,
-} from '@weco/identity/views/components/MyAccount';
+import { ChangeDetailsModalContentProps } from '@weco/identity/views/components/ChangeDetailsModal';
+import { ChangePassword } from '@weco/identity/views/components/MyAccount';
 
 import { server } from './mocks/server';
 

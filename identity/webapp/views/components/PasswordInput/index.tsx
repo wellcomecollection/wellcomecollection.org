@@ -10,7 +10,10 @@ import {
   TextInputWrap,
 } from '@weco/common/views/components/TextInput';
 
-import { ShowPasswordButton } from './PasswordInput.styles';
+const ShowPasswordButton = styled.button.attrs({ type: 'button' })`
+  background: none;
+  border: none;
+`;
 
 const TextInputPassword = styled(TextInputInput)`
   padding-right: 0;

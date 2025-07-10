@@ -2,15 +2,27 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { check } from '@weco/common/icons';
+import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 
-import { RulesListItem, RulesListWrapper } from './PasswordInput.styles';
+const RulesListItem = styled(Space).attrs({
+  as: 'li',
+  $v: { size: 's', properties: ['margin-bottom'] },
+})`
+  display: flex;
+  align-items: center;
+`;
 
-type DotProps = {
-  isValid: boolean;
-};
+const RulesListWrapper = styled(Space).attrs({
+  className: font('intr', 5),
+  $h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+})`
+  border: 1px solid ${props => props.theme.color('neutral.300')};
+  border-radius: ${props => props.theme.borderRadiusUnit}px;
+`;
 
 const RuleDot = styled.span<{ $isValid: boolean }>`
   display: inline-flex;
@@ -28,7 +40,9 @@ const RuleDot = styled.span<{ $isValid: boolean }>`
   }
 `;
 
-const Dot: FunctionComponent<DotProps> = ({ isValid }) => {
+const Dot: FunctionComponent<{
+  isValid: boolean;
+}> = ({ isValid }) => {
   return (
     <Space $h={{ size: 's', properties: ['margin-right'] }}>
       <RuleDot $isValid={isValid}>
@@ -38,14 +52,14 @@ const Dot: FunctionComponent<DotProps> = ({ isValid }) => {
   );
 };
 
-type Props = {
+export type PasswordRulesProps = {
   isAtLeast8Characters: boolean;
   hasLowercaseLetters: boolean;
   hasUppercaseLetters: boolean;
   hasNumbers: boolean;
 };
 
-export const PasswordRules: FunctionComponent<Props> = ({
+const PasswordRules: FunctionComponent<PasswordRulesProps> = ({
   isAtLeast8Characters,
   hasLowercaseLetters,
   hasUppercaseLetters,
@@ -77,3 +91,5 @@ export const PasswordRules: FunctionComponent<Props> = ({
     </RulesListWrapper>
   );
 };
+
+export default PasswordRules;

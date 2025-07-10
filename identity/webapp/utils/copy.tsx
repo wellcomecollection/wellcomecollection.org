@@ -14,7 +14,6 @@ import { FunctionComponent } from 'react';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import Divider from '@weco/common/views/components/Divider';
 import Space from '@weco/common/views/components/styled/Space';
-import { ExternalLink } from '@weco/identity/views/components/Registration/Registration.styles';
 import { SectionHeading } from '@weco/identity/views/components/styled/layouts';
 
 type ValidatedSuccessTextProps = {
@@ -120,13 +119,14 @@ export const collectionsResearchAgreementLabel = (
     will not use personal data to support decisions about the person who is the
     subject of the data, or in a way that causes substantial damage or distress
     to them. I have read and accept the regulations detailed in the{' '}
-    <ExternalLink
+    <a
       href="https://wellcome.org/about-us/governance/privacy-and-terms"
       target="_blank"
       rel="noopener noreferrer"
+      style={{ whiteSpace: 'nowrap' }}
     >
       Library’s Terms & Conditions of Use
-    </ExternalLink>
+    </a>
     .{' '}
   </>
 );

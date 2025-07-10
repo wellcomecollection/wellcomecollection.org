@@ -29,26 +29,17 @@ import Space from '@weco/common/views/components/styled/Space';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import { useRequestedItems } from '@weco/identity/hooks/useRequestedItems';
 import { useSendVerificationEmail } from '@weco/identity/hooks/useSendVerificationEmail';
+import ChangeDetailsModal from '@weco/identity/views/components/ChangeDetailsModal';
+import DeleteAccount from '@weco/identity/views/components/DeleteAccount';
 import { InlineLoading } from '@weco/identity/views/components/Loading';
 import {
-  ChangeDetailsModal,
   ChangeEmail,
   ChangePassword,
-  DeleteAccount,
-  UnverifiedEmail,
 } from '@weco/identity/views/components/MyAccount';
 import {
-  ButtonWrapper,
-  ItemPickup,
-  ItemStatus,
-  ItemTitle,
-  ProgressBar,
-  ProgressIndicator,
   StatusAlert,
   StatusAlertProps,
-  StyledDd,
-  StyledDl,
-} from '@weco/identity/views/components/MyAccount/MyAccount.styles';
+} from '@weco/identity/views/components/styled/alert';
 import {
   Container,
   Header,
@@ -56,7 +47,19 @@ import {
   Title,
   Wrapper,
 } from '@weco/identity/views/components/styled/layouts';
+import UnverifiedEmail from '@weco/identity/views/components/UnverifiedEmail';
 import IdentityPageLayout from '@weco/identity/views/layouts/IdentityPageLayout';
+
+import {
+  ButtonWrapper,
+  ItemPickup,
+  ItemStatus,
+  ItemTitle,
+  ProgressBar,
+  ProgressIndicator,
+  StyledDd,
+  StyledDl,
+} from './index.styles';
 
 type DetailProps = {
   label: string;

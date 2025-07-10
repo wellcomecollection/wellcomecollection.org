@@ -1,6 +1,7 @@
 import { ErrorMessage } from '@hookform/error-message';
 import { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
@@ -10,17 +11,22 @@ import {
   RequestDeleteError,
   useRequestDelete,
 } from '@weco/identity/hooks/useRequestDelete';
+import { ChangeDetailsModalContentProps } from '@weco/identity/views/components/ChangeDetailsModal';
 import Loading from '@weco/identity/views/components/Loading';
 import { PasswordInput } from '@weco/identity/views/components/PasswordInput';
+import { StatusAlert } from '@weco/identity/views/components/styled/alert';
 import { FieldMargin } from '@weco/identity/views/components/styled/forms';
-
-import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import {
-  ButtonAlign,
   ModalContainer,
   ModalTitle,
-  StatusAlert,
-} from './MyAccount.styles';
+} from '@weco/identity/views/components/styled/modal';
+
+const ButtonAlign = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 1em;
+`;
 
 type DeleteAccountInputs = {
   password: string;
