@@ -5,11 +5,11 @@ import theme from '@weco/common/views/themes/default';
 import ValidatedPage from '@weco/identity/pages/validated';
 
 // avoid rendering header SVG to help with debugging tests
-jest.mock('@weco/identity/views/components/PageWrapper', () => {
-  const PageWrapper = ({ children }: { children: React.ReactNode }) => (
+jest.mock('@weco/identity/views/layouts/IdentityPageLayout', () => {
+  const IdentityPageLayout = ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   );
-  return PageWrapper;
+  return IdentityPageLayout;
 });
 
 jest.mock('@weco/common/server-data', () => ({

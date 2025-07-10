@@ -11,6 +11,7 @@ import {
   useUpdatePassword,
 } from '@weco/identity/hooks/useUpdatePassword';
 import { validPasswordPattern } from '@weco/identity/utils/validation-patterns';
+import Loading from '@weco/identity/views/components/Loading';
 import {
   PasswordInput,
   PasswordRules,
@@ -18,7 +19,6 @@ import {
 import { FieldMargin } from '@weco/identity/views/components/styled/forms';
 
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
-import Loading from './Loading';
 import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.styles';
 
 type ChangePasswordInputs = {

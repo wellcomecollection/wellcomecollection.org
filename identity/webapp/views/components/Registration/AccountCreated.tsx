@@ -8,18 +8,18 @@ import {
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import PageWrapper from '@weco/identity/views/components/PageWrapper';
 import {
   Container,
   SectionHeading,
   Wrapper,
 } from '@weco/identity/views/components/styled/layouts';
+import IdentityPageLayout from '@weco/identity/views/layouts/IdentityPageLayout';
 
 import { SuccessMessage } from './Registration.styles';
 
 const AccountCreated: FunctionComponent = () => {
   return (
-    <PageWrapper title="Account created">
+    <IdentityPageLayout title="Account created">
       <ContaineredLayout gridSizes={gridSize10()}>
         <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
@@ -67,7 +67,7 @@ const AccountCreated: FunctionComponent = () => {
           </Container>
         </Space>
       </ContaineredLayout>
-    </PageWrapper>
+    </IdentityPageLayout>
   );
 };
 

@@ -19,14 +19,11 @@ const Main = styled.div`
   `)}
 `;
 
-type Props = {
-  title: string;
-};
-
-const PageWrapper: FunctionComponent<PropsWithChildren<Props>> = ({
-  title,
-  children,
-}) => {
+const IdentityPageLayout: FunctionComponent<
+  PropsWithChildren<{
+    title: string;
+  }>
+> = ({ title, children }) => {
   const { isEnhanced } = useAppContext();
   const { collectionVenues } = usePrismicData();
   const venues = transformCollectionVenues(collectionVenues);
@@ -46,4 +43,4 @@ const PageWrapper: FunctionComponent<PropsWithChildren<Props>> = ({
   );
 };
 
-export default PageWrapper;
+export default IdentityPageLayout;

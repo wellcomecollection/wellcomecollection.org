@@ -22,7 +22,6 @@ import {
   collectionsResearchAgreementTitle,
 } from '@weco/identity/utils/copy';
 import { RegistrationInputs } from '@weco/identity/utils/jwt-codec';
-import PageWrapper from '@weco/identity/views/components/PageWrapper';
 import { RegistrationInformation } from '@weco/identity/views/components/Registration';
 import {
   CheckboxLabel,
@@ -33,6 +32,7 @@ import {
   Container,
   Wrapper,
 } from '@weco/identity/views/components/styled/layouts';
+import IdentityPageLayout from '@weco/identity/views/layouts/IdentityPageLayout';
 
 export type Props = {
   sessionToken: string;
@@ -58,7 +58,7 @@ const RegistrationPage: NextPage<Props> = ({
   };
 
   return (
-    <PageWrapper title="Registration">
+    <IdentityPageLayout title="Registration">
       <ContaineredLayout gridSizes={gridSize10()}>
         <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
@@ -191,7 +191,7 @@ const RegistrationPage: NextPage<Props> = ({
           </Container>
         </Space>
       </ContaineredLayout>
-    </PageWrapper>
+    </IdentityPageLayout>
   );
 };
 

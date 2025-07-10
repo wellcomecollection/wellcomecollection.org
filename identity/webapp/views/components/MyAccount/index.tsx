@@ -4,7 +4,6 @@ import ChangeDetailsModal, {
 import ChangeEmail from './ChangeEmail';
 import ChangePassword from './ChangePassword';
 import DeleteAccount from './DeleteAccount';
-import Loading, { InlineLoading } from './Loading';
 import UnverifiedEmail from './UnverifiedEmail';
 
 export {
@@ -12,8 +11,6 @@ export {
   ChangeEmail,
   ChangePassword,
   DeleteAccount,
-  Loading,
-  InlineLoading,
   UnverifiedEmail,
 };
 

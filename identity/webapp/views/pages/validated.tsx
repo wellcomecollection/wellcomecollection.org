@@ -11,11 +11,11 @@ import {
   ValidatedFailedText,
   ValidatedSuccessText,
 } from '@weco/identity/utils/copy';
-import PageWrapper from '@weco/identity/views/components/PageWrapper';
 import {
   Container,
   Wrapper,
 } from '@weco/identity/views/components/styled/layouts';
+import IdentityPageLayout from '@weco/identity/views/layouts/IdentityPageLayout';
 
 export type Props = {
   success: boolean;
@@ -31,7 +31,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
   // we want to show the success message in this scenario, and the message value is the only thing we can use to determine that
   // auth0.com/docs/brand-and-customize/email/email-template-descriptions#redirect-to-results-for-verification-email-template
   return (
-    <PageWrapper title="Email verified">
+    <IdentityPageLayout title="Email verified">
       <ContaineredLayout gridSizes={gridSize10()}>
         <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
@@ -56,7 +56,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
           </Container>
         </Space>
       </ContaineredLayout>
-    </PageWrapper>
+    </IdentityPageLayout>
   );
 };
 

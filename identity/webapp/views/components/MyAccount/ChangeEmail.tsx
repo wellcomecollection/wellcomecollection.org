@@ -14,11 +14,11 @@ import {
   useUpdateUser,
 } from '@weco/identity/hooks/useUpdateUser';
 import { validEmailPattern } from '@weco/identity/utils/validation-patterns';
+import Loading from '@weco/identity/views/components/Loading';
 import { PasswordInput } from '@weco/identity/views/components/PasswordInput';
 import { FieldMargin } from '@weco/identity/views/components/styled/forms';
 
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
-import Loading from './Loading';
 import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.styles';
 
 type ChangeEmailInputs = {

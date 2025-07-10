@@ -5,16 +5,16 @@ import {
   gridSize10,
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
-import PageWrapper from '@weco/identity/views/components/PageWrapper';
 import {
   Container,
   SectionHeading,
   Wrapper,
 } from '@weco/identity/views/components/styled/layouts';
+import IdentityPageLayout from '@weco/identity/views/layouts/IdentityPageLayout';
 
 const DeleteRequestedPage: NextPage = () => {
   return (
-    <PageWrapper title="Delete request">
+    <IdentityPageLayout title="Delete request">
       <ContaineredLayout gridSizes={gridSize10()}>
         <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
@@ -37,7 +37,7 @@ const DeleteRequestedPage: NextPage = () => {
           </Container>
         </Space>
       </ContaineredLayout>
-    </PageWrapper>
+    </IdentityPageLayout>
   );
 };
 

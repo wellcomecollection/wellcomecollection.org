@@ -8,12 +8,12 @@ import {
 } from '@weco/common/views/components/Layout';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
-import PageWrapper from '@weco/identity/views/components/PageWrapper';
 import {
   Container,
   SectionHeading,
   Wrapper,
 } from '@weco/identity/views/components/styled/layouts';
+import IdentityPageLayout from '@weco/identity/views/layouts/IdentityPageLayout';
 
 export type Props = {
   errorDescription: string;
@@ -49,7 +49,7 @@ const CustomError: FunctionComponent<PropsWithChildren<Props>> = ({
 
 const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
   return (
-    <PageWrapper title="Error">
+    <IdentityPageLayout title="Error">
       <ContaineredLayout gridSizes={gridSize10()}>
         <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
@@ -71,7 +71,7 @@ const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
           </Container>
         </Space>
       </ContaineredLayout>
-    </PageWrapper>
+    </IdentityPageLayout>
   );
 };
 

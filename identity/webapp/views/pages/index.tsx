@@ -29,12 +29,12 @@ import Space from '@weco/common/views/components/styled/Space';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import { useRequestedItems } from '@weco/identity/hooks/useRequestedItems';
 import { useSendVerificationEmail } from '@weco/identity/hooks/useSendVerificationEmail';
+import { InlineLoading } from '@weco/identity/views/components/Loading';
 import {
   ChangeDetailsModal,
   ChangeEmail,
   ChangePassword,
   DeleteAccount,
-  InlineLoading,
   UnverifiedEmail,
 } from '@weco/identity/views/components/MyAccount';
 import {
@@ -49,7 +49,6 @@ import {
   StyledDd,
   StyledDl,
 } from '@weco/identity/views/components/MyAccount/MyAccount.styles';
-import PageWrapper from '@weco/identity/views/components/PageWrapper';
 import {
   Container,
   Header,
@@ -57,6 +56,7 @@ import {
   Title,
   Wrapper,
 } from '@weco/identity/views/components/styled/layouts';
+import IdentityPageLayout from '@weco/identity/views/layouts/IdentityPageLayout';
 
 type DetailProps = {
   label: string;
@@ -173,7 +173,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
   };
 
   return (
-    <PageWrapper title="Your library account">
+    <IdentityPageLayout title="Your library account">
       <Header $v={{ size: 'l', properties: ['margin-bottom'] }}>
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space
@@ -382,7 +382,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
           </Container>
         </>
       </ContaineredLayout>
-    </PageWrapper>
+    </IdentityPageLayout>
   );
 };
 
