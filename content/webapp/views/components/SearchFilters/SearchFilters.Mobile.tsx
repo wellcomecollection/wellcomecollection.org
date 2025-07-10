@@ -186,32 +186,18 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   const [isActive, setIsActive] = useState(false);
 
   useSkipInitialEffect(() => {
-    function setPageScrollLock(value: boolean) {
-      if (document.documentElement) {
-        if (value) {
-          document.documentElement.classList.add('is-scroll-locked--to-medium');
-        } else {
-          document.documentElement.classList.remove(
-            'is-scroll-locked--to-medium'
-          );
-        }
-      }
-    }
-
     const focusables =
       filtersModalRef &&
       filtersModalRef.current &&
       getFocusableElements<HTMLDivElement>(filtersModalRef.current);
 
     if (isActive) {
-      setPageScrollLock(true);
       focusables &&
         focusables.forEach(focusable => focusable.removeAttribute('tabIndex'));
       const firstFocusable = focusables && focusables[0];
 
       firstFocusable && firstFocusable.focus();
     } else {
-      setPageScrollLock(false);
       focusables &&
         focusables.forEach(focusable =>
           focusable.setAttribute('tabIndex', '-1')
@@ -236,7 +222,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   }
 
   return (
-    <SearchFiltersContainer>
+    <SearchFiltersContainer data-lock-scroll={isActive}>
       <ShameButtonWrap>
         <StyledButton
           type={ButtonTypes.button}
