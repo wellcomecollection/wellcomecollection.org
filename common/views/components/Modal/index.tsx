@@ -30,7 +30,6 @@ type Props = PropsWithChildren<{
   maxWidth?: string;
   id: string;
   dataTestId?: string;
-  dataLockScroll: boolean;
   openButtonRef?: MutableRefObject<HTMLElement | null>;
   removeCloseButton?: boolean;
   showOverlay?: boolean;
