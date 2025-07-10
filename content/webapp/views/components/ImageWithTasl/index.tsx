@@ -1,5 +1,4 @@
 import { ComponentProps, FunctionComponent, ReactElement } from 'react';
-import styled from 'styled-components';
 
 import { getCrop } from '@weco/common/model/image';
 import { EditorialImageSlice as RawEditorialImageSlice } from '@weco/common/prismicio-types';
@@ -8,29 +7,35 @@ import Tasl from '@weco/common/views/components/Tasl';
 import { transformEditorialImageSlice } from '@weco/content/services/prismic/transformers/body';
 import HeightRestrictedPrismicImage from '@weco/content/views/components/HeightRestrictedPrismicImage';
 
-type TaslProps = ComponentProps<typeof Tasl>;
+import WorkLinkComponent, { hasLinkedWork } from './ImageWithTasl.WorkLink';
 
-const ImageWrapper = styled.div`
-  position: relative;
-`;
-
-type Props = {
+type ImageWithTaslProps = {
   Image: ReactElement<
     typeof PrismicImage | typeof HeightRestrictedPrismicImage
   >;
-  tasl?: TaslProps;
+  tasl?: ComponentProps<typeof Tasl>;
+  displayWorkLink?: boolean;
+};
+const ImageWithTasl: FunctionComponent<ImageWithTaslProps> = ({
+  Image,
+  tasl,
+  displayWorkLink,
+}) => {
+  return (
+    <>
+      <div style={{ position: 'relative' }}>
+        {Image}
+        {tasl && <Tasl {...tasl} />}
+      </div>
+
+      {tasl && hasLinkedWork(tasl.sourceLink) && displayWorkLink && (
+        <WorkLinkComponent taslSourceLink={tasl.sourceLink} />
+      )}
+    </>
+  );
 };
 
-const ImageWithTasl: FunctionComponent<Props> = ({ Image, tasl }) => (
-  <ImageWrapper>
-    {Image}
-    {tasl && <Tasl {...tasl} />}
-  </ImageWrapper>
-);
-
-export function getFeaturedPictureWithTasl(
-  editorialImage: RawEditorialImageSlice
-) {
+function getFeaturedPictureWithTasl(editorialImage: RawEditorialImageSlice) {
   const featuredPicture = transformEditorialImageSlice(editorialImage);
   const image =
     getCrop(featuredPicture.value.image, '16:9') || featuredPicture.value.image;
@@ -55,3 +60,4 @@ export function getFeaturedPictureWithTasl(
 }
 
 export default ImageWithTasl;
+export { getFeaturedPictureWithTasl, hasLinkedWork };

@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import { LinkProps } from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FunctionComponent, JSX, useEffect, useRef, useState } from 'react';
+import { FunctionComponent, JSX, useState } from 'react';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
@@ -56,6 +56,7 @@ import {
   ConceptWorksHeader,
   HeroTitle,
   HotJarPlaceholder,
+  MobileNavBackground,
   NavGridCell,
   StretchWrapper,
   TypeLabel,
@@ -226,23 +227,7 @@ const ConceptPage: NextPage<Props> = ({
   apiToolbarLinks,
 }) => {
   const { newThemePages, themePagesAllFields } = useToggles();
-  const [isMobileNavInverted, setIsMobileNavInverted] = useState(false);
   const { isEnhanced } = useAppContext();
-  const mobileNavColorChangeRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
-        setIsMobileNavInverted(true);
-      } else if (entry.boundingClientRect.top >= 0) {
-        setIsMobileNavInverted(false);
-      }
-    });
-    if (!mobileNavColorChangeRef.current) return;
-    observer.observe(mobileNavColorChangeRef.current);
-
-    return () => observer.disconnect();
-  }, [mobileNavColorChangeRef.current]);
 
   const pathname = usePathname();
   const worksTabs = themeTabOrder
@@ -356,13 +341,17 @@ const ConceptPage: NextPage<Props> = ({
       clipOverflowX={true}
     >
       <Header concept={conceptResponse} />
-      {hasImages && <WobblyEdge backgroundColor="neutral.700" />}
+      {hasImages && (
+        <>
+          <WobblyEdge backgroundColor="neutral.700" />
+          <MobileNavBackground />
+        </>
+      )}
       <Container>
         <Grid style={{ background: 'white', rowGap: 0 }}>
           <NavGridCell
             $isEnhanced={isEnhanced}
             $sizeMap={{ s: [12], m: [12], l: [3], xl: [2] }}
-            $isMobileNavInverted={isMobileNavInverted}
           >
             <OnThisPageAnchors
               links={navLinks}
@@ -378,9 +367,6 @@ const ConceptPage: NextPage<Props> = ({
                 concept={conceptResponse}
               />
             </StretchWrapper>
-            {/* This empty div is used in conjuction with an IntersectionObserver to
-               determine when to change the colour of the mobile nav */}
-            <div ref={mobileNavColorChangeRef}></div>
             <WorksResults
               concept={conceptResponse}
               sectionsData={sectionsData}
@@ -413,18 +399,17 @@ const ConceptPage: NextPage<Props> = ({
                 </Space>
               </>
             )}
+            {
+              // This is a placeholder for the Hotjar embedded survey to be injected
+              // when the concept is a Person. It should be removed when the survey
+              // is no longer used.
+            }
+            {conceptResponse.type === 'Person' && (
+              <HotJarPlaceholder id="hotjar-embed-placeholder-concept-person" />
+            )}
           </GridCell>
         </Grid>
       </Container>
-
-      {
-        // This is a placeholder for the Hotjar embedded survey to be injected
-        // when the concept is a Person. It should be removed when the survey
-        // is no longer used.
-      }
-      {conceptResponse.type === 'Person' && (
-        <HotJarPlaceholder id="hotjar-embed-placeholder-concept-person" />
-      )}
     </CataloguePageLayout>
   ) : (
     <CataloguePageLayout

@@ -248,6 +248,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
                         </Space>
                       ) : null
                     }
+                    displayWorkLink={isActive}
                   />
                 </Space>
               ))}

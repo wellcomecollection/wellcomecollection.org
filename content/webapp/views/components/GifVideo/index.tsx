@@ -9,6 +9,9 @@ import { font } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Caption from '@weco/common/views/components/Caption';
 import Tasl from '@weco/common/views/components/Tasl';
+import WorkLinkComponent, {
+  hasLinkedWork,
+} from '@weco/content/views/components/ImageWithTasl/ImageWithTasl.WorkLink';
 
 const Video = styled.video`
   max-height: 80vh;
@@ -185,17 +188,24 @@ const GifVideo: FunctionComponent<Props> = ({
           <source src={`${videoUrl}#t=0.1`} type="video/mp4" />
           <p>Your browser doesn&apos;t support video</p>
         </Video>
+
         {canPlay && !showControls && (
           <PlayPause onClick={manualControlGif}>
             <Text $isPlaying={isPlaying} />
           </PlayPause>
         )}
+
         {tasl &&
           (tasl.title ||
             tasl.sourceName ||
             tasl.copyrightHolder ||
             tasl.license) && <Tasl {...tasl} />}
       </Wrapper>
+
+      {tasl && hasLinkedWork(tasl.sourceLink) && (
+        <WorkLinkComponent taslSourceLink={tasl.sourceLink} />
+      )}
+
       {caption && <Caption width={computedVideoWidth} caption={caption} />}
     </Figure>
   );
