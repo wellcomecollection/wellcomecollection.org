@@ -82,7 +82,11 @@ const ImageSection: FunctionComponent<Props> = ({
   });
 
   return (
-    <Space $v={{ size: 'l', properties: ['padding-top'] }}>
+    <Space
+      $v={{ size: 'l', properties: ['padding-top'] }}
+      as="section"
+      data-id={`images-${getThemeTabLabel(type, concept.type)}`}
+    >
       <SectionHeading id={`images-${getThemeTabLabel(type, concept.type)}`}>
         Images {getThemeTabLabel(type, concept.type)} {concept.label}
       </SectionHeading>
@@ -132,7 +136,7 @@ const ImagesResults: FunctionComponent<{
 
   return (
     <>
-      <ThemeImagesWrapper as="section" data-testid="images-section">
+      <ThemeImagesWrapper data-testid="images-section">
         {themeTabOrder.map(tabType => (
           <ImageSection
             key={tabType}

@@ -33,6 +33,10 @@ export function isNotUndefined<T>(val: T | undefined): val is T {
   return typeof val !== 'undefined';
 }
 
+export function isNotNull<T>(val: T | null): val is T {
+  return val !== null;
+}
+
 export function isUndefined<T>(val: T | undefined): val is undefined {
   return typeof val === 'undefined';
 }
