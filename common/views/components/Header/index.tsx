@@ -1,6 +1,6 @@
 import { FocusTrap } from 'focus-trap-react';
 import NextLink from 'next/link';
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { FunctionComponent, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
@@ -99,27 +99,15 @@ const Header: FunctionComponent<Props> = ({
   const searchButtonRef = useRef<HTMLButtonElement>(null);
   const { isEnhanced } = useAppContext();
 
-  useEffect(() => {
-    if (document && document.documentElement) {
-      if (searchDropdownIsActive || burgerMenuIsActive) {
-        document.documentElement.classList.add('is-scroll-locked');
-        document.getElementById('global-search-input')?.focus();
-      } else {
-        document.documentElement.classList.remove('is-scroll-locked');
-      }
-    }
-
-    return () => {
-      document.documentElement.classList.remove('is-scroll-locked');
-    };
-  }, [searchDropdownIsActive, burgerMenuIsActive]);
-
   return (
     <FocusTrap
       active={searchDropdownIsActive || burgerMenuIsActive}
       focusTrapOptions={{ preventScroll: true }}
     >
-      <header className="is-hidden-print">
+      <header
+        className="is-hidden-print"
+        data-lock-scroll={searchDropdownIsActive || burgerMenuIsActive}
+      >
         <Wrapper $isBurgerOpen={burgerMenuIsActive}>
           <div style={{ position: 'relative' }}>
             <HeaderContainer>
