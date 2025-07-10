@@ -25,7 +25,16 @@ const useExpandedImage = (
   );
 
   const setImageIdInURL = (id: string) => {
-    window.location.hash = id;
+    if (id) {
+      window.location.hash = id;
+    } else {
+      // Remove hash completely from URL instead of leaving empty hash
+      history.replaceState(
+        null,
+        '',
+        window.location.pathname + window.location.search
+      );
+    }
   };
 
   useEffect(() => {
