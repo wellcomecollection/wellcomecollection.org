@@ -23,7 +23,7 @@ export const layout = `
     overflow: hidden;
   }
 
-  html:has([data-scroll-smooth="true"]) {
+  html:has([data-scroll-smooth="true"]):not(:has([data-lock-scroll="true"])) {
     @media (prefers-reduced-motion: no-preference) {
       scroll-behavior: smooth;
     }
