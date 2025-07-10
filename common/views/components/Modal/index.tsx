@@ -99,6 +99,20 @@ const Modal: FunctionComponent<Props> = ({
     }
   }, [isActive]);
 
+  useEffect(() => {
+    if (document && document.documentElement) {
+      if (isActive && hasAcknowledgedCookieBanner) {
+        document.documentElement.classList.add('is-scroll-locked');
+      } else {
+        document.documentElement.classList.remove('is-scroll-locked');
+      }
+    }
+
+    return () => {
+      document.documentElement.classList.remove('is-scroll-locked');
+    };
+  }, [isActive, hasAcknowledgedCookieBanner]);
+
   return (
     <FocusTrap
       active={isActive && hasAcknowledgedCookieBanner}
