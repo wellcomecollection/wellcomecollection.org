@@ -69,57 +69,53 @@ test.describe('a Concept representing an Agent with no Images', () => {
   });
 });
 
-// https://wellcome.slack.com/archives/C02ANCYL90E/p1752053197562339?thread_ts=1752050710.815869&cid=C02ANCYL90E
-test.describe.skip(
-  'a Concept representing an Agent with Works and Images both about and by them',
-  () => {
-    test('has both works and image sections, each with about and by tabs', async ({
-      armyPage,
-    }) => {
-      // It has four tabs (two works, two images)
-      await expect(armyPage.worksAboutTab).toBeVisible();
-      await expect(armyPage.worksByTab).toBeVisible();
-      await expect(armyPage.imagesAboutTab).toBeVisible();
-      await expect(armyPage.imagesByTab).toBeVisible();
+test.describe('a Concept representing an Agent with Works and Images both about and by them', () => {
+  test('has both works and image sections, each with about and by tabs', async ({
+    armyPage,
+  }) => {
+    // It has four tabs (two works, two images)
+    await expect(armyPage.worksAboutTab).toBeVisible();
+    await expect(armyPage.worksByTab).toBeVisible();
+    await expect(armyPage.imagesAboutTab).toBeVisible();
+    await expect(armyPage.imagesByTab).toBeVisible();
 
-      // The "works by" and "images by" panels should be visible initially
-      await expect(armyPage.worksByTabPanel).toBeVisible();
-      await expect(
-        armyPage.worksByTabPanel.getByRole('listitem')
-      ).not.toHaveCount(0);
+    // The "works by" and "images by" panels should be visible initially
+    await expect(armyPage.worksByTabPanel).toBeVisible();
+    await expect(
+      armyPage.worksByTabPanel.getByRole('listitem')
+    ).not.toHaveCount(0);
 
-      await expect(armyPage.imagesByTabPanel).toBeVisible();
-      await expect(
-        armyPage.imagesByTabPanel.getByRole('listitem')
-      ).not.toHaveCount(0);
+    await expect(armyPage.imagesByTabPanel).toBeVisible();
+    await expect(
+      armyPage.imagesByTabPanel.getByRole('listitem')
+    ).not.toHaveCount(0);
 
-      // It has links to filtered searches
-      await armyPage.worksAboutTab.click();
-      await expect(armyPage.allWorksLink).toHaveAttribute(
-        'href',
-        '/search/works?subjects.label=%22Great+Britain.+Army%22'
-      );
+    // It has links to filtered searches
+    await armyPage.worksAboutTab.click();
+    await expect(armyPage.allWorksLink).toHaveAttribute(
+      'href',
+      '/search/works?subjects.label=%22Great+Britain.+Army%22'
+    );
 
-      await armyPage.worksByTab.click();
-      await expect(armyPage.allWorksLink).toHaveAttribute(
-        'href',
-        '/search/works?contributors.agent.label=%22Great+Britain.+Army%22'
-      );
+    await armyPage.worksByTab.click();
+    await expect(armyPage.allWorksLink).toHaveAttribute(
+      'href',
+      '/search/works?contributors.agent.label=%22Great+Britain.+Army%22'
+    );
 
-      await armyPage.imagesByTab.click();
-      await expect(armyPage.allImagesLink).toHaveAttribute(
-        'href',
-        '/search/images?source.contributors.agent.label=%22Great+Britain.+Army%22'
-      );
+    await armyPage.imagesByTab.click();
+    await expect(armyPage.allImagesLink).toHaveAttribute(
+      'href',
+      '/search/images?source.contributors.agent.label=%22Great+Britain.+Army%22'
+    );
 
-      await armyPage.imagesAboutTab.click();
-      await expect(armyPage.allImagesLink).toHaveAttribute(
-        'href',
-        '/search/images?source.subjects.label=%22Great+Britain.+Army%22'
-      );
-    });
-  }
-);
+    await armyPage.imagesAboutTab.click();
+    await expect(armyPage.allImagesLink).toHaveAttribute(
+      'href',
+      '/search/images?source.subjects.label=%22Great+Britain.+Army%22'
+    );
+  });
+});
 
 test.describe('a Concept representing a Genre with works and images both about and using them', () => {
   test('has both works and image sections, each with about and using tabs', async ({
