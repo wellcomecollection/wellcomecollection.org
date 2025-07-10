@@ -34,7 +34,7 @@ const Collaborators: FunctionComponent<{
   }
 
   return (
-    <>
+    <section data-id="frequent-collaborators">
       <h2 className={font('intsb', 2)} id="frequent-collaborators">
         Frequent collaborators
       </h2>
@@ -48,7 +48,7 @@ const Collaborators: FunctionComponent<{
           />
         ))}
       </CollaboratorsWrapper>
-    </>
+    </section>
   );
 };
 
