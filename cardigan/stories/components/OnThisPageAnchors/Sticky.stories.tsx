@@ -7,6 +7,7 @@ import { links } from '@weco/cardigan/stories/components/OnThisPageAnchors/links
 import Footer from '@weco/common/views/components/Footer';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
+import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors';
 
@@ -16,9 +17,18 @@ type BackgroundGridProps = {
   $bottomColor?: string;
 };
 
+const NavGridCell = styled(GridCell)`
+  position: sticky;
+  top: 0;
+
+  ${props =>
+    props.theme.media('large')(`
+     mix-blend-mode: difference;
+  `)}
+`;
+
 const BackgroundGrid = styled(Grid).attrs({})<BackgroundGridProps>`
   padding: 0 20px;
-  margin-top: 10px;
   background: linear-gradient(
     5deg,
     ${props => props.$bottomColor ?? 'white'} 0%,
@@ -27,6 +37,12 @@ const BackgroundGrid = styled(Grid).attrs({})<BackgroundGridProps>`
       ${props => props.$percent ?? 40}%,
     ${props => props.theme.color(props.$topColor) ?? 'black'} 100%
   );
+`;
+
+const GreySpace = styled(Space).attrs({
+  $v: { size: 'l', properties: ['height'] },
+})`
+  background-color: ${props => props.theme.color('neutral.700')};
 `;
 
 const OnThisPageAnchorsInColsContext: FunctionComponent<{
@@ -43,11 +59,13 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
       <PageHeader
         breadcrumbs={{ items: [] }}
         title="Sticky On This Page Anchors"
+        sectionLevelPage={true}
       />
+      <GreySpace $v={{ size: 'l', properties: ['height'] }} />
       <BackgroundGrid $percent={40} $topColor={args.topColor}>
-        <GridCell $sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}>
+        <NavGridCell $sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}>
           <OnThisPageAnchors {...fixedArgs} />
-        </GridCell>
+        </NavGridCell>
         <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
           {links.map(link => (
             <div

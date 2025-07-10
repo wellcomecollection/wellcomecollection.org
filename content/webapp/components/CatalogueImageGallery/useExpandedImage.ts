@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 
@@ -16,6 +17,7 @@ const useExpandedImage = (
 ): [Image | undefined, Dispatch<SetStateAction<Image | undefined>>] => {
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
   const { toggles } = useContext(ServerDataContext);
+  const hasBeenExpanded = useRef(false);
 
   const imageMap = useMemo<Record<string, Image>>(
     () => images.reduce((a, image) => ({ ...a, [image.id]: image }), {}),
@@ -59,8 +61,9 @@ const useExpandedImage = (
 
   useEffect(() => {
     if (expandedImage !== undefined) {
+      hasBeenExpanded.current = true;
       setImageIdInURL(expandedImage?.id || '');
-    } else {
+    } else if (hasBeenExpanded.current) {
       // clear the url of the fragments and also removes the # symbol
       setImageIdInURL('');
     }

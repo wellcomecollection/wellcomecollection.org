@@ -1,6 +1,10 @@
 import { createGlobalStyle, css } from 'styled-components';
 
-import { SpaceOverrides } from '@weco/common/views/components/styled/Space';
+import {
+  HorizontalSpaceProperty,
+  SpaceOverrides,
+  VerticalSpaceProperty,
+} from '@weco/common/views/components/styled/Space';
 import { Toggles } from '@weco/toggles';
 
 import { fonts } from './base/fonts';
@@ -18,21 +22,7 @@ import {
 import { utilityClasses } from './utility-classes';
 
 type SpaceSize = 'xs' | 's' | 'm' | 'l' | 'xl';
-type SpaceProperty =
-  | 'margin-bottom'
-  | 'margin-top'
-  | 'padding-bottom'
-  | 'padding-top'
-  | 'top'
-  | 'bottom'
-  | 'margin-left'
-  | 'margin-right'
-  | 'padding-left'
-  | 'padding-right'
-  | 'left'
-  | 'right'
-  | 'row-gap'
-  | 'column-gap';
+type SpaceProperty = HorizontalSpaceProperty | VerticalSpaceProperty;
 
 const breakpointNames = ['small', 'medium', 'large'];
 

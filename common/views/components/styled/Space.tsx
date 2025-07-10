@@ -20,7 +20,8 @@ export type VerticalSpaceProperty =
   | 'padding-bottom'
   | 'top'
   | 'bottom'
-  | 'row-gap';
+  | 'row-gap'
+  | 'height';
 
 export type HorizontalSpaceProperty =
   | 'margin-left'
@@ -29,7 +30,8 @@ export type HorizontalSpaceProperty =
   | 'padding-right'
   | 'left'
   | 'right'
-  | 'column-gap';
+  | 'column-gap'
+  | 'width';
 
 type SpacingUnitsIndex = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 export type SpaceOverrides = {
