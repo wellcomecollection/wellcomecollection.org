@@ -283,7 +283,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
   const displayTitle = detailedWork?.title ?? '';
 
   return (
-    <Container data-lock-scroll={`${isActive}`}>
+    <Container>
       <ImageInfoWrapper>
         {iiifImageLocation && expandedImageLink && (
           <ImageWrapper>

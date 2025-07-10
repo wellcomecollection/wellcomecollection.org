@@ -30,6 +30,7 @@ type Props = PropsWithChildren<{
   maxWidth?: string;
   id: string;
   dataTestId?: string;
+  dataLockScroll: boolean;
   openButtonRef?: MutableRefObject<HTMLElement | null>;
   removeCloseButton?: boolean;
   showOverlay?: boolean;
@@ -97,20 +98,6 @@ const Modal: FunctionComponent<Props> = ({
       return () => document.removeEventListener('keydown', closeOnEscape);
     }
   }, [isActive]);
-
-  useEffect(() => {
-    if (document && document.documentElement) {
-      if (isActive && hasAcknowledgedCookieBanner) {
-        document.documentElement.classList.add('is-scroll-locked');
-      } else {
-        document.documentElement.classList.remove('is-scroll-locked');
-      }
-    }
-
-    return () => {
-      document.documentElement.classList.remove('is-scroll-locked');
-    };
-  }, [isActive, hasAcknowledgedCookieBanner]);
 
   return (
     <FocusTrap
