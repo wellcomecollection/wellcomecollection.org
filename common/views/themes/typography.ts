@@ -164,6 +164,20 @@ export const typography = css<GlobalStyleProps>`
     margin: 0 0 0.6em;
   }
 
+  /*
+  OnThisPageAnchors.sticky relies on sections with data-id attributes
+  and we want to adjust the scroll margin for headings within those sections
+  */
+  [data-id] :is(h2, h3) {
+    /* Enough space to clear the sticky header */
+    scroll-margin-top: 3rem;
+
+    @media (min-width: ${themeValues.sizes.large}px) {
+      /* Align the top of the heading with the top of the side navigation */
+      scroll-margin-top: ${themeValues.spaceAtBreakpoints.large.l}px;
+    }
+  }
+
   a {
     color: inherit;
     text-decoration: underline;
