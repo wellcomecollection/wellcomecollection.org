@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import DateRange from '@weco/content/components/DateRange';
+import DateRange from '@weco/content/views/components/DateRange';
 
 const now = new Date('2022-03-01T13:15:00Z');
 const oneHourFromNow = new Date('2022-03-01T13:15:00Z');

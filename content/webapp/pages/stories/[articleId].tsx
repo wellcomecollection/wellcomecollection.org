@@ -1,13 +1,13 @@
-import { GetServerSideProps } from 'next';
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
-import { AppErrorProps } from '@weco/common/services/app';
-import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
-import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchArticle } from '@weco/content/services/prismic/fetch/articles';
 import { transformArticle } from '@weco/content/services/prismic/transformers/articles';
@@ -15,19 +15,16 @@ import { articleLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import ArticlePage, {
   Props as ArticlePageProps,
-} from '@weco/content/views/stories/story';
+} from '@weco/content/views/pages/stories/story';
 
-type Props = ArticlePageProps & {
-  gaDimensions: GaDimensions;
-  pageview: Pageview;
-};
-
-const Page: FunctionComponent<ArticlePageProps> = props => {
+const Page: NextPage<ArticlePageProps> = props => {
   return <ArticlePage {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<ArticlePageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   const { articleId } = context.query;
@@ -49,11 +46,6 @@ export const getServerSideProps: GetServerSideProps<
         article,
         jsonLd,
         serverData,
-        gaDimensions: {
-          partOf: article.seasons
-            .map(season => season.id)
-            .concat(article.series.map(series => series.id)),
-        },
         pageview: {
           name: 'story',
           properties: { type: articleDocument.type },

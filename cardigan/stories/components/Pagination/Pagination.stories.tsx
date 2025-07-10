@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import Pagination from '@weco/content/components/Pagination';
+import Pagination from '@weco/content/views/components/Pagination';
 
 const Template = args => (
   <div

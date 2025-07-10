@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import {
   EventsDocumentData,
@@ -6,12 +6,15 @@ import {
 } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { isFilledLinkToDocument } from '@weco/common/services/prismic/types';
 import { isPast } from '@weco/common/utils/dates';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   fetchVisualStories,
@@ -26,24 +29,23 @@ import { transformVisualStory } from '@weco/content/services/prismic/transformer
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import VisualStoryPage, {
   Props as VisualStoryPageProps,
-} from '@weco/content/views/visual-stories/visual-story';
+} from '@weco/content/views/pages/visual-stories/visual-story';
 
-export type Props = VisualStoryPageProps & {
-  pageview: Pageview;
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
-
-const VisualStory: FunctionComponent<VisualStoryPageProps> = props => {
+const VisualStory: NextPage<VisualStoryPageProps> = props => {
   return <VisualStoryPage {...props} />;
 };
 
+export type Props = ServerSideProps<VisualStoryPageProps>;
+
 export const getOtherVisualStories = ({
-  documentId,
   visualStories,
+  documentId,
 }: {
-  documentId: string;
   visualStories: RawVisualStoriesDocument[];
+  documentId?: string;
 }): RawVisualStoriesDocument[] => {
+  if (!documentId) return [];
+
   return visualStories.filter(
     // We don't want to include a visual story among the related visual stories, if it is the one being displayed.
     // How do we know if it is the one being displayed?
@@ -143,11 +145,11 @@ export const returnVisualStoryProps = ({
       }),
     };
   }
-
-  return { notFound: true };
 };
 
-export const getServerSideProps = async context => {
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
+> = async context => {
   setCacheControl(context.res);
   const { visualStoryId } = context.query;
 
@@ -172,11 +174,13 @@ export const getServerSideProps = async context => {
     visualStories: visualStoriesQuery.results,
   });
 
-  return returnVisualStoryProps({
+  const visualStoryProps = returnVisualStoryProps({
     visualStoryDocument: visualStoryQuery,
     otherCurrentVisualStories,
     serverData,
   });
+
+  return visualStoryProps || { notFound: true };
 };
 
 export default VisualStory;

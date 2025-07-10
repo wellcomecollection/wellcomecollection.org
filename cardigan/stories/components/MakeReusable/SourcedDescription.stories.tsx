@@ -1,11 +1,9 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { ComponentProps } from 'react';
 
-import SourcedDescription from '@weco/content/components/SourcedDescription';
+import SourcedDescription from '@weco/content/views/components/SourcedDescription';
 
-type Props = ComponentProps<typeof SourcedDescription> & {
-  seeRawComponent?: boolean;
-};
+type Props = ComponentProps<typeof SourcedDescription>;
 
 const meta: Meta<
   Omit<Props, 'source'> & {
@@ -23,14 +21,9 @@ const meta: Meta<
       'The heat death of the universe is a hypothesis on the ultimate fate of the universe, which suggests the universe will evolve to a state of no thermodynamic free energy, and will therefore be unable to sustain processes that increase entropy.',
     source: 'Wikidata',
     href: 'https://www.wikidata.org/wiki/Q139931',
-    seeRawComponent: false,
   },
   argTypes: {
     href: { table: { disable: true } },
-    seeRawComponent: {
-      control: { type: 'boolean' },
-      name: 'See raw component',
-    },
     description: {
       name: 'Copy / Description',
     },
@@ -59,16 +52,6 @@ export default meta;
 export const Basic: StoryObj<Props> = {
   name: 'SourcedDescription',
   render: args => {
-    return (
-      <div
-        style={
-          args.seeRawComponent
-            ? {}
-            : { backgroundColor: '#9BC0AF', padding: '120px 40px' }
-        }
-      >
-        <SourcedDescription {...args} />
-      </div>
-    );
+    return <SourcedDescription {...args} />;
   },
 };

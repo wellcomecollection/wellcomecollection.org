@@ -3,9 +3,12 @@ import { FunctionComponent } from 'react';
 
 import { ContactSlice as RawContactSlice } from '@weco/common/prismicio-types';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
-import { LayoutWidth, SliceZoneContext } from '@weco/content/components/Body';
-import Contact from '@weco/content/components/Contact';
 import { transformContactSlice } from '@weco/content/services/prismic/transformers/body';
+import {
+  LayoutWidth,
+  SliceZoneContext,
+} from '@weco/content/views/components/Body';
+import Contact from '@weco/content/views/components/Contact';
 
 export type ContactProps = SliceComponentProps<
   RawContactSlice,

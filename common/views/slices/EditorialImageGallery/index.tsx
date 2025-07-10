@@ -3,12 +3,12 @@ import { FunctionComponent } from 'react';
 
 import { EditorialImageGallerySlice as RawEditorialImageGallerySlice } from '@weco/common/prismicio-types';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
+import { transformEditorialImageGallerySlice } from '@weco/content/services/prismic/transformers/body';
 import {
   defaultContext,
   SliceZoneContext,
-} from '@weco/content/components/Body';
-import ImageGallery from '@weco/content/components/ImageGallery';
-import { transformEditorialImageGallerySlice } from '@weco/content/services/prismic/transformers/body';
+} from '@weco/content/views/components/Body';
+import ImageGallery from '@weco/content/views/components/ImageGallery';
 
 export type EditorialImageGalleryProps = SliceComponentProps<
   RawEditorialImageGallerySlice,

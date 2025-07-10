@@ -1,6 +1,5 @@
 import * as prismic from '@prismicio/client';
-import { GetServerSideProps } from 'next';
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { bodySquabblesSeries as bodySquabblesSeriesId } from '@weco/common/data/hardcoded-ids';
 import {
@@ -8,12 +7,13 @@ import {
   WebcomicSeriesDocument,
 } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { appError, AppErrorProps } from '@weco/common/services/app';
-import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
-import { Pageview } from '@weco/common/services/conversion/track';
+import { appError } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
 import { fetchSeriesById } from '@weco/content/services/prismic/fetch/series';
@@ -35,20 +35,16 @@ import { getPage } from '@weco/content/utils/query-params';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import ArticleSeriesPage, {
   Props as ArticleSeriesPageProps,
-} from '@weco/content/views/series/series';
+} from '@weco/content/views/pages/series/series';
 
-type Props = ArticleSeriesPageProps & {
-  gaDimensions: GaDimensions;
-  pageview: Pageview;
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
-
-const Page: FunctionComponent<ArticleSeriesPageProps> = props => {
+const Page: NextPage<ArticleSeriesPageProps> = props => {
   return <ArticleSeriesPage {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<ArticleSeriesPageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   const { seriesId: seriesQueryId } = context.query;
@@ -127,9 +123,6 @@ export const getServerSideProps: GetServerSideProps<
       },
       scheduledItems,
       serverData,
-      gaDimensions: {
-        partOf: series.seasons.map(season => season.id),
-      },
       pageview: {
         name: 'story',
         properties: { type: series.type },

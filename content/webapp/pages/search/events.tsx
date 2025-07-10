@@ -1,30 +1,30 @@
-import { GetServerSideProps } from 'next';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
-import { appError, AppErrorProps } from '@weco/common/services/app';
-import { Pageview } from '@weco/common/services/conversion/track';
+import { appError } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getQueryPropertyValue } from '@weco/common/utils/search';
-import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import { fromQuery } from '@weco/content/components/SearchPagesLink/Events';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { getEvents } from '@weco/content/services/wellcome/content/events';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
+import { fromQuery } from '@weco/content/views/components/SearchPagesLink/Events';
 import EventsSearchPage, {
   Props as EventSearchPageProps,
-} from '@weco/content/views/search/events';
+} from '@weco/content/views/pages/search/events';
 
-type Props = EventSearchPageProps & {
-  pageview: Pageview;
-};
-
-const Page: NextPageWithLayout<EventSearchPageProps> = props => {
+const Page: NextPage<EventSearchPageProps> = props => {
   return <EventsSearchPage {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<EventSearchPageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res, cacheTTL.search);
   const serverData = await getServerData(context);

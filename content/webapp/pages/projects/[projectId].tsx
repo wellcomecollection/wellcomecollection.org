@@ -1,13 +1,13 @@
-import { GetServerSideProps } from 'next';
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { AppErrorProps } from '@weco/common/services/app';
-import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchProject } from '@weco/content/services/prismic/fetch/projects';
 import { contentLd } from '@weco/content/services/prismic/transformers/json-ld';
@@ -15,19 +15,16 @@ import { transformProject } from '@weco/content/services/prismic/transformers/pr
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import ProjectPage, {
   Props as ProjectPageProps,
-} from '@weco/content/views/projects/project';
+} from '@weco/content/views/pages/projects/project';
 
-type Props = ProjectPageProps & {
-  gaDimensions: GaDimensions;
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
-
-export const Project: FunctionComponent<ProjectPageProps> = props => {
+export const Page: NextPage<ProjectPageProps> = props => {
   return <ProjectPage {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<ProjectPageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   const { projectId } = context.query;
@@ -53,9 +50,6 @@ export const getServerSideProps: GetServerSideProps<
         staticContent: null,
         jsonLd,
         serverData,
-        gaDimensions: {
-          partOf: project.seasons?.map(season => season.id),
-        },
       }),
     };
   }
@@ -63,4 +57,4 @@ export const getServerSideProps: GetServerSideProps<
   return { notFound: true };
 };
 
-export default Project;
+export default Page;

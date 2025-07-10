@@ -1,11 +1,6 @@
-import { NextPage } from 'next';
-import { AppProps } from 'next/app';
-import React, {
-  FunctionComponent,
-  ReactElement,
-  useEffect,
-  useState,
-} from 'react';
+import { GetServerSideProps, NextPage } from 'next';
+import type { AppProps } from 'next/app';
+import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import { ApmContextProvider } from '@weco/common/contexts/ApmContext';
@@ -18,12 +13,10 @@ import {
   defaultServerData,
   isServerData,
   ServerData,
+  SimplifiedServerData,
 } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
-import {
-  GaDimensions,
-  SegmentScript,
-} from '@weco/common/services/app/analytics-scripts';
+import { SegmentScript } from '@weco/common/services/app/analytics-scripts';
 import { getConsentState } from '@weco/common/services/app/civic-uk';
 import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeight';
 import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
@@ -56,26 +49,25 @@ function isErrorPage(route: string): boolean {
 const dev = process.env.NODE_ENV !== 'production';
 const civicUkApiKey = process.env.NEXT_PUBLIC_CIVICUK_API_KEY;
 
-export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
-  getLayout?: (page: ReactElement) => ReactElement;
-};
-
 type GlobalProps = {
   serverData: ServerData;
   pageview?: Pageview;
-  gaDimensions?: GaDimensions;
 } & Partial<AppErrorProps>;
 
 type WecoAppProps = Omit<AppProps, 'pageProps'> & {
   pageProps: GlobalProps;
-  Component: NextPageWithLayout;
 };
 
-const WecoApp: FunctionComponent<WecoAppProps> = ({
-  pageProps,
-  router,
-  Component,
-}) => {
+// Utility type to prevent 'any'
+type NotAny<T> = 0 extends 1 & T ? never : T;
+export type ServerSideProps<T> = NotAny<T> & {
+  serverData: SimplifiedServerData;
+  pageview?: Pageview;
+};
+export type ServerSidePropsOrAppError<T extends ServerSideProps<unknown>> =
+  GetServerSideProps<T | AppErrorProps>;
+
+const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
   // You can set `skipServerData: true` to explicitly bypass this
   // e.g. for error pages
   const isServerDataSet = isServerData(pageProps.serverData);
@@ -143,10 +135,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     if (pageProps.pageview) {
       trackPageview({
         name: pageProps.pageview.name,
-        properties: {
-          ...pageProps.pageview.properties,
-          dimensions: pageProps.gaDimensions,
-        },
+        properties: pageProps.pageview.properties,
         eventGroup: pageProps.pageview.eventGroup,
       });
     }
@@ -157,8 +146,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   // i.e. everything that we consider to be a page view
 
   usePrismicPreview(() => Boolean(document.cookie.match('isPreview=true')));
-
-  const getLayout = Component.getLayout || (page => <>{page}</>);
 
   const isCookieBannerException = () => {
     // Banner shouldn't appear in Prismic's Slice Simulator (or Page Builder)
@@ -186,8 +173,9 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
                   {displayCookieBanner && <CivicUK apiKey={civicUkApiKey} />}
 
-                  {!pageProps.err &&
-                    getLayout(<Component {...deserialiseProps(pageProps)} />)}
+                  {!pageProps.err && (
+                    <Component {...deserialiseProps(pageProps)} />
+                  )}
                   {pageProps.err && (
                     <ErrorPage
                       statusCode={pageProps.err.statusCode}

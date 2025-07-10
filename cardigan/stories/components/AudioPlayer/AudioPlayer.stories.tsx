@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { prismicRichTextMultiline } from '@weco/cardigan/stories/data/text';
-import AudioPlayer from '@weco/content/components/AudioPlayer';
-import Readme from '@weco/content/components/AudioPlayer/README.mdx';
+import AudioPlayer from '@weco/content/views/components/AudioPlayer';
+import Readme from '@weco/content/views/components/AudioPlayer/README.mdx';
 
 const meta: Meta<typeof AudioPlayer> = {
   title: 'Components/AudioPlayer',

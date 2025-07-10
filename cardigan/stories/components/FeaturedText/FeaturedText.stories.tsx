@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import FeaturedText from '@weco/content/components/FeaturedText';
-import Readme from '@weco/content/components/FeaturedText/README.mdx';
+import FeaturedText from '@weco/content/views/components/FeaturedText';
+import Readme from '@weco/content/views/components/FeaturedText/README.mdx';
 
 const meta: Meta<typeof FeaturedText> = {
   title: 'Components/FeaturedText',

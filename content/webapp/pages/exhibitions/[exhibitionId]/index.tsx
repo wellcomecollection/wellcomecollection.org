@@ -1,19 +1,18 @@
-import { GetServerSideProps } from 'next';
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import {
   exhibitionGuideLinkText,
   visualStoryLinkText,
 } from '@weco/common/data/microcopy';
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { AppErrorProps } from '@weco/common/services/app';
-import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
-import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibition } from '@weco/content/services/prismic/fetch/exhibitions';
 import { transformExhibition } from '@weco/content/services/prismic/transformers/exhibitions';
@@ -23,25 +22,21 @@ import { transformQuery } from '@weco/content/services/prismic/transformers/pagi
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import ExhibitionPage, {
   Props as ExhibitionPageProps,
-} from '@weco/content/views/exhibitions/exhibition';
-
-type Props = ExhibitionPageProps & {
-  gaDimensions: GaDimensions;
-  pageview: Pageview;
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
+} from '@weco/content/views/pages/exhibitions/exhibition';
 
 /**
  * Please note that the /exhibitions/{period} routes do not arrive here
  * but instead are rewritten to the index file. Please observe
  * this setup in the next.config file for this app
  */
-const Page: FunctionComponent<ExhibitionPageProps> = props => {
+const Page: NextPage<ExhibitionPageProps> = props => {
   return <ExhibitionPage {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<ExhibitionPageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res, cacheTTL.events);
   const { exhibitionId } = context.query;
@@ -96,9 +91,6 @@ export const getServerSideProps: GetServerSideProps<
         exhibitionHighlightTours,
         jsonLd,
         serverData,
-        gaDimensions: {
-          partOf: exhibitionDoc.seasons.map(season => season.id),
-        },
         pageview: {
           name: 'exhibition',
           properties: {},

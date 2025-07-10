@@ -3,10 +3,6 @@ import { FunctionComponent } from 'react';
 import { ConsentStatusProps } from '@weco/common/server-data/types';
 import { Toggles } from '@weco/toggles';
 
-export type GaDimensions = {
-  partOf: string[];
-};
-
 // Don't use the next/script `Script` component for these as in
 // Next.js v11 it does not work when inside a `Head` component
 type Props = {

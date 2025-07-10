@@ -1,34 +1,29 @@
-import { GetServerSideProps } from 'next';
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { AppErrorProps } from '@weco/common/services/app';
-import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
-import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchBook } from '@weco/content/services/prismic/fetch/books';
 import { transformBook } from '@weco/content/services/prismic/transformers/books';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import BookPage, {
   Props as BookPageProps,
-} from '@weco/content/views/books/book';
+} from '@weco/content/views/pages/books/book';
 
-type Props = BookPageProps & {
-  gaDimensions: GaDimensions;
-  pageview: Pageview;
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
-
-const Page: FunctionComponent<BookPageProps> = props => {
+const Page: NextPage<BookPageProps> = props => {
   return <BookPage {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<BookPageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   const { bookId } = context.query;
@@ -47,9 +42,6 @@ export const getServerSideProps: GetServerSideProps<
       props: serialiseProps<Props>({
         book,
         serverData,
-        gaDimensions: {
-          partOf: book.seasons.map(season => season.id),
-        },
         pageview: {
           name: 'story',
           properties: { type: bookDocument.type },

@@ -1,13 +1,12 @@
 import { Manifest } from '@iiif/presentation-3';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 
 import {
   DigitalLocation,
   isDigitalLocation,
 } from '@weco/common/model/catalogue';
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { appError, AppErrorProps } from '@weco/common/services/app';
+import { appError } from '@weco/common/services/app';
 import { Pageview } from '@weco/common/services/conversion/track';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -15,7 +14,10 @@ import {
   ApiToolbarLink,
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
-import { fromQuery } from '@weco/content/components/ItemLink';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
@@ -33,10 +35,15 @@ import { fetchJson } from '@weco/content/utils/http';
 import { getCollectionManifests } from '@weco/content/utils/iiif/v3';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
-import { queryParamToArrayIndex } from '@weco/content/views/works/work/IIIFViewer';
+import { fromQuery } from '@weco/content/views/components/ItemLink';
+import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/IIIFViewer';
 import WorkItemPage, {
   Props as WorkItemPageProps,
-} from '@weco/content/views/works/work/items';
+} from '@weco/content/views/pages/works/work/items';
+
+const Page: NextPage<WorkItemPageProps> = props => {
+  return <WorkItemPage {...props} />;
+};
 
 // Note: the `description` field on works can be large, which is why we omit it
 // from the standard WorkBasic model.  We include it here because we use it for
@@ -46,42 +53,14 @@ type WorkWithDescription = WorkBasic & {
   description?: string | null | undefined;
 };
 
-type Props = WorkItemPageProps & {
-  work: WorkWithDescription;
-  pageview: Pageview;
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
-
-const Page: NextPage<WorkItemPageProps> = props => {
-  return <WorkItemPage {...props} />;
-};
-
-async function getParentManifest(
-  parentManifestUrl: string | undefined
-): Promise<Manifest | undefined> {
-  try {
-    return parentManifestUrl && (await fetchJson(parentManifestUrl));
-  } catch (error) {
-    return undefined;
+type Props = ServerSideProps<
+  WorkItemPageProps & {
+    work: WorkWithDescription;
   }
-}
+>;
 
-function createTzitzitWorkLink(work: Work): ApiToolbarLink | undefined {
-  // Look at digital item locations only
-  const digitalLocation: DigitalLocation | undefined = work.items
-    ?.map(item => item.locations.find(isDigitalLocation))
-    .find(i => i);
-
-  return setTzitzitParams({
-    title: work.title,
-    sourceLink: `https://wellcomecollection.org/works/${work.id}/items`,
-    licence: digitalLocation?.license,
-    contributors: work.contributors,
-  });
-}
-
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   const serverData = await getServerData(context);
@@ -253,5 +232,29 @@ export const getServerSideProps: GetServerSideProps<
     notFound: true,
   };
 };
+
+async function getParentManifest(
+  parentManifestUrl: string | undefined
+): Promise<Manifest | undefined> {
+  try {
+    return parentManifestUrl && (await fetchJson(parentManifestUrl));
+  } catch (error) {
+    return undefined;
+  }
+}
+
+function createTzitzitWorkLink(work: Work): ApiToolbarLink | undefined {
+  // Look at digital item locations only
+  const digitalLocation: DigitalLocation | undefined = work.items
+    ?.map(item => item.locations.find(isDigitalLocation))
+    .find(i => i);
+
+  return setTzitzitParams({
+    title: work.title,
+    sourceLink: `https://wellcomecollection.org/works/${work.id}/items`,
+    licence: digitalLocation?.license,
+    contributors: work.contributors,
+  });
+}
 
 export default Page;

@@ -1,17 +1,18 @@
-import { GetServerSideProps } from 'next';
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import {
   ExhibitionHighlightToursDocument,
   ExhibitionTextsDocument,
 } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { AppErrorProps } from '@weco/common/services/app';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
 import { toMaybeString } from '@weco/common/utils/routes';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchExhibitionGuide } from '@weco/content/services/prismic/fetch/exhibition-guides';
 import { fetchExhibitionHighlightTour } from '@weco/content/services/prismic/fetch/exhibition-highlight-tours';
@@ -27,18 +28,16 @@ import { isValidExhibitionGuideType } from '@weco/content/types/exhibition-guide
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import ExhibitionGuideTypePage, {
   Props as ExhibitionGuideTypePageProps,
-} from '@weco/content/views/guides/exhibitions/exhibition/type';
+} from '@weco/content/views/pages/guides/exhibitions/exhibition/type';
 
-type Props = ExhibitionGuideTypePageProps & {
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
-
-const Page: FunctionComponent<ExhibitionGuideTypePageProps> = props => {
+const Page: NextPage<ExhibitionGuideTypePageProps> = props => {
   return <ExhibitionGuideTypePage {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<ExhibitionGuideTypePageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   const { id, type, userPreferenceSet, stopId } = context.query;

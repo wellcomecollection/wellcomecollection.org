@@ -9,7 +9,7 @@ import PageHeader from '@weco/common/views/components/PageHeader';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors';
+import OnThisPageAnchors from '@weco/content/views/components/OnThisPageAnchors';
 
 type BackgroundGridProps = {
   $percent?: number;

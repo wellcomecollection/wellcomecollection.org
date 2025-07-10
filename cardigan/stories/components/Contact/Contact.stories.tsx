@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import Contact from '@weco/content/components/Contact';
-import Readme from '@weco/content/components/Contact/README.mdx';
+import Contact from '@weco/content/views/components/Contact';
+import Readme from '@weco/content/views/components/Contact/README.mdx';
 
 const meta: Meta<typeof Contact> = {
   title: 'Components/Contact',

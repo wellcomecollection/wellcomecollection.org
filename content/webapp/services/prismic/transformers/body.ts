@@ -42,22 +42,22 @@ import {
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { Props as IframeProps } from '@weco/common/views/components/Iframe';
 import { Props as EmbedProps } from '@weco/common/views/components/VideoEmbed';
-import { AudioPlayerProps } from '@weco/content/components/AudioPlayer';
-import { CaptionedImageProps } from '@weco/content/components/CaptionedImage';
-import { Props as ContactProps } from '@weco/content/components/Contact';
-import { Props as GifVideoProps } from '@weco/content/components/GifVideo';
-import { Props as ImageGalleryProps } from '@weco/content/components/ImageGallery';
-import { Props as InfoBlockProps } from '@weco/content/components/InfoBlock';
-import { Props as MapProps } from '@weco/content/components/Map';
-import { Props as QuoteProps } from '@weco/content/components/Quote';
-import { Props as AsyncSearchResultsProps } from '@weco/content/components/SearchResults/SearchResults.Async';
-import { Props as TagListProps } from '@weco/content/components/TagsGroup';
+import { ContentListProps, Slice } from '@weco/content/types/body';
+import { AudioPlayerProps } from '@weco/content/views/components/AudioPlayer';
+import { CaptionedImageProps } from '@weco/content/views/components/CaptionedImage';
+import { Props as ContactProps } from '@weco/content/views/components/Contact';
+import { Props as GifVideoProps } from '@weco/content/views/components/GifVideo';
+import { Props as ImageGalleryProps } from '@weco/content/views/components/ImageGallery';
+import { Props as InfoBlockProps } from '@weco/content/views/components/InfoBlock';
+import { Props as MapProps } from '@weco/content/views/components/Map';
+import { Props as QuoteProps } from '@weco/content/views/components/Quote';
+import { Props as AsyncSearchResultsProps } from '@weco/content/views/components/SearchResults/SearchResults.Async';
+import { Props as TagListProps } from '@weco/content/views/components/TagsGroup';
 import {
   TextAndIconsItem,
   TextAndImageItem,
-} from '@weco/content/components/TextAndImageOrIcons';
-import { Props as TitledTextListProps } from '@weco/content/components/TitledTextList';
-import { ContentListProps, Slice } from '@weco/content/types/body';
+} from '@weco/content/views/components/TextAndImageOrIcons';
+import { Props as TitledTextListProps } from '@weco/content/views/components/TitledTextList';
 
 import { asRichText, asText, asTitle } from '.';
 import { transformArticle } from './articles';

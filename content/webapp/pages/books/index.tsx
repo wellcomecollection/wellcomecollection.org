@@ -1,10 +1,12 @@
-import type { GetServerSideProps } from 'next';
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { appError, AppErrorProps } from '@weco/common/services/app';
+import { appError } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchBooks } from '@weco/content/services/prismic/fetch/books';
 import {
@@ -14,18 +16,18 @@ import {
 import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
 import { getPage } from '@weco/content/utils/query-params';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import BooksPage, { Props as BooksPageProps } from '@weco/content/views/books';
+import BooksPage, {
+  Props as BooksPageProps,
+} from '@weco/content/views/pages/books';
 
-type Props = BooksPageProps & {
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
-
-const Page: FunctionComponent<BooksPageProps> = props => {
+const Page: NextPage<BooksPageProps> = props => {
   return <BooksPage {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<BooksPageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   const page = getPage(context.query);

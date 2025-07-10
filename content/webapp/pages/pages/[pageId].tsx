@@ -1,15 +1,15 @@
-import { GetServerSideProps } from 'next';
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { isSiteSection } from '@weco/common/model/site-section';
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { AppErrorProps } from '@weco/common/services/app';
-import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
 import { toMaybeString } from '@weco/common/utils/routes';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   fetchBasicPage,
@@ -25,19 +25,16 @@ import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import PagePage, {
   OrderInParent,
   Props as PagePageProps,
-} from '@weco/content/views/pages/page';
+} from '@weco/content/views/pages/pages/page';
 
-type Props = PagePageProps & {
-  gaDimensions: GaDimensions;
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
-
-export const Page: FunctionComponent<PagePageProps> = props => {
+export const Page: NextPage<PagePageProps> = props => {
   return <PagePage {...props}>{props.children}</PagePage>;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<PagePageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   const { pageId } = context.query;
@@ -138,9 +135,6 @@ export const getServerSideProps: GetServerSideProps<
         staticContent: null,
         jsonLd,
         serverData,
-        gaDimensions: {
-          partOf: page.seasons?.map(season => season.id),
-        },
       }),
     };
   }

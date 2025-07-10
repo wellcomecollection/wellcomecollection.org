@@ -1,12 +1,20 @@
-import { GetServerSideProps } from 'next';
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
-import { AppErrorProps } from '@weco/common/services/app';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import * as page from '@weco/content/pages/pages/[pageId]';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 
-export const getServerSideProps: GetServerSideProps<
-  page.Props | AppErrorProps
+const Page: NextPage<page.Props> = props => {
+  return <page.Page {...props} />;
+};
+
+type Props = ServerSideProps<page.Props>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   return page.getServerSideProps({
@@ -16,8 +24,4 @@ export const getServerSideProps: GetServerSideProps<
   });
 };
 
-const orphanPage: FunctionComponent<page.Props> = (props: page.Props) => {
-  return <page.Page {...props}></page.Page>;
-};
-
-export default orphanPage;
+export default Page;

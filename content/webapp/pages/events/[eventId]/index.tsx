@@ -1,15 +1,15 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 
 import { visualStoryLinkText } from '@weco/common/data/microcopy';
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { AppErrorProps } from '@weco/common/services/app';
-import { GaDimensions } from '@weco/common/services/app/analytics-scripts';
-import { Pageview } from '@weco/common/services/conversion/track';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import {
   fetchEvent,
@@ -23,13 +23,7 @@ import { eventLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import EventPage, {
   Props as EventPageProps,
-} from '@weco/content/views/events/event';
-
-type Props = EventPageProps & {
-  pageview: Pageview;
-  gaDimensions: GaDimensions;
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
+} from '@weco/content/views/pages/events/event';
 
 /**
  * Please note that the /events/{period} routes do not arrive here
@@ -40,8 +34,10 @@ const Page: NextPage<EventPageProps> = props => {
   return <EventPage {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<EventPageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res, cacheTTL.events);
   const { eventId } = context.query;
@@ -83,11 +79,6 @@ export const getServerSideProps: GetServerSideProps<
         accessResourceLinks: visualStoriesLinks,
         jsonLd,
         serverData,
-        gaDimensions: {
-          partOf: eventDoc.seasons
-            .map(season => season.id)
-            .concat(eventDoc.series.map(series => series.id)),
-        },
         pageview: {
           name: 'event',
           properties: {},

@@ -1,30 +1,30 @@
-import { GetServerSideProps } from 'next';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
-import { appError, AppErrorProps } from '@weco/common/services/app';
-import { Pageview } from '@weco/common/services/conversion/track';
+import { appError } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
-import { NextPageWithLayout } from '@weco/common/views/pages/_app';
-import { fromQuery } from '@weco/content/components/SearchPagesLink/Works';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { toWorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
+import { fromQuery } from '@weco/content/views/components/SearchPagesLink/Works';
 import WorksSearchPage, {
   Props as WorksSearchPageProps,
-} from '@weco/content/views/search/works.tsx';
+} from '@weco/content/views/pages/search/works.tsx';
 
-type Props = WorksSearchPageProps & {
-  pageview: Pageview;
-};
-
-const Page: NextPageWithLayout<WorksSearchPageProps> = props => {
+const Page: NextPage<WorksSearchPageProps> = props => {
   return <WorksSearchPage {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<WorksSearchPageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res, cacheTTL.search);
   const serverData = await getServerData(context);

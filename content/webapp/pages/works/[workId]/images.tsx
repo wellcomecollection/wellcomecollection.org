@@ -1,16 +1,17 @@
-import { GetServerSideProps } from 'next';
-import { FunctionComponent } from 'react';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { appError, AppErrorProps } from '@weco/common/services/app';
-import { Pageview } from '@weco/common/services/conversion/track';
+import { appError } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import {
   ApiToolbarLink,
   setTzitzitParams,
 } from '@weco/common/views/components/ApiToolbar';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import {
@@ -23,7 +24,11 @@ import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
 import WorkImagesPage, {
   Props as WorkImagesPageProps,
-} from '@weco/content/views/works/work/images';
+} from '@weco/content/views/pages/works/work/images';
+
+const Page: NextPage<WorkImagesPageProps> = props => {
+  return <WorkImagesPage {...props} />;
+};
 
 function createTzitzitImageLink(
   work: Work,
@@ -37,18 +42,10 @@ function createTzitzitImageLink(
   });
 }
 
-type Props = WorkImagesPageProps & {
-  apiToolbarLinks: ApiToolbarLink[];
-  pageview: Pageview;
-  serverData: SimplifiedServerData;
-};
+type Props = ServerSideProps<WorkImagesPageProps>;
 
-const ImagePage: FunctionComponent<WorkImagesPageProps> = props => {
-  return <WorkImagesPage {...props} />;
-};
-
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   const serverData = await getServerData(context);
@@ -138,4 +135,4 @@ export const getServerSideProps: GetServerSideProps<
   };
 };
 
-export default ImagePage;
+export default Page;

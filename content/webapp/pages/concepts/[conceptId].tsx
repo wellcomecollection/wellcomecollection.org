@@ -1,12 +1,14 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { appError, AppErrorProps } from '@weco/common/services/app';
-import { Pageview } from '@weco/common/services/conversion/track';
+import { appError } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import { getQueryResults } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { emptyResultList } from '@weco/content/services/wellcome';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { getConcept } from '@weco/content/services/wellcome/catalogue/concepts';
@@ -28,7 +30,11 @@ import {
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import ConceptPage, {
   Props as ConceptPageProps,
-} from '@weco/content/views/concepts/concept';
+} from '@weco/content/views/pages/concepts/concept';
+
+export const Page: NextPage<ConceptPageProps> = props => {
+  return <ConceptPage {...props} />;
+};
 
 function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
   const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/concepts/${concept.id}`;
@@ -55,17 +61,10 @@ function createApiToolbarLinks(concept: ConceptType): ApiToolbarLink[] {
   return [apiLink, ...identifiers];
 }
 
-type Props = ConceptPageProps & {
-  pageview: Pageview;
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
+type Props = ServerSideProps<ConceptPageProps>;
 
-export const Page: NextPage<ConceptPageProps> = props => {
-  return <ConceptPage {...props} />;
-};
-
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res, cacheTTL.search);
   const { conceptId } = context.query;

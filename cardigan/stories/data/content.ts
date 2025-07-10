@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker';
 
 import untransformedBody from '@weco/cardigan/stories/data/untransformed-body';
-import { Props as QuoteProps } from '@weco/content/components/Quote';
 import {
   Addressable,
   Article,
@@ -17,6 +16,7 @@ import {
 import { Event } from '@weco/content/types/events';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import { Season } from '@weco/content/types/seasons';
+import { Props as QuoteProps } from '@weco/content/views/components/Quote';
 
 import {
   contentAPIImage,

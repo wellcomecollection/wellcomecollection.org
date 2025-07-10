@@ -1,9 +1,12 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { appError, AppErrorProps } from '@weco/common/services/app';
+import { appError } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
+import {
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
@@ -13,18 +16,16 @@ import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
 import WorkDownloadPage, {
   Props as WorkDownloadPageProps,
-} from '@weco/content/views/works/work/download';
-
-type Props = WorkDownloadPageProps & {
-  serverData: SimplifiedServerData; // TODO should we enforce this?
-};
+} from '@weco/content/views/pages/works/work/download';
 
 const Page: NextPage<WorkDownloadPageProps> = props => {
   return <WorkDownloadPage {...props} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+type Props = ServerSideProps<WorkDownloadPageProps>;
+
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   setCacheControl(context.res);
   const serverData = await getServerData(context);

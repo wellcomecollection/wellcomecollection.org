@@ -188,7 +188,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
       if (!session)
         return {
-          props: serialiseProps({
+          props: serialiseProps<Props>({
             serverData,
           }),
         };
@@ -209,7 +209,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       }
 
       return {
-        props: serialiseProps({
+        props: serialiseProps<Props>({
           serverData,
         }),
       };

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { organisation, user } from '@weco/common/icons';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
-import CollaboratorCard from '@weco/content/views/concepts/concept/concept.Collaborators.Card';
+import CollaboratorCard from '@weco/content/views/pages/concepts/concept/concept.Collaborators.Card';
 
 type StoryProps = ComponentProps<typeof CollaboratorCard> & {
   numberOfCards: number;

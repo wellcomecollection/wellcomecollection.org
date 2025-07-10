@@ -1,11 +1,6 @@
 import { quoteVal } from '@weco/common/utils/csv';
 import { formatNumber } from '@weco/common/utils/grammar';
 import { isNotUndefined, isString } from '@weco/common/utils/type-guards';
-import { palette } from '@weco/content/components/PaletteColorPicker';
-import { EventsProps } from '@weco/content/components/SearchPagesLink/Events';
-import { ImagesProps } from '@weco/content/components/SearchPagesLink/Images';
-import { StoriesProps } from '@weco/content/components/SearchPagesLink/Stories';
-import { WorksProps } from '@weco/content/components/SearchPagesLink/Works';
 import {
   ImageAggregations,
   WorkAggregations,
@@ -15,6 +10,11 @@ import {
   EventAggregations,
 } from '@weco/content/services/wellcome/content/types';
 import { toHtmlId } from '@weco/content/utils/string';
+import { palette } from '@weco/content/views/components/PaletteColorPicker';
+import { EventsProps } from '@weco/content/views/components/SearchPagesLink/Events';
+import { ImagesProps } from '@weco/content/views/components/SearchPagesLink/Images';
+import { StoriesProps } from '@weco/content/views/components/SearchPagesLink/Stories';
+import { WorksProps } from '@weco/content/views/components/SearchPagesLink/Works';
 
 export type DateRangeFilter<Ids extends string = string> = {
   type: 'dateRange';
