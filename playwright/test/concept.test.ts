@@ -69,7 +69,6 @@ test.describe('a Concept representing an Agent with no Images', () => {
   });
 });
 
-// https://wellcome.slack.com/archives/C02ANCYL90E/p1752053197562339?thread_ts=1752050710.815869&cid=C02ANCYL90E
 test.describe('a Concept representing an Agent with Works and Images both about and by them', () => {
   test('has both works and image sections, each with about and by tabs', async ({
     armyPage,
