@@ -80,7 +80,7 @@ const ThemeHeader: FunctionComponent<{
     <ConceptHero>
       <Container>
         <Layout gridSizes={gridSize10(false)}>
-          <Title>{concept.label}</Title>
+          <Title>{concept.displayLabel || concept.label}</Title>
           {themePagesAllFields && (
             <ThemeAlternativeLabels
               alternativeLabels={concept.alternativeLabels}
