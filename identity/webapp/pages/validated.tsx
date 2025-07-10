@@ -1,73 +1,24 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 
-import { useUserContext } from '@weco/common/contexts/UserContext';
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
-import Button from '@weco/common/views/components/Buttons';
 import {
-  ContaineredLayout,
-  gridSize10,
-} from '@weco/common/views/components/Layout';
-import Space from '@weco/common/views/components/styled/Space';
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
 import auth0 from '@weco/identity/utils/auth0';
-import {
-  ValidatedFailedText,
-  ValidatedSuccessText,
-} from '@weco/identity/utils/copy';
-import PageWrapper from '@weco/identity/views/components/PageWrapper';
-import {
-  Container,
-  Wrapper,
-} from '@weco/identity/views/components/styled/layouts';
+import ValidatedPage, {
+  Props as ValidatedPageProps,
+} from '@weco/identity/views/pages/validated';
 
-type Props = {
-  serverData: SimplifiedServerData;
-  success: boolean;
-  message: string | string[];
-  isNewSignUp: boolean;
+const Page: NextPage<ValidatedPageProps> = props => {
+  return <ValidatedPage {...props} />;
 };
 
-const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
-  const { state: userState } = useUserContext();
-  const urlUsed = message === 'This URL can be used only once';
+type Props = ServerSideProps<ValidatedPageProps>;
 
-  // As discussed here https://github.com/wellcomecollection/wellcomecollection.org/issues/6952
-  // we want to show the success message in this scenario, and the message value is the only thing we can use to determine that
-  // auth0.com/docs/brand-and-customize/email/email-template-descriptions#redirect-to-results-for-verification-email-template
-  return (
-    <PageWrapper title="Email verified">
-      <ContaineredLayout gridSizes={gridSize10()}>
-        <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-          <Container>
-            <Wrapper>
-              {success || urlUsed ? (
-                <>
-                  <ValidatedSuccessText isNewSignUp={isNewSignUp} />
-                  <Button
-                    variant="ButtonSolidLink"
-                    link="/account"
-                    text={
-                      userState === 'signedin'
-                        ? 'View your library account'
-                        : 'Sign in'
-                    }
-                  />
-                </>
-              ) : (
-                <ValidatedFailedText message={message} />
-              )}
-            </Wrapper>
-          </Container>
-        </Space>
-      </ContaineredLayout>
-    </PageWrapper>
-  );
-};
-
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   const { query, req, res } = context;
   const { success, message, supportSignUp } = query;
@@ -96,4 +47,4 @@ export const getServerSideProps: GetServerSideProps<
   };
 };
 
-export default ValidatedPage;
+export default Page;

@@ -130,19 +130,3 @@ export const collectionsResearchAgreementLabel = (
     .{' '}
   </>
 );
-
-export const DeleteRequestedText: FunctionComponent = () => (
-  <>
-    <SectionHeading as="h1">Delete request received</SectionHeading>
-
-    <p>Your request for account deletion has been received.</p>
-
-    <p>
-      Our Library enquiries team will now progress your request. If there are
-      any issues they will be in touch otherwise your account will be removed.
-    </p>
-    <p>
-      <a href="/">Return to homepage</a>
-    </p>
-  </>
-);

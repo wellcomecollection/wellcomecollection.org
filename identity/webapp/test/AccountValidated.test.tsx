@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 
-import { defaultServerData } from '@weco/common/server-data/types';
 import theme from '@weco/common/views/themes/default';
 import ValidatedPage from '@weco/identity/pages/validated';
 
@@ -48,7 +47,6 @@ const renderPage = (location: string) => {
         success={success}
         message={message}
         isNewSignUp={isNewSignUp}
-        serverData={defaultServerData}
       />
     </ThemeProvider>
   );

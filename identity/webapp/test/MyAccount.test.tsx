@@ -3,7 +3,6 @@ import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from 'styled-components';
 
 import { UserContextProvider } from '@weco/common/contexts/UserContext';
-import { ServerData } from '@weco/common/server-data/types';
 import {
   mockAuth0Profile,
   mockItemRequests,
@@ -49,7 +48,7 @@ const renderComponent = (user = mockAuth0Profile) =>
   render(
     <ThemeProvider theme={theme}>
       <UserContextProvider>
-        <AccountPage user={user} serverData={{} as ServerData} />
+        <AccountPage user={user} />
       </UserContextProvider>
     </ThemeProvider>
   );

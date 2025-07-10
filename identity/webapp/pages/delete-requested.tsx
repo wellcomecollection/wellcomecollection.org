@@ -1,51 +1,27 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
 import {
-  ContaineredLayout,
-  gridSize10,
-} from '@weco/common/views/components/Layout';
-import Space from '@weco/common/views/components/styled/Space';
-import { DeleteRequestedText } from '@weco/identity/utils/copy';
-import PageWrapper from '@weco/identity/views/components/PageWrapper';
-import {
-  Container,
-  Wrapper,
-} from '@weco/identity/views/components/styled/layouts';
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
+import DeleteRequestedPage from '@weco/identity/views/pages/delete-requested';
 
-const DeleteRequestedPage: NextPage = () => {
-  return (
-    <PageWrapper title="Delete request">
-      <ContaineredLayout gridSizes={gridSize10()}>
-        <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-          <Container>
-            <Wrapper>
-              <DeleteRequestedText />
-            </Wrapper>
-          </Container>
-        </Space>
-      </ContaineredLayout>
-    </PageWrapper>
-  );
+const Page: NextPage = props => {
+  return <DeleteRequestedPage {...props} />;
 };
 
-type Props = {
-  serverData: SimplifiedServerData;
-};
-
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+export const getServerSideProps: ServerSidePropsOrAppError<
+  ServerSideProps
 > = async context => {
   const serverData = await getServerData(context);
 
   return {
-    props: serialiseProps<Props>({
+    props: serialiseProps<ServerSideProps>({
       serverData,
     }),
   };
 };
 
-export default DeleteRequestedPage;
+export default Page;
