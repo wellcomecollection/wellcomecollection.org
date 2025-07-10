@@ -320,7 +320,7 @@ const ConceptPage: NextPage<Props> = ({
     }
 
     // Add works section
-    links.push({ text: 'Works', url: '#works' });
+    hasWorks && links.push({ text: 'Works', url: '#works' });
 
     // Add frequent collaborators
     if (frequentCollaborators?.length && personOrAllFields) {
