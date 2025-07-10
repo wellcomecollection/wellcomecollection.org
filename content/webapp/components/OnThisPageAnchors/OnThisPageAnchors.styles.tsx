@@ -6,17 +6,15 @@ import { themeValues } from '@weco/common/views/themes/config';
 
 const leftOffset = '12px';
 
-export const BackgroundOverlay = styled.div<{ $isActive: boolean }>`
+export const BackgroundOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: ${props =>
-    props.$isActive ? props.theme.color('black') : 'transparent'};
-  opacity: ${props => (props.$isActive ? 0.7 : 0)};
-  transition: opacity ${props => props.theme.transitionProperties};
-  z-index: ${props => (props.$isActive ? '10' : '-1')};
+  background-color: ${props => props.theme.color('black')};
+  opacity: 0.7;
+  z-index: 10;
 `;
 
 export const ListItem = styled.li<{ $hasStuck: boolean }>`
