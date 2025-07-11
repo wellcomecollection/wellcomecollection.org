@@ -14,12 +14,12 @@ import {
 import { ChangeDetailsModalContentProps } from '@weco/identity/views/components/ChangeDetailsModal';
 import Loading from '@weco/identity/views/components/Loading';
 import { PasswordInput } from '@weco/identity/views/components/PasswordInput';
-import { StatusAlert } from '@weco/identity/views/components/styled/Alert';
-import { FieldMargin } from '@weco/identity/views/components/styled/Forms';
+import { StatusAlert } from '@weco/identity/views/components/styled/AAlert';
+import { FieldMargin } from '@weco/identity/views/components/styled/AForms';
 import {
   ModalContainer,
   ModalTitle,
-} from '@weco/identity/views/components/styled/modal';
+} from '@weco/identity/views/components/styled/Amodal';
 
 const ButtonAlign = styled.div`
   display: flex;

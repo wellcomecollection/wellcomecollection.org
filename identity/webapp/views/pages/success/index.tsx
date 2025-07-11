@@ -12,8 +12,8 @@ import { usePageTitle } from '@weco/identity/hooks/usePageTitle';
 import {
   Container,
   Wrapper,
-} from '@weco/identity/views/components/styled/Layouts';
-import { SectionHeading } from '@weco/identity/views/components/styled/layouts';
+} from '@weco/identity/views/components/styled/ALayouts';
+import { SectionHeading } from '@weco/identity/views/components/styled/Alayouts';
 import IdentityPageLayout from '@weco/identity/views/layouts/IdentityPageLayout';
 
 export type Props = {

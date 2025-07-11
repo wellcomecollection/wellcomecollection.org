@@ -15,12 +15,12 @@ import { ChangeDetailsModalContentProps } from '@weco/identity/views/components/
 import Loading from '@weco/identity/views/components/Loading';
 import { PasswordInput } from '@weco/identity/views/components/PasswordInput';
 import PasswordRules from '@weco/identity/views/components/PasswordRules';
-import { StatusAlert } from '@weco/identity/views/components/styled/Alert';
-import { FieldMargin } from '@weco/identity/views/components/styled/Forms';
+import { StatusAlert } from '@weco/identity/views/components/styled/AAlert';
+import { FieldMargin } from '@weco/identity/views/components/styled/AForms';
 import {
   ModalContainer,
   ModalTitle,
-} from '@weco/identity/views/components/styled/Modal';
+} from '@weco/identity/views/components/styled/AModal';
 
 type ChangePasswordInputs = {
   password: string;

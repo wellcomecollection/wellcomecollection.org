@@ -30,12 +30,12 @@ import Loading from '@weco/identity/views/components/Loading';
 import {
   StatusAlert,
   StatusAlertProps,
-} from '@weco/identity/views/components/styled/Alert';
+} from '@weco/identity/views/components/styled/AAlert';
 import {
   Container,
   SectionHeading,
   Wrapper,
-} from '@weco/identity/views/components/styled/Layouts';
+} from '@weco/identity/views/components/styled/ALayouts';
 import IdentityPageLayout from '@weco/identity/views/layouts/IdentityPageLayout';
 
 import ChangeEmail from './index.ChangeEmail';
