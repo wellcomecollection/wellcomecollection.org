@@ -24,7 +24,7 @@ import {
   Container,
   SectionHeading,
   Wrapper,
-} from '@weco/identity/views/components/styled/ALayouts';
+} from '@weco/identity/views/components/styled/Layouts';
 import IdentityPageLayout from '@weco/identity/views/layouts/IdentityPageLayout';
 
 export type Props = {

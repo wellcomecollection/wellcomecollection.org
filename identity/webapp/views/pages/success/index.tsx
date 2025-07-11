@@ -11,9 +11,9 @@ import Space from '@weco/common/views/components/styled/Space';
 import { usePageTitle } from '@weco/identity/hooks/usePageTitle';
 import {
   Container,
+  SectionHeading,
   Wrapper,
-} from '@weco/identity/views/components/styled/ALayouts';
-import { SectionHeading } from '@weco/identity/views/components/styled/Alayouts';
+} from '@weco/identity/views/components/styled/Layouts';
 import IdentityPageLayout from '@weco/identity/views/layouts/IdentityPageLayout';
 
 export type Props = {
