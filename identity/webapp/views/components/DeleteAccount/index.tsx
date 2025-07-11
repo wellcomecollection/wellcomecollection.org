@@ -14,8 +14,8 @@ import {
 import { ChangeDetailsModalContentProps } from '@weco/identity/views/components/ChangeDetailsModal';
 import Loading from '@weco/identity/views/components/Loading';
 import { PasswordInput } from '@weco/identity/views/components/PasswordInput';
-import { StatusAlert } from '@weco/identity/views/components/styled/alert';
-import { FieldMargin } from '@weco/identity/views/components/styled/forms';
+import { StatusAlert } from '@weco/identity/views/components/styled/Alert';
+import { FieldMargin } from '@weco/identity/views/components/styled/Forms';
 import {
   ModalContainer,
   ModalTitle,

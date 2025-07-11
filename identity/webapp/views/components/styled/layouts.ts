@@ -11,11 +11,9 @@ export const Container = styled(Space).attrs({
   border-radius: 10px;
 `;
 
-type WrapperProps = {
+export const Wrapper = styled(Space).attrs<{
   $removeBottomPadding?: boolean;
-};
-
-export const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
+}>(props => ({
   className: font('intr', 5),
   $v: {
     size: 'l',
@@ -24,15 +22,9 @@ export const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
       : ['padding-top', 'padding-bottom'],
   },
   $h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-}))<WrapperProps>`
+}))`
   position: relative;
 `;
-
-export const Header = styled(Space)`
-  background: ${props => props.theme.color('white')};
-`;
-
-export const Title = styled.h1.attrs({ className: font('wb', 0) })``;
 
 type SectionHeadingProps = {
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
@@ -48,6 +40,4 @@ export const SectionHeading = styled(Space).attrs<SectionHeadingProps>(
       properties: props.$addBottomPadding ? ['padding-bottom'] : [],
     },
   })
-)<SectionHeadingProps>`
-  font-weight: bold;
-`;
+)``;

@@ -27,24 +27,23 @@ import {
 import StackingTable from '@weco/common/views/components/StackingTable';
 import Space from '@weco/common/views/components/styled/Space';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
+import { themeValues } from '@weco/common/views/themes/config';
 import { useRequestedItems } from '@weco/identity/hooks/useRequestedItems';
 import { useSendVerificationEmail } from '@weco/identity/hooks/useSendVerificationEmail';
 import ChangeDetailsModal from '@weco/identity/views/components/ChangeDetailsModal';
 import ChangeEmail from '@weco/identity/views/components/ChangeEmail';
 import ChangePassword from '@weco/identity/views/components/ChangePassword';
 import DeleteAccount from '@weco/identity/views/components/DeleteAccount';
-import { InlineLoading } from '@weco/identity/views/components/Loading';
+import Loading from '@weco/identity/views/components/Loading';
 import {
   StatusAlert,
   StatusAlertProps,
-} from '@weco/identity/views/components/styled/alert';
+} from '@weco/identity/views/components/styled/Alert';
 import {
   Container,
-  Header,
   SectionHeading,
-  Title,
   Wrapper,
-} from '@weco/identity/views/components/styled/layouts';
+} from '@weco/identity/views/components/styled/Layouts';
 import UnverifiedEmail from '@weco/identity/views/components/UnverifiedEmail';
 import IdentityPageLayout from '@weco/identity/views/layouts/IdentityPageLayout';
 
@@ -175,18 +174,21 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
 
   return (
     <IdentityPageLayout title="Your library account">
-      <Header $v={{ size: 'l', properties: ['margin-bottom'] }}>
+      <Space
+        $v={{ size: 'l', properties: ['margin-bottom'] }}
+        style={{ background: themeValues.color('white') }}
+      >
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space
             $v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
-            <Title>Library account</Title>
+            <h1 className={font('wb', 0)}>Library account</h1>
           </Space>
         </ContaineredLayout>
         <div className="is-hidden-s">
           <WobblyEdge backgroundColor="warmNeutral.300" />
         </div>
-      </Header>
+      </Space>
       <ContaineredLayout gridSizes={gridSize10()}>
         <>
           {!user?.emailValidated && (
@@ -256,7 +258,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                           <Space
                             $v={{ size: 'l', properties: ['padding-bottom'] }}
                           >
-                            <InlineLoading />
+                            <Loading variant="inline" />
                           </Space>
                         );
                       case 'failed':
