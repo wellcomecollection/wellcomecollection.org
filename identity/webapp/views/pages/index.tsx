@@ -30,12 +30,10 @@ import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import { useRequestedItems } from '@weco/identity/hooks/useRequestedItems';
 import { useSendVerificationEmail } from '@weco/identity/hooks/useSendVerificationEmail';
 import ChangeDetailsModal from '@weco/identity/views/components/ChangeDetailsModal';
+import ChangeEmail from '@weco/identity/views/components/ChangeEmail';
+import ChangePassword from '@weco/identity/views/components/ChangePassword';
 import DeleteAccount from '@weco/identity/views/components/DeleteAccount';
 import { InlineLoading } from '@weco/identity/views/components/Loading';
-import {
-  ChangeEmail,
-  ChangePassword,
-} from '@weco/identity/views/components/MyAccount';
 import {
   StatusAlert,
   StatusAlertProps,

@@ -5,7 +5,7 @@ import { ThemeProvider } from 'styled-components';
 
 import theme from '@weco/common/views/themes/default';
 import { ChangeDetailsModalContentProps } from '@weco/identity/views/components/ChangeDetailsModal';
-import { ChangePassword } from '@weco/identity/views/components/MyAccount';
+import ChangePassword from '@weco/identity/views/components/ChangePassword';
 
 import { server } from './mocks/server';
 
