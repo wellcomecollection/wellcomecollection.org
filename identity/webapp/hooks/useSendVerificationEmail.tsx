@@ -17,12 +17,12 @@ import { useState } from 'react';
 //
 type State = 'initial' | 'loading' | 'success' | 'failed';
 
-export type UseSendVerificationEmail = {
+export type UseSendVerificationEmailProps = {
   sendVerificationEmail: () => void;
   state: State;
 };
 
-export function useSendVerificationEmail(): UseSendVerificationEmail {
+export function useSendVerificationEmail(): UseSendVerificationEmailProps {
   const [state, setState] = useState<State>('initial');
 
   const sendVerificationEmail = async () => {

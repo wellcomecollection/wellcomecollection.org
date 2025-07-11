@@ -6,10 +6,8 @@ import { ThemeProvider } from 'styled-components';
 import { UserContextProvider } from '@weco/common/contexts/UserContext';
 import { mockUser } from '@weco/common/test/fixtures/identity/user';
 import theme from '@weco/common/views/themes/default';
-import {
-  ChangeDetailsModalContentProps,
-  ChangeEmail,
-} from '@weco/identity/components/MyAccount';
+import { ChangeDetailsModalContentProps } from '@weco/identity/views/components/ChangeDetailsModal';
+import ChangeEmail from '@weco/identity/views/pages/index.ChangeEmail';
 
 import { server } from './mocks/server';
 

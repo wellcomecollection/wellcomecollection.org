@@ -1,55 +1,23 @@
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { AppErrorProps } from '@weco/common/services/app';
 import { serialiseProps } from '@weco/common/utils/json';
-import { StyledButton } from '@weco/common/views/components/Buttons';
 import {
-  ContaineredLayout,
-  gridSize10,
-} from '@weco/common/views/components/Layout';
-import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
-import CustomError from '@weco/identity/components/CustomError';
-import PageWrapper from '@weco/identity/components/PageWrapper';
-import { Container, Wrapper } from '@weco/identity/components/styled/layouts';
+  ServerSideProps,
+  ServerSidePropsOrAppError,
+} from '@weco/common/views/pages/_app';
+import ErrorPage, {
+  Props as ErrorPageProps,
+} from '@weco/identity/views/pages/error';
 
-const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
-  return (
-    <PageWrapper title="Error">
-      <ContaineredLayout gridSizes={gridSize10()}>
-        <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
-          <Container>
-            <Wrapper>
-              <CustomError errorDescription={errorDescription}>
-                <StyledButton
-                  $colors={themeValues.buttonColors.greenTransparentGreen}
-                >
-                  <a
-                    href="mailto:library@wellcomecollection.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Contact us
-                  </a>
-                </StyledButton>
-              </CustomError>
-            </Wrapper>
-          </Container>
-        </Space>
-      </ContaineredLayout>
-    </PageWrapper>
-  );
+const Page: NextPage<ErrorPageProps> = props => {
+  return <ErrorPage {...props} />;
 };
 
-type Props = {
-  serverData: SimplifiedServerData;
-  errorDescription: string;
-};
+type Props = ServerSideProps<ErrorPageProps>;
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
+export const getServerSideProps: ServerSidePropsOrAppError<
+  Props
 > = async context => {
   const serverData = await getServerData(context);
   const { query } = context;
@@ -64,4 +32,5 @@ export const getServerSideProps: GetServerSideProps<
     }),
   };
 };
-export default ErrorPage;
+
+export default Page;

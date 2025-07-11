@@ -58,12 +58,23 @@ type WecoAppProps = Omit<AppProps, 'pageProps'> & {
   pageProps: GlobalProps;
 };
 
-// Utility type to prevent 'any'
+// ServerSideProps is a generic type for props returned from getServerSideProps.
+// - If T is an empty object type ({}), it produces a type with only serverData and optional pageview.
+// - If T is any other type, it merges T with serverData and optional pageview.
+// - The NotAny utility ensures T cannot be 'any', for stricter type safety.
 type NotAny<T> = 0 extends 1 & T ? never : T;
-export type ServerSideProps<T> = NotAny<T> & {
-  serverData: SimplifiedServerData;
-  pageview?: Pageview;
-};
+export type ServerSideProps<T = NonNullable<unknown>> = [T] extends [
+  Record<string, never>,
+]
+  ? {
+      serverData: SimplifiedServerData;
+      pageview?: Pageview;
+    }
+  : NotAny<T> & {
+      serverData: SimplifiedServerData;
+      pageview?: Pageview;
+    };
+
 export type ServerSidePropsOrAppError<T extends ServerSideProps<unknown>> =
   GetServerSideProps<T | AppErrorProps>;
 

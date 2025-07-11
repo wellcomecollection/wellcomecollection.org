@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 
-import { defaultServerData } from '@weco/common/server-data/types';
 import theme from '@weco/common/views/themes/default';
 import ErrorPage from '@weco/identity/pages/error';
 
@@ -19,10 +18,7 @@ const renderComponent = (location: string) => {
 
   render(
     <ThemeProvider theme={theme}>
-      <ErrorPage
-        errorDescription={errorDescription}
-        serverData={defaultServerData}
-      />
+      <ErrorPage errorDescription={errorDescription} />
     </ThemeProvider>
   );
 };

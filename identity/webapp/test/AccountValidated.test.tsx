@@ -1,16 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 
-import { defaultServerData } from '@weco/common/server-data/types';
 import theme from '@weco/common/views/themes/default';
 import ValidatedPage from '@weco/identity/pages/validated';
 
 // avoid rendering header SVG to help with debugging tests
-jest.mock('@weco/identity/components/PageWrapper', () => {
-  const PageWrapper = ({ children }: { children: React.ReactNode }) => (
+jest.mock('@weco/identity/views/layouts/IdentityPageLayout', () => {
+  const IdentityPageLayout = ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   );
-  return PageWrapper;
+  return IdentityPageLayout;
 });
 
 jest.mock('@weco/common/server-data', () => ({
@@ -48,7 +47,6 @@ const renderPage = (location: string) => {
         success={success}
         message={message}
         isNewSignUp={isNewSignUp}
-        serverData={defaultServerData}
       />
     </ThemeProvider>
   );
