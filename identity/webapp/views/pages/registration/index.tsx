@@ -19,10 +19,6 @@ import TextInput, {
   InputErrorMessage,
 } from '@weco/common/views/components/TextInput';
 import { usePageTitle } from '@weco/identity/hooks/usePageTitle';
-import {
-  collectionsResearchAgreementLabel,
-  collectionsResearchAgreementTitle,
-} from '@weco/identity/utils/copy';
 import { RegistrationInputs } from '@weco/identity/utils/jwt-codec';
 import {
   Container,
@@ -161,7 +157,7 @@ const RegistrationPage: NextPage<Props> = ({
 
                     <SpacingComponent>
                       <h3 className={font('intb', 5)}>
-                        {collectionsResearchAgreementTitle}
+                        Collections research agreement
                       </h3>
                       <Controller
                         name="termsAndConditions"
@@ -184,7 +180,24 @@ const RegistrationPage: NextPage<Props> = ({
                               checked={value}
                               text={
                                 <div style={{ marginLeft: '0.333em' }}>
-                                  {collectionsResearchAgreementLabel}
+                                  <>
+                                    I will use personal data on living persons
+                                    for research purposes only. I will not use
+                                    personal data to support decisions about the
+                                    person who is the subject of the data, or in
+                                    a way that causes substantial damage or
+                                    distress to them. I have read and accept the
+                                    regulations detailed in the{' '}
+                                    <a
+                                      href="https://wellcome.org/about-us/governance/privacy-and-terms"
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      style={{ whiteSpace: 'nowrap' }}
+                                    >
+                                      Library’s Terms & Conditions of Use
+                                    </a>
+                                    .
+                                  </>
                                 </div>
                               }
                             />
