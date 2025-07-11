@@ -106,6 +106,7 @@ const DeleteAccount: FunctionComponent<ChangeDetailsModalContentProps> = ({
           To permanently delete your library account and cancel your membership,
           please enter your password to confirm.
         </p>
+
         <form onSubmit={handleSubmit(requestDelete)}>
           <FieldMargin>
             <PasswordInput

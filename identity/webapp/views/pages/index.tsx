@@ -1,12 +1,7 @@
 import { Claims } from '@auth0/nextjs-auth0';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import {
-  ComponentPropsWithoutRef,
-  FunctionComponent,
-  PropsWithChildren,
-  useState,
-} from 'react';
+import { FunctionComponent, PropsWithChildren, useState } from 'react';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { sierraStatusCodeToLabel } from '@weco/common/data/microcopy';
@@ -31,9 +26,6 @@ import { themeValues } from '@weco/common/views/themes/config';
 import { useRequestedItems } from '@weco/identity/hooks/useRequestedItems';
 import { useSendVerificationEmail } from '@weco/identity/hooks/useSendVerificationEmail';
 import ChangeDetailsModal from '@weco/identity/views/components/ChangeDetailsModal';
-import ChangeEmail from '@weco/identity/views/components/ChangeEmail';
-import ChangePassword from '@weco/identity/views/components/ChangePassword';
-import DeleteAccount from '@weco/identity/views/components/DeleteAccount';
 import Loading from '@weco/identity/views/components/Loading';
 import {
   StatusAlert,
@@ -44,9 +36,11 @@ import {
   SectionHeading,
   Wrapper,
 } from '@weco/identity/views/components/styled/Layouts';
-import UnverifiedEmail from '@weco/identity/views/components/UnverifiedEmail';
 import IdentityPageLayout from '@weco/identity/views/layouts/IdentityPageLayout';
 
+import ChangeEmail from './index.ChangeEmail';
+import ChangePassword from './index.ChangePassword';
+import DeleteAccount from './index.DeleteAccount';
 import {
   ButtonWrapper,
   ItemPickup,
@@ -57,63 +51,45 @@ import {
   StyledDd,
   StyledDl,
 } from './index.styles';
+import UnverifiedEmail from './index.UnverifiedEmail';
 
-type DetailProps = {
-  label: string;
-  value?: string;
-};
-
-type DetailListProps = {
-  listItems: DetailProps[];
-};
-
-const Detail: FunctionComponent<DetailProps> = ({ label, value }) => (
-  <>
-    <dt className={font('intb', 5)}>{label}</dt>
-    <StyledDd className={font('intr', 5)}>{value}</StyledDd>
-  </>
-);
-
-const DetailList: FunctionComponent<DetailListProps> = ({ listItems }) => {
+const DetailList: FunctionComponent<{
+  listItems: {
+    label: string;
+    value?: string;
+  }[];
+}> = ({ listItems }) => {
   return (
     <StyledDl>
       {listItems.map(item => (
-        <Detail key={item.label} label={item.label} value={item.value} />
+        <>
+          <dt className={font('intb', 5)}>{item.label}</dt>
+          <StyledDd className={font('intr', 5)}>{item.value}</StyledDd>
+        </>
       ))}
     </StyledDl>
   );
 };
-
-const TextButton: FunctionComponent<ComponentPropsWithoutRef<'button'>> = ({
-  children,
-  ...props
-}) => (
-  <button
-    className={font('intr', 5)}
-    style={{
-      border: 'none',
-      background: 'none',
-      cursor: 'pointer',
-      textDecoration: 'underline',
-    }}
-    {...props}
-  >
-    {children}
-  </button>
-);
 
 const RequestsFailed: FunctionComponent<{ retry: () => void }> = ({
   retry,
 }) => (
   <p className={font('intr', 5)}>
     Something went wrong fetching your item requests.
-    <TextButton
+    <button
+      className={font('intr', 5)}
+      style={{
+        border: 'none',
+        background: 'none',
+        cursor: 'pointer',
+        textDecoration: 'underline',
+      }}
       onClick={() => {
         retry();
       }}
     >
       Try again
-    </TextButton>
+    </button>
   </p>
 );
 
@@ -172,6 +148,16 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
     );
   };
 
+  const listItems = [
+    {
+      label: 'Name',
+      value: `${user?.firstName} ${user?.lastName}`,
+    },
+    { label: 'Email', value: user?.email },
+    { label: 'Library card number', value: user?.barcode },
+    /* Membership expiry date? */
+  ];
+
   return (
     <IdentityPageLayout title="Your library account">
       <Space
@@ -207,17 +193,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
           </SectionHeading>
           <Container>
             <Wrapper $removeBottomPadding={true}>
-              <DetailList
-                listItems={[
-                  {
-                    label: 'Name',
-                    value: `${user?.firstName} ${user?.lastName}`,
-                  },
-                  { label: 'Email', value: user?.email },
-                  { label: 'Library card number', value: user?.barcode },
-                  /* Membership expiry date? */
-                ]}
-              />
+              <DetailList listItems={listItems} />
               <ButtonWrapper>
                 <ChangeDetailsModal
                   id="change-email"

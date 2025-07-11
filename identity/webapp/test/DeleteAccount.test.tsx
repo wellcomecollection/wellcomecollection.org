@@ -5,7 +5,7 @@ import { ThemeProvider } from 'styled-components';
 
 import theme from '@weco/common/views/themes/default';
 import { ChangeDetailsModalContentProps } from '@weco/identity/views/components/ChangeDetailsModal';
-import DeleteAccount from '@weco/identity/views/components/DeleteAccount';
+import DeleteAccount from '@weco/identity/views/pages/index.DeleteAccount';
 
 import { server } from './mocks/server';
 

@@ -120,6 +120,7 @@ const ChangePassword: FunctionComponent<ChangeDetailsModalContentProps> = ({
       {submissionErrorMessage && (
         <StatusAlert type="failure">{submissionErrorMessage}</StatusAlert>
       )}
+
       <form
         onSubmit={handleSubmit(data =>
           updatePassword(
@@ -144,6 +145,7 @@ const ChangePassword: FunctionComponent<ChangeDetailsModalContentProps> = ({
             )}
           />
         </FieldMargin>
+
         <FieldMargin>
           <PasswordInput
             label="Create new password"
@@ -166,6 +168,7 @@ const ChangePassword: FunctionComponent<ChangeDetailsModalContentProps> = ({
             )}
           />
         </FieldMargin>
+
         <FieldMargin>
           <PasswordInput
             label="Re-enter new password"
@@ -197,6 +200,7 @@ const ChangePassword: FunctionComponent<ChangeDetailsModalContentProps> = ({
             <PasswordRules {...passwordRules} />
           </Space>
         </FieldMargin>
+
         <Space $v={{ size: 'l', properties: ['margin-top'] }}>
           <Button
             variant="ButtonSolid"

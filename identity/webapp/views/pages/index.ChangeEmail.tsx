@@ -98,6 +98,7 @@ const ChangeEmail: FunctionComponent<ChangeDetailsModalContentProps> = ({
       {submissionErrorMessage && (
         <StatusAlert type="failure">{submissionErrorMessage}</StatusAlert>
       )}
+
       <Space $v={{ size: 'm', properties: ['margin-bottom'] }}>
         <h3 className={font('intb', 5)} style={{ marginBottom: 0 }}>
           Email
@@ -106,6 +107,7 @@ const ChangeEmail: FunctionComponent<ChangeDetailsModalContentProps> = ({
           {user?.email}
         </p>
       </Space>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <FieldMargin>
           <Controller
@@ -146,6 +148,7 @@ const ChangeEmail: FunctionComponent<ChangeDetailsModalContentProps> = ({
             )}
           />
         </FieldMargin>
+
         <FieldMargin>
           <PasswordInput
             label="Confirm password"
@@ -162,6 +165,7 @@ const ChangeEmail: FunctionComponent<ChangeDetailsModalContentProps> = ({
             )}
           />
         </FieldMargin>
+
         <Space $v={{ size: 'l', properties: ['margin-top'] }}>
           <Button
             variant="ButtonSolid"
