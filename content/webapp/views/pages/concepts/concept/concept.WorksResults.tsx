@@ -12,16 +12,13 @@ import Space from '@weco/common/views/components/styled/Space';
 import { WobblyEdge } from '@weco/common/views/components/WobblyEdge';
 import theme from '@weco/common/views/themes/default';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
-import {
-  allRecordsLinkParams,
-  conceptTypeDisplayName,
-} from '@weco/content/utils/concepts';
+import { allRecordsLinkParams } from '@weco/content/utils/concepts';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import { toLink as toWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
 import Tabs from '@weco/content/views/components/Tabs';
 import WorksSearchResults from '@weco/content/views/components/WorksSearchResults';
 import {
-  getThemeTabLabel,
+  getThemeSectionHeading,
   SectionData,
   ThemePageSectionsData,
   themeTabOrder,
@@ -62,15 +59,10 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
         sectionsData[tabType].works &&
         sectionsData[tabType].works.pageResults.length > 0
     )
-    .map(tabType => {
-      const tabLabel = getThemeTabLabel(tabType, concept.type);
-      const conceptTypeLabel = conceptTypeDisplayName(concept).toLowerCase();
-
-      return {
-        id: tabType,
-        text: capitalize(`${tabLabel} this ${conceptTypeLabel}`),
-      };
-    });
+    .map(tabType => ({
+      id: tabType,
+      text: capitalize(getThemeSectionHeading(tabType, concept)),
+    }));
 
   const [selectedTab, setSelectedTab] = useState<ThemeTabType | null>(
     tabs.length > 0 ? tabs[0].id : null
