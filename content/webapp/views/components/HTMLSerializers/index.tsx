@@ -7,6 +7,11 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { dasherize } from '@weco/common/utils/grammar';
 import { getMimeTypeFromExtension } from '@weco/content/utils/mime';
 import DownloadLink from '@weco/content/views/components/DownloadLink';
+import {
+  WorkIcon,
+  WorkLink,
+  WorkLinkContainer,
+} from '@weco/content/views/components/ImageWithTasl/ImageWithTasl.WorkLink';
 
 const DocumentType = styled.span`
   color: ${props => props.theme.color('neutral.600')};
@@ -107,11 +112,28 @@ export const defaultSerializer: JSXFunctionSerializer = (
 
       const isInPage = linkUrl.match(/^https:\/\/(#.*)/i);
       const hashLink = isInPage && isInPage[1];
+      const isWorkLink = linkUrl.match(
+        /^https:\/\/wellcomecollection.org\/works/i
+      );
 
       const fileExtension = linkUrl.match(/\.[0-9a-z]+$/i);
 
       const documentType =
         fileExtension && fileExtension[0].substring(1).toUpperCase();
+
+      if (isWorkLink) {
+        return (
+          <WorkLinkContainer data-id="work-link-component">
+            <WorkIcon
+              src="https://i.wellcomecollection.org/assets/icons/favicon-32x32.png"
+              alt=""
+            />
+            <WorkLink className="link-reset spaced-text-reset" href={linkUrl}>
+              {children}
+            </WorkLink>
+          </WorkLinkContainer>
+        );
+      }
 
       if (hashLink) {
         return (

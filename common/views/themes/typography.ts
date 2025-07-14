@@ -218,7 +218,7 @@ export const typography = css<GlobalStyleProps>`
       margin-bottom: 0;
     }
 
-    * + * {
+    * + *:not(.spaced-text-reset) {
       margin-top: ${themeValues.spacedTextTopMargin};
     }
 

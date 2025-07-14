@@ -3,21 +3,21 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
-const WorkLinkContainer = styled(Space).attrs({
+export const WorkLinkContainer = styled(Space).attrs({
   $v: { size: 'm', properties: ['margin-top'] },
 })`
   display: inline-flex;
   align-items: center;
 `;
 
-const WorkLink = styled.a`
+export const WorkLink = styled.a`
   margin-left: 0.25rem;
   text-decoration-style: dotted;
   text-underline-offset: 26%;
   text-decoration-thickness: 8%;
 `;
 
-const WorkIcon = styled.img`
+export const WorkIcon = styled.img`
   width: 16px;
   height: 16px;
 `;
