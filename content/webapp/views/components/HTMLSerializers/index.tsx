@@ -133,6 +133,7 @@ export const defaultSerializer: JSXFunctionSerializer = (
             />
             <WorkLink className="link-reset spaced-text-reset" href={linkUrl}>
               {children}
+              <span className="visually-hidden">(view in catalogue)</span>
             </WorkLink>
           </div>
         );
