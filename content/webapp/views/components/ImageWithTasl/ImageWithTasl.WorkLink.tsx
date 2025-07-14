@@ -18,8 +18,10 @@ export const WorkLink = styled.a`
 `;
 
 export const WorkIcon = styled.img`
-  width: 16px;
-  height: 16px;
+  width: 1em;
+  height: 1em;
+  position: relative;
+  top: 0.15em;
 `;
 
 export const hasLinkedWork = (taslSourceLink?: string) => {

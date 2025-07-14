@@ -122,10 +122,10 @@ export const defaultSerializer: JSXFunctionSerializer = (
 
       if (isWorkLink) {
         return (
-          <div
+          <span
             data-id="work-link-component"
             className="spaced-text-reset"
-            style={{ display: 'inline-flex', alignItems: 'center' }}
+            style={{ display: 'inline-flex', alignItems: 'baseline' }}
           >
             <WorkIcon
               src="https://i.wellcomecollection.org/assets/icons/favicon-32x32.png"
@@ -135,7 +135,7 @@ export const defaultSerializer: JSXFunctionSerializer = (
               {children}
               <span className="visually-hidden">(view in catalogue)</span>
             </WorkLink>
-          </div>
+          </span>
         );
       }
 
