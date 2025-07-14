@@ -123,7 +123,7 @@ export const defaultSerializer: JSXFunctionSerializer = (
       if (isWorkLink) {
         return (
           <span
-            data-id="work-link-component"
+            data-gtm-id="work-link-component"
             className="spaced-text-reset"
             style={{ display: 'inline-flex', alignItems: 'baseline' }}
           >
