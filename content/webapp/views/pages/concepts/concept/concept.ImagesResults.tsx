@@ -4,11 +4,7 @@ import styled from 'styled-components';
 
 import { ImagesLinkSource } from '@weco/common/data/segment-values';
 import { font } from '@weco/common/utils/classnames';
-import {
-  capitalize,
-  formatNumber,
-  pluralize,
-} from '@weco/common/utils/grammar';
+import { capitalize, pluralize } from '@weco/common/utils/grammar';
 import { ReturnedResults } from '@weco/common/utils/search';
 import Space from '@weco/common/views/components/styled/Space';
 import theme from '@weco/common/views/themes/default';
@@ -25,7 +21,6 @@ import { toLink as toImagesLink } from '@weco/content/views/components/SearchPag
 
 import {
   getThemeSectionHeading,
-  getThemeTabLabel,
   SectionData,
   ThemePageSectionsData,
   themeTabOrder,
@@ -77,10 +72,6 @@ const ImageSection: FunctionComponent<Props> = ({
   if (!singleSectionData || singleSectionData.pageResults.length === 0) {
     return null;
   }
-
-  const formattedLabelBasedCount = formatNumber(labelBasedCount, {
-    isCompact: true,
-  });
 
   return (
     <Space

@@ -23,10 +23,7 @@ export type ThemePageSectionsData = {
   in: SectionData;
 };
 
-export const getThemeTabLabel = (
-  tabType: ThemeTabType,
-  conceptType: ConceptType
-) => {
+const getThemeTabLabel = (tabType: ThemeTabType, conceptType: ConceptType) => {
   if (tabType === 'about' && conceptType === 'Person') return 'featuring';
   return tabType;
 };
