@@ -7,14 +7,13 @@ export const WorkLink = styled.a`
 
   &::before {
     content: '';
-    display: inline-block;
     position: relative;
-    background-size: contain;
-    width: 1em;
-    height: 1em;
-    top: 0.15em;
-    margin-right: 0.25rem;
+
     background-image: url('https://i.wellcomecollection.org/assets/icons/favicon-32x32.png');
+    background-repeat: no-repeat;
+    background-size: 1em;
+    background-position: center;
+    padding-right: 1.25em;
   }
 `;
 

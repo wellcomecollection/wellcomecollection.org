@@ -119,12 +119,8 @@ export const defaultSerializer: JSXFunctionSerializer = (
 
       if (isWorkLink) {
         return (
-          <span
-            data-gtm-id="work-link-component"
-            className="spaced-text-reset"
-            style={{ display: 'inline-flex', alignItems: 'baseline' }}
-          >
-            <WorkLink className="link-reset spaced-text-reset" href={linkUrl}>
+          <span data-gtm-id="work-link-component">
+            <WorkLink className="link-reset" href={linkUrl}>
               {children}
               <span className="visually-hidden">(view in catalogue)</span>
             </WorkLink>
