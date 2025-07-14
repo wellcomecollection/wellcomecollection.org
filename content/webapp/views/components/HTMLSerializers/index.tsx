@@ -10,7 +10,6 @@ import DownloadLink from '@weco/content/views/components/DownloadLink';
 import {
   WorkIcon,
   WorkLink,
-  WorkLinkContainer,
 } from '@weco/content/views/components/ImageWithTasl/ImageWithTasl.WorkLink';
 
 const DocumentType = styled.span`
@@ -123,7 +122,11 @@ export const defaultSerializer: JSXFunctionSerializer = (
 
       if (isWorkLink) {
         return (
-          <WorkLinkContainer data-id="work-link-component">
+          <div
+            data-id="work-link-component"
+            className="spaced-text-reset"
+            style={{ display: 'inline-flex', alignItems: 'center' }}
+          >
             <WorkIcon
               src="https://i.wellcomecollection.org/assets/icons/favicon-32x32.png"
               alt=""
@@ -131,7 +134,7 @@ export const defaultSerializer: JSXFunctionSerializer = (
             <WorkLink className="link-reset spaced-text-reset" href={linkUrl}>
               {children}
             </WorkLink>
-          </WorkLinkContainer>
+          </div>
         );
       }
 
