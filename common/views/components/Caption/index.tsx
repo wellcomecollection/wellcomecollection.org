@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
+import { defaultSerializer } from '@weco/content/views/components/HTMLSerializers';
 
 const CaptionText = styled(Space).attrs({
   $h: { size: 'm', properties: ['padding-left'] },
@@ -60,7 +61,10 @@ const Caption: FunctionComponent<Props> = ({
         <CaptionWrapper>
           {preCaptionNode}
           <CaptionText>
-            <PrismicHtmlBlock html={caption} />
+            <PrismicHtmlBlock
+              html={caption}
+              htmlSerializer={defaultSerializer}
+            />
           </CaptionText>
         </CaptionWrapper>
       </figcaption>
