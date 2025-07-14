@@ -61,11 +61,19 @@ const useExpandedImage = (
 
   useEffect(() => {
     if (expandedImage !== undefined) {
+      // Store the current scroll position
+      const scrollY = window.scrollY;
       hasBeenExpanded.current = true;
       setImageIdInURL(expandedImage?.id || '');
+      // The browser will try to scroll to the #id but we
+      // want to keep it where it is
+      window.scroll(0, scrollY);
     } else if (hasBeenExpanded.current) {
       // clear the url of the fragments and also removes the # symbol
       setImageIdInURL('');
+      // The url now has an empty hash so the browser will try to scroll
+      // to the top but we want to keep it where it is
+      window.scroll(0, scrollY);
     }
   }, [expandedImage]);
 
