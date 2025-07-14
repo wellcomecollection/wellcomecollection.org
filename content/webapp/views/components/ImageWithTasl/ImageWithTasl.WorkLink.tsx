@@ -17,7 +17,7 @@ const WorkLinkComponent = ({ taslSourceLink }: { taslSourceLink?: string }) => {
       $v={{ size: 'm', properties: ['margin-top'] }}
       className={font('intm', 5)}
       style={{ display: 'block' }}
-      data-id="work-link-component"
+      data-gtm-id="work-link-component"
     >
       <FeaturedWorkLink link={taslSourceLink} text="View in catalogue" />
     </Space>
