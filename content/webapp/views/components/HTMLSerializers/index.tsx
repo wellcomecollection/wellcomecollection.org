@@ -7,10 +7,7 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { dasherize } from '@weco/common/utils/grammar';
 import { getMimeTypeFromExtension } from '@weco/content/utils/mime';
 import DownloadLink from '@weco/content/views/components/DownloadLink';
-import {
-  WorkIcon,
-  WorkLink,
-} from '@weco/content/views/components/ImageWithTasl/ImageWithTasl.WorkLink';
+import { WorkLink } from '@weco/content/views/components/FeaturedWorkLink';
 
 const DocumentType = styled.span`
   color: ${props => props.theme.color('neutral.600')};
@@ -127,10 +124,6 @@ export const defaultSerializer: JSXFunctionSerializer = (
             className="spaced-text-reset"
             style={{ display: 'inline-flex', alignItems: 'baseline' }}
           >
-            <WorkIcon
-              src="https://i.wellcomecollection.org/assets/icons/favicon-32x32.png"
-              alt=""
-            />
             <WorkLink className="link-reset spaced-text-reset" href={linkUrl}>
               {children}
               <span className="visually-hidden">(view in catalogue)</span>
