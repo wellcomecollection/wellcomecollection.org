@@ -4,11 +4,7 @@ import styled from 'styled-components';
 
 import { ImagesLinkSource } from '@weco/common/data/segment-values';
 import { font } from '@weco/common/utils/classnames';
-import {
-  capitalize,
-  formatNumber,
-  pluralize,
-} from '@weco/common/utils/grammar';
+import { capitalize, pluralize } from '@weco/common/utils/grammar';
 import { ReturnedResults } from '@weco/common/utils/search';
 import Space from '@weco/common/views/components/styled/Space';
 import theme from '@weco/common/views/themes/default';
@@ -24,7 +20,7 @@ import MoreLink from '@weco/content/views/components/MoreLink';
 import { toLink as toImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
 
 import {
-  getThemeTabLabel,
+  getThemeSectionHeading,
   SectionData,
   ThemePageSectionsData,
   themeTabOrder,
@@ -77,18 +73,14 @@ const ImageSection: FunctionComponent<Props> = ({
     return null;
   }
 
-  const formattedLabelBasedCount = formatNumber(labelBasedCount, {
-    isCompact: true,
-  });
-
   return (
     <Space
       $v={{ size: 'l', properties: ['padding-top'] }}
       as="section"
-      data-id={`images-${getThemeTabLabel(type, concept.type)}`}
+      data-id={`images-${type}`}
     >
-      <SectionHeading id={`images-${getThemeTabLabel(type, concept.type)}`}>
-        Images {getThemeTabLabel(type, concept.type)} {concept.label}
+      <SectionHeading id={`images-${type}`}>
+        Images {getThemeSectionHeading(type, concept, true)}
       </SectionHeading>
       <CatalogueImageGallery
         // Show the first 10 images, unless the total is 12 or fewer, in which case show all images
@@ -103,7 +95,7 @@ const ImageSection: FunctionComponent<Props> = ({
       <Space $v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
         {labelBasedCount > singleSectionData.pageResults.length && (
           <MoreLink
-            name={`All images ${getThemeTabLabel(type, concept.type)} (${formattedLabelBasedCount})`}
+            name={`All images ${getThemeSectionHeading(type, concept)}`}
             url={getAllImagesLink(type, concept, pathname)}
             colors={theme.buttonColors.greenGreenWhite}
           />
