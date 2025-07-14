@@ -18,8 +18,6 @@ export const WorkLink = styled.a`
   }
 `;
 
-export const WorkIcon = styled.img``;
-
 const FeaturedWorkLink = ({ link, text }) => {
   return <WorkLink href={link}>{text}</WorkLink>;
 };
