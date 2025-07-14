@@ -7,7 +7,7 @@ export const WorkLinkContainer = styled(Space).attrs({
   $v: { size: 'm', properties: ['margin-top'] },
 })`
   display: inline-flex;
-  align-items: center;
+  align-items: baseline;
 `;
 
 export const WorkLink = styled.a`
