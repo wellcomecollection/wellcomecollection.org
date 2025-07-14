@@ -33,7 +33,7 @@ const WorkLinkComponent = ({ taslSourceLink }: { taslSourceLink?: string }) => {
   if (!taslSourceLink) return null;
 
   return (
-    <div style={{ display: 'block' }} data-id="work-link-component">
+    <div style={{ display: 'block' }} data-gtm-id="work-link-component">
       <WorkLinkContainer className={font('intm', 5)}>
         <WorkIcon
           src="https://i.wellcomecollection.org/assets/icons/favicon-32x32.png"

@@ -131,6 +131,14 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
     };
   }, []);
 
+  // GTM can't seem to handle pageview events when we use NextLink,
+  // so we push a custom event to the dataLayer and that instead
+  useEffect(() => {
+    window.dataLayer?.push({
+      event: 'custom_pageview',
+    });
+  }, [router.pathname]);
+
   useEffect(() => {
     if (pageProps.pageview) {
       trackPageview({
