@@ -219,7 +219,7 @@ export const typography = css<GlobalStyleProps>`
     }
 
     /*
-    * + * operates on elements inside 'spaced-text' that have a previous sibling, which is what we want _most_ of the time for content from the CMS. Occassionally we'll need to override this to prevent excess space being added where we need slightly more complicated markup. In these cases we can add 'spaced-text-reset' to the elements that shouldn't have extra margin.
+    * + * operates on elements inside 'spaced-text', adding margin-top to any that have a previous sibling, which is what we want _most_ of the time for content from the CMS. Occassionally we'll need to override this to prevent excess space being added where we need slightly more complex markup. In these cases we can add 'spaced-text-reset' to the elements that shouldn't have extra margin.
     */
 
     * + * {
