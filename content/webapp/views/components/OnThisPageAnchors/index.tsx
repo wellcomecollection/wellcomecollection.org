@@ -173,8 +173,8 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
               <AnimatedTextContainer>
                 <SwitchTransition mode="out-in">
                   <CSSTransition
-                    key={hasStuck && !isListActive ? activeLinkText : titleText}
-                    timeout={300}
+                    key={hasStuck ? activeLinkText : titleText}
+                    timeout={200}
                     nodeRef={textRef}
                     onEnter={() => {
                       if (textRef.current) {
@@ -210,10 +210,14 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
                         left: 0,
                         right: 0,
                         whiteSpace: 'nowrap',
-                        transition: 'all 300ms ease-in-out',
+                        transition: 'all 200ms cubic-bezier(0.25,0.1,0.25,1)',
                       }}
                     >
-                      {hasStuck && !isListActive ? activeLinkText : titleText}
+                      {isListActive
+                        ? titleText
+                        : hasStuck
+                          ? activeLinkText
+                          : titleText}
                     </span>
                   </CSSTransition>
                 </SwitchTransition>
