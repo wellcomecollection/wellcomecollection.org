@@ -2,12 +2,11 @@ import { ComponentProps, FunctionComponent, ReactElement } from 'react';
 
 import { getCrop } from '@weco/common/model/image';
 import { EditorialImageSlice as RawEditorialImageSlice } from '@weco/common/prismicio-types';
+import FeaturedWorkLink from '@weco/common/views/components/FeaturedWorkLink';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Tasl from '@weco/common/views/components/Tasl';
 import { transformEditorialImageSlice } from '@weco/content/services/prismic/transformers/body';
 import HeightRestrictedPrismicImage from '@weco/content/views/components/HeightRestrictedPrismicImage';
-
-import WorkLinkComponent, { hasLinkedWork } from './ImageWithTasl.WorkLink';
 
 type ImageWithTaslProps = {
   Image: ReactElement<
@@ -28,8 +27,8 @@ const ImageWithTasl: FunctionComponent<ImageWithTaslProps> = ({
         {tasl && <Tasl {...tasl} />}
       </div>
 
-      {tasl && hasLinkedWork(tasl.sourceLink) && displayWorkLink && (
-        <WorkLinkComponent taslSourceLink={tasl.sourceLink} />
+      {displayWorkLink && (
+        <FeaturedWorkLink link={tasl?.sourceLink} hasWrapper />
       )}
     </>
   );
@@ -60,4 +59,4 @@ function getFeaturedPictureWithTasl(editorialImage: RawEditorialImageSlice) {
 }
 
 export default ImageWithTasl;
-export { getFeaturedPictureWithTasl, hasLinkedWork };
+export { getFeaturedPictureWithTasl };
