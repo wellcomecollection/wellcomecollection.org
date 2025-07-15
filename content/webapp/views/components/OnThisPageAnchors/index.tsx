@@ -15,7 +15,6 @@ import { useActiveAnchor } from '@weco/common/hooks/useActiveAnchor';
 import { cross } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
-import PlainList from '@weco/common/views/components/styled/PlainList';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import { Link } from '@weco/content/types/link';
 
@@ -24,6 +23,7 @@ import {
   AnimatedTextContainer,
   BackgroundOverlay,
   InPageNavAnimatedLink,
+  InPageNavList,
   ListItem,
   MobileNavButton,
   Root,
@@ -156,6 +156,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
           <h2 className={headingClasses}>{titleText}</h2>
           {isSticky && (
             <MobileNavButton
+              $isListActive={isListActive}
               $hasStuck={hasStuck}
               ref={buttonRef}
               onClick={() => {
@@ -226,7 +227,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
               {isEnhanced && <Icon icon={cross} matchText />}
             </MobileNavButton>
           )}
-          <PlainList ref={listRef} id={listId}>
+          <InPageNavList ref={listRef} id={listId}>
             {links.map((link: Link) => {
               const id = link.url.replace('#', '');
               const isActive = activeId === id;
@@ -272,7 +273,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
                 </Fragment>
               );
             })}
-          </PlainList>
+          </InPageNavList>
         </Root>
       </FocusTrap>
     </>
