@@ -5,9 +5,9 @@ import styled from 'styled-components';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { dasherize } from '@weco/common/utils/grammar';
-import { getMimeTypeFromExtension } from '@weco/content/utils/mime';
-import DownloadLink from '@weco/content/views/components/DownloadLink';
-import { WorkLink } from '@weco/content/views/components/FeaturedWorkLink';
+import { getMimeTypeFromExtension } from '@weco/common/utils/mime';
+import DownloadLink from '@weco/common/views/components/DownloadLink';
+import { WorkLink } from '@weco/common/views/components/FeaturedWorkLink';
 
 const DocumentType = styled.span`
   color: ${props => props.theme.color('neutral.600')};

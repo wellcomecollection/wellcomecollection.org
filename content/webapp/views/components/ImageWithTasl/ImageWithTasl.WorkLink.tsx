@@ -1,6 +1,6 @@
 import { font } from '@weco/common/utils/classnames';
+import FeaturedWorkLink from '@weco/common/views/components/FeaturedWorkLink';
 import Space from '@weco/common/views/components/styled/Space';
-import FeaturedWorkLink from '@weco/content/views/components/FeaturedWorkLink';
 
 export const hasLinkedWork = (taslSourceLink?: string) => {
   return Boolean(
