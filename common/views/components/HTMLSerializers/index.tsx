@@ -7,7 +7,7 @@ import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { dasherize } from '@weco/common/utils/grammar';
 import { getMimeTypeFromExtension } from '@weco/common/utils/mime';
 import DownloadLink from '@weco/common/views/components/DownloadLink';
-import { WorkLink } from '@weco/common/views/components/FeaturedWorkLink';
+import FeaturedWorkLink from '@weco/common/views/components/FeaturedWorkLink';
 
 const DocumentType = styled.span`
   color: ${props => props.theme.color('neutral.600')};
@@ -119,12 +119,10 @@ export const defaultSerializer: JSXFunctionSerializer = (
 
       if (isWorkLink) {
         return (
-          <span data-gtm-id="work-link-component">
-            <WorkLink className="link-reset" href={linkUrl}>
-              {children}
-              <span className="visually-hidden">(view in catalogue)</span>
-            </WorkLink>
-          </span>
+          <FeaturedWorkLink className="link-reset" link={linkUrl}>
+            {children}
+            <span className="visually-hidden">(view in catalogue)</span>
+          </FeaturedWorkLink>
         );
       }
 

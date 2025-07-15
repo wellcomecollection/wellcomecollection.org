@@ -1,6 +1,7 @@
+import { HTMLAttributes, ReactNode } from 'react';
 import styled from 'styled-components';
 
-export const WorkLink = styled.a`
+const WorkLinkWithIcon = styled.a`
   text-decoration-style: dotted;
   text-underline-offset: 26%;
   text-decoration-thickness: 8%;
@@ -17,8 +18,30 @@ export const WorkLink = styled.a`
   }
 `;
 
-const FeaturedWorkLink = ({ link, text }) => {
-  return <WorkLink href={link}>{text}</WorkLink>;
+// Only returns true if the link is a link from our catalogue
+const hasLinkedWork = (taslSourceLink?: string) => {
+  return Boolean(
+    taslSourceLink &&
+      taslSourceLink.indexOf('wellcomecollection.org/works/') > -1
+  );
+};
+
+const FeaturedWorkLink = ({
+  link,
+  children,
+  ...rest
+}: {
+  link?: string;
+  children?: ReactNode;
+} & HTMLAttributes<HTMLAnchorElement>) => {
+  if (!(link && hasLinkedWork(link))) return null;
+
+  return (
+    <WorkLinkWithIcon href={link} data-gtm-id="work-link-component" {...rest}>
+      {children || 'View in catalogue'}
+    </WorkLinkWithIcon>
+  );
 };
 
 export default FeaturedWorkLink;
+export { hasLinkedWork };

@@ -5,11 +5,10 @@ import { CaptionedImage as CaptionedImageType } from '@weco/common/model/caption
 import { dasherizeShorten } from '@weco/common/utils/grammar';
 import Caption from '@weco/common/views/components/Caption';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
+import { hasLinkedWork } from '@weco/common/views/components/FeaturedWorkLink';
 import Space from '@weco/common/views/components/styled/Space';
 import HeightRestrictedPrismicImage from '@weco/content/views/components/HeightRestrictedPrismicImage';
-import ImageWithTasl, {
-  hasLinkedWork as getHasLinkedWork,
-} from '@weco/content/views/components/ImageWithTasl';
+import ImageWithTasl from '@weco/content/views/components/ImageWithTasl';
 import ZoomedPrismicImage from '@weco/content/views/components/ZoomedPrismicImage';
 
 const CaptionedImageFigure = styled.figure<{
@@ -75,7 +74,6 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
   isZoomable,
   displayWorkLink = true,
 }) => {
-  const hasLinkedWork = getHasLinkedWork(image.tasl?.sourceLink);
   // Note: the default quality here was originally 45, but this caused images to
   // appear very fuzzy on stories.
   //
@@ -105,7 +103,7 @@ const CaptionedImage: FunctionComponent<CaptionedImageProps> = ({
 
         {caption.length > 0 && (
           <ConditionalWrapper
-            condition={hasLinkedWork}
+            condition={hasLinkedWork(image.tasl?.sourceLink)}
             wrapper={children => (
               <Space $v={{ size: 'm', properties: ['margin-top'] }}>
                 {children}
