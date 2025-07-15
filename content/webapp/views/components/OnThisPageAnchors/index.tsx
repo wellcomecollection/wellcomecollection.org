@@ -53,6 +53,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
   const { isEnhanced } = useAppContext();
   const [hasStuck, setHasStuck] = useState(false);
   const [isListActive, setIsListActive] = useState(false);
+  const [scrollPosition, setScrollposition] = useState(0);
 
   useEffect(() => {
     if (!buttonRef.current) return;
@@ -157,7 +158,17 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
             <MobileNavButton
               $hasStuck={hasStuck}
               ref={buttonRef}
-              onClick={() => setIsListActive(!isListActive)}
+              onClick={() => {
+                if (!isListActive) {
+                  setScrollposition(window.scrollY);
+                } else {
+                  window.scrollTo({
+                    top: scrollPosition,
+                    behavior: 'instant',
+                  });
+                }
+                setIsListActive(!isListActive);
+              }}
             >
               <AnimatedTextContainer>
                 <SwitchTransition mode="out-in">
