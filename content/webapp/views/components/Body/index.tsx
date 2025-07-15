@@ -10,6 +10,7 @@ import styled from 'styled-components';
 
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
 import { classNames, font } from '@weco/common/utils/classnames';
+import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import {
   ContaineredLayout,
   gridSize10,
@@ -32,7 +33,6 @@ import FeaturedCard, {
   convertItemToFeaturedCardProps,
 } from '@weco/content/views/components/FeaturedCard';
 import FeaturedText from '@weco/content/views/components/FeaturedText';
-import { defaultSerializer } from '@weco/content/views/components/HTMLSerializers';
 import OnThisPageAnchors from '@weco/content/views/components/OnThisPageAnchors';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 
