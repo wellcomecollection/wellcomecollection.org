@@ -37,11 +37,9 @@ type Story = StoryObj<typeof CatalogueImageGallery>;
 
 export const Basic: Story = {
   args: {
-    variant: 'justified',
+    variant: 'scrollable',
   },
-
   name: 'CatalogueImageGallery',
-
   render: args => (
     <ReadmeDecorator
       WrappedComponent={args => (
