@@ -28,7 +28,7 @@ const ImageWithTasl: FunctionComponent<ImageWithTaslProps> = ({
       </div>
 
       {displayWorkLink && (
-        <FeaturedWorkLink link={tasl?.sourceLink} hasWrapper />
+        <FeaturedWorkLink link={tasl?.sourceLink} isUnderImage />
       )}
     </>
   );

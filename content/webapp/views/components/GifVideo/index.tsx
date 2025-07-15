@@ -200,7 +200,7 @@ const GifVideo: FunctionComponent<Props> = ({
             tasl.license) && <Tasl {...tasl} />}
       </Wrapper>
 
-      <FeaturedWorkLink link={tasl?.sourceLink} hasWrapper />
+      <FeaturedWorkLink link={tasl?.sourceLink} isUnderImage />
 
       {caption && <Caption width={computedVideoWidth} caption={caption} />}
     </Figure>

@@ -32,19 +32,19 @@ const hasLinkedWork = (taslSourceLink?: string) => {
 
 const FeaturedWorkLink = ({
   link,
-  content,
-  hasWrapper = false,
+  isUnderImage = false,
+  children,
   ...rest
 }: {
   link?: string;
-  content?: string | ReactNode;
-  hasWrapper?: boolean;
+  isUnderImage?: boolean;
+  children?: ReactNode;
 } & HTMLAttributes<HTMLAnchorElement>) => {
   if (!(link && hasLinkedWork(link))) return null;
 
   return (
     <ConditionalWrapper
-      condition={hasWrapper}
+      condition={isUnderImage}
       wrapper={children => (
         <Space
           className={font('intm', 5)}
@@ -56,7 +56,7 @@ const FeaturedWorkLink = ({
       )}
     >
       <WorkLinkWithIcon href={link} data-gtm-id="work-link-component" {...rest}>
-        {content || 'View in catalogue'}
+        {children || 'View in catalogue'}
       </WorkLinkWithIcon>
     </ConditionalWrapper>
   );
