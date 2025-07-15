@@ -133,9 +133,9 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
 
   return (
     <>
-      {isListActive && (
+      {isListActive && hasStuck && (
         <BackgroundOverlay
-          data-lock-scroll={hasStuck}
+          data-lock-scroll={true}
           onClick={() => setIsListActive(false)}
         />
       )}
