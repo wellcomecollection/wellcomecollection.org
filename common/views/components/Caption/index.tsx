@@ -3,6 +3,7 @@ import { FunctionComponent, ReactNode } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
+import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -60,7 +61,10 @@ const Caption: FunctionComponent<Props> = ({
         <CaptionWrapper>
           {preCaptionNode}
           <CaptionText>
-            <PrismicHtmlBlock html={caption} />
+            <PrismicHtmlBlock
+              html={caption}
+              htmlSerializer={defaultSerializer}
+            />
           </CaptionText>
         </CaptionWrapper>
       </figcaption>

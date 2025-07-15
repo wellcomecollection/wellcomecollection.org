@@ -6,9 +6,9 @@ import {
 } from '@iiif/presentation-3';
 import { FunctionComponent } from 'react';
 
+import DownloadLink from '@weco/common/views/components/DownloadLink';
 import Space from '@weco/common/views/components/styled/Space';
 import { getFormatString } from '@weco/content/utils/iiif/v3';
-import DownloadLink from '@weco/content/views/components/DownloadLink';
 
 type Props = {
   supplementing: (ContentResource | ChoiceBody)[];
