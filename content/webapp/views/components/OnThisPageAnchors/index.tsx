@@ -133,16 +133,18 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
 
   return (
     <>
-      <BackgroundOverlay
-        data-lock-scroll={`${isListActive}`}
-        $isActive={isListActive}
-        onClick={() => setIsListActive(false)}
-      />
+      {isListActive && (
+        <BackgroundOverlay
+          data-lock-scroll={hasStuck}
+          onClick={() => setIsListActive(false)}
+        />
+      )}
       <div ref={onThisPageAnchorsStickyRef}></div>
       <FocusTrap
         active={isListActive}
         focusTrapOptions={{
           returnFocusOnDeactivate: false,
+          clickOutsideDeactivates: true,
         }}
       >
         <Root

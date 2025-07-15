@@ -82,10 +82,8 @@ export const HotJarPlaceholder = styled.div`
   margin: -2rem auto 2rem;
   width: 100%;
   max-width: ${themeValues.sizes.xlarge}px;
-
   display: grid;
   justify-items: start;
-  padding: 0 ${themeValues.containerPadding.small}px;
 
   div:has(form) {
     min-width: 250px;
@@ -94,14 +92,12 @@ export const HotJarPlaceholder = styled.div`
   grid-template-columns: 1fr auto;
 
   ${themeValues.media('medium')(`
-    padding: 0 ${themeValues.containerPadding.medium}px;
     div:has(form) {
       min-width: 350px;
     }
   `)}
 
   ${themeValues.media('large')(`
-    padding: 0 ${themeValues.containerPadding.large}px;
     div:has(form) {
       min-width: 450px;
     }

@@ -17,6 +17,7 @@ import { font } from '@weco/common/utils/classnames';
 import { pluralize } from '@weco/common/utils/grammar';
 import Button from '@weco/common/views/components/Buttons';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
+import DownloadLink from '@weco/common/views/components/DownloadLink';
 import Icon from '@weco/common/views/components/Icon';
 import Layout, {
   gridSize12,
@@ -41,7 +42,6 @@ import {
 } from '@weco/content/utils/iiif/v3';
 import { DigitalLocationInfo } from '@weco/content/utils/works';
 import Download from '@weco/content/views/components/Download';
-import DownloadLink from '@weco/content/views/components/DownloadLink';
 import NestedList from '@weco/content/views/pages/works/work/ArchiveTree/ArchiveTree.NestedList';
 import IIIFItemList from '@weco/content/views/pages/works/work/IIIFItemList';
 import DownloadItemRenderer from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';

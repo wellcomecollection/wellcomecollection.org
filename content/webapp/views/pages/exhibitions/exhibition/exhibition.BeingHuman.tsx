@@ -6,12 +6,12 @@ import { arrow, download } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
+import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import Icon from '@weco/common/views/components/Icon';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import Contributors from '@weco/content/views/components/Contributors';
-import { defaultSerializer } from '@weco/content/views/components/HTMLSerializers';
 import InfoBox from '@weco/content/views/components/InfoBox';
 import SearchResults from '@weco/content/views/components/SearchResults';
 import {

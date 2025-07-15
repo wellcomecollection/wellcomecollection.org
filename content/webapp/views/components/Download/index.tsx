@@ -4,11 +4,11 @@ import styled from 'styled-components';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { font } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
+import DownloadLink from '@weco/common/views/components/DownloadLink';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { DownloadOption } from '@weco/content/types/manifest';
 import { getFormatString } from '@weco/content/utils/iiif/v3';
-import DownloadLink from '@weco/content/views/components/DownloadLink';
 
 export const DownloadOptions = styled.div.attrs({
   className: font('intb', 4),

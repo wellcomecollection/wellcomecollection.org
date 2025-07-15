@@ -43,7 +43,7 @@ import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout
 import Collaborators from './concept.Collaborators';
 import Header from './concept.Header';
 import {
-  getThemeTabLabel,
+  getThemeSectionHeading,
   SectionData,
   ThemePageSectionsData,
   themeTabOrder,
@@ -296,16 +296,17 @@ const ConceptPage: NextPage<Props> = ({
     // Add image sections
     for (const section of themeTabOrder) {
       if (sectionsData[section].images?.totalResults) {
-        const themeLabel = getThemeTabLabel(section, conceptResponse.type);
         links.push({
-          text: `Images ${themeLabel}`,
-          url: `#images-${themeLabel}`,
+          text: `Images ${getThemeSectionHeading(section, conceptResponse, true)}`,
+          url: `#images-${section}`,
         });
       }
     }
 
     // Add works section
-    links.push({ text: 'Works', url: '#works' });
+    if (hasWorks) {
+      links.push({ text: 'Works', url: '#works' });
+    }
 
     // Add frequent collaborators
     if (frequentCollaborators?.length && personOrAllFields) {
@@ -494,7 +495,9 @@ const ConceptPage: NextPage<Props> = ({
         // is no longer used.
       }
       {conceptResponse.type === 'Person' && (
-        <HotJarPlaceholder id="hotjar-embed-placeholder-concept-person" />
+        <Container>
+          <HotJarPlaceholder id="hotjar-embed-placeholder-concept-person" />
+        </Container>
       )}
     </CataloguePageLayout>
   );

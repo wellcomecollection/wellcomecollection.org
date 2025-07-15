@@ -1,5 +1,3 @@
-import { themeValues } from '@weco/common/views/themes/config';
-
 export const layout = `
 * {
   &,
@@ -7,12 +5,6 @@ export const layout = `
   &::after {
     box-sizing: border-box;
   }
-}
-
-.is-scroll-locked {
-  margin: 0;
-  height: 100vh;
-  overflow: hidden;
 }
 
 @supports selector(:has(a)) {
@@ -28,19 +20,5 @@ export const layout = `
       scroll-behavior: smooth;
     }
   }
-}
-
-
-
-
-.is-scroll-locked--to-medium {
-  ${themeValues.mediaBetween(
-    'small',
-    'medium'
-  )(`
-      margin: 0;
-      height: 100vh;
-      overflow: hidden;
-  `)}
 }
 `;
