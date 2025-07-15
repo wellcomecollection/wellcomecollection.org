@@ -1,10 +1,6 @@
 import { HTMLAttributes, ReactNode } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
-import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
-import Space from '@weco/common/views/components/styled/Space';
-
 const WorkLinkWithIcon = styled.a`
   text-decoration-style: dotted;
   text-underline-offset: 26%;
@@ -32,33 +28,18 @@ const hasLinkedWork = (taslSourceLink?: string) => {
 
 const FeaturedWorkLink = ({
   link,
-  isUnderImage = false,
   children,
   ...rest
 }: {
   link?: string;
-  isUnderImage?: boolean;
   children?: ReactNode;
 } & HTMLAttributes<HTMLAnchorElement>) => {
   if (!(link && hasLinkedWork(link))) return null;
 
   return (
-    <ConditionalWrapper
-      condition={isUnderImage}
-      wrapper={children => (
-        <Space
-          className={font('intm', 5)}
-          style={{ display: 'block' }}
-          $v={{ size: 'm', properties: ['margin-top'] }}
-        >
-          {children}
-        </Space>
-      )}
-    >
-      <WorkLinkWithIcon href={link} data-gtm-id="work-link-component" {...rest}>
-        {children || 'View in catalogue'}
-      </WorkLinkWithIcon>
-    </ConditionalWrapper>
+    <WorkLinkWithIcon href={link} data-gtm-id="work-link-component" {...rest}>
+      {children || 'View in catalogue'}
+    </WorkLinkWithIcon>
   );
 };
 

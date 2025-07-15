@@ -8,7 +8,10 @@ import { Tasl as TaslType } from '@weco/common/model/tasl';
 import { font } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Caption from '@weco/common/views/components/Caption';
-import FeaturedWorkLink from '@weco/common/views/components/FeaturedWorkLink';
+import FeaturedWorkLink, {
+  hasLinkedWork,
+} from '@weco/common/views/components/FeaturedWorkLink';
+import Space from '@weco/common/views/components/styled/Space';
 import Tasl from '@weco/common/views/components/Tasl';
 
 const Video = styled.video`
@@ -200,7 +203,15 @@ const GifVideo: FunctionComponent<Props> = ({
             tasl.license) && <Tasl {...tasl} />}
       </Wrapper>
 
-      <FeaturedWorkLink link={tasl?.sourceLink} isUnderImage />
+      {tasl && hasLinkedWork(tasl.sourceLink) && (
+        <Space
+          className={font('intm', 5)}
+          style={{ display: 'block' }}
+          $v={{ size: 'm', properties: ['margin-top'] }}
+        >
+          <FeaturedWorkLink link={tasl.sourceLink} />
+        </Space>
+      )}
 
       {caption && <Caption width={computedVideoWidth} caption={caption} />}
     </Figure>
