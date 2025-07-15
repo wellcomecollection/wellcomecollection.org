@@ -4,6 +4,10 @@ import { FunctionComponent } from 'react';
 
 import { TextSlice as RawTextSlice } from '@weco/common/prismicio-types';
 import { classNames } from '@weco/common/utils/classnames';
+import {
+  defaultSerializer,
+  dropCapSerializer,
+} from '@weco/common/views/components/HTMLSerializers';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import {
@@ -11,10 +15,6 @@ import {
   LayoutWidth,
   SliceZoneContext,
 } from '@weco/content/views/components/Body';
-import {
-  defaultSerializer,
-  dropCapSerializer,
-} from '@weco/content/views/components/HTMLSerializers';
 
 export type TextProps = SliceComponentProps<RawTextSlice, SliceZoneContext>;
 
