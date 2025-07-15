@@ -47,10 +47,6 @@ type Props = {
   setExpandedImage: Dispatch<SetStateAction<Image | undefined>>;
 };
 
-type CanvasLink = {
-  canvas: number;
-};
-
 const trackingSource = 'images_search_result';
 
 const ImageModal: FunctionComponent<Props> = ({
@@ -60,7 +56,10 @@ const ImageModal: FunctionComponent<Props> = ({
 }: Props) => {
   const [detailedWork, setDetailedWork] = useState<Work | undefined>();
   const [canvasDeeplink, setCanvasDeeplink] = useState<
-    CanvasLink | undefined
+    | {
+        canvas: number;
+      }
+    | undefined
   >();
   const [currentImageId, setCurrentImageId] = useState<string | undefined>();
 
@@ -209,15 +208,7 @@ const ImageModal: FunctionComponent<Props> = ({
           source: `${trackingSource}_${pathname}`,
         });
 
-  if (!detailedWork) {
-    return (
-      <div style={{ height: '50vh' }}>
-        <LL />
-      </div>
-    );
-  }
-
-  const productionDates = getProductionDates(detailedWork);
+  const productionDates = detailedWork ? getProductionDates(detailedWork) : [];
   const displayContributor = detailedWork?.contributors?.[0]?.agent?.label;
   const displayTitle = detailedWork?.title ?? '';
 
@@ -225,85 +216,92 @@ const ImageModal: FunctionComponent<Props> = ({
     <Modal
       id="expanded-image-dialog"
       dataTestId="image-modal"
-      isActive={expandedImage !== undefined}
+      isActive={isActive}
       setIsActive={() => setExpandedImage(undefined)}
       maxWidth="1020px"
     >
-      <Container>
-        <ImageInfoWrapper>
-          {iiifImageLocation && expandedImageLink && (
-            <ImageWrapper>
-              <NextLink {...expandedImageLink} passHref legacyBehavior>
-                <ImageLink>
-                  <IIIFImage
-                    layout="raw"
-                    image={{
-                      contentUrl: iiifImageLocation.url,
-                      width: 400,
-                      height: 400,
-                      alt: '',
-                    }}
-                    width={400}
-                  />
-                </ImageLink>
-              </NextLink>
-            </ImageWrapper>
+      {!detailedWork ? (
+        <div style={{ height: '50vh' }}>
+          <LL />
+        </div>
+      ) : (
+        <Container>
+          <ImageInfoWrapper>
+            {iiifImageLocation && expandedImageLink && (
+              <ImageWrapper>
+                <NextLink {...expandedImageLink} passHref legacyBehavior>
+                  <ImageLink>
+                    <IIIFImage
+                      layout="raw"
+                      image={{
+                        contentUrl: iiifImageLocation.url,
+                        width: 400,
+                        height: 400,
+                        alt: '',
+                      }}
+                      width={400}
+                    />
+                  </ImageLink>
+                </NextLink>
+              </ImageWrapper>
+            )}
+
+            <InfoWrapper>
+              {(displayTitle || displayContributor || license) && (
+                <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
+                  {displayTitle && (
+                    <ModalTitle
+                      dangerouslySetInnerHTML={{ __html: displayTitle }}
+                    />
+                  )}
+                  {(displayContributor || productionDates.length > 0) && (
+                    <MetadataWrapper>
+                      {displayContributor && (
+                        <Metadata>{displayContributor}</Metadata>
+                      )}
+                      {productionDates.length > 0 && (
+                        <Metadata>Date:&nbsp;{productionDates[0]}</Metadata>
+                      )}
+                    </MetadataWrapper>
+                  )}
+                  {license && (
+                    <MetadataWrapper>
+                      Licence:&nbsp;
+                      {license.url && (
+                        <a rel="license" href={license.url}>
+                          {license.label}
+                        </a>
+                      )}
+                      {!license.url && license.label}
+                    </MetadataWrapper>
+                  )}
+                </Space>
+              )}
+
+              {expandedImageLink && (
+                <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
+                  <ViewImageButtonWrapper>
+                    <Button
+                      variant="ButtonSolidLink"
+                      text="View image"
+                      icon={eye}
+                      link={expandedImageLink}
+                      ariaLabel="View expanded image"
+                    />
+                  </ViewImageButtonWrapper>
+                </Space>
+              )}
+            </InfoWrapper>
+          </ImageInfoWrapper>
+
+          {expandedImage?.id && (
+            <VisuallySimilarImagesFromApi
+              originalId={expandedImage?.id}
+              onClickImage={setExpandedImage}
+            />
           )}
-          <InfoWrapper>
-            {(displayTitle || displayContributor || license) && (
-              <Space $v={{ size: 'l', properties: ['margin-bottom'] }}>
-                {displayTitle && (
-                  <ModalTitle
-                    dangerouslySetInnerHTML={{ __html: displayTitle }}
-                  />
-                )}
-                {(displayContributor || productionDates.length > 0) && (
-                  <MetadataWrapper>
-                    {displayContributor && (
-                      <Metadata>{displayContributor}</Metadata>
-                    )}
-                    {productionDates.length > 0 && (
-                      <Metadata>Date:&nbsp;{productionDates[0]}</Metadata>
-                    )}
-                  </MetadataWrapper>
-                )}
-                {license && (
-                  <MetadataWrapper>
-                    Licence:&nbsp;
-                    {license.url && (
-                      <a rel="license" href={license.url}>
-                        {license.label}
-                      </a>
-                    )}
-                    {!license.url && license.label}
-                  </MetadataWrapper>
-                )}
-              </Space>
-            )}
-
-            {expandedImageLink && (
-              <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
-                <ViewImageButtonWrapper>
-                  <Button
-                    variant="ButtonSolidLink"
-                    text="View image"
-                    icon={eye}
-                    link={expandedImageLink}
-                    ariaLabel="View expanded image"
-                  />
-                </ViewImageButtonWrapper>
-              </Space>
-            )}
-          </InfoWrapper>
-        </ImageInfoWrapper>
-
-        {expandedImage?.id && (
-          <VisuallySimilarImagesFromApi
-            originalId={expandedImage?.id}
-            onClickImage={setExpandedImage}
-          />
-        )}
-      </Container>
+        </Container>
+      )}
     </Modal>
   );
 };

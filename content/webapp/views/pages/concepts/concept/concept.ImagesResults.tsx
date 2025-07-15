@@ -140,6 +140,7 @@ const ImagesResults: FunctionComponent<{
           />
         ))}
       </ThemeImagesWrapper>
+
       <ImageModal
         images={allImages}
         expandedImage={expandedImage}
