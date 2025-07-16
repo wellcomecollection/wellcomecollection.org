@@ -5,9 +5,7 @@ import {
   facebook,
   IconSvg,
   instagram,
-  soundCloud,
-  tripadvisor,
-  twitter,
+  xSocial,
   youtube,
 } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon';
@@ -44,10 +42,10 @@ type SocialItem = {
 
 const items: SocialItem[] = [
   {
-    url: 'https://twitter.com/explorewellcome',
-    title: 'Twitter',
-    service: 'Twitter',
-    icon: twitter,
+    url: 'https://x.com/explorewellcome',
+    title: 'X',
+    service: 'X',
+    icon: xSocial,
   },
   {
     url: 'https://www.facebook.com/wellcomecollection/',
@@ -62,22 +60,10 @@ const items: SocialItem[] = [
     icon: instagram,
   },
   {
-    url: 'https://soundcloud.com/wellcomecollection',
-    title: 'SoundCloud',
-    service: 'SoundCloud',
-    icon: soundCloud,
-  },
-  {
     url: 'https://www.youtube.com/user/WellcomeCollection',
     title: 'YouTube',
     service: 'YouTube',
     icon: youtube,
-  },
-  {
-    url: 'https://www.tripadvisor.co.uk/Attraction_Review-g186338-d662065-Reviews-Wellcome_Collection-London_England.html',
-    title: 'Tripadvisor',
-    service: 'Tripadvisor',
-    icon: tripadvisor,
   },
 ];
 

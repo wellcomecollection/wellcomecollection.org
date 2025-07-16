@@ -17,12 +17,10 @@ export const wellcomeCollectionGallery: Organization = {
     url: 'https://i.wellcomecollection.org/assets/icons/apple-touch-icon.png',
   },
   sameAs: [
-    'https://twitter.com/ExploreWellcome',
+    'https://x.com/explorewellcome',
     'https://www.facebook.com/wellcomecollection',
     'https://www.instagram.com/wellcomecollection/',
     'https://www.youtube.com/user/WellcomeCollection',
-    'https://soundcloud.com/wellcomecollection',
-    'https://www.tripadvisor.co.uk/Attraction_Review-g186338-d662065-Reviews-Wellcome_Collection-London_England.html',
   ],
   openingHoursSpecification: [],
   address: objToJsonLd(wellcomeCollectionAddress, {
