@@ -61,13 +61,13 @@ const ScrollableGalleryButtons: FunctionComponent<Props> = ({
     if (!targetRef.current) return;
     updateScrollButtons();
 
-    targetRef.current.addEventListener('scroll', updateScrollButtons);
+    targetRef.current.addEventListener('scrollend', updateScrollButtons);
     window.addEventListener('resize', updateScrollButtons);
     return () => {
-      targetRef.current?.removeEventListener('scroll', updateScrollButtons);
+      targetRef.current?.removeEventListener('scrollend', updateScrollButtons);
       window.removeEventListener('resize', updateScrollButtons);
     };
-  });
+  }, []);
 
   const scrollByChildImageWidth = (direction: SwipeDirection) => {
     if (!targetRef.current) return;
@@ -90,7 +90,17 @@ const ScrollableGalleryButtons: FunctionComponent<Props> = ({
             child => child.offsetLeft < currScrollLeft + containerPadding
           );
 
-    if (!child) return;
+    if (!child) {
+      if (direction === 'right') {
+        // This is a suggested patch for when the last image is too long to fit in the viewport.
+        // Scroll to the end of the last child.
+        return targetRef.current.scrollTo({
+          left: currScrollLeft + children[children.length - 1].offsetWidth,
+          behavior: 'smooth',
+        });
+      }
+      return;
+    }
 
     targetRef.current.scrollTo({
       left: child.offsetLeft - containerPadding,
@@ -100,9 +110,7 @@ const ScrollableGalleryButtons: FunctionComponent<Props> = ({
 
   useSwipeable(targetRef, scrollByChildImageWidth);
 
-  if (!canScrollLeft && !canScrollRight) {
-    return null;
-  }
+  if (!canScrollLeft && !canScrollRight) return null;
 
   return (
     <ScrollButtonsContainer>
