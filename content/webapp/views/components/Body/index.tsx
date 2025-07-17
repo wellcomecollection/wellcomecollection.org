@@ -33,7 +33,7 @@ import FeaturedCard, {
   convertItemToFeaturedCardProps,
 } from '@weco/content/views/components/FeaturedCard';
 import FeaturedText from '@weco/content/views/components/FeaturedText';
-import { OnThisPageAnchorsSimple } from '@weco/content/views/components/OnThisPageAnchors';
+import InPageNavigation from '@weco/content/views/components/InPageNavigation';
 import SectionHeader from '@weco/content/views/components/SectionHeader';
 
 import GridFactory, { sectionLevelPageGrid } from './GridFactory';
@@ -326,7 +326,7 @@ const Body: FunctionComponent<Props> = ({
       {onThisPage && onThisPage.length > 2 && showOnThisPage && (
         <SpacingComponent>
           <LayoutWidth width={minWidth}>
-            <OnThisPageAnchorsSimple links={onThisPage} />
+            <InPageNavigation links={onThisPage} variant="simple" />
           </LayoutWidth>
         </SpacingComponent>
       )}

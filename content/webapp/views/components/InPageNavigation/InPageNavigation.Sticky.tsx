@@ -26,7 +26,7 @@ import {
   ListItem,
   MobileNavButton,
   Root,
-} from './OnThisPageAnchors.Sticky.styles';
+} from './InPageNavigation.Sticky.styles';
 
 export type Props = {
   hasBackgroundBlend?: boolean;
@@ -34,7 +34,7 @@ export type Props = {
   links: Link[];
 };
 
-const OnThisPageAnchorsSticky: FunctionComponent<Props> = ({
+const InPageNavigationSticky: FunctionComponent<Props> = ({
   hasBackgroundBlend = false,
   links,
 }) => {
@@ -44,7 +44,7 @@ const OnThisPageAnchorsSticky: FunctionComponent<Props> = ({
   const [clickedId, setClickedId] = useState<string | null>(null);
   const [lock, setLock] = useState(false);
   const listRef = useRef<HTMLUListElement>(null);
-  const onThisPageAnchorsStickyRef = useRef<HTMLDivElement>(null);
+  const InPageNavigationStickyRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const listId = useId();
   const { isEnhanced } = useAppContext();
@@ -60,7 +60,7 @@ const OnThisPageAnchorsSticky: FunctionComponent<Props> = ({
   }, [buttonRef.current]);
 
   useEffect(() => {
-    if (!onThisPageAnchorsStickyRef.current) return;
+    if (!InPageNavigationStickyRef.current) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -72,8 +72,8 @@ const OnThisPageAnchorsSticky: FunctionComponent<Props> = ({
       }
     );
 
-    observer.observe(onThisPageAnchorsStickyRef.current);
-  }, [onThisPageAnchorsStickyRef.current]);
+    observer.observe(InPageNavigationStickyRef.current);
+  }, [InPageNavigationStickyRef.current]);
 
   // When an anchor is clicked, lock for a short time before allowing scroll to clear
   useEffect(() => {
@@ -135,7 +135,7 @@ const OnThisPageAnchorsSticky: FunctionComponent<Props> = ({
           onClick={() => setIsListActive(false)}
         />
       )}
-      <div ref={onThisPageAnchorsStickyRef}></div>
+      <div ref={InPageNavigationStickyRef}></div>
       <FocusTrap
         active={isListActive}
         focusTrapOptions={{
@@ -266,4 +266,4 @@ const OnThisPageAnchorsSticky: FunctionComponent<Props> = ({
   );
 };
 
-export default OnThisPageAnchorsSticky;
+export default InPageNavigationSticky;

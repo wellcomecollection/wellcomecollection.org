@@ -19,11 +19,11 @@ const Root = styled(Space).attrs({
   background: ${props => props.theme.color('warmNeutral.300')};
 `;
 
-type Props = {
+export type Props = {
   links: Link[];
 };
 
-const OnThisPageAnchorsSimple: FunctionComponent<Props> = ({ links }) => {
+const InPageNavigationSimple: FunctionComponent<Props> = ({ links }) => {
   return (
     <Root>
       <h2 className={font('wb', 4)}>What’s on this page</h2>
@@ -40,4 +40,4 @@ const OnThisPageAnchorsSimple: FunctionComponent<Props> = ({ links }) => {
   );
 };
 
-export default OnThisPageAnchorsSimple;
+export default InPageNavigationSimple;
