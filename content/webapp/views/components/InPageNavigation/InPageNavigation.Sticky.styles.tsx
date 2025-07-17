@@ -7,11 +7,8 @@ import { themeValues } from '@weco/common/views/themes/config';
 
 const leftOffset = '12px';
 
-export const InPageNavList = styled(PlainList)<{ $isSticky: boolean }>`
-  ${props =>
-    props.$isSticky
-      ? `border-bottom: 1px solid ${props.theme.color('white')}`
-      : ''};
+export const InPageNavList = styled(PlainList)`
+  border-bottom: 1px solid ${props => props.theme.color('white')};
 
   ${props => props.theme.media('large')`
     border-bottom: 0;
@@ -158,35 +155,20 @@ export const InPageNavAnimatedLink = styled(AnimatedLink)<{
     `)}
 `;
 
-const stickyRootAttrs = `
-  position: sticky;
-  top: 0;
-  z-index: 20;
-`;
-
 export const Root = styled(Space).attrs<{
-  $isSticky?: boolean;
   $hasStuck: boolean;
-}>(props => ({
-  'data-scroll-smooth': `${props.$isSticky}`,
+}>({
   as: 'nav',
-  $h: props.$isSticky
-    ? undefined
-    : { size: 'l', properties: ['padding-left', 'padding-right'] },
-  $v: {
-    size: 'l',
-    properties: props.$isSticky
-      ? ['padding-top']
-      : ['padding-top', 'padding-bottom'],
-  },
-}))<{
-  $isSticky?: boolean;
+  $v: { size: 'l', properties: ['padding-top'] },
+})<{
   $hasBackgroundBlend?: boolean;
   $hasStuck: boolean;
 }>`
+  position: sticky;
+  top: 0;
+  z-index: 20;
   background: ${props =>
     !props.$hasBackgroundBlend && props.theme.color('warmNeutral.300')};
-  ${props => (props.$isSticky ? stickyRootAttrs : '')}
   ${props =>
     props.$hasStuck &&
     `
@@ -199,7 +181,6 @@ export const Root = styled(Space).attrs<{
   `)}
 
   ${props =>
-    props.$isSticky &&
     props.theme.mediaBetween(
       'small',
       'medium'
@@ -212,7 +193,6 @@ export const Root = styled(Space).attrs<{
     `)}
 
   ${props =>
-    props.$isSticky &&
     props.theme.mediaBetween(
       'medium',
       'large'
@@ -224,7 +204,6 @@ export const Root = styled(Space).attrs<{
     `)}
 
   ${props =>
-    props.$isSticky &&
     props.theme.mediaBetween(
       'small',
       'large'
@@ -235,7 +214,6 @@ export const Root = styled(Space).attrs<{
     `)}
 
   ${props =>
-    props.$isSticky &&
     props.theme.media('large')(`
       background: ${!props.$hasBackgroundBlend && props.theme.color('warmNeutral.300')};
       mix-blend-mode: ${props.$hasBackgroundBlend && 'difference'};

@@ -1,19 +1,17 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
-import { links } from '@weco/cardigan/stories/components/OnThisPageAnchors/links';
-import OnThisPageAnchors from '@weco/content/views/components/OnThisPageAnchors';
-import Readme from '@weco/content/views/components/OnThisPageAnchors/README.mdx';
+import { links } from '@weco/cardigan/stories/components/InPageNavigation/links';
+import InPageNavigation from '@weco/content/views/components/InPageNavigation';
+import Readme from '@weco/content/views/components/InPageNavigation/README.mdx';
 
-const OnThisPageAnchorsInSingleCol = () => {
+const InPageNavigationInSingleCol = () => {
   const fixedArgs = {
-    isSticky: false,
-    hasBackgroundBlend: false,
     links,
   };
   return (
     <div>
-      <OnThisPageAnchors {...fixedArgs} />
+      <InPageNavigation {...fixedArgs} variant="simple" />
       <div
         style={{
           padding: '16px',
@@ -42,21 +40,21 @@ const OnThisPageAnchorsInSingleCol = () => {
   );
 };
 
-const meta: Meta<typeof OnThisPageAnchorsInSingleCol> = {
-  title: 'Components/OnThisPageAnchors',
-  component: OnThisPageAnchorsInSingleCol,
+const meta: Meta<typeof InPageNavigationInSingleCol> = {
+  title: 'Components/InPageNavigation',
+  component: InPageNavigationInSingleCol,
   args: {},
 };
 
 export default meta;
 
-type Story = StoryObj<typeof OnThisPageAnchorsInSingleCol>;
+type Story = StoryObj<typeof InPageNavigationInSingleCol>;
 
 export const Basic: Story = {
   name: 'Simple',
   render: () => (
     <ReadmeDecorator
-      WrappedComponent={OnThisPageAnchorsInSingleCol}
+      WrappedComponent={InPageNavigationInSingleCol}
       Readme={Readme}
     />
   ),

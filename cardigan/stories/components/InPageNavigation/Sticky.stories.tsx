@@ -3,13 +3,13 @@ import { themeColors } from '@weco/cardigan/.storybook/preview';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { links } from '@weco/cardigan/stories/components/OnThisPageAnchors/links';
+import { links } from '@weco/cardigan/stories/components/InPageNavigation/links';
 import Footer from '@weco/common/views/components/Footer';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import OnThisPageAnchors from '@weco/content/views/components/OnThisPageAnchors';
+import InPageNavigation from '@weco/content/views/components/InPageNavigation';
 
 type BackgroundGridProps = {
   $percent?: number;
@@ -45,7 +45,7 @@ const GreySpace = styled(Space).attrs({
   background-color: ${props => props.theme.color('neutral.700')};
 `;
 
-const OnThisPageAnchorsInColsContext: FunctionComponent<{
+const InPageNavigationInColsContext: FunctionComponent<{
   topColor?: PaletteColor;
 }> = args => {
   const fixedArgs = {
@@ -64,7 +64,7 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
       <GreySpace $v={{ size: 'l', properties: ['height'] }} />
       <BackgroundGrid $percent={40} $topColor={args.topColor}>
         <NavGridCell $sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}>
-          <OnThisPageAnchors {...fixedArgs} />
+          <InPageNavigation {...fixedArgs} variant="sticky" />
         </NavGridCell>
         <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
           {links.map(link => (
@@ -100,15 +100,15 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
   );
 };
 
-const meta: Meta<typeof OnThisPageAnchorsInColsContext> = {
-  title: 'Components/OnThisPageAnchors',
-  component: OnThisPageAnchorsInColsContext,
+const meta: Meta<typeof InPageNavigationInColsContext> = {
+  title: 'Components/InPageNavigation',
+  component: InPageNavigationInColsContext,
   args: {},
 };
 
 export default meta;
 
-type Story = StoryObj<typeof OnThisPageAnchorsInColsContext>;
+type Story = StoryObj<typeof InPageNavigationInColsContext>;
 
 export const SideBar: Story = {
   name: 'Sticky',
