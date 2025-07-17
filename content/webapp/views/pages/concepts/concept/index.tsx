@@ -354,11 +354,7 @@ const ConceptPage: NextPage<Props> = ({
             $isEnhanced={isEnhanced}
             $sizeMap={{ s: [12], m: [12], l: [3], xl: [2] }}
           >
-            <InPageNavigation
-              links={navLinks}
-              hasBackgroundBlend={true}
-              variant="sticky"
-            />
+            <InPageNavigation links={navLinks} variant="sticky" />
           </NavGridCell>
 
           <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [10] }}>

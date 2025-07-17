@@ -50,7 +50,6 @@ const InPageNavigationInColsContext: FunctionComponent<{
 }> = args => {
   const fixedArgs = {
     isSticky: true,
-    hasBackgroundBlend: true,
     links,
   };
 

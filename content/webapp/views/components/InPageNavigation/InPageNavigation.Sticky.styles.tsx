@@ -120,13 +120,9 @@ export const Anchor = styled.a.attrs({
 
 export const InPageNavAnimatedLink = styled(AnimatedLink)<{
   $isActive?: boolean;
-  $hasBackgroundBlend?: boolean;
   $hasStuck: boolean;
 }>`
-  color: ${props =>
-    props.$hasBackgroundBlend
-      ? props.theme.color(props.$hasStuck ? 'black' : 'white')
-      : 'inherit'};
+  color: ${props => props.theme.color(props.$hasStuck ? 'black' : 'white')};
   position: relative;
   display: block;
 
@@ -148,7 +144,7 @@ export const InPageNavAnimatedLink = styled(AnimatedLink)<{
 
   ${props =>
     props.theme.media('large')(`
-    color: ${props.$hasBackgroundBlend ? props.theme.color('white') : 'inherit'};
+    color: ${props.theme.color('white')};
 
     &::before {
       background: ${props.theme.color('white')};
@@ -161,14 +157,12 @@ export const Root = styled(Space).attrs<{
   as: 'nav',
   $v: { size: 'l', properties: ['padding-top'] },
 })<{
-  $hasBackgroundBlend?: boolean;
   $hasStuck: boolean;
 }>`
   position: sticky;
   top: 0;
   z-index: 20;
-  background: ${props =>
-    !props.$hasBackgroundBlend && props.theme.color('warmNeutral.300')};
+
   ${props =>
     props.$hasStuck &&
     `
@@ -215,9 +209,8 @@ export const Root = styled(Space).attrs<{
 
   ${props =>
     props.theme.media('large')(`
-      background: ${!props.$hasBackgroundBlend && props.theme.color('warmNeutral.300')};
-      mix-blend-mode: ${props.$hasBackgroundBlend && 'difference'};
-      color: ${props.$hasBackgroundBlend && props.theme.color('white')};
+      mix-blend-mode: difference;
+      color: ${props.theme.color('white')};
     `)}
 `;
 

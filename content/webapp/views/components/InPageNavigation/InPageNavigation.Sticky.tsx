@@ -29,15 +29,11 @@ import {
 } from './InPageNavigation.Sticky.styles';
 
 export type Props = {
-  hasBackgroundBlend?: boolean;
   activeColor?: PaletteColor;
   links: Link[];
 };
 
-const InPageNavigationSticky: FunctionComponent<Props> = ({
-  hasBackgroundBlend = false,
-  links,
-}) => {
+const InPageNavigationSticky: FunctionComponent<Props> = ({ links }) => {
   // Extract ids from links (strip leading #)
   const ids = links.map(link => link.url.replace('#', ''));
   const observedActiveId = useActiveAnchor(ids);
@@ -143,11 +139,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
           clickOutsideDeactivates: true,
         }}
       >
-        <Root
-          $hasBackgroundBlend={hasBackgroundBlend}
-          $hasStuck={hasStuck}
-          data-scroll-smooth="true"
-        >
+        <Root $hasStuck={hasStuck} data-scroll-smooth="true">
           <h2 className={`${font('intm', 5)} is-hidden-s is-hidden-m`}>
             {titleText}
           </h2>
@@ -240,7 +232,6 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
                       <InPageNavAnimatedLink
                         $hasStuck={hasStuck}
                         $isActive={isActive}
-                        $hasBackgroundBlend={hasBackgroundBlend}
                         data-gtm-trigger="link_click_page_position"
                         onClick={() => {
                           setClickedId(id);
