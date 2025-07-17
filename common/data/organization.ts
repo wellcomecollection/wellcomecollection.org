@@ -17,7 +17,7 @@ export const wellcomeCollectionGallery: Organization = {
     url: 'https://i.wellcomecollection.org/assets/icons/apple-touch-icon.png',
   },
   sameAs: [
-    'https://x.com/explorewellcome',
+    'https://www.tiktok.com/@wellcomecollection',
     'https://www.facebook.com/wellcomecollection',
     'https://www.instagram.com/wellcomecollection/',
     'https://www.youtube.com/user/WellcomeCollection',

@@ -5,7 +5,7 @@ import {
   facebook,
   IconSvg,
   instagram,
-  xSocial,
+  tiktok,
   youtube,
 } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon';
@@ -42,10 +42,10 @@ type SocialItem = {
 
 const items: SocialItem[] = [
   {
-    url: 'https://x.com/explorewellcome',
-    title: 'X',
-    service: 'X',
-    icon: xSocial,
+    url: 'https://www.tiktok.com/@wellcomecollection',
+    title: 'TikTok',
+    service: 'TikTok',
+    icon: tiktok,
   },
   {
     url: 'https://www.facebook.com/wellcomecollection/',
