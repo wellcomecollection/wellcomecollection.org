@@ -5,7 +5,6 @@ import {
   ArticleFormatsDocument as RawArticleFormatsDocument,
   ArticlesDocument as RawArticlesDocument,
   AudiencesDocument as RawAudiencesDocument,
-  BackgroundTexturesDocument as RawBackgroundTexturesDocument,
   BooksDocument as RawBooksDocument,
   CardDocument as RawCardDocument,
   CollectionVenueDocument as RawCollectionVenueDocument,
@@ -187,7 +186,6 @@ export type WithEventSeries = {
 };
 export const eventSeriesFetchLinks: FetchLinks<RawEventSeriesDocument> = [
   'event-series.title',
-  'event-series.backgroundTexture',
   'event-series.promo',
 ];
 
@@ -347,9 +345,6 @@ export const audienceFetchLinks: FetchLinks<RawAudiencesDocument> = [
 export const articlesFetchLinks: FetchLinks<RawArticlesDocument> = [
   'articles.title',
 ];
-
-export const backgroundTexturesFetchLinks: FetchLinks<RawBackgroundTexturesDocument> =
-  ['background-textures.name', 'background-textures.image'];
 
 const contributionRoleFetchLinks: FetchLinks<RawEditorialContributorRolesDocument> =
   [

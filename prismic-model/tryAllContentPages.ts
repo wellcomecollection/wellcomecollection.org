@@ -27,7 +27,6 @@ type PrismicDocument = {
 const nonVisibleTypes = new Set([
   'article-formats',
   'audiences',
-  'background-textures',
   'card',
   'collection-venue',
   'editorial-contributor-roles',
