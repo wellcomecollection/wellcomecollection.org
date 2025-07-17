@@ -226,18 +226,13 @@ export const Root = styled(Space).attrs<{
     `)}
 `;
 
-function getColorFromProps({ $hasStuck, $isOnWhite, theme }) {
-  if ($hasStuck) {
-    return undefined;
-  }
-
-  return theme.color($isOnWhite ? 'neutral.300' : 'white');
-}
-
 export const MobileNavButton = styled.button.attrs({
   className: font('intm', 5),
 })<{ $hasStuck: boolean; $isListActive: boolean; $isOnWhite: boolean }>`
-  --mobile-nav-border-color: ${props => getColorFromProps(props)};
+  --mobile-nav-border-color: ${props =>
+    props.$hasStuck
+      ? undefined
+      : props.theme.color(props.$isOnWhite ? 'neutral.300' : 'white')};
   border-top: 1px solid var(--mobile-nav-border-color);
   border-bottom: ${props =>
     !props.$isListActive && '1px solid var(--mobile-nav-border-color)'};
