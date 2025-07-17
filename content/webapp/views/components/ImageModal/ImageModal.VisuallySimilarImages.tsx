@@ -5,6 +5,7 @@ import { ServerDataContext } from '@weco/common/server-data/Context';
 import { trackSegmentEvent } from '@weco/common/services/conversion/track';
 import { font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
+import { plainListStyles } from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import { Image as ImageType } from '@weco/content/services/wellcome/catalogue/types';
@@ -18,8 +19,11 @@ type Props = {
 type State = 'initial' | 'loading' | 'success' | 'failed';
 
 const Wrapper = styled(Space).attrs({
+  as: 'ul',
   $v: { size: 's', properties: ['margin-bottom', 'margin-top'] },
 })`
+  ${plainListStyles}
+
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -28,14 +32,6 @@ const Wrapper = styled(Space).attrs({
   ${props => props.theme.media('large')`
     flex-wrap: nowrap;
   `}
-
-  a {
-    flex: 1 0 auto;
-
-    ${props => props.theme.media('medium')`
-      flex: 0 1 auto;
-    `}
-  }
 
   img {
     margin-right: 10px;
@@ -93,46 +89,48 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
 
       <Wrapper>
         {similarImages.map(related => (
-          <a
-            key={related.id}
-            onClick={() => {
-              // We tried to use data attributes to send these values and pick them up with a
-              // GTM clicked links trigger, but The onClickImage function below was updating the
-              // originalId before it was sent (making the relatedId and originalId appear the same in GA).
-              // By pushing to the dataLayer before onClickImage runs we can get round this.
-              window.dataLayer?.push({
-                event: 'visually_similar_image_click',
-                visuallySimilarImage: {
-                  relatedId: related.id,
-                  originalId,
-                  resultPosition:
-                    similarImages.findIndex(s => s.id === related.id) + 1,
-                },
-              });
-              onClickImage(related);
+          <li key={related.id}>
+            <button
+              style={{ padding: 0 }}
+              onClick={() => {
+                // We tried to use data attributes to send these values and pick them up with a
+                // GTM clicked links trigger, but The onClickImage function below was updating the
+                // originalId before it was sent (making the relatedId and originalId appear the same in GA).
+                // By pushing to the dataLayer before onClickImage runs we can get round this.
+                window.dataLayer?.push({
+                  event: 'visually_similar_image_click',
+                  visuallySimilarImage: {
+                    relatedId: related.id,
+                    originalId,
+                    resultPosition:
+                      similarImages.findIndex(s => s.id === related.id) + 1,
+                  },
+                });
+                onClickImage(related);
 
-              trackSegmentEvent({
-                name: 'Click visually similar image',
-                eventGroup: 'similarity',
-                properties: {
-                  sourceImageId: originalId,
-                  imageId: related?.id,
-                  siblingImageIds: similarImages.map(s => s.id),
-                },
-              });
-            }}
-          >
-            <IIIFImage
-              layout="raw"
-              image={{
-                contentUrl: related.locations[0]?.url,
-                width: 180,
-                height: 180,
-                alt: '',
+                trackSegmentEvent({
+                  name: 'Click visually similar image',
+                  eventGroup: 'similarity',
+                  properties: {
+                    sourceImageId: originalId,
+                    imageId: related?.id,
+                    siblingImageIds: similarImages.map(s => s.id),
+                  },
+                });
               }}
-              width={180}
-            />
-          </a>
+            >
+              <IIIFImage
+                layout="raw"
+                image={{
+                  contentUrl: related.locations[0]?.url,
+                  width: 180,
+                  height: 180,
+                  alt: '',
+                }}
+                width={180}
+              />
+            </button>
+          </li>
         ))}
       </Wrapper>
       <p className={font('intr', 6)} style={{ marginBottom: 0 }}>

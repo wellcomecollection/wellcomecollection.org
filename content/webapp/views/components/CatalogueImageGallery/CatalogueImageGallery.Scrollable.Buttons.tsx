@@ -113,6 +113,7 @@ const ScrollableGalleryButtons: FunctionComponent<Props> = ({
         <Icon icon={arrowSmall} rotate={180} />
         Prev
       </ScrollButton>
+
       <ScrollButton
         disabled={!canScrollRight}
         onClick={() => scrollByChildImageWidth('right')}

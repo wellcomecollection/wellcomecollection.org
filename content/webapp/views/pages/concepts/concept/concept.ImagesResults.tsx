@@ -14,8 +14,9 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { allRecordsLinkParams } from '@weco/content/utils/concepts';
 import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
-import ExpandedImageModal from '@weco/content/views/components/CatalogueImageGallery/ExpandedImageModal';
-import useExpandedImage from '@weco/content/views/components/CatalogueImageGallery/useExpandedImage';
+import ImageModal, {
+  useExpandedImage,
+} from '@weco/content/views/components/ImageModal';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import { toLink as toImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
 
@@ -139,7 +140,8 @@ const ImagesResults: FunctionComponent<{
           />
         ))}
       </ThemeImagesWrapper>
-      <ExpandedImageModal
+
+      <ImageModal
         images={allImages}
         expandedImage={expandedImage}
         setExpandedImage={setExpandedImage}
