@@ -4,71 +4,6 @@ import type * as prismic from '@prismicio/client';
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-type PickContentRelationshipFieldData<
-  TRelationship extends
-    | prismic.CustomTypeModelFetchCustomTypeLevel1
-    | prismic.CustomTypeModelFetchCustomTypeLevel2
-    | prismic.CustomTypeModelFetchGroupLevel1
-    | prismic.CustomTypeModelFetchGroupLevel2,
-  TData extends Record<
-    string,
-    | prismic.AnyRegularField
-    | prismic.GroupField
-    | prismic.NestedGroupField
-    | prismic.SliceZone
-  >,
-  TLang extends string,
-> =
-  // Content relationship fields
-  {
-    [TSubRelationship in Extract<
-      TRelationship['fields'][number],
-      prismic.CustomTypeModelFetchContentRelationshipLevel1
-    > as TSubRelationship['id']]: ContentRelationshipFieldWithData<
-      TSubRelationship['customtypes'],
-      TLang
-    >;
-  } & {
-    // Group
-    [TGroup in Extract<
-      TRelationship['fields'][number],
-      | prismic.CustomTypeModelFetchGroupLevel1
-      | prismic.CustomTypeModelFetchGroupLevel2
-    > as TGroup['id']]: TData[TGroup['id']] extends prismic.GroupField<
-      infer TGroupData
-    >
-      ? prismic.GroupField<
-          PickContentRelationshipFieldData<TGroup, TGroupData, TLang>
-        >
-      : never;
-  } & {
-    // Other fields
-    [TFieldKey in Extract<
-      TRelationship['fields'][number],
-      string
-    >]: TFieldKey extends keyof TData ? TData[TFieldKey] : never;
-  };
-
-type ContentRelationshipFieldWithData<
-  TCustomType extends
-    | readonly (prismic.CustomTypeModelFetchCustomTypeLevel1 | string)[]
-    | readonly (prismic.CustomTypeModelFetchCustomTypeLevel2 | string)[],
-  TLang extends string = string,
-> = {
-  [ID in Exclude<
-    TCustomType[number],
-    string
-  >['id']]: prismic.ContentRelationshipField<
-    ID,
-    TLang,
-    PickContentRelationshipFieldData<
-      Extract<TCustomType[number], { id: ID }>,
-      Extract<prismic.Content.AllDocumentTypes, { type: ID }>['data'],
-      TLang
-    >
-  >;
-}[Exclude<TCustomType[number], string>['id']];
-
 /**
  * Content for Story format documents
  */
@@ -76,13 +11,13 @@ interface ArticleFormatsDocumentData {
   /**
    * Title field in *Story format*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: article-formats.title
    * - **Tab**: Article format
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Description field in *Story format*
@@ -91,7 +26,7 @@ interface ArticleFormatsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: article-formats.description
    * - **Tab**: Article format
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 }
@@ -101,7 +36,7 @@ interface ArticleFormatsDocumentData {
  *
  * - **API ID**: `article-formats`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -135,7 +70,7 @@ export interface ArticlesDocumentDataContributorsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.contributors[].role
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   role: prismic.ContentRelationshipField<'editorial-contributor-roles'>;
 
@@ -145,11 +80,9 @@ export interface ArticlesDocumentDataContributorsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.contributors[].contributor
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  contributor:
-    | prismic.ContentRelationshipField<'people'>
-    | prismic.ContentRelationshipField<'organisations'>;
+  contributor: prismic.ContentRelationshipField<'people' | 'organisations'>;
 
   /**
    * Contributor description override field in *Story → Contributors*
@@ -157,7 +90,7 @@ export interface ArticlesDocumentDataContributorsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.contributors[].description
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 }
@@ -172,7 +105,7 @@ export interface ArticlesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.promo[].editorialImage.primary.caption
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   caption: prismic.RichTextField;
 
@@ -182,7 +115,7 @@ export interface ArticlesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.promo[].editorialImage.primary.image
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
@@ -192,7 +125,7 @@ export interface ArticlesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Text
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.promo[].editorialImage.primary.link
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   link: prismic.KeyTextField;
 }
@@ -219,7 +152,7 @@ export interface ArticlesDocumentDataSeriesItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.series[].series
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   series: prismic.ContentRelationshipField<'series'>;
 
@@ -229,7 +162,7 @@ export interface ArticlesDocumentDataSeriesItem {
    * - **Field Type**: Number
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.series[].positionInSeries
-   * - **Documentation**: https://prismic.io/docs/fields/number
+   * - **Documentation**: https://prismic.io/docs/field#number
    */
   positionInSeries: prismic.NumberField;
 }
@@ -244,7 +177,7 @@ export interface ArticlesDocumentDataSeasonsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: Select a Season
    * - **API ID Path**: articles.seasons[].season
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   season: prismic.ContentRelationshipField<'seasons'>;
 }
@@ -259,7 +192,7 @@ export interface ArticlesDocumentDataParentsItem {
    * - **Field Type**: Number
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.parents[].order
-   * - **Documentation**: https://prismic.io/docs/fields/number
+   * - **Documentation**: https://prismic.io/docs/field#number
    */
   order: prismic.NumberField;
 
@@ -269,7 +202,7 @@ export interface ArticlesDocumentDataParentsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: Select a parent
    * - **API ID Path**: articles.parents[].parent
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   parent: prismic.ContentRelationshipField<'exhibitions'>;
 }
@@ -281,13 +214,13 @@ interface ArticlesDocumentData {
   /**
    * Title field in *Story*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.title
    * - **Tab**: Story
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Format field in *Story*
@@ -296,7 +229,7 @@ interface ArticlesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.format
    * - **Tab**: Story
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   format: prismic.ContentRelationshipField<'article-formats'>;
 
@@ -307,7 +240,7 @@ interface ArticlesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.body[]
    * - **Tab**: Story
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */
   body: prismic.SliceZone<ArticlesDocumentDataBodySlice> /**
    * Contributors field in *Story*
@@ -316,7 +249,7 @@ interface ArticlesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.contributors[]
    * - **Tab**: Contributors
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   contributors: prismic.GroupField<
     Simplify<ArticlesDocumentDataContributorsItem>
@@ -325,20 +258,20 @@ interface ArticlesDocumentData {
   /**
    * Contributors heading override field in *Story*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.contributorsTitle
    * - **Tab**: Contributors
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  contributorsTitle: prismic.RichTextField /**
+  contributorsTitle: prismic.TitleField /**
    * Slice Zone field in *Story*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.promo[]
    * - **Tab**: Promo
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */;
   promo: prismic.SliceZone<ArticlesDocumentDataPromoSlice> /**
    * Metadata description field in *Story*
@@ -347,7 +280,7 @@ interface ArticlesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.metadataDescription
    * - **Tab**: Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */;
   metadataDescription: prismic.RichTextField /**
    * "Explore more" document field in *Story*
@@ -356,11 +289,11 @@ interface ArticlesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.exploreMoreDocument
    * - **Tab**: Content relationships
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */;
-  exploreMoreDocument:
-    | prismic.ContentRelationshipField<'articles'>
-    | prismic.ContentRelationshipField<'exhibitions'>;
+  exploreMoreDocument: prismic.ContentRelationshipField<
+    'articles' | 'exhibitions'
+  >;
 
   /**
    * Series field in *Story*
@@ -369,7 +302,7 @@ interface ArticlesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.series[]
    * - **Tab**: Content relationships
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   series: prismic.GroupField<Simplify<ArticlesDocumentDataSeriesItem>>;
 
@@ -380,7 +313,7 @@ interface ArticlesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.seasons[]
    * - **Tab**: Content relationships
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   seasons: prismic.GroupField<Simplify<ArticlesDocumentDataSeasonsItem>>;
 
@@ -391,7 +324,7 @@ interface ArticlesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.parents[]
    * - **Tab**: Content relationships
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   parents: prismic.GroupField<Simplify<ArticlesDocumentDataParentsItem>> /**
    * Override pub. date in UI+ContentAPI field in *Story*
@@ -400,7 +333,7 @@ interface ArticlesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: articles.publishDate
    * - **Tab**: Overrides
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */;
   publishDate: prismic.TimestampField;
 }
@@ -410,7 +343,7 @@ interface ArticlesDocumentData {
  *
  * - **API ID**: `articles`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -428,13 +361,13 @@ interface AudiencesDocumentData {
   /**
    * Title field in *Audience*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: audiences.title
    * - **Tab**: Audience
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Description field in *Audience*
@@ -443,7 +376,7 @@ interface AudiencesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: audiences.description
    * - **Tab**: Audience
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 }
@@ -453,7 +386,7 @@ interface AudiencesDocumentData {
  *
  * - **API ID**: `audiences`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -461,6 +394,49 @@ export type AudiencesDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithoutUID<
     Simplify<AudiencesDocumentData>,
     'audiences',
+    Lang
+  >;
+
+/**
+ * Content for Background texture documents
+ */
+interface BackgroundTexturesDocumentData {
+  /**
+   * `image` field in *Background texture*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: background-textures.image
+   * - **Tab**: Background texture
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<never>;
+
+  /**
+   * name field in *Background texture*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: background-textures.name
+   * - **Tab**: Background texture
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  name: prismic.KeyTextField;
+}
+
+/**
+ * Background texture document from Prismic
+ *
+ * - **API ID**: `background-textures`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type BackgroundTexturesDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<BackgroundTexturesDocumentData>,
+    'background-textures',
     Lang
   >;
 
@@ -474,7 +450,7 @@ export interface BooksDocumentDataReviewsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: books.reviews[].text
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   text: prismic.RichTextField;
 
@@ -484,7 +460,7 @@ export interface BooksDocumentDataReviewsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: books.reviews[].citation
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   citation: prismic.RichTextField;
 }
@@ -520,7 +496,7 @@ export interface BooksDocumentDataContributorsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: books.contributors[].role
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   role: prismic.ContentRelationshipField<'editorial-contributor-roles'>;
 
@@ -530,11 +506,9 @@ export interface BooksDocumentDataContributorsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: books.contributors[].contributor
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  contributor:
-    | prismic.ContentRelationshipField<'people'>
-    | prismic.ContentRelationshipField<'organisations'>;
+  contributor: prismic.ContentRelationshipField<'people' | 'organisations'>;
 
   /**
    * Contributor description override field in *Book → Contributors*
@@ -542,7 +516,7 @@ export interface BooksDocumentDataContributorsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: books.contributors[].description
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 }
@@ -557,7 +531,7 @@ export interface BooksDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: books.promo[].editorialImage.primary.caption
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   caption: prismic.RichTextField;
 
@@ -567,7 +541,7 @@ export interface BooksDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: books.promo[].editorialImage.primary.image
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
@@ -577,7 +551,7 @@ export interface BooksDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Text
    * - **Placeholder**: *None*
    * - **API ID Path**: books.promo[].editorialImage.primary.link
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   link: prismic.KeyTextField;
 }
@@ -603,7 +577,7 @@ export interface BooksDocumentDataSeasonsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: Select a Season
    * - **API ID Path**: books.seasons[].season
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   season: prismic.ContentRelationshipField<'seasons'>;
 }
@@ -618,7 +592,7 @@ export interface BooksDocumentDataParentsItem {
    * - **Field Type**: Number
    * - **Placeholder**: *None*
    * - **API ID Path**: books.parents[].order
-   * - **Documentation**: https://prismic.io/docs/fields/number
+   * - **Documentation**: https://prismic.io/docs/field#number
    */
   order: prismic.NumberField;
 
@@ -628,7 +602,7 @@ export interface BooksDocumentDataParentsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: Select a parent
    * - **API ID Path**: books.parents[].parent
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   parent: prismic.ContentRelationshipField<'exhibitions'>;
 }
@@ -640,13 +614,13 @@ interface BooksDocumentData {
   /**
    * Title field in *Book*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: books.title
    * - **Tab**: Book
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Subtitle field in *Book*
@@ -655,7 +629,7 @@ interface BooksDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: books.subtitle
    * - **Tab**: Book
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   subtitle: prismic.RichTextField;
 
@@ -666,7 +640,7 @@ interface BooksDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: books.orderLink
    * - **Tab**: Book
-   * - **Documentation**: https://prismic.io/docs/fields/link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   orderLink: prismic.LinkField<
     string,
@@ -683,7 +657,7 @@ interface BooksDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: books.price
    * - **Tab**: Book
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   price: prismic.KeyTextField;
 
@@ -694,7 +668,7 @@ interface BooksDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: books.format
    * - **Tab**: Book
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   format: prismic.KeyTextField;
 
@@ -705,7 +679,7 @@ interface BooksDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: books.extent
    * - **Tab**: Book
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   extent: prismic.KeyTextField;
 
@@ -716,7 +690,7 @@ interface BooksDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: books.isbn
    * - **Tab**: Book
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   isbn: prismic.KeyTextField;
 
@@ -727,7 +701,7 @@ interface BooksDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: books.reviews[]
    * - **Tab**: Book
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   reviews: prismic.GroupField<Simplify<BooksDocumentDataReviewsItem>>;
 
@@ -738,7 +712,7 @@ interface BooksDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: books.datePublished
    * - **Tab**: Book
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   datePublished: prismic.TimestampField;
 
@@ -749,7 +723,7 @@ interface BooksDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: books.body[]
    * - **Tab**: Book
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */
   body: prismic.SliceZone<BooksDocumentDataBodySlice> /**
    * Contributors field in *Book*
@@ -758,27 +732,27 @@ interface BooksDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: books.contributors[]
    * - **Tab**: Contributors
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   contributors: prismic.GroupField<Simplify<BooksDocumentDataContributorsItem>>;
 
   /**
    * Contributors heading override field in *Book*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: books.contributorsTitle
    * - **Tab**: Contributors
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  contributorsTitle: prismic.RichTextField /**
+  contributorsTitle: prismic.TitleField /**
    * Slice Zone field in *Book*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
    * - **API ID Path**: books.promo[]
    * - **Tab**: Promo
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */;
   promo: prismic.SliceZone<BooksDocumentDataPromoSlice> /**
    * Metadata description field in *Book*
@@ -787,7 +761,7 @@ interface BooksDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: books.metadataDescription
    * - **Tab**: Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */;
   metadataDescription: prismic.RichTextField /**
    * Seasons field in *Book*
@@ -796,7 +770,7 @@ interface BooksDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: books.seasons[]
    * - **Tab**: Content relationships
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   seasons: prismic.GroupField<Simplify<BooksDocumentDataSeasonsItem>>;
 
@@ -807,7 +781,7 @@ interface BooksDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: books.parents[]
    * - **Tab**: Content relationships
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   parents: prismic.GroupField<Simplify<BooksDocumentDataParentsItem>>;
 }
@@ -817,7 +791,7 @@ interface BooksDocumentData {
  *
  * - **API ID**: `books`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -831,13 +805,13 @@ interface CardDocumentData {
   /**
    * Title field in *Card*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: card.title
    * - **Tab**: Card
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Format field in *Card*
@@ -846,12 +820,11 @@ interface CardDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: card.format
    * - **Tab**: Card
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  format:
-    | prismic.ContentRelationshipField<'event-formats'>
-    | prismic.ContentRelationshipField<'article-formats'>
-    | prismic.ContentRelationshipField<'labels'>;
+  format: prismic.ContentRelationshipField<
+    'event-formats' | 'article-formats' | 'labels'
+  >;
 
   /**
    * Description field in *Card*
@@ -860,7 +833,7 @@ interface CardDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: card.description
    * - **Tab**: Card
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 
@@ -871,7 +844,7 @@ interface CardDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: card.image
    * - **Tab**: Card
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
@@ -882,7 +855,7 @@ interface CardDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: card.link
    * - **Tab**: Card
-   * - **Documentation**: https://prismic.io/docs/fields/link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 }
@@ -892,7 +865,7 @@ interface CardDocumentData {
  *
  * - **API ID**: `card`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -909,7 +882,7 @@ export interface CollectionVenueDocumentDataMondayItem {
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.monday[].startDateTime
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   startDateTime: prismic.TimestampField;
 
@@ -919,7 +892,7 @@ export interface CollectionVenueDocumentDataMondayItem {
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.monday[].endDateTime
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   endDateTime: prismic.TimestampField;
 }
@@ -934,7 +907,7 @@ export interface CollectionVenueDocumentDataTuesdayItem {
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.tuesday[].startDateTime
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   startDateTime: prismic.TimestampField;
 
@@ -944,7 +917,7 @@ export interface CollectionVenueDocumentDataTuesdayItem {
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.tuesday[].endDateTime
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   endDateTime: prismic.TimestampField;
 }
@@ -959,7 +932,7 @@ export interface CollectionVenueDocumentDataWednesdayItem {
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.wednesday[].startDateTime
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   startDateTime: prismic.TimestampField;
 
@@ -969,7 +942,7 @@ export interface CollectionVenueDocumentDataWednesdayItem {
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.wednesday[].endDateTime
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   endDateTime: prismic.TimestampField;
 }
@@ -984,7 +957,7 @@ export interface CollectionVenueDocumentDataThursdayItem {
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.thursday[].startDateTime
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   startDateTime: prismic.TimestampField;
 
@@ -994,7 +967,7 @@ export interface CollectionVenueDocumentDataThursdayItem {
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.thursday[].endDateTime
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   endDateTime: prismic.TimestampField;
 }
@@ -1009,7 +982,7 @@ export interface CollectionVenueDocumentDataFridayItem {
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.friday[].startDateTime
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   startDateTime: prismic.TimestampField;
 
@@ -1019,7 +992,7 @@ export interface CollectionVenueDocumentDataFridayItem {
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.friday[].endDateTime
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   endDateTime: prismic.TimestampField;
 }
@@ -1034,7 +1007,7 @@ export interface CollectionVenueDocumentDataSaturdayItem {
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.saturday[].startDateTime
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   startDateTime: prismic.TimestampField;
 
@@ -1044,7 +1017,7 @@ export interface CollectionVenueDocumentDataSaturdayItem {
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.saturday[].endDateTime
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   endDateTime: prismic.TimestampField;
 }
@@ -1059,7 +1032,7 @@ export interface CollectionVenueDocumentDataSundayItem {
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.sunday[].startDateTime
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   startDateTime: prismic.TimestampField;
 
@@ -1069,7 +1042,7 @@ export interface CollectionVenueDocumentDataSundayItem {
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.sunday[].endDateTime
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   endDateTime: prismic.TimestampField;
 }
@@ -1084,7 +1057,7 @@ export interface CollectionVenueDocumentDataModifiedDayOpeningTimesItem {
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.modifiedDayOpeningTimes[].overrideDate
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   overrideDate: prismic.TimestampField;
 
@@ -1094,7 +1067,7 @@ export interface CollectionVenueDocumentDataModifiedDayOpeningTimesItem {
    * - **Field Type**: Select
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.modifiedDayOpeningTimes[].type
-   * - **Documentation**: https://prismic.io/docs/fields/select
+   * - **Documentation**: https://prismic.io/docs/field#select
    */
   type: prismic.SelectField<
     | 'Bank holiday'
@@ -1110,7 +1083,7 @@ export interface CollectionVenueDocumentDataModifiedDayOpeningTimesItem {
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.modifiedDayOpeningTimes[].startDateTime
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   startDateTime: prismic.TimestampField;
 
@@ -1120,7 +1093,7 @@ export interface CollectionVenueDocumentDataModifiedDayOpeningTimesItem {
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.modifiedDayOpeningTimes[].endDateTime
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   endDateTime: prismic.TimestampField;
 }
@@ -1136,7 +1109,7 @@ interface CollectionVenueDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.title
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   title: prismic.KeyTextField;
 
@@ -1147,7 +1120,7 @@ interface CollectionVenueDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.order
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/number
+   * - **Documentation**: https://prismic.io/docs/field#number
    */
   order: prismic.NumberField;
 
@@ -1158,7 +1131,7 @@ interface CollectionVenueDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.image
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
@@ -1169,7 +1142,7 @@ interface CollectionVenueDocumentData {
    * - **Placeholder**: Enter url
    * - **API ID Path**: collection-venue.link
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 
@@ -1180,7 +1153,7 @@ interface CollectionVenueDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.linkText
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   linkText: prismic.RichTextField /**
    * Monday's times field in *Collection venue*
@@ -1189,7 +1162,7 @@ interface CollectionVenueDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.monday[]
    * - **Tab**: Regular opening times
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   monday: prismic.GroupField<Simplify<CollectionVenueDocumentDataMondayItem>>;
 
@@ -1200,7 +1173,7 @@ interface CollectionVenueDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.tuesday[]
    * - **Tab**: Regular opening times
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   tuesday: prismic.GroupField<Simplify<CollectionVenueDocumentDataTuesdayItem>>;
 
@@ -1211,7 +1184,7 @@ interface CollectionVenueDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.wednesday[]
    * - **Tab**: Regular opening times
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   wednesday: prismic.GroupField<
     Simplify<CollectionVenueDocumentDataWednesdayItem>
@@ -1224,7 +1197,7 @@ interface CollectionVenueDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.thursday[]
    * - **Tab**: Regular opening times
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   thursday: prismic.GroupField<
     Simplify<CollectionVenueDocumentDataThursdayItem>
@@ -1237,7 +1210,7 @@ interface CollectionVenueDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.friday[]
    * - **Tab**: Regular opening times
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   friday: prismic.GroupField<Simplify<CollectionVenueDocumentDataFridayItem>>;
 
@@ -1248,7 +1221,7 @@ interface CollectionVenueDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.saturday[]
    * - **Tab**: Regular opening times
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   saturday: prismic.GroupField<
     Simplify<CollectionVenueDocumentDataSaturdayItem>
@@ -1261,7 +1234,7 @@ interface CollectionVenueDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.sunday[]
    * - **Tab**: Regular opening times
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   sunday: prismic.GroupField<
     Simplify<CollectionVenueDocumentDataSundayItem>
@@ -1272,7 +1245,7 @@ interface CollectionVenueDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: collection-venue.modifiedDayOpeningTimes[]
    * - **Tab**: Modified opening times
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   modifiedDayOpeningTimes: prismic.GroupField<
     Simplify<CollectionVenueDocumentDataModifiedDayOpeningTimesItem>
@@ -1284,7 +1257,7 @@ interface CollectionVenueDocumentData {
  *
  * - **API ID**: `collection-venue`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -1306,7 +1279,7 @@ interface EditorialContributorRolesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: editorial-contributor-roles.title
    * - **Tab**: Contributor
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   title: prismic.RichTextField;
 
@@ -1317,7 +1290,7 @@ interface EditorialContributorRolesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: editorial-contributor-roles.describedBy
    * - **Tab**: Contributor
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   describedBy: prismic.KeyTextField;
 }
@@ -1327,7 +1300,7 @@ interface EditorialContributorRolesDocumentData {
  *
  * - **API ID**: `editorial-contributor-roles`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -1345,13 +1318,13 @@ interface EventFormatsDocumentData {
   /**
    * Title field in *Event format*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: event-formats.title
    * - **Tab**: Event format
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Description field in *Event format*
@@ -1360,7 +1333,7 @@ interface EventFormatsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: event-formats.description
    * - **Tab**: Event format
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 }
@@ -1370,7 +1343,7 @@ interface EventFormatsDocumentData {
  *
  * - **API ID**: `event-formats`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -1388,13 +1361,13 @@ interface EventPoliciesDocumentData {
   /**
    * Title field in *Event policy*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: event-policies.title
    * - **Tab**: Event policy
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Description field in *Event policy*
@@ -1403,7 +1376,7 @@ interface EventPoliciesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: event-policies.description
    * - **Tab**: Event policy
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 }
@@ -1413,7 +1386,7 @@ interface EventPoliciesDocumentData {
  *
  * - **API ID**: `event-policies`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -1455,7 +1428,7 @@ export interface EventSeriesDocumentDataContributorsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: event-series.contributors[].role
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   role: prismic.ContentRelationshipField<'editorial-contributor-roles'>;
 
@@ -1465,11 +1438,9 @@ export interface EventSeriesDocumentDataContributorsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: event-series.contributors[].contributor
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  contributor:
-    | prismic.ContentRelationshipField<'people'>
-    | prismic.ContentRelationshipField<'organisations'>;
+  contributor: prismic.ContentRelationshipField<'people' | 'organisations'>;
 
   /**
    * Contributor description override field in *Event series → Contributors*
@@ -1477,7 +1448,7 @@ export interface EventSeriesDocumentDataContributorsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: event-series.contributors[].description
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 }
@@ -1492,7 +1463,7 @@ export interface EventSeriesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: event-series.promo[].editorialImage.primary.caption
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   caption: prismic.RichTextField;
 
@@ -1502,7 +1473,7 @@ export interface EventSeriesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: event-series.promo[].editorialImage.primary.image
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
@@ -1512,7 +1483,7 @@ export interface EventSeriesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Text
    * - **Placeholder**: *None*
    * - **API ID Path**: event-series.promo[].editorialImage.primary.link
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   link: prismic.KeyTextField;
 }
@@ -1536,13 +1507,24 @@ interface EventSeriesDocumentData {
   /**
    * Title field in *Event series*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: event-series.title
    * - **Tab**: Event series
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
+
+  /**
+   * Background texture field in *Event series*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event-series.backgroundTexture
+   * - **Tab**: Event series
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  backgroundTexture: prismic.ContentRelationshipField<'background-textures'>;
 
   /**
    * Slice Zone field in *Event series*
@@ -1551,7 +1533,7 @@ interface EventSeriesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: event-series.body[]
    * - **Tab**: Event series
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */
   body: prismic.SliceZone<EventSeriesDocumentDataBodySlice> /**
    * Contributors field in *Event series*
@@ -1560,7 +1542,7 @@ interface EventSeriesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: event-series.contributors[]
    * - **Tab**: Contributors
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   contributors: prismic.GroupField<
     Simplify<EventSeriesDocumentDataContributorsItem>
@@ -1569,20 +1551,20 @@ interface EventSeriesDocumentData {
   /**
    * Contributors heading override field in *Event series*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: event-series.contributorsTitle
    * - **Tab**: Contributors
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  contributorsTitle: prismic.RichTextField /**
+  contributorsTitle: prismic.TitleField /**
    * Slice Zone field in *Event series*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
    * - **API ID Path**: event-series.promo[]
    * - **Tab**: Promo
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */;
   promo: prismic.SliceZone<EventSeriesDocumentDataPromoSlice> /**
    * Metadata description field in *Event series*
@@ -1591,7 +1573,7 @@ interface EventSeriesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: event-series.metadataDescription
    * - **Tab**: Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */;
   metadataDescription: prismic.RichTextField;
 }
@@ -1601,7 +1583,7 @@ interface EventSeriesDocumentData {
  *
  * - **API ID**: `event-series`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -1622,7 +1604,7 @@ export interface EventsDocumentDataLocationsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: events.locations[].location
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   location: prismic.ContentRelationshipField<'places'>;
 }
@@ -1637,7 +1619,7 @@ export interface EventsDocumentDataTimesItem {
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
    * - **API ID Path**: events.times[].startDateTime
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   startDateTime: prismic.TimestampField;
 
@@ -1647,7 +1629,7 @@ export interface EventsDocumentDataTimesItem {
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
    * - **API ID Path**: events.times[].endDateTime
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   endDateTime: prismic.TimestampField;
 
@@ -1657,7 +1639,7 @@ export interface EventsDocumentDataTimesItem {
    * - **Field Type**: Select
    * - **Placeholder**: *None*
    * - **API ID Path**: events.times[].isFullyBooked
-   * - **Documentation**: https://prismic.io/docs/fields/select
+   * - **Documentation**: https://prismic.io/docs/field#select
    */
   isFullyBooked: prismic.SelectField<'yes'>;
 
@@ -1667,7 +1649,7 @@ export interface EventsDocumentDataTimesItem {
    * - **Field Type**: Select
    * - **Placeholder**: *None*
    * - **API ID Path**: events.times[].onlineIsFullyBooked
-   * - **Documentation**: https://prismic.io/docs/fields/select
+   * - **Documentation**: https://prismic.io/docs/field#select
    */
   onlineIsFullyBooked: prismic.SelectField<'yes'>;
 }
@@ -1703,7 +1685,7 @@ export interface EventsDocumentDataInterpretationsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: events.interpretations[].interpretationType
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   interpretationType: prismic.ContentRelationshipField<'interpretation-types'>;
 
@@ -1713,7 +1695,7 @@ export interface EventsDocumentDataInterpretationsItem {
    * - **Field Type**: Select
    * - **Placeholder**: *None*
    * - **API ID Path**: events.interpretations[].isPrimary
-   * - **Documentation**: https://prismic.io/docs/fields/select
+   * - **Documentation**: https://prismic.io/docs/field#select
    */
   isPrimary: prismic.SelectField<'yes'>;
 
@@ -1723,7 +1705,7 @@ export interface EventsDocumentDataInterpretationsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: events.interpretations[].extraInformation
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   extraInformation: prismic.RichTextField;
 }
@@ -1738,7 +1720,7 @@ export interface EventsDocumentDataAudiencesItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: events.audiences[].audience
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   audience: prismic.ContentRelationshipField<'audiences'>;
 }
@@ -1753,7 +1735,7 @@ export interface EventsDocumentDataPoliciesItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: events.policies[].policy
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   policy: prismic.ContentRelationshipField<'event-policies'>;
 }
@@ -1768,7 +1750,7 @@ export interface EventsDocumentDataOnlinePoliciesItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: events.onlinePolicies[].policy
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   policy: prismic.ContentRelationshipField<'event-policies'>;
 }
@@ -1783,7 +1765,7 @@ export interface EventsDocumentDataScheduleItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: events.schedule[].event
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   event: prismic.ContentRelationshipField<'events'>;
 
@@ -1793,7 +1775,7 @@ export interface EventsDocumentDataScheduleItem {
    * - **Field Type**: Select
    * - **Placeholder**: *None*
    * - **API ID Path**: events.schedule[].isNotLinked
-   * - **Documentation**: https://prismic.io/docs/fields/select
+   * - **Documentation**: https://prismic.io/docs/field#select
    */
   isNotLinked: prismic.SelectField<'yes'>;
 }
@@ -1808,7 +1790,7 @@ export interface EventsDocumentDataContributorsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: events.contributors[].role
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   role: prismic.ContentRelationshipField<'editorial-contributor-roles'>;
 
@@ -1818,11 +1800,9 @@ export interface EventsDocumentDataContributorsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: events.contributors[].contributor
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  contributor:
-    | prismic.ContentRelationshipField<'people'>
-    | prismic.ContentRelationshipField<'organisations'>;
+  contributor: prismic.ContentRelationshipField<'people' | 'organisations'>;
 
   /**
    * Contributor description override field in *Event → Contributors*
@@ -1830,7 +1810,7 @@ export interface EventsDocumentDataContributorsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: events.contributors[].description
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 }
@@ -1845,7 +1825,7 @@ export interface EventsDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: events.promo[].editorialImage.primary.caption
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   caption: prismic.RichTextField;
 
@@ -1855,7 +1835,7 @@ export interface EventsDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: events.promo[].editorialImage.primary.image
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
@@ -1865,7 +1845,7 @@ export interface EventsDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Text
    * - **Placeholder**: *None*
    * - **API ID Path**: events.promo[].editorialImage.primary.link
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   link: prismic.KeyTextField;
 }
@@ -1891,7 +1871,7 @@ export interface EventsDocumentDataSeriesItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: events.series[].series
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   series: prismic.ContentRelationshipField<'event-series'>;
 }
@@ -1906,7 +1886,7 @@ export interface EventsDocumentDataSeasonsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: Select a Season
    * - **API ID Path**: events.seasons[].season
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   season: prismic.ContentRelationshipField<'seasons'>;
 }
@@ -1921,7 +1901,7 @@ export interface EventsDocumentDataParentsItem {
    * - **Field Type**: Number
    * - **Placeholder**: *None*
    * - **API ID Path**: events.parents[].order
-   * - **Documentation**: https://prismic.io/docs/fields/number
+   * - **Documentation**: https://prismic.io/docs/field#number
    */
   order: prismic.NumberField;
 
@@ -1931,7 +1911,7 @@ export interface EventsDocumentDataParentsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: Select a parent
    * - **API ID Path**: events.parents[].parent
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   parent: prismic.ContentRelationshipField<'exhibitions'>;
 }
@@ -1943,13 +1923,13 @@ interface EventsDocumentData {
   /**
    * Title field in *Event*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: events.title
    * - **Tab**: Event
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Format field in *Event*
@@ -1958,7 +1938,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.format
    * - **Tab**: Event
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   format: prismic.ContentRelationshipField<'event-formats'>;
 
@@ -1969,7 +1949,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.locations[]
    * - **Tab**: Event
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   locations: prismic.GroupField<Simplify<EventsDocumentDataLocationsItem>>;
 
@@ -1981,7 +1961,7 @@ interface EventsDocumentData {
    * - **Default Value**: false
    * - **API ID Path**: events.isOnline
    * - **Tab**: Event
-   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   isOnline: prismic.BooleanField;
 
@@ -1993,7 +1973,7 @@ interface EventsDocumentData {
    * - **Default Value**: false
    * - **API ID Path**: events.availableOnline
    * - **Tab**: Event
-   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   availableOnline: prismic.BooleanField;
 
@@ -2004,7 +1984,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.times[]
    * - **Tab**: Event
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   times: prismic.GroupField<Simplify<EventsDocumentDataTimesItem>>;
 
@@ -2015,7 +1995,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.bslLeafletVideo
    * - **Tab**: Event
-   * - **Documentation**: https://prismic.io/docs/fields/embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
    */
   bslLeafletVideo: prismic.EmbedField;
 
@@ -2026,7 +2006,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.body[]
    * - **Tab**: Event
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */
   body: prismic.SliceZone<EventsDocumentDataBodySlice> /**
    * Interpretations field in *Event*
@@ -2035,7 +2015,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.interpretations[]
    * - **Tab**: Access
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   interpretations: prismic.GroupField<
     Simplify<EventsDocumentDataInterpretationsItem>
@@ -2048,7 +2028,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.audiences[]
    * - **Tab**: Access
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   audiences: prismic.GroupField<Simplify<EventsDocumentDataAudiencesItem>> /**
    * Ticket sales start field in *Event*
@@ -2057,7 +2037,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.ticketSalesStart
    * - **Tab**: Reservation
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */;
   ticketSalesStart: prismic.TimestampField;
 
@@ -2068,7 +2048,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.bookingEnquiryTeam
    * - **Tab**: Reservation
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   bookingEnquiryTeam: prismic.ContentRelationshipField<'teams'>;
 
@@ -2079,7 +2059,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.eventbriteEvent
    * - **Tab**: Reservation
-   * - **Documentation**: https://prismic.io/docs/fields/embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
    */
   eventbriteEvent: prismic.EmbedField;
 
@@ -2090,7 +2070,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.thirdPartyBookingName
    * - **Tab**: Reservation
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   thirdPartyBookingName: prismic.KeyTextField;
 
@@ -2101,7 +2081,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.thirdPartyBookingUrl
    * - **Tab**: Reservation
-   * - **Documentation**: https://prismic.io/docs/fields/link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   thirdPartyBookingUrl: prismic.LinkField<
     string,
@@ -2118,7 +2098,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.bookingInformation
    * - **Tab**: Reservation
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   bookingInformation: prismic.RichTextField;
 
@@ -2129,7 +2109,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.policies[]
    * - **Tab**: Reservation
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   policies: prismic.GroupField<Simplify<EventsDocumentDataPoliciesItem>>;
 
@@ -2140,7 +2120,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.hasEarlyRegistration
    * - **Tab**: Reservation
-   * - **Documentation**: https://prismic.io/docs/fields/select
+   * - **Documentation**: https://prismic.io/docs/field#select
    */
   hasEarlyRegistration: prismic.SelectField<'yes'>;
 
@@ -2151,7 +2131,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.cost
    * - **Tab**: Reservation
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   cost: prismic.KeyTextField /**
    * Ticket sales start field in *Event*
@@ -2160,7 +2140,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.onlineTicketSalesStart
    * - **Tab**: Online reservation
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */;
   onlineTicketSalesStart: prismic.TimestampField;
 
@@ -2171,7 +2151,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.onlineBookingEnquiryTeam
    * - **Tab**: Online reservation
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   onlineBookingEnquiryTeam: prismic.ContentRelationshipField<'teams'>;
 
@@ -2182,7 +2162,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.onlineEventbriteEvent
    * - **Tab**: Online reservation
-   * - **Documentation**: https://prismic.io/docs/fields/embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
    */
   onlineEventbriteEvent: prismic.EmbedField;
 
@@ -2193,7 +2173,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.onlineThirdPartyBookingName
    * - **Tab**: Online reservation
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   onlineThirdPartyBookingName: prismic.KeyTextField;
 
@@ -2204,7 +2184,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.onlineThirdPartyBookingUrl
    * - **Tab**: Online reservation
-   * - **Documentation**: https://prismic.io/docs/fields/link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   onlineThirdPartyBookingUrl: prismic.LinkField<
     string,
@@ -2221,7 +2201,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.onlineBookingInformation
    * - **Tab**: Online reservation
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   onlineBookingInformation: prismic.RichTextField;
 
@@ -2232,7 +2212,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.onlinePolicies[]
    * - **Tab**: Online reservation
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   onlinePolicies: prismic.GroupField<
     Simplify<EventsDocumentDataOnlinePoliciesItem>
@@ -2245,7 +2225,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.onlineHasEarlyRegistration
    * - **Tab**: Online reservation
-   * - **Documentation**: https://prismic.io/docs/fields/select
+   * - **Documentation**: https://prismic.io/docs/field#select
    */
   onlineHasEarlyRegistration: prismic.SelectField<'yes'>;
 
@@ -2256,7 +2236,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.onlineCost
    * - **Tab**: Online reservation
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   onlineCost: prismic.KeyTextField /**
    * Events field in *Event*
@@ -2265,16 +2245,27 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.schedule[]
    * - **Tab**: Schedule
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
-  schedule: prismic.GroupField<Simplify<EventsDocumentDataScheduleItem>> /**
+  schedule: prismic.GroupField<Simplify<EventsDocumentDataScheduleItem>>;
+
+  /**
+   * Background texture field in *Event*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.backgroundTexture
+   * - **Tab**: Schedule
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  backgroundTexture: prismic.ContentRelationshipField<'background-textures'> /**
    * Contributors field in *Event*
    *
    * - **Field Type**: Group
    * - **Placeholder**: *None*
    * - **API ID Path**: events.contributors[]
    * - **Tab**: Contributors
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   contributors: prismic.GroupField<
     Simplify<EventsDocumentDataContributorsItem>
@@ -2283,20 +2274,20 @@ interface EventsDocumentData {
   /**
    * Contributors heading override field in *Event*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: events.contributorsTitle
    * - **Tab**: Contributors
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  contributorsTitle: prismic.RichTextField /**
+  contributorsTitle: prismic.TitleField /**
    * Slice Zone field in *Event*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
    * - **API ID Path**: events.promo[]
    * - **Tab**: Promo
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */;
   promo: prismic.SliceZone<EventsDocumentDataPromoSlice> /**
    * Metadata description field in *Event*
@@ -2305,7 +2296,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.metadataDescription
    * - **Tab**: Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */;
   metadataDescription: prismic.RichTextField /**
    * Event series field in *Event*
@@ -2314,7 +2305,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.series[]
    * - **Tab**: Content relationships
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   series: prismic.GroupField<Simplify<EventsDocumentDataSeriesItem>>;
 
@@ -2325,7 +2316,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.seasons[]
    * - **Tab**: Content relationships
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   seasons: prismic.GroupField<Simplify<EventsDocumentDataSeasonsItem>>;
 
@@ -2336,7 +2327,7 @@ interface EventsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: events.parents[]
    * - **Tab**: Content relationships
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   parents: prismic.GroupField<Simplify<EventsDocumentDataParentsItem>>;
 }
@@ -2346,7 +2337,7 @@ interface EventsDocumentData {
  *
  * - **API ID**: `events`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -2360,13 +2351,13 @@ interface ExhibitionFormatsDocumentData {
   /**
    * Title field in *Exhibition format*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-formats.title
    * - **Tab**: Exhibition format
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Description field in *Exhibition format*
@@ -2375,7 +2366,7 @@ interface ExhibitionFormatsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-formats.description
    * - **Tab**: Exhibition format
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 }
@@ -2385,7 +2376,7 @@ interface ExhibitionFormatsDocumentData {
  *
  * - **API ID**: `exhibition-formats`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -2406,19 +2397,19 @@ export interface ExhibitionGuidesDocumentDataComponentsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: Provides a group heading for stops on captions and transcription pages
    * - **API ID Path**: exhibition-guides.components[].standaloneTitle
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   standaloneTitle: prismic.RichTextField;
 
   /**
    * Title field in *Exhibition guide → Guide Component*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-guides.components[].title
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Tombstone field in *Exhibition guide → Guide Component*
@@ -2426,7 +2417,7 @@ export interface ExhibitionGuidesDocumentDataComponentsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-guides.components[].tombstone
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   tombstone: prismic.RichTextField;
 
@@ -2436,7 +2427,7 @@ export interface ExhibitionGuidesDocumentDataComponentsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-guides.components[].caption
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   caption: prismic.RichTextField;
 
@@ -2446,7 +2437,7 @@ export interface ExhibitionGuidesDocumentDataComponentsItem {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-guides.components[].image
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
@@ -2456,7 +2447,7 @@ export interface ExhibitionGuidesDocumentDataComponentsItem {
    * - **Field Type**: Number
    * - **Placeholder**: Stop number for this content
    * - **API ID Path**: exhibition-guides.components[].number
-   * - **Documentation**: https://prismic.io/docs/fields/number
+   * - **Documentation**: https://prismic.io/docs/field#number
    */
   number: prismic.NumberField;
 
@@ -2466,7 +2457,7 @@ export interface ExhibitionGuidesDocumentDataComponentsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: Optional context for a group of stops
    * - **API ID Path**: exhibition-guides.components[].context
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   context: prismic.RichTextField;
 
@@ -2476,7 +2467,7 @@ export interface ExhibitionGuidesDocumentDataComponentsItem {
    * - **Field Type**: Link to Media
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-guides.components[].audio-with-description
-   * - **Documentation**: https://prismic.io/docs/fields/link-to-media
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   'audio-with-description': prismic.LinkToMediaField<prismic.FieldState, never>;
 
@@ -2486,7 +2477,7 @@ export interface ExhibitionGuidesDocumentDataComponentsItem {
    * - **Field Type**: Link to Media
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-guides.components[].audio-without-description
-   * - **Documentation**: https://prismic.io/docs/fields/link-to-media
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   'audio-without-description': prismic.LinkToMediaField<
     prismic.FieldState,
@@ -2499,7 +2490,7 @@ export interface ExhibitionGuidesDocumentDataComponentsItem {
    * - **Field Type**: Embed
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-guides.components[].bsl-video
-   * - **Documentation**: https://prismic.io/docs/fields/embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
    */
   'bsl-video': prismic.EmbedField;
 
@@ -2509,7 +2500,7 @@ export interface ExhibitionGuidesDocumentDataComponentsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-guides.components[].transcript
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   transcript: prismic.RichTextField;
 }
@@ -2521,13 +2512,13 @@ interface ExhibitionGuidesDocumentData {
   /**
    * Title field in *Exhibition guide*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-guides.title
    * - **Tab**: Guide
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Related Exhibition field in *Exhibition guide*
@@ -2536,7 +2527,7 @@ interface ExhibitionGuidesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-guides.related-exhibition
    * - **Tab**: Guide
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   'related-exhibition': prismic.ContentRelationshipField<'exhibitions'>;
 
@@ -2547,7 +2538,7 @@ interface ExhibitionGuidesDocumentData {
    * - **Placeholder**: This will fallback to the related exhibition's promo text if not filled in
    * - **API ID Path**: exhibition-guides.introText
    * - **Tab**: Guide
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   introText: prismic.RichTextField /**
    * Guide Component field in *Exhibition guide*
@@ -2556,7 +2547,7 @@ interface ExhibitionGuidesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-guides.components[]
    * - **Tab**: Components
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   components: prismic.GroupField<
     Simplify<ExhibitionGuidesDocumentDataComponentsItem>
@@ -2568,7 +2559,7 @@ interface ExhibitionGuidesDocumentData {
  *
  * - **API ID**: `exhibition-guides`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -2588,13 +2579,13 @@ interface ExhibitionHighlightToursDocumentData {
   /**
    * Title field in *Exhibition highlight tour*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-highlight-tours.title
    * - **Tab**: Guide
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Related Exhibition field in *Exhibition highlight tour*
@@ -2603,7 +2594,7 @@ interface ExhibitionHighlightToursDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-highlight-tours.related_exhibition
    * - **Tab**: Guide
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   related_exhibition: prismic.ContentRelationshipField<'exhibitions'>;
 
@@ -2614,7 +2605,7 @@ interface ExhibitionHighlightToursDocumentData {
    * - **Placeholder**: This will fallback to the related exhibition's promo text if not filled in
    * - **API ID Path**: exhibition-highlight-tours.intro_text
    * - **Tab**: Guide
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   intro_text: prismic.RichTextField;
 
@@ -2625,7 +2616,7 @@ interface ExhibitionHighlightToursDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-highlight-tours.slices[]
    * - **Tab**: Guide
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */
   slices: prismic.SliceZone<ExhibitionHighlightToursDocumentDataSlicesSlice>;
 }
@@ -2635,7 +2626,7 @@ interface ExhibitionHighlightToursDocumentData {
  *
  * - **API ID**: `exhibition-highlight-tours`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -2653,13 +2644,13 @@ interface ExhibitionResourcesDocumentData {
   /**
    * Title field in *Exhibition resource*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-resources.title
    * - **Tab**: Exhibition resource
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Description field in *Exhibition resource*
@@ -2668,7 +2659,7 @@ interface ExhibitionResourcesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-resources.description
    * - **Tab**: Exhibition resource
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 
@@ -2679,7 +2670,7 @@ interface ExhibitionResourcesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-resources.icon
    * - **Tab**: Exhibition resource
-   * - **Documentation**: https://prismic.io/docs/fields/select
+   * - **Documentation**: https://prismic.io/docs/field#select
    */
   icon: prismic.SelectField<'information' | 'family'>;
 }
@@ -2689,7 +2680,7 @@ interface ExhibitionResourcesDocumentData {
  *
  * - **API ID**: `exhibition-resources`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -2711,13 +2702,13 @@ interface ExhibitionTextsDocumentData {
   /**
    * Title field in *Exhibition text*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-texts.title
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Related exhibition field in *Exhibition text*
@@ -2726,7 +2717,7 @@ interface ExhibitionTextsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-texts.related_exhibition
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   related_exhibition: prismic.ContentRelationshipField<'exhibitions'>;
 
@@ -2737,7 +2728,7 @@ interface ExhibitionTextsDocumentData {
    * - **Placeholder**: This will fallback to the related exhibition's promo text if not filled in
    * - **API ID Path**: exhibition-texts.intro_text
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   intro_text: prismic.RichTextField;
 
@@ -2748,7 +2739,7 @@ interface ExhibitionTextsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibition-texts.slices[]
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */
   slices: prismic.SliceZone<ExhibitionTextsDocumentDataSlicesSlice>;
 }
@@ -2758,7 +2749,7 @@ interface ExhibitionTextsDocumentData {
  *
  * - **API ID**: `exhibition-texts`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -2800,7 +2791,7 @@ export interface ExhibitionsDocumentDataExhibitsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.exhibits[].item
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   item: prismic.ContentRelationshipField<'exhibitions'>;
 }
@@ -2815,7 +2806,7 @@ export interface ExhibitionsDocumentDataEventsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.events[].item
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   item: prismic.ContentRelationshipField<'events'>;
 }
@@ -2830,12 +2821,9 @@ export interface ExhibitionsDocumentDataArticlesItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.articles[].item
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  item:
-    | prismic.ContentRelationshipField<'articles'>
-    | prismic.ContentRelationshipField<'series'>
-    | prismic.ContentRelationshipField<'webcomics'>;
+  item: prismic.ContentRelationshipField<'articles' | 'series' | 'webcomics'>;
 }
 
 /**
@@ -2848,7 +2836,7 @@ export interface ExhibitionsDocumentDataInterpretationsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.interpretations[].interpretationType
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   interpretationType: prismic.ContentRelationshipField<'interpretation-types'>;
 
@@ -2859,7 +2847,7 @@ export interface ExhibitionsDocumentDataInterpretationsItem {
    * - **Placeholder**: *None*
    * - **Default Value**: false
    * - **API ID Path**: exhibitions.interpretations[].isPrimary
-   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   isPrimary: prismic.BooleanField;
 
@@ -2869,7 +2857,7 @@ export interface ExhibitionsDocumentDataInterpretationsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.interpretations[].extraInformation
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   extraInformation: prismic.RichTextField;
 }
@@ -2884,7 +2872,7 @@ export interface ExhibitionsDocumentDataAccessResourcesPdfsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.accessResourcesPdfs[].linkText
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   linkText: prismic.RichTextField;
 
@@ -2894,7 +2882,7 @@ export interface ExhibitionsDocumentDataAccessResourcesPdfsItem {
    * - **Field Type**: Link to Media
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.accessResourcesPdfs[].documentLink
-   * - **Documentation**: https://prismic.io/docs/fields/link-to-media
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   documentLink: prismic.LinkToMediaField<prismic.FieldState, never>;
 }
@@ -2909,7 +2897,7 @@ export interface ExhibitionsDocumentDataContributorsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.contributors[].role
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   role: prismic.ContentRelationshipField<'editorial-contributor-roles'>;
 
@@ -2919,11 +2907,9 @@ export interface ExhibitionsDocumentDataContributorsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.contributors[].contributor
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  contributor:
-    | prismic.ContentRelationshipField<'people'>
-    | prismic.ContentRelationshipField<'organisations'>;
+  contributor: prismic.ContentRelationshipField<'people' | 'organisations'>;
 
   /**
    * Contributor description override field in *Exhibition → Contributors*
@@ -2931,7 +2917,7 @@ export interface ExhibitionsDocumentDataContributorsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.contributors[].description
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 }
@@ -2946,7 +2932,7 @@ export interface ExhibitionsDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.promo[].editorialImage.primary.caption
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   caption: prismic.RichTextField;
 
@@ -2956,7 +2942,7 @@ export interface ExhibitionsDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.promo[].editorialImage.primary.image
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
@@ -2966,7 +2952,7 @@ export interface ExhibitionsDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Text
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.promo[].editorialImage.primary.link
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   link: prismic.KeyTextField;
 }
@@ -2993,7 +2979,7 @@ export interface ExhibitionsDocumentDataSeasonsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: Select a Season
    * - **API ID Path**: exhibitions.seasons[].season
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   season: prismic.ContentRelationshipField<'seasons'>;
 }
@@ -3008,7 +2994,7 @@ export interface ExhibitionsDocumentDataParentsItem {
    * - **Field Type**: Number
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.parents[].order
-   * - **Documentation**: https://prismic.io/docs/fields/number
+   * - **Documentation**: https://prismic.io/docs/field#number
    */
   order: prismic.NumberField;
 
@@ -3018,7 +3004,7 @@ export interface ExhibitionsDocumentDataParentsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: Select a parent
    * - **API ID Path**: exhibitions.parents[].parent
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   parent: prismic.ContentRelationshipField<'exhibitions'>;
 }
@@ -3034,20 +3020,20 @@ interface ExhibitionsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.format
    * - **Tab**: Exhibition
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   format: prismic.ContentRelationshipField<'exhibition-formats'>;
 
   /**
    * Title field in *Exhibition*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.title
    * - **Tab**: Exhibition
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Short title field in *Exhibition*
@@ -3056,7 +3042,7 @@ interface ExhibitionsDocumentData {
    * - **Placeholder**: Replaces title in breadcrumbs. Useful if title is very long, should otherwise be left empty.
    * - **API ID Path**: exhibitions.shortTitle
    * - **Tab**: Exhibition
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   shortTitle: prismic.RichTextField;
 
@@ -3067,7 +3053,7 @@ interface ExhibitionsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.start
    * - **Tab**: Exhibition
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   start: prismic.TimestampField;
 
@@ -3078,7 +3064,7 @@ interface ExhibitionsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.end
    * - **Tab**: Exhibition
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   end: prismic.TimestampField;
 
@@ -3089,7 +3075,7 @@ interface ExhibitionsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.isPermanent
    * - **Tab**: Exhibition
-   * - **Documentation**: https://prismic.io/docs/fields/select
+   * - **Documentation**: https://prismic.io/docs/field#select
    */
   isPermanent: prismic.SelectField<'yes'>;
 
@@ -3100,7 +3086,7 @@ interface ExhibitionsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.statusOverride
    * - **Tab**: Exhibition
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   statusOverride: prismic.RichTextField;
 
@@ -3111,7 +3097,7 @@ interface ExhibitionsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.place
    * - **Tab**: Exhibition
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   place: prismic.ContentRelationshipField<'places'>;
 
@@ -3122,7 +3108,7 @@ interface ExhibitionsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.bslLeafletVideo
    * - **Tab**: Exhibition
-   * - **Documentation**: https://prismic.io/docs/fields/embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
    */
   bslLeafletVideo: prismic.EmbedField;
 
@@ -3133,7 +3119,7 @@ interface ExhibitionsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.body[]
    * - **Tab**: Exhibition
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */
   body: prismic.SliceZone<ExhibitionsDocumentDataBodySlice> /**
    * Exhibits field in *Exhibition*
@@ -3142,7 +3128,7 @@ interface ExhibitionsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.exhibits[]
    * - **Tab**: In this exhibition
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   exhibits: prismic.GroupField<Simplify<ExhibitionsDocumentDataExhibitsItem>>;
 
@@ -3153,7 +3139,7 @@ interface ExhibitionsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.events[]
    * - **Tab**: In this exhibition
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   events: prismic.GroupField<Simplify<ExhibitionsDocumentDataEventsItem>> /**
    * Articles field in *Exhibition*
@@ -3162,7 +3148,7 @@ interface ExhibitionsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.articles[]
    * - **Tab**: About this exhibition
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   articles: prismic.GroupField<
     Simplify<ExhibitionsDocumentDataArticlesItem>
@@ -3173,7 +3159,7 @@ interface ExhibitionsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.interpretations[]
    * - **Tab**: Access
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   interpretations: prismic.GroupField<
     Simplify<ExhibitionsDocumentDataInterpretationsItem>
@@ -3186,7 +3172,7 @@ interface ExhibitionsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.accessResourcesPdfs[]
    * - **Tab**: Access
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   accessResourcesPdfs: prismic.GroupField<
     Simplify<ExhibitionsDocumentDataAccessResourcesPdfsItem>
@@ -3199,7 +3185,7 @@ interface ExhibitionsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.accessResourcesText
    * - **Tab**: Access
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   accessResourcesText: prismic.RichTextField /**
    * Contributors field in *Exhibition*
@@ -3208,7 +3194,7 @@ interface ExhibitionsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.contributors[]
    * - **Tab**: Contributors
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   contributors: prismic.GroupField<
     Simplify<ExhibitionsDocumentDataContributorsItem>
@@ -3217,20 +3203,20 @@ interface ExhibitionsDocumentData {
   /**
    * Contributors heading override field in *Exhibition*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.contributorsTitle
    * - **Tab**: Contributors
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  contributorsTitle: prismic.RichTextField /**
+  contributorsTitle: prismic.TitleField /**
    * Slice Zone field in *Exhibition*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.promo[]
    * - **Tab**: Promo
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */;
   promo: prismic.SliceZone<ExhibitionsDocumentDataPromoSlice> /**
    * Metadata description field in *Exhibition*
@@ -3239,7 +3225,7 @@ interface ExhibitionsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.metadataDescription
    * - **Tab**: Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */;
   metadataDescription: prismic.RichTextField /**
    * Seasons field in *Exhibition*
@@ -3248,7 +3234,7 @@ interface ExhibitionsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.seasons[]
    * - **Tab**: Content relationships
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   seasons: prismic.GroupField<Simplify<ExhibitionsDocumentDataSeasonsItem>>;
 
@@ -3259,7 +3245,7 @@ interface ExhibitionsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: exhibitions.parents[]
    * - **Tab**: Content relationships
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   parents: prismic.GroupField<Simplify<ExhibitionsDocumentDataParentsItem>>;
 }
@@ -3269,7 +3255,7 @@ interface ExhibitionsDocumentData {
  *
  * - **API ID**: `exhibitions`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -3291,7 +3277,7 @@ interface GlobalAlertDocumentData {
    * - **Placeholder**: text
    * - **API ID Path**: global-alert.text
    * - **Tab**: Global alert
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   text: prismic.RichTextField;
 
@@ -3303,7 +3289,7 @@ interface GlobalAlertDocumentData {
    * - **Default Value**: hide
    * - **API ID Path**: global-alert.isShown
    * - **Tab**: Global alert
-   * - **Documentation**: https://prismic.io/docs/fields/select
+   * - **Documentation**: https://prismic.io/docs/field#select
    */
   isShown: prismic.SelectField<'hide' | 'show', 'filled'>;
 
@@ -3314,7 +3300,7 @@ interface GlobalAlertDocumentData {
    * - **Placeholder**: path(s) to match
    * - **API ID Path**: global-alert.routeRegex
    * - **Tab**: Global alert
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   routeRegex: prismic.KeyTextField;
 }
@@ -3324,7 +3310,7 @@ interface GlobalAlertDocumentData {
  *
  * - **API ID**: `global-alert`
  * - **Repeatable**: `false`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -3342,13 +3328,13 @@ interface GuideFormatsDocumentData {
   /**
    * Title field in *Guide format*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: guide-formats.title
    * - **Tab**: Guide format
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Description field in *Guide format*
@@ -3357,7 +3343,7 @@ interface GuideFormatsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: guide-formats.description
    * - **Tab**: Guide format
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 }
@@ -3367,7 +3353,7 @@ interface GuideFormatsDocumentData {
  *
  * - **API ID**: `guide-formats`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -3409,7 +3395,7 @@ export interface GuidesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: guides.promo[].editorialImage.primary.caption
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   caption: prismic.RichTextField;
 
@@ -3419,7 +3405,7 @@ export interface GuidesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: guides.promo[].editorialImage.primary.image
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
@@ -3429,7 +3415,7 @@ export interface GuidesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Text
    * - **Placeholder**: *None*
    * - **API ID Path**: guides.promo[].editorialImage.primary.link
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   link: prismic.KeyTextField;
 }
@@ -3452,13 +3438,13 @@ interface GuidesDocumentData {
   /**
    * Title field in *Guide*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: guides.title
    * - **Tab**: Guide
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Format field in *Guide*
@@ -3467,7 +3453,7 @@ interface GuidesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: guides.format
    * - **Tab**: Guide
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   format: prismic.ContentRelationshipField<'guide-formats'>;
 
@@ -3478,7 +3464,7 @@ interface GuidesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: guides.datePublished
    * - **Tab**: Guide
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   datePublished: prismic.TimestampField;
 
@@ -3490,7 +3476,7 @@ interface GuidesDocumentData {
    * - **Default Value**: false
    * - **API ID Path**: guides.showOnThisPage
    * - **Tab**: Guide
-   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   showOnThisPage: prismic.BooleanField;
 
@@ -3501,7 +3487,7 @@ interface GuidesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: guides.body[]
    * - **Tab**: Guide
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */
   body: prismic.SliceZone<GuidesDocumentDataBodySlice> /**
    * Slice Zone field in *Guide*
@@ -3510,7 +3496,7 @@ interface GuidesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: guides.promo[]
    * - **Tab**: Promo
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */;
   promo: prismic.SliceZone<GuidesDocumentDataPromoSlice> /**
    * Metadata description field in *Guide*
@@ -3519,7 +3505,7 @@ interface GuidesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: guides.metadataDescription
    * - **Tab**: Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */;
   metadataDescription: prismic.RichTextField;
 }
@@ -3529,7 +3515,7 @@ interface GuidesDocumentData {
  *
  * - **API ID**: `guides`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -3543,13 +3529,13 @@ interface InterpretationTypesDocumentData {
   /**
    * Title field in *Interpretation type*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: interpretation-types.title
    * - **Tab**: Interpretation type
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Abbreviation field in *Interpretation type*
@@ -3558,7 +3544,7 @@ interface InterpretationTypesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: interpretation-types.abbreviation
    * - **Tab**: Interpretation type
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   abbreviation: prismic.RichTextField;
 
@@ -3569,7 +3555,7 @@ interface InterpretationTypesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: interpretation-types.description
    * - **Tab**: Interpretation type
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 
@@ -3580,7 +3566,7 @@ interface InterpretationTypesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: interpretation-types.primaryDescription
    * - **Tab**: Interpretation type
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   primaryDescription: prismic.RichTextField;
 }
@@ -3590,7 +3576,7 @@ interface InterpretationTypesDocumentData {
  *
  * - **API ID**: `interpretation-types`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -3608,13 +3594,13 @@ interface LabelsDocumentData {
   /**
    * Title field in *Label*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: labels.title
    * - **Tab**: Label
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Description field in *Label*
@@ -3623,7 +3609,7 @@ interface LabelsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: labels.description
    * - **Tab**: Label
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 }
@@ -3633,7 +3619,7 @@ interface LabelsDocumentData {
  *
  * - **API ID**: `labels`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -3654,7 +3640,7 @@ export interface OrganisationsDocumentDataSameAsItem {
    * - **Field Type**: Text
    * - **Placeholder**: https://example.com/organisation (required)
    * - **API ID Path**: organisations.sameAs[].link
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   link: prismic.KeyTextField;
 
@@ -3664,7 +3650,7 @@ export interface OrganisationsDocumentDataSameAsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: The official website of Organisation (required)
    * - **API ID Path**: organisations.sameAs[].title
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   title: prismic.RichTextField;
 }
@@ -3676,13 +3662,13 @@ interface OrganisationsDocumentData {
   /**
    * Title field in *Organisation*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: organisations.name
    * - **Tab**: Organisation
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  name: prismic.RichTextField;
+  name: prismic.TitleField;
 
   /**
    * Description field in *Organisation*
@@ -3691,7 +3677,7 @@ interface OrganisationsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: organisations.description
    * - **Tab**: Organisation
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 
@@ -3702,7 +3688,7 @@ interface OrganisationsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: organisations.image
    * - **Tab**: Organisation
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
@@ -3713,7 +3699,7 @@ interface OrganisationsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: organisations.sameAs[]
    * - **Tab**: Organisation
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   sameAs: prismic.GroupField<Simplify<OrganisationsDocumentDataSameAsItem>>;
 }
@@ -3723,7 +3709,7 @@ interface OrganisationsDocumentData {
  *
  * - **API ID**: `organisations`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -3741,13 +3727,13 @@ interface PageFormatsDocumentData {
   /**
    * Title field in *Page format*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: page-formats.title
    * - **Tab**: Page format
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Description field in *Page format*
@@ -3756,7 +3742,7 @@ interface PageFormatsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: page-formats.description
    * - **Tab**: Page format
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 }
@@ -3766,7 +3752,7 @@ interface PageFormatsDocumentData {
  *
  * - **API ID**: `page-formats`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -3808,7 +3794,7 @@ export interface PagesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: pages.promo[].editorialImage.primary.caption
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   caption: prismic.RichTextField;
 
@@ -3818,7 +3804,7 @@ export interface PagesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: pages.promo[].editorialImage.primary.image
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
@@ -3828,7 +3814,7 @@ export interface PagesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Text
    * - **Placeholder**: *None*
    * - **API ID Path**: pages.promo[].editorialImage.primary.link
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   link: prismic.KeyTextField;
 }
@@ -3854,7 +3840,7 @@ export interface PagesDocumentDataSeasonsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: Select a Season
    * - **API ID Path**: pages.seasons[].season
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   season: prismic.ContentRelationshipField<'seasons'>;
 }
@@ -3869,7 +3855,7 @@ export interface PagesDocumentDataParentsItem {
    * - **Field Type**: Number
    * - **Placeholder**: *None*
    * - **API ID Path**: pages.parents[].order
-   * - **Documentation**: https://prismic.io/docs/fields/number
+   * - **Documentation**: https://prismic.io/docs/field#number
    */
   order: prismic.NumberField;
 
@@ -3879,11 +3865,9 @@ export interface PagesDocumentDataParentsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: Select a parent page
    * - **API ID Path**: pages.parents[].parent
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  parent:
-    | prismic.ContentRelationshipField<'pages'>
-    | prismic.ContentRelationshipField<'exhibitions'>;
+  parent: prismic.ContentRelationshipField<'pages' | 'exhibitions'>;
 }
 
 /**
@@ -3896,7 +3880,7 @@ export interface PagesDocumentDataContributorsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: pages.contributors[].role
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   role: prismic.ContentRelationshipField<'editorial-contributor-roles'>;
 
@@ -3906,11 +3890,9 @@ export interface PagesDocumentDataContributorsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: pages.contributors[].contributor
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  contributor:
-    | prismic.ContentRelationshipField<'people'>
-    | prismic.ContentRelationshipField<'organisations'>;
+  contributor: prismic.ContentRelationshipField<'people' | 'organisations'>;
 
   /**
    * Contributor description override field in *Page → Contributors*
@@ -3918,7 +3900,7 @@ export interface PagesDocumentDataContributorsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: pages.contributors[].description
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 }
@@ -3930,13 +3912,13 @@ interface PagesDocumentData {
   /**
    * Title field in *Page*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: pages.title
    * - **Tab**: Page
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Format field in *Page*
@@ -3945,7 +3927,7 @@ interface PagesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: pages.format
    * - **Tab**: Page
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   format: prismic.ContentRelationshipField<'page-formats'>;
 
@@ -3956,7 +3938,7 @@ interface PagesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: pages.datePublished
    * - **Tab**: Page
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   datePublished: prismic.TimestampField;
 
@@ -3968,7 +3950,7 @@ interface PagesDocumentData {
    * - **Default Value**: false
    * - **API ID Path**: pages.showOnThisPage
    * - **Tab**: Page
-   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   showOnThisPage: prismic.BooleanField;
 
@@ -3979,7 +3961,7 @@ interface PagesDocumentData {
    * - **Placeholder**: Introductory/important text to appear near the top of the page
    * - **API ID Path**: pages.introText
    * - **Tab**: Page
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   introText: prismic.RichTextField;
 
@@ -3990,7 +3972,7 @@ interface PagesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: pages.body[]
    * - **Tab**: Page
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */
   body: prismic.SliceZone<PagesDocumentDataBodySlice> /**
    * Slice Zone field in *Page*
@@ -3999,7 +3981,7 @@ interface PagesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: pages.promo[]
    * - **Tab**: Promo
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */;
   promo: prismic.SliceZone<PagesDocumentDataPromoSlice> /**
    * Metadata description field in *Page*
@@ -4008,7 +3990,7 @@ interface PagesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: pages.metadataDescription
    * - **Tab**: Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */;
   metadataDescription: prismic.RichTextField /**
    * Seasons field in *Page*
@@ -4017,7 +3999,7 @@ interface PagesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: pages.seasons[]
    * - **Tab**: Content relationships
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   seasons: prismic.GroupField<Simplify<PagesDocumentDataSeasonsItem>>;
 
@@ -4028,7 +4010,7 @@ interface PagesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: pages.parents[]
    * - **Tab**: Content relationships
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   parents: prismic.GroupField<Simplify<PagesDocumentDataParentsItem>> /**
    * Contributors field in *Page*
@@ -4037,20 +4019,20 @@ interface PagesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: pages.contributors[]
    * - **Tab**: Contributors
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   contributors: prismic.GroupField<Simplify<PagesDocumentDataContributorsItem>>;
 
   /**
    * Contributors heading override field in *Page*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: pages.contributorsTitle
    * - **Tab**: Contributors
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  contributorsTitle: prismic.RichTextField;
+  contributorsTitle: prismic.TitleField;
 }
 
 /**
@@ -4058,7 +4040,7 @@ interface PagesDocumentData {
  *
  * - **API ID**: `pages`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -4075,7 +4057,7 @@ export interface PeopleDocumentDataSameAsItem {
    * - **Field Type**: Text
    * - **Placeholder**: https://example.com/person (required)
    * - **API ID Path**: people.sameAs[].link
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   link: prismic.KeyTextField;
 
@@ -4085,7 +4067,7 @@ export interface PeopleDocumentDataSameAsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: The personal website of Person (required)
    * - **API ID Path**: people.sameAs[].title
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   title: prismic.RichTextField;
 }
@@ -4101,7 +4083,7 @@ interface PeopleDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: people.name
    * - **Tab**: Person
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   name: prismic.KeyTextField;
 
@@ -4112,7 +4094,7 @@ interface PeopleDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: people.description
    * - **Tab**: Person
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 
@@ -4123,7 +4105,7 @@ interface PeopleDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: people.pronouns
    * - **Tab**: Person
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   pronouns: prismic.KeyTextField;
 
@@ -4134,7 +4116,7 @@ interface PeopleDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: people.image
    * - **Tab**: Person
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
@@ -4145,7 +4127,7 @@ interface PeopleDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: people.sameAs[]
    * - **Tab**: Person
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   sameAs: prismic.GroupField<Simplify<PeopleDocumentDataSameAsItem>>;
 }
@@ -4155,7 +4137,7 @@ interface PeopleDocumentData {
  *
  * - **API ID**: `people`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -4194,13 +4176,13 @@ interface PlacesDocumentData {
   /**
    * Title field in *Place*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: places.title
    * - **Tab**: Place
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Geolocation field in *Place*
@@ -4209,7 +4191,7 @@ interface PlacesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: places.geolocation
    * - **Tab**: Place
-   * - **Documentation**: https://prismic.io/docs/fields/geopoint
+   * - **Documentation**: https://prismic.io/docs/field#geopoint
    */
   geolocation: prismic.GeoPointField;
 
@@ -4220,7 +4202,7 @@ interface PlacesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: places.level
    * - **Tab**: Place
-   * - **Documentation**: https://prismic.io/docs/fields/number
+   * - **Documentation**: https://prismic.io/docs/field#number
    */
   level: prismic.NumberField;
 
@@ -4231,7 +4213,7 @@ interface PlacesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: places.capacity
    * - **Tab**: Place
-   * - **Documentation**: https://prismic.io/docs/fields/number
+   * - **Documentation**: https://prismic.io/docs/field#number
    */
   capacity: prismic.NumberField;
 
@@ -4242,7 +4224,7 @@ interface PlacesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: places.locationInformation
    * - **Tab**: Place
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   locationInformation: prismic.RichTextField;
 
@@ -4253,7 +4235,7 @@ interface PlacesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: places.body[]
    * - **Tab**: Place
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */
   body: prismic.SliceZone<PlacesDocumentDataBodySlice>;
 }
@@ -4263,7 +4245,7 @@ interface PlacesDocumentData {
  *
  * - **API ID**: `places`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -4285,7 +4267,7 @@ interface PopupDialogDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: popup-dialog.openButtonText
    * - **Tab**: Popup dialog
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   openButtonText: prismic.KeyTextField;
 
@@ -4296,7 +4278,7 @@ interface PopupDialogDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: popup-dialog.title
    * - **Tab**: Popup dialog
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   title: prismic.KeyTextField;
 
@@ -4307,7 +4289,7 @@ interface PopupDialogDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: popup-dialog.text
    * - **Tab**: Popup dialog
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   text: prismic.RichTextField;
 
@@ -4318,7 +4300,7 @@ interface PopupDialogDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: popup-dialog.linkText
    * - **Tab**: Popup dialog
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   linkText: prismic.KeyTextField;
 
@@ -4329,7 +4311,7 @@ interface PopupDialogDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: popup-dialog.link
    * - **Tab**: Popup dialog
-   * - **Documentation**: https://prismic.io/docs/fields/link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 
@@ -4341,7 +4323,7 @@ interface PopupDialogDocumentData {
    * - **Default Value**: false
    * - **API ID Path**: popup-dialog.isShown
    * - **Tab**: Popup dialog
-   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   isShown: prismic.BooleanField;
 
@@ -4352,7 +4334,7 @@ interface PopupDialogDocumentData {
    * - **Placeholder**: Pipe-separated (|) list of page paths here if you only want this on certain pages
    * - **API ID Path**: popup-dialog.routeRegex
    * - **Tab**: Popup dialog
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   routeRegex: prismic.KeyTextField;
 }
@@ -4362,7 +4344,7 @@ interface PopupDialogDocumentData {
  *
  * - **API ID**: `popup-dialog`
  * - **Repeatable**: `false`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -4380,13 +4362,13 @@ interface ProjectFormatsDocumentData {
   /**
    * Title field in *Project format*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: project-formats.title
    * - **Tab**: Project format
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Description field in *Project format*
@@ -4395,7 +4377,7 @@ interface ProjectFormatsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: project-formats.description
    * - **Tab**: Project format
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 }
@@ -4405,7 +4387,7 @@ interface ProjectFormatsDocumentData {
  *
  * - **API ID**: `project-formats`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -4447,7 +4429,7 @@ export interface ProjectsDocumentDataContributorsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: projects.contributors[].role
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   role: prismic.ContentRelationshipField<'editorial-contributor-roles'>;
 
@@ -4457,11 +4439,9 @@ export interface ProjectsDocumentDataContributorsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: projects.contributors[].contributor
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  contributor:
-    | prismic.ContentRelationshipField<'people'>
-    | prismic.ContentRelationshipField<'organisations'>;
+  contributor: prismic.ContentRelationshipField<'people' | 'organisations'>;
 
   /**
    * Contributor description override field in *Project → Contributors*
@@ -4469,7 +4449,7 @@ export interface ProjectsDocumentDataContributorsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: projects.contributors[].description
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 }
@@ -4484,7 +4464,7 @@ export interface ProjectsDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: projects.promo[].editorialImage.primary.caption
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   caption: prismic.RichTextField;
 
@@ -4494,7 +4474,7 @@ export interface ProjectsDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: projects.promo[].editorialImage.primary.image
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
@@ -4504,7 +4484,7 @@ export interface ProjectsDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Text
    * - **Placeholder**: *None*
    * - **API ID Path**: projects.promo[].editorialImage.primary.link
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   link: prismic.KeyTextField;
 }
@@ -4531,7 +4511,7 @@ export interface ProjectsDocumentDataSeasonsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: Select a Season
    * - **API ID Path**: projects.seasons[].season
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   season: prismic.ContentRelationshipField<'seasons'>;
 }
@@ -4543,13 +4523,13 @@ interface ProjectsDocumentData {
   /**
    * Title field in *Project*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: projects.title
    * - **Tab**: Project
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Format field in *Project*
@@ -4558,7 +4538,7 @@ interface ProjectsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: projects.format
    * - **Tab**: Project
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   format: prismic.ContentRelationshipField<'project-formats'>;
 
@@ -4569,7 +4549,7 @@ interface ProjectsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: projects.start
    * - **Tab**: Project
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   start: prismic.TimestampField;
 
@@ -4580,7 +4560,7 @@ interface ProjectsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: projects.end
    * - **Tab**: Project
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   end: prismic.TimestampField;
 
@@ -4591,7 +4571,7 @@ interface ProjectsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: projects.body[]
    * - **Tab**: Project
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */
   body: prismic.SliceZone<ProjectsDocumentDataBodySlice> /**
    * Contributors field in *Project*
@@ -4600,7 +4580,7 @@ interface ProjectsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: projects.contributors[]
    * - **Tab**: Contributors
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   contributors: prismic.GroupField<
     Simplify<ProjectsDocumentDataContributorsItem>
@@ -4609,20 +4589,20 @@ interface ProjectsDocumentData {
   /**
    * Contributors heading override field in *Project*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: projects.contributorsTitle
    * - **Tab**: Contributors
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  contributorsTitle: prismic.RichTextField /**
+  contributorsTitle: prismic.TitleField /**
    * Slice Zone field in *Project*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
    * - **API ID Path**: projects.promo[]
    * - **Tab**: Promo
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */;
   promo: prismic.SliceZone<ProjectsDocumentDataPromoSlice> /**
    * Seasons field in *Project*
@@ -4631,7 +4611,7 @@ interface ProjectsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: projects.seasons[]
    * - **Tab**: Content relationships
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   seasons: prismic.GroupField<Simplify<ProjectsDocumentDataSeasonsItem>> /**
    * Metadata description field in *Project*
@@ -4640,7 +4620,7 @@ interface ProjectsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: projects.metadataDescription
    * - **Tab**: Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */;
   metadataDescription: prismic.RichTextField;
 }
@@ -4650,7 +4630,7 @@ interface ProjectsDocumentData {
  *
  * - **API ID**: `projects`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -4692,7 +4672,7 @@ export interface SeasonsDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: seasons.promo[].editorialImage.primary.caption
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   caption: prismic.RichTextField;
 
@@ -4702,7 +4682,7 @@ export interface SeasonsDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: seasons.promo[].editorialImage.primary.image
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
@@ -4712,7 +4692,7 @@ export interface SeasonsDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Text
    * - **Placeholder**: *None*
    * - **API ID Path**: seasons.promo[].editorialImage.primary.link
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   link: prismic.KeyTextField;
 }
@@ -4736,13 +4716,13 @@ interface SeasonsDocumentData {
   /**
    * Title field in *Season*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: seasons.title
    * - **Tab**: Season
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Start date field in *Season*
@@ -4751,7 +4731,7 @@ interface SeasonsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: seasons.start
    * - **Tab**: Season
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   start: prismic.TimestampField;
 
@@ -4762,7 +4742,7 @@ interface SeasonsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: seasons.end
    * - **Tab**: Season
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   end: prismic.TimestampField;
 
@@ -4773,7 +4753,7 @@ interface SeasonsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: seasons.body[]
    * - **Tab**: Season
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */
   body: prismic.SliceZone<SeasonsDocumentDataBodySlice> /**
    * Slice Zone field in *Season*
@@ -4782,7 +4762,7 @@ interface SeasonsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: seasons.promo[]
    * - **Tab**: Promo
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */;
   promo: prismic.SliceZone<SeasonsDocumentDataPromoSlice>;
 }
@@ -4792,7 +4772,7 @@ interface SeasonsDocumentData {
  *
  * - **API ID**: `seasons`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -4831,12 +4811,12 @@ export interface SeriesDocumentDataScheduleItem {
   /**
    * Title field in *Story series → Schedule*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: series.schedule[].title
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Date to be published field in *Story series → Schedule*
@@ -4844,7 +4824,7 @@ export interface SeriesDocumentDataScheduleItem {
    * - **Field Type**: Timestamp
    * - **Placeholder**: *None*
    * - **API ID Path**: series.schedule[].publishDate
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   publishDate: prismic.TimestampField;
 }
@@ -4859,7 +4839,7 @@ export interface SeriesDocumentDataContributorsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: series.contributors[].role
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   role: prismic.ContentRelationshipField<'editorial-contributor-roles'>;
 
@@ -4869,11 +4849,9 @@ export interface SeriesDocumentDataContributorsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: series.contributors[].contributor
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  contributor:
-    | prismic.ContentRelationshipField<'people'>
-    | prismic.ContentRelationshipField<'organisations'>;
+  contributor: prismic.ContentRelationshipField<'people' | 'organisations'>;
 
   /**
    * Contributor description override field in *Story series → Contributors*
@@ -4881,7 +4859,7 @@ export interface SeriesDocumentDataContributorsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: series.contributors[].description
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 }
@@ -4896,7 +4874,7 @@ export interface SeriesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: series.promo[].editorialImage.primary.caption
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   caption: prismic.RichTextField;
 
@@ -4906,7 +4884,7 @@ export interface SeriesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: series.promo[].editorialImage.primary.image
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
@@ -4916,7 +4894,7 @@ export interface SeriesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Text
    * - **Placeholder**: *None*
    * - **API ID Path**: series.promo[].editorialImage.primary.link
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   link: prismic.KeyTextField;
 }
@@ -4942,7 +4920,7 @@ export interface SeriesDocumentDataSeasonsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: Select a Season
    * - **API ID Path**: series.seasons[].season
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   season: prismic.ContentRelationshipField<'seasons'>;
 }
@@ -4954,13 +4932,13 @@ interface SeriesDocumentData {
   /**
    * Title field in *Story series*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: series.title
    * - **Tab**: Story series
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Format field in *Story series*
@@ -4969,7 +4947,7 @@ interface SeriesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: series.format
    * - **Tab**: Story series
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   format: prismic.ContentRelationshipField<'article-formats'>;
 
@@ -4980,7 +4958,7 @@ interface SeriesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: series.color
    * - **Tab**: Story series
-   * - **Documentation**: https://prismic.io/docs/fields/select
+   * - **Documentation**: https://prismic.io/docs/field#select
    */
   color: prismic.SelectField<
     'accent.green' | 'accent.purple' | 'accent.salmon' | 'accent.blue'
@@ -4993,7 +4971,7 @@ interface SeriesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: series.body[]
    * - **Tab**: Story series
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */
   body: prismic.SliceZone<SeriesDocumentDataBodySlice> /**
    * Schedule field in *Story series*
@@ -5002,7 +4980,7 @@ interface SeriesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: series.schedule[]
    * - **Tab**: Schedule
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   schedule: prismic.GroupField<Simplify<SeriesDocumentDataScheduleItem>> /**
    * Contributors field in *Story series*
@@ -5011,7 +4989,7 @@ interface SeriesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: series.contributors[]
    * - **Tab**: Contributors
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   contributors: prismic.GroupField<
     Simplify<SeriesDocumentDataContributorsItem>
@@ -5020,20 +4998,20 @@ interface SeriesDocumentData {
   /**
    * Contributors heading override field in *Story series*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: series.contributorsTitle
    * - **Tab**: Contributors
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  contributorsTitle: prismic.RichTextField /**
+  contributorsTitle: prismic.TitleField /**
    * Slice Zone field in *Story series*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
    * - **API ID Path**: series.promo[]
    * - **Tab**: Promo
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */;
   promo: prismic.SliceZone<SeriesDocumentDataPromoSlice> /**
    * Metadata description field in *Story series*
@@ -5042,7 +5020,7 @@ interface SeriesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: series.metadataDescription
    * - **Tab**: Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */;
   metadataDescription: prismic.RichTextField /**
    * Seasons field in *Story series*
@@ -5051,7 +5029,7 @@ interface SeriesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: series.seasons[]
    * - **Tab**: Content relationships
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   seasons: prismic.GroupField<Simplify<SeriesDocumentDataSeasonsItem>> /**
    * Override published date field in *Story series*
@@ -5060,7 +5038,7 @@ interface SeriesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: series.publishDate
    * - **Tab**: Overrides
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */;
   publishDate: prismic.TimestampField;
 }
@@ -5070,7 +5048,7 @@ interface SeriesDocumentData {
  *
  * - **API ID**: `series`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -5087,12 +5065,9 @@ export interface StoriesLandingDocumentDataStoriesItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: stories-landing.stories[].story
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  story:
-    | prismic.ContentRelationshipField<'articles'>
-    | prismic.ContentRelationshipField<'series'>
-    | prismic.ContentRelationshipField<'webcomics'>;
+  story: prismic.ContentRelationshipField<'articles' | 'series' | 'webcomics'>;
 }
 
 /**
@@ -5105,7 +5080,7 @@ export interface StoriesLandingDocumentDataBooksItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: stories-landing.books[].book
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   book: prismic.ContentRelationshipField<'books'>;
 }
@@ -5121,18 +5096,18 @@ interface StoriesLandingDocumentData {
    * - **Placeholder**: This will appear at the top of the stories landing page.
    * - **API ID Path**: stories-landing.introText
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   introText: prismic.RichTextField /**
    * Title field in *Stories landing*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: stories-landing.storiesTitle
    * - **Tab**: Featured stories/series
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */;
-  storiesTitle: prismic.RichTextField;
+  storiesTitle: prismic.TitleField;
 
   /**
    * description field in *Stories landing*
@@ -5141,7 +5116,7 @@ interface StoriesLandingDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: stories-landing.storiesDescription
    * - **Tab**: Featured stories/series
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   storiesDescription: prismic.RichTextField;
 
@@ -5152,20 +5127,20 @@ interface StoriesLandingDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: stories-landing.stories[]
    * - **Tab**: Featured stories/series
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   stories: prismic.GroupField<
     Simplify<StoriesLandingDocumentDataStoriesItem>
   > /**
    * Title field in *Stories landing*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: stories-landing.booksTitle
    * - **Tab**: Featured books
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */;
-  booksTitle: prismic.RichTextField;
+  booksTitle: prismic.TitleField;
 
   /**
    * description field in *Stories landing*
@@ -5174,7 +5149,7 @@ interface StoriesLandingDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: stories-landing.booksDescription
    * - **Tab**: Featured books
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   booksDescription: prismic.RichTextField;
 
@@ -5185,7 +5160,7 @@ interface StoriesLandingDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: stories-landing.books[]
    * - **Tab**: Featured books
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
   books: prismic.GroupField<Simplify<StoriesLandingDocumentDataBooksItem>>;
 }
@@ -5195,7 +5170,7 @@ interface StoriesLandingDocumentData {
  *
  * - **API ID**: `stories-landing`
  * - **Repeatable**: `false`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -5217,7 +5192,7 @@ interface TeamsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: teams.title
    * - **Tab**: Team
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   title: prismic.RichTextField;
 
@@ -5228,7 +5203,7 @@ interface TeamsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: teams.subtitle
    * - **Tab**: Team
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   subtitle: prismic.RichTextField;
 
@@ -5239,7 +5214,7 @@ interface TeamsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: teams.email
    * - **Tab**: Team
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   email: prismic.KeyTextField;
 
@@ -5250,7 +5225,7 @@ interface TeamsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: teams.phone
    * - **Tab**: Team
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   phone: prismic.KeyTextField;
 }
@@ -5260,7 +5235,7 @@ interface TeamsDocumentData {
  *
  * - **API ID**: `teams`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -5287,7 +5262,7 @@ export interface VisualStoriesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: visual-stories.promo[].editorialImage.primary.caption
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   caption: prismic.RichTextField;
 
@@ -5297,7 +5272,7 @@ export interface VisualStoriesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: visual-stories.promo[].editorialImage.primary.image
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
@@ -5307,7 +5282,7 @@ export interface VisualStoriesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Text
    * - **Placeholder**: *None*
    * - **API ID Path**: visual-stories.promo[].editorialImage.primary.link
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   link: prismic.KeyTextField;
 }
@@ -5331,13 +5306,13 @@ interface VisualStoriesDocumentData {
   /**
    * Title field in *Visual story*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: visual-stories.title
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Related Document (e.g. Exhibition or Event) field in *Visual story*
@@ -5346,11 +5321,9 @@ interface VisualStoriesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: visual-stories.relatedDocument
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  relatedDocument:
-    | prismic.ContentRelationshipField<'exhibitions'>
-    | prismic.ContentRelationshipField<'events'>;
+  relatedDocument: prismic.ContentRelationshipField<'exhibitions' | 'events'>;
 
   /**
    * Date published field in *Visual story*
@@ -5359,7 +5332,7 @@ interface VisualStoriesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: visual-stories.datePublished
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
   datePublished: prismic.TimestampField;
 
@@ -5371,7 +5344,7 @@ interface VisualStoriesDocumentData {
    * - **Default Value**: true
    * - **API ID Path**: visual-stories.showOnThisPage
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   showOnThisPage: prismic.BooleanField;
 
@@ -5382,7 +5355,7 @@ interface VisualStoriesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: visual-stories.body[]
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */
   body: prismic.SliceZone<VisualStoriesDocumentDataBodySlice> /**
    * Slice Zone field in *Visual story*
@@ -5391,7 +5364,7 @@ interface VisualStoriesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: visual-stories.promo[]
    * - **Tab**: Promo
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */;
   promo: prismic.SliceZone<VisualStoriesDocumentDataPromoSlice>;
 }
@@ -5401,7 +5374,7 @@ interface VisualStoriesDocumentData {
  *
  * - **API ID**: `visual-stories`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -5422,7 +5395,7 @@ export interface WebcomicSeriesDocumentDataContributorsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomic-series.contributors[].role
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   role: prismic.ContentRelationshipField<'editorial-contributor-roles'>;
 
@@ -5432,11 +5405,9 @@ export interface WebcomicSeriesDocumentDataContributorsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomic-series.contributors[].contributor
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  contributor:
-    | prismic.ContentRelationshipField<'people'>
-    | prismic.ContentRelationshipField<'organisations'>;
+  contributor: prismic.ContentRelationshipField<'people' | 'organisations'>;
 
   /**
    * Contributor description override field in *[Deprecated] Webcomic series → Contributors*
@@ -5444,7 +5415,7 @@ export interface WebcomicSeriesDocumentDataContributorsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomic-series.contributors[].description
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 }
@@ -5459,7 +5430,7 @@ export interface WebcomicSeriesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomic-series.promo[].editorialImage.primary.caption
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   caption: prismic.RichTextField;
 
@@ -5469,7 +5440,7 @@ export interface WebcomicSeriesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomic-series.promo[].editorialImage.primary.image
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
@@ -5479,7 +5450,7 @@ export interface WebcomicSeriesDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Text
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomic-series.promo[].editorialImage.primary.link
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   link: prismic.KeyTextField;
 }
@@ -5503,13 +5474,13 @@ interface WebcomicSeriesDocumentData {
   /**
    * Title field in *[Deprecated] Webcomic series*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomic-series.title
    * - **Tab**: [Deprecated] Webcomic series
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Description field in *[Deprecated] Webcomic series*
@@ -5518,7 +5489,7 @@ interface WebcomicSeriesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomic-series.description
    * - **Tab**: [Deprecated] Webcomic series
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField /**
    * Contributors field in *[Deprecated] Webcomic series*
@@ -5527,7 +5498,7 @@ interface WebcomicSeriesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomic-series.contributors[]
    * - **Tab**: Contributors
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   contributors: prismic.GroupField<
     Simplify<WebcomicSeriesDocumentDataContributorsItem>
@@ -5536,20 +5507,20 @@ interface WebcomicSeriesDocumentData {
   /**
    * Contributors heading override field in *[Deprecated] Webcomic series*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomic-series.contributorsTitle
    * - **Tab**: Contributors
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  contributorsTitle: prismic.RichTextField /**
+  contributorsTitle: prismic.TitleField /**
    * Slice Zone field in *[Deprecated] Webcomic series*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomic-series.promo[]
    * - **Tab**: Promo
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */;
   promo: prismic.SliceZone<WebcomicSeriesDocumentDataPromoSlice> /**
    * Metadata description field in *[Deprecated] Webcomic series*
@@ -5558,7 +5529,7 @@ interface WebcomicSeriesDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomic-series.metadataDescription
    * - **Tab**: Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */;
   metadataDescription: prismic.RichTextField;
 }
@@ -5568,7 +5539,7 @@ interface WebcomicSeriesDocumentData {
  *
  * - **API ID**: `webcomic-series`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -5602,7 +5573,7 @@ export interface WebcomicsDocumentDataContributorsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomics.contributors[].role
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   role: prismic.ContentRelationshipField<'editorial-contributor-roles'>;
 
@@ -5612,11 +5583,9 @@ export interface WebcomicsDocumentDataContributorsItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomics.contributors[].contributor
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  contributor:
-    | prismic.ContentRelationshipField<'people'>
-    | prismic.ContentRelationshipField<'organisations'>;
+  contributor: prismic.ContentRelationshipField<'people' | 'organisations'>;
 
   /**
    * Contributor description override field in *Webcomic → Contributors*
@@ -5624,7 +5593,7 @@ export interface WebcomicsDocumentDataContributorsItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomics.contributors[].description
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   description: prismic.RichTextField;
 }
@@ -5639,7 +5608,7 @@ export interface WebcomicsDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomics.promo[].editorialImage.primary.caption
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   caption: prismic.RichTextField;
 
@@ -5649,7 +5618,7 @@ export interface WebcomicsDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomics.promo[].editorialImage.primary.image
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
@@ -5659,7 +5628,7 @@ export interface WebcomicsDocumentDataPromoEditorialImageSlicePrimary {
    * - **Field Type**: Text
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomics.promo[].editorialImage.primary.link
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   link: prismic.KeyTextField;
 }
@@ -5686,7 +5655,7 @@ export interface WebcomicsDocumentDataSeriesItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomics.series[].series
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   series: prismic.ContentRelationshipField<'webcomic-series'>;
 }
@@ -5698,13 +5667,13 @@ interface WebcomicsDocumentData {
   /**
    * Title field in *Webcomic*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomics.title
    * - **Tab**: Webcomic
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Format field in *Webcomic*
@@ -5713,7 +5682,7 @@ interface WebcomicsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomics.format
    * - **Tab**: Webcomic
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   format: prismic.ContentRelationshipField<'article-formats'>;
 
@@ -5724,7 +5693,7 @@ interface WebcomicsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomics.image
    * - **Tab**: Webcomic
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<never>;
 
@@ -5735,7 +5704,7 @@ interface WebcomicsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomics.body[]
    * - **Tab**: Webcomic
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */
   body: prismic.SliceZone<WebcomicsDocumentDataBodySlice> /**
    * Contributors field in *Webcomic*
@@ -5744,7 +5713,7 @@ interface WebcomicsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomics.contributors[]
    * - **Tab**: Contributors
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   contributors: prismic.GroupField<
     Simplify<WebcomicsDocumentDataContributorsItem>
@@ -5753,20 +5722,20 @@ interface WebcomicsDocumentData {
   /**
    * Contributors heading override field in *Webcomic*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomics.contributorsTitle
    * - **Tab**: Contributors
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  contributorsTitle: prismic.RichTextField /**
+  contributorsTitle: prismic.TitleField /**
    * Slice Zone field in *Webcomic*
    *
    * - **Field Type**: Slice Zone
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomics.promo[]
    * - **Tab**: Promo
-   * - **Documentation**: https://prismic.io/docs/slices
+   * - **Documentation**: https://prismic.io/docs/field#slices
    */;
   promo: prismic.SliceZone<WebcomicsDocumentDataPromoSlice> /**
    * Metadata description field in *Webcomic*
@@ -5775,7 +5744,7 @@ interface WebcomicsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomics.metadataDescription
    * - **Tab**: Metadata
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */;
   metadataDescription: prismic.RichTextField /**
    * Series field in *Webcomic*
@@ -5784,7 +5753,7 @@ interface WebcomicsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomics.series[]
    * - **Tab**: Content relationships
-   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   * - **Documentation**: https://prismic.io/docs/field#group
    */;
   series: prismic.GroupField<Simplify<WebcomicsDocumentDataSeriesItem>> /**
    * Override publish date rendering. This will not affect ordering field in *Webcomic*
@@ -5793,7 +5762,7 @@ interface WebcomicsDocumentData {
    * - **Placeholder**: *None*
    * - **API ID Path**: webcomics.publishDate
    * - **Tab**: Overrides
-   * - **Documentation**: https://prismic.io/docs/fields/timestamp
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */;
   publishDate: prismic.TimestampField;
 }
@@ -5803,7 +5772,7 @@ interface WebcomicsDocumentData {
  *
  * - **API ID**: `webcomics`
  * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
+ * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
@@ -5818,6 +5787,7 @@ export type AllDocumentTypes =
   | ArticleFormatsDocument
   | ArticlesDocument
   | AudiencesDocument
+  | BackgroundTexturesDocument
   | BooksDocument
   | CardDocument
   | CollectionVenueDocument
@@ -5860,12 +5830,12 @@ export interface AudioPlayerSliceDefaultPrimary {
   /**
    * Title field in *AudioPlayer → Default → Primary*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: audioPlayer.default.primary.title
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Audio field in *AudioPlayer → Default → Primary*
@@ -5873,7 +5843,7 @@ export interface AudioPlayerSliceDefaultPrimary {
    * - **Field Type**: Link to Media
    * - **Placeholder**: *None*
    * - **API ID Path**: audioPlayer.default.primary.audio
-   * - **Documentation**: https://prismic.io/docs/fields/link-to-media
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   audio: prismic.LinkToMediaField<prismic.FieldState, never>;
 
@@ -5883,7 +5853,7 @@ export interface AudioPlayerSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: audioPlayer.default.primary.transcript
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   transcript: prismic.RichTextField;
 }
@@ -5893,7 +5863,7 @@ export interface AudioPlayerSliceDefaultPrimary {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type AudioPlayerSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -5911,7 +5881,7 @@ type AudioPlayerSliceVariation = AudioPlayerSliceDefault;
  *
  * - **API ID**: `audioPlayer`
  * - **Description**: AudioPlayer
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type AudioPlayerSlice = prismic.SharedSlice<
   'audioPlayer',
@@ -5928,7 +5898,7 @@ export interface CollectionVenueSliceDefaultPrimary {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: collectionVenue.default.primary.content
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   content: prismic.ContentRelationshipField<'collection-venue'>;
 
@@ -5938,7 +5908,7 @@ export interface CollectionVenueSliceDefaultPrimary {
    * - **Field Type**: Select
    * - **Placeholder**: *None*
    * - **API ID Path**: collectionVenue.default.primary.showClosingTimes
-   * - **Documentation**: https://prismic.io/docs/fields/select
+   * - **Documentation**: https://prismic.io/docs/field#select
    */
   showClosingTimes: prismic.SelectField<'yes'>;
 
@@ -5949,7 +5919,7 @@ export interface CollectionVenueSliceDefaultPrimary {
    * - **Placeholder**: *None*
    * - **Default Value**: false
    * - **API ID Path**: collectionVenue.default.primary.isFeatured
-   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   isFeatured: prismic.BooleanField;
 }
@@ -5959,7 +5929,7 @@ export interface CollectionVenueSliceDefaultPrimary {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type CollectionVenueSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -5977,7 +5947,7 @@ type CollectionVenueSliceVariation = CollectionVenueSliceDefault;
  *
  * - **API ID**: `collectionVenue`
  * - **Description**: CollectionVenue
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type CollectionVenueSlice = prismic.SharedSlice<
   'collectionVenue',
@@ -5994,7 +5964,7 @@ export interface ContactSliceDefaultPrimary {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: contact.default.primary.content
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   content: prismic.ContentRelationshipField<'teams'>;
 }
@@ -6004,7 +5974,7 @@ export interface ContactSliceDefaultPrimary {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type ContactSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -6022,7 +5992,7 @@ type ContactSliceVariation = ContactSliceDefault;
  *
  * - **API ID**: `contact`
  * - **Description**: Contact
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type ContactSlice = prismic.SharedSlice<
   'contact',
@@ -6036,12 +6006,12 @@ export interface ContentListSliceDefaultPrimary {
   /**
    * Title field in *ContentList → Default → Primary*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: contentList.default.primary.title
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 }
 
 /**
@@ -6054,18 +6024,19 @@ export interface ContentListSliceDefaultItem {
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
    * - **API ID Path**: contentList.items[].content
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  content:
-    | prismic.ContentRelationshipField<'pages'>
-    | prismic.ContentRelationshipField<'event-series'>
-    | prismic.ContentRelationshipField<'books'>
-    | prismic.ContentRelationshipField<'events'>
-    | prismic.ContentRelationshipField<'articles'>
-    | prismic.ContentRelationshipField<'exhibitions'>
-    | prismic.ContentRelationshipField<'card'>
-    | prismic.ContentRelationshipField<'seasons'>
-    | prismic.ContentRelationshipField<'guides'>;
+  content: prismic.ContentRelationshipField<
+    | 'pages'
+    | 'event-series'
+    | 'books'
+    | 'events'
+    | 'articles'
+    | 'exhibitions'
+    | 'card'
+    | 'seasons'
+    | 'guides'
+  >;
 }
 
 /**
@@ -6073,7 +6044,7 @@ export interface ContentListSliceDefaultItem {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type ContentListSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -6091,7 +6062,7 @@ type ContentListSliceVariation = ContentListSliceDefault;
  *
  * - **API ID**: `contentList`
  * - **Description**: ContentList
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type ContentListSlice = prismic.SharedSlice<
   'contentList',
@@ -6108,7 +6079,7 @@ export interface EditorialImageSliceDefaultPrimary {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: editorialImage.default.primary.image
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
@@ -6118,7 +6089,7 @@ export interface EditorialImageSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: editorialImage.default.primary.caption
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   caption: prismic.RichTextField;
 
@@ -6129,7 +6100,7 @@ export interface EditorialImageSliceDefaultPrimary {
    * - **Placeholder**: *None*
    * - **Default Value**: false
    * - **API ID Path**: editorialImage.default.primary.hasRoundedCorners
-   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   hasRoundedCorners: prismic.BooleanField;
 }
@@ -6139,7 +6110,7 @@ export interface EditorialImageSliceDefaultPrimary {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type EditorialImageSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -6157,7 +6128,7 @@ type EditorialImageSliceVariation = EditorialImageSliceDefault;
  *
  * - **API ID**: `editorialImage`
  * - **Description**: EditorialImage
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type EditorialImageSlice = prismic.SharedSlice<
   'editorialImage',
@@ -6171,12 +6142,12 @@ export interface EditorialImageGallerySliceDefaultPrimary {
   /**
    * Title field in *EditorialImageGallery → Default → Primary*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: editorialImageGallery.default.primary.title
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * layout in frames field in *EditorialImageGallery → Default → Primary*
@@ -6185,7 +6156,7 @@ export interface EditorialImageGallerySliceDefaultPrimary {
    * - **Placeholder**: *None*
    * - **Default Value**: false
    * - **API ID Path**: editorialImageGallery.default.primary.isFrames
-   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   isFrames: prismic.BooleanField;
 }
@@ -6200,7 +6171,7 @@ export interface EditorialImageGallerySliceDefaultItem {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: editorialImageGallery.items[].image
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 
@@ -6210,7 +6181,7 @@ export interface EditorialImageGallerySliceDefaultItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: editorialImageGallery.items[].caption
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   caption: prismic.RichTextField;
 
@@ -6221,7 +6192,7 @@ export interface EditorialImageGallerySliceDefaultItem {
    * - **Placeholder**: *None*
    * - **Default Value**: false
    * - **API ID Path**: editorialImageGallery.items[].hasRoundedCorners
-   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   hasRoundedCorners: prismic.BooleanField;
 }
@@ -6231,7 +6202,7 @@ export interface EditorialImageGallerySliceDefaultItem {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type EditorialImageGallerySliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -6249,7 +6220,7 @@ type EditorialImageGallerySliceVariation = EditorialImageGallerySliceDefault;
  *
  * - **API ID**: `editorialImageGallery`
  * - **Description**: EditorialImageGallery
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type EditorialImageGallerySlice = prismic.SharedSlice<
   'editorialImageGallery',
@@ -6266,7 +6237,7 @@ export interface EmbedSliceDefaultPrimary {
    * - **Field Type**: Embed
    * - **Placeholder**: *None*
    * - **API ID Path**: embed.default.primary.embed
-   * - **Documentation**: https://prismic.io/docs/fields/embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
    */
   embed: prismic.EmbedField;
 
@@ -6276,7 +6247,7 @@ export interface EmbedSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: embed.default.primary.caption
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   caption: prismic.RichTextField;
 
@@ -6286,7 +6257,7 @@ export interface EmbedSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: embed.default.primary.transcript
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   transcript: prismic.RichTextField;
 }
@@ -6296,7 +6267,7 @@ export interface EmbedSliceDefaultPrimary {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type EmbedSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -6314,7 +6285,7 @@ type EmbedSliceVariation = EmbedSliceDefault;
  *
  * - **API ID**: `embed`
  * - **Description**: Embed (Youtube, SoundCloud, etc.)
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type EmbedSlice = prismic.SharedSlice<'embed', EmbedSliceVariation>;
 
@@ -6328,7 +6299,7 @@ export interface GifVideoSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: gifVideo.default.primary.caption
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   caption: prismic.RichTextField;
 
@@ -6338,7 +6309,7 @@ export interface GifVideoSliceDefaultPrimary {
    * - **Field Type**: Text
    * - **Placeholder**: title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
    * - **API ID Path**: gifVideo.default.primary.tasl
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   tasl: prismic.KeyTextField;
 
@@ -6348,7 +6319,7 @@ export interface GifVideoSliceDefaultPrimary {
    * - **Field Type**: Link to Media
    * - **Placeholder**: Video
    * - **API ID Path**: gifVideo.default.primary.video
-   * - **Documentation**: https://prismic.io/docs/fields/link-to-media
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   video: prismic.LinkToMediaField<prismic.FieldState, never>;
 
@@ -6358,7 +6329,7 @@ export interface GifVideoSliceDefaultPrimary {
    * - **Field Type**: Select
    * - **Placeholder**: *None*
    * - **API ID Path**: gifVideo.default.primary.playbackRate
-   * - **Documentation**: https://prismic.io/docs/fields/select
+   * - **Documentation**: https://prismic.io/docs/field#select
    */
   playbackRate: prismic.SelectField<
     '0.1' | '0.25' | '0.5' | '0.75' | '1' | '1.25' | '1.5' | '1.75' | '2'
@@ -6371,7 +6342,7 @@ export interface GifVideoSliceDefaultPrimary {
    * - **Placeholder**: *None*
    * - **Default Value**: true
    * - **API ID Path**: gifVideo.default.primary.autoPlay
-   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   autoPlay: prismic.BooleanField;
 
@@ -6382,7 +6353,7 @@ export interface GifVideoSliceDefaultPrimary {
    * - **Placeholder**: *None*
    * - **Default Value**: true
    * - **API ID Path**: gifVideo.default.primary.loop
-   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   loop: prismic.BooleanField;
 
@@ -6393,7 +6364,7 @@ export interface GifVideoSliceDefaultPrimary {
    * - **Placeholder**: *None*
    * - **Default Value**: true
    * - **API ID Path**: gifVideo.default.primary.mute
-   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   mute: prismic.BooleanField;
 
@@ -6404,7 +6375,7 @@ export interface GifVideoSliceDefaultPrimary {
    * - **Placeholder**: *None*
    * - **Default Value**: false
    * - **API ID Path**: gifVideo.default.primary.showControls
-   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   showControls: prismic.BooleanField;
 }
@@ -6414,7 +6385,7 @@ export interface GifVideoSliceDefaultPrimary {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type GifVideoSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -6432,7 +6403,7 @@ type GifVideoSliceVariation = GifVideoSliceDefault;
  *
  * - **API ID**: `gifVideo`
  * - **Description**: GifVideo
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type GifVideoSlice = prismic.SharedSlice<
   'gifVideo',
@@ -6449,7 +6420,7 @@ export interface GuideSectionHeadingSliceDefaultPrimary {
    * - **Field Type**: Number
    * - **Placeholder**: Add the stop number if the content is related to a particular stop
    * - **API ID Path**: guide_section_heading.default.primary.number
-   * - **Documentation**: https://prismic.io/docs/fields/number
+   * - **Documentation**: https://prismic.io/docs/field#number
    */
   number: prismic.NumberField;
 
@@ -6459,7 +6430,7 @@ export interface GuideSectionHeadingSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: Provides a section heading for related exhibition items
    * - **API ID Path**: guide_section_heading.default.primary.title
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   title: prismic.RichTextField;
 
@@ -6469,7 +6440,7 @@ export interface GuideSectionHeadingSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: guide_section_heading.default.primary.subtitle
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   subtitle: prismic.RichTextField;
 
@@ -6479,7 +6450,7 @@ export interface GuideSectionHeadingSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: guide_section_heading.default.primary.text
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   text: prismic.RichTextField;
 }
@@ -6489,7 +6460,7 @@ export interface GuideSectionHeadingSliceDefaultPrimary {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type GuideSectionHeadingSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -6507,7 +6478,7 @@ type GuideSectionHeadingSliceVariation = GuideSectionHeadingSliceDefault;
  *
  * - **API ID**: `guide_section_heading`
  * - **Description**: GuideSectionHeading
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type GuideSectionHeadingSlice = prismic.SharedSlice<
   'guide_section_heading',
@@ -6524,7 +6495,7 @@ export interface GuideStopSliceDefaultPrimary {
    * - **Field Type**: Number
    * - **Placeholder**: Stop number for this content
    * - **API ID Path**: guide_stop.default.primary.number
-   * - **Documentation**: https://prismic.io/docs/fields/number
+   * - **Documentation**: https://prismic.io/docs/field#number
    */
   number: prismic.NumberField;
 
@@ -6534,7 +6505,7 @@ export interface GuideStopSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: guide_stop.default.primary.title
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   title: prismic.RichTextField;
 
@@ -6544,7 +6515,7 @@ export interface GuideStopSliceDefaultPrimary {
    * - **Field Type**: Link to Media
    * - **Placeholder**: *None*
    * - **API ID Path**: guide_stop.default.primary.audio_with_description
-   * - **Documentation**: https://prismic.io/docs/fields/link-to-media
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   audio_with_description: prismic.LinkToMediaField<prismic.FieldState, never>;
 
@@ -6554,7 +6525,7 @@ export interface GuideStopSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: Transcript of the audio file
    * - **API ID Path**: guide_stop.default.primary.transcript
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   transcript: prismic.RichTextField;
 
@@ -6564,7 +6535,7 @@ export interface GuideStopSliceDefaultPrimary {
    * - **Field Type**: Text
    * - **Placeholder**: e.g. 03:30
    * - **API ID Path**: guide_stop.default.primary.audio_duration
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   audio_duration: prismic.KeyTextField;
 
@@ -6574,7 +6545,7 @@ export interface GuideStopSliceDefaultPrimary {
    * - **Field Type**: Embed
    * - **Placeholder**: *None*
    * - **API ID Path**: guide_stop.default.primary.bsl_video
-   * - **Documentation**: https://prismic.io/docs/fields/embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
    */
   bsl_video: prismic.EmbedField;
 
@@ -6584,7 +6555,7 @@ export interface GuideStopSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: Transcript of the BSL video
    * - **API ID Path**: guide_stop.default.primary.subtitles
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   subtitles: prismic.RichTextField;
 
@@ -6594,7 +6565,7 @@ export interface GuideStopSliceDefaultPrimary {
    * - **Field Type**: Text
    * - **Placeholder**: e.g. 03:30
    * - **API ID Path**: guide_stop.default.primary.video_duration
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   video_duration: prismic.KeyTextField;
 
@@ -6604,7 +6575,7 @@ export interface GuideStopSliceDefaultPrimary {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: guide_stop.default.primary.image
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<'32:15' | '16:9' | 'square'>;
 }
@@ -6614,7 +6585,7 @@ export interface GuideStopSliceDefaultPrimary {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type GuideStopSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -6632,7 +6603,7 @@ type GuideStopSliceVariation = GuideStopSliceDefault;
  *
  * - **API ID**: `guide_stop`
  * - **Description**: GuideStop
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type GuideStopSlice = prismic.SharedSlice<
   'guide_stop',
@@ -6649,7 +6620,7 @@ export interface GuideTextItemSliceDefaultPrimary {
    * - **Field Type**: Number
    * - **Placeholder**: Add the stop number if the content is related to a particular stop
    * - **API ID Path**: guide_text_item.default.primary.number
-   * - **Documentation**: https://prismic.io/docs/fields/number
+   * - **Documentation**: https://prismic.io/docs/field#number
    */
   number: prismic.NumberField;
 
@@ -6659,7 +6630,7 @@ export interface GuideTextItemSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: guide_text_item.default.primary.title
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   title: prismic.RichTextField;
 
@@ -6669,7 +6640,7 @@ export interface GuideTextItemSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: guide_text_item.default.primary.tombstone
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   tombstone: prismic.RichTextField;
 
@@ -6679,7 +6650,7 @@ export interface GuideTextItemSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: guide_text_item.default.primary.caption
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   caption: prismic.RichTextField;
 
@@ -6689,7 +6660,7 @@ export interface GuideTextItemSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: e.g. Please do not touch the sculpture.
    * - **API ID Path**: guide_text_item.default.primary.additional_notes
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   additional_notes: prismic.RichTextField;
 
@@ -6699,7 +6670,7 @@ export interface GuideTextItemSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: guide_text_item.default.primary.transcript
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   transcript: prismic.RichTextField;
 }
@@ -6709,7 +6680,7 @@ export interface GuideTextItemSliceDefaultPrimary {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type GuideTextItemSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -6727,7 +6698,7 @@ type GuideTextItemSliceVariation = GuideTextItemSliceDefault;
  *
  * - **API ID**: `guide_text_item`
  * - **Description**: GuideTextItem
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type GuideTextItemSlice = prismic.SharedSlice<
   'guide_text_item',
@@ -6744,7 +6715,7 @@ export interface IframeSliceDefaultPrimary {
    * - **Field Type**: Text
    * - **Placeholder**: iframe src
    * - **API ID Path**: iframe.default.primary.iframeSrc
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   iframeSrc: prismic.KeyTextField;
 
@@ -6754,7 +6725,7 @@ export interface IframeSliceDefaultPrimary {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: iframe.default.primary.previewImage
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   previewImage: prismic.ImageField<never>;
 }
@@ -6764,7 +6735,7 @@ export interface IframeSliceDefaultPrimary {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type IframeSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -6782,7 +6753,7 @@ type IframeSliceVariation = IframeSliceDefault;
  *
  * - **API ID**: `iframe`
  * - **Description**: Iframe
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type IframeSlice = prismic.SharedSlice<'iframe', IframeSliceVariation>;
 
@@ -6793,12 +6764,12 @@ export interface InfoBlockSliceDefaultPrimary {
   /**
    * Title field in *InfoBlock → Default → Primary*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: infoBlock.default.primary.title
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Text field in *InfoBlock → Default → Primary*
@@ -6806,7 +6777,7 @@ export interface InfoBlockSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: infoBlock.default.primary.text
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   text: prismic.RichTextField;
 }
@@ -6816,7 +6787,7 @@ export interface InfoBlockSliceDefaultPrimary {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type InfoBlockSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -6834,7 +6805,7 @@ type InfoBlockSliceVariation = InfoBlockSliceDefault;
  *
  * - **API ID**: `infoBlock`
  * - **Description**: InfoBlock
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type InfoBlockSlice = prismic.SharedSlice<
   'infoBlock',
@@ -6848,12 +6819,12 @@ export interface MapSliceDefaultPrimary {
   /**
    * Title field in *Map → Default → Primary*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: map.default.primary.title
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Geo point field in *Map → Default → Primary*
@@ -6861,7 +6832,7 @@ export interface MapSliceDefaultPrimary {
    * - **Field Type**: GeoPoint
    * - **Placeholder**: *None*
    * - **API ID Path**: map.default.primary.geolocation
-   * - **Documentation**: https://prismic.io/docs/fields/geopoint
+   * - **Documentation**: https://prismic.io/docs/field#geopoint
    */
   geolocation: prismic.GeoPointField;
 }
@@ -6871,7 +6842,7 @@ export interface MapSliceDefaultPrimary {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type MapSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -6889,7 +6860,7 @@ type MapSliceVariation = MapSliceDefault;
  *
  * - **API ID**: `map`
  * - **Description**: Map
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type MapSlice = prismic.SharedSlice<'map', MapSliceVariation>;
 
@@ -6903,7 +6874,7 @@ export interface QuoteSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: quote.default.primary.text
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   text: prismic.RichTextField;
 
@@ -6913,7 +6884,7 @@ export interface QuoteSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: quote.default.primary.citation
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   citation: prismic.RichTextField;
 
@@ -6924,7 +6895,7 @@ export interface QuoteSliceDefaultPrimary {
    * - **Placeholder**: *None*
    * - **Default Value**: false
    * - **API ID Path**: quote.default.primary.isPullOrReview
-   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   isPullOrReview: prismic.BooleanField;
 }
@@ -6934,7 +6905,7 @@ export interface QuoteSliceDefaultPrimary {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type QuoteSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -6952,7 +6923,7 @@ type QuoteSliceVariation = QuoteSliceDefault;
  *
  * - **API ID**: `quote`
  * - **Description**: Quote
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type QuoteSlice = prismic.SharedSlice<'quote', QuoteSliceVariation>;
 
@@ -6963,12 +6934,12 @@ export interface SearchResultsSliceDefaultPrimary {
   /**
    * Title field in *SearchResults → Default → Primary*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: searchResults.default.primary.title
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Query field in *SearchResults → Default → Primary*
@@ -6976,7 +6947,7 @@ export interface SearchResultsSliceDefaultPrimary {
    * - **Field Type**: Text
    * - **Placeholder**: *None*
    * - **API ID Path**: searchResults.default.primary.query
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   query: prismic.KeyTextField;
 }
@@ -6986,7 +6957,7 @@ export interface SearchResultsSliceDefaultPrimary {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type SearchResultsSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -7004,7 +6975,7 @@ type SearchResultsSliceVariation = SearchResultsSliceDefault;
  *
  * - **API ID**: `searchResults`
  * - **Description**: SearchResults
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type SearchResultsSlice = prismic.SharedSlice<
   'searchResults',
@@ -7021,7 +6992,7 @@ export interface StandfirstSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: standfirst.default.primary.text
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   text: prismic.RichTextField;
 }
@@ -7031,7 +7002,7 @@ export interface StandfirstSliceDefaultPrimary {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type StandfirstSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -7049,7 +7020,7 @@ type StandfirstSliceVariation = StandfirstSliceDefault;
  *
  * - **API ID**: `standfirst`
  * - **Description**: Standfirst
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type StandfirstSlice = prismic.SharedSlice<
   'standfirst',
@@ -7063,12 +7034,12 @@ export interface TagListSliceDefaultPrimary {
   /**
    * Title field in *TagList → Default → Primary*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: tagList.default.primary.title
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 }
 
 /**
@@ -7081,7 +7052,7 @@ export interface TagListSliceDefaultItem {
    * - **Field Type**: Link
    * - **Placeholder**: *None*
    * - **API ID Path**: tagList.items[].link
-   * - **Documentation**: https://prismic.io/docs/fields/link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 
@@ -7091,7 +7062,7 @@ export interface TagListSliceDefaultItem {
    * - **Field Type**: Text
    * - **Placeholder**: *None*
    * - **API ID Path**: tagList.items[].linkText
-   * - **Documentation**: https://prismic.io/docs/fields/text
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   linkText: prismic.KeyTextField;
 }
@@ -7101,7 +7072,7 @@ export interface TagListSliceDefaultItem {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type TagListSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -7119,7 +7090,7 @@ type TagListSliceVariation = TagListSliceDefault;
  *
  * - **API ID**: `tagList`
  * - **Description**: TagList
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type TagListSlice = prismic.SharedSlice<
   'tagList',
@@ -7136,7 +7107,7 @@ export interface TextSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: text.default.primary.text
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   text: prismic.RichTextField;
 }
@@ -7146,7 +7117,7 @@ export interface TextSliceDefaultPrimary {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type TextSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -7164,7 +7135,7 @@ type TextSliceVariation = TextSliceDefault;
  *
  * - **API ID**: `text`
  * - **Description**: Text
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type TextSlice = prismic.SharedSlice<'text', TextSliceVariation>;
 
@@ -7178,7 +7149,7 @@ export interface TextAndIconsSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: textAndIcons.default.primary.text
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   text: prismic.RichTextField;
 }
@@ -7193,7 +7164,7 @@ export interface TextAndIconsSliceDefaultItem {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: textAndIcons.items[].icon
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   icon: prismic.ImageField<never>;
 }
@@ -7203,7 +7174,7 @@ export interface TextAndIconsSliceDefaultItem {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type TextAndIconsSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -7221,7 +7192,7 @@ type TextAndIconsSliceVariation = TextAndIconsSliceDefault;
  *
  * - **API ID**: `textAndIcons`
  * - **Description**: Text and icons (side-by-side)
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type TextAndIconsSlice = prismic.SharedSlice<
   'textAndIcons',
@@ -7238,7 +7209,7 @@ export interface TextAndImageSliceDefaultPrimary {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: textAndImage.default.primary.text
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   text: prismic.RichTextField;
 
@@ -7248,7 +7219,7 @@ export interface TextAndImageSliceDefaultPrimary {
    * - **Field Type**: Image
    * - **Placeholder**: *None*
    * - **API ID Path**: textAndImage.default.primary.image
-   * - **Documentation**: https://prismic.io/docs/fields/image
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<never>;
 
@@ -7259,7 +7230,7 @@ export interface TextAndImageSliceDefaultPrimary {
    * - **Placeholder**: *None*
    * - **Default Value**: false
    * - **API ID Path**: textAndImage.default.primary.isZoomable
-   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
   isZoomable: prismic.BooleanField;
 }
@@ -7269,7 +7240,7 @@ export interface TextAndImageSliceDefaultPrimary {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type TextAndImageSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -7287,7 +7258,7 @@ type TextAndImageSliceVariation = TextAndImageSliceDefault;
  *
  * - **API ID**: `textAndImage`
  * - **Description**: Text and image (side-by-side)
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type TextAndImageSlice = prismic.SharedSlice<
   'textAndImage',
@@ -7301,12 +7272,12 @@ export interface TitledTextListSliceDefaultItem {
   /**
    * Title field in *TitledTextList → Items*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Title
    * - **Placeholder**: *None*
    * - **API ID Path**: titledTextList.items[].title
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.RichTextField;
+  title: prismic.TitleField;
 
   /**
    * Text field in *TitledTextList → Items*
@@ -7314,7 +7285,7 @@ export interface TitledTextListSliceDefaultItem {
    * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: titledTextList.items[].text
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   text: prismic.RichTextField;
 
@@ -7324,7 +7295,7 @@ export interface TitledTextListSliceDefaultItem {
    * - **Field Type**: Link
    * - **Placeholder**: *None*
    * - **API ID Path**: titledTextList.items[].link
-   * - **Documentation**: https://prismic.io/docs/fields/link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 }
@@ -7334,7 +7305,7 @@ export interface TitledTextListSliceDefaultItem {
  *
  * - **API ID**: `default`
  * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type TitledTextListSliceDefault = prismic.SharedSliceVariation<
   'default',
@@ -7352,7 +7323,7 @@ type TitledTextListSliceVariation = TitledTextListSliceDefault;
  *
  * - **API ID**: `titledTextList`
  * - **Description**: Descriptive links list
- * - **Documentation**: https://prismic.io/docs/slices
+ * - **Documentation**: https://prismic.io/docs/slice
  */
 export type TitledTextListSlice = prismic.SharedSlice<
   'titledTextList',
@@ -7393,6 +7364,8 @@ declare module '@prismicio/client' {
       ArticlesDocumentDataParentsItem,
       AudiencesDocument,
       AudiencesDocumentData,
+      BackgroundTexturesDocument,
+      BackgroundTexturesDocumentData,
       BooksDocument,
       BooksDocumentData,
       BooksDocumentDataReviewsItem,
