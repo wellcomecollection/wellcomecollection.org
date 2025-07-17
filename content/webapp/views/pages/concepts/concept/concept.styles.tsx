@@ -8,18 +8,22 @@ import { themeValues } from '@weco/common/views/themes/config';
 export const MobileNavBackground = styled(Space).attrs({
   className: 'is-hidden-l is-hidden-xl',
   $v: { size: 'l', properties: ['height'] },
-})`
+})<{ $isOnWhite: boolean }>`
   display: block;
-  background-color: ${props => props.theme.color('neutral.700')};
+  background-color: ${props =>
+    props.theme.color(props.$isOnWhite ? 'white' : 'neutral.700')};
 `;
 
 export const NavGridCell = styled(GridCell)<{
   $isEnhanced: boolean;
+  $isOnWhite: boolean;
 }>`
+  --nav-grid-cell-background-color: ${props =>
+    props.theme.color(props.$isOnWhite ? 'white' : 'neutral.700')};
   position: ${props => (props.$isEnhanced ? 'sticky' : 'relative')};
   top: 0;
   transition: background-color ${props => props.theme.transitionProperties};
-  background-color: ${props => props.theme.color('neutral.700')};
+  background-color: var(--nav-grid-cell-background-color);
   z-index: 3;
 
   &::before,
@@ -30,7 +34,7 @@ export const NavGridCell = styled(GridCell)<{
     bottom: 0;
     top: 0;
     transition: background-color ${props => props.theme.transitionProperties};
-    background-color: ${props => props.theme.color('neutral.700')};
+    background-color: var(--nav-grid-cell-background-color);
   }
 
   &::before {

@@ -342,21 +342,22 @@ const ConceptPage: NextPage<Props> = ({
       clipOverflowX={true}
     >
       <Header concept={conceptResponse} />
-      {hasImages && (
-        <>
-          <WobblyEdge backgroundColor="neutral.700" />
-          <MobileNavBackground />
-        </>
-      )}
+
+      <>
+        <WobblyEdge backgroundColor={hasImages ? 'neutral.700' : 'white'} />
+        <MobileNavBackground $isOnWhite={!hasImages} />
+      </>
+
       <Container>
         <Grid style={{ background: 'white', rowGap: 0 }}>
           <NavGridCell
+            $isOnWhite={!hasImages}
             $isEnhanced={isEnhanced}
             $sizeMap={{ s: [12], m: [12], l: [3], xl: [2] }}
           >
             <InPageNavigation
+              isOnWhite={!hasImages}
               links={navLinks}
-              hasBackgroundBlend={true}
               variant="sticky"
             />
           </NavGridCell>
