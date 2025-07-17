@@ -5,6 +5,7 @@ import {
   FunctionComponent,
   useEffect,
   useId,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -47,10 +48,14 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   const InPageNavigationStickyRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const listId = useId();
-  const { isEnhanced } = useAppContext();
+  const { isEnhanced, windowSize } = useAppContext();
   const [hasStuck, setHasStuck] = useState(false);
   const [isListActive, setIsListActive] = useState(false);
   const [scrollPosition, setScrollposition] = useState(0);
+
+  const shouldLockScroll = useMemo(() => {
+    return windowSize !== 'large' && isListActive && hasStuck;
+  }, [windowSize, isListActive, hasStuck]);
 
   useEffect(() => {
     if (!buttonRef.current) return;
@@ -129,7 +134,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 
   return (
     <>
-      {isListActive && hasStuck && (
+      {shouldLockScroll && (
         <BackgroundOverlay
           data-lock-scroll={true}
           onClick={() => setIsListActive(false)}
