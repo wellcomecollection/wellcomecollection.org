@@ -15,7 +15,6 @@ import { useActiveAnchor } from '@weco/common/hooks/useActiveAnchor';
 import { cross } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
-import PlainList from '@weco/common/views/components/styled/PlainList';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import { Link } from '@weco/content/types/link';
 
@@ -24,6 +23,7 @@ import {
   AnimatedTextContainer,
   BackgroundOverlay,
   InPageNavAnimatedLink,
+  InPageNavList,
   ListItem,
   MobileNavButton,
   Root,
@@ -53,6 +53,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
   const { isEnhanced } = useAppContext();
   const [hasStuck, setHasStuck] = useState(false);
   const [isListActive, setIsListActive] = useState(false);
+  const [scrollPosition, setScrollposition] = useState(0);
 
   useEffect(() => {
     if (!buttonRef.current) return;
@@ -133,9 +134,9 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
 
   return (
     <>
-      {isListActive && (
+      {isListActive && hasStuck && (
         <BackgroundOverlay
-          data-lock-scroll={hasStuck}
+          data-lock-scroll={true}
           onClick={() => setIsListActive(false)}
         />
       )}
@@ -155,15 +156,26 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
           <h2 className={headingClasses}>{titleText}</h2>
           {isSticky && (
             <MobileNavButton
+              $isListActive={isListActive}
               $hasStuck={hasStuck}
               ref={buttonRef}
-              onClick={() => setIsListActive(!isListActive)}
+              onClick={() => {
+                if (!isListActive) {
+                  setScrollposition(window.scrollY);
+                } else {
+                  window.scrollTo({
+                    top: scrollPosition,
+                    behavior: 'instant',
+                  });
+                }
+                setIsListActive(!isListActive);
+              }}
             >
               <AnimatedTextContainer>
                 <SwitchTransition mode="out-in">
                   <CSSTransition
-                    key={hasStuck && !isListActive ? activeLinkText : titleText}
-                    timeout={300}
+                    key={hasStuck ? activeLinkText : titleText}
+                    timeout={200}
                     nodeRef={textRef}
                     onEnter={() => {
                       if (textRef.current) {
@@ -199,10 +211,14 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
                         left: 0,
                         right: 0,
                         whiteSpace: 'nowrap',
-                        transition: 'all 300ms ease-in-out',
+                        transition: 'all 200ms cubic-bezier(0.25,0.1,0.25,1)',
                       }}
                     >
-                      {hasStuck && !isListActive ? activeLinkText : titleText}
+                      {isListActive
+                        ? titleText
+                        : hasStuck
+                          ? activeLinkText
+                          : titleText}
                     </span>
                   </CSSTransition>
                 </SwitchTransition>
@@ -211,7 +227,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
               {isEnhanced && <Icon icon={cross} matchText />}
             </MobileNavButton>
           )}
-          <PlainList ref={listRef} id={listId}>
+          <InPageNavList ref={listRef} id={listId} $isSticky={isSticky}>
             {links.map((link: Link) => {
               const id = link.url.replace('#', '');
               const isActive = activeId === id;
@@ -257,7 +273,7 @@ const OnThisPageAnchors: FunctionComponent<Props> = ({
                 </Fragment>
               );
             })}
-          </PlainList>
+          </InPageNavList>
         </Root>
       </FocusTrap>
     </>

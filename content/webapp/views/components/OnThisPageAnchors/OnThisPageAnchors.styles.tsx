@@ -1,11 +1,22 @@
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
+import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
 
 const leftOffset = '12px';
 
+export const InPageNavList = styled(PlainList)<{ $isSticky: boolean }>`
+  ${props =>
+    props.$isSticky
+      ? `border-bottom: 1px solid ${props.theme.color('white')}`
+      : ''};
+
+  ${props => props.theme.media('large')`
+    border-bottom: 0;
+  `}
+`;
 export const BackgroundOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -22,7 +33,8 @@ export const ListItem = styled.li<{ $hasStuck: boolean }>`
   padding-bottom: 12px;
   padding-top: 12px;
   border-top: 1px solid
-    ${props => props.theme.color(props.$hasStuck ? 'white' : 'transparent')};
+    ${props =>
+      props.theme.color(props.$hasStuck ? 'neutral.300' : 'transparent')};
 
   margin-left: -${themeValues.containerPadding.small}px;
   margin-right: -${themeValues.containerPadding.small}px;
@@ -178,7 +190,7 @@ export const Root = styled(Space).attrs<{
   ${props =>
     props.$hasStuck &&
     `
-    border-bottom: 1px solid ${props.theme.color('white')};
+    border-bottom: 1px solid ${props.theme.color('neutral.300')};
   `}
 
   ${props =>
@@ -218,7 +230,7 @@ export const Root = styled(Space).attrs<{
       'large'
     )(`
       transition: background ${props.theme.transitionProperties};
-      background: ${props.$hasStuck && props.theme.color('accent.lightGreen')};
+      background: ${props.$hasStuck && props.theme.color('white')};
       padding-top: 0;
     `)}
 
@@ -233,11 +245,13 @@ export const Root = styled(Space).attrs<{
 
 export const MobileNavButton = styled.button.attrs({
   className: font('intm', 5),
-})<{ $hasStuck: boolean }>`
+})<{ $hasStuck: boolean; $isListActive: boolean }>`
   border-top: ${props =>
     !props.$hasStuck && `1px solid ${props.theme.color('white')}`};
   border-bottom: ${props =>
-    !props.$hasStuck && `1px solid ${props.theme.color('white')}`};
+    !props.$hasStuck &&
+    !props.$isListActive &&
+    `1px solid ${props.theme.color('white')}`};
   padding: 12px 0;
   margin: 0;
   display: flex;
