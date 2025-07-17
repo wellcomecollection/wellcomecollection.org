@@ -2,18 +2,16 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { links } from '@weco/cardigan/stories/components/OnThisPageAnchors/links';
-import OnThisPageAnchors from '@weco/content/views/components/OnThisPageAnchors';
+import { OnThisPageAnchorsSimple } from '@weco/content/views/components/OnThisPageAnchors';
 import Readme from '@weco/content/views/components/OnThisPageAnchors/README.mdx';
 
 const OnThisPageAnchorsInSingleCol = () => {
   const fixedArgs = {
-    isSticky: false,
-    hasBackgroundBlend: false,
     links,
   };
   return (
     <div>
-      <OnThisPageAnchors {...fixedArgs} />
+      <OnThisPageAnchorsSimple {...fixedArgs} />
       <div
         style={{
           padding: '16px',

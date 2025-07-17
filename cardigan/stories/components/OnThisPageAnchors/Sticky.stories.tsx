@@ -9,7 +9,7 @@ import PageHeader from '@weco/common/views/components/PageHeader';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
-import OnThisPageAnchors from '@weco/content/views/components/OnThisPageAnchors';
+import { OnThisPageAnchorsSticky } from '@weco/content/views/components/OnThisPageAnchors';
 
 type BackgroundGridProps = {
   $percent?: number;
@@ -64,7 +64,7 @@ const OnThisPageAnchorsInColsContext: FunctionComponent<{
       <GreySpace $v={{ size: 'l', properties: ['height'] }} />
       <BackgroundGrid $percent={40} $topColor={args.topColor}>
         <NavGridCell $sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}>
-          <OnThisPageAnchors {...fixedArgs} />
+          <OnThisPageAnchorsSticky {...fixedArgs} />
         </NavGridCell>
         <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
           {links.map(link => (

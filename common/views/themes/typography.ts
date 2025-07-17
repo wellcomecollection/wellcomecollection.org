@@ -165,7 +165,7 @@ export const typography = css<GlobalStyleProps>`
   }
 
   /*
-  OnThisPageAnchors.sticky relies on sections with data-id attributes
+  OnThisPageAnchors.Sticky relies on sections with data-id attributes
   and we want to adjust the scroll margin for headings within those sections
   */
   [data-id] :is(h2, h3) {

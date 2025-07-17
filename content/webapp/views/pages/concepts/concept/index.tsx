@@ -33,7 +33,7 @@ import {
 } from '@weco/content/utils/concepts';
 import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
 import MoreLink from '@weco/content/views/components/MoreLink';
-import OnThisPageAnchors from '@weco/content/views/components/OnThisPageAnchors';
+import { OnThisPageAnchorsSticky } from '@weco/content/views/components/OnThisPageAnchors';
 import { toLink as toImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
 import { toLink as toWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
 import Tabs from '@weco/content/views/components/Tabs';
@@ -354,9 +354,8 @@ const ConceptPage: NextPage<Props> = ({
             $isEnhanced={isEnhanced}
             $sizeMap={{ s: [12], m: [12], l: [3], xl: [2] }}
           >
-            <OnThisPageAnchors
+            <OnThisPageAnchorsSticky
               links={navLinks}
-              isSticky={true}
               hasBackgroundBlend={true}
             />
           </NavGridCell>
