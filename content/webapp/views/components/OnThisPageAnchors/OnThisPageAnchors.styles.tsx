@@ -7,8 +7,15 @@ import { themeValues } from '@weco/common/views/themes/config';
 
 const leftOffset = '12px';
 
-export const InPageNavList = styled(PlainList)`
-  border-bottom: 1px solid ${props => props.theme.color('white')};
+export const InPageNavList = styled(PlainList)<{ $isSticky: boolean }>`
+  ${props =>
+    props.$isSticky
+      ? `border-bottom: 1px solid ${props.theme.color('white')}`
+      : ''};
+
+  ${props => props.theme.media('large')`
+    border-bottom: 0;
+  `}
 `;
 export const BackgroundOverlay = styled.div`
   position: fixed;
