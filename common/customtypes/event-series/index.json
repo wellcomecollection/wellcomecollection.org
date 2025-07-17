@@ -14,14 +14,6 @@
           "useAsTitle": true
         }
       },
-      "backgroundTexture": {
-        "type": "Link",
-        "config": {
-          "label": "Background texture",
-          "select": "document",
-          "customtypes": ["background-textures"]
-        }
-      },
       "uid": {
         "type": "UID",
         "config": {
