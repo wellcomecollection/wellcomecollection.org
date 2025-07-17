@@ -21,8 +21,6 @@ const InPageNavigation: FunctionComponent<Props> = props => {
   if (variant === 'sticky') {
     return <InPageNavigationSticky {...props} />;
   }
-
-  throw new Error(`Unknown variant: ${variant}`);
 };
 
 export default InPageNavigation;
