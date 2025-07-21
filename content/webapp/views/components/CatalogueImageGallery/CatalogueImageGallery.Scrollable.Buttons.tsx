@@ -31,12 +31,10 @@ const ScrollButtonsContainer = styled(Space)`
 
 type Props = {
   containerRef: RefObject<HTMLElement | null>;
-  containerPadding: number;
 };
 
 const ScrollableGalleryButtons: FunctionComponent<Props> = ({
   containerRef,
-  containerPadding,
 }: Props) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -71,21 +69,25 @@ const ScrollableGalleryButtons: FunctionComponent<Props> = ({
     const currScrollLeft = container.scrollLeft;
     const children = Array.from(container.children) as HTMLElement[];
 
+    const containerPaddingLeft = parseFloat(
+      window.getComputedStyle(container).paddingLeft
+    );
+
     // When scrolling right, scroll to the first child whose left offset is higher than the current left scroll.
     // Otherwise, scroll to the last child chose left offset is lower than the current left scroll.
     const child =
       direction === 'right'
         ? children.find(
-            child => child.offsetLeft > currScrollLeft + containerPadding
+            child => child.offsetLeft > currScrollLeft + containerPaddingLeft
           )
         : children.findLast(
-            child => child.offsetLeft < currScrollLeft + containerPadding
+            child => child.offsetLeft < currScrollLeft + containerPaddingLeft
           );
 
     if (!child) return;
 
     container.scrollTo({
-      left: child.offsetLeft - containerPadding,
+      left: child.offsetLeft - containerPaddingLeft,
       behavior: 'smooth',
     });
   };
