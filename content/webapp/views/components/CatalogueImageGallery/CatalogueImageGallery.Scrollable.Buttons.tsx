@@ -31,10 +31,12 @@ const ScrollButtonsContainer = styled(Space)`
 
 type Props = {
   containerRef: RefObject<HTMLElement | null>;
+  containerPadding: number;
 };
 
 const ScrollableGalleryButtons: FunctionComponent<Props> = ({
   containerRef,
+  containerPadding,
 }: Props) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -67,10 +69,6 @@ const ScrollableGalleryButtons: FunctionComponent<Props> = ({
     if (!container) return;
 
     const currScrollLeft = container.scrollLeft;
-    const containerPadding = parseFloat(
-      window.getComputedStyle(container).paddingLeft
-    );
-
     const children = Array.from(container.children) as HTMLElement[];
 
     // When scrolling right, scroll to the first child whose left offset is higher than the current left scroll.
@@ -84,17 +82,7 @@ const ScrollableGalleryButtons: FunctionComponent<Props> = ({
             child => child.offsetLeft < currScrollLeft + containerPadding
           );
 
-    if (!child) {
-      if (direction === 'right') {
-        // This is a suggested patch for when the last image is too long to fit in the viewport.
-        // Scroll to the end of the last child.
-        return container.scrollTo({
-          left: currScrollLeft + children[children.length - 1].offsetWidth,
-          behavior: 'smooth',
-        });
-      }
-      return;
-    }
+    if (!child) return;
 
     container.scrollTo({
       left: child.offsetLeft - containerPadding,

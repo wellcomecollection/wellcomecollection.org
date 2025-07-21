@@ -45,17 +45,31 @@ const CatalogueImageGalleryScrollable: FunctionComponent<Props> = ({
   const [, setExpandedImage] = useExpandedImage(images);
   const scrollContainerRef = useRef<HTMLUListElement>(null);
 
+  const containerPadding = scrollContainerRef.current
+    ? parseFloat(
+        window.getComputedStyle(scrollContainerRef.current).paddingLeft
+      )
+    : 0;
+
   return (
     <>
       <ScrollButtonsContainer>
         {label && <Label>{label}</Label>}
 
-        <ScrollableGalleryButtons containerRef={scrollContainerRef} />
+        <ScrollableGalleryButtons
+          containerRef={scrollContainerRef}
+          containerPadding={containerPadding}
+        />
       </ScrollButtonsContainer>
 
       <ImageCardList ref={scrollContainerRef}>
         {images.map((image, index) => (
-          <li key={image.id}>
+          <li
+            key={image.id}
+            style={{
+              maxWidth: `calc(90vw - ${containerPadding * 2}px)`,
+            }}
+          >
             <Space $h={{ size: 'm', properties: ['margin-right'] }}>
               <ImageCard
                 id={image.id}

@@ -21,6 +21,7 @@ type Props = {
 const StyledLink = styled.a`
   position: relative;
   display: block;
+  max-width: 100%;
 `;
 
 const ImageCard: FunctionComponent<Props> = ({
