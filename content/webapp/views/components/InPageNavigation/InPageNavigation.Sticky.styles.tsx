@@ -7,8 +7,9 @@ import { themeValues } from '@weco/common/views/themes/config';
 
 const leftOffset = '12px';
 
-export const InPageNavList = styled(PlainList)`
-  border-bottom: 1px solid ${props => props.theme.color('white')};
+export const InPageNavList = styled(PlainList)<{ $isOnWhite: boolean }>`
+  border-bottom: 1px solid
+    ${props => props.theme.color(props.$isOnWhite ? 'neutral.300' : 'white')};
 
   ${props => props.theme.media('large')`
     border-bottom: 0;
@@ -25,7 +26,7 @@ export const BackgroundOverlay = styled.div`
   z-index: 10;
 `;
 
-export const ListItem = styled.li<{ $hasStuck: boolean }>`
+export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
   position: relative;
   padding-bottom: 12px;
   padding-top: 12px;
@@ -56,7 +57,8 @@ export const ListItem = styled.li<{ $hasStuck: boolean }>`
     bottom: 0;
     width: 1px;
     height: 100%;
-    background: ${props => props.theme.color('black')};
+    background: ${props =>
+      props.theme.color(props.$isOnWhite ? 'neutral.300' : 'black')};
   }
 
   ${props =>
@@ -75,14 +77,17 @@ export const ListItem = styled.li<{ $hasStuck: boolean }>`
     &::before {
       display: block;
       left: 1px;
+      background: ${props.theme.color('black')};
     }
     `)}
 `;
 
 // If used elsewhere, this could be extracted to a shared styled component
-const AnimatedLink = styled.a<{ $hasStuck: boolean }>`
+const AnimatedLink = styled.a<{ $hasStuck: boolean; $isOnWhite: boolean }>`
   --line-color: ${props =>
-    props.theme.color(props.$hasStuck ? 'black' : 'white')};
+    props.theme.color(
+      props.$hasStuck ? 'black' : props.$isOnWhite ? 'black' : 'white'
+    )};
   text-decoration: none;
   position: relative;
 
@@ -120,13 +125,13 @@ export const Anchor = styled.a.attrs({
 
 export const InPageNavAnimatedLink = styled(AnimatedLink)<{
   $isActive?: boolean;
-  $hasBackgroundBlend?: boolean;
   $hasStuck: boolean;
+  $isOnWhite: boolean;
 }>`
   color: ${props =>
-    props.$hasBackgroundBlend
-      ? props.theme.color(props.$hasStuck ? 'black' : 'white')
-      : 'inherit'};
+    props.theme.color(
+      props.$hasStuck ? 'black' : props.$isOnWhite ? 'black' : 'white'
+    )};
   position: relative;
   display: block;
 
@@ -138,7 +143,9 @@ export const InPageNavAnimatedLink = styled(AnimatedLink)<{
     height: 100%;
     width: 3px;
     background: ${props =>
-      props.theme.color(props.$hasStuck ? 'accent.green' : 'white')};
+      props.theme.color(
+        props.$hasStuck ? 'accent.green' : props.$isOnWhite ? 'black' : 'white'
+      )};
     opacity: ${props => (props.$isActive ? 1 : 0)};
     transform: scaleY(${props => (props.$isActive ? 1 : 0.5)});
     transition:
@@ -148,7 +155,7 @@ export const InPageNavAnimatedLink = styled(AnimatedLink)<{
 
   ${props =>
     props.theme.media('large')(`
-    color: ${props.$hasBackgroundBlend ? props.theme.color('white') : 'inherit'};
+    color: ${props.theme.color('white')};
 
     &::before {
       background: ${props.theme.color('white')};
@@ -161,14 +168,13 @@ export const Root = styled(Space).attrs<{
   as: 'nav',
   $v: { size: 'l', properties: ['padding-top'] },
 })<{
-  $hasBackgroundBlend?: boolean;
   $hasStuck: boolean;
 }>`
   position: sticky;
   top: 0;
   z-index: 20;
-  background: ${props =>
-    !props.$hasBackgroundBlend && props.theme.color('warmNeutral.300')};
+  color: ${props => props.theme.color('white')};
+
   ${props =>
     props.$hasStuck &&
     `
@@ -215,28 +221,31 @@ export const Root = styled(Space).attrs<{
 
   ${props =>
     props.theme.media('large')(`
-      background: ${!props.$hasBackgroundBlend && props.theme.color('warmNeutral.300')};
-      mix-blend-mode: ${props.$hasBackgroundBlend && 'difference'};
-      color: ${props.$hasBackgroundBlend && props.theme.color('white')};
+      mix-blend-mode: difference;
+      color: ${props.theme.color('white')};
     `)}
 `;
 
 export const MobileNavButton = styled.button.attrs({
   className: font('intm', 5),
-})<{ $hasStuck: boolean; $isListActive: boolean }>`
-  border-top: ${props =>
-    !props.$hasStuck && `1px solid ${props.theme.color('white')}`};
+})<{ $hasStuck: boolean; $isListActive: boolean; $isOnWhite: boolean }>`
+  --mobile-nav-border-color: ${props =>
+    props.$hasStuck
+      ? undefined
+      : props.theme.color(props.$isOnWhite ? 'neutral.300' : 'white')};
+  border-top: 1px solid var(--mobile-nav-border-color);
   border-bottom: ${props =>
-    !props.$hasStuck &&
-    !props.$isListActive &&
-    `1px solid ${props.theme.color('white')}`};
+    !props.$isListActive && '1px solid var(--mobile-nav-border-color)'};
   padding: 12px 0;
   margin: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  color: ${props => props.theme.color(props.$hasStuck ? 'black' : 'white')};
+  color: ${props =>
+    props.theme.color(
+      props.$hasStuck ? 'black' : props.$isOnWhite ? 'black' : 'white'
+    )};
 
   .icon {
     transition: transform ${props => props.theme.transitionProperties};

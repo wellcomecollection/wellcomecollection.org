@@ -15,7 +15,6 @@ import { useActiveAnchor } from '@weco/common/hooks/useActiveAnchor';
 import { cross } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
-import { PaletteColor } from '@weco/common/views/themes/config';
 import { Link } from '@weco/content/types/link';
 
 import {
@@ -29,14 +28,13 @@ import {
 } from './InPageNavigation.Sticky.styles';
 
 export type Props = {
-  hasBackgroundBlend?: boolean;
-  activeColor?: PaletteColor;
+  isOnWhite?: boolean;
   links: Link[];
 };
 
 const InPageNavigationSticky: FunctionComponent<Props> = ({
-  hasBackgroundBlend = false,
   links,
+  isOnWhite,
 }) => {
   // Extract ids from links (strip leading #)
   const ids = links.map(link => link.url.replace('#', ''));
@@ -143,17 +141,14 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
           clickOutsideDeactivates: true,
         }}
       >
-        <Root
-          $hasBackgroundBlend={hasBackgroundBlend}
-          $hasStuck={hasStuck}
-          data-scroll-smooth="true"
-        >
+        <Root $hasStuck={hasStuck} data-scroll-smooth="true">
           <h2 className={`${font('intm', 5)} is-hidden-s is-hidden-m`}>
             {titleText}
           </h2>
 
           <MobileNavButton
             $isListActive={isListActive}
+            $isOnWhite={!!isOnWhite}
             $hasStuck={hasStuck}
             ref={buttonRef}
             onClick={() => {
@@ -224,13 +219,13 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
             {isEnhanced && <Icon icon={cross} matchText />}
           </MobileNavButton>
 
-          <InPageNavList ref={listRef} id={listId}>
+          <InPageNavList ref={listRef} id={listId} $isOnWhite={!!isOnWhite}>
             {links.map((link: Link) => {
               const id = link.url.replace('#', '');
               const isActive = activeId === id;
               return (
                 <Fragment key={link.url}>
-                  <ListItem $hasStuck={hasStuck}>
+                  <ListItem $hasStuck={hasStuck} $isOnWhite={!!isOnWhite}>
                     <NextLink
                       passHref
                       legacyBehavior
@@ -240,7 +235,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
                       <InPageNavAnimatedLink
                         $hasStuck={hasStuck}
                         $isActive={isActive}
-                        $hasBackgroundBlend={hasBackgroundBlend}
+                        $isOnWhite={!!isOnWhite}
                         data-gtm-trigger="link_click_page_position"
                         onClick={() => {
                           setClickedId(id);
