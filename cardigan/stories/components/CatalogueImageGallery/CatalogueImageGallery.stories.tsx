@@ -2,13 +2,15 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import mockImages from '@weco/cardigan/stories/components/CatalogueImageGallery/mock-images';
-import CatalogueImageGalleryScrollable from '@weco/content/views/components/CatalogueImageGallery/CatalogueImageGallery.Scrollable';
+import { Container } from '@weco/common/views/components/styled/Container';
+import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
 import Readme from '@weco/content/views/components/CatalogueImageGallery/README.mdx';
 
 const meta: Meta = {
   title: 'Components/CatalogueImageGallery',
-  component: CatalogueImageGalleryScrollable,
+  component: CatalogueImageGallery,
   args: {
+    variant: 'scrollable',
     label: 'Hello there, this is some text',
     imageCount: 10,
   },
@@ -16,6 +18,10 @@ const meta: Meta = {
     imageCount: {
       control: 'select',
       options: [1, 2, 5, 10],
+    },
+    variant: {
+      control: 'select',
+      options: ['scrollable', 'justified'],
     },
     images: {
       table: {
@@ -27,24 +33,29 @@ const meta: Meta = {
 
 export default meta;
 
-type Story = StoryObj<typeof CatalogueImageGalleryScrollable>;
+type Story = StoryObj<typeof CatalogueImageGallery>;
 
 export const Basic: Story = {
+  args: {
+    variant: 'scrollable',
+  },
   name: 'CatalogueImageGallery',
   render: args => (
     <ReadmeDecorator
       WrappedComponent={args => (
-        <div
+        <Container
           style={{
-            padding: '48px 0 48px 48px',
+            padding:
+              args.variant === 'scrollable' ? '48px 0 48px 48px' : undefined,
+            margin: args.variant === 'scrollable' ? '0' : undefined,
             background: '#323232',
           }}
         >
-          <CatalogueImageGalleryScrollable
-            label={args.label}
+          <CatalogueImageGallery
+            {...args}
             images={mockImages.slice(0, args.imageCount)}
           />
-        </div>
+        </Container>
       )}
       args={args}
       Readme={Readme}

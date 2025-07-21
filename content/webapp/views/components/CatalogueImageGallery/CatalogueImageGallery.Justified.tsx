@@ -10,9 +10,10 @@ import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import { hexToRgb } from '@weco/content/utils/convert-colors';
-import ExpandedImageModal from '@weco/content/views/components/CatalogueImageGallery/ExpandedImageModal';
-import useExpandedImage from '@weco/content/views/components/CatalogueImageGallery/useExpandedImage';
 import ImageCard from '@weco/content/views/components/ImageCard';
+import ImageModal, {
+  useExpandedImage,
+} from '@weco/content/views/components/ImageModal';
 
 export type Props = {
   images: Image[];
@@ -174,7 +175,8 @@ const CatalogueImageGalleryJustified: FunctionComponent<Props> = ({
           </ImageCardList>
         </div>
       )}
-      <ExpandedImageModal
+
+      <ImageModal
         images={images}
         expandedImage={expandedImage}
         setExpandedImage={setExpandedImage}
