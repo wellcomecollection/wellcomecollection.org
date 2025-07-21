@@ -36,7 +36,7 @@ const SourceBoxContainer = styled.div<{ $marginLeft: number }>`
     visibility 200ms ease,
     opacity 200ms ease;
   visibility: hidden;
-  z-index: 3;
+  z-index: 4;
 `;
 
 const showSourceBox = css`
