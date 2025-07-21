@@ -13,9 +13,9 @@ type Props = {
   workId: string;
   image: ImageType;
   layout: 'raw' | 'fixed';
-  positionInList: number;
   onClick?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
   background?: string;
+  positionInList: number;
 };
 
 const StyledLink = styled.a`
@@ -43,6 +43,7 @@ const ImageCard: FunctionComponent<Props> = ({
       legacyBehavior
     >
       <StyledLink
+        style={{ width: image.width }} // this is here to prevent the generation of multiple styles
         onClick={event => {
           if (onClick) {
             onClick(event);
@@ -52,7 +53,6 @@ const ImageCard: FunctionComponent<Props> = ({
         data-gtm-trigger="open_image_modal"
         data-gtm-position-in-list={positionInList}
         title={isEnhanced ? 'Open modal window' : undefined}
-        style={{ width: image.width }} // this is here to prevent the generation of multiple styles
       >
         <IIIFImage
           image={{
