@@ -122,7 +122,6 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
     ];
 
     const handleMediaChange = () => {
-      console.log(getWindowSize());
       setWindowSize(getWindowSize());
     };
 
