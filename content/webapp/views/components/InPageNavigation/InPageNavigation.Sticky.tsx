@@ -58,6 +58,13 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   }, [windowSize, isListActive, hasStuck]);
 
   useEffect(() => {
+    // We close the mobile nav if the user resizes their window to the large bp
+    if (windowSize === 'large' && hasStuck) {
+      setIsListActive(false);
+    }
+  }, [windowSize, hasStuck]);
+
+  useEffect(() => {
     if (!buttonRef.current) return;
 
     buttonRef.current.setAttribute('aria-expanded', 'false');
