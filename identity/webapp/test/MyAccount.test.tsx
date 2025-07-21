@@ -3,7 +3,6 @@ import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from 'styled-components';
 
 import { UserContextProvider } from '@weco/common/contexts/UserContext';
-import { ServerData } from '@weco/common/server-data/types';
 import {
   mockAuth0Profile,
   mockItemRequests,
@@ -13,11 +12,11 @@ import theme from '@weco/common/views/themes/default';
 import AccountPage from '@weco/identity/pages';
 
 // avoid rendering header SVG to help with debugging tests
-jest.mock('@weco/identity/components/PageWrapper', () => {
-  const PageWrapper = ({ children }: { children: React.ReactNode }) => (
+jest.mock('@weco/identity/views/layouts/IdentityPageLayout', () => {
+  const IdentityPageLayout = ({ children }: { children: React.ReactNode }) => (
     <>{children}</>
   );
-  return PageWrapper;
+  return IdentityPageLayout;
 });
 
 jest.mock('@weco/common/server-data', () => ({
@@ -49,7 +48,7 @@ const renderComponent = (user = mockAuth0Profile) =>
   render(
     <ThemeProvider theme={theme}>
       <UserContextProvider>
-        <AccountPage user={user} serverData={{} as ServerData} />
+        <AccountPage user={user} />
       </UserContextProvider>
     </ThemeProvider>
   );

@@ -7,7 +7,6 @@ import {
 import { fetchVisualStories } from '@weco/content/services/prismic/fetch/visual-stories';
 import {
   audienceFetchLinks,
-  backgroundTexturesFetchLinks,
   cardFetchLinks,
   commonPrismicFieldsFetchLinks,
   contributorFetchLinks,
@@ -37,7 +36,6 @@ const fetchLinks = [
   ...eventPolicyFetchLinks,
   ...placesFetchLinks,
   ...teamFetchLinks,
-  ...backgroundTexturesFetchLinks,
   ...seasonsFetchLinks,
   ...eventsFetchLinks,
   ...cardFetchLinks,

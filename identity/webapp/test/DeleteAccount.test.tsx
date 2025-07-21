@@ -4,10 +4,8 @@ import { rest } from 'msw';
 import { ThemeProvider } from 'styled-components';
 
 import theme from '@weco/common/views/themes/default';
-import {
-  ChangeDetailsModalContentProps,
-  DeleteAccount,
-} from '@weco/identity/components/MyAccount';
+import { ChangeDetailsModalContentProps } from '@weco/identity/views/components/ChangeDetailsModal';
+import DeleteAccount from '@weco/identity/views/pages/index.DeleteAccount';
 
 import { server } from './mocks/server';
 
