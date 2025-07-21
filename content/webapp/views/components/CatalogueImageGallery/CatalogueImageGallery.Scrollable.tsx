@@ -5,9 +5,9 @@ import { font } from '@weco/common/utils/classnames';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
-import ImageCard from '@weco/content/views/components/ImageCard';
 import { useExpandedImage } from '@weco/content/views/components/ImageModal';
 
+import ImageCard from './CatalogueImageGallery.ImageCard';
 import ScrollableGalleryButtons from './CatalogueImageGallery.Scrollable.Buttons';
 
 const IMAGE_HEIGHT = 200;
@@ -50,12 +50,12 @@ const CatalogueImageGalleryScrollable: FunctionComponent<Props> = ({
       <ScrollButtonsContainer>
         {label && <Label>{label}</Label>}
 
-        <ScrollableGalleryButtons targetRef={scrollContainerRef} />
+        <ScrollableGalleryButtons containerRef={scrollContainerRef} />
       </ScrollButtonsContainer>
 
       <ImageCardList ref={scrollContainerRef}>
         {images.map((image, index) => (
-          <li key={image.id}>
+          <li key={image.id} style={{ maxWidth: '90vw' }}>
             <Space $h={{ size: 'm', properties: ['margin-right'] }}>
               <ImageCard
                 id={image.id}

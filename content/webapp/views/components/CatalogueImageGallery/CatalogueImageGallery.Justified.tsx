@@ -10,10 +10,11 @@ import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import { hexToRgb } from '@weco/content/utils/convert-colors';
-import ImageCard from '@weco/content/views/components/ImageCard';
 import ImageModal, {
   useExpandedImage,
 } from '@weco/content/views/components/ImageModal';
+
+import ImageCard from './CatalogueImageGallery.ImageCard';
 
 export type Props = {
   images: Image[];
