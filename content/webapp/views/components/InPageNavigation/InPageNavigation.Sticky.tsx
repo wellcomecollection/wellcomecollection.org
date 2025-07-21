@@ -5,6 +5,7 @@ import {
   FunctionComponent,
   useEffect,
   useId,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -45,10 +46,31 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   const InPageNavigationStickyRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const listId = useId();
-  const { isEnhanced } = useAppContext();
+  const { isEnhanced, windowSize } = useAppContext();
   const [hasStuck, setHasStuck] = useState(false);
   const [isListActive, setIsListActive] = useState(false);
   const [scrollPosition, setScrollposition] = useState(0);
+  const prevHasStuckRef = useRef(false);
+
+  const shouldLockScroll = useMemo(() => {
+    return windowSize !== 'large' && isListActive && hasStuck;
+  }, [windowSize, isListActive, hasStuck]);
+
+  useEffect(() => {
+    // We close the mobile nav if it's open when we're going from !hasStuck to hasStuck
+
+    if (hasStuck && !prevHasStuckRef.current && isListActive) {
+      setIsListActive(false);
+    }
+    prevHasStuckRef.current = hasStuck;
+  }, [hasStuck, isListActive]);
+
+  useEffect(() => {
+    // We close the mobile nav if the user resizes their window to the large bp
+    if (windowSize === 'large' && hasStuck && isListActive) {
+      setIsListActive(false);
+    }
+  }, [windowSize, hasStuck, isListActive]);
 
   useEffect(() => {
     if (!buttonRef.current) return;
@@ -127,7 +149,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
 
   return (
     <>
-      {isListActive && hasStuck && (
+      {shouldLockScroll && (
         <BackgroundOverlay
           data-lock-scroll={true}
           onClick={() => setIsListActive(false)}
