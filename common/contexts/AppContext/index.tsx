@@ -63,19 +63,6 @@ function checkForMobileOrTabletDevice(): boolean {
   );
 }
 
-function getWindowSize(): Size {
-  switch (true) {
-    case window.innerWidth < theme.sizes.medium:
-      return 'small';
-    case window.innerWidth < theme.sizes.large:
-      return 'medium';
-    case window.innerWidth < theme.sizes.xlarge:
-      return 'large';
-    default:
-      return 'xlarge';
-  }
-}
-
 export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
@@ -110,9 +97,44 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
     setWindowSize(getWindowSize());
   }
 
+  const smallMatch = `(max-width: ${theme.sizes.medium - 1}px)`;
+  const mediumMatch = `(max-width: ${theme.sizes.large - 1}px)`;
+  const largeMatch = `(max-width: ${theme.sizes.xlarge - 1}px)`;
+
+  function getWindowSize(): Size {
+    if (window.matchMedia(smallMatch).matches) {
+      return 'small';
+    }
+    if (window.matchMedia(mediumMatch).matches) {
+      return 'medium';
+    }
+    if (window.matchMedia(largeMatch).matches) {
+      return 'large';
+    }
+    return 'xlarge';
+  }
+
   useEffect(() => {
-    window.addEventListener('resize', updateWindowSize);
-    return () => window.removeEventListener('resize', updateWindowSize);
+    const mediaQueries = [
+      window.matchMedia(smallMatch),
+      window.matchMedia(mediumMatch),
+      window.matchMedia(largeMatch),
+    ];
+
+    const handleMediaChange = () => {
+      console.log(getWindowSize());
+      setWindowSize(getWindowSize());
+    };
+
+    mediaQueries.forEach(mq => {
+      mq.addEventListener('change', handleMediaChange);
+    });
+
+    return () => {
+      mediaQueries.forEach(mq => {
+        mq.removeEventListener('change', handleMediaChange);
+      });
+    };
   }, []);
 
   useIsomorphicLayoutEffect(() => {
