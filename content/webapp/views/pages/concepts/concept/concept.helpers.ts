@@ -42,3 +42,40 @@ export const getThemeSectionHeading = (
 
   return `${tabLabel} this ${conceptTypeLabel}`;
 };
+
+type ConceptConfig = {
+  [key: string]: {
+    imagesAbout: boolean;
+    imagesbBy: boolean;
+    worksAbout: boolean;
+    worksBy: boolean;
+    relatedTopics: boolean;
+    contributors: {
+      display: boolean;
+      count: number;
+    };
+  };
+};
+
+type ConceptsConfig = {
+  [key in ConceptType]?: ConceptConfig[key];
+};
+
+export const conceptsConfig: ConceptsConfig = {
+  Person: {
+    imagesAbout: true,
+    imagesbBy: false,
+    worksAbout: true,
+    worksBy: true,
+    relatedTopics: false,
+    contributors: { display: true, count: 4 },
+  },
+  Organisation: {
+    imagesAbout: false,
+    imagesbBy: true,
+    worksAbout: false,
+    worksBy: true,
+    relatedTopics: true,
+    contributors: { display: true, count: 4 },
+  },
+};
