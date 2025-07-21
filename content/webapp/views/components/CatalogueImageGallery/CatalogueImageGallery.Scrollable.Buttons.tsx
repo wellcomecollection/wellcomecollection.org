@@ -30,54 +30,48 @@ const ScrollButtonsContainer = styled(Space)`
 `;
 
 type Props = {
-  targetRef: RefObject<HTMLElement | null>;
+  containerRef: RefObject<HTMLElement | null>;
 };
 
 const ScrollableGalleryButtons: FunctionComponent<Props> = ({
-  targetRef,
+  containerRef,
 }: Props) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
-  const getMaxScrollLeft = () => {
-    if (!targetRef.current) return 0;
-
-    const { scrollWidth, clientWidth } = targetRef.current;
-    return scrollWidth - clientWidth;
-  };
-
-  const updateScrollButtons = () => {
-    if (!targetRef.current) return;
-
-    const { scrollLeft } = targetRef.current;
-    const maxScrollLeft = getMaxScrollLeft();
-
-    // Determine whether each button should be enabled or disabled based on current scroll position
-    setCanScrollLeft(scrollLeft > 0);
-    setCanScrollRight(Math.ceil(scrollLeft) < maxScrollLeft);
-  };
-
   useEffect(() => {
-    if (!targetRef.current) return;
+    const container = containerRef.current;
+    if (!container) return;
+
+    const updateScrollButtons = () => {
+      const maxScrollLeft = container.scrollWidth - container.clientWidth;
+
+      // Determine whether each button should be enabled or disabled based on current scroll position
+      setCanScrollLeft(container.scrollLeft > 0);
+      setCanScrollRight(Math.ceil(container.scrollLeft) < maxScrollLeft);
+    };
+
     updateScrollButtons();
 
-    targetRef.current.addEventListener('scrollend', updateScrollButtons);
+    container.addEventListener('scrollend', updateScrollButtons);
     window.addEventListener('resize', updateScrollButtons);
+
     return () => {
-      targetRef.current?.removeEventListener('scrollend', updateScrollButtons);
+      container.removeEventListener('scrollend', updateScrollButtons);
       window.removeEventListener('resize', updateScrollButtons);
     };
   }, []);
 
   const scrollByChildImageWidth = (direction: SwipeDirection) => {
-    if (!targetRef.current) return;
+    const container = containerRef.current;
+    if (!container) return;
 
-    const currScrollLeft = targetRef.current.scrollLeft;
+    const currScrollLeft = container.scrollLeft;
     const containerPadding = parseFloat(
-      window.getComputedStyle(targetRef.current).paddingLeft
+      window.getComputedStyle(container).paddingLeft
     );
 
-    const children = Array.from(targetRef.current.children) as HTMLElement[];
+    const children = Array.from(container.children) as HTMLElement[];
 
     // When scrolling right, scroll to the first child whose left offset is higher than the current left scroll.
     // Otherwise, scroll to the last child chose left offset is lower than the current left scroll.
@@ -94,7 +88,7 @@ const ScrollableGalleryButtons: FunctionComponent<Props> = ({
       if (direction === 'right') {
         // This is a suggested patch for when the last image is too long to fit in the viewport.
         // Scroll to the end of the last child.
-        return targetRef.current.scrollTo({
+        return container.scrollTo({
           left: currScrollLeft + children[children.length - 1].offsetWidth,
           behavior: 'smooth',
         });
@@ -102,13 +96,13 @@ const ScrollableGalleryButtons: FunctionComponent<Props> = ({
       return;
     }
 
-    targetRef.current.scrollTo({
+    container.scrollTo({
       left: child.offsetLeft - containerPadding,
       behavior: 'smooth',
     });
   };
 
-  useSwipeable(targetRef, scrollByChildImageWidth);
+  useSwipeable(containerRef, scrollByChildImageWidth);
 
   if (!canScrollLeft && !canScrollRight) return null;
 

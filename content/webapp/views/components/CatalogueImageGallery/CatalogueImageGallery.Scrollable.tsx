@@ -50,7 +50,7 @@ const CatalogueImageGalleryScrollable: FunctionComponent<Props> = ({
       <ScrollButtonsContainer>
         {label && <Label>{label}</Label>}
 
-        <ScrollableGalleryButtons targetRef={scrollContainerRef} />
+        <ScrollableGalleryButtons containerRef={scrollContainerRef} />
       </ScrollButtonsContainer>
 
       <ImageCardList ref={scrollContainerRef}>
