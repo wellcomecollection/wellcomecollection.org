@@ -129,7 +129,7 @@ export const ConceptImages = styled(Space).attrs({
   background-color: ${props => props.theme.color('black')};
 
   /* The class is necessary because the image modals styles get overwritten otherwise */
-  h2.sectionTitle {
+  .sectionTitle {
     color: ${props => props.theme.color('white')};
   }
 `;
