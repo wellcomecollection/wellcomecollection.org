@@ -33,7 +33,7 @@ type Props = {
   containerRef: RefObject<HTMLElement | null>;
 };
 
-const ScrollableGalleryButtons: FunctionComponent<Props> = ({
+const ScrollableNavigation: FunctionComponent<Props> = ({
   containerRef,
 }: Props) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -116,4 +116,4 @@ const ScrollableGalleryButtons: FunctionComponent<Props> = ({
     </ScrollButtonsContainer>
   );
 };
-export default ScrollableGalleryButtons;
+export default ScrollableNavigation;

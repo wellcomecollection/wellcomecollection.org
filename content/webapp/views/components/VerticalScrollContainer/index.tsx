@@ -1,0 +1,56 @@
+import { FunctionComponent, PropsWithChildren, useRef } from 'react';
+import styled from 'styled-components';
+
+import { font } from '@weco/common/utils/classnames';
+import PlainList from '@weco/common/views/components/styled/PlainList';
+import Space from '@weco/common/views/components/styled/Space';
+
+import ScrollableNavigation from './VerticalScrollContainer.Navigation';
+
+const ScrollButtonsContainer = styled(Space).attrs({
+  $v: { size: 'm', properties: ['margin-bottom'] },
+})`
+  display: flex;
+  justify-content: space-between;
+  gap: ${props => props.theme.spacingUnits['3']}px;
+`;
+
+const Label = styled(Space).attrs({
+  className: font('intr', 6),
+})`
+  color: ${props => props.theme.color('neutral.400')};
+`;
+
+const ContentContainer = styled(PlainList)`
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  padding: 3px;
+`;
+
+type Props = PropsWithChildren<{
+  label?: string;
+}>;
+
+const VerticalScrollContainer: FunctionComponent<Props> = ({
+  label,
+  children,
+}) => {
+  const scrollContainerRef = useRef<HTMLUListElement>(null);
+
+  return (
+    <>
+      <ScrollButtonsContainer>
+        {label && <Label>{label}</Label>}
+
+        <ScrollableNavigation containerRef={scrollContainerRef} />
+      </ScrollButtonsContainer>
+
+      <ContentContainer ref={scrollContainerRef}>{children}</ContentContainer>
+    </>
+  );
+};
+
+export default VerticalScrollContainer;
+
+export { ScrollableNavigation };
