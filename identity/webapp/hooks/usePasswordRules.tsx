@@ -1,13 +1,8 @@
 import { useEffect, useState } from 'react';
 
-type PasswordRules = {
-  isAtLeast8Characters: boolean;
-  hasLowercaseLetters: boolean;
-  hasUppercaseLetters: boolean;
-  hasNumbers: boolean;
-};
+import { PasswordRulesProps } from '@weco/identity/views/components/PasswordRules';
 
-const usePasswordRules = (input: string): PasswordRules => {
+const usePasswordRules = (input: string): PasswordRulesProps => {
   const [isAtLeast8Characters, setIsAtLeast8Characters] = useState(false);
   const [hasLowercaseLetters, setHasLowercaseLetters] = useState(false);
   const [hasUppercaseLetters, setHasUppercaseLetters] = useState(false);

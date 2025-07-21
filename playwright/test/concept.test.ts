@@ -40,6 +40,28 @@ const test = base.extend<{
   },
 });
 
+test.describe('navigating to/from a work page from a concept page', () => {
+  test('the concept -> work -> concept journey with the browser back button', async ({
+    armyPage,
+  }) => {
+    // Click on the first work in the "works by" section
+    await armyPage.worksByTabPanel.getByRole('listitem').first().click();
+
+    // The work page should be visible
+    await expect(armyPage.page).toHaveURL(/\/works\//);
+
+    // Click the browser back button
+    await armyPage.page.goBack();
+
+    // The concept page should be visible again
+    await expect(armyPage.page).toHaveURL(/\/concepts\//);
+
+    // Check something we know should exist on the concept page is visible
+    // (we have had instances of the URL being correct but displaying the wrong content)
+    await expect(armyPage.worksAboutTab).toBeVisible();
+  });
+});
+
 test.describe('a Concept representing an Agent with no Images', () => {
   test('only has works tabs', async ({ thackrahPage }) => {
     // It has two tabs for works
