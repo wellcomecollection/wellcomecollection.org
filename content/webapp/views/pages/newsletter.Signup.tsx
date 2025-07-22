@@ -215,7 +215,9 @@ const NewsletterSignup: FunctionComponent<Props> = ({
             <Button
               variant="ButtonSolid"
               text="Subscribe"
-              dataGtmTrigger="newsletter_signup_subscribe"
+              dataGtmProps={{
+                trigger: 'newsletter_signup_subscribe',
+              }}
             />
           </Space>
 

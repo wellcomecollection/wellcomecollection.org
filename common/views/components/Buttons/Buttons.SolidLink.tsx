@@ -2,6 +2,7 @@ import NextLink, { LinkProps } from 'next/link';
 import { FunctionComponent, SyntheticEvent } from 'react';
 
 import { classNames } from '@weco/common/utils/classnames';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon';
 
@@ -30,7 +31,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   clickHandler,
   ariaControls,
   ariaExpanded,
-  dataGtmTrigger,
+  dataGtmProps,
   size,
   ariaLabel,
   colors,
@@ -55,9 +56,9 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
       }
     >
       <StyledButton
+        {...dataGtmPropsToAttributes(dataGtmProps)}
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
-        data-gtm-trigger={dataGtmTrigger}
         onClick={handleClick}
         href={getHref(link)}
         $ariaLabel={ariaLabel}
