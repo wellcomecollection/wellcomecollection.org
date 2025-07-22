@@ -27,7 +27,7 @@ export enum ButtonTypes {
   submit = 'submit',
 }
 
-type DataGtmAttr = 'trigger' | 'position_in_list';
+type DataGtmAttr = 'trigger' | 'position-in-list';
 
 export type ButtonSolidBaseProps = {
   text: ReactNode;
