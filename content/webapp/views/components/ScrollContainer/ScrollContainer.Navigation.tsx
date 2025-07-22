@@ -9,10 +9,22 @@ import useSwipeable, {
   SwipeDirection,
 } from '@weco/content/views/components/CatalogueImageGallery/useSwipeable';
 
+const ScrollButtonsContainer = styled(Space)<{
+  $isDarkMode?: boolean;
+}>`
+  display: flex;
+  justify-content: flex-end;
+  ${props => props.theme.pageGridOffset('left')};
+
+  /* Set CSS variables based on $isDarkMode */
+  --button-color: ${props =>
+    props.theme.color(props.$isDarkMode ? 'white' : 'black')};
+`;
+
 const ScrollButton = styled('button').attrs({
   className: font('intr', 6),
 })`
-  color: ${props => props.theme.color('white')};
+  color: var(--button-color);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -22,19 +34,14 @@ const ScrollButton = styled('button').attrs({
     color: ${props => props.theme.color('neutral.500')};
   }
 `;
-
-const ScrollButtonsContainer = styled(Space)`
-  display: flex;
-  justify-content: flex-end;
-  ${props => props.theme.pageGridOffset('left')};
-`;
-
 type Props = {
   containerRef: RefObject<HTMLElement | null>;
+  isDarkMode?: boolean;
 };
 
 const ScrollableNavigation: FunctionComponent<Props> = ({
   containerRef,
+  isDarkMode,
 }: Props) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -99,7 +106,7 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
   if (!canScrollLeft && !canScrollRight) return null;
 
   return (
-    <ScrollButtonsContainer>
+    <ScrollButtonsContainer $isDarkMode={isDarkMode}>
       <ScrollButton
         disabled={!canScrollLeft}
         onClick={() => scrollByChildImageWidth('left')}

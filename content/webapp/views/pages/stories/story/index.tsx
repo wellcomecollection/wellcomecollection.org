@@ -32,6 +32,7 @@ import PartNumberIndicator from '@weco/content/views/components/PartNumberIndica
 
 import ContentTypeInfo from './story.ContentTypeInfo';
 import { getNextUp, getRelatedDoc, setSeries } from './story.helpers';
+import { mockArticle } from './tempMockData';
 
 const RelatedStoryContainer = styled.div`
   ${props => props.theme.makeSpacePropertyValues('l', ['margin-top'])};
@@ -180,6 +181,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
         RelatedContent={Siblings}
         contributors={article.contributors}
         seasons={article.seasons}
+        linkedWorks={mockArticle.linkedWorks}
       />
 
       {article.exploreMoreDocument && relatedDocument && (

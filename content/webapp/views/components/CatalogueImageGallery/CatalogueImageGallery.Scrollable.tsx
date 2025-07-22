@@ -21,7 +21,7 @@ const CatalogueImageGalleryScrollable: FunctionComponent<Props> = ({
   const [, setExpandedImage] = useExpandedImage(images);
 
   return (
-    <ScrollContainer label={label}>
+    <ScrollContainer label={label} isDarkMode>
       {images.map((image, index) => (
         <li key={image.id} style={{ maxWidth: '90vw' }}>
           <Space $h={{ size: 'm', properties: ['margin-right'] }}>

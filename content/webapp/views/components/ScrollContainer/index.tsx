@@ -17,8 +17,9 @@ const ScrollButtonsContainer = styled(Space).attrs({
 
 const Label = styled(Space).attrs({
   className: font('intr', 6),
-})`
-  color: ${props => props.theme.color('neutral.400')};
+})<{ $isDarkMode?: boolean }>`
+  color: ${props =>
+    props.theme.color(props.$isDarkMode ? 'neutral.400' : 'black')};
 `;
 
 const ContentContainer = styled(PlainList)`
@@ -30,17 +31,26 @@ const ContentContainer = styled(PlainList)`
 
 type Props = PropsWithChildren<{
   label?: string;
+  isDarkMode?: boolean;
 }>;
 
-const ScrollContainer: FunctionComponent<Props> = ({ label, children }) => {
+const ScrollContainer: FunctionComponent<Props> = ({
+  label,
+  isDarkMode,
+  children,
+}) => {
   const scrollContainerRef = useRef<HTMLUListElement>(null);
 
   return (
     <>
       <ScrollButtonsContainer>
-        {label && <Label>{label}</Label>}
+        {/* TODO fix label style, add sublabel? */}
+        {label && <Label $isDarkMode={isDarkMode}>{label}</Label>}
 
-        <ScrollableNavigation containerRef={scrollContainerRef} />
+        <ScrollableNavigation
+          containerRef={scrollContainerRef}
+          isDarkMode={isDarkMode}
+        />
       </ScrollButtonsContainer>
 
       <ContentContainer ref={scrollContainerRef}>{children}</ContentContainer>
