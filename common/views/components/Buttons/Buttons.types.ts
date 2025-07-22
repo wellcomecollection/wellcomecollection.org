@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 import { IconSvg } from '@weco/common/icons';
 import { PaletteColor } from '@weco/common/views/themes/config';
-
+import { DataGtmAttr } from '@weco/content/utils/gtm';
 export type ButtonSize = 'small' | 'medium';
 
 export type SolidButtonStyledProps = {
@@ -26,8 +26,6 @@ export enum ButtonTypes {
   reset = 'reset',
   submit = 'submit',
 }
-
-type DataGtmAttr = 'trigger' | 'position-in-list';
 
 export type ButtonSolidBaseProps = {
   text: ReactNode;

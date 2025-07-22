@@ -7,8 +7,8 @@ import {
 
 import { classNames } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
+import { dataGtmPropsToAttributes } from '@weco/content/utils/gtm';
 
-import { dataGtmPropsToAttributes } from './Buttons.helpers';
 import {
   BaseButtonInner,
   ButtonIconWrapper,

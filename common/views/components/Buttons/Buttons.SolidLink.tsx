@@ -4,6 +4,7 @@ import { FunctionComponent, SyntheticEvent } from 'react';
 import { classNames } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Icon from '@weco/common/views/components/Icon';
+import { dataGtmPropsToAttributes } from '@weco/content/utils/gtm';
 
 import {
   BaseButtonInner,
@@ -11,7 +12,6 @@ import {
   ButtonSolidBaseProps,
   StyledButton,
 } from '.';
-import { dataGtmPropsToAttributes } from './Buttons.helpers';
 
 export type ButtonSolidLinkProps = ButtonSolidBaseProps & {
   clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void;
