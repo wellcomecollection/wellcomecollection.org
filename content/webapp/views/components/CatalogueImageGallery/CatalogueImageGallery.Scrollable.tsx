@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import { useExpandedImage } from '@weco/content/views/components/ImageModal';
-import VerticalScrollContainer from '@weco/content/views/components/VerticalScrollContainer';
+import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 
 import ImageCard from './CatalogueImageGallery.ImageCard';
 
@@ -21,7 +21,7 @@ const CatalogueImageGalleryScrollable: FunctionComponent<Props> = ({
   const [, setExpandedImage] = useExpandedImage(images);
 
   return (
-    <VerticalScrollContainer label={label}>
+    <ScrollContainer label={label}>
       {images.map((image, index) => (
         <li key={image.id} style={{ maxWidth: '90vw' }}>
           <Space $h={{ size: 'm', properties: ['margin-right'] }}>
@@ -44,7 +44,7 @@ const CatalogueImageGalleryScrollable: FunctionComponent<Props> = ({
           </Space>
         </li>
       ))}
-    </VerticalScrollContainer>
+    </ScrollContainer>
   );
 };
 

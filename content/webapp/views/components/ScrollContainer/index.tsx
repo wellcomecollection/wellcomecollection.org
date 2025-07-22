@@ -5,7 +5,7 @@ import { font } from '@weco/common/utils/classnames';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 
-import ScrollableNavigation from './VerticalScrollContainer.Navigation';
+import ScrollableNavigation from './ScrollContainer.Navigation';
 
 const ScrollButtonsContainer = styled(Space).attrs({
   $v: { size: 'm', properties: ['margin-bottom'] },
@@ -32,10 +32,7 @@ type Props = PropsWithChildren<{
   label?: string;
 }>;
 
-const VerticalScrollContainer: FunctionComponent<Props> = ({
-  label,
-  children,
-}) => {
+const ScrollContainer: FunctionComponent<Props> = ({ label, children }) => {
   const scrollContainerRef = useRef<HTMLUListElement>(null);
 
   return (
@@ -51,6 +48,6 @@ const VerticalScrollContainer: FunctionComponent<Props> = ({
   );
 };
 
-export default VerticalScrollContainer;
+export default ScrollContainer;
 
 export { ScrollableNavigation };
