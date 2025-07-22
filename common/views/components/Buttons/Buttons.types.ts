@@ -27,6 +27,8 @@ export enum ButtonTypes {
   submit = 'submit',
 }
 
+type DataGtmAttr = 'trigger' | 'position_in_list';
+
 export type ButtonSolidBaseProps = {
   text: ReactNode;
   icon?: IconSvg;
@@ -35,7 +37,7 @@ export type ButtonSolidBaseProps = {
   ariaControls?: string;
   ariaExpanded?: boolean;
   dataTestId?: string;
-  dataGtmProps?: Record<string, string>;
+  dataGtmProps?: Partial<Record<DataGtmAttr, string>>;
   ariaLive?: 'off' | 'polite' | 'assertive';
   colors?: ButtonColors;
   isIconAfter?: boolean;
