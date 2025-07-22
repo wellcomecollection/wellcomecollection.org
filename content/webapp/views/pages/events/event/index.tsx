@@ -265,7 +265,9 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
                       link={event.thirdPartyBooking.url}
                       icon={ticket}
                       text="Check for tickets"
-                      dataGtmTrigger="click_to_book"
+                      dataGtmProps={{
+                        trigger: 'click_to_book',
+                      }}
                     />
                     {event.thirdPartyBooking.name && (
                       <Space $v={{ size: 's', properties: ['margin-top'] }}>
@@ -288,7 +290,9 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
                     link={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                     icon={email}
                     text="Email to book"
-                    dataGtmTrigger="click_to_book"
+                    dataGtmProps={{
+                      trigger: 'click_to_book',
+                    }}
                   />
                 )}
 

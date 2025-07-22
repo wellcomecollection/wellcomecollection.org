@@ -11,6 +11,7 @@ import {
   ButtonSolidBaseProps,
   StyledButton,
 } from '.';
+import { dataGtmPropsToAttributes } from './Buttons.helpers';
 
 export type ButtonSolidLinkProps = ButtonSolidBaseProps & {
   clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void;
@@ -30,7 +31,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   clickHandler,
   ariaControls,
   ariaExpanded,
-  dataGtmTrigger,
+  dataGtmProps,
   size,
   ariaLabel,
   colors,
@@ -55,9 +56,9 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
       }
     >
       <StyledButton
+        {...dataGtmPropsToAttributes(dataGtmProps)}
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
-        data-gtm-trigger={dataGtmTrigger}
         onClick={handleClick}
         href={getHref(link)}
         $ariaLabel={ariaLabel}

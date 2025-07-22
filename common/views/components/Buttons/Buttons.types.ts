@@ -34,8 +34,8 @@ export type ButtonSolidBaseProps = {
   isTextHidden?: boolean;
   ariaControls?: string;
   ariaExpanded?: boolean;
-  dataGtmTrigger?: string;
   dataTestId?: string;
+  dataGtmProps?: Record<string, string>;
   ariaLive?: 'off' | 'polite' | 'assertive';
   colors?: ButtonColors;
   isIconAfter?: boolean;
