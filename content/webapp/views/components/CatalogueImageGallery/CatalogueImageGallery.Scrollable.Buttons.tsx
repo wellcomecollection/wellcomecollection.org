@@ -66,9 +66,9 @@ const ScrollableGalleryButtons: FunctionComponent<Props> = ({
     const container = containerRef.current;
     if (!container) return;
 
-    // Math.ceil is required because Chrome Android does not round up
+    // Math.round is required because Chrome Android does not round numbers,
     // and this causes the scroll to not work correctly.
-    const currScrollLeft = Math.ceil(container.scrollLeft);
+    const currScrollLeft = Math.round(container.scrollLeft);
     const children = Array.from(container.children) as HTMLElement[];
 
     const containerPaddingLeft = parseFloat(
