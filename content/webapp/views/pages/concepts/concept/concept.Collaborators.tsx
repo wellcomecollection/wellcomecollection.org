@@ -39,8 +39,12 @@ const Collaborators: FunctionComponent<{
         Frequent collaborators
       </h2>
       <CollaboratorsWrapper>
-        {concepts.slice(0, COLLABORATOR_COUNT_LIMIT).map(concept => (
+        {concepts.slice(0, COLLABORATOR_COUNT_LIMIT).map((concept, index) => (
           <CollaboratorCard
+            dataGtmProps={{
+              trigger: 'frequent_collaborators',
+              'position-in-list': `${index + 1}`,
+            }}
             key={concept.id}
             href={`/concepts/${concept.id}`}
             icon={iconFromConceptType(concept.conceptType)}
