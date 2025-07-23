@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 import { IconSvg } from '@weco/common/icons';
-import { DataGtmAttr } from '@weco/common/utils/gtm';
+import { DataGtmProps } from '@weco/common/utils/gtm';
 import { PaletteColor } from '@weco/common/views/themes/config';
 export type ButtonSize = 'small' | 'medium';
 
@@ -35,7 +35,7 @@ export type ButtonSolidBaseProps = {
   ariaControls?: string;
   ariaExpanded?: boolean;
   dataTestId?: string;
-  dataGtmProps?: Partial<Record<DataGtmAttr, string>>;
+  dataGtmProps?: DataGtmProps;
   ariaLive?: 'off' | 'polite' | 'assertive';
   colors?: ButtonColors;
   isIconAfter?: boolean;
