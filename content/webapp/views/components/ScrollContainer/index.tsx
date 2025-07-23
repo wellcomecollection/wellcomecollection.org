@@ -59,7 +59,6 @@ const ScrollContainer: FunctionComponent<Props> = ({
         )}
       >
         <ScrollButtonsContainer>
-          {/* TODO fix label style, add sublabel? */}
           {label && <Label $isDarkMode={isDarkMode}>{label}</Label>}
 
           <ScrollableNavigation

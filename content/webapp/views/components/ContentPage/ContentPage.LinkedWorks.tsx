@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import LabelsList from '@weco/common/views/components/LabelsList';
+import { ContaineredLayout } from '@weco/common/views/components/Layout';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
@@ -227,8 +228,16 @@ const ScrollableLinkedWorks: FunctionComponent<LinkedWorkProps> = ({
   const gridValues = Object.values(gridSizes).map(v => v[0]);
 
   return (
-    <FullWidthRow>
-      <ScrollContainer label="Featured in this article" gridSizes={gridSizes}>
+    // TODO remove this id
+    <FullWidthRow id="featured-works">
+      <ContaineredLayout gridSizes={gridSizes as SizeMap}>
+        <h2 className={font('wb', 3)}>Featured in this article</h2>
+      </ContaineredLayout>
+
+      <ScrollContainer
+        label={`${linkedWorks.length} works from our catalogue`}
+        gridSizes={gridSizes}
+      >
         <Shim $gridValues={gridValues}></Shim>
         {linkedWorks.map(work => (
           <li key={work.id} style={{ marginRight: '20px', flex: '0 0 33%' }}>
