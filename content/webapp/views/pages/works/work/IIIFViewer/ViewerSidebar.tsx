@@ -75,11 +75,6 @@ const AccordionInner = styled(Space).attrs({
     color: inherit;
     font-size: inherit;
 
-    &:active {
-      outline: ${props => props.theme.highContrastOutlineFix};
-      box-shadow: ${props => props.theme.focusBoxShadow};
-    }
-
     span {
       display: flex;
       justify-content: space-between;
