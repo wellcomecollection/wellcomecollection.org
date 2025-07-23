@@ -15,6 +15,7 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useActiveAnchor } from '@weco/common/hooks/useActiveAnchor';
 import { cross } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import { Link } from '@weco/content/types/link';
 
@@ -242,7 +243,7 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
           </MobileNavButton>
 
           <InPageNavList ref={listRef} id={listId} $isOnWhite={!!isOnWhite}>
-            {links.map((link: Link) => {
+            {links.map((link: Link, index) => {
               const id = link.url.replace('#', '');
               const isActive = activeId === id;
               return (
@@ -258,7 +259,11 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
                         $hasStuck={hasStuck}
                         $isActive={isActive}
                         $isOnWhite={!!isOnWhite}
-                        data-gtm-trigger="link_click_page_position"
+                        {...dataGtmPropsToAttributes({
+                          trigger: 'link_click_page_position',
+                          'position-in-list': `${index + 1}`,
+                          label: id,
+                        })}
                         onClick={() => {
                           setClickedId(id);
                           setIsListActive(false);

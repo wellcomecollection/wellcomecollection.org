@@ -1,7 +1,8 @@
-export type DataGtmAttr = 'trigger' | 'position-in-list';
+type DataGtmAttr = 'trigger' | 'position-in-list' | 'label';
+export type DataGtmProps = Partial<Record<DataGtmAttr, string>>;
 
 export function dataGtmPropsToAttributes(
-  dataGtmProps?: Partial<Record<DataGtmAttr, string>>
+  dataGtmProps?: DataGtmProps
 ): Record<string, string> {
   if (!dataGtmProps) {
     return {};

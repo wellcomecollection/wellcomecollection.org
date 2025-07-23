@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { IconSvg } from '@weco/common/icons';
 import { font } from '@weco/common/utils/classnames';
+import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 
 const StyledLink = styled(NextLink).attrs({
@@ -61,11 +62,21 @@ type Props = {
   href: string;
   label: string;
   icon: IconSvg;
+  dataGtmProps?: DataGtmProps;
 };
 
-const CollaboratorCard: FunctionComponent<Props> = ({ href, label, icon }) => {
+const CollaboratorCard: FunctionComponent<Props> = ({
+  href,
+  label,
+  icon,
+  dataGtmProps,
+}) => {
   return (
-    <StyledLink href={href} className="link-reset">
+    <StyledLink
+      href={href}
+      className="link-reset"
+      {...dataGtmPropsToAttributes(dataGtmProps)}
+    >
       <CollaboratorLabel>{label}</CollaboratorLabel>
       <IconWrapper>
         <Icon icon={icon} />
