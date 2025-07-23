@@ -102,6 +102,10 @@ const ThemeHeader: FunctionComponent<{
         <>
           {(concept.type === 'Person' || themePagesAllFields) && (
             <RelatedConceptsGroup
+              dataGtmProps={index => ({
+                trigger: 'field_of_work',
+                'position-in-list': `${index + 1}`,
+              })}
               label="Field of work"
               labelType="inline"
               relatedConcepts={fieldsOfWork}

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
 import { dasherize } from '@weco/common/utils/grammar';
+import { DataGtmProps } from '@weco/common/utils/gtm';
 import Button, { ButtonColors } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
@@ -35,6 +36,7 @@ type Props = {
   labelType: 'inline' | 'heading';
   relatedConcepts?: RelatedConcept[];
   buttonColors?: ButtonColors;
+  dataGtmProps?: (index: number) => DataGtmProps;
 };
 
 const RelatedConceptsGroup: FunctionComponent<Props> = ({
@@ -42,6 +44,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
   labelType,
   relatedConcepts,
   buttonColors,
+  dataGtmProps,
 }: Props) => {
   if (!relatedConcepts || relatedConcepts.length === 0) {
     return null;
@@ -67,10 +70,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
           >
             <Space className={font('intr', 5)}>
               <Button
-                dataGtmProps={{
-                  trigger: 'field_of_work',
-                  'position-in-list': `${index + 1}`,
-                }}
+                dataGtmProps={dataGtmProps?.(index)}
                 variant="ButtonSolidLink"
                 colors={
                   buttonColors || themeValues.buttonColors.slateTransparentBlack
