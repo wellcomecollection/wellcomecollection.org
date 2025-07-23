@@ -6,6 +6,7 @@ import {
 } from 'react';
 
 import { classNames } from '@weco/common/utils/classnames';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 
 import {
@@ -30,7 +31,7 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
     clickHandler,
     ariaControls,
     ariaExpanded,
-    dataGtmTrigger,
+    dataGtmProps,
     dataTestId,
     ariaLive,
     disabled,
@@ -48,12 +49,12 @@ const Button: ForwardRefRenderFunction<HTMLButtonElement, ButtonSolidProps> = (
 
   return (
     <StyledButton
+      {...dataGtmPropsToAttributes(dataGtmProps)}
       ref={ref}
       type={type}
       aria-controls={ariaControls}
       aria-expanded={ariaExpanded}
       aria-live={ariaLive}
-      data-gtm-trigger={dataGtmTrigger}
       data-testid={dataTestId}
       onClick={handleClick}
       disabled={disabled}

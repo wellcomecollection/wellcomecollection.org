@@ -190,7 +190,9 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
           <Button
             variant="ButtonSolid"
             text="Confirm request"
-            dataGtmTrigger="requesting_confirm"
+            dataGtmProps={{
+              trigger: 'requesting_confirm',
+            }}
             disabled={!item.availableDates?.length}
           />
         </ConfirmRequestButtonWrapper>

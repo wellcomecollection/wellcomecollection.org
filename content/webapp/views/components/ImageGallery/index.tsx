@@ -260,7 +260,9 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
                   ref={openButtonRef}
                   ariaControls={id}
                   ariaExpanded={isActive}
-                  dataGtmTrigger={isActive ? undefined : 'show_image_gallery'}
+                  dataGtmProps={{
+                    trigger: isActive ? undefined : 'show_image_gallery',
+                  }}
                   icon={gallery}
                   clickHandler={handleOpenClicked}
                   text={pluralize(items.length, 'image')}

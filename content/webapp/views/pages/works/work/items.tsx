@@ -263,7 +263,9 @@ const WorkItemPage: NextPage<Props> = ({
             >
               <Button
                 variant="ButtonSolid"
-                dataGtmTrigger="show_the_content"
+                dataGtmProps={{
+                  trigger: 'show_the_content',
+                }}
                 text="Show the content"
                 clickHandler={() => {
                   const authServiceWindow = window.open(
