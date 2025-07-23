@@ -69,10 +69,10 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
           >
             <Space className={font('intr', 5)}>
               <Button
-                dataGtmProps={{
+                {...(dataGtmTriggerName && {
                   trigger: dataGtmTriggerName,
                   'position-in-list': `${index + 1}`,
-                }}
+                })}
                 variant="ButtonSolidLink"
                 colors={
                   buttonColors || themeValues.buttonColors.slateTransparentBlack
