@@ -391,6 +391,7 @@ const ConceptPage: NextPage<Props> = ({
                   }}
                 >
                   <RelatedConceptsGroup
+                    dataGtmTriggerName="related_topics"
                     label={relatedConceptsGroupLabel}
                     labelType="heading"
                     relatedConcepts={relatedTopics}
