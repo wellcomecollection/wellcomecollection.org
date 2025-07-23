@@ -13,7 +13,6 @@ import {
   dasherize,
   formatNumber,
 } from '@weco/common/utils/grammar';
-import { DataGtmProps } from '@weco/common/utils/gtm';
 import { ReturnedResults } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -392,10 +391,7 @@ const ConceptPage: NextPage<Props> = ({
                   }}
                 >
                   <RelatedConceptsGroup
-                    dataGtmProps={(index): DataGtmProps => ({
-                      trigger: 'related_topics',
-                      'position-in-list': `${index + 1}`,
-                    })}
+                    dataGtmTriggerName="related_topics"
                     label={relatedConceptsGroupLabel}
                     labelType="heading"
                     relatedConcepts={relatedTopics}
