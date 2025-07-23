@@ -391,9 +391,12 @@ const ConceptPage: NextPage<Props> = ({
                   }}
                 >
                   <RelatedConceptsGroup
-                    dataGtmProps={index => ({
+                    dataGtmProps={(index, relationshipType) => ({
                       trigger: 'related_topics',
                       'position-in-list': `${index + 1}`,
+                      ...(relationshipType && {
+                        'relationship-type': relationshipType,
+                      }),
                     })}
                     label={relatedConceptsGroupLabel}
                     labelType="heading"
