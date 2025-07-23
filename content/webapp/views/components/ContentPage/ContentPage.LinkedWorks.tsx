@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import LabelsList from '@weco/common/views/components/LabelsList';
+import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import ScrollContainer from '@weco/content/views/components/ScrollContainer';
 import WorkLink from '@weco/content/views/components/WorkLink';
@@ -186,38 +187,54 @@ const LinkedWorkCard: FunctionComponent<LinkedWorkCardProps> = ({
   );
 };
 
+const Shim = styled.li<{ $gridValues: number[] }>`
+  --container-padding: ${props => props.theme.containerPadding.small}px;
+  --number-of-columns: ${props => (12 - props.$gridValues[0]) / 2};
+  --gap-value: ${props => props.theme.gutter.small}px;
+
+  padding-left: var(--container-padding);
+  min-width: calc(
+    var(--number-of-columns) *
+      (((100% - var(--container-padding)) / 12) + (var(--gap-value) * 11 / 12))
+  );
+
+  ${props =>
+    props.theme.media('medium')(`
+      --container-padding: ${props.theme.containerPadding.medium}px;
+      --number-of-columns: ${(12 - props.$gridValues[1]) / 2};
+      --gap-value: ${props.theme.gutter.medium}px;
+  `)}
+
+  /* TODO consider margin: 0 auto */
+  ${props =>
+    props.theme.media('large')(`
+      --container-padding: ${props.theme.containerPadding.large}px;
+      --number-of-columns: ${(12 - props.$gridValues[2]) / 2};
+      --gap-value: ${props.theme.gutter.large}px;
+  `)}
+`;
+
 type LinkedWorkProps = {
   linkedWorks: ContentAPILinkedWork[];
+  gridSizes: SizeMap;
 };
 
 const ScrollableLinkedWorks: FunctionComponent<LinkedWorkProps> = ({
   linkedWorks,
+  gridSizes,
 }: LinkedWorkProps) => {
   if (!linkedWorks || linkedWorks.length === 0) return null;
+  const gridValues = Object.values(gridSizes).map(v => v[0]);
 
   return (
     <FullWidthRow>
-      <ScrollContainer label="Featured in this article">
+      <ScrollContainer label="Featured in this article" gridSizes={gridSizes}>
+        <Shim $gridValues={gridValues}></Shim>
         {linkedWorks.map(work => (
           <li key={work.id} style={{ marginRight: '20px', flex: '0 0 33%' }}>
             <LinkedWorkCard work={work} />
           </li>
         ))}
-
-        {/* TODO do we want this?
-      <Space $v={{ size: 'l', properties: ['margin-top'] }}>
-        <BetaMessage
-          message={
-            <>
-              This feature is new.{' '}
-              <a href="mailto:digital@wellcomecollection.org?subject=Related works">
-                Let us know
-              </a>{' '}
-              if something doesn’t look right.
-            </>
-          }
-        />
-      </Space> */}
       </ScrollContainer>
     </FullWidthRow>
   );

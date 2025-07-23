@@ -108,7 +108,10 @@ const ContentPage = ({
           )}
           {/* TODO add toggle? */}
           {linkedWorks && linkedWorks.length > 0 && (
-            <ScrollableLinkedWorks linkedWorks={linkedWorks} />
+            <ScrollableLinkedWorks
+              linkedWorks={linkedWorks}
+              gridSizes={gridSize8()}
+            />
           )}
 
           {!hideContributors && contributors && contributors.length > 0 && (

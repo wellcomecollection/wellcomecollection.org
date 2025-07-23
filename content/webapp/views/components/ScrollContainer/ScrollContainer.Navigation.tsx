@@ -11,10 +11,11 @@ import useSwipeable, {
 
 const ScrollButtonsContainer = styled(Space)<{
   $isDarkMode?: boolean;
+  $hasLeftOffset?: boolean;
 }>`
   display: flex;
   justify-content: flex-end;
-  ${props => props.theme.pageGridOffset('left')};
+  ${props => (props.$hasLeftOffset ? props.theme.pageGridOffset('left') : '')};
 
   /* Set CSS variables based on $isDarkMode */
   --button-color: ${props =>
@@ -37,11 +38,13 @@ const ScrollButton = styled('button').attrs({
 type Props = {
   containerRef: RefObject<HTMLElement | null>;
   isDarkMode?: boolean;
+  hasLeftOffset?: boolean;
 };
 
 const ScrollableNavigation: FunctionComponent<Props> = ({
   containerRef,
   isDarkMode,
+  hasLeftOffset,
 }: Props) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -106,7 +109,10 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
   if (!canScrollLeft && !canScrollRight) return null;
 
   return (
-    <ScrollButtonsContainer $isDarkMode={isDarkMode}>
+    <ScrollButtonsContainer
+      $isDarkMode={isDarkMode}
+      $hasLeftOffset={hasLeftOffset}
+    >
       <ScrollButton
         disabled={!canScrollLeft}
         onClick={() => scrollByChildImageWidth('left')}

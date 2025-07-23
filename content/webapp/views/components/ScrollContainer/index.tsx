@@ -2,6 +2,9 @@ import { FunctionComponent, PropsWithChildren, useRef } from 'react';
 import styled from 'styled-components';
 
 import { font } from '@weco/common/utils/classnames';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
+import { ContaineredLayout } from '@weco/common/views/components/Layout';
+import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -32,26 +35,40 @@ const ContentContainer = styled(PlainList)`
 type Props = PropsWithChildren<{
   label?: string;
   isDarkMode?: boolean;
+  gridSizes?: SizeMap;
+  hasLeftOffset?: boolean;
 }>;
 
 const ScrollContainer: FunctionComponent<Props> = ({
   label,
   isDarkMode,
+  gridSizes,
+  hasLeftOffset,
   children,
 }) => {
   const scrollContainerRef = useRef<HTMLUListElement>(null);
 
   return (
     <>
-      <ScrollButtonsContainer>
-        {/* TODO fix label style, add sublabel? */}
-        {label && <Label $isDarkMode={isDarkMode}>{label}</Label>}
+      <ConditionalWrapper
+        condition={!!gridSizes}
+        wrapper={children => (
+          <ContaineredLayout gridSizes={gridSizes as SizeMap}>
+            {children}
+          </ContaineredLayout>
+        )}
+      >
+        <ScrollButtonsContainer>
+          {/* TODO fix label style, add sublabel? */}
+          {label && <Label $isDarkMode={isDarkMode}>{label}</Label>}
 
-        <ScrollableNavigation
-          containerRef={scrollContainerRef}
-          isDarkMode={isDarkMode}
-        />
-      </ScrollButtonsContainer>
+          <ScrollableNavigation
+            containerRef={scrollContainerRef}
+            isDarkMode={isDarkMode}
+            hasLeftOffset={hasLeftOffset}
+          />
+        </ScrollButtonsContainer>
+      </ConditionalWrapper>
 
       <ContentContainer ref={scrollContainerRef}>{children}</ContentContainer>
     </>
