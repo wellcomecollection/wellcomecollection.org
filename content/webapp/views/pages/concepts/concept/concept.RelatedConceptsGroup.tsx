@@ -36,10 +36,7 @@ type Props = {
   labelType: 'inline' | 'heading';
   relatedConcepts?: RelatedConcept[];
   buttonColors?: ButtonColors;
-  dataGtmProps?: (
-    index: number,
-    relationshipType?: RelatedConcept['relationshipType']
-  ) => DataGtmProps;
+  dataGtmProps?: (index: number, topicType?: 'TODO') => DataGtmProps;
 };
 
 const RelatedConceptsGroup: FunctionComponent<Props> = ({
@@ -73,7 +70,7 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
           >
             <Space className={font('intr', 5)}>
               <Button
-                dataGtmProps={dataGtmProps?.(index, item.relationshipType)}
+                dataGtmProps={dataGtmProps?.(index, 'TODO')}
                 variant="ButtonSolidLink"
                 colors={
                   buttonColors || themeValues.buttonColors.slateTransparentBlack

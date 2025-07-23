@@ -1,4 +1,8 @@
-type DataGtmAttr = 'trigger' | 'position-in-list' | 'relationship-type';
+type DataGtmAttr =
+  | 'trigger'
+  | 'position-in-list'
+  | 'relationship-type'
+  | 'topic-type';
 export type DataGtmProps = Partial<Record<DataGtmAttr, string>>;
 
 export function dataGtmPropsToAttributes(
