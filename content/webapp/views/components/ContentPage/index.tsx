@@ -2,6 +2,7 @@ import { Children, ReactElement, ReactNode } from 'react';
 import styled from 'styled-components';
 
 import { sectionLevelPages } from '@weco/common/data/hardcoded-ids';
+import { useToggles } from '@weco/common/server-data/Context';
 import { ElementFromComponent } from '@weco/common/utils/utility-types';
 import {
   ContaineredLayout,
@@ -62,6 +63,8 @@ const ContentPage = ({
   hideContributors,
   linkedWorks,
 }: Props): ReactElement => {
+  const { featuredWorksInAddressables } = useToggles();
+
   // We don't want to add a spacing unit if there's nothing to render
   // in the body (we don't render the 'standfirst' here anymore).
   function shouldRenderBody() {
@@ -106,13 +109,15 @@ const ContentPage = ({
               ))}
             </SpacingSection>
           )}
-          {/* TODO add toggle? */}
-          {linkedWorks && linkedWorks.length > 0 && (
-            <ScrollableLinkedWorks
-              linkedWorks={linkedWorks}
-              gridSizes={gridSize8()}
-            />
-          )}
+
+          {featuredWorksInAddressables &&
+            linkedWorks &&
+            linkedWorks.length > 0 && (
+              <ScrollableLinkedWorks
+                linkedWorks={linkedWorks}
+                gridSizes={gridSize8()}
+              />
+            )}
 
           {!hideContributors && contributors && contributors.length > 0 && (
             <SpacingSection>
