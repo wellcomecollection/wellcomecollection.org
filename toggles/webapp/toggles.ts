@@ -121,6 +121,14 @@ const toggles = {
       description: 'Shows related content on works pages',
       type: 'experimental',
     },
+    {
+      id: 'featuredWorksInAddressables',
+      title: 'Featured works in addressables',
+      initialValue: false,
+      description:
+        'Adds features in displaying featured works in the Content part of the website',
+      type: 'experimental',
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
