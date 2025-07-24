@@ -65,7 +65,7 @@ test.describe('navigating to/from a work page from a concept page', () => {
 test.describe('a Concept representing an Agent with no Images', () => {
   test('only has works tabs', async ({ thackrahPage }) => {
     // It has two tabs for works
-    await expect(thackrahPage.worksAboutTab).toBeVisible();
+    await expect(thackrahPage.worksFeaturingTab).toBeVisible();
     await expect(thackrahPage.worksByTab).toBeVisible();
 
     // and has no images tabs
@@ -80,13 +80,13 @@ test.describe('a Concept representing an Agent with no Images', () => {
     ).not.toHaveCount(0);
 
     // The "works about" panel is not expected to be seen ...
-    await expect(thackrahPage.worksAboutTabPanel).not.toBeVisible();
+    await expect(thackrahPage.worksFeaturingTabPanel).not.toBeVisible();
     // Until the "works about" tab is clicked
-    await thackrahPage.worksAboutTab.click();
+    await thackrahPage.worksFeaturingTab.click();
     // The works about panel is expected to contain a list of works about the concept (spookily enough)
     // This list is expected to be populated.
     await expect(
-      thackrahPage.worksAboutTabPanel.getByRole('listitem')
+      thackrahPage.worksFeaturingTabPanel.getByRole('listitem')
     ).not.toHaveCount(0);
   });
 });
