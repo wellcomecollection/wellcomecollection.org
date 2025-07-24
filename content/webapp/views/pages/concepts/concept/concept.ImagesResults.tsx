@@ -14,9 +14,6 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { allRecordsLinkParams } from '@weco/content/utils/concepts';
 import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
-import ImageModal, {
-  useExpandedImage,
-} from '@weco/content/views/components/ImageModal';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import { toLink as toImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
 
@@ -110,15 +107,6 @@ const ImagesResults: FunctionComponent<{
   sectionsData: ThemePageSectionsData;
   concept: Concept;
 }> = ({ sectionsData, concept }) => {
-  const allImages = useMemo(
-    () =>
-      themeTabOrder
-        .map(tab => sectionsData[tab].images?.pageResults || [])
-        .flat(),
-    [sectionsData]
-  );
-  const [expandedImage, setExpandedImage] = useExpandedImage(allImages);
-
   const isSectionEmpty = (section: SectionData) => {
     return !section.images || section.images.totalResults === 0;
   };
@@ -140,12 +128,6 @@ const ImagesResults: FunctionComponent<{
           />
         ))}
       </ThemeImagesWrapper>
-
-      <ImageModal
-        images={allImages}
-        expandedImage={expandedImage}
-        setExpandedImage={setExpandedImage}
-      />
     </>
   );
 };
