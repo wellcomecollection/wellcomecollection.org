@@ -19,6 +19,8 @@ export class ConceptPage {
   readonly imagesInTab: Locator;
   readonly worksAboutTabPanel: Locator;
   readonly worksByTabPanel: Locator;
+  readonly worksFeaturingTab: Locator;
+  readonly worksFeaturingTabPanel: Locator;
   readonly worksInTabPanel: Locator;
   readonly imagesAboutTabPanel: Locator;
   readonly imagesByTabPanel: Locator;
@@ -74,6 +76,10 @@ export class ConceptPage {
       this.worksTabGroup,
       `About this ${this.conceptTypeLabel}`
     );
+    this.worksFeaturingTab = this.tab(
+      this.worksTabGroup,
+      `Featuring this ${this.conceptTypeLabel}`
+    );
     this.worksByTab = this.tab(
       this.worksTabGroup,
       `By this ${this.conceptTypeLabel}`
@@ -94,10 +100,13 @@ export class ConceptPage {
       this.imagesTabGroup,
       `Using this ${this.conceptTypeLabel}`
     );
-
     this.worksAboutTabPanel = this.tabPanel(
       this.worksSection,
       `About this ${this.conceptTypeLabel}`
+    );
+    this.worksFeaturingTabPanel = this.tabPanel(
+      this.worksSection,
+      `Featuring this ${this.conceptTypeLabel}`
     );
     this.worksByTabPanel = this.tabPanel(
       this.worksSection,
