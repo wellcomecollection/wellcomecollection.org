@@ -29,7 +29,7 @@ const ContentContainer = styled(PlainList)`
   display: flex;
   overflow: hidden;
   position: relative;
-  padding: 3px;
+  padding: 3px 0;
 `;
 
 type Props = PropsWithChildren<{

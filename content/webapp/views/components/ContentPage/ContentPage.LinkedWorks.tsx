@@ -11,7 +11,7 @@ import { ContentAPILinkedWork } from '@weco/content/views/pages/stories/story/te
 import LinkedWorkCard from './ContentPage.LinkedWorks.Card';
 
 const FullWidthRow = styled(Space).attrs({
-  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  $v: { size: 'l', properties: ['padding-bottom'] },
 })`
   background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
@@ -71,7 +71,7 @@ const Shim = styled.li<{ $gridValues: number[] }>`
 
 const ListItem = styled.li`
   --container-padding: ${props => props.theme.containerPadding.small}px;
-  flex: 0 0 calc(100% - var(--container-padding));
+  flex: 0 0 90%;
   max-width: 420px;
 
   padding-left: var(--container-padding);
