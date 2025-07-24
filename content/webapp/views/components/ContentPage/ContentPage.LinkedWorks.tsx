@@ -16,13 +16,9 @@ const FullWidthRow = styled(Space).attrs({
   background-color: ${props => props.theme.color('warmNeutral.300')};
 `;
 
-const ListItem = styled.li`
-  flex: 0 0 33%;
-  max-width: 420px;
-  margin-right: 20px;
-`;
-
 const Shim = styled.li<{ $gridValues: number[] }>`
+  display: none;
+
   --container-padding: ${props => props.theme.containerPadding.small}px;
   --number-of-columns: ${props => (12 - props.$gridValues[0]) / 2};
   --gap-value: ${props => props.theme.gutter.small}px;
@@ -40,6 +36,7 @@ const Shim = styled.li<{ $gridValues: number[] }>`
 
   ${props =>
     props.theme.media('medium')(`
+      display: block;
       --container-padding: ${props.theme.containerPadding.medium}px;
       --number-of-columns: ${(12 - props.$gridValues[1]) / 2};
       --gap-value: ${props.theme.gutter.medium}px;
@@ -70,6 +67,24 @@ const Shim = styled.li<{ $gridValues: number[] }>`
           )
       );
   `)}
+`;
+
+const ListItem = styled.li`
+  --container-padding: ${props => props.theme.containerPadding.small}px;
+  flex: 0 0 calc(100% - var(--container-padding));
+  max-width: 420px;
+
+  padding-left: var(--container-padding);
+
+  &:last-child {
+    padding-right: var(--container-padding);
+  }
+
+  ${props =>
+    props.theme.media('medium')(`
+      flex: 0 0 50%;
+      padding: 0 var(--container-padding) 0 0;
+    `)}
 `;
 
 type LinkedWorkProps = {
