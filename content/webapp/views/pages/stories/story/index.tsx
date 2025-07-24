@@ -181,7 +181,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
         RelatedContent={Siblings}
         contributors={article.contributors}
         seasons={article.seasons}
-        linkedWorks={mockArticle.linkedWorks}
+        linkedWorks={!isInPicturesFormat ? mockArticle.linkedWorks : []}
       />
 
       {article.exploreMoreDocument && relatedDocument && (
