@@ -1,3 +1,5 @@
+import { Label } from '@weco/common/model/labels';
+
 export type ContentAPILinkedWork = {
   id: string;
   title: string;
@@ -5,8 +7,11 @@ export type ContentAPILinkedWork = {
   thumbnailUrl: string;
   date: string;
   mainContributor: string;
-  workType: string;
-  isOnline: string;
+  // currently to be shaped this way
+  // workType: string;
+  // isOnline: string;
+  // I suggest we change it to
+  labels: Label[];
 };
 
 export const mockArticle: {
@@ -30,8 +35,7 @@ export const mockArticle: {
         'https://iiif.wellcomecollection.org/thumbs/b30598977_0001.jp2/full/!200,200/0/default.jpg',
       date: '1900',
       mainContributor: 'Wolter, Hermann (Wilhelm Victor Hermann), 1868-',
-      workType: 'Books',
-      isOnline: 'true',
+      labels: [{ text: 'Books' }, { text: 'Online' }],
     },
     {
       id: 'a2239muq',
@@ -42,8 +46,7 @@ export const mockArticle: {
         'https://iiif.wellcomecollection.org/thumbs/b30598977_0001.jp2/full/!200,200/0/default.jpg',
       date: '1900',
       mainContributor: 'Wolter, Hermann (Wilhelm Victor Hermann), 1868-',
-      workType: 'Books',
-      isOnline: 'true',
+      labels: [{ text: 'Books' }],
     },
     {
       id: 'a2239muq',
@@ -54,8 +57,7 @@ export const mockArticle: {
         'https://iiif.wellcomecollection.org/thumbs/b30598977_0001.jp2/full/!200,200/0/default.jpg',
       date: '1900',
       mainContributor: 'Wolter, Hermann (Wilhelm Victor Hermann), 1868-',
-      workType: 'Books',
-      isOnline: 'true',
+      labels: [{ text: 'Pictures' }, { text: 'Online' }],
     },
     {
       id: 'a2239muq',
@@ -66,8 +68,7 @@ export const mockArticle: {
         'https://iiif.wellcomecollection.org/thumbs/b30598977_0001.jp2/full/!200,200/0/default.jpg',
       date: '1900',
       mainContributor: 'Wolter, Hermann (Wilhelm Victor Hermann), 1868-',
-      workType: 'Books',
-      isOnline: 'true',
+      labels: [{ text: 'Books' }, { text: 'Online' }],
     },
   ],
 };

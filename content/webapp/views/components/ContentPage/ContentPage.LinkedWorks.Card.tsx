@@ -137,21 +137,22 @@ const MetaContainer = styled.div.attrs({
 
 type LinkedWorkCardProps = {
   work: ContentAPILinkedWork;
+  parentId: string;
 };
 
 const LinkedWorkCard: FunctionComponent<LinkedWorkCardProps> = ({
   work,
+  parentId,
 }: LinkedWorkCardProps) => {
-  const typeLabel = { text: work.type };
-  const labels = work.isOnline ? [typeLabel, { text: 'Online' }] : [typeLabel];
-
   return (
-    <WorkLink id={work.id} source={`works_search_result_${work.id}`} passHref>
+    <WorkLink id={work.id} source={`story_featured_${parentId}`} passHref>
       <Card>
         <TextWrapper>
           <div>
-            {/* TODO add isOnline */}
-            <LabelsList labels={labels} />
+            <LabelsList
+              labels={work.labels}
+              defaultLabelColor="warmNeutral.300"
+            />
             <Title $linesToClamp={3}>{work.title}</Title>
           </div>
 

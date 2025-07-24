@@ -75,11 +75,13 @@ const Shim = styled.li<{ $gridValues: number[] }>`
 type LinkedWorkProps = {
   linkedWorks: ContentAPILinkedWork[];
   gridSizes: SizeMap;
+  parentId: string;
 };
 
-const ScrollableLinkedWorks: FunctionComponent<LinkedWorkProps> = ({
+const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
   linkedWorks,
   gridSizes,
+  parentId,
 }: LinkedWorkProps) => {
   if (!linkedWorks || linkedWorks.length === 0) return null;
   const gridValues = Object.values(gridSizes).map(v => v[0]);
@@ -98,7 +100,7 @@ const ScrollableLinkedWorks: FunctionComponent<LinkedWorkProps> = ({
         <Shim $gridValues={gridValues}></Shim>
         {linkedWorks.map(work => (
           <ListItem key={work.id}>
-            <LinkedWorkCard work={work} />
+            <LinkedWorkCard work={work} parentId={parentId} />
           </ListItem>
         ))}
       </ScrollContainer>
@@ -106,4 +108,4 @@ const ScrollableLinkedWorks: FunctionComponent<LinkedWorkProps> = ({
   );
 };
 
-export default ScrollableLinkedWorks;
+export default LinkedWorks;

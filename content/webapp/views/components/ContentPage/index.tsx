@@ -23,7 +23,7 @@ import Contributors from '@weco/content/views/components/Contributors';
 import { ContentAPILinkedWork } from '@weco/content/views/pages/stories/story/tempMockData';
 
 import BannerCard from './ContentPage.BannerCard';
-import ScrollableLinkedWorks from './ContentPage.LinkedWorks';
+import LinkedWorks from './ContentPage.LinkedWorks';
 
 type Props = {
   id: string;
@@ -113,9 +113,10 @@ const ContentPage = ({
           {featuredWorksInAddressables &&
             linkedWorks &&
             linkedWorks.length > 0 && (
-              <ScrollableLinkedWorks
+              <LinkedWorks
                 linkedWorks={linkedWorks}
                 gridSizes={gridSize8()}
+                parentId={id}
               />
             )}
 
