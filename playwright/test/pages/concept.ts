@@ -9,6 +9,9 @@ export class ConceptPage {
   readonly imagesSection: Locator;
   readonly allWorksLink: Locator;
   readonly allImagesLink: Locator;
+  readonly allImagesByLink: Locator;
+  readonly allImagesAboutLink: Locator;
+  readonly allImagesInLink: Locator;
   readonly worksTabGroup: Locator;
   readonly imagesTabGroup: Locator;
   readonly worksAboutTab: Locator;
@@ -42,6 +45,9 @@ export class ConceptPage {
 
     this.allWorksLink = this.allRecordsLink('works');
     this.allImagesLink = this.allRecordsLink('images');
+    this.allImagesByLink = this.allRecordsByAboutInLink('images', 'by');
+    this.allImagesAboutLink = this.allRecordsByAboutInLink('images', 'about');
+    this.allImagesInLink = this.allRecordsByAboutInLink('images', 'in');
     this.worksTabGroup = page.getByRole('tablist', {
       name: 'works',
     });
@@ -86,7 +92,7 @@ export class ConceptPage {
     );
     this.worksInTab = this.tab(
       this.worksTabGroup,
-      `Using this ${this.conceptTypeLabel}`
+      `In this ${this.conceptTypeLabel}`
     );
     this.imagesAboutTab = this.tab(
       this.imagesTabGroup,
@@ -114,7 +120,7 @@ export class ConceptPage {
     );
     this.worksInTabPanel = this.tabPanel(
       this.worksSection,
-      `Using this ${this.conceptTypeLabel}`
+      `In this ${this.conceptTypeLabel}`
     );
     this.imagesAboutTabPanel = this.tabPanel(
       this.imagesSection,
@@ -133,6 +139,17 @@ export class ConceptPage {
   allRecordsLink = (recordType: string) => {
     const allRecords = this.page.getByRole('link', {
       name: new RegExp(`^All ${recordType} \\([0-9,\\.K]+\\)`),
+      exact: false, // match substring, the actual link also includes the right-arrow.
+    });
+    return allRecords;
+  };
+
+  allRecordsByAboutInLink = (
+    recordType: string,
+    qualifier: 'by' | 'about' | 'in'
+  ) => {
+    const allRecords = this.page.getByRole('link', {
+      name: new RegExp(`^All ${recordType} ${qualifier}`),
       exact: false, // match substring, the actual link also includes the right-arrow.
     });
     return allRecords;
