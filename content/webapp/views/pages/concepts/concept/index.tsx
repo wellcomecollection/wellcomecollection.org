@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import { LinkProps } from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FunctionComponent, JSX, useState } from 'react';
+import { FunctionComponent, JSX, useMemo, useState } from 'react';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
@@ -32,6 +32,9 @@ import {
   conceptTypeDisplayName,
 } from '@weco/content/utils/concepts';
 import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
+import ImageModal, {
+  useExpandedImage,
+} from '@weco/content/views/components/ImageModal';
 import InPageNavigation from '@weco/content/views/components/InPageNavigation';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import { toLink as toImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
@@ -226,8 +229,16 @@ const ConceptPage: NextPage<Props> = ({
   sectionsData,
   apiToolbarLinks,
 }) => {
+  const allImages = useMemo(
+    () =>
+      themeTabOrder
+        .map(tab => sectionsData[tab].images?.pageResults || [])
+        .flat(),
+    [sectionsData]
+  );
   const { newThemePages, themePagesAllFields } = useToggles();
   const { isEnhanced } = useAppContext();
+  const [expandedImage, setExpandedImage] = useExpandedImage(allImages);
 
   const pathname = usePathname();
   const worksTabs = themeTabOrder
@@ -330,90 +341,102 @@ const ConceptPage: NextPage<Props> = ({
   const navLinks = buildNavLinks();
 
   return newThemePages ? (
-    <CataloguePageLayout
-      title={conceptResponse.label}
-      description={pageDescriptionConcepts(conceptResponse.label)}
-      url={{ pathname: `/concepts/${conceptResponse.id}`, query: {} }}
-      openGraphType="website"
-      siteSection="collections"
-      jsonLd={{ '@type': 'WebPage' }}
-      hideNewsletterPromo={true}
-      apiToolbarLinks={apiToolbarLinks}
-      clipOverflowX={true}
-    >
-      <Header concept={conceptResponse} />
+    <>
+      <CataloguePageLayout
+        title={conceptResponse.label}
+        description={pageDescriptionConcepts(conceptResponse.label)}
+        url={{ pathname: `/concepts/${conceptResponse.id}`, query: {} }}
+        openGraphType="website"
+        siteSection="collections"
+        jsonLd={{ '@type': 'WebPage' }}
+        hideNewsletterPromo={true}
+        apiToolbarLinks={apiToolbarLinks}
+        clipOverflowX={true}
+      >
+        <Header concept={conceptResponse} />
 
-      <>
-        <WobblyEdge backgroundColor={hasImages ? 'neutral.700' : 'white'} />
-        <MobileNavBackground $isOnWhite={!hasImages} />
-      </>
+        <>
+          <WobblyEdge backgroundColor={hasImages ? 'neutral.700' : 'white'} />
+          <MobileNavBackground $isOnWhite={!hasImages} />
+        </>
 
-      <Container>
-        <Grid style={{ background: 'white', rowGap: 0 }}>
-          <NavGridCell
-            $isOnWhite={!hasImages}
-            $isEnhanced={isEnhanced}
-            $sizeMap={{ s: [12], m: [12], l: [3], xl: [2] }}
-          >
-            <InPageNavigation
-              isOnWhite={!hasImages}
-              links={navLinks}
-              variant="sticky"
-            />
-          </NavGridCell>
-
-          <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [10] }}>
-            <StretchWrapper>
-              <ImagesResults
-                sectionsData={sectionsData}
-                concept={conceptResponse}
+        <Container>
+          <Grid style={{ background: 'white', rowGap: 0 }}>
+            <NavGridCell
+              $isOnWhite={!hasImages}
+              $isEnhanced={isEnhanced}
+              $sizeMap={{ s: [12], m: [12], l: [3], xl: [2] }}
+            >
+              <InPageNavigation
+                isOnWhite={!hasImages}
+                links={navLinks}
+                variant="sticky"
               />
-            </StretchWrapper>
-            <WorksResults
-              concept={conceptResponse}
-              sectionsData={sectionsData}
-            />
+            </NavGridCell>
 
-            {(conceptResponse.type === 'Person' || themePagesAllFields) && (
-              <>
-                <Space
-                  $v={{
-                    size: 'xl',
-                    properties: ['margin-top', 'margin-bottom'],
-                  }}
-                >
-                  <Collaborators concepts={frequentCollaborators} />
-                </Space>
-                <Space
-                  $v={{
-                    size: 'xl',
-                    properties: ['margin-top', 'margin-bottom'],
-                  }}
-                >
-                  <RelatedConceptsGroup
-                    dataGtmTriggerName="related_topics"
-                    label={relatedConceptsGroupLabel}
-                    labelType="heading"
-                    relatedConcepts={relatedTopics}
-                    buttonColors={
-                      themeValues.buttonColors.silverTransparentBlack
-                    }
-                  />
-                </Space>
-              </>
-            )}
-            {
-              // This is a placeholder for the Hotjar embedded survey to be injected
-              // when the concept is a Person. It should be removed when the survey
-              // is no longer used.
-            }
-            {conceptResponse.type === 'Person' && (
-              <HotJarPlaceholder id="hotjar-embed-placeholder-concept-person" />
-            )}
-          </GridCell>
-        </Grid>
-      </Container>
-    </CataloguePageLayout>
+            <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [10] }}>
+              <StretchWrapper>
+                <ImagesResults
+                  sectionsData={sectionsData}
+                  concept={conceptResponse}
+                />
+              </StretchWrapper>
+              <WorksResults
+                concept={conceptResponse}
+                sectionsData={sectionsData}
+              />
+
+              {(conceptResponse.type === 'Person' || themePagesAllFields) && (
+                <>
+                  <Space
+                    $v={{
+                      size: 'xl',
+                      properties: ['margin-top', 'margin-bottom'],
+                    }}
+                  >
+                    <Collaborators concepts={frequentCollaborators} />
+                  </Space>
+                  <Space
+                    $v={{
+                      size: 'xl',
+                      properties: ['margin-top', 'margin-bottom'],
+                    }}
+                  >
+                    <RelatedConceptsGroup
+                      dataGtmTriggerName="related_topics"
+                      label={relatedConceptsGroupLabel}
+                      labelType="heading"
+                      relatedConcepts={relatedTopics}
+                      buttonColors={
+                        themeValues.buttonColors.silverTransparentBlack
+                      }
+                    />
+                  </Space>
+                </>
+              )}
+              {
+                // This is a placeholder for the Hotjar embedded survey to be injected
+                // when the concept is a Person. It should be removed when the survey
+                // is no longer used.
+              }
+              {conceptResponse.type === 'Person' && (
+                <HotJarPlaceholder id="hotjar-embed-placeholder-concept-person" />
+              )}
+            </GridCell>
+          </Grid>
+        </Container>
+      </CataloguePageLayout>
+
+      {/* https://frontendmasters.com/blog/containers-context/
+      A Safari bug is forcing this to live here instead of its parent, ImageResults. 
+      The bug got fixed in Safari 18.2 (I think) but we support the latest two versions. 
+      It would be nice to move it back inside ImageResults once we're two versions ahead. */}
+      <ImageModal
+        images={allImages}
+        expandedImage={expandedImage}
+        setExpandedImage={setExpandedImage}
+      />
+    </>
   ) : (
     <CataloguePageLayout
       title={conceptResponse.label}
