@@ -28,6 +28,7 @@ import { deserialiseProps } from '@weco/common/utils/json';
 import CivicUK from '@weco/common/views/components/CivicUK';
 import ErrorPage from '@weco/common/views/components/ErrorPage';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator';
+import { GridProvider } from '@weco/common/views/components/styled/Grid';
 import theme, { GlobalStyle } from '@weco/common/views/themes/default';
 
 // Error pages can't send anything via the data fetching methods as
@@ -183,26 +184,28 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
             <AppContextProvider>
               <SearchContextProvider>
                 <ThemeProvider theme={theme}>
-                  <GlobalStyle
-                    toggles={serverData.toggles}
-                    isFontsLoaded={useIsFontsLoaded()}
-                  />
-
-                  <LoadingIndicator />
-
-                  {displayCookieBanner && <CivicUK apiKey={civicUkApiKey} />}
-
-                  {!pageProps.err && (
-                    <Component {...deserialiseProps(pageProps)} />
-                  )}
-                  {pageProps.err && (
-                    <ErrorPage
-                      statusCode={pageProps.err.statusCode}
-                      title={pageProps.err.message}
+                  <GridProvider>
+                    <GlobalStyle
+                      toggles={serverData.toggles}
+                      isFontsLoaded={useIsFontsLoaded()}
                     />
-                  )}
 
-                  <SegmentScript hasAnalyticsConsent={hasAnalyticsConsent} />
+                    <LoadingIndicator />
+
+                    {displayCookieBanner && <CivicUK apiKey={civicUkApiKey} />}
+
+                    {!pageProps.err && (
+                      <Component {...deserialiseProps(pageProps)} />
+                    )}
+                    {pageProps.err && (
+                      <ErrorPage
+                        statusCode={pageProps.err.statusCode}
+                        title={pageProps.err.message}
+                      />
+                    )}
+
+                    <SegmentScript hasAnalyticsConsent={hasAnalyticsConsent} />
+                  </GridProvider>
                 </ThemeProvider>
               </SearchContextProvider>
             </AppContextProvider>

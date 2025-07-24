@@ -5,6 +5,82 @@ import { themeValues } from '@weco/common/views/themes/config';
 type StartSpan = [span: number, start?: number];
 export type SizeMap = Record<string, StartSpan>;
 
+/* Global grid custom properties for calculating track widths */
+const GlobalGridStyles = styled.div`
+  /* Grid calculation custom properties */
+  --grid-columns: 12;
+  --grid-gaps: 11;
+
+  /* Small breakpoint */
+  --gap-size: ${themeValues.gutter.small}px;
+  --one-column-width: calc(
+    (100% - (var(--grid-gaps) * var(--gap-size))) / var(--grid-columns)
+  );
+  --two-column-width: calc((var(--one-column-width) * 2) + var(--gap-size));
+  --three-column-width: calc(
+    (var(--one-column-width) * 3) + (var(--gap-size) * 2)
+  );
+  --four-column-width: calc(
+    (var(--one-column-width) * 4) + (var(--gap-size) * 3)
+  );
+  --five-column-width: calc(
+    (var(--one-column-width) * 5) + (var(--gap-size) * 4)
+  );
+  --six-column-width: calc(
+    (var(--one-column-width) * 6) + (var(--gap-size) * 5)
+  );
+  --seven-column-width: calc(
+    (var(--one-column-width) * 7) + (var(--gap-size) * 6)
+  );
+  --eight-column-width: calc(
+    (var(--one-column-width) * 8) + (var(--gap-size) * 7)
+  );
+  --nine-column-width: calc(
+    (var(--one-column-width) * 9) + (var(--gap-size) * 8)
+  );
+  --ten-column-width: calc(
+    (var(--one-column-width) * 10) + (var(--gap-size) * 9)
+  );
+  --eleven-column-width: calc(
+    (var(--one-column-width) * 11) + (var(--gap-size) * 10)
+  );
+  --twelve-column-width: 100%;
+
+  ${themeValues.media('medium')(`
+    --gap-size: ${themeValues.gutter.medium}px;
+    --one-column-width: calc((100% - (var(--grid-gaps) * var(--gap-size))) / var(--grid-columns));
+    --two-column-width: calc((var(--one-column-width) * 2) + var(--gap-size));
+    --three-column-width: calc((var(--one-column-width) * 3) + (var(--gap-size) * 2));
+    --four-column-width: calc((var(--one-column-width) * 4) + (var(--gap-size) * 3));
+    --five-column-width: calc((var(--one-column-width) * 5) + (var(--gap-size) * 4));
+    --six-column-width: calc((var(--one-column-width) * 6) + (var(--gap-size) * 5));
+    --seven-column-width: calc((var(--one-column-width) * 7) + (var(--gap-size) * 6));
+    --eight-column-width: calc((var(--one-column-width) * 8) + (var(--gap-size) * 7));
+    --nine-column-width: calc((var(--one-column-width) * 9) + (var(--gap-size) * 8));
+    --ten-column-width: calc((var(--one-column-width) * 10) + (var(--gap-size) * 9));
+    --eleven-column-width: calc((var(--one-column-width) * 11) + (var(--gap-size) * 10));
+    --twelve-column-width: 100%;
+  `)}
+
+  ${themeValues.media('large')(`
+    --gap-size: ${themeValues.gutter.large}px;
+    --one-column-width: calc((100% - (var(--grid-gaps) * var(--gap-size))) / var(--grid-columns));
+    --two-column-width: calc((var(--one-column-width) * 2) + var(--gap-size));
+    --three-column-width: calc((var(--one-column-width) * 3) + (var(--gap-size) * 2));
+    --four-column-width: calc((var(--one-column-width) * 4) + (var(--gap-size) * 3));
+    --five-column-width: calc((var(--one-column-width) * 5) + (var(--gap-size) * 4));
+    --six-column-width: calc((var(--one-column-width) * 6) + (var(--gap-size) * 5));
+    --seven-column-width: calc((var(--one-column-width) * 7) + (var(--gap-size) * 6));
+    --eight-column-width: calc((var(--one-column-width) * 8) + (var(--gap-size) * 7));
+    --nine-column-width: calc((var(--one-column-width) * 9) + (var(--gap-size) * 8));
+    --ten-column-width: calc((var(--one-column-width) * 10) + (var(--gap-size) * 9));
+    --eleven-column-width: calc((var(--one-column-width) * 11) + (var(--gap-size) * 10));
+    --twelve-column-width: 100%;
+  `)}
+`;
+
+export const GridProvider = GlobalGridStyles;
+
 export const Grid = styled.div<{ $noGap?: boolean }>`
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
