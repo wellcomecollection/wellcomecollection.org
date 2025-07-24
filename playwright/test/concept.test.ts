@@ -181,14 +181,12 @@ test.describe('a Concept representing a Genre that is only used as a genre for b
     mohPage,
   }) => {
     // Both images and works sections exist
-    await expect(mohPage.imagesHeader).toBeVisible();
-    await expect(mohPage.worksHeader).toBeVisible();
+    await expect(mohPage.imagesSection).toBeVisible();
+    await expect(mohPage.worksSection).toBeVisible();
 
-    // There are no tabs, because there is only one group within each of the two sections
+    // There are no tabs, because there is only one group
     await expect(mohPage.worksAboutTab).not.toBeVisible();
     await expect(mohPage.worksInTab).not.toBeVisible();
-    await expect(mohPage.imagesAboutTab).not.toBeVisible();
-    await expect(mohPage.imagesInTab).not.toBeVisible();
 
     // It has links to filtered searches, (not using encodeURIComponent because the genre includes '+'")
     await expect(mohPage.allWorksLink).toHaveAttribute(
@@ -196,7 +194,7 @@ test.describe('a Concept representing a Genre that is only used as a genre for b
       `/search/works?genres.label=%22MOH+reports%22`
     );
 
-    await expect(mohPage.allImagesLink).toHaveAttribute(
+    await expect(mohPage.allImagesInLink).toHaveAttribute(
       'href',
       `/search/images?source.genres.label=%22MOH+reports%22`
     );
