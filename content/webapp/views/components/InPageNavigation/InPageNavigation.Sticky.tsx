@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { createPortal } from 'react-dom';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
@@ -151,10 +152,15 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   return (
     <>
       {shouldLockScroll && (
-        <BackgroundOverlay
-          data-lock-scroll={true}
-          onClick={() => setIsListActive(false)}
-        />
+        <>
+          {createPortal(
+            <BackgroundOverlay
+              data-lock-scroll={true}
+              onClick={() => setIsListActive(false)}
+            />,
+            document.body
+          )}
+        </>
       )}
       <div ref={InPageNavigationStickyRef}></div>
       <FocusTrap
