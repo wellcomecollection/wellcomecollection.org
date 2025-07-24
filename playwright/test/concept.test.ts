@@ -65,7 +65,7 @@ test.describe('navigating to/from a work page from a concept page', () => {
 test.describe('a Concept representing an Agent with no Images', () => {
   test('only has works tabs', async ({ thackrahPage }) => {
     // It has two tabs for works
-    await expect(thackrahPage.worksAboutTab).toBeVisible();
+    await expect(thackrahPage.worksFeaturingTab).toBeVisible();
     await expect(thackrahPage.worksByTab).toBeVisible();
 
     // and has no images tabs
@@ -80,36 +80,32 @@ test.describe('a Concept representing an Agent with no Images', () => {
     ).not.toHaveCount(0);
 
     // The "works about" panel is not expected to be seen ...
-    await expect(thackrahPage.worksAboutTabPanel).not.toBeVisible();
+    await expect(thackrahPage.worksFeaturingTabPanel).not.toBeVisible();
     // Until the "works about" tab is clicked
-    await thackrahPage.worksAboutTab.click();
+    await thackrahPage.worksFeaturingTab.click();
     // The works about panel is expected to contain a list of works about the concept (spookily enough)
     // This list is expected to be populated.
     await expect(
-      thackrahPage.worksAboutTabPanel.getByRole('listitem')
+      thackrahPage.worksFeaturingTabPanel.getByRole('listitem')
     ).not.toHaveCount(0);
   });
 });
 
 test.describe('a Concept representing an Agent with Works and Images both about and by them', () => {
-  test('has both works and image sections, each with about and by tabs', async ({
+  test('has both works and image sections grouped into "by" and "about" sections', async ({
     armyPage,
   }) => {
-    // It has four tabs (two works, two images)
+    // It has two tabs (works)
     await expect(armyPage.worksAboutTab).toBeVisible();
     await expect(armyPage.worksByTab).toBeVisible();
-    await expect(armyPage.imagesAboutTab).toBeVisible();
-    await expect(armyPage.imagesByTab).toBeVisible();
+
+    // It has an images section
+    await expect(armyPage.imagesSection).toBeVisible();
 
     // The "works by" and "images by" panels should be visible initially
     await expect(armyPage.worksByTabPanel).toBeVisible();
     await expect(
       armyPage.worksByTabPanel.getByRole('listitem')
-    ).not.toHaveCount(0);
-
-    await expect(armyPage.imagesByTabPanel).toBeVisible();
-    await expect(
-      armyPage.imagesByTabPanel.getByRole('listitem')
     ).not.toHaveCount(0);
 
     // It has links to filtered searches
@@ -125,14 +121,13 @@ test.describe('a Concept representing an Agent with Works and Images both about 
       '/search/works?contributors.agent.label=%22Great+Britain.+Army%22'
     );
 
-    await armyPage.imagesByTab.click();
-    await expect(armyPage.allImagesLink).toHaveAttribute(
+    // It has links to all images by
+    await expect(armyPage.allImagesByLink).toHaveAttribute(
       'href',
       '/search/images?source.contributors.agent.label=%22Great+Britain.+Army%22'
     );
-
-    await armyPage.imagesAboutTab.click();
-    await expect(armyPage.allImagesLink).toHaveAttribute(
+    // ...and images about
+    await expect(armyPage.allImagesAboutLink).toHaveAttribute(
       'href',
       '/search/images?source.subjects.label=%22Great+Britain.+Army%22'
     );
@@ -143,19 +138,17 @@ test.describe('a Concept representing a Genre with works and images both about a
   test('has both works and image sections, each with about and using tabs', async ({
     songsPage,
   }) => {
-    // It has four tabs (two works, two images)
+    // It has two tabs (works)
     await expect(songsPage.worksAboutTab).toBeVisible();
     await expect(songsPage.worksInTab).toBeVisible();
-    await expect(songsPage.imagesAboutTab).toBeVisible();
-    await expect(songsPage.imagesInTab).toBeVisible();
-    // The "works using" and "images using" panels should be visible initially
+
+    // It has images
+    await expect(songsPage.imagesSection).toBeVisible();
+
+    // The "works in" panel should be visible initially
     await expect(songsPage.worksInTabPanel).toBeVisible();
     await expect(
       songsPage.worksInTabPanel.getByRole('listitem')
-    ).not.toHaveCount(0);
-    await expect(songsPage.imagesInTabPanel).toBeVisible();
-    await expect(
-      songsPage.imagesInTabPanel.getByRole('listitem')
     ).not.toHaveCount(0);
 
     // It has links to filtered searches
@@ -171,14 +164,12 @@ test.describe('a Concept representing a Genre with works and images both about a
       `/search/works?subjects.label=${encodeURIComponent('"Songs"')}`
     );
 
-    await songsPage.imagesInTab.click();
-    await expect(songsPage.allImagesLink).toHaveAttribute(
+    await expect(songsPage.allImagesInLink).toHaveAttribute(
       'href',
       `/search/images?source.genres.label=${encodeURIComponent('"Songs"')}`
     );
 
-    await songsPage.imagesAboutTab.click();
-    await expect(songsPage.allImagesLink).toHaveAttribute(
+    await expect(songsPage.allImagesAboutLink).toHaveAttribute(
       'href',
       `/search/images?source.subjects.label=${encodeURIComponent('"Songs"')}`
     );
@@ -190,14 +181,12 @@ test.describe('a Concept representing a Genre that is only used as a genre for b
     mohPage,
   }) => {
     // Both images and works sections exist
-    await expect(mohPage.imagesHeader).toBeVisible();
-    await expect(mohPage.worksHeader).toBeVisible();
+    await expect(mohPage.imagesSection).toBeVisible();
+    await expect(mohPage.worksSection).toBeVisible();
 
-    // There are no tabs, because there is only one group within each of the two sections
+    // There are no tabs, because there is only one group
     await expect(mohPage.worksAboutTab).not.toBeVisible();
     await expect(mohPage.worksInTab).not.toBeVisible();
-    await expect(mohPage.imagesAboutTab).not.toBeVisible();
-    await expect(mohPage.imagesInTab).not.toBeVisible();
 
     // It has links to filtered searches, (not using encodeURIComponent because the genre includes '+'")
     await expect(mohPage.allWorksLink).toHaveAttribute(
@@ -205,7 +194,7 @@ test.describe('a Concept representing a Genre that is only used as a genre for b
       `/search/works?genres.label=%22MOH+reports%22`
     );
 
-    await expect(mohPage.allImagesLink).toHaveAttribute(
+    await expect(mohPage.allImagesInLink).toHaveAttribute(
       'href',
       `/search/images?source.genres.label=%22MOH+reports%22`
     );
