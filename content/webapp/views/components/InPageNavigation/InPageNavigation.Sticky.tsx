@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { createPortal } from 'react-dom';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
@@ -151,10 +152,18 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
   return (
     <>
       {shouldLockScroll && (
-        <BackgroundOverlay
-          data-lock-scroll={true}
-          onClick={() => setIsListActive(false)}
-        />
+        <>
+          {/* https://github.com/wellcomecollection/wellcomecollection.org/pull/12171
+          This portal is required because of an older version of Safari, 
+          consider removing once moved to v21 */}
+          {createPortal(
+            <BackgroundOverlay
+              data-lock-scroll={true}
+              onClick={() => setIsListActive(false)}
+            />,
+            document.body
+          )}
+        </>
       )}
       <div ref={InPageNavigationStickyRef}></div>
       <FocusTrap
