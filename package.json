@@ -122,6 +122,7 @@
     }
   },
   "dependencies": {
+    "eslint-plugin-weco-components": "file:./eslint-rules",
     "yarn": "^1.22.21"
   }
 }
