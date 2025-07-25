@@ -153,6 +153,9 @@ const InPageNavigationSticky: FunctionComponent<Props> = ({
     <>
       {shouldLockScroll && (
         <>
+          {/* https://github.com/wellcomecollection/wellcomecollection.org/pull/12171
+          This portal is required because of an older version of Safari, 
+          consider removing once moved to v21 */}
           {createPortal(
             <BackgroundOverlay
               data-lock-scroll={true}
