@@ -103,6 +103,7 @@ const MediaObjectBase: FunctionComponent<Props> = ({
 
   return (
     <LinkOrDivSpace
+      data-component="compact-card"
       className={classNames({
         [extraClasses || '']: Boolean(extraClasses),
       })}

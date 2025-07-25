@@ -38,7 +38,7 @@ const Quote: FunctionComponent<Props> = ({
   isPullOrReview,
 }) => {
   return (
-    <Blockquote $isPullOrReview={isPullOrReview}>
+    <Blockquote $isPullOrReview={isPullOrReview} data-component="quote">
       <Space
         $v={
           citation ? { size: 'xs', properties: ['margin-bottom'] } : undefined
