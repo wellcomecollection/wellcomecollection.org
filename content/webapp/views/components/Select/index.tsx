@@ -32,6 +32,7 @@ const Select: FunctionComponent<Props> = ({
 }) => {
   return (
     <SelectContainer
+      data-component="select"
       label={label}
       hideLabel={hideLabel}
       isPill={isPill}
