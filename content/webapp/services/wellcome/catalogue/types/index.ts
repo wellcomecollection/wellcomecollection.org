@@ -127,12 +127,14 @@ export type SourceOntology =
 
 export type ConceptType =
   | 'Subject'
+  | 'Agent'
   | 'Meeting'
   | 'Organisation'
   | 'Person'
   | 'Concept'
   | 'Period'
   | 'Place'
+  | 'Type/technique'
   | 'Genre';
 
 export type RelatedConcept = {
