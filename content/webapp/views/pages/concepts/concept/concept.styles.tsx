@@ -56,8 +56,8 @@ export const NavGridCell = styled(GridCell)<{
   ${props => props.theme.media('large')`
     position: unset;
     background-color: unset;
-    z-index: unset;
     transition: unset;
+    mix-blend-mode: difference;
 
     &::before,
     &::after {
