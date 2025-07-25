@@ -14,6 +14,7 @@ type Props = {
 const MoreLink: FunctionComponent<Props> = ({ url, name, colors }) => {
   return (
     <Button
+      data-component="more-link"
       variant="ButtonSolidLink"
       colors={colors || themeValues.buttonColors.charcoalTransparentCharcoal}
       isIconAfter

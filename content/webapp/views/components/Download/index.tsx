@@ -45,7 +45,11 @@ const Download: FunctionComponent<Props> = ({
   const { isEnhanced } = useAppContext();
 
   return (
-    <Wrapper $isEnhanced={isEnhanced} ref={downloadsContainer}>
+    <Wrapper
+      data-component="download"
+      $isEnhanced={isEnhanced}
+      ref={downloadsContainer}
+    >
       <Button
         variant="DropdownButton"
         label="Downloads"
