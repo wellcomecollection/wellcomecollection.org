@@ -60,7 +60,7 @@ const FeaturedCardBasic: FunctionComponent<FeaturedCardProps> = props => {
   } = props;
 
   return (
-    <FeaturedCardWrap>
+    <FeaturedCardWrap data-component="featured-card">
       <FeaturedCardLink href={link.url} $isReversed={isReversed}>
         <FeaturedCardLeft
           $sizeMap={{

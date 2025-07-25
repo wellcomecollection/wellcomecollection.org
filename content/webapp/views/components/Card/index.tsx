@@ -175,7 +175,7 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
   const image = getCrop(item.image, '16:9');
 
   return (
-    <CardOuter href={item.link}>
+    <CardOuter data-component="card" href={item.link}>
       <CardImageWrapper>
         {image && (
           <PrismicImage

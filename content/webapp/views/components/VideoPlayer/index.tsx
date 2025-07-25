@@ -26,6 +26,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
   const { trackPlay, trackEnded, trackTimeUpdate } = useAVTracking('video');
   return (
     <video
+      data-component="video-player"
       onPlay={event => {
         trackPlay(event);
       }}

@@ -18,6 +18,6 @@ type Props = {
 };
 
 const Message: FunctionComponent<Props> = ({ text }) => (
-  <Wrapper>{text}</Wrapper>
+  <Wrapper data-component="message">{text}</Wrapper>
 );
 export default Message;

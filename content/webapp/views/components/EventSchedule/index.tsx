@@ -73,7 +73,7 @@ const EventSchedule: FunctionComponent<Props> = ({ schedule }) => {
   const futureEvents = groupedEvents.filter(group => !isPast(group.end));
 
   return (
-    <>
+    <div data-component="event-schedule">
       {futureEvents.length > 0 && (
         <>
           <h2 className={font('wb', 3)}>Events</h2>
@@ -92,7 +92,7 @@ const EventSchedule: FunctionComponent<Props> = ({ schedule }) => {
           />
         </>
       )}
-    </>
+    </div>
   );
 };
 export default EventSchedule;

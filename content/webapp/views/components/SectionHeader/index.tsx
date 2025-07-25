@@ -45,7 +45,7 @@ type Props = {
 
 const SectionHeader: FunctionComponent<Props> = ({ title, gridSize }) => {
   return (
-    <div className={font('wb', 2)}>
+    <div data-component="section-header" className={font('wb', 2)}>
       <ConditionalWrapper
         condition={!!gridSize}
         wrapper={children => (
