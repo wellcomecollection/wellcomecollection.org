@@ -167,7 +167,7 @@ module.exports = {
       category: 'Best Practices',
       recommended: true,
     },
-    fixable: null, // Disable auto-fix for now
+    fixable: 'code',
     schema: [],
     messages: {
       missingDataComponent:
