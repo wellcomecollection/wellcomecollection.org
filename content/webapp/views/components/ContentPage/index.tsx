@@ -2,6 +2,7 @@ import { Children, ReactElement, ReactNode } from 'react';
 import styled from 'styled-components';
 
 import { sectionLevelPages } from '@weco/common/data/hardcoded-ids';
+import { useToggles } from '@weco/common/server-data/Context';
 import { ElementFromComponent } from '@weco/common/utils/utility-types';
 import {
   ContaineredLayout,
@@ -19,8 +20,10 @@ import { Contributor } from '@weco/content/types/contributors';
 import { Season } from '@weco/content/types/seasons';
 import { Props as BodyProps } from '@weco/content/views/components/Body';
 import Contributors from '@weco/content/views/components/Contributors';
+import { ContentAPILinkedWork } from '@weco/content/views/pages/stories/story/tempMockData';
 
 import BannerCard from './ContentPage.BannerCard';
+import LinkedWorks from './ContentPage.LinkedWorks';
 
 type Props = {
   id: string;
@@ -34,6 +37,7 @@ type Props = {
   contributors?: Contributor[];
   contributorTitle?: string;
   hideContributors?: true;
+  linkedWorks?: ContentAPILinkedWork[];
 };
 
 const Wrapper = styled.div<{ $isCreamy: boolean }>`
@@ -57,7 +61,10 @@ const ContentPage = ({
   contributors,
   contributorTitle,
   hideContributors,
+  linkedWorks,
 }: Props): ReactElement => {
+  const { featuredWorksInAddressables } = useToggles();
+
   // We don't want to add a spacing unit if there's nothing to render
   // in the body (we don't render the 'standfirst' here anymore).
   function shouldRenderBody() {
@@ -84,6 +91,7 @@ const ContentPage = ({
             {Header}
           </Space>
         )}
+
         <Wrapper $isCreamy={isCreamy}>
           {shouldRenderBody() && <SpacingSection>{Body}</SpacingSection>}
           {children && (
@@ -101,6 +109,17 @@ const ContentPage = ({
               ))}
             </SpacingSection>
           )}
+
+          {featuredWorksInAddressables &&
+            linkedWorks &&
+            linkedWorks.length > 0 && (
+              <LinkedWorks
+                linkedWorks={linkedWorks}
+                gridSizes={gridSize8()}
+                parentId={id}
+              />
+            )}
+
           {!hideContributors && contributors && contributors.length > 0 && (
             <SpacingSection>
               <ContaineredLayout gridSizes={gridSize8()}>
@@ -113,6 +132,7 @@ const ContentPage = ({
           )}
         </Wrapper>
       </article>
+
       <Wrapper $isCreamy={isCreamy}>
         {RelatedContent.length > 0 && (
           <SpacingSection>
@@ -121,6 +141,7 @@ const ContentPage = ({
             ))}
           </SpacingSection>
         )}
+
         {seasons.length > 0 &&
           seasons.map(season => (
             <SpacingSection key={season.id}>
