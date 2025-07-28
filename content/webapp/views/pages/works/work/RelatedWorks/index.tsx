@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import { ServerDataContext } from '@weco/common/server-data/Context';
 import { classNames } from '@weco/common/utils/classnames';
@@ -11,11 +12,16 @@ import {
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
 import BetaMessage from '@weco/content/views/components/BetaMessage';
+import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
 import Tabs from '@weco/content/views/components/Tabs';
 
-import RelatedWorksCard from './RelatedWorks.Card';
 import { fetchRelatedWorks } from './RelatedWorks.helpers';
-import { FullWidthRow } from './RelatedWorks.styles';
+
+export const FullWidthRow = styled(Space).attrs({
+  $v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background-color: ${props => props.theme.color('warmNeutral.300')};
+`;
 
 type SubjectsAtLeastOneSubject = [
   Work['subjects'][number],
